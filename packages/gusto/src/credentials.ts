@@ -3,7 +3,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * Gusto credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
- * credentials on every request (the protocol layer resolves it per request
+ * credentials on every request (the protocol resolves it per request
  * on the calling fiber). Gusto authenticates REST calls with an access
  * token as `Authorization: Bearer <token>` and versions the API with the
  * `X-Gusto-API-Version` header.

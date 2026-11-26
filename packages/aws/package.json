@@ -18,7 +18,8 @@
     "./lib/_bundle/sdk.js": "./lib/_browser/_bundle/sdk.js",
     "./lib/auth.browser.js": "./lib/_browser/auth.browser.js",
     "./lib/endpoint.js": "./lib/_browser/endpoint.js",
-    "./lib/protocols/rest-json.js": "./lib/_browser/protocols/rest-json.js"
+    "./lib/protocols/rest-json.js": "./lib/_browser/protocols/rest-json.js",
+    "./lib/protocols/rpcv2-cbor.js": "./lib/_browser/protocols/rpcv2-cbor.js"
   },
   "exports": {
     ".": {
@@ -156,7 +157,7 @@
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-11-21",
+    "generatedAt": "2026-11-23",
     "specUpdatedAt": "2026-11-20"
   }
 }

@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { awsServiceErrorsWith } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -692,13 +693,14 @@ export const acceptChannelHandshake: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<AcceptChannelHandshakeRequest>,
   output: __S(321, __c20, 1) as any as S.Schema<AcceptChannelHandshakeResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptChannelHandshake",
@@ -724,13 +726,14 @@ export const cancelChannelHandshake: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<CancelChannelHandshakeRequest>,
   output: __S(321, __c20, 1) as any as S.Schema<CancelChannelHandshakeResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelChannelHandshake",
@@ -758,15 +761,14 @@ export const createChannelHandshake: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(355, __c22, 3) as any as S.Schema<CreateChannelHandshakeRequest>,
   output: __S(356, __c22, 4) as any as S.Schema<CreateChannelHandshakeResponse>,
-  errors: [
+  errors: [ConflictException, ServiceQuotaExceededException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannelHandshake",
@@ -794,15 +796,14 @@ export const createProgramManagementAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateProgramManagementAccountRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<CreateProgramManagementAccountResponse>,
-  errors: [
+  errors: [ConflictException, ServiceQuotaExceededException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProgramManagementAccount",
@@ -830,15 +831,14 @@ export const createRelationship: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<CreateRelationshipRequest>,
   output: __S(18, __c1, 2) as any as S.Schema<CreateRelationshipResponse>,
-  errors: [
+  errors: [ConflictException, ServiceQuotaExceededException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRelationship",
@@ -865,14 +865,14 @@ export const deleteProgramManagementAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<DeleteProgramManagementAccountRequest>,
   output: __S(64, __c4, 0) as any as S.Schema<DeleteProgramManagementAccountResponse>,
-  errors: [
+  errors: [ConflictException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProgramManagementAccount",
@@ -899,14 +899,14 @@ export const deleteRelationship: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<DeleteRelationshipRequest>,
   output: __S(64, __c4, 0) as any as S.Schema<DeleteRelationshipResponse>,
-  errors: [
+  errors: [ConflictException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRelationship",
@@ -932,13 +932,14 @@ export const getRelationship: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<GetRelationshipRequest>,
   output: __S(98, __c6, 2) as any as S.Schema<GetRelationshipResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRelationship",
@@ -965,13 +966,14 @@ export const listChannelHandshakes: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(116, __c7, 4) as any as S.Schema<ListChannelHandshakesRequest>,
   output: __S(122, __c7, 10) as any as S.Schema<ListChannelHandshakesResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListChannelHandshakes",
@@ -1004,13 +1006,14 @@ export const listProgramManagementAccounts: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<ListProgramManagementAccountsRequest>,
   output: __S(163, __c10, 3) as any as S.Schema<ListProgramManagementAccountsResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProgramManagementAccounts",
@@ -1043,13 +1046,14 @@ export const listRelationships: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<ListRelationshipsRequest>,
   output: __S(179, __c11, 3) as any as S.Schema<ListRelationshipsResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRelationships",
@@ -1081,13 +1085,14 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<ListTagsForResourceRequest>,
   output: __S(193, __c12, 1) as any as S.Schema<ListTagsForResourceResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -1113,13 +1118,14 @@ export const rejectChannelHandshake: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<RejectChannelHandshakeRequest>,
   output: __S(321, __c20, 1) as any as S.Schema<RejectChannelHandshakeResponse>,
-  errors: [
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectChannelHandshake",
@@ -1146,14 +1152,14 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(64, __c4, 0) as any as S.Schema<TagResourceResponse>,
-  errors: [
+  errors: [ConflictException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -1180,14 +1186,14 @@ export const untagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(64, __c4, 0) as any as S.Schema<UntagResourceResponse>,
-  errors: [
+  errors: [ConflictException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -1214,14 +1220,14 @@ export const updateProgramManagementAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<UpdateProgramManagementAccountRequest>,
   output: __S(258, __c16, 2) as any as S.Schema<UpdateProgramManagementAccountResponse>,
-  errors: [
+  errors: [ConflictException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProgramManagementAccount",
@@ -1248,14 +1254,14 @@ export const updateRelationship: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<UpdateRelationshipRequest>,
   output: __S(274, __c17, 2) as any as S.Schema<UpdateRelationshipResponse>,
-  errors: [
+  errors: [ConflictException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
-    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRelationship",

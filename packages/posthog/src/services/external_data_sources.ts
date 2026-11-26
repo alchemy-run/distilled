@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { PosthogServiceErrors } from "../errors.ts";
 import { PosthogProtocol, type PosthogOpError, type PosthogOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -143,7 +144,7 @@ export interface CreateExternalDataSourcesCheckCdcPrerequisitesForSourceRequest 
 export interface CreateExternalDataSourcesCheckCdcPrerequisitesForSourceResponse {}
 /** Values of the sibling fields named by the picker's `credentialFields`. Any other key is rejected. */
 export type CreateExternalDataSourcesCredentialAccountRequestCredentialsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | Redacted.Redacted<string> | undefined;
 };
 export interface CreateExternalDataSourcesCredentialAccountRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1508,6 +1509,7 @@ export const createExternalDataSource: API.OperationMethod<
   input: __S(576, __c36, 0) as any as S.Schema<CreateExternalDataSourceRequest>,
   output: __S(577, __c36, 1) as any as S.Schema<ExternalDataSourceCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1533,6 +1535,7 @@ export const createExternalDataSourcesCheckCdcPrerequisite: API.OperationMethod<
   ) as any as S.Schema<CreateExternalDataSourcesCheckCdcPrerequisiteRequest>,
   output: __S(673, __c42, 1) as any as S.Schema<CdcPrerequisitesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1558,6 +1561,7 @@ export const createExternalDataSourcesCheckCdcPrerequisitesForSource: API.Operat
     0,
   ) as any as S.Schema<CreateExternalDataSourcesCheckCdcPrerequisitesForSourceResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1572,9 +1576,10 @@ export const createExternalDataSourcesCredentialAccount: API.OperationMethod<
   CreateExternalDataSourcesCredentialAccountError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<CreateExternalDataSourcesCredentialAccountRequest>,
+  input: __S(721, __c45, 1) as any as S.Schema<CreateExternalDataSourcesCredentialAccountRequest>,
   output: __S(738, __c46, 2) as any as S.Schema<IntegrationAccountsResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1593,9 +1598,10 @@ export const createExternalDataSourcesDatabaseSchema: API.OperationMethod<
   CreateExternalDataSourcesDatabaseSchemaError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<CreateExternalDataSourcesDatabaseSchemaRequest>,
+  input: __S(752, __c47, 0) as any as S.Schema<CreateExternalDataSourcesDatabaseSchemaRequest>,
   output: __S(704, __c44, 0) as any as S.Schema<CreateExternalDataSourcesDatabaseSchemaResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1610,9 +1616,10 @@ export const createExternalDataSourcesDraftCustomManifest: API.OperationMethod<
   CreateExternalDataSourcesDraftCustomManifestError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<CreateExternalDataSourcesDraftCustomManifestRequest>,
-  output: __S(785, __c49, 1) as any as S.Schema<DraftCustomManifestResponse>,
+  input: __S(768, __c48, 0) as any as S.Schema<CreateExternalDataSourcesDraftCustomManifestRequest>,
+  output: __S(769, __c48, 1) as any as S.Schema<DraftCustomManifestResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1630,6 +1637,7 @@ export const createExternalDataSourcesPreviewResource: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<CreateExternalDataSourcesPreviewResourceRequest>,
   output: __S(3, __c0, 3) as any as S.Schema<SourcePreviewResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1651,6 +1659,7 @@ export const createExternalDataSourcesReload: API.OperationMethod<
   input: __S(32, __c2, 0) as any as S.Schema<CreateExternalDataSourcesReloadRequest>,
   output: __S(704, __c44, 0) as any as S.Schema<CreateExternalDataSourcesReloadResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1668,6 +1677,7 @@ export const createExternalDataSourcesRepairCdc: API.OperationMethod<
   input: __S(48, __c3, 0) as any as S.Schema<CreateExternalDataSourcesRepairCdcRequest>,
   output: __S(49, __c3, 1) as any as S.Schema<CreateExternalDataSourcesRepairCdcResponse>,
   errors: [BadRequest, Conflict],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1685,6 +1695,7 @@ export const createExternalDataSourcesSetup: API.OperationMethod<
   input: __S(64, __c4, 0) as any as S.Schema<CreateExternalDataSourcesSetupRequest>,
   output: __S(65, __c4, 1) as any as S.Schema<SourceSetupResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1706,6 +1717,7 @@ export const createExternalDataSourcesSourcePrefix: API.OperationMethod<
   input: __S(96, __c6, 0) as any as S.Schema<CreateExternalDataSourcesSourcePrefixRequest>,
   output: __S(704, __c44, 0) as any as S.Schema<CreateExternalDataSourcesSourcePrefixResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1723,6 +1735,7 @@ export const createExternalDataSourcesStoreCredentials: API.OperationMethod<
   input: __S(112, __c7, 0) as any as S.Schema<CreateExternalDataSourcesStoreCredentialsRequest>,
   output: __S(128, __c8, 0) as any as S.Schema<SourceCredential>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1752,6 +1765,7 @@ export const externalDataSourcesBulkUpdateSchemasPartialUpdate: API.OperationMet
     12,
   ) as any as S.Schema<ExternalDataSourcesBulkUpdateSchemasPartialUpdateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1769,6 +1783,7 @@ export const externalDataSourcesConnectLinkRetrieve: API.OperationMethod<
   input: __S(176, __c11, 0) as any as S.Schema<ExternalDataSourcesConnectLinkRetrieveRequest>,
   output: __S(177, __c11, 1) as any as S.Schema<SourceConnectLink>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1790,6 +1805,7 @@ export const externalDataSourcesCreateWebhookCreate: API.OperationMethod<
   input: __S(192, __c12, 0) as any as S.Schema<ExternalDataSourcesCreateWebhookCreateRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<CreateWebhookResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1811,6 +1827,7 @@ export const externalDataSourcesDeleteWebhookCreate: API.OperationMethod<
   input: __S(208, __c13, 0) as any as S.Schema<ExternalDataSourcesDeleteWebhookCreateRequest>,
   output: __S(209, __c13, 1) as any as S.Schema<DeleteWebhookResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1828,6 +1845,7 @@ export const externalDataSourcesDestroy: API.OperationMethod<
   input: __S(224, __c14, 0) as any as S.Schema<ExternalDataSourcesDestroyRequest>,
   output: __S(704, __c44, 0) as any as S.Schema<ExternalDataSourcesDestroyResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1845,6 +1863,7 @@ export const externalDataSourcesDisableCdcCreate: API.OperationMethod<
   input: __S(240, __c15, 0) as any as S.Schema<ExternalDataSourcesDisableCdcCreateRequest>,
   output: __S(704, __c44, 0) as any as S.Schema<ExternalDataSourcesDisableCdcCreateResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1862,6 +1881,7 @@ export const externalDataSourcesEnableCdcCreate: API.OperationMethod<
   input: __S(256, __c16, 0) as any as S.Schema<ExternalDataSourcesEnableCdcCreateRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<CdcEnableResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1883,6 +1903,7 @@ export const externalDataSourcesRefreshSchemasCreate: API.OperationMethod<
   input: __S(272, __c17, 0) as any as S.Schema<ExternalDataSourcesRefreshSchemasCreateRequest>,
   output: __S(704, __c44, 0) as any as S.Schema<ExternalDataSourcesRefreshSchemasCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1900,6 +1921,7 @@ export const externalDataSourcesResumeCdcCreate: API.OperationMethod<
   input: __S(288, __c18, 0) as any as S.Schema<ExternalDataSourcesResumeCdcCreateRequest>,
   output: __S(289, __c18, 1) as any as S.Schema<ExternalDataSourcesResumeCdcCreateResponse>,
   errors: [BadRequest],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1917,6 +1939,7 @@ export const externalDataSourcesUpdateCdcSettingsCreate: API.OperationMethod<
   input: __S(304, __c19, 0) as any as S.Schema<ExternalDataSourcesUpdateCdcSettingsCreateRequest>,
   output: __S(704, __c44, 0) as any as S.Schema<ExternalDataSourcesUpdateCdcSettingsCreateResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1938,6 +1961,7 @@ export const externalDataSourcesUpdateWebhookInputsCreate: API.OperationMethod<
   input: __S(320, __c20, 0) as any as S.Schema<ExternalDataSourcesUpdateWebhookInputsCreateRequest>,
   output: __S(321, __c20, 1) as any as S.Schema<UpdateWebhookInputsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1955,6 +1979,7 @@ export const getExternalDataSource: API.OperationMethod<
   input: __S(336, __c21, 0) as any as S.Schema<GetExternalDataSourceRequest>,
   output: __S(353, __c22, 1) as any as S.Schema<ExternalDataSourceSerializersOutput>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1972,6 +1997,7 @@ export const getExternalDataSourcesCdcStatus: API.OperationMethod<
   input: __S(368, __c23, 0) as any as S.Schema<GetExternalDataSourcesCdcStatusRequest>,
   output: __S(369, __c23, 1) as any as S.Schema<CdcStatus>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1989,6 +2015,7 @@ export const getExternalDataSourcesDestination: API.OperationMethod<
   input: __S(384, __c24, 0) as any as S.Schema<GetExternalDataSourcesDestinationRequest>,
   output: __S(400, __c25, 0) as any as S.Schema<SourceDestinations>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2006,6 +2033,7 @@ export const getExternalDataSourcesExist: API.OperationMethod<
   input: __S(416, __c26, 0) as any as S.Schema<GetExternalDataSourcesExistRequest>,
   output: __S(417, __c26, 1) as any as S.Schema<ExternalDataSourceExists>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2023,6 +2051,7 @@ export const getExternalDataSourcesOauthAccount: API.OperationMethod<
   input: __S(432, __c27, 0) as any as S.Schema<GetExternalDataSourcesOauthAccountRequest>,
   output: __S(738, __c46, 2) as any as S.Schema<IntegrationAccountsResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2038,8 +2067,9 @@ export const getExternalDataSourcesWebhookInfo: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<GetExternalDataSourcesWebhookInfoRequest>,
-  output: __S(454, __c28, 6) as any as S.Schema<WebhookInfoResponse>,
+  output: __S(455, __c28, 7) as any as S.Schema<WebhookInfoResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2057,6 +2087,7 @@ export const getExternalDataSourcesWizard: API.OperationMethod<
   input: __S(464, __c29, 0) as any as S.Schema<GetExternalDataSourcesWizardRequest>,
   output: __S(475, __c29, 11) as any as S.Schema<GetExternalDataSourcesWizardResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2074,6 +2105,7 @@ export const listExternalDataSources: API.OperationMethod<
   input: __S(480, __c30, 0) as any as S.Schema<ListExternalDataSourcesRequest>,
   output: __S(482, __c30, 2) as any as S.Schema<PaginatedExternalDataSourceSerializersListOutput>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2095,6 +2127,7 @@ export const listExternalDataSourcesConnections: API.OperationMethod<
   input: __S(496, __c31, 0) as any as S.Schema<ListExternalDataSourcesConnectionsRequest>,
   output: __S(499, __c31, 3) as any as S.Schema<ListExternalDataSourcesConnectionsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2120,6 +2153,7 @@ export const listExternalDataSourcesDirectConnectionOptions: API.OperationMethod
     3,
   ) as any as S.Schema<ListExternalDataSourcesDirectConnectionOptionsResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2137,6 +2171,7 @@ export const listExternalDataSourcesJobs: API.OperationMethod<
   input: __S(528, __c33, 0) as any as S.Schema<ListExternalDataSourcesJobsRequest>,
   output: __S(532, __c33, 4) as any as S.Schema<ListExternalDataSourcesJobsResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2154,6 +2189,7 @@ export const listExternalDataSourcesStoredCredentials: API.OperationMethod<
   input: __S(544, __c34, 0) as any as S.Schema<ListExternalDataSourcesStoredCredentialsRequest>,
   output: __S(546, __c34, 2) as any as S.Schema<ListExternalDataSourcesStoredCredentialsResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2171,6 +2207,7 @@ export const updateExternalDataSource: API.OperationMethod<
   input: __S(560, __c35, 0) as any as S.Schema<UpdateExternalDataSourceRequest>,
   output: __S(353, __c22, 1) as any as S.Schema<ExternalDataSourceSerializersOutput>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2188,6 +2225,7 @@ export const updateExternalDataSourcesDestinationsPartial: API.OperationMethod<
   input: __S(624, __c39, 0) as any as S.Schema<UpdateExternalDataSourcesDestinationsPartialRequest>,
   output: __S(400, __c25, 0) as any as S.Schema<SourceDestinations>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2209,6 +2247,7 @@ export const updateExternalDataSourcesPartial: API.OperationMethod<
   input: __S(640, __c40, 0) as any as S.Schema<UpdateExternalDataSourcesPartialRequest>,
   output: __S(353, __c22, 1) as any as S.Schema<ExternalDataSourceSerializersOutput>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2238,6 +2277,7 @@ export const updateExternalDataSourcesRevenueAnalyticsConfigPartial: API.Operati
     0,
   ) as any as S.Schema<UpdateExternalDataSourcesRevenueAnalyticsConfigPartialResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3037,21 +3077,23 @@ function __c28(j: number): any {
         }),
       ).annotate({ identifier: "WebhookHogFunction" });
     case 2:
-      return S.Array(S.Unknown);
+      return S.Record(S.String, S.String);
     case 3:
+      return S.Array(S.Unknown);
+    case 4:
       return S.suspend(() =>
         S.Struct({
           value: S.optional(S.Unknown),
           templating: S.optional(S.String),
-          bytecode: S.optional(__S(450, __c28, 2)),
+          bytecode: S.optional(__S(451, __c28, 3)),
           bytecode_contract: S.optional(S.String),
           order: S.optional(S.Number),
           transpiled: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "InputsItem" });
-    case 4:
-      return S.Record(S.String, __S(451, __c28, 3));
     case 5:
+      return S.Record(S.String, __S(452, __c28, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
           exists: S.Boolean,
@@ -3064,7 +3106,7 @@ function __c28(j: number): any {
           error: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "WebhookExternalStatus" });
-    case 6:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           supports_webhooks: S.Boolean,
@@ -3072,9 +3114,9 @@ function __c28(j: number): any {
           auto_creation_blocked_reason: S.NullOr(S.String),
           hog_function: S.NullOr(__S(449, __c28, 1)),
           webhook_url: S.NullOr(S.String),
-          schema_mapping: __S(752, __c47, 0),
-          inputs: S.optional(__S(452, __c28, 4)),
-          external_status: S.NullOr(__S(453, __c28, 5)),
+          schema_mapping: __S(450, __c28, 2),
+          inputs: S.optional(__S(453, __c28, 5)),
+          external_status: S.NullOr(__S(454, __c28, 6)),
           missing_events: S.optional(__S(608, __c38, 0)),
           missing_inputs: S.optional(__S(608, __c38, 0)),
         }),
@@ -3544,11 +3586,13 @@ function __c44(j: number): any {
 function __c45(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.SensitiveValue({})));
+    case 1:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           source_type: S.String,
-          credentials: __S(752, __c47, 0),
+          credentials: __S(720, __c45, 0),
           api_version: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -3586,12 +3630,6 @@ function __c46(j: number): any {
 function __c47(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.String);
-  }
-}
-function __c48(j: number): any {
-  switch (j) {
-    case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
@@ -3606,7 +3644,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "CreateExternalDataSourcesDatabaseSchemaRequest" });
   }
 }
-function __c49(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

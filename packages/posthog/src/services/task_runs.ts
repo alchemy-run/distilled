@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { PosthogServiceErrors } from "../errors.ts";
 import { PosthogProtocol, type PosthogOpError, type PosthogOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -184,7 +185,7 @@ export interface CreateTasksRunRequest {
   /** Enable fast mode for models that support it. */
   fast_mode?: boolean | null | undefined;
   /** Ephemeral GitHub user token from PostHog Desktop for user-authored cloud pull requests. */
-  github_user_token?: string | undefined;
+  github_user_token?: string | Redacted.Redacted<string> | undefined;
   /** Initial permission mode for the agent session. Claude runtimes accept PostHog permission presets like 'plan'. Codex runtimes accept native Codex modes like 'plan', 'auto', and 'read-only'. * `default` - default * `acceptEdits` - acceptEdits * `plan` - plan * `bypassPermissions` - bypassPermissions * `auto` - auto * `read-only` - read-only * `full-access` - full-access */
   initial_permission_mode?:
     | TaskRunBootstrapCreateRequestInitialPermissionModeEnum
@@ -647,7 +648,7 @@ export interface GetTasksRunsConnectionTokenRequest {
 /** Response containing a JWT token for direct sandbox connection */
 export interface ConnectionTokenResponse {
   /** JWT token for authenticating with the sandbox */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export type GetTasksRunsLogRequestView = "full" | "thread";
 export interface GetTasksRunsLogRequest {
@@ -709,7 +710,7 @@ export interface GetTasksRunsStreamTokenRequest {
 /** Response containing a JWT token (and resolved base URL) for reading a task run's live event stream */
 export interface StreamReadTokenResponse {
   /** Run-scoped JWT the browser presents to the agent-proxy to read this run's live event stream */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Base URL of the agent-proxy to read the stream from when routing via the proxy is enabled for this user. Null means read from the Django endpoint directly (same-origin). The client appends the run's stream path and sends the token as a Bearer header when this is set. */
   stream_base_url: string | null;
 }
@@ -1038,7 +1039,7 @@ export interface TaskRunErrorResponse {
   /** Machine-readable error code */
   code?: string | undefined;
   /** After confirmed warm startup nondelivery, echo this token in X-PostHog-Warm-Retry to retry the same run and message within 60 seconds. */
-  retry_token?: string | undefined;
+  retry_token?: string | Redacted.Redacted<string> | undefined;
   /** Why PostHog Desktop access was denied, when applicable. * `startup_plan` - startup_plan * `prepaid_credits` - prepaid_credits */
   reason?: DesktopAccessReasonEnum | undefined;
   /** Request field associated with the error */
@@ -1063,6 +1064,7 @@ export const createTasksRun: API.OperationMethod<
   input: __S(246, __c30, 6) as any as S.Schema<CreateTasksRunRequest>,
   output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1084,6 +1086,7 @@ export const createTasksRunsAnalysisActivity: API.OperationMethod<
   input: __S(272, __c34, 0) as any as S.Schema<CreateTasksRunsAnalysisActivityRequest>,
   output: __S(273, __c34, 1) as any as S.Schema<TaskRunAnalysisActivityResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1101,6 +1104,7 @@ export const createTasksRunsAnalyze: API.OperationMethod<
   input: __S(280, __c35, 0) as any as S.Schema<CreateTasksRunsAnalyzeRequest>,
   output: __S(281, __c35, 1) as any as S.Schema<TaskRunAnalyzeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1118,6 +1122,7 @@ export const createTasksRunsAppendLog: API.OperationMethod<
   input: __S(289, __c36, 1) as any as S.Schema<CreateTasksRunsAppendLogRequest>,
   output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1135,6 +1140,7 @@ export const createTasksRunsArtifact: API.OperationMethod<
   input: __S(298, __c37, 2) as any as S.Schema<CreateTasksRunsArtifactRequest>,
   output: __S(304, __c38, 0) as any as S.Schema<TaskRunArtifactsUploadResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1152,6 +1158,7 @@ export const createTasksRunsArtifactsDismiss: API.OperationMethod<
   input: __S(320, __c40, 0) as any as S.Schema<CreateTasksRunsArtifactsDismissRequest>,
   output: __S(328, __c41, 0) as any as S.Schema<TaskRunArtifactsDismissResponse>,
   errors: [NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1173,6 +1180,7 @@ export const createTasksRunsArtifactsPresign: API.OperationMethod<
   input: __S(16, __c2, 0) as any as S.Schema<CreateTasksRunsArtifactsPresignRequest>,
   output: __S(17, __c2, 1) as any as S.Schema<TaskRunArtifactPresignResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1190,6 +1198,7 @@ export const createTasksRunsArtifactsReference: API.OperationMethod<
   input: __S(26, __c3, 2) as any as S.Schema<CreateTasksRunsArtifactsReferenceRequest>,
   output: __S(328, __c41, 0) as any as S.Schema<TaskRunPostHogReferencesResponse>,
   errors: [NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1207,6 +1216,7 @@ export const createTasksRunsClearConversation: API.OperationMethod<
   input: __S(32, __c4, 0) as any as S.Schema<CreateTasksRunsClearConversationRequest>,
   output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
   errors: [NotFound, Conflict],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1229,6 +1239,7 @@ export const createTasksRunsCommand: API.OperationMethod<
   input: __S(40, __c5, 0) as any as S.Schema<CreateTasksRunsCommandRequest>,
   output: __S(41, __c5, 1) as any as S.Schema<TaskRunCommandResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1246,6 +1257,7 @@ export const createTasksRunsRelayMessage: API.OperationMethod<
   input: __S(48, __c6, 0) as any as S.Schema<CreateTasksRunsRelayMessageRequest>,
   output: __S(49, __c6, 1) as any as S.Schema<TaskRunRelayMessageResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1268,6 +1280,7 @@ export const createTasksRunsSubscriptionToken: API.OperationMethod<
   input: __S(56, __c7, 0) as any as S.Schema<CreateTasksRunsSubscriptionTokenRequest>,
   output: __S(57, __c7, 1) as any as S.Schema<TaskRunSubscriptionTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1290,6 +1303,7 @@ export const createTasksRunsTaskSessionSync: API.OperationMethod<
   input: __S(64, __c8, 0) as any as S.Schema<CreateTasksRunsTaskSessionSyncRequest>,
   output: __S(65, __c8, 1) as any as S.Schema<TaskSessionSyncResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1307,6 +1321,7 @@ export const getTasksRun: API.OperationMethod<
   input: __S(72, __c9, 0) as any as S.Schema<GetTasksRunRequest>,
   output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1324,6 +1339,7 @@ export const getTasksRunsArtifactsPreview: API.OperationMethod<
   input: __S(80, __c10, 0) as any as S.Schema<GetTasksRunsArtifactsPreviewRequest>,
   output: __S(81, __c10, 1) as any as S.Schema<TaskRunArtifactPreviewResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1341,6 +1357,7 @@ export const getTasksRunsConnectionToken: API.OperationMethod<
   input: __S(88, __c11, 0) as any as S.Schema<GetTasksRunsConnectionTokenRequest>,
   output: __S(89, __c11, 1) as any as S.Schema<ConnectionTokenResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1358,6 +1375,7 @@ export const getTasksRunsLog: API.OperationMethod<
   input: __S(96, __c12, 0) as any as S.Schema<GetTasksRunsLogRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<GetTasksRunsLogResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1375,6 +1393,7 @@ export const getTasksRunsPreview: API.OperationMethod<
   input: __S(112, __c14, 0) as any as S.Schema<GetTasksRunsPreviewRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<GetTasksRunsPreviewResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1392,6 +1411,7 @@ export const getTasksRunsSessionLog: API.OperationMethod<
   input: __S(120, __c15, 0) as any as S.Schema<GetTasksRunsSessionLogRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<GetTasksRunsSessionLogResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1409,6 +1429,7 @@ export const getTasksRunsStream: API.OperationMethod<
   input: __S(128, __c16, 0) as any as S.Schema<GetTasksRunsStreamRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<GetTasksRunsStreamResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1426,6 +1447,7 @@ export const getTasksRunsStreamToken: API.OperationMethod<
   input: __S(136, __c17, 0) as any as S.Schema<GetTasksRunsStreamTokenRequest>,
   output: __S(137, __c17, 1) as any as S.Schema<StreamReadTokenResponse>,
   errors: [NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1443,6 +1465,7 @@ export const getTasksRunsTaskSession: API.OperationMethod<
   input: __S(144, __c18, 0) as any as S.Schema<GetTasksRunsTaskSessionRequest>,
   output: __S(145, __c18, 1) as any as S.Schema<TaskSessionResponse>,
   errors: [NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1460,6 +1483,7 @@ export const listTasksRuns: API.OperationMethod<
   input: __S(152, __c19, 0) as any as S.Schema<ListTasksRunsRequest>,
   output: __S(154, __c19, 2) as any as S.Schema<PaginatedTaskRunDetailDTOList>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1481,6 +1505,7 @@ export const tasksRunsArtifactsDownloadCreate: API.OperationMethod<
   input: __S(160, __c20, 0) as any as S.Schema<TasksRunsArtifactsDownloadCreateRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<TasksRunsArtifactsDownloadCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1498,6 +1523,7 @@ export const tasksRunsArtifactsDownloadRetrieve: API.OperationMethod<
   input: __S(168, __c21, 0) as any as S.Schema<TasksRunsArtifactsDownloadRetrieveRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<TasksRunsArtifactsDownloadRetrieveResponse>,
   errors: [BadRequest, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1519,6 +1545,7 @@ export const tasksRunsArtifactsFinalizeUploadCreate: API.OperationMethod<
   input: __S(178, __c22, 2) as any as S.Schema<TasksRunsArtifactsFinalizeUploadCreateRequest>,
   output: __S(304, __c38, 0) as any as S.Schema<TaskRunArtifactsFinalizeUploadResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1540,6 +1567,7 @@ export const tasksRunsArtifactsPrepareUploadCreate: API.OperationMethod<
   input: __S(186, __c23, 2) as any as S.Schema<TasksRunsArtifactsPrepareUploadCreateRequest>,
   output: __S(191, __c23, 7) as any as S.Schema<TaskRunArtifactsPrepareUploadResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1557,6 +1585,7 @@ export const tasksRunsCancelCreate: API.OperationMethod<
   input: __S(192, __c24, 0) as any as S.Schema<TasksRunsCancelCreateRequest>,
   output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
   errors: [BadRequest, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1574,6 +1603,7 @@ export const tasksRunsResumeInCloudCreate: API.OperationMethod<
   input: __S(200, __c25, 0) as any as S.Schema<TasksRunsResumeInCloudCreateRequest>,
   output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1591,6 +1621,7 @@ export const tasksRunsStartCreate: API.OperationMethod<
   input: __S(208, __c26, 0) as any as S.Schema<TasksRunsStartCreateRequest>,
   output: __S(212, __c26, 4) as any as S.Schema<TaskDetailDTO>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1608,6 +1639,7 @@ export const updateTasksRunsPartial: API.OperationMethod<
   input: __S(216, __c27, 0) as any as S.Schema<UpdateTasksRunsPartialRequest>,
   output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1629,6 +1661,7 @@ export const updateTasksRunsSetOutputPartial: API.OperationMethod<
   input: __S(224, __c28, 0) as any as S.Schema<UpdateTasksRunsSetOutputPartialRequest>,
   output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1646,6 +1679,7 @@ export const updateTasksRunsSetSummaryPartial: API.OperationMethod<
   input: __S(232, __c29, 0) as any as S.Schema<UpdateTasksRunsSetSummaryPartialRequest>,
   output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
   errors: [NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1662,7 +1696,7 @@ function __c0(j: number): any {
           error: S.optional(S.String),
           type: S.optional(S.String),
           code: S.optional(S.String),
-          retry_token: S.optional(S.String),
+          retry_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           reason: S.optional(S.String),
           attr: S.optional(S.String),
           missing_artifact_ids: S.optional(__S(8, __c1, 0)),
@@ -1930,7 +1964,7 @@ function __c11(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ConnectionTokenResponse" });
   }
@@ -2043,7 +2077,7 @@ function __c17(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           stream_base_url: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "StreamReadTokenResponse" });
@@ -2476,7 +2510,7 @@ function __c30(j: number): any {
           reasoning_effort: S.optional(S.String),
           context_window: S.optional(S.String),
           fast_mode: S.optional(S.NullOr(S.Boolean)),
-          github_user_token: S.optional(S.String),
+          github_user_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           initial_permission_mode: S.optional(S.String),
         }).pipe(
           T.Http({

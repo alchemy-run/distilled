@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -202,6 +203,7 @@ export const createHomeRegionControl: API.OperationMethod<
     ServiceUnavailableException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHomeRegionControl",
@@ -234,6 +236,7 @@ export const deleteHomeRegionControl: API.OperationMethod<
     ServiceUnavailableException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHomeRegionControl",
@@ -268,6 +271,7 @@ export const describeHomeRegionControls: API.PaginatedOperationMethod<
     ServiceUnavailableException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHomeRegionControls",
@@ -309,6 +313,7 @@ export const getHomeRegion: API.OperationMethod<
     ServiceUnavailableException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHomeRegion",

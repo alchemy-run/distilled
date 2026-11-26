@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownMuxError } from "../errors.ts";
+import { MuxServiceErrors } from "../errors.ts";
 import { paginatePage } from "../pagination.ts";
 import { MuxProtocol, type MuxOpError, type MuxOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -280,7 +280,8 @@ export const createSigningKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<CreateSigningKeyRequest>,
   output: __S(72, __c9, 0) as any as S.Schema<SigningKeyResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -297,7 +298,8 @@ export const createWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<CreateWebhookRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<WebhookResponse>,
-  errors: [BadRequest, WebhookAddressInUse, UnknownMuxError],
+  errors: [BadRequest, WebhookAddressInUse],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -314,7 +316,8 @@ export const deleteSigningKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<DeleteSigningKeyRequest>,
   output: __S(120, __c15, 0) as any as S.Schema<DeleteSigningKeyResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -331,7 +334,8 @@ export const deleteWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<DeleteWebhookRequest>,
   output: __S(120, __c15, 0) as any as S.Schema<DeleteWebhookResponse>,
-  errors: [NotFound, UnknownMuxError],
+  errors: [NotFound],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -348,7 +352,8 @@ export const getSigningKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<GetSigningKeyRequest>,
   output: __S(72, __c9, 0) as any as S.Schema<SigningKeyResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -365,7 +370,8 @@ export const getWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<GetWebhookRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<WebhookResponse>,
-  errors: [NotFound, UnknownMuxError],
+  errors: [NotFound],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -382,7 +388,8 @@ export const getWhoami: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<GetWhoamiRequest>,
   output: __S(26, __c3, 2) as any as S.Schema<WhoAmIResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -401,7 +408,8 @@ export const listSigningKeys: API.PaginatedOperationMethod<
   () => ({
     input: __S(32, __c4, 0) as any as S.Schema<ListSigningKeysRequest>,
     output: __S(34, __c4, 2) as any as S.Schema<ListSigningKeysResponse>,
-    errors: [UnknownMuxError],
+    errors: [],
+    serviceErrors: MuxServiceErrors,
     protocol: MuxProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -428,7 +436,8 @@ export const listUsageExports: API.PaginatedOperationMethod<
   () => ({
     input: __S(40, __c5, 0) as any as S.Schema<ListUsageExportsRequest>,
     output: __S(44, __c5, 4) as any as S.Schema<ListUsageExportsResponse>,
-    errors: [BadRequest, Forbidden, NotFound, PreconditionFailed, UnknownMuxError],
+    errors: [BadRequest, Forbidden, NotFound, PreconditionFailed],
+    serviceErrors: MuxServiceErrors,
     protocol: MuxProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -450,7 +459,8 @@ export const listWebhooks: API.PaginatedOperationMethod<
   () => ({
     input: __S(48, __c6, 0) as any as S.Schema<ListWebhooksRequest>,
     output: __S(50, __c6, 2) as any as S.Schema<ListWebhooksResponse>,
-    errors: [BadRequest, UnknownMuxError],
+    errors: [BadRequest],
+    serviceErrors: MuxServiceErrors,
     protocol: MuxProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -470,7 +480,8 @@ export const updateWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<UpdateWebhookRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<WebhookResponse>,
-  errors: [BadRequest, NotFound, WebhookAddressInUse, UnknownMuxError],
+  errors: [BadRequest, NotFound, WebhookAddressInUse],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

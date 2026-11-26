@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownStackitError } from "../errors.ts";
+import { StackitServiceErrors } from "../errors.ts";
 import { StackitProtocol, type StackitOpError, type StackitOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -351,7 +351,8 @@ export const createDremioInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<CreateDremioInstanceRequest>,
   output: __S(104, __c6, 8) as any as S.Schema<DremioResponseOutput>,
-  errors: [BadRequest, Conflict, UnprocessableEntity, UnknownStackitError],
+  errors: [BadRequest, Conflict, UnprocessableEntity],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -368,7 +369,8 @@ export const createDremioUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<CreateDremioUserRequest>,
   output: __S(128, __c8, 0) as any as S.Schema<DremioUserResponse>,
-  errors: [BadRequest, Conflict, UnprocessableEntity, UnknownStackitError],
+  errors: [BadRequest, Conflict, UnprocessableEntity],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -390,7 +392,8 @@ export const deleteDremioInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<DeleteDremioInstanceRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<DeleteDremioInstanceResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -412,7 +415,8 @@ export const deleteDremioUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<DeleteDremioUserRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<DeleteDremioUserResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -429,7 +433,8 @@ export const getDremioInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<GetDremioInstanceRequest>,
   output: __S(104, __c6, 8) as any as S.Schema<DremioResponseOutput>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -446,7 +451,8 @@ export const getDremioUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<GetDremioUserRequest>,
   output: __S(128, __c8, 0) as any as S.Schema<DremioUserResponse>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -463,7 +469,8 @@ export const listDremioInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<ListDremioInstancesRequest>,
   output: __S(18, __c1, 2) as any as S.Schema<ListDremiosResponseOutput>,
-  errors: [BadRequest, UnknownStackitError],
+  errors: [BadRequest],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -480,7 +487,8 @@ export const listDremioUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<ListDremioUsersRequest>,
   output: __S(34, __c2, 2) as any as S.Schema<ListDremioUsersResponse>,
-  errors: [BadRequest, UnknownStackitError],
+  errors: [BadRequest],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -502,7 +510,8 @@ export const updateDremioInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<UpdateDremioInstanceRequest>,
   output: __S(104, __c6, 8) as any as S.Schema<DremioResponseOutput>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

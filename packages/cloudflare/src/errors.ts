@@ -20,7 +20,7 @@ export {
 } from "@distilled.cloud/core/errors";
 import * as Category from "@distilled.cloud/core/category";
 import type { DefaultErrors as CoreDefaultErrors, Forbidden } from "@distilled.cloud/core/errors";
-import { UnknownErrorFields } from "@distilled.cloud/core/errors";
+import { API_ERRORS, UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 // Schema parse error wrapper
@@ -106,8 +106,8 @@ export interface CloudflareApiError {
 /**
  * Legacy generic Cloudflare API error. The protocol no longer constructs
  * this (failures map to the distilled-compatible DefaultErrors classes
- * above); it remains exported because generated operations reference it in
- * their `errors` lists.
+ * above); it remains exported, and in {@link CloudflareServiceErrors}, so
+ * every operation's error type still names it.
  */
 export class CloudflareError
   extends /*@__PURE__*/ S.TaggedError<CloudflareError>()("CloudflareError", {
@@ -131,3 +131,19 @@ export class CloudflareRateLimited
       }),
     ),
   }).pipe(/*@__PURE__*/ withCategory(RETRYABLE), withThrottlingError) {}
+
+/**
+ * The errors declared on the Cloudflare service: any operation can return
+ * them, and every generated operation lists them as its `serviceErrors`.
+ * Each of core's status classes (the protocol builds the one for a failed
+ * response's status, and `Unauthorized`, `Forbidden`, `TooManyRequests`,
+ * `GatewayTimeout` for Cloudflare's global error codes at any status),
+ * {@link InvalidRoute} for code 7003, and the two legacy classes.
+ */
+export const CloudflareServiceErrors = [
+  ...API_ERRORS,
+  InvalidRoute,
+  CloudflareRateLimited,
+  CloudflareError,
+] as const;
+export type CloudflareServiceError = InstanceType<(typeof CloudflareServiceErrors)[number]>;

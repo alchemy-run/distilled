@@ -39,7 +39,7 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "NamespaceLabsOpContext",
     commonErrorType: "NamespaceLabsOpError",
-    commonErrorClasses: ["UnknownNamespaceLabsError"],
+    serviceErrors: "NamespaceLabsServiceErrors",
     protocol: "NamespaceLabsProtocol",
     retry: "Retry.Retry",
   },

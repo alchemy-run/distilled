@@ -8,4 +8,4 @@
 
 # Bun's Blob reports `text/html;charset=utf-8` for `new Blob([..], { type:
 # "text/html" })`, and core sends the Blob's own type.
-packages/core/test/protocol-rest.test.ts > makeRestProtocol raw request bodies with neither, a Blob body is sent under its own type
+packages/core/test/protocol-rest.test.ts > restProtocol raw request bodies with neither, a Blob body is sent under its own type

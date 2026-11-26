@@ -5,6 +5,7 @@ import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -151,19 +152,74 @@ export class UnsupportedLocale
   extends /*@__PURE__*/ S.TaggedError<UnsupportedLocale>()("UnsupportedLocale", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
+export type ResourceTagKey2 = string;
+export interface ConfigureTagsTagKey {
+  key: string;
+  enabledForEventBridge?: boolean | undefined;
+}
+export type ConfigureTagsRequestTagKeyList = ConfigureTagsTagKey[];
+export interface ConfigureTagsRequest {
+  tagKeys: ConfigureTagsTagKey[];
+}
+export type TagKeyStatus = "PENDING" | "ACTIVE" | (string & {});
+export interface ResourceTagKey {
+  key?: string | undefined;
+  enabledForEventBridge?: boolean | undefined;
+  status?: TagKeyStatus | undefined;
+}
+export type ConfigureTagsResourceTagKeyList = ResourceTagKey[];
+export interface ConfigureTagsResponse {
+  configuredTagKeys?: ResourceTagKey[] | undefined;
+}
+export type OrganizationTagKey2 = string;
+export interface TagKeyForOrganization {
+  key: string;
+  enabledForEventBridge?: boolean | undefined;
+}
+export type ConfigureTagsForOrganizationTagKeyList = TagKeyForOrganization[];
+export interface ConfigureTagsForOrganizationRequest {
+  tagKeys: TagKeyForOrganization[];
+}
+export interface OrganizationTagKey {
+  key?: string | undefined;
+  enabledForEventBridge?: boolean | undefined;
+  status?: TagKeyStatus | undefined;
+}
+export type ConfigureTagsForOrganizationResponseTagKeyList = OrganizationTagKey[];
+export interface ConfigureTagsForOrganizationResponse {
+  configuredTagKeys?: OrganizationTagKey[] | undefined;
+}
 export type EventArn = string;
 export type NextToken = string;
 export type MaxResults = number;
+export type TagFilterKey = string;
+export type TagFilterValue = string;
+export type AffectedAccountsForOrganizationTagValueList = string[];
+export type AffectedAccountsForOrganizationTagFilter = { [key: string]: string[] | undefined };
+export interface AffectedAccountFilter {
+  eventArn?: string | undefined;
+  tags?: { [key: string]: string[] | undefined } | undefined;
+}
 export interface DescribeAffectedAccountsForOrganizationRequest {
   eventArn: string;
   nextToken?: string | undefined;
   maxResults?: number | undefined;
+  filter?: AffectedAccountFilter | undefined;
 }
 export type AccountId = string;
 export type AffectedAccountsList = string[];
+export type AccountTagKey = string;
+export type AccountTagValue = string;
+export type AccountTagSet = { [key: string]: string | undefined };
+export interface AccountEntity {
+  accountId?: string | undefined;
+  accountTags?: { [key: string]: string | undefined } | undefined;
+}
+export type AffectedAccountEntityList = AccountEntity[];
 export type EventScopeCode = "PUBLIC" | "ACCOUNT_SPECIFIC" | "NONE" | (string & {});
 export interface DescribeAffectedAccountsForOrganizationResponse {
   affectedAccounts?: string[] | undefined;
+  affectedAccountEntities?: AccountEntity[] | undefined;
   eventScopeCode?: EventScopeCode | undefined;
   nextToken?: string | undefined;
 }
@@ -177,10 +233,8 @@ export interface DateTimeRange {
   to?: Date | undefined;
 }
 export type DateTimeRangeList = DateTimeRange[];
-export type TagKey = string;
-export type TagValue = string;
-export type TagSet = { [key: string]: string | undefined };
-export type TagFilter = { [key: string]: string | undefined }[];
+export type DescribeAffectedEntitiesTagValueList = string[];
+export type DescribeAffectedEntitiesTagFilter = { [key: string]: string[] | undefined };
 export type EntityStatusCode =
   | "IMPAIRED"
   | "UNIMPAIRED"
@@ -194,7 +248,7 @@ export interface EntityFilter {
   entityArns?: string[] | undefined;
   entityValues?: string[] | undefined;
   lastUpdatedTimes?: DateTimeRange[] | undefined;
-  tags?: { [key: string]: string | undefined }[] | undefined;
+  tags?: { [key: string]: string[] | undefined } | undefined;
   statusCodes?: EntityStatusCode[] | undefined;
 }
 export type Locale = string;
@@ -206,6 +260,8 @@ export interface DescribeAffectedEntitiesRequest {
   maxResults?: number | undefined;
 }
 export type EntityUrl = string;
+export type ResourceTagValue = string;
+export type ResourceTagSet = { [key: string]: string | undefined };
 export type EntityMetadataKey = string;
 export type EntityMetadataValue = string;
 export type EntityMetadata = { [key: string]: string | undefined };
@@ -217,7 +273,8 @@ export interface AffectedEntity {
   awsAccountId?: string | undefined;
   lastUpdatedTime?: Date | undefined;
   statusCode?: EntityStatusCode | undefined;
-  tags?: { [key: string]: string | undefined } | undefined;
+  resourceTags?: { [key: string]: string | undefined } | undefined;
+  accountTags?: { [key: string]: string | undefined } | undefined;
   entityMetadata?: { [key: string]: string | undefined } | undefined;
 }
 export type EntityList = AffectedEntity[];
@@ -230,10 +287,13 @@ export interface EventAccountFilter {
   awsAccountId?: string | undefined;
 }
 export type OrganizationEntityFiltersList = EventAccountFilter[];
+export type AffectedEntitiesForOrganizationTagValueList = string[];
+export type AffectedEntitiesForOrganizationTagFilter = { [key: string]: string[] | undefined };
 export interface EntityAccountFilter {
   eventArn: string;
   awsAccountId?: string | undefined;
   statusCodes?: EntityStatusCode[] | undefined;
+  tags?: { [key: string]: string[] | undefined } | undefined;
 }
 export type OrganizationEntityAccountFiltersList = EntityAccountFilter[];
 export interface DescribeAffectedEntitiesForOrganizationRequest {
@@ -257,8 +317,14 @@ export interface DescribeAffectedEntitiesForOrganizationResponse {
   nextToken?: string | undefined;
 }
 export type EventArnsList = string[];
+export type DescribeEntityAggregatesTagValueList = string[];
+export type DescribeEntityAggregatesTagFilter = { [key: string]: string[] | undefined };
+export interface EntityAggregateFilter {
+  tags?: { [key: string]: string[] | undefined } | undefined;
+}
 export interface DescribeEntityAggregatesRequest {
   eventArns?: string[] | undefined;
+  filter?: EntityAggregateFilter | undefined;
 }
 export type Count = number;
 export type EntityStatuses = { [key in EntityStatusCode]?: number | undefined };
@@ -273,9 +339,15 @@ export interface DescribeEntityAggregatesResponse {
 }
 export type OrganizationEventArnsList = string[];
 export type OrganizationAccountIdsList = string[];
+export type OrganizationEntityAggregateTagValueList = string[];
+export type OrganizationEntityAggregateTagFilter = { [key: string]: string[] | undefined };
+export interface OrganizationEntityAggregateFilter {
+  tags?: { [key: string]: string[] | undefined } | undefined;
+}
 export interface DescribeEntityAggregatesForOrganizationRequest {
   eventArns: string[];
   awsAccountIds?: string[] | undefined;
+  filter?: OrganizationEntityAggregateFilter | undefined;
 }
 export interface AccountEntityAggregate {
   accountId?: string | undefined;
@@ -314,6 +386,8 @@ export type EventTypeCategory =
   | "investigation"
   | (string & {});
 export type EventTypeCategoryList2 = EventTypeCategory[];
+export type DescribeEventsTagValueList = string[];
+export type DescribeEventsTagFilter = { [key: string]: string[] | undefined };
 export type EventStatusCode = "open" | "closed" | "upcoming" | (string & {});
 export type EventStatusCodeList = EventStatusCode[];
 export type EventPersona = "OPERATIONS" | "SECURITY" | "BILLING" | (string & {});
@@ -331,7 +405,7 @@ export interface EventFilter {
   entityArns?: string[] | undefined;
   entityValues?: string[] | undefined;
   eventTypeCategories?: EventTypeCategory[] | undefined;
-  tags?: { [key: string]: string | undefined }[] | undefined;
+  tags?: { [key: string]: string[] | undefined } | undefined;
   eventStatusCodes?: EventStatusCode[] | undefined;
   personas?: EventPersona[] | undefined;
 }
@@ -430,6 +504,8 @@ export interface DescribeEventsResponse {
   nextToken?: string | undefined;
 }
 export type AwsAccountIdsList = string[];
+export type OrganizationEventTagValueList = string[];
+export type OrganizationEventTagFilter = { [key: string]: string[] | undefined };
 export interface OrganizationEventFilter {
   actionabilities?: EventActionability[] | undefined;
   eventTypeCodes?: string[] | undefined;
@@ -444,6 +520,7 @@ export interface OrganizationEventFilter {
   eventTypeCategories?: EventTypeCategory[] | undefined;
   eventStatusCodes?: EventStatusCode[] | undefined;
   personas?: EventPersona[] | undefined;
+  tags?: { [key: string]: string[] | undefined } | undefined;
 }
 export interface DescribeEventsForOrganizationRequest {
   filter?: OrganizationEventFilter | undefined;
@@ -540,10 +617,120 @@ export interface DescribeServiceLifecycleResponse {
   serviceLifecycles?: ServiceLifecycle[] | undefined;
   nextToken?: string | undefined;
 }
+export interface DescribeTagKeysRequest {}
+export type ResourceTagKeyList = ResourceTagKey[];
+export interface DescribeTagKeysResponse {
+  keys?: ResourceTagKey[] | undefined;
+}
+export interface DescribeTagKeysForOrganizationRequest {}
+export type OrganizationTagKeyList = OrganizationTagKey[];
+export interface DescribeTagKeysForOrganizationResponse {
+  keys?: OrganizationTagKey[] | undefined;
+}
+export interface DescribeTagsRequest {
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+}
+export type TagKey = string;
+export type TagValue = string;
+export type AccountTagType = "ACCOUNT_RESOURCE_TAG" | (string & {});
+export interface AccountTag {
+  key?: string | undefined;
+  value?: string | undefined;
+  type?: AccountTagType | undefined;
+}
+export type AccountTagList = AccountTag[];
+export interface DescribeTagsResponse {
+  tags?: AccountTag[] | undefined;
+  nextToken?: string | undefined;
+}
+export type OrganizationTagType =
+  | "ORGANIZATION_RESOURCE_TAG"
+  | "ORGANIZATION_ACCOUNT_TAG"
+  | (string & {});
+export type OrganizationTagTypeFilter = OrganizationTagType[];
+export interface DescribeTagsForOrganizationFilter {
+  tagTypes?: OrganizationTagType[] | undefined;
+}
+export interface DescribeTagsForOrganizationRequest {
+  filter?: DescribeTagsForOrganizationFilter | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+}
+export interface OrganizationTag {
+  key?: string | undefined;
+  value?: string | undefined;
+  type?: OrganizationTagType | undefined;
+}
+export type OrganizationTagList = OrganizationTag[];
+export interface DescribeTagsForOrganizationResponse {
+  tags?: OrganizationTag[] | undefined;
+  nextToken?: string | undefined;
+}
+export interface DescribeTagsOnboardingStatusRequest {}
+export type TagsOnboardingStatus = "ENABLED" | "DISABLED" | (string & {});
+export interface DescribeTagsOnboardingStatusResponse {
+  status?: TagsOnboardingStatus | undefined;
+}
+export interface DescribeTagsOnboardingStatusForOrganizationRequest {}
+export type TagsOnboardingStatusForOrganization = "ENABLED" | "DISABLED" | (string & {});
+export interface DescribeTagsOnboardingStatusForOrganizationResponse {
+  status?: TagsOnboardingStatusForOrganization | undefined;
+}
 export interface DisableHealthServiceAccessForOrganizationRequest {}
 export interface DisableHealthServiceAccessForOrganizationResponse {}
+export interface DisableTagsRequest {}
+export interface DisableTagsResponse {}
+export interface DisableTagsForOrganizationRequest {}
+export interface DisableTagsForOrganizationResponse {}
 export interface EnableHealthServiceAccessForOrganizationRequest {}
 export interface EnableHealthServiceAccessForOrganizationResponse {}
+export interface EnableTagsRequest {}
+export interface EnableTagsResponse {}
+export interface EnableTagsForOrganizationRequest {}
+export interface EnableTagsForOrganizationResponse {}
+export type ConfigureTagsError = CommonErrors;
+/**
+ * Configures which resource tag keys are tracked by Health for your account. This operation replaces the existing configuration with the specified tag keys. Only configured tag keys will appear in Health event data.
+ */
+export const configureTags: API.OperationMethod<
+  ConfigureTagsRequest & RegionInput,
+  ConfigureTagsResponse,
+  ConfigureTagsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(216, __c27, 0) as any as S.Schema<ConfigureTagsRequest>,
+  output: __S(226, __c28, 2) as any as S.Schema<ConfigureTagsResponse>,
+  errors: [],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ConfigureTags",
+  telemetry: TELEMETRY,
+  span: "ConfigureTags",
+}));
+
+export type ConfigureTagsForOrganizationError = CommonErrors;
+/**
+ * Configures which tag keys are tracked by Health for all accounts in your organization. This operation replaces the existing configuration with the specified tag keys. Only configured tag keys will appear in Health event data across the organization.
+ */
+export const configureTagsForOrganization: API.OperationMethod<
+  ConfigureTagsForOrganizationRequest & RegionInput,
+  ConfigureTagsForOrganizationResponse,
+  ConfigureTagsForOrganizationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(240, __c30, 0) as any as S.Schema<ConfigureTagsForOrganizationRequest>,
+  output: __S(226, __c28, 2) as any as S.Schema<ConfigureTagsForOrganizationResponse>,
+  errors: [],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ConfigureTagsForOrganization",
+  telemetry: TELEMETRY,
+  span: "ConfigureTagsForOrganization",
+}));
+
 export type DescribeAffectedAccountsForOrganizationError = InvalidPaginationToken | CommonErrors;
 /**
  * Returns a list of accounts in the organization from Organizations that are affected by the
@@ -563,9 +750,10 @@ export const describeAffectedAccountsForOrganization: API.PaginatedOperationMeth
   Credentials | HttpClient.HttpClient,
   AccountId
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<DescribeAffectedAccountsForOrganizationRequest>,
-  output: __S(73, __c9, 1) as any as S.Schema<DescribeAffectedAccountsForOrganizationResponse>,
+  input: __S(249, __c31, 1) as any as S.Schema<DescribeAffectedAccountsForOrganizationRequest>,
+  output: __S(252, __c31, 4) as any as S.Schema<DescribeAffectedAccountsForOrganizationResponse>,
   errors: [InvalidPaginationToken],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAffectedAccountsForOrganization",
@@ -604,9 +792,10 @@ export const describeAffectedEntities: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AffectedEntity
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(89, __c11, 1) as any as S.Schema<DescribeAffectedEntitiesRequest>,
-  output: __S(90, __c11, 2) as any as S.Schema<DescribeAffectedEntitiesResponse>,
+  input: __S(281, __c35, 1) as any as S.Schema<DescribeAffectedEntitiesRequest>,
+  output: __S(282, __c35, 2) as any as S.Schema<DescribeAffectedEntitiesResponse>,
   errors: [InvalidPaginationToken, UnsupportedLocale],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAffectedEntities",
@@ -648,9 +837,10 @@ export const describeAffectedEntitiesForOrganization: API.PaginatedOperationMeth
   Credentials | HttpClient.HttpClient,
   AffectedEntity
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(138, __c17, 2) as any as S.Schema<DescribeAffectedEntitiesForOrganizationRequest>,
-  output: __S(139, __c17, 3) as any as S.Schema<DescribeAffectedEntitiesForOrganizationResponse>,
+  input: __S(322, __c40, 2) as any as S.Schema<DescribeAffectedEntitiesForOrganizationRequest>,
+  output: __S(323, __c40, 3) as any as S.Schema<DescribeAffectedEntitiesForOrganizationResponse>,
   errors: [InvalidPaginationToken, UnsupportedLocale],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAffectedEntitiesForOrganization",
@@ -674,9 +864,10 @@ export const describeEntityAggregates: API.OperationMethod<
   DescribeEntityAggregatesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<DescribeEntityAggregatesRequest>,
-  output: __S(155, __c19, 3) as any as S.Schema<DescribeEntityAggregatesResponse>,
+  input: __S(336, __c42, 0) as any as S.Schema<DescribeEntityAggregatesRequest>,
+  output: __S(339, __c42, 3) as any as S.Schema<DescribeEntityAggregatesResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEntityAggregates",
@@ -694,9 +885,10 @@ export const describeEntityAggregatesForOrganization: API.OperationMethod<
   DescribeEntityAggregatesForOrganizationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<DescribeEntityAggregatesForOrganizationRequest>,
-  output: __S(173, __c21, 5) as any as S.Schema<DescribeEntityAggregatesForOrganizationResponse>,
+  input: __S(352, __c44, 0) as any as S.Schema<DescribeEntityAggregatesForOrganizationRequest>,
+  output: __S(357, __c44, 5) as any as S.Schema<DescribeEntityAggregatesForOrganizationResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEntityAggregatesForOrganization",
@@ -719,9 +911,10 @@ export const describeEventAggregates: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   EventAggregate
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<DescribeEventAggregatesRequest>,
-  output: __S(179, __c22, 3) as any as S.Schema<DescribeEventAggregatesResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<DescribeEventAggregatesRequest>,
+  output: __S(3, __c0, 3) as any as S.Schema<DescribeEventAggregatesResponse>,
   errors: [InvalidPaginationToken],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventAggregates",
@@ -754,9 +947,10 @@ export const describeEventDetails: API.OperationMethod<
   DescribeEventDetailsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<DescribeEventDetailsRequest>,
-  output: __S(197, __c24, 5) as any as S.Schema<DescribeEventDetailsResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<DescribeEventDetailsRequest>,
+  output: __S(21, __c2, 5) as any as S.Schema<DescribeEventDetailsResponse>,
   errors: [UnsupportedLocale],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventDetails",
@@ -801,9 +995,10 @@ export const describeEventDetailsForOrganization: API.OperationMethod<
   DescribeEventDetailsForOrganizationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DescribeEventDetailsForOrganizationRequest>,
-  output: __S(3, __c0, 3) as any as S.Schema<DescribeEventDetailsForOrganizationResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<DescribeEventDetailsForOrganizationRequest>,
+  output: __S(43, __c5, 3) as any as S.Schema<DescribeEventDetailsForOrganizationResponse>,
   errors: [UnsupportedLocale],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventDetailsForOrganization",
@@ -839,9 +1034,10 @@ export const describeEvents: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Event
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<DescribeEventsRequest>,
-  output: __S(10, __c1, 2) as any as S.Schema<DescribeEventsResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<DescribeEventsRequest>,
+  output: __S(50, __c6, 2) as any as S.Schema<DescribeEventsResponse>,
   errors: [InvalidPaginationToken, UnsupportedLocale],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEvents",
@@ -891,9 +1087,10 @@ export const describeEventsForOrganization: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   OrganizationEvent
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(17, __c2, 1) as any as S.Schema<DescribeEventsForOrganizationRequest>,
-  output: __S(20, __c2, 4) as any as S.Schema<DescribeEventsForOrganizationResponse>,
+  input: __S(57, __c7, 1) as any as S.Schema<DescribeEventsForOrganizationRequest>,
+  output: __S(60, __c7, 4) as any as S.Schema<DescribeEventsForOrganizationResponse>,
   errors: [InvalidPaginationToken, UnsupportedLocale],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventsForOrganization",
@@ -924,9 +1121,10 @@ export const describeEventTypes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   EventType
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(25, __c3, 1) as any as S.Schema<DescribeEventTypesRequest>,
-  output: __S(28, __c3, 4) as any as S.Schema<DescribeEventTypesResponse>,
+  input: __S(65, __c8, 1) as any as S.Schema<DescribeEventTypesRequest>,
+  output: __S(68, __c8, 4) as any as S.Schema<DescribeEventTypesResponse>,
   errors: [InvalidPaginationToken, UnsupportedLocale],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventTypes",
@@ -952,9 +1150,10 @@ export const describeHealthServiceStatusForOrganization: API.OperationMethod<
   DescribeHealthServiceStatusForOrganizationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<DescribeHealthServiceStatusForOrganizationRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<DescribeHealthServiceStatusForOrganizationResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<DescribeHealthServiceStatusForOrganizationRequest>,
+  output: __S(73, __c9, 1) as any as S.Schema<DescribeHealthServiceStatusForOrganizationResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHealthServiceStatusForOrganization",
@@ -973,9 +1172,10 @@ export const describeServiceLifecycle: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ServiceLifecycle
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(41, __c5, 1) as any as S.Schema<DescribeServiceLifecycleRequest>,
-  output: __S(46, __c5, 6) as any as S.Schema<DescribeServiceLifecycleResponse>,
+  input: __S(81, __c10, 1) as any as S.Schema<DescribeServiceLifecycleRequest>,
+  output: __S(86, __c10, 6) as any as S.Schema<DescribeServiceLifecycleResponse>,
   errors: [InvalidPaginationToken],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeServiceLifecycle",
@@ -988,6 +1188,150 @@ export const describeServiceLifecycle: API.PaginatedOperationMethod<
   telemetry: TELEMETRY,
   span: "DescribeServiceLifecycle",
 })) as any;
+
+export type DescribeTagKeysError = CommonErrors;
+/**
+ * Returns the list of resource tag keys configured for Health event tracking in your account.
+ */
+export const describeTagKeys: API.OperationMethod<
+  DescribeTagKeysRequest & RegionInput,
+  DescribeTagKeysResponse,
+  DescribeTagKeysError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(88, __c11, 0) as any as S.Schema<DescribeTagKeysRequest>,
+  output: __S(96, __c12, 0) as any as S.Schema<DescribeTagKeysResponse>,
+  errors: [],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribeTagKeys",
+  telemetry: TELEMETRY,
+  span: "DescribeTagKeys",
+}));
+
+export type DescribeTagKeysForOrganizationError = CommonErrors;
+/**
+ * Returns the list of tag keys configured for Health event tracking across your organization.
+ */
+export const describeTagKeysForOrganization: API.OperationMethod<
+  DescribeTagKeysForOrganizationRequest & RegionInput,
+  DescribeTagKeysForOrganizationResponse,
+  DescribeTagKeysForOrganizationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(104, __c13, 0) as any as S.Schema<DescribeTagKeysForOrganizationRequest>,
+  output: __S(96, __c12, 0) as any as S.Schema<DescribeTagKeysForOrganizationResponse>,
+  errors: [],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribeTagKeysForOrganization",
+  telemetry: TELEMETRY,
+  span: "DescribeTagKeysForOrganization",
+}));
+
+export type DescribeTagsError = InvalidPaginationToken | CommonErrors;
+/**
+ * Returns the resource tags associated with Health events for your account. Use this operation to retrieve the actual tag key-value pairs attached to affected entities.
+ */
+export const describeTags: API.PaginatedOperationMethod<
+  DescribeTagsRequest & RegionInput,
+  DescribeTagsResponse,
+  DescribeTagsError,
+  Credentials | HttpClient.HttpClient,
+  AccountTag
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(112, __c14, 0) as any as S.Schema<DescribeTagsRequest>,
+  output: __S(122, __c15, 2) as any as S.Schema<DescribeTagsResponse>,
+  errors: [InvalidPaginationToken],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribeTags",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "tags",
+    pageSize: "maxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeTags",
+})) as any;
+
+export type DescribeTagsForOrganizationError = InvalidPaginationToken | CommonErrors;
+/**
+ * Returns the tags associated with Health events across all accounts in your organization.
+ */
+export const describeTagsForOrganization: API.PaginatedOperationMethod<
+  DescribeTagsForOrganizationRequest & RegionInput,
+  DescribeTagsForOrganizationResponse,
+  DescribeTagsForOrganizationError,
+  Credentials | HttpClient.HttpClient,
+  OrganizationTag
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(129, __c16, 1) as any as S.Schema<DescribeTagsForOrganizationRequest>,
+  output: __S(122, __c15, 2) as any as S.Schema<DescribeTagsForOrganizationResponse>,
+  errors: [InvalidPaginationToken],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribeTagsForOrganization",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "tags",
+    pageSize: "maxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeTagsForOrganization",
+})) as any;
+
+export type DescribeTagsOnboardingStatusError = CommonErrors;
+/**
+ * Returns the current onboarding status of the Health tags feature for your account.
+ */
+export const describeTagsOnboardingStatus: API.OperationMethod<
+  DescribeTagsOnboardingStatusRequest & RegionInput,
+  DescribeTagsOnboardingStatusResponse,
+  DescribeTagsOnboardingStatusError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(136, __c17, 0) as any as S.Schema<DescribeTagsOnboardingStatusRequest>,
+  output: __S(144, __c18, 0) as any as S.Schema<DescribeTagsOnboardingStatusResponse>,
+  errors: [],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribeTagsOnboardingStatus",
+  telemetry: TELEMETRY,
+  span: "DescribeTagsOnboardingStatus",
+}));
+
+export type DescribeTagsOnboardingStatusForOrganizationError = CommonErrors;
+/**
+ * Returns the current onboarding status of the Health tags feature for your organization.
+ */
+export const describeTagsOnboardingStatusForOrganization: API.OperationMethod<
+  DescribeTagsOnboardingStatusForOrganizationRequest & RegionInput,
+  DescribeTagsOnboardingStatusForOrganizationResponse,
+  DescribeTagsOnboardingStatusForOrganizationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(152, __c19, 0) as any as S.Schema<DescribeTagsOnboardingStatusForOrganizationRequest>,
+  output: __S(
+    144,
+    __c18,
+    0,
+  ) as any as S.Schema<DescribeTagsOnboardingStatusForOrganizationResponse>,
+  errors: [],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribeTagsOnboardingStatusForOrganization",
+  telemetry: TELEMETRY,
+  span: "DescribeTagsOnboardingStatusForOrganization",
+}));
 
 export type DisableHealthServiceAccessForOrganizationError =
   | ConcurrentModificationException
@@ -1014,14 +1358,57 @@ export const disableHealthServiceAccessForOrganization: API.OperationMethod<
   DisableHealthServiceAccessForOrganizationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<DisableHealthServiceAccessForOrganizationRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<DisableHealthServiceAccessForOrganizationResponse>,
+  input: __S(160, __c20, 0) as any as S.Schema<DisableHealthServiceAccessForOrganizationRequest>,
+  output: __S(168, __c21, 0) as any as S.Schema<DisableHealthServiceAccessForOrganizationResponse>,
   errors: [ConcurrentModificationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableHealthServiceAccessForOrganization",
   telemetry: TELEMETRY,
   span: "DisableHealthServiceAccessForOrganization",
+}));
+
+export type DisableTagsError = CommonErrors;
+/**
+ * Disables the Health tags feature for your account. After disabling, Health events will no longer include resource tag information. Previously configured tag keys are discarded.
+ */
+export const disableTags: API.OperationMethod<
+  DisableTagsRequest & RegionInput,
+  DisableTagsResponse,
+  DisableTagsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(176, __c22, 0) as any as S.Schema<DisableTagsRequest>,
+  output: __S(168, __c21, 0) as any as S.Schema<DisableTagsResponse>,
+  errors: [],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DisableTags",
+  telemetry: TELEMETRY,
+  span: "DisableTags",
+}));
+
+export type DisableTagsForOrganizationError = CommonErrors;
+/**
+ * Disables the Health tags feature for all accounts in your organization.
+ */
+export const disableTagsForOrganization: API.OperationMethod<
+  DisableTagsForOrganizationRequest & RegionInput,
+  DisableTagsForOrganizationResponse,
+  DisableTagsForOrganizationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(184, __c23, 0) as any as S.Schema<DisableTagsForOrganizationRequest>,
+  output: __S(168, __c21, 0) as any as S.Schema<DisableTagsForOrganizationResponse>,
+  errors: [],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DisableTagsForOrganization",
+  telemetry: TELEMETRY,
+  span: "DisableTagsForOrganization",
 }));
 
 export type EnableHealthServiceAccessForOrganizationError =
@@ -1036,9 +1423,9 @@ export type EnableHealthServiceAccessForOrganizationError =
  *
  * To call this operation, you must meet the following requirements:
  *
- * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan from Amazon Web Services Support to use the Health API. If you call
+ * - You must have a Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan from Amazon Web Services Support to use the Health API. If you call
  * the Health API from an Amazon Web Services account that doesn't have a
- * Business, Enterprise On-Ramp, or Enterprise Support plan, you receive a `SubscriptionRequiredException`
+ * Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, you receive a `SubscriptionRequiredException`
  * error.
  *
  * - You must have permission to call this operation from the organization's
@@ -1055,14 +1442,57 @@ export const enableHealthServiceAccessForOrganization: API.OperationMethod<
   EnableHealthServiceAccessForOrganizationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<EnableHealthServiceAccessForOrganizationRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<EnableHealthServiceAccessForOrganizationResponse>,
+  input: __S(192, __c24, 0) as any as S.Schema<EnableHealthServiceAccessForOrganizationRequest>,
+  output: __S(168, __c21, 0) as any as S.Schema<EnableHealthServiceAccessForOrganizationResponse>,
   errors: [ConcurrentModificationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableHealthServiceAccessForOrganization",
   telemetry: TELEMETRY,
   span: "EnableHealthServiceAccessForOrganization",
+}));
+
+export type EnableTagsError = CommonErrors;
+/**
+ * Enables the Health tags feature for your account. Once enabled, Health events will include resource tag information for affected entities. If the feature is already enabled, this operation has no effect.
+ */
+export const enableTags: API.OperationMethod<
+  EnableTagsRequest & RegionInput,
+  EnableTagsResponse,
+  EnableTagsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(200, __c25, 0) as any as S.Schema<EnableTagsRequest>,
+  output: __S(168, __c21, 0) as any as S.Schema<EnableTagsResponse>,
+  errors: [],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "EnableTags",
+  telemetry: TELEMETRY,
+  span: "EnableTags",
+}));
+
+export type EnableTagsForOrganizationError = CommonErrors;
+/**
+ * Enables the Health tags feature for all accounts in your organization. Once enabled, Health events will include resource tag information for affected entities across your organization.
+ */
+export const enableTagsForOrganization: API.OperationMethod<
+  EnableTagsForOrganizationRequest & RegionInput,
+  EnableTagsForOrganizationResponse,
+  EnableTagsForOrganizationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(208, __c26, 0) as any as S.Schema<EnableTagsForOrganizationRequest>,
+  output: __S(168, __c21, 0) as any as S.Schema<EnableTagsForOrganizationResponse>,
+  errors: [],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "EnableTagsForOrganization",
+  telemetry: TELEMETRY,
+  span: "EnableTagsForOrganization",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -1071,28 +1501,22 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          organizationEventDetailFilters: __S(145, __c18, 1),
-          locale: S.optional(S.String),
+          filter: S.optional(__S(8, __c1, 0)),
+          aggregateField: S.String,
+          maxResults: S.optional(S.Number),
+          nextToken: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "DescribeEventDetailsForOrganizationRequest" });
+      ).annotate({ identifier: "DescribeEventAggregatesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          awsAccountId: S.optional(S.String),
-          event: S.optional(__S(208, __c26, 0)),
-          eventDescription: S.optional(__S(200, __c25, 0)),
-          eventMetadata: S.optional(__S(104, __c13, 0)),
-        }),
-      ).annotate({ identifier: "OrganizationEventDetails" });
+        S.Struct({ aggregateValue: S.optional(S.String), count: S.optional(S.Number) }),
+      ).annotate({ identifier: "EventAggregate" });
     case 2:
       return S.Array(__S(1, __c0, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          successfulSet: S.optional(__S(2, __c0, 2)),
-          failedSet: S.optional(__S(147, __c18, 3)),
-        }),
-      ).annotate({ identifier: "DescribeEventDetailsForOrganizationResponse" });
+        S.Struct({ eventAggregates: S.optional(__S(2, __c0, 2)), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "DescribeEventAggregatesResponse" });
   }
 }
 function __c1(j: number): any {
@@ -1100,44 +1524,165 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(__S(184, __c23, 0)),
-          nextToken: S.optional(S.String),
-          maxResults: S.optional(S.Number),
-          locale: S.optional(S.String),
-        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "DescribeEventsRequest" });
-    case 1:
-      return S.Array(__S(208, __c26, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({ events: S.optional(__S(9, __c1, 1)), nextToken: S.optional(S.String) }),
-      ).annotate({ identifier: "DescribeEventsResponse" });
+          actionabilities: S.optional(__S(312, __c39, 0)),
+          eventArns: S.optional(__S(264, __c33, 0)),
+          eventTypeCodes: S.optional(__S(264, __c33, 0)),
+          services: S.optional(__S(264, __c33, 0)),
+          regions: S.optional(__S(264, __c33, 0)),
+          availabilityZones: S.optional(__S(264, __c33, 0)),
+          startTimes: S.optional(__S(288, __c36, 0)),
+          endTimes: S.optional(__S(288, __c36, 0)),
+          lastUpdatedTimes: S.optional(__S(288, __c36, 0)),
+          entityArns: S.optional(__S(264, __c33, 0)),
+          entityValues: S.optional(__S(264, __c33, 0)),
+          eventTypeCategories: S.optional(__S(312, __c39, 0)),
+          tags: S.optional(__S(272, __c34, 0)),
+          eventStatusCodes: S.optional(__S(312, __c39, 0)),
+          personas: S.optional(__S(312, __c39, 0)),
+        }),
+      ).annotate({ identifier: "EventFilter" });
   }
 }
 function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({ eventArns: __S(264, __c33, 0), locale: S.optional(S.String) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeEventDetailsRequest" });
+    case 1:
+      return S.suspend(() =>
         S.Struct({
-          actionabilities: S.optional(__S(112, __c14, 0)),
-          eventTypeCodes: S.optional(__S(80, __c10, 0)),
-          awsAccountIds: S.optional(__S(80, __c10, 0)),
-          services: S.optional(__S(80, __c10, 0)),
-          regions: S.optional(__S(80, __c10, 0)),
-          startTime: S.optional(__S(128, __c16, 0)),
-          endTime: S.optional(__S(128, __c16, 0)),
-          lastUpdatedTime: S.optional(__S(128, __c16, 0)),
-          entityArns: S.optional(__S(80, __c10, 0)),
-          entityValues: S.optional(__S(80, __c10, 0)),
-          eventTypeCategories: S.optional(__S(112, __c14, 0)),
-          eventStatusCodes: S.optional(__S(112, __c14, 0)),
-          personas: S.optional(__S(112, __c14, 0)),
+          event: S.optional(__S(32, __c4, 0)),
+          eventDescription: S.optional(__S(24, __c3, 0)),
+          eventMetadata: S.optional(__S(256, __c32, 0)),
+        }),
+      ).annotate({ identifier: "EventDetails" });
+    case 2:
+      return S.Array(__S(17, __c2, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          eventArn: S.optional(S.String),
+          errorName: S.optional(S.String),
+          errorMessage: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EventDetailsErrorItem" });
+    case 4:
+      return S.Array(__S(19, __c2, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          successfulSet: S.optional(__S(18, __c2, 2)),
+          failedSet: S.optional(__S(20, __c2, 4)),
+        }),
+      ).annotate({ identifier: "DescribeEventDetailsResponse" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ latestDescription: S.optional(S.String) })).annotate({
+        identifier: "EventDescription",
+      });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.optional(S.String),
+          service: S.optional(S.String),
+          eventTypeCode: S.optional(S.String),
+          eventTypeCategory: S.optional(S.String),
+          region: S.optional(S.String),
+          availabilityZone: S.optional(S.String),
+          startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          lastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          statusCode: S.optional(S.String),
+          eventScopeCode: S.optional(S.String),
+          actionability: S.optional(S.String),
+          personas: S.optional(__S(312, __c39, 0)),
+        }),
+      ).annotate({ identifier: "Event" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationEventDetailFilters: __S(329, __c41, 1),
+          locale: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeEventDetailsForOrganizationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          awsAccountId: S.optional(S.String),
+          event: S.optional(__S(32, __c4, 0)),
+          eventDescription: S.optional(__S(24, __c3, 0)),
+          eventMetadata: S.optional(__S(256, __c32, 0)),
+        }),
+      ).annotate({ identifier: "OrganizationEventDetails" });
+    case 2:
+      return S.Array(__S(41, __c5, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          successfulSet: S.optional(__S(42, __c5, 2)),
+          failedSet: S.optional(__S(331, __c41, 3)),
+        }),
+      ).annotate({ identifier: "DescribeEventDetailsForOrganizationResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          filter: S.optional(__S(8, __c1, 0)),
+          nextToken: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+          locale: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeEventsRequest" });
+    case 1:
+      return S.Array(__S(32, __c4, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ events: S.optional(__S(49, __c6, 1)), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "DescribeEventsResponse" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          actionabilities: S.optional(__S(312, __c39, 0)),
+          eventTypeCodes: S.optional(__S(264, __c33, 0)),
+          awsAccountIds: S.optional(__S(264, __c33, 0)),
+          services: S.optional(__S(264, __c33, 0)),
+          regions: S.optional(__S(264, __c33, 0)),
+          startTime: S.optional(__S(296, __c37, 0)),
+          endTime: S.optional(__S(296, __c37, 0)),
+          lastUpdatedTime: S.optional(__S(296, __c37, 0)),
+          entityArns: S.optional(__S(264, __c33, 0)),
+          entityValues: S.optional(__S(264, __c33, 0)),
+          eventTypeCategories: S.optional(__S(312, __c39, 0)),
+          eventStatusCodes: S.optional(__S(312, __c39, 0)),
+          personas: S.optional(__S(312, __c39, 0)),
+          tags: S.optional(__S(272, __c34, 0)),
         }),
       ).annotate({ identifier: "OrganizationEventFilter" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(__S(16, __c2, 0)),
+          filter: S.optional(__S(56, __c7, 0)),
           nextToken: S.optional(S.String),
           maxResults: S.optional(S.Number),
           locale: S.optional(S.String),
@@ -1157,33 +1702,33 @@ function __c2(j: number): any {
           lastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           statusCode: S.optional(S.String),
           actionability: S.optional(S.String),
-          personas: S.optional(__S(112, __c14, 0)),
+          personas: S.optional(__S(312, __c39, 0)),
         }),
       ).annotate({ identifier: "OrganizationEvent" });
     case 3:
-      return S.Array(__S(18, __c2, 2));
+      return S.Array(__S(58, __c7, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({ events: S.optional(__S(19, __c2, 3)), nextToken: S.optional(S.String) }),
+        S.Struct({ events: S.optional(__S(59, __c7, 3)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "DescribeEventsForOrganizationResponse" });
   }
 }
-function __c3(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          eventTypeCodes: S.optional(__S(80, __c10, 0)),
-          services: S.optional(__S(80, __c10, 0)),
-          eventTypeCategories: S.optional(__S(112, __c14, 0)),
-          actionabilities: S.optional(__S(112, __c14, 0)),
-          personas: S.optional(__S(112, __c14, 0)),
+          eventTypeCodes: S.optional(__S(264, __c33, 0)),
+          services: S.optional(__S(264, __c33, 0)),
+          eventTypeCategories: S.optional(__S(312, __c39, 0)),
+          actionabilities: S.optional(__S(312, __c39, 0)),
+          personas: S.optional(__S(312, __c39, 0)),
         }),
       ).annotate({ identifier: "EventTypeFilter" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(__S(24, __c3, 0)),
+          filter: S.optional(__S(64, __c8, 0)),
           locale: S.optional(S.String),
           nextToken: S.optional(S.String),
           maxResults: S.optional(S.Number),
@@ -1196,18 +1741,18 @@ function __c3(j: number): any {
           code: S.optional(S.String),
           category: S.optional(S.String),
           actionability: S.optional(S.String),
-          personas: S.optional(__S(112, __c14, 0)),
+          personas: S.optional(__S(312, __c39, 0)),
         }),
       ).annotate({ identifier: "EventType" });
     case 3:
-      return S.Array(__S(26, __c3, 2));
+      return S.Array(__S(66, __c8, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({ eventTypes: S.optional(__S(27, __c3, 3)), nextToken: S.optional(S.String) }),
+        S.Struct({ eventTypes: S.optional(__S(67, __c8, 3)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "DescribeEventTypesResponse" });
   }
 }
-function __c4(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1221,7 +1766,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "DescribeHealthServiceStatusForOrganizationResponse" });
   }
 }
-function __c5(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ service: S.optional(S.String) })).annotate({
@@ -1230,7 +1775,7 @@ function __c5(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(__S(40, __c5, 0)),
+          filter: S.optional(__S(80, __c10, 0)),
           nextToken: S.optional(S.String),
           maxResults: S.optional(S.Number),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -1240,13 +1785,13 @@ function __c5(j: number): any {
         S.Struct({
           lifecycleEventType: S.optional(S.String),
           date: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          regions: S.optional(__S(80, __c10, 0)),
-          impactRisks: S.optional(__S(80, __c10, 0)),
+          regions: S.optional(__S(264, __c33, 0)),
+          impactRisks: S.optional(__S(264, __c33, 0)),
           description: S.optional(S.String),
         }),
       ).annotate({ identifier: "LifecycleEvent" });
     case 3:
-      return S.Array(__S(42, __c5, 2));
+      return S.Array(__S(82, __c10, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -1254,21 +1799,121 @@ function __c5(j: number): any {
           version: S.optional(S.String),
           title: S.optional(S.String),
           recommendedVersion: S.optional(S.String),
-          lifecycleEvents: S.optional(__S(43, __c5, 3)),
+          lifecycleEvents: S.optional(__S(83, __c10, 3)),
         }),
       ).annotate({ identifier: "ServiceLifecycle" });
     case 5:
-      return S.Array(__S(44, __c5, 4));
+      return S.Array(__S(84, __c10, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          serviceLifecycles: S.optional(__S(45, __c5, 5)),
+          serviceLifecycles: S.optional(__S(85, __c10, 5)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeServiceLifecycleResponse" });
   }
 }
-function __c6(j: number): any {
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeTagKeysRequest" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ keys: S.optional(__S(233, __c29, 1)) })).annotate({
+        identifier: "DescribeTagKeysResponse",
+      });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeTagKeysForOrganizationRequest" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ nextToken: S.optional(S.String), maxResults: S.optional(S.Number) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeTagsRequest" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.optional(S.String),
+          value: S.optional(S.String),
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AccountTag" });
+    case 1:
+      return S.Array(__S(120, __c15, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ tags: S.optional(__S(121, __c15, 1)), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "DescribeTagsResponse" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ tagTypes: S.optional(__S(312, __c39, 0)) })).annotate({
+        identifier: "DescribeTagsForOrganizationFilter",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          filter: S.optional(__S(128, __c16, 0)),
+          nextToken: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeTagsForOrganizationRequest" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeTagsOnboardingStatusRequest" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ status: S.optional(S.String) })).annotate({
+        identifier: "DescribeTagsOnboardingStatusResponse",
+      });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeTagsOnboardingStatusForOrganizationRequest" });
+  }
+}
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1278,7 +1923,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "DisableHealthServiceAccessForOrganizationRequest" });
   }
 }
-function __c7(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -1286,7 +1931,27 @@ function __c7(j: number): any {
       });
   }
 }
-function __c8(j: number): any {
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DisableTagsRequest" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DisableTagsForOrganizationRequest" });
+  }
+}
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1296,49 +1961,141 @@ function __c8(j: number): any {
       ).annotate({ identifier: "EnableHealthServiceAccessForOrganizationRequest" });
   }
 }
-function __c9(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "EnableTagsRequest" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "EnableTagsForOrganizationRequest" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ tagKeys: __S(225, __c28, 1) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ConfigureTagsRequest" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ key: S.String, enabledForEventBridge: S.optional(S.Boolean) }),
+      ).annotate({ identifier: "ConfigureTagsTagKey" });
+    case 1:
+      return S.Array(__S(224, __c28, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ configuredTagKeys: S.optional(__S(233, __c29, 1)) }),
+      ).annotate({ identifier: "ConfigureTagsResponse" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.optional(S.String),
+          enabledForEventBridge: S.optional(S.Boolean),
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ResourceTagKey" });
+    case 1:
+      return S.Array(__S(232, __c29, 0));
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ tagKeys: __S(225, __c28, 1) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ConfigureTagsForOrganizationRequest" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ eventArn: S.optional(S.String), tags: S.optional(__S(272, __c34, 0)) }),
+      ).annotate({ identifier: "AffectedAccountFilter" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           eventArn: S.String,
           nextToken: S.optional(S.String),
           maxResults: S.optional(S.Number),
+          filter: S.optional(__S(248, __c31, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeAffectedAccountsForOrganizationRequest" });
-    case 1:
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ accountId: S.optional(S.String), accountTags: S.optional(__S(256, __c32, 0)) }),
+      ).annotate({ identifier: "AccountEntity" });
+    case 3:
+      return S.Array(__S(250, __c31, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          affectedAccounts: S.optional(__S(80, __c10, 0)),
+          affectedAccounts: S.optional(__S(264, __c33, 0)),
+          affectedAccountEntities: S.optional(__S(251, __c31, 3)),
           eventScopeCode: S.optional(S.String),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAffectedAccountsForOrganizationResponse" });
   }
 }
-function __c10(j: number): any {
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+  }
+}
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c11(j: number): any {
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ __S(264, __c33, 0).pipe(S.optional));
+  }
+}
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          eventArns: __S(80, __c10, 0),
-          entityArns: S.optional(__S(80, __c10, 0)),
-          entityValues: S.optional(__S(80, __c10, 0)),
-          lastUpdatedTimes: S.optional(__S(120, __c15, 0)),
-          tags: S.optional(__S(121, __c15, 1)),
-          statusCodes: S.optional(__S(112, __c14, 0)),
+          eventArns: __S(264, __c33, 0),
+          entityArns: S.optional(__S(264, __c33, 0)),
+          entityValues: S.optional(__S(264, __c33, 0)),
+          lastUpdatedTimes: S.optional(__S(288, __c36, 0)),
+          tags: S.optional(__S(272, __c34, 0)),
+          statusCodes: S.optional(__S(312, __c39, 0)),
         }),
       ).annotate({ identifier: "EntityFilter" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          filter: __S(88, __c11, 0),
+          filter: __S(280, __c35, 0),
           locale: S.optional(S.String),
           nextToken: S.optional(S.String),
           maxResults: S.optional(S.Number),
@@ -1346,11 +2103,28 @@ function __c11(j: number): any {
       ).annotate({ identifier: "DescribeAffectedEntitiesRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ entities: S.optional(__S(97, __c12, 1)), nextToken: S.optional(S.String) }),
+        S.Struct({ entities: S.optional(__S(305, __c38, 1)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "DescribeAffectedEntitiesResponse" });
   }
 }
-function __c12(j: number): any {
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(296, __c37, 0));
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          from: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          to: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "DateTimeRange" });
+  }
+}
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1362,85 +2136,62 @@ function __c12(j: number): any {
           awsAccountId: S.optional(S.String),
           lastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           statusCode: S.optional(S.String),
-          tags: S.optional(__S(104, __c13, 0)),
-          entityMetadata: S.optional(__S(104, __c13, 0)),
+          resourceTags: S.optional(__S(256, __c32, 0)),
+          accountTags: S.optional(__S(256, __c32, 0)),
+          entityMetadata: S.optional(__S(256, __c32, 0)),
         }),
       ).annotate({ identifier: "AffectedEntity" });
     case 1:
-      return S.Array(__S(96, __c12, 0));
+      return S.Array(__S(304, __c38, 0));
   }
 }
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
-  }
-}
-function __c14(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(128, __c16, 0));
-    case 1:
-      return S.Array(__S(104, __c13, 0));
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          from: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          to: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-        }),
-      ).annotate({ identifier: "DateTimeRange" });
-  }
-}
-function __c17(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           eventArn: S.String,
           awsAccountId: S.optional(S.String),
-          statusCodes: S.optional(__S(112, __c14, 0)),
+          statusCodes: S.optional(__S(312, __c39, 0)),
+          tags: S.optional(__S(272, __c34, 0)),
         }),
       ).annotate({ identifier: "EntityAccountFilter" });
     case 1:
-      return S.Array(__S(136, __c17, 0));
+      return S.Array(__S(320, __c40, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          organizationEntityFilters: S.optional(__S(145, __c18, 1)),
+          organizationEntityFilters: S.optional(__S(329, __c41, 1)),
           locale: S.optional(S.String),
           nextToken: S.optional(S.String),
           maxResults: S.optional(S.Number),
-          organizationEntityAccountFilters: S.optional(__S(137, __c17, 1)),
+          organizationEntityAccountFilters: S.optional(__S(321, __c40, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeAffectedEntitiesForOrganizationRequest" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          entities: S.optional(__S(97, __c12, 1)),
-          failedSet: S.optional(__S(147, __c18, 3)),
+          entities: S.optional(__S(305, __c38, 1)),
+          failedSet: S.optional(__S(331, __c41, 3)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAffectedEntitiesForOrganizationResponse" });
   }
 }
-function __c18(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ eventArn: S.String, awsAccountId: S.optional(S.String) }),
       ).annotate({ identifier: "EventAccountFilter" });
     case 1:
-      return S.Array(__S(144, __c18, 0));
+      return S.Array(__S(328, __c41, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1451,46 +2202,52 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "OrganizationAffectedEntitiesErrorItem" });
     case 3:
-      return S.Array(__S(146, __c18, 2));
+      return S.Array(__S(330, __c41, 2));
   }
 }
-function __c19(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ eventArns: S.optional(__S(80, __c10, 0)) }).pipe(
-          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-        ),
+        S.Struct({
+          eventArns: S.optional(__S(264, __c33, 0)),
+          filter: S.optional(__S(344, __c43, 0)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeEntityAggregatesRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           eventArn: S.optional(S.String),
           count: S.optional(S.Number),
-          statuses: S.optional(__S(160, __c20, 0)),
+          statuses: S.optional(__S(345, __c43, 1)),
         }),
       ).annotate({ identifier: "EntityAggregate" });
     case 2:
-      return S.Array(__S(153, __c19, 1));
+      return S.Array(__S(337, __c42, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ entityAggregates: S.optional(__S(154, __c19, 2)) }),
+        S.Struct({ entityAggregates: S.optional(__S(338, __c42, 2)) }),
       ).annotate({ identifier: "DescribeEntityAggregatesResponse" });
   }
 }
-function __c20(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(272, __c34, 0)) })).annotate({
+        identifier: "EntityAggregateFilter",
+      });
+    case 1:
       return S.Record(S.String, /*@__PURE__*/ S.Number.pipe(S.optional));
   }
 }
-function __c21(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          eventArns: __S(80, __c10, 0),
-          awsAccountIds: S.optional(__S(80, __c10, 0)),
+          eventArns: __S(264, __c33, 0),
+          awsAccountIds: S.optional(__S(264, __c33, 0)),
+          filter: S.optional(__S(344, __c43, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeEntityAggregatesForOrganizationRequest" });
     case 1:
@@ -1498,143 +2255,26 @@ function __c21(j: number): any {
         S.Struct({
           accountId: S.optional(S.String),
           count: S.optional(S.Number),
-          statuses: S.optional(__S(160, __c20, 0)),
+          statuses: S.optional(__S(345, __c43, 1)),
         }),
       ).annotate({ identifier: "AccountEntityAggregate" });
     case 2:
-      return S.Array(__S(169, __c21, 1));
+      return S.Array(__S(353, __c44, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           eventArn: S.optional(S.String),
           count: S.optional(S.Number),
-          statuses: S.optional(__S(160, __c20, 0)),
-          accounts: S.optional(__S(170, __c21, 2)),
+          statuses: S.optional(__S(345, __c43, 1)),
+          accounts: S.optional(__S(354, __c44, 2)),
         }),
       ).annotate({ identifier: "OrganizationEntityAggregate" });
     case 4:
-      return S.Array(__S(171, __c21, 3));
+      return S.Array(__S(355, __c44, 3));
     case 5:
       return S.suspend(() =>
-        S.Struct({ organizationEntityAggregates: S.optional(__S(172, __c21, 4)) }),
+        S.Struct({ organizationEntityAggregates: S.optional(__S(356, __c44, 4)) }),
       ).annotate({ identifier: "DescribeEntityAggregatesForOrganizationResponse" });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          filter: S.optional(__S(184, __c23, 0)),
-          aggregateField: S.String,
-          maxResults: S.optional(S.Number),
-          nextToken: S.optional(S.String),
-        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "DescribeEventAggregatesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({ aggregateValue: S.optional(S.String), count: S.optional(S.Number) }),
-      ).annotate({ identifier: "EventAggregate" });
-    case 2:
-      return S.Array(__S(177, __c22, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          eventAggregates: S.optional(__S(178, __c22, 2)),
-          nextToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DescribeEventAggregatesResponse" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          actionabilities: S.optional(__S(112, __c14, 0)),
-          eventArns: S.optional(__S(80, __c10, 0)),
-          eventTypeCodes: S.optional(__S(80, __c10, 0)),
-          services: S.optional(__S(80, __c10, 0)),
-          regions: S.optional(__S(80, __c10, 0)),
-          availabilityZones: S.optional(__S(80, __c10, 0)),
-          startTimes: S.optional(__S(120, __c15, 0)),
-          endTimes: S.optional(__S(120, __c15, 0)),
-          lastUpdatedTimes: S.optional(__S(120, __c15, 0)),
-          entityArns: S.optional(__S(80, __c10, 0)),
-          entityValues: S.optional(__S(80, __c10, 0)),
-          eventTypeCategories: S.optional(__S(112, __c14, 0)),
-          tags: S.optional(__S(121, __c15, 1)),
-          eventStatusCodes: S.optional(__S(112, __c14, 0)),
-          personas: S.optional(__S(112, __c14, 0)),
-        }),
-      ).annotate({ identifier: "EventFilter" });
-  }
-}
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ eventArns: __S(80, __c10, 0), locale: S.optional(S.String) }).pipe(
-          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-        ),
-      ).annotate({ identifier: "DescribeEventDetailsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          event: S.optional(__S(208, __c26, 0)),
-          eventDescription: S.optional(__S(200, __c25, 0)),
-          eventMetadata: S.optional(__S(104, __c13, 0)),
-        }),
-      ).annotate({ identifier: "EventDetails" });
-    case 2:
-      return S.Array(__S(193, __c24, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          eventArn: S.optional(S.String),
-          errorName: S.optional(S.String),
-          errorMessage: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EventDetailsErrorItem" });
-    case 4:
-      return S.Array(__S(195, __c24, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          successfulSet: S.optional(__S(194, __c24, 2)),
-          failedSet: S.optional(__S(196, __c24, 4)),
-        }),
-      ).annotate({ identifier: "DescribeEventDetailsResponse" });
-  }
-}
-function __c25(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ latestDescription: S.optional(S.String) })).annotate({
-        identifier: "EventDescription",
-      });
-  }
-}
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          arn: S.optional(S.String),
-          service: S.optional(S.String),
-          eventTypeCode: S.optional(S.String),
-          eventTypeCategory: S.optional(S.String),
-          region: S.optional(S.String),
-          availabilityZone: S.optional(S.String),
-          startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          lastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          statusCode: S.optional(S.String),
-          eventScopeCode: S.optional(S.String),
-          actionability: S.optional(S.String),
-          personas: S.optional(__S(112, __c14, 0)),
-        }),
-      ).annotate({ identifier: "Event" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

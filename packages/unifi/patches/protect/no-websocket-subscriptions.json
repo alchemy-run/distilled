@@ -1,0 +1,17 @@
+{
+  "description": "Drop the three `/v1/subscribe/*` operations. The spec documents them as `GET` operations answering `200 application/json`, but they are WebSocket subscriptions (\"A WebSocket subscription that broadcasts Protect events\"): the server upgrades the connection and streams messages, so a REST call can never read the declared body. A generated REST method would fail at runtime, so none is emitted. Source: the operation summaries and descriptions in the published Protect 7.4.102 OpenAPI document. The service's `operations` list drops the removed shapes itself (finalizeConvert's syncServiceOperations), so no patch addresses it by position.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.ui.protect#GetV1SubscribeDevices"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.ui.protect#GetV1SubscribeEvents"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.ui.protect#GetV1SubscribeUpdates"
+    }
+  ]
+}

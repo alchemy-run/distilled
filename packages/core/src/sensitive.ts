@@ -94,30 +94,64 @@ const isSecretValue = (type: AST.AST, v: unknown, whole: boolean): boolean =>
     ? v !== null && v !== undefined
     : typeof v === "string" || (v !== null && resolveNode(type)._tag === "Unknown");
 
+/** The member names of a union's object arms, once per union. */
+const armNames = /*@__PURE__*/ new WeakMap<AST.AST, ReadonlySet<string>>();
+/** A struct's members by name, once per struct. */
+const membersByName = /*@__PURE__*/ new WeakMap<
+  AST.AST,
+  ReadonlyMap<string, AST.PropertySignature>
+>();
+
+const byNameOf = (
+  node: AST.AST,
+  props: ReadonlyArray<AST.PropertySignature>,
+): ReadonlyMap<string, AST.PropertySignature> => {
+  const byName = new Map(props.map((p) => [String(p.name), p]));
+  membersByName.set(node, byName);
+  return byName;
+};
+
+/**
+ * `wrap`, except that a value whose type holds no sensitive value is
+ * returned as is: walking it would only copy it.
+ */
+const wrapHolding = (
+  ast: AST.AST,
+  value: unknown,
+  whole: boolean,
+  siblingNames?: ReadonlySet<string>,
+): unknown => (holdsSensitive(ast) ? wrap(ast, value, whole, siblingNames) : value);
+
 const wrap = (
   ast: AST.AST,
   value: unknown,
   whole: boolean,
   siblingNames?: ReadonlySet<string>,
 ): unknown => {
-  if (
-    value === null ||
-    typeof value !== "object" ||
-    isOpaqueValue(value) ||
-    Redacted.isRedacted(value)
-  ) {
+  if (Redacted.isRedacted(value)) return value;
+  // The value's own type is sensitive: a response whose whole body is the
+  // secret (a bare-payload root).
+  if (isSensitive(ast) && isSecretValue(ast, value, whole)) return Redacted.make(value);
+  if (value === null || typeof value !== "object" || isOpaqueValue(value)) {
     return value;
   }
   const node = resolveNode(ast);
   if (node._tag === "Union") {
     // Redact every possible sensitive member, including in partial responses.
-    const named = new Set(
-      node.types.flatMap((arm) => {
-        const armNode = resolveNode(arm);
-        return armNode._tag === "Objects" ? getProps(armNode).map((p) => String(p.name)) : [];
-      }),
+    let named = armNames.get(node);
+    if (named === undefined) {
+      named = new Set(
+        node.types.flatMap((arm) => {
+          const armNode = resolveNode(arm);
+          return armNode._tag === "Objects" ? getProps(armNode).map((p) => String(p.name)) : [];
+        }),
+      );
+      armNames.set(node, named);
+    }
+    return node.types.reduce<unknown>(
+      (redacted, arm) => wrapHolding(arm, redacted, whole, named),
+      value,
     );
-    return node.types.reduce<unknown>((redacted, arm) => wrap(arm, redacted, whole, named), value);
   }
   if (node._tag === "Arrays") {
     if (!Array.isArray(value)) return value;
@@ -127,14 +161,14 @@ const wrap = (
     return value.map((v) =>
       sensitive && isSecretValue(elem, v, whole) && !Redacted.isRedacted(v)
         ? Redacted.make(v)
-        : wrap(elem, v, whole),
+        : wrapHolding(elem, v, whole),
     );
   }
   if (node._tag === "Objects" && !Array.isArray(value)) {
     const props = getProps(node);
     const mapValue = node.indexSignatures?.[0]?.type;
     if (props.length === 0 && mapValue === undefined) return value;
-    const byName = new Map(props.map((p) => [String(p.name), p]));
+    const byName = membersByName.get(node) ?? byNameOf(node, props);
     // fromEntries keeps a `__proto__` key an entry instead of the prototype.
     return Object.fromEntries(
       Object.entries(value as Record<string, unknown>).flatMap<[string, unknown]>(([k, v]) => {
@@ -146,7 +180,7 @@ const wrap = (
         if (isSensitive(type) && isSecretValue(type, v, whole)) {
           return [[k, Redacted.isRedacted(v) ? v : Redacted.make(v)]];
         }
-        return [[k, wrap(type, v, whole)]];
+        return [[k, wrapHolding(type, v, whole)]];
       }),
     );
   }

@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { WhopServiceErrors } from "../errors.ts";
 import { paginateRelay } from "../pagination.ts";
 import { WhopProtocol, type WhopOpError, type WhopOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -2954,6 +2955,7 @@ export const createAccount: API.OperationMethod<
   input: __S(288, __c9, 0) as any as S.Schema<CreateAccountRequest>,
   output: __S(465, __c14, 17) as any as S.Schema<Account>,
   errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2971,6 +2973,7 @@ export const deleteAccount: API.OperationMethod<
   input: __S(544, __c17, 0) as any as S.Schema<DeleteAccountRequest>,
   output: __S(545, __c17, 1) as any as S.Schema<DeleteAccountResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2988,6 +2991,7 @@ export const formCompany: API.OperationMethod<
   input: __S(580, __c18, 4) as any as S.Schema<FormCompanyRequest>,
   output: __S(581, __c18, 5) as any as S.Schema<FormCompanyResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3005,6 +3009,7 @@ export const getAccount: API.OperationMethod<
   input: __S(608, __c19, 0) as any as S.Schema<GetAccountRequest>,
   output: __S(465, __c14, 17) as any as S.Schema<Account>,
   errors: [Forbidden, NotFound],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3022,6 +3027,7 @@ export const getAccountFees: API.OperationMethod<
   input: __S(640, __c20, 0) as any as S.Schema<GetAccountFeesRequest>,
   output: __S(681, __c21, 9) as any as S.Schema<AccountFees>,
   errors: [NotFound],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3039,6 +3045,7 @@ export const getAccountPreferences: API.OperationMethod<
   input: __S(704, __c22, 0) as any as S.Schema<GetAccountPreferencesRequest>,
   output: __S(744, __c23, 8) as any as S.Schema<GetAccountPreferencesResponse>,
   errors: [NotFound],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3056,6 +3063,7 @@ export const listAccountReserves: API.OperationMethod<
   input: __S(32, __c1, 0) as any as S.Schema<ListAccountReservesRequest>,
   output: __S(37, __c1, 5) as any as S.Schema<ListAccountReservesResponse>,
   errors: [Forbidden],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3075,6 +3083,7 @@ export const listAccounts: API.PaginatedOperationMethod<
     input: __S(64, __c2, 0) as any as S.Schema<ListAccountsRequest>,
     output: __S(67, __c2, 3) as any as S.Schema<ListAccountsResponse>,
     errors: [BadRequest, Forbidden],
+    serviceErrors: WhopServiceErrors,
     protocol: WhopProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3107,6 +3116,7 @@ export const retryAccountAdsPayment: API.OperationMethod<
   input: __S(96, __c3, 0) as any as S.Schema<RetryAccountAdsPaymentRequest>,
   output: __S(97, __c3, 1) as any as S.Schema<RetryAccountAdsPaymentResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3124,6 +3134,7 @@ export const suspendAccount: API.OperationMethod<
   input: __S(128, __c4, 0) as any as S.Schema<SuspendAccountRequest>,
   output: __S(465, __c14, 17) as any as S.Schema<Account>,
   errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3141,6 +3152,7 @@ export const transferAccountOwnership: API.OperationMethod<
   input: __S(160, __c5, 0) as any as S.Schema<TransferAccountOwnershipRequest>,
   output: __S(161, __c5, 1) as any as S.Schema<TransferAccountOwnershipResponse>,
   errors: [Forbidden, Conflict],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3158,6 +3170,7 @@ export const updateAccount: API.OperationMethod<
   input: __S(198, __c6, 6) as any as S.Schema<UpdateAccountRequest>,
   output: __S(465, __c14, 17) as any as S.Schema<Account>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3175,6 +3188,7 @@ export const updateAccountFees: API.OperationMethod<
   input: __S(232, __c7, 8) as any as S.Schema<UpdateAccountFeesRequest>,
   output: __S(681, __c21, 9) as any as S.Schema<AccountFees>,
   errors: [BadRequest, Forbidden],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3197,6 +3211,7 @@ export const updateAccountPreferences: API.OperationMethod<
   input: __S(261, __c8, 5) as any as S.Schema<UpdateAccountPreferencesRequest>,
   output: __S(744, __c23, 8) as any as S.Schema<UpdateAccountPreferencesResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3306,7 +3321,9 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/accounts/{id}/retry_ads_payment", code: 200 })),
       ).annotate({ identifier: "RetryAccountAdsPaymentRequest" });
     case 1:
@@ -3324,7 +3341,9 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/accounts/{id}/suspend", code: 200 })),
       ).annotate({ identifier: "SuspendAccountRequest" });
   }
@@ -3338,7 +3357,9 @@ function __c5(j: number): any {
           as_partner: S.optional(S.Boolean),
           identifier: S.String,
           message: S.optional(S.String),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/accounts/{id}/transfer_ownership", code: 200 })),
       ).annotate({ identifier: "TransferAccountOwnershipRequest" });
     case 1:
@@ -3600,7 +3621,9 @@ function __c9(j: number): any {
           send_customer_emails: S.optional(S.Boolean),
           title: S.optional(S.String),
           website: S.optional(S.NullOr(S.String)),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/accounts", code: 200 })),
       ).annotate({ identifier: "CreateAccountRequest" });
   }
@@ -4210,7 +4233,9 @@ function __c18(j: number): any {
           industry_type: S.String,
           share_structure: S.optional(__S(579, __c18, 3)),
           use_registered_agent: S.optional(S.Boolean),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/accounts/{id}/form_company", code: 200 })),
       ).annotate({ identifier: "FormCompanyRequest" });
     case 5:

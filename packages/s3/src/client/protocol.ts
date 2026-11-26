@@ -1,5 +1,6 @@
 import { InvalidInput } from "@distilled.cloud/core/protocol-http";
 import { failUnlessLenient } from "@distilled.cloud/core/response-validation";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import { ParseError } from "../errors.ts";
 import { readStreamAsText } from "../util/stream.ts";
@@ -24,7 +25,7 @@ export interface DeserializedError {
 }
 
 /** What {@link ProtocolHandler.serialize} returns. */
-export type Serialized = Request | InvalidInput | Effect.Effect<Request>;
+export type Serialized = Request | InvalidInput | Effect.Effect<Request, SdkError>;
 
 export interface ProtocolHandler {
   /**
@@ -32,7 +33,8 @@ export interface ProtocolHandler {
    * a path label that would address another resource, and throws the
    * `ParseError` an input that does not match the schema fails with. A
    * request whose body needs a lazily loaded module (an input event stream)
-   * comes back as an effect that loads it.
+   * comes back as an effect that loads it, and fails with `SdkError` when
+   * the module does not load.
    */
   readonly serialize: (input: unknown) => Serialized;
 
@@ -59,9 +61,9 @@ export interface ProtocolHandler {
   deserializeError(response: Response): Effect.Effect<DeserializedError, ParseError>;
 }
 
-/** A handler whose implementation loads on first use. */
+/** A handler whose implementation loads on first use; a failed load is an `SdkError`. */
 export interface LazyHandler {
-  readonly ready: Effect.Effect<ProtocolHandler>;
+  readonly ready: Effect.Effect<ProtocolHandler, SdkError>;
 }
 
 /** A response whose body has been read as text. */
@@ -74,10 +76,12 @@ export interface TextResponse extends Response {
  * JSON). Strict mode fails with `error`; lenient mode returns `asRead`.
  */
 export class Unreadable {
-  constructor(
-    readonly error: ParseError,
-    readonly asRead: unknown,
-  ) {}
+  readonly error: ParseError;
+  readonly asRead: unknown;
+  constructor(error: ParseError, asRead: unknown) {
+    this.error = error;
+    this.asRead = asRead;
+  }
 }
 
 /**
@@ -95,7 +99,8 @@ export type ProtocolImpl = (operation: Operation) => ProtocolHandler;
 /** The loaded handler. */
 export const loadHandler = (
   handler: ProtocolHandler | LazyHandler,
-): Effect.Effect<ProtocolHandler> => ("ready" in handler ? handler.ready : Effect.succeed(handler));
+): Effect.Effect<ProtocolHandler, SdkError> =>
+  "ready" in handler ? handler.ready : Effect.succeed(handler);
 
 /**
  * The typed failure for what a serializer threw: a `ParseError` as is,
@@ -120,7 +125,7 @@ export const serializeFailure = (
  */
 export const serializeEffect =
   (serialize: (input: unknown) => Serialized) =>
-  (input: unknown): Effect.Effect<Request, ParseError | InvalidInput> => {
+  (input: unknown): Effect.Effect<Request, ParseError | InvalidInput | SdkError> => {
     try {
       const request = serialize(input);
       return request instanceof InvalidInput

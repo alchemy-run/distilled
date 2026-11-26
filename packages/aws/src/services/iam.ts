@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -729,6 +730,7 @@ export type IdType = string;
 export type PolicyDocumentType = string;
 export type RoleDescriptionType = string;
 export type RoleMaxSessionDurationType = number;
+export type MaxSigninSessionDurationType = number;
 export type PermissionsBoundaryAttachmentType = "PermissionsBoundaryPolicy" | (string & {});
 export interface AttachedPermissionsBoundary {
   PermissionsBoundaryType?: PermissionsBoundaryAttachmentType | undefined;
@@ -758,6 +760,7 @@ export interface Role {
   AssumeRolePolicyDocument?: string | undefined;
   Description?: string | undefined;
   MaxSessionDuration?: number | undefined;
+  MaxSigninSessionDuration?: number | undefined;
   PermissionsBoundary?: AttachedPermissionsBoundary | undefined;
   Tags?: Tag[] | undefined;
   RoleLastUsed?: RoleLastUsed | undefined;
@@ -905,11 +908,13 @@ export interface CreateLoginProfileRequest {
   UserName?: string | undefined;
   Password?: string | redacted.Redacted<string> | undefined;
   PasswordResetRequired?: boolean | undefined;
+  MaxSigninSessionDuration?: number | undefined;
 }
 export interface LoginProfile {
   UserName: string;
   CreateDate: Date;
   PasswordResetRequired?: boolean | undefined;
+  MaxSigninSessionDuration?: number | undefined;
 }
 export interface CreateLoginProfileResponse {
   LoginProfile: LoginProfile;
@@ -918,11 +923,28 @@ export type OpenIDConnectProviderUrlType = string;
 export type ClientIDListType = string[];
 export type ThumbprintType = string;
 export type ThumbprintListType = string[];
+export type ContextProviderSourceKeyType = string;
+export type ContextProviderTargetKeyType = string;
+export interface ContextProviderKeyDefinition {
+  SourceKey: string;
+  TargetKey?: string | undefined;
+}
+export type KeyDefinitionListType = ContextProviderKeyDefinition[];
+export type SubjectTypeValueType = string;
+export interface ContextProvider {
+  KeyDefinitionList?: ContextProviderKeyDefinition[] | undefined;
+  SubjectSourceKey: string;
+  SubjectTypeValue?: string | undefined;
+  SubjectTypeSourceKey?: string | undefined;
+}
+export type IdentityCenterInstanceArnType = string;
 export interface CreateOpenIDConnectProviderRequest {
   Url: string;
   ClientIDList?: string[] | undefined;
   ThumbprintList?: string[] | undefined;
   Tags?: Tag[] | undefined;
+  ContextProvider?: ContextProvider | undefined;
+  IdentityCenterInstanceArn?: string | undefined;
 }
 export interface CreateOpenIDConnectProviderResponse {
   OpenIDConnectProviderArn?: string | undefined;
@@ -977,6 +999,7 @@ export interface CreateRoleRequest {
   AssumeRolePolicyDocument: string;
   Description?: string | undefined;
   MaxSessionDuration?: number | undefined;
+  MaxSigninSessionDuration?: number | undefined;
   PermissionsBoundary?: string | undefined;
   Tags?: Tag[] | undefined;
 }
@@ -993,6 +1016,8 @@ export interface CreateSAMLProviderRequest {
   Tags?: Tag[] | undefined;
   AssertionEncryptionMode?: AssertionEncryptionModeType | undefined;
   AddPrivateKey?: string | redacted.Redacted<string> | undefined;
+  ContextProvider?: ContextProvider | undefined;
+  IdentityCenterInstanceArn?: string | undefined;
 }
 export interface CreateSAMLProviderResponse {
   SAMLProviderArn?: string | undefined;
@@ -1569,6 +1594,9 @@ export interface GetOpenIDConnectProviderResponse {
   ThumbprintList?: string[] | undefined;
   CreateDate?: Date | undefined;
   Tags?: Tag[] | undefined;
+  ContextProvider?: ContextProvider | undefined;
+  IdentityCenterInstanceArn?: string | undefined;
+  IdentityStoreArn?: string | undefined;
 }
 export type SortKeyType =
   | "SERVICE_NAMESPACE_ASCENDING"
@@ -1721,6 +1749,13 @@ export interface GetSAMLProviderRequest {
   SAMLProviderArn: string;
 }
 export type PrivateKeyIdType = string;
+export type SAMLIssuerURLType = string;
+export type KeyHashListType = string[];
+export interface SAMLKeyHashEntry {
+  IssuerURL?: string | undefined;
+  KeyHashes?: string[] | undefined;
+}
+export type SAMLKeyHashListType = SAMLKeyHashEntry[];
 export interface SAMLPrivateKey {
   KeyId?: string | undefined;
   Timestamp?: Date | undefined;
@@ -1729,11 +1764,15 @@ export type PrivateKeyList = SAMLPrivateKey[];
 export interface GetSAMLProviderResponse {
   SAMLProviderUUID?: string | undefined;
   SAMLMetadataDocument?: string | undefined;
+  ContextProvider?: ContextProvider | undefined;
+  SAMLKeyHashes?: SAMLKeyHashEntry[] | undefined;
   CreateDate?: Date | undefined;
   ValidUntil?: Date | undefined;
   Tags?: Tag[] | undefined;
   AssertionEncryptionMode?: AssertionEncryptionModeType | undefined;
   PrivateKeyList?: SAMLPrivateKey[] | undefined;
+  IdentityCenterInstanceArn?: string | undefined;
+  IdentityStoreArn?: string | undefined;
 }
 export interface GetServerCertificateRequest {
   ServerCertificateName: string;
@@ -2070,6 +2109,7 @@ export interface ListMFADeviceTagsResponse {
 export interface ListOpenIDConnectProvidersRequest {}
 export interface OpenIDConnectProviderListEntry {
   Arn?: string | undefined;
+  IsTrustedIdentityPropagationEnabled?: boolean | undefined;
 }
 export type OpenIDConnectProviderListType = OpenIDConnectProviderListEntry[];
 export interface ListOpenIDConnectProvidersResponse {
@@ -2187,6 +2227,7 @@ export interface SAMLProviderListEntry {
   Arn?: string | undefined;
   ValidUntil?: Date | undefined;
   CreateDate?: Date | undefined;
+  IsTrustedIdentityPropagationEnabled?: boolean | undefined;
 }
 export type SAMLProviderListType = SAMLProviderListEntry[];
 export interface ListSAMLProvidersResponse {
@@ -2673,8 +2714,18 @@ export interface UpdateLoginProfileRequest {
   UserName: string;
   Password?: string | redacted.Redacted<string> | undefined;
   PasswordResetRequired?: boolean | undefined;
+  MaxSigninSessionDuration?: number | undefined;
+  ResetMaxSigninSessionDuration?: boolean | undefined;
 }
 export interface UpdateLoginProfileResponse {}
+export interface UpdateOpenIDConnectProviderRequest {
+  OpenIDConnectProviderArn: string;
+  ContextProvider?: ContextProvider | undefined;
+  IdentityCenterInstanceArn?: string | undefined;
+  RemoveContextProvider?: boolean | undefined;
+  RemoveIdentityCenterInstance?: boolean | undefined;
+}
+export interface UpdateOpenIDConnectProviderResponse {}
 export interface UpdateOpenIDConnectProviderThumbprintRequest {
   OpenIDConnectProviderArn: string;
   ThumbprintList: string[];
@@ -2684,6 +2735,8 @@ export interface UpdateRoleRequest {
   RoleName: string;
   Description?: string | undefined;
   MaxSessionDuration?: number | undefined;
+  MaxSigninSessionDuration?: number | undefined;
+  ResetMaxSigninSessionDuration?: boolean | undefined;
 }
 export interface UpdateRoleResponse {}
 export interface UpdateRoleDescriptionRequest {
@@ -2699,6 +2752,10 @@ export interface UpdateSAMLProviderRequest {
   AssertionEncryptionMode?: AssertionEncryptionModeType | undefined;
   AddPrivateKey?: string | redacted.Redacted<string> | undefined;
   RemovePrivateKey?: string | undefined;
+  ContextProvider?: ContextProvider | undefined;
+  IdentityCenterInstanceArn?: string | undefined;
+  RemoveContextProvider?: boolean | undefined;
+  RemoveIdentityCenterInstance?: boolean | undefined;
 }
 export interface UpdateSAMLProviderResponse {
   SAMLProviderArn?: string | undefined;
@@ -2816,9 +2873,10 @@ export const acceptDelegationRequest: API.OperationMethod<
   AcceptDelegationRequestError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c136, 0) as any as S.Schema<AcceptDelegationRequestRequest>,
-  output: __S(2177, __c136, 1) as any as S.Schema<AcceptDelegationRequestResponse>,
+  input: __S(2192, __c137, 0) as any as S.Schema<AcceptDelegationRequestRequest>,
+  output: __S(2193, __c137, 1) as any as S.Schema<AcceptDelegationRequestResponse>,
   errors: [ConcurrentModificationException, NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptDelegationRequest",
@@ -2855,8 +2913,8 @@ export const acquireRole: API.OperationMethod<
   AcquireRoleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2195, __c137, 3) as any as S.Schema<AcquireRoleRequest>,
-  output: __S(2196, __c137, 4) as any as S.Schema<AcquireRoleResponse>,
+  input: __S(2211, __c138, 3) as any as S.Schema<AcquireRoleRequest>,
+  output: __S(2212, __c138, 4) as any as S.Schema<AcquireRoleResponse>,
   errors: [
     ConcurrentModificationException,
     EntityAlreadyExistsException,
@@ -2869,6 +2927,7 @@ export const acquireRole: API.OperationMethod<
     RoleTemplateDisabledException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcquireRole",
@@ -2896,8 +2955,8 @@ export const addClientIDToOpenIDConnectProvider: API.OperationMethod<
   AddClientIDToOpenIDConnectProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2256, __c141, 0) as any as S.Schema<AddClientIDToOpenIDConnectProviderRequest>,
-  output: __S(2257, __c141, 1) as any as S.Schema<AddClientIDToOpenIDConnectProviderResponse>,
+  input: __S(2272, __c142, 0) as any as S.Schema<AddClientIDToOpenIDConnectProviderRequest>,
+  output: __S(2273, __c142, 1) as any as S.Schema<AddClientIDToOpenIDConnectProviderResponse>,
   errors: [
     ConcurrentModificationException,
     InvalidInputException,
@@ -2905,6 +2964,7 @@ export const addClientIDToOpenIDConnectProvider: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddClientIDToOpenIDConnectProvider",
@@ -2947,8 +3007,8 @@ export const addRoleToInstanceProfile: API.OperationMethod<
   AddRoleToInstanceProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c142, 0) as any as S.Schema<AddRoleToInstanceProfileRequest>,
-  output: __S(2273, __c142, 1) as any as S.Schema<AddRoleToInstanceProfileResponse>,
+  input: __S(2288, __c143, 0) as any as S.Schema<AddRoleToInstanceProfileRequest>,
+  output: __S(2289, __c143, 1) as any as S.Schema<AddRoleToInstanceProfileResponse>,
   errors: [
     EntityAlreadyExistsException,
     LimitExceededException,
@@ -2956,6 +3016,7 @@ export const addRoleToInstanceProfile: API.OperationMethod<
     ServiceFailureException,
     UnmodifiableEntityException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddRoleToInstanceProfile",
@@ -2977,9 +3038,10 @@ export const addUserToGroup: API.OperationMethod<
   AddUserToGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2288, __c143, 0) as any as S.Schema<AddUserToGroupRequest>,
-  output: __S(2289, __c143, 1) as any as S.Schema<AddUserToGroupResponse>,
+  input: __S(2304, __c144, 0) as any as S.Schema<AddUserToGroupRequest>,
+  output: __S(2305, __c144, 1) as any as S.Schema<AddUserToGroupResponse>,
   errors: [LimitExceededException, NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddUserToGroup",
@@ -3021,14 +3083,15 @@ export const associateDelegationRequest: API.OperationMethod<
   AssociateDelegationRequestError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c144, 0) as any as S.Schema<AssociateDelegationRequestRequest>,
-  output: __S(2305, __c144, 1) as any as S.Schema<AssociateDelegationRequestResponse>,
+  input: __S(2320, __c145, 0) as any as S.Schema<AssociateDelegationRequestRequest>,
+  output: __S(2321, __c145, 1) as any as S.Schema<AssociateDelegationRequestResponse>,
   errors: [
     ConcurrentModificationException,
     InvalidInputException,
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateDelegationRequest",
@@ -3064,8 +3127,8 @@ export const attachGroupPolicy: API.OperationMethod<
   AttachGroupPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2320, __c145, 0) as any as S.Schema<AttachGroupPolicyRequest>,
-  output: __S(2321, __c145, 1) as any as S.Schema<AttachGroupPolicyResponse>,
+  input: __S(2336, __c146, 0) as any as S.Schema<AttachGroupPolicyRequest>,
+  output: __S(2337, __c146, 1) as any as S.Schema<AttachGroupPolicyResponse>,
   errors: [
     InvalidInputException,
     LimitExceededException,
@@ -3073,6 +3136,7 @@ export const attachGroupPolicy: API.OperationMethod<
     PolicyNotAttachableException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachGroupPolicy",
@@ -3118,8 +3182,8 @@ export const attachRolePolicy: API.OperationMethod<
   AttachRolePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c146, 0) as any as S.Schema<AttachRolePolicyRequest>,
-  output: __S(2337, __c146, 1) as any as S.Schema<AttachRolePolicyResponse>,
+  input: __S(2352, __c147, 0) as any as S.Schema<AttachRolePolicyRequest>,
+  output: __S(2353, __c147, 1) as any as S.Schema<AttachRolePolicyResponse>,
   errors: [
     InvalidInputException,
     LimitExceededException,
@@ -3128,6 +3192,7 @@ export const attachRolePolicy: API.OperationMethod<
     ServiceFailureException,
     UnmodifiableEntityException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachRolePolicy",
@@ -3163,8 +3228,8 @@ export const attachUserPolicy: API.OperationMethod<
   AttachUserPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2352, __c147, 0) as any as S.Schema<AttachUserPolicyRequest>,
-  output: __S(2353, __c147, 1) as any as S.Schema<AttachUserPolicyResponse>,
+  input: __S(2368, __c148, 0) as any as S.Schema<AttachUserPolicyRequest>,
+  output: __S(2369, __c148, 1) as any as S.Schema<AttachUserPolicyResponse>,
   errors: [
     InvalidInputException,
     LimitExceededException,
@@ -3172,6 +3237,7 @@ export const attachUserPolicy: API.OperationMethod<
     PolicyNotAttachableException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachUserPolicy",
@@ -3205,8 +3271,8 @@ export const changePassword: API.OperationMethod<
   ChangePasswordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c148, 0) as any as S.Schema<ChangePasswordRequest>,
-  output: __S(2369, __c148, 1) as any as S.Schema<ChangePasswordResponse>,
+  input: __S(2384, __c149, 0) as any as S.Schema<ChangePasswordRequest>,
+  output: __S(2385, __c149, 1) as any as S.Schema<ChangePasswordResponse>,
   errors: [
     EntityTemporarilyUnmodifiableException,
     InvalidUserTypeException,
@@ -3215,6 +3281,7 @@ export const changePassword: API.OperationMethod<
     PasswordPolicyViolationException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ChangePassword",
@@ -3250,9 +3317,10 @@ export const createAccessKey: API.OperationMethod<
   CreateAccessKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2384, __c149, 0) as any as S.Schema<CreateAccessKeyRequest>,
-  output: __S(2386, __c149, 2) as any as S.Schema<CreateAccessKeyResponse>,
+  input: __S(2400, __c150, 0) as any as S.Schema<CreateAccessKeyRequest>,
+  output: __S(2402, __c150, 2) as any as S.Schema<CreateAccessKeyResponse>,
   errors: [LimitExceededException, NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessKey",
@@ -3278,14 +3346,15 @@ export const createAccountAlias: API.OperationMethod<
   CreateAccountAliasError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c150, 0) as any as S.Schema<CreateAccountAliasRequest>,
-  output: __S(2401, __c150, 1) as any as S.Schema<CreateAccountAliasResponse>,
+  input: __S(2416, __c151, 0) as any as S.Schema<CreateAccountAliasRequest>,
+  output: __S(2417, __c151, 1) as any as S.Schema<CreateAccountAliasResponse>,
   errors: [
     ConcurrentModificationException,
     EntityAlreadyExistsException,
     LimitExceededException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccountAlias",
@@ -3313,8 +3382,8 @@ export const createDelegationRequest: API.OperationMethod<
   CreateDelegationRequestError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2416, __c151, 0) as any as S.Schema<CreateDelegationRequestRequest>,
-  output: __S(2417, __c151, 1) as any as S.Schema<CreateDelegationRequestResponse>,
+  input: __S(2432, __c152, 0) as any as S.Schema<CreateDelegationRequestRequest>,
+  output: __S(2433, __c152, 1) as any as S.Schema<CreateDelegationRequestResponse>,
   errors: [
     ConcurrentModificationException,
     EntityAlreadyExistsException,
@@ -3322,6 +3391,7 @@ export const createDelegationRequest: API.OperationMethod<
     LimitExceededException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDelegationRequest",
@@ -3347,14 +3417,15 @@ export const createGroup: API.OperationMethod<
   CreateGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2448, __c153, 0) as any as S.Schema<CreateGroupRequest>,
-  output: __S(2449, __c153, 1) as any as S.Schema<CreateGroupResponse>,
+  input: __S(2464, __c154, 0) as any as S.Schema<CreateGroupRequest>,
+  output: __S(2465, __c154, 1) as any as S.Schema<CreateGroupResponse>,
   errors: [
     EntityAlreadyExistsException,
     LimitExceededException,
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroup",
@@ -3383,8 +3454,8 @@ export const createInstanceProfile: API.OperationMethod<
   CreateInstanceProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2480, __c155, 0) as any as S.Schema<CreateInstanceProfileRequest>,
-  output: __S(2481, __c155, 1) as any as S.Schema<CreateInstanceProfileResponse>,
+  input: __S(2496, __c156, 0) as any as S.Schema<CreateInstanceProfileRequest>,
+  output: __S(2497, __c156, 1) as any as S.Schema<CreateInstanceProfileResponse>,
   errors: [
     ConcurrentModificationException,
     EntityAlreadyExistsException,
@@ -3392,6 +3463,7 @@ export const createInstanceProfile: API.OperationMethod<
     LimitExceededException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInstanceProfile",
@@ -3422,8 +3494,8 @@ export const createLoginProfile: API.OperationMethod<
   CreateLoginProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c158, 0) as any as S.Schema<CreateLoginProfileRequest>,
-  output: __S(2529, __c158, 1) as any as S.Schema<CreateLoginProfileResponse>,
+  input: __S(2544, __c159, 0) as any as S.Schema<CreateLoginProfileRequest>,
+  output: __S(2545, __c159, 1) as any as S.Schema<CreateLoginProfileResponse>,
   errors: [
     EntityAlreadyExistsException,
     LimitExceededException,
@@ -3431,6 +3503,7 @@ export const createLoginProfile: API.OperationMethod<
     PasswordPolicyViolationException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLoginProfile",
@@ -3472,8 +3545,17 @@ export type CreateOpenIDConnectProviderError =
  * - A list of thumbprints of one or more server certificates that the IdP
  * uses
  *
- * You get all of this information from the OIDC IdP you want to use to access
- * Amazon Web Services.
+ * - A trusted identity propagation context provider that defines how the subject
+ * is derived and how keys from the provider's token are mapped into trusted
+ * context keys. Specifying a context provider enables trusted identity propagation
+ * for the provider. For more information, see ContextProvider.
+ *
+ * - The ARN of an IAM Identity Center instance to associate with the OIDC
+ * provider. If you specify an IAM Identity Center instance, you must also
+ * specify a context provider.
+ *
+ * You get the URL, client IDs, and thumbprints from the OIDC IdP you want to use to
+ * access Amazon Web Services.
  *
  * Amazon Web Services secures communication with OIDC identity providers (IdPs) using our library of
  * trusted root certificate authorities (CAs) to verify the JSON Web Key Set (JWKS)
@@ -3484,6 +3566,11 @@ export type CreateOpenIDConnectProviderError =
  * The trust for the OIDC provider is derived from the IAM provider that this
  * operation creates. Therefore, it is best to limit access to the CreateOpenIDConnectProvider operation to highly privileged
  * users.
+ *
+ * To control who can configure trusted identity propagation on an OIDC provider, use the
+ * iam:EnableIdentityPropagation, iam:EnableIdentityCenterAssociation, iam:RequestIdentityProviderIssuers, iam:ResourceIdentityProviderIssuers, iam:RequestIdentityCenterInstanceArn, and iam:ResourceIdentityCenterInstanceArn condition keys in IAM
+ * policies. The `Request` keys contain the values in the request. The
+ * `Resource` keys contain the values stored on the provider.
  */
 export const createOpenIDConnectProvider: API.OperationMethod<
   CreateOpenIDConnectProviderRequest & RegionInput,
@@ -3491,8 +3578,8 @@ export const createOpenIDConnectProvider: API.OperationMethod<
   CreateOpenIDConnectProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c160, 0) as any as S.Schema<CreateOpenIDConnectProviderRequest>,
-  output: __S(2561, __c160, 1) as any as S.Schema<CreateOpenIDConnectProviderResponse>,
+  input: __S(2576, __c161, 0) as any as S.Schema<CreateOpenIDConnectProviderRequest>,
+  output: __S(2577, __c161, 1) as any as S.Schema<CreateOpenIDConnectProviderResponse>,
   errors: [
     ConcurrentModificationException,
     EntityAlreadyExistsException,
@@ -3501,6 +3588,7 @@ export const createOpenIDConnectProvider: API.OperationMethod<
     OpenIdIdpCommunicationErrorException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOpenIDConnectProvider",
@@ -3538,8 +3626,8 @@ export const createPolicy: API.OperationMethod<
   CreatePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2608, __c163, 0) as any as S.Schema<CreatePolicyRequest>,
-  output: __S(2609, __c163, 1) as any as S.Schema<CreatePolicyResponse>,
+  input: __S(2640, __c165, 0) as any as S.Schema<CreatePolicyRequest>,
+  output: __S(2641, __c165, 1) as any as S.Schema<CreatePolicyResponse>,
   errors: [
     ConcurrentModificationException,
     EntityAlreadyExistsException,
@@ -3548,6 +3636,7 @@ export const createPolicy: API.OperationMethod<
     MalformedPolicyDocumentException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicy",
@@ -3580,8 +3669,8 @@ export const createPolicyVersion: API.OperationMethod<
   CreatePolicyVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2640, __c165, 0) as any as S.Schema<CreatePolicyVersionRequest>,
-  output: __S(2641, __c165, 1) as any as S.Schema<CreatePolicyVersionResponse>,
+  input: __S(2672, __c167, 0) as any as S.Schema<CreatePolicyVersionRequest>,
+  output: __S(2673, __c167, 1) as any as S.Schema<CreatePolicyVersionResponse>,
   errors: [
     InvalidInputException,
     LimitExceededException,
@@ -3589,6 +3678,7 @@ export const createPolicyVersion: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicyVersion",
@@ -3618,8 +3708,8 @@ export const createRole: API.OperationMethod<
   CreateRoleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2672, __c167, 0) as any as S.Schema<CreateRoleRequest>,
-  output: __S(2673, __c167, 1) as any as S.Schema<CreateRoleResponse>,
+  input: __S(2704, __c169, 0) as any as S.Schema<CreateRoleRequest>,
+  output: __S(2705, __c169, 1) as any as S.Schema<CreateRoleResponse>,
   errors: [
     ConcurrentModificationException,
     EntityAlreadyExistsException,
@@ -3628,6 +3718,7 @@ export const createRole: API.OperationMethod<
     MalformedPolicyDocumentException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRole",
@@ -3663,6 +3754,11 @@ export type CreateSAMLProviderError =
  * For more information, see Enabling SAML 2.0
  * federated users to access the Amazon Web Services Management Console and About SAML 2.0-based
  * federation in the *IAM User Guide*.
+ *
+ * To control who can configure trusted identity propagation on a SAML provider, use the
+ * iam:EnableIdentityPropagation, iam:EnableIdentityCenterAssociation, iam:RequestIdentityProviderIssuers, iam:ResourceIdentityProviderIssuers, iam:RequestIdentityCenterInstanceArn, and iam:ResourceIdentityCenterInstanceArn condition keys in IAM
+ * policies. The `Request` keys contain the values in the request. The
+ * `Resource` keys contain the values stored on the provider.
  */
 export const createSAMLProvider: API.OperationMethod<
   CreateSAMLProviderRequest & RegionInput,
@@ -3670,8 +3766,8 @@ export const createSAMLProvider: API.OperationMethod<
   CreateSAMLProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c168, 0) as any as S.Schema<CreateSAMLProviderRequest>,
-  output: __S(2689, __c168, 1) as any as S.Schema<CreateSAMLProviderResponse>,
+  input: __S(2720, __c170, 0) as any as S.Schema<CreateSAMLProviderRequest>,
+  output: __S(2721, __c170, 1) as any as S.Schema<CreateSAMLProviderResponse>,
   errors: [
     ConcurrentModificationException,
     EntityAlreadyExistsException,
@@ -3679,6 +3775,7 @@ export const createSAMLProvider: API.OperationMethod<
     LimitExceededException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSAMLProvider",
@@ -3710,14 +3807,15 @@ export const createServiceLinkedRole: API.OperationMethod<
   CreateServiceLinkedRoleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2704, __c169, 0) as any as S.Schema<CreateServiceLinkedRoleRequest>,
-  output: __S(2705, __c169, 1) as any as S.Schema<CreateServiceLinkedRoleResponse>,
+  input: __S(2736, __c171, 0) as any as S.Schema<CreateServiceLinkedRoleRequest>,
+  output: __S(2737, __c171, 1) as any as S.Schema<CreateServiceLinkedRoleResponse>,
   errors: [
     InvalidInputException,
     LimitExceededException,
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceLinkedRole",
@@ -3760,9 +3858,10 @@ export const createServiceSpecificCredential: API.OperationMethod<
   CreateServiceSpecificCredentialError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c170, 0) as any as S.Schema<CreateServiceSpecificCredentialRequest>,
-  output: __S(2721, __c170, 1) as any as S.Schema<CreateServiceSpecificCredentialResponse>,
+  input: __S(2752, __c172, 0) as any as S.Schema<CreateServiceSpecificCredentialRequest>,
+  output: __S(2753, __c172, 1) as any as S.Schema<CreateServiceSpecificCredentialResponse>,
   errors: [LimitExceededException, NoSuchEntityException, ServiceNotSupportedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceSpecificCredential",
@@ -3790,8 +3889,8 @@ export const createUser: API.OperationMethod<
   CreateUserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c172, 0) as any as S.Schema<CreateUserRequest>,
-  output: __S(2753, __c172, 1) as any as S.Schema<CreateUserResponse>,
+  input: __S(2784, __c174, 0) as any as S.Schema<CreateUserRequest>,
+  output: __S(2785, __c174, 1) as any as S.Schema<CreateUserResponse>,
   errors: [
     ConcurrentModificationException,
     EntityAlreadyExistsException,
@@ -3800,6 +3899,7 @@ export const createUser: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
@@ -3836,8 +3936,8 @@ export const createVirtualMFADevice: API.OperationMethod<
   CreateVirtualMFADeviceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c174, 0) as any as S.Schema<CreateVirtualMFADeviceRequest>,
-  output: __S(2785, __c174, 1) as any as S.Schema<CreateVirtualMFADeviceResponse>,
+  input: __S(2816, __c176, 0) as any as S.Schema<CreateVirtualMFADeviceRequest>,
+  output: __S(2817, __c176, 1) as any as S.Schema<CreateVirtualMFADeviceResponse>,
   errors: [
     ConcurrentModificationException,
     EntityAlreadyExistsException,
@@ -3845,6 +3945,7 @@ export const createVirtualMFADevice: API.OperationMethod<
     LimitExceededException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVirtualMFADevice",
@@ -3873,8 +3974,8 @@ export const deactivateMFADevice: API.OperationMethod<
   DeactivateMFADeviceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c176, 0) as any as S.Schema<DeactivateMFADeviceRequest>,
-  output: __S(2817, __c176, 1) as any as S.Schema<DeactivateMFADeviceResponse>,
+  input: __S(2848, __c178, 0) as any as S.Schema<DeactivateMFADeviceRequest>,
+  output: __S(2849, __c178, 1) as any as S.Schema<DeactivateMFADeviceResponse>,
   errors: [
     ConcurrentModificationException,
     EntityTemporarilyUnmodifiableException,
@@ -3882,6 +3983,7 @@ export const deactivateMFADevice: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeactivateMFADevice",
@@ -3908,9 +4010,10 @@ export const deleteAccessKey: API.OperationMethod<
   DeleteAccessKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2832, __c177, 0) as any as S.Schema<DeleteAccessKeyRequest>,
-  output: __S(2833, __c177, 1) as any as S.Schema<DeleteAccessKeyResponse>,
+  input: __S(2864, __c179, 0) as any as S.Schema<DeleteAccessKeyRequest>,
+  output: __S(2865, __c179, 1) as any as S.Schema<DeleteAccessKeyResponse>,
   errors: [LimitExceededException, NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessKey",
@@ -3936,14 +4039,15 @@ export const deleteAccountAlias: API.OperationMethod<
   DeleteAccountAliasError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c178, 0) as any as S.Schema<DeleteAccountAliasRequest>,
-  output: __S(2849, __c178, 1) as any as S.Schema<DeleteAccountAliasResponse>,
+  input: __S(2880, __c180, 0) as any as S.Schema<DeleteAccountAliasRequest>,
+  output: __S(2881, __c180, 1) as any as S.Schema<DeleteAccountAliasResponse>,
   errors: [
     ConcurrentModificationException,
     LimitExceededException,
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccountAlias",
@@ -3965,9 +4069,10 @@ export const deleteAccountPasswordPolicy: API.OperationMethod<
   DeleteAccountPasswordPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2864, __c179, 0) as any as S.Schema<DeleteAccountPasswordPolicyRequest>,
-  output: __S(2865, __c179, 1) as any as S.Schema<DeleteAccountPasswordPolicyResponse>,
+  input: __S(2896, __c181, 0) as any as S.Schema<DeleteAccountPasswordPolicyRequest>,
+  output: __S(2897, __c181, 1) as any as S.Schema<DeleteAccountPasswordPolicyResponse>,
   errors: [LimitExceededException, NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccountPasswordPolicy",
@@ -3991,14 +4096,15 @@ export const deleteGroup: API.OperationMethod<
   DeleteGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c180, 0) as any as S.Schema<DeleteGroupRequest>,
-  output: __S(2881, __c180, 1) as any as S.Schema<DeleteGroupResponse>,
+  input: __S(2912, __c182, 0) as any as S.Schema<DeleteGroupRequest>,
+  output: __S(2913, __c182, 1) as any as S.Schema<DeleteGroupResponse>,
   errors: [
     DeleteConflictException,
     LimitExceededException,
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroup",
@@ -4026,9 +4132,10 @@ export const deleteGroupPolicy: API.OperationMethod<
   DeleteGroupPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2896, __c181, 0) as any as S.Schema<DeleteGroupPolicyRequest>,
-  output: __S(2897, __c181, 1) as any as S.Schema<DeleteGroupPolicyResponse>,
+  input: __S(2928, __c183, 0) as any as S.Schema<DeleteGroupPolicyRequest>,
+  output: __S(2929, __c183, 1) as any as S.Schema<DeleteGroupPolicyResponse>,
   errors: [LimitExceededException, NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroupPolicy",
@@ -4060,14 +4167,15 @@ export const deleteInstanceProfile: API.OperationMethod<
   DeleteInstanceProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c182, 0) as any as S.Schema<DeleteInstanceProfileRequest>,
-  output: __S(2913, __c182, 1) as any as S.Schema<DeleteInstanceProfileResponse>,
+  input: __S(2944, __c184, 0) as any as S.Schema<DeleteInstanceProfileRequest>,
+  output: __S(2945, __c184, 1) as any as S.Schema<DeleteInstanceProfileResponse>,
   errors: [
     DeleteConflictException,
     LimitExceededException,
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInstanceProfile",
@@ -4103,14 +4211,15 @@ export const deleteLoginProfile: API.OperationMethod<
   DeleteLoginProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2928, __c183, 0) as any as S.Schema<DeleteLoginProfileRequest>,
-  output: __S(2929, __c183, 1) as any as S.Schema<DeleteLoginProfileResponse>,
+  input: __S(2960, __c185, 0) as any as S.Schema<DeleteLoginProfileRequest>,
+  output: __S(2961, __c185, 1) as any as S.Schema<DeleteLoginProfileResponse>,
   errors: [
     EntityTemporarilyUnmodifiableException,
     LimitExceededException,
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLoginProfile",
@@ -4119,19 +4228,19 @@ export const deleteLoginProfile: API.OperationMethod<
 }));
 
 export type DeleteOpenIDConnectProviderError =
+  | ConcurrentModificationException
   | InvalidInputException
   | NoSuchEntityException
   | ServiceFailureException
   | CommonErrors;
 /**
- * Deletes an OpenID Connect identity provider (IdP) resource object in IAM.
+ * Deletes an OpenID Connect identity provider (IdP) resource object in IAM. Deleting the
+ * provider also deletes its trusted identity propagation context provider and removes any
+ * IAM Identity Center instance association.
  *
  * Deleting an IAM OIDC provider resource does not update any roles that reference the
  * provider as a principal in their trust policies. Any attempt to assume a role that
  * references a deleted provider fails.
- *
- * This operation is idempotent; it does not fail or return an error if you call the
- * operation for a provider that does not exist.
  */
 export const deleteOpenIDConnectProvider: API.OperationMethod<
   DeleteOpenIDConnectProviderRequest & RegionInput,
@@ -4139,9 +4248,15 @@ export const deleteOpenIDConnectProvider: API.OperationMethod<
   DeleteOpenIDConnectProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c184, 0) as any as S.Schema<DeleteOpenIDConnectProviderRequest>,
-  output: __S(2945, __c184, 1) as any as S.Schema<DeleteOpenIDConnectProviderResponse>,
-  errors: [InvalidInputException, NoSuchEntityException, ServiceFailureException],
+  input: __S(2976, __c186, 0) as any as S.Schema<DeleteOpenIDConnectProviderRequest>,
+  output: __S(2977, __c186, 1) as any as S.Schema<DeleteOpenIDConnectProviderResponse>,
+  errors: [
+    ConcurrentModificationException,
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOpenIDConnectProvider",
@@ -4184,8 +4299,8 @@ export const deletePolicy: API.OperationMethod<
   DeletePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2960, __c185, 0) as any as S.Schema<DeletePolicyRequest>,
-  output: __S(2961, __c185, 1) as any as S.Schema<DeletePolicyResponse>,
+  input: __S(2992, __c187, 0) as any as S.Schema<DeletePolicyRequest>,
+  output: __S(2993, __c187, 1) as any as S.Schema<DeletePolicyResponse>,
   errors: [
     DeleteConflictException,
     InvalidInputException,
@@ -4193,6 +4308,7 @@ export const deletePolicy: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicy",
@@ -4223,8 +4339,8 @@ export const deletePolicyVersion: API.OperationMethod<
   DeletePolicyVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c186, 0) as any as S.Schema<DeletePolicyVersionRequest>,
-  output: __S(2977, __c186, 1) as any as S.Schema<DeletePolicyVersionResponse>,
+  input: __S(3008, __c188, 0) as any as S.Schema<DeletePolicyVersionRequest>,
+  output: __S(3009, __c188, 1) as any as S.Schema<DeletePolicyVersionResponse>,
   errors: [
     DeleteConflictException,
     InvalidInputException,
@@ -4232,6 +4348,7 @@ export const deletePolicyVersion: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicyVersion",
@@ -4272,8 +4389,8 @@ export const deleteRole: API.OperationMethod<
   DeleteRoleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2992, __c187, 0) as any as S.Schema<DeleteRoleRequest>,
-  output: __S(2993, __c187, 1) as any as S.Schema<DeleteRoleResponse>,
+  input: __S(3024, __c189, 0) as any as S.Schema<DeleteRoleRequest>,
+  output: __S(3025, __c189, 1) as any as S.Schema<DeleteRoleResponse>,
   errors: [
     ConcurrentModificationException,
     DeleteConflictException,
@@ -4282,6 +4399,7 @@ export const deleteRole: API.OperationMethod<
     ServiceFailureException,
     UnmodifiableEntityException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRole",
@@ -4309,9 +4427,10 @@ export const deleteRolePermissionsBoundary: API.OperationMethod<
   DeleteRolePermissionsBoundaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c188, 0) as any as S.Schema<DeleteRolePermissionsBoundaryRequest>,
-  output: __S(3009, __c188, 1) as any as S.Schema<DeleteRolePermissionsBoundaryResponse>,
+  input: __S(3040, __c190, 0) as any as S.Schema<DeleteRolePermissionsBoundaryRequest>,
+  output: __S(3041, __c190, 1) as any as S.Schema<DeleteRolePermissionsBoundaryResponse>,
   errors: [NoSuchEntityException, ServiceFailureException, UnmodifiableEntityException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRolePermissionsBoundary",
@@ -4340,14 +4459,15 @@ export const deleteRolePolicy: API.OperationMethod<
   DeleteRolePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3024, __c189, 0) as any as S.Schema<DeleteRolePolicyRequest>,
-  output: __S(3025, __c189, 1) as any as S.Schema<DeleteRolePolicyResponse>,
+  input: __S(3056, __c191, 0) as any as S.Schema<DeleteRolePolicyRequest>,
+  output: __S(3057, __c191, 1) as any as S.Schema<DeleteRolePolicyResponse>,
   errors: [
     LimitExceededException,
     NoSuchEntityException,
     ServiceFailureException,
     UnmodifiableEntityException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRolePolicy",
@@ -4356,6 +4476,7 @@ export const deleteRolePolicy: API.OperationMethod<
 }));
 
 export type DeleteSAMLProviderError =
+  | ConcurrentModificationException
   | InvalidInputException
   | LimitExceededException
   | NoSuchEntityException
@@ -4376,14 +4497,16 @@ export const deleteSAMLProvider: API.OperationMethod<
   DeleteSAMLProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c190, 0) as any as S.Schema<DeleteSAMLProviderRequest>,
-  output: __S(3041, __c190, 1) as any as S.Schema<DeleteSAMLProviderResponse>,
+  input: __S(3072, __c192, 0) as any as S.Schema<DeleteSAMLProviderRequest>,
+  output: __S(3073, __c192, 1) as any as S.Schema<DeleteSAMLProviderResponse>,
   errors: [
+    ConcurrentModificationException,
     InvalidInputException,
     LimitExceededException,
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSAMLProvider",
@@ -4420,14 +4543,15 @@ export const deleteServerCertificate: API.OperationMethod<
   DeleteServerCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3056, __c191, 0) as any as S.Schema<DeleteServerCertificateRequest>,
-  output: __S(3057, __c191, 1) as any as S.Schema<DeleteServerCertificateResponse>,
+  input: __S(3088, __c193, 0) as any as S.Schema<DeleteServerCertificateRequest>,
+  output: __S(3089, __c193, 1) as any as S.Schema<DeleteServerCertificateResponse>,
   errors: [
     DeleteConflictException,
     LimitExceededException,
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServerCertificate",
@@ -4467,9 +4591,10 @@ export const deleteServiceLinkedRole: API.OperationMethod<
   DeleteServiceLinkedRoleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c192, 0) as any as S.Schema<DeleteServiceLinkedRoleRequest>,
-  output: __S(3073, __c192, 1) as any as S.Schema<DeleteServiceLinkedRoleResponse>,
+  input: __S(3104, __c194, 0) as any as S.Schema<DeleteServiceLinkedRoleRequest>,
+  output: __S(3105, __c194, 1) as any as S.Schema<DeleteServiceLinkedRoleResponse>,
   errors: [LimitExceededException, NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceLinkedRole",
@@ -4487,9 +4612,10 @@ export const deleteServiceSpecificCredential: API.OperationMethod<
   DeleteServiceSpecificCredentialError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3088, __c193, 0) as any as S.Schema<DeleteServiceSpecificCredentialRequest>,
-  output: __S(3089, __c193, 1) as any as S.Schema<DeleteServiceSpecificCredentialResponse>,
+  input: __S(3120, __c195, 0) as any as S.Schema<DeleteServiceSpecificCredentialRequest>,
+  output: __S(3121, __c195, 1) as any as S.Schema<DeleteServiceSpecificCredentialResponse>,
   errors: [NoSuchEntityException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceSpecificCredential",
@@ -4517,14 +4643,15 @@ export const deleteSigningCertificate: API.OperationMethod<
   DeleteSigningCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c194, 0) as any as S.Schema<DeleteSigningCertificateRequest>,
-  output: __S(3105, __c194, 1) as any as S.Schema<DeleteSigningCertificateResponse>,
+  input: __S(3136, __c196, 0) as any as S.Schema<DeleteSigningCertificateRequest>,
+  output: __S(3137, __c196, 1) as any as S.Schema<DeleteSigningCertificateResponse>,
   errors: [
     ConcurrentModificationException,
     LimitExceededException,
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSigningCertificate",
@@ -4547,9 +4674,10 @@ export const deleteSSHPublicKey: API.OperationMethod<
   DeleteSSHPublicKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3120, __c195, 0) as any as S.Schema<DeleteSSHPublicKeyRequest>,
-  output: __S(3121, __c195, 1) as any as S.Schema<DeleteSSHPublicKeyResponse>,
+  input: __S(3152, __c197, 0) as any as S.Schema<DeleteSSHPublicKeyRequest>,
+  output: __S(3153, __c197, 1) as any as S.Schema<DeleteSSHPublicKeyResponse>,
   errors: [NoSuchEntityException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSSHPublicKey",
@@ -4594,8 +4722,8 @@ export const deleteUser: API.OperationMethod<
   DeleteUserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c196, 0) as any as S.Schema<DeleteUserRequest>,
-  output: __S(3137, __c196, 1) as any as S.Schema<DeleteUserResponse>,
+  input: __S(3168, __c198, 0) as any as S.Schema<DeleteUserRequest>,
+  output: __S(3169, __c198, 1) as any as S.Schema<DeleteUserResponse>,
   errors: [
     ConcurrentModificationException,
     DeleteConflictException,
@@ -4603,6 +4731,7 @@ export const deleteUser: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
@@ -4626,9 +4755,10 @@ export const deleteUserPermissionsBoundary: API.OperationMethod<
   DeleteUserPermissionsBoundaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3152, __c197, 0) as any as S.Schema<DeleteUserPermissionsBoundaryRequest>,
-  output: __S(3153, __c197, 1) as any as S.Schema<DeleteUserPermissionsBoundaryResponse>,
+  input: __S(3184, __c199, 0) as any as S.Schema<DeleteUserPermissionsBoundaryRequest>,
+  output: __S(3185, __c199, 1) as any as S.Schema<DeleteUserPermissionsBoundaryResponse>,
   errors: [NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserPermissionsBoundary",
@@ -4656,9 +4786,10 @@ export const deleteUserPolicy: API.OperationMethod<
   DeleteUserPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c198, 0) as any as S.Schema<DeleteUserPolicyRequest>,
-  output: __S(3169, __c198, 1) as any as S.Schema<DeleteUserPolicyResponse>,
+  input: __S(3200, __c200, 0) as any as S.Schema<DeleteUserPolicyRequest>,
+  output: __S(3201, __c200, 1) as any as S.Schema<DeleteUserPolicyResponse>,
   errors: [LimitExceededException, NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserPolicy",
@@ -4685,8 +4816,8 @@ export const deleteVirtualMFADevice: API.OperationMethod<
   DeleteVirtualMFADeviceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3184, __c199, 0) as any as S.Schema<DeleteVirtualMFADeviceRequest>,
-  output: __S(3185, __c199, 1) as any as S.Schema<DeleteVirtualMFADeviceResponse>,
+  input: __S(3216, __c201, 0) as any as S.Schema<DeleteVirtualMFADeviceRequest>,
+  output: __S(3217, __c201, 1) as any as S.Schema<DeleteVirtualMFADeviceResponse>,
   errors: [
     ConcurrentModificationException,
     DeleteConflictException,
@@ -4694,6 +4825,7 @@ export const deleteVirtualMFADevice: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVirtualMFADevice",
@@ -4721,14 +4853,15 @@ export const detachGroupPolicy: API.OperationMethod<
   DetachGroupPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c200, 0) as any as S.Schema<DetachGroupPolicyRequest>,
-  output: __S(3201, __c200, 1) as any as S.Schema<DetachGroupPolicyResponse>,
+  input: __S(3232, __c202, 0) as any as S.Schema<DetachGroupPolicyRequest>,
+  output: __S(3233, __c202, 1) as any as S.Schema<DetachGroupPolicyResponse>,
   errors: [
     InvalidInputException,
     LimitExceededException,
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachGroupPolicy",
@@ -4757,8 +4890,8 @@ export const detachRolePolicy: API.OperationMethod<
   DetachRolePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3216, __c201, 0) as any as S.Schema<DetachRolePolicyRequest>,
-  output: __S(3217, __c201, 1) as any as S.Schema<DetachRolePolicyResponse>,
+  input: __S(3248, __c203, 0) as any as S.Schema<DetachRolePolicyRequest>,
+  output: __S(3249, __c203, 1) as any as S.Schema<DetachRolePolicyResponse>,
   errors: [
     InvalidInputException,
     LimitExceededException,
@@ -4766,6 +4899,7 @@ export const detachRolePolicy: API.OperationMethod<
     ServiceFailureException,
     UnmodifiableEntityException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachRolePolicy",
@@ -4793,14 +4927,15 @@ export const detachUserPolicy: API.OperationMethod<
   DetachUserPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c202, 0) as any as S.Schema<DetachUserPolicyRequest>,
-  output: __S(3233, __c202, 1) as any as S.Schema<DetachUserPolicyResponse>,
+  input: __S(3264, __c204, 0) as any as S.Schema<DetachUserPolicyRequest>,
+  output: __S(3265, __c204, 1) as any as S.Schema<DetachUserPolicyResponse>,
   errors: [
     InvalidInputException,
     LimitExceededException,
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachUserPolicy",
@@ -4827,13 +4962,13 @@ export const disableOrganizationsRootCredentialsManagement: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3248,
-    __c203,
+    3280,
+    __c205,
     0,
   ) as any as S.Schema<DisableOrganizationsRootCredentialsManagementRequest>,
   output: __S(
-    3249,
-    __c203,
+    3281,
+    __c205,
     1,
   ) as any as S.Schema<DisableOrganizationsRootCredentialsManagementResponse>,
   errors: [
@@ -4842,6 +4977,7 @@ export const disableOrganizationsRootCredentialsManagement: API.OperationMethod<
     OrganizationNotInAllFeaturesModeException,
     ServiceAccessNotEnabledException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableOrganizationsRootCredentialsManagement",
@@ -4867,14 +5003,15 @@ export const disableOrganizationsRootSessions: API.OperationMethod<
   DisableOrganizationsRootSessionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3280, __c205, 0) as any as S.Schema<DisableOrganizationsRootSessionsRequest>,
-  output: __S(3281, __c205, 1) as any as S.Schema<DisableOrganizationsRootSessionsResponse>,
+  input: __S(3312, __c207, 0) as any as S.Schema<DisableOrganizationsRootSessionsRequest>,
+  output: __S(3313, __c207, 1) as any as S.Schema<DisableOrganizationsRootSessionsResponse>,
   errors: [
     AccountNotManagementOrDelegatedAdministratorException,
     OrganizationNotFoundException,
     OrganizationNotInAllFeaturesModeException,
     ServiceAccessNotEnabledException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableOrganizationsRootSessions",
@@ -4894,9 +5031,10 @@ export const disableOutboundWebIdentityFederation: API.OperationMethod<
   DisableOutboundWebIdentityFederationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c206, 0) as any as S.Schema<DisableOutboundWebIdentityFederationRequest>,
-  output: __S(3297, __c206, 1) as any as S.Schema<DisableOutboundWebIdentityFederationResponse>,
+  input: __S(3328, __c208, 0) as any as S.Schema<DisableOutboundWebIdentityFederationRequest>,
+  output: __S(3329, __c208, 1) as any as S.Schema<DisableOutboundWebIdentityFederationResponse>,
   errors: [FeatureDisabledException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableOutboundWebIdentityFederation",
@@ -4924,8 +5062,8 @@ export const enableMFADevice: API.OperationMethod<
   EnableMFADeviceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3312, __c207, 0) as any as S.Schema<EnableMFADeviceRequest>,
-  output: __S(3313, __c207, 1) as any as S.Schema<EnableMFADeviceResponse>,
+  input: __S(3344, __c209, 0) as any as S.Schema<EnableMFADeviceRequest>,
+  output: __S(3345, __c209, 1) as any as S.Schema<EnableMFADeviceResponse>,
   errors: [
     ConcurrentModificationException,
     EntityAlreadyExistsException,
@@ -4935,6 +5073,7 @@ export const enableMFADevice: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableMFADevice",
@@ -4971,13 +5110,13 @@ export const enableOrganizationsRootCredentialsManagement: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3328,
-    __c208,
+    3360,
+    __c210,
     0,
   ) as any as S.Schema<EnableOrganizationsRootCredentialsManagementRequest>,
   output: __S(
-    3329,
-    __c208,
+    3361,
+    __c210,
     1,
   ) as any as S.Schema<EnableOrganizationsRootCredentialsManagementResponse>,
   errors: [
@@ -4987,6 +5126,7 @@ export const enableOrganizationsRootCredentialsManagement: API.OperationMethod<
     OrganizationNotInAllFeaturesModeException,
     ServiceAccessNotEnabledException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableOrganizationsRootCredentialsManagement",
@@ -5021,8 +5161,8 @@ export const enableOrganizationsRootSessions: API.OperationMethod<
   EnableOrganizationsRootSessionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3344, __c209, 0) as any as S.Schema<EnableOrganizationsRootSessionsRequest>,
-  output: __S(3345, __c209, 1) as any as S.Schema<EnableOrganizationsRootSessionsResponse>,
+  input: __S(3376, __c211, 0) as any as S.Schema<EnableOrganizationsRootSessionsRequest>,
+  output: __S(3377, __c211, 1) as any as S.Schema<EnableOrganizationsRootSessionsResponse>,
   errors: [
     AccountNotManagementOrDelegatedAdministratorException,
     CallerIsNotManagementAccountException,
@@ -5030,6 +5170,7 @@ export const enableOrganizationsRootSessions: API.OperationMethod<
     OrganizationNotInAllFeaturesModeException,
     ServiceAccessNotEnabledException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableOrganizationsRootSessions",
@@ -5049,9 +5190,10 @@ export const enableOutboundWebIdentityFederation: API.OperationMethod<
   EnableOutboundWebIdentityFederationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c210, 0) as any as S.Schema<EnableOutboundWebIdentityFederationRequest>,
-  output: __S(3361, __c210, 1) as any as S.Schema<EnableOutboundWebIdentityFederationResponse>,
+  input: __S(3392, __c212, 0) as any as S.Schema<EnableOutboundWebIdentityFederationRequest>,
+  output: __S(3393, __c212, 1) as any as S.Schema<EnableOutboundWebIdentityFederationResponse>,
   errors: [FeatureEnabledException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableOutboundWebIdentityFederation",
@@ -5074,9 +5216,10 @@ export const generateCredentialReport: API.OperationMethod<
   GenerateCredentialReportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3376, __c211, 0) as any as S.Schema<GenerateCredentialReportRequest>,
-  output: __S(3377, __c211, 1) as any as S.Schema<GenerateCredentialReportResponse>,
+  input: __S(3408, __c213, 0) as any as S.Schema<GenerateCredentialReportRequest>,
+  output: __S(3409, __c213, 1) as any as S.Schema<GenerateCredentialReportResponse>,
   errors: [LimitExceededException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateCredentialReport",
@@ -5215,6 +5358,7 @@ export const generateOrganizationsAccessReport: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<GenerateOrganizationsAccessReportRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<GenerateOrganizationsAccessReportResponse>,
   errors: [ReportGenerationLimitExceededException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateOrganizationsAccessReport",
@@ -5289,6 +5433,7 @@ export const generateServiceLastAccessedDetails: API.OperationMethod<
   input: __S(16, __c1, 0) as any as S.Schema<GenerateServiceLastAccessedDetailsRequest>,
   output: __S(17, __c1, 1) as any as S.Schema<GenerateServiceLastAccessedDetailsResponse>,
   errors: [InvalidInputException, NoSuchEntityException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateServiceLastAccessedDetails",
@@ -5311,6 +5456,7 @@ export const getAccessKeyLastUsed: API.OperationMethod<
   input: __S(32, __c2, 0) as any as S.Schema<GetAccessKeyLastUsedRequest>,
   output: __S(34, __c2, 2) as any as S.Schema<GetAccessKeyLastUsedResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessKeyLastUsed",
@@ -5346,6 +5492,7 @@ export const getAccountAuthorizationDetails: API.PaginatedOperationMethod<
   input: __S(49, __c3, 1) as any as S.Schema<GetAccountAuthorizationDetailsRequest>,
   output: __S(61, __c3, 13) as any as S.Schema<GetAccountAuthorizationDetailsResponse>,
   errors: [ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountAuthorizationDetails",
@@ -5373,6 +5520,7 @@ export const getAccountPasswordPolicy: API.OperationMethod<
   input: __S(112, __c7, 0) as any as S.Schema<GetAccountPasswordPolicyRequest>,
   output: __S(114, __c7, 2) as any as S.Schema<GetAccountPasswordPolicyResponse>,
   errors: [NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountPasswordPolicy",
@@ -5402,6 +5550,7 @@ export const getAccountProperties: API.OperationMethod<
   input: __S(128, __c8, 0) as any as S.Schema<GetAccountPropertiesRequest>,
   output: __S(129, __c8, 1) as any as S.Schema<GetAccountPropertiesResponse>,
   errors: [InvalidInputException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountProperties",
@@ -5426,6 +5575,7 @@ export const getAccountSummary: API.OperationMethod<
   input: __S(160, __c10, 0) as any as S.Schema<GetAccountSummaryRequest>,
   output: __S(162, __c10, 2) as any as S.Schema<GetAccountSummaryResponse>,
   errors: [ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSummary",
@@ -5456,6 +5606,7 @@ export const getContextKeysForCustomPolicy: API.OperationMethod<
   input: __S(176, __c11, 0) as any as S.Schema<GetContextKeysForCustomPolicyRequest>,
   output: __S(192, __c12, 0) as any as S.Schema<GetContextKeysForPolicyResponse>,
   errors: [InvalidInputException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContextKeysForCustomPolicy",
@@ -5498,6 +5649,7 @@ export const getContextKeysForPrincipalPolicy: API.OperationMethod<
   input: __S(224, __c14, 0) as any as S.Schema<GetContextKeysForPrincipalPolicyRequest>,
   output: __S(192, __c12, 0) as any as S.Schema<GetContextKeysForPolicyResponse>,
   errors: [InvalidInputException, NoSuchEntityException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContextKeysForPrincipalPolicy",
@@ -5530,6 +5682,7 @@ export const getCredentialReport: API.OperationMethod<
     CredentialReportNotReadyException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCredentialReport",
@@ -5561,6 +5714,7 @@ export const getDelegationRequest: API.OperationMethod<
   input: __S(256, __c16, 0) as any as S.Schema<GetDelegationRequestRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<GetDelegationRequestResponse>,
   errors: [NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDelegationRequest",
@@ -5583,6 +5737,7 @@ export const getGroup: API.PaginatedOperationMethod<
   input: __S(288, __c18, 0) as any as S.Schema<GetGroupRequest>,
   output: __S(289, __c18, 1) as any as S.Schema<GetGroupResponse>,
   errors: [NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroup",
@@ -5625,6 +5780,7 @@ export const getGroupPolicy: API.OperationMethod<
   input: __S(320, __c20, 0) as any as S.Schema<GetGroupPolicyRequest>,
   output: __S(321, __c20, 1) as any as S.Schema<GetGroupPolicyResponse>,
   errors: [NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroupPolicy",
@@ -5664,6 +5820,7 @@ export const getHumanReadableSummary: API.OperationMethod<
   input: __S(336, __c21, 0) as any as S.Schema<GetHumanReadableSummaryRequest>,
   output: __S(337, __c21, 1) as any as S.Schema<GetHumanReadableSummaryResponse>,
   errors: [InvalidInputException, NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHumanReadableSummary",
@@ -5690,6 +5847,7 @@ export const getInstanceProfile: API.OperationMethod<
   input: __S(352, __c22, 0) as any as S.Schema<GetInstanceProfileRequest>,
   output: __S(353, __c22, 1) as any as S.Schema<GetInstanceProfileResponse>,
   errors: [NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstanceProfile",
@@ -5721,6 +5879,7 @@ export const getLoginProfile: API.OperationMethod<
   input: __S(368, __c23, 0) as any as S.Schema<GetLoginProfileRequest>,
   output: __S(369, __c23, 1) as any as S.Schema<GetLoginProfileResponse>,
   errors: [NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoginProfile",
@@ -5741,6 +5900,7 @@ export const getMFADevice: API.OperationMethod<
   input: __S(384, __c24, 0) as any as S.Schema<GetMFADeviceRequest>,
   output: __S(386, __c24, 2) as any as S.Schema<GetMFADeviceResponse>,
   errors: [NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMFADevice",
@@ -5766,6 +5926,7 @@ export const getOpenIDConnectProvider: API.OperationMethod<
   input: __S(400, __c25, 0) as any as S.Schema<GetOpenIDConnectProviderRequest>,
   output: __S(401, __c25, 1) as any as S.Schema<GetOpenIDConnectProviderResponse>,
   errors: [InvalidInputException, NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOpenIDConnectProvider",
@@ -5807,6 +5968,7 @@ export const getOrganizationsAccessReport: API.OperationMethod<
   input: __S(416, __c26, 0) as any as S.Schema<GetOrganizationsAccessReportRequest>,
   output: __S(419, __c26, 3) as any as S.Schema<GetOrganizationsAccessReportResponse>,
   errors: [NoSuchEntityException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOrganizationsAccessReport",
@@ -5828,6 +5990,7 @@ export const getOutboundWebIdentityFederationInfo: API.OperationMethod<
   input: __S(448, __c28, 0) as any as S.Schema<GetOutboundWebIdentityFederationInfoRequest>,
   output: __S(449, __c28, 1) as any as S.Schema<GetOutboundWebIdentityFederationInfoResponse>,
   errors: [FeatureDisabledException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOutboundWebIdentityFederationInfo",
@@ -5863,6 +6026,7 @@ export const getPolicy: API.OperationMethod<
   input: __S(464, __c29, 0) as any as S.Schema<GetPolicyRequest>,
   output: __S(465, __c29, 1) as any as S.Schema<GetPolicyResponse>,
   errors: [InvalidInputException, NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
@@ -5907,6 +6071,7 @@ export const getPolicyVersion: API.OperationMethod<
   input: __S(480, __c30, 0) as any as S.Schema<GetPolicyVersionRequest>,
   output: __S(481, __c30, 1) as any as S.Schema<GetPolicyVersionResponse>,
   errors: [InvalidInputException, NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyVersion",
@@ -5937,6 +6102,7 @@ export const getRole: API.OperationMethod<
   input: __S(496, __c31, 0) as any as S.Schema<GetRoleRequest>,
   output: __S(497, __c31, 1) as any as S.Schema<GetRoleResponse>,
   errors: [NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRole",
@@ -5976,6 +6142,7 @@ export const getRolePolicy: API.OperationMethod<
   input: __S(512, __c32, 0) as any as S.Schema<GetRolePolicyRequest>,
   output: __S(513, __c32, 1) as any as S.Schema<GetRolePolicyResponse>,
   errors: [NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRolePolicy",
@@ -6006,6 +6173,7 @@ export const getRoleTemplateVersion: API.OperationMethod<
   input: __S(528, __c33, 0) as any as S.Schema<GetRoleTemplateVersionRequest>,
   output: __S(537, __c33, 9) as any as S.Schema<GetRoleTemplateVersionResponse>,
   errors: [InvalidInputException, NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRoleTemplateVersion",
@@ -6031,8 +6199,9 @@ export const getSAMLProvider: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<GetSAMLProviderRequest>,
-  output: __S(547, __c34, 3) as any as S.Schema<GetSAMLProviderResponse>,
+  output: __S(550, __c34, 6) as any as S.Schema<GetSAMLProviderResponse>,
   errors: [InvalidInputException, NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSAMLProvider",
@@ -6061,6 +6230,7 @@ export const getServerCertificate: API.OperationMethod<
   input: __S(560, __c35, 0) as any as S.Schema<GetServerCertificateRequest>,
   output: __S(562, __c35, 2) as any as S.Schema<GetServerCertificateResponse>,
   errors: [NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServerCertificate",
@@ -6129,6 +6299,7 @@ export const getServiceLastAccessedDetails: API.OperationMethod<
   input: __S(592, __c37, 0) as any as S.Schema<GetServiceLastAccessedDetailsRequest>,
   output: __S(597, __c37, 5) as any as S.Schema<GetServiceLastAccessedDetailsResponse>,
   errors: [InvalidInputException, NoSuchEntityException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceLastAccessedDetails",
@@ -6174,6 +6345,7 @@ export const getServiceLastAccessedDetailsWithEntities: API.OperationMethod<
   input: __S(608, __c38, 0) as any as S.Schema<GetServiceLastAccessedDetailsWithEntitiesRequest>,
   output: __S(612, __c38, 4) as any as S.Schema<GetServiceLastAccessedDetailsWithEntitiesResponse>,
   errors: [InvalidInputException, NoSuchEntityException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceLastAccessedDetailsWithEntities",
@@ -6202,6 +6374,7 @@ export const getServiceLinkedRoleDeletionStatus: API.OperationMethod<
   input: __S(624, __c39, 0) as any as S.Schema<GetServiceLinkedRoleDeletionStatusRequest>,
   output: __S(629, __c39, 5) as any as S.Schema<GetServiceLinkedRoleDeletionStatusResponse>,
   errors: [InvalidInputException, NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceLinkedRoleDeletionStatus",
@@ -6230,6 +6403,7 @@ export const getSSHPublicKey: API.OperationMethod<
   input: __S(640, __c40, 0) as any as S.Schema<GetSSHPublicKeyRequest>,
   output: __S(641, __c40, 1) as any as S.Schema<GetSSHPublicKeyResponse>,
   errors: [NoSuchEntityException, UnrecognizedPublicKeyEncodingException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSSHPublicKey",
@@ -6254,6 +6428,7 @@ export const getUser: API.OperationMethod<
   input: __S(672, __c42, 0) as any as S.Schema<GetUserRequest>,
   output: __S(673, __c42, 1) as any as S.Schema<GetUserResponse>,
   errors: [NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUser",
@@ -6290,6 +6465,7 @@ export const getUserPolicy: API.OperationMethod<
   input: __S(688, __c43, 0) as any as S.Schema<GetUserPolicyRequest>,
   output: __S(689, __c43, 1) as any as S.Schema<GetUserPolicyResponse>,
   errors: [NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUserPolicy",
@@ -6327,6 +6503,7 @@ export const listAccessKeys: API.PaginatedOperationMethod<
   input: __S(704, __c44, 0) as any as S.Schema<ListAccessKeysRequest>,
   output: __S(707, __c44, 3) as any as S.Schema<ListAccessKeysResponse>,
   errors: [NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAccessKeys",
@@ -6357,6 +6534,7 @@ export const listAccountAliases: API.PaginatedOperationMethod<
   input: __S(720, __c45, 0) as any as S.Schema<ListAccountAliasesRequest>,
   output: __S(722, __c45, 2) as any as S.Schema<ListAccountAliasesResponse>,
   errors: [ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAccountAliases",
@@ -6399,6 +6577,7 @@ export const listAttachedGroupPolicies: API.PaginatedOperationMethod<
   input: __S(736, __c46, 0) as any as S.Schema<ListAttachedGroupPoliciesRequest>,
   output: __S(737, __c46, 1) as any as S.Schema<ListAttachedGroupPoliciesResponse>,
   errors: [InvalidInputException, NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAttachedGroupPolicies",
@@ -6441,6 +6620,7 @@ export const listAttachedRolePolicies: API.PaginatedOperationMethod<
   input: __S(752, __c47, 0) as any as S.Schema<ListAttachedRolePoliciesRequest>,
   output: __S(753, __c47, 1) as any as S.Schema<ListAttachedRolePoliciesResponse>,
   errors: [InvalidInputException, NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAttachedRolePolicies",
@@ -6483,6 +6663,7 @@ export const listAttachedUserPolicies: API.PaginatedOperationMethod<
   input: __S(768, __c48, 0) as any as S.Schema<ListAttachedUserPoliciesRequest>,
   output: __S(769, __c48, 1) as any as S.Schema<ListAttachedUserPoliciesResponse>,
   errors: [InvalidInputException, NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAttachedUserPolicies",
@@ -6520,6 +6701,7 @@ export const listDelegationRequests: API.OperationMethod<
   input: __S(784, __c49, 0) as any as S.Schema<ListDelegationRequestsRequest>,
   output: __S(786, __c49, 2) as any as S.Schema<ListDelegationRequestsResponse>,
   errors: [InvalidInputException, NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDelegationRequests",
@@ -6554,6 +6736,7 @@ export const listEntitiesForPolicy: API.PaginatedOperationMethod<
   input: __S(800, __c50, 0) as any as S.Schema<ListEntitiesForPolicyRequest>,
   output: __S(807, __c50, 7) as any as S.Schema<ListEntitiesForPolicyResponse>,
   errors: [InvalidInputException, NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEntitiesForPolicy",
@@ -6586,6 +6769,7 @@ export const listGroupPolicies: API.PaginatedOperationMethod<
   input: __S(816, __c51, 0) as any as S.Schema<ListGroupPoliciesRequest>,
   output: __S(817, __c51, 1) as any as S.Schema<ListGroupPoliciesResponse>,
   errors: [NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGroupPolicies",
@@ -6616,6 +6800,7 @@ export const listGroups: API.PaginatedOperationMethod<
   input: __S(848, __c53, 0) as any as S.Schema<ListGroupsRequest>,
   output: __S(849, __c53, 1) as any as S.Schema<ListGroupsResponse>,
   errors: [ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGroups",
@@ -6646,6 +6831,7 @@ export const listGroupsForUser: API.PaginatedOperationMethod<
   input: __S(880, __c55, 0) as any as S.Schema<ListGroupsForUserRequest>,
   output: __S(881, __c55, 1) as any as S.Schema<ListGroupsForUserResponse>,
   errors: [NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGroupsForUser",
@@ -6683,6 +6869,7 @@ export const listInstanceProfiles: API.PaginatedOperationMethod<
   input: __S(896, __c56, 0) as any as S.Schema<ListInstanceProfilesRequest>,
   output: __S(897, __c56, 1) as any as S.Schema<ListInstanceProfilesResponse>,
   errors: [ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListInstanceProfiles",
@@ -6719,6 +6906,7 @@ export const listInstanceProfilesForRole: API.PaginatedOperationMethod<
   input: __S(912, __c57, 0) as any as S.Schema<ListInstanceProfilesForRoleRequest>,
   output: __S(913, __c57, 1) as any as S.Schema<ListInstanceProfilesForRoleResponse>,
   errors: [NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListInstanceProfilesForRole",
@@ -6751,6 +6939,7 @@ export const listInstanceProfileTags: API.PaginatedOperationMethod<
   input: __S(928, __c58, 0) as any as S.Schema<ListInstanceProfileTagsRequest>,
   output: __S(929, __c58, 1) as any as S.Schema<ListInstanceProfileTagsResponse>,
   errors: [NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListInstanceProfileTags",
@@ -6784,6 +6973,7 @@ export const listMFADevices: API.PaginatedOperationMethod<
   input: __S(944, __c59, 0) as any as S.Schema<ListMFADevicesRequest>,
   output: __S(947, __c59, 3) as any as S.Schema<ListMFADevicesResponse>,
   errors: [NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMFADevices",
@@ -6817,6 +7007,7 @@ export const listMFADeviceTags: API.PaginatedOperationMethod<
   input: __S(960, __c60, 0) as any as S.Schema<ListMFADeviceTagsRequest>,
   output: __S(961, __c60, 1) as any as S.Schema<ListMFADeviceTagsResponse>,
   errors: [InvalidInputException, NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMFADeviceTags",
@@ -6847,6 +7038,7 @@ export const listOpenIDConnectProviders: API.OperationMethod<
   input: __S(976, __c61, 0) as any as S.Schema<ListOpenIDConnectProvidersRequest>,
   output: __S(979, __c61, 3) as any as S.Schema<ListOpenIDConnectProvidersResponse>,
   errors: [ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOpenIDConnectProviders",
@@ -6877,6 +7069,7 @@ export const listOpenIDConnectProviderTags: API.PaginatedOperationMethod<
   input: __S(992, __c62, 0) as any as S.Schema<ListOpenIDConnectProviderTagsRequest>,
   output: __S(993, __c62, 1) as any as S.Schema<ListOpenIDConnectProviderTagsResponse>,
   errors: [InvalidInputException, NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOpenIDConnectProviderTags",
@@ -6914,6 +7107,7 @@ export const listOrganizationsFeatures: API.OperationMethod<
     OrganizationNotInAllFeaturesModeException,
     ServiceAccessNotEnabledException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOrganizationsFeatures",
@@ -6952,6 +7146,7 @@ export const listPolicies: API.PaginatedOperationMethod<
   input: __S(1024, __c64, 0) as any as S.Schema<ListPoliciesRequest>,
   output: __S(1026, __c64, 2) as any as S.Schema<ListPoliciesResponse>,
   errors: [ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPolicies",
@@ -7014,6 +7209,7 @@ export const listPoliciesGrantingServiceAccess: API.OperationMethod<
   input: __S(1041, __c65, 1) as any as S.Schema<ListPoliciesGrantingServiceAccessRequest>,
   output: __S(1046, __c65, 6) as any as S.Schema<ListPoliciesGrantingServiceAccessResponse>,
   errors: [InvalidInputException, NoSuchEntityException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPoliciesGrantingServiceAccess",
@@ -7041,6 +7237,7 @@ export const listPolicyTags: API.PaginatedOperationMethod<
   input: __S(1056, __c66, 0) as any as S.Schema<ListPolicyTagsRequest>,
   output: __S(1057, __c66, 1) as any as S.Schema<ListPolicyTagsResponse>,
   errors: [InvalidInputException, NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPolicyTags",
@@ -7076,6 +7273,7 @@ export const listPolicyVersions: API.PaginatedOperationMethod<
   input: __S(1072, __c67, 0) as any as S.Schema<ListPolicyVersionsRequest>,
   output: __S(1073, __c67, 1) as any as S.Schema<ListPolicyVersionsResponse>,
   errors: [InvalidInputException, NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPolicyVersions",
@@ -7113,6 +7311,7 @@ export const listRolePolicies: API.PaginatedOperationMethod<
   input: __S(1088, __c68, 0) as any as S.Schema<ListRolePoliciesRequest>,
   output: __S(1089, __c68, 1) as any as S.Schema<ListRolePoliciesResponse>,
   errors: [NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRolePolicies",
@@ -7156,6 +7355,7 @@ export const listRoles: API.PaginatedOperationMethod<
   input: __S(1104, __c69, 0) as any as S.Schema<ListRolesRequest>,
   output: __S(1105, __c69, 1) as any as S.Schema<ListRolesResponse>,
   errors: [ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRoles",
@@ -7185,6 +7385,7 @@ export const listRoleTags: API.PaginatedOperationMethod<
   input: __S(1120, __c70, 0) as any as S.Schema<ListRoleTagsRequest>,
   output: __S(1121, __c70, 1) as any as S.Schema<ListRoleTagsResponse>,
   errors: [NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRoleTags",
@@ -7215,6 +7416,7 @@ export const listSAMLProviders: API.OperationMethod<
   input: __S(1136, __c71, 0) as any as S.Schema<ListSAMLProvidersRequest>,
   output: __S(1139, __c71, 3) as any as S.Schema<ListSAMLProvidersResponse>,
   errors: [ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSAMLProviders",
@@ -7245,6 +7447,7 @@ export const listSAMLProviderTags: API.PaginatedOperationMethod<
   input: __S(1152, __c72, 0) as any as S.Schema<ListSAMLProviderTagsRequest>,
   output: __S(1153, __c72, 1) as any as S.Schema<ListSAMLProviderTagsResponse>,
   errors: [InvalidInputException, NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSAMLProviderTags",
@@ -7285,6 +7488,7 @@ export const listServerCertificates: API.PaginatedOperationMethod<
   input: __S(1168, __c73, 0) as any as S.Schema<ListServerCertificatesRequest>,
   output: __S(1170, __c73, 2) as any as S.Schema<ListServerCertificatesResponse>,
   errors: [ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListServerCertificates",
@@ -7323,6 +7527,7 @@ export const listServerCertificateTags: API.PaginatedOperationMethod<
   input: __S(1184, __c74, 0) as any as S.Schema<ListServerCertificateTagsRequest>,
   output: __S(1185, __c74, 1) as any as S.Schema<ListServerCertificateTagsResponse>,
   errors: [NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListServerCertificateTags",
@@ -7369,6 +7574,7 @@ export const listServiceSpecificCredentials: API.OperationMethod<
   input: __S(1200, __c75, 0) as any as S.Schema<ListServiceSpecificCredentialsRequest>,
   output: __S(1203, __c75, 3) as any as S.Schema<ListServiceSpecificCredentialsResponse>,
   errors: [NoSuchEntityException, ServiceNotSupportedException, RequestLimitExceeded, InvalidInput],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListServiceSpecificCredentials",
@@ -7404,6 +7610,7 @@ export const listSigningCertificates: API.PaginatedOperationMethod<
   input: __S(1216, __c76, 0) as any as S.Schema<ListSigningCertificatesRequest>,
   output: __S(1218, __c76, 2) as any as S.Schema<ListSigningCertificatesResponse>,
   errors: [NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSigningCertificates",
@@ -7440,6 +7647,7 @@ export const listSSHPublicKeys: API.PaginatedOperationMethod<
   input: __S(1248, __c78, 0) as any as S.Schema<ListSSHPublicKeysRequest>,
   output: __S(1251, __c78, 3) as any as S.Schema<ListSSHPublicKeysResponse>,
   errors: [NoSuchEntityException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSSHPublicKeys",
@@ -7476,6 +7684,7 @@ export const listUserPolicies: API.PaginatedOperationMethod<
   input: __S(1264, __c79, 0) as any as S.Schema<ListUserPoliciesRequest>,
   output: __S(1265, __c79, 1) as any as S.Schema<ListUserPoliciesResponse>,
   errors: [NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListUserPolicies",
@@ -7517,6 +7726,7 @@ export const listUsers: API.PaginatedOperationMethod<
   input: __S(1280, __c80, 0) as any as S.Schema<ListUsersRequest>,
   output: __S(1281, __c80, 1) as any as S.Schema<ListUsersResponse>,
   errors: [ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListUsers",
@@ -7545,6 +7755,7 @@ export const listUserTags: API.PaginatedOperationMethod<
   input: __S(1296, __c81, 0) as any as S.Schema<ListUserTagsRequest>,
   output: __S(1297, __c81, 1) as any as S.Schema<ListUserTagsResponse>,
   errors: [NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListUserTags",
@@ -7581,6 +7792,7 @@ export const listVirtualMFADevices: API.PaginatedOperationMethod<
   input: __S(1312, __c82, 0) as any as S.Schema<ListVirtualMFADevicesRequest>,
   output: __S(1314, __c82, 2) as any as S.Schema<ListVirtualMFADevicesResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVirtualMFADevices",
@@ -7617,6 +7829,7 @@ export const putAccountProperties: API.OperationMethod<
   input: __S(1328, __c83, 0) as any as S.Schema<PutAccountPropertiesRequest>,
   output: __S(1329, __c83, 1) as any as S.Schema<PutAccountPropertiesResponse>,
   errors: [ConcurrentModificationException, InvalidInputException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccountProperties",
@@ -7666,6 +7879,7 @@ export const putGroupPolicy: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutGroupPolicy",
@@ -7709,6 +7923,7 @@ export const putRolePermissionsBoundary: API.OperationMethod<
     ServiceFailureException,
     UnmodifiableEntityException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRolePermissionsBoundary",
@@ -7771,6 +7986,7 @@ export const putRolePolicy: API.OperationMethod<
     ServiceFailureException,
     UnmodifiableEntityException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRolePolicy",
@@ -7810,6 +8026,7 @@ export const putUserPermissionsBoundary: API.OperationMethod<
     PolicyNotAttachableException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutUserPermissionsBoundary",
@@ -7859,6 +8076,7 @@ export const putUserPolicy: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutUserPolicy",
@@ -7897,6 +8115,7 @@ export const rejectDelegationRequest: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectDelegationRequest",
@@ -7932,6 +8151,7 @@ export const removeClientIDFromOpenIDConnectProvider: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveClientIDFromOpenIDConnectProvider",
@@ -7972,6 +8192,7 @@ export const removeRoleFromInstanceProfile: API.OperationMethod<
     ServiceFailureException,
     UnmodifiableEntityException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveRoleFromInstanceProfile",
@@ -7996,6 +8217,7 @@ export const removeUserFromGroup: API.OperationMethod<
   input: __S(1472, __c92, 0) as any as S.Schema<RemoveUserFromGroupRequest>,
   output: __S(1473, __c92, 1) as any as S.Schema<RemoveUserFromGroupResponse>,
   errors: [LimitExceededException, NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveUserFromGroup",
@@ -8019,6 +8241,7 @@ export const resetServiceSpecificCredential: API.OperationMethod<
   input: __S(1488, __c93, 0) as any as S.Schema<ResetServiceSpecificCredentialRequest>,
   output: __S(1489, __c93, 1) as any as S.Schema<ResetServiceSpecificCredentialResponse>,
   errors: [NoSuchEntityException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetServiceSpecificCredential",
@@ -8055,6 +8278,7 @@ export const resyncMFADevice: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResyncMFADevice",
@@ -8096,6 +8320,7 @@ export const sendDelegationToken: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendDelegationToken",
@@ -8133,6 +8358,7 @@ export const setDefaultPolicyVersion: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetDefaultPolicyVersion",
@@ -8174,6 +8400,7 @@ export const setSecurityTokenServicePreferences: API.OperationMethod<
   input: __S(1552, __c97, 0) as any as S.Schema<SetSecurityTokenServicePreferencesRequest>,
   output: __S(1553, __c97, 1) as any as S.Schema<SetSecurityTokenServicePreferencesResponse>,
   errors: [ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetSecurityTokenServicePreferences",
@@ -8225,6 +8452,7 @@ export const simulateCustomPolicy: API.PaginatedOperationMethod<
   input: __S(1570, __c98, 2) as any as S.Schema<SimulateCustomPolicyRequest>,
   output: __S(1599, __c99, 15) as any as S.Schema<SimulatePolicyResponse>,
   errors: [InvalidInputException, PolicyEvaluationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SimulateCustomPolicy",
@@ -8297,6 +8525,7 @@ export const simulatePrincipalPolicy: API.PaginatedOperationMethod<
   input: __S(1603, __c100, 3) as any as S.Schema<SimulatePrincipalPolicyRequest>,
   output: __S(1599, __c99, 15) as any as S.Schema<SimulatePolicyResponse>,
   errors: [InvalidInputException, NoSuchEntityException, PolicyEvaluationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SimulatePrincipalPolicy",
@@ -8359,6 +8588,7 @@ export const tagInstanceProfile: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagInstanceProfile",
@@ -8416,6 +8646,7 @@ export const tagMFADevice: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagMFADevice",
@@ -8474,6 +8705,7 @@ export const tagOpenIDConnectProvider: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagOpenIDConnectProvider",
@@ -8530,6 +8762,7 @@ export const tagPolicy: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagPolicy",
@@ -8594,6 +8827,7 @@ export const tagRole: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagRole",
@@ -8652,6 +8886,7 @@ export const tagSAMLProvider: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagSAMLProvider",
@@ -8717,6 +8952,7 @@ export const tagServerCertificate: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagServerCertificate",
@@ -8780,6 +9016,7 @@ export const tagUser: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagUser",
@@ -8811,6 +9048,7 @@ export const untagInstanceProfile: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagInstanceProfile",
@@ -8843,6 +9081,7 @@ export const untagMFADevice: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagMFADevice",
@@ -8876,6 +9115,7 @@ export const untagOpenIDConnectProvider: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagOpenIDConnectProvider",
@@ -8907,6 +9147,7 @@ export const untagPolicy: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagPolicy",
@@ -8932,6 +9173,7 @@ export const untagRole: API.OperationMethod<
   input: __S(1824, __c114, 0) as any as S.Schema<UntagRoleRequest>,
   output: __S(1825, __c114, 1) as any as S.Schema<UntagRoleResponse>,
   errors: [ConcurrentModificationException, NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagRole",
@@ -8965,6 +9207,7 @@ export const untagSAMLProvider: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagSAMLProvider",
@@ -9003,6 +9246,7 @@ export const untagServerCertificate: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagServerCertificate",
@@ -9028,6 +9272,7 @@ export const untagUser: API.OperationMethod<
   input: __S(1872, __c117, 0) as any as S.Schema<UntagUserRequest>,
   output: __S(1873, __c117, 1) as any as S.Schema<UntagUserResponse>,
   errors: [ConcurrentModificationException, NoSuchEntityException, ServiceFailureException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagUser",
@@ -9070,6 +9315,7 @@ export const updateAccessKey: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccessKey",
@@ -9110,6 +9356,7 @@ export const updateAccountPasswordPolicy: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountPasswordPolicy",
@@ -9145,6 +9392,7 @@ export const updateAssumeRolePolicy: API.OperationMethod<
     ServiceFailureException,
     UnmodifiableEntityException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssumeRolePolicy",
@@ -9181,6 +9429,7 @@ export const updateDelegationRequest: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDelegationRequest",
@@ -9222,6 +9471,7 @@ export const updateGroup: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGroup",
@@ -9231,13 +9481,15 @@ export const updateGroup: API.OperationMethod<
 
 export type UpdateLoginProfileError =
   | EntityTemporarilyUnmodifiableException
+  | InvalidInputException
   | LimitExceededException
   | NoSuchEntityException
   | PasswordPolicyViolationException
   | ServiceFailureException
   | CommonErrors;
 /**
- * Changes the password for the specified IAM user. You can use the CLI, the Amazon Web Services
+ * Changes the password or the maximum sign-in session duration for the specified
+ * IAM user. You can use the CLI, the Amazon Web Services
  * API, or the **Users** page in the IAM console to change
  * the password for any IAM user. Use ChangePassword to
  * change your own password in the **My Security Credentials**
@@ -9256,16 +9508,73 @@ export const updateLoginProfile: API.OperationMethod<
   output: __S(1969, __c123, 1) as any as S.Schema<UpdateLoginProfileResponse>,
   errors: [
     EntityTemporarilyUnmodifiableException,
+    InvalidInputException,
     LimitExceededException,
     NoSuchEntityException,
     PasswordPolicyViolationException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLoginProfile",
   telemetry: TELEMETRY,
   span: "UpdateLoginProfile",
+}));
+
+export type UpdateOpenIDConnectProviderError =
+  | ConcurrentModificationException
+  | InvalidInputException
+  | NoSuchEntityException
+  | ServiceFailureException
+  | CommonErrors;
+/**
+ * Updates the configuration of an existing IAM OpenID Connect (OIDC) identity provider
+ * resource object. Use this operation to set, change, or remove the trusted identity
+ * propagation context provider, and to associate or disassociate an IAM Identity Center
+ * instance with the provider.
+ *
+ * This operation does not update the OIDC provider's server certificate thumbprints.
+ * Thumbprints are managed only by the UpdateOpenIDConnectProviderThumbprint operation. To change a provider's
+ * thumbprints, call that operation instead.
+ *
+ * To remove a configuration rather than replace it, use the
+ * `RemoveContextProvider` and `RemoveIdentityCenterInstance`
+ * parameters. For each configuration, provide either the new value or the corresponding
+ * `Remove` flag in a single request, but not both. For example, specifying
+ * both `ContextProvider` and `RemoveContextProvider` in the same
+ * request is not allowed.
+ *
+ * A single request can change either the context provider or the IAM Identity Center
+ * association, but not both. To change both, make separate
+ * `UpdateOpenIDConnectProvider` requests. To remove the context provider,
+ * first remove the IAM Identity Center association in a separate request.
+ *
+ * To control who can configure trusted identity propagation on an OIDC provider, use the
+ * iam:EnableIdentityPropagation, iam:EnableIdentityCenterAssociation, iam:ResourceIdentityProviderIssuers, iam:RequestIdentityCenterInstanceArn, and iam:ResourceIdentityCenterInstanceArn condition keys in IAM
+ * policies. The `Request` keys contain the values in the request. The
+ * `Resource` keys contain the values stored on the provider.
+ */
+export const updateOpenIDConnectProvider: API.OperationMethod<
+  UpdateOpenIDConnectProviderRequest & RegionInput,
+  UpdateOpenIDConnectProviderResponse,
+  UpdateOpenIDConnectProviderError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1984, __c124, 0) as any as S.Schema<UpdateOpenIDConnectProviderRequest>,
+  output: __S(1985, __c124, 1) as any as S.Schema<UpdateOpenIDConnectProviderResponse>,
+  errors: [
+    ConcurrentModificationException,
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceFailureException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateOpenIDConnectProvider",
+  telemetry: TELEMETRY,
+  span: "UpdateOpenIDConnectProvider",
 }));
 
 export type UpdateOpenIDConnectProviderThumbprintError =
@@ -9304,14 +9613,15 @@ export const updateOpenIDConnectProviderThumbprint: API.OperationMethod<
   UpdateOpenIDConnectProviderThumbprintError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c124, 0) as any as S.Schema<UpdateOpenIDConnectProviderThumbprintRequest>,
-  output: __S(1985, __c124, 1) as any as S.Schema<UpdateOpenIDConnectProviderThumbprintResponse>,
+  input: __S(2000, __c125, 0) as any as S.Schema<UpdateOpenIDConnectProviderThumbprintRequest>,
+  output: __S(2001, __c125, 1) as any as S.Schema<UpdateOpenIDConnectProviderThumbprintResponse>,
   errors: [
     ConcurrentModificationException,
     InvalidInputException,
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOpenIDConnectProviderThumbprint",
@@ -9320,12 +9630,15 @@ export const updateOpenIDConnectProviderThumbprint: API.OperationMethod<
 }));
 
 export type UpdateRoleError =
+  | InvalidInputException
   | NoSuchEntityException
   | ServiceFailureException
   | UnmodifiableEntityException
   | CommonErrors;
 /**
- * Updates the description or maximum session duration setting of a role.
+ * Updates the description, maximum session duration, or maximum sign-in session duration
+ * of a role. You cannot change the maximum sign-in session duration of a service-linked
+ * role.
  */
 export const updateRole: API.OperationMethod<
   UpdateRoleRequest & RegionInput,
@@ -9333,9 +9646,15 @@ export const updateRole: API.OperationMethod<
   UpdateRoleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c125, 0) as any as S.Schema<UpdateRoleRequest>,
-  output: __S(2001, __c125, 1) as any as S.Schema<UpdateRoleResponse>,
-  errors: [NoSuchEntityException, ServiceFailureException, UnmodifiableEntityException],
+  input: __S(2016, __c126, 0) as any as S.Schema<UpdateRoleRequest>,
+  output: __S(2017, __c126, 1) as any as S.Schema<UpdateRoleResponse>,
+  errors: [
+    InvalidInputException,
+    NoSuchEntityException,
+    ServiceFailureException,
+    UnmodifiableEntityException,
+  ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRole",
@@ -9360,9 +9679,10 @@ export const updateRoleDescription: API.OperationMethod<
   UpdateRoleDescriptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c126, 0) as any as S.Schema<UpdateRoleDescriptionRequest>,
-  output: __S(2017, __c126, 1) as any as S.Schema<UpdateRoleDescriptionResponse>,
+  input: __S(2032, __c127, 0) as any as S.Schema<UpdateRoleDescriptionRequest>,
+  output: __S(2033, __c127, 1) as any as S.Schema<UpdateRoleDescriptionResponse>,
   errors: [NoSuchEntityException, ServiceFailureException, UnmodifiableEntityException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoleDescription",
@@ -9381,6 +9701,24 @@ export type UpdateSAMLProviderError =
  * Updates the metadata document, SAML encryption settings, and private keys for an
  * existing SAML provider. To rotate private keys, add your new private key and then remove
  * the old key in a separate request.
+ *
+ * You can also use this operation to set, change, or remove the trusted identity
+ * propagation context provider, and to associate or disassociate an IAM Identity Center
+ * instance with the provider. To remove a configuration rather than replace it, use the
+ * `RemoveContextProvider` and `RemoveIdentityCenterInstance`
+ * parameters. For each configuration, provide either the new value or the corresponding
+ * `Remove` flag in a single request, but not both.
+ *
+ * A single request can change either the context provider or the provider metadata, but
+ * not both. Provider metadata includes the SAML metadata document, assertion encryption
+ * mode, private keys, and IAM Identity Center association. To change both, make separate
+ * `UpdateSAMLProvider` requests. To remove the context provider, first
+ * remove the IAM Identity Center association in a separate request.
+ *
+ * To control who can configure trusted identity propagation on a SAML provider, use the
+ * iam:EnableIdentityPropagation, iam:EnableIdentityCenterAssociation, iam:RequestIdentityProviderIssuers, iam:ResourceIdentityProviderIssuers, iam:RequestIdentityCenterInstanceArn, and iam:ResourceIdentityCenterInstanceArn condition keys in IAM
+ * policies. The `Request` keys contain the values in the request. The
+ * `Resource` keys contain the values stored on the provider.
  */
 export const updateSAMLProvider: API.OperationMethod<
   UpdateSAMLProviderRequest & RegionInput,
@@ -9388,8 +9726,8 @@ export const updateSAMLProvider: API.OperationMethod<
   UpdateSAMLProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c127, 0) as any as S.Schema<UpdateSAMLProviderRequest>,
-  output: __S(2033, __c127, 1) as any as S.Schema<UpdateSAMLProviderResponse>,
+  input: __S(2048, __c128, 0) as any as S.Schema<UpdateSAMLProviderRequest>,
+  output: __S(2049, __c128, 1) as any as S.Schema<UpdateSAMLProviderResponse>,
   errors: [
     ConcurrentModificationException,
     InvalidInputException,
@@ -9397,6 +9735,7 @@ export const updateSAMLProvider: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSAMLProvider",
@@ -9437,14 +9776,15 @@ export const updateServerCertificate: API.OperationMethod<
   UpdateServerCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c128, 0) as any as S.Schema<UpdateServerCertificateRequest>,
-  output: __S(2049, __c128, 1) as any as S.Schema<UpdateServerCertificateResponse>,
+  input: __S(2064, __c129, 0) as any as S.Schema<UpdateServerCertificateRequest>,
+  output: __S(2065, __c129, 1) as any as S.Schema<UpdateServerCertificateResponse>,
   errors: [
     EntityAlreadyExistsException,
     LimitExceededException,
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServerCertificate",
@@ -9465,9 +9805,10 @@ export const updateServiceSpecificCredential: API.OperationMethod<
   UpdateServiceSpecificCredentialError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2064, __c129, 0) as any as S.Schema<UpdateServiceSpecificCredentialRequest>,
-  output: __S(2065, __c129, 1) as any as S.Schema<UpdateServiceSpecificCredentialResponse>,
+  input: __S(2080, __c130, 0) as any as S.Schema<UpdateServiceSpecificCredentialRequest>,
+  output: __S(2081, __c130, 1) as any as S.Schema<UpdateServiceSpecificCredentialResponse>,
   errors: [NoSuchEntityException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceSpecificCredential",
@@ -9498,14 +9839,15 @@ export const updateSigningCertificate: API.OperationMethod<
   UpdateSigningCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c130, 0) as any as S.Schema<UpdateSigningCertificateRequest>,
-  output: __S(2081, __c130, 1) as any as S.Schema<UpdateSigningCertificateResponse>,
+  input: __S(2096, __c131, 0) as any as S.Schema<UpdateSigningCertificateRequest>,
+  output: __S(2097, __c131, 1) as any as S.Schema<UpdateSigningCertificateResponse>,
   errors: [
     InvalidInputException,
     LimitExceededException,
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSigningCertificate",
@@ -9530,9 +9872,10 @@ export const updateSSHPublicKey: API.OperationMethod<
   UpdateSSHPublicKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2096, __c131, 0) as any as S.Schema<UpdateSSHPublicKeyRequest>,
-  output: __S(2097, __c131, 1) as any as S.Schema<UpdateSSHPublicKeyResponse>,
+  input: __S(2112, __c132, 0) as any as S.Schema<UpdateSSHPublicKeyRequest>,
+  output: __S(2113, __c132, 1) as any as S.Schema<UpdateSSHPublicKeyResponse>,
   errors: [InvalidInputException, NoSuchEntityException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSSHPublicKey",
@@ -9567,8 +9910,8 @@ export const updateUser: API.OperationMethod<
   UpdateUserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c132, 0) as any as S.Schema<UpdateUserRequest>,
-  output: __S(2113, __c132, 1) as any as S.Schema<UpdateUserResponse>,
+  input: __S(2128, __c133, 0) as any as S.Schema<UpdateUserRequest>,
+  output: __S(2129, __c133, 1) as any as S.Schema<UpdateUserResponse>,
   errors: [
     ConcurrentModificationException,
     EntityAlreadyExistsException,
@@ -9577,6 +9920,7 @@ export const updateUser: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUser",
@@ -9627,8 +9971,8 @@ export const uploadServerCertificate: API.OperationMethod<
   UploadServerCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2128, __c133, 0) as any as S.Schema<UploadServerCertificateRequest>,
-  output: __S(2129, __c133, 1) as any as S.Schema<UploadServerCertificateResponse>,
+  input: __S(2144, __c134, 0) as any as S.Schema<UploadServerCertificateRequest>,
+  output: __S(2145, __c134, 1) as any as S.Schema<UploadServerCertificateResponse>,
   errors: [
     ConcurrentModificationException,
     EntityAlreadyExistsException,
@@ -9638,6 +9982,7 @@ export const uploadServerCertificate: API.OperationMethod<
     MalformedCertificateException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadServerCertificate",
@@ -9684,8 +10029,8 @@ export const uploadSigningCertificate: API.OperationMethod<
   UploadSigningCertificateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c134, 0) as any as S.Schema<UploadSigningCertificateRequest>,
-  output: __S(2145, __c134, 1) as any as S.Schema<UploadSigningCertificateResponse>,
+  input: __S(2160, __c135, 0) as any as S.Schema<UploadSigningCertificateRequest>,
+  output: __S(2161, __c135, 1) as any as S.Schema<UploadSigningCertificateResponse>,
   errors: [
     ConcurrentModificationException,
     DuplicateCertificateException,
@@ -9696,6 +10041,7 @@ export const uploadSigningCertificate: API.OperationMethod<
     NoSuchEntityException,
     ServiceFailureException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadSigningCertificate",
@@ -9724,8 +10070,8 @@ export const uploadSSHPublicKey: API.OperationMethod<
   UploadSSHPublicKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c135, 0) as any as S.Schema<UploadSSHPublicKeyRequest>,
-  output: __S(2161, __c135, 1) as any as S.Schema<UploadSSHPublicKeyResponse>,
+  input: __S(2176, __c136, 0) as any as S.Schema<UploadSSHPublicKeyRequest>,
+  output: __S(2177, __c136, 1) as any as S.Schema<UploadSSHPublicKeyResponse>,
   errors: [
     DuplicateSSHPublicKeyException,
     InvalidPublicKeyException,
@@ -9733,6 +10079,7 @@ export const uploadSSHPublicKey: API.OperationMethod<
     NoSuchEntityException,
     UnrecognizedPublicKeyEncodingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadSSHPublicKey",
@@ -9825,8 +10172,8 @@ function __c3(j: number): any {
           UserPolicyList: S.optional(__S(51, __c3, 3)),
           GroupList: S.optional(__S(52, __c3, 4)),
           AttachedManagedPolicies: S.optional(__S(65, __c4, 1)),
-          PermissionsBoundary: S.optional(__S(2240, __c140, 0)),
-          Tags: S.optional(__S(2209, __c138, 1)),
+          PermissionsBoundary: S.optional(__S(2256, __c141, 0)),
+          Tags: S.optional(__S(2225, __c139, 1)),
         }),
       ).annotate({ identifier: "UserDetail" });
     case 6:
@@ -9857,9 +10204,9 @@ function __c3(j: number): any {
           InstanceProfileList: S.optional(__S(80, __c5, 0)),
           RolePolicyList: S.optional(__S(51, __c3, 3)),
           AttachedManagedPolicies: S.optional(__S(65, __c4, 1)),
-          PermissionsBoundary: S.optional(__S(2240, __c140, 0)),
-          Tags: S.optional(__S(2209, __c138, 1)),
-          RoleLastUsed: S.optional(__S(2224, __c139, 0)),
+          PermissionsBoundary: S.optional(__S(2256, __c141, 0)),
+          Tags: S.optional(__S(2225, __c139, 1)),
+          RoleLastUsed: S.optional(__S(2240, __c140, 0)),
         }),
       ).annotate({ identifier: "RoleDetail" });
     case 10:
@@ -9909,13 +10256,13 @@ function __c4(j: number): any {
 function __c5(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2496, __c156, 0));
+      return S.Array(__S(2512, __c157, 0));
   }
 }
 function __c6(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2656, __c166, 0));
+      return S.Array(__S(2688, __c168, 0));
   }
 }
 function __c7(j: number): any {
@@ -10068,7 +10415,7 @@ function __c17(j: number): any {
           OwnerAccountId: S.optional(S.String),
           Description: S.optional(S.String),
           RequestMessage: S.optional(S.String),
-          Permissions: S.optional(__S(2435, __c152, 3)),
+          Permissions: S.optional(__S(2451, __c153, 3)),
           PermissionPolicy: S.optional(S.String),
           RolePermissionRestrictionArns: S.optional(__S(272, __c17, 0)),
           OwnerId: S.optional(S.String),
@@ -10101,7 +10448,7 @@ function __c18(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Group: __S(2464, __c154, 0),
+          Group: __S(2480, __c155, 0),
           Users: __S(304, __c19, 0),
           IsTruncated: S.optional(S.Boolean),
           Marker: S.optional(S.String),
@@ -10112,7 +10459,7 @@ function __c18(j: number): any {
 function __c19(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2768, __c173, 0));
+      return S.Array(__S(2800, __c175, 0));
   }
 }
 function __c20(j: number): any {
@@ -10156,7 +10503,7 @@ function __c22(j: number): any {
         ),
       ).annotate({ identifier: "GetInstanceProfileRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ InstanceProfile: __S(2496, __c156, 0) }).pipe(ns)).annotate(
+      return S.suspend(() => S.Struct({ InstanceProfile: __S(2512, __c157, 0) }).pipe(ns)).annotate(
         { identifier: "GetInstanceProfileResponse" },
       );
   }
@@ -10170,7 +10517,7 @@ function __c23(j: number): any {
         ),
       ).annotate({ identifier: "GetLoginProfileRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ LoginProfile: __S(2544, __c159, 0) }).pipe(ns)).annotate({
+      return S.suspend(() => S.Struct({ LoginProfile: __S(2560, __c160, 0) }).pipe(ns)).annotate({
         identifier: "GetLoginProfileResponse",
       });
   }
@@ -10208,10 +10555,13 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Url: S.optional(S.String),
-          ClientIDList: S.optional(__S(2576, __c161, 0)),
-          ThumbprintList: S.optional(__S(2592, __c162, 0)),
+          ClientIDList: S.optional(__S(2592, __c162, 0)),
+          ThumbprintList: S.optional(__S(2608, __c163, 0)),
           CreateDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          Tags: S.optional(__S(2209, __c138, 1)),
+          Tags: S.optional(__S(2225, __c139, 1)),
+          ContextProvider: S.optional(__S(2626, __c164, 2)),
+          IdentityCenterInstanceArn: S.optional(S.String),
+          IdentityStoreArn: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "GetOpenIDConnectProviderResponse" });
   }
@@ -10291,7 +10641,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "GetPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Policy: S.optional(__S(2624, __c164, 0)) }).pipe(ns),
+        S.Struct({ Policy: S.optional(__S(2656, __c166, 0)) }).pipe(ns),
       ).annotate({ identifier: "GetPolicyResponse" });
   }
 }
@@ -10305,7 +10655,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "GetPolicyVersionRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ PolicyVersion: S.optional(__S(2656, __c166, 0)) }).pipe(ns),
+        S.Struct({ PolicyVersion: S.optional(__S(2688, __c168, 0)) }).pipe(ns),
       ).annotate({ identifier: "GetPolicyVersionResponse" });
   }
 }
@@ -10318,7 +10668,7 @@ function __c31(j: number): any {
         ),
       ).annotate({ identifier: "GetRoleRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ Role: __S(2226, __c139, 2) }).pipe(ns)).annotate({
+      return S.suspend(() => S.Struct({ Role: __S(2242, __c140, 2) }).pipe(ns)).annotate({
         identifier: "GetRoleResponse",
       });
   }
@@ -10416,24 +10766,36 @@ function __c34(j: number): any {
         ),
       ).annotate({ identifier: "GetSAMLProviderRequest" });
     case 1:
+      return S.Array(S.String);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ IssuerURL: S.optional(S.String), KeyHashes: S.optional(__S(545, __c34, 1)) }),
+      ).annotate({ identifier: "SAMLKeyHashEntry" });
+    case 3:
+      return S.Array(__S(546, __c34, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           KeyId: S.optional(S.String),
           Timestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
       ).annotate({ identifier: "SAMLPrivateKey" });
-    case 2:
-      return S.Array(__S(545, __c34, 1));
-    case 3:
+    case 5:
+      return S.Array(__S(548, __c34, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
           SAMLProviderUUID: S.optional(S.String),
           SAMLMetadataDocument: S.optional(S.String),
+          ContextProvider: S.optional(__S(2626, __c164, 2)),
+          SAMLKeyHashes: S.optional(__S(547, __c34, 3)),
           CreateDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           ValidUntil: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          Tags: S.optional(__S(2209, __c138, 1)),
+          Tags: S.optional(__S(2225, __c139, 1)),
           AssertionEncryptionMode: S.optional(S.String),
-          PrivateKeyList: S.optional(__S(546, __c34, 2)),
+          PrivateKeyList: S.optional(__S(549, __c34, 5)),
+          IdentityCenterInstanceArn: S.optional(S.String),
+          IdentityStoreArn: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "GetSAMLProviderResponse" });
   }
@@ -10452,7 +10814,7 @@ function __c35(j: number): any {
           ServerCertificateMetadata: __S(576, __c36, 0),
           CertificateBody: S.String,
           CertificateChain: S.optional(S.String),
-          Tags: S.optional(__S(2209, __c138, 1)),
+          Tags: S.optional(__S(2225, __c139, 1)),
         }),
       ).annotate({ identifier: "ServerCertificate" });
     case 2:
@@ -10634,7 +10996,7 @@ function __c42(j: number): any {
         ),
       ).annotate({ identifier: "GetUserRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ User: __S(2768, __c173, 0) }).pipe(ns)).annotate({
+      return S.suspend(() => S.Struct({ User: __S(2800, __c175, 0) }).pipe(ns)).annotate({
         identifier: "GetUserResponse",
       });
   }
@@ -10881,7 +11243,7 @@ function __c53(j: number): any {
 function __c54(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2464, __c154, 0));
+      return S.Array(__S(2480, __c155, 0));
   }
 }
 function __c55(j: number): any {
@@ -10957,7 +11319,7 @@ function __c58(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Tags: __S(2209, __c138, 1),
+          Tags: __S(2225, __c139, 1),
           IsTruncated: S.optional(S.Boolean),
           Marker: S.optional(S.String),
         }).pipe(ns),
@@ -11007,7 +11369,7 @@ function __c60(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Tags: __S(2209, __c138, 1),
+          Tags: __S(2225, __c139, 1),
           IsTruncated: S.optional(S.Boolean),
           Marker: S.optional(S.String),
         }).pipe(ns),
@@ -11023,9 +11385,12 @@ function __c61(j: number): any {
         ),
       ).annotate({ identifier: "ListOpenIDConnectProvidersRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ Arn: S.optional(S.String) })).annotate({
-        identifier: "OpenIDConnectProviderListEntry",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          Arn: S.optional(S.String),
+          IsTrustedIdentityPropagationEnabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "OpenIDConnectProviderListEntry" });
     case 2:
       return S.Array(__S(977, __c61, 1));
     case 3:
@@ -11047,7 +11412,7 @@ function __c62(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Tags: __S(2209, __c138, 1),
+          Tags: __S(2225, __c139, 1),
           IsTruncated: S.optional(S.Boolean),
           Marker: S.optional(S.String),
         }).pipe(ns),
@@ -11066,7 +11431,7 @@ function __c63(j: number): any {
       return S.suspend(() =>
         S.Struct({
           OrganizationId: S.optional(S.String),
-          EnabledFeatures: S.optional(__S(3264, __c204, 0)),
+          EnabledFeatures: S.optional(__S(3296, __c206, 0)),
         }).pipe(ns),
       ).annotate({ identifier: "ListOrganizationsFeaturesResponse" });
   }
@@ -11085,7 +11450,7 @@ function __c64(j: number): any {
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListPoliciesRequest" });
     case 1:
-      return S.Array(__S(2624, __c164, 0));
+      return S.Array(__S(2656, __c166, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -11152,7 +11517,7 @@ function __c66(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Tags: __S(2209, __c138, 1),
+          Tags: __S(2225, __c139, 1),
           IsTruncated: S.optional(S.Boolean),
           Marker: S.optional(S.String),
         }).pipe(ns),
@@ -11212,7 +11577,7 @@ function __c69(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Roles: __S(2512, __c157, 0),
+          Roles: __S(2528, __c158, 0),
           IsTruncated: S.optional(S.Boolean),
           Marker: S.optional(S.String),
         }).pipe(ns),
@@ -11232,7 +11597,7 @@ function __c70(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Tags: __S(2209, __c138, 1),
+          Tags: __S(2225, __c139, 1),
           IsTruncated: S.optional(S.Boolean),
           Marker: S.optional(S.String),
         }).pipe(ns),
@@ -11253,6 +11618,7 @@ function __c71(j: number): any {
           Arn: S.optional(S.String),
           ValidUntil: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           CreateDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          IsTrustedIdentityPropagationEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SAMLProviderListEntry" });
     case 2:
@@ -11276,7 +11642,7 @@ function __c72(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Tags: __S(2209, __c138, 1),
+          Tags: __S(2225, __c139, 1),
           IsTruncated: S.optional(S.Boolean),
           Marker: S.optional(S.String),
         }).pipe(ns),
@@ -11318,7 +11684,7 @@ function __c74(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Tags: __S(2209, __c138, 1),
+          Tags: __S(2225, __c139, 1),
           IsTruncated: S.optional(S.Boolean),
           Marker: S.optional(S.String),
         }).pipe(ns),
@@ -11482,7 +11848,7 @@ function __c81(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Tags: __S(2209, __c138, 1),
+          Tags: __S(2225, __c139, 1),
           IsTruncated: S.optional(S.Boolean),
           Marker: S.optional(S.String),
         }).pipe(ns),
@@ -11500,7 +11866,7 @@ function __c82(j: number): any {
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListVirtualMFADevicesRequest" });
     case 1:
-      return S.Array(__S(2800, __c175, 0));
+      return S.Array(__S(2832, __c177, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -11661,7 +12027,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "ResetServiceSpecificCredentialRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ ServiceSpecificCredential: S.optional(__S(2736, __c171, 0)) }).pipe(ns),
+        S.Struct({ ServiceSpecificCredential: S.optional(__S(2768, __c173, 0)) }).pipe(ns),
       ).annotate({ identifier: "ResetServiceSpecificCredentialResponse" });
   }
 }
@@ -11871,7 +12237,7 @@ function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ InstanceProfileName: S.String, Tags: __S(2209, __c138, 1) }).pipe(
+        S.Struct({ InstanceProfileName: S.String, Tags: __S(2225, __c139, 1) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "TagInstanceProfileRequest" });
@@ -11885,7 +12251,7 @@ function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ SerialNumber: S.String, Tags: __S(2209, __c138, 1) }).pipe(
+        S.Struct({ SerialNumber: S.String, Tags: __S(2225, __c139, 1) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "TagMFADeviceRequest" });
@@ -11899,7 +12265,7 @@ function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ OpenIDConnectProviderArn: S.String, Tags: __S(2209, __c138, 1) }).pipe(
+        S.Struct({ OpenIDConnectProviderArn: S.String, Tags: __S(2225, __c139, 1) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "TagOpenIDConnectProviderRequest" });
@@ -11913,7 +12279,7 @@ function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ PolicyArn: S.String, Tags: __S(2209, __c138, 1) }).pipe(
+        S.Struct({ PolicyArn: S.String, Tags: __S(2225, __c139, 1) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "TagPolicyRequest" });
@@ -11925,7 +12291,7 @@ function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ RoleName: S.String, Tags: __S(2209, __c138, 1) }).pipe(
+        S.Struct({ RoleName: S.String, Tags: __S(2225, __c139, 1) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "TagRoleRequest" });
@@ -11937,7 +12303,7 @@ function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ SAMLProviderArn: S.String, Tags: __S(2209, __c138, 1) }).pipe(
+        S.Struct({ SAMLProviderArn: S.String, Tags: __S(2225, __c139, 1) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "TagSAMLProviderRequest" });
@@ -11951,7 +12317,7 @@ function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ ServerCertificateName: S.String, Tags: __S(2209, __c138, 1) }).pipe(
+        S.Struct({ ServerCertificateName: S.String, Tags: __S(2225, __c139, 1) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "TagServerCertificateRequest" });
@@ -11965,7 +12331,7 @@ function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ UserName: S.String, Tags: __S(2209, __c138, 1) }).pipe(
+        S.Struct({ UserName: S.String, Tags: __S(2225, __c139, 1) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "TagUserRequest" });
@@ -12171,6 +12537,8 @@ function __c123(j: number): any {
           UserName: S.String,
           Password: S.optional(SensitiveString),
           PasswordResetRequired: S.optional(S.Boolean),
+          MaxSigninSessionDuration: S.optional(S.Number),
+          ResetMaxSigninSessionDuration: S.optional(S.Boolean),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateLoginProfileRequest" });
     case 1:
@@ -12183,7 +12551,25 @@ function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ OpenIDConnectProviderArn: S.String, ThumbprintList: __S(2592, __c162, 0) }).pipe(
+        S.Struct({
+          OpenIDConnectProviderArn: S.String,
+          ContextProvider: S.optional(__S(2626, __c164, 2)),
+          IdentityCenterInstanceArn: S.optional(S.String),
+          RemoveContextProvider: S.optional(S.Boolean),
+          RemoveIdentityCenterInstance: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateOpenIDConnectProviderRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+        identifier: "UpdateOpenIDConnectProviderResponse",
+      });
+  }
+}
+function __c125(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ OpenIDConnectProviderArn: S.String, ThumbprintList: __S(2608, __c163, 0) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "UpdateOpenIDConnectProviderThumbprintRequest" });
@@ -12193,7 +12579,7 @@ function __c124(j: number): any {
       });
   }
 }
-function __c125(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12201,13 +12587,15 @@ function __c125(j: number): any {
           RoleName: S.String,
           Description: S.optional(S.String),
           MaxSessionDuration: S.optional(S.Number),
+          MaxSigninSessionDuration: S.optional(S.Number),
+          ResetMaxSigninSessionDuration: S.optional(S.Boolean),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateRoleRequest" });
     case 1:
       return S.suspend(() => S.Struct({}).pipe(ns)).annotate({ identifier: "UpdateRoleResponse" });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12217,11 +12605,11 @@ function __c126(j: number): any {
       ).annotate({ identifier: "UpdateRoleDescriptionRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Role: S.optional(__S(2226, __c139, 2)) }).pipe(ns),
+        S.Struct({ Role: S.optional(__S(2242, __c140, 2)) }).pipe(ns),
       ).annotate({ identifier: "UpdateRoleDescriptionResponse" });
   }
 }
-function __c127(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12231,6 +12619,10 @@ function __c127(j: number): any {
           AssertionEncryptionMode: S.optional(S.String),
           AddPrivateKey: S.optional(SensitiveString),
           RemovePrivateKey: S.optional(S.String),
+          ContextProvider: S.optional(__S(2626, __c164, 2)),
+          IdentityCenterInstanceArn: S.optional(S.String),
+          RemoveContextProvider: S.optional(S.Boolean),
+          RemoveIdentityCenterInstance: S.optional(S.Boolean),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateSAMLProviderRequest" });
     case 1:
@@ -12239,7 +12631,7 @@ function __c127(j: number): any {
       );
   }
 }
-function __c128(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12255,7 +12647,7 @@ function __c128(j: number): any {
       });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12271,7 +12663,7 @@ function __c129(j: number): any {
       });
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12287,7 +12679,7 @@ function __c130(j: number): any {
       });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12301,7 +12693,7 @@ function __c131(j: number): any {
       });
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12315,7 +12707,7 @@ function __c132(j: number): any {
       return S.suspend(() => S.Struct({}).pipe(ns)).annotate({ identifier: "UpdateUserResponse" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12325,19 +12717,19 @@ function __c133(j: number): any {
           CertificateBody: S.String,
           PrivateKey: SensitiveString,
           CertificateChain: S.optional(S.String),
-          Tags: S.optional(__S(2209, __c138, 1)),
+          Tags: S.optional(__S(2225, __c139, 1)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UploadServerCertificateRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           ServerCertificateMetadata: S.optional(__S(576, __c36, 0)),
-          Tags: S.optional(__S(2209, __c138, 1)),
+          Tags: S.optional(__S(2225, __c139, 1)),
         }).pipe(ns),
       ).annotate({ identifier: "UploadServerCertificateResponse" });
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12351,7 +12743,7 @@ function __c134(j: number): any {
       });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12365,7 +12757,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "UploadSSHPublicKeyResponse" });
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12379,41 +12771,41 @@ function __c136(j: number): any {
       });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
     case 1:
-      return S.suspend(() => S.Struct({ Values: __S(2192, __c137, 0) })).annotate({
+      return S.suspend(() => S.Struct({ Values: __S(2208, __c138, 0) })).annotate({
         identifier: "ReplacementValueEntry",
       });
     case 2:
-      return S.Record(S.String, /*@__PURE__*/ __S(2193, __c137, 1).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(2209, __c138, 1).pipe(S.optional));
     case 3:
       return S.suspend(() =>
         S.Struct({
           TemplateArn: S.String,
           TemplateMinorVersion: S.optional(S.Number),
-          ReplacementValues: S.optional(__S(2194, __c137, 2)),
+          ReplacementValues: S.optional(__S(2210, __c138, 2)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "AcquireRoleRequest" });
     case 4:
-      return S.suspend(() => S.Struct({ Role: __S(2226, __c139, 2) }).pipe(ns)).annotate({
+      return S.suspend(() => S.Struct({ Role: __S(2242, __c140, 2) }).pipe(ns)).annotate({
         identifier: "AcquireRoleResponse",
       });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Key: S.String, Value: S.String })).annotate({
         identifier: "Tag",
       });
     case 1:
-      return S.Array(__S(2208, __c138, 0));
+      return S.Array(__S(2224, __c139, 0));
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12437,15 +12829,16 @@ function __c139(j: number): any {
           AssumeRolePolicyDocument: S.optional(S.String),
           Description: S.optional(S.String),
           MaxSessionDuration: S.optional(S.Number),
-          PermissionsBoundary: S.optional(__S(2240, __c140, 0)),
-          Tags: S.optional(__S(2209, __c138, 1)),
-          RoleLastUsed: S.optional(__S(2224, __c139, 0)),
-          SourceRoleTemplate: S.optional(__S(2225, __c139, 1)),
+          MaxSigninSessionDuration: S.optional(S.Number),
+          PermissionsBoundary: S.optional(__S(2256, __c141, 0)),
+          Tags: S.optional(__S(2225, __c139, 1)),
+          RoleLastUsed: S.optional(__S(2240, __c140, 0)),
+          SourceRoleTemplate: S.optional(__S(2241, __c140, 1)),
         }),
       ).annotate({ identifier: "Role" });
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12456,7 +12849,7 @@ function __c140(j: number): any {
       ).annotate({ identifier: "AttachedPermissionsBoundary" });
   }
 }
-function __c141(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12470,7 +12863,7 @@ function __c141(j: number): any {
       });
   }
 }
-function __c142(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12484,7 +12877,7 @@ function __c142(j: number): any {
       });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12498,7 +12891,7 @@ function __c143(j: number): any {
       });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12512,7 +12905,7 @@ function __c144(j: number): any {
       });
   }
 }
-function __c145(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12526,7 +12919,7 @@ function __c145(j: number): any {
       });
   }
 }
-function __c146(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12540,7 +12933,7 @@ function __c146(j: number): any {
       });
   }
 }
-function __c147(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12554,7 +12947,7 @@ function __c147(j: number): any {
       });
   }
 }
-function __c148(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12568,7 +12961,7 @@ function __c148(j: number): any {
       });
   }
 }
-function __c149(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12587,12 +12980,12 @@ function __c149(j: number): any {
         }),
       ).annotate({ identifier: "AccessKey" });
     case 2:
-      return S.suspend(() => S.Struct({ AccessKey: __S(2385, __c149, 1) }).pipe(ns)).annotate({
+      return S.suspend(() => S.Struct({ AccessKey: __S(2401, __c150, 1) }).pipe(ns)).annotate({
         identifier: "CreateAccessKeyResponse",
       });
   }
 }
-function __c150(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12606,14 +12999,14 @@ function __c150(j: number): any {
       });
   }
 }
-function __c151(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           OwnerAccountId: S.optional(S.String),
           Description: S.String,
-          Permissions: __S(2435, __c152, 3),
+          Permissions: __S(2451, __c153, 3),
           RequestMessage: S.optional(S.String),
           RequestorWorkflowId: S.String,
           RedirectUrl: S.optional(S.String),
@@ -12631,7 +13024,7 @@ function __c151(j: number): any {
       ).annotate({ identifier: "CreateDelegationRequestResponse" });
   }
 }
-function __c152(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -12639,22 +13032,22 @@ function __c152(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.String),
-          Values: S.optional(__S(2432, __c152, 0)),
+          Values: S.optional(__S(2448, __c153, 0)),
           Type: S.optional(S.String),
         }),
       ).annotate({ identifier: "PolicyParameter" });
     case 2:
-      return S.Array(__S(2433, __c152, 1));
+      return S.Array(__S(2449, __c153, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           PolicyTemplateArn: S.optional(S.String),
-          Parameters: S.optional(__S(2434, __c152, 2)),
+          Parameters: S.optional(__S(2450, __c153, 2)),
         }),
       ).annotate({ identifier: "DelegationPermission" });
   }
 }
-function __c153(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12663,12 +13056,12 @@ function __c153(j: number): any {
         ),
       ).annotate({ identifier: "CreateGroupRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ Group: __S(2464, __c154, 0) }).pipe(ns)).annotate({
+      return S.suspend(() => S.Struct({ Group: __S(2480, __c155, 0) }).pipe(ns)).annotate({
         identifier: "CreateGroupResponse",
       });
   }
 }
-function __c154(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12682,23 +13075,23 @@ function __c154(j: number): any {
       ).annotate({ identifier: "Group" });
   }
 }
-function __c155(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           InstanceProfileName: S.String,
           Path: S.optional(S.String),
-          Tags: S.optional(__S(2209, __c138, 1)),
+          Tags: S.optional(__S(2225, __c139, 1)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateInstanceProfileRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ InstanceProfile: __S(2496, __c156, 0) }).pipe(ns)).annotate(
+      return S.suspend(() => S.Struct({ InstanceProfile: __S(2512, __c157, 0) }).pipe(ns)).annotate(
         { identifier: "CreateInstanceProfileResponse" },
       );
   }
 }
-function __c156(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12708,32 +13101,16 @@ function __c156(j: number): any {
           InstanceProfileId: S.String,
           Arn: S.String,
           CreateDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-          Roles: __S(2512, __c157, 0),
-          Tags: S.optional(__S(2209, __c138, 1)),
+          Roles: __S(2528, __c158, 0),
+          Tags: S.optional(__S(2225, __c139, 1)),
         }),
       ).annotate({ identifier: "InstanceProfile" });
-  }
-}
-function __c157(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(2226, __c139, 2));
   }
 }
 function __c158(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          UserName: S.optional(S.String),
-          Password: S.optional(SensitiveString),
-          PasswordResetRequired: S.optional(S.Boolean),
-        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "CreateLoginProfileRequest" });
-    case 1:
-      return S.suspend(() => S.Struct({ LoginProfile: __S(2544, __c159, 0) }).pipe(ns)).annotate({
-        identifier: "CreateLoginProfileResponse",
-      });
+      return S.Array(__S(2242, __c140, 2));
   }
 }
 function __c159(j: number): any {
@@ -12741,11 +13118,16 @@ function __c159(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          UserName: S.String,
-          CreateDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          UserName: S.optional(S.String),
+          Password: S.optional(SensitiveString),
           PasswordResetRequired: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "LoginProfile" });
+          MaxSigninSessionDuration: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateLoginProfileRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ LoginProfile: __S(2560, __c160, 0) }).pipe(ns)).annotate({
+        identifier: "CreateLoginProfileResponse",
+      });
   }
 }
 function __c160(j: number): any {
@@ -12753,25 +13135,34 @@ function __c160(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          UserName: S.String,
+          CreateDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          PasswordResetRequired: S.optional(S.Boolean),
+          MaxSigninSessionDuration: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "LoginProfile" });
+  }
+}
+function __c161(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           Url: S.String,
-          ClientIDList: S.optional(__S(2576, __c161, 0)),
-          ThumbprintList: S.optional(__S(2592, __c162, 0)),
-          Tags: S.optional(__S(2209, __c138, 1)),
+          ClientIDList: S.optional(__S(2592, __c162, 0)),
+          ThumbprintList: S.optional(__S(2608, __c163, 0)),
+          Tags: S.optional(__S(2225, __c139, 1)),
+          ContextProvider: S.optional(__S(2626, __c164, 2)),
+          IdentityCenterInstanceArn: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateOpenIDConnectProviderRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           OpenIDConnectProviderArn: S.optional(S.String),
-          Tags: S.optional(__S(2209, __c138, 1)),
+          Tags: S.optional(__S(2225, __c139, 1)),
         }).pipe(ns),
       ).annotate({ identifier: "CreateOpenIDConnectProviderResponse" });
-  }
-}
-function __c161(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
   }
 }
 function __c162(j: number): any {
@@ -12783,22 +13174,47 @@ function __c162(j: number): any {
 function __c163(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+  }
+}
+function __c164(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ SourceKey: S.String, TargetKey: S.optional(S.String) }),
+      ).annotate({ identifier: "ContextProviderKeyDefinition" });
+    case 1:
+      return S.Array(__S(2624, __c164, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          KeyDefinitionList: S.optional(__S(2625, __c164, 1)),
+          SubjectSourceKey: S.String,
+          SubjectTypeValue: S.optional(S.String),
+          SubjectTypeSourceKey: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ContextProvider" });
+  }
+}
+function __c165(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           PolicyName: S.String,
           Path: S.optional(S.String),
           PolicyDocument: S.String,
           Description: S.optional(S.String),
-          Tags: S.optional(__S(2209, __c138, 1)),
+          Tags: S.optional(__S(2225, __c139, 1)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreatePolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Policy: S.optional(__S(2624, __c164, 0)) }).pipe(ns),
+        S.Struct({ Policy: S.optional(__S(2656, __c166, 0)) }).pipe(ns),
       ).annotate({ identifier: "CreatePolicyResponse" });
   }
 }
-function __c164(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12814,12 +13230,12 @@ function __c164(j: number): any {
           Description: S.optional(S.String),
           CreateDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           UpdateDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          Tags: S.optional(__S(2209, __c138, 1)),
+          Tags: S.optional(__S(2225, __c139, 1)),
         }),
       ).annotate({ identifier: "Policy" });
   }
 }
-function __c165(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12831,11 +13247,11 @@ function __c165(j: number): any {
       ).annotate({ identifier: "CreatePolicyVersionRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ PolicyVersion: S.optional(__S(2656, __c166, 0)) }).pipe(ns),
+        S.Struct({ PolicyVersion: S.optional(__S(2688, __c168, 0)) }).pipe(ns),
       ).annotate({ identifier: "CreatePolicyVersionResponse" });
   }
 }
-function __c166(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12848,7 +13264,7 @@ function __c166(j: number): any {
       ).annotate({ identifier: "PolicyVersion" });
   }
 }
-function __c167(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12858,38 +13274,41 @@ function __c167(j: number): any {
           AssumeRolePolicyDocument: S.String,
           Description: S.optional(S.String),
           MaxSessionDuration: S.optional(S.Number),
+          MaxSigninSessionDuration: S.optional(S.Number),
           PermissionsBoundary: S.optional(S.String),
-          Tags: S.optional(__S(2209, __c138, 1)),
+          Tags: S.optional(__S(2225, __c139, 1)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateRoleRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ Role: __S(2226, __c139, 2) }).pipe(ns)).annotate({
+      return S.suspend(() => S.Struct({ Role: __S(2242, __c140, 2) }).pipe(ns)).annotate({
         identifier: "CreateRoleResponse",
       });
   }
 }
-function __c168(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           SAMLMetadataDocument: S.String,
           Name: S.String,
-          Tags: S.optional(__S(2209, __c138, 1)),
+          Tags: S.optional(__S(2225, __c139, 1)),
           AssertionEncryptionMode: S.optional(S.String),
           AddPrivateKey: S.optional(SensitiveString),
+          ContextProvider: S.optional(__S(2626, __c164, 2)),
+          IdentityCenterInstanceArn: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateSAMLProviderRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           SAMLProviderArn: S.optional(S.String),
-          Tags: S.optional(__S(2209, __c138, 1)),
+          Tags: S.optional(__S(2225, __c139, 1)),
         }).pipe(ns),
       ).annotate({ identifier: "CreateSAMLProviderResponse" });
   }
 }
-function __c169(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12901,11 +13320,11 @@ function __c169(j: number): any {
       ).annotate({ identifier: "CreateServiceLinkedRoleRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Role: S.optional(__S(2226, __c139, 2)) }).pipe(ns),
+        S.Struct({ Role: S.optional(__S(2242, __c140, 2)) }).pipe(ns),
       ).annotate({ identifier: "CreateServiceLinkedRoleResponse" });
   }
 }
-function __c170(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12917,11 +13336,11 @@ function __c170(j: number): any {
       ).annotate({ identifier: "CreateServiceSpecificCredentialRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ ServiceSpecificCredential: S.optional(__S(2736, __c171, 0)) }).pipe(ns),
+        S.Struct({ ServiceSpecificCredential: S.optional(__S(2768, __c173, 0)) }).pipe(ns),
       ).annotate({ identifier: "CreateServiceSpecificCredentialResponse" });
   }
 }
-function __c171(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12940,7 +13359,7 @@ function __c171(j: number): any {
       ).annotate({ identifier: "ServiceSpecificCredential" });
   }
 }
-function __c172(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12948,16 +13367,16 @@ function __c172(j: number): any {
           Path: S.optional(S.String),
           UserName: S.String,
           PermissionsBoundary: S.optional(S.String),
-          Tags: S.optional(__S(2209, __c138, 1)),
+          Tags: S.optional(__S(2225, __c139, 1)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateUserRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ User: S.optional(__S(2768, __c173, 0)) }).pipe(ns),
+        S.Struct({ User: S.optional(__S(2800, __c175, 0)) }).pipe(ns),
       ).annotate({ identifier: "CreateUserResponse" });
   }
 }
-function __c173(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12968,29 +13387,29 @@ function __c173(j: number): any {
           Arn: S.String,
           CreateDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           PasswordLastUsed: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          PermissionsBoundary: S.optional(__S(2240, __c140, 0)),
-          Tags: S.optional(__S(2209, __c138, 1)),
+          PermissionsBoundary: S.optional(__S(2256, __c141, 0)),
+          Tags: S.optional(__S(2225, __c139, 1)),
         }),
       ).annotate({ identifier: "User" });
   }
 }
-function __c174(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Path: S.optional(S.String),
           VirtualMFADeviceName: S.String,
-          Tags: S.optional(__S(2209, __c138, 1)),
+          Tags: S.optional(__S(2225, __c139, 1)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateVirtualMFADeviceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ VirtualMFADevice: __S(2800, __c175, 0) }).pipe(ns),
+        S.Struct({ VirtualMFADevice: __S(2832, __c177, 0) }).pipe(ns),
       ).annotate({ identifier: "CreateVirtualMFADeviceResponse" });
   }
 }
-function __c175(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12998,14 +13417,14 @@ function __c175(j: number): any {
           SerialNumber: S.String,
           Base32StringSeed: S.optional(SensitiveBlob),
           QRCodePNG: S.optional(SensitiveBlob),
-          User: S.optional(__S(2768, __c173, 0)),
+          User: S.optional(__S(2800, __c175, 0)),
           EnableDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          Tags: S.optional(__S(2209, __c138, 1)),
+          Tags: S.optional(__S(2225, __c139, 1)),
         }),
       ).annotate({ identifier: "VirtualMFADevice" });
   }
 }
-function __c176(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13019,7 +13438,7 @@ function __c176(j: number): any {
       });
   }
 }
-function __c177(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13033,7 +13452,7 @@ function __c177(j: number): any {
       });
   }
 }
-function __c178(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13047,7 +13466,7 @@ function __c178(j: number): any {
       });
   }
 }
-function __c179(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13061,7 +13480,7 @@ function __c179(j: number): any {
       });
   }
 }
-function __c180(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13073,7 +13492,7 @@ function __c180(j: number): any {
       return S.suspend(() => S.Struct({}).pipe(ns)).annotate({ identifier: "DeleteGroupResponse" });
   }
 }
-function __c181(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13087,7 +13506,7 @@ function __c181(j: number): any {
       });
   }
 }
-function __c182(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13101,7 +13520,7 @@ function __c182(j: number): any {
       });
   }
 }
-function __c183(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13115,7 +13534,7 @@ function __c183(j: number): any {
       });
   }
 }
-function __c184(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13129,7 +13548,7 @@ function __c184(j: number): any {
       });
   }
 }
-function __c185(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13143,7 +13562,7 @@ function __c185(j: number): any {
       });
   }
 }
-function __c186(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13157,7 +13576,7 @@ function __c186(j: number): any {
       });
   }
 }
-function __c187(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13169,7 +13588,7 @@ function __c187(j: number): any {
       return S.suspend(() => S.Struct({}).pipe(ns)).annotate({ identifier: "DeleteRoleResponse" });
   }
 }
-function __c188(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13183,7 +13602,7 @@ function __c188(j: number): any {
       });
   }
 }
-function __c189(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13197,7 +13616,7 @@ function __c189(j: number): any {
       });
   }
 }
-function __c190(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13211,7 +13630,7 @@ function __c190(j: number): any {
       });
   }
 }
-function __c191(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13225,7 +13644,7 @@ function __c191(j: number): any {
       });
   }
 }
-function __c192(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13239,7 +13658,7 @@ function __c192(j: number): any {
       });
   }
 }
-function __c193(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13253,7 +13672,7 @@ function __c193(j: number): any {
       });
   }
 }
-function __c194(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13267,7 +13686,7 @@ function __c194(j: number): any {
       });
   }
 }
-function __c195(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13281,7 +13700,7 @@ function __c195(j: number): any {
       });
   }
 }
-function __c196(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13293,7 +13712,7 @@ function __c196(j: number): any {
       return S.suspend(() => S.Struct({}).pipe(ns)).annotate({ identifier: "DeleteUserResponse" });
   }
 }
-function __c197(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13307,7 +13726,7 @@ function __c197(j: number): any {
       });
   }
 }
-function __c198(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13321,7 +13740,7 @@ function __c198(j: number): any {
       });
   }
 }
-function __c199(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13335,7 +13754,7 @@ function __c199(j: number): any {
       });
   }
 }
-function __c200(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13349,7 +13768,7 @@ function __c200(j: number): any {
       });
   }
 }
-function __c201(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13363,7 +13782,7 @@ function __c201(j: number): any {
       });
   }
 }
-function __c202(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13377,7 +13796,7 @@ function __c202(j: number): any {
       });
   }
 }
-function __c203(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13389,18 +13808,18 @@ function __c203(j: number): any {
       return S.suspend(() =>
         S.Struct({
           OrganizationId: S.optional(S.String),
-          EnabledFeatures: S.optional(__S(3264, __c204, 0)),
+          EnabledFeatures: S.optional(__S(3296, __c206, 0)),
         }).pipe(ns),
       ).annotate({ identifier: "DisableOrganizationsRootCredentialsManagementResponse" });
   }
 }
-function __c204(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c205(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13412,12 +13831,12 @@ function __c205(j: number): any {
       return S.suspend(() =>
         S.Struct({
           OrganizationId: S.optional(S.String),
-          EnabledFeatures: S.optional(__S(3264, __c204, 0)),
+          EnabledFeatures: S.optional(__S(3296, __c206, 0)),
         }).pipe(ns),
       ).annotate({ identifier: "DisableOrganizationsRootSessionsResponse" });
   }
 }
-function __c206(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13431,7 +13850,7 @@ function __c206(j: number): any {
       });
   }
 }
-function __c207(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13448,7 +13867,7 @@ function __c207(j: number): any {
       });
   }
 }
-function __c208(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13460,12 +13879,12 @@ function __c208(j: number): any {
       return S.suspend(() =>
         S.Struct({
           OrganizationId: S.optional(S.String),
-          EnabledFeatures: S.optional(__S(3264, __c204, 0)),
+          EnabledFeatures: S.optional(__S(3296, __c206, 0)),
         }).pipe(ns),
       ).annotate({ identifier: "EnableOrganizationsRootCredentialsManagementResponse" });
   }
 }
-function __c209(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13477,12 +13896,12 @@ function __c209(j: number): any {
       return S.suspend(() =>
         S.Struct({
           OrganizationId: S.optional(S.String),
-          EnabledFeatures: S.optional(__S(3264, __c204, 0)),
+          EnabledFeatures: S.optional(__S(3296, __c206, 0)),
         }).pipe(ns),
       ).annotate({ identifier: "EnableOrganizationsRootSessionsResponse" });
   }
 }
-function __c210(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13496,7 +13915,7 @@ function __c210(j: number): any {
       ).annotate({ identifier: "EnableOutboundWebIdentityFederationResponse" });
   }
 }
-function __c211(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

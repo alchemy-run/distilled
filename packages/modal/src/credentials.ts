@@ -2,7 +2,7 @@
  * Modal credentials -- hand-written.
  *
  * The `Credentials` service resolves `{ tokenId, tokenSecret, apiBaseUrl }`
- * per request; the protocol layer sends them as `x-modal-token-id` /
+ * per request; the protocol sends them as `x-modal-token-id` /
  * `x-modal-token-secret` (the same headers the official JS/Go clients use).
  */
 import { isThrottling, isTransientError, retryableKey } from "@distilled.cloud/core/category";
@@ -83,6 +83,9 @@ export class Credentials
     Credentials,
     Effect.Effect<Config, ConfigError | AuthTokenError>
   >()("ModalCredentials") {}
+
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
 
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   tokenId: /*@__PURE__*/ EffectConfig.Redacted("MODAL_TOKEN_ID"),
@@ -272,9 +275,9 @@ export interface RouterAccess {
 
 /** The caller's credentials (or none), aimed at the router with its JWT. */
 const routerCredentials = (
-  outer: Option.Option<Effect.Effect<Config, ConfigError | AuthTokenError>>,
+  outer: Option.Option<Effect.Effect<Config, CredentialsError>>,
   access: RouterAccess,
-): Effect.Effect<Config, ConfigError | AuthTokenError> =>
+): Effect.Effect<Config, CredentialsError> =>
   Effect.map(
     Option.isSome(outer)
       ? outer.value

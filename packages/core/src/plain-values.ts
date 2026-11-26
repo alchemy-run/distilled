@@ -21,6 +21,24 @@ const isPlainObject = (v: unknown): v is Record<string, unknown> =>
   (Object.getPrototypeOf(v) === Object.prototype || Object.getPrototypeOf(v) === null);
 
 /**
+ * Sets `out[key] = value` as an own property. A plain assignment to a
+ * `__proto__` key replaces the object's prototype; this keeps it a key, as
+ * `JSON.parse` does.
+ */
+export const setOwnKey = (out: Record<string, unknown>, key: string, value: unknown): void => {
+  if (key === "__proto__") {
+    Object.defineProperty(out, key, {
+      value,
+      enumerable: true,
+      writable: true,
+      configurable: true,
+    });
+  } else {
+    out[key] = value;
+  }
+};
+
+/**
  * Deep-unwrap `Redacted` values in an input (plain objects/arrays only --
  * class instances, files, and binary payloads pass through untouched).
  * Sensitive input members accept `string | Redacted<string>`; the wire wants

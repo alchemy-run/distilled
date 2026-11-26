@@ -71,7 +71,7 @@ const hostingerSpec: SdkSpec = {
   operationDecl: {
     contextType: "HostingerOpContext",
     commonErrorType: "HostingerOpError",
-    commonErrorClasses: ["UnknownHostingerError"],
+    serviceErrors: "HostingerServiceErrors",
     protocol: "HostingerProtocol",
     retry: "Retry.Retry",
   },

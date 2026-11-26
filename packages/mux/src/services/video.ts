@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownMuxError } from "../errors.ts";
+import { MuxServiceErrors } from "../errors.ts";
 import { paginatePage } from "../pagination.ts";
 import { MuxProtocol, type MuxOpError, type MuxOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -1530,7 +1530,8 @@ export const cancelDirectUpload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CancelDirectUploadRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<UploadResponse>,
-  errors: [Forbidden, UnknownMuxError],
+  errors: [Forbidden],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1547,7 +1548,8 @@ export const createAsset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(200, __c25, 0) as any as S.Schema<CreateAssetRequest>,
   output: __S(232, __c29, 0) as any as S.Schema<AssetResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1564,7 +1566,8 @@ export const createAssetPlaybackId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(376, __c47, 0) as any as S.Schema<CreateAssetPlaybackIdRequest>,
   output: __S(384, __c48, 0) as any as S.Schema<CreatePlaybackIDResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1581,7 +1584,8 @@ export const createAssetStaticRendition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(472, __c59, 0) as any as S.Schema<CreateAssetStaticRenditionRequest>,
   output: __S(473, __c59, 1) as any as S.Schema<CreateStaticRenditionResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1598,7 +1602,8 @@ export const createAssetTrack: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c70, 0) as any as S.Schema<CreateAssetTrackRequest>,
   output: __S(568, __c71, 0) as any as S.Schema<CreateTrackResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1615,7 +1620,8 @@ export const createDirectUpload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(648, __c81, 0) as any as S.Schema<CreateDirectUploadRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<UploadResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1632,7 +1638,8 @@ export const createLiveStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(658, __c82, 2) as any as S.Schema<CreateLiveStreamRequest>,
   output: __S(672, __c84, 0) as any as S.Schema<LiveStreamResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1649,7 +1656,8 @@ export const createLiveStreamPlaybackId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c88, 0) as any as S.Schema<CreateLiveStreamPlaybackIdRequest>,
   output: __S(384, __c48, 0) as any as S.Schema<CreatePlaybackIDResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1666,7 +1674,8 @@ export const createLiveStreamSimulcastTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(712, __c89, 0) as any as S.Schema<CreateLiveStreamSimulcastTargetRequest>,
   output: __S(720, __c90, 0) as any as S.Schema<SimulcastTargetResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1683,7 +1692,8 @@ export const createPlaybackRestriction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(81, __c10, 1) as any as S.Schema<CreatePlaybackRestrictionRequest>,
   output: __S(96, __c12, 0) as any as S.Schema<PlaybackRestrictionResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1700,7 +1710,8 @@ export const createTranscriptionVocabulary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<CreateTranscriptionVocabularyRequest>,
   output: __S(120, __c15, 0) as any as S.Schema<TranscriptionVocabularyResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1717,7 +1728,8 @@ export const deleteAsset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<DeleteAssetRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<DeleteAssetResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1734,7 +1746,8 @@ export const deleteAssetPlaybackId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<DeleteAssetPlaybackIdRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<DeleteAssetPlaybackIdResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1751,7 +1764,8 @@ export const deleteAssetShots: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<DeleteAssetShotsRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<DeleteAssetShotsResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1768,7 +1782,8 @@ export const deleteAssetStaticRendition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<DeleteAssetStaticRenditionRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<DeleteAssetStaticRenditionResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1785,7 +1800,8 @@ export const deleteAssetThumbnailTime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<DeleteAssetThumbnailTimeRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<DeleteAssetThumbnailTimeResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1802,7 +1818,8 @@ export const deleteAssetTrack: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c22, 0) as any as S.Schema<DeleteAssetTrackRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<DeleteAssetTrackResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1819,7 +1836,8 @@ export const deleteLiveStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<DeleteLiveStreamRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<DeleteLiveStreamResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1844,7 +1862,8 @@ export const deleteLiveStreamNewAssetSettingsStaticRenditions: API.OperationMeth
     __c17,
     0,
   ) as any as S.Schema<DeleteLiveStreamNewAssetSettingsStaticRenditionsResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1861,7 +1880,8 @@ export const deleteLiveStreamPlaybackId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(280, __c35, 0) as any as S.Schema<DeleteLiveStreamPlaybackIdRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<DeleteLiveStreamPlaybackIdResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1878,7 +1898,8 @@ export const deleteLiveStreamSimulcastTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c36, 0) as any as S.Schema<DeleteLiveStreamSimulcastTargetRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<DeleteLiveStreamSimulcastTargetResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1895,7 +1916,8 @@ export const deletePlaybackRestriction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(296, __c37, 0) as any as S.Schema<DeletePlaybackRestrictionRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<DeletePlaybackRestrictionResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1912,7 +1934,8 @@ export const deleteTranscriptionVocabulary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c38, 0) as any as S.Schema<DeleteTranscriptionVocabularyRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<DeleteTranscriptionVocabularyResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1929,7 +1952,8 @@ export const disableLiveStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(312, __c39, 0) as any as S.Schema<DisableLiveStreamRequest>,
   output: __S(320, __c40, 0) as any as S.Schema<DisableLiveStreamResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1946,7 +1970,8 @@ export const enableLiveStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(328, __c41, 0) as any as S.Schema<EnableLiveStreamRequest>,
   output: __S(320, __c40, 0) as any as S.Schema<EnableLiveStreamResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1963,7 +1988,8 @@ export const generateAssetShots: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c42, 0) as any as S.Schema<GenerateAssetShotsRequest2>,
   output: __S(344, __c43, 0) as any as S.Schema<GenerateAssetShotsResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1980,7 +2006,8 @@ export const generateAssetTrackSubtitles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c44, 0) as any as S.Schema<GenerateAssetTrackSubtitlesRequest>,
   output: __S(353, __c44, 1) as any as S.Schema<GenerateTrackSubtitlesResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1997,7 +2024,8 @@ export const getAsset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(360, __c45, 0) as any as S.Schema<GetAssetRequest>,
   output: __S(232, __c29, 0) as any as S.Schema<AssetResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2014,7 +2042,8 @@ export const getAssetInputInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c46, 0) as any as S.Schema<GetAssetInputInfoRequest>,
   output: __S(374, __c46, 6) as any as S.Schema<GetAssetInputInfoResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2031,7 +2060,8 @@ export const getAssetOrLivestreamId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(392, __c49, 0) as any as S.Schema<GetAssetOrLivestreamIdRequest>,
   output: __S(395, __c49, 3) as any as S.Schema<GetAssetOrLiveStreamIdResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2048,7 +2078,8 @@ export const getAssetPlaybackId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c50, 0) as any as S.Schema<GetAssetPlaybackIdRequest>,
   output: __S(384, __c48, 0) as any as S.Schema<GetAssetPlaybackIDResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2065,7 +2096,8 @@ export const getAssetShots: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(408, __c51, 0) as any as S.Schema<GetAssetShotsRequest>,
   output: __S(344, __c43, 0) as any as S.Schema<GetAssetShotsResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2082,7 +2114,8 @@ export const getDirectUpload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c52, 0) as any as S.Schema<GetDirectUploadRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<UploadResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2099,7 +2132,8 @@ export const getDrmConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(424, __c53, 0) as any as S.Schema<GetDrmConfigurationRequest>,
   output: __S(425, __c53, 1) as any as S.Schema<DRMConfigurationResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2116,7 +2150,8 @@ export const getLiveStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c54, 0) as any as S.Schema<GetLiveStreamRequest>,
   output: __S(672, __c84, 0) as any as S.Schema<LiveStreamResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2133,7 +2168,8 @@ export const getLiveStreamPlaybackId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(440, __c55, 0) as any as S.Schema<GetLiveStreamPlaybackIdRequest>,
   output: __S(384, __c48, 0) as any as S.Schema<GetLiveStreamPlaybackIDResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2150,7 +2186,8 @@ export const getLiveStreamSimulcastTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c56, 0) as any as S.Schema<GetLiveStreamSimulcastTargetRequest>,
   output: __S(720, __c90, 0) as any as S.Schema<SimulcastTargetResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2167,7 +2204,8 @@ export const getPlaybackRestriction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(456, __c57, 0) as any as S.Schema<GetPlaybackRestrictionRequest>,
   output: __S(96, __c12, 0) as any as S.Schema<PlaybackRestrictionResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2184,7 +2222,8 @@ export const getTranscriptionVocabulary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c58, 0) as any as S.Schema<GetTranscriptionVocabularyRequest>,
   output: __S(120, __c15, 0) as any as S.Schema<TranscriptionVocabularyResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2203,7 +2242,8 @@ export const listAssets: API.PaginatedOperationMethod<
   () => ({
     input: __S(480, __c60, 0) as any as S.Schema<ListAssetsRequest>,
     output: __S(482, __c60, 2) as any as S.Schema<ListAssetsResponse>,
-    errors: [UnknownMuxError],
+    errors: [],
+    serviceErrors: MuxServiceErrors,
     protocol: MuxProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2225,7 +2265,8 @@ export const listDeliveryUsage: API.PaginatedOperationMethod<
   () => ({
     input: __S(488, __c61, 0) as any as S.Schema<ListDeliveryUsageRequest>,
     output: __S(493, __c61, 5) as any as S.Schema<ListDeliveryUsageResponse>,
-    errors: [UnknownMuxError],
+    errors: [],
+    serviceErrors: MuxServiceErrors,
     protocol: MuxProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2247,7 +2288,8 @@ export const listDirectUploads: API.PaginatedOperationMethod<
   () => ({
     input: __S(496, __c62, 0) as any as S.Schema<ListDirectUploadsRequest>,
     output: __S(498, __c62, 2) as any as S.Schema<ListUploadsResponse>,
-    errors: [UnknownMuxError],
+    errors: [],
+    serviceErrors: MuxServiceErrors,
     protocol: MuxProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2269,7 +2311,8 @@ export const listDrmConfigurations: API.PaginatedOperationMethod<
   () => ({
     input: __S(504, __c63, 0) as any as S.Schema<ListDrmConfigurationsRequest>,
     output: __S(505, __c63, 1) as any as S.Schema<ListDRMConfigurationsResponse>,
-    errors: [UnknownMuxError],
+    errors: [],
+    serviceErrors: MuxServiceErrors,
     protocol: MuxProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2291,7 +2334,8 @@ export const listLiveStreams: API.PaginatedOperationMethod<
   () => ({
     input: __S(512, __c64, 0) as any as S.Schema<ListLiveStreamsRequest>,
     output: __S(514, __c64, 2) as any as S.Schema<ListLiveStreamsResponse>,
-    errors: [UnknownMuxError],
+    errors: [],
+    serviceErrors: MuxServiceErrors,
     protocol: MuxProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2313,7 +2357,8 @@ export const listPlaybackRestrictions: API.PaginatedOperationMethod<
   () => ({
     input: __S(520, __c65, 0) as any as S.Schema<ListPlaybackRestrictionsRequest>,
     output: __S(522, __c65, 2) as any as S.Schema<ListPlaybackRestrictionsResponse>,
-    errors: [UnknownMuxError],
+    errors: [],
+    serviceErrors: MuxServiceErrors,
     protocol: MuxProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2335,7 +2380,8 @@ export const listTranscriptionVocabularies: API.PaginatedOperationMethod<
   () => ({
     input: __S(528, __c66, 0) as any as S.Schema<ListTranscriptionVocabulariesRequest>,
     output: __S(530, __c66, 2) as any as S.Schema<ListTranscriptionVocabulariesResponse>,
-    errors: [UnknownMuxError],
+    errors: [],
+    serviceErrors: MuxServiceErrors,
     protocol: MuxProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2355,7 +2401,8 @@ export const resetStreamKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(536, __c67, 0) as any as S.Schema<ResetStreamKeyRequest>,
   output: __S(672, __c84, 0) as any as S.Schema<LiveStreamResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2372,7 +2419,8 @@ export const signalLiveStreamComplete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c68, 0) as any as S.Schema<SignalLiveStreamCompleteRequest>,
   output: __S(320, __c40, 0) as any as S.Schema<SignalLiveStreamCompleteResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2389,7 +2437,8 @@ export const updateAsset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(552, __c69, 0) as any as S.Schema<UpdateAssetRequest>,
   output: __S(232, __c29, 0) as any as S.Schema<AssetResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2406,7 +2455,8 @@ export const updateAssetMasterAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c72, 0) as any as S.Schema<UpdateAssetMasterAccessRequest>,
   output: __S(232, __c29, 0) as any as S.Schema<AssetResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2423,7 +2473,8 @@ export const updateAssetTrack: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(584, __c73, 0) as any as S.Schema<UpdateAssetTrackRequest>,
   output: __S(568, __c71, 0) as any as S.Schema<UpdateAssetTrackResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2440,7 +2491,8 @@ export const updateLiveStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(593, __c74, 1) as any as S.Schema<UpdateLiveStreamRequest>,
   output: __S(672, __c84, 0) as any as S.Schema<LiveStreamResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2457,7 +2509,8 @@ export const updateLiveStreamEmbeddedSubtitles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(600, __c75, 0) as any as S.Schema<UpdateLiveStreamEmbeddedSubtitlesRequest>,
   output: __S(672, __c84, 0) as any as S.Schema<LiveStreamResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2474,7 +2527,8 @@ export const updateLiveStreamGeneratedSubtitles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c76, 0) as any as S.Schema<UpdateLiveStreamGeneratedSubtitlesRequest>,
   output: __S(672, __c84, 0) as any as S.Schema<LiveStreamResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2495,7 +2549,8 @@ export const updateLiveStreamNewAssetSettingsStaticRenditions: API.OperationMeth
     0,
   ) as any as S.Schema<UpdateLiveStreamNewAssetSettingsStaticRenditionsRequest>,
   output: __S(672, __c84, 0) as any as S.Schema<LiveStreamResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2512,7 +2567,8 @@ export const updateReferrerDomainRestriction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c78, 0) as any as S.Schema<UpdateReferrerDomainRestrictionRequest>,
   output: __S(96, __c12, 0) as any as S.Schema<PlaybackRestrictionResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2529,7 +2585,8 @@ export const updateTranscriptionVocabulary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(632, __c79, 0) as any as S.Schema<UpdateTranscriptionVocabularyRequest>,
   output: __S(120, __c15, 0) as any as S.Schema<TranscriptionVocabularyResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2546,7 +2603,8 @@ export const updateUserAgentRestriction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c80, 0) as any as S.Schema<UpdateUserAgentRestrictionRequest>,
   output: __S(96, __c12, 0) as any as S.Schema<PlaybackRestrictionResponse>,
-  errors: [UnknownMuxError],
+  errors: [],
+  serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

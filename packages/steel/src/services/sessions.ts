@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownSteelError } from "../errors.ts";
+import { SteelServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import { SteelProtocol, type SteelOpError, type SteelOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -2768,7 +2768,11 @@ export type GetSessionEventsResponse2 = GetSessionEventsResponse;
 export interface GetSessionHlsPlaylistRequest {
   id: string;
 }
-export type GetSessionHlsPlaylistResponse = Uint8Array;
+export interface GetSessionHlsPlaylistResponse {
+  body: Uint8Array;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 export interface GetSessionLiveDetailsRequest {
   id: string;
 }
@@ -3507,7 +3511,8 @@ export const cancelCommandExecution: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<CancelCommandExecutionRequest>,
   output: __S(390, __c24, 6) as any as S.Schema<RunCommandsResponse>,
-  errors: [Forbidden, NotFound, Gone, UnprocessableEntity, SessionEnded, UnknownSteelError],
+  errors: [Forbidden, NotFound, Gone, UnprocessableEntity, SessionEnded],
+  serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3531,15 +3536,8 @@ export const createSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(402, __c25, 2) as any as S.Schema<CreateSessionRequest>,
   output: __S(454, __c28, 6) as any as S.Schema<SessionResponse>,
-  errors: [
-    BadRequest,
-    Forbidden,
-    Conflict,
-    UnprocessableEntity,
-    NotFound,
-    ProfileNotFound,
-    UnknownSteelError,
-  ],
+  errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, NotFound, ProfileNotFound],
+  serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3556,7 +3554,8 @@ export const executeComputerAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<ExecuteComputerActionRequest>,
   output: __S(49, __c3, 1) as any as S.Schema<ComputerActionResponse>,
-  errors: [BadRequest, UnknownSteelError],
+  errors: [BadRequest],
+  serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3579,7 +3578,8 @@ export const getCommandExecution: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<GetCommandExecutionRequest>,
   output: __S(390, __c24, 6) as any as S.Schema<RunCommandsResponse>,
-  errors: [Forbidden, NotFound, Gone, UnprocessableEntity, SessionEnded, UnknownSteelError],
+  errors: [Forbidden, NotFound, Gone, UnprocessableEntity, SessionEnded],
+  serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3596,7 +3596,8 @@ export const getSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<GetSessionRequest>,
   output: __S(454, __c28, 6) as any as S.Schema<SessionResponse>,
-  errors: [BadRequest, NotFound, UnknownSteelError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3613,7 +3614,8 @@ export const getSessionAgentLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<GetSessionAgentLogsRequest>,
   output: __S(114, __c7, 2) as any as S.Schema<GetSessionAgentLogsResponse>,
-  errors: [BadRequest, NotFound, UnknownSteelError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3630,7 +3632,8 @@ export const getSessionAgentTraces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<GetSessionAgentTracesRequest>,
   output: __S(114, __c7, 2) as any as S.Schema<GetSessionAgentTracesResponse>,
-  errors: [BadRequest, NotFound, UnknownSteelError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3647,7 +3650,8 @@ export const getSessionContext: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<GetSessionContextRequest>,
   output: __S(477, __c29, 13) as any as S.Schema<SessionContextResponse>,
-  errors: [NotFound, UnknownSteelError],
+  errors: [NotFound],
+  serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3664,7 +3668,8 @@ export const getSessionCost: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<GetSessionCostRequest>,
   output: __S(165, __c10, 5) as any as S.Schema<SessionCostResponse>,
-  errors: [NotFound, Conflict, UnknownSteelError],
+  errors: [NotFound, Conflict],
+  serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3681,7 +3686,8 @@ export const getSessionEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<GetSessionEventsRequest>,
   output: __S(178, __c11, 2) as any as S.Schema<GetSessionEventsResponse2>,
-  errors: [BadRequest, NotFound, UnknownSteelError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3697,8 +3703,9 @@ export const getSessionHlsPlaylist: API.OperationMethod<
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<GetSessionHlsPlaylistRequest>,
-  output: __S(193, __c12, 1) as any as S.Codec<GetSessionHlsPlaylistResponse>,
-  errors: [NotFound, UnknownSteelError],
+  output: __S(193, __c12, 1) as any as S.Schema<GetSessionHlsPlaylistResponse>,
+  errors: [NotFound],
+  serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3715,7 +3722,8 @@ export const getSessionLiveDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<GetSessionLiveDetailsRequest>,
   output: __S(211, __c13, 3) as any as S.Schema<SessionLiveDetailsResponse>,
-  errors: [Forbidden, NotFound, UnknownSteelError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3732,7 +3740,8 @@ export const getSessionLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<GetSessionLogsRequest>,
   output: __S(227, __c14, 3) as any as S.Schema<GetSessionLogsResponse>,
-  errors: [BadRequest, NotFound, UnknownSteelError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3749,7 +3758,8 @@ export const getSessionSignalCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<GetSessionSignalCatalogRequest>,
   output: __S(243, __c15, 3) as any as S.Schema<SessionSignalCatalogResponse>,
-  errors: [UnknownSteelError],
+  errors: [],
+  serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3768,7 +3778,8 @@ export const listSessions: API.PaginatedOperationMethod<
   () => ({
     input: __S(256, __c16, 0) as any as S.Schema<ListSessionsRequest>,
     output: __S(258, __c16, 2) as any as S.Schema<SessionsResponse>,
-    errors: [UnknownSteelError],
+    errors: [],
+    serviceErrors: SteelServiceErrors,
     protocol: SteelProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3794,7 +3805,8 @@ export const releaseAllSessions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<ReleaseAllSessionsRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<ReleaseSessionsResponse>,
-  errors: [BadRequest, UnknownSteelError],
+  errors: [BadRequest],
+  serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3811,7 +3823,8 @@ export const releaseSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<ReleaseSessionRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<ReleaseSessionResponse>,
-  errors: [BadRequest, NotFound, UnknownSteelError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3828,7 +3841,8 @@ export const replaceSessionMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(305, __c19, 1) as any as S.Schema<ReplaceSessionMetadataRequest>,
   output: __S(320, __c20, 0) as any as S.Schema<SessionMetadataResponse>,
-  errors: [BadRequest, NotFound, UnknownSteelError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3852,15 +3866,8 @@ export const runCommands: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(337, __c21, 1) as any as S.Schema<RunCommandsRequest>,
   output: __S(390, __c24, 6) as any as S.Schema<RunCommandsResponse>,
-  errors: [
-    BadRequest,
-    Forbidden,
-    NotFound,
-    Gone,
-    UnprocessableEntity,
-    SessionEnded,
-    UnknownSteelError,
-  ],
+  errors: [BadRequest, Forbidden, NotFound, Gone, UnprocessableEntity, SessionEnded],
+  serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3877,7 +3884,8 @@ export const updateSessionMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(353, __c22, 1) as any as S.Schema<UpdateSessionMetadataRequest>,
   output: __S(320, __c20, 0) as any as S.Schema<SessionMetadataResponse>,
-  errors: [BadRequest, NotFound, UnknownSteelError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4123,7 +4131,12 @@ function __c12(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/sessions/{id}/hls", code: 200 })),
       ).annotate({ identifier: "GetSessionHlsPlaylistRequest" });
     case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
+      return S.suspend(() =>
+        S.Struct({
+          body: S.instanceOf(Uint8Array).pipe(T.RawResponse(), T.BinaryResponse()),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+        }),
+      ).annotate({ identifier: "GetSessionHlsPlaylistResponse" });
   }
 }
 function __c13(j: number): any {

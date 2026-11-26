@@ -16,6 +16,7 @@
  * `optional`, message fields and `oneof` members) are omitted when absent.
  * Enum numbers map back to names, and unknown fields are skipped.
  */
+import { setOwnKey } from "./plain-values.ts";
 
 /** A scalar or composite field kind. */
 export type FieldKind =
@@ -82,6 +83,11 @@ export class ProtobufEncodeError extends Error {
 /** Bytes that aren't valid protobuf for the expected message. */
 export class ProtobufDecodeError extends Error {
   readonly _tag: string = "ProtobufDecodeError";
+}
+
+/** A frame whose header announces more bytes than the reader accepts. */
+export class FrameTooLargeError extends ProtobufDecodeError {
+  override readonly _tag: string = "FrameTooLargeError";
 }
 
 /**
@@ -191,7 +197,9 @@ class Writer {
 class Reader {
   pos = 0;
   readonly view: DataView;
-  constructor(readonly buf: Uint8Array) {
+  readonly buf: Uint8Array;
+  constructor(buf: Uint8Array) {
+    this.buf = buf;
     this.view = new DataView(buf.buffer, buf.byteOffset, buf.byteLength);
   }
 
@@ -963,7 +971,7 @@ const readStruct = (bytes: Uint8Array): Record<string, unknown> => {
       else if (n === 2 && w === 2) value = readStructValue(entry.delimited());
       else entry.skip(w, n);
     }
-    out[key] = value;
+    setOwnKey(out, key, value);
   }
   return out;
 };
@@ -1202,7 +1210,7 @@ export const decodeMessage = (d: ProtoDescriptors, name: string, bytes: Uint8Arr
         else entry.skip(w, n);
       }
       const map = (out[json] ??= {}) as Record<string, unknown>;
-      map[String(key)] = value;
+      setOwnKey(map, String(key), value);
       continue;
     }
     if (repeated) {
@@ -1293,6 +1301,12 @@ export const frame = (payload: Uint8Array): Uint8Array => {
  */
 export class FrameReader {
   private buf: Uint8Array<ArrayBufferLike> = new Uint8Array(0);
+  private readonly maxBytes: number;
+
+  /** `maxBytes`: the largest frame payload accepted; a larger one throws {@link FrameTooLargeError}. */
+  constructor(maxBytes: number = Infinity) {
+    this.maxBytes = maxBytes;
+  }
 
   /** The trailers of the gRPC-Web trailer frames read so far, names lowercase. */
   readonly trailers: Record<string, string> = {};
@@ -1315,6 +1329,12 @@ export class FrameReader {
     while (pos + 5 <= this.buf.length) {
       const flag = this.buf[pos]!;
       const len = view.getUint32(pos + 1, false);
+      // Checked before waiting for the payload, so it is never buffered.
+      if (len > this.maxBytes) {
+        throw new FrameTooLargeError(
+          `a ${len}-byte gRPC message is over the ${this.maxBytes}-byte limit (maxMessageBytes)`,
+        );
+      }
       if (pos + 5 + len > this.buf.length) break;
       if (flag & 1 && !(flag & 0x80)) {
         throw new ProtobufDecodeError("compressed gRPC frames are not supported");

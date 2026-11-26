@@ -1,0 +1,35 @@
+{
+  "description": "Email_Send answers 202 with an EmailSendResult body (`id`, `status`, `error`); the converter keeps only the 202 headers. Add the body members so callers get the operation id without parsing Operation-Location.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_email#EmailSendResponse/members/id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The unique id of the send operation; pass it to EmailGetSendResult."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_email#EmailSendResponse/members/status",
+      "value": {
+        "target": "com.azure.communication_email#EmailSendResultStatus",
+        "traits": {
+          "smithy.api#documentation": "Status of the send operation."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_email#EmailSendResponse/members/error",
+      "value": {
+        "target": "com.azure.communication_email#EmailSendResultError",
+        "traits": {
+          "smithy.api#documentation": "The error detail."
+        }
+      }
+    }
+  ]
+}

@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownOvhError } from "../errors.ts";
+import { OvhServiceErrors } from "../errors.ts";
 import { OvhProtocol, type OvhOpError, type OvhOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -304,7 +304,7 @@ export interface XdslTemplateModemWLAN {
   /** Indicate if it is normal access wifi or guest wifi */
   guest?: boolean | undefined;
   /** Encrypted WLAN passphrase */
-  securityKey?: string | undefined;
+  securityKey?: string | Redacted.Redacted<string> | undefined;
   /** Type of WLAN security protection */
   securityType?: XdslTemplateModemSecurityTypeEnum | undefined;
   /** Wifi Name */
@@ -3072,7 +3072,8 @@ export const addDHCPStaticAddress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AddDHCPStaticAddressRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<XdslDHCPStaticAddress>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3089,7 +3090,8 @@ export const addMonitoringNotification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<AddMonitoringNotificationRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<XdslMonitoringNotification>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3106,7 +3108,8 @@ export const addPortMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<AddPortMappingRequest>,
   output: __S(960, __c60, 0) as any as S.Schema<XdslPortMapping>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3123,7 +3126,8 @@ export const applyTemplateModem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1200, __c75, 0) as any as S.Schema<ApplyTemplateModemRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<XdslTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3140,7 +3144,8 @@ export const archiveXdslTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1392, __c87, 0) as any as S.Schema<ArchiveXdslTaskRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<ArchiveXdslTaskResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3157,7 +3162,8 @@ export const bookMeeting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c102, 0) as any as S.Schema<BookMeetingRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<BookMeetingResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3174,7 +3180,8 @@ export const cancelXdslLinesDiagnostic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c114, 0) as any as S.Schema<CancelXdslLinesDiagnosticRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<CancelXdslLinesDiagnosticResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3191,7 +3198,8 @@ export const cancelXdslResiliation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2064, __c129, 0) as any as S.Schema<CancelXdslResiliationRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<CancelXdslResiliationResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3208,7 +3216,8 @@ export const changeContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2256, __c141, 0) as any as S.Schema<ChangeContactRequest>,
   output: __S(2288, __c143, 0) as any as S.Schema<ChangeContactResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3225,7 +3234,8 @@ export const changeEmailPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c154, 0) as any as S.Schema<ChangeEmailPasswordRequest>,
   output: __S(2465, __c154, 1) as any as S.Schema<XdslEmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3242,7 +3252,8 @@ export const changeLineDSLAMProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<ChangeLineDSLAMProfileRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<XdslTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3259,7 +3270,8 @@ export const createModemTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<CreateModemTemplateRequest>,
   output: __S(280, __c17, 8) as any as S.Schema<XdslTemplateModem>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3276,7 +3288,8 @@ export const createXdslAddressMoveExtraIpRangeMove: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<CreateXdslAddressMoveExtraIpRangeMoveRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<XdslTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3293,7 +3306,8 @@ export const createXdslDiagnostic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<CreateXdslDiagnosticRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<XdslTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3310,7 +3324,8 @@ export const createXdslIps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(816, __c51, 0) as any as S.Schema<CreateXdslIpsRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<XdslTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3327,7 +3342,8 @@ export const createXdslModemReconfigureVoip: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<CreateXdslModemReconfigureVoipRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<CreateXdslModemReconfigureVoipResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3344,7 +3360,8 @@ export const createXdslRequestPPPLoginMail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(880, __c55, 0) as any as S.Schema<CreateXdslRequestPPPLoginMailRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<CreateXdslRequestPPPLoginMailResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3361,7 +3378,8 @@ export const createXdslSpareReturnMerchandise: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c56, 0) as any as S.Schema<CreateXdslSpareReturnMerchandiseRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<CreateXdslSpareReturnMerchandiseResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3378,7 +3396,8 @@ export const deleteModemTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<DeleteModemTemplateRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<DeleteModemTemplateResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3395,7 +3414,8 @@ export const deleteXdslEmailPro: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<DeleteXdslEmailProRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<DeleteXdslEmailProResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3412,7 +3432,8 @@ export const deleteXdslIps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<DeleteXdslIpsRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<DeleteXdslIpsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3429,7 +3450,8 @@ export const deleteXdslRma: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c62, 0) as any as S.Schema<DeleteXdslRmaRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<DeleteXdslRmaResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3446,7 +3468,8 @@ export const deleteXdslSpare: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<DeleteXdslSpareRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<DeleteXdslSpareResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3463,7 +3486,8 @@ export const getAccessModemReplacement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c64, 0) as any as S.Schema<GetAccessModemReplacementRequest>,
   output: __S(1025, __c64, 1) as any as S.Schema<XdslModemExchangeInfo>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3480,7 +3504,8 @@ export const getBlocIPStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c66, 0) as any as S.Schema<GetBlocIPStatusRequest>,
   output: __S(1072, __c67, 0) as any as S.Schema<GetBlocIPStatusResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3497,7 +3522,8 @@ export const getContentSharingStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c68, 0) as any as S.Schema<GetContentSharingStatusRequest>,
   output: __S(1072, __c67, 0) as any as S.Schema<GetContentSharingStatusResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3514,7 +3540,8 @@ export const getDHCPStaticAddress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1104, __c69, 0) as any as S.Schema<GetDHCPStaticAddressRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<XdslDHCPStaticAddress>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3531,7 +3558,8 @@ export const getDHCPStaticAddresses: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c70, 0) as any as S.Schema<GetDHCPStaticAddressesRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<GetDHCPStaticAddressesResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3548,7 +3576,8 @@ export const getFirmwareVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c72, 0) as any as S.Schema<GetFirmwareVersionRequest>,
   output: __S(1168, __c73, 0) as any as S.Schema<GetFirmwareVersionResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3565,7 +3594,8 @@ export const getFTPStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c74, 0) as any as S.Schema<GetFTPStatusRequest>,
   output: __S(1072, __c67, 0) as any as S.Schema<GetFTPStatusResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3582,7 +3612,8 @@ export const getIpsecAlgStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1232, __c77, 0) as any as S.Schema<GetIpsecAlgStatusRequest>,
   output: __S(1072, __c67, 0) as any as S.Schema<GetIpsecAlgStatusResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3599,7 +3630,8 @@ export const getModemCallWaitingStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c78, 0) as any as S.Schema<GetModemCallWaitingStatusRequest>,
   output: __S(1072, __c67, 0) as any as S.Schema<GetModemCallWaitingStatusResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3616,7 +3648,8 @@ export const getModemTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1264, __c79, 0) as any as S.Schema<GetModemTemplateRequest>,
   output: __S(280, __c17, 8) as any as S.Schema<XdslTemplateModem>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3633,7 +3666,8 @@ export const getModemTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c80, 0) as any as S.Schema<GetModemTemplatesRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<GetModemTemplatesResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3650,7 +3684,8 @@ export const getMonitoringNotification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1296, __c81, 0) as any as S.Schema<GetMonitoringNotificationRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<XdslMonitoringNotification>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3667,7 +3702,8 @@ export const getMonitoringNotifications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c82, 0) as any as S.Schema<GetMonitoringNotificationsRequest>,
   output: __S(2288, __c143, 0) as any as S.Schema<GetMonitoringNotificationsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3684,7 +3720,8 @@ export const getPortMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1328, __c83, 0) as any as S.Schema<GetPortMappingRequest>,
   output: __S(960, __c60, 0) as any as S.Schema<XdslPortMapping>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3701,7 +3738,8 @@ export const getPortMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c84, 0) as any as S.Schema<GetPortMappingsRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<GetPortMappingsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3718,7 +3756,8 @@ export const getSipAlgStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1360, __c85, 0) as any as S.Schema<GetSipAlgStatusRequest>,
   output: __S(1072, __c67, 0) as any as S.Schema<GetSipAlgStatusResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3735,7 +3774,8 @@ export const getUpnpStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c86, 0) as any as S.Schema<GetUpnpStatusRequest>,
   output: __S(1072, __c67, 0) as any as S.Schema<GetUpnpStatusResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3752,7 +3792,8 @@ export const getWifiMeshStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1424, __c89, 0) as any as S.Schema<GetWifiMeshStatusRequest>,
   output: __S(1072, __c67, 0) as any as S.Schema<GetWifiMeshStatusResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3769,7 +3810,8 @@ export const getWifiOneSsidStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c90, 0) as any as S.Schema<GetWifiOneSsidStatusRequest>,
   output: __S(1072, __c67, 0) as any as S.Schema<GetWifiOneSsidStatusResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3786,7 +3828,8 @@ export const getXdsl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1456, __c91, 0) as any as S.Schema<GetXdslRequest>,
   output: __S(1459, __c91, 3) as any as S.Schema<XdslAccessWithIAM>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3803,7 +3846,8 @@ export const getXdslAddressMoveExtraIpRange: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1488, __c93, 0) as any as S.Schema<GetXdslAddressMoveExtraIpRangeRequest>,
   output: __S(1489, __c93, 1) as any as S.Schema<XdslExtraIpRangeMove>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3820,7 +3864,8 @@ export const getXdslAntiSpam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c94, 0) as any as S.Schema<GetXdslAntiSpamRequest>,
   output: __S(1505, __c94, 1) as any as S.Schema<XdslAntiSpam>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3837,7 +3882,8 @@ export const getXdslCanCancelResiliation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1520, __c95, 0) as any as S.Schema<GetXdslCanCancelResiliationRequest>,
   output: __S(1521, __c95, 1) as any as S.Schema<GetXdslCanCancelResiliationResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3854,7 +3900,8 @@ export const getXdslDiagnostic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c96, 0) as any as S.Schema<GetXdslDiagnosticRequest>,
   output: __S(1540, __c96, 4) as any as S.Schema<XdslAccessDiagnostic>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3871,7 +3918,8 @@ export const getXdslEmailPro: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1552, __c97, 0) as any as S.Schema<GetXdslEmailProRequest>,
   output: __S(1554, __c97, 2) as any as S.Schema<XdslXdslEmailProWithIAM>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3888,7 +3936,8 @@ export const getXdslFiberEligibility: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c98, 0) as any as S.Schema<GetXdslFiberEligibilityRequest>,
   output: __S(1571, __c98, 3) as any as S.Schema<XdslFiberEligibility>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3905,7 +3954,8 @@ export const getXdslIncident: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c100, 0) as any as S.Schema<GetXdslIncidentRequest>,
   output: __S(1616, __c101, 0) as any as S.Schema<XdslIncident>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3922,7 +3972,8 @@ export const getXdslIncident2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1648, __c103, 0) as any as S.Schema<GetXdslIncidentRequest2>,
   output: __S(1616, __c101, 0) as any as S.Schema<XdslIncident>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3939,7 +3990,8 @@ export const getXdslIps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c104, 0) as any as S.Schema<GetXdslIpsRequest>,
   output: __S(1665, __c104, 1) as any as S.Schema<XdslIP>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3956,7 +4008,8 @@ export const getXdslLine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1680, __c105, 0) as any as S.Schema<GetXdslLineRequest>,
   output: __S(1684, __c105, 4) as any as S.Schema<XdslLine>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3973,7 +4026,8 @@ export const getXdslLineDslamPort: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c106, 0) as any as S.Schema<GetXdslLineDslamPortRequest>,
   output: __S(1697, __c106, 1) as any as S.Schema<XdslDslamPort>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3990,7 +4044,8 @@ export const getXdslModem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c108, 0) as any as S.Schema<GetXdslModemRequest>,
   output: __S(1730, __c108, 2) as any as S.Schema<XdslModem>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4007,7 +4062,8 @@ export const getXdslModemConnectedDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1744, __c109, 0) as any as S.Schema<GetXdslModemConnectedDeviceRequest>,
   output: __S(1745, __c109, 1) as any as S.Schema<XdslConnectedDevice>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4024,7 +4080,8 @@ export const getXdslModemInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c110, 0) as any as S.Schema<GetXdslModemInfoRequest>,
   output: __S(1764, __c110, 4) as any as S.Schema<XdslAsyncTaskXdslModemInfo>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4041,7 +4098,8 @@ export const getXdslModemLan: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1776, __c111, 0) as any as S.Schema<GetXdslModemLanRequest>,
   output: __S(1777, __c111, 1) as any as S.Schema<XdslLAN>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4058,7 +4116,8 @@ export const getXdslModemLanDhcp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c112, 0) as any as S.Schema<GetXdslModemLanDhcpRequest>,
   output: __S(1793, __c112, 1) as any as S.Schema<XdslDHCP>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4075,7 +4134,8 @@ export const getXdslModemWifi: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1808, __c113, 0) as any as S.Schema<GetXdslModemWifiRequest>,
   output: __S(1809, __c113, 1) as any as S.Schema<XdslWLAN>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4092,7 +4152,8 @@ export const getXdslModemWifiQrCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1840, __c115, 0) as any as S.Schema<GetXdslModemWifiQrCodeRequest>,
   output: __S(1168, __c73, 0) as any as S.Schema<GetXdslModemWifiQrCodeResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4109,7 +4170,8 @@ export const getXdslModemWifiRadio: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c116, 0) as any as S.Schema<GetXdslModemWifiRadioRequest>,
   output: __S(1857, __c116, 1) as any as S.Schema<XdslWifiRadio>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4126,7 +4188,8 @@ export const getXdslOnt: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1872, __c117, 0) as any as S.Schema<GetXdslOntRequest>,
   output: __S(1873, __c117, 1) as any as S.Schema<XdslOnt>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4143,7 +4206,8 @@ export const getXdslPendingAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c118, 0) as any as S.Schema<GetXdslPendingActionRequest>,
   output: __S(1889, __c118, 1) as any as S.Schema<XdslPendingAction>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4160,7 +4224,8 @@ export const getXdslResiliationFollowup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1904, __c119, 0) as any as S.Schema<GetXdslResiliationFollowupRequest>,
   output: __S(1920, __c120, 0) as any as S.Schema<XdslResiliationFollowUpDetail>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4177,7 +4242,8 @@ export const getXdslResiliationTerms: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1936, __c121, 0) as any as S.Schema<GetXdslResiliationTermsRequest>,
   output: __S(1937, __c121, 1) as any as S.Schema<XdslResiliationTerms>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4194,7 +4260,8 @@ export const getXdslRma: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c122, 0) as any as S.Schema<GetXdslRmaRequest>,
   output: __S(1955, __c122, 3) as any as S.Schema<TelephonyRma>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4211,7 +4278,8 @@ export const getXdslServiceInfos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c124, 0) as any as S.Schema<GetXdslServiceInfosRequest>,
   output: __S(2000, __c125, 0) as any as S.Schema<ServicesService>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4228,7 +4296,8 @@ export const getXdslSpare: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2032, __c127, 0) as any as S.Schema<GetXdslSpareRequest>,
   output: __S(2033, __c127, 1) as any as S.Schema<SpareXdslXdslSpareWithIAM>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4245,7 +4314,8 @@ export const getXdslSpareServiceInfos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c128, 0) as any as S.Schema<GetXdslSpareServiceInfosRequest>,
   output: __S(2000, __c125, 0) as any as S.Schema<ServicesService>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4262,7 +4332,8 @@ export const getXdslTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c130, 0) as any as S.Schema<GetXdslTaskRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<XdslTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4279,7 +4350,8 @@ export const getXdslTotalDeconsolidationTerms: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2096, __c131, 0) as any as S.Schema<GetXdslTotalDeconsolidationTermsRequest>,
   output: __S(2097, __c131, 1) as any as S.Schema<XdslDeconsolidationTerms>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4296,7 +4368,8 @@ export const installFrimware: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c132, 0) as any as S.Schema<InstallFrimwareRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<XdslTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4313,7 +4386,8 @@ export const listXdsl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2128, __c133, 0) as any as S.Schema<ListXdslRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<ListXdslResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4330,7 +4404,8 @@ export const listXdslAntiSpamEvidences: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2160, __c135, 0) as any as S.Schema<ListXdslAntiSpamEvidencesRequest>,
   output: __S(2163, __c135, 3) as any as S.Schema<XdslAntiSpamEvidencesInfo>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4347,7 +4422,8 @@ export const listXdslAntiSpams: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c136, 0) as any as S.Schema<ListXdslAntiSpamsRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<ListXdslAntiSpamsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4364,7 +4440,8 @@ export const listXdslEmailPro: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2192, __c137, 0) as any as S.Schema<ListXdslEmailProRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<ListXdslEmailProResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4381,7 +4458,8 @@ export const listXdslFiberEligibilities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c138, 0) as any as S.Schema<ListXdslFiberEligibilitiesRequest>,
   output: __S(2288, __c143, 0) as any as S.Schema<ListXdslFiberEligibilitiesResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4398,7 +4476,8 @@ export const listXdslIncidents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2224, __c139, 0) as any as S.Schema<ListXdslIncidentsRequest>,
   output: __S(2288, __c143, 0) as any as S.Schema<ListXdslIncidentsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4415,7 +4494,8 @@ export const listXdslIps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c140, 0) as any as S.Schema<ListXdslIpsRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<ListXdslIpsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4432,7 +4512,8 @@ export const listXdslLineDslamPortAvailableProfiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c144, 0) as any as S.Schema<ListXdslLineDslamPortAvailableProfilesRequest>,
   output: __S(2306, __c144, 2) as any as S.Schema<ListXdslLineDslamPortAvailableProfilesResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4449,7 +4530,8 @@ export const listXdslLineDslamPortLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2320, __c145, 0) as any as S.Schema<ListXdslLineDslamPortLogsRequest>,
   output: __S(2323, __c145, 3) as any as S.Schema<ListXdslLineDslamPortLogsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4466,7 +4548,8 @@ export const listXdslLines: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c146, 0) as any as S.Schema<ListXdslLinesRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<ListXdslLinesResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4483,7 +4566,8 @@ export const listXdslLineStatistics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2352, __c147, 0) as any as S.Schema<ListXdslLineStatisticsRequest>,
   output: __S(2355, __c147, 3) as any as S.Schema<ComplexTypeUnitAndValuesXdslTimestampAndValue>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4500,7 +4584,8 @@ export const listXdslModemAvailableACSBackend: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c148, 0) as any as S.Schema<ListXdslModemAvailableACSBackendRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<ListXdslModemAvailableACSBackendResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4517,7 +4602,8 @@ export const listXdslModemAvailableWLANChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2384, __c149, 0) as any as S.Schema<ListXdslModemAvailableWLANChannelRequest>,
   output: __S(2288, __c143, 0) as any as S.Schema<ListXdslModemAvailableWLANChannelResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4534,7 +4620,8 @@ export const listXdslModemConnectedDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c150, 0) as any as S.Schema<ListXdslModemConnectedDevicesRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<ListXdslModemConnectedDevicesResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4551,7 +4638,8 @@ export const listXdslModemFirmwareAvailable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2416, __c151, 0) as any as S.Schema<ListXdslModemFirmwareAvailableRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<ListXdslModemFirmwareAvailableResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4568,7 +4656,8 @@ export const listXdslModemLan: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c152, 0) as any as S.Schema<ListXdslModemLanRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<ListXdslModemLanResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4585,7 +4674,8 @@ export const listXdslModemLanDhcp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2448, __c153, 0) as any as S.Schema<ListXdslModemLanDhcpRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<ListXdslModemLanDhcpResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4602,7 +4692,8 @@ export const listXdslModemWifi: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2480, __c155, 0) as any as S.Schema<ListXdslModemWifiRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<ListXdslModemWifiResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4619,7 +4710,8 @@ export const listXdslModemWifiRadio: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c156, 0) as any as S.Schema<ListXdslModemWifiRadioRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<ListXdslModemWifiRadioResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4636,7 +4728,8 @@ export const listXdslOrderFollowup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2512, __c157, 0) as any as S.Schema<ListXdslOrderFollowupRequest>,
   output: __S(2515, __c157, 3) as any as S.Schema<ListXdslOrderFollowupResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4653,7 +4746,8 @@ export const listXdslRadiusConnectionLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c158, 0) as any as S.Schema<ListXdslRadiusConnectionLogsRequest>,
   output: __S(2531, __c158, 3) as any as S.Schema<ListXdslRadiusConnectionLogsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4670,7 +4764,8 @@ export const listXdslRma: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2544, __c159, 0) as any as S.Schema<ListXdslRmaRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<ListXdslRmaResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4687,7 +4782,8 @@ export const listXdslSpare: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c160, 0) as any as S.Schema<ListXdslSpareRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<ListXdslSpareResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4704,7 +4800,8 @@ export const listXdslSpareBrands: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2576, __c161, 0) as any as S.Schema<ListXdslSpareBrandsRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<ListXdslSpareBrandsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4721,7 +4818,8 @@ export const listXdslSpareCompatibleReplacement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c162, 0) as any as S.Schema<ListXdslSpareCompatibleReplacementRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<ListXdslSpareCompatibleReplacementResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4738,7 +4836,8 @@ export const listXdslStatistics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2608, __c163, 0) as any as S.Schema<ListXdslStatisticsRequest>,
   output: __S(2611, __c163, 3) as any as S.Schema<ComplexTypeUnitAndValuesXdslAccessLatency>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4755,7 +4854,8 @@ export const listXdslTasks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c164, 0) as any as S.Schema<ListXdslTasksRequest>,
   output: __S(2288, __c143, 0) as any as S.Schema<ListXdslTasksResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4772,7 +4872,8 @@ export const putXdsl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<PutXdslRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<PutXdslResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4789,7 +4890,8 @@ export const putXdslEmailPro: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<PutXdslEmailProRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<PutXdslEmailProResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4806,7 +4908,8 @@ export const putXdslModem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<PutXdslModemRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<PutXdslModemResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4823,7 +4926,8 @@ export const putXdslModemLan: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<PutXdslModemLanRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<PutXdslModemLanResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4840,7 +4944,8 @@ export const putXdslModemLanDhcp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<PutXdslModemLanDhcpRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<PutXdslModemLanDhcpResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4857,7 +4962,8 @@ export const putXdslModemWifi: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<PutXdslModemWifiRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<PutXdslModemWifiResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4874,7 +4980,8 @@ export const putXdslModemWifiRadio: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<PutXdslModemWifiRadioRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<XdslTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4891,7 +4998,8 @@ export const putXdslRma: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<PutXdslRmaRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<PutXdslRmaResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4908,7 +5016,8 @@ export const putXdslServiceInfos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<PutXdslServiceInfosRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<PutXdslServiceInfosResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4925,7 +5034,8 @@ export const putXdslSpareServiceInfos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<PutXdslSpareServiceInfosRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<PutXdslSpareServiceInfosResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4942,7 +5052,8 @@ export const rebootModem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<RebootModemRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<XdslTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4959,7 +5070,8 @@ export const refreshXdslModemConnectedDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<RefreshXdslModemConnectedDevicesRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<XdslTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4976,7 +5088,8 @@ export const removeDHCPStaticAddress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<RemoveDHCPStaticAddressRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<XdslTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4993,7 +5106,8 @@ export const removeMonitoringNotification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<RemoveMonitoringNotificationRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<RemoveMonitoringNotificationResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5010,7 +5124,8 @@ export const removePortMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<RemovePortMappingRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<XdslTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5027,7 +5142,8 @@ export const replaceAccessModem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<ReplaceAccessModemRequest>,
   output: __S(392, __c24, 8) as any as S.Schema<OrderOrder>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5044,7 +5160,8 @@ export const replaceModemBySpare: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<ReplaceModemBySpareRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<ReplaceModemBySpareResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5061,7 +5178,8 @@ export const requestTotalDeconsolidation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<RequestTotalDeconsolidationRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<XdslTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5078,7 +5196,8 @@ export const resetModemConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<ResetModemConfigurationRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<XdslTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5095,7 +5214,8 @@ export const resetXdslLinesDslamPort: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<ResetXdslLinesDslamPortRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<XdslTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5112,7 +5232,8 @@ export const resetXdslModemPortMappingConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<ResetXdslModemPortMappingConfigRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<ResetXdslModemPortMappingConfigResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5129,7 +5250,8 @@ export const resiliateAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<ResiliateAccessRequest>,
   output: __S(1920, __c120, 0) as any as S.Schema<XdslResiliationFollowUpDetail>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5146,7 +5268,8 @@ export const searchXdslOrderMeetings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<SearchXdslOrderMeetingsRequest>,
   output: __S(517, __c32, 5) as any as S.Schema<XdslAsyncTaskConnectivityEligibilityMeetings>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5163,7 +5286,8 @@ export const sendXdslOrderToProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<SendXdslOrderToProviderRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<SendXdslOrderToProviderResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5180,7 +5304,8 @@ export const setWifiMeshStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<SetWifiMeshStatusRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<XdslTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5197,7 +5322,8 @@ export const setWifiOneSsidStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<SetWifiOneSsidStatusRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<XdslTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5214,7 +5340,8 @@ export const updateBlocIPStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<UpdateBlocIPStatusRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<XdslTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5231,7 +5358,8 @@ export const updateContentSharingStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<UpdateContentSharingStatusRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<XdslTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5248,7 +5376,8 @@ export const updateDHCPStaticAddress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<UpdateDHCPStaticAddressRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<UpdateDHCPStaticAddressResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5265,7 +5394,8 @@ export const updateFTPStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<UpdateFTPStatusRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<XdslTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5278,7 +5408,8 @@ export const updateIp: API.OperationMethod<UpdateIpRequest, XdslTask, UpdateIpEr
   /*@__PURE__*/ API.make(() => ({
     input: __S(656, __c41, 0) as any as S.Schema<UpdateIpRequest>,
     output: __S(1216, __c76, 0) as any as S.Schema<XdslTask>,
-    errors: [UnknownOvhError],
+    errors: [],
+    serviceErrors: OvhServiceErrors,
     protocol: OvhProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5295,7 +5426,8 @@ export const updateIpsecAlgStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<UpdateIpsecAlgStatusRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<XdslTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5312,7 +5444,8 @@ export const updateLineDiagnostic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<UpdateLineDiagnosticRequest>,
   output: __S(703, __c43, 15) as any as S.Schema<XdslLineDiagnosticDiagnostic>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5329,7 +5462,8 @@ export const updateMailSending: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<UpdateMailSendingRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<XdslTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5346,7 +5480,8 @@ export const updateModemCallWaiting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<UpdateModemCallWaitingRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<XdslTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5363,7 +5498,8 @@ export const updateModemTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<UpdateModemTemplateRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<UpdateModemTemplateResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5380,7 +5516,8 @@ export const updateMonitoringNotification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c47, 0) as any as S.Schema<UpdateMonitoringNotificationRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<UpdateMonitoringNotificationResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5397,7 +5534,8 @@ export const updatePortMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<UpdatePortMappingRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<UpdatePortMappingResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5414,7 +5552,8 @@ export const updateRIO: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<UpdateRIORequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<UpdateRIOResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5431,7 +5570,8 @@ export const updateRMAType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c50, 0) as any as S.Schema<UpdateRMATypeRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<UpdateRMATypeResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5448,7 +5588,8 @@ export const updateSipAlgStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<UpdateSipAlgStatusRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<XdslTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5465,7 +5606,8 @@ export const updateUpnpStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<UpdateUpnpStatusRequest>,
   output: __S(1216, __c76, 0) as any as S.Schema<XdslTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5779,7 +5921,7 @@ function __c17(j: number): any {
           enabled: S.optional(S.Boolean),
           frequency: S.optional(S.String),
           guest: S.optional(S.Boolean),
-          securityKey: S.optional(S.String),
+          securityKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           securityType: S.optional(S.String),
           wifiName: S.optional(S.String),
         }),

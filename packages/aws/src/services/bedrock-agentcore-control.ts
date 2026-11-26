@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -199,7 +200,7 @@ export class ValidationException
         identifier: "ValidationExceptionReason",
       }),
       fieldList: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.suspend(() => __S(1953, __c61, 1)).annotate({
+        /*@__PURE__*/ S.suspend(() => __S(1985, __c62, 1)).annotate({
           identifier: "ValidationExceptionFieldList",
         }),
       ),
@@ -486,35 +487,59 @@ export interface CapacityProviderVolumeConfiguration {
   volumeName: string;
   mountPath: string;
 }
+export interface S3BucketMountConfiguration {
+  bucket: string;
+  mountPath: string;
+  prefix?: string | undefined;
+  s3BucketOwner?: string | undefined;
+  s3BucketRegion?: string | undefined;
+}
 export type FilesystemConfiguration =
   | {
       sessionStorage: SessionStorageConfiguration;
       s3FilesAccessPoint?: undefined;
       efsAccessPoint?: undefined;
       capacityProviderVolume?: undefined;
+      s3BucketMount?: undefined;
     }
   | {
       sessionStorage?: undefined;
       s3FilesAccessPoint: S3FilesAccessPointConfiguration;
       efsAccessPoint?: undefined;
       capacityProviderVolume?: undefined;
+      s3BucketMount?: undefined;
     }
   | {
       sessionStorage?: undefined;
       s3FilesAccessPoint?: undefined;
       efsAccessPoint: EfsAccessPointConfiguration;
       capacityProviderVolume?: undefined;
+      s3BucketMount?: undefined;
     }
   | {
       sessionStorage?: undefined;
       s3FilesAccessPoint?: undefined;
       efsAccessPoint?: undefined;
       capacityProviderVolume: CapacityProviderVolumeConfiguration;
+      s3BucketMount?: undefined;
+    }
+  | {
+      sessionStorage?: undefined;
+      s3FilesAccessPoint?: undefined;
+      efsAccessPoint?: undefined;
+      capacityProviderVolume?: undefined;
+      s3BucketMount: S3BucketMountConfiguration;
     };
 export type FilesystemConfigurations = FilesystemConfiguration[];
 export type CapacityProviderArn = string;
+export type PrivilegeMode = "STANDARD" | "PRIVILEGED" | (string & {});
+export interface LinuxOperatingSystemConfiguration {
+  privilegeMode?: PrivilegeMode | undefined;
+}
+export type OperatingSystemConfiguration = { linux: LinuxOperatingSystemConfiguration };
 export interface CapacityProviderConfiguration {
   capacityProviderArn?: string | undefined;
+  operatingSystemConfiguration?: OperatingSystemConfiguration | undefined;
 }
 export type PlatformVersion = string;
 export type Port = number;
@@ -789,6 +814,10 @@ export interface CapacityReservationSpecification {
 }
 export type SSHKeyName = string;
 export type InstanceProfileArn = string;
+export type NestedVirtualization = "ENABLED" | "DISABLED" | (string & {});
+export interface CpuOptions {
+  nestedVirtualization?: NestedVirtualization | undefined;
+}
 export interface LaunchParameters {
   operatingSystem: OperatingSystem;
   instanceRequirements: InstanceRequirements;
@@ -799,6 +828,7 @@ export interface LaunchParameters {
   sshKeyName?: string | undefined;
   instanceProfileArn?: string | undefined;
   propagatedTags?: { [key: string]: string | undefined } | undefined;
+  cpuOptions?: CpuOptions | undefined;
 }
 export type LaunchTemplateSource = { launchParameters: LaunchParameters };
 export type SubnetIdList = string[];
@@ -989,8 +1019,8 @@ export interface CreateDatasetRequest {
   clientToken?: string | undefined;
   datasetName: string;
   description?: string | undefined;
-  source: DataSourceType;
-  schemaType: DatasetSchemaType;
+  source?: DataSourceType | undefined;
+  schemaType?: DatasetSchemaType | undefined;
   kmsKeyArn?: string | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
 }
@@ -3279,14 +3309,30 @@ export interface CreateOnlineEvaluationConfigResponse {
 export type PaymentManagerId = string;
 export type PaymentConnectorName = string;
 export type PaymentsDescription = string;
-export type PaymentConnectorType = "CoinbaseCDP" | "StripePrivy" | (string & {});
+export type PaymentConnectorType = "CoinbaseCDP" | "StripePrivy" | "AwsBilling" | (string & {});
 export type PaymentCredentialProviderArn = string;
 export interface PaymentCredentialProviderConfiguration {
   credentialProviderArn: string;
 }
+export interface AwsBillingConnectorConfiguration {
+  iamRoleArn: string;
+}
 export type CredentialsProviderConfiguration =
-  | { coinbaseCDP: PaymentCredentialProviderConfiguration; stripePrivy?: undefined }
-  | { coinbaseCDP?: undefined; stripePrivy: PaymentCredentialProviderConfiguration };
+  | {
+      coinbaseCDP: PaymentCredentialProviderConfiguration;
+      stripePrivy?: undefined;
+      awsBilling?: undefined;
+    }
+  | {
+      coinbaseCDP?: undefined;
+      stripePrivy: PaymentCredentialProviderConfiguration;
+      awsBilling?: undefined;
+    }
+  | {
+      coinbaseCDP?: undefined;
+      stripePrivy?: undefined;
+      awsBilling: AwsBillingConnectorConfiguration;
+    };
 export type CredentialsProviderConfigurations = CredentialsProviderConfiguration[];
 export type PaymentConnectorProvisionMode = "MANUAL" | "QUICK_CREATE" | (string & {});
 export interface CreatePaymentConnectorRequest {
@@ -3294,7 +3340,7 @@ export interface CreatePaymentConnectorRequest {
   name: string;
   description?: string | undefined;
   type: PaymentConnectorType;
-  credentialProviderConfigurations: CredentialsProviderConfiguration[];
+  credentialProviderConfigurations?: CredentialsProviderConfiguration[] | undefined;
   provisionMode?: PaymentConnectorProvisionMode | undefined;
   clientToken?: string | undefined;
 }
@@ -3928,6 +3974,32 @@ export interface DeleteWorkloadIdentityRequest {
   name: string;
 }
 export interface DeleteWorkloadIdentityResponse {}
+export type AgentInsightStoreId = string;
+export interface GetAgentInsightStoreRequest {
+  agentInsightStoreId: string;
+}
+export type AgentInsightStoreArn = string;
+export type AgentInsightStoreStatus = "ACTIVE" | "UPDATING" | "INACTIVE" | "ERROR" | (string & {});
+export type AgentInsightStoreEnablementStatus = "ENABLED" | "DISABLED" | (string & {});
+export type AgentInsightStoreEncryptionMode =
+  | "AWS_OWNED_KMS_KEY"
+  | "CUSTOMER_MANAGED_KMS"
+  | (string & {});
+export interface AgentInsightStoreEncryptionConfiguration {
+  mode: AgentInsightStoreEncryptionMode;
+  kmsKeyArn?: string | undefined;
+}
+export type AgentInsightStoreFailureReason = string | redacted.Redacted<string>;
+export interface GetAgentInsightStoreResponse {
+  agentInsightStoreArn: string;
+  agentInsightStoreId: string;
+  status: AgentInsightStoreStatus;
+  enablementStatus: AgentInsightStoreEnablementStatus;
+  encryptionConfiguration: AgentInsightStoreEncryptionConfiguration;
+  createdAt: Date;
+  updatedAt: Date;
+  failureReason?: string | redacted.Redacted<string> | undefined;
+}
 export interface GetAgentRuntimeRequest {
   agentRuntimeId: string;
   agentRuntimeVersion?: string | undefined;
@@ -4133,6 +4205,11 @@ export interface GetDatasetRequest {
   datasetVersion?: string | undefined;
 }
 export type DraftStatus = "MODIFIED" | "UNMODIFIED" | (string & {});
+export interface ExampleCountByField {
+  turns: number;
+  input: number;
+  actorProfile: number;
+}
 export type DownloadUrl = string | redacted.Redacted<string>;
 export interface GetDatasetResponse {
   datasetArn: string;
@@ -4143,9 +4220,10 @@ export interface GetDatasetResponse {
   status: DatasetStatus;
   draftStatus?: DraftStatus | undefined;
   failureReason?: string | undefined;
-  schemaType: DatasetSchemaType;
+  schemaType?: DatasetSchemaType | undefined;
   kmsKeyArn?: string | undefined;
   exampleCount: number;
+  exampleCountByField?: ExampleCountByField | undefined;
   downloadUrl?: string | redacted.Redacted<string> | undefined;
   downloadUrlExpiresAt?: Date | undefined;
   createdAt: Date;
@@ -4535,6 +4613,24 @@ export interface GetWorkloadIdentityResponse {
   createdTime: Date;
   lastUpdatedTime: Date;
 }
+export interface ListAgentInsightStoresRequest {
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+}
+export interface AgentInsightStoreSummary {
+  agentInsightStoreArn: string;
+  agentInsightStoreId: string;
+  status: AgentInsightStoreStatus;
+  enablementStatus: AgentInsightStoreEnablementStatus;
+  encryptionConfiguration: AgentInsightStoreEncryptionConfiguration;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export type AgentInsightStoreSummaryList = AgentInsightStoreSummary[];
+export interface ListAgentInsightStoresResponse {
+  agentInsightStores: AgentInsightStoreSummary[];
+  nextToken?: string | undefined;
+}
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListAgentRuntimeEndpointsRequest {
@@ -4752,9 +4848,22 @@ export interface ListConsentPortalsResponse {
   consentPortals: ConsentPortalSummary[];
   nextToken?: string | undefined;
 }
+export type DatasetGenerationId = string;
+export type DatasetGenerationIdList = string[];
+export type ExampleField = "TURNS" | "INPUT" | "ACTOR_PROFILE" | (string & {});
+export type ExampleFieldList = ExampleField[];
+export interface ExampleFieldCondition {
+  anyOf?: ExampleField[] | undefined;
+}
+export type ExampleFieldConditionList = ExampleFieldCondition[];
+export interface ListDatasetExamplesFilter {
+  generationIds?: string[] | undefined;
+  exampleFields?: ExampleFieldCondition[] | undefined;
+}
 export interface ListDatasetExamplesRequest {
   datasetId: string;
   datasetVersion?: string | undefined;
+  filter?: ListDatasetExamplesFilter | undefined;
   maxResults?: number | undefined;
   nextToken?: string | undefined;
 }
@@ -4765,7 +4874,17 @@ export interface ListDatasetExamplesResponse {
   examples: any[];
   nextToken?: string | undefined;
 }
+export interface ExampleCountByFieldCondition {
+  anyOf?: ExampleField[] | undefined;
+  min?: number | undefined;
+  max?: number | undefined;
+}
+export type ExampleCountByFieldConditionList = ExampleCountByFieldCondition[];
+export interface ListDatasetsFilter {
+  exampleCountByField?: ExampleCountByFieldCondition[] | undefined;
+}
 export interface ListDatasetsRequest {
+  filter?: ListDatasetsFilter | undefined;
   nextToken?: string | undefined;
   maxResults?: number | undefined;
 }
@@ -4776,8 +4895,9 @@ export interface DatasetSummary {
   description?: string | undefined;
   status: DatasetStatus;
   draftStatus?: DraftStatus | undefined;
-  schemaType: DatasetSchemaType;
+  schemaType?: DatasetSchemaType | undefined;
   exampleCount: number;
+  exampleCountByField?: ExampleCountByField | undefined;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -4786,14 +4906,19 @@ export interface ListDatasetsResponse {
   datasets: DatasetSummary[];
   nextToken?: string | undefined;
 }
+export interface ListDatasetVersionsFilter {
+  exampleCountByField?: ExampleCountByFieldCondition[] | undefined;
+}
 export interface ListDatasetVersionsRequest {
   datasetId: string;
+  filter?: ListDatasetVersionsFilter | undefined;
   nextToken?: string | undefined;
   maxResults?: number | undefined;
 }
 export interface DatasetVersionSummary {
   datasetVersion: string;
   exampleCount: number;
+  exampleCountByField?: ExampleCountByField | undefined;
   createdAt: Date;
 }
 export type DatasetVersionSummaryList = DatasetVersionSummary[];
@@ -5412,6 +5537,20 @@ export interface UntagResourceRequest {
   tagKeys: string[];
 }
 export interface UntagResourceResponse {}
+export interface UpdateAgentInsightStoreRequest {
+  clientToken?: string | undefined;
+  agentInsightStoreId: string;
+  enablementStatus?: AgentInsightStoreEnablementStatus | undefined;
+  encryptionConfiguration?: AgentInsightStoreEncryptionConfiguration | undefined;
+}
+export interface UpdateAgentInsightStoreResponse {
+  agentInsightStoreArn: string;
+  agentInsightStoreId: string;
+  status: AgentInsightStoreStatus;
+  enablementStatus: AgentInsightStoreEnablementStatus;
+  updatedAt: Date;
+  failureReason?: string | redacted.Redacted<string> | undefined;
+}
 export interface UpdateAgentRuntimeRequest {
   agentRuntimeId: string;
   agentRuntimeArtifact: AgentRuntimeArtifact;
@@ -6099,8 +6238,8 @@ export const addDatasetExamples: API.OperationMethod<
   AddDatasetExamplesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<AddDatasetExamplesRequest>,
-  output: __S(2305, __c72, 1) as any as S.Schema<AddDatasetExamplesResponse>,
+  input: __S(2336, __c73, 0) as any as S.Schema<AddDatasetExamplesRequest>,
+  output: __S(2337, __c73, 1) as any as S.Schema<AddDatasetExamplesResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6110,6 +6249,7 @@ export const addDatasetExamples: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddDatasetExamples",
@@ -6135,8 +6275,8 @@ export const batchPutGatewayRateLimits: API.OperationMethod<
   BatchPutGatewayRateLimitsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2786, __c87, 2) as any as S.Schema<BatchPutGatewayRateLimitsRequest>,
-  output: __S(2787, __c87, 3) as any as S.Schema<BatchPutGatewayRateLimitsResponse>,
+  input: __S(2818, __c88, 2) as any as S.Schema<BatchPutGatewayRateLimitsRequest>,
+  output: __S(2819, __c88, 3) as any as S.Schema<BatchPutGatewayRateLimitsResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6146,6 +6286,7 @@ export const batchPutGatewayRateLimits: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchPutGatewayRateLimits",
@@ -6170,8 +6311,8 @@ export const createAgentRuntime: API.OperationMethod<
   CreateAgentRuntimeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<CreateAgentRuntimeRequest>,
-  output: __S(3265, __c102, 1) as any as S.Schema<CreateAgentRuntimeResponse>,
+  input: __S(3296, __c103, 0) as any as S.Schema<CreateAgentRuntimeRequest>,
+  output: __S(3297, __c103, 1) as any as S.Schema<CreateAgentRuntimeResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6180,6 +6321,7 @@ export const createAgentRuntime: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAgentRuntime",
@@ -6205,8 +6347,8 @@ export const createAgentRuntimeEndpoint: API.OperationMethod<
   CreateAgentRuntimeEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<CreateAgentRuntimeEndpointRequest>,
-  output: __S(3841, __c120, 1) as any as S.Schema<CreateAgentRuntimeEndpointResponse>,
+  input: __S(3936, __c123, 0) as any as S.Schema<CreateAgentRuntimeEndpointRequest>,
+  output: __S(3937, __c123, 1) as any as S.Schema<CreateAgentRuntimeEndpointResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6216,6 +6358,7 @@ export const createAgentRuntimeEndpoint: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAgentRuntimeEndpoint",
@@ -6245,8 +6388,8 @@ export const createApiKeyCredentialProvider: API.OperationMethod<
   CreateApiKeyCredentialProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<CreateApiKeyCredentialProviderRequest>,
-  output: __S(3873, __c121, 1) as any as S.Schema<CreateApiKeyCredentialProviderResponse>,
+  input: __S(4000, __c125, 0) as any as S.Schema<CreateApiKeyCredentialProviderRequest>,
+  output: __S(4001, __c125, 1) as any as S.Schema<CreateApiKeyCredentialProviderResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6260,6 +6403,7 @@ export const createApiKeyCredentialProvider: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApiKeyCredentialProvider",
@@ -6284,8 +6428,8 @@ export const createBrowser: API.OperationMethod<
   CreateBrowserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<CreateBrowserRequest>,
-  output: __S(3937, __c123, 1) as any as S.Schema<CreateBrowserResponse>,
+  input: __S(4064, __c127, 0) as any as S.Schema<CreateBrowserRequest>,
+  output: __S(4065, __c127, 1) as any as S.Schema<CreateBrowserResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6294,6 +6438,7 @@ export const createBrowser: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBrowser",
@@ -6318,8 +6463,8 @@ export const createBrowserProfile: API.OperationMethod<
   CreateBrowserProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<CreateBrowserProfileRequest>,
-  output: __S(4033, __c126, 1) as any as S.Schema<CreateBrowserProfileResponse>,
+  input: __S(4160, __c130, 0) as any as S.Schema<CreateBrowserProfileRequest>,
+  output: __S(4161, __c130, 1) as any as S.Schema<CreateBrowserProfileResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6328,6 +6473,7 @@ export const createBrowserProfile: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBrowserProfile",
@@ -6356,8 +6502,8 @@ export const createCapacityProvider: API.OperationMethod<
   CreateCapacityProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<CreateCapacityProviderInput>,
-  output: __S(4065, __c127, 1) as any as S.Schema<CreateCapacityProviderOutput>,
+  input: __S(4192, __c131, 0) as any as S.Schema<CreateCapacityProviderInput>,
+  output: __S(4193, __c131, 1) as any as S.Schema<CreateCapacityProviderOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6368,6 +6514,7 @@ export const createCapacityProvider: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCapacityProvider",
@@ -6392,8 +6539,8 @@ export const createCodeInterpreter: API.OperationMethod<
   CreateCodeInterpreterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<CreateCodeInterpreterRequest>,
-  output: __S(4129, __c129, 1) as any as S.Schema<CreateCodeInterpreterResponse>,
+  input: __S(4256, __c133, 0) as any as S.Schema<CreateCodeInterpreterRequest>,
+  output: __S(4257, __c133, 1) as any as S.Schema<CreateCodeInterpreterResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6402,6 +6549,7 @@ export const createCodeInterpreter: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCodeInterpreter",
@@ -6426,8 +6574,8 @@ export const createConfigurationBundle: API.OperationMethod<
   CreateConfigurationBundleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<CreateConfigurationBundleRequest>,
-  output: __S(4161, __c130, 1) as any as S.Schema<CreateConfigurationBundleResponse>,
+  input: __S(4288, __c134, 0) as any as S.Schema<CreateConfigurationBundleRequest>,
+  output: __S(4289, __c134, 1) as any as S.Schema<CreateConfigurationBundleResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6436,6 +6584,7 @@ export const createConfigurationBundle: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationBundle",
@@ -6462,8 +6611,8 @@ export const createConsentPortal: API.OperationMethod<
   CreateConsentPortalError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<CreateConsentPortalRequest>,
-  output: __S(4321, __c135, 1) as any as S.Schema<CreateConsentPortalResponse>,
+  input: __S(4384, __c137, 0) as any as S.Schema<CreateConsentPortalRequest>,
+  output: __S(4449, __c139, 1) as any as S.Schema<CreateConsentPortalResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6474,6 +6623,7 @@ export const createConsentPortal: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConsentPortal",
@@ -6498,8 +6648,8 @@ export const createDataset: API.OperationMethod<
   CreateDatasetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<CreateDatasetRequest>,
-  output: __S(4353, __c136, 1) as any as S.Schema<CreateDatasetResponse>,
+  input: __S(4480, __c140, 0) as any as S.Schema<CreateDatasetRequest>,
+  output: __S(4481, __c140, 1) as any as S.Schema<CreateDatasetResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6508,6 +6658,7 @@ export const createDataset: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataset",
@@ -6533,8 +6684,8 @@ export const createDatasetVersion: API.OperationMethod<
   CreateDatasetVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<CreateDatasetVersionRequest>,
-  output: __S(4385, __c137, 1) as any as S.Schema<CreateDatasetVersionResponse>,
+  input: __S(4512, __c141, 0) as any as S.Schema<CreateDatasetVersionRequest>,
+  output: __S(4513, __c141, 1) as any as S.Schema<CreateDatasetVersionResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6544,6 +6695,7 @@ export const createDatasetVersion: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDatasetVersion",
@@ -6568,8 +6720,8 @@ export const createEvaluator: API.OperationMethod<
   CreateEvaluatorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<CreateEvaluatorRequest>,
-  output: __S(4417, __c138, 1) as any as S.Schema<CreateEvaluatorResponse>,
+  input: __S(4544, __c142, 0) as any as S.Schema<CreateEvaluatorRequest>,
+  output: __S(4545, __c142, 1) as any as S.Schema<CreateEvaluatorResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6578,6 +6730,7 @@ export const createEvaluator: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEvaluator",
@@ -6604,8 +6757,8 @@ export const createGateway: API.OperationMethod<
   CreateGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<CreateGatewayRequest>,
-  output: __S(4560, __c142, 16) as any as S.Schema<CreateGatewayResponse>,
+  input: __S(4608, __c144, 0) as any as S.Schema<CreateGatewayRequest>,
+  output: __S(4688, __c146, 16) as any as S.Schema<CreateGatewayResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6614,6 +6767,7 @@ export const createGateway: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGateway",
@@ -6639,8 +6793,8 @@ export const createGatewayRateLimit: API.OperationMethod<
   CreateGatewayRateLimitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<CreateGatewayRateLimitRequest>,
-  output: __S(2884, __c90, 4) as any as S.Schema<CreateGatewayRateLimitResponse>,
+  input: __S(4704, __c147, 0) as any as S.Schema<CreateGatewayRateLimitRequest>,
+  output: __S(2916, __c91, 4) as any as S.Schema<CreateGatewayRateLimitResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6650,6 +6804,7 @@ export const createGatewayRateLimit: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGatewayRateLimit",
@@ -6675,8 +6830,8 @@ export const createGatewayRule: API.OperationMethod<
   CreateGatewayRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<CreateGatewayRuleRequest>,
-  output: __S(4609, __c144, 1) as any as S.Schema<CreateGatewayRuleResponse>,
+  input: __S(4736, __c148, 0) as any as S.Schema<CreateGatewayRuleRequest>,
+  output: __S(4737, __c148, 1) as any as S.Schema<CreateGatewayRuleResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6686,6 +6841,7 @@ export const createGatewayRule: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGatewayRule",
@@ -6711,8 +6867,8 @@ export const createGatewayTarget: API.OperationMethod<
   CreateGatewayTargetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<CreateGatewayTargetRequest>,
-  output: __S(4846, __c151, 14) as any as S.Schema<CreateGatewayTargetResponse>,
+  input: __S(4800, __c150, 0) as any as S.Schema<CreateGatewayTargetRequest>,
+  output: __S(4974, __c155, 14) as any as S.Schema<CreateGatewayTargetResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6722,6 +6878,7 @@ export const createGatewayTarget: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGatewayTarget",
@@ -6746,8 +6903,8 @@ export const createHarness: API.OperationMethod<
   CreateHarnessError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4864, __c152, 0) as any as S.Schema<CreateHarnessRequest>,
-  output: __S(5024, __c157, 0) as any as S.Schema<CreateHarnessResponse>,
+  input: __S(4992, __c156, 0) as any as S.Schema<CreateHarnessRequest>,
+  output: __S(5152, __c161, 0) as any as S.Schema<CreateHarnessResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6756,6 +6913,7 @@ export const createHarness: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHarness",
@@ -6781,8 +6939,8 @@ export const createHarnessEndpoint: API.OperationMethod<
   CreateHarnessEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5056, __c158, 0) as any as S.Schema<CreateHarnessEndpointRequest>,
-  output: __S(5120, __c160, 0) as any as S.Schema<CreateHarnessEndpointResponse>,
+  input: __S(5184, __c162, 0) as any as S.Schema<CreateHarnessEndpointRequest>,
+  output: __S(5248, __c164, 0) as any as S.Schema<CreateHarnessEndpointResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6792,6 +6950,7 @@ export const createHarnessEndpoint: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHarnessEndpoint",
@@ -6817,8 +6976,8 @@ export const createMemory: API.OperationMethod<
   CreateMemoryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5152, __c161, 0) as any as S.Schema<CreateMemoryInput>,
-  output: __S(5195, __c162, 11) as any as S.Schema<CreateMemoryOutput>,
+  input: __S(5280, __c165, 0) as any as S.Schema<CreateMemoryInput>,
+  output: __S(5323, __c166, 11) as any as S.Schema<CreateMemoryOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6828,6 +6987,7 @@ export const createMemory: API.OperationMethod<
     ThrottledException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMemory",
@@ -6857,8 +7017,8 @@ export const createOauth2CredentialProvider: API.OperationMethod<
   CreateOauth2CredentialProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5280, __c165, 0) as any as S.Schema<CreateOauth2CredentialProviderRequest>,
-  output: __S(5281, __c165, 1) as any as S.Schema<CreateOauth2CredentialProviderResponse>,
+  input: __S(5408, __c169, 0) as any as S.Schema<CreateOauth2CredentialProviderRequest>,
+  output: __S(5409, __c169, 1) as any as S.Schema<CreateOauth2CredentialProviderResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6872,6 +7032,7 @@ export const createOauth2CredentialProvider: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOauth2CredentialProvider",
@@ -6896,8 +7057,8 @@ export const createOnlineEvaluationConfig: API.OperationMethod<
   CreateOnlineEvaluationConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5376, __c168, 0) as any as S.Schema<CreateOnlineEvaluationConfigRequest>,
-  output: __S(5377, __c168, 1) as any as S.Schema<CreateOnlineEvaluationConfigResponse>,
+  input: __S(5504, __c172, 0) as any as S.Schema<CreateOnlineEvaluationConfigRequest>,
+  output: __S(5505, __c172, 1) as any as S.Schema<CreateOnlineEvaluationConfigResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6906,6 +7067,7 @@ export const createOnlineEvaluationConfig: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOnlineEvaluationConfig",
@@ -6932,8 +7094,8 @@ export const createPaymentConnector: API.OperationMethod<
   CreatePaymentConnectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5472, __c171, 0) as any as S.Schema<CreatePaymentConnectorRequest>,
-  output: __S(5473, __c171, 1) as any as S.Schema<CreatePaymentConnectorResponse>,
+  input: __S(5600, __c175, 0) as any as S.Schema<CreatePaymentConnectorRequest>,
+  output: __S(5601, __c175, 1) as any as S.Schema<CreatePaymentConnectorResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6944,6 +7106,7 @@ export const createPaymentConnector: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePaymentConnector",
@@ -6973,8 +7136,8 @@ export const createPaymentCredentialProvider: API.OperationMethod<
   CreatePaymentCredentialProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5536, __c173, 0) as any as S.Schema<CreatePaymentCredentialProviderRequest>,
-  output: __S(5537, __c173, 1) as any as S.Schema<CreatePaymentCredentialProviderResponse>,
+  input: __S(5664, __c177, 0) as any as S.Schema<CreatePaymentCredentialProviderRequest>,
+  output: __S(5665, __c177, 1) as any as S.Schema<CreatePaymentCredentialProviderResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6988,6 +7151,7 @@ export const createPaymentCredentialProvider: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePaymentCredentialProvider",
@@ -7014,8 +7178,8 @@ export const createPaymentManager: API.OperationMethod<
   CreatePaymentManagerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5632, __c176, 0) as any as S.Schema<CreatePaymentManagerRequest>,
-  output: __S(5633, __c176, 1) as any as S.Schema<CreatePaymentManagerResponse>,
+  input: __S(5760, __c180, 0) as any as S.Schema<CreatePaymentManagerRequest>,
+  output: __S(5761, __c180, 1) as any as S.Schema<CreatePaymentManagerResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7024,6 +7188,7 @@ export const createPaymentManager: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePaymentManager",
@@ -7051,8 +7216,8 @@ export const createPolicy: API.OperationMethod<
   CreatePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5664, __c177, 0) as any as S.Schema<CreatePolicyRequest>,
-  output: __S(5728, __c179, 0) as any as S.Schema<CreatePolicyResponse>,
+  input: __S(5792, __c181, 0) as any as S.Schema<CreatePolicyRequest>,
+  output: __S(5856, __c183, 0) as any as S.Schema<CreatePolicyResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7062,6 +7227,7 @@ export const createPolicy: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicy",
@@ -7086,8 +7252,8 @@ export const createPolicyEngine: API.OperationMethod<
   CreatePolicyEngineError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5760, __c180, 0) as any as S.Schema<CreatePolicyEngineRequest>,
-  output: __S(5792, __c181, 0) as any as S.Schema<CreatePolicyEngineResponse>,
+  input: __S(5888, __c184, 0) as any as S.Schema<CreatePolicyEngineRequest>,
+  output: __S(5920, __c185, 0) as any as S.Schema<CreatePolicyEngineResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7096,6 +7262,7 @@ export const createPolicyEngine: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicyEngine",
@@ -7122,8 +7289,8 @@ export const createRegistry: API.OperationMethod<
   CreateRegistryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5824, __c182, 0) as any as S.Schema<CreateRegistryRequest>,
-  output: __S(5825, __c182, 1) as any as S.Schema<CreateRegistryResponse>,
+  input: __S(5952, __c186, 0) as any as S.Schema<CreateRegistryRequest>,
+  output: __S(5953, __c186, 1) as any as S.Schema<CreateRegistryResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7132,6 +7299,7 @@ export const createRegistry: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRegistry",
@@ -7159,8 +7327,8 @@ export const createRegistryRecord: API.OperationMethod<
   CreateRegistryRecordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5888, __c184, 0) as any as S.Schema<CreateRegistryRecordRequest>,
-  output: __S(5889, __c184, 1) as any as S.Schema<CreateRegistryRecordResponse>,
+  input: __S(6016, __c188, 0) as any as S.Schema<CreateRegistryRecordRequest>,
+  output: __S(6017, __c188, 1) as any as S.Schema<CreateRegistryRecordResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7170,6 +7338,7 @@ export const createRegistryRecord: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRegistryRecord",
@@ -7195,8 +7364,8 @@ export const createWorkloadIdentity: API.OperationMethod<
   CreateWorkloadIdentityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5952, __c186, 0) as any as S.Schema<CreateWorkloadIdentityRequest>,
-  output: __S(5953, __c186, 1) as any as S.Schema<CreateWorkloadIdentityResponse>,
+  input: __S(6080, __c190, 0) as any as S.Schema<CreateWorkloadIdentityRequest>,
+  output: __S(6081, __c190, 1) as any as S.Schema<CreateWorkloadIdentityResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7206,6 +7375,7 @@ export const createWorkloadIdentity: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkloadIdentity",
@@ -7229,8 +7399,8 @@ export const deleteAgentRuntime: API.OperationMethod<
   DeleteAgentRuntimeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5984, __c187, 0) as any as S.Schema<DeleteAgentRuntimeRequest>,
-  output: __S(5985, __c187, 1) as any as S.Schema<DeleteAgentRuntimeResponse>,
+  input: __S(6112, __c191, 0) as any as S.Schema<DeleteAgentRuntimeRequest>,
+  output: __S(6113, __c191, 1) as any as S.Schema<DeleteAgentRuntimeResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7238,6 +7408,7 @@ export const deleteAgentRuntime: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAgentRuntime",
@@ -7261,8 +7432,8 @@ export const deleteAgentRuntimeEndpoint: API.OperationMethod<
   DeleteAgentRuntimeEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6016, __c188, 0) as any as S.Schema<DeleteAgentRuntimeEndpointRequest>,
-  output: __S(6017, __c188, 1) as any as S.Schema<DeleteAgentRuntimeEndpointResponse>,
+  input: __S(6144, __c192, 0) as any as S.Schema<DeleteAgentRuntimeEndpointRequest>,
+  output: __S(6145, __c192, 1) as any as S.Schema<DeleteAgentRuntimeEndpointResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7270,6 +7441,7 @@ export const deleteAgentRuntimeEndpoint: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAgentRuntimeEndpoint",
@@ -7294,8 +7466,8 @@ export const deleteApiKeyCredentialProvider: API.OperationMethod<
   DeleteApiKeyCredentialProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c189, 0) as any as S.Schema<DeleteApiKeyCredentialProviderRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteApiKeyCredentialProviderResponse>,
+  input: __S(6176, __c193, 0) as any as S.Schema<DeleteApiKeyCredentialProviderRequest>,
+  output: __S(5056, __c158, 0) as any as S.Schema<DeleteApiKeyCredentialProviderResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -7304,6 +7476,7 @@ export const deleteApiKeyCredentialProvider: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApiKeyCredentialProvider",
@@ -7329,8 +7502,8 @@ export const deleteBrowser: API.OperationMethod<
   DeleteBrowserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6080, __c190, 0) as any as S.Schema<DeleteBrowserRequest>,
-  output: __S(6081, __c190, 1) as any as S.Schema<DeleteBrowserResponse>,
+  input: __S(6208, __c194, 0) as any as S.Schema<DeleteBrowserRequest>,
+  output: __S(6209, __c194, 1) as any as S.Schema<DeleteBrowserResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7340,6 +7513,7 @@ export const deleteBrowser: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBrowser",
@@ -7364,8 +7538,8 @@ export const deleteBrowserProfile: API.OperationMethod<
   DeleteBrowserProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6112, __c191, 0) as any as S.Schema<DeleteBrowserProfileRequest>,
-  output: __S(6113, __c191, 1) as any as S.Schema<DeleteBrowserProfileResponse>,
+  input: __S(6240, __c195, 0) as any as S.Schema<DeleteBrowserProfileRequest>,
+  output: __S(6241, __c195, 1) as any as S.Schema<DeleteBrowserProfileResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7374,6 +7548,7 @@ export const deleteBrowserProfile: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBrowserProfile",
@@ -7399,8 +7574,8 @@ export const deleteCapacityProvider: API.OperationMethod<
   DeleteCapacityProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6144, __c192, 0) as any as S.Schema<DeleteCapacityProviderInput>,
-  output: __S(6145, __c192, 1) as any as S.Schema<DeleteCapacityProviderOutput>,
+  input: __S(6272, __c196, 0) as any as S.Schema<DeleteCapacityProviderInput>,
+  output: __S(6273, __c196, 1) as any as S.Schema<DeleteCapacityProviderOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7410,6 +7585,7 @@ export const deleteCapacityProvider: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCapacityProvider",
@@ -7435,8 +7611,8 @@ export const deleteCodeInterpreter: API.OperationMethod<
   DeleteCodeInterpreterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6176, __c193, 0) as any as S.Schema<DeleteCodeInterpreterRequest>,
-  output: __S(6177, __c193, 1) as any as S.Schema<DeleteCodeInterpreterResponse>,
+  input: __S(6304, __c197, 0) as any as S.Schema<DeleteCodeInterpreterRequest>,
+  output: __S(6305, __c197, 1) as any as S.Schema<DeleteCodeInterpreterResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7446,6 +7622,7 @@ export const deleteCodeInterpreter: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCodeInterpreter",
@@ -7470,8 +7647,8 @@ export const deleteConfigurationBundle: API.OperationMethod<
   DeleteConfigurationBundleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6208, __c194, 0) as any as S.Schema<DeleteConfigurationBundleRequest>,
-  output: __S(6209, __c194, 1) as any as S.Schema<DeleteConfigurationBundleResponse>,
+  input: __S(6336, __c198, 0) as any as S.Schema<DeleteConfigurationBundleRequest>,
+  output: __S(6337, __c198, 1) as any as S.Schema<DeleteConfigurationBundleResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7480,6 +7657,7 @@ export const deleteConfigurationBundle: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationBundle",
@@ -7505,8 +7683,8 @@ export const deleteConsentPortal: API.OperationMethod<
   DeleteConsentPortalError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6240, __c195, 0) as any as S.Schema<DeleteConsentPortalRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteConsentPortalResponse>,
+  input: __S(6368, __c199, 0) as any as S.Schema<DeleteConsentPortalRequest>,
+  output: __S(5056, __c158, 0) as any as S.Schema<DeleteConsentPortalResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7516,6 +7694,7 @@ export const deleteConsentPortal: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConsentPortal",
@@ -7540,8 +7719,8 @@ export const deleteDataset: API.OperationMethod<
   DeleteDatasetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6272, __c196, 0) as any as S.Schema<DeleteDatasetRequest>,
-  output: __S(6273, __c196, 1) as any as S.Schema<DeleteDatasetResponse>,
+  input: __S(6400, __c200, 0) as any as S.Schema<DeleteDatasetRequest>,
+  output: __S(6401, __c200, 1) as any as S.Schema<DeleteDatasetResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7550,6 +7729,7 @@ export const deleteDataset: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataset",
@@ -7574,8 +7754,8 @@ export const deleteDatasetExamples: API.OperationMethod<
   DeleteDatasetExamplesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6304, __c197, 0) as any as S.Schema<DeleteDatasetExamplesRequest>,
-  output: __S(6305, __c197, 1) as any as S.Schema<DeleteDatasetExamplesResponse>,
+  input: __S(6432, __c201, 0) as any as S.Schema<DeleteDatasetExamplesRequest>,
+  output: __S(6433, __c201, 1) as any as S.Schema<DeleteDatasetExamplesResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7584,6 +7764,7 @@ export const deleteDatasetExamples: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDatasetExamples",
@@ -7608,8 +7789,8 @@ export const deleteEvaluator: API.OperationMethod<
   DeleteEvaluatorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6336, __c198, 0) as any as S.Schema<DeleteEvaluatorRequest>,
-  output: __S(6337, __c198, 1) as any as S.Schema<DeleteEvaluatorResponse>,
+  input: __S(6464, __c202, 0) as any as S.Schema<DeleteEvaluatorRequest>,
+  output: __S(6465, __c202, 1) as any as S.Schema<DeleteEvaluatorResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7618,6 +7799,7 @@ export const deleteEvaluator: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEvaluator",
@@ -7642,8 +7824,8 @@ export const deleteGateway: API.OperationMethod<
   DeleteGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6368, __c199, 0) as any as S.Schema<DeleteGatewayRequest>,
-  output: __S(6369, __c199, 1) as any as S.Schema<DeleteGatewayResponse>,
+  input: __S(6496, __c203, 0) as any as S.Schema<DeleteGatewayRequest>,
+  output: __S(6497, __c203, 1) as any as S.Schema<DeleteGatewayResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7652,6 +7834,7 @@ export const deleteGateway: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGateway",
@@ -7676,8 +7859,8 @@ export const deleteGatewayRateLimit: API.OperationMethod<
   DeleteGatewayRateLimitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6400, __c200, 0) as any as S.Schema<DeleteGatewayRateLimitRequest>,
-  output: __S(6401, __c200, 1) as any as S.Schema<DeleteGatewayRateLimitResponse>,
+  input: __S(6528, __c204, 0) as any as S.Schema<DeleteGatewayRateLimitRequest>,
+  output: __S(6529, __c204, 1) as any as S.Schema<DeleteGatewayRateLimitResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7686,6 +7869,7 @@ export const deleteGatewayRateLimit: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGatewayRateLimit",
@@ -7710,8 +7894,8 @@ export const deleteGatewayRule: API.OperationMethod<
   DeleteGatewayRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6432, __c201, 0) as any as S.Schema<DeleteGatewayRuleRequest>,
-  output: __S(6433, __c201, 1) as any as S.Schema<DeleteGatewayRuleResponse>,
+  input: __S(6560, __c205, 0) as any as S.Schema<DeleteGatewayRuleRequest>,
+  output: __S(6561, __c205, 1) as any as S.Schema<DeleteGatewayRuleResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7720,6 +7904,7 @@ export const deleteGatewayRule: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGatewayRule",
@@ -7746,8 +7931,8 @@ export const deleteGatewayTarget: API.OperationMethod<
   DeleteGatewayTargetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6464, __c202, 0) as any as S.Schema<DeleteGatewayTargetRequest>,
-  output: __S(6465, __c202, 1) as any as S.Schema<DeleteGatewayTargetResponse>,
+  input: __S(6592, __c206, 0) as any as S.Schema<DeleteGatewayTargetRequest>,
+  output: __S(6593, __c206, 1) as any as S.Schema<DeleteGatewayTargetResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7756,6 +7941,7 @@ export const deleteGatewayTarget: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGatewayTarget",
@@ -7780,8 +7966,8 @@ export const deleteHarness: API.OperationMethod<
   DeleteHarnessError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6496, __c203, 0) as any as S.Schema<DeleteHarnessRequest>,
-  output: __S(6497, __c203, 1) as any as S.Schema<DeleteHarnessResponse>,
+  input: __S(6624, __c207, 0) as any as S.Schema<DeleteHarnessRequest>,
+  output: __S(6625, __c207, 1) as any as S.Schema<DeleteHarnessResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7790,6 +7976,7 @@ export const deleteHarness: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHarness",
@@ -7814,8 +8001,8 @@ export const deleteHarnessEndpoint: API.OperationMethod<
   DeleteHarnessEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6528, __c204, 0) as any as S.Schema<DeleteHarnessEndpointRequest>,
-  output: __S(5120, __c160, 0) as any as S.Schema<DeleteHarnessEndpointResponse>,
+  input: __S(6656, __c208, 0) as any as S.Schema<DeleteHarnessEndpointRequest>,
+  output: __S(5248, __c164, 0) as any as S.Schema<DeleteHarnessEndpointResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7824,6 +8011,7 @@ export const deleteHarnessEndpoint: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHarnessEndpoint",
@@ -7848,8 +8036,8 @@ export const deleteMemory: API.OperationMethod<
   DeleteMemoryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6560, __c205, 0) as any as S.Schema<DeleteMemoryInput>,
-  output: __S(6561, __c205, 1) as any as S.Schema<DeleteMemoryOutput>,
+  input: __S(6688, __c209, 0) as any as S.Schema<DeleteMemoryInput>,
+  output: __S(6689, __c209, 1) as any as S.Schema<DeleteMemoryOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7858,6 +8046,7 @@ export const deleteMemory: API.OperationMethod<
     ThrottledException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMemory",
@@ -7883,8 +8072,8 @@ export const deleteOauth2CredentialProvider: API.OperationMethod<
   DeleteOauth2CredentialProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6592, __c206, 0) as any as S.Schema<DeleteOauth2CredentialProviderRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteOauth2CredentialProviderResponse>,
+  input: __S(6720, __c210, 0) as any as S.Schema<DeleteOauth2CredentialProviderRequest>,
+  output: __S(5056, __c158, 0) as any as S.Schema<DeleteOauth2CredentialProviderResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7894,6 +8083,7 @@ export const deleteOauth2CredentialProvider: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOauth2CredentialProvider",
@@ -7918,8 +8108,8 @@ export const deleteOnlineEvaluationConfig: API.OperationMethod<
   DeleteOnlineEvaluationConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6624, __c207, 0) as any as S.Schema<DeleteOnlineEvaluationConfigRequest>,
-  output: __S(6625, __c207, 1) as any as S.Schema<DeleteOnlineEvaluationConfigResponse>,
+  input: __S(6752, __c211, 0) as any as S.Schema<DeleteOnlineEvaluationConfigRequest>,
+  output: __S(6753, __c211, 1) as any as S.Schema<DeleteOnlineEvaluationConfigResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7928,6 +8118,7 @@ export const deleteOnlineEvaluationConfig: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOnlineEvaluationConfig",
@@ -7951,8 +8142,8 @@ export const deletePaymentConnector: API.OperationMethod<
   DeletePaymentConnectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6656, __c208, 0) as any as S.Schema<DeletePaymentConnectorRequest>,
-  output: __S(6657, __c208, 1) as any as S.Schema<DeletePaymentConnectorResponse>,
+  input: __S(6784, __c212, 0) as any as S.Schema<DeletePaymentConnectorRequest>,
+  output: __S(6785, __c212, 1) as any as S.Schema<DeletePaymentConnectorResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7960,6 +8151,7 @@ export const deletePaymentConnector: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePaymentConnector",
@@ -7984,8 +8176,8 @@ export const deletePaymentCredentialProvider: API.OperationMethod<
   DeletePaymentCredentialProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6688, __c209, 0) as any as S.Schema<DeletePaymentCredentialProviderRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeletePaymentCredentialProviderResponse>,
+  input: __S(6816, __c213, 0) as any as S.Schema<DeletePaymentCredentialProviderRequest>,
+  output: __S(5056, __c158, 0) as any as S.Schema<DeletePaymentCredentialProviderResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -7994,6 +8186,7 @@ export const deletePaymentCredentialProvider: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePaymentCredentialProvider",
@@ -8017,8 +8210,8 @@ export const deletePaymentManager: API.OperationMethod<
   DeletePaymentManagerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6720, __c210, 0) as any as S.Schema<DeletePaymentManagerRequest>,
-  output: __S(6721, __c210, 1) as any as S.Schema<DeletePaymentManagerResponse>,
+  input: __S(6848, __c214, 0) as any as S.Schema<DeletePaymentManagerRequest>,
+  output: __S(6849, __c214, 1) as any as S.Schema<DeletePaymentManagerResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8026,6 +8219,7 @@ export const deletePaymentManager: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePaymentManager",
@@ -8050,8 +8244,8 @@ export const deletePolicy: API.OperationMethod<
   DeletePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6752, __c211, 0) as any as S.Schema<DeletePolicyRequest>,
-  output: __S(5728, __c179, 0) as any as S.Schema<DeletePolicyResponse>,
+  input: __S(6880, __c215, 0) as any as S.Schema<DeletePolicyRequest>,
+  output: __S(5856, __c183, 0) as any as S.Schema<DeletePolicyResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8060,6 +8254,7 @@ export const deletePolicy: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicy",
@@ -8084,8 +8279,8 @@ export const deletePolicyEngine: API.OperationMethod<
   DeletePolicyEngineError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6784, __c212, 0) as any as S.Schema<DeletePolicyEngineRequest>,
-  output: __S(5792, __c181, 0) as any as S.Schema<DeletePolicyEngineResponse>,
+  input: __S(6912, __c216, 0) as any as S.Schema<DeletePolicyEngineRequest>,
+  output: __S(5920, __c185, 0) as any as S.Schema<DeletePolicyEngineResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8094,6 +8289,7 @@ export const deletePolicyEngine: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicyEngine",
@@ -8118,8 +8314,8 @@ export const deleteRegistry: API.OperationMethod<
   DeleteRegistryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6816, __c213, 0) as any as S.Schema<DeleteRegistryRequest>,
-  output: __S(6817, __c213, 1) as any as S.Schema<DeleteRegistryResponse>,
+  input: __S(6944, __c217, 0) as any as S.Schema<DeleteRegistryRequest>,
+  output: __S(6945, __c217, 1) as any as S.Schema<DeleteRegistryResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8128,6 +8324,7 @@ export const deleteRegistry: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRegistry",
@@ -8152,8 +8349,8 @@ export const deleteRegistryRecord: API.OperationMethod<
   DeleteRegistryRecordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6848, __c214, 0) as any as S.Schema<DeleteRegistryRecordRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteRegistryRecordResponse>,
+  input: __S(6976, __c218, 0) as any as S.Schema<DeleteRegistryRecordRequest>,
+  output: __S(5056, __c158, 0) as any as S.Schema<DeleteRegistryRecordResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8162,6 +8359,7 @@ export const deleteRegistryRecord: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRegistryRecord",
@@ -8187,8 +8385,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6880, __c215, 0) as any as S.Schema<DeleteResourcePolicyRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteResourcePolicyResponse>,
+  input: __S(7008, __c219, 0) as any as S.Schema<DeleteResourcePolicyRequest>,
+  output: __S(5056, __c158, 0) as any as S.Schema<DeleteResourcePolicyResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8196,6 +8394,7 @@ export const deleteResourcePolicy: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
@@ -8220,8 +8419,8 @@ export const deleteWorkloadIdentity: API.OperationMethod<
   DeleteWorkloadIdentityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6912, __c216, 0) as any as S.Schema<DeleteWorkloadIdentityRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<DeleteWorkloadIdentityResponse>,
+  input: __S(7040, __c220, 0) as any as S.Schema<DeleteWorkloadIdentityRequest>,
+  output: __S(5056, __c158, 0) as any as S.Schema<DeleteWorkloadIdentityResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8230,11 +8429,47 @@ export const deleteWorkloadIdentity: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkloadIdentity",
   telemetry: TELEMETRY,
   span: "DeleteWorkloadIdentity",
+}));
+
+export type GetAgentInsightStoreError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns the account's service-defined default Agent Insight Store. The
+ * logical default exists for every enrolled account; its backing state may be
+ * initialized on first access.
+ */
+export const getAgentInsightStore: API.OperationMethod<
+  GetAgentInsightStoreRequest & RegionInput,
+  GetAgentInsightStoreResponse,
+  GetAgentInsightStoreError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(7072, __c221, 0) as any as S.Schema<GetAgentInsightStoreRequest>,
+  output: __S(7073, __c221, 1) as any as S.Schema<GetAgentInsightStoreResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetAgentInsightStore",
+  telemetry: TELEMETRY,
+  span: "GetAgentInsightStore",
 }));
 
 export type GetAgentRuntimeError =
@@ -8253,8 +8488,8 @@ export const getAgentRuntime: API.OperationMethod<
   GetAgentRuntimeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6944, __c217, 0) as any as S.Schema<GetAgentRuntimeRequest>,
-  output: __S(6945, __c217, 1) as any as S.Schema<GetAgentRuntimeResponse>,
+  input: __S(7136, __c223, 0) as any as S.Schema<GetAgentRuntimeRequest>,
+  output: __S(7137, __c223, 1) as any as S.Schema<GetAgentRuntimeResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8262,6 +8497,7 @@ export const getAgentRuntime: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentRuntime",
@@ -8285,8 +8521,8 @@ export const getAgentRuntimeEndpoint: API.OperationMethod<
   GetAgentRuntimeEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7008, __c219, 0) as any as S.Schema<GetAgentRuntimeEndpointRequest>,
-  output: __S(7009, __c219, 1) as any as S.Schema<GetAgentRuntimeEndpointResponse>,
+  input: __S(7200, __c225, 0) as any as S.Schema<GetAgentRuntimeEndpointRequest>,
+  output: __S(7201, __c225, 1) as any as S.Schema<GetAgentRuntimeEndpointResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8294,6 +8530,7 @@ export const getAgentRuntimeEndpoint: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentRuntimeEndpoint",
@@ -8319,8 +8556,8 @@ export const getApiKeyCredentialProvider: API.OperationMethod<
   GetApiKeyCredentialProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7040, __c220, 0) as any as S.Schema<GetApiKeyCredentialProviderRequest>,
-  output: __S(7072, __c221, 0) as any as S.Schema<GetApiKeyCredentialProviderResponse>,
+  input: __S(7232, __c226, 0) as any as S.Schema<GetApiKeyCredentialProviderRequest>,
+  output: __S(7264, __c227, 0) as any as S.Schema<GetApiKeyCredentialProviderResponse>,
   errors: [
     AccessDeniedException,
     DecryptionFailure,
@@ -8330,6 +8567,7 @@ export const getApiKeyCredentialProvider: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApiKeyCredentialProvider",
@@ -8353,8 +8591,8 @@ export const getBrowser: API.OperationMethod<
   GetBrowserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7104, __c222, 0) as any as S.Schema<GetBrowserRequest>,
-  output: __S(7105, __c222, 1) as any as S.Schema<GetBrowserResponse>,
+  input: __S(7296, __c228, 0) as any as S.Schema<GetBrowserRequest>,
+  output: __S(7297, __c228, 1) as any as S.Schema<GetBrowserResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8362,6 +8600,7 @@ export const getBrowser: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBrowser",
@@ -8385,8 +8624,8 @@ export const getBrowserProfile: API.OperationMethod<
   GetBrowserProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7136, __c223, 0) as any as S.Schema<GetBrowserProfileRequest>,
-  output: __S(7168, __c224, 0) as any as S.Schema<GetBrowserProfileResponse>,
+  input: __S(7328, __c229, 0) as any as S.Schema<GetBrowserProfileRequest>,
+  output: __S(7360, __c230, 0) as any as S.Schema<GetBrowserProfileResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8394,6 +8633,7 @@ export const getBrowserProfile: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBrowserProfile",
@@ -8417,8 +8657,8 @@ export const getCapacityProvider: API.OperationMethod<
   GetCapacityProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7200, __c225, 0) as any as S.Schema<GetCapacityProviderInput>,
-  output: __S(7201, __c225, 1) as any as S.Schema<GetCapacityProviderOutput>,
+  input: __S(7392, __c231, 0) as any as S.Schema<GetCapacityProviderInput>,
+  output: __S(7393, __c231, 1) as any as S.Schema<GetCapacityProviderOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8426,6 +8666,7 @@ export const getCapacityProvider: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCapacityProvider",
@@ -8449,8 +8690,8 @@ export const getCodeInterpreter: API.OperationMethod<
   GetCodeInterpreterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7232, __c226, 0) as any as S.Schema<GetCodeInterpreterRequest>,
-  output: __S(7233, __c226, 1) as any as S.Schema<GetCodeInterpreterResponse>,
+  input: __S(7424, __c232, 0) as any as S.Schema<GetCodeInterpreterRequest>,
+  output: __S(7425, __c232, 1) as any as S.Schema<GetCodeInterpreterResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8458,6 +8699,7 @@ export const getCodeInterpreter: API.OperationMethod<
     ServiceQuotaExceededException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCodeInterpreter",
@@ -8481,8 +8723,8 @@ export const getConfigurationBundle: API.OperationMethod<
   GetConfigurationBundleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7264, __c227, 0) as any as S.Schema<GetConfigurationBundleRequest>,
-  output: __S(7265, __c227, 1) as any as S.Schema<GetConfigurationBundleResponse>,
+  input: __S(7456, __c233, 0) as any as S.Schema<GetConfigurationBundleRequest>,
+  output: __S(7457, __c233, 1) as any as S.Schema<GetConfigurationBundleResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8490,6 +8732,7 @@ export const getConfigurationBundle: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfigurationBundle",
@@ -8513,8 +8756,8 @@ export const getConfigurationBundleVersion: API.OperationMethod<
   GetConfigurationBundleVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7328, __c229, 0) as any as S.Schema<GetConfigurationBundleVersionRequest>,
-  output: __S(7329, __c229, 1) as any as S.Schema<GetConfigurationBundleVersionResponse>,
+  input: __S(7520, __c235, 0) as any as S.Schema<GetConfigurationBundleVersionRequest>,
+  output: __S(7521, __c235, 1) as any as S.Schema<GetConfigurationBundleVersionResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8522,6 +8765,7 @@ export const getConfigurationBundleVersion: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfigurationBundleVersion",
@@ -8546,8 +8790,8 @@ export const getConsentPortal: API.OperationMethod<
   GetConsentPortalError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7360, __c230, 0) as any as S.Schema<GetConsentPortalRequest>,
-  output: __S(4321, __c135, 1) as any as S.Schema<GetConsentPortalResponse>,
+  input: __S(7552, __c236, 0) as any as S.Schema<GetConsentPortalRequest>,
+  output: __S(4449, __c139, 1) as any as S.Schema<GetConsentPortalResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8556,6 +8800,7 @@ export const getConsentPortal: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConsentPortal",
@@ -8580,8 +8825,8 @@ export const getDataset: API.OperationMethod<
   GetDatasetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7392, __c231, 0) as any as S.Schema<GetDatasetRequest>,
-  output: __S(7393, __c231, 1) as any as S.Schema<GetDatasetResponse>,
+  input: __S(7584, __c237, 0) as any as S.Schema<GetDatasetRequest>,
+  output: __S(7585, __c237, 1) as any as S.Schema<GetDatasetResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8590,6 +8835,7 @@ export const getDataset: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataset",
@@ -8613,8 +8859,8 @@ export const getEvaluator: API.OperationMethod<
   GetEvaluatorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7424, __c232, 0) as any as S.Schema<GetEvaluatorRequest>,
-  output: __S(7425, __c232, 1) as any as S.Schema<GetEvaluatorResponse>,
+  input: __S(7648, __c239, 0) as any as S.Schema<GetEvaluatorRequest>,
+  output: __S(7649, __c239, 1) as any as S.Schema<GetEvaluatorResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8622,6 +8868,7 @@ export const getEvaluator: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEvaluator",
@@ -8645,8 +8892,8 @@ export const getGateway: API.OperationMethod<
   GetGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7456, __c233, 0) as any as S.Schema<GetGatewayRequest>,
-  output: __S(4560, __c142, 16) as any as S.Schema<GetGatewayResponse>,
+  input: __S(7680, __c240, 0) as any as S.Schema<GetGatewayRequest>,
+  output: __S(4688, __c146, 16) as any as S.Schema<GetGatewayResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8654,6 +8901,7 @@ export const getGateway: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGateway",
@@ -8677,8 +8925,8 @@ export const getGatewayRateLimit: API.OperationMethod<
   GetGatewayRateLimitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7488, __c234, 0) as any as S.Schema<GetGatewayRateLimitRequest>,
-  output: __S(2884, __c90, 4) as any as S.Schema<GetGatewayRateLimitResponse>,
+  input: __S(7712, __c241, 0) as any as S.Schema<GetGatewayRateLimitRequest>,
+  output: __S(2916, __c91, 4) as any as S.Schema<GetGatewayRateLimitResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8686,6 +8934,7 @@ export const getGatewayRateLimit: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGatewayRateLimit",
@@ -8709,8 +8958,8 @@ export const getGatewayRule: API.OperationMethod<
   GetGatewayRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7520, __c235, 0) as any as S.Schema<GetGatewayRuleRequest>,
-  output: __S(7552, __c236, 0) as any as S.Schema<GetGatewayRuleResponse>,
+  input: __S(7744, __c242, 0) as any as S.Schema<GetGatewayRuleRequest>,
+  output: __S(7776, __c243, 0) as any as S.Schema<GetGatewayRuleResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8718,6 +8967,7 @@ export const getGatewayRule: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGatewayRule",
@@ -8741,8 +8991,8 @@ export const getGatewayTarget: API.OperationMethod<
   GetGatewayTargetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7584, __c237, 0) as any as S.Schema<GetGatewayTargetRequest>,
-  output: __S(4846, __c151, 14) as any as S.Schema<GetGatewayTargetResponse>,
+  input: __S(7808, __c244, 0) as any as S.Schema<GetGatewayTargetRequest>,
+  output: __S(4974, __c155, 14) as any as S.Schema<GetGatewayTargetResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8750,6 +9000,7 @@ export const getGatewayTarget: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGatewayTarget",
@@ -8773,8 +9024,8 @@ export const getHarness: API.OperationMethod<
   GetHarnessError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7616, __c238, 0) as any as S.Schema<GetHarnessRequest>,
-  output: __S(5024, __c157, 0) as any as S.Schema<GetHarnessResponse>,
+  input: __S(7840, __c245, 0) as any as S.Schema<GetHarnessRequest>,
+  output: __S(5152, __c161, 0) as any as S.Schema<GetHarnessResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8782,6 +9033,7 @@ export const getHarness: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHarness",
@@ -8805,8 +9057,8 @@ export const getHarnessEndpoint: API.OperationMethod<
   GetHarnessEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7648, __c239, 0) as any as S.Schema<GetHarnessEndpointRequest>,
-  output: __S(5120, __c160, 0) as any as S.Schema<GetHarnessEndpointResponse>,
+  input: __S(7872, __c246, 0) as any as S.Schema<GetHarnessEndpointRequest>,
+  output: __S(5248, __c164, 0) as any as S.Schema<GetHarnessEndpointResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8814,6 +9066,7 @@ export const getHarnessEndpoint: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHarnessEndpoint",
@@ -8837,8 +9090,8 @@ export const getMemory: API.OperationMethod<
   GetMemoryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7680, __c240, 0) as any as S.Schema<GetMemoryInput>,
-  output: __S(7681, __c240, 1) as any as S.Schema<GetMemoryOutput>,
+  input: __S(7904, __c247, 0) as any as S.Schema<GetMemoryInput>,
+  output: __S(7905, __c247, 1) as any as S.Schema<GetMemoryOutput>,
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -8846,6 +9099,7 @@ export const getMemory: API.OperationMethod<
     ThrottledException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMemory",
@@ -8871,8 +9125,8 @@ export const getOauth2CredentialProvider: API.OperationMethod<
   GetOauth2CredentialProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7712, __c241, 0) as any as S.Schema<GetOauth2CredentialProviderRequest>,
-  output: __S(7713, __c241, 1) as any as S.Schema<GetOauth2CredentialProviderResponse>,
+  input: __S(7936, __c248, 0) as any as S.Schema<GetOauth2CredentialProviderRequest>,
+  output: __S(7937, __c248, 1) as any as S.Schema<GetOauth2CredentialProviderResponse>,
   errors: [
     AccessDeniedException,
     DecryptionFailure,
@@ -8882,6 +9136,7 @@ export const getOauth2CredentialProvider: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOauth2CredentialProvider",
@@ -8905,8 +9160,8 @@ export const getOnlineEvaluationConfig: API.OperationMethod<
   GetOnlineEvaluationConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7744, __c242, 0) as any as S.Schema<GetOnlineEvaluationConfigRequest>,
-  output: __S(7745, __c242, 1) as any as S.Schema<GetOnlineEvaluationConfigResponse>,
+  input: __S(7968, __c249, 0) as any as S.Schema<GetOnlineEvaluationConfigRequest>,
+  output: __S(7969, __c249, 1) as any as S.Schema<GetOnlineEvaluationConfigResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8914,6 +9169,7 @@ export const getOnlineEvaluationConfig: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOnlineEvaluationConfig",
@@ -8937,8 +9193,8 @@ export const getPaymentConnector: API.OperationMethod<
   GetPaymentConnectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7776, __c243, 0) as any as S.Schema<GetPaymentConnectorRequest>,
-  output: __S(7777, __c243, 1) as any as S.Schema<GetPaymentConnectorResponse>,
+  input: __S(8000, __c250, 0) as any as S.Schema<GetPaymentConnectorRequest>,
+  output: __S(8001, __c250, 1) as any as S.Schema<GetPaymentConnectorResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8946,6 +9202,7 @@ export const getPaymentConnector: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPaymentConnector",
@@ -8971,8 +9228,8 @@ export const getPaymentCredentialProvider: API.OperationMethod<
   GetPaymentCredentialProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7808, __c244, 0) as any as S.Schema<GetPaymentCredentialProviderRequest>,
-  output: __S(7809, __c244, 1) as any as S.Schema<GetPaymentCredentialProviderResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<GetPaymentCredentialProviderRequest>,
+  output: __S(1, __c0, 1) as any as S.Schema<GetPaymentCredentialProviderResponse>,
   errors: [
     AccessDeniedException,
     DecryptionFailure,
@@ -8982,6 +9239,7 @@ export const getPaymentCredentialProvider: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPaymentCredentialProvider",
@@ -9005,8 +9263,8 @@ export const getPaymentManager: API.OperationMethod<
   GetPaymentManagerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetPaymentManagerRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<GetPaymentManagerResponse>,
+  input: __S(32, __c1, 0) as any as S.Schema<GetPaymentManagerRequest>,
+  output: __S(33, __c1, 1) as any as S.Schema<GetPaymentManagerResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -9014,6 +9272,7 @@ export const getPaymentManager: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPaymentManager",
@@ -9037,8 +9296,8 @@ export const getPolicy: API.OperationMethod<
   GetPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c1, 0) as any as S.Schema<GetPolicyRequest>,
-  output: __S(5728, __c179, 0) as any as S.Schema<GetPolicyResponse>,
+  input: __S(64, __c2, 0) as any as S.Schema<GetPolicyRequest>,
+  output: __S(5856, __c183, 0) as any as S.Schema<GetPolicyResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -9046,6 +9305,7 @@ export const getPolicy: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
@@ -9069,8 +9329,8 @@ export const getPolicyEngine: API.OperationMethod<
   GetPolicyEngineError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<GetPolicyEngineRequest>,
-  output: __S(5792, __c181, 0) as any as S.Schema<GetPolicyEngineResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<GetPolicyEngineRequest>,
+  output: __S(5920, __c185, 0) as any as S.Schema<GetPolicyEngineResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -9078,6 +9338,7 @@ export const getPolicyEngine: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyEngine",
@@ -9101,8 +9362,8 @@ export const getPolicyEngineSummary: API.OperationMethod<
   GetPolicyEngineSummaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<GetPolicyEngineSummaryRequest>,
-  output: __S(128, __c4, 0) as any as S.Schema<GetPolicyEngineSummaryResponse>,
+  input: __S(128, __c4, 0) as any as S.Schema<GetPolicyEngineSummaryRequest>,
+  output: __S(160, __c5, 0) as any as S.Schema<GetPolicyEngineSummaryResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -9110,6 +9371,7 @@ export const getPolicyEngineSummary: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyEngineSummary",
@@ -9133,8 +9395,8 @@ export const getPolicyGeneration: API.OperationMethod<
   GetPolicyGenerationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<GetPolicyGenerationRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<GetPolicyGenerationResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<GetPolicyGenerationRequest>,
+  output: __S(256, __c8, 0) as any as S.Schema<GetPolicyGenerationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -9142,6 +9404,7 @@ export const getPolicyGeneration: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyGeneration",
@@ -9165,8 +9428,8 @@ export const getPolicyGenerationSummary: API.OperationMethod<
   GetPolicyGenerationSummaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<GetPolicyGenerationSummaryRequest>,
-  output: __S(288, __c9, 0) as any as S.Schema<GetPolicyGenerationSummaryResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<GetPolicyGenerationSummaryRequest>,
+  output: __S(320, __c10, 0) as any as S.Schema<GetPolicyGenerationSummaryResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -9174,6 +9437,7 @@ export const getPolicyGenerationSummary: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyGenerationSummary",
@@ -9197,8 +9461,8 @@ export const getPolicySummary: API.OperationMethod<
   GetPolicySummaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<GetPolicySummaryRequest>,
-  output: __S(352, __c11, 0) as any as S.Schema<GetPolicySummaryResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<GetPolicySummaryRequest>,
+  output: __S(384, __c12, 0) as any as S.Schema<GetPolicySummaryResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -9206,6 +9470,7 @@ export const getPolicySummary: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicySummary",
@@ -9229,8 +9494,8 @@ export const getRegistry: API.OperationMethod<
   GetRegistryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<GetRegistryRequest>,
-  output: __S(416, __c13, 0) as any as S.Schema<GetRegistryResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<GetRegistryRequest>,
+  output: __S(448, __c14, 0) as any as S.Schema<GetRegistryResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -9238,6 +9503,7 @@ export const getRegistry: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegistry",
@@ -9262,8 +9528,8 @@ export const getRegistryRecord: API.OperationMethod<
   GetRegistryRecordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<GetRegistryRecordRequest>,
-  output: __S(480, __c15, 0) as any as S.Schema<GetRegistryRecordResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<GetRegistryRecordRequest>,
+  output: __S(512, __c16, 0) as any as S.Schema<GetRegistryRecordResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -9272,6 +9538,7 @@ export const getRegistryRecord: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegistryRecord",
@@ -9297,8 +9564,8 @@ export const getResourcePolicy: API.OperationMethod<
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<GetResourcePolicyRequest>,
-  output: __S(513, __c16, 1) as any as S.Schema<GetResourcePolicyResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<GetResourcePolicyRequest>,
+  output: __S(545, __c17, 1) as any as S.Schema<GetResourcePolicyResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -9306,6 +9573,7 @@ export const getResourcePolicy: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
@@ -9330,8 +9598,8 @@ export const getTokenVault: API.OperationMethod<
   GetTokenVaultError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<GetTokenVaultRequest>,
-  output: __S(577, __c18, 1) as any as S.Schema<GetTokenVaultResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<GetTokenVaultRequest>,
+  output: __S(609, __c19, 1) as any as S.Schema<GetTokenVaultResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -9340,6 +9608,7 @@ export const getTokenVault: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTokenVault",
@@ -9364,8 +9633,8 @@ export const getWorkloadIdentity: API.OperationMethod<
   GetWorkloadIdentityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<GetWorkloadIdentityRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<GetWorkloadIdentityResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<GetWorkloadIdentityRequest>,
+  output: __S(672, __c21, 0) as any as S.Schema<GetWorkloadIdentityResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -9374,12 +9643,52 @@ export const getWorkloadIdentity: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkloadIdentity",
   telemetry: TELEMETRY,
   span: "GetWorkloadIdentity",
 }));
+
+export type ListAgentInsightStoresError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists the account's service-defined default Agent Insight Store. The
+ * singleton backing state may be initialized on first access.
+ */
+export const listAgentInsightStores: API.PaginatedOperationMethod<
+  ListAgentInsightStoresRequest & RegionInput,
+  ListAgentInsightStoresResponse,
+  ListAgentInsightStoresError,
+  Credentials | HttpClient.HttpClient,
+  AgentInsightStoreSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(704, __c22, 0) as any as S.Schema<ListAgentInsightStoresRequest>,
+  output: __S(707, __c22, 3) as any as S.Schema<ListAgentInsightStoresResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListAgentInsightStores",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "agentInsightStores",
+    pageSize: "maxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListAgentInsightStores",
+})) as any;
 
 export type ListAgentRuntimeEndpointsError =
   | AccessDeniedException
@@ -9397,14 +9706,15 @@ export const listAgentRuntimeEndpoints: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AgentRuntimeEndpoint
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<ListAgentRuntimeEndpointsRequest>,
-  output: __S(675, __c21, 3) as any as S.Schema<ListAgentRuntimeEndpointsResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<ListAgentRuntimeEndpointsRequest>,
+  output: __S(739, __c23, 3) as any as S.Schema<ListAgentRuntimeEndpointsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAgentRuntimeEndpoints",
@@ -9434,14 +9744,15 @@ export const listAgentRuntimes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AgentRuntime
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<ListAgentRuntimesRequest>,
-  output: __S(738, __c23, 2) as any as S.Schema<ListAgentRuntimesResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<ListAgentRuntimesRequest>,
+  output: __S(802, __c25, 2) as any as S.Schema<ListAgentRuntimesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAgentRuntimes",
@@ -9472,8 +9783,8 @@ export const listAgentRuntimeVersions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AgentRuntime
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<ListAgentRuntimeVersionsRequest>,
-  output: __S(738, __c23, 2) as any as S.Schema<ListAgentRuntimeVersionsResponse>,
+  input: __S(832, __c26, 0) as any as S.Schema<ListAgentRuntimeVersionsRequest>,
+  output: __S(802, __c25, 2) as any as S.Schema<ListAgentRuntimeVersionsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -9481,6 +9792,7 @@ export const listAgentRuntimeVersions: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAgentRuntimeVersions",
@@ -9510,14 +9822,15 @@ export const listAgentRuntimeVersionsByCapacityProvider: API.PaginatedOperationM
   Credentials | HttpClient.HttpClient,
   AgentRuntimeVersionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<ListAgentRuntimeVersionsByCapacityProviderInput>,
-  output: __S(803, __c25, 3) as any as S.Schema<ListAgentRuntimeVersionsByCapacityProviderOutput>,
+  input: __S(864, __c27, 0) as any as S.Schema<ListAgentRuntimeVersionsByCapacityProviderInput>,
+  output: __S(867, __c27, 3) as any as S.Schema<ListAgentRuntimeVersionsByCapacityProviderOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAgentRuntimeVersionsByCapacityProvider",
@@ -9549,8 +9862,8 @@ export const listApiKeyCredentialProviders: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ApiKeyCredentialProviderItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<ListApiKeyCredentialProvidersRequest>,
-  output: __S(835, __c26, 3) as any as S.Schema<ListApiKeyCredentialProvidersResponse>,
+  input: __S(896, __c28, 0) as any as S.Schema<ListApiKeyCredentialProvidersRequest>,
+  output: __S(899, __c28, 3) as any as S.Schema<ListApiKeyCredentialProvidersResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -9559,6 +9872,7 @@ export const listApiKeyCredentialProviders: API.PaginatedOperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListApiKeyCredentialProviders",
@@ -9588,14 +9902,15 @@ export const listBrowserProfiles: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   BrowserProfileSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<ListBrowserProfilesRequest>,
-  output: __S(866, __c27, 2) as any as S.Schema<ListBrowserProfilesResponse>,
+  input: __S(928, __c29, 0) as any as S.Schema<ListBrowserProfilesRequest>,
+  output: __S(930, __c29, 2) as any as S.Schema<ListBrowserProfilesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBrowserProfiles",
@@ -9625,14 +9940,15 @@ export const listBrowsers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   BrowserSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<ListBrowsersRequest>,
-  output: __S(899, __c28, 3) as any as S.Schema<ListBrowsersResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<ListBrowsersRequest>,
+  output: __S(963, __c30, 3) as any as S.Schema<ListBrowsersResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBrowsers",
@@ -9662,14 +9978,15 @@ export const listCapacityProviders: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   CapacityProviderSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<ListCapacityProvidersInput>,
-  output: __S(931, __c29, 3) as any as S.Schema<ListCapacityProvidersOutput>,
+  input: __S(992, __c31, 0) as any as S.Schema<ListCapacityProvidersInput>,
+  output: __S(995, __c31, 3) as any as S.Schema<ListCapacityProvidersOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCapacityProviders",
@@ -9699,14 +10016,15 @@ export const listCodeInterpreters: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   CodeInterpreterSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<ListCodeInterpretersRequest>,
-  output: __S(963, __c30, 3) as any as S.Schema<ListCodeInterpretersResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<ListCodeInterpretersRequest>,
+  output: __S(1027, __c32, 3) as any as S.Schema<ListCodeInterpretersResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCodeInterpreters",
@@ -9736,14 +10054,15 @@ export const listConfigurationBundles: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ConfigurationBundleSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<ListConfigurationBundlesRequest>,
-  output: __S(995, __c31, 3) as any as S.Schema<ListConfigurationBundlesResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<ListConfigurationBundlesRequest>,
+  output: __S(1059, __c33, 3) as any as S.Schema<ListConfigurationBundlesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConfigurationBundles",
@@ -9774,8 +10093,8 @@ export const listConfigurationBundleVersions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ConfigurationBundleVersionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1025, __c32, 1) as any as S.Schema<ListConfigurationBundleVersionsRequest>,
-  output: __S(1028, __c32, 4) as any as S.Schema<ListConfigurationBundleVersionsResponse>,
+  input: __S(1089, __c34, 1) as any as S.Schema<ListConfigurationBundleVersionsRequest>,
+  output: __S(1092, __c34, 4) as any as S.Schema<ListConfigurationBundleVersionsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -9783,6 +10102,7 @@ export const listConfigurationBundleVersions: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConfigurationBundleVersions",
@@ -9813,8 +10133,8 @@ export const listConsentPortals: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ConsentPortalSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<ListConsentPortalsRequest>,
-  output: __S(1059, __c33, 3) as any as S.Schema<ListConsentPortalsResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<ListConsentPortalsRequest>,
+  output: __S(1123, __c35, 3) as any as S.Schema<ListConsentPortalsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -9822,6 +10142,7 @@ export const listConsentPortals: API.PaginatedOperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConsentPortals",
@@ -9844,7 +10165,7 @@ export type ListDatasetExamplesError =
   | ValidationException
   | CommonErrors;
 /**
- * Returns paginated examples from the dataset. The server embeds the resolved version in the pagination token. Once pagination begins, all subsequent pages are pinned to that version regardless of concurrent mutations.
+ * Returns paginated examples from the dataset. The server embeds the resolved version in the pagination token. Once pagination begins, all subsequent pages are pinned to that version regardless of concurrent mutations. A request with a pagination token can omit `datasetVersion`. If it sets a version that differs from the token's version, the request fails with a `ValidationException`.
  */
 export const listDatasetExamples: API.PaginatedOperationMethod<
   ListDatasetExamplesRequest & RegionInput,
@@ -9853,8 +10174,8 @@ export const listDatasetExamples: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<ListDatasetExamplesRequest>,
-  output: __S(1089, __c34, 1) as any as S.Schema<ListDatasetExamplesResponse>,
+  input: __S(1155, __c36, 3) as any as S.Schema<ListDatasetExamplesRequest>,
+  output: __S(1156, __c36, 4) as any as S.Schema<ListDatasetExamplesResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -9863,6 +10184,7 @@ export const listDatasetExamples: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDatasetExamples",
@@ -9892,14 +10214,15 @@ export const listDatasets: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DatasetSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<ListDatasetsRequest>,
-  output: __S(1123, __c35, 3) as any as S.Schema<ListDatasetsResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<ListDatasetsRequest>,
+  output: __S(1187, __c37, 3) as any as S.Schema<ListDatasetsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDatasets",
@@ -9930,8 +10253,8 @@ export const listDatasetVersions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DatasetVersionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<ListDatasetVersionsRequest>,
-  output: __S(1155, __c36, 3) as any as S.Schema<ListDatasetVersionsResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<ListDatasetVersionsRequest>,
+  output: __S(1251, __c39, 3) as any as S.Schema<ListDatasetVersionsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -9939,6 +10262,7 @@ export const listDatasetVersions: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDatasetVersions",
@@ -9968,14 +10292,15 @@ export const listEvaluators: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   EvaluatorSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<ListEvaluatorsRequest>,
-  output: __S(1187, __c37, 3) as any as S.Schema<ListEvaluatorsResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<ListEvaluatorsRequest>,
+  output: __S(1283, __c40, 3) as any as S.Schema<ListEvaluatorsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEvaluators",
@@ -10006,8 +10331,8 @@ export const listGatewayRateLimits: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   GatewayRateLimitDetail
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<ListGatewayRateLimitsRequest>,
-  output: __S(1217, __c38, 1) as any as S.Schema<ListGatewayRateLimitsResponse>,
+  input: __S(1312, __c41, 0) as any as S.Schema<ListGatewayRateLimitsRequest>,
+  output: __S(1313, __c41, 1) as any as S.Schema<ListGatewayRateLimitsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -10015,6 +10340,7 @@ export const listGatewayRateLimits: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGatewayRateLimits",
@@ -10045,8 +10371,8 @@ export const listGatewayRules: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   GatewayRuleDetail
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<ListGatewayRulesRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<ListGatewayRulesResponse>,
+  input: __S(1344, __c42, 0) as any as S.Schema<ListGatewayRulesRequest>,
+  output: __S(1346, __c42, 2) as any as S.Schema<ListGatewayRulesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -10054,6 +10380,7 @@ export const listGatewayRules: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGatewayRules",
@@ -10083,14 +10410,15 @@ export const listGateways: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   GatewaySummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<ListGatewaysRequest>,
-  output: __S(1283, __c40, 3) as any as S.Schema<ListGatewaysResponse>,
+  input: __S(1376, __c43, 0) as any as S.Schema<ListGatewaysRequest>,
+  output: __S(1379, __c43, 3) as any as S.Schema<ListGatewaysResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGateways",
@@ -10121,8 +10449,8 @@ export const listGatewayTargets: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TargetSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<ListGatewayTargetsRequest>,
-  output: __S(1315, __c41, 3) as any as S.Schema<ListGatewayTargetsResponse>,
+  input: __S(1408, __c44, 0) as any as S.Schema<ListGatewayTargetsRequest>,
+  output: __S(1411, __c44, 3) as any as S.Schema<ListGatewayTargetsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -10130,6 +10458,7 @@ export const listGatewayTargets: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGatewayTargets",
@@ -10160,8 +10489,8 @@ export const listHarnessEndpoints: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   HarnessEndpoint
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<ListHarnessEndpointsRequest>,
-  output: __S(1346, __c42, 2) as any as S.Schema<ListHarnessEndpointsResponse>,
+  input: __S(1440, __c45, 0) as any as S.Schema<ListHarnessEndpointsRequest>,
+  output: __S(1442, __c45, 2) as any as S.Schema<ListHarnessEndpointsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -10169,6 +10498,7 @@ export const listHarnessEndpoints: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListHarnessEndpoints",
@@ -10198,14 +10528,15 @@ export const listHarnesses: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   HarnessSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<ListHarnessesRequest>,
-  output: __S(1379, __c43, 3) as any as S.Schema<ListHarnessesResponse>,
+  input: __S(1472, __c46, 0) as any as S.Schema<ListHarnessesRequest>,
+  output: __S(1475, __c46, 3) as any as S.Schema<ListHarnessesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListHarnesses",
@@ -10236,8 +10567,8 @@ export const listHarnessVersions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   HarnessVersionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<ListHarnessVersionsRequest>,
-  output: __S(1411, __c44, 3) as any as S.Schema<ListHarnessVersionsResponse>,
+  input: __S(1504, __c47, 0) as any as S.Schema<ListHarnessVersionsRequest>,
+  output: __S(1507, __c47, 3) as any as S.Schema<ListHarnessVersionsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -10245,6 +10576,7 @@ export const listHarnessVersions: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListHarnessVersions",
@@ -10275,8 +10607,8 @@ export const listMemories: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   MemorySummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<ListMemoriesInput>,
-  output: __S(1443, __c45, 3) as any as S.Schema<ListMemoriesOutput>,
+  input: __S(1536, __c48, 0) as any as S.Schema<ListMemoriesInput>,
+  output: __S(1539, __c48, 3) as any as S.Schema<ListMemoriesOutput>,
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -10284,6 +10616,7 @@ export const listMemories: API.PaginatedOperationMethod<
     ThrottledException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMemories",
@@ -10315,8 +10648,8 @@ export const listOauth2CredentialProviders: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Oauth2CredentialProviderItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<ListOauth2CredentialProvidersRequest>,
-  output: __S(1506, __c47, 2) as any as S.Schema<ListOauth2CredentialProvidersResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<ListOauth2CredentialProvidersRequest>,
+  output: __S(1602, __c50, 2) as any as S.Schema<ListOauth2CredentialProvidersResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -10325,6 +10658,7 @@ export const listOauth2CredentialProviders: API.PaginatedOperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOauth2CredentialProviders",
@@ -10354,14 +10688,15 @@ export const listOnlineEvaluationConfigs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   OnlineEvaluationConfigSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<ListOnlineEvaluationConfigsRequest>,
-  output: __S(1539, __c48, 3) as any as S.Schema<ListOnlineEvaluationConfigsResponse>,
+  input: __S(1632, __c51, 0) as any as S.Schema<ListOnlineEvaluationConfigsRequest>,
+  output: __S(1635, __c51, 3) as any as S.Schema<ListOnlineEvaluationConfigsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOnlineEvaluationConfigs",
@@ -10391,14 +10726,15 @@ export const listPaymentConnectors: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PaymentConnectorSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<ListPaymentConnectorsRequest>,
-  output: __S(1571, __c49, 3) as any as S.Schema<ListPaymentConnectorsResponse>,
+  input: __S(1664, __c52, 0) as any as S.Schema<ListPaymentConnectorsRequest>,
+  output: __S(1667, __c52, 3) as any as S.Schema<ListPaymentConnectorsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPaymentConnectors",
@@ -10430,8 +10766,8 @@ export const listPaymentCredentialProviders: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PaymentCredentialProviderItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<ListPaymentCredentialProvidersRequest>,
-  output: __S(1506, __c47, 2) as any as S.Schema<ListPaymentCredentialProvidersResponse>,
+  input: __S(1696, __c53, 0) as any as S.Schema<ListPaymentCredentialProvidersRequest>,
+  output: __S(1602, __c50, 2) as any as S.Schema<ListPaymentCredentialProvidersResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -10440,6 +10776,7 @@ export const listPaymentCredentialProviders: API.PaginatedOperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPaymentCredentialProviders",
@@ -10469,14 +10806,15 @@ export const listPaymentManagers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PaymentManagerSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<ListPaymentManagersRequest>,
-  output: __S(1635, __c51, 3) as any as S.Schema<ListPaymentManagersResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<ListPaymentManagersRequest>,
+  output: __S(1731, __c54, 3) as any as S.Schema<ListPaymentManagersResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPaymentManagers",
@@ -10507,8 +10845,8 @@ export const listPolicies: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Policy
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<ListPoliciesRequest>,
-  output: __S(1666, __c52, 2) as any as S.Schema<ListPoliciesResponse>,
+  input: __S(1760, __c55, 0) as any as S.Schema<ListPoliciesRequest>,
+  output: __S(1762, __c55, 2) as any as S.Schema<ListPoliciesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -10516,6 +10854,7 @@ export const listPolicies: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPolicies",
@@ -10545,14 +10884,15 @@ export const listPolicyEngines: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PolicyEngine
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<ListPolicyEnginesRequest>,
-  output: __S(1698, __c53, 2) as any as S.Schema<ListPolicyEnginesResponse>,
+  input: __S(1792, __c56, 0) as any as S.Schema<ListPolicyEnginesRequest>,
+  output: __S(1794, __c56, 2) as any as S.Schema<ListPolicyEnginesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPolicyEngines",
@@ -10582,14 +10922,15 @@ export const listPolicyEngineSummaries: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PolicyEngineSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<ListPolicyEngineSummariesRequest>,
-  output: __S(1730, __c54, 2) as any as S.Schema<ListPolicyEngineSummariesResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<ListPolicyEngineSummariesRequest>,
+  output: __S(1826, __c57, 2) as any as S.Schema<ListPolicyEngineSummariesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPolicyEngineSummaries",
@@ -10620,8 +10961,8 @@ export const listPolicyGenerationAssets: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PolicyGenerationAsset
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<ListPolicyGenerationAssetsRequest>,
-  output: __S(1765, __c55, 5) as any as S.Schema<ListPolicyGenerationAssetsResponse>,
+  input: __S(1856, __c58, 0) as any as S.Schema<ListPolicyGenerationAssetsRequest>,
+  output: __S(1861, __c58, 5) as any as S.Schema<ListPolicyGenerationAssetsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -10629,6 +10970,7 @@ export const listPolicyGenerationAssets: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPolicyGenerationAssets",
@@ -10659,8 +11001,8 @@ export const listPolicyGenerations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PolicyGeneration
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<ListPolicyGenerationsRequest>,
-  output: __S(1794, __c56, 2) as any as S.Schema<ListPolicyGenerationsResponse>,
+  input: __S(1888, __c59, 0) as any as S.Schema<ListPolicyGenerationsRequest>,
+  output: __S(1890, __c59, 2) as any as S.Schema<ListPolicyGenerationsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -10668,6 +11010,7 @@ export const listPolicyGenerations: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPolicyGenerations",
@@ -10698,8 +11041,8 @@ export const listPolicyGenerationSummaries: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PolicyGenerationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<ListPolicyGenerationSummariesRequest>,
-  output: __S(1826, __c57, 2) as any as S.Schema<ListPolicyGenerationSummariesResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<ListPolicyGenerationSummariesRequest>,
+  output: __S(1922, __c60, 2) as any as S.Schema<ListPolicyGenerationSummariesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -10707,6 +11050,7 @@ export const listPolicyGenerationSummaries: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPolicyGenerationSummaries",
@@ -10737,8 +11081,8 @@ export const listPolicySummaries: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PolicySummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<ListPolicySummariesRequest>,
-  output: __S(1858, __c58, 2) as any as S.Schema<ListPolicySummariesResponse>,
+  input: __S(1952, __c61, 0) as any as S.Schema<ListPolicySummariesRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<ListPolicySummariesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -10746,6 +11090,7 @@ export const listPolicySummaries: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPolicySummaries",
@@ -10775,14 +11120,15 @@ export const listRegistries: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RegistrySummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<ListRegistriesRequest>,
-  output: __S(1891, __c59, 3) as any as S.Schema<ListRegistriesResponse>,
+  input: __S(2016, __c63, 0) as any as S.Schema<ListRegistriesRequest>,
+  output: __S(2019, __c63, 3) as any as S.Schema<ListRegistriesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRegistries",
@@ -10814,8 +11160,8 @@ export const listRegistryRecords: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RegistryRecordSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<ListRegistryRecordsRequest>,
-  output: __S(1923, __c60, 3) as any as S.Schema<ListRegistryRecordsResponse>,
+  input: __S(2048, __c64, 0) as any as S.Schema<ListRegistryRecordsRequest>,
+  output: __S(2051, __c64, 3) as any as S.Schema<ListRegistryRecordsResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -10824,6 +11170,7 @@ export const listRegistryRecords: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRegistryRecords",
@@ -10855,8 +11202,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(1985, __c62, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(2081, __c65, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -10864,6 +11211,7 @@ export const listTagsForResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -10889,8 +11237,8 @@ export const listWorkloadIdentities: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   WorkloadIdentityType
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<ListWorkloadIdentitiesRequest>,
-  output: __S(2019, __c63, 3) as any as S.Schema<ListWorkloadIdentitiesResponse>,
+  input: __S(2112, __c66, 0) as any as S.Schema<ListWorkloadIdentitiesRequest>,
+  output: __S(2115, __c66, 3) as any as S.Schema<ListWorkloadIdentitiesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -10899,6 +11247,7 @@ export const listWorkloadIdentities: API.PaginatedOperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWorkloadIdentities",
@@ -10930,8 +11279,8 @@ export const putResourcePolicy: API.OperationMethod<
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<PutResourcePolicyRequest>,
-  output: __S(2049, __c64, 1) as any as S.Schema<PutResourcePolicyResponse>,
+  input: __S(2144, __c67, 0) as any as S.Schema<PutResourcePolicyRequest>,
+  output: __S(2145, __c67, 1) as any as S.Schema<PutResourcePolicyResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -10939,6 +11288,7 @@ export const putResourcePolicy: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
@@ -10968,8 +11318,8 @@ export const resetTokenVaultKeyMaterial: API.OperationMethod<
   ResetTokenVaultKeyMaterialError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<ResetTokenVaultKeyMaterialRequest>,
-  output: __S(577, __c18, 1) as any as S.Schema<ResetTokenVaultKeyMaterialResponse>,
+  input: __S(2176, __c68, 0) as any as S.Schema<ResetTokenVaultKeyMaterialRequest>,
+  output: __S(609, __c19, 1) as any as S.Schema<ResetTokenVaultKeyMaterialResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -10979,6 +11329,7 @@ export const resetTokenVaultKeyMaterial: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetTokenVaultKeyMaterial",
@@ -11009,8 +11360,8 @@ export const rotatePaymentConnectorCredentials: API.OperationMethod<
   RotatePaymentConnectorCredentialsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2114, __c66, 2) as any as S.Schema<RotatePaymentConnectorCredentialsRequest>,
-  output: __S(2115, __c66, 3) as any as S.Schema<RotatePaymentConnectorCredentialsResponse>,
+  input: __S(2210, __c69, 2) as any as S.Schema<RotatePaymentConnectorCredentialsRequest>,
+  output: __S(2211, __c69, 3) as any as S.Schema<RotatePaymentConnectorCredentialsResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11019,6 +11370,7 @@ export const rotatePaymentConnectorCredentials: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RotatePaymentConnectorCredentials",
@@ -11045,8 +11397,8 @@ export const setTokenVaultCMK: API.OperationMethod<
   SetTokenVaultCMKError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<SetTokenVaultCMKRequest>,
-  output: __S(577, __c18, 1) as any as S.Schema<SetTokenVaultCMKResponse>,
+  input: __S(2240, __c70, 0) as any as S.Schema<SetTokenVaultCMKRequest>,
+  output: __S(609, __c19, 1) as any as S.Schema<SetTokenVaultCMKResponse>,
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -11057,6 +11409,7 @@ export const setTokenVaultCMK: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetTokenVaultCMK",
@@ -11082,8 +11435,8 @@ export const startPolicyGeneration: API.OperationMethod<
   StartPolicyGenerationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2177, __c68, 1) as any as S.Schema<StartPolicyGenerationRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<StartPolicyGenerationResponse>,
+  input: __S(2273, __c71, 1) as any as S.Schema<StartPolicyGenerationRequest>,
+  output: __S(256, __c8, 0) as any as S.Schema<StartPolicyGenerationResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11093,6 +11446,7 @@ export const startPolicyGeneration: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPolicyGeneration",
@@ -11117,8 +11471,8 @@ export const submitRegistryRecordForApproval: API.OperationMethod<
   SubmitRegistryRecordForApprovalError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<SubmitRegistryRecordForApprovalRequest>,
-  output: __S(2209, __c69, 1) as any as S.Schema<SubmitRegistryRecordForApprovalResponse>,
+  input: __S(2304, __c72, 0) as any as S.Schema<SubmitRegistryRecordForApprovalRequest>,
+  output: __S(2305, __c72, 1) as any as S.Schema<SubmitRegistryRecordForApprovalResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11127,6 +11481,7 @@ export const submitRegistryRecordForApproval: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubmitRegistryRecordForApproval",
@@ -11156,8 +11511,8 @@ export const synchronizeGatewayTargets: API.OperationMethod<
   SynchronizeGatewayTargetsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<SynchronizeGatewayTargetsRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<SynchronizeGatewayTargetsResponse>,
+  input: __S(2464, __c77, 0) as any as S.Schema<SynchronizeGatewayTargetsRequest>,
+  output: __S(2466, __c77, 2) as any as S.Schema<SynchronizeGatewayTargetsResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11167,6 +11522,7 @@ export const synchronizeGatewayTargets: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SynchronizeGatewayTargets",
@@ -11193,8 +11549,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<TagResourceRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<TagResourceResponse>,
+  input: __S(2496, __c78, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(5056, __c158, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -11203,6 +11559,7 @@ export const tagResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -11228,8 +11585,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<UntagResourceRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<UntagResourceResponse>,
+  input: __S(2528, __c79, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(5056, __c158, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -11237,11 +11594,49 @@ export const untagResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
   telemetry: TELEMETRY,
   span: "UntagResource",
+}));
+
+export type UpdateAgentInsightStoreError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Updates the enablement status or encryption configuration of an Agent Insight Store.
+ */
+export const updateAgentInsightStore: API.OperationMethod<
+  UpdateAgentInsightStoreRequest & RegionInput,
+  UpdateAgentInsightStoreResponse,
+  UpdateAgentInsightStoreError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2560, __c80, 0) as any as S.Schema<UpdateAgentInsightStoreRequest>,
+  output: __S(2561, __c80, 1) as any as S.Schema<UpdateAgentInsightStoreResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateAgentInsightStore",
+  telemetry: TELEMETRY,
+  span: "UpdateAgentInsightStore",
 }));
 
 export type UpdateAgentRuntimeError =
@@ -11262,8 +11657,8 @@ export const updateAgentRuntime: API.OperationMethod<
   UpdateAgentRuntimeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<UpdateAgentRuntimeRequest>,
-  output: __S(2465, __c77, 1) as any as S.Schema<UpdateAgentRuntimeResponse>,
+  input: __S(2592, __c81, 0) as any as S.Schema<UpdateAgentRuntimeRequest>,
+  output: __S(2593, __c81, 1) as any as S.Schema<UpdateAgentRuntimeResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11273,6 +11668,7 @@ export const updateAgentRuntime: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgentRuntime",
@@ -11298,8 +11694,8 @@ export const updateAgentRuntimeEndpoint: API.OperationMethod<
   UpdateAgentRuntimeEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<UpdateAgentRuntimeEndpointRequest>,
-  output: __S(2497, __c78, 1) as any as S.Schema<UpdateAgentRuntimeEndpointResponse>,
+  input: __S(2624, __c82, 0) as any as S.Schema<UpdateAgentRuntimeEndpointRequest>,
+  output: __S(2625, __c82, 1) as any as S.Schema<UpdateAgentRuntimeEndpointResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11309,6 +11705,7 @@ export const updateAgentRuntimeEndpoint: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgentRuntimeEndpoint",
@@ -11337,8 +11734,8 @@ export const updateApiKeyCredentialProvider: API.OperationMethod<
   UpdateApiKeyCredentialProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<UpdateApiKeyCredentialProviderRequest>,
-  output: __S(7072, __c221, 0) as any as S.Schema<UpdateApiKeyCredentialProviderResponse>,
+  input: __S(2656, __c83, 0) as any as S.Schema<UpdateApiKeyCredentialProviderRequest>,
+  output: __S(7264, __c227, 0) as any as S.Schema<UpdateApiKeyCredentialProviderResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11351,6 +11748,7 @@ export const updateApiKeyCredentialProvider: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApiKeyCredentialProvider",
@@ -11376,8 +11774,8 @@ export const updateCapacityProvider: API.OperationMethod<
   UpdateCapacityProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<UpdateCapacityProviderInput>,
-  output: __S(2561, __c80, 1) as any as S.Schema<UpdateCapacityProviderOutput>,
+  input: __S(2688, __c84, 0) as any as S.Schema<UpdateCapacityProviderInput>,
+  output: __S(2689, __c84, 1) as any as S.Schema<UpdateCapacityProviderOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11387,6 +11785,7 @@ export const updateCapacityProvider: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCapacityProvider",
@@ -11411,8 +11810,8 @@ export const updateConfigurationBundle: API.OperationMethod<
   UpdateConfigurationBundleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<UpdateConfigurationBundleRequest>,
-  output: __S(2625, __c82, 1) as any as S.Schema<UpdateConfigurationBundleResponse>,
+  input: __S(2752, __c86, 0) as any as S.Schema<UpdateConfigurationBundleRequest>,
+  output: __S(2753, __c86, 1) as any as S.Schema<UpdateConfigurationBundleResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11421,6 +11820,7 @@ export const updateConfigurationBundle: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationBundle",
@@ -11446,8 +11846,8 @@ export const updateConsentPortal: API.OperationMethod<
   UpdateConsentPortalError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<UpdateConsentPortalRequest>,
-  output: __S(4321, __c135, 1) as any as S.Schema<UpdateConsentPortalResponse>,
+  input: __S(2784, __c87, 0) as any as S.Schema<UpdateConsentPortalRequest>,
+  output: __S(4449, __c139, 1) as any as S.Schema<UpdateConsentPortalResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11457,6 +11857,7 @@ export const updateConsentPortal: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConsentPortal",
@@ -11481,8 +11882,8 @@ export const updateDataset: API.OperationMethod<
   UpdateDatasetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<UpdateDatasetRequest>,
-  output: __S(2689, __c84, 1) as any as S.Schema<UpdateDatasetResponse>,
+  input: __S(2944, __c92, 0) as any as S.Schema<UpdateDatasetRequest>,
+  output: __S(2945, __c92, 1) as any as S.Schema<UpdateDatasetResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11491,6 +11892,7 @@ export const updateDataset: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataset",
@@ -11516,8 +11918,8 @@ export const updateDatasetExamples: API.OperationMethod<
   UpdateDatasetExamplesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<UpdateDatasetExamplesRequest>,
-  output: __S(2721, __c85, 1) as any as S.Schema<UpdateDatasetExamplesResponse>,
+  input: __S(2976, __c93, 0) as any as S.Schema<UpdateDatasetExamplesRequest>,
+  output: __S(2977, __c93, 1) as any as S.Schema<UpdateDatasetExamplesResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11527,6 +11929,7 @@ export const updateDatasetExamples: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDatasetExamples",
@@ -11552,8 +11955,8 @@ export const updateEvaluator: API.OperationMethod<
   UpdateEvaluatorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<UpdateEvaluatorRequest>,
-  output: __S(2753, __c86, 1) as any as S.Schema<UpdateEvaluatorResponse>,
+  input: __S(3008, __c94, 0) as any as S.Schema<UpdateEvaluatorRequest>,
+  output: __S(3009, __c94, 1) as any as S.Schema<UpdateEvaluatorResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11563,6 +11966,7 @@ export const updateEvaluator: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEvaluator",
@@ -11590,8 +11994,8 @@ export const updateGateway: API.OperationMethod<
   UpdateGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<UpdateGatewayRequest>,
-  output: __S(4560, __c142, 16) as any as S.Schema<UpdateGatewayResponse>,
+  input: __S(3040, __c95, 0) as any as S.Schema<UpdateGatewayRequest>,
+  output: __S(4688, __c146, 16) as any as S.Schema<UpdateGatewayResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11601,6 +12005,7 @@ export const updateGateway: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGateway",
@@ -11625,8 +12030,8 @@ export const updateGatewayRateLimit: API.OperationMethod<
   UpdateGatewayRateLimitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<UpdateGatewayRateLimitRequest>,
-  output: __S(2884, __c90, 4) as any as S.Schema<UpdateGatewayRateLimitResponse>,
+  input: __S(3072, __c96, 0) as any as S.Schema<UpdateGatewayRateLimitRequest>,
+  output: __S(2916, __c91, 4) as any as S.Schema<UpdateGatewayRateLimitResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11635,6 +12040,7 @@ export const updateGatewayRateLimit: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGatewayRateLimit",
@@ -11659,8 +12065,8 @@ export const updateGatewayRule: API.OperationMethod<
   UpdateGatewayRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<UpdateGatewayRuleRequest>,
-  output: __S(7552, __c236, 0) as any as S.Schema<UpdateGatewayRuleResponse>,
+  input: __S(3104, __c97, 0) as any as S.Schema<UpdateGatewayRuleRequest>,
+  output: __S(7776, __c243, 0) as any as S.Schema<UpdateGatewayRuleResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11669,6 +12075,7 @@ export const updateGatewayRule: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGatewayRule",
@@ -11696,8 +12103,8 @@ export const updateGatewayTarget: API.OperationMethod<
   UpdateGatewayTargetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<UpdateGatewayTargetRequest>,
-  output: __S(4846, __c151, 14) as any as S.Schema<UpdateGatewayTargetResponse>,
+  input: __S(3136, __c98, 0) as any as S.Schema<UpdateGatewayTargetRequest>,
+  output: __S(4974, __c155, 14) as any as S.Schema<UpdateGatewayTargetResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11707,6 +12114,7 @@ export const updateGatewayTarget: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGatewayTarget",
@@ -11732,8 +12140,8 @@ export const updateHarness: API.OperationMethod<
   UpdateHarnessError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3042, __c95, 2) as any as S.Schema<UpdateHarnessRequest>,
-  output: __S(5024, __c157, 0) as any as S.Schema<UpdateHarnessResponse>,
+  input: __S(3170, __c99, 2) as any as S.Schema<UpdateHarnessRequest>,
+  output: __S(5152, __c161, 0) as any as S.Schema<UpdateHarnessResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11743,6 +12151,7 @@ export const updateHarness: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHarness",
@@ -11768,8 +12177,8 @@ export const updateHarnessEndpoint: API.OperationMethod<
   UpdateHarnessEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<UpdateHarnessEndpointRequest>,
-  output: __S(5120, __c160, 0) as any as S.Schema<UpdateHarnessEndpointResponse>,
+  input: __S(3232, __c101, 0) as any as S.Schema<UpdateHarnessEndpointRequest>,
+  output: __S(5248, __c164, 0) as any as S.Schema<UpdateHarnessEndpointResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11779,6 +12188,7 @@ export const updateHarnessEndpoint: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHarnessEndpoint",
@@ -11804,8 +12214,8 @@ export const updateMemory: API.OperationMethod<
   UpdateMemoryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3145, __c98, 9) as any as S.Schema<UpdateMemoryInput>,
-  output: __S(5195, __c162, 11) as any as S.Schema<UpdateMemoryOutput>,
+  input: __S(3273, __c102, 9) as any as S.Schema<UpdateMemoryInput>,
+  output: __S(5323, __c166, 11) as any as S.Schema<UpdateMemoryOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11815,6 +12225,7 @@ export const updateMemory: API.OperationMethod<
     ThrottledException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMemory",
@@ -11843,8 +12254,8 @@ export const updateOauth2CredentialProvider: API.OperationMethod<
   UpdateOauth2CredentialProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<UpdateOauth2CredentialProviderRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<UpdateOauth2CredentialProviderResponse>,
+  input: __S(3616, __c113, 0) as any as S.Schema<UpdateOauth2CredentialProviderRequest>,
+  output: __S(3617, __c113, 1) as any as S.Schema<UpdateOauth2CredentialProviderResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11857,6 +12268,7 @@ export const updateOauth2CredentialProvider: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOauth2CredentialProvider",
@@ -11882,8 +12294,8 @@ export const updateOnlineEvaluationConfig: API.OperationMethod<
   UpdateOnlineEvaluationConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<UpdateOnlineEvaluationConfigRequest>,
-  output: __S(3201, __c100, 1) as any as S.Schema<UpdateOnlineEvaluationConfigResponse>,
+  input: __S(3648, __c114, 0) as any as S.Schema<UpdateOnlineEvaluationConfigRequest>,
+  output: __S(3649, __c114, 1) as any as S.Schema<UpdateOnlineEvaluationConfigResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11893,6 +12305,7 @@ export const updateOnlineEvaluationConfig: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOnlineEvaluationConfig",
@@ -11919,8 +12332,8 @@ export const updatePaymentConnector: API.OperationMethod<
   UpdatePaymentConnectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<UpdatePaymentConnectorRequest>,
-  output: __S(3233, __c101, 1) as any as S.Schema<UpdatePaymentConnectorResponse>,
+  input: __S(3680, __c115, 0) as any as S.Schema<UpdatePaymentConnectorRequest>,
+  output: __S(3681, __c115, 1) as any as S.Schema<UpdatePaymentConnectorResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11931,6 +12344,7 @@ export const updatePaymentConnector: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePaymentConnector",
@@ -11959,8 +12373,8 @@ export const updatePaymentCredentialProvider: API.OperationMethod<
   UpdatePaymentCredentialProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<UpdatePaymentCredentialProviderRequest>,
-  output: __S(3585, __c112, 1) as any as S.Schema<UpdatePaymentCredentialProviderResponse>,
+  input: __S(3712, __c116, 0) as any as S.Schema<UpdatePaymentCredentialProviderRequest>,
+  output: __S(3713, __c116, 1) as any as S.Schema<UpdatePaymentCredentialProviderResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11973,6 +12387,7 @@ export const updatePaymentCredentialProvider: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePaymentCredentialProvider",
@@ -11998,8 +12413,8 @@ export const updatePaymentManager: API.OperationMethod<
   UpdatePaymentManagerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<UpdatePaymentManagerRequest>,
-  output: __S(3617, __c113, 1) as any as S.Schema<UpdatePaymentManagerResponse>,
+  input: __S(3744, __c117, 0) as any as S.Schema<UpdatePaymentManagerRequest>,
+  output: __S(3745, __c117, 1) as any as S.Schema<UpdatePaymentManagerResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -12009,6 +12424,7 @@ export const updatePaymentManager: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePaymentManager",
@@ -12036,8 +12452,8 @@ export const updatePolicy: API.OperationMethod<
   UpdatePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<UpdatePolicyRequest>,
-  output: __S(5728, __c179, 0) as any as S.Schema<UpdatePolicyResponse>,
+  input: __S(3776, __c118, 0) as any as S.Schema<UpdatePolicyRequest>,
+  output: __S(5856, __c183, 0) as any as S.Schema<UpdatePolicyResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -12047,6 +12463,7 @@ export const updatePolicy: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePolicy",
@@ -12071,8 +12488,8 @@ export const updatePolicyEngine: API.OperationMethod<
   UpdatePolicyEngineError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<UpdatePolicyEngineRequest>,
-  output: __S(5792, __c181, 0) as any as S.Schema<UpdatePolicyEngineResponse>,
+  input: __S(3808, __c119, 0) as any as S.Schema<UpdatePolicyEngineRequest>,
+  output: __S(5920, __c185, 0) as any as S.Schema<UpdatePolicyEngineResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -12081,6 +12498,7 @@ export const updatePolicyEngine: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePolicyEngine",
@@ -12106,8 +12524,8 @@ export const updateRegistry: API.OperationMethod<
   UpdateRegistryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3713, __c116, 1) as any as S.Schema<UpdateRegistryRequest>,
-  output: __S(416, __c13, 0) as any as S.Schema<UpdateRegistryResponse>,
+  input: __S(3841, __c120, 1) as any as S.Schema<UpdateRegistryRequest>,
+  output: __S(448, __c14, 0) as any as S.Schema<UpdateRegistryResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -12117,6 +12535,7 @@ export const updateRegistry: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRegistry",
@@ -12141,8 +12560,8 @@ export const updateRegistryRecord: API.OperationMethod<
   UpdateRegistryRecordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3756, __c117, 12) as any as S.Schema<UpdateRegistryRecordRequest>,
-  output: __S(480, __c15, 0) as any as S.Schema<UpdateRegistryRecordResponse>,
+  input: __S(3884, __c121, 12) as any as S.Schema<UpdateRegistryRecordRequest>,
+  output: __S(512, __c16, 0) as any as S.Schema<UpdateRegistryRecordResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -12151,6 +12570,7 @@ export const updateRegistryRecord: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRegistryRecord",
@@ -12175,8 +12595,8 @@ export const updateRegistryRecordStatus: API.OperationMethod<
   UpdateRegistryRecordStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<UpdateRegistryRecordStatusRequest>,
-  output: __S(3777, __c118, 1) as any as S.Schema<UpdateRegistryRecordStatusResponse>,
+  input: __S(3904, __c122, 0) as any as S.Schema<UpdateRegistryRecordStatusRequest>,
+  output: __S(3905, __c122, 1) as any as S.Schema<UpdateRegistryRecordStatusResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -12185,6 +12605,7 @@ export const updateRegistryRecordStatus: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRegistryRecordStatus",
@@ -12210,8 +12631,8 @@ export const updateWorkloadIdentity: API.OperationMethod<
   UpdateWorkloadIdentityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<UpdateWorkloadIdentityRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<UpdateWorkloadIdentityResponse>,
+  input: __S(3968, __c124, 0) as any as S.Schema<UpdateWorkloadIdentityRequest>,
+  output: __S(672, __c21, 0) as any as S.Schema<UpdateWorkloadIdentityResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -12221,6 +12642,7 @@ export const updateWorkloadIdentity: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkloadIdentity",
@@ -12230,6 +12652,35 @@ export const updateWorkloadIdentity: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ name: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/identities/GetPaymentCredentialProvider" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetPaymentCredentialProviderRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          credentialProviderArn: S.String,
+          credentialProviderVendor: S.String,
+          providerConfigurationOutput: __S(5698, __c178, 2),
+          createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          lastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          tags: S.optional(__S(2880, __c90, 0)),
+        }),
+      ).annotate({ identifier: "GetPaymentCredentialProviderResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12252,19 +12703,19 @@ function __c0(j: number): any {
           name: S.String,
           description: S.optional(S.String),
           authorizerType: S.String,
-          authorizerConfiguration: S.optional(__S(3464, __c108, 8)),
+          authorizerConfiguration: S.optional(__S(3496, __c109, 8)),
           roleArn: S.String,
-          workloadIdentityDetails: S.optional(__S(3488, __c109, 0)),
+          workloadIdentityDetails: S.optional(__S(3520, __c110, 0)),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           status: S.String,
-          tags: S.optional(__S(2848, __c89, 0)),
+          tags: S.optional(__S(2880, __c90, 0)),
           kmsKeyArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetPaymentManagerResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12284,7 +12735,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GetPolicyRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12301,7 +12752,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetPolicyEngineRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12318,7 +12769,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetPolicyEngineSummaryRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12334,7 +12785,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetPolicyEngineSummaryResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12357,13 +12808,13 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetPolicyGenerationRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.Union([/*@__PURE__*/ S.Struct({ arn: S.String })]);
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12372,17 +12823,17 @@ function __c7(j: number): any {
           policyGenerationId: S.String,
           name: S.String,
           policyGenerationArn: S.String,
-          resource: __S(192, __c6, 0),
+          resource: __S(224, __c7, 0),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           status: S.String,
           findings: S.optional(S.String),
-          statusReasons: __S(2336, __c73, 0),
+          statusReasons: __S(2368, __c74, 0),
         }),
       ).annotate({ identifier: "GetPolicyGenerationResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12405,7 +12856,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetPolicyGenerationSummaryRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12414,7 +12865,7 @@ function __c9(j: number): any {
           policyGenerationId: S.String,
           name: S.String,
           policyGenerationArn: S.String,
-          resource: __S(192, __c6, 0),
+          resource: __S(224, __c7, 0),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           status: S.String,
@@ -12423,7 +12874,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetPolicyGenerationSummaryResponse" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12446,7 +12897,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetPolicySummaryRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12463,7 +12914,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetPolicySummaryResponse" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12480,7 +12931,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetRegistryRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12490,8 +12941,8 @@ function __c13(j: number): any {
           registryId: S.String,
           registryArn: S.String,
           authorizerType: S.optional(S.String),
-          authorizerConfiguration: S.optional(__S(3464, __c108, 8)),
-          approvalConfiguration: S.optional(__S(5856, __c183, 0)),
+          authorizerConfiguration: S.optional(__S(3496, __c109, 8)),
+          approvalConfiguration: S.optional(__S(5984, __c187, 0)),
           status: S.String,
           statusReason: S.optional(S.String),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
@@ -12500,7 +12951,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetRegistryResponse" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12520,7 +12971,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetRegistryRecordRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12531,19 +12982,19 @@ function __c15(j: number): any {
           name: S.String,
           description: S.optional(SensitiveString),
           descriptorType: S.String,
-          descriptors: __S(5926, __c185, 6),
+          descriptors: __S(6054, __c189, 6),
           recordVersion: S.optional(S.String),
           status: S.String,
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           statusReason: S.optional(S.String),
           synchronizationType: S.optional(S.String),
-          synchronizationConfiguration: S.optional(__S(5933, __c185, 13)),
+          synchronizationConfiguration: S.optional(__S(6061, __c189, 13)),
         }),
       ).annotate({ identifier: "GetRegistryRecordResponse" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12564,7 +13015,7 @@ function __c16(j: number): any {
       });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12581,7 +13032,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetTokenVaultRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12591,13 +13042,13 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           tokenVaultId: S.String,
-          kmsConfiguration: __S(576, __c18, 0),
+          kmsConfiguration: __S(608, __c19, 0),
           lastModifiedDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
         }),
       ).annotate({ identifier: "GetTokenVaultResponse" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12614,21 +13065,59 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetWorkloadIdentityRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           workloadIdentityArn: S.String,
-          allowedResourceOauth2ReturnUrls: S.optional(__S(2336, __c73, 0)),
+          allowedResourceOauth2ReturnUrls: S.optional(__S(2368, __c74, 0)),
           createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           lastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
         }),
       ).annotate({ identifier: "GetWorkloadIdentityResponse" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/agent-insight-stores" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListAgentInsightStoresRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          agentInsightStoreArn: S.String,
+          agentInsightStoreId: S.String,
+          status: S.String,
+          enablementStatus: S.String,
+          encryptionConfiguration: __S(7104, __c222, 0),
+          createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+        }),
+      ).annotate({ identifier: "AgentInsightStoreSummary" });
+    case 2:
+      return S.Array(__S(705, __c22, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ agentInsightStores: __S(706, __c22, 2), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListAgentInsightStoresResponse" });
+  }
+}
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12663,14 +13152,14 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "AgentRuntimeEndpoint" });
     case 2:
-      return S.Array(__S(673, __c21, 1));
+      return S.Array(__S(737, __c23, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ runtimeEndpoints: __S(674, __c21, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ runtimeEndpoints: __S(738, __c23, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListAgentRuntimeEndpointsResponse" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12681,7 +13170,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "ListAgentRuntimesRequest" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12696,14 +13185,14 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "AgentRuntime" });
     case 1:
-      return S.Array(__S(736, __c23, 0));
+      return S.Array(__S(800, __c25, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ agentRuntimes: __S(737, __c23, 1), nextToken: S.optional(S.String) }),
+        S.Struct({ agentRuntimes: __S(801, __c25, 1), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListAgentRuntimesResponse" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12724,7 +13213,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "ListAgentRuntimeVersionsRequest" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12751,14 +13240,14 @@ function __c25(j: number): any {
         S.Struct({ agentRuntimeArn: S.String, agentRuntimeVersion: S.String, status: S.String }),
       ).annotate({ identifier: "AgentRuntimeVersionSummary" });
     case 2:
-      return S.Array(__S(801, __c25, 1));
+      return S.Array(__S(865, __c27, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ agentRuntimes: __S(802, __c25, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ agentRuntimes: __S(866, __c27, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListAgentRuntimeVersionsByCapacityProviderOutput" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12783,14 +13272,14 @@ function __c26(j: number): any {
         }),
       ).annotate({ identifier: "ApiKeyCredentialProviderItem" });
     case 2:
-      return S.Array(__S(833, __c26, 1));
+      return S.Array(__S(897, __c28, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ credentialProviders: __S(834, __c26, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ credentialProviders: __S(898, __c28, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListApiKeyCredentialProvidersResponse" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12803,14 +13292,14 @@ function __c27(j: number): any {
         ),
       ).annotate({ identifier: "ListBrowserProfilesRequest" });
     case 1:
-      return S.Array(__S(7168, __c224, 0));
+      return S.Array(__S(7360, __c230, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ profileSummaries: __S(865, __c27, 1), nextToken: S.optional(S.String) }),
+        S.Struct({ profileSummaries: __S(929, __c29, 1), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListBrowserProfilesResponse" });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12833,14 +13322,14 @@ function __c28(j: number): any {
         }),
       ).annotate({ identifier: "BrowserSummary" });
     case 2:
-      return S.Array(__S(897, __c28, 1));
+      return S.Array(__S(961, __c30, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ browserSummaries: __S(898, __c28, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ browserSummaries: __S(962, __c30, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListBrowsersResponse" });
   }
 }
-function __c29(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12869,14 +13358,14 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "CapacityProviderSummary" });
     case 2:
-      return S.Array(__S(929, __c29, 1));
+      return S.Array(__S(993, __c31, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ capacityProviders: __S(930, __c29, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ capacityProviders: __S(994, __c31, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListCapacityProvidersOutput" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12908,14 +13397,17 @@ function __c30(j: number): any {
         }),
       ).annotate({ identifier: "CodeInterpreterSummary" });
     case 2:
-      return S.Array(__S(961, __c30, 1));
+      return S.Array(__S(1025, __c32, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ codeInterpreterSummaries: __S(962, __c30, 2), nextToken: S.optional(S.String) }),
+        S.Struct({
+          codeInterpreterSummaries: __S(1026, __c32, 2),
+          nextToken: S.optional(S.String),
+        }),
       ).annotate({ identifier: "ListCodeInterpretersResponse" });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12944,14 +13436,14 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "ConfigurationBundleSummary" });
     case 2:
-      return S.Array(__S(993, __c31, 1));
+      return S.Array(__S(1057, __c33, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ bundles: __S(994, __c31, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ bundles: __S(1058, __c33, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListConfigurationBundlesResponse" });
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12967,7 +13459,7 @@ function __c32(j: number): any {
           bundleId: S.String.pipe(T.HttpLabel("bundleId")),
           nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
           maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-          filter: S.optional(__S(1024, __c32, 0)),
+          filter: S.optional(__S(1088, __c34, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/configuration-bundles/{bundleId}/versions" }),
@@ -12985,19 +13477,19 @@ function __c32(j: number): any {
           bundleArn: S.String,
           bundleId: S.String,
           versionId: S.String,
-          lineageMetadata: S.optional(__S(7296, __c228, 0)),
+          lineageMetadata: S.optional(__S(7488, __c234, 0)),
           versionCreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
         }),
       ).annotate({ identifier: "ConfigurationBundleVersionSummary" });
     case 3:
-      return S.Array(__S(1026, __c32, 2));
+      return S.Array(__S(1090, __c34, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({ versions: __S(1027, __c32, 3), nextToken: S.optional(S.String) }),
+        S.Struct({ versions: __S(1091, __c34, 3), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListConfigurationBundleVersionsResponse" });
   }
 }
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13015,7 +13507,7 @@ function __c33(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sources: __S(4289, __c134, 1),
+          sources: __S(4417, __c138, 1),
           consentPortalArn: S.String,
           consentPortalId: S.String,
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -13027,25 +13519,39 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "ConsentPortalSummary" });
     case 2:
-      return S.Array(__S(1057, __c33, 1));
+      return S.Array(__S(1121, __c35, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ consentPortals: __S(1058, __c33, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ consentPortals: __S(1122, __c35, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListConsentPortalsResponse" });
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() => S.Struct({ anyOf: S.optional(__S(4640, __c145, 0)) })).annotate({
+        identifier: "ExampleFieldCondition",
+      });
+    case 1:
+      return S.Array(__S(1152, __c36, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          generationIds: S.optional(__S(2368, __c74, 0)),
+          exampleFields: S.optional(__S(1153, __c36, 1)),
+        }),
+      ).annotate({ identifier: "ListDatasetExamplesFilter" });
+    case 3:
       return S.suspend(() =>
         S.Struct({
           datasetId: S.String.pipe(T.HttpLabel("datasetId")),
-          datasetVersion: S.optional(S.String).pipe(T.HttpQuery("datasetVersion")),
-          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          datasetVersion: S.optional(S.String),
+          filter: S.optional(__S(1154, __c36, 2)),
+          maxResults: S.optional(S.Number),
+          nextToken: S.optional(S.String),
         }).pipe(
           T.all(
-            T.Http({ method: "GET", uri: "/datasets/{datasetId}/examples" }),
+            T.Http({ method: "POST", uri: "/datasets/{datasetId}/examples/list" }),
             svc,
             auth,
             proto,
@@ -13054,26 +13560,29 @@ function __c34(j: number): any {
           ),
         ),
       ).annotate({ identifier: "ListDatasetExamplesRequest" });
-    case 1:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           datasetArn: S.String,
           datasetId: S.String,
           datasetVersion: S.String,
-          examples: __S(2400, __c75, 0),
+          examples: __S(2432, __c76, 0),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDatasetExamplesResponse" });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-        }).pipe(T.all(T.Http({ method: "GET", uri: "/datasets" }), svc, auth, proto, ver, rules)),
+          filter: S.optional(__S(1218, __c38, 2)),
+          nextToken: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+        }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/datasets/list" }), svc, auth, proto, ver, rules),
+        ),
       ).annotate({ identifier: "ListDatasetsRequest" });
     case 1:
       return S.suspend(() =>
@@ -13084,31 +13593,51 @@ function __c35(j: number): any {
           description: S.optional(S.String),
           status: S.String,
           draftStatus: S.optional(S.String),
-          schemaType: S.String,
+          schemaType: S.optional(S.String),
           exampleCount: S.Number,
+          exampleCountByField: S.optional(__S(7616, __c238, 0)),
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
         }),
       ).annotate({ identifier: "DatasetSummary" });
     case 2:
-      return S.Array(__S(1121, __c35, 1));
+      return S.Array(__S(1185, __c37, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ datasets: __S(1122, __c35, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ datasets: __S(1186, __c37, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListDatasetsResponse" });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          anyOf: S.optional(__S(4640, __c145, 0)),
+          min: S.optional(S.Number),
+          max: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ExampleCountByFieldCondition" });
+    case 1:
+      return S.Array(__S(1216, __c38, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ exampleCountByField: S.optional(__S(1217, __c38, 1)) }),
+      ).annotate({ identifier: "ListDatasetsFilter" });
+  }
+}
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           datasetId: S.String.pipe(T.HttpLabel("datasetId")),
-          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          filter: S.optional(__S(1218, __c38, 2)),
+          nextToken: S.optional(S.String),
+          maxResults: S.optional(S.Number),
         }).pipe(
           T.all(
-            T.Http({ method: "GET", uri: "/datasets/{datasetId}/versions" }),
+            T.Http({ method: "POST", uri: "/datasets/{datasetId}/versions/list" }),
             svc,
             auth,
             proto,
@@ -13122,18 +13651,19 @@ function __c36(j: number): any {
         S.Struct({
           datasetVersion: S.String,
           exampleCount: S.Number,
+          exampleCountByField: S.optional(__S(7616, __c238, 0)),
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
         }),
       ).annotate({ identifier: "DatasetVersionSummary" });
     case 2:
-      return S.Array(__S(1153, __c36, 1));
+      return S.Array(__S(1249, __c39, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ versions: __S(1154, __c36, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ versions: __S(1250, __c39, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListDatasetVersionsResponse" });
   }
 }
-function __c37(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13162,14 +13692,14 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "EvaluatorSummary" });
     case 2:
-      return S.Array(__S(1185, __c37, 1));
+      return S.Array(__S(1281, __c40, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ evaluators: __S(1186, __c37, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ evaluators: __S(1282, __c40, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListEvaluatorsResponse" });
   }
 }
-function __c38(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13190,11 +13720,11 @@ function __c38(j: number): any {
       ).annotate({ identifier: "ListGatewayRateLimitsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ rateLimits: __S(2816, __c88, 0), nextToken: S.optional(S.String) }),
+        S.Struct({ rateLimits: __S(2848, __c89, 0), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListGatewayRateLimitsResponse" });
   }
 }
-function __c39(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13214,14 +13744,14 @@ function __c39(j: number): any {
         ),
       ).annotate({ identifier: "ListGatewayRulesRequest" });
     case 1:
-      return S.Array(__S(7552, __c236, 0));
+      return S.Array(__S(7776, __c243, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ gatewayRules: __S(1249, __c39, 1), nextToken: S.optional(S.String) }),
+        S.Struct({ gatewayRules: __S(1345, __c42, 1), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListGatewayRulesResponse" });
   }
 }
-function __c40(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13244,14 +13774,14 @@ function __c40(j: number): any {
         }),
       ).annotate({ identifier: "GatewaySummary" });
     case 2:
-      return S.Array(__S(1281, __c40, 1));
+      return S.Array(__S(1377, __c43, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: __S(1282, __c40, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(1378, __c43, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListGatewaysResponse" });
   }
 }
-function __c41(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13281,20 +13811,20 @@ function __c41(j: number): any {
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           resourcePriority: S.optional(S.Number),
           lastSynchronizedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          authorizationData: S.optional(__S(4769, __c149, 1)),
+          authorizationData: S.optional(__S(4897, __c153, 1)),
           targetType: S.optional(S.String),
           listingMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "TargetSummary" });
     case 2:
-      return S.Array(__S(1313, __c41, 1));
+      return S.Array(__S(1409, __c44, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: __S(1314, __c41, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(1410, __c44, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListGatewayTargetsResponse" });
   }
 }
-function __c42(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13314,14 +13844,14 @@ function __c42(j: number): any {
         ),
       ).annotate({ identifier: "ListHarnessEndpointsRequest" });
     case 1:
-      return S.Array(__S(5088, __c159, 0));
+      return S.Array(__S(5216, __c163, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ endpoints: __S(1345, __c42, 1), nextToken: S.optional(S.String) }),
+        S.Struct({ endpoints: __S(1441, __c45, 1), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListHarnessEndpointsResponse" });
   }
 }
-function __c43(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13343,14 +13873,14 @@ function __c43(j: number): any {
         }),
       ).annotate({ identifier: "HarnessSummary" });
     case 2:
-      return S.Array(__S(1377, __c43, 1));
+      return S.Array(__S(1473, __c46, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ harnesses: __S(1378, __c43, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ harnesses: __S(1474, __c46, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListHarnessesResponse" });
   }
 }
-function __c44(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13383,14 +13913,14 @@ function __c44(j: number): any {
         }),
       ).annotate({ identifier: "HarnessVersionSummary" });
     case 2:
-      return S.Array(__S(1409, __c44, 1));
+      return S.Array(__S(1505, __c47, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ harnessVersions: __S(1410, __c44, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ harnessVersions: __S(1506, __c47, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListHarnessVersionsResponse" });
   }
 }
-function __c45(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13410,14 +13940,14 @@ function __c45(j: number): any {
         }),
       ).annotate({ identifier: "MemorySummary" });
     case 2:
-      return S.Array(__S(1441, __c45, 1));
+      return S.Array(__S(1537, __c48, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ memories: __S(1442, __c45, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ memories: __S(1538, __c48, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListMemoriesOutput" });
   }
 }
-function __c46(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13434,7 +13964,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "ListOauth2CredentialProvidersRequest" });
   }
 }
-function __c47(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13447,14 +13977,14 @@ function __c47(j: number): any {
         }),
       ).annotate({ identifier: "Oauth2CredentialProviderItem" });
     case 1:
-      return S.Array(__S(1504, __c47, 0));
+      return S.Array(__S(1600, __c50, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ credentialProviders: __S(1505, __c47, 1), nextToken: S.optional(S.String) }),
+        S.Struct({ credentialProviders: __S(1601, __c50, 1), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListOauth2CredentialProvidersResponse" });
   }
 }
-function __c48(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13484,19 +14014,19 @@ function __c48(j: number): any {
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           failureReason: S.optional(S.String),
-          insights: S.optional(__S(5409, __c169, 1)),
-          clusteringConfig: S.optional(__S(5410, __c169, 2)),
+          insights: S.optional(__S(5537, __c173, 1)),
+          clusteringConfig: S.optional(__S(5538, __c173, 2)),
         }),
       ).annotate({ identifier: "OnlineEvaluationConfigSummary" });
     case 2:
-      return S.Array(__S(1537, __c48, 1));
+      return S.Array(__S(1633, __c51, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ onlineEvaluationConfigs: __S(1538, __c48, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ onlineEvaluationConfigs: __S(1634, __c51, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListOnlineEvaluationConfigsResponse" });
   }
 }
-function __c49(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13530,14 +14060,14 @@ function __c49(j: number): any {
         }),
       ).annotate({ identifier: "PaymentConnectorSummary" });
     case 2:
-      return S.Array(__S(1569, __c49, 1));
+      return S.Array(__S(1665, __c52, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ paymentConnectors: __S(1570, __c49, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ paymentConnectors: __S(1666, __c52, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListPaymentConnectorsResponse" });
   }
 }
-function __c50(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13554,7 +14084,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "ListPaymentCredentialProvidersRequest" });
   }
 }
-function __c51(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13588,14 +14118,14 @@ function __c51(j: number): any {
         }),
       ).annotate({ identifier: "PaymentManagerSummary" });
     case 2:
-      return S.Array(__S(1633, __c51, 1));
+      return S.Array(__S(1729, __c54, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ paymentManagers: __S(1634, __c51, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ paymentManagers: __S(1730, __c54, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListPaymentManagersResponse" });
   }
 }
-function __c52(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13616,14 +14146,14 @@ function __c52(j: number): any {
         ),
       ).annotate({ identifier: "ListPoliciesRequest" });
     case 1:
-      return S.Array(__S(5728, __c179, 0));
+      return S.Array(__S(5856, __c183, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ policies: __S(1665, __c52, 1), nextToken: S.optional(S.String) }),
+        S.Struct({ policies: __S(1761, __c55, 1), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListPoliciesResponse" });
   }
 }
-function __c53(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13635,14 +14165,14 @@ function __c53(j: number): any {
         ),
       ).annotate({ identifier: "ListPolicyEnginesRequest" });
     case 1:
-      return S.Array(__S(5792, __c181, 0));
+      return S.Array(__S(5920, __c185, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ policyEngines: __S(1697, __c53, 1), nextToken: S.optional(S.String) }),
+        S.Struct({ policyEngines: __S(1793, __c56, 1), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListPolicyEnginesResponse" });
   }
 }
-function __c54(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13661,14 +14191,14 @@ function __c54(j: number): any {
         ),
       ).annotate({ identifier: "ListPolicyEngineSummariesRequest" });
     case 1:
-      return S.Array(__S(128, __c4, 0));
+      return S.Array(__S(160, __c5, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ policyEngines: __S(1729, __c54, 1), nextToken: S.optional(S.String) }),
+        S.Struct({ policyEngines: __S(1825, __c57, 1), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListPolicyEngineSummariesResponse" });
   }
 }
-function __c55(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13696,28 +14226,28 @@ function __c55(j: number): any {
         S.Struct({ type: S.optional(S.String), description: S.optional(S.String) }),
       ).annotate({ identifier: "Finding" });
     case 2:
-      return S.Array(__S(1761, __c55, 1));
+      return S.Array(__S(1857, __c58, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           policyGenerationAssetId: S.String,
-          definition: S.optional(__S(5698, __c178, 2)),
+          definition: S.optional(__S(5826, __c182, 2)),
           rawTextFragment: S.String,
-          findings: __S(1762, __c55, 2),
+          findings: __S(1858, __c58, 2),
         }),
       ).annotate({ identifier: "PolicyGenerationAsset" });
     case 4:
-      return S.Array(__S(1763, __c55, 3));
+      return S.Array(__S(1859, __c58, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          policyGenerationAssets: S.optional(__S(1764, __c55, 4)),
+          policyGenerationAssets: S.optional(__S(1860, __c58, 4)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListPolicyGenerationAssetsResponse" });
   }
 }
-function __c56(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13737,14 +14267,14 @@ function __c56(j: number): any {
         ),
       ).annotate({ identifier: "ListPolicyGenerationsRequest" });
     case 1:
-      return S.Array(__S(224, __c7, 0));
+      return S.Array(__S(256, __c8, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ policyGenerations: __S(1793, __c56, 1), nextToken: S.optional(S.String) }),
+        S.Struct({ policyGenerations: __S(1889, __c59, 1), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListPolicyGenerationsResponse" });
   }
 }
-function __c57(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13767,14 +14297,14 @@ function __c57(j: number): any {
         ),
       ).annotate({ identifier: "ListPolicyGenerationSummariesRequest" });
     case 1:
-      return S.Array(__S(288, __c9, 0));
+      return S.Array(__S(320, __c10, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ policyGenerations: __S(1825, __c57, 1), nextToken: S.optional(S.String) }),
+        S.Struct({ policyGenerations: __S(1921, __c60, 1), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListPolicyGenerationSummariesResponse" });
   }
 }
-function __c58(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13795,14 +14325,24 @@ function __c58(j: number): any {
         ),
       ).annotate({ identifier: "ListPolicySummariesRequest" });
     case 1:
-      return S.Array(__S(352, __c11, 0));
+      return S.Array(__S(384, __c12, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ policies: __S(1857, __c58, 1), nextToken: S.optional(S.String) }),
+        S.Struct({ policies: __S(1953, __c61, 1), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListPolicySummariesResponse" });
   }
 }
-function __c59(j: number): any {
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ name: S.String, message: S.String })).annotate({
+        identifier: "ValidationExceptionField",
+      });
+    case 1:
+      return S.Array(__S(1984, __c62, 0));
+  }
+}
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13828,14 +14368,14 @@ function __c59(j: number): any {
         }),
       ).annotate({ identifier: "RegistrySummary" });
     case 2:
-      return S.Array(__S(1889, __c59, 1));
+      return S.Array(__S(2017, __c63, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ registries: __S(1890, __c59, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ registries: __S(2018, __c63, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListRegistriesResponse" });
   }
 }
-function __c60(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13873,24 +14413,14 @@ function __c60(j: number): any {
         }),
       ).annotate({ identifier: "RegistryRecordSummary" });
     case 2:
-      return S.Array(__S(1921, __c60, 1));
+      return S.Array(__S(2049, __c64, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ registryRecords: __S(1922, __c60, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ registryRecords: __S(2050, __c64, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListRegistryRecordsResponse" });
   }
 }
-function __c61(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ name: S.String, message: S.String })).annotate({
-        identifier: "ValidationExceptionField",
-      });
-    case 1:
-      return S.Array(__S(1952, __c61, 0));
-  }
-}
-function __c62(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13906,12 +14436,12 @@ function __c62(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ tags: S.optional(__S(2848, __c89, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(2880, __c90, 0)) })).annotate({
         identifier: "ListTagsForResourceResponse",
       });
   }
 }
-function __c63(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13931,14 +14461,14 @@ function __c63(j: number): any {
         identifier: "WorkloadIdentityType",
       });
     case 2:
-      return S.Array(__S(2017, __c63, 1));
+      return S.Array(__S(2113, __c66, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ workloadIdentities: __S(2018, __c63, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ workloadIdentities: __S(2114, __c66, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListWorkloadIdentitiesResponse" });
   }
 }
-function __c64(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13959,7 +14489,7 @@ function __c64(j: number): any {
       });
   }
 }
-function __c65(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13976,20 +14506,20 @@ function __c65(j: number): any {
       ).annotate({ identifier: "ResetTokenVaultKeyMaterialRequest" });
   }
 }
-function __c66(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ secrets: __S(4512, __c141, 0) })).annotate({
+      return S.suspend(() => S.Struct({ secrets: __S(4640, __c145, 0) })).annotate({
         identifier: "CoinbaseCdpRotationTargets",
       });
     case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ coinbaseCDP: __S(2112, __c66, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ coinbaseCDP: __S(2208, __c69, 0) })]);
     case 2:
       return S.suspend(() =>
         S.Struct({
           paymentManagerId: S.String.pipe(T.HttpLabel("paymentManagerId")),
           paymentConnectorId: S.String.pipe(T.HttpLabel("paymentConnectorId")),
-          credentialsToRotate: __S(2113, __c66, 1),
+          credentialsToRotate: __S(2209, __c69, 1),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -14016,11 +14546,11 @@ function __c66(j: number): any {
       ).annotate({ identifier: "RotatePaymentConnectorCredentialsResponse" });
   }
 }
-function __c67(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ tokenVaultId: S.optional(S.String), kmsConfiguration: __S(576, __c18, 0) }).pipe(
+        S.Struct({ tokenVaultId: S.optional(S.String), kmsConfiguration: __S(608, __c19, 0) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/identities/set-token-vault-cmk" }),
             svc,
@@ -14033,7 +14563,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "SetTokenVaultCMKRequest" });
   }
 }
-function __c68(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.Union([/*@__PURE__*/ S.Struct({ rawText: S.String })]);
@@ -14041,8 +14571,8 @@ function __c68(j: number): any {
       return S.suspend(() =>
         S.Struct({
           policyEngineId: S.String.pipe(T.HttpLabel("policyEngineId")),
-          resource: __S(192, __c6, 0),
-          content: __S(2176, __c68, 0),
+          resource: __S(224, __c7, 0),
+          content: __S(2272, __c71, 0),
           name: S.String,
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
@@ -14058,7 +14588,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "StartPolicyGenerationRequest" });
   }
 }
-function __c69(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14091,60 +14621,14 @@ function __c69(j: number): any {
       ).annotate({ identifier: "SubmitRegistryRecordForApprovalResponse" });
   }
 }
-function __c70(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          gatewayIdentifier: S.String.pipe(T.HttpLabel("gatewayIdentifier")),
-          targetIdList: __S(2336, __c73, 0),
-        }).pipe(
-          T.all(
-            T.Http({ method: "PUT", uri: "/gateways/{gatewayIdentifier}/synchronizeTargets" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "SynchronizeGatewayTargetsRequest" });
-    case 1:
-      return S.Array(__S(4846, __c151, 14));
-    case 2:
-      return S.suspend(() => S.Struct({ targets: S.optional(__S(2241, __c70, 1)) })).annotate({
-        identifier: "SynchronizeGatewayTargetsResponse",
-      });
-  }
-}
-function __c71(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tags: __S(2848, __c89, 0),
-        }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "TagResourceRequest" });
-  }
-}
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           datasetId: S.String.pipe(T.HttpLabel("datasetId")),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          source: __S(2370, __c74, 2),
+          source: __S(2402, __c75, 2),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/datasets/{datasetId}/examples/add" }),
@@ -14164,45 +14648,91 @@ function __c72(j: number): any {
           status: S.String,
           addedCount: S.Number,
           updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          exampleIds: __S(2336, __c73, 0),
+          exampleIds: __S(2368, __c74, 0),
         }),
       ).annotate({ identifier: "AddDatasetExamplesResponse" });
-  }
-}
-function __c73(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
   }
 }
 function __c74(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ examples: __S(2400, __c75, 0) })).annotate({
+      return S.Array(S.String);
+  }
+}
+function __c75(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ examples: __S(2432, __c76, 0) })).annotate({
         identifier: "InlineExamplesSource",
       });
     case 1:
       return S.suspend(() => S.Struct({ s3Uri: S.String })).annotate({ identifier: "S3Source" });
     case 2:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ inlineExamples: __S(2368, __c74, 0) }),
-        /*@__PURE__*/ S.Struct({ s3Source: __S(2369, __c74, 1) }),
+        /*@__PURE__*/ S.Struct({ inlineExamples: __S(2400, __c75, 0) }),
+        /*@__PURE__*/ S.Struct({ s3Source: __S(2401, __c75, 1) }),
       ]);
-  }
-}
-function __c75(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Any);
   }
 }
 function __c76(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.Any);
+  }
+}
+function __c77(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayIdentifier: S.String.pipe(T.HttpLabel("gatewayIdentifier")),
+          targetIdList: __S(2368, __c74, 0),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PUT", uri: "/gateways/{gatewayIdentifier}/synchronizeTargets" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "SynchronizeGatewayTargetsRequest" });
+    case 1:
+      return S.Array(__S(4974, __c155, 14));
+    case 2:
+      return S.suspend(() => S.Struct({ targets: S.optional(__S(2465, __c77, 1)) })).annotate({
+        identifier: "SynchronizeGatewayTargetsResponse",
+      });
+  }
+}
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tagKeys: __S(2336, __c73, 0).pipe(T.HttpQuery("tagKeys")),
+          tags: __S(2880, __c90, 0),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+          tagKeys: __S(2368, __c74, 0).pipe(T.HttpQuery("tagKeys")),
         }).pipe(
           T.all(
             T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
@@ -14216,28 +14746,61 @@ function __c76(j: number): any {
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c77(j: number): any {
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          agentInsightStoreId: S.String.pipe(T.HttpLabel("agentInsightStoreId")),
+          enablementStatus: S.optional(S.String),
+          encryptionConfiguration: S.optional(__S(7104, __c222, 0)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PUT", uri: "/agent-insight-stores/{agentInsightStoreId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateAgentInsightStoreRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          agentInsightStoreArn: S.String,
+          agentInsightStoreId: S.String,
+          status: S.String,
+          enablementStatus: S.String,
+          updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          failureReason: S.optional(SensitiveString),
+        }),
+      ).annotate({ identifier: "UpdateAgentInsightStoreResponse" });
+  }
+}
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           agentRuntimeId: S.String.pipe(T.HttpLabel("agentRuntimeId")),
-          agentRuntimeArtifact: __S(3553, __c111, 1),
+          agentRuntimeArtifact: __S(3585, __c112, 1),
           roleArn: S.String,
-          networkConfiguration: S.optional(__S(3521, __c110, 1)),
+          networkConfiguration: S.optional(__S(3553, __c111, 1)),
           description: S.optional(SensitiveString),
-          authorizerConfiguration: S.optional(__S(3464, __c108, 8)),
-          requestHeaderConfiguration: S.optional(__S(3554, __c111, 2)),
-          protocolConfiguration: S.optional(__S(3555, __c111, 3)),
-          lifecycleConfiguration: S.optional(__S(3522, __c110, 2)),
-          hooksConfiguration: S.optional(__S(3560, __c111, 8)),
-          metadataConfiguration: S.optional(__S(6976, __c218, 0)),
-          environmentVariables: S.optional(__S(2848, __c89, 0)),
-          filesystemConfigurations: S.optional(__S(3527, __c110, 7)),
-          capacityProviderConfiguration: S.optional(__S(3561, __c111, 9)),
+          authorizerConfiguration: S.optional(__S(3496, __c109, 8)),
+          requestHeaderConfiguration: S.optional(__S(3586, __c112, 2)),
+          protocolConfiguration: S.optional(__S(3587, __c112, 3)),
+          lifecycleConfiguration: S.optional(__S(3554, __c111, 2)),
+          hooksConfiguration: S.optional(__S(3592, __c112, 8)),
+          metadataConfiguration: S.optional(__S(7168, __c224, 0)),
+          environmentVariables: S.optional(__S(2880, __c90, 0)),
+          filesystemConfigurations: S.optional(__S(3560, __c111, 8)),
+          capacityProviderConfiguration: S.optional(__S(3595, __c112, 11)),
           platformVersion: S.optional(S.String),
-          allowedPorts: S.optional(__S(3564, __c111, 12)),
-          resourceConfigurations: S.optional(__S(3566, __c111, 14)),
+          allowedPorts: S.optional(__S(3598, __c112, 14)),
+          resourceConfigurations: S.optional(__S(3600, __c112, 16)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -14255,7 +14818,7 @@ function __c77(j: number): any {
         S.Struct({
           agentRuntimeArn: S.String,
           agentRuntimeId: S.String,
-          workloadIdentityDetails: S.optional(__S(3488, __c109, 0)),
+          workloadIdentityDetails: S.optional(__S(3520, __c110, 0)),
           agentRuntimeVersion: S.String,
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
@@ -14264,7 +14827,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "UpdateAgentRuntimeResponse" });
   }
 }
-function __c78(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14302,14 +14865,14 @@ function __c78(j: number): any {
       ).annotate({ identifier: "UpdateAgentRuntimeEndpointResponse" });
   }
 }
-function __c79(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           apiKey: S.optional(SensitiveString),
-          apiKeySecretConfig: S.optional(__S(3904, __c122, 0)),
+          apiKeySecretConfig: S.optional(__S(4032, __c126, 0)),
           apiKeySecretSource: S.optional(S.String),
         }).pipe(
           T.all(
@@ -14324,13 +14887,13 @@ function __c79(j: number): any {
       ).annotate({ identifier: "UpdateApiKeyCredentialProviderRequest" });
   }
 }
-function __c80(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           capacityProviderId: S.String.pipe(T.HttpLabel("capacityProviderId")),
-          description: S.optional(__S(2592, __c81, 0)),
+          description: S.optional(__S(2720, __c85, 0)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -14356,7 +14919,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "UpdateCapacityProviderOutput" });
   }
 }
-function __c81(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ optionalValue: S.optional(SensitiveString) })).annotate({
@@ -14364,7 +14927,7 @@ function __c81(j: number): any {
       });
   }
 }
-function __c82(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14373,11 +14936,11 @@ function __c82(j: number): any {
           bundleId: S.String.pipe(T.HttpLabel("bundleId")),
           bundleName: S.optional(S.String),
           description: S.optional(SensitiveString),
-          components: S.optional(__S(4225, __c132, 1)),
-          parentVersionIds: __S(2336, __c73, 0),
+          components: S.optional(__S(4353, __c136, 1)),
+          parentVersionIds: __S(2368, __c74, 0),
           branchName: S.optional(S.String),
           commitMessage: S.String,
-          createdBy: S.optional(__S(4192, __c131, 0)),
+          createdBy: S.optional(__S(4320, __c135, 0)),
           kmsKeyArn: S.optional(S.String),
         }).pipe(
           T.all(
@@ -14401,14 +14964,14 @@ function __c82(j: number): any {
       ).annotate({ identifier: "UpdateConfigurationBundleResponse" });
   }
 }
-function __c83(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           consentPortalIdentifier: S.String,
           executionRoleArn: S.optional(S.String),
-          idpConfig: S.optional(__S(4320, __c135, 0)),
+          idpConfig: S.optional(__S(4448, __c139, 0)),
           description: S.optional(S.String),
         }).pipe(
           T.all(
@@ -14423,7 +14986,89 @@ function __c83(j: number): any {
       ).annotate({ identifier: "UpdateConsentPortalRequest" });
   }
 }
-function __c84(j: number): any {
+function __c88(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          rateLimitId: S.optional(S.String),
+          description: S.optional(S.String),
+          dimensionKeys: __S(2368, __c74, 0),
+          entries: __S(2915, __c91, 3),
+        }),
+      ).annotate({ identifier: "BatchPutLimitEntry" });
+    case 1:
+      return S.Array(__S(2816, __c88, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayIdentifier: S.String.pipe(T.HttpLabel("gatewayIdentifier")),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          rateLimits: __S(2817, __c88, 1),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PUT", uri: "/gateways/{gatewayIdentifier}/rate-limits/batch" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "BatchPutGatewayRateLimitsRequest" });
+    case 3:
+      return S.suspend(() => S.Struct({ rateLimits: __S(2848, __c89, 0) })).annotate({
+        identifier: "BatchPutGatewayRateLimitsResponse",
+      });
+  }
+}
+function __c89(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(2916, __c91, 4));
+  }
+}
+function __c90(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+  }
+}
+function __c91(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ rate: S.Number, period: S.String })).annotate({
+        identifier: "RateConfig",
+      });
+    case 1:
+      return S.Array(__S(2912, __c91, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          dimensions: __S(2880, __c90, 0),
+          requests: S.optional(__S(2913, __c91, 1)),
+          tokens: S.optional(__S(2913, __c91, 1)),
+          connections: S.optional(__S(2913, __c91, 1)),
+        }),
+      ).annotate({ identifier: "LimitEntry" });
+    case 3:
+      return S.Array(__S(2914, __c91, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          rateLimitId: S.String,
+          gatewayIdentifier: S.String,
+          description: S.optional(S.String),
+          dimensionKeys: __S(2368, __c74, 0),
+          entries: __S(2915, __c91, 3),
+          status: S.String,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+        }),
+      ).annotate({ identifier: "GatewayRateLimitDetail" });
+  }
+}
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14452,14 +15097,14 @@ function __c84(j: number): any {
       ).annotate({ identifier: "UpdateDatasetResponse" });
   }
 }
-function __c85(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           datasetId: S.String.pipe(T.HttpLabel("datasetId")),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          examples: __S(2400, __c75, 0),
+          examples: __S(2432, __c76, 0),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/datasets/{datasetId}/examples/update" }),
@@ -14483,7 +15128,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "UpdateDatasetExamplesResponse" });
   }
 }
-function __c86(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14491,7 +15136,7 @@ function __c86(j: number): any {
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           evaluatorId: S.String.pipe(T.HttpLabel("evaluatorId")),
           description: S.optional(SensitiveString),
-          evaluatorConfig: S.optional(__S(4465, __c139, 17)),
+          evaluatorConfig: S.optional(__S(4593, __c143, 17)),
           level: S.optional(S.String),
           kmsKeyArn: S.optional(S.String),
         }).pipe(
@@ -14516,89 +15161,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "UpdateEvaluatorResponse" });
   }
 }
-function __c87(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          rateLimitId: S.optional(S.String),
-          description: S.optional(S.String),
-          dimensionKeys: __S(2336, __c73, 0),
-          entries: __S(2883, __c90, 3),
-        }),
-      ).annotate({ identifier: "BatchPutLimitEntry" });
-    case 1:
-      return S.Array(__S(2784, __c87, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          gatewayIdentifier: S.String.pipe(T.HttpLabel("gatewayIdentifier")),
-          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          rateLimits: __S(2785, __c87, 1),
-        }).pipe(
-          T.all(
-            T.Http({ method: "PUT", uri: "/gateways/{gatewayIdentifier}/rate-limits/batch" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "BatchPutGatewayRateLimitsRequest" });
-    case 3:
-      return S.suspend(() => S.Struct({ rateLimits: __S(2816, __c88, 0) })).annotate({
-        identifier: "BatchPutGatewayRateLimitsResponse",
-      });
-  }
-}
-function __c88(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(2884, __c90, 4));
-  }
-}
-function __c89(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
-  }
-}
-function __c90(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ rate: S.Number, period: S.String })).annotate({
-        identifier: "RateConfig",
-      });
-    case 1:
-      return S.Array(__S(2880, __c90, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          dimensions: __S(2848, __c89, 0),
-          requests: S.optional(__S(2881, __c90, 1)),
-          tokens: S.optional(__S(2881, __c90, 1)),
-          connections: S.optional(__S(2881, __c90, 1)),
-        }),
-      ).annotate({ identifier: "LimitEntry" });
-    case 3:
-      return S.Array(__S(2882, __c90, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          rateLimitId: S.String,
-          gatewayIdentifier: S.String,
-          description: S.optional(S.String),
-          dimensionKeys: __S(2336, __c73, 0),
-          entries: __S(2883, __c90, 3),
-          status: S.String,
-          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-          updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-        }),
-      ).annotate({ identifier: "GatewayRateLimitDetail" });
-  }
-}
-function __c91(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14608,16 +15171,16 @@ function __c91(j: number): any {
           description: S.optional(SensitiveString),
           roleArn: S.String,
           protocolType: S.optional(S.String),
-          protocolConfiguration: S.optional(__S(4547, __c142, 3)),
+          protocolConfiguration: S.optional(__S(4675, __c146, 3)),
           authorizerType: S.String,
-          authorizerConfiguration: S.optional(__S(3464, __c108, 8)),
+          authorizerConfiguration: S.optional(__S(3496, __c109, 8)),
           kmsKeyArn: S.optional(S.String),
-          customTransformConfiguration: S.optional(__S(4558, __c142, 14)),
-          interceptorConfigurations: S.optional(__S(4554, __c142, 10)),
-          policyEngineConfiguration: S.optional(__S(4555, __c142, 11)),
+          customTransformConfiguration: S.optional(__S(4686, __c146, 14)),
+          interceptorConfigurations: S.optional(__S(4682, __c146, 10)),
+          policyEngineConfiguration: S.optional(__S(4683, __c146, 11)),
           exceptionLevel: S.optional(S.String),
-          wafConfiguration: S.optional(__S(4559, __c142, 15)),
-          domainOverride: S.optional(__S(4556, __c142, 12)),
+          wafConfiguration: S.optional(__S(4687, __c146, 15)),
+          domainOverride: S.optional(__S(4684, __c146, 12)),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/gateways/{gatewayIdentifier}/" }),
@@ -14631,7 +15194,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "UpdateGatewayRequest" });
   }
 }
-function __c92(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14639,7 +15202,7 @@ function __c92(j: number): any {
           gatewayIdentifier: S.String.pipe(T.HttpLabel("gatewayIdentifier")),
           rateLimitId: S.String.pipe(T.HttpLabel("rateLimitId")),
           description: S.optional(S.String),
-          entries: __S(2883, __c90, 3),
+          entries: __S(2915, __c91, 3),
         }).pipe(
           T.all(
             T.Http({
@@ -14656,7 +15219,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "UpdateGatewayRateLimitRequest" });
   }
 }
-function __c93(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14664,8 +15227,8 @@ function __c93(j: number): any {
           gatewayIdentifier: S.String.pipe(T.HttpLabel("gatewayIdentifier")),
           ruleId: S.String.pipe(T.HttpLabel("ruleId")),
           priority: S.optional(S.Number),
-          conditions: S.optional(__S(4649, __c145, 9)),
-          actions: S.optional(__S(4666, __c145, 26)),
+          conditions: S.optional(__S(4777, __c149, 9)),
+          actions: S.optional(__S(4794, __c149, 26)),
           description: S.optional(S.String),
         }).pipe(
           T.all(
@@ -14680,7 +15243,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "UpdateGatewayRuleRequest" });
   }
 }
-function __c94(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14689,11 +15252,11 @@ function __c94(j: number): any {
           targetId: S.String.pipe(T.HttpLabel("targetId")),
           name: S.optional(SensitiveString),
           description: S.optional(SensitiveString),
-          targetConfiguration: __S(4838, __c151, 6),
-          credentialProviderConfigurations: S.optional(__S(4842, __c151, 10)),
-          metadataConfiguration: S.optional(__S(4843, __c151, 11)),
-          privateEndpoint: S.optional(__S(3394, __c106, 2)),
-          certificateConfigurations: S.optional(__S(3397, __c106, 5)),
+          targetConfiguration: __S(4966, __c155, 6),
+          credentialProviderConfigurations: S.optional(__S(4970, __c155, 10)),
+          metadataConfiguration: S.optional(__S(4971, __c155, 11)),
+          privateEndpoint: S.optional(__S(3426, __c107, 2)),
+          certificateConfigurations: S.optional(__S(3429, __c107, 5)),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/gateways/{gatewayIdentifier}/targets/{targetId}/" }),
@@ -14707,15 +15270,15 @@ function __c94(j: number): any {
       ).annotate({ identifier: "UpdateGatewayTargetRequest" });
   }
 }
-function __c95(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ optionalValue: S.optional(__S(4960, __c155, 0)) }),
+        S.Struct({ optionalValue: S.optional(__S(5088, __c159, 0)) }),
       ).annotate({ identifier: "UpdatedHarnessEnvironmentArtifact" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ optionalValue: S.optional(__S(4988, __c155, 28)) }),
+        S.Struct({ optionalValue: S.optional(__S(5116, __c159, 28)) }),
       ).annotate({ identifier: "UpdatedHarnessMemoryConfiguration" });
     case 2:
       return S.suspend(() =>
@@ -14723,18 +15286,18 @@ function __c95(j: number): any {
           harnessId: S.String.pipe(T.HttpLabel("harnessId")),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           executionRoleArn: S.optional(S.String),
-          environment: S.optional(__S(4897, __c153, 1)),
-          environmentArtifact: S.optional(__S(3040, __c95, 0)),
-          environmentVariables: S.optional(__S(2848, __c89, 0)),
-          authorizerConfiguration: S.optional(__S(3072, __c96, 0)),
-          model: S.optional(__S(4965, __c155, 5)),
-          systemPrompt: S.optional(__S(4967, __c155, 7)),
-          tools: S.optional(__S(4977, __c155, 17)),
-          skills: S.optional(__S(4983, __c155, 23)),
-          allowedTools: S.optional(__S(2336, __c73, 0)),
-          memory: S.optional(__S(3041, __c95, 1)),
-          truncation: S.optional(__S(4992, __c156, 0)),
-          hooks: S.optional(__S(4997, __c156, 5)),
+          environment: S.optional(__S(5025, __c157, 1)),
+          environmentArtifact: S.optional(__S(3168, __c99, 0)),
+          environmentVariables: S.optional(__S(2880, __c90, 0)),
+          authorizerConfiguration: S.optional(__S(3200, __c100, 0)),
+          model: S.optional(__S(5093, __c159, 5)),
+          systemPrompt: S.optional(__S(5095, __c159, 7)),
+          tools: S.optional(__S(5105, __c159, 17)),
+          skills: S.optional(__S(5111, __c159, 23)),
+          allowedTools: S.optional(__S(2368, __c74, 0)),
+          memory: S.optional(__S(3169, __c99, 1)),
+          truncation: S.optional(__S(5120, __c160, 0)),
+          hooks: S.optional(__S(5125, __c160, 5)),
           maxIterations: S.optional(S.Number),
           maxTokens: S.optional(S.Number),
           timeoutSeconds: S.optional(S.Number),
@@ -14751,15 +15314,15 @@ function __c95(j: number): any {
       ).annotate({ identifier: "UpdateHarnessRequest" });
   }
 }
-function __c96(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ optionalValue: S.optional(__S(3464, __c108, 8)) }),
+        S.Struct({ optionalValue: S.optional(__S(3496, __c109, 8)) }),
       ).annotate({ identifier: "UpdatedAuthorizerConfiguration" });
   }
 }
-function __c97(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14782,12 +15345,12 @@ function __c97(j: number): any {
       ).annotate({ identifier: "UpdateHarnessEndpointRequest" });
   }
 }
-function __c98(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ episodicReflectionConfiguration: __S(5233, __c163, 17) }),
-        /*@__PURE__*/ S.Struct({ customReflectionConfiguration: __S(5249, __c164, 1) }),
+        /*@__PURE__*/ S.Struct({ episodicReflectionConfiguration: __S(5361, __c167, 17) }),
+        /*@__PURE__*/ S.Struct({ customReflectionConfiguration: __S(5377, __c168, 1) }),
       ]);
     case 1:
       return S.suspend(() =>
@@ -14799,18 +15362,18 @@ function __c98(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          triggerConditions: S.optional(__S(5231, __c163, 15)),
-          invocationConfiguration: S.optional(__S(3137, __c98, 1)),
+          triggerConditions: S.optional(__S(5359, __c167, 15)),
+          invocationConfiguration: S.optional(__S(3265, __c102, 1)),
           historicalContextWindowSize: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ModifySelfManagedConfiguration" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          extraction: S.optional(__S(5246, __c163, 30)),
-          consolidation: S.optional(__S(5248, __c164, 0)),
-          reflection: S.optional(__S(3136, __c98, 0)),
-          selfManagedConfiguration: S.optional(__S(3138, __c98, 2)),
+          extraction: S.optional(__S(5374, __c167, 30)),
+          consolidation: S.optional(__S(5376, __c168, 0)),
+          reflection: S.optional(__S(3264, __c102, 0)),
+          selfManagedConfiguration: S.optional(__S(3266, __c102, 2)),
         }),
       ).annotate({ identifier: "ModifyStrategyConfiguration" });
     case 4:
@@ -14818,27 +15381,27 @@ function __c98(j: number): any {
         S.Struct({
           memoryStrategyId: S.String,
           description: S.optional(SensitiveString),
-          namespaces: S.optional(__S(2336, __c73, 0)),
-          namespaceTemplates: S.optional(__S(2336, __c73, 0)),
-          configuration: S.optional(__S(3139, __c98, 3)),
-          memoryRecordSchema: S.optional(__S(5224, __c163, 8)),
-          recordExpirySpecification: S.optional(__S(5184, __c162, 0)),
+          namespaces: S.optional(__S(2368, __c74, 0)),
+          namespaceTemplates: S.optional(__S(2368, __c74, 0)),
+          configuration: S.optional(__S(3267, __c102, 3)),
+          memoryRecordSchema: S.optional(__S(5352, __c167, 8)),
+          recordExpirySpecification: S.optional(__S(5312, __c166, 0)),
         }),
       ).annotate({ identifier: "ModifyMemoryStrategyInput" });
     case 5:
-      return S.Array(__S(3140, __c98, 4));
+      return S.Array(__S(3268, __c102, 4));
     case 6:
       return S.suspend(() => S.Struct({ memoryStrategyId: S.String })).annotate({
         identifier: "DeleteMemoryStrategyInput",
       });
     case 7:
-      return S.Array(__S(3142, __c98, 6));
+      return S.Array(__S(3270, __c102, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          addMemoryStrategies: S.optional(__S(5194, __c162, 10)),
-          modifyMemoryStrategies: S.optional(__S(3141, __c98, 5)),
-          deleteMemoryStrategies: S.optional(__S(3143, __c98, 7)),
+          addMemoryStrategies: S.optional(__S(5322, __c166, 10)),
+          modifyMemoryStrategies: S.optional(__S(3269, __c102, 5)),
+          deleteMemoryStrategies: S.optional(__S(3271, __c102, 7)),
         }),
       ).annotate({ identifier: "ModifyMemoryStrategies" });
     case 9:
@@ -14849,10 +15412,10 @@ function __c98(j: number): any {
           description: S.optional(SensitiveString),
           eventExpiryDuration: S.optional(S.Number),
           memoryExecutionRoleArn: S.optional(S.String),
-          memoryStrategies: S.optional(__S(3144, __c98, 8)),
-          addIndexedKeys: S.optional(__S(5235, __c163, 19)),
-          namespaceKeys: S.optional(__S(5238, __c163, 22)),
-          streamDeliveryResources: S.optional(__S(5244, __c163, 28)),
+          memoryStrategies: S.optional(__S(3272, __c102, 8)),
+          addIndexedKeys: S.optional(__S(5363, __c167, 19)),
+          namespaceKeys: S.optional(__S(5366, __c167, 22)),
+          streamDeliveryResources: S.optional(__S(5372, __c167, 28)),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/memories/{memoryId}/update" }),
@@ -14866,14 +15429,312 @@ function __c98(j: number): any {
       ).annotate({ identifier: "UpdateMemoryInput" });
   }
 }
-function __c99(j: number): any {
+function __c103(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          agentRuntimeName: S.String,
+          agentRuntimeArtifact: __S(3585, __c112, 1),
+          roleArn: S.String,
+          networkConfiguration: S.optional(__S(3553, __c111, 1)),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          description: S.optional(SensitiveString),
+          authorizerConfiguration: S.optional(__S(3496, __c109, 8)),
+          requestHeaderConfiguration: S.optional(__S(3586, __c112, 2)),
+          protocolConfiguration: S.optional(__S(3587, __c112, 3)),
+          lifecycleConfiguration: S.optional(__S(3554, __c111, 2)),
+          hooksConfiguration: S.optional(__S(3592, __c112, 8)),
+          environmentVariables: S.optional(__S(2880, __c90, 0)),
+          filesystemConfigurations: S.optional(__S(3560, __c111, 8)),
+          capacityProviderConfiguration: S.optional(__S(3595, __c112, 11)),
+          tags: S.optional(__S(2880, __c90, 0)),
+          platformVersion: S.optional(S.String),
+          allowedPorts: S.optional(__S(3598, __c112, 14)),
+          resourceConfigurations: S.optional(__S(3600, __c112, 16)),
+        }).pipe(T.all(T.Http({ method: "PUT", uri: "/runtimes/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateAgentRuntimeRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          agentRuntimeArn: S.String,
+          workloadIdentityDetails: S.optional(__S(3520, __c110, 0)),
+          agentRuntimeId: S.String,
+          agentRuntimeVersion: S.String,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          status: S.String,
+        }),
+      ).annotate({ identifier: "CreateAgentRuntimeResponse" });
+  }
+}
+function __c104(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ secretArn: S.String })).annotate({
+        identifier: "SecretsManagerCertificateConfiguration",
+      });
+  }
+}
+function __c105(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          securityGroups: __S(2368, __c74, 0),
+          subnets: __S(2368, __c74, 0),
+          requireServiceS3Endpoint: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "VpcConfig" });
+  }
+}
+function __c106(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ bucket: S.String, prefix: S.String, versionId: S.optional(S.String) }),
+      ).annotate({ identifier: "S3Location" });
+    case 1:
+      return S.Union([/*@__PURE__*/ S.Struct({ s3: __S(3392, __c106, 0) })]);
+  }
+}
+function __c107(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Union([/*@__PURE__*/ S.Struct({ resourceConfigurationIdentifier: S.String })]);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          vpcIdentifier: S.String,
+          subnetIds: __S(2368, __c74, 0),
+          endpointIpAddressType: S.String,
+          securityGroupIds: S.optional(__S(2368, __c74, 0)),
+          tags: S.optional(__S(2880, __c90, 0)),
+          routingDomain: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ManagedVpcResource" });
+    case 2:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ selfManagedLatticeResource: __S(3424, __c107, 0) }),
+        /*@__PURE__*/ S.Struct({ managedVpcResource: __S(3425, __c107, 1) }),
+      ]);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ uri: S.String, bucketOwnerAccountId: S.optional(S.String) }),
+      ).annotate({ identifier: "S3CertificateConfiguration" });
+    case 4:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ s3: __S(3427, __c107, 3) }),
+        /*@__PURE__*/ S.Struct({ secretsManager: __S(3328, __c104, 0) }),
+      ]);
+    case 5:
+      return S.Array(__S(3428, __c107, 4));
+  }
+}
+function __c108(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ domain: S.String, privateEndpoint: __S(3426, __c107, 2) }),
+      ).annotate({ identifier: "PrivateEndpointOverride" });
+    case 1:
+      return S.Array(__S(3456, __c108, 0));
+  }
+}
+function __c109(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ matchValueString: S.String }),
+        /*@__PURE__*/ S.Struct({ matchValueStringList: __S(2368, __c74, 0) }),
+      ]);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ claimMatchValue: __S(3488, __c109, 0), claimMatchOperator: S.String }),
+      ).annotate({ identifier: "AuthorizingClaimMatchValueType" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          inboundTokenClaimName: S.String,
+          inboundTokenClaimValueType: S.String,
+          authorizingClaimMatchValue: __S(3489, __c109, 1),
+        }),
+      ).annotate({ identifier: "CustomClaimValidationType" });
+    case 3:
+      return S.Array(__S(3490, __c109, 2));
+    case 4:
+      return S.suspend(() => S.Struct({ arn: S.String })).annotate({
+        identifier: "HostingEnvironment",
+      });
+    case 5:
+      return S.Array(__S(3492, __c109, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          hostingEnvironments: S.optional(__S(3493, __c109, 5)),
+          workloadIdentities: S.optional(__S(2368, __c74, 0)),
+        }),
+      ).annotate({ identifier: "AllowedWorkloadConfiguration" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          discoveryUrl: S.String,
+          allowedAudience: S.optional(__S(2368, __c74, 0)),
+          allowedClients: S.optional(__S(2368, __c74, 0)),
+          allowedScopes: S.optional(__S(2368, __c74, 0)),
+          advertisedScopeMapping: S.optional(__S(2880, __c90, 0)),
+          customClaims: S.optional(__S(3491, __c109, 3)),
+          privateEndpoint: S.optional(__S(3426, __c107, 2)),
+          privateEndpointOverrides: S.optional(__S(3457, __c108, 1)),
+          certificateConfigurations: S.optional(__S(3429, __c107, 5)),
+          allowedWorkloadConfiguration: S.optional(__S(3494, __c109, 6)),
+        }),
+      ).annotate({ identifier: "CustomJWTAuthorizerConfiguration" });
+    case 8:
+      return S.Union([/*@__PURE__*/ S.Struct({ customJWTAuthorizer: __S(3495, __c109, 7) })]);
+  }
+}
+function __c110(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ workloadIdentityArn: S.optional(S.String) })).annotate({
+        identifier: "WorkloadIdentityDetails",
+      });
+  }
+}
+function __c111(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ containerUri: S.String })).annotate({
+        identifier: "ContainerConfiguration",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ networkMode: S.String, networkModeConfig: S.optional(__S(3360, __c105, 0)) }),
+      ).annotate({ identifier: "NetworkConfiguration" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          idleRuntimeSessionTimeout: S.optional(S.Number),
+          maxLifetime: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "LifecycleConfiguration" });
+    case 3:
+      return S.suspend(() => S.Struct({ mountPath: S.String })).annotate({
+        identifier: "SessionStorageConfiguration",
+      });
+    case 4:
+      return S.suspend(() => S.Struct({ accessPointArn: S.String, mountPath: S.String })).annotate({
+        identifier: "S3FilesAccessPointConfiguration",
+      });
+    case 5:
+      return S.suspend(() => S.Struct({ volumeName: S.String, mountPath: S.String })).annotate({
+        identifier: "CapacityProviderVolumeConfiguration",
+      });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          bucket: S.String,
+          mountPath: S.String,
+          prefix: S.optional(S.String),
+          s3BucketOwner: S.optional(S.String),
+          s3BucketRegion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "S3BucketMountConfiguration" });
+    case 7:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ sessionStorage: __S(3555, __c111, 3) }),
+        /*@__PURE__*/ S.Struct({ s3FilesAccessPoint: __S(3556, __c111, 4) }),
+        /*@__PURE__*/ S.Struct({ efsAccessPoint: __S(3556, __c111, 4) }),
+        /*@__PURE__*/ S.Struct({ capacityProviderVolume: __S(3557, __c111, 5) }),
+        /*@__PURE__*/ S.Struct({ s3BucketMount: __S(3558, __c111, 6) }),
+      ]);
+    case 8:
+      return S.Array(__S(3559, __c111, 7));
+  }
+}
+function __c112(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: __S(3393, __c106, 1),
+          runtime: S.String,
+          entryPoint: __S(2368, __c74, 0),
+        }),
+      ).annotate({ identifier: "CodeConfiguration" });
+    case 1:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ containerConfiguration: __S(3552, __c111, 0) }),
+        /*@__PURE__*/ S.Struct({ codeConfiguration: __S(3584, __c112, 0) }),
+      ]);
+    case 2:
+      return S.Union([/*@__PURE__*/ S.Struct({ requestHeaderAllowlist: __S(2368, __c74, 0) })]);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          serverProtocol: S.String,
+          port: S.optional(S.Number),
+          path: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ProtocolConfiguration" });
+    case 4:
+      return S.suspend(() => S.Struct({ path: S.String, port: S.optional(S.Number) })).annotate({
+        identifier: "HttpPostLifecycleHookAction",
+      });
+    case 5:
+      return S.Union([/*@__PURE__*/ S.Struct({ httpPost: __S(3588, __c112, 4) })]);
+    case 6:
+      return S.suspend(() => S.Struct({ action: __S(3589, __c112, 5) })).annotate({
+        identifier: "LifecycleHook",
+      });
+    case 7:
+      return S.suspend(() => S.Struct({ warmup: S.optional(__S(3590, __c112, 6)) })).annotate({
+        identifier: "BuildLifecycleHooks",
+      });
+    case 8:
+      return S.suspend(() => S.Struct({ build: S.optional(__S(3591, __c112, 7)) })).annotate({
+        identifier: "RuntimeHooksConfiguration",
+      });
+    case 9:
+      return S.suspend(() => S.Struct({ privilegeMode: S.optional(S.String) })).annotate({
+        identifier: "LinuxOperatingSystemConfiguration",
+      });
+    case 10:
+      return S.Union([/*@__PURE__*/ S.Struct({ linux: __S(3593, __c112, 9) })]);
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          capacityProviderArn: S.optional(S.String),
+          operatingSystemConfiguration: S.optional(__S(3594, __c112, 10)),
+        }),
+      ).annotate({ identifier: "CapacityProviderConfiguration" });
+    case 12:
+      return S.suspend(() => S.Struct({ from: S.Number, to: S.Number })).annotate({
+        identifier: "PortRange",
+      });
+    case 13:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ port: S.Number }),
+        /*@__PURE__*/ S.Struct({ portRange: __S(3596, __c112, 12) }),
+      ]);
+    case 14:
+      return S.Array(__S(3597, __c112, 13));
+    case 15:
+      return S.suspend(() => S.Struct({ minimumMemoryInMiB: S.Number })).annotate({
+        identifier: "ResourceConfiguration",
+      });
+    case 16:
+      return S.Array(__S(3599, __c112, 15));
+  }
+}
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           credentialProviderVendor: S.String,
-          oauth2ProviderConfigInput: __S(5316, __c166, 4),
+          oauth2ProviderConfigInput: __S(5444, __c170, 4),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/identities/UpdateOauth2CredentialProvider" }),
@@ -14888,14 +15749,14 @@ function __c99(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          clientSecretArn: __S(3296, __c103, 0),
+          clientSecretArn: __S(3328, __c104, 0),
           clientSecretJsonKey: S.optional(S.String),
           clientSecretSource: S.optional(S.String),
           name: S.String,
           credentialProviderVendor: S.String,
           credentialProviderArn: S.String,
           callbackUrl: S.optional(S.String),
-          oauth2ProviderConfigOutput: __S(5354, __c167, 10),
+          oauth2ProviderConfigOutput: __S(5482, __c171, 10),
           createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           lastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           status: S.optional(S.String),
@@ -14903,7 +15764,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "UpdateOauth2CredentialProviderResponse" });
   }
 }
-function __c100(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14911,12 +15772,12 @@ function __c100(j: number): any {
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           onlineEvaluationConfigId: S.String.pipe(T.HttpLabel("onlineEvaluationConfigId")),
           description: S.optional(SensitiveString),
-          rule: S.optional(__S(5445, __c170, 5)),
-          dataSourceConfig: S.optional(__S(5447, __c170, 7)),
-          evaluators: S.optional(__S(5449, __c170, 9)),
-          insights: S.optional(__S(5409, __c169, 1)),
-          clusteringConfig: S.optional(__S(5410, __c169, 2)),
-          outputConfig: S.optional(__S(5451, __c170, 11)),
+          rule: S.optional(__S(5573, __c174, 5)),
+          dataSourceConfig: S.optional(__S(5575, __c174, 7)),
+          evaluators: S.optional(__S(5577, __c174, 9)),
+          insights: S.optional(__S(5537, __c173, 1)),
+          clusteringConfig: S.optional(__S(5538, __c173, 2)),
+          outputConfig: S.optional(__S(5579, __c174, 11)),
           evaluationExecutionRoleArn: S.optional(S.String),
           executionStatus: S.optional(S.String),
         }).pipe(
@@ -14943,7 +15804,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "UpdateOnlineEvaluationConfigResponse" });
   }
 }
-function __c101(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14952,7 +15813,7 @@ function __c101(j: number): any {
           paymentConnectorId: S.String.pipe(T.HttpLabel("paymentConnectorId")),
           description: S.optional(S.String),
           type: S.optional(S.String),
-          credentialProviderConfigurations: S.optional(__S(5506, __c172, 2)),
+          credentialProviderConfigurations: S.optional(__S(5635, __c176, 3)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -14975,7 +15836,7 @@ function __c101(j: number): any {
           paymentManagerId: S.String,
           name: S.String,
           type: S.String,
-          credentialProviderConfigurations: __S(5506, __c172, 2),
+          credentialProviderConfigurations: __S(5635, __c176, 3),
           lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           status: S.String,
           authorizationUrl: S.optional(S.String),
@@ -14983,292 +15844,14 @@ function __c101(j: number): any {
       ).annotate({ identifier: "UpdatePaymentConnectorResponse" });
   }
 }
-function __c102(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          agentRuntimeName: S.String,
-          agentRuntimeArtifact: __S(3553, __c111, 1),
-          roleArn: S.String,
-          networkConfiguration: S.optional(__S(3521, __c110, 1)),
-          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          description: S.optional(SensitiveString),
-          authorizerConfiguration: S.optional(__S(3464, __c108, 8)),
-          requestHeaderConfiguration: S.optional(__S(3554, __c111, 2)),
-          protocolConfiguration: S.optional(__S(3555, __c111, 3)),
-          lifecycleConfiguration: S.optional(__S(3522, __c110, 2)),
-          hooksConfiguration: S.optional(__S(3560, __c111, 8)),
-          environmentVariables: S.optional(__S(2848, __c89, 0)),
-          filesystemConfigurations: S.optional(__S(3527, __c110, 7)),
-          capacityProviderConfiguration: S.optional(__S(3561, __c111, 9)),
-          tags: S.optional(__S(2848, __c89, 0)),
-          platformVersion: S.optional(S.String),
-          allowedPorts: S.optional(__S(3564, __c111, 12)),
-          resourceConfigurations: S.optional(__S(3566, __c111, 14)),
-        }).pipe(T.all(T.Http({ method: "PUT", uri: "/runtimes/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "CreateAgentRuntimeRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          agentRuntimeArn: S.String,
-          workloadIdentityDetails: S.optional(__S(3488, __c109, 0)),
-          agentRuntimeId: S.String,
-          agentRuntimeVersion: S.String,
-          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-          status: S.String,
-        }),
-      ).annotate({ identifier: "CreateAgentRuntimeResponse" });
-  }
-}
-function __c103(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ secretArn: S.String })).annotate({
-        identifier: "SecretsManagerCertificateConfiguration",
-      });
-  }
-}
-function __c104(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          securityGroups: __S(2336, __c73, 0),
-          subnets: __S(2336, __c73, 0),
-          requireServiceS3Endpoint: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "VpcConfig" });
-  }
-}
-function __c105(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ bucket: S.String, prefix: S.String, versionId: S.optional(S.String) }),
-      ).annotate({ identifier: "S3Location" });
-    case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ s3: __S(3360, __c105, 0) })]);
-  }
-}
-function __c106(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Union([/*@__PURE__*/ S.Struct({ resourceConfigurationIdentifier: S.String })]);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          vpcIdentifier: S.String,
-          subnetIds: __S(2336, __c73, 0),
-          endpointIpAddressType: S.String,
-          securityGroupIds: S.optional(__S(2336, __c73, 0)),
-          tags: S.optional(__S(2848, __c89, 0)),
-          routingDomain: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ManagedVpcResource" });
-    case 2:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ selfManagedLatticeResource: __S(3392, __c106, 0) }),
-        /*@__PURE__*/ S.Struct({ managedVpcResource: __S(3393, __c106, 1) }),
-      ]);
-    case 3:
-      return S.suspend(() =>
-        S.Struct({ uri: S.String, bucketOwnerAccountId: S.optional(S.String) }),
-      ).annotate({ identifier: "S3CertificateConfiguration" });
-    case 4:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ s3: __S(3395, __c106, 3) }),
-        /*@__PURE__*/ S.Struct({ secretsManager: __S(3296, __c103, 0) }),
-      ]);
-    case 5:
-      return S.Array(__S(3396, __c106, 4));
-  }
-}
-function __c107(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ domain: S.String, privateEndpoint: __S(3394, __c106, 2) }),
-      ).annotate({ identifier: "PrivateEndpointOverride" });
-    case 1:
-      return S.Array(__S(3424, __c107, 0));
-  }
-}
-function __c108(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ matchValueString: S.String }),
-        /*@__PURE__*/ S.Struct({ matchValueStringList: __S(2336, __c73, 0) }),
-      ]);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({ claimMatchValue: __S(3456, __c108, 0), claimMatchOperator: S.String }),
-      ).annotate({ identifier: "AuthorizingClaimMatchValueType" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          inboundTokenClaimName: S.String,
-          inboundTokenClaimValueType: S.String,
-          authorizingClaimMatchValue: __S(3457, __c108, 1),
-        }),
-      ).annotate({ identifier: "CustomClaimValidationType" });
-    case 3:
-      return S.Array(__S(3458, __c108, 2));
-    case 4:
-      return S.suspend(() => S.Struct({ arn: S.String })).annotate({
-        identifier: "HostingEnvironment",
-      });
-    case 5:
-      return S.Array(__S(3460, __c108, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          hostingEnvironments: S.optional(__S(3461, __c108, 5)),
-          workloadIdentities: S.optional(__S(2336, __c73, 0)),
-        }),
-      ).annotate({ identifier: "AllowedWorkloadConfiguration" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          discoveryUrl: S.String,
-          allowedAudience: S.optional(__S(2336, __c73, 0)),
-          allowedClients: S.optional(__S(2336, __c73, 0)),
-          allowedScopes: S.optional(__S(2336, __c73, 0)),
-          advertisedScopeMapping: S.optional(__S(2848, __c89, 0)),
-          customClaims: S.optional(__S(3459, __c108, 3)),
-          privateEndpoint: S.optional(__S(3394, __c106, 2)),
-          privateEndpointOverrides: S.optional(__S(3425, __c107, 1)),
-          certificateConfigurations: S.optional(__S(3397, __c106, 5)),
-          allowedWorkloadConfiguration: S.optional(__S(3462, __c108, 6)),
-        }),
-      ).annotate({ identifier: "CustomJWTAuthorizerConfiguration" });
-    case 8:
-      return S.Union([/*@__PURE__*/ S.Struct({ customJWTAuthorizer: __S(3463, __c108, 7) })]);
-  }
-}
-function __c109(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ workloadIdentityArn: S.optional(S.String) })).annotate({
-        identifier: "WorkloadIdentityDetails",
-      });
-  }
-}
-function __c110(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ containerUri: S.String })).annotate({
-        identifier: "ContainerConfiguration",
-      });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({ networkMode: S.String, networkModeConfig: S.optional(__S(3328, __c104, 0)) }),
-      ).annotate({ identifier: "NetworkConfiguration" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          idleRuntimeSessionTimeout: S.optional(S.Number),
-          maxLifetime: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "LifecycleConfiguration" });
-    case 3:
-      return S.suspend(() => S.Struct({ mountPath: S.String })).annotate({
-        identifier: "SessionStorageConfiguration",
-      });
-    case 4:
-      return S.suspend(() => S.Struct({ accessPointArn: S.String, mountPath: S.String })).annotate({
-        identifier: "S3FilesAccessPointConfiguration",
-      });
-    case 5:
-      return S.suspend(() => S.Struct({ volumeName: S.String, mountPath: S.String })).annotate({
-        identifier: "CapacityProviderVolumeConfiguration",
-      });
-    case 6:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ sessionStorage: __S(3523, __c110, 3) }),
-        /*@__PURE__*/ S.Struct({ s3FilesAccessPoint: __S(3524, __c110, 4) }),
-        /*@__PURE__*/ S.Struct({ efsAccessPoint: __S(3524, __c110, 4) }),
-        /*@__PURE__*/ S.Struct({ capacityProviderVolume: __S(3525, __c110, 5) }),
-      ]);
-    case 7:
-      return S.Array(__S(3526, __c110, 6));
-  }
-}
-function __c111(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          code: __S(3361, __c105, 1),
-          runtime: S.String,
-          entryPoint: __S(2336, __c73, 0),
-        }),
-      ).annotate({ identifier: "CodeConfiguration" });
-    case 1:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ containerConfiguration: __S(3520, __c110, 0) }),
-        /*@__PURE__*/ S.Struct({ codeConfiguration: __S(3552, __c111, 0) }),
-      ]);
-    case 2:
-      return S.Union([/*@__PURE__*/ S.Struct({ requestHeaderAllowlist: __S(2336, __c73, 0) })]);
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          serverProtocol: S.String,
-          port: S.optional(S.Number),
-          path: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ProtocolConfiguration" });
-    case 4:
-      return S.suspend(() => S.Struct({ path: S.String, port: S.optional(S.Number) })).annotate({
-        identifier: "HttpPostLifecycleHookAction",
-      });
-    case 5:
-      return S.Union([/*@__PURE__*/ S.Struct({ httpPost: __S(3556, __c111, 4) })]);
-    case 6:
-      return S.suspend(() => S.Struct({ action: __S(3557, __c111, 5) })).annotate({
-        identifier: "LifecycleHook",
-      });
-    case 7:
-      return S.suspend(() => S.Struct({ warmup: S.optional(__S(3558, __c111, 6)) })).annotate({
-        identifier: "BuildLifecycleHooks",
-      });
-    case 8:
-      return S.suspend(() => S.Struct({ build: S.optional(__S(3559, __c111, 7)) })).annotate({
-        identifier: "RuntimeHooksConfiguration",
-      });
-    case 9:
-      return S.suspend(() => S.Struct({ capacityProviderArn: S.optional(S.String) })).annotate({
-        identifier: "CapacityProviderConfiguration",
-      });
-    case 10:
-      return S.suspend(() => S.Struct({ from: S.Number, to: S.Number })).annotate({
-        identifier: "PortRange",
-      });
-    case 11:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ port: S.Number }),
-        /*@__PURE__*/ S.Struct({ portRange: __S(3562, __c111, 10) }),
-      ]);
-    case 12:
-      return S.Array(__S(3563, __c111, 11));
-    case 13:
-      return S.suspend(() => S.Struct({ minimumMemoryInMiB: S.Number })).annotate({
-        identifier: "ResourceConfiguration",
-      });
-    case 14:
-      return S.Array(__S(3565, __c111, 13));
-  }
-}
-function __c112(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           credentialProviderVendor: S.String,
-          providerConfigurationInput: __S(5570, __c174, 2),
+          providerConfigurationInput: __S(5730, __c179, 2),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/identities/UpdatePaymentCredentialProvider" }),
@@ -15286,14 +15869,14 @@ function __c112(j: number): any {
           name: S.String,
           credentialProviderVendor: S.String,
           credentialProviderArn: S.String,
-          providerConfigurationOutput: __S(5602, __c175, 2),
+          providerConfigurationOutput: __S(5698, __c178, 2),
           createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           lastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
         }),
       ).annotate({ identifier: "UpdatePaymentCredentialProviderResponse" });
   }
 }
-function __c113(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15301,7 +15884,7 @@ function __c113(j: number): any {
           paymentManagerId: S.String.pipe(T.HttpLabel("paymentManagerId")),
           description: S.optional(S.String),
           authorizerType: S.optional(S.String),
-          authorizerConfiguration: S.optional(__S(3464, __c108, 8)),
+          authorizerConfiguration: S.optional(__S(3496, __c109, 8)),
           roleArn: S.optional(S.String),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           kmsKeyArn: S.optional(S.String),
@@ -15324,7 +15907,7 @@ function __c113(j: number): any {
           name: S.String,
           authorizerType: S.String,
           roleArn: S.String,
-          workloadIdentityDetails: S.optional(__S(3488, __c109, 0)),
+          workloadIdentityDetails: S.optional(__S(3520, __c110, 0)),
           lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           status: S.String,
           kmsKeyArn: S.optional(S.String),
@@ -15332,15 +15915,15 @@ function __c113(j: number): any {
       ).annotate({ identifier: "UpdatePaymentManagerResponse" });
   }
 }
-function __c114(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           policyEngineId: S.String.pipe(T.HttpLabel("policyEngineId")),
           policyId: S.String.pipe(T.HttpLabel("policyId")),
-          description: S.optional(__S(2592, __c81, 0)),
-          definition: S.optional(__S(5698, __c178, 2)),
+          description: S.optional(__S(2720, __c85, 0)),
+          definition: S.optional(__S(5826, __c182, 2)),
           validationMode: S.optional(S.String),
           enforcementMode: S.optional(S.String),
         }).pipe(
@@ -15359,13 +15942,13 @@ function __c114(j: number): any {
       ).annotate({ identifier: "UpdatePolicyRequest" });
   }
 }
-function __c115(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           policyEngineId: S.String.pipe(T.HttpLabel("policyEngineId")),
-          description: S.optional(__S(2592, __c81, 0)),
+          description: S.optional(__S(2720, __c85, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "PATCH", uri: "/policy-engines/{policyEngineId}" }),
@@ -15379,20 +15962,20 @@ function __c115(j: number): any {
       ).annotate({ identifier: "UpdatePolicyEngineRequest" });
   }
 }
-function __c116(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ optionalValue: S.optional(__S(5856, __c183, 0)) }),
+        S.Struct({ optionalValue: S.optional(__S(5984, __c187, 0)) }),
       ).annotate({ identifier: "UpdatedApprovalConfiguration" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           registryId: S.String.pipe(T.HttpLabel("registryId")),
           name: S.optional(S.String),
-          description: S.optional(__S(2592, __c81, 0)),
-          authorizerConfiguration: S.optional(__S(3072, __c96, 0)),
-          approvalConfiguration: S.optional(__S(3712, __c116, 0)),
+          description: S.optional(__S(2720, __c85, 0)),
+          authorizerConfiguration: S.optional(__S(3200, __c100, 0)),
+          approvalConfiguration: S.optional(__S(3840, __c120, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "PATCH", uri: "/registries/{registryId}" }),
@@ -15406,58 +15989,58 @@ function __c116(j: number): any {
       ).annotate({ identifier: "UpdateRegistryRequest" });
   }
 }
-function __c117(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ optionalValue: S.optional(__S(5920, __c185, 0)) }),
+        S.Struct({ optionalValue: S.optional(__S(6048, __c189, 0)) }),
       ).annotate({ identifier: "UpdatedServerDefinition" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ optionalValue: S.optional(__S(5921, __c185, 1)) }),
+        S.Struct({ optionalValue: S.optional(__S(6049, __c189, 1)) }),
       ).annotate({ identifier: "UpdatedToolsDefinition" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          server: S.optional(__S(3744, __c117, 0)),
-          tools: S.optional(__S(3745, __c117, 1)),
+          server: S.optional(__S(3872, __c121, 0)),
+          tools: S.optional(__S(3873, __c121, 1)),
         }),
       ).annotate({ identifier: "UpdatedMcpDescriptorFields" });
     case 3:
       return S.suspend(() =>
-        S.Struct({ optionalValue: S.optional(__S(3746, __c117, 2)) }),
+        S.Struct({ optionalValue: S.optional(__S(3874, __c121, 2)) }),
       ).annotate({ identifier: "UpdatedMcpDescriptor" });
     case 4:
       return S.suspend(() =>
-        S.Struct({ optionalValue: S.optional(__S(5923, __c185, 3)) }),
+        S.Struct({ optionalValue: S.optional(__S(6051, __c189, 3)) }),
       ).annotate({ identifier: "UpdatedA2aDescriptor" });
     case 5:
       return S.suspend(() =>
-        S.Struct({ optionalValue: S.optional(__S(5924, __c185, 4)) }),
+        S.Struct({ optionalValue: S.optional(__S(6052, __c189, 4)) }),
       ).annotate({ identifier: "UpdatedCustomDescriptor" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          skillMd: S.optional(__S(3749, __c117, 5)),
-          skillDefinition: S.optional(__S(3744, __c117, 0)),
+          skillMd: S.optional(__S(3877, __c121, 5)),
+          skillDefinition: S.optional(__S(3872, __c121, 0)),
         }),
       ).annotate({ identifier: "UpdatedAgentSkillsDescriptorFields" });
     case 7:
       return S.suspend(() =>
-        S.Struct({ optionalValue: S.optional(__S(3750, __c117, 6)) }),
+        S.Struct({ optionalValue: S.optional(__S(3878, __c121, 6)) }),
       ).annotate({ identifier: "UpdatedAgentSkillsDescriptor" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          mcp: S.optional(__S(3747, __c117, 3)),
-          a2a: S.optional(__S(3748, __c117, 4)),
-          custom: S.optional(__S(3749, __c117, 5)),
-          agentSkills: S.optional(__S(3751, __c117, 7)),
+          mcp: S.optional(__S(3875, __c121, 3)),
+          a2a: S.optional(__S(3876, __c121, 4)),
+          custom: S.optional(__S(3877, __c121, 5)),
+          agentSkills: S.optional(__S(3879, __c121, 7)),
         }),
       ).annotate({ identifier: "UpdatedDescriptorsUnion" });
     case 9:
       return S.suspend(() =>
-        S.Struct({ optionalValue: S.optional(__S(3752, __c117, 8)) }),
+        S.Struct({ optionalValue: S.optional(__S(3880, __c121, 8)) }),
       ).annotate({ identifier: "UpdatedDescriptors" });
     case 10:
       return S.suspend(() => S.Struct({ optionalValue: S.optional(S.String) })).annotate({
@@ -15465,7 +16048,7 @@ function __c117(j: number): any {
       });
     case 11:
       return S.suspend(() =>
-        S.Struct({ optionalValue: S.optional(__S(5933, __c185, 13)) }),
+        S.Struct({ optionalValue: S.optional(__S(6061, __c189, 13)) }),
       ).annotate({ identifier: "UpdatedSynchronizationConfiguration" });
     case 12:
       return S.suspend(() =>
@@ -15473,12 +16056,12 @@ function __c117(j: number): any {
           registryId: S.String.pipe(T.HttpLabel("registryId")),
           recordId: S.String.pipe(T.HttpLabel("recordId")),
           name: S.optional(S.String),
-          description: S.optional(__S(2592, __c81, 0)),
+          description: S.optional(__S(2720, __c85, 0)),
           descriptorType: S.optional(S.String),
-          descriptors: S.optional(__S(3753, __c117, 9)),
+          descriptors: S.optional(__S(3881, __c121, 9)),
           recordVersion: S.optional(S.String),
-          synchronizationType: S.optional(__S(3754, __c117, 10)),
-          synchronizationConfiguration: S.optional(__S(3755, __c117, 11)),
+          synchronizationType: S.optional(__S(3882, __c121, 10)),
+          synchronizationConfiguration: S.optional(__S(3883, __c121, 11)),
           triggerSynchronization: S.optional(S.Boolean),
         }).pipe(
           T.all(
@@ -15493,7 +16076,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "UpdateRegistryRecordRequest" });
   }
 }
-function __c118(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15526,27 +16109,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "UpdateRegistryRecordStatusResponse" });
   }
 }
-function __c119(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          allowedResourceOauth2ReturnUrls: S.optional(__S(2336, __c73, 0)),
-        }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/identities/UpdateWorkloadIdentity" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "UpdateWorkloadIdentityRequest" });
-  }
-}
-function __c120(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15556,7 +16119,7 @@ function __c120(j: number): any {
           agentRuntimeVersion: S.optional(S.String),
           description: S.optional(S.String),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          tags: S.optional(__S(2848, __c89, 0)),
+          tags: S.optional(__S(2880, __c90, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/runtimes/{agentRuntimeId}/runtime-endpoints/" }),
@@ -15582,16 +16145,36 @@ function __c120(j: number): any {
       ).annotate({ identifier: "CreateAgentRuntimeEndpointResponse" });
   }
 }
-function __c121(j: number): any {
+function __c124(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          allowedResourceOauth2ReturnUrls: S.optional(__S(2368, __c74, 0)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/identities/UpdateWorkloadIdentity" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateWorkloadIdentityRequest" });
+  }
+}
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           apiKey: S.optional(SensitiveString),
-          apiKeySecretConfig: S.optional(__S(3904, __c122, 0)),
+          apiKeySecretConfig: S.optional(__S(4032, __c126, 0)),
           apiKeySecretSource: S.optional(S.String),
-          tags: S.optional(__S(2848, __c89, 0)),
+          tags: S.optional(__S(2880, __c90, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/identities/CreateApiKeyCredentialProvider" }),
@@ -15606,7 +16189,7 @@ function __c121(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          apiKeySecretArn: __S(3296, __c103, 0),
+          apiKeySecretArn: __S(3328, __c104, 0),
           apiKeySecretJsonKey: S.optional(S.String),
           apiKeySecretSource: S.optional(S.String),
           name: S.String,
@@ -15615,7 +16198,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "CreateApiKeyCredentialProviderResponse" });
   }
 }
-function __c122(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ secretId: S.String, jsonKey: S.String })).annotate({
@@ -15623,7 +16206,7 @@ function __c122(j: number): any {
       });
   }
 }
-function __c123(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15631,14 +16214,14 @@ function __c123(j: number): any {
           name: S.String,
           description: S.optional(SensitiveString),
           executionRoleArn: S.optional(S.String),
-          networkConfiguration: __S(3968, __c124, 0),
-          recording: S.optional(__S(4000, __c125, 0)),
-          browserSigning: S.optional(__S(4001, __c125, 1)),
-          enterprisePolicies: S.optional(__S(4003, __c125, 3)),
-          certificates: S.optional(__S(3971, __c124, 3)),
-          filesystemConfigurations: S.optional(__S(3974, __c124, 6)),
+          networkConfiguration: __S(4096, __c128, 0),
+          recording: S.optional(__S(4128, __c129, 0)),
+          browserSigning: S.optional(__S(4129, __c129, 1)),
+          enterprisePolicies: S.optional(__S(4131, __c129, 3)),
+          certificates: S.optional(__S(4099, __c128, 3)),
+          filesystemConfigurations: S.optional(__S(4102, __c128, 6)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          tags: S.optional(__S(2848, __c89, 0)),
+          tags: S.optional(__S(2880, __c90, 0)),
         }).pipe(T.all(T.Http({ method: "PUT", uri: "/browsers" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateBrowserRequest" });
     case 1:
@@ -15652,38 +16235,38 @@ function __c123(j: number): any {
       ).annotate({ identifier: "CreateBrowserResponse" });
   }
 }
-function __c124(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ networkMode: S.String, vpcConfig: S.optional(__S(3328, __c104, 0)) }),
+        S.Struct({ networkMode: S.String, vpcConfig: S.optional(__S(3360, __c105, 0)) }),
       ).annotate({ identifier: "BrowserNetworkConfiguration" });
     case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ secretsManager: __S(3296, __c103, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ secretsManager: __S(3328, __c104, 0) })]);
     case 2:
-      return S.suspend(() => S.Struct({ location: __S(3969, __c124, 1) })).annotate({
+      return S.suspend(() => S.Struct({ location: __S(4097, __c128, 1) })).annotate({
         identifier: "Certificate",
       });
     case 3:
-      return S.Array(__S(3970, __c124, 2));
+      return S.Array(__S(4098, __c128, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({ accessPointArn: S.String, mountPath: S.String, fileSystemArn: S.String }),
       ).annotate({ identifier: "S3FilesConfiguration" });
     case 5:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ s3FilesConfiguration: __S(3972, __c124, 4) }),
-        /*@__PURE__*/ S.Struct({ efsConfiguration: __S(3972, __c124, 4) }),
+        /*@__PURE__*/ S.Struct({ s3FilesConfiguration: __S(4100, __c128, 4) }),
+        /*@__PURE__*/ S.Struct({ efsConfiguration: __S(4100, __c128, 4) }),
       ]);
     case 6:
-      return S.Array(__S(3973, __c124, 5));
+      return S.Array(__S(4101, __c128, 5));
   }
 }
-function __c125(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ enabled: S.optional(S.Boolean), s3Location: S.optional(__S(3360, __c105, 0)) }),
+        S.Struct({ enabled: S.optional(S.Boolean), s3Location: S.optional(__S(3392, __c106, 0)) }),
       ).annotate({ identifier: "RecordingConfig" });
     case 1:
       return S.suspend(() => S.Struct({ enabled: S.Boolean })).annotate({
@@ -15691,13 +16274,13 @@ function __c125(j: number): any {
       });
     case 2:
       return S.suspend(() =>
-        S.Struct({ location: __S(3361, __c105, 1), type: S.optional(S.String) }),
+        S.Struct({ location: __S(3393, __c106, 1), type: S.optional(S.String) }),
       ).annotate({ identifier: "BrowserEnterprisePolicy" });
     case 3:
-      return S.Array(__S(4002, __c125, 2));
+      return S.Array(__S(4130, __c129, 2));
   }
 }
-function __c126(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15705,7 +16288,7 @@ function __c126(j: number): any {
           name: S.String,
           description: S.optional(SensitiveString),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          tags: S.optional(__S(2848, __c89, 0)),
+          tags: S.optional(__S(2880, __c90, 0)),
         }).pipe(
           T.all(T.Http({ method: "PUT", uri: "/browser-profiles" }), svc, auth, proto, ver, rules),
         ),
@@ -15721,17 +16304,17 @@ function __c126(j: number): any {
       ).annotate({ identifier: "CreateBrowserProfileResponse" });
   }
 }
-function __c127(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           description: S.optional(SensitiveString),
-          permissionsConfiguration: __S(4096, __c128, 0),
+          permissionsConfiguration: __S(4224, __c132, 0),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          tags: S.optional(__S(2848, __c89, 0)),
-          computeConfiguration: __S(4114, __c128, 18),
+          tags: S.optional(__S(2880, __c90, 0)),
+          computeConfiguration: __S(4243, __c132, 19),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/capacity-providers" }),
@@ -15754,14 +16337,14 @@ function __c127(j: number): any {
       ).annotate({ identifier: "CreateCapacityProviderOutput" });
   }
 }
-function __c128(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ capacityProviderOperatorRoleArn: S.String })).annotate({
         identifier: "PermissionsConfiguration",
       });
     case 1:
-      return S.suspend(() => S.Struct({ allowedInstanceTypes: __S(2336, __c73, 0) })).annotate({
+      return S.suspend(() => S.Struct({ allowedInstanceTypes: __S(2368, __c74, 0) })).annotate({
         identifier: "InstanceRequirements",
       });
     case 2:
@@ -15783,17 +16366,17 @@ function __c128(j: number): any {
         S.Struct({
           deviceName: S.optional(S.String),
           virtualName: S.optional(S.String),
-          ebs: S.optional(__S(4098, __c128, 2)),
+          ebs: S.optional(__S(4226, __c132, 2)),
         }),
       ).annotate({ identifier: "EphemeralBlockDeviceMapping" });
     case 4:
-      return S.Array(__S(4099, __c128, 3));
+      return S.Array(__S(4227, __c132, 3));
     case 5:
       return S.suspend(() => S.Struct({ licenseConfigurationArn: S.String })).annotate({
         identifier: "LicenseSpecification",
       });
     case 6:
-      return S.Array(__S(4101, __c128, 5));
+      return S.Array(__S(4229, __c132, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -15805,30 +16388,35 @@ function __c128(j: number): any {
       return S.suspend(() =>
         S.Struct({
           capacityReservationPreference: S.optional(S.String),
-          capacityReservationTarget: S.optional(__S(4103, __c128, 7)),
+          capacityReservationTarget: S.optional(__S(4231, __c132, 7)),
         }),
       ).annotate({ identifier: "CapacityReservationSpecification" });
     case 9:
+      return S.suspend(() => S.Struct({ nestedVirtualization: S.optional(S.String) })).annotate({
+        identifier: "CpuOptions",
+      });
+    case 10:
       return S.suspend(() =>
         S.Struct({
           operatingSystem: S.String,
-          instanceRequirements: __S(4097, __c128, 1),
-          ephemeralVolumes: S.optional(__S(4100, __c128, 4)),
+          instanceRequirements: __S(4225, __c132, 1),
+          ephemeralVolumes: S.optional(__S(4228, __c132, 4)),
           monitoring: S.optional(S.String),
-          licenseSpecifications: S.optional(__S(4102, __c128, 6)),
-          capacityReservationSpecification: S.optional(__S(4104, __c128, 8)),
+          licenseSpecifications: S.optional(__S(4230, __c132, 6)),
+          capacityReservationSpecification: S.optional(__S(4232, __c132, 8)),
           sshKeyName: S.optional(S.String),
           instanceProfileArn: S.optional(S.String),
-          propagatedTags: S.optional(__S(2848, __c89, 0)),
+          propagatedTags: S.optional(__S(2880, __c90, 0)),
+          cpuOptions: S.optional(__S(4233, __c132, 9)),
         }),
       ).annotate({ identifier: "LaunchParameters" });
-    case 10:
-      return S.Union([/*@__PURE__*/ S.Struct({ launchParameters: __S(4105, __c128, 9) })]);
     case 11:
-      return S.suspend(() =>
-        S.Struct({ subnets: __S(2336, __c73, 0), securityGroups: __S(2336, __c73, 0) }),
-      ).annotate({ identifier: "VpcConfiguration" });
+      return S.Union([/*@__PURE__*/ S.Struct({ launchParameters: __S(4234, __c132, 10) })]);
     case 12:
+      return S.suspend(() =>
+        S.Struct({ subnets: __S(2368, __c74, 0), securityGroups: __S(2368, __c74, 0) }),
+      ).annotate({ identifier: "VpcConfiguration" });
+    case 13:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
@@ -15841,15 +16429,15 @@ function __c128(j: number): any {
           snapshotId: S.optional(S.String),
         }),
       ).annotate({ identifier: "EbsVolumeConfiguration" });
-    case 13:
-      return S.Union([/*@__PURE__*/ S.Struct({ ebsConfiguration: __S(4108, __c128, 12) })]);
     case 14:
-      return S.Array(__S(4109, __c128, 13));
+      return S.Union([/*@__PURE__*/ S.Struct({ ebsConfiguration: __S(4237, __c132, 13) })]);
     case 15:
+      return S.Array(__S(4238, __c132, 14));
+    case 16:
       return S.suspend(() =>
         S.Struct({ idleInstanceTimeout: S.optional(S.Number), maxLifetime: S.optional(S.Number) }),
       ).annotate({ identifier: "InstanceLifecycleConfiguration" });
-    case 16:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           volumeType: S.optional(S.String),
@@ -15860,21 +16448,21 @@ function __c128(j: number): any {
           freeSpaceGiB: S.optional(S.Number),
         }),
       ).annotate({ identifier: "RootVolumeConfiguration" });
-    case 17:
+    case 18:
       return S.suspend(() =>
         S.Struct({
-          launchTemplateSource: __S(4106, __c128, 10),
-          vpcConfiguration: __S(4107, __c128, 11),
-          volumes: S.optional(__S(4110, __c128, 14)),
-          lifecycleConfiguration: S.optional(__S(4111, __c128, 15)),
-          rootVolume: S.optional(__S(4112, __c128, 16)),
+          launchTemplateSource: __S(4235, __c132, 11),
+          vpcConfiguration: __S(4236, __c132, 12),
+          volumes: S.optional(__S(4239, __c132, 15)),
+          lifecycleConfiguration: S.optional(__S(4240, __c132, 16)),
+          rootVolume: S.optional(__S(4241, __c132, 17)),
         }),
       ).annotate({ identifier: "Ec2Configuration" });
-    case 18:
-      return S.Union([/*@__PURE__*/ S.Struct({ ec2Configuration: __S(4113, __c128, 17) })]);
+    case 19:
+      return S.Union([/*@__PURE__*/ S.Struct({ ec2Configuration: __S(4242, __c132, 18) })]);
   }
 }
-function __c129(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15882,11 +16470,11 @@ function __c129(j: number): any {
           name: S.String,
           description: S.optional(SensitiveString),
           executionRoleArn: S.optional(S.String),
-          networkConfiguration: __S(3968, __c124, 0),
-          certificates: S.optional(__S(3971, __c124, 3)),
-          filesystemConfigurations: S.optional(__S(3974, __c124, 6)),
+          networkConfiguration: __S(4096, __c128, 0),
+          certificates: S.optional(__S(4099, __c128, 3)),
+          filesystemConfigurations: S.optional(__S(4102, __c128, 6)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          tags: S.optional(__S(2848, __c89, 0)),
+          tags: S.optional(__S(2880, __c90, 0)),
         }).pipe(
           T.all(T.Http({ method: "PUT", uri: "/code-interpreters" }), svc, auth, proto, ver, rules),
         ),
@@ -15902,7 +16490,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "CreateCodeInterpreterResponse" });
   }
 }
-function __c130(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15910,12 +16498,12 @@ function __c130(j: number): any {
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           bundleName: S.String,
           description: S.optional(SensitiveString),
-          components: __S(4225, __c132, 1),
+          components: __S(4353, __c136, 1),
           branchName: S.optional(S.String),
           commitMessage: S.optional(S.String),
-          createdBy: S.optional(__S(4192, __c131, 0)),
+          createdBy: S.optional(__S(4320, __c135, 0)),
           kmsKeyArn: S.optional(S.String),
-          tags: S.optional(__S(2848, __c89, 0)),
+          tags: S.optional(__S(2880, __c90, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/configuration-bundles/create" }),
@@ -15938,7 +16526,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "CreateConfigurationBundleResponse" });
   }
 }
-function __c131(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ name: S.String, arn: S.optional(S.String) })).annotate({
@@ -15946,27 +16534,27 @@ function __c131(j: number): any {
       });
   }
 }
-function __c132(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ configuration: S.Any })).annotate({
         identifier: "ComponentConfiguration",
       });
     case 1:
-      return S.Record(S.String, /*@__PURE__*/ __S(4224, __c132, 0).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(4352, __c136, 0).pipe(S.optional));
   }
 }
-function __c133(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           executionRoleArn: S.String,
-          idpConfig: __S(4320, __c135, 0),
+          idpConfig: __S(4448, __c139, 0),
           name: S.String,
-          sources: __S(4289, __c134, 1),
+          sources: __S(4417, __c138, 1),
           description: S.optional(S.String),
-          tags: S.optional(__S(2848, __c89, 0)),
+          tags: S.optional(__S(2880, __c90, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/identities/CreateConsentPortal" }),
@@ -15980,36 +16568,36 @@ function __c133(j: number): any {
       ).annotate({ identifier: "CreateConsentPortalRequest" });
   }
 }
-function __c134(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ identifier: S.String, type: S.String })).annotate({
         identifier: "ConsentPortalSource",
       });
     case 1:
-      return S.Array(__S(4288, __c134, 0));
+      return S.Array(__S(4416, __c138, 0));
   }
 }
-function __c135(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           credentialProviderArn: S.String,
-          scopes: __S(2336, __c73, 0),
+          scopes: __S(2368, __c74, 0),
           audience: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConsentPortalIdpConfig" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sources: __S(4289, __c134, 1),
+          sources: __S(4417, __c138, 1),
           consentPortalArn: S.String,
           consentPortalId: S.String,
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           description: S.optional(S.String),
           executionRoleArn: S.String,
-          idpConfig: __S(4320, __c135, 0),
+          idpConfig: __S(4448, __c139, 0),
           name: S.String,
           portalUrl: S.optional(S.String),
           status: S.String,
@@ -16019,7 +16607,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "CreateConsentPortalResponse" });
   }
 }
-function __c136(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16027,10 +16615,10 @@ function __c136(j: number): any {
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           datasetName: S.String,
           description: S.optional(S.String),
-          source: __S(2370, __c74, 2),
-          schemaType: S.String,
+          source: S.optional(__S(2402, __c75, 2)),
+          schemaType: S.optional(S.String),
           kmsKeyArn: S.optional(S.String),
-          tags: S.optional(__S(2848, __c89, 0)),
+          tags: S.optional(__S(2880, __c90, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/datasets" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateDatasetRequest" });
     case 1:
@@ -16044,7 +16632,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "CreateDatasetResponse" });
   }
 }
-function __c137(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16074,7 +16662,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "CreateDatasetVersionResponse" });
   }
 }
-function __c138(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16082,10 +16670,10 @@ function __c138(j: number): any {
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           evaluatorName: S.String,
           description: S.optional(SensitiveString),
-          evaluatorConfig: __S(4465, __c139, 17),
+          evaluatorConfig: __S(4593, __c143, 17),
           level: S.String,
           kmsKeyArn: S.optional(S.String),
-          tags: S.optional(__S(2848, __c89, 0)),
+          tags: S.optional(__S(2880, __c90, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/evaluators/create" }),
@@ -16108,40 +16696,40 @@ function __c138(j: number): any {
       ).annotate({ identifier: "CreateEvaluatorResponse" });
   }
 }
-function __c139(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ definition: S.String, value: S.Number, label: S.String }),
       ).annotate({ identifier: "NumericalScaleDefinition" });
     case 1:
-      return S.Array(__S(4448, __c139, 0));
+      return S.Array(__S(4576, __c143, 0));
     case 2:
       return S.suspend(() => S.Struct({ definition: S.String, label: S.String })).annotate({
         identifier: "CategoricalScaleDefinition",
       });
     case 3:
-      return S.Array(__S(4450, __c139, 2));
+      return S.Array(__S(4578, __c143, 2));
     case 4:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ numerical: __S(4449, __c139, 1) }),
-        /*@__PURE__*/ S.Struct({ categorical: __S(4451, __c139, 3) }),
+        /*@__PURE__*/ S.Struct({ numerical: __S(4577, __c143, 1) }),
+        /*@__PURE__*/ S.Struct({ categorical: __S(4579, __c143, 3) }),
       ]);
     case 5:
       return S.suspend(() =>
         S.Struct({
           dimensionName: S.String,
           dimensionInstruction: SensitiveString,
-          dimensionRatingScale: __S(4452, __c139, 4),
+          dimensionRatingScale: __S(4580, __c143, 4),
         }),
       ).annotate({ identifier: "EvaluationDimension" });
     case 6:
-      return S.Array(__S(4453, __c139, 5));
+      return S.Array(__S(4581, __c143, 5));
     case 7:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ numerical: __S(4449, __c139, 1) }),
-        /*@__PURE__*/ S.Struct({ categorical: __S(4451, __c139, 3) }),
-        /*@__PURE__*/ S.Struct({ multiDimensional: __S(4454, __c139, 6) }),
+        /*@__PURE__*/ S.Struct({ numerical: __S(4577, __c143, 1) }),
+        /*@__PURE__*/ S.Struct({ categorical: __S(4579, __c143, 3) }),
+        /*@__PURE__*/ S.Struct({ multiDimensional: __S(4582, __c143, 6) }),
       ]);
     case 8:
       return S.suspend(() =>
@@ -16149,14 +16737,14 @@ function __c139(j: number): any {
           maxTokens: S.optional(S.Number),
           temperature: S.optional(S.Number),
           topP: S.optional(S.Number),
-          stopSequences: S.optional(__S(2336, __c73, 0)),
+          stopSequences: S.optional(__S(2368, __c74, 0)),
         }),
       ).annotate({ identifier: "InferenceConfiguration" });
     case 9:
       return S.suspend(() =>
         S.Struct({
           modelId: S.String,
-          inferenceConfig: S.optional(__S(4456, __c139, 8)),
+          inferenceConfig: S.optional(__S(4584, __c143, 8)),
           additionalModelRequestFields: S.optional(S.Any),
         }),
       ).annotate({ identifier: "BedrockEvaluatorModelConfig" });
@@ -16171,20 +16759,20 @@ function __c139(j: number): any {
           maxOutputTokens: S.optional(S.Number),
           temperature: S.optional(S.Number),
           topP: S.optional(S.Number),
-          reasoning: S.optional(__S(4458, __c139, 10)),
+          reasoning: S.optional(__S(4586, __c143, 10)),
         }),
       ).annotate({ identifier: "OpenResponsesEvaluatorModelConfig" });
     case 12:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ bedrockEvaluatorModelConfig: __S(4457, __c139, 9) }),
-        /*@__PURE__*/ S.Struct({ responsesEvaluatorModelConfig: __S(4459, __c139, 11) }),
+        /*@__PURE__*/ S.Struct({ bedrockEvaluatorModelConfig: __S(4585, __c143, 9) }),
+        /*@__PURE__*/ S.Struct({ responsesEvaluatorModelConfig: __S(4587, __c143, 11) }),
       ]);
     case 13:
       return S.suspend(() =>
         S.Struct({
           instructions: SensitiveString,
-          ratingScale: __S(4455, __c139, 7),
-          modelConfig: __S(4460, __c139, 12),
+          ratingScale: __S(4583, __c143, 7),
+          modelConfig: __S(4588, __c143, 12),
         }),
       ).annotate({ identifier: "LlmAsAJudgeEvaluatorConfig" });
     case 14:
@@ -16192,20 +16780,20 @@ function __c139(j: number): any {
         S.Struct({ lambdaArn: S.String, lambdaTimeoutInSeconds: S.optional(S.Number) }),
       ).annotate({ identifier: "LambdaEvaluatorConfig" });
     case 15:
-      return S.Union([/*@__PURE__*/ S.Struct({ lambdaConfig: __S(4462, __c139, 14) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ lambdaConfig: __S(4590, __c143, 14) })]);
     case 16:
       return S.suspend(() =>
-        S.Struct({ baseEvaluatorId: S.String, modelConfig: __S(4460, __c139, 12) }),
+        S.Struct({ baseEvaluatorId: S.String, modelConfig: __S(4588, __c143, 12) }),
       ).annotate({ identifier: "DerivedEvaluatorConfig" });
     case 17:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ llmAsAJudge: __S(4461, __c139, 13) }),
-        /*@__PURE__*/ S.Struct({ codeBased: __S(4463, __c139, 15) }),
-        /*@__PURE__*/ S.Struct({ derived: __S(4464, __c139, 16) }),
+        /*@__PURE__*/ S.Struct({ llmAsAJudge: __S(4589, __c143, 13) }),
+        /*@__PURE__*/ S.Struct({ codeBased: __S(4591, __c143, 15) }),
+        /*@__PURE__*/ S.Struct({ derived: __S(4592, __c143, 16) }),
       ]);
   }
 }
-function __c140(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16215,26 +16803,26 @@ function __c140(j: number): any {
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           roleArn: S.String,
           protocolType: S.optional(S.String),
-          protocolConfiguration: S.optional(__S(4547, __c142, 3)),
+          protocolConfiguration: S.optional(__S(4675, __c146, 3)),
           authorizerType: S.String,
-          authorizerConfiguration: S.optional(__S(3464, __c108, 8)),
+          authorizerConfiguration: S.optional(__S(3496, __c109, 8)),
           kmsKeyArn: S.optional(S.String),
-          interceptorConfigurations: S.optional(__S(4554, __c142, 10)),
-          policyEngineConfiguration: S.optional(__S(4555, __c142, 11)),
+          interceptorConfigurations: S.optional(__S(4682, __c146, 10)),
+          policyEngineConfiguration: S.optional(__S(4683, __c146, 11)),
           exceptionLevel: S.optional(S.String),
-          tags: S.optional(__S(2848, __c89, 0)),
-          domainOverride: S.optional(__S(4556, __c142, 12)),
+          tags: S.optional(__S(2880, __c90, 0)),
+          domainOverride: S.optional(__S(4684, __c146, 12)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/gateways/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateGatewayRequest" });
   }
 }
-function __c141(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c142(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ sessionTimeoutInSeconds: S.optional(S.Number) })).annotate({
@@ -16247,43 +16835,43 @@ function __c142(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          supportedVersions: S.optional(__S(2336, __c73, 0)),
+          supportedVersions: S.optional(__S(2368, __c74, 0)),
           instructions: S.optional(SensitiveString),
           searchType: S.optional(S.String),
-          sessionConfiguration: S.optional(__S(4544, __c142, 0)),
-          streamingConfiguration: S.optional(__S(4545, __c142, 1)),
+          sessionConfiguration: S.optional(__S(4672, __c146, 0)),
+          streamingConfiguration: S.optional(__S(4673, __c146, 1)),
           disableMcpListToolsPagination: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "MCPGatewayConfiguration" });
     case 3:
-      return S.Union([/*@__PURE__*/ S.Struct({ mcp: __S(4546, __c142, 2) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ mcp: __S(4674, __c146, 2) })]);
     case 4:
-      return S.Union([/*@__PURE__*/ S.Struct({ lambda: __S(3460, __c108, 4) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ lambda: __S(3492, __c109, 4) })]);
     case 5:
       return S.Union([/*@__PURE__*/ S.Struct({ field: S.String })]);
     case 6:
-      return S.Array(__S(4549, __c142, 5));
+      return S.Array(__S(4677, __c146, 5));
     case 7:
-      return S.suspend(() => S.Struct({ exclude: __S(4550, __c142, 6) })).annotate({
+      return S.suspend(() => S.Struct({ exclude: __S(4678, __c146, 6) })).annotate({
         identifier: "InterceptorPayloadFilter",
       });
     case 8:
       return S.suspend(() =>
         S.Struct({
           passRequestHeaders: S.Boolean,
-          payloadFilter: S.optional(__S(4551, __c142, 7)),
+          payloadFilter: S.optional(__S(4679, __c146, 7)),
         }),
       ).annotate({ identifier: "InterceptorInputConfiguration" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          interceptor: __S(4548, __c142, 4),
-          interceptionPoints: __S(4512, __c141, 0),
-          inputConfiguration: S.optional(__S(4552, __c142, 8)),
+          interceptor: __S(4676, __c146, 4),
+          interceptionPoints: __S(4640, __c145, 0),
+          inputConfiguration: S.optional(__S(4680, __c146, 8)),
         }),
       ).annotate({ identifier: "GatewayInterceptorConfiguration" });
     case 10:
-      return S.Array(__S(4553, __c142, 9));
+      return S.Array(__S(4681, __c146, 9));
     case 11:
       return S.suspend(() => S.Struct({ arn: S.String, mode: S.String })).annotate({
         identifier: "GatewayPolicyEngineConfiguration",
@@ -16292,7 +16880,7 @@ function __c142(j: number): any {
       return S.suspend(() =>
         S.Struct({
           defaultDomain: S.String,
-          alternateDomains: S.optional(__S(2336, __c73, 0)),
+          alternateDomains: S.optional(__S(2368, __c74, 0)),
         }).pipe(S.encodeKeys({ defaultDomain: "default" })),
       ).annotate({ identifier: "DomainOverride" });
     case 13:
@@ -16300,7 +16888,7 @@ function __c142(j: number): any {
         identifier: "LambdaTransformConfiguration",
       });
     case 14:
-      return S.suspend(() => S.Struct({ lambda: S.optional(__S(4557, __c142, 13)) })).annotate({
+      return S.suspend(() => S.Struct({ lambda: S.optional(__S(4685, __c146, 13)) })).annotate({
         identifier: "CustomTransformConfiguration",
       });
     case 15:
@@ -16316,28 +16904,28 @@ function __c142(j: number): any {
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           status: S.String,
-          statusReasons: S.optional(__S(2336, __c73, 0)),
+          statusReasons: S.optional(__S(2368, __c74, 0)),
           name: S.String,
           description: S.optional(SensitiveString),
           roleArn: S.optional(S.String),
           protocolType: S.optional(S.String),
-          protocolConfiguration: S.optional(__S(4547, __c142, 3)),
+          protocolConfiguration: S.optional(__S(4675, __c146, 3)),
           authorizerType: S.String,
-          authorizerConfiguration: S.optional(__S(3464, __c108, 8)),
+          authorizerConfiguration: S.optional(__S(3496, __c109, 8)),
           kmsKeyArn: S.optional(S.String),
-          customTransformConfiguration: S.optional(__S(4558, __c142, 14)),
-          interceptorConfigurations: S.optional(__S(4554, __c142, 10)),
-          policyEngineConfiguration: S.optional(__S(4555, __c142, 11)),
-          workloadIdentityDetails: S.optional(__S(3488, __c109, 0)),
+          customTransformConfiguration: S.optional(__S(4686, __c146, 14)),
+          interceptorConfigurations: S.optional(__S(4682, __c146, 10)),
+          policyEngineConfiguration: S.optional(__S(4683, __c146, 11)),
+          workloadIdentityDetails: S.optional(__S(3520, __c110, 0)),
           exceptionLevel: S.optional(S.String),
           webAclArn: S.optional(S.String),
-          wafConfiguration: S.optional(__S(4559, __c142, 15)),
-          domainOverride: S.optional(__S(4556, __c142, 12)),
+          wafConfiguration: S.optional(__S(4687, __c146, 15)),
+          domainOverride: S.optional(__S(4684, __c146, 12)),
         }),
       ).annotate({ identifier: "CreateGatewayResponse" });
   }
 }
-function __c143(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16346,8 +16934,8 @@ function __c143(j: number): any {
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           rateLimitId: S.optional(S.String),
           description: S.optional(S.String),
-          dimensionKeys: __S(2336, __c73, 0),
-          entries: __S(2883, __c90, 3),
+          dimensionKeys: __S(2368, __c74, 0),
+          entries: __S(2915, __c91, 3),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/gateways/{gatewayIdentifier}/rate-limits" }),
@@ -16361,7 +16949,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "CreateGatewayRateLimitRequest" });
   }
 }
-function __c144(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16369,8 +16957,8 @@ function __c144(j: number): any {
           gatewayIdentifier: S.String.pipe(T.HttpLabel("gatewayIdentifier")),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           priority: S.Number,
-          conditions: S.optional(__S(4649, __c145, 9)),
-          actions: __S(4666, __c145, 26),
+          conditions: S.optional(__S(4777, __c149, 9)),
+          actions: __S(4794, __c149, 26),
           description: S.optional(S.String),
         }).pipe(
           T.all(
@@ -16389,32 +16977,32 @@ function __c144(j: number): any {
           ruleId: S.String,
           gatewayArn: S.String,
           priority: S.Number,
-          conditions: S.optional(__S(4649, __c145, 9)),
-          actions: __S(4666, __c145, 26),
+          conditions: S.optional(__S(4777, __c149, 9)),
+          actions: __S(4794, __c149, 26),
           description: S.optional(S.String),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           status: S.String,
-          system: S.optional(__S(4667, __c145, 27)),
+          system: S.optional(__S(4795, __c149, 27)),
         }),
       ).annotate({ identifier: "CreateGatewayRuleResponse" });
   }
 }
-function __c145(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ arn: S.String, operator: S.optional(S.String) })).annotate({
         identifier: "IamPrincipal",
       });
     case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ iamPrincipal: __S(4640, __c145, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ iamPrincipal: __S(4768, __c149, 0) })]);
     case 2:
-      return S.Array(__S(4641, __c145, 1));
+      return S.Array(__S(4769, __c149, 1));
     case 3:
-      return S.suspend(() => S.Struct({ anyOf: __S(4642, __c145, 2) })).annotate({
+      return S.suspend(() => S.Struct({ anyOf: __S(4770, __c149, 2) })).annotate({
         identifier: "MatchPrincipals",
       });
     case 4:
-      return S.suspend(() => S.Struct({ anyOf: __S(2336, __c73, 0) })).annotate({
+      return S.suspend(() => S.Struct({ anyOf: __S(2368, __c74, 0) })).annotate({
         identifier: "MatchPaths",
       });
     case 5:
@@ -16422,19 +17010,19 @@ function __c145(j: number): any {
         S.Struct({ value: S.String, operator: S.optional(S.String) }),
       ).annotate({ identifier: "MatchModelEntry" });
     case 6:
-      return S.Array(__S(4645, __c145, 5));
+      return S.Array(__S(4773, __c149, 5));
     case 7:
-      return S.suspend(() => S.Struct({ anyOf: __S(4646, __c145, 6) })).annotate({
+      return S.suspend(() => S.Struct({ anyOf: __S(4774, __c149, 6) })).annotate({
         identifier: "MatchModels",
       });
     case 8:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ matchPrincipals: __S(4643, __c145, 3) }),
-        /*@__PURE__*/ S.Struct({ matchPaths: __S(4644, __c145, 4) }),
-        /*@__PURE__*/ S.Struct({ matchModels: __S(4647, __c145, 7) }),
+        /*@__PURE__*/ S.Struct({ matchPrincipals: __S(4771, __c149, 3) }),
+        /*@__PURE__*/ S.Struct({ matchPaths: __S(4772, __c149, 4) }),
+        /*@__PURE__*/ S.Struct({ matchModels: __S(4775, __c149, 7) }),
       ]);
     case 9:
-      return S.Array(__S(4648, __c145, 8));
+      return S.Array(__S(4776, __c149, 8));
     case 10:
       return S.suspend(() => S.Struct({ bundleArn: S.String, bundleVersion: S.String })).annotate({
         identifier: "StaticOverride",
@@ -16444,27 +17032,27 @@ function __c145(j: number): any {
         S.Struct({
           name: S.String,
           weight: S.Number,
-          configurationBundle: __S(4650, __c145, 10),
+          configurationBundle: __S(4778, __c149, 10),
           description: S.optional(S.String),
-          metadata: S.optional(__S(2848, __c89, 0)),
+          metadata: S.optional(__S(2880, __c90, 0)),
         }),
       ).annotate({ identifier: "TrafficSplitEntry" });
     case 12:
-      return S.Array(__S(4651, __c145, 11));
+      return S.Array(__S(4779, __c149, 11));
     case 13:
-      return S.suspend(() => S.Struct({ trafficSplit: __S(4652, __c145, 12) })).annotate({
+      return S.suspend(() => S.Struct({ trafficSplit: __S(4780, __c149, 12) })).annotate({
         identifier: "WeightedOverride",
       });
     case 14:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ staticOverride: __S(4650, __c145, 10) }),
-        /*@__PURE__*/ S.Struct({ weightedOverride: __S(4653, __c145, 13) }),
+        /*@__PURE__*/ S.Struct({ staticOverride: __S(4778, __c149, 10) }),
+        /*@__PURE__*/ S.Struct({ weightedOverride: __S(4781, __c149, 13) }),
       ]);
     case 15:
       return S.suspend(() =>
         S.Struct({
-          statusCodes: S.optional(__S(2336, __c73, 0)),
-          errors: S.optional(__S(4512, __c141, 0)),
+          statusCodes: S.optional(__S(2368, __c74, 0)),
+          errors: S.optional(__S(4640, __c145, 0)),
         }),
       ).annotate({ identifier: "FallbackTriggers" });
     case 16:
@@ -16476,19 +17064,19 @@ function __c145(j: number): any {
         S.Struct({
           targetName: SensitiveString,
           model: S.optional(S.String),
-          triggerOn: S.optional(__S(4655, __c145, 15)),
+          triggerOn: S.optional(__S(4783, __c149, 15)),
           firstByteTimeoutMilliseconds: S.optional(S.Number),
         }),
       ).annotate({ identifier: "FallbackTarget" });
     case 18:
-      return S.Array(__S(4657, __c145, 17));
+      return S.Array(__S(4785, __c149, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
-          triggerOn: S.optional(__S(4655, __c145, 15)),
+          triggerOn: S.optional(__S(4783, __c149, 15)),
           firstByteTimeoutMilliseconds: S.optional(S.Number),
-          circuitBreaker: S.optional(__S(4656, __c145, 16)),
-          targetFallback: __S(4658, __c145, 18),
+          circuitBreaker: S.optional(__S(4784, __c149, 16)),
+          targetFallback: __S(4786, __c149, 18),
         }),
       ).annotate({ identifier: "Fallback" });
     case 20:
@@ -16496,7 +17084,7 @@ function __c145(j: number): any {
         S.Struct({
           targetName: SensitiveString,
           model: S.optional(S.String),
-          fallback: S.optional(__S(4659, __c145, 19)),
+          fallback: S.optional(__S(4787, __c149, 19)),
         }),
       ).annotate({ identifier: "StaticRoute" });
     case 21:
@@ -16504,38 +17092,38 @@ function __c145(j: number): any {
         S.Struct({
           targetName: SensitiveString,
           model: S.optional(S.String),
-          fallback: S.optional(__S(4659, __c145, 19)),
+          fallback: S.optional(__S(4787, __c149, 19)),
           name: S.String,
           weight: S.Number,
           description: S.optional(S.String),
-          metadata: S.optional(__S(2848, __c89, 0)),
+          metadata: S.optional(__S(2880, __c90, 0)),
         }),
       ).annotate({ identifier: "TargetTrafficSplitEntry" });
     case 22:
-      return S.Array(__S(4661, __c145, 21));
+      return S.Array(__S(4789, __c149, 21));
     case 23:
-      return S.suspend(() => S.Struct({ trafficSplit: __S(4662, __c145, 22) })).annotate({
+      return S.suspend(() => S.Struct({ trafficSplit: __S(4790, __c149, 22) })).annotate({
         identifier: "WeightedRoute",
       });
     case 24:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ staticRoute: __S(4660, __c145, 20) }),
-        /*@__PURE__*/ S.Struct({ weightedRoute: __S(4663, __c145, 23) }),
+        /*@__PURE__*/ S.Struct({ staticRoute: __S(4788, __c149, 20) }),
+        /*@__PURE__*/ S.Struct({ weightedRoute: __S(4791, __c149, 23) }),
       ]);
     case 25:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ configurationBundle: __S(4654, __c145, 14) }),
-        /*@__PURE__*/ S.Struct({ routeToTarget: __S(4664, __c145, 24) }),
+        /*@__PURE__*/ S.Struct({ configurationBundle: __S(4782, __c149, 14) }),
+        /*@__PURE__*/ S.Struct({ routeToTarget: __S(4792, __c149, 24) }),
       ]);
     case 26:
-      return S.Array(__S(4665, __c145, 25));
+      return S.Array(__S(4793, __c149, 25));
     case 27:
       return S.suspend(() => S.Struct({ managedBy: S.String })).annotate({
         identifier: "SystemManagedBlock",
       });
   }
 }
-function __c146(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16544,11 +17132,11 @@ function __c146(j: number): any {
           name: S.optional(SensitiveString),
           description: S.optional(SensitiveString),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          targetConfiguration: __S(4838, __c151, 6),
-          credentialProviderConfigurations: S.optional(__S(4842, __c151, 10)),
-          metadataConfiguration: S.optional(__S(4843, __c151, 11)),
-          privateEndpoint: S.optional(__S(3394, __c106, 2)),
-          certificateConfigurations: S.optional(__S(3397, __c106, 5)),
+          targetConfiguration: __S(4966, __c155, 6),
+          credentialProviderConfigurations: S.optional(__S(4970, __c155, 10)),
+          metadataConfiguration: S.optional(__S(4971, __c155, 11)),
+          privateEndpoint: S.optional(__S(3426, __c107, 2)),
+          certificateConfigurations: S.optional(__S(3429, __c107, 5)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/gateways/{gatewayIdentifier}/targets/" }),
@@ -16562,20 +17150,20 @@ function __c146(j: number): any {
       ).annotate({ identifier: "CreateGatewayTargetRequest" });
   }
 }
-function __c147(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ SensitiveString.pipe(S.optional));
   }
 }
-function __c148(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           providerArn: S.String,
-          scopes: __S(2336, __c73, 0),
-          customParameters: S.optional(__S(4704, __c147, 0)),
+          scopes: __S(2368, __c74, 0),
+          customParameters: S.optional(__S(4832, __c151, 0)),
           grantType: S.optional(S.String),
           defaultReturnUrl: S.optional(S.String),
         }),
@@ -16586,17 +17174,17 @@ function __c148(j: number): any {
       ).annotate({ identifier: "IamCredentialProvider" });
   }
 }
-function __c149(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ authorizationUrl: S.String, userId: S.optional(S.String) }),
       ).annotate({ identifier: "OAuth2AuthorizationData" });
     case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ oauth2: __S(4768, __c149, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ oauth2: __S(4896, __c153, 0) })]);
   }
 }
-function __c150(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16604,13 +17192,13 @@ function __c150(j: number): any {
       ).annotate({ identifier: "S3Configuration" });
     case 1:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ s3: __S(4800, __c150, 0) }),
+        /*@__PURE__*/ S.Struct({ s3: __S(4928, __c154, 0) }),
         /*@__PURE__*/ S.Struct({ inlinePayload: SensitiveString }),
       ]);
     case 2:
       return S.Record(
         S.String,
-        /*@__PURE__*/ S.suspend((): S.Schema<SchemaDefinition> => __S(4803, __c150, 3))
+        /*@__PURE__*/ S.suspend((): S.Schema<SchemaDefinition> => __S(4931, __c154, 3))
           .annotate({ identifier: "SchemaDefinition" })
           .pipe(S.optional),
       );
@@ -16619,11 +17207,11 @@ function __c150(j: number): any {
         S.Struct({
           type: S.String,
           properties: S.optional(
-            S.suspend(() => __S(4802, __c150, 2)).annotate({ identifier: "SchemaProperties" }),
+            S.suspend(() => __S(4930, __c154, 2)).annotate({ identifier: "SchemaProperties" }),
           ),
-          required: S.optional(__S(2336, __c73, 0)),
+          required: S.optional(__S(2368, __c74, 0)),
           items: S.optional(
-            S.suspend((): S.Schema<SchemaDefinition> => __S(4803, __c150, 3)).annotate({
+            S.suspend((): S.Schema<SchemaDefinition> => __S(4931, __c154, 3)).annotate({
               identifier: "SchemaDefinition",
             }),
           ),
@@ -16635,26 +17223,26 @@ function __c150(j: number): any {
         S.Struct({
           name: S.String,
           description: S.String,
-          inputSchema: __S(4803, __c150, 3),
-          outputSchema: S.optional(__S(4803, __c150, 3)),
+          inputSchema: __S(4931, __c154, 3),
+          outputSchema: S.optional(__S(4931, __c154, 3)),
         }),
       ).annotate({ identifier: "ToolDefinition" });
     case 5:
-      return S.Array(__S(4804, __c150, 4));
+      return S.Array(__S(4932, __c154, 4));
     case 6:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ s3: __S(4800, __c150, 0) }),
-        /*@__PURE__*/ S.Struct({ inlinePayload: __S(4805, __c150, 5) }),
+        /*@__PURE__*/ S.Struct({ s3: __S(4928, __c154, 0) }),
+        /*@__PURE__*/ S.Struct({ inlinePayload: __S(4933, __c154, 5) }),
       ]);
     case 7:
       return S.suspend(() =>
-        S.Struct({ lambdaArn: S.String, toolSchema: __S(4806, __c150, 6) }),
+        S.Struct({ lambdaArn: S.String, toolSchema: __S(4934, __c154, 6) }),
       ).annotate({ identifier: "McpLambdaTargetConfiguration" });
     case 8:
       return S.suspend(() =>
         S.Struct({
           endpoint: S.String,
-          mcpToolSchema: S.optional(__S(4801, __c150, 1)),
+          mcpToolSchema: S.optional(__S(4929, __c154, 1)),
           listingMode: S.optional(S.String),
           resourcePriority: S.optional(S.Number),
         }),
@@ -16669,18 +17257,18 @@ function __c150(j: number): any {
         }),
       ).annotate({ identifier: "ApiGatewayToolOverride" });
     case 10:
-      return S.Array(__S(4809, __c150, 9));
+      return S.Array(__S(4937, __c154, 9));
     case 11:
       return S.suspend(() =>
-        S.Struct({ filterPath: S.String, methods: __S(4512, __c141, 0) }),
+        S.Struct({ filterPath: S.String, methods: __S(4640, __c145, 0) }),
       ).annotate({ identifier: "ApiGatewayToolFilter" });
     case 12:
-      return S.Array(__S(4811, __c150, 11));
+      return S.Array(__S(4939, __c154, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          toolOverrides: S.optional(__S(4810, __c150, 10)),
-          toolFilters: __S(4812, __c150, 12),
+          toolOverrides: S.optional(__S(4938, __c154, 10)),
+          toolFilters: __S(4940, __c154, 12),
         }),
       ).annotate({ identifier: "ApiGatewayToolConfiguration" });
     case 14:
@@ -16688,7 +17276,7 @@ function __c150(j: number): any {
         S.Struct({
           restApiId: S.String,
           stage: S.String,
-          apiGatewayToolConfiguration: __S(4813, __c150, 13),
+          apiGatewayToolConfiguration: __S(4941, __c154, 13),
         }),
       ).annotate({ identifier: "ApiGatewayTargetConfiguration" });
     case 15:
@@ -16704,37 +17292,37 @@ function __c150(j: number): any {
         }),
       ).annotate({ identifier: "ConnectorParameterOverride" });
     case 17:
-      return S.Array(__S(4816, __c150, 16));
+      return S.Array(__S(4944, __c154, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           description: S.optional(S.String),
           parameterValues: S.optional(S.Any),
-          parameterOverrides: S.optional(__S(4817, __c150, 17)),
+          parameterOverrides: S.optional(__S(4945, __c154, 17)),
         }),
       ).annotate({ identifier: "ConnectorConfiguration" });
     case 19:
-      return S.Array(__S(4818, __c150, 18));
+      return S.Array(__S(4946, __c154, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
-          source: __S(4815, __c150, 15),
-          enabled: S.optional(__S(2336, __c73, 0)),
-          configurations: S.optional(__S(4819, __c150, 19)),
+          source: __S(4943, __c154, 15),
+          enabled: S.optional(__S(2368, __c74, 0)),
+          configurations: S.optional(__S(4947, __c154, 19)),
         }),
       ).annotate({ identifier: "ConnectorTargetConfiguration" });
     case 21:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ openApiSchema: __S(4801, __c150, 1) }),
-        /*@__PURE__*/ S.Struct({ smithyModel: __S(4801, __c150, 1) }),
-        /*@__PURE__*/ S.Struct({ lambda: __S(4807, __c150, 7) }),
-        /*@__PURE__*/ S.Struct({ mcpServer: __S(4808, __c150, 8) }),
-        /*@__PURE__*/ S.Struct({ apiGateway: __S(4814, __c150, 14) }),
-        /*@__PURE__*/ S.Struct({ connector: __S(4820, __c150, 20) }),
+        /*@__PURE__*/ S.Struct({ openApiSchema: __S(4929, __c154, 1) }),
+        /*@__PURE__*/ S.Struct({ smithyModel: __S(4929, __c154, 1) }),
+        /*@__PURE__*/ S.Struct({ lambda: __S(4935, __c154, 7) }),
+        /*@__PURE__*/ S.Struct({ mcpServer: __S(4936, __c154, 8) }),
+        /*@__PURE__*/ S.Struct({ apiGateway: __S(4942, __c154, 14) }),
+        /*@__PURE__*/ S.Struct({ connector: __S(4948, __c154, 20) }),
       ]);
     case 22:
-      return S.suspend(() => S.Struct({ source: __S(4801, __c150, 1) })).annotate({
+      return S.suspend(() => S.Struct({ source: __S(4929, __c154, 1) })).annotate({
         identifier: "HttpApiSchemaConfiguration",
       });
     case 23:
@@ -16742,7 +17330,7 @@ function __c150(j: number): any {
         S.Struct({
           arn: S.String,
           qualifier: S.optional(S.String),
-          schema: S.optional(__S(4822, __c150, 22)),
+          schema: S.optional(__S(4950, __c154, 22)),
         }),
       ).annotate({ identifier: "RuntimeTargetConfiguration" });
     case 24:
@@ -16750,7 +17338,7 @@ function __c150(j: number): any {
         S.Struct({
           identifier: S.String,
           timeout: S.optional(S.Number),
-          compositeIdentifier: S.optional(__S(2336, __c73, 0)),
+          compositeIdentifier: S.optional(__S(2368, __c74, 0)),
         }),
       ).annotate({ identifier: "StickinessConfiguration" });
     case 25:
@@ -16758,9 +17346,9 @@ function __c150(j: number): any {
         S.Struct({
           endpoint: S.String,
           protocolType: S.String,
-          schema: S.optional(__S(4822, __c150, 22)),
-          stickinessConfiguration: S.optional(__S(4824, __c150, 24)),
-          staticQueryParameters: S.optional(__S(4704, __c147, 0)),
+          schema: S.optional(__S(4950, __c154, 22)),
+          stickinessConfiguration: S.optional(__S(4952, __c154, 24)),
+          staticQueryParameters: S.optional(__S(4832, __c151, 0)),
           staticQueryParameterConflictResolution: S.optional(S.String),
         }),
       ).annotate({ identifier: "PassthroughTargetConfiguration" });
@@ -16770,16 +17358,16 @@ function __c150(j: number): any {
       });
     case 27:
       return S.suspend(() =>
-        S.Struct({ source: __S(4826, __c150, 26), parameters: S.optional(__S(2848, __c89, 0)) }),
+        S.Struct({ source: __S(4954, __c154, 26), parameters: S.optional(__S(2880, __c90, 0)) }),
       ).annotate({ identifier: "HttpConnectorTargetConfiguration" });
     case 28:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ agentcoreRuntime: __S(4823, __c150, 23) }),
-        /*@__PURE__*/ S.Struct({ passthrough: __S(4825, __c150, 25) }),
-        /*@__PURE__*/ S.Struct({ connector: __S(4827, __c150, 27) }),
+        /*@__PURE__*/ S.Struct({ agentcoreRuntime: __S(4951, __c154, 23) }),
+        /*@__PURE__*/ S.Struct({ passthrough: __S(4953, __c154, 25) }),
+        /*@__PURE__*/ S.Struct({ connector: __S(4955, __c154, 27) }),
       ]);
     case 29:
-      return S.suspend(() => S.Struct({ source: __S(4826, __c150, 26) })).annotate({
+      return S.suspend(() => S.Struct({ source: __S(4954, __c154, 26) })).annotate({
         identifier: "InferenceConnectorTargetConfiguration",
       });
     case 30:
@@ -16788,44 +17376,44 @@ function __c150(j: number): any {
       ).annotate({ identifier: "ProviderPrefix" });
     case 31:
       return S.suspend(() =>
-        S.Struct({ providerPrefix: S.optional(__S(4830, __c150, 30)) }),
+        S.Struct({ providerPrefix: S.optional(__S(4958, __c154, 30)) }),
       ).annotate({ identifier: "ModelMapping" });
   }
 }
-function __c151(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ model: S.String })).annotate({ identifier: "ModelEntry" });
     case 1:
-      return S.Array(__S(4832, __c151, 0));
+      return S.Array(__S(4960, __c155, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           path: S.String,
           providerPath: S.optional(S.String),
-          models: S.optional(__S(4833, __c151, 1)),
+          models: S.optional(__S(4961, __c155, 1)),
         }),
       ).annotate({ identifier: "InferenceOperationConfiguration" });
     case 3:
-      return S.Array(__S(4834, __c151, 2));
+      return S.Array(__S(4962, __c155, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           endpoint: S.String,
-          modelMapping: S.optional(__S(4831, __c150, 31)),
-          operations: S.optional(__S(4835, __c151, 3)),
+          modelMapping: S.optional(__S(4959, __c154, 31)),
+          operations: S.optional(__S(4963, __c155, 3)),
         }),
       ).annotate({ identifier: "InferenceProviderTargetConfiguration" });
     case 5:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ connector: __S(4829, __c150, 29) }),
-        /*@__PURE__*/ S.Struct({ provider: __S(4836, __c151, 4) }),
+        /*@__PURE__*/ S.Struct({ connector: __S(4957, __c154, 29) }),
+        /*@__PURE__*/ S.Struct({ provider: __S(4964, __c155, 4) }),
       ]);
     case 6:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ mcp: __S(4821, __c150, 21) }),
-        /*@__PURE__*/ S.Struct({ http: __S(4828, __c150, 28) }),
-        /*@__PURE__*/ S.Struct({ inference: __S(4837, __c151, 5) }),
+        /*@__PURE__*/ S.Struct({ mcp: __S(4949, __c154, 21) }),
+        /*@__PURE__*/ S.Struct({ http: __S(4956, __c154, 28) }),
+        /*@__PURE__*/ S.Struct({ inference: __S(4965, __c155, 5) }),
       ]);
     case 7:
       return S.suspend(() =>
@@ -16838,25 +17426,25 @@ function __c151(j: number): any {
       ).annotate({ identifier: "GatewayApiKeyCredentialProvider" });
     case 8:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ oauthCredentialProvider: __S(4736, __c148, 0) }),
-        /*@__PURE__*/ S.Struct({ apiKeyCredentialProvider: __S(4839, __c151, 7) }),
-        /*@__PURE__*/ S.Struct({ iamCredentialProvider: __S(4737, __c148, 1) }),
+        /*@__PURE__*/ S.Struct({ oauthCredentialProvider: __S(4864, __c152, 0) }),
+        /*@__PURE__*/ S.Struct({ apiKeyCredentialProvider: __S(4967, __c155, 7) }),
+        /*@__PURE__*/ S.Struct({ iamCredentialProvider: __S(4865, __c152, 1) }),
       ]);
     case 9:
       return S.suspend(() =>
         S.Struct({
           credentialProviderType: S.String,
-          credentialProvider: S.optional(__S(4840, __c151, 8)),
+          credentialProvider: S.optional(__S(4968, __c155, 8)),
         }),
       ).annotate({ identifier: "CredentialProviderConfiguration" });
     case 10:
-      return S.Array(__S(4841, __c151, 9));
+      return S.Array(__S(4969, __c155, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          allowedRequestHeaders: S.optional(__S(2336, __c73, 0)),
-          allowedQueryParameters: S.optional(__S(2336, __c73, 0)),
-          allowedResponseHeaders: S.optional(__S(2336, __c73, 0)),
+          allowedRequestHeaders: S.optional(__S(2368, __c74, 0)),
+          allowedQueryParameters: S.optional(__S(2368, __c74, 0)),
+          allowedResponseHeaders: S.optional(__S(2368, __c74, 0)),
         }),
       ).annotate({ identifier: "MetadataConfiguration" });
     case 12:
@@ -16868,7 +17456,7 @@ function __c151(j: number): any {
         }),
       ).annotate({ identifier: "ManagedResourceDetails" });
     case 13:
-      return S.Array(__S(4844, __c151, 12));
+      return S.Array(__S(4972, __c155, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -16877,23 +17465,23 @@ function __c151(j: number): any {
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           status: S.String,
-          statusReasons: S.optional(__S(2336, __c73, 0)),
+          statusReasons: S.optional(__S(2368, __c74, 0)),
           name: SensitiveString,
           description: S.optional(SensitiveString),
-          targetConfiguration: __S(4838, __c151, 6),
-          credentialProviderConfigurations: __S(4842, __c151, 10),
+          targetConfiguration: __S(4966, __c155, 6),
+          credentialProviderConfigurations: __S(4970, __c155, 10),
           lastSynchronizedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          metadataConfiguration: S.optional(__S(4843, __c151, 11)),
-          privateEndpoint: S.optional(__S(3394, __c106, 2)),
-          privateEndpointManagedResources: S.optional(__S(4845, __c151, 13)),
-          authorizationData: S.optional(__S(4769, __c149, 1)),
+          metadataConfiguration: S.optional(__S(4971, __c155, 11)),
+          privateEndpoint: S.optional(__S(3426, __c107, 2)),
+          privateEndpointManagedResources: S.optional(__S(4973, __c155, 13)),
+          authorizationData: S.optional(__S(4897, __c153, 1)),
           protocolType: S.optional(S.String),
-          certificateConfigurations: S.optional(__S(3397, __c106, 5)),
+          certificateConfigurations: S.optional(__S(3429, __c107, 5)),
         }),
       ).annotate({ identifier: "CreateGatewayTargetResponse" });
   }
 }
-function __c152(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16901,43 +17489,43 @@ function __c152(j: number): any {
           harnessName: S.String,
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           executionRoleArn: S.String,
-          environment: S.optional(__S(4897, __c153, 1)),
-          environmentArtifact: S.optional(__S(4960, __c155, 0)),
-          environmentVariables: S.optional(__S(2848, __c89, 0)),
-          authorizerConfiguration: S.optional(__S(3464, __c108, 8)),
-          model: S.optional(__S(4965, __c155, 5)),
-          systemPrompt: S.optional(__S(4967, __c155, 7)),
-          tools: S.optional(__S(4977, __c155, 17)),
-          skills: S.optional(__S(4983, __c155, 23)),
-          allowedTools: S.optional(__S(2336, __c73, 0)),
-          memory: S.optional(__S(4988, __c155, 28)),
-          truncation: S.optional(__S(4992, __c156, 0)),
-          hooks: S.optional(__S(4997, __c156, 5)),
+          environment: S.optional(__S(5025, __c157, 1)),
+          environmentArtifact: S.optional(__S(5088, __c159, 0)),
+          environmentVariables: S.optional(__S(2880, __c90, 0)),
+          authorizerConfiguration: S.optional(__S(3496, __c109, 8)),
+          model: S.optional(__S(5093, __c159, 5)),
+          systemPrompt: S.optional(__S(5095, __c159, 7)),
+          tools: S.optional(__S(5105, __c159, 17)),
+          skills: S.optional(__S(5111, __c159, 23)),
+          allowedTools: S.optional(__S(2368, __c74, 0)),
+          memory: S.optional(__S(5116, __c159, 28)),
+          truncation: S.optional(__S(5120, __c160, 0)),
+          hooks: S.optional(__S(5125, __c160, 5)),
           maxIterations: S.optional(S.Number),
           maxTokens: S.optional(S.Number),
           timeoutSeconds: S.optional(S.Number),
-          tags: S.optional(__S(2848, __c89, 0)),
+          tags: S.optional(__S(2880, __c90, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/harnesses" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateHarnessRequest" });
   }
 }
-function __c153(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          lifecycleConfiguration: S.optional(__S(3522, __c110, 2)),
-          networkConfiguration: S.optional(__S(3521, __c110, 1)),
-          filesystemConfigurations: S.optional(__S(3527, __c110, 7)),
+          lifecycleConfiguration: S.optional(__S(3554, __c111, 2)),
+          networkConfiguration: S.optional(__S(3553, __c111, 1)),
+          filesystemConfigurations: S.optional(__S(3560, __c111, 8)),
         }),
       ).annotate({ identifier: "HarnessAgentCoreRuntimeEnvironmentRequest" });
     case 1:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ agentCoreRuntimeEnvironment: __S(4896, __c153, 0) }),
+        /*@__PURE__*/ S.Struct({ agentCoreRuntimeEnvironment: __S(5024, __c157, 0) }),
       ]);
   }
 }
-function __c154(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -16945,10 +17533,10 @@ function __c154(j: number): any {
       });
   }
 }
-function __c155(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
-      return S.Union([/*@__PURE__*/ S.Struct({ containerConfiguration: __S(3520, __c110, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ containerConfiguration: __S(3552, __c111, 0) })]);
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -16999,26 +17587,26 @@ function __c155(j: number): any {
       ).annotate({ identifier: "HarnessLiteLlmModelConfig" });
     case 5:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ bedrockModelConfig: __S(4961, __c155, 1) }),
-        /*@__PURE__*/ S.Struct({ openAiModelConfig: __S(4962, __c155, 2) }),
-        /*@__PURE__*/ S.Struct({ geminiModelConfig: __S(4963, __c155, 3) }),
-        /*@__PURE__*/ S.Struct({ liteLlmModelConfig: __S(4964, __c155, 4) }),
+        /*@__PURE__*/ S.Struct({ bedrockModelConfig: __S(5089, __c159, 1) }),
+        /*@__PURE__*/ S.Struct({ openAiModelConfig: __S(5090, __c159, 2) }),
+        /*@__PURE__*/ S.Struct({ geminiModelConfig: __S(5091, __c159, 3) }),
+        /*@__PURE__*/ S.Struct({ liteLlmModelConfig: __S(5092, __c159, 4) }),
       ]);
     case 6:
       return S.Union([/*@__PURE__*/ S.Struct({ text: SensitiveString })]);
     case 7:
-      return S.Array(__S(4966, __c155, 6));
+      return S.Array(__S(5094, __c159, 6));
     case 8:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ awsIam: __S(4737, __c148, 1) }),
+        /*@__PURE__*/ S.Struct({ awsIam: __S(4865, __c152, 1) }),
         /*@__PURE__*/ S.Struct({ none: /*@__PURE__*/ S.Struct({}) }),
       ]);
     case 9:
       return S.suspend(() =>
         S.Struct({
           url: SensitiveString,
-          headers: S.optional(__S(2848, __c89, 0)),
-          outboundAuth: S.optional(__S(4968, __c155, 8)),
+          headers: S.optional(__S(2880, __c90, 0)),
+          outboundAuth: S.optional(__S(5096, __c159, 8)),
         }),
       ).annotate({ identifier: "HarnessRemoteMcpConfig" });
     case 10:
@@ -17029,11 +17617,11 @@ function __c155(j: number): any {
       return S.Union([
         /*@__PURE__*/ S.Struct({ awsIam: /*@__PURE__*/ S.Struct({}) }),
         /*@__PURE__*/ S.Struct({ none: /*@__PURE__*/ S.Struct({}) }),
-        /*@__PURE__*/ S.Struct({ oauth: __S(4736, __c148, 0) }),
+        /*@__PURE__*/ S.Struct({ oauth: __S(4864, __c152, 0) }),
       ]);
     case 12:
       return S.suspend(() =>
-        S.Struct({ gatewayArn: S.String, outboundAuth: S.optional(__S(4971, __c155, 11)) }),
+        S.Struct({ gatewayArn: S.String, outboundAuth: S.optional(__S(5099, __c159, 11)) }),
       ).annotate({ identifier: "HarnessAgentCoreGatewayConfig" });
     case 13:
       return S.suspend(() =>
@@ -17045,22 +17633,22 @@ function __c155(j: number): any {
       });
     case 15:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ remoteMcp: __S(4969, __c155, 9) }),
-        /*@__PURE__*/ S.Struct({ agentCoreBrowser: __S(4970, __c155, 10) }),
-        /*@__PURE__*/ S.Struct({ agentCoreGateway: __S(4972, __c155, 12) }),
-        /*@__PURE__*/ S.Struct({ inlineFunction: __S(4973, __c155, 13) }),
-        /*@__PURE__*/ S.Struct({ agentCoreCodeInterpreter: __S(4974, __c155, 14) }),
+        /*@__PURE__*/ S.Struct({ remoteMcp: __S(5097, __c159, 9) }),
+        /*@__PURE__*/ S.Struct({ agentCoreBrowser: __S(5098, __c159, 10) }),
+        /*@__PURE__*/ S.Struct({ agentCoreGateway: __S(5100, __c159, 12) }),
+        /*@__PURE__*/ S.Struct({ inlineFunction: __S(5101, __c159, 13) }),
+        /*@__PURE__*/ S.Struct({ agentCoreCodeInterpreter: __S(5102, __c159, 14) }),
       ]);
     case 16:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           name: S.optional(S.String),
-          config: S.optional(__S(4975, __c155, 15)),
+          config: S.optional(__S(5103, __c159, 15)),
         }),
       ).annotate({ identifier: "HarnessTool" });
     case 17:
-      return S.Array(__S(4976, __c155, 16));
+      return S.Array(__S(5104, __c159, 16));
     case 18:
       return S.suspend(() => S.Struct({ uri: S.String })).annotate({
         identifier: "HarnessSkillS3Source",
@@ -17074,22 +17662,22 @@ function __c155(j: number): any {
         S.Struct({
           url: S.String,
           path: S.optional(S.String),
-          auth: S.optional(__S(4979, __c155, 19)),
+          auth: S.optional(__S(5107, __c159, 19)),
         }),
       ).annotate({ identifier: "HarnessSkillGitSource" });
     case 21:
-      return S.suspend(() => S.Struct({ paths: S.optional(__S(2336, __c73, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ paths: S.optional(__S(2368, __c74, 0)) })).annotate({
         identifier: "HarnessSkillAwsSkillsSource",
       });
     case 22:
       return S.Union([
         /*@__PURE__*/ S.Struct({ path: S.String }),
-        /*@__PURE__*/ S.Struct({ s3: __S(4978, __c155, 18) }),
-        /*@__PURE__*/ S.Struct({ git: __S(4980, __c155, 20) }),
-        /*@__PURE__*/ S.Struct({ awsSkills: __S(4981, __c155, 21) }),
+        /*@__PURE__*/ S.Struct({ s3: __S(5106, __c159, 18) }),
+        /*@__PURE__*/ S.Struct({ git: __S(5108, __c159, 20) }),
+        /*@__PURE__*/ S.Struct({ awsSkills: __S(5109, __c159, 21) }),
       ]);
     case 23:
-      return S.Array(__S(4982, __c155, 22));
+      return S.Array(__S(5110, __c159, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
@@ -17099,30 +17687,30 @@ function __c155(j: number): any {
         }),
       ).annotate({ identifier: "HarnessAgentCoreMemoryRetrievalConfig" });
     case 25:
-      return S.Record(S.String, /*@__PURE__*/ __S(4984, __c155, 24).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(5112, __c159, 24).pipe(S.optional));
     case 26:
       return S.suspend(() =>
         S.Struct({
           arn: S.String,
           actorId: S.optional(S.String),
           messagesCount: S.optional(S.Number),
-          retrievalConfig: S.optional(__S(4985, __c155, 25)),
+          retrievalConfig: S.optional(__S(5113, __c159, 25)),
         }),
       ).annotate({ identifier: "HarnessAgentCoreMemoryConfiguration" });
     case 27:
       return S.suspend(() =>
         S.Struct({
           arn: S.optional(S.String),
-          strategies: S.optional(__S(4512, __c141, 0)),
+          strategies: S.optional(__S(4640, __c145, 0)),
           eventExpiryDuration: S.optional(S.Number),
           encryptionKeyArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "HarnessManagedMemoryConfiguration" });
     case 28:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ agentCoreMemoryConfiguration: __S(4986, __c155, 26) }),
-        /*@__PURE__*/ S.Struct({ managedMemoryConfiguration: __S(4987, __c155, 27) }),
-        /*@__PURE__*/ S.Struct({ disabled: __S(4928, __c154, 0) }),
+        /*@__PURE__*/ S.Struct({ agentCoreMemoryConfiguration: __S(5114, __c159, 26) }),
+        /*@__PURE__*/ S.Struct({ managedMemoryConfiguration: __S(5115, __c159, 27) }),
+        /*@__PURE__*/ S.Struct({ disabled: __S(5056, __c158, 0) }),
       ]);
     case 29:
       return S.suspend(() => S.Struct({ messagesCount: S.optional(S.Number) })).annotate({
@@ -17138,16 +17726,16 @@ function __c155(j: number): any {
       ).annotate({ identifier: "HarnessSummarizationConfiguration" });
     case 31:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ slidingWindow: __S(4989, __c155, 29) }),
-        /*@__PURE__*/ S.Struct({ summarization: __S(4990, __c155, 30) }),
+        /*@__PURE__*/ S.Struct({ slidingWindow: __S(5117, __c159, 29) }),
+        /*@__PURE__*/ S.Struct({ summarization: __S(5118, __c159, 30) }),
       ]);
   }
 }
-function __c156(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ strategy: S.String, config: S.optional(__S(4991, __c155, 31)) }),
+        S.Struct({ strategy: S.String, config: S.optional(__S(5119, __c159, 31)) }),
       ).annotate({ identifier: "HarnessTruncationConfiguration" });
     case 1:
       return S.suspend(() =>
@@ -17159,37 +17747,37 @@ function __c156(j: number): any {
       ).annotate({ identifier: "HarnessHookLambdaTarget" });
     case 2:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ lambda: __S(4993, __c156, 1) }),
-        /*@__PURE__*/ S.Struct({ sns: __S(3460, __c108, 4) }),
-        /*@__PURE__*/ S.Struct({ eventBridge: __S(3460, __c108, 4) }),
+        /*@__PURE__*/ S.Struct({ lambda: __S(5121, __c160, 1) }),
+        /*@__PURE__*/ S.Struct({ sns: __S(3492, __c109, 4) }),
+        /*@__PURE__*/ S.Struct({ eventBridge: __S(3492, __c109, 4) }),
       ]);
     case 3:
-      return S.suspend(() => S.Struct({ name: S.String, target: __S(4994, __c156, 2) })).annotate({
+      return S.suspend(() => S.Struct({ name: S.String, target: __S(5122, __c160, 2) })).annotate({
         identifier: "HarnessBeforeInvocationHook",
       });
     case 4:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ beforeInvocation: __S(4995, __c156, 3) }),
-        /*@__PURE__*/ S.Struct({ afterInvocation: __S(4995, __c156, 3) }),
-        /*@__PURE__*/ S.Struct({ beforeToolCall: __S(4995, __c156, 3) }),
-        /*@__PURE__*/ S.Struct({ afterToolCall: __S(4995, __c156, 3) }),
+        /*@__PURE__*/ S.Struct({ beforeInvocation: __S(5123, __c160, 3) }),
+        /*@__PURE__*/ S.Struct({ afterInvocation: __S(5123, __c160, 3) }),
+        /*@__PURE__*/ S.Struct({ beforeToolCall: __S(5123, __c160, 3) }),
+        /*@__PURE__*/ S.Struct({ afterToolCall: __S(5123, __c160, 3) }),
       ]);
     case 5:
-      return S.Array(__S(4996, __c156, 4));
+      return S.Array(__S(5124, __c160, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           agentRuntimeArn: S.String,
           agentRuntimeName: S.String,
           agentRuntimeId: S.String,
-          lifecycleConfiguration: __S(3522, __c110, 2),
-          networkConfiguration: __S(3521, __c110, 1),
-          filesystemConfigurations: S.optional(__S(3527, __c110, 7)),
+          lifecycleConfiguration: __S(3554, __c111, 2),
+          networkConfiguration: __S(3553, __c111, 1),
+          filesystemConfigurations: S.optional(__S(3560, __c111, 8)),
         }),
       ).annotate({ identifier: "HarnessAgentCoreRuntimeEnvironment" });
     case 7:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ agentCoreRuntimeEnvironment: __S(4998, __c156, 6) }),
+        /*@__PURE__*/ S.Struct({ agentCoreRuntimeEnvironment: __S(5126, __c160, 6) }),
       ]);
     case 8:
       return S.suspend(() =>
@@ -17202,18 +17790,18 @@ function __c156(j: number): any {
           executionRoleArn: S.String,
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-          model: __S(4965, __c155, 5),
-          systemPrompt: __S(4967, __c155, 7),
-          tools: __S(4977, __c155, 17),
-          skills: __S(4983, __c155, 23),
-          allowedTools: __S(2336, __c73, 0),
-          truncation: __S(4992, __c156, 0),
-          environment: __S(4999, __c156, 7),
-          environmentArtifact: S.optional(__S(4960, __c155, 0)),
-          environmentVariables: S.optional(__S(2848, __c89, 0)),
-          authorizerConfiguration: S.optional(__S(3464, __c108, 8)),
-          memory: S.optional(__S(4988, __c155, 28)),
-          hooks: S.optional(__S(4997, __c156, 5)),
+          model: __S(5093, __c159, 5),
+          systemPrompt: __S(5095, __c159, 7),
+          tools: __S(5105, __c159, 17),
+          skills: __S(5111, __c159, 23),
+          allowedTools: __S(2368, __c74, 0),
+          truncation: __S(5120, __c160, 0),
+          environment: __S(5127, __c160, 7),
+          environmentArtifact: S.optional(__S(5088, __c159, 0)),
+          environmentVariables: S.optional(__S(2880, __c90, 0)),
+          authorizerConfiguration: S.optional(__S(3496, __c109, 8)),
+          memory: S.optional(__S(5116, __c159, 28)),
+          hooks: S.optional(__S(5125, __c160, 5)),
           maxIterations: S.optional(S.Number),
           maxTokens: S.optional(S.Number),
           timeoutSeconds: S.optional(S.Number),
@@ -17222,15 +17810,15 @@ function __c156(j: number): any {
       ).annotate({ identifier: "Harness" });
   }
 }
-function __c157(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ harness: __S(5000, __c156, 8) })).annotate({
+      return S.suspend(() => S.Struct({ harness: __S(5128, __c160, 8) })).annotate({
         identifier: "CreateHarnessResponse",
       });
   }
 }
-function __c158(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17240,7 +17828,7 @@ function __c158(j: number): any {
           targetVersion: S.optional(S.String),
           description: S.optional(S.String),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          tags: S.optional(__S(2848, __c89, 0)),
+          tags: S.optional(__S(2880, __c90, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/harnesses/{harnessId}/endpoints" }),
@@ -17254,7 +17842,7 @@ function __c158(j: number): any {
       ).annotate({ identifier: "CreateHarnessEndpointRequest" });
   }
 }
-function __c159(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17274,15 +17862,15 @@ function __c159(j: number): any {
       ).annotate({ identifier: "HarnessEndpoint" });
   }
 }
-function __c160(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ endpoint: __S(5088, __c159, 0) })).annotate({
+      return S.suspend(() => S.Struct({ endpoint: __S(5216, __c163, 0) })).annotate({
         identifier: "CreateHarnessEndpointResponse",
       });
   }
 }
-function __c161(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17293,18 +17881,18 @@ function __c161(j: number): any {
           encryptionKeyArn: S.optional(S.String),
           memoryExecutionRoleArn: S.optional(S.String),
           eventExpiryDuration: S.Number,
-          memoryStrategies: S.optional(__S(5194, __c162, 10)),
-          indexedKeys: S.optional(__S(5235, __c163, 19)),
-          namespaceKeys: S.optional(__S(5238, __c163, 22)),
-          streamDeliveryResources: S.optional(__S(5244, __c163, 28)),
-          tags: S.optional(__S(2848, __c89, 0)),
+          memoryStrategies: S.optional(__S(5322, __c166, 10)),
+          indexedKeys: S.optional(__S(5363, __c167, 19)),
+          namespaceKeys: S.optional(__S(5366, __c167, 22)),
+          streamDeliveryResources: S.optional(__S(5372, __c167, 28)),
+          tags: S.optional(__S(2880, __c90, 0)),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/memories/create" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "CreateMemoryInput" });
   }
 }
-function __c162(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.Union([
@@ -17316,57 +17904,57 @@ function __c162(j: number): any {
         S.Struct({
           name: S.String,
           description: S.optional(SensitiveString),
-          namespaces: S.optional(__S(2336, __c73, 0)),
-          namespaceTemplates: S.optional(__S(2336, __c73, 0)),
-          memoryRecordSchema: S.optional(__S(5224, __c163, 8)),
-          recordExpirySpecification: S.optional(__S(5184, __c162, 0)),
+          namespaces: S.optional(__S(2368, __c74, 0)),
+          namespaceTemplates: S.optional(__S(2368, __c74, 0)),
+          memoryRecordSchema: S.optional(__S(5352, __c167, 8)),
+          recordExpirySpecification: S.optional(__S(5312, __c166, 0)),
         }),
       ).annotate({ identifier: "SemanticMemoryStrategyInput" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          extraction: S.optional(__S(5225, __c163, 9)),
-          consolidation: S.optional(__S(5225, __c163, 9)),
+          extraction: S.optional(__S(5353, __c167, 9)),
+          consolidation: S.optional(__S(5353, __c167, 9)),
         }),
       ).annotate({ identifier: "SemanticOverrideConfigurationInput" });
     case 3:
       return S.suspend(() =>
-        S.Struct({ consolidation: S.optional(__S(5225, __c163, 9)) }),
+        S.Struct({ consolidation: S.optional(__S(5353, __c167, 9)) }),
       ).annotate({ identifier: "SummaryOverrideConfigurationInput" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          extraction: S.optional(__S(5225, __c163, 9)),
-          consolidation: S.optional(__S(5225, __c163, 9)),
-          reflection: S.optional(__S(5226, __c163, 10)),
+          extraction: S.optional(__S(5353, __c167, 9)),
+          consolidation: S.optional(__S(5353, __c167, 9)),
+          reflection: S.optional(__S(5354, __c167, 10)),
         }),
       ).annotate({ identifier: "EpisodicOverrideConfigurationInput" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          triggerConditions: S.optional(__S(5231, __c163, 15)),
-          invocationConfiguration: __S(5232, __c163, 16),
+          triggerConditions: S.optional(__S(5359, __c167, 15)),
+          invocationConfiguration: __S(5360, __c167, 16),
           historicalContextWindowSize: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SelfManagedConfigurationInput" });
     case 6:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ semanticOverride: __S(5186, __c162, 2) }),
-        /*@__PURE__*/ S.Struct({ summaryOverride: __S(5187, __c162, 3) }),
-        /*@__PURE__*/ S.Struct({ userPreferenceOverride: __S(5186, __c162, 2) }),
-        /*@__PURE__*/ S.Struct({ episodicOverride: __S(5188, __c162, 4) }),
-        /*@__PURE__*/ S.Struct({ selfManagedConfiguration: __S(5189, __c162, 5) }),
+        /*@__PURE__*/ S.Struct({ semanticOverride: __S(5314, __c166, 2) }),
+        /*@__PURE__*/ S.Struct({ summaryOverride: __S(5315, __c166, 3) }),
+        /*@__PURE__*/ S.Struct({ userPreferenceOverride: __S(5314, __c166, 2) }),
+        /*@__PURE__*/ S.Struct({ episodicOverride: __S(5316, __c166, 4) }),
+        /*@__PURE__*/ S.Struct({ selfManagedConfiguration: __S(5317, __c166, 5) }),
       ]);
     case 7:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           description: S.optional(SensitiveString),
-          namespaces: S.optional(__S(2336, __c73, 0)),
-          namespaceTemplates: S.optional(__S(2336, __c73, 0)),
-          configuration: S.optional(__S(5190, __c162, 6)),
-          memoryRecordSchema: S.optional(__S(5224, __c163, 8)),
-          recordExpirySpecification: S.optional(__S(5184, __c162, 0)),
+          namespaces: S.optional(__S(2368, __c74, 0)),
+          namespaceTemplates: S.optional(__S(2368, __c74, 0)),
+          configuration: S.optional(__S(5318, __c166, 6)),
+          memoryRecordSchema: S.optional(__S(5352, __c167, 8)),
+          recordExpirySpecification: S.optional(__S(5312, __c166, 0)),
         }),
       ).annotate({ identifier: "CustomMemoryStrategyInput" });
     case 8:
@@ -17374,39 +17962,39 @@ function __c162(j: number): any {
         S.Struct({
           name: S.String,
           description: S.optional(SensitiveString),
-          namespaces: S.optional(__S(2336, __c73, 0)),
-          namespaceTemplates: S.optional(__S(2336, __c73, 0)),
-          reflectionConfiguration: S.optional(__S(5233, __c163, 17)),
-          memoryRecordSchema: S.optional(__S(5224, __c163, 8)),
-          recordExpirySpecification: S.optional(__S(5184, __c162, 0)),
+          namespaces: S.optional(__S(2368, __c74, 0)),
+          namespaceTemplates: S.optional(__S(2368, __c74, 0)),
+          reflectionConfiguration: S.optional(__S(5361, __c167, 17)),
+          memoryRecordSchema: S.optional(__S(5352, __c167, 8)),
+          recordExpirySpecification: S.optional(__S(5312, __c166, 0)),
         }),
       ).annotate({ identifier: "EpisodicMemoryStrategyInput" });
     case 9:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ semanticMemoryStrategy: __S(5185, __c162, 1) }),
-        /*@__PURE__*/ S.Struct({ summaryMemoryStrategy: __S(5185, __c162, 1) }),
-        /*@__PURE__*/ S.Struct({ userPreferenceMemoryStrategy: __S(5185, __c162, 1) }),
-        /*@__PURE__*/ S.Struct({ customMemoryStrategy: __S(5191, __c162, 7) }),
-        /*@__PURE__*/ S.Struct({ episodicMemoryStrategy: __S(5192, __c162, 8) }),
+        /*@__PURE__*/ S.Struct({ semanticMemoryStrategy: __S(5313, __c166, 1) }),
+        /*@__PURE__*/ S.Struct({ summaryMemoryStrategy: __S(5313, __c166, 1) }),
+        /*@__PURE__*/ S.Struct({ userPreferenceMemoryStrategy: __S(5313, __c166, 1) }),
+        /*@__PURE__*/ S.Struct({ customMemoryStrategy: __S(5319, __c166, 7) }),
+        /*@__PURE__*/ S.Struct({ episodicMemoryStrategy: __S(5320, __c166, 8) }),
       ]);
     case 10:
-      return S.Array(__S(5193, __c162, 9));
+      return S.Array(__S(5321, __c166, 9));
     case 11:
-      return S.suspend(() => S.Struct({ memory: S.optional(__S(5255, __c164, 7)) })).annotate({
+      return S.suspend(() => S.Struct({ memory: S.optional(__S(5383, __c168, 7)) })).annotate({
         identifier: "CreateMemoryOutput",
       });
   }
 }
-function __c163(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ allowedValues: __S(2336, __c73, 0) })).annotate({
+      return S.suspend(() => S.Struct({ allowedValues: __S(2368, __c74, 0) })).annotate({
         identifier: "StringValidation",
       });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          allowedValues: S.optional(__S(2336, __c73, 0)),
+          allowedValues: S.optional(__S(2368, __c74, 0)),
           maxItems: S.optional(S.Number),
         }),
       ).annotate({ identifier: "StringListValidation" });
@@ -17416,34 +18004,34 @@ function __c163(j: number): any {
       ).annotate({ identifier: "NumberValidation" });
     case 3:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ stringValidation: __S(5216, __c163, 0) }),
-        /*@__PURE__*/ S.Struct({ stringListValidation: __S(5217, __c163, 1) }),
-        /*@__PURE__*/ S.Struct({ numberValidation: __S(5218, __c163, 2) }),
+        /*@__PURE__*/ S.Struct({ stringValidation: __S(5344, __c167, 0) }),
+        /*@__PURE__*/ S.Struct({ stringListValidation: __S(5345, __c167, 1) }),
+        /*@__PURE__*/ S.Struct({ numberValidation: __S(5346, __c167, 2) }),
       ]);
     case 4:
       return S.suspend(() =>
         S.Struct({
           llmExtractionInstruction: S.optional(SensitiveString),
           definition: SensitiveString,
-          validation: S.optional(__S(5219, __c163, 3)),
+          validation: S.optional(__S(5347, __c167, 3)),
         }),
       ).annotate({ identifier: "LlmExtractionConfig" });
     case 5:
-      return S.Union([/*@__PURE__*/ S.Struct({ llmExtractionConfig: __S(5220, __c163, 4) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ llmExtractionConfig: __S(5348, __c167, 4) })]);
     case 6:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
           type: S.optional(S.String),
           extractionType: S.optional(S.String),
-          extractionConfig: S.optional(__S(5221, __c163, 5)),
+          extractionConfig: S.optional(__S(5349, __c167, 5)),
         }),
       ).annotate({ identifier: "MetadataSchemaEntry" });
     case 7:
-      return S.Array(__S(5222, __c163, 6));
+      return S.Array(__S(5350, __c167, 6));
     case 8:
       return S.suspend(() =>
-        S.Struct({ metadataSchema: S.optional(__S(5223, __c163, 7)) }),
+        S.Struct({ metadataSchema: S.optional(__S(5351, __c167, 7)) }),
       ).annotate({ identifier: "MemoryRecordSchema" });
     case 9:
       return S.suspend(() =>
@@ -17454,9 +18042,9 @@ function __c163(j: number): any {
         S.Struct({
           appendToPrompt: SensitiveString,
           modelId: S.String,
-          namespaces: S.optional(__S(2336, __c73, 0)),
-          namespaceTemplates: S.optional(__S(2336, __c73, 0)),
-          memoryRecordSchema: S.optional(__S(5224, __c163, 8)),
+          namespaces: S.optional(__S(2368, __c74, 0)),
+          namespaceTemplates: S.optional(__S(2368, __c74, 0)),
+          memoryRecordSchema: S.optional(__S(5352, __c167, 8)),
         }),
       ).annotate({ identifier: "EpisodicOverrideReflectionConfigurationInput" });
     case 11:
@@ -17473,12 +18061,12 @@ function __c163(j: number): any {
       });
     case 14:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ messageBasedTrigger: __S(5227, __c163, 11) }),
-        /*@__PURE__*/ S.Struct({ tokenBasedTrigger: __S(5228, __c163, 12) }),
-        /*@__PURE__*/ S.Struct({ timeBasedTrigger: __S(5229, __c163, 13) }),
+        /*@__PURE__*/ S.Struct({ messageBasedTrigger: __S(5355, __c167, 11) }),
+        /*@__PURE__*/ S.Struct({ tokenBasedTrigger: __S(5356, __c167, 12) }),
+        /*@__PURE__*/ S.Struct({ timeBasedTrigger: __S(5357, __c167, 13) }),
       ]);
     case 15:
-      return S.Array(__S(5230, __c163, 14));
+      return S.Array(__S(5358, __c167, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({ topicArn: S.String, payloadDeliveryBucketName: S.String }),
@@ -17486,9 +18074,9 @@ function __c163(j: number): any {
     case 17:
       return S.suspend(() =>
         S.Struct({
-          namespaces: S.optional(__S(2336, __c73, 0)),
-          namespaceTemplates: S.optional(__S(2336, __c73, 0)),
-          memoryRecordSchema: S.optional(__S(5224, __c163, 8)),
+          namespaces: S.optional(__S(2368, __c74, 0)),
+          namespaceTemplates: S.optional(__S(2368, __c74, 0)),
+          memoryRecordSchema: S.optional(__S(5352, __c167, 8)),
         }),
       ).annotate({ identifier: "EpisodicReflectionConfigurationInput" });
     case 18:
@@ -17496,77 +18084,77 @@ function __c163(j: number): any {
         identifier: "IndexedKey",
       });
     case 19:
-      return S.Array(__S(5234, __c163, 18));
+      return S.Array(__S(5362, __c167, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
-          allowedValues: S.optional(__S(2336, __c73, 0)),
+          allowedValues: S.optional(__S(2368, __c74, 0)),
           regexPattern: S.optional(S.String),
         }),
       ).annotate({ identifier: "NamespaceKeyValidation" });
     case 21:
       return S.suspend(() =>
-        S.Struct({ key: S.String, validation: S.optional(__S(5236, __c163, 20)) }),
+        S.Struct({ key: S.String, validation: S.optional(__S(5364, __c167, 20)) }),
       ).annotate({ identifier: "NamespaceKeyEntry" });
     case 22:
-      return S.Array(__S(5237, __c163, 21));
+      return S.Array(__S(5365, __c167, 21));
     case 23:
       return S.suspend(() => S.Struct({ type: S.String, level: S.optional(S.String) })).annotate({
         identifier: "ContentConfiguration",
       });
     case 24:
-      return S.Array(__S(5239, __c163, 23));
+      return S.Array(__S(5367, __c167, 23));
     case 25:
       return S.suspend(() =>
-        S.Struct({ dataStreamArn: S.String, contentConfigurations: __S(5240, __c163, 24) }),
+        S.Struct({ dataStreamArn: S.String, contentConfigurations: __S(5368, __c167, 24) }),
       ).annotate({ identifier: "KinesisResource" });
     case 26:
-      return S.Union([/*@__PURE__*/ S.Struct({ kinesis: __S(5241, __c163, 25) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ kinesis: __S(5369, __c167, 25) })]);
     case 27:
-      return S.Array(__S(5242, __c163, 26));
+      return S.Array(__S(5370, __c167, 26));
     case 28:
-      return S.suspend(() => S.Struct({ resources: __S(5243, __c163, 27) })).annotate({
+      return S.suspend(() => S.Struct({ resources: __S(5371, __c167, 27) })).annotate({
         identifier: "StreamDeliveryResources",
       });
     case 29:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ semanticExtractionOverride: __S(5225, __c163, 9) }),
-        /*@__PURE__*/ S.Struct({ userPreferenceExtractionOverride: __S(5225, __c163, 9) }),
-        /*@__PURE__*/ S.Struct({ episodicExtractionOverride: __S(5225, __c163, 9) }),
+        /*@__PURE__*/ S.Struct({ semanticExtractionOverride: __S(5353, __c167, 9) }),
+        /*@__PURE__*/ S.Struct({ userPreferenceExtractionOverride: __S(5353, __c167, 9) }),
+        /*@__PURE__*/ S.Struct({ episodicExtractionOverride: __S(5353, __c167, 9) }),
       ]);
     case 30:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ customExtractionConfiguration: __S(5245, __c163, 29) }),
+        /*@__PURE__*/ S.Struct({ customExtractionConfiguration: __S(5373, __c167, 29) }),
       ]);
     case 31:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ semanticConsolidationOverride: __S(5225, __c163, 9) }),
-        /*@__PURE__*/ S.Struct({ summaryConsolidationOverride: __S(5225, __c163, 9) }),
-        /*@__PURE__*/ S.Struct({ userPreferenceConsolidationOverride: __S(5225, __c163, 9) }),
-        /*@__PURE__*/ S.Struct({ episodicConsolidationOverride: __S(5225, __c163, 9) }),
+        /*@__PURE__*/ S.Struct({ semanticConsolidationOverride: __S(5353, __c167, 9) }),
+        /*@__PURE__*/ S.Struct({ summaryConsolidationOverride: __S(5353, __c167, 9) }),
+        /*@__PURE__*/ S.Struct({ userPreferenceConsolidationOverride: __S(5353, __c167, 9) }),
+        /*@__PURE__*/ S.Struct({ episodicConsolidationOverride: __S(5353, __c167, 9) }),
       ]);
   }
 }
-function __c164(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ customConsolidationConfiguration: __S(5247, __c163, 31) }),
+        /*@__PURE__*/ S.Struct({ customConsolidationConfiguration: __S(5375, __c167, 31) }),
       ]);
     case 1:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ episodicReflectionOverride: __S(5226, __c163, 10) }),
+        /*@__PURE__*/ S.Struct({ episodicReflectionOverride: __S(5354, __c167, 10) }),
       ]);
     case 2:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ customReflectionConfiguration: __S(5249, __c164, 1) }),
-        /*@__PURE__*/ S.Struct({ episodicReflectionConfiguration: __S(5233, __c163, 17) }),
+        /*@__PURE__*/ S.Struct({ customReflectionConfiguration: __S(5377, __c168, 1) }),
+        /*@__PURE__*/ S.Struct({ episodicReflectionConfiguration: __S(5361, __c167, 17) }),
       ]);
     case 3:
       return S.suspend(() =>
         S.Struct({
-          triggerConditions: __S(5231, __c163, 15),
-          invocationConfiguration: __S(5232, __c163, 16),
+          triggerConditions: __S(5359, __c167, 15),
+          invocationConfiguration: __S(5360, __c167, 16),
           historicalContextWindowSize: S.Number,
         }),
       ).annotate({ identifier: "SelfManagedConfiguration" });
@@ -17574,10 +18162,10 @@ function __c164(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          extraction: S.optional(__S(5246, __c163, 30)),
-          consolidation: S.optional(__S(5248, __c164, 0)),
-          reflection: S.optional(__S(5250, __c164, 2)),
-          selfManagedConfiguration: S.optional(__S(5251, __c164, 3)),
+          extraction: S.optional(__S(5374, __c167, 30)),
+          consolidation: S.optional(__S(5376, __c168, 0)),
+          reflection: S.optional(__S(5378, __c168, 2)),
+          selfManagedConfiguration: S.optional(__S(5379, __c168, 3)),
         }),
       ).annotate({ identifier: "StrategyConfiguration" });
     case 5:
@@ -17586,19 +18174,19 @@ function __c164(j: number): any {
           strategyId: S.String,
           name: S.String,
           description: S.optional(SensitiveString),
-          configuration: S.optional(__S(5252, __c164, 4)),
+          configuration: S.optional(__S(5380, __c168, 4)),
           type: S.String,
-          namespaces: __S(2336, __c73, 0),
-          namespaceTemplates: __S(2336, __c73, 0),
+          namespaces: __S(2368, __c74, 0),
+          namespaceTemplates: __S(2368, __c74, 0),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           status: S.optional(S.String),
-          memoryRecordSchema: S.optional(__S(5224, __c163, 8)),
+          memoryRecordSchema: S.optional(__S(5352, __c167, 8)),
           recordExpiryDurationDays: S.optional(S.Number),
         }),
       ).annotate({ identifier: "MemoryStrategy" });
     case 6:
-      return S.Array(__S(5253, __c164, 5));
+      return S.Array(__S(5381, __c168, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -17613,24 +18201,24 @@ function __c164(j: number): any {
           failureReason: S.optional(S.String),
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          strategies: S.optional(__S(5254, __c164, 6)),
-          indexedKeys: S.optional(__S(5235, __c163, 19)),
-          namespaceKeys: S.optional(__S(5238, __c163, 22)),
-          streamDeliveryResources: S.optional(__S(5244, __c163, 28)),
+          strategies: S.optional(__S(5382, __c168, 6)),
+          indexedKeys: S.optional(__S(5363, __c167, 19)),
+          namespaceKeys: S.optional(__S(5366, __c167, 22)),
+          streamDeliveryResources: S.optional(__S(5372, __c167, 28)),
           managedByResourceArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "Memory" });
   }
 }
-function __c165(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           credentialProviderVendor: S.String,
-          oauth2ProviderConfigInput: __S(5316, __c166, 4),
-          tags: S.optional(__S(2848, __c89, 0)),
+          oauth2ProviderConfigInput: __S(5444, __c170, 4),
+          tags: S.optional(__S(2880, __c90, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/identities/CreateOauth2CredentialProvider" }),
@@ -17645,34 +18233,34 @@ function __c165(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          clientSecretArn: __S(3296, __c103, 0),
+          clientSecretArn: __S(3328, __c104, 0),
           clientSecretJsonKey: S.optional(S.String),
           clientSecretSource: S.optional(S.String),
           name: S.String,
           credentialProviderArn: S.String,
           callbackUrl: S.optional(S.String),
-          oauth2ProviderConfigOutput: S.optional(__S(5354, __c167, 10)),
+          oauth2ProviderConfigOutput: S.optional(__S(5482, __c171, 10)),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateOauth2CredentialProviderResponse" });
   }
 }
-function __c166(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          oauthDiscovery: __S(5345, __c167, 1),
+          oauthDiscovery: __S(5473, __c171, 1),
           clientId: S.optional(S.String),
           clientSecret: S.optional(SensitiveString),
-          clientSecretConfig: S.optional(__S(3904, __c122, 0)),
+          clientSecretConfig: S.optional(__S(4032, __c126, 0)),
           clientSecretSource: S.optional(S.String),
-          onBehalfOfTokenExchangeConfig: S.optional(__S(5348, __c167, 4)),
+          onBehalfOfTokenExchangeConfig: S.optional(__S(5476, __c171, 4)),
           clientAuthenticationMethod: S.optional(S.String),
-          privateKeyJwtConfig: S.optional(__S(5351, __c167, 7)),
-          privateEndpoint: S.optional(__S(3394, __c106, 2)),
-          privateEndpointOverrides: S.optional(__S(3425, __c107, 1)),
-          certificateConfigurations: S.optional(__S(3397, __c106, 5)),
+          privateKeyJwtConfig: S.optional(__S(5479, __c171, 7)),
+          privateEndpoint: S.optional(__S(3426, __c107, 2)),
+          privateEndpointOverrides: S.optional(__S(3457, __c108, 1)),
+          certificateConfigurations: S.optional(__S(3429, __c107, 5)),
         }),
       ).annotate({ identifier: "CustomOauth2ProviderConfigInput" });
     case 1:
@@ -17680,7 +18268,7 @@ function __c166(j: number): any {
         S.Struct({
           clientId: S.String,
           clientSecret: S.optional(SensitiveString),
-          clientSecretConfig: S.optional(__S(3904, __c122, 0)),
+          clientSecretConfig: S.optional(__S(4032, __c126, 0)),
           clientSecretSource: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleOauth2ProviderConfigInput" });
@@ -17689,7 +18277,7 @@ function __c166(j: number): any {
         S.Struct({
           clientId: S.String,
           clientSecret: S.optional(SensitiveString),
-          clientSecretConfig: S.optional(__S(3904, __c122, 0)),
+          clientSecretConfig: S.optional(__S(4032, __c126, 0)),
           clientSecretSource: S.optional(S.String),
           tenantId: S.optional(S.String),
         }),
@@ -17699,7 +18287,7 @@ function __c166(j: number): any {
         S.Struct({
           clientId: S.String,
           clientSecret: S.optional(SensitiveString),
-          clientSecretConfig: S.optional(__S(3904, __c122, 0)),
+          clientSecretConfig: S.optional(__S(4032, __c126, 0)),
           clientSecretSource: S.optional(S.String),
           issuer: S.optional(S.String),
           authorizationEndpoint: S.optional(S.String),
@@ -17708,19 +18296,19 @@ function __c166(j: number): any {
       ).annotate({ identifier: "IncludedOauth2ProviderConfigInput" });
     case 4:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ customOauth2ProviderConfig: __S(5312, __c166, 0) }),
-        /*@__PURE__*/ S.Struct({ googleOauth2ProviderConfig: __S(5313, __c166, 1) }),
-        /*@__PURE__*/ S.Struct({ githubOauth2ProviderConfig: __S(5313, __c166, 1) }),
-        /*@__PURE__*/ S.Struct({ slackOauth2ProviderConfig: __S(5313, __c166, 1) }),
-        /*@__PURE__*/ S.Struct({ salesforceOauth2ProviderConfig: __S(5313, __c166, 1) }),
-        /*@__PURE__*/ S.Struct({ microsoftOauth2ProviderConfig: __S(5314, __c166, 2) }),
-        /*@__PURE__*/ S.Struct({ atlassianOauth2ProviderConfig: __S(5313, __c166, 1) }),
-        /*@__PURE__*/ S.Struct({ linkedinOauth2ProviderConfig: __S(5313, __c166, 1) }),
-        /*@__PURE__*/ S.Struct({ includedOauth2ProviderConfig: __S(5315, __c166, 3) }),
+        /*@__PURE__*/ S.Struct({ customOauth2ProviderConfig: __S(5440, __c170, 0) }),
+        /*@__PURE__*/ S.Struct({ googleOauth2ProviderConfig: __S(5441, __c170, 1) }),
+        /*@__PURE__*/ S.Struct({ githubOauth2ProviderConfig: __S(5441, __c170, 1) }),
+        /*@__PURE__*/ S.Struct({ slackOauth2ProviderConfig: __S(5441, __c170, 1) }),
+        /*@__PURE__*/ S.Struct({ salesforceOauth2ProviderConfig: __S(5441, __c170, 1) }),
+        /*@__PURE__*/ S.Struct({ microsoftOauth2ProviderConfig: __S(5442, __c170, 2) }),
+        /*@__PURE__*/ S.Struct({ atlassianOauth2ProviderConfig: __S(5441, __c170, 1) }),
+        /*@__PURE__*/ S.Struct({ linkedinOauth2ProviderConfig: __S(5441, __c170, 1) }),
+        /*@__PURE__*/ S.Struct({ includedOauth2ProviderConfig: __S(5443, __c170, 3) }),
       ]);
   }
 }
-function __c167(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17728,20 +18316,20 @@ function __c167(j: number): any {
           issuer: S.String,
           authorizationEndpoint: S.String,
           tokenEndpoint: S.String,
-          responseTypes: S.optional(__S(2336, __c73, 0)),
-          tokenEndpointAuthMethods: S.optional(__S(2336, __c73, 0)),
+          responseTypes: S.optional(__S(2368, __c74, 0)),
+          tokenEndpointAuthMethods: S.optional(__S(2368, __c74, 0)),
         }),
       ).annotate({ identifier: "Oauth2AuthorizationServerMetadata" });
     case 1:
       return S.Union([
         /*@__PURE__*/ S.Struct({ discoveryUrl: S.String }),
-        /*@__PURE__*/ S.Struct({ authorizationServerMetadata: __S(5344, __c167, 0) }),
+        /*@__PURE__*/ S.Struct({ authorizationServerMetadata: __S(5472, __c171, 0) }),
       ]);
     case 2:
       return S.suspend(() =>
         S.Struct({
           actorTokenContent: S.String,
-          actorTokenScopes: S.optional(__S(2336, __c73, 0)),
+          actorTokenScopes: S.optional(__S(2368, __c74, 0)),
         }),
       ).annotate({ identifier: "TokenExchangeGrantTypeConfigType" });
     case 3:
@@ -17752,8 +18340,8 @@ function __c167(j: number): any {
       return S.suspend(() =>
         S.Struct({
           grantType: S.String,
-          tokenExchangeGrantTypeConfig: S.optional(__S(5346, __c167, 2)),
-          onBehalfOfAuthenticationConfig: S.optional(__S(5347, __c167, 3)),
+          tokenExchangeGrantTypeConfig: S.optional(__S(5474, __c171, 2)),
+          onBehalfOfAuthenticationConfig: S.optional(__S(5475, __c171, 3)),
         }),
       ).annotate({ identifier: "OnBehalfOfTokenExchangeConfigType" });
     case 5:
@@ -17761,48 +18349,48 @@ function __c167(j: number): any {
         identifier: "KmsKeySourceType",
       });
     case 6:
-      return S.Union([/*@__PURE__*/ S.Struct({ kmsKeySource: __S(5349, __c167, 5) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ kmsKeySource: __S(5477, __c171, 5) })]);
     case 7:
       return S.suspend(() =>
         S.Struct({
-          privateKeySource: S.optional(__S(5350, __c167, 6)),
+          privateKeySource: S.optional(__S(5478, __c171, 6)),
           signingAlgorithm: S.optional(S.String),
-          additionalHeaderClaims: S.optional(__S(4704, __c147, 0)),
-          additionalPayloadClaims: S.optional(__S(4704, __c147, 0)),
+          additionalHeaderClaims: S.optional(__S(4832, __c151, 0)),
+          additionalPayloadClaims: S.optional(__S(4832, __c151, 0)),
         }),
       ).annotate({ identifier: "PrivateKeyJwtConfig" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          oauthDiscovery: __S(5345, __c167, 1),
+          oauthDiscovery: __S(5473, __c171, 1),
           clientId: S.optional(S.String),
-          onBehalfOfTokenExchangeConfig: S.optional(__S(5348, __c167, 4)),
+          onBehalfOfTokenExchangeConfig: S.optional(__S(5476, __c171, 4)),
           clientAuthenticationMethod: S.optional(S.String),
-          privateEndpoint: S.optional(__S(3394, __c106, 2)),
-          privateEndpointOverrides: S.optional(__S(3425, __c107, 1)),
-          certificateConfigurations: S.optional(__S(3397, __c106, 5)),
-          privateKeyJwtConfig: S.optional(__S(5351, __c167, 7)),
+          privateEndpoint: S.optional(__S(3426, __c107, 2)),
+          privateEndpointOverrides: S.optional(__S(3457, __c108, 1)),
+          certificateConfigurations: S.optional(__S(3429, __c107, 5)),
+          privateKeyJwtConfig: S.optional(__S(5479, __c171, 7)),
         }),
       ).annotate({ identifier: "CustomOauth2ProviderConfigOutput" });
     case 9:
       return S.suspend(() =>
-        S.Struct({ oauthDiscovery: __S(5345, __c167, 1), clientId: S.optional(S.String) }),
+        S.Struct({ oauthDiscovery: __S(5473, __c171, 1), clientId: S.optional(S.String) }),
       ).annotate({ identifier: "GoogleOauth2ProviderConfigOutput" });
     case 10:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ customOauth2ProviderConfig: __S(5352, __c167, 8) }),
-        /*@__PURE__*/ S.Struct({ googleOauth2ProviderConfig: __S(5353, __c167, 9) }),
-        /*@__PURE__*/ S.Struct({ githubOauth2ProviderConfig: __S(5353, __c167, 9) }),
-        /*@__PURE__*/ S.Struct({ slackOauth2ProviderConfig: __S(5353, __c167, 9) }),
-        /*@__PURE__*/ S.Struct({ salesforceOauth2ProviderConfig: __S(5353, __c167, 9) }),
-        /*@__PURE__*/ S.Struct({ microsoftOauth2ProviderConfig: __S(5353, __c167, 9) }),
-        /*@__PURE__*/ S.Struct({ atlassianOauth2ProviderConfig: __S(5353, __c167, 9) }),
-        /*@__PURE__*/ S.Struct({ linkedinOauth2ProviderConfig: __S(5353, __c167, 9) }),
-        /*@__PURE__*/ S.Struct({ includedOauth2ProviderConfig: __S(5353, __c167, 9) }),
+        /*@__PURE__*/ S.Struct({ customOauth2ProviderConfig: __S(5480, __c171, 8) }),
+        /*@__PURE__*/ S.Struct({ googleOauth2ProviderConfig: __S(5481, __c171, 9) }),
+        /*@__PURE__*/ S.Struct({ githubOauth2ProviderConfig: __S(5481, __c171, 9) }),
+        /*@__PURE__*/ S.Struct({ slackOauth2ProviderConfig: __S(5481, __c171, 9) }),
+        /*@__PURE__*/ S.Struct({ salesforceOauth2ProviderConfig: __S(5481, __c171, 9) }),
+        /*@__PURE__*/ S.Struct({ microsoftOauth2ProviderConfig: __S(5481, __c171, 9) }),
+        /*@__PURE__*/ S.Struct({ atlassianOauth2ProviderConfig: __S(5481, __c171, 9) }),
+        /*@__PURE__*/ S.Struct({ linkedinOauth2ProviderConfig: __S(5481, __c171, 9) }),
+        /*@__PURE__*/ S.Struct({ includedOauth2ProviderConfig: __S(5481, __c171, 9) }),
       ]);
   }
 }
-function __c168(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17810,15 +18398,15 @@ function __c168(j: number): any {
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           onlineEvaluationConfigName: S.String,
           description: S.optional(SensitiveString),
-          rule: __S(5445, __c170, 5),
-          dataSourceConfig: __S(5447, __c170, 7),
-          evaluators: S.optional(__S(5449, __c170, 9)),
-          insights: S.optional(__S(5409, __c169, 1)),
-          clusteringConfig: S.optional(__S(5410, __c169, 2)),
-          outputConfig: S.optional(__S(5451, __c170, 11)),
+          rule: __S(5573, __c174, 5),
+          dataSourceConfig: __S(5575, __c174, 7),
+          evaluators: S.optional(__S(5577, __c174, 9)),
+          insights: S.optional(__S(5537, __c173, 1)),
+          clusteringConfig: S.optional(__S(5538, __c173, 2)),
+          outputConfig: S.optional(__S(5579, __c174, 11)),
           evaluationExecutionRoleArn: S.String,
           enableOnCreate: S.Boolean,
-          tags: S.optional(__S(2848, __c89, 0)),
+          tags: S.optional(__S(2880, __c90, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/online-evaluation-configs/create" }),
@@ -17836,7 +18424,7 @@ function __c168(j: number): any {
           onlineEvaluationConfigArn: S.String,
           onlineEvaluationConfigId: S.String,
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          outputConfig: S.optional(__S(5451, __c170, 11)),
+          outputConfig: S.optional(__S(5579, __c174, 11)),
           status: S.String,
           executionStatus: S.String,
           failureReason: S.optional(S.String),
@@ -17844,19 +18432,19 @@ function __c168(j: number): any {
       ).annotate({ identifier: "CreateOnlineEvaluationConfigResponse" });
   }
 }
-function __c169(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ insightId: S.String })).annotate({ identifier: "Insight" });
     case 1:
-      return S.Array(__S(5408, __c169, 0));
+      return S.Array(__S(5536, __c173, 0));
     case 2:
-      return S.suspend(() => S.Struct({ frequencies: __S(4512, __c141, 0) })).annotate({
+      return S.suspend(() => S.Struct({ frequencies: __S(4640, __c145, 0) })).annotate({
         identifier: "ClusteringConfig",
       });
   }
 }
-function __c170(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ samplingPercentage: S.Number })).annotate({
@@ -17870,10 +18458,10 @@ function __c170(j: number): any {
       ]);
     case 2:
       return S.suspend(() =>
-        S.Struct({ key: S.String, operator: S.String, value: __S(5441, __c170, 1) }),
+        S.Struct({ key: S.String, operator: S.String, value: __S(5569, __c174, 1) }),
       ).annotate({ identifier: "Filter" });
     case 3:
-      return S.Array(__S(5442, __c170, 2));
+      return S.Array(__S(5570, __c174, 2));
     case 4:
       return S.suspend(() => S.Struct({ sessionTimeoutMinutes: S.Number })).annotate({
         identifier: "SessionConfig",
@@ -17881,25 +18469,25 @@ function __c170(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          samplingConfig: __S(5440, __c170, 0),
-          filters: S.optional(__S(5443, __c170, 3)),
-          sessionConfig: S.optional(__S(5444, __c170, 4)),
+          samplingConfig: __S(5568, __c174, 0),
+          filters: S.optional(__S(5571, __c174, 3)),
+          sessionConfig: S.optional(__S(5572, __c174, 4)),
         }),
       ).annotate({ identifier: "Rule" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          logGroupNames: S.optional(__S(2336, __c73, 0)),
-          logGroupNamePrefixes: S.optional(__S(2336, __c73, 0)),
-          serviceNames: __S(2336, __c73, 0),
+          logGroupNames: S.optional(__S(2368, __c74, 0)),
+          logGroupNamePrefixes: S.optional(__S(2368, __c74, 0)),
+          serviceNames: __S(2368, __c74, 0),
         }),
       ).annotate({ identifier: "CloudWatchLogsInputConfig" });
     case 7:
-      return S.Union([/*@__PURE__*/ S.Struct({ cloudWatchLogs: __S(5446, __c170, 6) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ cloudWatchLogs: __S(5574, __c174, 6) })]);
     case 8:
       return S.Union([/*@__PURE__*/ S.Struct({ evaluatorId: S.String })]);
     case 9:
-      return S.Array(__S(5448, __c170, 8));
+      return S.Array(__S(5576, __c174, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -17909,12 +18497,12 @@ function __c170(j: number): any {
         }),
       ).annotate({ identifier: "CloudWatchOutputConfig" });
     case 11:
-      return S.suspend(() => S.Struct({ cloudWatchConfig: __S(5450, __c170, 10) })).annotate({
+      return S.suspend(() => S.Struct({ cloudWatchConfig: __S(5578, __c174, 10) })).annotate({
         identifier: "OutputConfig",
       });
   }
 }
-function __c171(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17923,7 +18511,7 @@ function __c171(j: number): any {
           name: S.String,
           description: S.optional(S.String),
           type: S.String,
-          credentialProviderConfigurations: __S(5506, __c172, 2),
+          credentialProviderConfigurations: S.optional(__S(5635, __c176, 3)),
           provisionMode: S.optional(S.String),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
@@ -17944,7 +18532,7 @@ function __c171(j: number): any {
           paymentManagerId: S.String,
           name: S.String,
           type: S.String,
-          credentialProviderConfigurations: __S(5506, __c172, 2),
+          credentialProviderConfigurations: __S(5635, __c176, 3),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           status: S.String,
           authorizationUrl: S.optional(S.String),
@@ -17952,30 +18540,35 @@ function __c171(j: number): any {
       ).annotate({ identifier: "CreatePaymentConnectorResponse" });
   }
 }
-function __c172(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ credentialProviderArn: S.String })).annotate({
         identifier: "PaymentCredentialProviderConfiguration",
       });
     case 1:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ coinbaseCDP: __S(5504, __c172, 0) }),
-        /*@__PURE__*/ S.Struct({ stripePrivy: __S(5504, __c172, 0) }),
-      ]);
+      return S.suspend(() => S.Struct({ iamRoleArn: S.String })).annotate({
+        identifier: "AwsBillingConnectorConfiguration",
+      });
     case 2:
-      return S.Array(__S(5505, __c172, 1));
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ coinbaseCDP: __S(5632, __c176, 0) }),
+        /*@__PURE__*/ S.Struct({ stripePrivy: __S(5632, __c176, 0) }),
+        /*@__PURE__*/ S.Struct({ awsBilling: __S(5633, __c176, 1) }),
+      ]);
+    case 3:
+      return S.Array(__S(5634, __c176, 2));
   }
 }
-function __c173(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           credentialProviderVendor: S.String,
-          providerConfigurationInput: __S(5570, __c174, 2),
-          tags: S.optional(__S(2848, __c89, 0)),
+          providerConfigurationInput: __S(5730, __c179, 2),
+          tags: S.optional(__S(2880, __c90, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/identities/CreatePaymentCredentialProvider" }),
@@ -17993,55 +18586,21 @@ function __c173(j: number): any {
           name: S.String,
           credentialProviderVendor: S.String,
           credentialProviderArn: S.String,
-          providerConfigurationOutput: __S(5602, __c175, 2),
+          providerConfigurationOutput: __S(5698, __c178, 2),
         }),
       ).annotate({ identifier: "CreatePaymentCredentialProviderResponse" });
   }
 }
-function __c174(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           apiKeyId: S.String,
-          apiKeySecret: S.optional(SensitiveString),
-          apiKeySecretSource: S.optional(S.String),
-          apiKeySecretConfig: S.optional(__S(3904, __c122, 0)),
-          walletSecret: S.optional(SensitiveString),
-          walletSecretSource: S.optional(S.String),
-          walletSecretConfig: S.optional(__S(3904, __c122, 0)),
-        }),
-      ).annotate({ identifier: "CoinbaseCdpConfigurationInput" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          appId: S.String,
-          appSecret: S.optional(SensitiveString),
-          appSecretSource: S.optional(S.String),
-          appSecretConfig: S.optional(__S(3904, __c122, 0)),
-          authorizationPrivateKey: S.optional(SensitiveString),
-          authorizationPrivateKeySource: S.optional(S.String),
-          authorizationPrivateKeyConfig: S.optional(__S(3904, __c122, 0)),
-          authorizationId: S.String,
-        }),
-      ).annotate({ identifier: "StripePrivyConfigurationInput" });
-    case 2:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ coinbaseCdpConfiguration: __S(5568, __c174, 0) }),
-        /*@__PURE__*/ S.Struct({ stripePrivyConfiguration: __S(5569, __c174, 1) }),
-      ]);
-  }
-}
-function __c175(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          apiKeyId: S.String,
-          apiKeySecretArn: __S(3296, __c103, 0),
+          apiKeySecretArn: __S(3328, __c104, 0),
           apiKeySecretJsonKey: S.optional(S.String),
           apiKeySecretSource: S.optional(S.String),
-          walletSecretArn: __S(3296, __c103, 0),
+          walletSecretArn: __S(3328, __c104, 0),
           walletSecretJsonKey: S.optional(S.String),
           walletSecretSource: S.optional(S.String),
         }),
@@ -18050,10 +18609,10 @@ function __c175(j: number): any {
       return S.suspend(() =>
         S.Struct({
           appId: S.String,
-          appSecretArn: __S(3296, __c103, 0),
+          appSecretArn: __S(3328, __c104, 0),
           appSecretJsonKey: S.optional(S.String),
           appSecretSource: S.optional(S.String),
-          authorizationPrivateKeyArn: __S(3296, __c103, 0),
+          authorizationPrivateKeyArn: __S(3328, __c104, 0),
           authorizationPrivateKeyJsonKey: S.optional(S.String),
           authorizationPrivateKeySource: S.optional(S.String),
           authorizationId: S.String,
@@ -18061,12 +18620,46 @@ function __c175(j: number): any {
       ).annotate({ identifier: "StripePrivyConfigurationOutput" });
     case 2:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ coinbaseCdpConfiguration: __S(5600, __c175, 0) }),
-        /*@__PURE__*/ S.Struct({ stripePrivyConfiguration: __S(5601, __c175, 1) }),
+        /*@__PURE__*/ S.Struct({ coinbaseCdpConfiguration: __S(5696, __c178, 0) }),
+        /*@__PURE__*/ S.Struct({ stripePrivyConfiguration: __S(5697, __c178, 1) }),
       ]);
   }
 }
-function __c176(j: number): any {
+function __c179(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          apiKeyId: S.String,
+          apiKeySecret: S.optional(SensitiveString),
+          apiKeySecretSource: S.optional(S.String),
+          apiKeySecretConfig: S.optional(__S(4032, __c126, 0)),
+          walletSecret: S.optional(SensitiveString),
+          walletSecretSource: S.optional(S.String),
+          walletSecretConfig: S.optional(__S(4032, __c126, 0)),
+        }),
+      ).annotate({ identifier: "CoinbaseCdpConfigurationInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String,
+          appSecret: S.optional(SensitiveString),
+          appSecretSource: S.optional(S.String),
+          appSecretConfig: S.optional(__S(4032, __c126, 0)),
+          authorizationPrivateKey: S.optional(SensitiveString),
+          authorizationPrivateKeySource: S.optional(S.String),
+          authorizationPrivateKeyConfig: S.optional(__S(4032, __c126, 0)),
+          authorizationId: S.String,
+        }),
+      ).annotate({ identifier: "StripePrivyConfigurationInput" });
+    case 2:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ coinbaseCdpConfiguration: __S(5728, __c179, 0) }),
+        /*@__PURE__*/ S.Struct({ stripePrivyConfiguration: __S(5729, __c179, 1) }),
+      ]);
+  }
+}
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18074,10 +18667,10 @@ function __c176(j: number): any {
           name: S.String,
           description: S.optional(S.String),
           authorizerType: S.String,
-          authorizerConfiguration: S.optional(__S(3464, __c108, 8)),
+          authorizerConfiguration: S.optional(__S(3496, __c109, 8)),
           roleArn: S.String,
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          tags: S.optional(__S(2848, __c89, 0)),
+          tags: S.optional(__S(2880, __c90, 0)),
           kmsKeyArn: S.optional(S.String),
         }).pipe(
           T.all(
@@ -18097,24 +18690,24 @@ function __c176(j: number): any {
           paymentManagerId: S.String,
           name: S.String,
           authorizerType: S.String,
-          authorizerConfiguration: S.optional(__S(3464, __c108, 8)),
+          authorizerConfiguration: S.optional(__S(3496, __c109, 8)),
           roleArn: S.String,
-          workloadIdentityDetails: S.optional(__S(3488, __c109, 0)),
+          workloadIdentityDetails: S.optional(__S(3520, __c110, 0)),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           status: S.String,
-          tags: S.optional(__S(2848, __c89, 0)),
+          tags: S.optional(__S(2880, __c90, 0)),
           kmsKeyArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreatePaymentManagerResponse" });
   }
 }
-function __c177(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          definition: __S(5698, __c178, 2),
+          definition: __S(5826, __c182, 2),
           description: S.optional(SensitiveString),
           validationMode: S.optional(S.String),
           enforcementMode: S.optional(S.String),
@@ -18133,7 +18726,7 @@ function __c177(j: number): any {
       ).annotate({ identifier: "CreatePolicyRequest" });
   }
 }
-function __c178(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ statement: S.String })).annotate({
@@ -18145,13 +18738,13 @@ function __c178(j: number): any {
       ).annotate({ identifier: "PolicyGenerationDetails" });
     case 2:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ cedar: __S(5696, __c178, 0) }),
-        /*@__PURE__*/ S.Struct({ policyGeneration: __S(5697, __c178, 1) }),
-        /*@__PURE__*/ S.Struct({ policy: __S(5696, __c178, 0) }),
+        /*@__PURE__*/ S.Struct({ cedar: __S(5824, __c182, 0) }),
+        /*@__PURE__*/ S.Struct({ policyGeneration: __S(5825, __c182, 1) }),
+        /*@__PURE__*/ S.Struct({ policy: __S(5824, __c182, 0) }),
       ]);
   }
 }
-function __c179(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18164,14 +18757,14 @@ function __c179(j: number): any {
           policyArn: S.String,
           status: S.String,
           enforcementMode: S.optional(S.String),
-          definition: __S(5698, __c178, 2),
+          definition: __S(5826, __c182, 2),
           description: S.optional(SensitiveString),
-          statusReasons: __S(2336, __c73, 0),
+          statusReasons: __S(2368, __c74, 0),
         }),
       ).annotate({ identifier: "CreatePolicyResponse" });
   }
 }
-function __c180(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18180,14 +18773,14 @@ function __c180(j: number): any {
           description: S.optional(SensitiveString),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           encryptionKeyArn: S.optional(S.String),
-          tags: S.optional(__S(2848, __c89, 0)),
+          tags: S.optional(__S(2880, __c90, 0)),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/policy-engines" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "CreatePolicyEngineRequest" });
   }
 }
-function __c181(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18200,12 +18793,12 @@ function __c181(j: number): any {
           status: S.String,
           encryptionKeyArn: S.optional(S.String),
           description: S.optional(SensitiveString),
-          statusReasons: __S(2336, __c73, 0),
+          statusReasons: __S(2368, __c74, 0),
         }),
       ).annotate({ identifier: "CreatePolicyEngineResponse" });
   }
 }
-function __c182(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18213,9 +18806,9 @@ function __c182(j: number): any {
           name: S.String,
           description: S.optional(SensitiveString),
           authorizerType: S.optional(S.String),
-          authorizerConfiguration: S.optional(__S(3464, __c108, 8)),
+          authorizerConfiguration: S.optional(__S(3496, __c109, 8)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          approvalConfiguration: S.optional(__S(5856, __c183, 0)),
+          approvalConfiguration: S.optional(__S(5984, __c187, 0)),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/registries" }), svc, auth, proto, ver, rules),
         ),
@@ -18226,7 +18819,7 @@ function __c182(j: number): any {
       });
   }
 }
-function __c183(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ autoApproval: S.optional(S.Boolean) })).annotate({
@@ -18234,7 +18827,7 @@ function __c183(j: number): any {
       });
   }
 }
-function __c184(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18243,10 +18836,10 @@ function __c184(j: number): any {
           name: S.String,
           description: S.optional(SensitiveString),
           descriptorType: S.String,
-          descriptors: S.optional(__S(5926, __c185, 6)),
+          descriptors: S.optional(__S(6054, __c189, 6)),
           recordVersion: S.optional(S.String),
           synchronizationType: S.optional(S.String),
-          synchronizationConfiguration: S.optional(__S(5933, __c185, 13)),
+          synchronizationConfiguration: S.optional(__S(6061, __c189, 13)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -18265,7 +18858,7 @@ function __c184(j: number): any {
       });
   }
 }
-function __c185(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18278,12 +18871,12 @@ function __c185(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          server: S.optional(__S(5920, __c185, 0)),
-          tools: S.optional(__S(5921, __c185, 1)),
+          server: S.optional(__S(6048, __c189, 0)),
+          tools: S.optional(__S(6049, __c189, 1)),
         }),
       ).annotate({ identifier: "McpDescriptor" });
     case 3:
-      return S.suspend(() => S.Struct({ agentCard: S.optional(__S(5920, __c185, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ agentCard: S.optional(__S(6048, __c189, 0)) })).annotate({
         identifier: "A2aDescriptor",
       });
     case 4:
@@ -18293,17 +18886,17 @@ function __c185(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          skillMd: S.optional(__S(5924, __c185, 4)),
-          skillDefinition: S.optional(__S(5920, __c185, 0)),
+          skillMd: S.optional(__S(6052, __c189, 4)),
+          skillDefinition: S.optional(__S(6048, __c189, 0)),
         }),
       ).annotate({ identifier: "AgentSkillsDescriptor" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          mcp: S.optional(__S(5922, __c185, 2)),
-          a2a: S.optional(__S(5923, __c185, 3)),
-          custom: S.optional(__S(5924, __c185, 4)),
-          agentSkills: S.optional(__S(5925, __c185, 5)),
+          mcp: S.optional(__S(6050, __c189, 2)),
+          a2a: S.optional(__S(6051, __c189, 3)),
+          custom: S.optional(__S(6052, __c189, 4)),
+          agentSkills: S.optional(__S(6053, __c189, 5)),
         }),
       ).annotate({ identifier: "Descriptors" });
     case 7:
@@ -18311,8 +18904,8 @@ function __c185(j: number): any {
         S.Struct({
           providerArn: S.String,
           grantType: S.optional(S.String),
-          scopes: S.optional(__S(2336, __c73, 0)),
-          customParameters: S.optional(__S(2848, __c89, 0)),
+          scopes: S.optional(__S(2368, __c74, 0)),
+          customParameters: S.optional(__S(2880, __c90, 0)),
         }),
       ).annotate({ identifier: "RegistryRecordOAuthCredentialProvider" });
     case 8:
@@ -18325,36 +18918,36 @@ function __c185(j: number): any {
       ).annotate({ identifier: "RegistryRecordIamCredentialProvider" });
     case 9:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ oauthCredentialProvider: __S(5927, __c185, 7) }),
-        /*@__PURE__*/ S.Struct({ iamCredentialProvider: __S(5928, __c185, 8) }),
+        /*@__PURE__*/ S.Struct({ oauthCredentialProvider: __S(6055, __c189, 7) }),
+        /*@__PURE__*/ S.Struct({ iamCredentialProvider: __S(6056, __c189, 8) }),
       ]);
     case 10:
       return S.suspend(() =>
-        S.Struct({ credentialProviderType: S.String, credentialProvider: __S(5929, __c185, 9) }),
+        S.Struct({ credentialProviderType: S.String, credentialProvider: __S(6057, __c189, 9) }),
       ).annotate({ identifier: "RegistryRecordCredentialProviderConfiguration" });
     case 11:
-      return S.Array(__S(5930, __c185, 10));
+      return S.Array(__S(6058, __c189, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
           url: S.String,
-          credentialProviderConfigurations: S.optional(__S(5931, __c185, 11)),
+          credentialProviderConfigurations: S.optional(__S(6059, __c189, 11)),
         }),
       ).annotate({ identifier: "FromUrlSynchronizationConfiguration" });
     case 13:
-      return S.suspend(() => S.Struct({ fromUrl: S.optional(__S(5932, __c185, 12)) })).annotate({
+      return S.suspend(() => S.Struct({ fromUrl: S.optional(__S(6060, __c189, 12)) })).annotate({
         identifier: "SynchronizationConfiguration",
       });
   }
 }
-function __c186(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          allowedResourceOauth2ReturnUrls: S.optional(__S(2336, __c73, 0)),
-          tags: S.optional(__S(2848, __c89, 0)),
+          allowedResourceOauth2ReturnUrls: S.optional(__S(2368, __c74, 0)),
+          tags: S.optional(__S(2880, __c90, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/identities/CreateWorkloadIdentity" }),
@@ -18371,12 +18964,12 @@ function __c186(j: number): any {
         S.Struct({
           name: S.String,
           workloadIdentityArn: S.String,
-          allowedResourceOauth2ReturnUrls: S.optional(__S(2336, __c73, 0)),
+          allowedResourceOauth2ReturnUrls: S.optional(__S(2368, __c74, 0)),
         }),
       ).annotate({ identifier: "CreateWorkloadIdentityResponse" });
   }
 }
-function __c187(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18405,7 +18998,7 @@ function __c187(j: number): any {
       ).annotate({ identifier: "DeleteAgentRuntimeResponse" });
   }
 }
-function __c188(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18437,7 +19030,7 @@ function __c188(j: number): any {
       ).annotate({ identifier: "DeleteAgentRuntimeEndpointResponse" });
   }
 }
-function __c189(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18454,7 +19047,7 @@ function __c189(j: number): any {
       ).annotate({ identifier: "DeleteApiKeyCredentialProviderRequest" });
   }
 }
-function __c190(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18482,7 +19075,7 @@ function __c190(j: number): any {
       ).annotate({ identifier: "DeleteBrowserResponse" });
   }
 }
-function __c191(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18512,7 +19105,7 @@ function __c191(j: number): any {
       ).annotate({ identifier: "DeleteBrowserProfileResponse" });
   }
 }
-function __c192(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18536,7 +19129,7 @@ function __c192(j: number): any {
       );
   }
 }
-function __c193(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18564,7 +19157,7 @@ function __c193(j: number): any {
       ).annotate({ identifier: "DeleteCodeInterpreterResponse" });
   }
 }
-function __c194(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18585,7 +19178,7 @@ function __c194(j: number): any {
       ).annotate({ identifier: "DeleteConfigurationBundleResponse" });
   }
 }
-function __c195(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18602,7 +19195,7 @@ function __c195(j: number): any {
       ).annotate({ identifier: "DeleteConsentPortalRequest" });
   }
 }
-function __c196(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18632,14 +19225,14 @@ function __c196(j: number): any {
       ).annotate({ identifier: "DeleteDatasetResponse" });
   }
 }
-function __c197(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           datasetId: S.String.pipe(T.HttpLabel("datasetId")),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          exampleIds: __S(2336, __c73, 0),
+          exampleIds: __S(2368, __c74, 0),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/datasets/{datasetId}/examples/delete" }),
@@ -18663,7 +19256,7 @@ function __c197(j: number): any {
       ).annotate({ identifier: "DeleteDatasetExamplesResponse" });
   }
 }
-function __c198(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18684,7 +19277,7 @@ function __c198(j: number): any {
       ).annotate({ identifier: "DeleteEvaluatorResponse" });
   }
 }
-function __c199(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18704,12 +19297,12 @@ function __c199(j: number): any {
         S.Struct({
           gatewayId: S.String,
           status: S.String,
-          statusReasons: S.optional(__S(2336, __c73, 0)),
+          statusReasons: S.optional(__S(2368, __c74, 0)),
         }),
       ).annotate({ identifier: "DeleteGatewayResponse" });
   }
 }
-function __c200(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18736,7 +19329,7 @@ function __c200(j: number): any {
       });
   }
 }
-function __c201(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18760,7 +19353,7 @@ function __c201(j: number): any {
       });
   }
 }
-function __c202(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18784,12 +19377,12 @@ function __c202(j: number): any {
           gatewayArn: S.String,
           targetId: S.String,
           status: S.String,
-          statusReasons: S.optional(__S(2336, __c73, 0)),
+          statusReasons: S.optional(__S(2368, __c74, 0)),
         }),
       ).annotate({ identifier: "DeleteGatewayTargetResponse" });
   }
 }
-function __c203(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18809,12 +19402,12 @@ function __c203(j: number): any {
         ),
       ).annotate({ identifier: "DeleteHarnessRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ harness: S.optional(__S(5000, __c156, 8)) })).annotate({
+      return S.suspend(() => S.Struct({ harness: S.optional(__S(5128, __c160, 8)) })).annotate({
         identifier: "DeleteHarnessResponse",
       });
   }
 }
-function __c204(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18835,7 +19428,7 @@ function __c204(j: number): any {
       ).annotate({ identifier: "DeleteHarnessEndpointRequest" });
   }
 }
-function __c205(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18859,7 +19452,7 @@ function __c205(j: number): any {
       ).annotate({ identifier: "DeleteMemoryOutput" });
   }
 }
-function __c206(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18876,7 +19469,7 @@ function __c206(j: number): any {
       ).annotate({ identifier: "DeleteOauth2CredentialProviderRequest" });
   }
 }
-function __c207(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18906,7 +19499,7 @@ function __c207(j: number): any {
       ).annotate({ identifier: "DeleteOnlineEvaluationConfigResponse" });
   }
 }
-function __c208(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18934,7 +19527,7 @@ function __c208(j: number): any {
       ).annotate({ identifier: "DeletePaymentConnectorResponse" });
   }
 }
-function __c209(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18951,7 +19544,7 @@ function __c209(j: number): any {
       ).annotate({ identifier: "DeletePaymentCredentialProviderRequest" });
   }
 }
-function __c210(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18975,7 +19568,7 @@ function __c210(j: number): any {
       ).annotate({ identifier: "DeletePaymentManagerResponse" });
   }
 }
-function __c211(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18998,7 +19591,7 @@ function __c211(j: number): any {
       ).annotate({ identifier: "DeletePolicyRequest" });
   }
 }
-function __c212(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19015,7 +19608,7 @@ function __c212(j: number): any {
       ).annotate({ identifier: "DeletePolicyEngineRequest" });
   }
 }
-function __c213(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19036,7 +19629,7 @@ function __c213(j: number): any {
       });
   }
 }
-function __c214(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19056,7 +19649,7 @@ function __c214(j: number): any {
       ).annotate({ identifier: "DeleteRegistryRecordRequest" });
   }
 }
-function __c215(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19073,7 +19666,7 @@ function __c215(j: number): any {
       ).annotate({ identifier: "DeleteResourcePolicyRequest" });
   }
 }
-function __c216(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19090,7 +19683,45 @@ function __c216(j: number): any {
       ).annotate({ identifier: "DeleteWorkloadIdentityRequest" });
   }
 }
-function __c217(j: number): any {
+function __c221(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ agentInsightStoreId: S.String.pipe(T.HttpLabel("agentInsightStoreId")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/agent-insight-stores/{agentInsightStoreId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetAgentInsightStoreRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          agentInsightStoreArn: S.String,
+          agentInsightStoreId: S.String,
+          status: S.String,
+          enablementStatus: S.String,
+          encryptionConfiguration: __S(7104, __c222, 0),
+          createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          failureReason: S.optional(SensitiveString),
+        }),
+      ).annotate({ identifier: "GetAgentInsightStoreResponse" });
+  }
+}
+function __c222(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ mode: S.String, kmsKeyArn: S.optional(S.String) }),
+      ).annotate({ identifier: "AgentInsightStoreEncryptionConfiguration" });
+  }
+}
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19118,29 +19749,29 @@ function __c217(j: number): any {
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           roleArn: S.String,
-          networkConfiguration: S.optional(__S(3521, __c110, 1)),
+          networkConfiguration: S.optional(__S(3553, __c111, 1)),
           status: S.String,
-          lifecycleConfiguration: __S(3522, __c110, 2),
-          hooksConfiguration: S.optional(__S(3560, __c111, 8)),
+          lifecycleConfiguration: __S(3554, __c111, 2),
+          hooksConfiguration: S.optional(__S(3592, __c112, 8)),
           failureReason: S.optional(S.String),
           description: S.optional(SensitiveString),
-          workloadIdentityDetails: S.optional(__S(3488, __c109, 0)),
-          agentRuntimeArtifact: S.optional(__S(3553, __c111, 1)),
-          protocolConfiguration: S.optional(__S(3555, __c111, 3)),
-          environmentVariables: S.optional(__S(2848, __c89, 0)),
-          authorizerConfiguration: S.optional(__S(3464, __c108, 8)),
-          requestHeaderConfiguration: S.optional(__S(3554, __c111, 2)),
-          metadataConfiguration: S.optional(__S(6976, __c218, 0)),
-          filesystemConfigurations: S.optional(__S(3527, __c110, 7)),
-          capacityProviderConfiguration: S.optional(__S(3561, __c111, 9)),
+          workloadIdentityDetails: S.optional(__S(3520, __c110, 0)),
+          agentRuntimeArtifact: S.optional(__S(3585, __c112, 1)),
+          protocolConfiguration: S.optional(__S(3587, __c112, 3)),
+          environmentVariables: S.optional(__S(2880, __c90, 0)),
+          authorizerConfiguration: S.optional(__S(3496, __c109, 8)),
+          requestHeaderConfiguration: S.optional(__S(3586, __c112, 2)),
+          metadataConfiguration: S.optional(__S(7168, __c224, 0)),
+          filesystemConfigurations: S.optional(__S(3560, __c111, 8)),
+          capacityProviderConfiguration: S.optional(__S(3595, __c112, 11)),
           platformVersion: S.optional(S.String),
-          allowedPorts: S.optional(__S(3564, __c111, 12)),
-          resourceConfigurations: S.optional(__S(3566, __c111, 14)),
+          allowedPorts: S.optional(__S(3598, __c112, 14)),
+          resourceConfigurations: S.optional(__S(3600, __c112, 16)),
         }),
       ).annotate({ identifier: "GetAgentRuntimeResponse" });
   }
 }
-function __c218(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ requireMMDSV2: S.Boolean })).annotate({
@@ -19148,7 +19779,7 @@ function __c218(j: number): any {
       });
   }
 }
-function __c219(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19187,7 +19818,7 @@ function __c219(j: number): any {
       ).annotate({ identifier: "GetAgentRuntimeEndpointResponse" });
   }
 }
-function __c220(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19204,12 +19835,12 @@ function __c220(j: number): any {
       ).annotate({ identifier: "GetApiKeyCredentialProviderRequest" });
   }
 }
-function __c221(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          apiKeySecretArn: __S(3296, __c103, 0),
+          apiKeySecretArn: __S(3328, __c104, 0),
           apiKeySecretJsonKey: S.optional(S.String),
           apiKeySecretSource: S.optional(S.String),
           name: S.String,
@@ -19220,7 +19851,7 @@ function __c221(j: number): any {
       ).annotate({ identifier: "GetApiKeyCredentialProviderResponse" });
   }
 }
-function __c222(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19243,12 +19874,12 @@ function __c222(j: number): any {
           name: S.String,
           description: S.optional(SensitiveString),
           executionRoleArn: S.optional(S.String),
-          networkConfiguration: __S(3968, __c124, 0),
-          recording: S.optional(__S(4000, __c125, 0)),
-          browserSigning: S.optional(__S(4001, __c125, 1)),
-          enterprisePolicies: S.optional(__S(4003, __c125, 3)),
-          certificates: S.optional(__S(3971, __c124, 3)),
-          filesystemConfigurations: S.optional(__S(3974, __c124, 6)),
+          networkConfiguration: __S(4096, __c128, 0),
+          recording: S.optional(__S(4128, __c129, 0)),
+          browserSigning: S.optional(__S(4129, __c129, 1)),
+          enterprisePolicies: S.optional(__S(4131, __c129, 3)),
+          certificates: S.optional(__S(4099, __c128, 3)),
+          filesystemConfigurations: S.optional(__S(4102, __c128, 6)),
           status: S.String,
           failureReason: S.optional(S.String),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
@@ -19257,7 +19888,7 @@ function __c222(j: number): any {
       ).annotate({ identifier: "GetBrowserResponse" });
   }
 }
-function __c223(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19274,7 +19905,7 @@ function __c223(j: number): any {
       ).annotate({ identifier: "GetBrowserProfileRequest" });
   }
 }
-function __c224(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19293,7 +19924,7 @@ function __c224(j: number): any {
       ).annotate({ identifier: "GetBrowserProfileResponse" });
   }
 }
-function __c225(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19318,15 +19949,15 @@ function __c225(j: number): any {
           description: S.optional(SensitiveString),
           statusCode: S.optional(S.String),
           statusReason: S.optional(S.String),
-          permissionsConfiguration: __S(4096, __c128, 0),
-          computeConfiguration: __S(4114, __c128, 18),
+          permissionsConfiguration: __S(4224, __c132, 0),
+          computeConfiguration: __S(4243, __c132, 19),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
         }),
       ).annotate({ identifier: "GetCapacityProviderOutput" });
   }
 }
-function __c226(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19349,10 +19980,10 @@ function __c226(j: number): any {
           name: S.String,
           description: S.optional(SensitiveString),
           executionRoleArn: S.optional(S.String),
-          networkConfiguration: __S(3968, __c124, 0),
+          networkConfiguration: __S(4096, __c128, 0),
           status: S.String,
-          certificates: S.optional(__S(3971, __c124, 3)),
-          filesystemConfigurations: S.optional(__S(3974, __c124, 6)),
+          certificates: S.optional(__S(4099, __c128, 3)),
+          filesystemConfigurations: S.optional(__S(4102, __c128, 6)),
           failureReason: S.optional(S.String),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
@@ -19360,7 +19991,7 @@ function __c226(j: number): any {
       ).annotate({ identifier: "GetCodeInterpreterResponse" });
   }
 }
-function __c227(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19386,8 +20017,8 @@ function __c227(j: number): any {
           bundleName: S.String,
           description: S.optional(SensitiveString),
           versionId: S.String,
-          components: __S(4225, __c132, 1),
-          lineageMetadata: S.optional(__S(7296, __c228, 0)),
+          components: __S(4353, __c136, 1),
+          lineageMetadata: S.optional(__S(7488, __c234, 0)),
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           kmsKeyArn: S.optional(S.String),
@@ -19395,20 +20026,20 @@ function __c227(j: number): any {
       ).annotate({ identifier: "GetConfigurationBundleResponse" });
   }
 }
-function __c228(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parentVersionIds: S.optional(__S(2336, __c73, 0)),
+          parentVersionIds: S.optional(__S(2368, __c74, 0)),
           branchName: S.optional(S.String),
-          createdBy: S.optional(__S(4192, __c131, 0)),
+          createdBy: S.optional(__S(4320, __c135, 0)),
           commitMessage: S.optional(S.String),
         }),
       ).annotate({ identifier: "VersionLineageMetadata" });
   }
 }
-function __c229(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19437,8 +20068,8 @@ function __c229(j: number): any {
           bundleName: S.String,
           description: S.optional(SensitiveString),
           versionId: S.String,
-          components: __S(4225, __c132, 1),
-          lineageMetadata: S.optional(__S(7296, __c228, 0)),
+          components: __S(4353, __c136, 1),
+          lineageMetadata: S.optional(__S(7488, __c234, 0)),
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           versionCreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           kmsKeyArn: S.optional(S.String),
@@ -19446,7 +20077,7 @@ function __c229(j: number): any {
       ).annotate({ identifier: "GetConfigurationBundleVersionResponse" });
   }
 }
-function __c230(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19463,7 +20094,7 @@ function __c230(j: number): any {
       ).annotate({ identifier: "GetConsentPortalRequest" });
   }
 }
-function __c231(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19492,19 +20123,28 @@ function __c231(j: number): any {
           status: S.String,
           draftStatus: S.optional(S.String),
           failureReason: S.optional(S.String),
-          schemaType: S.String,
+          schemaType: S.optional(S.String),
           kmsKeyArn: S.optional(S.String),
           exampleCount: S.Number,
+          exampleCountByField: S.optional(__S(7616, __c238, 0)),
           downloadUrl: S.optional(SensitiveString),
           downloadUrlExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          tags: S.optional(__S(2848, __c89, 0)),
+          tags: S.optional(__S(2880, __c90, 0)),
         }),
       ).annotate({ identifier: "GetDatasetResponse" });
   }
 }
-function __c232(j: number): any {
+function __c238(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ turns: S.Number, input: S.Number, actorProfile: S.Number }),
+      ).annotate({ identifier: "ExampleCountByField" });
+  }
+}
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19529,7 +20169,7 @@ function __c232(j: number): any {
           evaluatorId: S.String,
           evaluatorName: S.String,
           description: S.optional(SensitiveString),
-          evaluatorConfig: __S(4465, __c139, 17),
+          evaluatorConfig: __S(4593, __c143, 17),
           evaluatorType: S.optional(S.String),
           provider: S.optional(S.String),
           level: S.String,
@@ -19542,7 +20182,7 @@ function __c232(j: number): any {
       ).annotate({ identifier: "GetEvaluatorResponse" });
   }
 }
-function __c233(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19559,7 +20199,7 @@ function __c233(j: number): any {
       ).annotate({ identifier: "GetGatewayRequest" });
   }
 }
-function __c234(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19582,7 +20222,7 @@ function __c234(j: number): any {
       ).annotate({ identifier: "GetGatewayRateLimitRequest" });
   }
 }
-function __c235(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19602,7 +20242,7 @@ function __c235(j: number): any {
       ).annotate({ identifier: "GetGatewayRuleRequest" });
   }
 }
-function __c236(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19610,18 +20250,18 @@ function __c236(j: number): any {
           ruleId: S.String,
           gatewayArn: S.String,
           priority: S.Number,
-          conditions: S.optional(__S(4649, __c145, 9)),
-          actions: __S(4666, __c145, 26),
+          conditions: S.optional(__S(4777, __c149, 9)),
+          actions: __S(4794, __c149, 26),
           description: S.optional(S.String),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           status: S.String,
-          system: S.optional(__S(4667, __c145, 27)),
+          system: S.optional(__S(4795, __c149, 27)),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
       ).annotate({ identifier: "GetGatewayRuleResponse" });
   }
 }
-function __c237(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19641,7 +20281,7 @@ function __c237(j: number): any {
       ).annotate({ identifier: "GetGatewayTargetRequest" });
   }
 }
-function __c238(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19661,7 +20301,7 @@ function __c238(j: number): any {
       ).annotate({ identifier: "GetHarnessRequest" });
   }
 }
-function __c239(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19681,7 +20321,7 @@ function __c239(j: number): any {
       ).annotate({ identifier: "GetHarnessEndpointRequest" });
   }
 }
-function __c240(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19700,12 +20340,12 @@ function __c240(j: number): any {
         ),
       ).annotate({ identifier: "GetMemoryInput" });
     case 1:
-      return S.suspend(() => S.Struct({ memory: __S(5255, __c164, 7) })).annotate({
+      return S.suspend(() => S.Struct({ memory: __S(5383, __c168, 7) })).annotate({
         identifier: "GetMemoryOutput",
       });
   }
 }
-function __c241(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19723,14 +20363,14 @@ function __c241(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          clientSecretArn: __S(3296, __c103, 0),
+          clientSecretArn: __S(3328, __c104, 0),
           clientSecretJsonKey: S.optional(S.String),
           clientSecretSource: S.optional(S.String),
           name: S.String,
           credentialProviderArn: S.String,
           credentialProviderVendor: S.String,
           callbackUrl: S.optional(S.String),
-          oauth2ProviderConfigOutput: __S(5354, __c167, 10),
+          oauth2ProviderConfigOutput: __S(5482, __c171, 10),
           createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           lastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           status: S.optional(S.String),
@@ -19739,7 +20379,7 @@ function __c241(j: number): any {
       ).annotate({ identifier: "GetOauth2CredentialProviderResponse" });
   }
 }
-function __c242(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19763,12 +20403,12 @@ function __c242(j: number): any {
           onlineEvaluationConfigId: S.String,
           onlineEvaluationConfigName: S.String,
           description: S.optional(SensitiveString),
-          rule: __S(5445, __c170, 5),
-          dataSourceConfig: __S(5447, __c170, 7),
-          evaluators: S.optional(__S(5449, __c170, 9)),
-          insights: S.optional(__S(5409, __c169, 1)),
-          clusteringConfig: S.optional(__S(5410, __c169, 2)),
-          outputConfig: S.optional(__S(5451, __c170, 11)),
+          rule: __S(5573, __c174, 5),
+          dataSourceConfig: __S(5575, __c174, 7),
+          evaluators: S.optional(__S(5577, __c174, 9)),
+          insights: S.optional(__S(5537, __c173, 1)),
+          clusteringConfig: S.optional(__S(5538, __c173, 2)),
+          outputConfig: S.optional(__S(5579, __c174, 11)),
           evaluationExecutionRoleArn: S.optional(S.String),
           status: S.String,
           executionStatus: S.String,
@@ -19779,7 +20419,7 @@ function __c242(j: number): any {
       ).annotate({ identifier: "GetOnlineEvaluationConfigResponse" });
   }
 }
-function __c243(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19808,7 +20448,7 @@ function __c243(j: number): any {
           description: S.optional(S.String),
           type: S.String,
           provisionMode: S.optional(S.String),
-          credentialProviderConfigurations: __S(5506, __c172, 2),
+          credentialProviderConfigurations: __S(5635, __c176, 3),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           status: S.String,
@@ -19816,35 +20456,6 @@ function __c243(j: number): any {
           credentialsUpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
       ).annotate({ identifier: "GetPaymentConnectorResponse" });
-  }
-}
-function __c244(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ name: S.String }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/identities/GetPaymentCredentialProvider" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "GetPaymentCredentialProviderRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          credentialProviderArn: S.String,
-          credentialProviderVendor: S.String,
-          providerConfigurationOutput: __S(5602, __c175, 2),
-          createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          lastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          tags: S.optional(__S(2848, __c89, 0)),
-        }),
-      ).annotate({ identifier: "GetPaymentCredentialProviderResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

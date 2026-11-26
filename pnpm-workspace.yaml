@@ -17,14 +17,20 @@ allowBuilds:
   # only checks it.
   esbuild: false
 
+# The stacks and the website deploy with alchemy main (catalog below), whose
+# preview tarballs on pkg.alchemy.run name their own @alchemy.run/* and
+# @distilled.cloud/* dependencies by tarball URL. pnpm blocks URL
+# subdependencies by default and has no per-package exception.
+blockExoticSubdeps: false
+
 catalog:
   "@effect/platform-node": "^4.1.4"
   "@oxc-project/types": "^0.153.0"
   "@types/node": "26.6.5"
-  "@alchemy.run/aws": "2.0.0-beta.85"
-  "@alchemy.run/cloudflare": "2.0.0-beta.85"
-  "@alchemy.run/github": "2.0.0-beta.85"
-  alchemy: "2.0.0-beta.85"
+  "@alchemy.run/aws": "https://pkg.alchemy.run/@alchemy.run/aws/branch:main"
+  "@alchemy.run/cloudflare": "https://pkg.alchemy.run/@alchemy.run/cloudflare/branch:main"
+  "@alchemy.run/github": "https://pkg.alchemy.run/@alchemy.run/github/branch:main"
+  alchemy: "https://pkg.alchemy.run/alchemy/branch:main"
   changelogithub: "^13.16.1"
   effect: "^4.1.4"
   # Only benches/bundlers: the bundlers it checks the published SDKs against.
@@ -44,26 +50,6 @@ catalog:
   # Only benches/bundlers: the runtime the workerd bundle runs in (nightly).
   workerd: "1.20261026.1"
   yaml: "^2.9.1"
-
-# alchemy 2.0.0-beta.85 and the distilled 1.0.0-rc.18 packages it depends on
-# are younger than the minimum release age (1 day) when the stacks moved to it.
-minimumReleaseAgeExclude:
-  - "@alchemy.run/acme@2.0.0-beta.85"
-  - "@alchemy.run/cloudflare-runtime@2.0.0-beta.85"
-  - "@alchemy.run/cloudflare@2.0.0-beta.85"
-  - "@alchemy.run/docker@2.0.0-beta.85"
-  - "@alchemy.run/github@2.0.0-beta.85"
-  - "@alchemy.run/node-utils@2.0.0-beta.85"
-  - "@alchemy.run/pkg@2.0.0-beta.85"
-  - "@alchemy.run/sql@2.0.0-beta.85"
-  - "@distilled.cloud/acme@1.0.0-rc.18"
-  - "@distilled.cloud/aws4signer@1.0.0-rc.18"
-  - "@distilled.cloud/aws@1.0.0-rc.18"
-  - "@distilled.cloud/cloudflare@1.0.0-rc.18"
-  - "@distilled.cloud/core@1.0.0-rc.18"
-  - "@distilled.cloud/github@1.0.0-rc.18"
-  - "@distilled.cloud/iceberg@1.0.0-rc.18"
-  - alchemy@2.0.0-beta.85
 
 # Benchmark-only (benches/sdks official SDK suite): AWS SDK v3 internals pinned
 # to releases older than the minimum release age.

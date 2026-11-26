@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownPolymarketError } from "../errors.ts";
+import { PolymarketServiceErrors } from "../errors.ts";
 import { ClobProtocol, type PolymarketOpError, type PolymarketOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -458,7 +458,7 @@ export interface RebatedFees {
   rebated_fees_usdc: string;
 }
 export type GetCurrentRebatedFeesResponseBodyList = Array<RebatedFees>;
-export type GetCurrentRebatedFeesResponse = GetCurrentRebatedFeesResponseBodyList;
+export type GetCurrentRebatedFeesResponse = GetCurrentRebatedFeesResponseBodyList | null;
 export interface GetCurrentRewardsRequest {
   /** If true, returns sponsored reward configurations instead of standard ones */
   sponsored?: boolean | undefined;
@@ -1507,7 +1507,8 @@ export const cancelAllOrders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CancelAllOrdersRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<CancelOrdersResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1524,7 +1525,8 @@ export const cancelMarketOrders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<CancelMarketOrdersRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<CancelOrdersResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1541,7 +1543,8 @@ export const cancelOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<CancelOrderRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<CancelOrdersResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1558,7 +1561,8 @@ export const cancelOrders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c36, 0) as any as S.Schema<CancelOrdersRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<CancelOrdersResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1575,7 +1579,8 @@ export const cancelWalletOrders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c52, 0) as any as S.Schema<CancelWalletOrdersRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<CancelOrdersResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1592,7 +1597,8 @@ export const createApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c66, 0) as any as S.Schema<CreateApiKeyRequest>,
   output: __S(536, __c67, 0) as any as S.Schema<ApiKeyResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1609,7 +1615,8 @@ export const createBuilderApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(648, __c81, 0) as any as S.Schema<CreateBuilderApiKeyRequest>,
   output: __S(649, __c81, 1) as any as S.Schema<BuilderApiKeyResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1626,7 +1633,8 @@ export const createOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(728, __c91, 0) as any as S.Schema<CreateOrderRequest>,
   output: __S(737, __c92, 1) as any as S.Schema<SendOrderResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1643,7 +1651,8 @@ export const createOrders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(746, __c93, 2) as any as S.Schema<CreateOrdersRequest>,
   output: __S(748, __c93, 4) as any as S.Schema<CreateOrdersResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1660,7 +1669,8 @@ export const createOrdersScoring: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c94, 0) as any as S.Schema<CreateOrdersScoringRequest>,
   output: __S(761, __c95, 1) as any as S.Schema<CreateOrdersScoringResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1677,7 +1687,8 @@ export const deleteApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<DeleteApiKeyRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DeleteApiKeyResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1694,7 +1705,8 @@ export const deriveApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<DeriveApiKeyRequest>,
   output: __S(536, __c67, 0) as any as S.Schema<ApiKeyResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1711,7 +1723,8 @@ export const dropNotifications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<DropNotificationsRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DropNotificationsResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1728,7 +1741,8 @@ export const getApiKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<GetApiKeysRequest>,
   output: __S(73, __c9, 1) as any as S.Schema<ApiKeysResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1745,7 +1759,8 @@ export const getBalanceAllowance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<GetBalanceAllowanceRequest>,
   output: __S(88, __c11, 0) as any as S.Schema<BalanceAllowanceResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1762,7 +1777,8 @@ export const getBatchPricesHistory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<GetBatchPricesHistoryRequest>,
   output: __S(98, __c12, 2) as any as S.Schema<BatchPricesHistoryResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1779,7 +1795,8 @@ export const getBook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<GetBookRequest>,
   output: __S(122, __c15, 2) as any as S.Schema<OrderBookSummary>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1796,7 +1813,8 @@ export const getBooksGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<GetBooksGetRequest>,
   output: __S(137, __c17, 1) as any as S.Schema<GetBooksGetResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1813,7 +1831,8 @@ export const getBooksPost: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<GetBooksPostRequest>,
   output: __S(137, __c17, 1) as any as S.Schema<GetBooksPostResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1830,7 +1849,8 @@ export const getBuilderApiKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<GetBuilderApiKeysRequest>,
   output: __S(161, __c20, 1) as any as S.Schema<GetBuilderApiKeysResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1847,7 +1867,8 @@ export const getBuilderTrades: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c22, 0) as any as S.Schema<GetBuilderTradesRequest>,
   output: __S(179, __c22, 3) as any as S.Schema<BuilderTradesResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1864,7 +1885,8 @@ export const getClobMarketInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<GetClobMarketInfoRequest>,
   output: __S(188, __c23, 4) as any as S.Schema<ClobMarketDetails>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1881,7 +1903,8 @@ export const getClosedOnlyMode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(200, __c25, 0) as any as S.Schema<GetClosedOnlyModeRequest>,
   output: __S(201, __c25, 1) as any as S.Schema<ClosedOnlyResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1898,7 +1921,8 @@ export const getCurrentRebatedFees: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c26, 0) as any as S.Schema<GetCurrentRebatedFeesRequest>,
   output: __S(211, __c26, 3) as any as S.Schema<GetCurrentRebatedFeesResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1915,7 +1939,8 @@ export const getCurrentRewards: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(216, __c27, 0) as any as S.Schema<GetCurrentRewardsRequest>,
   output: __S(219, __c27, 3) as any as S.Schema<PaginatedCurrentReward>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1932,7 +1957,8 @@ export const getEarningsForUserForDay: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(232, __c29, 0) as any as S.Schema<GetEarningsForUserForDayRequest>,
   output: __S(235, __c29, 3) as any as S.Schema<PaginatedUserEarnings>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1949,7 +1975,8 @@ export const getFeeRate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c30, 0) as any as S.Schema<GetFeeRateRequest>,
   output: __S(248, __c31, 0) as any as S.Schema<FeeRate>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1966,7 +1993,8 @@ export const getFeeRateByPath: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c32, 0) as any as S.Schema<GetFeeRateByPathRequest>,
   output: __S(248, __c31, 0) as any as S.Schema<FeeRate>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1983,7 +2011,8 @@ export const getLastTradePrice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(264, __c33, 0) as any as S.Schema<GetLastTradePriceRequest>,
   output: __S(265, __c33, 1) as any as S.Schema<GetLastTradePriceResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2000,7 +2029,8 @@ export const getLastTradesPricesGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c34, 0) as any as S.Schema<GetLastTradesPricesGetRequest>,
   output: __S(282, __c35, 2) as any as S.Schema<GetLastTradesPricesGetResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2017,7 +2047,8 @@ export const getLastTradesPricesPost: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(296, __c37, 0) as any as S.Schema<GetLastTradesPricesPostRequest>,
   output: __S(282, __c35, 2) as any as S.Schema<GetLastTradesPricesPostResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2034,7 +2065,8 @@ export const getMarketByToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c38, 0) as any as S.Schema<GetMarketByTokenRequest>,
   output: __S(305, __c38, 1) as any as S.Schema<MarketByTokenResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2051,7 +2083,8 @@ export const getMarketLiveActivity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(312, __c39, 0) as any as S.Schema<GetMarketLiveActivityRequest>,
   output: __S(320, __c40, 0) as any as S.Schema<LiveActivityMarket>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2068,7 +2101,8 @@ export const getMarketsLiveActivity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(328, __c41, 0) as any as S.Schema<GetMarketsLiveActivityRequest>,
   output: __S(330, __c41, 2) as any as S.Schema<GetMarketsLiveActivityResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2085,7 +2119,8 @@ export const getMidpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c42, 0) as any as S.Schema<GetMidpointRequest>,
   output: __S(337, __c42, 1) as any as S.Schema<GetMidpointResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2102,7 +2137,8 @@ export const getMidpointsGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(344, __c43, 0) as any as S.Schema<GetMidpointsGetRequest>,
   output: __S(352, __c44, 0) as any as S.Schema<GetMidpointsGetResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2119,7 +2155,8 @@ export const getMidpointsPost: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(360, __c45, 0) as any as S.Schema<GetMidpointsPostRequest>,
   output: __S(352, __c44, 0) as any as S.Schema<GetMidpointsPostResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2136,7 +2173,8 @@ export const getMultiMarkets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c46, 0) as any as S.Schema<GetMultiMarketsRequest>,
   output: __S(371, __c46, 3) as any as S.Schema<PaginatedMultiMarketInfo>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2153,7 +2191,8 @@ export const getNegRisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(392, __c49, 0) as any as S.Schema<GetNegRiskRequest>,
   output: __S(400, __c50, 0) as any as S.Schema<NegRisk>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2170,7 +2209,8 @@ export const getNegRiskByPath: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(408, __c51, 0) as any as S.Schema<GetNegRiskByPathRequest>,
   output: __S(400, __c50, 0) as any as S.Schema<NegRisk>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2187,7 +2227,8 @@ export const getNotifications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(424, __c53, 0) as any as S.Schema<GetNotificationsRequest>,
   output: __S(427, __c53, 3) as any as S.Schema<GetNotificationsResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2204,7 +2245,8 @@ export const getOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c54, 0) as any as S.Schema<GetOrderRequest>,
   output: __S(440, __c55, 0) as any as S.Schema<OpenOrder>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2221,7 +2263,8 @@ export const getOrders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c56, 0) as any as S.Schema<GetOrdersRequest>,
   output: __S(450, __c56, 2) as any as S.Schema<OrdersResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2238,7 +2281,8 @@ export const getOrderScoring: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(456, __c57, 0) as any as S.Schema<GetOrderScoringRequest>,
   output: __S(457, __c57, 1) as any as S.Schema<OrderScoringResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2255,7 +2299,8 @@ export const getOrdersScoring: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c58, 0) as any as S.Schema<GetOrdersScoringRequest>,
   output: __S(761, __c95, 1) as any as S.Schema<GetOrdersScoringResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2272,7 +2317,8 @@ export const getPrice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(472, __c59, 0) as any as S.Schema<GetPriceRequest>,
   output: __S(473, __c59, 1) as any as S.Schema<GetPriceResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2289,7 +2335,8 @@ export const getPricesGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c60, 0) as any as S.Schema<GetPricesGetRequest>,
   output: __S(489, __c61, 1) as any as S.Schema<GetPricesGetResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2306,7 +2353,8 @@ export const getPricesHistory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(504, __c63, 0) as any as S.Schema<GetPricesHistoryRequest>,
   output: __S(505, __c63, 1) as any as S.Schema<PricesHistoryResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2323,7 +2371,8 @@ export const getPricesPost: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c64, 0) as any as S.Schema<GetPricesPostRequest>,
   output: __S(489, __c61, 1) as any as S.Schema<GetPricesPostResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2340,7 +2389,8 @@ export const getRateLimitTier: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(520, __c65, 0) as any as S.Schema<GetRateLimitTierRequest>,
   output: __S(522, __c65, 2) as any as S.Schema<RateLimitTierResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2357,7 +2407,8 @@ export const getRawRewardsForMarket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c68, 0) as any as S.Schema<GetRawRewardsForMarketRequest>,
   output: __S(547, __c68, 3) as any as S.Schema<PaginatedMarketReward>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2374,7 +2425,8 @@ export const getRewardPercentagesForUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(552, __c69, 0) as any as S.Schema<GetRewardPercentagesForUserRequest>,
   output: __S(553, __c69, 1) as any as S.Schema<GetRewardPercentagesForUserResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2391,7 +2443,8 @@ export const getSamplingMarkets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c70, 0) as any as S.Schema<GetSamplingMarketsRequest>,
   output: __S(563, __c70, 3) as any as S.Schema<PaginatedMarkets>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2408,7 +2461,8 @@ export const getSamplingSimplifiedMarkets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c72, 0) as any as S.Schema<GetSamplingSimplifiedMarketsRequest>,
   output: __S(586, __c73, 2) as any as S.Schema<PaginatedSimplifiedMarkets>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2425,7 +2479,8 @@ export const getSimplifiedMarkets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c74, 0) as any as S.Schema<GetSimplifiedMarketsRequest>,
   output: __S(586, __c73, 2) as any as S.Schema<PaginatedSimplifiedMarkets>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2442,7 +2497,8 @@ export const getSpread: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(600, __c75, 0) as any as S.Schema<GetSpreadRequest>,
   output: __S(601, __c75, 1) as any as S.Schema<GetSpreadResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2459,7 +2515,8 @@ export const getSpreads: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c76, 0) as any as S.Schema<GetSpreadsRequest>,
   output: __S(352, __c44, 0) as any as S.Schema<GetSpreadsResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2476,7 +2533,8 @@ export const getTickSize: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(616, __c77, 0) as any as S.Schema<GetTickSizeRequest>,
   output: __S(624, __c78, 0) as any as S.Schema<TickSize>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2493,7 +2551,8 @@ export const getTickSizeByPath: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(632, __c79, 0) as any as S.Schema<GetTickSizeByPathRequest>,
   output: __S(624, __c78, 0) as any as S.Schema<TickSize>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2510,7 +2569,8 @@ export const getTime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c80, 0) as any as S.Schema<GetTimeRequest>,
   output: __S(641, __c80, 1) as any as S.Schema<GetTimeResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2527,7 +2587,8 @@ export const getTotalEarningsForUserForDay: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c82, 0) as any as S.Schema<GetTotalEarningsForUserForDayRequest>,
   output: __S(659, __c82, 3) as any as S.Schema<GetTotalEarningsForUserForDayResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2544,7 +2605,8 @@ export const getTrades: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(664, __c83, 0) as any as S.Schema<GetTradesRequest>,
   output: __S(669, __c83, 5) as any as S.Schema<TradesResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2561,7 +2623,8 @@ export const getUpdateBalanceAllowance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c84, 0) as any as S.Schema<GetUpdateBalanceAllowanceRequest>,
   output: __S(88, __c11, 0) as any as S.Schema<BalanceAllowanceResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2578,7 +2641,8 @@ export const getUserEarningsAndMarketsConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(680, __c85, 0) as any as S.Schema<GetUserEarningsAndMarketsConfigRequest>,
   output: __S(685, __c85, 5) as any as S.Schema<PaginatedUserRewardsMarkets>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2595,7 +2659,8 @@ export const getWalletOpenOrders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c86, 0) as any as S.Schema<GetWalletOpenOrdersRequest>,
   output: __S(691, __c86, 3) as any as S.Schema<WalletOpenOrdersResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2612,7 +2677,8 @@ export const revokeBuilderApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(696, __c87, 0) as any as S.Schema<RevokeBuilderApiKeyRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<RevokeBuilderApiKeyResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2629,7 +2695,8 @@ export const sendHeartbeat: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c88, 0) as any as S.Schema<SendHeartbeatRequest>,
   output: __S(705, __c88, 1) as any as S.Schema<HeartbeatResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2646,7 +2713,8 @@ export const sendHeartbeatV1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(712, __c89, 0) as any as S.Schema<SendHeartbeatV1Request>,
   output: __S(713, __c89, 1) as any as S.Schema<HeartbeatV1Response>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2663,7 +2731,8 @@ export const updateBalanceAllowance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c90, 0) as any as S.Schema<UpdateBalanceAllowanceRequest>,
   output: __S(721, __c90, 1) as any as S.Schema<UpdateBalanceAllowanceResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: ClobProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3065,7 +3134,7 @@ function __c26(j: number): any {
     case 2:
       return S.Array(__S(209, __c26, 1));
     case 3:
-      return S.suspend(() => __S(210, __c26, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => S.NullOr(__S(210, __c26, 2)).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetCurrentRebatedFeesResponse",
       });
   }

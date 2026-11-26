@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownBrowserbaseError } from "../errors.ts";
+import { BrowserbaseServiceErrors } from "../errors.ts";
 import { paginateCursor, paginateOffset } from "../pagination.ts";
 import {
   BrowserbaseProtocol,
@@ -623,7 +623,7 @@ export interface CreateSecretRequest {
   /** The name to store the secret value under. */
   secretKey: string | Redacted.Redacted<string>;
   /** The secret value encrypted with HPKE. To seal the secret value before sending, get the project's public key from GET /v1/secrets/keypair. Decode the publicKey using base64 into the raw 32-byte public key. Then, use HPKE Base mode (RFC 9180) with the following algorithm suite: DHKEM(X25519, HKDF-SHA256), HKDF-SHA256, and AES-256-GCM. Set both info and additional authenticated data (AAD) to an empty byte string. Then, create a new sender context using the public key and these settings, and encrypt the secret value as one message. Put the 32-byte encapsulated key before the ciphertext and keep the authentication tag at the end of the ciphertext. Encode the combined bytes with standard base64. Send the result as sealedSecretValue: base64(enc || ciphertext) */
-  sealedSecretValue: string;
+  sealedSecretValue: string | Redacted.Redacted<string>;
   /** The `id` returned by GET /v1/secrets/keypair, identifying the keypair whose public key encrypted the value. Recorded with the secret so decryption stays correct across keypair rotation. */
   keypairId: string;
 }
@@ -2045,7 +2045,7 @@ export interface UpdateSecretRequest {
   /** The id of the project secret to update. */
   id: string;
   /** The new secret value encrypted with HPKE. To seal the secret value before sending, get the project's public key from GET /v1/secrets/keypair. Decode the publicKey using base64 into the raw 32-byte public key. Then, use HPKE Base mode (RFC 9180) with the following algorithm suite: DHKEM(X25519, HKDF-SHA256), HKDF-SHA256, and AES-256-GCM. Set both info and additional authenticated data (AAD) to an empty byte string. Then, create a new sender context using the public key and these settings, and encrypt the secret value as one message. Put the 32-byte encapsulated key before the ciphertext and keep the authentication tag at the end of the ciphertext. Encode the combined bytes with standard base64. Send the result as sealedSecretValue: base64(enc || ciphertext) */
-  sealedSecretValue: string;
+  sealedSecretValue: string | Redacted.Redacted<string>;
   /** The `id` returned by GET /v1/secrets/keypair, identifying the keypair whose public key encrypted the value. Recorded with the secret so decryption stays correct across keypair rotation. */
   keypairId: string;
 }
@@ -2125,7 +2125,8 @@ export const attachFunctionSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(632, __c79, 0) as any as S.Schema<AttachFunctionSecretRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<AttachFunctionSecretResponse>,
-  errors: [BadRequest, NotFound, UnknownBrowserbaseError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2142,7 +2143,8 @@ export const createAgent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(728, __c91, 0) as any as S.Schema<CreateAgentRequest>,
   output: __S(736, __c92, 0) as any as S.Schema<Agent>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2159,7 +2161,8 @@ export const createAgentRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(777, __c97, 1) as any as S.Schema<CreateAgentRunRequest>,
   output: __S(801, __c100, 1) as any as S.Schema<AgentRun>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2176,7 +2179,8 @@ export const createContext: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<CreateContextRequest>,
   output: __S(17, __c2, 1) as any as S.Schema<CreateContextResponse>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2193,7 +2197,8 @@ export const createLabel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<CreateLabelRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<Label>,
-  errors: [BadRequest, Conflict, UnprocessableEntity, UnknownBrowserbaseError],
+  errors: [BadRequest, Conflict, UnprocessableEntity],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2210,7 +2215,8 @@ export const createNavigationPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<CreateNavigationPolicyRequest>,
   output: __S(58, __c7, 2) as any as S.Schema<NavigationPolicy>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2227,7 +2233,8 @@ export const createSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<CreateSecretRequest>,
   output: __S(72, __c9, 0) as any as S.Schema<Secret>,
-  errors: [BadRequest, Conflict, UnknownBrowserbaseError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2244,7 +2251,8 @@ export const createSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(81, __c10, 1) as any as S.Schema<CreateSessionRequest>,
   output: __S(82, __c10, 2) as any as S.Schema<CreateSessionResponse>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2266,7 +2274,8 @@ export const createSessionRecordingDownloads: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<CreateSessionRecordingDownloadsRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<CreateSessionRecordingDownloadsResponse>,
-  errors: [NotFound, Conflict, Gone, UnprocessableEntity, UnknownBrowserbaseError],
+  errors: [NotFound, Conflict, Gone, UnprocessableEntity],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2283,7 +2292,8 @@ export const createWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<CreateWebhookRequest>,
   output: __S(105, __c13, 1) as any as S.Schema<CreateWebhookResponse>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2300,7 +2310,8 @@ export const deleteAgent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<DeleteAgentRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<DeleteAgentResponse>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2317,7 +2328,8 @@ export const deleteCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<DeleteCertificateRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<DeleteCertificateResponse>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2334,7 +2346,8 @@ export const deleteContext: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<DeleteContextRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<DeleteContextResponse>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2351,7 +2364,8 @@ export const deleteDownload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<DeleteDownloadRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<DeleteDownloadResponse>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2368,7 +2382,8 @@ export const deleteExtension: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<DeleteExtensionRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<DeleteExtensionResponse>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2385,7 +2400,8 @@ export const deleteLabel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<DeleteLabelRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<DeleteLabelResponse>,
-  errors: [BadRequest, UnknownBrowserbaseError],
+  errors: [BadRequest],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2402,7 +2418,8 @@ export const deleteNavigationPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<DeleteNavigationPolicyRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<DeleteNavigationPolicyResponse>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2419,7 +2436,8 @@ export const deleteSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<DeleteSecretRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<DeleteSecretResponse>,
-  errors: [BadRequest, NotFound, UnknownBrowserbaseError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2436,7 +2454,8 @@ export const deleteWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c22, 0) as any as S.Schema<DeleteWebhookRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<DeleteWebhookResponse>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2453,7 +2472,8 @@ export const detachFunctionSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<DetachFunctionSecretRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<DetachFunctionSecretResponse>,
-  errors: [BadRequest, NotFound, UnknownBrowserbaseError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2470,7 +2490,8 @@ export const fetchPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<FetchPageRequest>,
   output: __S(194, __c24, 2) as any as S.Schema<FetchPageResponse>,
-  errors: [BadRequest, PaymentRequired, Forbidden, UnknownBrowserbaseError],
+  errors: [BadRequest, PaymentRequired, Forbidden],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2487,7 +2508,8 @@ export const getAgent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(200, __c25, 0) as any as S.Schema<GetAgentRequest>,
   output: __S(736, __c92, 0) as any as S.Schema<Agent>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2504,7 +2526,8 @@ export const getAgentRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c26, 0) as any as S.Schema<GetAgentRunRequest>,
   output: __S(801, __c100, 1) as any as S.Schema<AgentRun>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2521,7 +2544,8 @@ export const getCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(216, __c27, 0) as any as S.Schema<GetCertificateRequest>,
   output: __S(224, __c28, 0) as any as S.Schema<Certificate>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2538,7 +2562,8 @@ export const getContext: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(232, __c29, 0) as any as S.Schema<GetContextRequest>,
   output: __S(233, __c29, 1) as any as S.Schema<Context>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2555,7 +2580,8 @@ export const getDownload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c30, 0) as any as S.Schema<GetDownloadRequest>,
   output: __S(248, __c31, 0) as any as S.Schema<Download>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2572,7 +2598,8 @@ export const getExtension: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c32, 0) as any as S.Schema<GetExtensionRequest>,
   output: __S(264, __c33, 0) as any as S.Schema<Extension>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2589,7 +2616,8 @@ export const getFunction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c34, 0) as any as S.Schema<GetFunctionRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<Function>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2606,7 +2634,8 @@ export const getFunctionBuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(280, __c35, 0) as any as S.Schema<GetFunctionBuildRequest>,
   output: __S(307, __c38, 3) as any as S.Schema<FunctionBuild>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2623,7 +2652,8 @@ export const getFunctionBuildLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(312, __c39, 0) as any as S.Schema<GetFunctionBuildLogsRequest>,
   output: __S(322, __c40, 2) as any as S.Schema<GetFunctionBuildLogsResponse>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2640,7 +2670,8 @@ export const getFunctionVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(328, __c41, 0) as any as S.Schema<GetFunctionVersionRequest>,
   output: __S(288, __c36, 0) as any as S.Schema<FunctionVersion>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2657,7 +2688,8 @@ export const getInvocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c42, 0) as any as S.Schema<GetInvocationRequest>,
   output: __S(337, __c42, 1) as any as S.Schema<GetInvocationResponse>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2674,7 +2706,8 @@ export const getInvocationLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(344, __c43, 0) as any as S.Schema<GetInvocationLogsRequest>,
   output: __S(322, __c40, 2) as any as S.Schema<GetInvocationLogsResponse>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2691,7 +2724,8 @@ export const getNavigationPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c44, 0) as any as S.Schema<GetNavigationPolicyRequest>,
   output: __S(58, __c7, 2) as any as S.Schema<NavigationPolicy>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2708,7 +2742,8 @@ export const getProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(360, __c45, 0) as any as S.Schema<GetProjectRequest>,
   output: __S(368, __c46, 0) as any as S.Schema<Project>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2725,7 +2760,8 @@ export const getProjectUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(376, __c47, 0) as any as S.Schema<GetProjectUsageRequest>,
   output: __S(377, __c47, 1) as any as S.Schema<ProjectUsage>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2742,7 +2778,8 @@ export const getSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c48, 0) as any as S.Schema<GetSecretRequest>,
   output: __S(72, __c9, 0) as any as S.Schema<Secret>,
-  errors: [BadRequest, NotFound, UnknownBrowserbaseError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2759,7 +2796,8 @@ export const getSecretKeypair: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(392, __c49, 0) as any as S.Schema<GetSecretKeypairRequest>,
   output: __S(393, __c49, 1) as any as S.Schema<SecretsKeypair>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2776,7 +2814,8 @@ export const getSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c50, 0) as any as S.Schema<GetSessionRequest>,
   output: __S(403, __c50, 3) as any as S.Schema<GetSessionResponse>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2793,7 +2832,8 @@ export const getSessionDebug: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(408, __c51, 0) as any as S.Schema<GetSessionDebugRequest>,
   output: __S(411, __c51, 3) as any as S.Schema<SessionLiveUrls>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2810,7 +2850,8 @@ export const getSessionLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c52, 0) as any as S.Schema<GetSessionLogsRequest>,
   output: __S(421, __c52, 5) as any as S.Schema<GetSessionLogsResponse>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2827,7 +2868,8 @@ export const getSessionReplay: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(424, __c53, 0) as any as S.Schema<GetSessionReplayRequest>,
   output: __S(427, __c53, 3) as any as S.Schema<GetSessionReplayResponse>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2844,7 +2886,8 @@ export const getSessionReplayPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c54, 0) as any as S.Schema<GetSessionReplayPageRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<GetSessionReplayPageResponse>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2861,7 +2904,8 @@ export const getWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(440, __c55, 0) as any as S.Schema<GetWebhookRequest>,
   output: __S(448, __c56, 0) as any as S.Schema<Webhook>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2878,7 +2922,8 @@ export const invokeFunction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(458, __c57, 2) as any as S.Schema<InvokeFunctionRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<InvokeFunctionResponse>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2897,7 +2942,8 @@ export const listAgentRunMessages: API.PaginatedOperationMethod<
   () => ({
     input: __S(464, __c58, 0) as any as S.Schema<ListAgentRunMessagesRequest>,
     output: __S(468, __c58, 4) as any as S.Schema<ListAgentRunMessagesResponse>,
-    errors: [UnknownBrowserbaseError],
+    errors: [],
+    serviceErrors: BrowserbaseServiceErrors,
     protocol: BrowserbaseProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2925,7 +2971,8 @@ export const listAgentRuns: API.PaginatedOperationMethod<
   () => ({
     input: __S(472, __c59, 0) as any as S.Schema<ListAgentRunsRequest>,
     output: __S(474, __c59, 2) as any as S.Schema<ListAgentRunsResponse>,
-    errors: [UnknownBrowserbaseError],
+    errors: [],
+    serviceErrors: BrowserbaseServiceErrors,
     protocol: BrowserbaseProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2953,7 +3000,8 @@ export const listAgents: API.PaginatedOperationMethod<
   () => ({
     input: __S(480, __c60, 0) as any as S.Schema<ListAgentsRequest>,
     output: __S(482, __c60, 2) as any as S.Schema<ListAgentsResponse>,
-    errors: [UnknownBrowserbaseError],
+    errors: [],
+    serviceErrors: BrowserbaseServiceErrors,
     protocol: BrowserbaseProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2979,7 +3027,8 @@ export const listCertificates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(488, __c61, 0) as any as S.Schema<ListCertificatesRequest>,
   output: __S(490, __c61, 2) as any as S.Schema<ListCertificatesResponse>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2998,7 +3047,8 @@ export const listDownloads: API.PaginatedOperationMethod<
   () => ({
     input: __S(496, __c62, 0) as any as S.Schema<ListDownloadsRequest>,
     output: __S(498, __c62, 2) as any as S.Schema<ListDownloadsResponse>,
-    errors: [UnknownBrowserbaseError],
+    errors: [],
+    serviceErrors: BrowserbaseServiceErrors,
     protocol: BrowserbaseProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3025,7 +3075,8 @@ export const listFunctionBuilds: API.PaginatedOperationMethod<
   () => ({
     input: __S(504, __c63, 0) as any as S.Schema<ListFunctionBuildsRequest>,
     output: __S(506, __c63, 2) as any as S.Schema<ListFunctionBuildsResponse>,
-    errors: [UnknownBrowserbaseError],
+    errors: [],
+    serviceErrors: BrowserbaseServiceErrors,
     protocol: BrowserbaseProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3052,7 +3103,8 @@ export const listFunctions: API.PaginatedOperationMethod<
   () => ({
     input: __S(512, __c64, 0) as any as S.Schema<ListFunctionsRequest>,
     output: __S(513, __c64, 1) as any as S.Schema<ListFunctionsResponse>,
-    errors: [UnknownBrowserbaseError],
+    errors: [],
+    serviceErrors: BrowserbaseServiceErrors,
     protocol: BrowserbaseProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3079,7 +3131,8 @@ export const listFunctionSecrets: API.PaginatedOperationMethod<
   () => ({
     input: __S(528, __c66, 0) as any as S.Schema<ListFunctionSecretsRequest>,
     output: __S(537, __c67, 1) as any as S.Schema<ListFunctionSecretsResponse>,
-    errors: [BadRequest, NotFound, UnknownBrowserbaseError],
+    errors: [BadRequest, NotFound],
+    serviceErrors: BrowserbaseServiceErrors,
     protocol: BrowserbaseProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3107,7 +3160,8 @@ export const listFunctionVersionInvocations: API.PaginatedOperationMethod<
   () => ({
     input: __S(544, __c68, 0) as any as S.Schema<ListFunctionVersionInvocationsRequest>,
     output: __S(547, __c68, 3) as any as S.Schema<ListFunctionVersionInvocationsResponse>,
-    errors: [UnknownBrowserbaseError],
+    errors: [],
+    serviceErrors: BrowserbaseServiceErrors,
     protocol: BrowserbaseProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3134,7 +3188,8 @@ export const listFunctionVersions: API.PaginatedOperationMethod<
   () => ({
     input: __S(552, __c69, 0) as any as S.Schema<ListFunctionVersionsRequest>,
     output: __S(554, __c69, 2) as any as S.Schema<ListFunctionVersionsResponse>,
-    errors: [UnknownBrowserbaseError],
+    errors: [],
+    serviceErrors: BrowserbaseServiceErrors,
     protocol: BrowserbaseProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3161,7 +3216,8 @@ export const listLabels: API.PaginatedOperationMethod<
   () => ({
     input: __S(560, __c70, 0) as any as S.Schema<ListLabelsRequest>,
     output: __S(561, __c70, 1) as any as S.Schema<ListLabelsResponse>,
-    errors: [BadRequest, UnknownBrowserbaseError],
+    errors: [BadRequest],
+    serviceErrors: BrowserbaseServiceErrors,
     protocol: BrowserbaseProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3187,7 +3243,8 @@ export const listNavigationPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(568, __c71, 0) as any as S.Schema<ListNavigationPoliciesRequest>,
   output: __S(570, __c71, 2) as any as S.Schema<ListNavigationPoliciesResponse>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3204,7 +3261,8 @@ export const listProjects: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c72, 0) as any as S.Schema<ListProjectsRequest>,
   output: __S(578, __c72, 2) as any as S.Schema<ListProjectsResponse>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3223,7 +3281,8 @@ export const listSecrets: API.PaginatedOperationMethod<
   () => ({
     input: __S(584, __c73, 0) as any as S.Schema<ListSecretsRequest>,
     output: __S(537, __c67, 1) as any as S.Schema<ListSecretsResponse>,
-    errors: [BadRequest, UnknownBrowserbaseError],
+    errors: [BadRequest],
+    serviceErrors: BrowserbaseServiceErrors,
     protocol: BrowserbaseProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3254,7 +3313,8 @@ export const listSessionRecordingDownloads: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c74, 0) as any as S.Schema<ListSessionRecordingDownloadsRequest>,
   output: __S(595, __c74, 3) as any as S.Schema<ListSessionRecordingDownloadsResponse>,
-  errors: [NotFound, Conflict, Gone, UnprocessableEntity, UnknownBrowserbaseError],
+  errors: [NotFound, Conflict, Gone, UnprocessableEntity],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3271,7 +3331,8 @@ export const listSessions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(600, __c75, 0) as any as S.Schema<ListSessionsRequest>,
   output: __S(602, __c75, 2) as any as S.Schema<ListSessionsResponse>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3290,7 +3351,8 @@ export const listWebhooks: API.PaginatedOperationMethod<
   () => ({
     input: __S(616, __c77, 0) as any as S.Schema<ListWebhooksRequest>,
     output: __S(618, __c77, 2) as any as S.Schema<ListWebhooksResponse>,
-    errors: [UnknownBrowserbaseError],
+    errors: [],
+    serviceErrors: BrowserbaseServiceErrors,
     protocol: BrowserbaseProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3316,7 +3378,8 @@ export const resumeAgentRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c78, 0) as any as S.Schema<ResumeAgentRunRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<ResumeAgentRunResponse>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3333,7 +3396,8 @@ export const rotateWebhookSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(648, __c81, 0) as any as S.Schema<RotateWebhookSecretRequest>,
   output: __S(649, __c81, 1) as any as S.Schema<RotateWebhookSecretResponse>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3350,7 +3414,8 @@ export const searchWeb: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c82, 0) as any as S.Schema<SearchWebRequest>,
   output: __S(659, __c82, 3) as any as S.Schema<SearchWebResponse>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3371,7 +3436,8 @@ export const setSessionLabels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(664, __c83, 0) as any as S.Schema<SetSessionLabelsRequest>,
   output: __S(665, __c83, 1) as any as S.Schema<SetSessionLabelsResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownBrowserbaseError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3388,7 +3454,8 @@ export const stopAgentRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c84, 0) as any as S.Schema<StopAgentRunRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<StopAgentRunResponse>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3405,7 +3472,8 @@ export const updateAgent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(680, __c85, 0) as any as S.Schema<UpdateAgentRequest>,
   output: __S(736, __c92, 0) as any as S.Schema<Agent>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3422,7 +3490,8 @@ export const updateLabel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c86, 0) as any as S.Schema<UpdateLabelRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<Label>,
-  errors: [BadRequest, NotFound, Conflict, UnknownBrowserbaseError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3439,7 +3508,8 @@ export const updateNavigationPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(696, __c87, 0) as any as S.Schema<UpdateNavigationPolicyRequest>,
   output: __S(58, __c7, 2) as any as S.Schema<NavigationPolicy>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3456,7 +3526,8 @@ export const updateSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c88, 0) as any as S.Schema<UpdateSecretRequest>,
   output: __S(72, __c9, 0) as any as S.Schema<Secret>,
-  errors: [BadRequest, NotFound, UnknownBrowserbaseError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3473,7 +3544,8 @@ export const updateSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(712, __c89, 0) as any as S.Schema<UpdateSessionRequest>,
   output: __S(608, __c76, 0) as any as S.Schema<Session>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3490,7 +3562,8 @@ export const updateWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c90, 0) as any as S.Schema<UpdateWebhookRequest>,
   output: __S(448, __c56, 0) as any as S.Schema<Webhook>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3507,7 +3580,8 @@ export const uploadCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c94, 0) as any as S.Schema<UploadCertificateRequest>,
   output: __S(224, __c28, 0) as any as S.Schema<Certificate>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3524,7 +3598,8 @@ export const uploadExtension: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(760, __c95, 0) as any as S.Schema<UploadExtensionRequest>,
   output: __S(264, __c33, 0) as any as S.Schema<Extension>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3541,7 +3616,8 @@ export const uploadSessionFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c96, 0) as any as S.Schema<UploadSessionFileRequest>,
   output: __S(769, __c96, 1) as any as S.Schema<UploadSessionFileResponse>,
-  errors: [UnknownBrowserbaseError],
+  errors: [],
+  serviceErrors: BrowserbaseServiceErrors,
   protocol: BrowserbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3677,7 +3753,7 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           secretKey: S.String.pipe(T.SensitiveValue({})),
-          sealedSecretValue: S.String,
+          sealedSecretValue: S.String.pipe(T.SensitiveValue({})),
           keypairId: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/v1/secrets", code: 200 })),
       ).annotate({ identifier: "CreateSecretRequest" });
@@ -5115,7 +5191,7 @@ function __c88(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          sealedSecretValue: S.String,
+          sealedSecretValue: S.String.pipe(T.SensitiveValue({})),
           keypairId: S.String,
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/secrets/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateSecretRequest" });

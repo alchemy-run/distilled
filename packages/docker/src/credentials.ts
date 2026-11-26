@@ -2,7 +2,7 @@
  * Docker credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
- * credentials on every request (the protocol layer resolves it per request
+ * credentials on every request (the protocol resolves it per request
  * on the calling fiber). The Engine API is typically unauthenticated over a
  * local socket or TCP port; an optional bearer token covers TLS-proxied
  * remotes. Registry auth is a per-call `X-Registry-Auth` header, not a

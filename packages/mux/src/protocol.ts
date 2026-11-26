@@ -1,7 +1,5 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
  * MuxProtocol -- hand-written.
  *
@@ -16,25 +14,20 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
-import { authorizationHeader, Credentials, type Config } from "./credentials.ts";
-import { MuxParseError, UnknownMuxError } from "./errors.ts";
+import { authorizationHeader, Credentials } from "./credentials.ts";
+import { MuxParseError, UnknownMuxError, type MuxServiceError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Mux operation. Generated service
- * files annotate operations with `API.OperationMethod<I, O, MuxOpError,
- * MuxOpContext>` explicitly so the compiler never infers these back out of
- * the schema generics.
+ * What every generated Mux operation fails with besides its own errors: the
+ * errors declared on the service, and the errors declared on the protocol.
+ * Nobody lists the protocol's: its type carries what its code fails with (a
+ * response that does not match its schema, a failed response nothing declares,
+ * core's REST errors, and what resolving the credentials fails with).
+ * Generated service files annotate operations with `API.OperationMethod<I, O,
+ * MuxOpError, MuxOpContext>` explicitly so the compiler never infers these
+ * back out of the schema generics.
  */
-export type MuxOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | UnknownMuxError
-  | MuxParseError
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+export type MuxOpError = MuxServiceError | ErrorOf<typeof MuxProtocol>;
 
 /** Context (requirements) shared by every generated Mux operation. */
 export type MuxOpContext = Credentials | HttpClient.HttpClient;
@@ -55,9 +48,9 @@ const muxError = (body: unknown): { code?: string; message?: string } | undefine
   return code === undefined && message === undefined ? undefined : { code, message };
 };
 
-export const MuxProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+export const MuxProtocol = /*@__PURE__*/ restProtocol({
   // Resolved on the calling fiber per request.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
     Authorization: authorizationHeader(creds.auth),

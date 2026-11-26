@@ -1,0 +1,10 @@
+{
+  "description": "createDm's `access_tokens` are OAuth2 access tokens of the users joining a group DM, granted with the `gdm.join` scope (Discord docs, https://discord.com/developers/docs/resources/user#create-group-dm: \"access tokens of users that have granted your app the gdm.join scope\"). The converter marks single token fields by name but not lists, so this marks the list's element.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#CreateDmRequestAccessTokensList/member/traits",
+      "value": { "smithy.api#sensitive": {} }
+    }
+  ]
+}

@@ -14,6 +14,8 @@ import {
   type JsonPatchOperation,
   type PatchFile,
 } from "../json-patch.ts";
+import { addBinaryContentType } from "./binary-response.ts";
+import { markIdempotencyKeyHeaders } from "./idempotency.ts";
 import { diffModels } from "./model-diff.ts";
 import { listModels, modelText, readModelText, writeModelText } from "./models.ts";
 import {
@@ -314,6 +316,8 @@ const finalizeModel = (
   let applied = 0;
   let stale = 0;
   const errors: string[] = [];
+  // Before the patches, so a patch can remove or change the mark.
+  markIdempotencyKeyHeaders(model);
   for (const p of patches) {
     if (skip && skip.key === p.key && skip.index === undefined) continue;
     files++;
@@ -377,6 +381,9 @@ const finalizeModel = (
   if (o.telemetry !== false) {
     applyTelemetryTraits(model, resource, providerDefaults(o.root, o.telemetry));
   }
+
+  // After the patches, so an output a patch makes binary gets it too.
+  addBinaryContentType(model);
 
   syncServiceOperations(model);
 

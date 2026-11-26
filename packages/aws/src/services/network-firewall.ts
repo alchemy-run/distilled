@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -320,6 +321,7 @@ export interface CreateFirewallRequest {
 export type ResourceId = string;
 export type NumberOfAssociations = number;
 export type AWSAccountId = string;
+export type ContextStoreId = string;
 export interface Firewall {
   FirewallName?: string | undefined;
   FirewallArn?: string | undefined;
@@ -342,6 +344,8 @@ export interface Firewall {
   NatGatewayCreateMappings?: NatGatewayCreateMapping[] | undefined;
   ProxySettings?: ProxySettings | undefined;
   VpcEndpoint?: VpcEndpoint | undefined;
+  ContextStoreId?: string | undefined;
+  ContextStoreOwnerAccountId?: string | undefined;
   TransparentFilteringNatScope?: TransparentFilteringNatScope | undefined;
 }
 export type FirewallStatusValue = "PROVISIONING" | "DELETING" | "READY" | "FAILED" | (string & {});
@@ -421,12 +425,24 @@ export interface TransitGatewayAttachmentSyncState {
   TransitGatewayAttachmentStatus?: TransitGatewayAttachmentStatus | undefined;
   StatusMessage?: string | undefined;
 }
+export type ContextStoreSyncStatus =
+  | "SYNCING"
+  | "PARTIALLY_RESOLVED"
+  | "FULLY_RESOLVED"
+  | "SYNC_FAILED"
+  | "UNRESOLVED"
+  | (string & {});
+export interface ContextStoreSyncState {
+  SyncStatus?: ContextStoreSyncStatus | undefined;
+  StatusMessage?: string | undefined;
+}
 export interface FirewallStatus {
   Status: FirewallStatusValue;
   ConfigurationSyncStateSummary: ConfigurationSyncState;
   SyncStates?: { [key: string]: SyncState | undefined } | undefined;
   CapacityUsageSummary?: CapacityUsageSummary | undefined;
   TransitGatewayAttachmentSyncState?: TransitGatewayAttachmentSyncState | undefined;
+  ContextStoreSyncState?: ContextStoreSyncState | undefined;
 }
 export interface CreateFirewallResponse {
   Firewall?: Firewall | undefined;
@@ -870,9 +886,16 @@ export interface PortSet {
   Definition?: string[] | undefined;
 }
 export type PortSets = { [key: string]: PortSet | undefined };
+export type ContextDefinition = string;
+export type ContextDefinitionList = string[];
+export interface ContextSet {
+  Definition: string[];
+}
+export type ContextSets = { [key: string]: ContextSet | undefined };
 export interface RuleVariables {
   IPSets?: { [key: string]: IPSet | undefined } | undefined;
   PortSets?: { [key: string]: PortSet | undefined } | undefined;
+  ContextSets?: { [key: string]: ContextSet | undefined } | undefined;
 }
 export type IPSetReferenceName = string;
 export interface IPSetReference {
@@ -1641,6 +1664,19 @@ export interface ListContainerAssociationsResponse {
   ContainerAssociations?: ContainerAssociationSummary[] | undefined;
   NextToken?: string | undefined;
 }
+export interface ListContextStoresRequest {
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+}
+export interface ContextStore {
+  ContextStoreId: string;
+  ContextStoreOwnerAccountId: string;
+}
+export type ContextStores = ContextStore[];
+export interface ListContextStoresResponse {
+  NextToken?: string | undefined;
+  ContextStores: ContextStore[];
+}
 export interface ListFirewallPoliciesRequest {
   NextToken?: string | undefined;
   MaxResults?: number | undefined;
@@ -1738,6 +1774,33 @@ export interface FlowOperationMetadata {
 export type FlowOperations = FlowOperationMetadata[];
 export interface ListFlowOperationsResponse {
   FlowOperations?: FlowOperationMetadata[] | undefined;
+  NextToken?: string | undefined;
+}
+export type Region = string;
+export type ResourceType = "SecurityGroup" | "VPC" | "Subnet" | "TGWAttachment" | (string & {});
+export interface ContextFilters {
+  Region?: string | undefined;
+  ResourceType?: ResourceType | undefined;
+}
+export interface ListResourcesInContextStoreRequest {
+  ContextStoreId: string;
+  Filters?: ContextFilters | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+}
+export type ContextType = "ResourceId" | "SegmentId" | "Subnet" | "Attachment" | (string & {});
+export type AttachmentType = string;
+export type PublicId = string;
+export interface ResourceContext {
+  ContextType?: ContextType | undefined;
+  Region?: string | undefined;
+  AvailabilityZone?: string | undefined;
+  AttachmentType?: string | undefined;
+  PublicId: string;
+}
+export type ResourceContexts = ResourceContext[];
+export interface ListResourcesInContextStoreResponse {
+  ResourceContexts: ResourceContext[];
   NextToken?: string | undefined;
 }
 export type ResourceManagedStatus = "MANAGED" | "ACCOUNT" | (string & {});
@@ -2080,6 +2143,7 @@ export const acceptNetworkFirewallTransitGatewayAttachment: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptNetworkFirewallTransitGatewayAttachment",
@@ -2118,6 +2182,7 @@ export const associateAvailabilityZones: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAvailabilityZones",
@@ -2157,6 +2222,7 @@ export const associateFirewallPolicy: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateFirewallPolicy",
@@ -2201,6 +2267,7 @@ export const associateSubnets: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSubnets",
@@ -2234,6 +2301,7 @@ export const createContainerAssociation: API.OperationMethod<
     LimitExceededException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContainerAssociation",
@@ -2283,6 +2351,7 @@ export const createFirewall: API.OperationMethod<
     LimitExceededException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFirewall",
@@ -2321,6 +2390,7 @@ export const createFirewallPolicy: API.OperationMethod<
     LimitExceededException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFirewallPolicy",
@@ -2357,6 +2427,7 @@ export const createFirewallPolicyV2: API.OperationMethod<
     LimitExceededException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFirewallPolicyV2",
@@ -2393,6 +2464,7 @@ export const createRuleGroup: API.OperationMethod<
     LimitExceededException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRuleGroup",
@@ -2434,6 +2506,7 @@ export const createTLSInspectionConfiguration: API.OperationMethod<
     LimitExceededException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTLSInspectionConfiguration",
@@ -2470,6 +2543,7 @@ export const createVpcEndpointAssociation: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcEndpointAssociation",
@@ -2504,6 +2578,7 @@ export const deleteContainerAssociation: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContainerAssociation",
@@ -2552,6 +2627,7 @@ export const deleteFirewall: API.OperationMethod<
     ThrottlingException,
     UnsupportedOperationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFirewall",
@@ -2586,6 +2662,7 @@ export const deleteFirewallPolicy: API.OperationMethod<
     ThrottlingException,
     UnsupportedOperationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFirewallPolicy",
@@ -2620,6 +2697,7 @@ export const deleteFirewallPolicyV2: API.OperationMethod<
     ThrottlingException,
     UnsupportedOperationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFirewallPolicyV2",
@@ -2662,6 +2740,7 @@ export const deleteNetworkFirewallTransitGatewayAttachment: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNetworkFirewallTransitGatewayAttachment",
@@ -2696,6 +2775,7 @@ export const deleteProxy: API.OperationMethod<
     ThrottlingException,
     UnsupportedOperationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProxy",
@@ -2728,6 +2808,7 @@ export const deleteResourcePolicy: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
@@ -2762,6 +2843,7 @@ export const deleteRuleGroup: API.OperationMethod<
     ThrottlingException,
     UnsupportedOperationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRuleGroup",
@@ -2794,6 +2876,7 @@ export const deleteTLSInspectionConfiguration: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTLSInspectionConfiguration",
@@ -2833,6 +2916,7 @@ export const deleteVpcEndpointAssociation: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcEndpointAssociation",
@@ -2863,6 +2947,7 @@ export const describeContainerAssociation: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContainerAssociation",
@@ -2893,6 +2978,7 @@ export const describeFirewall: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFirewall",
@@ -2924,6 +3010,7 @@ export const describeFirewallMetadata: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFirewallMetadata",
@@ -2954,6 +3041,7 @@ export const describeFirewallPolicy: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFirewallPolicy",
@@ -2984,6 +3072,7 @@ export const describeFirewallPolicyV2: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFirewallPolicyV2",
@@ -3014,6 +3103,7 @@ export const describeFlowOperation: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFlowOperation",
@@ -3044,6 +3134,7 @@ export const describeLoggingConfiguration: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLoggingConfiguration",
@@ -3074,6 +3165,7 @@ export const describeProxy: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProxy",
@@ -3104,6 +3196,7 @@ export const describeResourcePolicy: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResourcePolicy",
@@ -3134,6 +3227,7 @@ export const describeRuleGroup: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRuleGroup",
@@ -3166,6 +3260,7 @@ export const describeRuleGroupMetadata: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRuleGroupMetadata",
@@ -3200,6 +3295,7 @@ export const describeRuleGroupSummary: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRuleGroupSummary",
@@ -3230,6 +3326,7 @@ export const describeTLSInspectionConfiguration: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTLSInspectionConfiguration",
@@ -3260,6 +3357,7 @@ export const describeVpcEndpointAssociation: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVpcEndpointAssociation",
@@ -3298,6 +3396,7 @@ export const disassociateAvailabilityZones: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateAvailabilityZones",
@@ -3336,6 +3435,7 @@ export const disassociateSubnets: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateSubnets",
@@ -3369,6 +3469,7 @@ export const getAnalysisReportResults: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAnalysisReportResults",
@@ -3406,6 +3507,7 @@ export const listAnalysisReports: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAnalysisReports",
@@ -3438,6 +3540,7 @@ export const listContainerAssociations: API.PaginatedOperationMethod<
   input: __S(1312, __c82, 0) as any as S.Schema<ListContainerAssociationsRequest>,
   output: __S(1315, __c82, 3) as any as S.Schema<ListContainerAssociationsResponse>,
   errors: [InternalServerError, InvalidRequestException, ThrottlingException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListContainerAssociations",
@@ -3449,6 +3552,43 @@ export const listContainerAssociations: API.PaginatedOperationMethod<
   } as const,
   telemetry: TELEMETRY,
   span: "ListContainerAssociations",
+})) as any;
+
+export type ListContextStoresError =
+  | InternalServerError
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Lists the active context stores that are associated with your firewalls. A context store records network resources that can be used to evaluate context-aware rules.
+ * You can list the following resource types: VPCs, subnets, security groups, and transit gateway attachments.
+ *
+ * When using a small page size, a single call might not return the full list. A response can contain fewer than `MaxResults`
+ * results, or none, and still include a `NextToken`. Keep making requests until the response does not include a
+ * `NextToken`.
+ */
+export const listContextStores: API.PaginatedOperationMethod<
+  ListContextStoresRequest & RegionInput,
+  ListContextStoresResponse,
+  ListContextStoresError,
+  Credentials | HttpClient.HttpClient,
+  ContextStore
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(1328, __c83, 0) as any as S.Schema<ListContextStoresRequest>,
+  output: __S(1331, __c83, 3) as any as S.Schema<ListContextStoresResponse>,
+  errors: [InternalServerError, InvalidRequestException, ThrottlingException],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListContextStores",
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ContextStores",
+    pageSize: "MaxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListContextStores",
 })) as any;
 
 export type ListFirewallPoliciesError =
@@ -3468,9 +3608,10 @@ export const listFirewallPolicies: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FirewallPolicyMetadata
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<ListFirewallPoliciesRequest>,
-  output: __S(1329, __c83, 1) as any as S.Schema<ListFirewallPoliciesResponse>,
+  input: __S(1344, __c84, 0) as any as S.Schema<ListFirewallPoliciesRequest>,
+  output: __S(1345, __c84, 1) as any as S.Schema<ListFirewallPoliciesResponse>,
   errors: [InternalServerError, InvalidRequestException, ThrottlingException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFirewallPolicies",
@@ -3499,9 +3640,10 @@ export const listFirewallPoliciesV2: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FirewallPolicyV2Metadata
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<ListFirewallPoliciesV2Request>,
-  output: __S(1361, __c85, 1) as any as S.Schema<ListFirewallPoliciesV2Response>,
+  input: __S(1376, __c86, 0) as any as S.Schema<ListFirewallPoliciesV2Request>,
+  output: __S(1377, __c86, 1) as any as S.Schema<ListFirewallPoliciesV2Response>,
   errors: [InternalServerError, InvalidRequestException, ThrottlingException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFirewallPoliciesV2",
@@ -3534,9 +3676,10 @@ export const listFirewalls: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FirewallMetadata
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<ListFirewallsRequest>,
-  output: __S(1379, __c86, 3) as any as S.Schema<ListFirewallsResponse>,
+  input: __S(1392, __c87, 0) as any as S.Schema<ListFirewallsRequest>,
+  output: __S(1395, __c87, 3) as any as S.Schema<ListFirewallsResponse>,
   errors: [InternalServerError, InvalidRequestException, ThrottlingException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFirewalls",
@@ -3571,14 +3714,15 @@ export const listFlowOperationResults: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Flow
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<ListFlowOperationResultsRequest>,
-  output: __S(1395, __c87, 3) as any as S.Schema<ListFlowOperationResultsResponse>,
+  input: __S(1408, __c88, 0) as any as S.Schema<ListFlowOperationResultsRequest>,
+  output: __S(1411, __c88, 3) as any as S.Schema<ListFlowOperationResultsResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFlowOperationResults",
@@ -3614,14 +3758,15 @@ export const listFlowOperations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FlowOperationMetadata
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<ListFlowOperationsRequest>,
-  output: __S(1411, __c88, 3) as any as S.Schema<ListFlowOperationsResponse>,
+  input: __S(1424, __c89, 0) as any as S.Schema<ListFlowOperationsRequest>,
+  output: __S(1427, __c89, 3) as any as S.Schema<ListFlowOperationsResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFlowOperations",
@@ -3633,6 +3778,49 @@ export const listFlowOperations: API.PaginatedOperationMethod<
   } as const,
   telemetry: TELEMETRY,
   span: "ListFlowOperations",
+})) as any;
+
+export type ListResourcesInContextStoreError =
+  | InternalServerError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Lists the resources that a context store records. The context store must be associated with a transit gateway that your firewall is attached to.
+ * You can filter the results by Region, resource type, or both.
+ *
+ * When using a small page size, a single call might not return the full list. A response can contain fewer than `MaxResults`
+ * results, or none, and still include a `NextToken`. Keep making requests until the response does not include a
+ * `NextToken`.
+ */
+export const listResourcesInContextStore: API.PaginatedOperationMethod<
+  ListResourcesInContextStoreRequest & RegionInput,
+  ListResourcesInContextStoreResponse,
+  ListResourcesInContextStoreError,
+  Credentials | HttpClient.HttpClient,
+  ResourceContext
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(1441, __c90, 1) as any as S.Schema<ListResourcesInContextStoreRequest>,
+  output: __S(1444, __c90, 4) as any as S.Schema<ListResourcesInContextStoreResponse>,
+  errors: [
+    InternalServerError,
+    InvalidRequestException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListResourcesInContextStore",
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "ResourceContexts",
+    pageSize: "MaxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourcesInContextStore",
 })) as any;
 
 export type ListRuleGroupsError =
@@ -3652,9 +3840,10 @@ export const listRuleGroups: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RuleGroupMetadata
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<ListRuleGroupsRequest>,
-  output: __S(1427, __c89, 3) as any as S.Schema<ListRuleGroupsResponse>,
+  input: __S(1456, __c91, 0) as any as S.Schema<ListRuleGroupsRequest>,
+  output: __S(1459, __c91, 3) as any as S.Schema<ListRuleGroupsResponse>,
   errors: [InternalServerError, InvalidRequestException, ThrottlingException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRuleGroups",
@@ -3691,14 +3880,15 @@ export const listTagsForResource: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Tag
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(1441, __c90, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  input: __S(1472, __c92, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(1473, __c92, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -3727,9 +3917,10 @@ export const listTLSInspectionConfigurations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TLSInspectionConfigurationMetadata
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<ListTLSInspectionConfigurationsRequest>,
-  output: __S(1457, __c91, 1) as any as S.Schema<ListTLSInspectionConfigurationsResponse>,
+  input: __S(1488, __c93, 0) as any as S.Schema<ListTLSInspectionConfigurationsRequest>,
+  output: __S(1489, __c93, 1) as any as S.Schema<ListTLSInspectionConfigurationsResponse>,
   errors: [InternalServerError, InvalidRequestException, ThrottlingException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTLSInspectionConfigurations",
@@ -3762,9 +3953,10 @@ export const listVpcEndpointAssociations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   VpcEndpointAssociationMetadata
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<ListVpcEndpointAssociationsRequest>,
-  output: __S(1475, __c92, 3) as any as S.Schema<ListVpcEndpointAssociationsResponse>,
+  input: __S(1504, __c94, 0) as any as S.Schema<ListVpcEndpointAssociationsRequest>,
+  output: __S(1507, __c94, 3) as any as S.Schema<ListVpcEndpointAssociationsResponse>,
   errors: [InternalServerError, InvalidRequestException, ThrottlingException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVpcEndpointAssociations",
@@ -3807,7 +3999,7 @@ export const putResourcePolicy: API.OperationMethod<
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<PutResourcePolicyRequest>,
+  input: __S(1520, __c95, 0) as any as S.Schema<PutResourcePolicyRequest>,
   output: __S(928, __c58, 0) as any as S.Schema<PutResourcePolicyResponse>,
   errors: [
     InternalServerError,
@@ -3816,6 +4008,7 @@ export const putResourcePolicy: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
@@ -3845,8 +4038,8 @@ export const rejectNetworkFirewallTransitGatewayAttachment: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1504,
-    __c94,
+    1536,
+    __c96,
     0,
   ) as any as S.Schema<RejectNetworkFirewallTransitGatewayAttachmentRequest>,
   output: __S(
@@ -3860,6 +4053,7 @@ export const rejectNetworkFirewallTransitGatewayAttachment: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectNetworkFirewallTransitGatewayAttachment",
@@ -3884,14 +4078,15 @@ export const startAnalysisReport: API.OperationMethod<
   StartAnalysisReportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<StartAnalysisReportRequest>,
-  output: __S(1521, __c95, 1) as any as S.Schema<StartAnalysisReportResponse>,
+  input: __S(1552, __c97, 0) as any as S.Schema<StartAnalysisReportRequest>,
+  output: __S(1553, __c97, 1) as any as S.Schema<StartAnalysisReportResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAnalysisReport",
@@ -3922,14 +4117,15 @@ export const startFlowCapture: API.OperationMethod<
   StartFlowCaptureError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<StartFlowCaptureRequest>,
-  output: __S(1552, __c97, 0) as any as S.Schema<StartFlowCaptureResponse>,
+  input: __S(1568, __c98, 0) as any as S.Schema<StartFlowCaptureRequest>,
+  output: __S(1584, __c99, 0) as any as S.Schema<StartFlowCaptureResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFlowCapture",
@@ -3958,14 +4154,15 @@ export const startFlowFlush: API.OperationMethod<
   StartFlowFlushError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<StartFlowFlushRequest>,
-  output: __S(1552, __c97, 0) as any as S.Schema<StartFlowFlushResponse>,
+  input: __S(1600, __c100, 0) as any as S.Schema<StartFlowFlushRequest>,
+  output: __S(1584, __c99, 0) as any as S.Schema<StartFlowFlushResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFlowFlush",
@@ -3994,7 +4191,7 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<TagResourceRequest>,
+  input: __S(1616, __c101, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(928, __c58, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     InternalServerError,
@@ -4002,6 +4199,7 @@ export const tagResource: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -4031,7 +4229,7 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<UntagResourceRequest>,
+  input: __S(1632, __c102, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(928, __c58, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     InternalServerError,
@@ -4039,6 +4237,7 @@ export const untagResource: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -4065,8 +4264,8 @@ export const updateAvailabilityZoneChangeProtection: API.OperationMethod<
   UpdateAvailabilityZoneChangeProtectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<UpdateAvailabilityZoneChangeProtectionRequest>,
-  output: __S(1617, __c101, 1) as any as S.Schema<UpdateAvailabilityZoneChangeProtectionResponse>,
+  input: __S(1648, __c103, 0) as any as S.Schema<UpdateAvailabilityZoneChangeProtectionRequest>,
+  output: __S(1649, __c103, 1) as any as S.Schema<UpdateAvailabilityZoneChangeProtectionResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -4075,6 +4274,7 @@ export const updateAvailabilityZoneChangeProtection: API.OperationMethod<
     ResourceOwnerCheckException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAvailabilityZoneChangeProtection",
@@ -4100,7 +4300,7 @@ export const updateContainerAssociation: API.OperationMethod<
   UpdateContainerAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c102, 0) as any as S.Schema<UpdateContainerAssociationRequest>,
+  input: __S(1664, __c104, 0) as any as S.Schema<UpdateContainerAssociationRequest>,
   output: __S(240, __c15, 0) as any as S.Schema<UpdateContainerAssociationResponse>,
   errors: [
     InternalServerError,
@@ -4110,6 +4310,7 @@ export const updateContainerAssociation: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContainerAssociation",
@@ -4133,8 +4334,8 @@ export const updateFirewallAnalysisSettings: API.OperationMethod<
   UpdateFirewallAnalysisSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<UpdateFirewallAnalysisSettingsRequest>,
-  output: __S(1649, __c103, 1) as any as S.Schema<UpdateFirewallAnalysisSettingsResponse>,
+  input: __S(1680, __c105, 0) as any as S.Schema<UpdateFirewallAnalysisSettingsRequest>,
+  output: __S(1681, __c105, 1) as any as S.Schema<UpdateFirewallAnalysisSettingsResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -4142,6 +4343,7 @@ export const updateFirewallAnalysisSettings: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallAnalysisSettings",
@@ -4169,8 +4371,8 @@ export const updateFirewallDeleteProtection: API.OperationMethod<
   UpdateFirewallDeleteProtectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<UpdateFirewallDeleteProtectionRequest>,
-  output: __S(1665, __c104, 1) as any as S.Schema<UpdateFirewallDeleteProtectionResponse>,
+  input: __S(1696, __c106, 0) as any as S.Schema<UpdateFirewallDeleteProtectionRequest>,
+  output: __S(1697, __c106, 1) as any as S.Schema<UpdateFirewallDeleteProtectionResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -4179,6 +4381,7 @@ export const updateFirewallDeleteProtection: API.OperationMethod<
     ResourceOwnerCheckException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallDeleteProtection",
@@ -4203,8 +4406,8 @@ export const updateFirewallDescription: API.OperationMethod<
   UpdateFirewallDescriptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<UpdateFirewallDescriptionRequest>,
-  output: __S(1681, __c105, 1) as any as S.Schema<UpdateFirewallDescriptionResponse>,
+  input: __S(1712, __c107, 0) as any as S.Schema<UpdateFirewallDescriptionRequest>,
+  output: __S(1713, __c107, 1) as any as S.Schema<UpdateFirewallDescriptionResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -4212,6 +4415,7 @@ export const updateFirewallDescription: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallDescription",
@@ -4236,8 +4440,8 @@ export const updateFirewallEncryptionConfiguration: API.OperationMethod<
   UpdateFirewallEncryptionConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<UpdateFirewallEncryptionConfigurationRequest>,
-  output: __S(1697, __c106, 1) as any as S.Schema<UpdateFirewallEncryptionConfigurationResponse>,
+  input: __S(1728, __c108, 0) as any as S.Schema<UpdateFirewallEncryptionConfigurationRequest>,
+  output: __S(1729, __c108, 1) as any as S.Schema<UpdateFirewallEncryptionConfigurationResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -4246,6 +4450,7 @@ export const updateFirewallEncryptionConfiguration: API.OperationMethod<
     ResourceOwnerCheckException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallEncryptionConfiguration",
@@ -4270,7 +4475,7 @@ export const updateFirewallPolicy: API.OperationMethod<
   UpdateFirewallPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1712, __c107, 0) as any as S.Schema<UpdateFirewallPolicyRequest>,
+  input: __S(1744, __c109, 0) as any as S.Schema<UpdateFirewallPolicyRequest>,
   output: __S(528, __c33, 0) as any as S.Schema<UpdateFirewallPolicyResponse>,
   errors: [
     InternalServerError,
@@ -4280,6 +4485,7 @@ export const updateFirewallPolicy: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallPolicy",
@@ -4306,8 +4512,8 @@ export const updateFirewallPolicyChangeProtection: API.OperationMethod<
   UpdateFirewallPolicyChangeProtectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<UpdateFirewallPolicyChangeProtectionRequest>,
-  output: __S(1729, __c108, 1) as any as S.Schema<UpdateFirewallPolicyChangeProtectionResponse>,
+  input: __S(1760, __c110, 0) as any as S.Schema<UpdateFirewallPolicyChangeProtectionRequest>,
+  output: __S(1761, __c110, 1) as any as S.Schema<UpdateFirewallPolicyChangeProtectionResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -4316,6 +4522,7 @@ export const updateFirewallPolicyChangeProtection: API.OperationMethod<
     ResourceOwnerCheckException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallPolicyChangeProtection",
@@ -4340,7 +4547,7 @@ export const updateFirewallPolicyV2: API.OperationMethod<
   UpdateFirewallPolicyV2Error,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<UpdateFirewallPolicyV2Request>,
+  input: __S(1776, __c111, 0) as any as S.Schema<UpdateFirewallPolicyV2Request>,
   output: __S(608, __c38, 0) as any as S.Schema<UpdateFirewallPolicyV2Response>,
   errors: [
     InternalServerError,
@@ -4350,6 +4557,7 @@ export const updateFirewallPolicyV2: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallPolicyV2",
@@ -4397,8 +4605,8 @@ export const updateLoggingConfiguration: API.OperationMethod<
   UpdateLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c110, 0) as any as S.Schema<UpdateLoggingConfigurationRequest>,
-  output: __S(1761, __c110, 1) as any as S.Schema<UpdateLoggingConfigurationResponse>,
+  input: __S(1792, __c112, 0) as any as S.Schema<UpdateLoggingConfigurationRequest>,
+  output: __S(1793, __c112, 1) as any as S.Schema<UpdateLoggingConfigurationResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -4407,6 +4615,7 @@ export const updateLoggingConfiguration: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLoggingConfiguration",
@@ -4434,8 +4643,8 @@ export const updateProxySettings: API.OperationMethod<
   UpdateProxySettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<UpdateProxySettingsRequest>,
-  output: __S(1777, __c111, 1) as any as S.Schema<UpdateProxySettingsResponse>,
+  input: __S(1808, __c113, 0) as any as S.Schema<UpdateProxySettingsRequest>,
+  output: __S(1809, __c113, 1) as any as S.Schema<UpdateProxySettingsResponse>,
   errors: [
     InternalServerError,
     InvalidOperationException,
@@ -4445,6 +4654,7 @@ export const updateProxySettings: API.OperationMethod<
     ResourceOwnerCheckException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProxySettings",
@@ -4474,7 +4684,7 @@ export const updateRuleGroup: API.OperationMethod<
   UpdateRuleGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c112, 0) as any as S.Schema<UpdateRuleGroupRequest>,
+  input: __S(1824, __c114, 0) as any as S.Schema<UpdateRuleGroupRequest>,
   output: __S(704, __c44, 0) as any as S.Schema<UpdateRuleGroupResponse>,
   errors: [
     InternalServerError,
@@ -4483,6 +4693,7 @@ export const updateRuleGroup: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRuleGroup",
@@ -4507,8 +4718,8 @@ export const updateSubnetChangeProtection: API.OperationMethod<
   UpdateSubnetChangeProtectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<UpdateSubnetChangeProtectionRequest>,
-  output: __S(1809, __c113, 1) as any as S.Schema<UpdateSubnetChangeProtectionResponse>,
+  input: __S(1840, __c115, 0) as any as S.Schema<UpdateSubnetChangeProtectionRequest>,
+  output: __S(1841, __c115, 1) as any as S.Schema<UpdateSubnetChangeProtectionResponse>,
   errors: [
     InternalServerError,
     InvalidRequestException,
@@ -4517,6 +4728,7 @@ export const updateSubnetChangeProtection: API.OperationMethod<
     ResourceOwnerCheckException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubnetChangeProtection",
@@ -4546,7 +4758,7 @@ export const updateTLSInspectionConfiguration: API.OperationMethod<
   UpdateTLSInspectionConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c114, 0) as any as S.Schema<UpdateTLSInspectionConfigurationRequest>,
+  input: __S(1856, __c116, 0) as any as S.Schema<UpdateTLSInspectionConfigurationRequest>,
   output: __S(768, __c48, 0) as any as S.Schema<UpdateTLSInspectionConfigurationResponse>,
   errors: [
     InternalServerError,
@@ -4555,6 +4767,7 @@ export const updateTLSInspectionConfiguration: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTLSInspectionConfiguration",
@@ -4815,7 +5028,7 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Firewall: S.optional(__S(337, __c21, 1)),
-          FirewallStatus: S.optional(__S(349, __c21, 13)),
+          FirewallStatus: S.optional(__S(350, __c21, 14)),
         }),
       ).annotate({ identifier: "CreateFirewallResponse" });
   }
@@ -4850,6 +5063,8 @@ function __c21(j: number): any {
           NatGatewayCreateMappings: S.optional(__S(145, __c9, 1)),
           ProxySettings: S.optional(__S(368, __c23, 0)),
           VpcEndpoint: S.optional(__S(336, __c21, 0)),
+          ContextStoreId: S.optional(S.String),
+          ContextStoreOwnerAccountId: S.optional(S.String),
           TransparentFilteringNatScope: S.optional(S.String),
         }),
       ).annotate({ identifier: "Firewall" });
@@ -4908,12 +5123,17 @@ function __c21(j: number): any {
       ).annotate({ identifier: "TransitGatewayAttachmentSyncState" });
     case 13:
       return S.suspend(() =>
+        S.Struct({ SyncStatus: S.optional(S.String), StatusMessage: S.optional(S.String) }),
+      ).annotate({ identifier: "ContextStoreSyncState" });
+    case 14:
+      return S.suspend(() =>
         S.Struct({
           Status: S.String,
           ConfigurationSyncStateSummary: S.String,
           SyncStates: S.optional(__S(343, __c21, 7)),
           CapacityUsageSummary: S.optional(__S(347, __c21, 11)),
           TransitGatewayAttachmentSyncState: S.optional(__S(348, __c21, 12)),
+          ContextStoreSyncState: S.optional(__S(349, __c21, 13)),
         }),
       ).annotate({ identifier: "FirewallStatus" });
   }
@@ -5187,6 +5407,7 @@ function __c35(j: number): any {
         S.Struct({
           IPSets: S.optional(__S(433, __c27, 1)),
           PortSets: S.optional(__S(568, __c35, 8)),
+          ContextSets: S.optional(__S(433, __c27, 1)),
         }),
       ).annotate({ identifier: "RuleVariables" });
     case 10:
@@ -5802,7 +6023,7 @@ function __c63(j: number): any {
         S.Struct({
           UpdateToken: S.optional(S.String),
           Firewall: S.optional(__S(337, __c21, 1)),
-          FirewallStatus: S.optional(__S(349, __c21, 13)),
+          FirewallStatus: S.optional(__S(350, __c21, 14)),
         }),
       ).annotate({ identifier: "DescribeFirewallResponse" });
   }
@@ -6263,27 +6484,47 @@ function __c83(j: number): any {
         S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
-      ).annotate({ identifier: "ListFirewallPoliciesRequest" });
+      ).annotate({ identifier: "ListContextStoresRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          NextToken: S.optional(S.String),
-          FirewallPolicies: S.optional(__S(1345, __c84, 1)),
-        }),
-      ).annotate({ identifier: "ListFirewallPoliciesResponse" });
+        S.Struct({ ContextStoreId: S.String, ContextStoreOwnerAccountId: S.String }),
+      ).annotate({ identifier: "ContextStore" });
+    case 2:
+      return S.Array(__S(1329, __c83, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ NextToken: S.optional(S.String), ContextStores: __S(1330, __c83, 2) }),
+      ).annotate({ identifier: "ListContextStoresResponse" });
   }
 }
 function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Name: S.optional(S.String), Arn: S.optional(S.String) }),
-      ).annotate({ identifier: "FirewallPolicyMetadata" });
+        S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListFirewallPoliciesRequest" });
     case 1:
-      return S.Array(__S(1344, __c84, 0));
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          FirewallPolicies: S.optional(__S(1361, __c85, 1)),
+        }),
+      ).annotate({ identifier: "ListFirewallPoliciesResponse" });
   }
 }
 function __c85(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Name: S.optional(S.String), Arn: S.optional(S.String) }),
+      ).annotate({ identifier: "FirewallPolicyMetadata" });
+    case 1:
+      return S.Array(__S(1360, __c85, 0));
+  }
+}
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6293,11 +6534,11 @@ function __c85(j: number): any {
       ).annotate({ identifier: "ListFirewallPoliciesV2Request" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ NextToken: S.optional(S.String), FirewallPoliciesV2: __S(1345, __c84, 1) }),
+        S.Struct({ NextToken: S.optional(S.String), FirewallPoliciesV2: __S(1361, __c85, 1) }),
       ).annotate({ identifier: "ListFirewallPoliciesV2Response" });
   }
 }
-function __c86(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6316,14 +6557,14 @@ function __c86(j: number): any {
         }),
       ).annotate({ identifier: "FirewallMetadata" });
     case 2:
-      return S.Array(__S(1377, __c86, 1));
+      return S.Array(__S(1393, __c87, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ NextToken: S.optional(S.String), Firewalls: S.optional(__S(1378, __c86, 2)) }),
+        S.Struct({ NextToken: S.optional(S.String), Firewalls: S.optional(__S(1394, __c87, 2)) }),
       ).annotate({ identifier: "ListFirewallsResponse" });
   }
 }
-function __c87(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6352,7 +6593,7 @@ function __c87(j: number): any {
         }),
       ).annotate({ identifier: "Flow" });
     case 2:
-      return S.Array(__S(1393, __c87, 1));
+      return S.Array(__S(1409, __c88, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6365,13 +6606,13 @@ function __c87(j: number): any {
           FlowOperationStatus: S.optional(S.String),
           StatusMessage: S.optional(S.String),
           FlowRequestTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          Flows: S.optional(__S(1394, __c87, 2)),
+          Flows: S.optional(__S(1410, __c88, 2)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListFlowOperationResultsResponse" });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6396,17 +6637,50 @@ function __c88(j: number): any {
         }),
       ).annotate({ identifier: "FlowOperationMetadata" });
     case 2:
-      return S.Array(__S(1409, __c88, 1));
+      return S.Array(__S(1425, __c89, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          FlowOperations: S.optional(__S(1410, __c88, 2)),
+          FlowOperations: S.optional(__S(1426, __c89, 2)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListFlowOperationsResponse" });
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Region: S.optional(S.String), ResourceType: S.optional(S.String) }),
+      ).annotate({ identifier: "ContextFilters" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ContextStoreId: S.String,
+          Filters: S.optional(__S(1440, __c90, 0)),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListResourcesInContextStoreRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ContextType: S.optional(S.String),
+          Region: S.optional(S.String),
+          AvailabilityZone: S.optional(S.String),
+          AttachmentType: S.optional(S.String),
+          PublicId: S.String,
+        }),
+      ).annotate({ identifier: "ResourceContext" });
+    case 3:
+      return S.Array(__S(1442, __c90, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ ResourceContexts: __S(1443, __c90, 3), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListResourcesInContextStoreResponse" });
+  }
+}
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6428,14 +6702,14 @@ function __c89(j: number): any {
         }),
       ).annotate({ identifier: "RuleGroupMetadata" });
     case 2:
-      return S.Array(__S(1425, __c89, 1));
+      return S.Array(__S(1457, __c91, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ NextToken: S.optional(S.String), RuleGroups: S.optional(__S(1426, __c89, 2)) }),
+        S.Struct({ NextToken: S.optional(S.String), RuleGroups: S.optional(__S(1458, __c91, 2)) }),
       ).annotate({ identifier: "ListRuleGroupsResponse" });
   }
 }
-function __c90(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6451,7 +6725,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "ListTagsForResourceResponse" });
   }
 }
-function __c91(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6463,12 +6737,12 @@ function __c91(j: number): any {
       return S.suspend(() =>
         S.Struct({
           NextToken: S.optional(S.String),
-          TLSInspectionConfigurations: S.optional(__S(1345, __c84, 1)),
+          TLSInspectionConfigurations: S.optional(__S(1361, __c85, 1)),
         }),
       ).annotate({ identifier: "ListTLSInspectionConfigurationsResponse" });
   }
 }
-function __c92(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6483,17 +6757,17 @@ function __c92(j: number): any {
         S.Struct({ VpcEndpointAssociationArn: S.optional(S.String) }),
       ).annotate({ identifier: "VpcEndpointAssociationMetadata" });
     case 2:
-      return S.Array(__S(1473, __c92, 1));
+      return S.Array(__S(1505, __c94, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           NextToken: S.optional(S.String),
-          VpcEndpointAssociations: S.optional(__S(1474, __c92, 2)),
+          VpcEndpointAssociations: S.optional(__S(1506, __c94, 2)),
         }),
       ).annotate({ identifier: "ListVpcEndpointAssociationsResponse" });
   }
 }
-function __c93(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6503,7 +6777,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "PutResourcePolicyRequest" });
   }
 }
-function __c94(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6513,7 +6787,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "RejectNetworkFirewallTransitGatewayAttachmentRequest" });
   }
 }
-function __c95(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6529,7 +6803,7 @@ function __c95(j: number): any {
       });
   }
 }
-function __c96(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6545,7 +6819,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "StartFlowCaptureRequest" });
   }
 }
-function __c97(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6557,7 +6831,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "StartFlowCaptureResponse" });
   }
 }
-function __c98(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6573,7 +6847,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "StartFlowFlushRequest" });
   }
 }
-function __c99(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6583,7 +6857,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "TagResourceRequest" });
   }
 }
-function __c100(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6593,7 +6867,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c101(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6615,7 +6889,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "UpdateAvailabilityZoneChangeProtectionResponse" });
   }
 }
-function __c102(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6631,7 +6905,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "UpdateContainerAssociationRequest" });
   }
 }
-function __c103(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6653,7 +6927,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "UpdateFirewallAnalysisSettingsResponse" });
   }
 }
-function __c104(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6675,7 +6949,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "UpdateFirewallDeleteProtectionResponse" });
   }
 }
-function __c105(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6697,7 +6971,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "UpdateFirewallDescriptionResponse" });
   }
 }
-function __c106(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6719,7 +6993,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "UpdateFirewallEncryptionConfigurationResponse" });
   }
 }
-function __c107(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6735,7 +7009,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "UpdateFirewallPolicyRequest" });
   }
 }
-function __c108(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6757,7 +7031,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "UpdateFirewallPolicyChangeProtectionResponse" });
   }
 }
-function __c109(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6773,7 +7047,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "UpdateFirewallPolicyV2Request" });
   }
 }
-function __c110(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6795,7 +7069,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "UpdateLoggingConfigurationResponse" });
   }
 }
-function __c111(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6817,7 +7091,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "UpdateProxySettingsResponse" });
   }
 }
-function __c112(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6840,7 +7114,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "UpdateRuleGroupRequest" });
   }
 }
-function __c113(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6862,7 +7136,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "UpdateSubnetChangeProtectionResponse" });
   }
 }
-function __c114(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

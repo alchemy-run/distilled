@@ -13,6 +13,10 @@
     "module": "Preserve",
     "moduleResolution": "Bundler",
     "allowImportingTsExtensions": true,
+    // Node runs scripts/ and the generators on these sources by stripping
+    // types (AGENTS.md, "Everyday commands"); it cannot run a parameter
+    // property, an enum or a namespace.
+    "erasableSyntaxOnly": true,
     "rewriteRelativeImportExtensions": true,
     "verbatimModuleSyntax": true,
     "strict": true,

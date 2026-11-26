@@ -1,0 +1,13 @@
+{
+  "description": "Coinflow names a crypto asset `token`: the symbol, mint address or contract of the coin being paid, deposited or withdrawn (\"The symbol of the token to execute the payin with.\", \"The token address or contract of the token which the user is withdrawing.\", \"The token symbol to deposit\", next to `chain`, `depositAddress` or `destinationAddress`). The converter marks every member named `token` sensitive, so these came back as Redacted. This removes the mark on the crypto shapes only; card, bank account and session tokens keep it.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.coinflow.refund#IPaymentStringCryptoInfo/members/token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coinflow.refund#IPaymentMongooseTypesObjectIdCryptoInfo/members/token/traits/smithy.api#sensitive"
+    }
+  ]
+}

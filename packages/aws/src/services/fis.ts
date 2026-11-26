@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -238,7 +239,7 @@ export interface CreateExperimentTemplateReportConfigurationInput {
   postExperimentDuration?: string | undefined;
 }
 export interface CreateExperimentTemplateRequest {
-  clientToken: string;
+  clientToken?: string | undefined;
   description: string;
   stopConditions: CreateExperimentTemplateStopConditionInput[];
   targets?: { [key: string]: CreateExperimentTemplateTargetInput | undefined } | undefined;
@@ -775,7 +776,7 @@ export interface StartExperimentExperimentOptionsInput {
   actionsMode?: ActionsMode | undefined;
 }
 export interface StartExperimentRequest {
-  clientToken: string;
+  clientToken?: string | undefined;
   experimentTemplateId: string;
   experimentOptions?: StartExperimentExperimentOptionsInput | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
@@ -916,6 +917,7 @@ export const createExperimentTemplate: API.OperationMethod<
     ServiceQuotaExceededException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExperimentTemplate",
@@ -949,6 +951,7 @@ export const createTargetAccountConfiguration: API.OperationMethod<
     ServiceQuotaExceededException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTargetAccountConfiguration",
@@ -972,6 +975,7 @@ export const deleteExperimentTemplate: API.OperationMethod<
   input: __S(512, __c32, 0) as any as S.Schema<DeleteExperimentTemplateRequest>,
   output: __S(404, __c25, 4) as any as S.Schema<DeleteExperimentTemplateResponse>,
   errors: [ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExperimentTemplate",
@@ -995,6 +999,7 @@ export const deleteTargetAccountConfiguration: API.OperationMethod<
   input: __S(528, __c33, 0) as any as S.Schema<DeleteTargetAccountConfigurationRequest>,
   output: __S(496, __c31, 0) as any as S.Schema<DeleteTargetAccountConfigurationResponse>,
   errors: [ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTargetAccountConfiguration",
@@ -1015,6 +1020,7 @@ export const getAction: API.OperationMethod<
   input: __S(544, __c34, 0) as any as S.Schema<GetActionRequest>,
   output: __S(546, __c34, 2) as any as S.Schema<GetActionResponse>,
   errors: [ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAction",
@@ -1035,6 +1041,7 @@ export const getExperiment: API.OperationMethod<
   input: __S(592, __c37, 0) as any as S.Schema<GetExperimentRequest>,
   output: __S(648, __c40, 8) as any as S.Schema<GetExperimentResponse>,
   errors: [ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExperiment",
@@ -1058,6 +1065,7 @@ export const getExperimentTargetAccountConfiguration: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<GetExperimentTargetAccountConfigurationRequest>,
   output: __S(496, __c31, 0) as any as S.Schema<GetExperimentTargetAccountConfigurationResponse>,
   errors: [ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExperimentTargetAccountConfiguration",
@@ -1081,6 +1089,7 @@ export const getExperimentTemplate: API.OperationMethod<
   input: __S(16, __c1, 0) as any as S.Schema<GetExperimentTemplateRequest>,
   output: __S(404, __c25, 4) as any as S.Schema<GetExperimentTemplateResponse>,
   errors: [ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExperimentTemplate",
@@ -1101,6 +1110,7 @@ export const getSafetyLever: API.OperationMethod<
   input: __S(32, __c2, 0) as any as S.Schema<GetSafetyLeverRequest>,
   output: __S(49, __c3, 1) as any as S.Schema<GetSafetyLeverResponse>,
   errors: [ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSafetyLever",
@@ -1124,6 +1134,7 @@ export const getTargetAccountConfiguration: API.OperationMethod<
   input: __S(64, __c4, 0) as any as S.Schema<GetTargetAccountConfigurationRequest>,
   output: __S(496, __c31, 0) as any as S.Schema<GetTargetAccountConfigurationResponse>,
   errors: [ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTargetAccountConfiguration",
@@ -1147,6 +1158,7 @@ export const getTargetResourceType: API.OperationMethod<
   input: __S(80, __c5, 0) as any as S.Schema<GetTargetResourceTypeRequest>,
   output: __S(82, __c5, 2) as any as S.Schema<GetTargetResourceTypeResponse>,
   errors: [ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTargetResourceType",
@@ -1168,6 +1180,7 @@ export const listActions: API.PaginatedOperationMethod<
   input: __S(96, __c6, 0) as any as S.Schema<ListActionsRequest>,
   output: __S(99, __c6, 3) as any as S.Schema<ListActionsResponse>,
   errors: [ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListActions",
@@ -1198,6 +1211,7 @@ export const listExperimentResolvedTargets: API.PaginatedOperationMethod<
   input: __S(112, __c7, 0) as any as S.Schema<ListExperimentResolvedTargetsRequest>,
   output: __S(115, __c7, 3) as any as S.Schema<ListExperimentResolvedTargetsResponse>,
   errors: [ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListExperimentResolvedTargets",
@@ -1225,6 +1239,7 @@ export const listExperiments: API.PaginatedOperationMethod<
   input: __S(128, __c8, 0) as any as S.Schema<ListExperimentsRequest>,
   output: __S(131, __c8, 3) as any as S.Schema<ListExperimentsResponse>,
   errors: [ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListExperiments",
@@ -1254,6 +1269,7 @@ export const listExperimentTargetAccountConfigurations: API.OperationMethod<
   input: __S(144, __c9, 0) as any as S.Schema<ListExperimentTargetAccountConfigurationsRequest>,
   output: __S(161, __c10, 1) as any as S.Schema<ListExperimentTargetAccountConfigurationsResponse>,
   errors: [ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListExperimentTargetAccountConfigurations",
@@ -1275,6 +1291,7 @@ export const listExperimentTemplates: API.PaginatedOperationMethod<
   input: __S(176, __c11, 0) as any as S.Schema<ListExperimentTemplatesRequest>,
   output: __S(179, __c11, 3) as any as S.Schema<ListExperimentTemplatesResponse>,
   errors: [ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListExperimentTemplates",
@@ -1301,6 +1318,7 @@ export const listTagsForResource: API.OperationMethod<
   input: __S(192, __c12, 0) as any as S.Schema<ListTagsForResourceRequest>,
   output: __S(193, __c12, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -1325,6 +1343,7 @@ export const listTargetAccountConfigurations: API.PaginatedOperationMethod<
   input: __S(208, __c13, 0) as any as S.Schema<ListTargetAccountConfigurationsRequest>,
   output: __S(161, __c10, 1) as any as S.Schema<ListTargetAccountConfigurationsResponse>,
   errors: [ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTargetAccountConfigurations",
@@ -1352,6 +1371,7 @@ export const listTargetResourceTypes: API.PaginatedOperationMethod<
   input: __S(224, __c14, 0) as any as S.Schema<ListTargetResourceTypesRequest>,
   output: __S(227, __c14, 3) as any as S.Schema<ListTargetResourceTypesResponse>,
   errors: [ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTargetResourceTypes",
@@ -1388,6 +1408,7 @@ export const startExperiment: API.OperationMethod<
     ServiceQuotaExceededException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartExperiment",
@@ -1408,6 +1429,7 @@ export const stopExperiment: API.OperationMethod<
   input: __S(256, __c16, 0) as any as S.Schema<StopExperimentRequest>,
   output: __S(648, __c40, 8) as any as S.Schema<StopExperimentResponse>,
   errors: [ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopExperiment",
@@ -1428,6 +1450,7 @@ export const tagResource: API.OperationMethod<
   input: __S(272, __c17, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<TagResourceResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -1448,6 +1471,7 @@ export const untagResource: API.OperationMethod<
   input: __S(304, __c19, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -1472,6 +1496,7 @@ export const updateExperimentTemplate: API.OperationMethod<
   input: __S(322, __c20, 2) as any as S.Schema<UpdateExperimentTemplateRequest>,
   output: __S(404, __c25, 4) as any as S.Schema<UpdateExperimentTemplateResponse>,
   errors: [ResourceNotFoundException, ServiceQuotaExceededException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExperimentTemplate",
@@ -1496,6 +1521,7 @@ export const updateSafetyLeverState: API.OperationMethod<
   input: __S(337, __c21, 1) as any as S.Schema<UpdateSafetyLeverStateRequest>,
   output: __S(49, __c3, 1) as any as S.Schema<UpdateSafetyLeverStateResponse>,
   errors: [ConflictException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSafetyLeverState",
@@ -1519,6 +1545,7 @@ export const updateTargetAccountConfiguration: API.OperationMethod<
   input: __S(352, __c22, 0) as any as S.Schema<UpdateTargetAccountConfigurationRequest>,
   output: __S(496, __c31, 0) as any as S.Schema<UpdateTargetAccountConfigurationResponse>,
   errors: [ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTargetAccountConfiguration",
@@ -1906,7 +1933,7 @@ function __c15(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           experimentTemplateId: S.String,
           experimentOptions: S.optional(__S(240, __c15, 0)),
           tags: S.optional(__S(416, __c26, 0)),
@@ -2089,7 +2116,7 @@ function __c23(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          clientToken: S.String.pipe(T.IdempotencyToken()),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           description: S.String,
           stopConditions: __S(385, __c24, 1),
           targets: S.optional(__S(389, __c24, 5)),

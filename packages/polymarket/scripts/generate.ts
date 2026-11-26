@@ -88,7 +88,7 @@ const specFor = (model: any): SdkSpec => ({
   operationDecl: {
     contextType: "PolymarketOpContext",
     commonErrorType: "PolymarketOpError",
-    commonErrorClasses: ["UnknownPolymarketError"],
+    serviceErrors: "PolymarketServiceErrors",
     protocol: protocolFor(model),
     retry: "Retry.Retry",
   },

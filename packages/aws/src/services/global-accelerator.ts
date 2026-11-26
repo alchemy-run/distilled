@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -311,7 +312,7 @@ export interface CreateAcceleratorRequest {
   IpAddressType?: IpAddressType | undefined;
   IpAddresses?: string[] | undefined;
   Enabled?: boolean | undefined;
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
   Tags?: Tag[] | undefined;
 }
 export type IpAddressFamily = "IPv4" | "IPv6" | (string & {});
@@ -363,7 +364,7 @@ export interface CreateCrossAccountAttachmentRequest {
   Name: string;
   Principals?: string[] | undefined;
   Resources?: Resource[] | undefined;
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
   Tags?: Tag[] | undefined;
 }
 export interface Attachment {
@@ -382,7 +383,7 @@ export interface CreateCustomRoutingAcceleratorRequest {
   IpAddressType?: IpAddressType | undefined;
   IpAddresses?: string[] | undefined;
   Enabled?: boolean | undefined;
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
   Tags?: Tag[] | undefined;
 }
 export type CustomRoutingAcceleratorStatus = "DEPLOYED" | "IN_PROGRESS" | (string & {});
@@ -412,7 +413,7 @@ export interface CreateCustomRoutingEndpointGroupRequest {
   ListenerArn: string;
   EndpointGroupRegion: string;
   DestinationConfigurations: CustomRoutingDestinationConfiguration[];
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
 }
 export type Protocol = "TCP" | "UDP" | (string & {});
 export type Protocols = Protocol[];
@@ -439,7 +440,7 @@ export type PortRanges = PortRange[];
 export interface CreateCustomRoutingListenerRequest {
   AcceleratorArn: string;
   PortRanges: PortRange[];
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
 }
 export interface CustomRoutingListener {
   ListenerArn?: string | undefined;
@@ -469,7 +470,7 @@ export interface CreateEndpointGroupRequest {
   HealthCheckPath?: string | undefined;
   HealthCheckIntervalSeconds?: number | undefined;
   ThresholdCount?: number | undefined;
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
   PortOverrides?: PortOverride[] | undefined;
 }
 export interface EndpointGroup {
@@ -493,7 +494,7 @@ export interface CreateListenerRequest {
   PortRanges: PortRange[];
   Protocol: Protocol;
   ClientAffinity?: ClientAffinity | undefined;
-  IdempotencyToken: string;
+  IdempotencyToken?: string | undefined;
 }
 export interface Listener {
   ListenerArn?: string | undefined;
@@ -929,6 +930,7 @@ export const addCustomRoutingEndpoints: API.OperationMethod<
     InvalidArgumentException,
     LimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddCustomRoutingEndpoints",
@@ -980,6 +982,7 @@ export const addEndpoints: API.OperationMethod<
     LimitExceededException,
     TransactionInProgressException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddEndpoints",
@@ -1020,6 +1023,7 @@ export const advertiseByoipCidr: API.OperationMethod<
     InternalServiceErrorException,
     InvalidArgumentException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdvertiseByoipCidr",
@@ -1050,6 +1054,7 @@ export const allowCustomRoutingTraffic: API.OperationMethod<
   input: __S(72, __c9, 0) as any as S.Schema<AllowCustomRoutingTrafficRequest>,
   output: __S(88, __c11, 0) as any as S.Schema<AllowCustomRoutingTrafficResponse>,
   errors: [EndpointGroupNotFoundException, InternalServiceErrorException, InvalidArgumentException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AllowCustomRoutingTraffic",
@@ -1087,6 +1092,7 @@ export const createAccelerator: API.OperationMethod<
     LimitExceededException,
     TransactionInProgressException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccelerator",
@@ -1138,6 +1144,7 @@ export const createCrossAccountAttachment: API.OperationMethod<
     LimitExceededException,
     TransactionInProgressException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCrossAccountAttachment",
@@ -1180,6 +1187,7 @@ export const createCustomRoutingAccelerator: API.OperationMethod<
     LimitExceededException,
     TransactionInProgressException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomRoutingAccelerator",
@@ -1220,6 +1228,7 @@ export const createCustomRoutingEndpointGroup: API.OperationMethod<
     LimitExceededException,
     ListenerNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomRoutingEndpointGroup",
@@ -1253,6 +1262,7 @@ export const createCustomRoutingListener: API.OperationMethod<
     InvalidPortRangeException,
     LimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomRoutingListener",
@@ -1294,6 +1304,7 @@ export const createEndpointGroup: API.OperationMethod<
     LimitExceededException,
     ListenerNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEndpointGroup",
@@ -1327,6 +1338,7 @@ export const createListener: API.OperationMethod<
     InvalidPortRangeException,
     LimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateListener",
@@ -1373,6 +1385,7 @@ export const deleteAccelerator: API.OperationMethod<
     InvalidArgumentException,
     TransactionInProgressException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccelerator",
@@ -1411,6 +1424,7 @@ export const deleteCrossAccountAttachment: API.OperationMethod<
     InvalidArgumentException,
     TransactionInProgressException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCrossAccountAttachment",
@@ -1457,6 +1471,7 @@ export const deleteCustomRoutingAccelerator: API.OperationMethod<
     InvalidArgumentException,
     TransactionInProgressException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomRoutingAccelerator",
@@ -1481,6 +1496,7 @@ export const deleteCustomRoutingEndpointGroup: API.OperationMethod<
   input: __S(328, __c41, 0) as any as S.Schema<DeleteCustomRoutingEndpointGroupRequest>,
   output: __S(88, __c11, 0) as any as S.Schema<DeleteCustomRoutingEndpointGroupResponse>,
   errors: [EndpointGroupNotFoundException, InternalServiceErrorException, InvalidArgumentException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomRoutingEndpointGroup",
@@ -1511,6 +1527,7 @@ export const deleteCustomRoutingListener: API.OperationMethod<
     InvalidArgumentException,
     ListenerNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomRoutingListener",
@@ -1535,6 +1552,7 @@ export const deleteEndpointGroup: API.OperationMethod<
   input: __S(344, __c43, 0) as any as S.Schema<DeleteEndpointGroupRequest>,
   output: __S(88, __c11, 0) as any as S.Schema<DeleteEndpointGroupResponse>,
   errors: [EndpointGroupNotFoundException, InternalServiceErrorException, InvalidArgumentException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEndpointGroup",
@@ -1565,6 +1583,7 @@ export const deleteListener: API.OperationMethod<
     InvalidArgumentException,
     ListenerNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteListener",
@@ -1595,6 +1614,7 @@ export const denyCustomRoutingTraffic: API.OperationMethod<
   input: __S(360, __c45, 0) as any as S.Schema<DenyCustomRoutingTrafficRequest>,
   output: __S(88, __c11, 0) as any as S.Schema<DenyCustomRoutingTrafficResponse>,
   errors: [EndpointGroupNotFoundException, InternalServiceErrorException, InvalidArgumentException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DenyCustomRoutingTraffic",
@@ -1634,6 +1654,7 @@ export const deprovisionByoipCidr: API.OperationMethod<
     InternalServiceErrorException,
     InvalidArgumentException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeprovisionByoipCidr",
@@ -1658,6 +1679,7 @@ export const describeAccelerator: API.OperationMethod<
   input: __S(376, __c47, 0) as any as S.Schema<DescribeAcceleratorRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<DescribeAcceleratorResponse>,
   errors: [AcceleratorNotFoundException, InternalServiceErrorException, InvalidArgumentException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccelerator",
@@ -1682,6 +1704,7 @@ export const describeAcceleratorAttributes: API.OperationMethod<
   input: __S(384, __c48, 0) as any as S.Schema<DescribeAcceleratorAttributesRequest>,
   output: __S(393, __c49, 1) as any as S.Schema<DescribeAcceleratorAttributesResponse>,
   errors: [AcceleratorNotFoundException, InternalServiceErrorException, InvalidArgumentException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAcceleratorAttributes",
@@ -1712,6 +1735,7 @@ export const describeCrossAccountAttachment: API.OperationMethod<
     InternalServiceErrorException,
     InvalidArgumentException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCrossAccountAttachment",
@@ -1736,6 +1760,7 @@ export const describeCustomRoutingAccelerator: API.OperationMethod<
   input: __S(408, __c51, 0) as any as S.Schema<DescribeCustomRoutingAcceleratorRequest>,
   output: __S(184, __c23, 0) as any as S.Schema<DescribeCustomRoutingAcceleratorResponse>,
   errors: [AcceleratorNotFoundException, InternalServiceErrorException, InvalidArgumentException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCustomRoutingAccelerator",
@@ -1760,6 +1785,7 @@ export const describeCustomRoutingAcceleratorAttributes: API.OperationMethod<
   input: __S(416, __c52, 0) as any as S.Schema<DescribeCustomRoutingAcceleratorAttributesRequest>,
   output: __S(393, __c49, 1) as any as S.Schema<DescribeCustomRoutingAcceleratorAttributesResponse>,
   errors: [AcceleratorNotFoundException, InternalServiceErrorException, InvalidArgumentException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCustomRoutingAcceleratorAttributes",
@@ -1784,6 +1810,7 @@ export const describeCustomRoutingEndpointGroup: API.OperationMethod<
   input: __S(424, __c53, 0) as any as S.Schema<DescribeCustomRoutingEndpointGroupRequest>,
   output: __S(200, __c25, 0) as any as S.Schema<DescribeCustomRoutingEndpointGroupResponse>,
   errors: [EndpointGroupNotFoundException, InternalServiceErrorException, InvalidArgumentException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCustomRoutingEndpointGroup",
@@ -1808,6 +1835,7 @@ export const describeCustomRoutingListener: API.OperationMethod<
   input: __S(432, __c54, 0) as any as S.Schema<DescribeCustomRoutingListenerRequest>,
   output: __S(248, __c31, 0) as any as S.Schema<DescribeCustomRoutingListenerResponse>,
   errors: [InternalServiceErrorException, InvalidArgumentException, ListenerNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCustomRoutingListener",
@@ -1832,6 +1860,7 @@ export const describeEndpointGroup: API.OperationMethod<
   input: __S(440, __c55, 0) as any as S.Schema<DescribeEndpointGroupRequest>,
   output: __S(272, __c34, 0) as any as S.Schema<DescribeEndpointGroupResponse>,
   errors: [EndpointGroupNotFoundException, InternalServiceErrorException, InvalidArgumentException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEndpointGroup",
@@ -1856,6 +1885,7 @@ export const describeListener: API.OperationMethod<
   input: __S(448, __c56, 0) as any as S.Schema<DescribeListenerRequest>,
   output: __S(296, __c37, 0) as any as S.Schema<DescribeListenerResponse>,
   errors: [InternalServiceErrorException, InvalidArgumentException, ListenerNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeListener",
@@ -1881,6 +1911,7 @@ export const listAccelerators: API.PaginatedOperationMethod<
   input: __S(456, __c57, 0) as any as S.Schema<ListAcceleratorsRequest>,
   output: __S(458, __c57, 2) as any as S.Schema<ListAcceleratorsResponse>,
   errors: [InternalServiceErrorException, InvalidArgumentException, InvalidNextTokenException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAccelerators",
@@ -1919,6 +1950,7 @@ export const listByoipCidrs: API.PaginatedOperationMethod<
     InvalidArgumentException,
     InvalidNextTokenException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListByoipCidrs",
@@ -1956,6 +1988,7 @@ export const listCrossAccountAttachments: API.PaginatedOperationMethod<
     InvalidArgumentException,
     InvalidNextTokenException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCrossAccountAttachments",
@@ -1989,6 +2022,7 @@ export const listCrossAccountResourceAccounts: API.OperationMethod<
   input: __S(480, __c60, 0) as any as S.Schema<ListCrossAccountResourceAccountsRequest>,
   output: __S(481, __c60, 1) as any as S.Schema<ListCrossAccountResourceAccountsResponse>,
   errors: [AccessDeniedException, InternalServiceErrorException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCrossAccountResourceAccounts",
@@ -2022,6 +2056,7 @@ export const listCrossAccountResources: API.PaginatedOperationMethod<
     InvalidArgumentException,
     InvalidNextTokenException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCrossAccountResources",
@@ -2053,6 +2088,7 @@ export const listCustomRoutingAccelerators: API.PaginatedOperationMethod<
   input: __S(496, __c62, 0) as any as S.Schema<ListCustomRoutingAcceleratorsRequest>,
   output: __S(498, __c62, 2) as any as S.Schema<ListCustomRoutingAcceleratorsResponse>,
   errors: [InternalServiceErrorException, InvalidArgumentException, InvalidNextTokenException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCustomRoutingAccelerators",
@@ -2090,6 +2126,7 @@ export const listCustomRoutingEndpointGroups: API.PaginatedOperationMethod<
     InvalidNextTokenException,
     ListenerNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCustomRoutingEndpointGroups",
@@ -2127,6 +2164,7 @@ export const listCustomRoutingListeners: API.PaginatedOperationMethod<
     InvalidArgumentException,
     InvalidNextTokenException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCustomRoutingListeners",
@@ -2176,6 +2214,7 @@ export const listCustomRoutingPortMappings: API.PaginatedOperationMethod<
     InvalidArgumentException,
     InvalidNextTokenException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCustomRoutingPortMappings",
@@ -2216,6 +2255,7 @@ export const listCustomRoutingPortMappingsByDestination: API.PaginatedOperationM
     InvalidArgumentException,
     InvalidNextTokenException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCustomRoutingPortMappingsByDestination",
@@ -2253,6 +2293,7 @@ export const listEndpointGroups: API.PaginatedOperationMethod<
     InvalidNextTokenException,
     ListenerNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEndpointGroups",
@@ -2290,6 +2331,7 @@ export const listListeners: API.PaginatedOperationMethod<
     InvalidArgumentException,
     InvalidNextTokenException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListListeners",
@@ -2333,6 +2375,7 @@ export const listTagsForResource: API.OperationMethod<
     InvalidArgumentException,
     ListenerNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -2371,6 +2414,7 @@ export const provisionByoipCidr: API.OperationMethod<
     InvalidArgumentException,
     LimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ProvisionByoipCidr",
@@ -2405,6 +2449,7 @@ export const removeCustomRoutingEndpoints: API.OperationMethod<
     InternalServiceErrorException,
     InvalidArgumentException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveCustomRoutingEndpoints",
@@ -2450,6 +2495,7 @@ export const removeEndpoints: API.OperationMethod<
     InvalidArgumentException,
     TransactionInProgressException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveEndpoints",
@@ -2477,6 +2523,7 @@ export const tagResource: API.OperationMethod<
   input: __S(592, __c74, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(88, __c11, 0) as any as S.Schema<TagResourceResponse>,
   errors: [AcceleratorNotFoundException, InternalServiceErrorException, InvalidArgumentException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -2505,6 +2552,7 @@ export const untagResource: API.OperationMethod<
   input: __S(600, __c75, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(88, __c11, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [AcceleratorNotFoundException, InternalServiceErrorException, InvalidArgumentException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -2555,6 +2603,7 @@ export const updateAccelerator: API.OperationMethod<
     InvalidArgumentException,
     TransactionInProgressException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccelerator",
@@ -2587,6 +2636,7 @@ export const updateAcceleratorAttributes: API.OperationMethod<
     InvalidArgumentException,
     TransactionInProgressException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAcceleratorAttributes",
@@ -2627,6 +2677,7 @@ export const updateCrossAccountAttachment: API.OperationMethod<
     LimitExceededException,
     TransactionInProgressException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCrossAccountAttachment",
@@ -2659,6 +2710,7 @@ export const updateCustomRoutingAccelerator: API.OperationMethod<
     InvalidArgumentException,
     TransactionInProgressException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomRoutingAccelerator",
@@ -2691,6 +2743,7 @@ export const updateCustomRoutingAcceleratorAttributes: API.OperationMethod<
     InvalidArgumentException,
     TransactionInProgressException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomRoutingAcceleratorAttributes",
@@ -2723,6 +2776,7 @@ export const updateCustomRoutingListener: API.OperationMethod<
     LimitExceededException,
     ListenerNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomRoutingListener",
@@ -2755,6 +2809,7 @@ export const updateEndpointGroup: API.OperationMethod<
     InvalidArgumentException,
     LimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEndpointGroup",
@@ -2787,6 +2842,7 @@ export const updateListener: API.OperationMethod<
     LimitExceededException,
     ListenerNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateListener",
@@ -2827,6 +2883,7 @@ export const withdrawByoipCidr: API.OperationMethod<
     InternalServiceErrorException,
     InvalidArgumentException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "WithdrawByoipCidr",
@@ -3002,7 +3059,7 @@ function __c13(j: number): any {
           IpAddressType: S.optional(S.String),
           IpAddresses: S.optional(__S(80, __c10, 0)),
           Enabled: S.optional(S.Boolean),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Tags: S.optional(__S(113, __c14, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateAcceleratorRequest" });
@@ -3075,7 +3132,7 @@ function __c18(j: number): any {
           Name: S.String,
           Principals: S.optional(__S(80, __c10, 0)),
           Resources: S.optional(__S(153, __c19, 1)),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Tags: S.optional(__S(113, __c14, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateCrossAccountAttachmentRequest" });
@@ -3123,7 +3180,7 @@ function __c21(j: number): any {
           IpAddressType: S.optional(S.String),
           IpAddresses: S.optional(__S(80, __c10, 0)),
           Enabled: S.optional(S.Boolean),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Tags: S.optional(__S(113, __c14, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateCustomRoutingAcceleratorRequest" });
@@ -3169,7 +3226,7 @@ function __c24(j: number): any {
           ListenerArn: S.String,
           EndpointGroupRegion: S.String,
           DestinationConfigurations: __S(193, __c24, 1),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateCustomRoutingEndpointGroupRequest" });
   }
@@ -3218,7 +3275,7 @@ function __c28(j: number): any {
         S.Struct({
           AcceleratorArn: S.String,
           PortRanges: __S(233, __c29, 1),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateCustomRoutingListenerRequest" });
   }
@@ -3263,7 +3320,7 @@ function __c32(j: number): any {
           HealthCheckPath: S.optional(S.String),
           HealthCheckIntervalSeconds: S.optional(S.Number),
           ThresholdCount: S.optional(S.Number),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           PortOverrides: S.optional(__S(265, __c33, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateEndpointGroupRequest" });
@@ -3311,7 +3368,7 @@ function __c35(j: number): any {
           PortRanges: __S(233, __c29, 1),
           Protocol: S.String,
           ClientAffinity: S.optional(S.String),
-          IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+          IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateListenerRequest" });
   }

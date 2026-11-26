@@ -1,0 +1,97 @@
+# Keeps the lockfile on the current alchemy main.
+#
+# The stacks and the website take alchemy from its main-branch preview builds
+# (`https://pkg.alchemy.run/<package>/branch:main` in the pnpm catalog). The
+# lockfile pins the build that was current when it was written, and
+# pkg.alchemy.run keeps a main build only about a week after it was published.
+# Once the pinned build is gone, every `pnpm install --frozen-lockfile` in CI
+# fails.
+#
+# Once a day this re-resolves the alchemy packages to main. If the lockfile
+# changed, it opens (or updates) a PR from `chore/alchemy-main`, waits for its
+# required checks and adds it to the merge queue.
+#
+# The deploy workflows also run `pnpm run alchemy:main` before deploying, so
+# a deploy uses alchemy main even between these refreshes.
+
+name: Update alchemy main
+
+on:
+  schedule:
+    - cron: "23 5 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: alchemy-main
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  update:
+    name: Update the lockfile to alchemy main
+    runs-on: blacksmith-4vcpu-ubuntu-2404
+    timeout-minutes: 90
+    steps:
+      # The PR comes from the alchemy-version-bot app: a push with the
+      # built-in GITHUB_TOKEN would not start the PR's CI.
+      - name: Generate bot token
+        id: bot-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          app-id: ${{ secrets.ALCHEMY_VERSION_BOT_ID }}
+          private-key: ${{ secrets.ALCHEMY_VERSION_BOT_PRIVATE_KEY }}
+
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          token: ${{ steps.bot-token.outputs.token }}
+
+      - name: Setup pnpm, Node.js and install dependencies
+        uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
+        with:
+          cache: true
+          install: true
+          require-lockfile: true
+
+      - name: Use the latest alchemy main
+        run: pnpm run alchemy:main
+
+      - name: Open the PR and add it to the merge queue
+        env:
+          GH_TOKEN: ${{ steps.bot-token.outputs.token }}
+          BRANCH: chore/alchemy-main
+          TITLE: "chore(deps): update alchemy to main"
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- pnpm-lock.yaml; then
+            echo "The lockfile already has the current alchemy main."
+            exit 0
+          fi
+          git config user.email "alchemy-version-bot[bot]@users.noreply.github.com"
+          git config user.name "alchemy-version-bot[bot]"
+          git switch -C "$BRANCH"
+          git add pnpm-lock.yaml
+          git commit -m "$TITLE"
+          git push --force origin "$BRANCH"
+
+          pr="$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // empty')"
+          if [ -z "$pr" ]; then
+            gh pr create --base main --head "$BRANCH" --title "$TITLE" \
+              --body "Moves the lockfile to the current alchemy main build on pkg.alchemy.run. Opened by \`.github/workflows/alchemy-main.yml\`."
+            pr="$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number')"
+          fi
+
+          # The merge queue takes a PR only after its required checks pass.
+          # Checks take a moment to appear on a new head.
+          for _ in $(seq 20); do
+            gh pr checks "$pr" --required >/dev/null 2>&1 && break
+            [ "$?" -eq 8 ] && break
+            sleep 15
+          done
+          gh pr checks "$pr" --required --watch --fail-fast --interval 30
+          gh api graphql \
+            -f query='mutation($pr: ID!, $head: GitObjectID!) { enqueuePullRequest(input: { pullRequestId: $pr, expectedHeadOid: $head }) { mergeQueueEntry { position } } }' \
+            -f pr="$(gh pr view "$pr" --json id --jq .id)" \
+            -f head="$(git rev-parse HEAD)"

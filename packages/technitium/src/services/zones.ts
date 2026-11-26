@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownTechnitiumError } from "../errors.ts";
+import { TechnitiumServiceErrors } from "../errors.ts";
 import {
   TechnitiumProtocol,
   type TechnitiumOpError,
@@ -909,7 +909,8 @@ export const addPrivateKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AddPrivateKeyRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<AddPrivateKeyResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "AddPrivateKey",
@@ -925,7 +926,8 @@ export const addRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<AddRecordRequest>,
   output: __S(17, __c2, 1) as any as S.Schema<AddRecordResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "AddRecord",
@@ -941,7 +943,8 @@ export const cloneZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<CloneZoneRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<CloneZoneResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "CloneZone",
@@ -957,7 +960,8 @@ export const convertToNsec: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c30, 0) as any as S.Schema<ConvertToNsecRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<ConvertToNsecResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "ConvertToNsec",
@@ -973,7 +977,8 @@ export const convertToNsec3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c32, 0) as any as S.Schema<ConvertToNsec3Request>,
   output: __S(8, __c1, 0) as any as S.Schema<ConvertToNsec3Response>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "ConvertToNsec3",
@@ -989,7 +994,8 @@ export const convertZoneType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(264, __c33, 0) as any as S.Schema<ConvertZoneTypeRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<ConvertZoneTypeResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "ConvertZoneType",
@@ -1005,7 +1011,8 @@ export const createZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c34, 0) as any as S.Schema<CreateZoneRequest>,
   output: __S(273, __c34, 1) as any as S.Schema<CreateZoneResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "CreateZone",
@@ -1021,7 +1028,8 @@ export const deletePrivateKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(280, __c35, 0) as any as S.Schema<DeletePrivateKeyRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<DeletePrivateKeyResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "DeletePrivateKey",
@@ -1037,7 +1045,8 @@ export const deleteRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c36, 0) as any as S.Schema<DeleteRecordRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<DeleteRecordResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "DeleteRecord",
@@ -1053,7 +1062,8 @@ export const deleteZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(296, __c37, 0) as any as S.Schema<DeleteZoneRequest>,
   output: __S(297, __c37, 1) as any as S.Schema<DeleteZoneResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "DeleteZone",
@@ -1069,7 +1079,8 @@ export const disableZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<DisableZoneRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<DisableZoneResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "DisableZone",
@@ -1085,7 +1096,8 @@ export const enableZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<EnableZoneRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<EnableZoneResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "EnableZone",
@@ -1101,7 +1113,8 @@ export const getDnssecProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<GetDnssecPropertiesRequest>,
   output: __S(75, __c9, 3) as any as S.Schema<GetDnssecPropertiesResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "GetDnssecProperties",
@@ -1117,7 +1130,8 @@ export const getDsInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<GetDsInfoRequest>,
   output: __S(83, __c10, 3) as any as S.Schema<GetDsInfoResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "GetDsInfo",
@@ -1133,7 +1147,8 @@ export const getRecords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<GetRecordsRequest>,
   output: __S(90, __c11, 2) as any as S.Schema<GetRecordsResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "GetRecords",
@@ -1149,7 +1164,8 @@ export const getZoneOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<GetZoneOptionsRequest>,
   output: __S(99, __c12, 3) as any as S.Schema<GetZoneOptionsResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "GetZoneOptions",
@@ -1165,7 +1181,8 @@ export const getZonePermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<GetZonePermissionsRequest>,
   output: __S(113, __c14, 1) as any as S.Schema<GetZonePermissionsResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "GetZonePermissions",
@@ -1181,7 +1198,8 @@ export const listCatalogZones: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<ListCatalogZonesRequest>,
   output: __S(129, __c16, 1) as any as S.Schema<ListCatalogZonesResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "ListCatalogZones",
@@ -1197,7 +1215,8 @@ export const listZones: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<ListZonesRequest>,
   output: __S(139, __c17, 3) as any as S.Schema<ListZonesResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "ListZones",
@@ -1213,7 +1232,8 @@ export const publishAllPrivateKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<PublishAllPrivateKeysRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PublishAllPrivateKeysResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "PublishAllPrivateKeys",
@@ -1229,7 +1249,8 @@ export const resyncZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<ResyncZoneRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<ResyncZoneResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "ResyncZone",
@@ -1245,7 +1266,8 @@ export const retireDnskey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<RetireDnskeyRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<RetireDnskeyResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "RetireDnskey",
@@ -1261,7 +1283,8 @@ export const rolloverDnskey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c22, 0) as any as S.Schema<RolloverDnskeyRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<RolloverDnskeyResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "RolloverDnskey",
@@ -1277,7 +1300,8 @@ export const setZoneOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<SetZoneOptionsRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<SetZoneOptionsResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "SetZoneOptions",
@@ -1293,7 +1317,8 @@ export const setZonePermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<SetZonePermissionsRequest>,
   output: __S(193, __c24, 1) as any as S.Schema<SetZonePermissionsResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "SetZonePermissions",
@@ -1309,7 +1334,8 @@ export const signZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(200, __c25, 0) as any as S.Schema<SignZoneRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<SignZoneResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "SignZone",
@@ -1325,7 +1351,8 @@ export const unsignZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c26, 0) as any as S.Schema<UnsignZoneRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<UnsignZoneResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "UnsignZone",
@@ -1341,7 +1368,8 @@ export const updateDnskeyTtl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(216, __c27, 0) as any as S.Schema<UpdateDnskeyTtlRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<UpdateDnskeyTtlResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "UpdateDnskeyTtl",
@@ -1357,7 +1385,8 @@ export const updateNsec3Parameters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c28, 0) as any as S.Schema<UpdateNsec3ParametersRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<UpdateNsec3ParametersResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "UpdateNsec3Parameters",
@@ -1373,7 +1402,8 @@ export const updatePrivateKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(232, __c29, 0) as any as S.Schema<UpdatePrivateKeyRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<UpdatePrivateKeyResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "UpdatePrivateKey",
@@ -1389,7 +1419,8 @@ export const updateRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(248, __c31, 0) as any as S.Schema<UpdateRecordRequest>,
   output: __S(249, __c31, 1) as any as S.Schema<UpdateRecordResponse>,
-  errors: [UnknownTechnitiumError],
+  errors: [],
+  serviceErrors: TechnitiumServiceErrors,
   protocol: TechnitiumProtocol,
   telemetry: TELEMETRY,
   span: "UpdateRecord",

@@ -3,9 +3,13 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * Archil credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
- * credentials on every request (the protocol layer resolves it per request
+ * credentials on every request (the protocol resolves it per request
  * on the calling fiber). Archil Control Plane API keys are sent as
  * `Authorization: {API_KEY}` (no Bearer prefix).
+ *
+ * A layer here reads and checks its configuration when it is built: a
+ * missing API key or an unknown region is a `ConfigError` at setup, and no
+ * call fails for it.
  *
  * Archil runs one control plane per region, each with its own S3-compatible
  * data plane; disks, sandboxes and images live in exactly one region.
@@ -49,7 +53,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
     "ArchilCredentials",
   ) {}
 
@@ -68,14 +72,23 @@ const resolveBaseUrl = (
       );
 };
 
-/** Layer from a redacted API key, plus a region or an explicit base URL. */
+/** A layer that resolves and checks `config` once, when it is built. */
+const layer = (config: Effect.Effect<Config, ConfigError>): Layer.Layer<Credentials, ConfigError> =>
+  Layer.effect(
+    Credentials,
+    Effect.map(config, (resolved) => Effect.succeed(resolved)),
+  );
+
+/**
+ * Layer from a redacted API key, plus a region or an explicit base URL. The
+ * region is checked when the layer is built.
+ */
 export const fromApiKey = (config: {
   readonly apiKey: Redacted.Redacted<string>;
   readonly region?: Region;
   readonly apiBaseUrl?: string;
-}): Layer.Layer<Credentials> =>
-  Layer.succeed(
-    Credentials,
+}): Layer.Layer<Credentials, ConfigError> =>
+  layer(
     resolveBaseUrl(config.region, config.apiBaseUrl).pipe(
       Effect.map((apiBaseUrl) => ({
         apiKey: config.apiKey,
@@ -88,9 +101,10 @@ export const fromApiKey = (config: {
 /**
  * Reads ARCHIL_API_KEY (required), ARCHIL_REGION (optional, defaults to
  * `aws-us-east-1`) and ARCHIL_API_BASE_URL (optional, overrides the region).
+ * The environment is read, and the values checked, once: when the layer is
+ * built.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
-  Credentials,
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ layer(
   /*@__PURE__*/ Effect.gen(function* () {
     const apiKey = process.env.ARCHIL_API_KEY;
 

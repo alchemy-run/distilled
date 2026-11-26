@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownOpenSearchError } from "../errors.ts";
+import { OpenSearchServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import {
   OpenSearchProtocol,
@@ -7427,7 +7427,7 @@ export type CommonAnalysisShingleTokenFilterType = "shingle";
 export interface CommonAnalysisShingleTokenFilter {
   version?: string | undefined;
   type: CommonAnalysisShingleTokenFilterType;
-  filler_token?: string | undefined;
+  filler_token?: string | Redacted.Redacted<string> | undefined;
   max_shingle_size?: CommonStringifiedInteger | undefined;
   min_shingle_size?: CommonStringifiedInteger | undefined;
   output_unigrams?: boolean | undefined;
@@ -13048,7 +13048,7 @@ export interface IndicesAnalyzeExplainAnalyzeToken {
   /** The frequency of the term. */
   termFrequency: number;
   /** The token string. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The type of the token. */
   type: string;
 }
@@ -13105,7 +13105,7 @@ export interface IndicesAnalyzeAnalyzeToken {
   /** The starting character offset of the token. */
   start_offset: number;
   /** The token string. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The type of the token. */
   type: string;
 }
@@ -31526,7 +31526,7 @@ export interface SecurityCommonGenerateOBOToken {
   /** The name of the entity requesting token. */
   user?: string | undefined;
   /** The generated OBO token. */
-  authenticationToken?: string | undefined;
+  authenticationToken?: string | Redacted.Redacted<string> | undefined;
   /** The duration of the token. */
   durationSeconds?: string | undefined;
 }
@@ -34790,7 +34790,8 @@ export const asynchronousSearchDelete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14176, __c443, 0) as any as S.Schema<AsynchronousSearchDeleteRequest>,
   output: __S(14208, __c444, 0) as any as S.Schema<AsynchronousSearchDeleteResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34807,7 +34808,8 @@ export const asynchronousSearchGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18752, __c586, 0) as any as S.Schema<AsynchronousSearchGetRequest>,
   output: __S(18788, __c587, 4) as any as S.Schema<AsynchronousSearchCommonResponseBody>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34824,7 +34826,8 @@ export const asynchronousSearchSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23584, __c737, 0) as any as S.Schema<AsynchronousSearchSearchRequest>,
   output: __S(18788, __c587, 4) as any as S.Schema<AsynchronousSearchCommonResponseBody>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34841,7 +34844,8 @@ export const asynchronousSearchStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25952, __c811, 0) as any as S.Schema<AsynchronousSearchStatsRequest>,
   output: __S(25956, __c811, 4) as any as S.Schema<AsynchronousSearchStatsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34858,7 +34862,8 @@ export const bulk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26560, __c830, 0) as any as S.Schema<BulkRequest>,
   output: __S(26629, __c832, 5) as any as S.Schema<CoreBulkBulkResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34875,7 +34880,8 @@ export const bulkByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27136, __c848, 0) as any as S.Schema<BulkByIndexRequest>,
   output: __S(26629, __c832, 5) as any as S.Schema<CoreBulkBulkResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34892,7 +34898,8 @@ export const bulkStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<BulkStreamRequest>,
   output: __S(26629, __c832, 5) as any as S.Schema<CoreBulkBulkResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34909,7 +34916,8 @@ export const bulkStreamByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<BulkStreamByIndexRequest>,
   output: __S(26629, __c832, 5) as any as S.Schema<CoreBulkBulkResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34926,7 +34934,8 @@ export const catAliases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<CatAliasesRequest>,
   output: __S(1058, __c33, 2) as any as S.Schema<CatAliasesResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34943,7 +34952,8 @@ export const catAliasesByName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<CatAliasesByNameRequest>,
   output: __S(1058, __c33, 2) as any as S.Schema<CatAliasesByNameResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34960,7 +34970,8 @@ export const catAllocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<CatAllocationRequest>,
   output: __S(1954, __c61, 2) as any as S.Schema<CatAllocationResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34977,7 +34988,8 @@ export const catAllocationByNodeId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<CatAllocationByNodeIdRequest>,
   output: __S(1954, __c61, 2) as any as S.Schema<CatAllocationByNodeIdResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34994,7 +35006,8 @@ export const catAllPitSegments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<CatAllPitSegmentsRequest>,
   output: __S(2978, __c93, 2) as any as S.Schema<CatAllPitSegmentsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35011,7 +35024,8 @@ export const catClusterManager: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3392, __c106, 0) as any as S.Schema<CatClusterManagerRequest>,
   output: __S(3395, __c106, 3) as any as S.Schema<CatClusterManagerResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35028,7 +35042,8 @@ export const catCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3776, __c118, 0) as any as S.Schema<CatCountRequest>,
   output: __S(3810, __c119, 2) as any as S.Schema<CatCountResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35045,7 +35060,8 @@ export const catCountByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4288, __c134, 0) as any as S.Schema<CatCountByIndexRequest>,
   output: __S(3810, __c119, 2) as any as S.Schema<CatCountByIndexResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35062,7 +35078,8 @@ export const catFielddata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4800, __c150, 0) as any as S.Schema<CatFielddataRequest>,
   output: __S(4834, __c151, 2) as any as S.Schema<CatFielddataResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35079,7 +35096,8 @@ export const catFielddataByFields: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5408, __c169, 0) as any as S.Schema<CatFielddataByFieldsRequest>,
   output: __S(4834, __c151, 2) as any as S.Schema<CatFielddataByFieldsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35096,7 +35114,8 @@ export const catHealth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5856, __c183, 0) as any as S.Schema<CatHealthRequest>,
   output: __S(5859, __c183, 3) as any as S.Schema<CatHealthResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35113,7 +35132,8 @@ export const catHelp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6336, __c198, 0) as any as S.Schema<CatHelpRequest>,
   output: __S(23616, __c738, 0) as any as S.Schema<CatHelpResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35130,7 +35150,8 @@ export const catIndices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6752, __c211, 0) as any as S.Schema<CatIndicesRequest>,
   output: __S(6784, __c212, 0) as any as S.Schema<CatIndicesResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35147,7 +35168,8 @@ export const catIndicesByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7264, __c227, 0) as any as S.Schema<CatIndicesByIndexRequest>,
   output: __S(6784, __c212, 0) as any as S.Schema<CatIndicesByIndexResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35164,7 +35186,8 @@ export const catNodeattrs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7648, __c239, 0) as any as S.Schema<CatNodeattrsRequest>,
   output: __S(7651, __c239, 3) as any as S.Schema<CatNodeattrsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35181,7 +35204,8 @@ export const catNodes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8000, __c250, 0) as any as S.Schema<CatNodesRequest>,
   output: __S(8003, __c250, 3) as any as S.Schema<CatNodesResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35198,7 +35222,8 @@ export const catPendingTasks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8384, __c262, 0) as any as S.Schema<CatPendingTasksRequest>,
   output: __S(8387, __c262, 3) as any as S.Schema<CatPendingTasksResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35215,7 +35240,8 @@ export const catPitSegments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8736, __c273, 0) as any as S.Schema<CatPitSegmentsRequest>,
   output: __S(2978, __c93, 2) as any as S.Schema<CatPitSegmentsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35232,7 +35258,8 @@ export const catPlugins: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9280, __c290, 0) as any as S.Schema<CatPluginsRequest>,
   output: __S(9283, __c290, 3) as any as S.Schema<CatPluginsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35249,7 +35276,8 @@ export const catRecovery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9952, __c311, 0) as any as S.Schema<CatRecoveryRequest>,
   output: __S(9986, __c312, 2) as any as S.Schema<CatRecoveryResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35266,7 +35294,8 @@ export const catRecoveryByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10464, __c327, 0) as any as S.Schema<CatRecoveryByIndexRequest>,
   output: __S(9986, __c312, 2) as any as S.Schema<CatRecoveryByIndexResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35283,7 +35312,8 @@ export const catRepositories: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10944, __c342, 0) as any as S.Schema<CatRepositoriesRequest>,
   output: __S(10947, __c342, 3) as any as S.Schema<CatRepositoriesResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35300,7 +35330,8 @@ export const catSegmentReplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11456, __c358, 0) as any as S.Schema<CatSegmentReplicationRequest>,
   output: __S(11490, __c359, 2) as any as S.Schema<CatSegmentReplicationResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35317,7 +35348,8 @@ export const catSegmentReplicationByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11904, __c372, 0) as any as S.Schema<CatSegmentReplicationByIndexRequest>,
   output: __S(11490, __c359, 2) as any as S.Schema<CatSegmentReplicationByIndexResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35334,7 +35366,8 @@ export const catSegments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12256, __c383, 0) as any as S.Schema<CatSegmentsRequest>,
   output: __S(2978, __c93, 2) as any as S.Schema<CatSegmentsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35351,7 +35384,8 @@ export const catSegmentsByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12672, __c396, 0) as any as S.Schema<CatSegmentsByIndexRequest>,
   output: __S(2978, __c93, 2) as any as S.Schema<CatSegmentsByIndexResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35368,7 +35402,8 @@ export const catShards: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13120, __c410, 0) as any as S.Schema<CatShardsRequest>,
   output: __S(13152, __c411, 0) as any as S.Schema<CatShardsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35385,7 +35420,8 @@ export const catShardsByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13632, __c426, 0) as any as S.Schema<CatShardsByIndexRequest>,
   output: __S(13152, __c411, 0) as any as S.Schema<CatShardsByIndexResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35402,7 +35438,8 @@ export const catSnapshots: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14240, __c445, 0) as any as S.Schema<CatSnapshotsRequest>,
   output: __S(14274, __c446, 2) as any as S.Schema<CatSnapshotsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35419,7 +35456,8 @@ export const catSnapshotsByRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14752, __c461, 0) as any as S.Schema<CatSnapshotsByRepositoryRequest>,
   output: __S(14274, __c446, 2) as any as S.Schema<CatSnapshotsByRepositoryResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35436,7 +35474,8 @@ export const catTasks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15264, __c477, 0) as any as S.Schema<CatTasksRequest>,
   output: __S(15267, __c477, 3) as any as S.Schema<CatTasksResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35453,7 +35492,8 @@ export const catTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15744, __c492, 0) as any as S.Schema<CatTemplatesRequest>,
   output: __S(15778, __c493, 2) as any as S.Schema<CatTemplatesResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35470,7 +35510,8 @@ export const catTemplatesByName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16224, __c507, 0) as any as S.Schema<CatTemplatesByNameRequest>,
   output: __S(15778, __c493, 2) as any as S.Schema<CatTemplatesByNameResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35487,7 +35528,8 @@ export const catThreadPool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16576, __c518, 0) as any as S.Schema<CatThreadPoolRequest>,
   output: __S(16610, __c519, 2) as any as S.Schema<CatThreadPoolResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35504,7 +35546,8 @@ export const catThreadPoolByThreadPoolPatterns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17120, __c535, 0) as any as S.Schema<CatThreadPoolByThreadPoolPatternsRequest>,
   output: __S(16610, __c519, 2) as any as S.Schema<CatThreadPoolByThreadPoolPatternsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35521,7 +35564,8 @@ export const clearScroll: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17504, __c547, 0) as any as S.Schema<ClearScrollRequest>,
   output: __S(9184, __c287, 0) as any as S.Schema<ClearScrollResponse>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35538,7 +35582,8 @@ export const clusterAllocationExplain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17888, __c559, 0) as any as S.Schema<ClusterAllocationExplainRequest>,
   output: __S(17902, __c559, 14) as any as S.Schema<ClusterAllocationExplainResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35555,7 +35600,8 @@ export const clusterDeleteComponentTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18336, __c573, 0) as any as S.Schema<ClusterDeleteComponentTemplateRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35572,7 +35618,8 @@ export const clusterDeleteDecommissionAwareness: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18944, __c592, 0) as any as S.Schema<ClusterDeleteDecommissionAwarenessRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35589,7 +35636,8 @@ export const clusterDeleteVotingConfigExclusions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19456, __c608, 0) as any as S.Schema<ClusterDeleteVotingConfigExclusionsRequest>,
   output: __S(23616, __c738, 0) as any as S.Schema<ClusterDeleteVotingConfigExclusionsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35606,7 +35654,8 @@ export const clusterDeleteWeightedRouting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19872, __c621, 0) as any as S.Schema<ClusterDeleteWeightedRoutingRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35623,7 +35672,8 @@ export const clusterDescribeSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20320, __c635, 0) as any as S.Schema<ClusterDescribeSettingsRequest>,
   output: __S(20324, __c635, 4) as any as S.Schema<ClusterDescribeSettingsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35640,7 +35690,8 @@ export const clusterExistsComponentTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20832, __c651, 0) as any as S.Schema<ClusterExistsComponentTemplateRequest>,
   output: __S(23616, __c738, 0) as any as S.Schema<ClusterExistsComponentTemplateResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35657,7 +35708,8 @@ export const clusterGetComponentTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21280, __c665, 0) as any as S.Schema<ClusterGetComponentTemplateRequest>,
   output: __S(21317, __c666, 5) as any as S.Schema<ClusterGetComponentTemplateResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35674,7 +35726,8 @@ export const clusterGetComponentTemplateByName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21920, __c685, 0) as any as S.Schema<ClusterGetComponentTemplateByNameRequest>,
   output: __S(21317, __c666, 5) as any as S.Schema<ClusterGetComponentTemplateByNameResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35691,7 +35744,8 @@ export const clusterGetDecommissionAwareness: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22272, __c696, 0) as any as S.Schema<ClusterGetDecommissionAwarenessRequest>,
   output: __S(22304, __c697, 0) as any as S.Schema<ClusterGetDecommissionAwarenessResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35708,7 +35762,8 @@ export const clusterGetSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22752, __c711, 0) as any as S.Schema<ClusterGetSettingsRequest>,
   output: __S(22753, __c711, 1) as any as S.Schema<ClusterGetSettingsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35725,7 +35780,8 @@ export const clusterGetWeightedRouting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23168, __c724, 0) as any as S.Schema<ClusterGetWeightedRoutingRequest>,
   output: __S(23169, __c724, 1) as any as S.Schema<ClusterGetWeightedRoutingResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35742,7 +35798,8 @@ export const clusterHealth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24000, __c750, 0) as any as S.Schema<ClusterHealthRequest>,
   output: __S(24038, __c751, 6) as any as S.Schema<ClusterHealthHealthResponseBody>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35759,7 +35816,8 @@ export const clusterHealthByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24384, __c762, 0) as any as S.Schema<ClusterHealthByIndexRequest>,
   output: __S(24038, __c751, 6) as any as S.Schema<ClusterHealthHealthResponseBody>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35776,7 +35834,8 @@ export const clusterPendingTasks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24832, __c776, 0) as any as S.Schema<ClusterPendingTasksRequest>,
   output: __S(24835, __c776, 3) as any as S.Schema<ClusterPendingTasksResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35793,7 +35852,8 @@ export const clusterPostVotingConfigExclusions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25312, __c791, 0) as any as S.Schema<ClusterPostVotingConfigExclusionsRequest>,
   output: __S(23616, __c738, 0) as any as S.Schema<ClusterPostVotingConfigExclusionsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35810,7 +35870,8 @@ export const clusterPutComponentTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25696, __c803, 0) as any as S.Schema<ClusterPutComponentTemplateRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35827,7 +35888,8 @@ export const clusterPutDecommissionAwareness: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25792, __c806, 0) as any as S.Schema<ClusterPutDecommissionAwarenessRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35844,7 +35906,8 @@ export const clusterPutSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25824, __c807, 0) as any as S.Schema<ClusterPutSettingsRequest>,
   output: __S(25825, __c807, 1) as any as S.Schema<ClusterPutSettingsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35861,7 +35924,8 @@ export const clusterPutWeightedRouting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25856, __c808, 0) as any as S.Schema<ClusterPutWeightedRoutingRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35878,7 +35942,8 @@ export const clusterRemoteInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25888, __c809, 0) as any as S.Schema<ClusterRemoteInfoRequest>,
   output: __S(25890, __c809, 2) as any as S.Schema<ClusterRemoteInfoResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35895,7 +35960,8 @@ export const clusterReroute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25926, __c810, 6) as any as S.Schema<ClusterRerouteRequest>,
   output: __S(25932, __c810, 12) as any as S.Schema<ClusterRerouteResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35912,7 +35978,8 @@ export const clusterState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26048, __c814, 0) as any as S.Schema<ClusterStateRequest>,
   output: __S(26080, __c815, 0) as any as S.Schema<ClusterStateResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35929,7 +35996,8 @@ export const clusterStateByMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26112, __c816, 0) as any as S.Schema<ClusterStateByMetricRequest>,
   output: __S(26080, __c815, 0) as any as S.Schema<ClusterStateByMetricResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35946,7 +36014,8 @@ export const clusterStateByMetricAndIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26144, __c817, 0) as any as S.Schema<ClusterStateByMetricAndIndexRequest>,
   output: __S(26080, __c815, 0) as any as S.Schema<ClusterStateByMetricAndIndexResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35963,7 +36032,8 @@ export const clusterStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26176, __c818, 0) as any as S.Schema<ClusterStatsRequest>,
   output: __S(26244, __c820, 4) as any as S.Schema<ClusterStatsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35988,7 +36058,8 @@ export const clusterStatsByMetricAndIndexMetricAndNodeId: API.OperationMethod<
     __c820,
     4,
   ) as any as S.Schema<ClusterStatsByMetricAndIndexMetricAndNodeIdResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36005,7 +36076,8 @@ export const clusterStatsByMetricAndNodeId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26368, __c824, 0) as any as S.Schema<ClusterStatsByMetricAndNodeIdRequest>,
   output: __S(26244, __c820, 4) as any as S.Schema<ClusterStatsByMetricAndNodeIdResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36022,7 +36094,8 @@ export const clusterStatsByNodeId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26400, __c825, 0) as any as S.Schema<ClusterStatsByNodeIdRequest>,
   output: __S(26244, __c820, 4) as any as S.Schema<ClusterStatsByNodeIdResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36039,7 +36112,8 @@ export const count: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26432, __c826, 0) as any as S.Schema<CountRequest>,
   output: __S(26464, __c827, 0) as any as S.Schema<CountResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36056,7 +36130,8 @@ export const countByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26496, __c828, 0) as any as S.Schema<CountByIndexRequest>,
   output: __S(26464, __c827, 0) as any as S.Schema<CountByIndexResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36073,7 +36148,8 @@ export const create: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26528, __c829, 0) as any as S.Schema<CreateRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36090,7 +36166,8 @@ export const createPit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26656, __c833, 0) as any as S.Schema<CreatePitRequest>,
   output: __S(26657, __c833, 1) as any as S.Schema<CreatePitResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36107,7 +36184,8 @@ export const danglingIndicesDeleteDanglingIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26688, __c834, 0) as any as S.Schema<DanglingIndicesDeleteDanglingIndexRequest>,
   output: __S(23616, __c738, 0) as any as S.Schema<DanglingIndicesDeleteDanglingIndexResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36124,7 +36202,8 @@ export const danglingIndicesImportDanglingIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26720, __c835, 0) as any as S.Schema<DanglingIndicesImportDanglingIndexRequest>,
   output: __S(23616, __c738, 0) as any as S.Schema<DanglingIndicesImportDanglingIndexResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36141,7 +36220,8 @@ export const danglingIndicesListDanglingIndices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26752, __c836, 0) as any as S.Schema<DanglingIndicesListDanglingIndicesRequest>,
   output: __S(26755, __c836, 3) as any as S.Schema<DanglingIndicesListDanglingIndicesResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36158,7 +36238,8 @@ export const Delete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26784, __c837, 0) as any as S.Schema<DeleteRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36175,7 +36256,8 @@ export const deleteAllPits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26816, __c838, 0) as any as S.Schema<DeleteAllPitsRequest>,
   output: __S(26850, __c839, 2) as any as S.Schema<DeleteAllPitsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36192,7 +36274,8 @@ export const deleteByQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26880, __c840, 0) as any as S.Schema<DeleteByQueryRequest>,
   output: __S(26881, __c840, 1) as any as S.Schema<DeleteByQueryResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36209,7 +36292,8 @@ export const deleteByQueryRethrottle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26912, __c841, 0) as any as S.Schema<DeleteByQueryRethrottleRequest>,
   output: __S(27010, __c844, 2) as any as S.Schema<TasksCommonTaskListResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36226,7 +36310,8 @@ export const deletePit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27072, __c846, 0) as any as S.Schema<DeletePitRequest>,
   output: __S(26850, __c839, 2) as any as S.Schema<DeletePitResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36243,7 +36328,8 @@ export const deleteScript: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27104, __c847, 0) as any as S.Schema<DeleteScriptRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36260,7 +36346,8 @@ export const exists: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27168, __c849, 0) as any as S.Schema<ExistsRequest>,
   output: __S(23616, __c738, 0) as any as S.Schema<ExistsResponse>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36277,7 +36364,8 @@ export const existsSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27200, __c850, 0) as any as S.Schema<ExistsSourceRequest>,
   output: __S(23616, __c738, 0) as any as S.Schema<ExistsSourceResponse>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36294,7 +36382,8 @@ export const explain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27232, __c851, 0) as any as S.Schema<ExplainRequest>,
   output: __S(27233, __c851, 1) as any as S.Schema<ExplainResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36311,7 +36400,8 @@ export const fieldCaps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27296, __c853, 0) as any as S.Schema<FieldCapsRequest>,
   output: __S(27331, __c854, 3) as any as S.Schema<FieldCapsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36328,7 +36418,8 @@ export const fieldCapsByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27360, __c855, 0) as any as S.Schema<FieldCapsByIndexRequest>,
   output: __S(27331, __c854, 3) as any as S.Schema<FieldCapsByIndexResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36345,7 +36436,8 @@ export const flowFrameworkCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27392, __c856, 0) as any as S.Schema<FlowFrameworkCreateRequest>,
   output: __S(27424, __c857, 0) as any as S.Schema<FlowFrameworkCreateResponse>,
-  errors: [BadRequest, Forbidden, UnknownOpenSearchError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36362,7 +36454,8 @@ export const flowFrameworkDelete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27488, __c859, 0) as any as S.Schema<FlowFrameworkDeleteRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [BadRequest, Forbidden, UnknownOpenSearchError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36379,7 +36472,8 @@ export const flowFrameworkDeprovision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27520, __c860, 0) as any as S.Schema<FlowFrameworkDeprovisionRequest>,
   output: __S(27552, __c861, 0) as any as S.Schema<FlowFrameworkCommonWorkflowIDResponse>,
-  errors: [Forbidden, NotFound, UnknownOpenSearchError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36396,7 +36490,8 @@ export const flowFrameworkGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27584, __c862, 0) as any as S.Schema<FlowFrameworkGetRequest>,
   output: __S(27586, __c862, 2) as any as S.Schema<FlowFrameworkCommonFlowFrameworkGetResponse>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36413,7 +36508,8 @@ export const flowFrameworkGetStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27616, __c863, 0) as any as S.Schema<FlowFrameworkGetStatusRequest>,
   output: __S(27617, __c863, 1) as any as S.Schema<FlowFrameworkGetStatusResponse>,
-  errors: [Forbidden, NotFound, UnknownOpenSearchError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36430,7 +36526,8 @@ export const flowFrameworkGetSteps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<FlowFrameworkGetStepsRequest>,
   output: __S(195, __c6, 3) as any as S.Schema<FlowFrameworkGetStepsResponse>,
-  errors: [BadRequest, Forbidden, UnknownOpenSearchError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36447,7 +36544,8 @@ export const flowFrameworkProvision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<FlowFrameworkProvisionRequest>,
   output: __S(27552, __c861, 0) as any as S.Schema<FlowFrameworkCommonWorkflowIDResponse>,
-  errors: [BadRequest, Forbidden, UnknownOpenSearchError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36464,7 +36562,8 @@ export const flowFrameworkSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<FlowFrameworkSearchRequest>,
   output: __S(260, __c8, 4) as any as S.Schema<FlowFrameworkCommonWorkflowSearchResponse>,
-  errors: [BadRequest, Forbidden, UnknownOpenSearchError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36481,7 +36580,8 @@ export const flowFrameworkSearchState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<FlowFrameworkSearchStateRequest>,
   output: __S(324, __c10, 4) as any as S.Schema<FlowFrameworkCommonWorkflowSearchStateResponse>,
-  errors: [BadRequest, Forbidden, UnknownOpenSearchError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36498,7 +36598,8 @@ export const flowFrameworkUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<FlowFrameworkUpdateRequest>,
   output: __S(27424, __c857, 0) as any as S.Schema<FlowFrameworkUpdateResponse>,
-  errors: [BadRequest, NotFound, UnknownOpenSearchError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36515,7 +36616,8 @@ export const geospatialDeleteIp2geoDatasource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<GeospatialDeleteIp2geoDatasourceRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36532,7 +36634,8 @@ export const geospatialGeojsonUploadPost: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<GeospatialGeojsonUploadPostRequest>,
   output: __S(452, __c14, 4) as any as S.Schema<GeospatialCommonGeoSpatialGeojsonUploadResponse>,
-  errors: [BadRequest, UnknownOpenSearchError],
+  errors: [BadRequest],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36549,7 +36652,8 @@ export const geospatialGeojsonUploadPut: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<GeospatialGeojsonUploadPutRequest>,
   output: __S(452, __c14, 4) as any as S.Schema<GeospatialCommonGeoSpatialGeojsonUploadResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36566,7 +36670,8 @@ export const geospatialGetIp2geoDatasource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<GeospatialGetIp2geoDatasourceRequest>,
   output: __S(548, __c17, 4) as any as S.Schema<GeospatialCommonGetDataSourceResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36583,7 +36688,8 @@ export const geospatialGetIp2geoDatasourceByName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<GeospatialGetIp2geoDatasourceByNameRequest>,
   output: __S(548, __c17, 4) as any as S.Schema<GeospatialCommonGetDataSourceResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36600,7 +36706,8 @@ export const geospatialGetUploadStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<GeospatialGetUploadStatsRequest>,
   output: __S(644, __c20, 4) as any as S.Schema<GeospatialCommonGeoSpatialUploadStats>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36617,7 +36724,8 @@ export const geospatialPutIp2geoDatasource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<GeospatialPutIp2geoDatasourceRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [BadRequest, UnknownOpenSearchError],
+  errors: [BadRequest],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36634,7 +36742,8 @@ export const geospatialPutIp2geoDatasourceSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<GeospatialPutIp2geoDatasourceSettingsRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36647,7 +36756,8 @@ export const get: API.OperationMethod<GetRequest, GetResponse, GetError, OpenSea
   /*@__PURE__*/ API.make(() => ({
     input: __S(736, __c23, 0) as any as S.Schema<GetRequest>,
     output: __S(9185, __c287, 1) as any as S.Schema<GetResponse>,
-    errors: [NotFound, UnknownOpenSearchError],
+    errors: [NotFound],
+    serviceErrors: OpenSearchServiceErrors,
     protocol: OpenSearchProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -36664,7 +36774,8 @@ export const getAllPits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<GetAllPitsRequest>,
   output: __S(771, __c24, 3) as any as S.Schema<GetAllPitsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36681,7 +36792,8 @@ export const getScript: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<GetScriptRequest>,
   output: __S(801, __c25, 1) as any as S.Schema<GetScriptResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36698,7 +36810,8 @@ export const getScriptContext: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<GetScriptContextRequest>,
   output: __S(869, __c27, 5) as any as S.Schema<GetScriptContextResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36715,7 +36828,8 @@ export const getScriptLanguages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<GetScriptLanguagesRequest>,
   output: __S(931, __c29, 3) as any as S.Schema<GetScriptLanguagesResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36732,7 +36846,8 @@ export const getSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<GetSourceRequest>,
   output: __S(26080, __c815, 0) as any as S.Schema<GetSourceResponse>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36749,7 +36864,8 @@ export const index: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<IndexRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36766,7 +36882,8 @@ export const indexById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<IndexByIdRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36783,7 +36900,8 @@ export const indicesAddBlock: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<IndicesAddBlockRequest>,
   output: __S(1123, __c35, 3) as any as S.Schema<IndicesAddBlockResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36800,7 +36918,8 @@ export const indicesAnalyze: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<IndicesAnalyzeRequest>,
   output: __S(1195, __c37, 11) as any as S.Schema<IndicesAnalyzeResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36817,7 +36936,8 @@ export const indicesAnalyzeByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<IndicesAnalyzeByIndexRequest>,
   output: __S(1195, __c37, 11) as any as S.Schema<IndicesAnalyzeByIndexResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36834,7 +36954,8 @@ export const indicesClearCache: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<IndicesClearCacheRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<CommonShardsOperationResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36851,7 +36972,8 @@ export const indicesClearCacheByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<IndicesClearCacheByIndexRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<CommonShardsOperationResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36868,7 +36990,8 @@ export const indicesClone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<IndicesCloneRequest>,
   output: __S(1376, __c43, 0) as any as S.Schema<IndicesCloneResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36885,7 +37008,8 @@ export const indicesClose: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<IndicesCloseRequest>,
   output: __S(1413, __c44, 5) as any as S.Schema<IndicesCloseResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36902,7 +37026,8 @@ export const indicesCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<IndicesCreateRequest>,
   output: __S(1441, __c45, 1) as any as S.Schema<IndicesCreateResponse>,
-  errors: [BadRequest, UnknownOpenSearchError],
+  errors: [BadRequest],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36919,7 +37044,8 @@ export const indicesCreateDataStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<IndicesCreateDataStreamRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36936,7 +37062,8 @@ export const indicesDataStreamsStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<IndicesDataStreamsStatsRequest>,
   output: __S(1570, __c49, 2) as any as S.Schema<IndicesDataStreamsStatsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36953,7 +37080,8 @@ export const indicesDataStreamsStatsByName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<IndicesDataStreamsStatsByNameRequest>,
   output: __S(1570, __c49, 2) as any as S.Schema<IndicesDataStreamsStatsByNameResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36970,7 +37098,8 @@ export const indicesDelete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<IndicesDeleteRequest>,
   output: __S(1664, __c52, 0) as any as S.Schema<IndicesDeleteResponse>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36987,7 +37116,8 @@ export const indicesDeleteAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<IndicesDeleteAliasRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37004,7 +37134,8 @@ export const indicesDeleteDataStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<IndicesDeleteDataStreamRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37021,7 +37152,8 @@ export const indicesDeleteIndexTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<IndicesDeleteIndexTemplateRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37038,7 +37170,8 @@ export const indicesDeleteTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<IndicesDeleteTemplateRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37055,7 +37188,8 @@ export const indicesExists: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<IndicesExistsRequest>,
   output: __S(23616, __c738, 0) as any as S.Schema<IndicesExistsResponse>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37072,7 +37206,8 @@ export const indicesExistsAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<IndicesExistsAliasRequest>,
   output: __S(23616, __c738, 0) as any as S.Schema<IndicesExistsAliasResponse>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37089,7 +37224,8 @@ export const indicesExistsAliasByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<IndicesExistsAliasByIndexRequest>,
   output: __S(23616, __c738, 0) as any as S.Schema<IndicesExistsAliasByIndexResponse>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37106,7 +37242,8 @@ export const indicesExistsIndexTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<IndicesExistsIndexTemplateRequest>,
   output: __S(23616, __c738, 0) as any as S.Schema<IndicesExistsIndexTemplateResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37123,7 +37260,8 @@ export const indicesExistsTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<IndicesExistsTemplateRequest>,
   output: __S(23616, __c738, 0) as any as S.Schema<IndicesExistsTemplateResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37140,7 +37278,8 @@ export const indicesFlush: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<IndicesFlushRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<CommonShardsOperationResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37157,7 +37296,8 @@ export const indicesFlushByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<IndicesFlushByIndexRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<CommonShardsOperationResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37174,7 +37314,8 @@ export const indicesForcemerge: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<IndicesForcemergeRequest>,
   output: __S(2144, __c67, 0) as any as S.Schema<IndicesForcemergeResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37191,7 +37332,8 @@ export const indicesForcemergeByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<IndicesForcemergeByIndexRequest>,
   output: __S(2144, __c67, 0) as any as S.Schema<IndicesForcemergeByIndexResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37208,7 +37350,8 @@ export const indicesGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<IndicesGetRequest>,
   output: __S(2241, __c70, 1) as any as S.Schema<IndicesGetResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37225,7 +37368,8 @@ export const indicesGetAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<IndicesGetAliasRequest>,
   output: __S(2306, __c72, 2) as any as S.Schema<IndicesGetAliasResponse>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37242,7 +37386,8 @@ export const indicesGetAliasByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<IndicesGetAliasByIndexRequest>,
   output: __S(2306, __c72, 2) as any as S.Schema<IndicesGetAliasByIndexResponse>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37259,7 +37404,8 @@ export const indicesGetAliasByIndexAndName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<IndicesGetAliasByIndexAndNameRequest>,
   output: __S(2306, __c72, 2) as any as S.Schema<IndicesGetAliasByIndexAndNameResponse>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37276,7 +37422,8 @@ export const indicesGetAliasByName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<IndicesGetAliasByNameRequest>,
   output: __S(2306, __c72, 2) as any as S.Schema<IndicesGetAliasByNameResponse>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37293,7 +37440,8 @@ export const indicesGetDataStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<IndicesGetDataStreamRequest>,
   output: __S(2500, __c78, 4) as any as S.Schema<IndicesGetDataStreamResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37310,7 +37458,8 @@ export const indicesGetDataStreamByName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<IndicesGetDataStreamByNameRequest>,
   output: __S(2500, __c78, 4) as any as S.Schema<IndicesGetDataStreamByNameResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37327,7 +37476,8 @@ export const indicesGetFieldMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<IndicesGetFieldMappingRequest>,
   output: __S(2628, __c82, 4) as any as S.Schema<IndicesGetFieldMappingResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37344,7 +37494,8 @@ export const indicesGetFieldMappingByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<IndicesGetFieldMappingByIndexRequest>,
   output: __S(2628, __c82, 4) as any as S.Schema<IndicesGetFieldMappingByIndexResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37361,7 +37512,8 @@ export const indicesGetIndexTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<IndicesGetIndexTemplateRequest>,
   output: __S(2723, __c85, 3) as any as S.Schema<IndicesGetIndexTemplateResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37378,7 +37530,8 @@ export const indicesGetIndexTemplateByName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c87, 0) as any as S.Schema<IndicesGetIndexTemplateByNameRequest>,
   output: __S(2723, __c85, 3) as any as S.Schema<IndicesGetIndexTemplateByNameResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37395,7 +37548,8 @@ export const indicesGetMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<IndicesGetMappingRequest>,
   output: __S(2850, __c89, 2) as any as S.Schema<IndicesGetMappingResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37412,7 +37566,8 @@ export const indicesGetMappingByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2880, __c90, 0) as any as S.Schema<IndicesGetMappingByIndexRequest>,
   output: __S(2850, __c89, 2) as any as S.Schema<IndicesGetMappingByIndexResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37429,7 +37584,8 @@ export const indicesGetSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c91, 0) as any as S.Schema<IndicesGetSettingsRequest>,
   output: __S(2241, __c70, 1) as any as S.Schema<IndicesGetSettingsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37446,7 +37602,8 @@ export const indicesGetSettingsByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<IndicesGetSettingsByIndexRequest>,
   output: __S(2241, __c70, 1) as any as S.Schema<IndicesGetSettingsByIndexResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37463,7 +37620,8 @@ export const indicesGetSettingsByIndexAndName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c95, 0) as any as S.Schema<IndicesGetSettingsByIndexAndNameRequest>,
   output: __S(2241, __c70, 1) as any as S.Schema<IndicesGetSettingsByIndexAndNameResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37480,7 +37638,8 @@ export const indicesGetSettingsByName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<IndicesGetSettingsByNameRequest>,
   output: __S(2241, __c70, 1) as any as S.Schema<IndicesGetSettingsByNameResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37497,7 +37656,8 @@ export const indicesGetTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c97, 0) as any as S.Schema<IndicesGetTemplateRequest>,
   output: __S(3138, __c98, 2) as any as S.Schema<IndicesGetTemplateResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37514,7 +37674,8 @@ export const indicesGetTemplateByName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3168, __c99, 0) as any as S.Schema<IndicesGetTemplateByNameRequest>,
   output: __S(3138, __c98, 2) as any as S.Schema<IndicesGetTemplateByNameResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37531,7 +37692,8 @@ export const indicesGetUpgrade: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c100, 0) as any as S.Schema<IndicesGetUpgradeRequest>,
   output: __S(3234, __c101, 2) as any as S.Schema<IndicesCommonIndexGetUpgradeStatus>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37548,7 +37710,8 @@ export const indicesGetUpgradeByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3264, __c102, 0) as any as S.Schema<IndicesGetUpgradeByIndexRequest>,
   output: __S(3234, __c101, 2) as any as S.Schema<IndicesCommonIndexGetUpgradeStatus>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37565,7 +37728,8 @@ export const indicesModifyDataStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3299, __c103, 3) as any as S.Schema<IndicesModifyDataStreamRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37582,7 +37746,8 @@ export const indicesOpen: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c104, 0) as any as S.Schema<IndicesOpenRequest>,
   output: __S(3329, __c104, 1) as any as S.Schema<IndicesOpenResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37599,7 +37764,8 @@ export const indicesPutAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3360, __c105, 0) as any as S.Schema<IndicesPutAliasRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37616,7 +37782,8 @@ export const indicesPutAliasByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3424, __c107, 0) as any as S.Schema<IndicesPutAliasByIndexRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37633,7 +37800,8 @@ export const indicesPutAliasByIndexAndName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3456, __c108, 0) as any as S.Schema<IndicesPutAliasByIndexAndNameRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37650,7 +37818,8 @@ export const indicesPutAliasByName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3488, __c109, 0) as any as S.Schema<IndicesPutAliasByNameRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37667,7 +37836,8 @@ export const indicesPutIndexTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3520, __c110, 0) as any as S.Schema<IndicesPutIndexTemplateRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37684,7 +37854,8 @@ export const indicesPutMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3552, __c111, 0) as any as S.Schema<IndicesPutMappingRequest>,
   output: __S(1664, __c52, 0) as any as S.Schema<IndicesPutMappingResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37701,7 +37872,8 @@ export const indicesPutSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3584, __c112, 0) as any as S.Schema<IndicesPutSettingsRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37718,7 +37890,8 @@ export const indicesPutSettingsByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3616, __c113, 0) as any as S.Schema<IndicesPutSettingsByIndexRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37735,7 +37908,8 @@ export const indicesPutTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3648, __c114, 0) as any as S.Schema<IndicesPutTemplateRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37752,7 +37926,8 @@ export const indicesRecovery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3680, __c115, 0) as any as S.Schema<IndicesRecoveryRequest>,
   output: __S(3724, __c116, 12) as any as S.Schema<IndicesRecoveryResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37769,7 +37944,8 @@ export const indicesRecoveryByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3744, __c117, 0) as any as S.Schema<IndicesRecoveryByIndexRequest>,
   output: __S(3724, __c116, 12) as any as S.Schema<IndicesRecoveryByIndexResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37786,7 +37962,8 @@ export const indicesRefresh: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3840, __c120, 0) as any as S.Schema<IndicesRefreshRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<CommonShardsOperationResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37803,7 +37980,8 @@ export const indicesRefreshByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3872, __c121, 0) as any as S.Schema<IndicesRefreshByIndexRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<CommonShardsOperationResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37820,7 +37998,8 @@ export const indicesResolveIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3904, __c122, 0) as any as S.Schema<IndicesResolveIndexRequest>,
   output: __S(3911, __c122, 7) as any as S.Schema<IndicesResolveIndexResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37837,7 +38016,8 @@ export const indicesRollover: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3936, __c123, 0) as any as S.Schema<IndicesRolloverRequest>,
   output: __S(3969, __c124, 1) as any as S.Schema<IndicesRolloverResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37854,7 +38034,8 @@ export const indicesRolloverByNewIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4032, __c126, 0) as any as S.Schema<IndicesRolloverByNewIndexRequest>,
   output: __S(3969, __c124, 1) as any as S.Schema<IndicesRolloverByNewIndexResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37871,7 +38052,8 @@ export const indicesSegments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4064, __c127, 0) as any as S.Schema<IndicesSegmentsRequest>,
   output: __S(4099, __c128, 3) as any as S.Schema<IndicesSegmentsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37888,7 +38070,8 @@ export const indicesSegmentsByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4128, __c129, 0) as any as S.Schema<IndicesSegmentsByIndexRequest>,
   output: __S(4099, __c128, 3) as any as S.Schema<IndicesSegmentsByIndexResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37905,7 +38088,8 @@ export const indicesShardStores: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4160, __c130, 0) as any as S.Schema<IndicesShardStoresRequest>,
   output: __S(4199, __c131, 7) as any as S.Schema<IndicesShardStoresResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37922,7 +38106,8 @@ export const indicesShardStoresByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4224, __c132, 0) as any as S.Schema<IndicesShardStoresByIndexRequest>,
   output: __S(4199, __c131, 7) as any as S.Schema<IndicesShardStoresByIndexResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37939,7 +38124,8 @@ export const indicesShrink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4256, __c133, 0) as any as S.Schema<IndicesShrinkRequest>,
   output: __S(1376, __c43, 0) as any as S.Schema<IndicesShrinkResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37956,7 +38142,8 @@ export const indicesSimulateIndexTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4320, __c135, 0) as any as S.Schema<IndicesSimulateIndexTemplateRequest>,
   output: __S(4321, __c135, 1) as any as S.Schema<IndicesSimulateIndexTemplateResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37973,7 +38160,8 @@ export const indicesSimulateTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4384, __c137, 0) as any as S.Schema<IndicesSimulateTemplateRequest>,
   output: __S(4416, __c138, 0) as any as S.Schema<IndicesSimulateTemplateResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37990,7 +38178,8 @@ export const indicesSimulateTemplateByName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4448, __c139, 0) as any as S.Schema<IndicesSimulateTemplateByNameRequest>,
   output: __S(4416, __c138, 0) as any as S.Schema<IndicesSimulateTemplateByNameResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38007,7 +38196,8 @@ export const indicesSplit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4480, __c140, 0) as any as S.Schema<IndicesSplitRequest>,
   output: __S(1376, __c43, 0) as any as S.Schema<IndicesSplitResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38024,7 +38214,8 @@ export const indicesStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4512, __c141, 0) as any as S.Schema<IndicesStatsRequest>,
   output: __S(4549, __c142, 5) as any as S.Schema<IndicesStatsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38041,7 +38232,8 @@ export const indicesStatsByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4608, __c144, 0) as any as S.Schema<IndicesStatsByIndexRequest>,
   output: __S(4549, __c142, 5) as any as S.Schema<IndicesStatsByIndexResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38058,7 +38250,8 @@ export const indicesStatsByIndexAndMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4640, __c145, 0) as any as S.Schema<IndicesStatsByIndexAndMetricRequest>,
   output: __S(4549, __c142, 5) as any as S.Schema<IndicesStatsByIndexAndMetricResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38075,7 +38268,8 @@ export const indicesStatsByMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4672, __c146, 0) as any as S.Schema<IndicesStatsByMetricRequest>,
   output: __S(4549, __c142, 5) as any as S.Schema<IndicesStatsByMetricResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38092,7 +38286,8 @@ export const indicesUpdateAliases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4709, __c147, 5) as any as S.Schema<IndicesUpdateAliasesRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38109,7 +38304,8 @@ export const indicesUpgrade: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4736, __c148, 0) as any as S.Schema<IndicesUpgradeRequest>,
   output: __S(4770, __c149, 2) as any as S.Schema<IndicesUpgradeResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38126,7 +38322,8 @@ export const indicesUpgradeByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4864, __c152, 0) as any as S.Schema<IndicesUpgradeByIndexRequest>,
   output: __S(4770, __c149, 2) as any as S.Schema<IndicesUpgradeByIndexResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38143,7 +38340,8 @@ export const indicesValidateQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4896, __c153, 0) as any as S.Schema<IndicesValidateQueryRequest>,
   output: __S(4930, __c154, 2) as any as S.Schema<IndicesValidateQueryResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38160,7 +38358,8 @@ export const indicesValidateQueryByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4960, __c155, 0) as any as S.Schema<IndicesValidateQueryByIndexRequest>,
   output: __S(4930, __c154, 2) as any as S.Schema<IndicesValidateQueryByIndexResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38173,7 +38372,8 @@ export const info: API.OperationMethod<InfoRequest, InfoResponse, InfoError, Ope
   /*@__PURE__*/ API.make(() => ({
     input: __S(4992, __c156, 0) as any as S.Schema<InfoRequest>,
     output: __S(4994, __c156, 2) as any as S.Schema<InfoResponse>,
-    errors: [UnknownOpenSearchError],
+    errors: [],
+    serviceErrors: OpenSearchServiceErrors,
     protocol: OpenSearchProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -38190,7 +38390,8 @@ export const ingestDeletePipeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5024, __c157, 0) as any as S.Schema<IngestDeletePipelineRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38207,7 +38408,8 @@ export const ingestGetPipeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5056, __c158, 0) as any as S.Schema<IngestGetPipelineRequest>,
   output: __S(5089, __c159, 1) as any as S.Schema<IngestGetPipelineResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38224,7 +38426,8 @@ export const ingestGetPipelineById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5248, __c164, 0) as any as S.Schema<IngestGetPipelineByIdRequest>,
   output: __S(5089, __c159, 1) as any as S.Schema<IngestGetPipelineByIdResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38241,7 +38444,8 @@ export const ingestionGetState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5280, __c165, 0) as any as S.Schema<IngestionGetStateRequest>,
   output: __S(5284, __c165, 4) as any as S.Schema<IngestionCommonGetIngestionStateResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38258,7 +38462,8 @@ export const ingestionPause: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5312, __c166, 0) as any as S.Schema<IngestionPauseRequest>,
   output: __S(5347, __c167, 3) as any as S.Schema<IngestionCommonPauseIngestionResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38275,7 +38480,8 @@ export const ingestionResume: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5378, __c168, 2) as any as S.Schema<IngestionResumeRequest>,
   output: __S(5347, __c167, 3) as any as S.Schema<IngestionCommonResumeIngestionResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38292,7 +38498,8 @@ export const ingestProcessorGrok: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5440, __c170, 0) as any as S.Schema<IngestProcessorGrokRequest>,
   output: __S(5441, __c170, 1) as any as S.Schema<IngestProcessorGrokResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38309,7 +38516,8 @@ export const ingestPutPipeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5472, __c171, 0) as any as S.Schema<IngestPutPipelineRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38326,7 +38534,8 @@ export const ingestSimulate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5504, __c172, 0) as any as S.Schema<IngestSimulateRequest>,
   output: __S(5543, __c173, 7) as any as S.Schema<IngestSimulateResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38343,7 +38552,8 @@ export const ingestSimulateById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5568, __c174, 0) as any as S.Schema<IngestSimulateByIdRequest>,
   output: __S(5543, __c173, 7) as any as S.Schema<IngestSimulateByIdResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38360,7 +38570,8 @@ export const insightsTopQueries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5600, __c175, 0) as any as S.Schema<InsightsTopQueriesRequest>,
   output: __S(5608, __c175, 8) as any as S.Schema<InsightsCommonTopQueriesResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38377,7 +38588,8 @@ export const ismAddPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5632, __c176, 0) as any as S.Schema<IsmAddPolicyRequest>,
   output: __S(5666, __c177, 2) as any as S.Schema<IsmCommonChangeResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38394,7 +38606,8 @@ export const ismAddPolicyByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5696, __c178, 0) as any as S.Schema<IsmAddPolicyByIndexRequest>,
   output: __S(5666, __c177, 2) as any as S.Schema<IsmCommonChangeResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38411,7 +38624,8 @@ export const ismChangePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5728, __c179, 0) as any as S.Schema<IsmChangePolicyRequest>,
   output: __S(5666, __c177, 2) as any as S.Schema<IsmCommonChangeResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38428,7 +38642,8 @@ export const ismChangePolicyByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5792, __c181, 0) as any as S.Schema<IsmChangePolicyByIndexRequest>,
   output: __S(5666, __c177, 2) as any as S.Schema<IsmCommonChangeResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38445,7 +38660,8 @@ export const ismDeletePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5824, __c182, 0) as any as S.Schema<IsmDeletePolicyRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38462,7 +38678,8 @@ export const ismExistsPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5888, __c184, 0) as any as S.Schema<IsmExistsPolicyRequest>,
   output: __S(23616, __c738, 0) as any as S.Schema<IsmExistsPolicyResponse>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38479,7 +38696,8 @@ export const ismExplainPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5920, __c185, 0) as any as S.Schema<IsmExplainPolicyRequest>,
   output: __S(5952, __c186, 0) as any as S.Schema<IsmCommonExplainIndexResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38496,7 +38714,8 @@ export const ismExplainPolicyByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5984, __c187, 0) as any as S.Schema<IsmExplainPolicyByIndexRequest>,
   output: __S(5952, __c186, 0) as any as S.Schema<IsmCommonExplainIndexResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38513,7 +38732,8 @@ export const ismGetPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6016, __c188, 0) as any as S.Schema<IsmGetPoliciesRequest>,
   output: __S(6018, __c188, 2) as any as S.Schema<IsmCommonGetPoliciesResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38530,7 +38750,8 @@ export const ismGetPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6112, __c191, 0) as any as S.Schema<IsmGetPolicyRequest>,
   output: __S(6048, __c189, 0) as any as S.Schema<IsmGetPolicyResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38547,7 +38768,8 @@ export const ismPutPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6144, __c192, 0) as any as S.Schema<IsmPutPoliciesRequest>,
   output: __S(6177, __c193, 1) as any as S.Schema<IsmPutPoliciesResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38564,7 +38786,8 @@ export const ismPutPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6208, __c194, 0) as any as S.Schema<IsmPutPolicyRequest>,
   output: __S(6177, __c193, 1) as any as S.Schema<IsmPutPolicyResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38581,7 +38804,8 @@ export const ismRefreshSearchAnalyzers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6240, __c195, 0) as any as S.Schema<IsmRefreshSearchAnalyzersRequest>,
   output: __S(6243, __c195, 3) as any as S.Schema<IsmCommonRefreshSearchAnalyzersResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38598,7 +38822,8 @@ export const ismRemovePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6272, __c196, 0) as any as S.Schema<IsmRemovePolicyRequest>,
   output: __S(5666, __c177, 2) as any as S.Schema<IsmCommonChangeResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38615,7 +38840,8 @@ export const ismRemovePolicyByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6304, __c197, 0) as any as S.Schema<IsmRemovePolicyByIndexRequest>,
   output: __S(5666, __c177, 2) as any as S.Schema<IsmCommonChangeResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38632,7 +38858,8 @@ export const ismRetryIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6368, __c199, 0) as any as S.Schema<IsmRetryIndexRequest>,
   output: __S(5666, __c177, 2) as any as S.Schema<IsmCommonChangeResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38649,7 +38876,8 @@ export const ismRetryIndexByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6400, __c200, 0) as any as S.Schema<IsmRetryIndexByIndexRequest>,
   output: __S(5666, __c177, 2) as any as S.Schema<IsmCommonChangeResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38666,7 +38894,8 @@ export const knnDeleteModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6432, __c201, 0) as any as S.Schema<KnnDeleteModelRequest>,
   output: __S(6433, __c201, 1) as any as S.Schema<KnnCommonDeletedModel>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38683,7 +38912,8 @@ export const knnGetModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6464, __c202, 0) as any as S.Schema<KnnGetModelRequest>,
   output: __S(6465, __c202, 1) as any as S.Schema<KnnCommonModelResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38700,7 +38930,8 @@ export const knnSearchModels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6496, __c203, 0) as any as S.Schema<KnnSearchModelsRequest>,
   output: __S(6500, __c203, 4) as any as S.Schema<KnnSearchModelsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38717,7 +38948,8 @@ export const knnStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6528, __c204, 0) as any as S.Schema<KnnStatsRequest>,
   output: __S(6569, __c205, 9) as any as S.Schema<KnnStatsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38734,7 +38966,8 @@ export const knnStatsByNodeId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6592, __c206, 0) as any as S.Schema<KnnStatsByNodeIdRequest>,
   output: __S(6569, __c205, 9) as any as S.Schema<KnnStatsByNodeIdResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38751,7 +38984,8 @@ export const knnStatsByNodeIdAndStat: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6624, __c207, 0) as any as S.Schema<KnnStatsByNodeIdAndStatRequest>,
   output: __S(6569, __c205, 9) as any as S.Schema<KnnStatsByNodeIdAndStatResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38768,7 +39002,8 @@ export const knnStatsByStat: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6656, __c208, 0) as any as S.Schema<KnnStatsByStatRequest>,
   output: __S(6569, __c205, 9) as any as S.Schema<KnnStatsByStatResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38785,7 +39020,8 @@ export const knnTrainModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6688, __c209, 0) as any as S.Schema<KnnTrainModelRequest>,
   output: __S(6721, __c210, 1) as any as S.Schema<KnnTrainModelResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38802,7 +39038,8 @@ export const knnTrainModelByModelId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6848, __c214, 0) as any as S.Schema<KnnTrainModelByModelIdRequest>,
   output: __S(6721, __c210, 1) as any as S.Schema<KnnTrainModelByModelIdResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38819,7 +39056,8 @@ export const knnWarmup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6880, __c215, 0) as any as S.Schema<KnnWarmupRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<CommonShardsOperationResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38836,7 +39074,8 @@ export const listHelp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6912, __c216, 0) as any as S.Schema<ListHelpRequest>,
   output: __S(23616, __c738, 0) as any as S.Schema<ListHelpResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38855,7 +39094,8 @@ export const listIndices: API.PaginatedOperationMethod<
   () => ({
     input: __S(6944, __c217, 0) as any as S.Schema<ListIndicesRequest>,
     output: __S(6976, __c218, 0) as any as S.Schema<ListIndicesResponse>,
-    errors: [UnknownOpenSearchError],
+    errors: [],
+    serviceErrors: OpenSearchServiceErrors,
     protocol: OpenSearchProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -38882,7 +39122,8 @@ export const listIndicesByIndex: API.PaginatedOperationMethod<
   () => ({
     input: __S(7008, __c219, 0) as any as S.Schema<ListIndicesByIndexRequest>,
     output: __S(6976, __c218, 0) as any as S.Schema<ListIndicesByIndexResponse>,
-    errors: [UnknownOpenSearchError],
+    errors: [],
+    serviceErrors: OpenSearchServiceErrors,
     protocol: OpenSearchProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -38909,7 +39150,8 @@ export const listShards: API.PaginatedOperationMethod<
   () => ({
     input: __S(7040, __c220, 0) as any as S.Schema<ListShardsRequest>,
     output: __S(7072, __c221, 0) as any as S.Schema<ListShardsResponse>,
-    errors: [UnknownOpenSearchError],
+    errors: [],
+    serviceErrors: OpenSearchServiceErrors,
     protocol: OpenSearchProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -38936,7 +39178,8 @@ export const listShardsByIndex: API.PaginatedOperationMethod<
   () => ({
     input: __S(7104, __c222, 0) as any as S.Schema<ListShardsByIndexRequest>,
     output: __S(7072, __c221, 0) as any as S.Schema<ListShardsByIndexResponse>,
-    errors: [UnknownOpenSearchError],
+    errors: [],
+    serviceErrors: OpenSearchServiceErrors,
     protocol: OpenSearchProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -38961,7 +39204,8 @@ export const listWlmStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7136, __c223, 0) as any as S.Schema<ListWlmStatsRequest>,
   output: __S(7168, __c224, 0) as any as S.Schema<ListWlmStatsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38978,7 +39222,8 @@ export const listWlmStatsByNodeId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7200, __c225, 0) as any as S.Schema<ListWlmStatsByNodeIdRequest>,
   output: __S(7168, __c224, 0) as any as S.Schema<ListWlmStatsByNodeIdResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -38995,7 +39240,8 @@ export const listWlmStatsByNodeIdAndWorkloadGroupId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7232, __c226, 0) as any as S.Schema<ListWlmStatsByNodeIdAndWorkloadGroupIdRequest>,
   output: __S(7168, __c224, 0) as any as S.Schema<ListWlmStatsByNodeIdAndWorkloadGroupIdResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39012,7 +39258,8 @@ export const listWlmStatsByWorkloadGroupId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7296, __c228, 0) as any as S.Schema<ListWlmStatsByWorkloadGroupIdRequest>,
   output: __S(7168, __c224, 0) as any as S.Schema<ListWlmStatsByWorkloadGroupIdResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39029,7 +39276,8 @@ export const ltrAddFeaturesToSet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7328, __c229, 0) as any as S.Schema<LtrAddFeaturesToSetRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [BadRequest, NotFound, Conflict, UnknownOpenSearchError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39046,7 +39294,8 @@ export const ltrAddFeaturesToSetByQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7360, __c230, 0) as any as S.Schema<LtrAddFeaturesToSetByQueryRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [BadRequest, NotFound, Conflict, UnknownOpenSearchError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39067,7 +39316,8 @@ export const ltrAddFeaturesToSetByQueryByStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7392, __c231, 0) as any as S.Schema<LtrAddFeaturesToSetByQueryByStoreRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [BadRequest, NotFound, Conflict, UnknownOpenSearchError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39084,7 +39334,8 @@ export const ltrAddFeaturesToSetByStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7424, __c232, 0) as any as S.Schema<LtrAddFeaturesToSetByStoreRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [BadRequest, NotFound, Conflict, UnknownOpenSearchError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39101,7 +39352,8 @@ export const ltrCacheStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7456, __c233, 0) as any as S.Schema<LtrCacheStatsRequest>,
   output: __S(7461, __c233, 5) as any as S.Schema<LtrCacheStatsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39118,7 +39370,8 @@ export const ltrClearCache: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7488, __c234, 0) as any as S.Schema<LtrClearCacheRequest>,
   output: __S(7520, __c235, 0) as any as S.Schema<LtrCommonAcknowledgedResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39135,7 +39388,8 @@ export const ltrClearCacheByStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7552, __c236, 0) as any as S.Schema<LtrClearCacheByStoreRequest>,
   output: __S(7520, __c235, 0) as any as S.Schema<LtrCommonAcknowledgedResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39152,7 +39406,8 @@ export const ltrCreateDefaultStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7584, __c237, 0) as any as S.Schema<LtrCreateDefaultStoreRequest>,
   output: __S(7520, __c235, 0) as any as S.Schema<LtrCommonAcknowledgedResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39169,7 +39424,8 @@ export const ltrCreateFeature: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7616, __c238, 0) as any as S.Schema<LtrCreateFeatureRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [Conflict, UnknownOpenSearchError],
+  errors: [Conflict],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39186,7 +39442,8 @@ export const ltrCreateFeatureByStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7680, __c240, 0) as any as S.Schema<LtrCreateFeatureByStoreRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [Conflict, UnknownOpenSearchError],
+  errors: [Conflict],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39203,7 +39460,8 @@ export const ltrCreateFeatureset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7712, __c241, 0) as any as S.Schema<LtrCreateFeaturesetRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [Conflict, UnknownOpenSearchError],
+  errors: [Conflict],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39220,7 +39478,8 @@ export const ltrCreateFeaturesetByStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7744, __c242, 0) as any as S.Schema<LtrCreateFeaturesetByStoreRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [Conflict, UnknownOpenSearchError],
+  errors: [Conflict],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39237,7 +39496,8 @@ export const ltrCreateModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7776, __c243, 0) as any as S.Schema<LtrCreateModelRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [Conflict, UnknownOpenSearchError],
+  errors: [Conflict],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39254,7 +39514,8 @@ export const ltrCreateModelByStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7808, __c244, 0) as any as S.Schema<LtrCreateModelByStoreRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [Conflict, UnknownOpenSearchError],
+  errors: [Conflict],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39271,7 +39532,8 @@ export const ltrCreateModelFromSet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7840, __c245, 0) as any as S.Schema<LtrCreateModelFromSetRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39288,7 +39550,8 @@ export const ltrCreateModelFromSetByStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7872, __c246, 0) as any as S.Schema<LtrCreateModelFromSetByStoreRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39305,7 +39568,8 @@ export const ltrCreateStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7904, __c247, 0) as any as S.Schema<LtrCreateStoreRequest>,
   output: __S(7520, __c235, 0) as any as S.Schema<LtrCommonAcknowledgedResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39322,7 +39586,8 @@ export const ltrDeleteDefaultStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7936, __c248, 0) as any as S.Schema<LtrDeleteDefaultStoreRequest>,
   output: __S(7520, __c235, 0) as any as S.Schema<LtrCommonAcknowledgedResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39339,7 +39604,8 @@ export const ltrDeleteFeature: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7968, __c249, 0) as any as S.Schema<LtrDeleteFeatureRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39356,7 +39622,8 @@ export const ltrDeleteFeatureByStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8032, __c251, 0) as any as S.Schema<LtrDeleteFeatureByStoreRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39373,7 +39640,8 @@ export const ltrDeleteFeatureset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8064, __c252, 0) as any as S.Schema<LtrDeleteFeaturesetRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39390,7 +39658,8 @@ export const ltrDeleteFeaturesetByStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8096, __c253, 0) as any as S.Schema<LtrDeleteFeaturesetByStoreRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39407,7 +39676,8 @@ export const ltrDeleteModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8128, __c254, 0) as any as S.Schema<LtrDeleteModelRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39424,7 +39694,8 @@ export const ltrDeleteModelByStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8160, __c255, 0) as any as S.Schema<LtrDeleteModelByStoreRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39441,7 +39712,8 @@ export const ltrDeleteStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8192, __c256, 0) as any as S.Schema<LtrDeleteStoreRequest>,
   output: __S(7520, __c235, 0) as any as S.Schema<LtrCommonAcknowledgedResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39458,7 +39730,8 @@ export const ltrGetFeature: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8224, __c257, 0) as any as S.Schema<LtrGetFeatureRequest>,
   output: __S(8256, __c258, 0) as any as S.Schema<LtrGetFeatureResponse>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39475,7 +39748,8 @@ export const ltrGetFeatureByStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8288, __c259, 0) as any as S.Schema<LtrGetFeatureByStoreRequest>,
   output: __S(8256, __c258, 0) as any as S.Schema<LtrGetFeatureByStoreResponse>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39492,7 +39766,8 @@ export const ltrGetFeatureset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8320, __c260, 0) as any as S.Schema<LtrGetFeaturesetRequest>,
   output: __S(8256, __c258, 0) as any as S.Schema<LtrGetFeaturesetResponse>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39509,7 +39784,8 @@ export const ltrGetFeaturesetByStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8352, __c261, 0) as any as S.Schema<LtrGetFeaturesetByStoreRequest>,
   output: __S(8256, __c258, 0) as any as S.Schema<LtrGetFeaturesetByStoreResponse>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39526,7 +39802,8 @@ export const ltrGetModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8416, __c263, 0) as any as S.Schema<LtrGetModelRequest>,
   output: __S(8256, __c258, 0) as any as S.Schema<LtrGetModelResponse>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39543,7 +39820,8 @@ export const ltrGetModelByStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8448, __c264, 0) as any as S.Schema<LtrGetModelByStoreRequest>,
   output: __S(8256, __c258, 0) as any as S.Schema<LtrGetModelByStoreResponse>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39560,7 +39838,8 @@ export const ltrGetStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8480, __c265, 0) as any as S.Schema<LtrGetStoreRequest>,
   output: __S(9186, __c287, 2) as any as S.Schema<LtrCommonStoreExistsResponse>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39577,7 +39856,8 @@ export const ltrListStores: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8512, __c266, 0) as any as S.Schema<LtrListStoresRequest>,
   output: __S(8515, __c266, 3) as any as S.Schema<LtrCommonListStoresResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39594,7 +39874,8 @@ export const ltrSearchFeatures: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8544, __c267, 0) as any as S.Schema<LtrSearchFeaturesRequest>,
   output: __S(8548, __c267, 4) as any as S.Schema<LtrSearchFeaturesResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39611,7 +39892,8 @@ export const ltrSearchFeaturesByStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8576, __c268, 0) as any as S.Schema<LtrSearchFeaturesByStoreRequest>,
   output: __S(8580, __c268, 4) as any as S.Schema<LtrSearchFeaturesByStoreResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39628,7 +39910,8 @@ export const ltrSearchFeaturesets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8608, __c269, 0) as any as S.Schema<LtrSearchFeaturesetsRequest>,
   output: __S(8612, __c269, 4) as any as S.Schema<LtrSearchFeaturesetsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39645,7 +39928,8 @@ export const ltrSearchFeaturesetsByStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8640, __c270, 0) as any as S.Schema<LtrSearchFeaturesetsByStoreRequest>,
   output: __S(8644, __c270, 4) as any as S.Schema<LtrSearchFeaturesetsByStoreResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39662,7 +39946,8 @@ export const ltrSearchModels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8672, __c271, 0) as any as S.Schema<LtrSearchModelsRequest>,
   output: __S(8676, __c271, 4) as any as S.Schema<LtrSearchModelsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39679,7 +39964,8 @@ export const ltrSearchModelsByStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8704, __c272, 0) as any as S.Schema<LtrSearchModelsByStoreRequest>,
   output: __S(8708, __c272, 4) as any as S.Schema<LtrSearchModelsByStoreResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39696,7 +39982,8 @@ export const ltrStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8768, __c274, 0) as any as S.Schema<LtrStatsRequest>,
   output: __S(8806, __c275, 6) as any as S.Schema<LtrStatsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39713,7 +40000,8 @@ export const ltrStatsByNodeId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8832, __c276, 0) as any as S.Schema<LtrStatsByNodeIdRequest>,
   output: __S(8806, __c275, 6) as any as S.Schema<LtrStatsByNodeIdResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39730,7 +40018,8 @@ export const ltrStatsByNodeIdAndStat: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8864, __c277, 0) as any as S.Schema<LtrStatsByNodeIdAndStatRequest>,
   output: __S(8806, __c275, 6) as any as S.Schema<LtrStatsByNodeIdAndStatResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39747,7 +40036,8 @@ export const ltrStatsByStat: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8896, __c278, 0) as any as S.Schema<LtrStatsByStatRequest>,
   output: __S(8806, __c275, 6) as any as S.Schema<LtrStatsByStatResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39764,7 +40054,8 @@ export const ltrUpdateFeature: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8928, __c279, 0) as any as S.Schema<LtrUpdateFeatureRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [NotFound, Conflict, UnknownOpenSearchError],
+  errors: [NotFound, Conflict],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39781,7 +40072,8 @@ export const ltrUpdateFeatureByStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8960, __c280, 0) as any as S.Schema<LtrUpdateFeatureByStoreRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [NotFound, Conflict, UnknownOpenSearchError],
+  errors: [NotFound, Conflict],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39798,7 +40090,8 @@ export const ltrUpdateFeatureset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8992, __c281, 0) as any as S.Schema<LtrUpdateFeaturesetRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [NotFound, Conflict, UnknownOpenSearchError],
+  errors: [NotFound, Conflict],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39815,7 +40108,8 @@ export const ltrUpdateFeaturesetByStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9024, __c282, 0) as any as S.Schema<LtrUpdateFeaturesetByStoreRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [NotFound, Conflict, UnknownOpenSearchError],
+  errors: [NotFound, Conflict],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39828,7 +40122,8 @@ export const mget: API.OperationMethod<MgetRequest, MgetResponse, MgetError, Ope
   /*@__PURE__*/ API.make(() => ({
     input: __S(9056, __c283, 0) as any as S.Schema<MgetRequest>,
     output: __S(9091, __c284, 3) as any as S.Schema<MgetResponse>,
-    errors: [UnknownOpenSearchError],
+    errors: [],
+    serviceErrors: OpenSearchServiceErrors,
     protocol: OpenSearchProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -39845,7 +40140,8 @@ export const mgetByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9120, __c285, 0) as any as S.Schema<MgetByIndexRequest>,
   output: __S(9091, __c284, 3) as any as S.Schema<MgetByIndexResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39862,7 +40158,8 @@ export const mlAddAgenticMemory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9312, __c291, 0) as any as S.Schema<MlAddAgenticMemoryRequest>,
   output: __S(9313, __c291, 1) as any as S.Schema<MlAddAgenticMemoryResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39879,7 +40176,8 @@ export const mlCreateConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9409, __c294, 1) as any as S.Schema<MlCreateConnectorRequest>,
   output: __S(9410, __c294, 2) as any as S.Schema<MlCreateConnectorResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39896,7 +40194,8 @@ export const mlCreateController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9536, __c298, 0) as any as S.Schema<MlCreateControllerRequest>,
   output: __S(9537, __c298, 1) as any as S.Schema<MlCreateControllerResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39913,7 +40212,8 @@ export const mlCreateMemory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9632, __c301, 0) as any as S.Schema<MlCreateMemoryRequest>,
   output: __S(9633, __c301, 1) as any as S.Schema<MlCreateMemoryResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39930,7 +40230,8 @@ export const mlCreateMemoryContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9664, __c302, 0) as any as S.Schema<MlCreateMemoryContainerRequest>,
   output: __S(9665, __c302, 1) as any as S.Schema<MlCreateMemoryContainerResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39947,7 +40248,8 @@ export const mlCreateMemoryContainerSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9728, __c304, 0) as any as S.Schema<MlCreateMemoryContainerSessionRequest>,
   output: __S(9729, __c304, 1) as any as S.Schema<MlCreateMemoryContainerSessionResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39964,7 +40266,8 @@ export const mlCreateMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9760, __c305, 0) as any as S.Schema<MlCreateMessageRequest>,
   output: __S(9761, __c305, 1) as any as S.Schema<MlCreateMessageResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39981,7 +40284,8 @@ export const mlDeleteAgent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9792, __c306, 0) as any as S.Schema<MlDeleteAgentRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39998,7 +40302,8 @@ export const mlDeleteAgenticMemory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9824, __c307, 0) as any as S.Schema<MlDeleteAgenticMemoryRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40015,7 +40320,8 @@ export const mlDeleteAgenticMemoryQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9856, __c308, 0) as any as S.Schema<MlDeleteAgenticMemoryQueryRequest>,
   output: __S(9857, __c308, 1) as any as S.Schema<MlCommonDeleteAgenticMemoryResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40032,7 +40338,8 @@ export const mlDeleteConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10016, __c313, 0) as any as S.Schema<MlDeleteConnectorRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40049,7 +40356,8 @@ export const mlDeleteController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10048, __c314, 0) as any as S.Schema<MlDeleteControllerRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40066,7 +40374,8 @@ export const mlDeleteMemory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10080, __c315, 0) as any as S.Schema<MlDeleteMemoryRequest>,
   output: __S(10081, __c315, 1) as any as S.Schema<MlDeleteMemoryResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40083,7 +40392,8 @@ export const mlDeleteMemoryContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10112, __c316, 0) as any as S.Schema<MlDeleteMemoryContainerRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40100,7 +40410,8 @@ export const mlDeleteModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10144, __c317, 0) as any as S.Schema<MlDeleteModelRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40117,7 +40428,8 @@ export const mlDeleteModelGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10176, __c318, 0) as any as S.Schema<MlDeleteModelGroupRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40134,7 +40446,8 @@ export const mlDeleteTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10208, __c319, 0) as any as S.Schema<MlDeleteTaskRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40151,7 +40464,8 @@ export const mlDeployModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10240, __c320, 0) as any as S.Schema<MlDeployModelRequest>,
   output: __S(10241, __c320, 1) as any as S.Schema<MlDeployModelResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40168,7 +40482,8 @@ export const mlExecuteAgent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10272, __c321, 0) as any as S.Schema<MlExecuteAgentRequest>,
   output: __S(10368, __c324, 0) as any as S.Schema<MlCommonPredictResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40185,7 +40500,8 @@ export const mlExecuteAgentStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10432, __c326, 0) as any as S.Schema<MlExecuteAgentStreamRequest>,
   output: __S(23616, __c738, 0) as any as S.Schema<MlExecuteAgentStreamResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40202,7 +40518,8 @@ export const mlExecuteAlgorithm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10499, __c328, 3) as any as S.Schema<MlExecuteAlgorithmRequest>,
   output: __S(10500, __c328, 4) as any as S.Schema<MlExecuteAlgorithmResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40219,7 +40536,8 @@ export const mlExecuteTool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10528, __c329, 0) as any as S.Schema<MlExecuteToolRequest>,
   output: __S(10529, __c329, 1) as any as S.Schema<MlCommonExecuteToolResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40236,7 +40554,8 @@ export const mlGetAgent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10560, __c330, 0) as any as S.Schema<MlGetAgentRequest>,
   output: __S(10561, __c330, 1) as any as S.Schema<MlCommonGetAgentResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40253,7 +40572,8 @@ export const mlGetAgenticMemory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10656, __c333, 0) as any as S.Schema<MlGetAgenticMemoryRequest>,
   output: __S(10657, __c333, 1) as any as S.Schema<MlCommonGetAgenticMemoryResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40272,7 +40592,8 @@ export const mlGetAllMemories: API.PaginatedOperationMethod<
   () => ({
     input: __S(10688, __c334, 0) as any as S.Schema<MlGetAllMemoriesRequest>,
     output: __S(10690, __c334, 2) as any as S.Schema<MlGetAllMemoriesResponse>,
-    errors: [UnknownOpenSearchError],
+    errors: [],
+    serviceErrors: OpenSearchServiceErrors,
     protocol: OpenSearchProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -40299,7 +40620,8 @@ export const mlGetAllMessages: API.PaginatedOperationMethod<
   () => ({
     input: __S(10752, __c336, 0) as any as S.Schema<MlGetAllMessagesRequest>,
     output: __S(10753, __c336, 1) as any as S.Schema<MlGetAllMessagesResponse>,
-    errors: [UnknownOpenSearchError],
+    errors: [],
+    serviceErrors: OpenSearchServiceErrors,
     protocol: OpenSearchProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -40324,7 +40646,8 @@ export const mlGetAllTools: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10784, __c337, 0) as any as S.Schema<MlGetAllToolsRequest>,
   output: __S(10786, __c337, 2) as any as S.Schema<MlGetAllToolsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40341,7 +40664,8 @@ export const mlGetConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10848, __c339, 0) as any as S.Schema<MlGetConnectorRequest>,
   output: __S(10849, __c339, 1) as any as S.Schema<MlCommonGetConnectorResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40358,7 +40682,8 @@ export const mlGetController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10880, __c340, 0) as any as S.Schema<MlGetControllerRequest>,
   output: __S(10881, __c340, 1) as any as S.Schema<MlGetControllerResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40375,7 +40700,8 @@ export const mlGetMemory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10912, __c341, 0) as any as S.Schema<MlGetMemoryRequest>,
   output: __S(10720, __c335, 0) as any as S.Schema<MlCommonMemory>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40392,7 +40718,8 @@ export const mlGetMemoryContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10976, __c343, 0) as any as S.Schema<MlGetMemoryContainerRequest>,
   output: __S(10977, __c343, 1) as any as S.Schema<MlCommonGetMemoryContainerResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40409,7 +40736,8 @@ export const mlGetMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11040, __c345, 0) as any as S.Schema<MlGetMessageRequest>,
   output: __S(9346, __c292, 2) as any as S.Schema<MlCommonMessage>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40428,7 +40756,8 @@ export const mlGetMessageTraces: API.PaginatedOperationMethod<
   () => ({
     input: __S(11072, __c346, 0) as any as S.Schema<MlGetMessageTracesRequest>,
     output: __S(11073, __c346, 1) as any as S.Schema<MlGetMessageTracesResponse>,
-    errors: [UnknownOpenSearchError],
+    errors: [],
+    serviceErrors: OpenSearchServiceErrors,
     protocol: OpenSearchProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -40453,7 +40782,8 @@ export const mlGetModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11104, __c347, 0) as any as S.Schema<MlGetModelRequest>,
   output: __S(11105, __c347, 1) as any as S.Schema<MlCommonModel>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40470,7 +40800,8 @@ export const mlGetModelGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11168, __c349, 0) as any as S.Schema<MlGetModelGroupRequest>,
   output: __S(11169, __c349, 1) as any as S.Schema<MlCommonModelGroup>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40487,7 +40818,8 @@ export const mlGetProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11200, __c350, 0) as any as S.Schema<MlGetProfileRequest>,
   output: __S(11235, __c351, 3) as any as S.Schema<MlCommonGetProfileResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40504,7 +40836,8 @@ export const mlGetProfileModels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11328, __c354, 0) as any as S.Schema<MlGetProfileModelsRequest>,
   output: __S(11235, __c351, 3) as any as S.Schema<MlCommonGetProfileResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40521,7 +40854,8 @@ export const mlGetProfileModelsByModelId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11360, __c355, 0) as any as S.Schema<MlGetProfileModelsByModelIdRequest>,
   output: __S(11235, __c351, 3) as any as S.Schema<MlCommonGetProfileResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40538,7 +40872,8 @@ export const mlGetProfileTasks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11392, __c356, 0) as any as S.Schema<MlGetProfileTasksRequest>,
   output: __S(11235, __c351, 3) as any as S.Schema<MlCommonGetProfileResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40555,7 +40890,8 @@ export const mlGetProfileTasksByTaskId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11424, __c357, 0) as any as S.Schema<MlGetProfileTasksByTaskIdRequest>,
   output: __S(11235, __c351, 3) as any as S.Schema<MlCommonGetProfileResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40572,7 +40908,8 @@ export const mlGetStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11520, __c360, 0) as any as S.Schema<MlGetStatsRequest>,
   output: __S(11556, __c361, 4) as any as S.Schema<MlCommonGetStatsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40589,7 +40926,8 @@ export const mlGetStatsByNodeId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11584, __c362, 0) as any as S.Schema<MlGetStatsByNodeIdRequest>,
   output: __S(11556, __c361, 4) as any as S.Schema<MlCommonGetStatsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40606,7 +40944,8 @@ export const mlGetStatsByNodeIdAndStat: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11616, __c363, 0) as any as S.Schema<MlGetStatsByNodeIdAndStatRequest>,
   output: __S(11556, __c361, 4) as any as S.Schema<MlCommonGetStatsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40623,7 +40962,8 @@ export const mlGetStatsByStat: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11648, __c364, 0) as any as S.Schema<MlGetStatsByStatRequest>,
   output: __S(11556, __c361, 4) as any as S.Schema<MlCommonGetStatsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40640,7 +40980,8 @@ export const mlGetTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11680, __c365, 0) as any as S.Schema<MlGetTaskRequest>,
   output: __S(11296, __c353, 0) as any as S.Schema<MlCommonTask>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40657,7 +40998,8 @@ export const mlGetTool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11712, __c366, 0) as any as S.Schema<MlGetToolRequest>,
   output: __S(10816, __c338, 0) as any as S.Schema<MlCommonTool>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40674,7 +41016,8 @@ export const mlPredict: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11744, __c367, 0) as any as S.Schema<MlPredictRequest>,
   output: __S(10368, __c324, 0) as any as S.Schema<MlCommonPredictResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40691,7 +41034,8 @@ export const mlPredictModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11808, __c369, 0) as any as S.Schema<MlPredictModelRequest>,
   output: __S(11813, __c369, 5) as any as S.Schema<MlCommonPredictModelResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40708,7 +41052,8 @@ export const mlPredictModelStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11840, __c370, 0) as any as S.Schema<MlPredictModelStreamRequest>,
   output: __S(23616, __c738, 0) as any as S.Schema<MlPredictModelStreamResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40725,7 +41070,8 @@ export const mlRegisterAgents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11873, __c371, 1) as any as S.Schema<MlRegisterAgentsRequest>,
   output: __S(11874, __c371, 2) as any as S.Schema<MlRegisterAgentsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40742,7 +41088,8 @@ export const mlRegisterModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11936, __c373, 0) as any as S.Schema<MlRegisterModelRequest>,
   output: __S(11937, __c373, 1) as any as S.Schema<MlRegisterModelResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40759,7 +41106,8 @@ export const mlRegisterModelGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11968, __c374, 0) as any as S.Schema<MlRegisterModelGroupRequest>,
   output: __S(11969, __c374, 1) as any as S.Schema<MlCommonModelGroupRegistration>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40776,7 +41124,8 @@ export const mlRegisterModelMeta: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12000, __c375, 0) as any as S.Schema<MlRegisterModelMetaRequest>,
   output: __S(12001, __c375, 1) as any as S.Schema<MlRegisterModelMetaResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40793,7 +41142,8 @@ export const mlSearchAgenticMemory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12032, __c376, 0) as any as S.Schema<MlSearchAgenticMemoryRequest>,
   output: __S(12036, __c376, 4) as any as S.Schema<MlSearchAgenticMemoryResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40810,7 +41160,8 @@ export const mlSearchAgents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12064, __c377, 0) as any as S.Schema<MlSearchAgentsRequest>,
   output: __S(12068, __c377, 4) as any as S.Schema<MlSearchAgentsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40827,7 +41178,8 @@ export const mlSearchConnectors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12096, __c378, 0) as any as S.Schema<MlSearchConnectorsRequest>,
   output: __S(12100, __c378, 4) as any as S.Schema<MlSearchConnectorsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40844,7 +41196,8 @@ export const mlSearchMemory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12128, __c379, 0) as any as S.Schema<MlSearchMemoryRequest>,
   output: __S(12132, __c379, 4) as any as S.Schema<MlSearchMemoryResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40861,7 +41214,8 @@ export const mlSearchMemoryContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12160, __c380, 0) as any as S.Schema<MlSearchMemoryContainerRequest>,
   output: __S(12164, __c380, 4) as any as S.Schema<MlSearchMemoryContainerResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40878,7 +41232,8 @@ export const mlSearchMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12192, __c381, 0) as any as S.Schema<MlSearchMessageRequest>,
   output: __S(12196, __c381, 4) as any as S.Schema<MlSearchMessageResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40895,7 +41250,8 @@ export const mlSearchModelGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12224, __c382, 0) as any as S.Schema<MlSearchModelGroupRequest>,
   output: __S(12228, __c382, 4) as any as S.Schema<MlSearchModelGroupResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40912,7 +41268,8 @@ export const mlSearchModels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12288, __c384, 0) as any as S.Schema<MlSearchModelsRequest>,
   output: __S(12292, __c384, 4) as any as S.Schema<MlSearchModelsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40929,7 +41286,8 @@ export const mlSearchTasks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12320, __c385, 0) as any as S.Schema<MlSearchTasksRequest>,
   output: __S(12324, __c385, 4) as any as S.Schema<MlSearchTasksResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40946,7 +41304,8 @@ export const mlTrain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12352, __c386, 0) as any as S.Schema<MlTrainRequest>,
   output: __S(12353, __c386, 1) as any as S.Schema<MlCommonTrainResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40963,7 +41322,8 @@ export const mlTrainPredict: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12416, __c388, 0) as any as S.Schema<MlTrainPredictRequest>,
   output: __S(12417, __c388, 1) as any as S.Schema<MlCommonTrainPredictResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40980,7 +41340,8 @@ export const mlUndeployModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12448, __c389, 0) as any as S.Schema<MlUndeployModelRequest>,
   output: __S(12482, __c390, 2) as any as S.Schema<MlUndeployModelResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -40997,7 +41358,8 @@ export const mlUndeployModelByModelId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12512, __c391, 0) as any as S.Schema<MlUndeployModelByModelIdRequest>,
   output: __S(12482, __c390, 2) as any as S.Schema<MlUndeployModelByModelIdResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41014,7 +41376,8 @@ export const mlUpdateAgenticMemory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12544, __c392, 0) as any as S.Schema<MlUpdateAgenticMemoryRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41031,7 +41394,8 @@ export const mlUpdateConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12576, __c393, 0) as any as S.Schema<MlUpdateConnectorRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41048,7 +41412,8 @@ export const mlUpdateController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12608, __c394, 0) as any as S.Schema<MlUpdateControllerRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41065,7 +41430,8 @@ export const mlUpdateMemory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12640, __c395, 0) as any as S.Schema<MlUpdateMemoryRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41082,7 +41448,8 @@ export const mlUpdateMemoryContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12704, __c397, 0) as any as S.Schema<MlUpdateMemoryContainerRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41099,7 +41466,8 @@ export const mlUpdateMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12736, __c398, 0) as any as S.Schema<MlUpdateMessageRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41116,7 +41484,8 @@ export const mlUpdateModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12770, __c399, 2) as any as S.Schema<MlUpdateModelRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41133,7 +41502,8 @@ export const mlUpdateModelGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12800, __c400, 0) as any as S.Schema<MlUpdateModelGroupRequest>,
   output: __S(12801, __c400, 1) as any as S.Schema<MlCommonUpdateModelGroupResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41150,7 +41520,8 @@ export const mlUploadChunk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12832, __c401, 0) as any as S.Schema<MlUploadChunkRequest>,
   output: __S(12833, __c401, 1) as any as S.Schema<MlUploadChunkResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41167,7 +41538,8 @@ export const msearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12864, __c402, 0) as any as S.Schema<MsearchRequest>,
   output: __S(12897, __c403, 1) as any as S.Schema<CoreMsearchMultiSearchResult>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41184,7 +41556,8 @@ export const msearchByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12928, __c404, 0) as any as S.Schema<MsearchByIndexRequest>,
   output: __S(12897, __c403, 1) as any as S.Schema<CoreMsearchMultiSearchResult>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41201,7 +41574,8 @@ export const msearchTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12960, __c405, 0) as any as S.Schema<MsearchTemplateRequest>,
   output: __S(12897, __c403, 1) as any as S.Schema<CoreMsearchMultiSearchResult>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41218,7 +41592,8 @@ export const msearchTemplateByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12992, __c406, 0) as any as S.Schema<MsearchTemplateByIndexRequest>,
   output: __S(12897, __c403, 1) as any as S.Schema<CoreMsearchMultiSearchResult>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41235,7 +41610,8 @@ export const mtermvectors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13024, __c407, 0) as any as S.Schema<MtermvectorsRequest>,
   output: __S(13060, __c408, 4) as any as S.Schema<MtermvectorsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41252,7 +41628,8 @@ export const mtermvectorsByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13216, __c413, 0) as any as S.Schema<MtermvectorsByIndexRequest>,
   output: __S(13060, __c408, 4) as any as S.Schema<MtermvectorsByIndexResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41269,7 +41646,8 @@ export const neuralStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13248, __c414, 0) as any as S.Schema<NeuralStatsRequest>,
   output: __S(13280, __c415, 0) as any as S.Schema<NeuralStatsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41286,7 +41664,8 @@ export const neuralStatsByNodeId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13312, __c416, 0) as any as S.Schema<NeuralStatsByNodeIdRequest>,
   output: __S(13280, __c415, 0) as any as S.Schema<NeuralStatsByNodeIdResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41303,7 +41682,8 @@ export const neuralStatsByNodeIdAndStat: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13344, __c417, 0) as any as S.Schema<NeuralStatsByNodeIdAndStatRequest>,
   output: __S(13280, __c415, 0) as any as S.Schema<NeuralStatsByNodeIdAndStatResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41320,7 +41700,8 @@ export const neuralStatsByStat: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13376, __c418, 0) as any as S.Schema<NeuralStatsByStatRequest>,
   output: __S(13280, __c415, 0) as any as S.Schema<NeuralStatsByStatResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41337,7 +41718,8 @@ export const nodesHotThreads: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13408, __c419, 0) as any as S.Schema<NodesHotThreadsRequest>,
   output: __S(23616, __c738, 0) as any as S.Schema<NodesHotThreadsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41354,7 +41736,8 @@ export const nodesHotThreadsByNodeId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13440, __c420, 0) as any as S.Schema<NodesHotThreadsByNodeIdRequest>,
   output: __S(23616, __c738, 0) as any as S.Schema<NodesHotThreadsByNodeIdResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41371,7 +41754,8 @@ export const nodesInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13472, __c421, 0) as any as S.Schema<NodesInfoRequest>,
   output: __S(13551, __c423, 15) as any as S.Schema<NodesInfoResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41388,7 +41772,8 @@ export const nodesInfoByNodeIdAndMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13568, __c424, 0) as any as S.Schema<NodesInfoByNodeIdAndMetricRequest>,
   output: __S(13551, __c423, 15) as any as S.Schema<NodesInfoByNodeIdAndMetricResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41405,7 +41790,8 @@ export const nodesInfoByNodeIdOrMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13600, __c425, 0) as any as S.Schema<NodesInfoByNodeIdOrMetricRequest>,
   output: __S(13551, __c423, 15) as any as S.Schema<NodesInfoByNodeIdOrMetricResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41422,7 +41808,8 @@ export const nodesReloadSecureSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13664, __c427, 0) as any as S.Schema<NodesReloadSecureSettingsRequest>,
   output: __S(13697, __c428, 1) as any as S.Schema<NodesReloadSecureSettingsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41439,7 +41826,8 @@ export const nodesReloadSecureSettingsByNodeId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13728, __c429, 0) as any as S.Schema<NodesReloadSecureSettingsByNodeIdRequest>,
   output: __S(13697, __c428, 1) as any as S.Schema<NodesReloadSecureSettingsByNodeIdResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41456,7 +41844,8 @@ export const nodesStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13760, __c430, 0) as any as S.Schema<NodesStatsRequest>,
   output: __S(13912, __c434, 24) as any as S.Schema<NodesStatsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41473,7 +41862,8 @@ export const nodesStatsByMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13920, __c435, 0) as any as S.Schema<NodesStatsByMetricRequest>,
   output: __S(13912, __c434, 24) as any as S.Schema<NodesStatsByMetricResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41490,7 +41880,8 @@ export const nodesStatsByMetricAndIndexMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13952, __c436, 0) as any as S.Schema<NodesStatsByMetricAndIndexMetricRequest>,
   output: __S(13912, __c434, 24) as any as S.Schema<NodesStatsByMetricAndIndexMetricResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41507,7 +41898,8 @@ export const nodesStatsByNodeId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13984, __c437, 0) as any as S.Schema<NodesStatsByNodeIdRequest>,
   output: __S(13912, __c434, 24) as any as S.Schema<NodesStatsByNodeIdResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41524,7 +41916,8 @@ export const nodesStatsByNodeIdAndMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14016, __c438, 0) as any as S.Schema<NodesStatsByNodeIdAndMetricRequest>,
   output: __S(13912, __c434, 24) as any as S.Schema<NodesStatsByNodeIdAndMetricResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41545,7 +41938,8 @@ export const nodesStatsByNodeIdAndMetricAndIndexMetric: API.OperationMethod<
     __c434,
     24,
   ) as any as S.Schema<NodesStatsByNodeIdAndMetricAndIndexMetricResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41562,7 +41956,8 @@ export const nodesUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14080, __c440, 0) as any as S.Schema<NodesUsageRequest>,
   output: __S(14114, __c441, 2) as any as S.Schema<NodesUsageResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41579,7 +41974,8 @@ export const nodesUsageByMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14144, __c442, 0) as any as S.Schema<NodesUsageByMetricRequest>,
   output: __S(14114, __c441, 2) as any as S.Schema<NodesUsageByMetricResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41596,7 +41992,8 @@ export const nodesUsageByNodeId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14304, __c447, 0) as any as S.Schema<NodesUsageByNodeIdRequest>,
   output: __S(14114, __c441, 2) as any as S.Schema<NodesUsageByNodeIdResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41613,7 +42010,8 @@ export const nodesUsageByNodeIdAndMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14336, __c448, 0) as any as S.Schema<NodesUsageByNodeIdAndMetricRequest>,
   output: __S(14114, __c441, 2) as any as S.Schema<NodesUsageByNodeIdAndMetricResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41630,7 +42028,8 @@ export const notificationsCreateConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14368, __c449, 0) as any as S.Schema<NotificationsCreateConfigRequest>,
   output: __S(14432, __c451, 0) as any as S.Schema<NotificationsCreateConfigResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41647,7 +42046,8 @@ export const notificationsDeleteConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14464, __c452, 0) as any as S.Schema<NotificationsDeleteConfigRequest>,
   output: __S(14497, __c453, 1) as any as S.Schema<NotificationsCommonDeleteConfigsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41664,7 +42064,8 @@ export const notificationsDeleteConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14528, __c454, 0) as any as S.Schema<NotificationsDeleteConfigsRequest>,
   output: __S(14497, __c453, 1) as any as S.Schema<NotificationsCommonDeleteConfigsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41681,7 +42082,8 @@ export const notificationsGetConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14560, __c455, 0) as any as S.Schema<NotificationsGetConfigRequest>,
   output: __S(14594, __c456, 2) as any as S.Schema<NotificationsCommonGetConfigsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41698,7 +42100,8 @@ export const notificationsGetConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14624, __c457, 0) as any as S.Schema<NotificationsGetConfigsRequest>,
   output: __S(14594, __c456, 2) as any as S.Schema<NotificationsCommonGetConfigsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41715,7 +42118,8 @@ export const notificationsListChannels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14656, __c458, 0) as any as S.Schema<NotificationsListChannelsRequest>,
   output: __S(14659, __c458, 3) as any as S.Schema<NotificationsListChannelsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41732,7 +42136,8 @@ export const notificationsListFeatures: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14688, __c459, 0) as any as S.Schema<NotificationsListFeaturesRequest>,
   output: __S(14689, __c459, 1) as any as S.Schema<NotificationsListFeaturesResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41749,7 +42154,8 @@ export const notificationsSendTest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14720, __c460, 0) as any as S.Schema<NotificationsSendTestRequest>,
   output: __S(14727, __c460, 7) as any as S.Schema<NotificationsSendTestResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41766,7 +42172,8 @@ export const notificationsUpdateConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14784, __c462, 0) as any as S.Schema<NotificationsUpdateConfigRequest>,
   output: __S(14432, __c451, 0) as any as S.Schema<NotificationsUpdateConfigResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41783,7 +42190,8 @@ export const observabilityCreateObject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14816, __c463, 0) as any as S.Schema<ObservabilityCreateObjectRequest>,
   output: __S(14880, __c465, 0) as any as S.Schema<ObservabilityCreateObjectResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41800,7 +42208,8 @@ export const observabilityDeleteObject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14912, __c466, 0) as any as S.Schema<ObservabilityDeleteObjectRequest>,
   output: __S(14944, __c467, 0) as any as S.Schema<ObservabilityDeleteObjectResponse>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41817,7 +42226,8 @@ export const observabilityDeleteObjects: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14976, __c468, 0) as any as S.Schema<ObservabilityDeleteObjectsRequest>,
   output: __S(14944, __c467, 0) as any as S.Schema<ObservabilityDeleteObjectsResponse>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41834,7 +42244,8 @@ export const observabilityGetLocalstats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15008, __c469, 0) as any as S.Schema<ObservabilityGetLocalstatsRequest>,
   output: __S(23616, __c738, 0) as any as S.Schema<ObservabilityGetLocalstatsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41851,7 +42262,8 @@ export const observabilityGetObject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15040, __c470, 0) as any as S.Schema<ObservabilityGetObjectRequest>,
   output: __S(15074, __c471, 2) as any as S.Schema<ObservabilityCommonObservabilityObjectList>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41868,7 +42280,8 @@ export const observabilityListObjects: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15104, __c472, 0) as any as S.Schema<ObservabilityListObjectsRequest>,
   output: __S(15074, __c471, 2) as any as S.Schema<ObservabilityCommonObservabilityObjectList>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41885,7 +42298,8 @@ export const observabilityUpdateObject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15136, __c473, 0) as any as S.Schema<ObservabilityUpdateObjectRequest>,
   output: __S(14880, __c465, 0) as any as S.Schema<ObservabilityUpdateObjectResponse>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41898,7 +42312,8 @@ export const ping: API.OperationMethod<PingRequest, PingResponse, PingError, Ope
   /*@__PURE__*/ API.make(() => ({
     input: __S(15168, __c474, 0) as any as S.Schema<PingRequest>,
     output: __S(23616, __c738, 0) as any as S.Schema<PingResponse>,
-    errors: [UnknownOpenSearchError],
+    errors: [],
+    serviceErrors: OpenSearchServiceErrors,
     protocol: OpenSearchProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -41915,7 +42330,8 @@ export const pplExplain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15200, __c475, 0) as any as S.Schema<PplExplainRequest>,
   output: __S(15235, __c476, 3) as any as S.Schema<SqlCommonExplainResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41932,7 +42348,8 @@ export const pplGetStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15296, __c478, 0) as any as S.Schema<PplGetStatsRequest>,
   output: __S(23616, __c738, 0) as any as S.Schema<PplGetStatsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41949,7 +42366,8 @@ export const pplPostStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15328, __c479, 0) as any as S.Schema<PplPostStatsRequest>,
   output: __S(23616, __c738, 0) as any as S.Schema<PplPostStatsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41966,7 +42384,8 @@ export const pplQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15360, __c480, 0) as any as S.Schema<PplQueryRequest>,
   output: __S(15393, __c481, 1) as any as S.Schema<SqlCommonQueryResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -41983,7 +42402,8 @@ export const putScript: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15424, __c482, 0) as any as S.Schema<PutScriptRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42000,7 +42420,8 @@ export const putScriptByContext: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15456, __c483, 0) as any as S.Schema<PutScriptByContextRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42017,7 +42438,8 @@ export const queryDatasourceDelete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15488, __c484, 0) as any as S.Schema<QueryDatasourceDeleteRequest>,
   output: __S(26080, __c815, 0) as any as S.Schema<QueryDatasourceDeleteResponse>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42034,7 +42456,8 @@ export const queryDatasourceRetrieve: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15520, __c485, 0) as any as S.Schema<QueryDatasourceRetrieveRequest>,
   output: __S(15584, __c487, 0) as any as S.Schema<QueryCommonDataSourceRetrieve>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42051,7 +42474,8 @@ export const queryDatasourcesCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15616, __c488, 0) as any as S.Schema<QueryDatasourcesCreateRequest>,
   output: __S(15648, __c489, 0) as any as S.Schema<QueryDatasourcesCreateResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42068,7 +42492,8 @@ export const queryDatasourcesList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15680, __c490, 0) as any as S.Schema<QueryDatasourcesListRequest>,
   output: __S(15682, __c490, 2) as any as S.Schema<QueryDatasourcesListResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42085,7 +42510,8 @@ export const queryDatasourcesUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15712, __c491, 0) as any as S.Schema<QueryDatasourcesUpdateRequest>,
   output: __S(15648, __c489, 0) as any as S.Schema<QueryDatasourcesUpdateResponse>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42102,7 +42528,8 @@ export const rankEval: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15808, __c494, 0) as any as S.Schema<RankEvalRequest>,
   output: __S(15858, __c495, 18) as any as S.Schema<RankEvalResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42119,7 +42546,8 @@ export const rankEvalByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15872, __c496, 0) as any as S.Schema<RankEvalByIndexRequest>,
   output: __S(15858, __c495, 18) as any as S.Schema<RankEvalByIndexResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42136,7 +42564,8 @@ export const reindex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15905, __c497, 1) as any as S.Schema<ReindexRequest>,
   output: __S(15906, __c497, 2) as any as S.Schema<ReindexResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42153,7 +42582,8 @@ export const reindexRethrottle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15936, __c498, 0) as any as S.Schema<ReindexRethrottleRequest>,
   output: __S(15942, __c498, 6) as any as S.Schema<ReindexRethrottleResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42170,7 +42600,8 @@ export const remoteStoreRestore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15968, __c499, 0) as any as S.Schema<RemoteStoreRestoreRequest>,
   output: __S(15971, __c499, 3) as any as S.Schema<RemoteStoreRestoreResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42187,7 +42618,8 @@ export const renderSearchTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16000, __c500, 0) as any as S.Schema<RenderSearchTemplateRequest>,
   output: __S(16032, __c501, 0) as any as S.Schema<RenderSearchTemplateResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42204,7 +42636,8 @@ export const renderSearchTemplateById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16064, __c502, 0) as any as S.Schema<RenderSearchTemplateByIdRequest>,
   output: __S(16032, __c501, 0) as any as S.Schema<RenderSearchTemplateByIdResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42221,7 +42654,8 @@ export const replicationAutofollowStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16096, __c503, 0) as any as S.Schema<ReplicationAutofollowStatsRequest>,
   output: __S(16099, __c503, 3) as any as S.Schema<ReplicationCommonAutoFollowStatus>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42238,7 +42672,8 @@ export const replicationCreateReplicationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16128, __c504, 0) as any as S.Schema<ReplicationCreateReplicationRuleRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42255,7 +42690,8 @@ export const replicationDeleteReplicationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16192, __c506, 0) as any as S.Schema<ReplicationDeleteReplicationRuleRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42272,7 +42708,8 @@ export const replicationFollowerStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16256, __c508, 0) as any as S.Schema<ReplicationFollowerStatsRequest>,
   output: __S(16259, __c508, 3) as any as S.Schema<ReplicationCommonFollowerStatus>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42289,7 +42726,8 @@ export const replicationLeaderStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16288, __c509, 0) as any as S.Schema<ReplicationLeaderStatsRequest>,
   output: __S(16291, __c509, 3) as any as S.Schema<ReplicationCommonLeaderStatus>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42306,7 +42744,8 @@ export const replicationPause: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16320, __c510, 0) as any as S.Schema<ReplicationPauseRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42323,7 +42762,8 @@ export const replicationResume: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16352, __c511, 0) as any as S.Schema<ReplicationResumeRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42340,7 +42780,8 @@ export const replicationStart: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16384, __c512, 0) as any as S.Schema<ReplicationStartRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42357,7 +42798,8 @@ export const replicationStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16416, __c513, 0) as any as S.Schema<ReplicationStatusRequest>,
   output: __S(16421, __c513, 5) as any as S.Schema<ReplicationCommonStatus>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42374,7 +42816,8 @@ export const replicationStop: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16448, __c514, 0) as any as S.Schema<ReplicationStopRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42391,7 +42834,8 @@ export const replicationUpdateSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16482, __c515, 2) as any as S.Schema<ReplicationUpdateSettingsRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42408,7 +42852,8 @@ export const rollupsDelete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16512, __c516, 0) as any as S.Schema<RollupsDeleteRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42425,7 +42870,8 @@ export const rollupsExplain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16544, __c517, 0) as any as S.Schema<RollupsExplainRequest>,
   output: __S(16547, __c517, 3) as any as S.Schema<RollupsExplainResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42442,7 +42888,8 @@ export const rollupsGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16640, __c520, 0) as any as S.Schema<RollupsGetRequest>,
   output: __S(16683, __c521, 11) as any as S.Schema<RollupsCommonRollupEntity>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42459,7 +42906,8 @@ export const rollupsPut: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16736, __c523, 0) as any as S.Schema<RollupsPutRequest>,
   output: __S(16683, __c521, 11) as any as S.Schema<RollupsCommonRollupEntity>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42476,7 +42924,8 @@ export const rollupsStart: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16768, __c524, 0) as any as S.Schema<RollupsStartRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42493,7 +42942,8 @@ export const rollupsStop: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16800, __c525, 0) as any as S.Schema<RollupsStopRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42510,7 +42960,8 @@ export const scriptsPainlessExecute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16833, __c526, 1) as any as S.Schema<ScriptsPainlessExecuteRequest>,
   output: __S(16834, __c526, 2) as any as S.Schema<ScriptsPainlessExecuteResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42527,7 +42978,8 @@ export const scroll: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16864, __c527, 0) as any as S.Schema<ScrollRequest>,
   output: __S(16868, __c527, 4) as any as S.Schema<ScrollResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42544,7 +42996,8 @@ export const search: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16896, __c528, 0) as any as S.Schema<SearchRequest>,
   output: __S(16900, __c528, 4) as any as S.Schema<SearchResponse>,
-  errors: [BadRequest, NotFound, UnknownOpenSearchError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42561,7 +43014,8 @@ export const searchByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16960, __c530, 0) as any as S.Schema<SearchByIndexRequest>,
   output: __S(16964, __c530, 4) as any as S.Schema<SearchByIndexResponse>,
-  errors: [BadRequest, NotFound, UnknownOpenSearchError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42578,7 +43032,8 @@ export const searchPipelineDelete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16992, __c531, 0) as any as S.Schema<SearchPipelineDeleteRequest>,
   output: __S(14208, __c444, 0) as any as S.Schema<SearchPipelineDeleteResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42595,7 +43050,8 @@ export const searchPipelineGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17024, __c532, 0) as any as S.Schema<SearchPipelineGetRequest>,
   output: __S(17058, __c533, 2) as any as S.Schema<SearchPipelineGetResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42612,7 +43068,8 @@ export const searchPipelineGetById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17152, __c536, 0) as any as S.Schema<SearchPipelineGetByIdRequest>,
   output: __S(17058, __c533, 2) as any as S.Schema<SearchPipelineGetByIdResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42629,7 +43086,8 @@ export const searchPipelinePut: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17184, __c537, 0) as any as S.Schema<SearchPipelinePutRequest>,
   output: __S(14208, __c444, 0) as any as S.Schema<SearchPipelinePutResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42646,7 +43104,8 @@ export const searchRelevanceDeleteExperiments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17216, __c538, 0) as any as S.Schema<SearchRelevanceDeleteExperimentsRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42663,7 +43122,8 @@ export const searchRelevanceDeleteJudgments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17248, __c539, 0) as any as S.Schema<SearchRelevanceDeleteJudgmentsRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42680,7 +43140,8 @@ export const searchRelevanceDeleteQuerySets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17280, __c540, 0) as any as S.Schema<SearchRelevanceDeleteQuerySetsRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42697,7 +43158,8 @@ export const searchRelevanceDeleteScheduledExperiments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17312, __c541, 0) as any as S.Schema<SearchRelevanceDeleteScheduledExperimentsRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42714,7 +43176,8 @@ export const searchRelevanceDeleteSearchConfigurations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17344, __c542, 0) as any as S.Schema<SearchRelevanceDeleteSearchConfigurationsRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42731,7 +43194,8 @@ export const searchRelevanceExperimentsSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17376, __c543, 0) as any as S.Schema<SearchRelevanceExperimentsSearchRequest>,
   output: __S(17411, __c544, 3) as any as S.Schema<CoreSearchSearchResult>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42748,7 +43212,8 @@ export const searchRelevanceGetExperiments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17440, __c545, 0) as any as S.Schema<SearchRelevanceGetExperimentsRequest>,
   output: __S(17411, __c544, 3) as any as S.Schema<CoreSearchSearchResult>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42769,7 +43234,8 @@ export const searchRelevanceGetExperimentsByExperimentId: API.OperationMethod<
     0,
   ) as any as S.Schema<SearchRelevanceGetExperimentsByExperimentIdRequest>,
   output: __S(17411, __c544, 3) as any as S.Schema<CoreSearchSearchResult>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42786,7 +43252,8 @@ export const searchRelevanceGetJudgments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17536, __c548, 0) as any as S.Schema<SearchRelevanceGetJudgmentsRequest>,
   output: __S(17411, __c544, 3) as any as S.Schema<CoreSearchSearchResult>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42803,7 +43270,8 @@ export const searchRelevanceGetJudgmentsByJudgmentId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17568, __c549, 0) as any as S.Schema<SearchRelevanceGetJudgmentsByJudgmentIdRequest>,
   output: __S(17411, __c544, 3) as any as S.Schema<CoreSearchSearchResult>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42820,7 +43288,8 @@ export const searchRelevanceGetNodeStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17600, __c550, 0) as any as S.Schema<SearchRelevanceGetNodeStatsRequest>,
   output: __S(17632, __c551, 0) as any as S.Schema<SearchRelevanceGetNodeStatsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42837,7 +43306,8 @@ export const searchRelevanceGetNodeStatsByStat: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17664, __c552, 0) as any as S.Schema<SearchRelevanceGetNodeStatsByStatRequest>,
   output: __S(17632, __c551, 0) as any as S.Schema<SearchRelevanceGetNodeStatsByStatResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42854,7 +43324,8 @@ export const searchRelevanceGetQuerySets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17696, __c553, 0) as any as S.Schema<SearchRelevanceGetQuerySetsRequest>,
   output: __S(17411, __c544, 3) as any as S.Schema<CoreSearchSearchResult>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42871,7 +43342,8 @@ export const searchRelevanceGetQuerySetsByQuerySetId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17728, __c554, 0) as any as S.Schema<SearchRelevanceGetQuerySetsByQuerySetIdRequest>,
   output: __S(17411, __c544, 3) as any as S.Schema<CoreSearchSearchResult>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42888,7 +43360,8 @@ export const searchRelevanceGetScheduledExperiments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17760, __c555, 0) as any as S.Schema<SearchRelevanceGetScheduledExperimentsRequest>,
   output: __S(17411, __c544, 3) as any as S.Schema<CoreSearchSearchResult>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42909,7 +43382,8 @@ export const searchRelevanceGetScheduledExperimentsByExperimentId: API.Operation
     0,
   ) as any as S.Schema<SearchRelevanceGetScheduledExperimentsByExperimentIdRequest>,
   output: __S(17411, __c544, 3) as any as S.Schema<CoreSearchSearchResult>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42926,7 +43400,8 @@ export const searchRelevanceGetSearchConfigurations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17824, __c557, 0) as any as S.Schema<SearchRelevanceGetSearchConfigurationsRequest>,
   output: __S(17411, __c544, 3) as any as S.Schema<CoreSearchSearchResult>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42947,7 +43422,8 @@ export const searchRelevanceGetSearchConfigurationsBySearchConfigurationId: API.
     0,
   ) as any as S.Schema<SearchRelevanceGetSearchConfigurationsBySearchConfigurationIdRequest>,
   output: __S(17411, __c544, 3) as any as S.Schema<CoreSearchSearchResult>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42964,7 +43440,8 @@ export const searchRelevanceGetStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17952, __c561, 0) as any as S.Schema<SearchRelevanceGetStatsRequest>,
   output: __S(17632, __c551, 0) as any as S.Schema<SearchRelevanceGetStatsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42981,7 +43458,8 @@ export const searchRelevanceGetStatsByStat: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17984, __c562, 0) as any as S.Schema<SearchRelevanceGetStatsByStatRequest>,
   output: __S(17632, __c551, 0) as any as S.Schema<SearchRelevanceGetStatsByStatResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -42998,7 +43476,8 @@ export const searchRelevanceJudgmentsSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18016, __c563, 0) as any as S.Schema<SearchRelevanceJudgmentsSearchRequest>,
   output: __S(17411, __c544, 3) as any as S.Schema<CoreSearchSearchResult>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43015,7 +43494,8 @@ export const searchRelevancePatchExperiment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18048, __c564, 0) as any as S.Schema<SearchRelevancePatchExperimentRequest>,
   output: __S(18080, __c565, 0) as any as S.Schema<SearchRelevanceCommonPatchExperimentResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43032,7 +43512,8 @@ export const searchRelevancePostQuerySets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18112, __c566, 0) as any as S.Schema<SearchRelevancePostQuerySetsRequest>,
   output: __S(18144, __c567, 0) as any as S.Schema<SearchRelevanceCommonPostQuerySetsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43053,7 +43534,8 @@ export const searchRelevancePostScheduledExperiments: API.OperationMethod<
     __c568,
     1,
   ) as any as S.Schema<SearchRelevanceCommonPostScheduledExperimentsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43070,7 +43552,8 @@ export const searchRelevancePutExperiments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18208, __c569, 0) as any as S.Schema<SearchRelevancePutExperimentsRequest>,
   output: __S(18080, __c565, 0) as any as S.Schema<SearchRelevanceCommonPutExperimentResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43087,7 +43570,8 @@ export const searchRelevancePutJudgments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18240, __c570, 0) as any as S.Schema<SearchRelevancePutJudgmentsRequest>,
   output: __S(18241, __c570, 1) as any as S.Schema<SearchRelevanceCommonPutJudgmentsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43104,7 +43588,8 @@ export const searchRelevancePutQuerySets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18272, __c571, 0) as any as S.Schema<SearchRelevancePutQuerySetsRequest>,
   output: __S(18144, __c567, 0) as any as S.Schema<SearchRelevanceCommonPutQuerySetsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43125,7 +43610,8 @@ export const searchRelevancePutSearchConfigurations: API.OperationMethod<
     __c572,
     1,
   ) as any as S.Schema<SearchRelevanceCommonPutSearchConfigurationResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43142,7 +43628,8 @@ export const searchRelevanceQuerySetsSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18400, __c575, 0) as any as S.Schema<SearchRelevanceQuerySetsSearchRequest>,
   output: __S(17411, __c544, 3) as any as S.Schema<CoreSearchSearchResult>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43159,7 +43646,8 @@ export const searchRelevanceSearchConfigurationsSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18432, __c576, 0) as any as S.Schema<SearchRelevanceSearchConfigurationsSearchRequest>,
   output: __S(17411, __c544, 3) as any as S.Schema<CoreSearchSearchResult>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43176,7 +43664,8 @@ export const searchShards: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18464, __c577, 0) as any as S.Schema<SearchShardsRequest>,
   output: __S(18503, __c578, 7) as any as S.Schema<SearchShardsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43193,7 +43682,8 @@ export const searchShardsByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18528, __c579, 0) as any as S.Schema<SearchShardsByIndexRequest>,
   output: __S(18503, __c578, 7) as any as S.Schema<SearchShardsByIndexResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43210,7 +43700,8 @@ export const searchTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18560, __c580, 0) as any as S.Schema<SearchTemplateRequest>,
   output: __S(18564, __c580, 4) as any as S.Schema<SearchTemplateResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43227,7 +43718,8 @@ export const searchTemplateByIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18592, __c581, 0) as any as S.Schema<SearchTemplateByIndexRequest>,
   output: __S(18596, __c581, 4) as any as S.Schema<SearchTemplateByIndexResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43244,7 +43736,8 @@ export const securityAnalyticsGetAlerts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18624, __c582, 0) as any as S.Schema<SecurityAnalyticsGetAlertsRequest>,
   output: __S(18631, __c582, 7) as any as S.Schema<SecurityAnalyticsAlertsGetAlertsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43261,7 +43754,8 @@ export const securityAnalyticsGetFindings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18656, __c583, 0) as any as S.Schema<SecurityAnalyticsGetFindingsRequest>,
   output: __S(18663, __c583, 7) as any as S.Schema<SecurityAnalyticsFindingsGetFindingsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43286,7 +43780,8 @@ export const securityAnalyticsSearchFindingCorrelations: API.OperationMethod<
     __c584,
     3,
   ) as any as S.Schema<SecurityAnalyticsFindingsSearchFindingCorrelationsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43303,7 +43798,8 @@ export const securityAuthinfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18720, __c585, 0) as any as S.Schema<SecurityAuthinfoRequest>,
   output: __S(18721, __c585, 1) as any as S.Schema<SecurityCommonAuthInfo>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43320,7 +43816,8 @@ export const securityAuthtoken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18976, __c593, 0) as any as S.Schema<SecurityAuthtokenRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43337,7 +43834,8 @@ export const securityCache: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19040, __c595, 0) as any as S.Schema<SecurityCacheRequest>,
   output: __S(23616, __c738, 0) as any as S.Schema<SecurityCacheResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43354,7 +43852,8 @@ export const securityChangePassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19072, __c596, 0) as any as S.Schema<SecurityChangePasswordRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [Forbidden, UnknownOpenSearchError],
+  errors: [Forbidden],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43371,7 +43870,8 @@ export const securityConfigUpgradeCheck: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19104, __c597, 0) as any as S.Schema<SecurityConfigUpgradeCheckRequest>,
   output: __S(19105, __c597, 1) as any as S.Schema<SecurityCommonUpgradeCheck>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43388,7 +43888,8 @@ export const securityConfigUpgradePerform: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19168, __c599, 0) as any as S.Schema<SecurityConfigUpgradePerformRequest>,
   output: __S(19169, __c599, 1) as any as S.Schema<SecurityCommonUpgradePerform>,
-  errors: [BadRequest, UnknownOpenSearchError],
+  errors: [BadRequest],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43405,7 +43906,8 @@ export const securityCreateActionGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19200, __c600, 0) as any as S.Schema<SecurityCreateActionGroupRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43422,7 +43924,8 @@ export const securityCreateActionGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19232, __c601, 0) as any as S.Schema<SecurityCreateActionGroupsRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [BadRequest, Forbidden, UnknownOpenSearchError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43439,7 +43942,8 @@ export const securityCreateAllowlist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19296, __c603, 0) as any as S.Schema<SecurityCreateAllowlistRequest>,
   output: __S(19328, __c604, 0) as any as S.Schema<SecurityCommonAllowListConfig>,
-  errors: [Forbidden, UnknownOpenSearchError],
+  errors: [Forbidden],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43456,7 +43960,8 @@ export const securityCreateRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19360, __c605, 0) as any as S.Schema<SecurityCreateRoleRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43473,7 +43978,8 @@ export const securityCreateRoleMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19424, __c607, 0) as any as S.Schema<SecurityCreateRoleMappingRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43490,7 +43996,8 @@ export const securityCreateRoleMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19488, __c609, 0) as any as S.Schema<SecurityCreateRoleMappingsRequest>,
   output: __S(19489, __c609, 1) as any as S.Schema<SecurityCreateRoleMappingsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownOpenSearchError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43507,7 +44014,8 @@ export const securityCreateTenant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19552, __c611, 0) as any as S.Schema<SecurityCreateTenantRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [BadRequest, UnknownOpenSearchError],
+  errors: [BadRequest],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43524,7 +44032,8 @@ export const securityCreateUpdateTenancyConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19584, __c612, 0) as any as S.Schema<SecurityCreateUpdateTenancyConfigRequest>,
   output: __S(19616, __c613, 0) as any as S.Schema<SecurityCommonMultiTenancyConfig>,
-  errors: [BadRequest, UnknownOpenSearchError],
+  errors: [BadRequest],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43541,7 +44050,8 @@ export const securityCreateUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19648, __c614, 0) as any as S.Schema<SecurityCreateUserRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43558,7 +44068,8 @@ export const securityCreateUserLegacy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19680, __c615, 0) as any as S.Schema<SecurityCreateUserLegacyRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43575,7 +44086,8 @@ export const securityDeleteActionGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19712, __c616, 0) as any as S.Schema<SecurityDeleteActionGroupRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43592,7 +44104,8 @@ export const securityDeleteDistinguishedName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19744, __c617, 0) as any as S.Schema<SecurityDeleteDistinguishedNameRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [BadRequest, Forbidden, UnknownOpenSearchError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43609,7 +44122,8 @@ export const securityDeleteRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19776, __c618, 0) as any as S.Schema<SecurityDeleteRoleRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43626,7 +44140,8 @@ export const securityDeleteRoleMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19808, __c619, 0) as any as S.Schema<SecurityDeleteRoleMappingRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43643,7 +44158,8 @@ export const securityDeleteTenant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19840, __c620, 0) as any as S.Schema<SecurityDeleteTenantRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [BadRequest, UnknownOpenSearchError],
+  errors: [BadRequest],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43660,7 +44176,8 @@ export const securityDeleteUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19904, __c622, 0) as any as S.Schema<SecurityDeleteUserRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43677,7 +44194,8 @@ export const securityDeleteUserLegacy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19936, __c623, 0) as any as S.Schema<SecurityDeleteUserLegacyRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43694,7 +44212,8 @@ export const securityFlushCache: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19968, __c624, 0) as any as S.Schema<SecurityFlushCacheRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43711,7 +44230,8 @@ export const securityGenerateOboToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20000, __c625, 0) as any as S.Schema<SecurityGenerateOboTokenRequest>,
   output: __S(20001, __c625, 1) as any as S.Schema<SecurityCommonGenerateOBOToken>,
-  errors: [BadRequest, Forbidden, UnknownOpenSearchError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43728,7 +44248,8 @@ export const securityGenerateUserToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20032, __c626, 0) as any as S.Schema<SecurityGenerateUserTokenRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [BadRequest, UnknownOpenSearchError],
+  errors: [BadRequest],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43745,7 +44266,8 @@ export const securityGenerateUserTokenLegacy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20064, __c627, 0) as any as S.Schema<SecurityGenerateUserTokenLegacyRequest>,
   output: __S(23616, __c738, 0) as any as S.Schema<SecurityGenerateUserTokenLegacyResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43762,7 +44284,8 @@ export const securityGetAccountDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20096, __c628, 0) as any as S.Schema<SecurityGetAccountDetailsRequest>,
   output: __S(20098, __c628, 2) as any as S.Schema<SecurityCommonAccountDetails>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43779,7 +44302,8 @@ export const securityGetActionGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20128, __c629, 0) as any as S.Schema<SecurityGetActionGroupRequest>,
   output: __S(20160, __c630, 0) as any as S.Schema<SecurityGetActionGroupResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43796,7 +44320,8 @@ export const securityGetActionGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20192, __c631, 0) as any as S.Schema<SecurityGetActionGroupsRequest>,
   output: __S(20160, __c630, 0) as any as S.Schema<SecurityGetActionGroupsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43813,7 +44338,8 @@ export const securityGetAllCertificates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20224, __c632, 0) as any as S.Schema<SecurityGetAllCertificatesRequest>,
   output: __S(20294, __c634, 6) as any as S.Schema<SecurityGetAllCertificatesResponse>,
-  errors: [Forbidden, UnknownOpenSearchError],
+  errors: [Forbidden],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43830,7 +44356,8 @@ export const securityGetAllowlist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20352, __c636, 0) as any as S.Schema<SecurityGetAllowlistRequest>,
   output: __S(19328, __c604, 0) as any as S.Schema<SecurityCommonAllowListConfig>,
-  errors: [Forbidden, UnknownOpenSearchError],
+  errors: [Forbidden],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43847,7 +44374,8 @@ export const securityGetAuditConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20384, __c637, 0) as any as S.Schema<SecurityGetAuditConfigurationRequest>,
   output: __S(20386, __c637, 2) as any as S.Schema<SecurityCommonAuditConfigWithReadOnly>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43864,7 +44392,8 @@ export const securityGetCertificates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20448, __c639, 0) as any as S.Schema<SecurityGetCertificatesRequest>,
   output: __S(20450, __c639, 2) as any as S.Schema<SecurityCommonGetCertificates>,
-  errors: [BadRequest, Forbidden, UnknownOpenSearchError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43881,7 +44410,8 @@ export const securityGetConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20480, __c640, 0) as any as S.Schema<SecurityGetConfigurationRequest>,
   output: __S(20482, __c640, 2) as any as S.Schema<SecurityCommonSecurityConfig>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43898,7 +44428,8 @@ export const securityGetDashboardsInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20544, __c642, 0) as any as S.Schema<SecurityGetDashboardsInfoRequest>,
   output: __S(20576, __c643, 0) as any as S.Schema<SecurityCommonDashboardsInfo>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43915,7 +44446,8 @@ export const securityGetDistinguishedName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20608, __c644, 0) as any as S.Schema<SecurityGetDistinguishedNameRequest>,
   output: __S(20642, __c645, 2) as any as S.Schema<SecurityGetDistinguishedNameResponse>,
-  errors: [BadRequest, Forbidden, UnknownOpenSearchError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43932,7 +44464,8 @@ export const securityGetDistinguishedNames: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20672, __c646, 0) as any as S.Schema<SecurityGetDistinguishedNamesRequest>,
   output: __S(20642, __c645, 2) as any as S.Schema<SecurityGetDistinguishedNamesResponse>,
-  errors: [BadRequest, Forbidden, UnknownOpenSearchError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43949,7 +44482,8 @@ export const securityGetNodeCertificates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20704, __c647, 0) as any as S.Schema<SecurityGetNodeCertificatesRequest>,
   output: __S(20294, __c634, 6) as any as S.Schema<SecurityGetNodeCertificatesResponse>,
-  errors: [Forbidden, UnknownOpenSearchError],
+  errors: [Forbidden],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43966,7 +44500,8 @@ export const securityGetPermissionsInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20736, __c648, 0) as any as S.Schema<SecurityGetPermissionsInfoRequest>,
   output: __S(20737, __c648, 1) as any as S.Schema<SecurityCommonPermissionsInfo>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -43983,7 +44518,8 @@ export const securityGetRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20768, __c649, 0) as any as S.Schema<SecurityGetRoleRequest>,
   output: __S(20802, __c650, 2) as any as S.Schema<SecurityGetRoleResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44000,7 +44536,8 @@ export const securityGetRoleMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20864, __c652, 0) as any as S.Schema<SecurityGetRoleMappingRequest>,
   output: __S(20896, __c653, 0) as any as S.Schema<SecurityGetRoleMappingResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44017,7 +44554,8 @@ export const securityGetRoleMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20928, __c654, 0) as any as S.Schema<SecurityGetRoleMappingsRequest>,
   output: __S(20896, __c653, 0) as any as S.Schema<SecurityGetRoleMappingsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44034,7 +44572,8 @@ export const securityGetRoles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20960, __c655, 0) as any as S.Schema<SecurityGetRolesRequest>,
   output: __S(20802, __c650, 2) as any as S.Schema<SecurityGetRolesResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44051,7 +44590,8 @@ export const securityGetSslinfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20992, __c656, 0) as any as S.Schema<SecurityGetSslinfoRequest>,
   output: __S(20993, __c656, 1) as any as S.Schema<SecurityCommonSSLInfo>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44068,7 +44608,8 @@ export const securityGetTenancyConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21024, __c657, 0) as any as S.Schema<SecurityGetTenancyConfigRequest>,
   output: __S(19616, __c613, 0) as any as S.Schema<SecurityCommonMultiTenancyConfig>,
-  errors: [BadRequest, UnknownOpenSearchError],
+  errors: [BadRequest],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44085,7 +44626,8 @@ export const securityGetTenant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21056, __c658, 0) as any as S.Schema<SecurityGetTenantRequest>,
   output: __S(21090, __c659, 2) as any as S.Schema<SecurityGetTenantResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44102,7 +44644,8 @@ export const securityGetTenants: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21120, __c660, 0) as any as S.Schema<SecurityGetTenantsRequest>,
   output: __S(21090, __c659, 2) as any as S.Schema<SecurityGetTenantsResponse>,
-  errors: [BadRequest, UnknownOpenSearchError],
+  errors: [BadRequest],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44119,7 +44662,8 @@ export const securityGetUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21152, __c661, 0) as any as S.Schema<SecurityGetUserRequest>,
   output: __S(21186, __c662, 2) as any as S.Schema<SecurityGetUserResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44136,7 +44680,8 @@ export const securityGetUserLegacy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21216, __c663, 0) as any as S.Schema<SecurityGetUserLegacyRequest>,
   output: __S(21186, __c662, 2) as any as S.Schema<SecurityGetUserLegacyResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44153,7 +44698,8 @@ export const securityGetUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21248, __c664, 0) as any as S.Schema<SecurityGetUsersRequest>,
   output: __S(21186, __c662, 2) as any as S.Schema<SecurityGetUsersResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44170,7 +44716,8 @@ export const securityGetUsersLegacy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21568, __c674, 0) as any as S.Schema<SecurityGetUsersLegacyRequest>,
   output: __S(21186, __c662, 2) as any as S.Schema<SecurityGetUsersLegacyResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44187,7 +44734,8 @@ export const securityHealth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21600, __c675, 0) as any as S.Schema<SecurityHealthRequest>,
   output: __S(21601, __c675, 1) as any as S.Schema<SecurityCommonHealthInfo>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44204,7 +44752,8 @@ export const securityMigrate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21632, __c676, 0) as any as S.Schema<SecurityMigrateRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [BadRequest, UnknownOpenSearchError],
+  errors: [BadRequest],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44221,7 +44770,8 @@ export const securityPatchActionGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21664, __c677, 0) as any as S.Schema<SecurityPatchActionGroupRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44238,7 +44788,8 @@ export const securityPatchActionGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21728, __c679, 0) as any as S.Schema<SecurityPatchActionGroupsRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44255,7 +44806,8 @@ export const securityPatchAllowlist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21760, __c680, 0) as any as S.Schema<SecurityPatchAllowlistRequest>,
   output: __S(19328, __c604, 0) as any as S.Schema<SecurityCommonAllowListConfig>,
-  errors: [Forbidden, UnknownOpenSearchError],
+  errors: [Forbidden],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44272,7 +44824,8 @@ export const securityPatchAuditConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21792, __c681, 0) as any as S.Schema<SecurityPatchAuditConfigurationRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44289,7 +44842,8 @@ export const securityPatchConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21824, __c682, 0) as any as S.Schema<SecurityPatchConfigurationRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [Forbidden, UnknownOpenSearchError],
+  errors: [Forbidden],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44306,7 +44860,8 @@ export const securityPatchDistinguishedName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21856, __c683, 0) as any as S.Schema<SecurityPatchDistinguishedNameRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [BadRequest, Forbidden, UnknownOpenSearchError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44323,7 +44878,8 @@ export const securityPatchDistinguishedNames: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21888, __c684, 0) as any as S.Schema<SecurityPatchDistinguishedNamesRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [BadRequest, Forbidden, UnknownOpenSearchError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44340,7 +44896,8 @@ export const securityPatchRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21952, __c686, 0) as any as S.Schema<SecurityPatchRoleRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [BadRequest, UnknownOpenSearchError],
+  errors: [BadRequest],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44357,7 +44914,8 @@ export const securityPatchRoleMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21984, __c687, 0) as any as S.Schema<SecurityPatchRoleMappingRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [BadRequest, UnknownOpenSearchError],
+  errors: [BadRequest],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44374,7 +44932,8 @@ export const securityPatchRoleMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22016, __c688, 0) as any as S.Schema<SecurityPatchRoleMappingsRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [BadRequest, UnknownOpenSearchError],
+  errors: [BadRequest],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44391,7 +44950,8 @@ export const securityPatchRoles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22048, __c689, 0) as any as S.Schema<SecurityPatchRolesRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [BadRequest, UnknownOpenSearchError],
+  errors: [BadRequest],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44408,7 +44968,8 @@ export const securityPatchTenant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22080, __c690, 0) as any as S.Schema<SecurityPatchTenantRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [BadRequest, UnknownOpenSearchError],
+  errors: [BadRequest],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44425,7 +44986,8 @@ export const securityPatchTenants: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22112, __c691, 0) as any as S.Schema<SecurityPatchTenantsRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [BadRequest, UnknownOpenSearchError],
+  errors: [BadRequest],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44442,7 +45004,8 @@ export const securityPatchUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22144, __c692, 0) as any as S.Schema<SecurityPatchUserRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44459,7 +45022,8 @@ export const securityPatchUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22176, __c693, 0) as any as S.Schema<SecurityPatchUsersRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44476,7 +45040,8 @@ export const securityPostDashboardsInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22208, __c694, 0) as any as S.Schema<SecurityPostDashboardsInfoRequest>,
   output: __S(20576, __c643, 0) as any as S.Schema<SecurityCommonDashboardsInfo>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44493,7 +45058,8 @@ export const securityReloadHttpCertificates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22240, __c695, 0) as any as S.Schema<SecurityReloadHttpCertificatesRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [BadRequest, Forbidden, UnknownOpenSearchError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44510,7 +45076,8 @@ export const securityReloadTransportCertificates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22336, __c698, 0) as any as S.Schema<SecurityReloadTransportCertificatesRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [BadRequest, Forbidden, UnknownOpenSearchError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44527,7 +45094,8 @@ export const securityTenantInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22368, __c699, 0) as any as S.Schema<SecurityTenantInfoRequest>,
   output: __S(22304, __c697, 0) as any as S.Schema<SecurityTenantInfoResponse>,
-  errors: [Forbidden, UnknownOpenSearchError],
+  errors: [Forbidden],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44544,7 +45112,8 @@ export const securityUpdateAuditConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22400, __c700, 0) as any as S.Schema<SecurityUpdateAuditConfigurationRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44561,7 +45130,8 @@ export const securityUpdateConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22432, __c701, 0) as any as S.Schema<SecurityUpdateConfigurationRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [Forbidden, UnknownOpenSearchError],
+  errors: [Forbidden],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44578,7 +45148,8 @@ export const securityUpdateDistinguishedName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22464, __c702, 0) as any as S.Schema<SecurityUpdateDistinguishedNameRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [BadRequest, Forbidden, UnknownOpenSearchError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44595,7 +45166,8 @@ export const securityValidate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22496, __c703, 0) as any as S.Schema<SecurityValidateRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<SecurityCommonOk>,
-  errors: [BadRequest, UnknownOpenSearchError],
+  errors: [BadRequest],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44612,7 +45184,8 @@ export const securityWhoAmI: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22528, __c704, 0) as any as S.Schema<SecurityWhoAmIRequest>,
   output: __S(22560, __c705, 0) as any as S.Schema<SecurityCommonWhoAmI>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44629,7 +45202,8 @@ export const securityWhoAmIProtected: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22592, __c706, 0) as any as S.Schema<SecurityWhoAmIProtectedRequest>,
   output: __S(22560, __c705, 0) as any as S.Schema<SecurityCommonWhoAmI>,
-  errors: [Forbidden, UnknownOpenSearchError],
+  errors: [Forbidden],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44646,7 +45220,8 @@ export const smCreatePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22624, __c707, 0) as any as S.Schema<SmCreatePolicyRequest>,
   output: __S(22688, __c709, 0) as any as S.Schema<SmCommonPolicyResponse>,
-  errors: [BadRequest, UnknownOpenSearchError],
+  errors: [BadRequest],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44663,7 +45238,8 @@ export const smDeletePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22720, __c710, 0) as any as S.Schema<SmDeletePolicyRequest>,
   output: __S(9152, __c286, 0) as any as S.Schema<CommonWriteResponseBase>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44680,7 +45256,8 @@ export const smExplainPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22784, __c712, 0) as any as S.Schema<SmExplainPolicyRequest>,
   output: __S(22792, __c712, 8) as any as S.Schema<SmCommonPolicyExplanation>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44697,7 +45274,8 @@ export const smGetPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22816, __c713, 0) as any as S.Schema<SmGetPoliciesRequest>,
   output: __S(22819, __c713, 3) as any as S.Schema<SmCommonGetPoliciesResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44714,7 +45292,8 @@ export const smGetPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22848, __c714, 0) as any as S.Schema<SmGetPolicyRequest>,
   output: __S(22688, __c709, 0) as any as S.Schema<SmCommonPolicyResponse>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44731,7 +45310,8 @@ export const smStartPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22880, __c715, 0) as any as S.Schema<SmStartPolicyRequest>,
   output: __S(14208, __c444, 0) as any as S.Schema<SmStartPolicyResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44748,7 +45328,8 @@ export const smStopPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22912, __c716, 0) as any as S.Schema<SmStopPolicyRequest>,
   output: __S(14208, __c444, 0) as any as S.Schema<SmStopPolicyResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44765,7 +45346,8 @@ export const smUpdatePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22944, __c717, 0) as any as S.Schema<SmUpdatePolicyRequest>,
   output: __S(22688, __c709, 0) as any as S.Schema<SmCommonPolicyResponse>,
-  errors: [NotFound, UnknownOpenSearchError],
+  errors: [NotFound],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44782,7 +45364,8 @@ export const snapshotCleanupRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22976, __c718, 0) as any as S.Schema<SnapshotCleanupRepositoryRequest>,
   output: __S(22978, __c718, 2) as any as S.Schema<SnapshotCleanupRepositoryResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44799,7 +45382,8 @@ export const snapshotClone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23008, __c719, 0) as any as S.Schema<SnapshotCloneRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44816,7 +45400,8 @@ export const snapshotCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23040, __c720, 0) as any as S.Schema<SnapshotCreateRequest>,
   output: __S(23041, __c720, 1) as any as S.Schema<SnapshotCreateResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44833,7 +45418,8 @@ export const snapshotCreateRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23104, __c722, 0) as any as S.Schema<SnapshotCreateRepositoryRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44850,7 +45436,8 @@ export const snapshotDelete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23200, __c725, 0) as any as S.Schema<SnapshotDeleteRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44867,7 +45454,8 @@ export const snapshotDeleteRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23232, __c726, 0) as any as S.Schema<SnapshotDeleteRepositoryRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44884,7 +45472,8 @@ export const snapshotGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23264, __c727, 0) as any as S.Schema<SnapshotGetRequest>,
   output: __S(23266, __c727, 2) as any as S.Schema<SnapshotGetResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44901,7 +45490,8 @@ export const snapshotGetRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23296, __c728, 0) as any as S.Schema<SnapshotGetRepositoryRequest>,
   output: __S(23330, __c729, 2) as any as S.Schema<SnapshotGetRepositoryResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44918,7 +45508,8 @@ export const snapshotGetRepositoryByRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23360, __c730, 0) as any as S.Schema<SnapshotGetRepositoryByRepositoryRequest>,
   output: __S(23330, __c729, 2) as any as S.Schema<SnapshotGetRepositoryByRepositoryResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44935,7 +45526,8 @@ export const snapshotRestore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23392, __c731, 0) as any as S.Schema<SnapshotRestoreRequest>,
   output: __S(23394, __c731, 2) as any as S.Schema<SnapshotRestoreResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44952,7 +45544,8 @@ export const snapshotStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23424, __c732, 0) as any as S.Schema<SnapshotStatusRequest>,
   output: __S(23466, __c733, 10) as any as S.Schema<SnapshotStatusResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44969,7 +45562,8 @@ export const snapshotStatusByRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23488, __c734, 0) as any as S.Schema<SnapshotStatusByRepositoryRequest>,
   output: __S(23466, __c733, 10) as any as S.Schema<SnapshotStatusByRepositoryResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44986,7 +45580,8 @@ export const snapshotStatusByRepositoryAndSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23520, __c735, 0) as any as S.Schema<SnapshotStatusByRepositoryAndSnapshotRequest>,
   output: __S(23466, __c733, 10) as any as S.Schema<SnapshotStatusByRepositoryAndSnapshotResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45003,7 +45598,8 @@ export const snapshotVerifyRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23552, __c736, 0) as any as S.Schema<SnapshotVerifyRepositoryRequest>,
   output: __S(23554, __c736, 2) as any as S.Schema<SnapshotVerifyRepositoryResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45020,7 +45616,8 @@ export const sqlClose: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24064, __c752, 0) as any as S.Schema<SqlCloseRequest>,
   output: __S(24065, __c752, 1) as any as S.Schema<SqlCommonSqlCloseResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45037,7 +45634,8 @@ export const sqlExplain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24096, __c753, 0) as any as S.Schema<SqlExplainRequest>,
   output: __S(15235, __c476, 3) as any as S.Schema<SqlCommonExplainResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45054,7 +45652,8 @@ export const sqlGetStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24128, __c754, 0) as any as S.Schema<SqlGetStatsRequest>,
   output: __S(23616, __c738, 0) as any as S.Schema<SqlGetStatsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45071,7 +45670,8 @@ export const sqlPostStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24160, __c755, 0) as any as S.Schema<SqlPostStatsRequest>,
   output: __S(23616, __c738, 0) as any as S.Schema<SqlPostStatsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45088,7 +45688,8 @@ export const sqlQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24192, __c756, 0) as any as S.Schema<SqlQueryRequest>,
   output: __S(15393, __c481, 1) as any as S.Schema<SqlCommonQueryResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45105,7 +45706,8 @@ export const sqlSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24230, __c757, 6) as any as S.Schema<SqlSettingsRequest>,
   output: __S(24231, __c757, 7) as any as S.Schema<SqlCommonSqlSettingsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45122,7 +45724,8 @@ export const tasksCancel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24256, __c758, 0) as any as S.Schema<TasksCancelRequest>,
   output: __S(27010, __c844, 2) as any as S.Schema<TasksCommonTaskListResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45139,7 +45742,8 @@ export const tasksCancelByTaskId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24288, __c759, 0) as any as S.Schema<TasksCancelByTaskIdRequest>,
   output: __S(27010, __c844, 2) as any as S.Schema<TasksCommonTaskListResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45156,7 +45760,8 @@ export const tasksDelete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24320, __c760, 0) as any as S.Schema<TasksDeleteRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45173,7 +45778,8 @@ export const tasksGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24354, __c761, 2) as any as S.Schema<TasksGetRequest>,
   output: __S(24355, __c761, 3) as any as S.Schema<TasksGetResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45190,7 +45796,8 @@ export const tasksList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24416, __c763, 0) as any as S.Schema<TasksListRequest>,
   output: __S(27010, __c844, 2) as any as S.Schema<TasksCommonTaskListResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45207,7 +45814,8 @@ export const termvectors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24448, __c764, 0) as any as S.Schema<TermvectorsRequest>,
   output: __S(24480, __c765, 0) as any as S.Schema<TermvectorsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45224,7 +45832,8 @@ export const termvectorsById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24512, __c766, 0) as any as S.Schema<TermvectorsByIdRequest>,
   output: __S(24480, __c765, 0) as any as S.Schema<TermvectorsByIdResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45241,7 +45850,8 @@ export const transformsDelete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24544, __c767, 0) as any as S.Schema<TransformsDeleteRequest>,
   output: __S(26629, __c832, 5) as any as S.Schema<CoreBulkBulkResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45258,7 +45868,8 @@ export const transformsExplain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24576, __c768, 0) as any as S.Schema<TransformsExplainRequest>,
   output: __S(24582, __c768, 6) as any as S.Schema<TransformsExplainResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45275,7 +45886,8 @@ export const transformsGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24608, __c769, 0) as any as S.Schema<TransformsGetRequest>,
   output: __S(24672, __c771, 0) as any as S.Schema<TransformsCommonTransformResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45292,7 +45904,8 @@ export const transformsPreview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24704, __c772, 0) as any as S.Schema<TransformsPreviewRequest>,
   output: __S(24705, __c772, 1) as any as S.Schema<TransformsCommonPreview>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45309,7 +45922,8 @@ export const transformsPut: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24736, __c773, 0) as any as S.Schema<TransformsPutRequest>,
   output: __S(24672, __c771, 0) as any as S.Schema<TransformsCommonTransformResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45326,7 +45940,8 @@ export const transformsSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24768, __c774, 0) as any as S.Schema<TransformsSearchRequest>,
   output: __S(24770, __c774, 2) as any as S.Schema<TransformsCommonTransformsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45343,7 +45958,8 @@ export const transformsStart: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24800, __c775, 0) as any as S.Schema<TransformsStartRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45360,7 +45976,8 @@ export const transformsStop: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24864, __c777, 0) as any as S.Schema<TransformsStopRequest>,
   output: __S(18368, __c574, 0) as any as S.Schema<CommonAcknowledgedResponseBase>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45377,7 +45994,8 @@ export const ubiInitialize: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24896, __c778, 0) as any as S.Schema<UbiInitializeRequest>,
   output: __S(23616, __c738, 0) as any as S.Schema<UbiInitializeResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45394,7 +46012,8 @@ export const update: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24928, __c779, 0) as any as S.Schema<UpdateRequest>,
   output: __S(24929, __c779, 1) as any as S.Schema<UpdateResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45411,7 +46030,8 @@ export const updateByQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24960, __c780, 0) as any as S.Schema<UpdateByQueryRequest>,
   output: __S(24961, __c780, 1) as any as S.Schema<UpdateByQueryResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45428,7 +46048,8 @@ export const updateByQueryRethrottle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24992, __c781, 0) as any as S.Schema<UpdateByQueryRethrottleRequest>,
   output: __S(24993, __c781, 1) as any as S.Schema<UpdateByQueryRethrottleResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45445,7 +46066,8 @@ export const wlmCreateQueryGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25024, __c782, 0) as any as S.Schema<WlmCreateQueryGroupRequest>,
   output: __S(25056, __c783, 0) as any as S.Schema<WlmCommonQueryGroupResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45462,7 +46084,8 @@ export const wlmCreateWorkloadGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25088, __c784, 0) as any as S.Schema<WlmCreateWorkloadGroupRequest>,
   output: __S(25152, __c786, 0) as any as S.Schema<WlmCommonWorkloadGroupResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45479,7 +46102,8 @@ export const wlmDeleteQueryGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25184, __c787, 0) as any as S.Schema<WlmDeleteQueryGroupRequest>,
   output: __S(14208, __c444, 0) as any as S.Schema<WlmDeleteQueryGroupResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45496,7 +46120,8 @@ export const wlmDeleteWorkloadGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25216, __c788, 0) as any as S.Schema<WlmDeleteWorkloadGroupRequest>,
   output: __S(14208, __c444, 0) as any as S.Schema<WlmDeleteWorkloadGroupResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45513,7 +46138,8 @@ export const wlmGetQueryGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25248, __c789, 0) as any as S.Schema<WlmGetQueryGroupRequest>,
   output: __S(25281, __c790, 1) as any as S.Schema<WlmGetQueryGroupResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45530,7 +46156,8 @@ export const wlmGetQueryGroupByName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25344, __c792, 0) as any as S.Schema<WlmGetQueryGroupByNameRequest>,
   output: __S(25281, __c790, 1) as any as S.Schema<WlmGetQueryGroupByNameResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45547,7 +46174,8 @@ export const wlmGetWorkloadGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25376, __c793, 0) as any as S.Schema<WlmGetWorkloadGroupRequest>,
   output: __S(25409, __c794, 1) as any as S.Schema<WlmGetWorkloadGroupResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45564,7 +46192,8 @@ export const wlmGetWorkloadGroupByName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25440, __c795, 0) as any as S.Schema<WlmGetWorkloadGroupByNameRequest>,
   output: __S(25409, __c794, 1) as any as S.Schema<WlmGetWorkloadGroupByNameResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45581,7 +46210,8 @@ export const wlmStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25472, __c796, 0) as any as S.Schema<WlmStatsRequest>,
   output: __S(25504, __c797, 0) as any as S.Schema<WlmCommonWlmStatsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45598,7 +46228,8 @@ export const wlmStatsByNodeId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25536, __c798, 0) as any as S.Schema<WlmStatsByNodeIdRequest>,
   output: __S(25504, __c797, 0) as any as S.Schema<WlmCommonWlmStatsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45615,7 +46246,8 @@ export const wlmStatsByNodeIdAndWorkloadGroupId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25568, __c799, 0) as any as S.Schema<WlmStatsByNodeIdAndWorkloadGroupIdRequest>,
   output: __S(25504, __c797, 0) as any as S.Schema<WlmCommonWlmStatsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45632,7 +46264,8 @@ export const wlmStatsByWorkloadGroupId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25600, __c800, 0) as any as S.Schema<WlmStatsByWorkloadGroupIdRequest>,
   output: __S(25504, __c797, 0) as any as S.Schema<WlmCommonWlmStatsResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45649,7 +46282,8 @@ export const wlmUpdateQueryGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25632, __c801, 0) as any as S.Schema<WlmUpdateQueryGroupRequest>,
   output: __S(25056, __c783, 0) as any as S.Schema<WlmCommonQueryGroupResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45666,7 +46300,8 @@ export const wlmUpdateWorkloadGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25664, __c802, 0) as any as S.Schema<WlmUpdateWorkloadGroupRequest>,
   output: __S(25152, __c786, 0) as any as S.Schema<WlmCommonWorkloadGroupResponse>,
-  errors: [UnknownOpenSearchError],
+  errors: [],
+  serviceErrors: OpenSearchServiceErrors,
   protocol: OpenSearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46710,7 +47345,7 @@ function __c37(j: number): any {
           positionLength: S.Number,
           start_offset: S.Number,
           termFrequency: S.Number,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           type: S.String,
         }),
       ).annotate({ identifier: "IndicesAnalyzeExplainAnalyzeToken" });
@@ -46751,7 +47386,7 @@ function __c37(j: number): any {
           position: S.Number,
           positionLength: S.optional(S.Number),
           start_offset: S.Number,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           type: S.String,
         }),
       ).annotate({ identifier: "IndicesAnalyzeAnalyzeToken" });
@@ -65296,7 +65931,7 @@ function __c625(j: number): any {
       return S.suspend(() =>
         S.Struct({
           user: S.optional(S.String),
-          authenticationToken: S.optional(S.String),
+          authenticationToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           durationSeconds: S.optional(S.String),
         }),
       ).annotate({ identifier: "SecurityCommonGenerateOBOToken" });

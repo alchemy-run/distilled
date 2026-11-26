@@ -7,6 +7,7 @@ import type * as stream from "effect/Stream";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -33,6 +34,8 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
     ConsumerARN,
     ResourceARN,
     ChannelARN,
+    QueueARN,
+    ResourceType = "",
     AccountId,
     AccountIdEndpointMode,
   } = p;
@@ -388,9 +391,13 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
                 {
                   const arnType = _.getAttr(arn, "resourceId[0]");
                   if (arnType != null && arnType !== false && !(arnType === "")) {
-                    if (!(arnType === "stream") && !(arnType === "channel")) {
+                    if (
+                      !(arnType === "stream") &&
+                      !(arnType === "channel") &&
+                      !(arnType === "queue")
+                    ) {
                       return err(
-                        `Invalid ARN: Unsupported resource type \`${arnType}\`. Expected: stream or channel`,
+                        `Invalid ARN: Unsupported resource type \`${arnType}\`. Expected: stream, channel, or queue.`,
                       );
                     }
                     if (_.getAttr(PartitionResult, "name") === `${_.getAttr(arn, "partition")}`) {
@@ -482,6 +489,55 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
                           }
                           return err("Invalid ARN: Missing channel id.");
                         }
+                        if (arnType === "queue") {
+                          {
+                            const resourceId = _.getAttr(arn, "resourceId[1]");
+                            if (resourceId != null && resourceId !== false) {
+                              if (_.isValidHostLabel(resourceId, false)) {
+                                if (UseFIPS === true && UseDualStack === true) {
+                                  if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                                    if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
+                                      return e(
+                                        `https://${resourceId}.${OperationType}-kinesis-queues-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                                      );
+                                    }
+                                    return err(
+                                      "DualStack is enabled, but this partition does not support DualStack.",
+                                    );
+                                  }
+                                  return err(
+                                    "FIPS is enabled, but this partition does not support FIPS.",
+                                  );
+                                }
+                                if (UseFIPS === true) {
+                                  if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                                    return e(
+                                      `https://${resourceId}.${OperationType}-kinesis-queues-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                                    );
+                                  }
+                                  return err(
+                                    "FIPS is enabled but this partition does not support FIPS",
+                                  );
+                                }
+                                if (UseDualStack === true) {
+                                  if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
+                                    return e(
+                                      `https://${resourceId}.${OperationType}-kinesis-queues.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                                    );
+                                  }
+                                  return err(
+                                    "DualStack is enabled but this partition does not support DualStack",
+                                  );
+                                }
+                                return e(
+                                  `https://${resourceId}.${OperationType}-kinesis-queues.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                                );
+                              }
+                              return err("Invalid ARN: Invalid queue id.");
+                            }
+                          }
+                          return err("Invalid ARN: Missing queue id.");
+                        }
                       }
                       return err(
                         "Operation Type is not set. Please contact service team for resolution.",
@@ -504,6 +560,124 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
         }
       }
       return err("Invalid ARN: Failed to parse ARN.");
+    }
+  }
+  {
+    const PartitionResult = _.partition(Region);
+    const isoArn = _.parseArn(ResourceARN);
+    const isoArnType = _.getAttr(isoArn, "resourceId[0]");
+    if (
+      ResourceARN != null &&
+      !(Endpoint != null) &&
+      Region != null &&
+      PartitionResult != null &&
+      PartitionResult !== false &&
+      isoArn != null &&
+      isoArn !== false &&
+      isoArnType != null &&
+      isoArnType !== false &&
+      isoArnType === "queue"
+    ) {
+      if (_.isValidHostLabel(_.getAttr(isoArn, "accountId"), false)) {
+        if (_.isValidHostLabel(_.getAttr(isoArn, "region"), false)) {
+          if (_.getAttr(isoArn, "service") === "kinesis") {
+            if (_.getAttr(PartitionResult, "name") === `${_.getAttr(isoArn, "partition")}`) {
+              if (OperationType != null) {
+                {
+                  const isoResourceId = _.getAttr(isoArn, "resourceId[1]");
+                  if (isoResourceId != null && isoResourceId !== false) {
+                    if (_.isValidHostLabel(isoResourceId, false)) {
+                      if (_.getAttr(PartitionResult, "name") === "aws-iso") {
+                        if (UseFIPS === true && UseDualStack === true) {
+                          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                            if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
+                              return e(
+                                `https://kinesis-queues-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                              );
+                            }
+                            return err(
+                              "DualStack is enabled, but this partition does not support DualStack.",
+                            );
+                          }
+                          return err("FIPS is enabled, but this partition does not support FIPS.");
+                        }
+                        if (UseFIPS === true) {
+                          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                            return e(
+                              `https://kinesis-queues-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                            );
+                          }
+                          return err("FIPS is enabled but this partition does not support FIPS");
+                        }
+                        if (UseDualStack === true) {
+                          if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
+                            return e(
+                              `https://kinesis-queues.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                            );
+                          }
+                          return err(
+                            "DualStack is enabled but this partition does not support DualStack",
+                          );
+                        }
+                        return e(
+                          `https://kinesis-queues.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                        );
+                      }
+                      if (_.getAttr(PartitionResult, "name") === "aws-iso-b") {
+                        if (UseFIPS === true && UseDualStack === true) {
+                          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                            if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
+                              return e(
+                                `https://kinesis-queues-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                              );
+                            }
+                            return err(
+                              "DualStack is enabled, but this partition does not support DualStack.",
+                            );
+                          }
+                          return err("FIPS is enabled, but this partition does not support FIPS.");
+                        }
+                        if (UseFIPS === true) {
+                          if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                            return e(
+                              `https://kinesis-queues-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                            );
+                          }
+                          return err("FIPS is enabled but this partition does not support FIPS");
+                        }
+                        if (UseDualStack === true) {
+                          if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
+                            return e(
+                              `https://kinesis-queues.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                            );
+                          }
+                          return err(
+                            "DualStack is enabled but this partition does not support DualStack",
+                          );
+                        }
+                        return e(
+                          `https://kinesis-queues.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                        );
+                      }
+                    }
+                    return err("Invalid ARN: Invalid queue id.");
+                  }
+                }
+                return err("Invalid ARN: Missing queue id.");
+              }
+              return err("Operation Type is not set. Please contact service team for resolution.");
+            }
+            return err(
+              `Partition: ${_.getAttr(isoArn, "partition")} from ARN doesn't match with partition name: ${_.getAttr(PartitionResult, "name")}.`,
+            );
+          }
+          return err(
+            `Invalid ARN: The ARN was not for the Kinesis service, found: ${_.getAttr(isoArn, "service")}.`,
+          );
+        }
+        return err("Invalid ARN: Invalid region.");
+      }
+      return err("Invalid ARN: Invalid account id.");
     }
   }
   {
@@ -614,6 +788,190 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   {
     const PartitionResult = _.partition(Region);
     if (
+      QueueARN != null &&
+      !(Endpoint != null) &&
+      Region != null &&
+      PartitionResult != null &&
+      PartitionResult !== false &&
+      ResourceType === "queue"
+    ) {
+      {
+        const arn = _.parseArn(QueueARN);
+        if (arn != null && arn !== false) {
+          if (_.isValidHostLabel(_.getAttr(arn, "accountId"), false)) {
+            if (_.isValidHostLabel(_.getAttr(arn, "region"), false)) {
+              if (_.getAttr(arn, "service") === "kinesis") {
+                {
+                  const arnType = _.getAttr(arn, "resourceId[0]");
+                  if (arnType != null && arnType !== false && !(arnType === "")) {
+                    if (arnType === "queue") {
+                      if (_.getAttr(PartitionResult, "name") === `${_.getAttr(arn, "partition")}`) {
+                        if (OperationType != null) {
+                          {
+                            const queueId = _.getAttr(arn, "resourceId[1]");
+                            if (queueId != null && queueId !== false) {
+                              if (_.isValidHostLabel(queueId, false)) {
+                                if (_.getAttr(PartitionResult, "name") === "aws-iso") {
+                                  if (UseFIPS === true && UseDualStack === true) {
+                                    if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                                      if (
+                                        _.getAttr(PartitionResult, "supportsDualStack") === true
+                                      ) {
+                                        return e(
+                                          `https://kinesis-queues-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                                        );
+                                      }
+                                      return err(
+                                        "DualStack is enabled, but this partition does not support DualStack.",
+                                      );
+                                    }
+                                    return err(
+                                      "FIPS is enabled, but this partition does not support FIPS.",
+                                    );
+                                  }
+                                  if (UseFIPS === true) {
+                                    if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                                      return e(
+                                        `https://kinesis-queues-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                                      );
+                                    }
+                                    return err(
+                                      "FIPS is enabled but this partition does not support FIPS",
+                                    );
+                                  }
+                                  if (UseDualStack === true) {
+                                    if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
+                                      return e(
+                                        `https://kinesis-queues.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                                      );
+                                    }
+                                    return err(
+                                      "DualStack is enabled but this partition does not support DualStack",
+                                    );
+                                  }
+                                  return e(
+                                    `https://kinesis-queues.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                                  );
+                                }
+                                if (_.getAttr(PartitionResult, "name") === "aws-iso-b") {
+                                  if (UseFIPS === true && UseDualStack === true) {
+                                    if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                                      if (
+                                        _.getAttr(PartitionResult, "supportsDualStack") === true
+                                      ) {
+                                        return e(
+                                          `https://kinesis-queues-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                                        );
+                                      }
+                                      return err(
+                                        "DualStack is enabled, but this partition does not support DualStack.",
+                                      );
+                                    }
+                                    return err(
+                                      "FIPS is enabled, but this partition does not support FIPS.",
+                                    );
+                                  }
+                                  if (UseFIPS === true) {
+                                    if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                                      return e(
+                                        `https://kinesis-queues-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                                      );
+                                    }
+                                    return err(
+                                      "FIPS is enabled but this partition does not support FIPS",
+                                    );
+                                  }
+                                  if (UseDualStack === true) {
+                                    if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
+                                      return e(
+                                        `https://kinesis-queues.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                                      );
+                                    }
+                                    return err(
+                                      "DualStack is enabled but this partition does not support DualStack",
+                                    );
+                                  }
+                                  return e(
+                                    `https://kinesis-queues.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                                  );
+                                }
+                                if (UseFIPS === true && UseDualStack === true) {
+                                  if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                                    if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
+                                      return e(
+                                        `https://${queueId}.${OperationType}-kinesis-queues-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                                      );
+                                    }
+                                    return err(
+                                      "DualStack is enabled, but this partition does not support DualStack.",
+                                    );
+                                  }
+                                  return err(
+                                    "FIPS is enabled, but this partition does not support FIPS.",
+                                  );
+                                }
+                                if (UseFIPS === true) {
+                                  if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                                    return e(
+                                      `https://${queueId}.${OperationType}-kinesis-queues-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                                    );
+                                  }
+                                  return err(
+                                    "FIPS is enabled but this partition does not support FIPS",
+                                  );
+                                }
+                                if (UseDualStack === true) {
+                                  if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
+                                    return e(
+                                      `https://${queueId}.${OperationType}-kinesis-queues.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                                    );
+                                  }
+                                  return err(
+                                    "DualStack is enabled but this partition does not support DualStack",
+                                  );
+                                }
+                                return e(
+                                  `https://${queueId}.${OperationType}-kinesis-queues.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                                );
+                              }
+                              return err("Invalid ARN: Invalid queue id.");
+                            }
+                          }
+                          return err("Invalid ARN: Missing queue id.");
+                        }
+                        return err(
+                          "Operation Type is not set. Please contact service team for resolution.",
+                        );
+                      }
+                      return err(
+                        `Partition: ${_.getAttr(arn, "partition")} from ARN doesn't match with partition name: ${_.getAttr(PartitionResult, "name")}.`,
+                      );
+                    }
+                    return err(
+                      `Invalid ARN: QueueARN only supports \`queue\` ARN types, found: \`${arnType}\`.`,
+                    );
+                  }
+                }
+                return err("Invalid ARN: No ARN type specified");
+              }
+              return err(
+                `Invalid ARN: The ARN was not for the Kinesis service, found: ${_.getAttr(arn, "service")}.`,
+              );
+            }
+            return err("Invalid ARN: Invalid region.");
+          }
+          return err("Invalid ARN: Invalid account id.");
+        }
+      }
+      return err("Invalid ARN: Failed to parse ARN.");
+    }
+  }
+  if (QueueARN != null && !(Endpoint != null) && !(ResourceType === "queue")) {
+    return err('Invalid Configuration: ResourceType must be "queue" when QueueARN is set.');
+  }
+  {
+    const PartitionResult = _.partition(Region);
+    if (
       !(Endpoint != null) &&
       AccountIdEndpointMode != null &&
       !(AccountIdEndpointMode === "disabled") &&
@@ -626,44 +984,86 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
     ) {
       if (_.isValidHostLabel(AccountId, false)) {
         if (OperationType != null) {
-          if (UseFIPS === true && UseDualStack === true) {
-            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-              if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
+          if (ResourceType === "queue") {
+            if (UseFIPS === true && UseDualStack === true) {
+              if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
+                  return e(
+                    `https://${AccountId}.${OperationType}-kinesis-queues-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                    _p0(),
+                    {},
+                  );
+                }
+                return err("DualStack is enabled, but this partition does not support DualStack.");
+              }
+              return err("FIPS is enabled, but this partition does not support FIPS.");
+            }
+            if (UseFIPS === true) {
+              if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
                 return e(
-                  `https://${AccountId}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                  `https://${AccountId}.${OperationType}-kinesis-queues-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
                   _p0(),
                   {},
                 );
               }
-              return err("DualStack is enabled, but this partition does not support DualStack.");
+              return err("FIPS is enabled but this partition does not support FIPS");
             }
-            return err("FIPS is enabled, but this partition does not support FIPS.");
-          }
-          if (UseFIPS === true) {
-            if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-              return e(
-                `https://${AccountId}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-                _p0(),
-                {},
-              );
+            if (UseDualStack === true) {
+              if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
+                return e(
+                  `https://${AccountId}.${OperationType}-kinesis-queues.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                  _p0(),
+                  {},
+                );
+              }
+              return err("DualStack is enabled but this partition does not support DualStack");
             }
-            return err("FIPS is enabled but this partition does not support FIPS");
+            return e(
+              `https://${AccountId}.${OperationType}-kinesis-queues.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              _p0(),
+              {},
+            );
           }
-          if (UseDualStack === true) {
-            if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
-              return e(
-                `https://${AccountId}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-                _p0(),
-                {},
-              );
+          if (!(ResourceType === "queue")) {
+            if (UseFIPS === true && UseDualStack === true) {
+              if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
+                  return e(
+                    `https://${AccountId}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                    _p0(),
+                    {},
+                  );
+                }
+                return err("DualStack is enabled, but this partition does not support DualStack.");
+              }
+              return err("FIPS is enabled, but this partition does not support FIPS.");
             }
-            return err("DualStack is enabled but this partition does not support DualStack");
+            if (UseFIPS === true) {
+              if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+                return e(
+                  `https://${AccountId}.${OperationType}-kinesis-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                  _p0(),
+                  {},
+                );
+              }
+              return err("FIPS is enabled but this partition does not support FIPS");
+            }
+            if (UseDualStack === true) {
+              if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
+                return e(
+                  `https://${AccountId}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                  _p0(),
+                  {},
+                );
+              }
+              return err("DualStack is enabled but this partition does not support DualStack");
+            }
+            return e(
+              `https://${AccountId}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+              _p0(),
+              {},
+            );
           }
-          return e(
-            `https://${AccountId}.${OperationType}-kinesis.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            _p0(),
-            {},
-          );
         }
         return err("Operation Type is not set. Please contact service team for resolution.");
       }
@@ -691,6 +1091,45 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
       return err(
         "Invalid Configuration: AccountIdEndpointMode is required but account endpoints are not supported in this partition",
       );
+    }
+  }
+  {
+    const PartitionResult = _.partition(Region);
+    if (
+      !(Endpoint != null) &&
+      ResourceType === "queue" &&
+      Region != null &&
+      PartitionResult != null &&
+      PartitionResult !== false
+    ) {
+      if (UseFIPS === true && UseDualStack === true) {
+        if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+          if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
+            return e(
+              `https://kinesis-queues-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+            );
+          }
+          return err("DualStack is enabled, but this partition does not support DualStack.");
+        }
+        return err("FIPS is enabled, but this partition does not support FIPS.");
+      }
+      if (UseFIPS === true) {
+        if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
+          return e(
+            `https://kinesis-queues-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+        return err("FIPS is enabled but this partition does not support FIPS");
+      }
+      if (UseDualStack === true) {
+        if (_.getAttr(PartitionResult, "supportsDualStack") === true) {
+          return e(
+            `https://kinesis-queues.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+          );
+        }
+        return err("DualStack is enabled but this partition does not support DualStack");
+      }
+      return e(`https://kinesis-queues.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
     }
   }
   if (Endpoint != null) {
@@ -823,10 +1262,65 @@ export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()("ResourceNotFoundException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }).pipe(C.withNotFoundError) {}
+export class ThrottlingException
+  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()("ThrottlingException", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()("ValidationException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }).pipe(C.withBadRequestError) {}
+export type QueueARN = string;
+export type ReceiptHandle = string;
+export interface AcknowledgeDeadLetterQueueRecordsRequestEntry {
+  ReceiptHandle: string;
+}
+export type AcknowledgeDeadLetterQueueRecordsRequestEntryList =
+  AcknowledgeDeadLetterQueueRecordsRequestEntry[];
+export interface AcknowledgeDeadLetterQueueRecordsInput {
+  QueueARN: string;
+  Entries: AcknowledgeDeadLetterQueueRecordsRequestEntry[];
+}
+export interface AcknowledgeDeadLetterQueueRecordsResultEntry {
+  ReceiptHandle: string;
+}
+export type AcknowledgeDeadLetterQueueRecordsResultEntryList =
+  AcknowledgeDeadLetterQueueRecordsResultEntry[];
+export type ErrorCode = string;
+export type ErrorMessage = string;
+export interface AcknowledgeDeadLetterQueueRecordsErrorEntry {
+  ReceiptHandle: string;
+  ErrorCode: string;
+  ErrorMessage?: string | undefined;
+}
+export type AcknowledgeDeadLetterQueueRecordsErrorEntryList =
+  AcknowledgeDeadLetterQueueRecordsErrorEntry[];
+export interface AcknowledgeDeadLetterQueueRecordsOutput {
+  Successful: AcknowledgeDeadLetterQueueRecordsResultEntry[];
+  Failed: AcknowledgeDeadLetterQueueRecordsErrorEntry[];
+}
+export interface AcknowledgeQueueRecordsRequestEntry {
+  ReceiptHandle: string;
+}
+export type AcknowledgeQueueRecordsRequestEntryList = AcknowledgeQueueRecordsRequestEntry[];
+export interface AcknowledgeQueueRecordsInput {
+  QueueARN: string;
+  Entries: AcknowledgeQueueRecordsRequestEntry[];
+}
+export interface AcknowledgeQueueRecordsResultEntry {
+  ReceiptHandle: string;
+}
+export type AcknowledgeQueueRecordsResultEntryList = AcknowledgeQueueRecordsResultEntry[];
+export interface AcknowledgeQueueRecordsErrorEntry {
+  ReceiptHandle: string;
+  ErrorCode: string;
+  ErrorMessage?: string | undefined;
+}
+export type AcknowledgeQueueRecordsErrorEntryList = AcknowledgeQueueRecordsErrorEntry[];
+export interface AcknowledgeQueueRecordsOutput {
+  Successful: AcknowledgeQueueRecordsResultEntry[];
+  Failed: AcknowledgeQueueRecordsErrorEntry[];
+}
 export type StreamName = string;
 export type TagKey = string;
 export type TagValue = string;
@@ -973,6 +1467,46 @@ export interface ChannelDescription {
 export interface CreateChannelOutput {
   ChannelDescription: ChannelDescription;
 }
+export type QueueName = string;
+export type QueueStartingPositionType = "TRIM_HORIZON" | "LATEST" | "AT_TIMESTAMP" | (string & {});
+export interface QueueStartingPosition {
+  Type: QueueStartingPositionType;
+  Timestamp?: Date | undefined;
+}
+export interface QueueStreamConfiguration {
+  StreamARN: string;
+  StartingPosition?: QueueStartingPosition | undefined;
+}
+export type QueueStreamConfigurationList = QueueStreamConfiguration[];
+export type VisibilityTimeoutSeconds = number;
+export type TargetType = "BUILT_IN" | "NONE" | (string & {});
+export type MaxReceiveCount = number;
+export interface DeadLetterConfiguration {
+  TargetType: TargetType;
+  MaxReceiveCount?: number | undefined;
+}
+export interface QueueAttributes {
+  VisibilityTimeoutSeconds?: number | undefined;
+  DeadLetterConfiguration?: DeadLetterConfiguration | undefined;
+}
+export interface CreateQueueInput {
+  QueueName: string;
+  StreamConfigurationList: QueueStreamConfiguration[];
+  QueueAttributes?: QueueAttributes | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+}
+export type QueueStatus = "CREATING" | "ACTIVE" | "UPDATING" | "DELETING" | (string & {});
+export interface QueueDescription {
+  QueueName: string;
+  QueueARN: string;
+  QueueStatus: QueueStatus;
+  QueueCreationTimestamp: Date;
+  StreamConfigurationList: QueueStreamConfiguration[];
+  QueueAttributes?: QueueAttributes | undefined;
+}
+export interface CreateQueueOutput {
+  QueueDescription: QueueDescription;
+}
 export type PositiveIntegerObject = number;
 export type StreamMode = "PROVISIONED" | "ON_DEMAND" | (string & {});
 export interface StreamModeDetails {
@@ -1003,6 +1537,10 @@ export interface DeleteChannelInput {
   ChannelARN: string;
 }
 export interface DeleteChannelResponse {}
+export interface DeleteQueueInput {
+  QueueARN: string;
+}
+export interface DeleteQueueResponse {}
 export type ResourceARN = string;
 export interface DeleteResourcePolicyInput {
   ResourceARN: string;
@@ -1058,6 +1596,12 @@ export interface DescribeLimitsOutput {
   OnDemandStreamCountLimit: number;
   ChannelCount?: number | undefined;
   ChannelCountLimit?: number | undefined;
+}
+export interface DescribeQueueInput {
+  QueueARN: string;
+}
+export interface DescribeQueueOutput {
+  QueueDescription: QueueDescription;
 }
 export type DescribeStreamInputLimit = number;
 export type ShardId = string;
@@ -1146,6 +1690,7 @@ export interface WarmThroughputObject {
   TargetMiBps?: number | undefined;
   CurrentMiBps?: number | undefined;
 }
+export type QueueCountObject = number;
 export interface StreamDescriptionSummary {
   StreamName: string;
   StreamARN: string;
@@ -1163,6 +1708,7 @@ export interface StreamDescriptionSummary {
   MaxRecordSizeInKiB?: number | undefined;
   ChannelCount?: number | undefined;
   RecordDistributionStrategy?: RecordDistributionStrategy | undefined;
+  QueueCount?: number | undefined;
 }
 export interface DescribeStreamSummaryOutput {
   StreamDescriptionSummary: StreamDescriptionSummary;
@@ -1284,6 +1830,34 @@ export interface ChannelSummary {
 export type ChannelSummaryList = ChannelSummary[];
 export interface ListChannelsOutput {
   ChannelSummaries: ChannelSummary[];
+  NextToken?: string | undefined;
+}
+export type ListQueuesInputLimit = number;
+export interface QueueStreamFilter {
+  StreamARN: string;
+  StreamCreationTimestamp?: Date | undefined;
+}
+export type QueueStreamFilterList = QueueStreamFilter[];
+export interface ListQueuesInput {
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  StreamFilter?: QueueStreamFilter[] | undefined;
+}
+export interface QueueStreamIdentifier {
+  StreamARN: string;
+  StreamCreationTimestamp: Date;
+}
+export type QueueStreamIdentifierList = QueueStreamIdentifier[];
+export interface QueueSummary {
+  QueueName: string;
+  QueueARN: string;
+  QueueStatus: QueueStatus;
+  QueueCreationTimestamp: Date;
+  Streams: QueueStreamIdentifier[];
+}
+export type QueueSummaryList = QueueSummary[];
+export interface ListQueuesOutput {
+  QueueSummaries: QueueSummary[];
   NextToken?: string | undefined;
 }
 export type ListShardsInputLimit = number;
@@ -1414,8 +1988,6 @@ export interface PutRecordsInput {
   StreamId?: string | undefined;
   DryRun?: boolean | undefined;
 }
-export type ErrorCode = string;
-export type ErrorMessage = string;
 export interface PutRecordsResultEntry {
   SequenceNumber?: string | undefined;
   ShardId?: string | undefined;
@@ -1434,6 +2006,40 @@ export interface PutResourcePolicyInput {
   Policy: string;
 }
 export interface PutResourcePolicyResponse {}
+export type ReceiveQueueRecordsInputLimit = number;
+export type ReceiveQueueRecordsWaitTimeSeconds = number;
+export interface ReceiveDeadLetterQueueRecordsInput {
+  QueueARN: string;
+  Limit?: number | undefined;
+  WaitTimeSeconds?: number | undefined;
+  VisibilityTimeoutSeconds?: number | undefined;
+}
+export type RecordId = string;
+export type ApproximateArrivalTimestamp = Date;
+export type FirstReceiveTimestamp = Date;
+export type ReceiveCount = number;
+export interface QueueRecord {
+  ReceiptHandle: string;
+  RecordId: string;
+  PartitionKey?: string | undefined;
+  Data: Uint8Array;
+  ApproximateArrivalTimestamp: Date;
+  FirstReceiveTimestamp: Date;
+  ReceiveCount: number;
+}
+export type QueueRecordList = QueueRecord[];
+export interface ReceiveDeadLetterQueueRecordsOutput {
+  QueueRecords: QueueRecord[];
+}
+export interface ReceiveQueueRecordsInput {
+  QueueARN: string;
+  Limit?: number | undefined;
+  WaitTimeSeconds?: number | undefined;
+  VisibilityTimeoutSeconds?: number | undefined;
+}
+export interface ReceiveQueueRecordsOutput {
+  QueueRecords: QueueRecord[];
+}
 export interface RegisterStreamConsumerInput {
   StreamARN: string;
   ConsumerName: string;
@@ -1451,6 +2057,30 @@ export interface RemoveTagsFromStreamInput {
   StreamId?: string | undefined;
 }
 export interface RemoveTagsFromStreamResponse {}
+export interface RestoreDeadLetterQueueRecordsRequestEntry {
+  ReceiptHandle: string;
+}
+export type RestoreDeadLetterQueueRecordsRequestEntryList =
+  RestoreDeadLetterQueueRecordsRequestEntry[];
+export interface RestoreDeadLetterQueueRecordsInput {
+  QueueARN: string;
+  Entries: RestoreDeadLetterQueueRecordsRequestEntry[];
+}
+export interface RestoreDeadLetterQueueRecordsResultEntry {
+  ReceiptHandle: string;
+}
+export type RestoreDeadLetterQueueRecordsResultEntryList =
+  RestoreDeadLetterQueueRecordsResultEntry[];
+export interface RestoreDeadLetterQueueRecordsErrorEntry {
+  ReceiptHandle: string;
+  ErrorCode: string;
+  ErrorMessage?: string | undefined;
+}
+export type RestoreDeadLetterQueueRecordsErrorEntryList = RestoreDeadLetterQueueRecordsErrorEntry[];
+export interface RestoreDeadLetterQueueRecordsOutput {
+  Successful: RestoreDeadLetterQueueRecordsResultEntry[];
+  Failed: RestoreDeadLetterQueueRecordsErrorEntry[];
+}
 export interface SplitShardInput {
   StreamName?: string | undefined;
   ShardToSplit: string;
@@ -1662,12 +2292,69 @@ export interface UpdateChannelInput {
 export interface UpdateChannelOutput {
   ChannelDescription: ChannelDescription;
 }
+export interface UpdateDeadLetterQueueRecordsVisibilityRequestEntry {
+  ReceiptHandle: string;
+  VisibilityTimeoutSeconds: number;
+}
+export type UpdateDeadLetterQueueRecordsVisibilityRequestEntryList =
+  UpdateDeadLetterQueueRecordsVisibilityRequestEntry[];
+export interface UpdateDeadLetterQueueRecordsVisibilityInput {
+  QueueARN: string;
+  Entries: UpdateDeadLetterQueueRecordsVisibilityRequestEntry[];
+}
+export interface UpdateDeadLetterQueueRecordsVisibilityResultEntry {
+  ReceiptHandle: string;
+}
+export type UpdateDeadLetterQueueRecordsVisibilityResultEntryList =
+  UpdateDeadLetterQueueRecordsVisibilityResultEntry[];
+export interface UpdateDeadLetterQueueRecordsVisibilityErrorEntry {
+  ReceiptHandle: string;
+  ErrorCode: string;
+  ErrorMessage?: string | undefined;
+}
+export type UpdateDeadLetterQueueRecordsVisibilityErrorEntryList =
+  UpdateDeadLetterQueueRecordsVisibilityErrorEntry[];
+export interface UpdateDeadLetterQueueRecordsVisibilityOutput {
+  Successful: UpdateDeadLetterQueueRecordsVisibilityResultEntry[];
+  Failed: UpdateDeadLetterQueueRecordsVisibilityErrorEntry[];
+}
 export interface UpdateMaxRecordSizeInput {
   StreamARN?: string | undefined;
   StreamId?: string | undefined;
   MaxRecordSizeInKiB: number;
 }
 export interface UpdateMaxRecordSizeResponse {}
+export interface UpdateQueueInput {
+  QueueARN: string;
+  QueueAttributes: QueueAttributes;
+}
+export interface UpdateQueueOutput {
+  QueueDescription: QueueDescription;
+}
+export interface UpdateQueueRecordsVisibilityRequestEntry {
+  ReceiptHandle: string;
+  VisibilityTimeoutSeconds: number;
+}
+export type UpdateQueueRecordsVisibilityRequestEntryList =
+  UpdateQueueRecordsVisibilityRequestEntry[];
+export interface UpdateQueueRecordsVisibilityInput {
+  QueueARN: string;
+  Entries: UpdateQueueRecordsVisibilityRequestEntry[];
+}
+export interface UpdateQueueRecordsVisibilityResultEntry {
+  ReceiptHandle: string;
+}
+export type UpdateQueueRecordsVisibilityResultEntryList = UpdateQueueRecordsVisibilityResultEntry[];
+export interface UpdateQueueRecordsVisibilityErrorEntry {
+  ReceiptHandle: string;
+  ErrorCode: string;
+  ErrorMessage?: string | undefined;
+}
+export type UpdateQueueRecordsVisibilityErrorEntryList = UpdateQueueRecordsVisibilityErrorEntry[];
+export interface UpdateQueueRecordsVisibilityOutput {
+  Successful: UpdateQueueRecordsVisibilityResultEntry[];
+  Failed: UpdateQueueRecordsVisibilityErrorEntry[];
+}
 export type ScalingType = "UNIFORM_SCALING" | (string & {});
 export interface UpdateShardCountInput {
   StreamName?: string | undefined;
@@ -1706,6 +2393,88 @@ export interface UpdateStreamWarmThroughputOutput {
   StreamName?: string | undefined;
   WarmThroughput?: WarmThroughputObject | undefined;
 }
+export type AcknowledgeDeadLetterQueueRecordsError =
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Acknowledges up to 10 dead-letter records in the specified queue, so the
+ * queue doesn't return them again. The result for each entry is reported individually
+ * in the response.
+ *
+ * Acknowledging a record does not affect the record in the data stream. That record remains available to stream consumers and to other queues on the same stream for the rest of its retention period.
+ *
+ * Because the request can result in a combination of successful and unsuccessful entries, check the `Failed` list even when the call returns an HTTP status code of `200`.
+ */
+export const acknowledgeDeadLetterQueueRecords: API.OperationMethod<
+  AcknowledgeDeadLetterQueueRecordsInput & RegionInput,
+  AcknowledgeDeadLetterQueueRecordsOutput,
+  AcknowledgeDeadLetterQueueRecordsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(0, __c0, 0) as any as S.Schema<AcknowledgeDeadLetterQueueRecordsInput>,
+  output: __S(36, __c1, 4) as any as S.Schema<AcknowledgeDeadLetterQueueRecordsOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidArgumentException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "AcknowledgeDeadLetterQueueRecords",
+  telemetry: TELEMETRY,
+  span: "AcknowledgeDeadLetterQueueRecords",
+}));
+
+export type AcknowledgeQueueRecordsError =
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Acknowledges up to 10 records from the specified queue. After a record is acknowledged,
+ * the queue does not deliver it again. The result for each entry is reported individually in
+ * the response.
+ *
+ * Acknowledging a record does not affect the record in the data stream. That record remains available to stream consumers and to other queues on the same stream for the rest of its retention period.
+ *
+ * Because the request can result in a combination of successful and unsuccessful entries, check the `Failed` list even when the call returns an HTTP status code of `200`.
+ *
+ * On rare occasions, you can receive a record again after you acknowledge it. Design your
+ * queue consumer to be idempotent, so that processing the same record more than once is
+ * safe.
+ */
+export const acknowledgeQueueRecords: API.OperationMethod<
+  AcknowledgeQueueRecordsInput & RegionInput,
+  AcknowledgeQueueRecordsOutput,
+  AcknowledgeQueueRecordsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(64, __c2, 0) as any as S.Schema<AcknowledgeQueueRecordsInput>,
+  output: __S(36, __c1, 4) as any as S.Schema<AcknowledgeQueueRecordsOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidArgumentException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "AcknowledgeQueueRecords",
+  telemetry: TELEMETRY,
+  span: "AcknowledgeQueueRecords",
+}));
+
 export type AddTagsToStreamError =
   | AccessDeniedException
   | InvalidArgumentException
@@ -1733,8 +2502,8 @@ export const addTagsToStream: API.OperationMethod<
   AddTagsToStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<AddTagsToStreamInput>,
-  output: __S(64, __c2, 0) as any as S.Schema<AddTagsToStreamResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<AddTagsToStreamInput>,
+  output: __S(160, __c5, 0) as any as S.Schema<AddTagsToStreamResponse>,
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -1742,6 +2511,7 @@ export const addTagsToStream: API.OperationMethod<
     ResourceInUseException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToStream",
@@ -1788,8 +2558,8 @@ export const createChannel: API.OperationMethod<
   CreateChannelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(100, __c3, 4) as any as S.Schema<CreateChannelInput>,
-  output: __S(144, __c4, 16) as any as S.Schema<CreateChannelOutput>,
+  input: __S(196, __c6, 4) as any as S.Schema<CreateChannelInput>,
+  output: __S(240, __c7, 16) as any as S.Schema<CreateChannelOutput>,
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -1804,11 +2574,88 @@ export const createChannel: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannel",
   telemetry: TELEMETRY,
   span: "CreateChannel",
+}));
+
+export type CreateQueueError =
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates a queue on the specified data stream. A queue delivers records from the stream to
+ * a queue consumer, tracks the delivery state of each record, and redelivers any record that
+ * is not acknowledged before its visibility timeout expires.
+ *
+ * A queue does not extend how long the stream keeps a record. When a record reaches the
+ * end of the data stream's retention period, the queue stops delivering it.
+ *
+ * Your queue consumer calls ReceiveQueueRecords to receive up to 10
+ * records at a time. After it processes records, it calls
+ * AcknowledgeQueueRecords so the queue does not deliver them
+ * again.
+ *
+ * Queues are supported only on data streams in on-demand capacity mode.
+ *
+ * Creating a queue does not change how producers write to the stream, and it does not change
+ * how existing stream consumers read from it. A queue counts as a registered consumer on the
+ * stream and shares the stream's registered consumer limit with enhanced fan-out
+ * consumers: 20 on On-demand Standard and 50 on On-demand Advantage.
+ *
+ * Use `StartingPosition` to set the position in the stream where delivery
+ * begins. The default is `LATEST`.
+ *
+ * `CreateQueue` is an asynchronous operation. Upon receiving a
+ * `CreateQueue` request, Amazon Kinesis Data Streams immediately returns a queue
+ * description with a `QueueStatus` of `CREATING`. After the queue is
+ * created, Kinesis Data Streams sets the `QueueStatus` to `ACTIVE`.
+ * You can begin receiving records after the queue is `ACTIVE`. Use
+ * DescribeQueue to check the status of the queue.
+ *
+ * Each queue has built-in dead-letter handling. When a record has been received
+ * `MaxReceiveCount` times without being acknowledged, it becomes a dead-letter
+ * record, and ReceiveQueueRecords no longer returns it. You work with
+ * dead-letter records through a separate set of operations that use the same queue ARN: ReceiveDeadLetterQueueRecords,
+ * AcknowledgeDeadLetterQueueRecords,
+ * UpdateDeadLetterQueueRecordsVisibility, and
+ * RestoreDeadLetterQueueRecords.
+ *
+ * Dead-letter handling is enabled by default, with a `MaxReceiveCount` of 6. To
+ * use a different value, or to turn dead-letter handling off, specify
+ * `DeadLetterConfiguration` in `QueueAttributes`.
+ */
+export const createQueue: API.OperationMethod<
+  CreateQueueInput & RegionInput,
+  CreateQueueOutput,
+  CreateQueueError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(256, __c8, 0) as any as S.Schema<CreateQueueInput>,
+  output: __S(294, __c9, 6) as any as S.Schema<CreateQueueOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidArgumentException,
+    LimitExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateQueue",
+  telemetry: TELEMETRY,
+  span: "CreateQueue",
 }));
 
 export type CreateStreamError =
@@ -1864,14 +2711,15 @@ export const createStream: API.OperationMethod<
   CreateStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<CreateStreamInput>,
-  output: __S(64, __c2, 0) as any as S.Schema<CreateStreamResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<CreateStreamInput>,
+  output: __S(160, __c5, 0) as any as S.Schema<CreateStreamResponse>,
   errors: [
     InvalidArgumentException,
     LimitExceededException,
     ResourceInUseException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStream",
@@ -1905,8 +2753,8 @@ export const decreaseStreamRetentionPeriod: API.OperationMethod<
   DecreaseStreamRetentionPeriodError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<DecreaseStreamRetentionPeriodInput>,
-  output: __S(64, __c2, 0) as any as S.Schema<DecreaseStreamRetentionPeriodResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<DecreaseStreamRetentionPeriodInput>,
+  output: __S(160, __c5, 0) as any as S.Schema<DecreaseStreamRetentionPeriodResponse>,
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -1914,6 +2762,7 @@ export const decreaseStreamRetentionPeriod: API.OperationMethod<
     ResourceInUseException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DecreaseStreamRetentionPeriod",
@@ -1947,8 +2796,8 @@ export const deleteChannel: API.OperationMethod<
   DeleteChannelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<DeleteChannelInput>,
-  output: __S(64, __c2, 0) as any as S.Schema<DeleteChannelResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<DeleteChannelInput>,
+  output: __S(160, __c5, 0) as any as S.Schema<DeleteChannelResponse>,
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -1956,6 +2805,7 @@ export const deleteChannel: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannel",
@@ -1963,19 +2813,71 @@ export const deleteChannel: API.OperationMethod<
   span: "DeleteChannel",
 }));
 
+export type DeleteQueueError =
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Deletes the specified queue. Records that are in flight when you delete the queue are not
+ * delivered again, and receipt handles issued by the queue stop being valid.
+ *
+ * Deleting a queue does not delete the data stream the queue was created on, and does not
+ * delete any records in that stream. Those records remain available to stream consumers and
+ * to other queues on the same stream for the rest of their retention period.
+ *
+ * `DeleteQueue` is an asynchronous operation. Upon receiving a
+ * `DeleteQueue` request, Amazon Kinesis Data Streams sets the
+ * `QueueStatus` to `DELETING`. The queue is deleted when the operation
+ * completes. A queue in the `DELETING` state does not deliver records.
+ *
+ * You must delete every queue on a data stream before you can delete the stream, or switch
+ * it from on-demand to provisioned capacity mode.
+ */
+export const deleteQueue: API.OperationMethod<
+  DeleteQueueInput & RegionInput,
+  DeleteQueueResponse,
+  DeleteQueueError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(448, __c14, 0) as any as S.Schema<DeleteQueueInput>,
+  output: __S(160, __c5, 0) as any as S.Schema<DeleteQueueResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidArgumentException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteQueue",
+  telemetry: TELEMETRY,
+  span: "DeleteQueue",
+}));
+
 export type DeleteResourcePolicyError =
   | AccessDeniedException
+  | InternalFailureException
   | InvalidArgumentException
   | LimitExceededException
   | ResourceInUseException
   | ResourceNotFoundException
+  | ValidationException
   | CommonErrors;
 /**
- * Delete a policy for the specified data stream or consumer. Request patterns can be one of the following:
+ * Delete a policy for the specified data stream, consumer, or queue. Request patterns can be one of the following:
  *
  * - Data stream pattern: `arn:aws.*:kinesis:.*:\d{12}:.*stream/\S+`
  *
  * - Consumer pattern: `^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+`
+ *
+ * - Queue pattern: `arn:aws.*:kinesis:.*:\d{12}:queue/\S+`
  */
 export const deleteResourcePolicy: API.OperationMethod<
   DeleteResourcePolicyInput & RegionInput,
@@ -1983,15 +2885,18 @@ export const deleteResourcePolicy: API.OperationMethod<
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<DeleteResourcePolicyInput>,
-  output: __S(64, __c2, 0) as any as S.Schema<DeleteResourcePolicyResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<DeleteResourcePolicyInput>,
+  output: __S(160, __c5, 0) as any as S.Schema<DeleteResourcePolicyResponse>,
   errors: [
     AccessDeniedException,
+    InternalFailureException,
     InvalidArgumentException,
     LimitExceededException,
     ResourceInUseException,
     ResourceNotFoundException,
+    ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
@@ -2028,6 +2933,8 @@ export type DeleteStreamError =
  * When you delete a stream, any shards in that stream are also deleted, and any tags are
  * dissociated from the stream.
  *
+ * Before you can delete a data stream that has queues, you must delete every queue on the stream with DeleteQueue.
+ *
  * You can use the DescribeStreamSummary operation to check the state
  * of the stream, which is returned in `StreamStatus`.
  *
@@ -2040,8 +2947,8 @@ export const deleteStream: API.OperationMethod<
   DeleteStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<DeleteStreamInput>,
-  output: __S(64, __c2, 0) as any as S.Schema<DeleteStreamResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<DeleteStreamInput>,
+  output: __S(160, __c5, 0) as any as S.Schema<DeleteStreamResponse>,
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -2049,6 +2956,7 @@ export const deleteStream: API.OperationMethod<
     ResourceInUseException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStream",
@@ -2084,9 +2992,10 @@ export const deregisterStreamConsumer: API.OperationMethod<
   DeregisterStreamConsumerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<DeregisterStreamConsumerInput>,
-  output: __S(64, __c2, 0) as any as S.Schema<DeregisterStreamConsumerResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<DeregisterStreamConsumerInput>,
+  output: __S(160, __c5, 0) as any as S.Schema<DeregisterStreamConsumerResponse>,
   errors: [InvalidArgumentException, LimitExceededException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterStreamConsumer",
@@ -2109,9 +3018,10 @@ export const describeAccountSettings: API.OperationMethod<
   DescribeAccountSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<DescribeAccountSettingsInput>,
-  output: __S(417, __c13, 1) as any as S.Schema<DescribeAccountSettingsOutput>,
+  input: __S(576, __c18, 0) as any as S.Schema<DescribeAccountSettingsInput>,
+  output: __S(609, __c19, 1) as any as S.Schema<DescribeAccountSettingsOutput>,
   errors: [LimitExceededException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountSettings",
@@ -2139,8 +3049,8 @@ export const describeChannel: API.OperationMethod<
   DescribeChannelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<DescribeChannelInput>,
-  output: __S(144, __c4, 16) as any as S.Schema<DescribeChannelOutput>,
+  input: __S(640, __c20, 0) as any as S.Schema<DescribeChannelInput>,
+  output: __S(240, __c7, 16) as any as S.Schema<DescribeChannelOutput>,
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -2148,6 +3058,7 @@ export const describeChannel: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannel",
@@ -2170,14 +3081,51 @@ export const describeLimits: API.OperationMethod<
   DescribeLimitsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<DescribeLimitsInput>,
-  output: __S(481, __c15, 1) as any as S.Schema<DescribeLimitsOutput>,
+  input: __S(672, __c21, 0) as any as S.Schema<DescribeLimitsInput>,
+  output: __S(673, __c21, 1) as any as S.Schema<DescribeLimitsOutput>,
   errors: [LimitExceededException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLimits",
   telemetry: TELEMETRY,
   span: "DescribeLimits",
+}));
+
+export type DescribeQueueError =
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns a description of the specified queue, including its status, the data stream it
+ * delivers records from, and its configuration attributes.
+ */
+export const describeQueue: API.OperationMethod<
+  DescribeQueueInput & RegionInput,
+  DescribeQueueOutput,
+  DescribeQueueError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(704, __c22, 0) as any as S.Schema<DescribeQueueInput>,
+  output: __S(294, __c9, 6) as any as S.Schema<DescribeQueueOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidArgumentException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribeQueue",
+  telemetry: TELEMETRY,
+  span: "DescribeQueue",
 }));
 
 export type DescribeStreamError =
@@ -2221,14 +3169,15 @@ export const describeStream: API.OperationMethod<
   DescribeStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<DescribeStreamInput>,
-  output: __S(514, __c16, 2) as any as S.Schema<DescribeStreamOutput>,
+  input: __S(736, __c23, 0) as any as S.Schema<DescribeStreamInput>,
+  output: __S(738, __c23, 2) as any as S.Schema<DescribeStreamOutput>,
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStream",
@@ -2266,9 +3215,10 @@ export const describeStreamConsumer: API.OperationMethod<
   DescribeStreamConsumerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<DescribeStreamConsumerInput>,
-  output: __S(674, __c21, 2) as any as S.Schema<DescribeStreamConsumerOutput>,
+  input: __S(896, __c28, 0) as any as S.Schema<DescribeStreamConsumerInput>,
+  output: __S(898, __c28, 2) as any as S.Schema<DescribeStreamConsumerOutput>,
   errors: [InvalidArgumentException, LimitExceededException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStreamConsumer",
@@ -2306,14 +3256,15 @@ export const describeStreamSummary: API.OperationMethod<
   DescribeStreamSummaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<DescribeStreamSummaryInput>,
-  output: __S(706, __c22, 2) as any as S.Schema<DescribeStreamSummaryOutput>,
+  input: __S(928, __c29, 0) as any as S.Schema<DescribeStreamSummaryInput>,
+  output: __S(930, __c29, 2) as any as S.Schema<DescribeStreamSummaryOutput>,
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStreamSummary",
@@ -2347,8 +3298,8 @@ export const disableEnhancedMonitoring: API.OperationMethod<
   DisableEnhancedMonitoringError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<DisableEnhancedMonitoringInput>,
-  output: __S(800, __c25, 0) as any as S.Schema<EnhancedMonitoringOutput>,
+  input: __S(992, __c31, 0) as any as S.Schema<DisableEnhancedMonitoringInput>,
+  output: __S(1024, __c32, 0) as any as S.Schema<EnhancedMonitoringOutput>,
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -2356,6 +3307,7 @@ export const disableEnhancedMonitoring: API.OperationMethod<
     ResourceInUseException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableEnhancedMonitoring",
@@ -2389,8 +3341,8 @@ export const enableEnhancedMonitoring: API.OperationMethod<
   EnableEnhancedMonitoringError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<EnableEnhancedMonitoringInput>,
-  output: __S(800, __c25, 0) as any as S.Schema<EnhancedMonitoringOutput>,
+  input: __S(1056, __c33, 0) as any as S.Schema<EnableEnhancedMonitoringInput>,
+  output: __S(1024, __c32, 0) as any as S.Schema<EnhancedMonitoringOutput>,
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -2398,6 +3350,7 @@ export const enableEnhancedMonitoring: API.OperationMethod<
     ResourceInUseException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableEnhancedMonitoring",
@@ -2496,8 +3449,8 @@ export const getRecords: API.OperationMethod<
   GetRecordsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<GetRecordsInput>,
-  output: __S(865, __c27, 1) as any as S.Schema<GetRecordsOutput>,
+  input: __S(1088, __c34, 0) as any as S.Schema<GetRecordsInput>,
+  output: __S(1089, __c34, 1) as any as S.Schema<GetRecordsOutput>,
   errors: [
     AccessDeniedException,
     DryRunOperationException,
@@ -2513,6 +3466,7 @@ export const getRecords: API.OperationMethod<
     ProvisionedThroughputExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecords",
@@ -2525,17 +3479,21 @@ export const getRecords: API.OperationMethod<
 
 export type GetResourcePolicyError =
   | AccessDeniedException
+  | InternalFailureException
   | InvalidArgumentException
   | LimitExceededException
   | ResourceInUseException
   | ResourceNotFoundException
+  | ValidationException
   | CommonErrors;
 /**
- * Returns a policy attached to the specified data stream or consumer. Request patterns can be one of the following:
+ * Returns a policy attached to the specified data stream, consumer, or queue. Request patterns can be one of the following:
  *
  * - Data stream pattern: `arn:aws.*:kinesis:.*:\d{12}:.*stream/\S+`
  *
  * - Consumer pattern: `^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+`
+ *
+ * - Queue pattern: `arn:aws.*:kinesis:.*:\d{12}:queue/\S+`
  */
 export const getResourcePolicy: API.OperationMethod<
   GetResourcePolicyInput & RegionInput,
@@ -2543,15 +3501,18 @@ export const getResourcePolicy: API.OperationMethod<
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<GetResourcePolicyInput>,
-  output: __S(961, __c30, 1) as any as S.Schema<GetResourcePolicyOutput>,
+  input: __S(1184, __c37, 0) as any as S.Schema<GetResourcePolicyInput>,
+  output: __S(1185, __c37, 1) as any as S.Schema<GetResourcePolicyOutput>,
   errors: [
     AccessDeniedException,
+    InternalFailureException,
     InvalidArgumentException,
     LimitExceededException,
     ResourceInUseException,
     ResourceNotFoundException,
+    ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
@@ -2618,8 +3579,8 @@ export const getShardIterator: API.OperationMethod<
   GetShardIteratorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<GetShardIteratorInput>,
-  output: __S(993, __c31, 1) as any as S.Schema<GetShardIteratorOutput>,
+  input: __S(1216, __c38, 0) as any as S.Schema<GetShardIteratorInput>,
+  output: __S(1217, __c38, 1) as any as S.Schema<GetShardIteratorOutput>,
   errors: [
     AccessDeniedException,
     DryRunOperationException,
@@ -2628,6 +3589,7 @@ export const getShardIterator: API.OperationMethod<
     ProvisionedThroughputExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetShardIterator",
@@ -2670,8 +3632,8 @@ export const increaseStreamRetentionPeriod: API.OperationMethod<
   IncreaseStreamRetentionPeriodError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<IncreaseStreamRetentionPeriodInput>,
-  output: __S(64, __c2, 0) as any as S.Schema<IncreaseStreamRetentionPeriodResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<IncreaseStreamRetentionPeriodInput>,
+  output: __S(160, __c5, 0) as any as S.Schema<IncreaseStreamRetentionPeriodResponse>,
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -2679,6 +3641,7 @@ export const increaseStreamRetentionPeriod: API.OperationMethod<
     ResourceInUseException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IncreaseStreamRetentionPeriod",
@@ -2713,8 +3676,8 @@ export const listChannels: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ChannelSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1058, __c33, 2) as any as S.Schema<ListChannelsInput>,
-  output: __S(1063, __c33, 7) as any as S.Schema<ListChannelsOutput>,
+  input: __S(1280, __c40, 0) as any as S.Schema<ListChannelsInput>,
+  output: __S(1283, __c40, 3) as any as S.Schema<ListChannelsOutput>,
   errors: [
     AccessDeniedException,
     ExpiredNextTokenException,
@@ -2722,6 +3685,7 @@ export const listChannels: API.PaginatedOperationMethod<
     LimitExceededException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListChannels",
@@ -2733,6 +3697,53 @@ export const listChannels: API.PaginatedOperationMethod<
   } as const,
   telemetry: TELEMETRY,
   span: "ListChannels",
+})) as any;
+
+export type ListQueuesError =
+  | AccessDeniedException
+  | ExpiredNextTokenException
+  | InternalFailureException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns a summary of each queue in the Amazon Web Services account and Region used by the
+ * request. Use `StreamFilter` to list only the queues on a particular data
+ * stream.
+ *
+ * If the response contains a `NextToken`, more queues are available. Call
+ * `ListQueues` again with that value to retrieve the next page.
+ */
+export const listQueues: API.PaginatedOperationMethod<
+  ListQueuesInput & RegionInput,
+  ListQueuesOutput,
+  ListQueuesError,
+  Credentials | HttpClient.HttpClient,
+  QueueSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(1344, __c42, 0) as any as S.Schema<ListQueuesInput>,
+  output: __S(1347, __c42, 3) as any as S.Schema<ListQueuesOutput>,
+  errors: [
+    AccessDeniedException,
+    ExpiredNextTokenException,
+    InternalFailureException,
+    InvalidArgumentException,
+    LimitExceededException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListQueues",
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "QueueSummaries",
+    pageSize: "MaxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListQueues",
 })) as any;
 
 export type ListShardsError =
@@ -2766,8 +3777,8 @@ export const listShards: API.OperationMethod<
   ListShardsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1089, __c34, 1) as any as S.Schema<ListShardsInput>,
-  output: __S(1090, __c34, 2) as any as S.Schema<ListShardsOutput>,
+  input: __S(1377, __c43, 1) as any as S.Schema<ListShardsInput>,
+  output: __S(1378, __c43, 2) as any as S.Schema<ListShardsOutput>,
   errors: [
     AccessDeniedException,
     ExpiredNextTokenException,
@@ -2776,6 +3787,7 @@ export const listShards: API.OperationMethod<
     ResourceInUseException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListShards",
@@ -2809,8 +3821,8 @@ export const listStreamConsumers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<ListStreamConsumersInput>,
-  output: __S(1122, __c35, 2) as any as S.Schema<ListStreamConsumersOutput>,
+  input: __S(1408, __c44, 0) as any as S.Schema<ListStreamConsumersInput>,
+  output: __S(1410, __c44, 2) as any as S.Schema<ListStreamConsumersOutput>,
   errors: [
     ExpiredNextTokenException,
     InvalidArgumentException,
@@ -2818,6 +3830,7 @@ export const listStreamConsumers: API.PaginatedOperationMethod<
     ResourceInUseException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListStreamConsumers",
@@ -2865,9 +3878,10 @@ export const listStreams: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<ListStreamsInput>,
-  output: __S(1187, __c37, 3) as any as S.Schema<ListStreamsOutput>,
+  input: __S(1472, __c46, 0) as any as S.Schema<ListStreamsInput>,
+  output: __S(1475, __c46, 3) as any as S.Schema<ListStreamsOutput>,
   errors: [ExpiredNextTokenException, InvalidArgumentException, LimitExceededException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListStreams",
@@ -2878,13 +3892,18 @@ export const listStreams: API.PaginatedOperationMethod<
 
 export type ListTagsForResourceError =
   | AccessDeniedException
+  | InternalFailureException
   | InvalidArgumentException
   | LimitExceededException
   | ResourceInUseException
   | ResourceNotFoundException
+  | ValidationException
   | CommonErrors;
 /**
  * List all tags added to the specified Kinesis resource. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources.
+ *
+ * The Kinesis resource can be a data stream, a queue, or an enhanced fan-out
+ * consumer.
  *
  * For more information about tagging Kinesis resources, see Tag your Amazon Kinesis Data Streams resources.
  */
@@ -2894,15 +3913,18 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<ListTagsForResourceInput>,
-  output: __S(1217, __c38, 1) as any as S.Schema<ListTagsForResourceOutput>,
+  input: __S(1504, __c47, 0) as any as S.Schema<ListTagsForResourceInput>,
+  output: __S(1505, __c47, 1) as any as S.Schema<ListTagsForResourceOutput>,
   errors: [
     AccessDeniedException,
+    InternalFailureException,
     InvalidArgumentException,
     LimitExceededException,
     ResourceInUseException,
     ResourceNotFoundException,
+    ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -2930,14 +3952,15 @@ export const listTagsForStream: API.OperationMethod<
   ListTagsForStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<ListTagsForStreamInput>,
-  output: __S(1281, __c40, 1) as any as S.Schema<ListTagsForStreamOutput>,
+  input: __S(1568, __c49, 0) as any as S.Schema<ListTagsForStreamInput>,
+  output: __S(1569, __c49, 1) as any as S.Schema<ListTagsForStreamOutput>,
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForStream",
@@ -3012,8 +4035,8 @@ export const mergeShards: API.OperationMethod<
   MergeShardsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<MergeShardsInput>,
-  output: __S(64, __c2, 0) as any as S.Schema<MergeShardsResponse>,
+  input: __S(1600, __c50, 0) as any as S.Schema<MergeShardsInput>,
+  output: __S(160, __c5, 0) as any as S.Schema<MergeShardsResponse>,
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -3022,6 +4045,7 @@ export const mergeShards: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MergeShards",
@@ -3103,8 +4127,8 @@ export const putRecord: API.OperationMethod<
   PutRecordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<PutRecordInput>,
-  output: __S(1345, __c42, 1) as any as S.Schema<PutRecordOutput>,
+  input: __S(1632, __c51, 0) as any as S.Schema<PutRecordInput>,
+  output: __S(1633, __c51, 1) as any as S.Schema<PutRecordOutput>,
   errors: [
     AccessDeniedException,
     DryRunOperationException,
@@ -3119,6 +4143,7 @@ export const putRecord: API.OperationMethod<
     ProvisionedThroughputExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRecord",
@@ -3223,8 +4248,8 @@ export const putRecords: API.OperationMethod<
   PutRecordsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1378, __c43, 2) as any as S.Schema<PutRecordsInput>,
-  output: __S(1381, __c43, 5) as any as S.Schema<PutRecordsOutput>,
+  input: __S(1666, __c52, 2) as any as S.Schema<PutRecordsInput>,
+  output: __S(1669, __c52, 5) as any as S.Schema<PutRecordsOutput>,
   errors: [
     AccessDeniedException,
     DryRunOperationException,
@@ -3239,6 +4264,7 @@ export const putRecords: API.OperationMethod<
     ProvisionedThroughputExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRecords",
@@ -3254,13 +4280,15 @@ export const putRecords: API.OperationMethod<
 
 export type PutResourcePolicyError =
   | AccessDeniedException
+  | InternalFailureException
   | InvalidArgumentException
   | LimitExceededException
   | ResourceInUseException
   | ResourceNotFoundException
+  | ValidationException
   | CommonErrors;
 /**
- * Attaches a resource-based policy to a data stream or registered consumer. If you are using an identity other than the root user of
+ * Attaches a resource-based policy to a data stream, a queue, or an enhanced fan-out consumer. If you are using an identity other than the root user of
  * the Amazon Web Services account that owns the resource, the calling identity must have the `PutResourcePolicy` permissions on the
  * specified Kinesis Data Streams resource and belong to the owner's account in order to use this operation.
  * If you don't have `PutResourcePolicy` permissions, Amazon Kinesis Data Streams returns a `403 Access Denied error`.
@@ -3272,6 +4300,8 @@ export type PutResourcePolicyError =
  *
  * - Consumer pattern: `^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+`
  *
+ * - Queue pattern: `arn:aws.*:kinesis:.*:\d{12}:queue/\S+`
+ *
  * For more information, see Controlling Access to Amazon Kinesis Data Streams Resources Using IAM.
  */
 export const putResourcePolicy: API.OperationMethod<
@@ -3280,20 +4310,152 @@ export const putResourcePolicy: API.OperationMethod<
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<PutResourcePolicyInput>,
-  output: __S(64, __c2, 0) as any as S.Schema<PutResourcePolicyResponse>,
+  input: __S(1696, __c53, 0) as any as S.Schema<PutResourcePolicyInput>,
+  output: __S(160, __c5, 0) as any as S.Schema<PutResourcePolicyResponse>,
   errors: [
     AccessDeniedException,
+    InternalFailureException,
     InvalidArgumentException,
     LimitExceededException,
     ResourceInUseException,
     ResourceNotFoundException,
+    ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
   telemetry: TELEMETRY,
   span: "PutResourcePolicy",
+}));
+
+export type ReceiveDeadLetterQueueRecordsError =
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidArgumentException
+  | KMSAccessDeniedException
+  | KMSDisabledException
+  | KMSInvalidStateException
+  | KMSNotFoundException
+  | KMSOptInRequired
+  | KMSThrottlingException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Receives up to 10 dead-letter records from the specified queue. Each queue has built-in
+ * dead-letter handling: when a record has been received `MaxReceiveCount` times
+ * without being acknowledged, it becomes a dead-letter record, which usually means your queue
+ * consumer could not process it. The dead-letter record stays in the same queue, and
+ * ReceiveQueueRecords no longer returns it.
+ *
+ * Dead-letter records carry the same data and partition key as when
+ * they were first delivered, and are returned with a receipt handle. Use the receipt
+ * handle to acknowledge the record with
+ * AcknowledgeDeadLetterQueueRecords, which discards it, to change its
+ * visibility with UpdateDeadLetterQueueRecordsVisibility, or to restore
+ * it with RestoreDeadLetterQueueRecords, which returns it to the normal
+ * receive path so that ReceiveQueueRecords can return it again.
+ *
+ * Use this operation to inspect the records your queue consumer could not process, so you
+ * can correct the cause and then either acknowledge or restore them.
+ *
+ * A queue delivers dead-letter records while it is in the `ACTIVE`
+ * state.
+ */
+export const receiveDeadLetterQueueRecords: API.OperationMethod<
+  ReceiveDeadLetterQueueRecordsInput & RegionInput,
+  ReceiveDeadLetterQueueRecordsOutput,
+  ReceiveDeadLetterQueueRecordsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1728, __c54, 0) as any as S.Schema<ReceiveDeadLetterQueueRecordsInput>,
+  output: __S(1762, __c55, 2) as any as S.Schema<ReceiveDeadLetterQueueRecordsOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidArgumentException,
+    KMSAccessDeniedException,
+    KMSDisabledException,
+    KMSInvalidStateException,
+    KMSNotFoundException,
+    KMSOptInRequired,
+    KMSThrottlingException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ReceiveDeadLetterQueueRecords",
+  telemetry: TELEMETRY,
+  span: "ReceiveDeadLetterQueueRecords",
+}));
+
+export type ReceiveQueueRecordsError =
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidArgumentException
+  | KMSAccessDeniedException
+  | KMSDisabledException
+  | KMSInvalidStateException
+  | KMSNotFoundException
+  | KMSOptInRequired
+  | KMSThrottlingException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Receives up to 10 records from the specified queue. Each record is returned with a
+ * receipt handle, which is the identifier you use to acknowledge the record or change its
+ * visibility.
+ *
+ * A record returned by `ReceiveQueueRecords` becomes in flight: it is not visible
+ * to any consumer instance for the duration of its visibility timeout, so subsequent
+ * receive requests do not return it while your queue consumer processes it. Acknowledge the record with
+ * AcknowledgeQueueRecords when you finish processing it. A record that is
+ * not acknowledged before its visibility timeout expires becomes visible in the queue again
+ * and can be received by any consumer instance.
+ *
+ * Use `WaitTimeSeconds` to control how long the call waits for a record to
+ * become visible before returning. If a record becomes visible sooner, the call returns
+ * sooner. If the wait time expires and no records are visible, the call returns an empty
+ * list of records.
+ *
+ * Records are not necessarily received in the order they were written to the data
+ * stream.
+ *
+ * A queue delivers records while it is in the `ACTIVE` state.
+ *
+ * On rare occasions, a queue can deliver a record more than once. Design your queue consumer to be idempotent, so that processing the same record more than once is safe.
+ */
+export const receiveQueueRecords: API.OperationMethod<
+  ReceiveQueueRecordsInput & RegionInput,
+  ReceiveQueueRecordsOutput,
+  ReceiveQueueRecordsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1792, __c56, 0) as any as S.Schema<ReceiveQueueRecordsInput>,
+  output: __S(1762, __c55, 2) as any as S.Schema<ReceiveQueueRecordsOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidArgumentException,
+    KMSAccessDeniedException,
+    KMSDisabledException,
+    KMSInvalidStateException,
+    KMSNotFoundException,
+    KMSOptInRequired,
+    KMSThrottlingException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ReceiveQueueRecords",
+  telemetry: TELEMETRY,
+  span: "ReceiveQueueRecords",
 }));
 
 export type RegisterStreamConsumerError =
@@ -3311,11 +4473,14 @@ export type RegisterStreamConsumerError =
  *
  * You can add tags to the registered consumer when making a `RegisterStreamConsumer` request by setting the `Tags` parameter. If you pass the `Tags` parameter, in addition to having the `kinesis:RegisterStreamConsumer` permission, you must also have the `kinesis:TagResource` permission for the consumer that will be registered. Tags will take effect from the `CREATING` status of the consumer.
  *
- * With On-demand Advantage streams, you can register up to 50 consumers per stream to use Enhanced Fan-out. With On-demand Standard and Provisioned streams, you can register up to 20 consumers per stream to use Enhanced Fan-out. A given consumer can only be
- * registered with one stream at a time.
+ * With On-demand Advantage streams, you can register up to 50 consumers per stream to use
+ * enhanced fan-out. With On-demand Standard and Provisioned streams, you can register up
+ * to 20 consumers per stream to use enhanced fan-out. Queues share this limit with
+ * enhanced fan-out consumers: both count as registered consumers on the stream. A given
+ * consumer can only be registered with one stream at a time.
  *
- * For an example of how to use this operation, see Enhanced Fan-Out
- * Using the Kinesis Data Streams API.
+ * For an example of how to use this operation, see Develop enhanced fan-out consumers
+ * with the Amazon Web Services SDK for Java.
  *
  * The use of this operation has a limit of five transactions per second per account.
  * Also, only 5 consumers can be created simultaneously. In other words, you cannot have
@@ -3329,14 +4494,15 @@ export const registerStreamConsumer: API.OperationMethod<
   RegisterStreamConsumerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<RegisterStreamConsumerInput>,
-  output: __S(1441, __c45, 1) as any as S.Schema<RegisterStreamConsumerOutput>,
+  input: __S(1824, __c57, 0) as any as S.Schema<RegisterStreamConsumerInput>,
+  output: __S(1825, __c57, 1) as any as S.Schema<RegisterStreamConsumerOutput>,
   errors: [
     InvalidArgumentException,
     LimitExceededException,
     ResourceInUseException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterStreamConsumer",
@@ -3373,8 +4539,8 @@ export const removeTagsFromStream: API.OperationMethod<
   RemoveTagsFromStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<RemoveTagsFromStreamInput>,
-  output: __S(64, __c2, 0) as any as S.Schema<RemoveTagsFromStreamResponse>,
+  input: __S(1856, __c58, 0) as any as S.Schema<RemoveTagsFromStreamInput>,
+  output: __S(160, __c5, 0) as any as S.Schema<RemoveTagsFromStreamResponse>,
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -3382,6 +4548,7 @@ export const removeTagsFromStream: API.OperationMethod<
     ResourceInUseException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromStream",
@@ -3393,6 +4560,47 @@ export const removeTagsFromStream: API.OperationMethod<
       StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }],
     },
   },
+}));
+
+export type RestoreDeadLetterQueueRecordsError =
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Restores up to 10 dead-letter records in the specified queue. Restoring a record clears
+ * its dead-letter state and resets its receive count, so
+ * ReceiveQueueRecords can return it again, up to `MaxReceiveCount` times before it becomes a dead-letter record
+ * again. The result for each entry is reported individually in the response.
+ *
+ * Restore records after you have corrected the condition that prevented your queue consumer
+ * from processing them.
+ *
+ * Because the request can result in a combination of successful and unsuccessful entries, check the `Failed` list even when the call returns an HTTP status code of `200`.
+ */
+export const restoreDeadLetterQueueRecords: API.OperationMethod<
+  RestoreDeadLetterQueueRecordsInput & RegionInput,
+  RestoreDeadLetterQueueRecordsOutput,
+  RestoreDeadLetterQueueRecordsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1888, __c59, 0) as any as S.Schema<RestoreDeadLetterQueueRecordsInput>,
+  output: __S(36, __c1, 4) as any as S.Schema<RestoreDeadLetterQueueRecordsOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidArgumentException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "RestoreDeadLetterQueueRecords",
+  telemetry: TELEMETRY,
+  span: "RestoreDeadLetterQueueRecords",
 }));
 
 export type SplitShardError =
@@ -3462,8 +4670,8 @@ export const splitShard: API.OperationMethod<
   SplitShardError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<SplitShardInput>,
-  output: __S(64, __c2, 0) as any as S.Schema<SplitShardResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<SplitShardInput>,
+  output: __S(160, __c5, 0) as any as S.Schema<SplitShardResponse>,
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -3472,6 +4680,7 @@ export const splitShard: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SplitShard",
@@ -3529,8 +4738,8 @@ export const startStreamEncryption: API.OperationMethod<
   StartStreamEncryptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<StartStreamEncryptionInput>,
-  output: __S(64, __c2, 0) as any as S.Schema<StartStreamEncryptionResponse>,
+  input: __S(1952, __c61, 0) as any as S.Schema<StartStreamEncryptionInput>,
+  output: __S(160, __c5, 0) as any as S.Schema<StartStreamEncryptionResponse>,
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -3544,6 +4753,7 @@ export const startStreamEncryption: API.OperationMethod<
     ResourceInUseException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartStreamEncryption",
@@ -3594,8 +4804,8 @@ export const stopStreamEncryption: API.OperationMethod<
   StopStreamEncryptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<StopStreamEncryptionInput>,
-  output: __S(64, __c2, 0) as any as S.Schema<StopStreamEncryptionResponse>,
+  input: __S(1984, __c62, 0) as any as S.Schema<StopStreamEncryptionInput>,
+  output: __S(160, __c5, 0) as any as S.Schema<StopStreamEncryptionResponse>,
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -3603,6 +4813,7 @@ export const stopStreamEncryption: API.OperationMethod<
     ResourceInUseException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopStreamEncryption",
@@ -3650,8 +4861,8 @@ export type SubscribeToShardError =
  * the previous connection expires or fails with a
  * `ResourceInUseException`.
  *
- * For an example of how to use this operation, see Enhanced Fan-Out
- * Using the Kinesis Data Streams API.
+ * For an example of how to use this operation, see Develop enhanced fan-out consumers
+ * with the Amazon Web Services SDK for Java.
  */
 export const subscribeToShard: API.OperationMethod<
   SubscribeToShardInput & RegionInput,
@@ -3659,8 +4870,8 @@ export const subscribeToShard: API.OperationMethod<
   SubscribeToShardError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1601, __c50, 1) as any as S.Schema<SubscribeToShardInput>,
-  output: __S(1604, __c50, 4) as any as S.Schema<SubscribeToShardOutput>,
+  input: __S(2017, __c63, 1) as any as S.Schema<SubscribeToShardInput>,
+  output: __S(2020, __c63, 4) as any as S.Schema<SubscribeToShardOutput>,
   errors: [
     AccessDeniedException,
     DryRunOperationException,
@@ -3669,6 +4880,7 @@ export const subscribeToShard: API.OperationMethod<
     ResourceInUseException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubscribeToShard",
@@ -3678,13 +4890,18 @@ export const subscribeToShard: API.OperationMethod<
 
 export type TagResourceError =
   | AccessDeniedException
+  | InternalFailureException
   | InvalidArgumentException
   | LimitExceededException
   | ResourceInUseException
   | ResourceNotFoundException
+  | ValidationException
   | CommonErrors;
 /**
  * Adds or updates tags for the specified Kinesis resource. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources. You can assign up to 50 tags to a Kinesis resource.
+ *
+ * The Kinesis resource can be a data stream, a queue, or an enhanced fan-out
+ * consumer.
  */
 export const tagResource: API.OperationMethod<
   TagResourceInput & RegionInput,
@@ -3692,15 +4909,18 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<TagResourceInput>,
-  output: __S(64, __c2, 0) as any as S.Schema<TagResourceResponse>,
+  input: __S(2048, __c64, 0) as any as S.Schema<TagResourceInput>,
+  output: __S(160, __c5, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     AccessDeniedException,
+    InternalFailureException,
     InvalidArgumentException,
     LimitExceededException,
     ResourceInUseException,
     ResourceNotFoundException,
+    ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -3710,13 +4930,18 @@ export const tagResource: API.OperationMethod<
 
 export type UntagResourceError =
   | AccessDeniedException
+  | InternalFailureException
   | InvalidArgumentException
   | LimitExceededException
   | ResourceInUseException
   | ResourceNotFoundException
+  | ValidationException
   | CommonErrors;
 /**
  * Removes tags from the specified Kinesis resource. Removed tags are deleted and can't be recovered after this operation completes successfully.
+ *
+ * The Kinesis resource can be a data stream, a queue, or an enhanced fan-out
+ * consumer.
  */
 export const untagResource: API.OperationMethod<
   UntagResourceInput & RegionInput,
@@ -3724,15 +4949,18 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<UntagResourceInput>,
-  output: __S(64, __c2, 0) as any as S.Schema<UntagResourceResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<UntagResourceInput>,
+  output: __S(160, __c5, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     AccessDeniedException,
+    InternalFailureException,
     InvalidArgumentException,
     LimitExceededException,
     ResourceInUseException,
     ResourceNotFoundException,
+    ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -3762,9 +4990,10 @@ export const updateAccountSettings: API.OperationMethod<
   UpdateAccountSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1697, __c53, 1) as any as S.Schema<UpdateAccountSettingsInput>,
-  output: __S(417, __c13, 1) as any as S.Schema<UpdateAccountSettingsOutput>,
+  input: __S(2113, __c66, 1) as any as S.Schema<UpdateAccountSettingsInput>,
+  output: __S(609, __c19, 1) as any as S.Schema<UpdateAccountSettingsOutput>,
   errors: [InvalidArgumentException, LimitExceededException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountSettings",
@@ -3793,8 +5022,8 @@ export const updateChannel: API.OperationMethod<
   UpdateChannelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1729, __c54, 1) as any as S.Schema<UpdateChannelInput>,
-  output: __S(144, __c4, 16) as any as S.Schema<UpdateChannelOutput>,
+  input: __S(2145, __c67, 1) as any as S.Schema<UpdateChannelInput>,
+  output: __S(240, __c7, 16) as any as S.Schema<UpdateChannelOutput>,
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -3803,11 +5032,49 @@ export const updateChannel: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannel",
   telemetry: TELEMETRY,
   span: "UpdateChannel",
+}));
+
+export type UpdateDeadLetterQueueRecordsVisibilityError =
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Changes the visibility timeout of up to 10 dead-letter records that you have received
+ * from the specified queue but not yet acknowledged. The result for each entry is reported
+ * individually in the response.
+ *
+ * Because the request can result in a combination of successful and unsuccessful entries, check the `Failed` list even when the call returns an HTTP status code of `200`.
+ */
+export const updateDeadLetterQueueRecordsVisibility: API.OperationMethod<
+  UpdateDeadLetterQueueRecordsVisibilityInput & RegionInput,
+  UpdateDeadLetterQueueRecordsVisibilityOutput,
+  UpdateDeadLetterQueueRecordsVisibilityError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2176, __c68, 0) as any as S.Schema<UpdateDeadLetterQueueRecordsVisibilityInput>,
+  output: __S(36, __c1, 4) as any as S.Schema<UpdateDeadLetterQueueRecordsVisibilityOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidArgumentException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateDeadLetterQueueRecordsVisibility",
+  telemetry: TELEMETRY,
+  span: "UpdateDeadLetterQueueRecordsVisibility",
 }));
 
 export type UpdateMaxRecordSizeError =
@@ -3827,8 +5094,8 @@ export const updateMaxRecordSize: API.OperationMethod<
   UpdateMaxRecordSizeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<UpdateMaxRecordSizeInput>,
-  output: __S(64, __c2, 0) as any as S.Schema<UpdateMaxRecordSizeResponse>,
+  input: __S(2240, __c70, 0) as any as S.Schema<UpdateMaxRecordSizeInput>,
+  output: __S(160, __c5, 0) as any as S.Schema<UpdateMaxRecordSizeResponse>,
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -3837,6 +5104,7 @@ export const updateMaxRecordSize: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMaxRecordSize",
@@ -3845,6 +5113,101 @@ export const updateMaxRecordSize: API.OperationMethod<
     op: "UpdateMaxRecordSize",
     input: { StreamARN: [{ name: "aws.kinesis.stream_name", transform: "arnResource" }] },
   },
+}));
+
+export type UpdateQueueError =
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Updates the configuration attributes of the specified queue. You can change the queue's
+ * visibility timeout, its dead-letter handling configuration, or both.
+ *
+ * A new visibility timeout applies to records received after the update completes. Records
+ * that are already in flight keep the visibility timeout they were received with. To change
+ * the visibility timeout of a record that is already in flight, use
+ * UpdateQueueRecordsVisibility.
+ *
+ * `UpdateQueue` is an asynchronous operation. Upon receiving an
+ * `UpdateQueue` request, Amazon Kinesis Data Streams sets the
+ * `QueueStatus` to `UPDATING`, and sets it back to
+ * `ACTIVE` when the update is complete. You can continue to receive and
+ * acknowledge records while the queue is `UPDATING`.
+ *
+ * You can't change the data stream or the starting position of a queue after you create
+ * it. To read from a different stream or position, create a new queue.
+ */
+export const updateQueue: API.OperationMethod<
+  UpdateQueueInput & RegionInput,
+  UpdateQueueOutput,
+  UpdateQueueError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2272, __c71, 0) as any as S.Schema<UpdateQueueInput>,
+  output: __S(294, __c9, 6) as any as S.Schema<UpdateQueueOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidArgumentException,
+    LimitExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateQueue",
+  telemetry: TELEMETRY,
+  span: "UpdateQueue",
+}));
+
+export type UpdateQueueRecordsVisibilityError =
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Changes the visibility timeout of up to 10 records that you have received from the
+ * specified queue but not yet acknowledged. The result for each entry is reported
+ * individually in the response.
+ *
+ * Extend the visibility timeout of a record when your queue consumer needs more time to
+ * finish processing it, so the record does not become visible and get redelivered while it is
+ * still being processed. Set the visibility timeout to `0` to make a record
+ * visible in the queue immediately, so that it can be received again without waiting for its
+ * current timeout to expire.
+ *
+ * Because the request can result in a combination of successful and unsuccessful entries, check the `Failed` list even when the call returns an HTTP status code of `200`.
+ */
+export const updateQueueRecordsVisibility: API.OperationMethod<
+  UpdateQueueRecordsVisibilityInput & RegionInput,
+  UpdateQueueRecordsVisibilityOutput,
+  UpdateQueueRecordsVisibilityError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2304, __c72, 0) as any as S.Schema<UpdateQueueRecordsVisibilityInput>,
+  output: __S(36, __c1, 4) as any as S.Schema<UpdateQueueRecordsVisibilityOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalFailureException,
+    InvalidArgumentException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateQueueRecordsVisibility",
+  telemetry: TELEMETRY,
+  span: "UpdateQueueRecordsVisibility",
 }));
 
 export type UpdateShardCountError =
@@ -3910,8 +5273,8 @@ export const updateShardCount: API.OperationMethod<
   UpdateShardCountError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<UpdateShardCountInput>,
-  output: __S(1793, __c56, 1) as any as S.Schema<UpdateShardCountOutput>,
+  input: __S(2336, __c73, 0) as any as S.Schema<UpdateShardCountInput>,
+  output: __S(2337, __c73, 1) as any as S.Schema<UpdateShardCountOutput>,
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -3920,6 +5283,7 @@ export const updateShardCount: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateShardCount",
@@ -3946,6 +5310,8 @@ export type UpdateStreamModeError =
  * **provisioned** capacity mode for your data stream.
  *
  * If you'd still like to proactively scale your on-demand data stream's capacity, you can unlock the warm throughput feature for on-demand data streams by enabling `MinimumThroughputBillingCommitment` for your account. Once your account has `MinimumThroughputBillingCommitment` enabled, you can specify the warm throughput in MiB per second that your stream can support in writes.
+ *
+ * You can't switch a data stream from on-demand to provisioned capacity mode while the stream has one or more queues. Delete the queues with DeleteQueue before you change the capacity mode.
  */
 export const updateStreamMode: API.OperationMethod<
   UpdateStreamModeInput & RegionInput,
@@ -3953,8 +5319,8 @@ export const updateStreamMode: API.OperationMethod<
   UpdateStreamModeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<UpdateStreamModeInput>,
-  output: __S(64, __c2, 0) as any as S.Schema<UpdateStreamModeResponse>,
+  input: __S(2368, __c74, 0) as any as S.Schema<UpdateStreamModeInput>,
+  output: __S(160, __c5, 0) as any as S.Schema<UpdateStreamModeResponse>,
   errors: [
     InvalidArgumentException,
     LimitExceededException,
@@ -3962,6 +5328,7 @@ export const updateStreamMode: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStreamMode",
@@ -4016,8 +5383,8 @@ export const updateStreamRecordDistributionStrategy: API.OperationMethod<
   UpdateStreamRecordDistributionStrategyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<UpdateStreamRecordDistributionStrategyInput>,
-  output: __S(64, __c2, 0) as any as S.Schema<UpdateStreamRecordDistributionStrategyResponse>,
+  input: __S(2400, __c75, 0) as any as S.Schema<UpdateStreamRecordDistributionStrategyInput>,
+  output: __S(160, __c5, 0) as any as S.Schema<UpdateStreamRecordDistributionStrategyResponse>,
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -4026,6 +5393,7 @@ export const updateStreamRecordDistributionStrategy: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStreamRecordDistributionStrategy",
@@ -4070,8 +5438,8 @@ export const updateStreamWarmThroughput: API.OperationMethod<
   UpdateStreamWarmThroughputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<UpdateStreamWarmThroughputInput>,
-  output: __S(1889, __c59, 1) as any as S.Schema<UpdateStreamWarmThroughputOutput>,
+  input: __S(2432, __c76, 0) as any as S.Schema<UpdateStreamWarmThroughputInput>,
+  output: __S(2433, __c76, 1) as any as S.Schema<UpdateStreamWarmThroughputOutput>,
   errors: [
     AccessDeniedException,
     InvalidArgumentException,
@@ -4080,6 +5448,7 @@ export const updateStreamWarmThroughput: API.OperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStreamWarmThroughput",
@@ -4099,8 +5468,82 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          QueueARN: S.String.pipe(T.ContextParam("QueueARN")),
+          Entries: __S(33, __c1, 1),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({
+              ResourceType: { value: "queue" },
+              OperationType: { value: "data" },
+            }),
+          ),
+        ),
+      ).annotate({ identifier: "AcknowledgeDeadLetterQueueRecordsInput" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ ReceiptHandle: S.String })).annotate({
+        identifier: "AcknowledgeDeadLetterQueueRecordsRequestEntry",
+      });
+    case 1:
+      return S.Array(__S(32, __c1, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ReceiptHandle: S.String,
+          ErrorCode: S.String,
+          ErrorMessage: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AcknowledgeDeadLetterQueueRecordsErrorEntry" });
+    case 3:
+      return S.Array(__S(34, __c1, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ Successful: __S(33, __c1, 1), Failed: __S(35, __c1, 3) }).pipe(ns),
+      ).annotate({ identifier: "AcknowledgeDeadLetterQueueRecordsOutput" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          QueueARN: S.String.pipe(T.ContextParam("QueueARN")),
+          Entries: __S(33, __c1, 1),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({
+              ResourceType: { value: "queue" },
+              OperationType: { value: "data" },
+            }),
+          ),
+        ),
+      ).annotate({ identifier: "AcknowledgeQueueRecordsInput" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           StreamName: S.optional(S.String),
-          Tags: __S(32, __c1, 0),
+          Tags: __S(128, __c4, 0),
           StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
           StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
         }).pipe(
@@ -4118,13 +5561,13 @@ function __c0(j: number): any {
       ).annotate({ identifier: "AddTagsToStreamInput" });
   }
 }
-function __c1(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
   }
 }
-function __c2(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({}).pipe(ns)).annotate({
@@ -4132,28 +5575,28 @@ function __c2(j: number): any {
       });
   }
 }
-function __c3(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ StreamARN: S.String, RecordConfiguration: __S(128, __c4, 0) }),
+        S.Struct({ StreamARN: S.String, RecordConfiguration: __S(224, __c7, 0) }),
       ).annotate({ identifier: "ChannelStreamConfiguration" });
     case 1:
-      return S.Array(__S(96, __c3, 0));
+      return S.Array(__S(192, __c6, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           DataFreshnessInSeconds: S.optional(S.Number),
-          DeadLetterQueueS3Configuration: S.optional(__S(129, __c4, 1)),
-          StorageConfiguration: __S(130, __c4, 2),
+          DeadLetterQueueS3Configuration: S.optional(__S(225, __c7, 1)),
+          StorageConfiguration: __S(226, __c7, 2),
         }),
       ).annotate({ identifier: "S3DestinationConfiguration" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           DataFreshnessInSeconds: S.optional(S.Number),
-          DeadLetterQueueS3Configuration: __S(129, __c4, 1),
-          S3TablesConfigurationList: __S(135, __c4, 7),
+          DeadLetterQueueS3Configuration: __S(225, __c7, 1),
+          S3TablesConfigurationList: __S(231, __c7, 7),
         }),
       ).annotate({ identifier: "S3TablesDestinationConfiguration" });
     case 4:
@@ -4161,12 +5604,12 @@ function __c3(j: number): any {
         S.Struct({
           ChannelName: S.String,
           ServiceExecutionRoleARN: S.String,
-          StreamConfigurationList: __S(97, __c3, 1),
-          S3DestinationConfiguration: S.optional(__S(98, __c3, 2)),
-          S3TablesDestinationConfiguration: S.optional(__S(99, __c3, 3)),
-          EncryptionConfiguration: S.optional(__S(136, __c4, 8)),
-          Tags: S.optional(__S(32, __c1, 0)),
-          LoggingConfiguration: S.optional(__S(138, __c4, 10)),
+          StreamConfigurationList: __S(193, __c6, 1),
+          S3DestinationConfiguration: S.optional(__S(194, __c6, 2)),
+          S3TablesDestinationConfiguration: S.optional(__S(195, __c6, 3)),
+          EncryptionConfiguration: S.optional(__S(232, __c7, 8)),
+          Tags: S.optional(__S(128, __c4, 0)),
+          LoggingConfiguration: S.optional(__S(234, __c7, 10)),
         }).pipe(
           T.all(
             ns,
@@ -4182,7 +5625,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "CreateChannelInput" });
   }
 }
-function __c4(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4211,9 +5654,9 @@ function __c4(j: number): any {
         identifier: "PartitionField",
       });
     case 4:
-      return S.Array(__S(131, __c4, 3));
+      return S.Array(__S(227, __c7, 3));
     case 5:
-      return S.suspend(() => S.Struct({ PartitionFields: __S(132, __c4, 4) })).annotate({
+      return S.suspend(() => S.Struct({ PartitionFields: __S(228, __c7, 4) })).annotate({
         identifier: "PartitionSpec",
       });
     case 6:
@@ -4223,11 +5666,11 @@ function __c4(j: number): any {
           Namespace: S.String,
           TableName: S.String,
           CompressionType: S.String,
-          PartitionSpec: S.optional(__S(133, __c4, 5)),
+          PartitionSpec: S.optional(__S(229, __c7, 5)),
         }),
       ).annotate({ identifier: "S3TablesConfiguration" });
     case 7:
-      return S.Array(__S(134, __c4, 6));
+      return S.Array(__S(230, __c7, 6));
     case 8:
       return S.suspend(() => S.Struct({ EncryptionType: S.String, KeyId: S.String })).annotate({
         identifier: "ChannelEncryptionConfiguration",
@@ -4241,7 +5684,7 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "CloudWatchLogs" });
     case 10:
-      return S.suspend(() => S.Struct({ CloudWatchLogs: __S(137, __c4, 9) })).annotate({
+      return S.suspend(() => S.Struct({ CloudWatchLogs: __S(233, __c7, 9) })).annotate({
         identifier: "ChannelLoggingConfiguration",
       });
     case 11:
@@ -4249,25 +5692,25 @@ function __c4(j: number): any {
         S.Struct({
           StreamARN: S.String,
           StreamCreationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          RecordConfiguration: __S(128, __c4, 0),
+          RecordConfiguration: __S(224, __c7, 0),
         }),
       ).annotate({ identifier: "ChannelStreamDescription" });
     case 12:
-      return S.Array(__S(139, __c4, 11));
+      return S.Array(__S(235, __c7, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
           DataFreshnessInSeconds: S.Number,
-          DeadLetterQueueS3Configuration: __S(129, __c4, 1),
-          StorageConfiguration: __S(130, __c4, 2),
+          DeadLetterQueueS3Configuration: __S(225, __c7, 1),
+          StorageConfiguration: __S(226, __c7, 2),
         }),
       ).annotate({ identifier: "S3DestinationDescription" });
     case 14:
       return S.suspend(() =>
         S.Struct({
           DataFreshnessInSeconds: S.Number,
-          DeadLetterQueueS3Configuration: __S(129, __c4, 1),
-          S3TablesConfigurationList: __S(135, __c4, 7),
+          DeadLetterQueueS3Configuration: __S(225, __c7, 1),
+          S3TablesConfigurationList: __S(231, __c7, 7),
         }),
       ).annotate({ identifier: "S3TablesDestinationDescription" });
     case 15:
@@ -4280,28 +5723,98 @@ function __c4(j: number): any {
           ChannelStatusReason: S.optional(S.String),
           ChannelCreationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           ServiceExecutionRoleARN: S.String,
-          StreamConfigurationList: __S(140, __c4, 12),
-          S3DestinationConfiguration: S.optional(__S(141, __c4, 13)),
-          S3TablesDestinationConfiguration: S.optional(__S(142, __c4, 14)),
-          EncryptionConfiguration: S.optional(__S(136, __c4, 8)),
-          LoggingConfiguration: __S(138, __c4, 10),
+          StreamConfigurationList: __S(236, __c7, 12),
+          S3DestinationConfiguration: S.optional(__S(237, __c7, 13)),
+          S3TablesDestinationConfiguration: S.optional(__S(238, __c7, 14)),
+          EncryptionConfiguration: S.optional(__S(232, __c7, 8)),
+          LoggingConfiguration: __S(234, __c7, 10),
         }),
       ).annotate({ identifier: "ChannelDescription" });
     case 16:
       return S.suspend(() =>
-        S.Struct({ ChannelDescription: __S(143, __c4, 15) }).pipe(ns),
+        S.Struct({ ChannelDescription: __S(239, __c7, 15) }).pipe(ns),
       ).annotate({ identifier: "CreateChannelOutput" });
   }
 }
-function __c5(j: number): any {
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          QueueName: S.String,
+          StreamConfigurationList: __S(290, __c9, 2),
+          QueueAttributes: S.optional(__S(292, __c9, 4)),
+          Tags: S.optional(__S(128, __c4, 0)),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({
+              ResourceType: { value: "queue" },
+              OperationType: { value: "control" },
+            }),
+          ),
+        ),
+      ).annotate({ identifier: "CreateQueueInput" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Type: S.String,
+          Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "QueueStartingPosition" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ StreamARN: S.String, StartingPosition: S.optional(__S(288, __c9, 0)) }),
+      ).annotate({ identifier: "QueueStreamConfiguration" });
+    case 2:
+      return S.Array(__S(289, __c9, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ TargetType: S.String, MaxReceiveCount: S.optional(S.Number) }),
+      ).annotate({ identifier: "DeadLetterConfiguration" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          VisibilityTimeoutSeconds: S.optional(S.Number),
+          DeadLetterConfiguration: S.optional(__S(291, __c9, 3)),
+        }),
+      ).annotate({ identifier: "QueueAttributes" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          QueueName: S.String,
+          QueueARN: S.String,
+          QueueStatus: S.String,
+          QueueCreationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          StreamConfigurationList: __S(290, __c9, 2),
+          QueueAttributes: S.optional(__S(292, __c9, 4)),
+        }),
+      ).annotate({ identifier: "QueueDescription" });
+    case 6:
+      return S.suspend(() => S.Struct({ QueueDescription: __S(293, __c9, 5) }).pipe(ns)).annotate({
+        identifier: "CreateQueueOutput",
+      });
+  }
+}
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           StreamName: S.String,
           ShardCount: S.optional(S.Number),
-          StreamModeDetails: S.optional(__S(192, __c6, 0)),
-          Tags: S.optional(__S(32, __c1, 0)),
+          StreamModeDetails: S.optional(__S(352, __c11, 0)),
+          Tags: S.optional(__S(128, __c4, 0)),
           WarmThroughputMiBps: S.optional(S.Number),
           MaxRecordSizeInKiB: S.optional(S.Number),
           RecordDistributionStrategy: S.optional(S.String),
@@ -4320,7 +5833,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateStreamInput" });
   }
 }
-function __c6(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ StreamMode: S.String })).annotate({
@@ -4328,7 +5841,7 @@ function __c6(j: number): any {
       });
   }
 }
-function __c7(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4352,7 +5865,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "DecreaseStreamRetentionPeriodInput" });
   }
 }
-function __c8(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4371,7 +5884,29 @@ function __c8(j: number): any {
       ).annotate({ identifier: "DeleteChannelInput" });
   }
 }
-function __c9(j: number): any {
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ QueueARN: S.String.pipe(T.ContextParam("QueueARN")) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({
+              ResourceType: { value: "queue" },
+              OperationType: { value: "control" },
+            }),
+          ),
+        ),
+      ).annotate({ identifier: "DeleteQueueInput" });
+  }
+}
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4393,7 +5928,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "DeleteResourcePolicyInput" });
   }
 }
-function __c10(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4417,7 +5952,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "DeleteStreamInput" });
   }
 }
-function __c11(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4441,7 +5976,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "DeregisterStreamConsumerInput" });
   }
 }
-function __c12(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4460,7 +5995,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "DescribeAccountSettingsInput" });
   }
 }
-function __c13(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4473,11 +6008,11 @@ function __c13(j: number): any {
       ).annotate({ identifier: "MinimumThroughputBillingCommitmentOutput" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ MinimumThroughputBillingCommitment: S.optional(__S(416, __c13, 0)) }).pipe(ns),
+        S.Struct({ MinimumThroughputBillingCommitment: S.optional(__S(608, __c19, 0)) }).pipe(ns),
       ).annotate({ identifier: "DescribeAccountSettingsOutput" });
   }
 }
-function __c14(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4496,7 +6031,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "DescribeChannelInput" });
   }
 }
-function __c15(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4526,7 +6061,29 @@ function __c15(j: number): any {
       ).annotate({ identifier: "DescribeLimitsOutput" });
   }
 }
-function __c16(j: number): any {
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ QueueARN: S.String.pipe(T.ContextParam("QueueARN")) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({
+              ResourceType: { value: "queue" },
+              OperationType: { value: "control" },
+            }),
+          ),
+        ),
+      ).annotate({ identifier: "DescribeQueueInput" });
+  }
+}
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4555,39 +6112,39 @@ function __c16(j: number): any {
           StreamName: S.String,
           StreamARN: S.String,
           StreamStatus: S.String,
-          StreamModeDetails: S.optional(__S(192, __c6, 0)),
-          Shards: __S(642, __c20, 2),
+          StreamModeDetails: S.optional(__S(352, __c11, 0)),
+          Shards: __S(866, __c27, 2),
           HasMoreShards: S.Boolean,
           RetentionPeriodHours: S.Number,
           StreamCreationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          EnhancedMonitoring: __S(545, __c17, 1),
+          EnhancedMonitoring: __S(769, __c24, 1),
           EncryptionType: S.optional(S.String),
           KeyId: S.optional(S.String),
         }),
       ).annotate({ identifier: "StreamDescription" });
     case 2:
-      return S.suspend(() => S.Struct({ StreamDescription: __S(513, __c16, 1) }).pipe(ns)).annotate(
+      return S.suspend(() => S.Struct({ StreamDescription: __S(737, __c23, 1) }).pipe(ns)).annotate(
         { identifier: "DescribeStreamOutput" },
       );
   }
 }
-function __c17(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ ShardLevelMetrics: S.optional(__S(576, __c18, 0)) }),
+        S.Struct({ ShardLevelMetrics: S.optional(__S(800, __c25, 0)) }),
       ).annotate({ identifier: "EnhancedMetrics" });
     case 1:
-      return S.Array(__S(544, __c17, 0));
+      return S.Array(__S(768, __c24, 0));
   }
 }
-function __c18(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c19(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4595,7 +6152,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "HashKeyRange" });
   }
 }
-function __c20(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4607,15 +6164,15 @@ function __c20(j: number): any {
           ShardId: S.String,
           ParentShardId: S.optional(S.String),
           AdjacentParentShardId: S.optional(S.String),
-          HashKeyRange: __S(608, __c19, 0),
-          SequenceNumberRange: __S(640, __c20, 0),
+          HashKeyRange: __S(832, __c26, 0),
+          SequenceNumberRange: __S(864, __c27, 0),
         }),
       ).annotate({ identifier: "Shard" });
     case 2:
-      return S.Array(__S(641, __c20, 1));
+      return S.Array(__S(865, __c27, 1));
   }
 }
-function __c21(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4649,11 +6206,11 @@ function __c21(j: number): any {
       ).annotate({ identifier: "ConsumerDescription" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ ConsumerDescription: __S(673, __c21, 1) }).pipe(ns),
+        S.Struct({ ConsumerDescription: __S(897, __c28, 1) }).pipe(ns),
       ).annotate({ identifier: "DescribeStreamConsumerOutput" });
   }
 }
-function __c22(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4681,27 +6238,28 @@ function __c22(j: number): any {
           StreamARN: S.String,
           StreamId: S.optional(S.String),
           StreamStatus: S.String,
-          StreamModeDetails: S.optional(__S(192, __c6, 0)),
+          StreamModeDetails: S.optional(__S(352, __c11, 0)),
           RetentionPeriodHours: S.Number,
           StreamCreationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          EnhancedMonitoring: __S(545, __c17, 1),
+          EnhancedMonitoring: __S(769, __c24, 1),
           EncryptionType: S.optional(S.String),
           KeyId: S.optional(S.String),
           OpenShardCount: S.optional(S.Number),
           ConsumerCount: S.optional(S.Number),
-          WarmThroughput: S.optional(__S(736, __c23, 0)),
+          WarmThroughput: S.optional(__S(960, __c30, 0)),
           MaxRecordSizeInKiB: S.optional(S.Number),
           ChannelCount: S.optional(S.Number),
           RecordDistributionStrategy: S.optional(S.String),
+          QueueCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "StreamDescriptionSummary" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ StreamDescriptionSummary: __S(705, __c22, 1) }).pipe(ns),
+        S.Struct({ StreamDescriptionSummary: __S(929, __c29, 1) }).pipe(ns),
       ).annotate({ identifier: "DescribeStreamSummaryOutput" });
   }
 }
-function __c23(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4709,13 +6267,13 @@ function __c23(j: number): any {
       ).annotate({ identifier: "WarmThroughputObject" });
   }
 }
-function __c24(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           StreamName: S.optional(S.String),
-          ShardLevelMetrics: __S(576, __c18, 0),
+          ShardLevelMetrics: __S(800, __c25, 0),
           StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
           StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
         }).pipe(
@@ -4733,26 +6291,26 @@ function __c24(j: number): any {
       ).annotate({ identifier: "DisableEnhancedMonitoringInput" });
   }
 }
-function __c25(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           StreamName: S.optional(S.String),
-          CurrentShardLevelMetrics: S.optional(__S(576, __c18, 0)),
-          DesiredShardLevelMetrics: S.optional(__S(576, __c18, 0)),
+          CurrentShardLevelMetrics: S.optional(__S(800, __c25, 0)),
+          DesiredShardLevelMetrics: S.optional(__S(800, __c25, 0)),
           StreamARN: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "EnhancedMonitoringOutput" });
   }
 }
-function __c26(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           StreamName: S.optional(S.String),
-          ShardLevelMetrics: __S(576, __c18, 0),
+          ShardLevelMetrics: __S(800, __c25, 0),
           StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
           StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
         }).pipe(
@@ -4770,7 +6328,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "EnableEnhancedMonitoringInput" });
   }
 }
-function __c27(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4796,21 +6354,21 @@ function __c27(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Records: __S(929, __c29, 1),
+          Records: __S(1153, __c36, 1),
           NextShardIterator: S.optional(S.String),
           MillisBehindLatest: S.optional(S.Number),
-          ChildShards: S.optional(__S(931, __c29, 3)),
+          ChildShards: S.optional(__S(1155, __c36, 3)),
         }).pipe(ns),
       ).annotate({ identifier: "GetRecordsOutput" });
   }
 }
-function __c28(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c29(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4823,20 +6381,20 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "Record" });
     case 1:
-      return S.Array(__S(928, __c29, 0));
+      return S.Array(__S(1152, __c36, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           ShardId: S.String,
-          ParentShards: __S(896, __c28, 0),
-          HashKeyRange: __S(608, __c19, 0),
+          ParentShards: __S(1120, __c35, 0),
+          HashKeyRange: __S(832, __c26, 0),
         }),
       ).annotate({ identifier: "ChildShard" });
     case 3:
-      return S.Array(__S(930, __c29, 2));
+      return S.Array(__S(1154, __c36, 2));
   }
 }
-function __c30(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4862,7 +6420,7 @@ function __c30(j: number): any {
       });
   }
 }
-function __c31(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4894,7 +6452,7 @@ function __c31(j: number): any {
       });
   }
 }
-function __c32(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4918,21 +6476,12 @@ function __c32(j: number): any {
       ).annotate({ identifier: "IncreaseStreamRetentionPeriodInput" });
   }
 }
-function __c33(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          StreamARN: S.String,
-          StreamCreationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-        }),
-      ).annotate({ identifier: "StreamFilter" });
-    case 1:
-      return S.Array(__S(1056, __c33, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          StreamFilter: S.optional(__S(1057, __c33, 1)),
+          StreamFilter: S.optional(__S(1313, __c41, 1)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(
@@ -4948,16 +6497,7 @@ function __c33(j: number): any {
           ),
         ),
       ).annotate({ identifier: "ListChannelsInput" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          StreamARN: S.String,
-          StreamCreationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-        }),
-      ).annotate({ identifier: "ChannelStreamIdentifier" });
-    case 4:
-      return S.Array(__S(1059, __c33, 3));
-    case 5:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           ChannelName: S.String,
@@ -4967,20 +6507,84 @@ function __c33(j: number): any {
           ChannelStatusReason: S.optional(S.String),
           ChannelCreationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           ChannelDestinationType: S.String,
-          Streams: __S(1060, __c33, 4),
+          Streams: __S(1315, __c41, 3),
         }),
       ).annotate({ identifier: "ChannelSummary" });
-    case 6:
-      return S.Array(__S(1061, __c33, 5));
-    case 7:
+    case 2:
+      return S.Array(__S(1281, __c40, 1));
+    case 3:
       return S.suspend(() =>
-        S.Struct({ ChannelSummaries: __S(1062, __c33, 6), NextToken: S.optional(S.String) }).pipe(
+        S.Struct({ ChannelSummaries: __S(1282, __c40, 2), NextToken: S.optional(S.String) }).pipe(
           ns,
         ),
       ).annotate({ identifier: "ListChannelsOutput" });
   }
 }
-function __c34(j: number): any {
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          StreamARN: S.String,
+          StreamCreationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "StreamFilter" });
+    case 1:
+      return S.Array(__S(1312, __c41, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          StreamARN: S.String,
+          StreamCreationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+        }),
+      ).annotate({ identifier: "ChannelStreamIdentifier" });
+    case 3:
+      return S.Array(__S(1314, __c41, 2));
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          StreamFilter: S.optional(__S(1313, __c41, 1)),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({
+              ResourceType: { value: "queue" },
+              OperationType: { value: "control" },
+            }),
+          ),
+        ),
+      ).annotate({ identifier: "ListQueuesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          QueueName: S.String,
+          QueueARN: S.String,
+          QueueStatus: S.String,
+          QueueCreationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          Streams: __S(1315, __c41, 3),
+        }),
+      ).annotate({ identifier: "QueueSummary" });
+    case 2:
+      return S.Array(__S(1345, __c42, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ QueueSummaries: __S(1346, __c42, 2), NextToken: S.optional(S.String) }).pipe(ns),
+      ).annotate({ identifier: "ListQueuesOutput" });
+  }
+}
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4998,7 +6602,7 @@ function __c34(j: number): any {
           ExclusiveStartShardId: S.optional(S.String),
           MaxResults: S.optional(S.Number),
           StreamCreationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          ShardFilter: S.optional(__S(1088, __c34, 0)),
+          ShardFilter: S.optional(__S(1376, __c43, 0)),
           StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
           StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
         }).pipe(
@@ -5016,13 +6620,13 @@ function __c34(j: number): any {
       ).annotate({ identifier: "ListShardsInput" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ Shards: S.optional(__S(642, __c20, 2)), NextToken: S.optional(S.String) }).pipe(
+        S.Struct({ Shards: S.optional(__S(866, __c27, 2)), NextToken: S.optional(S.String) }).pipe(
           ns,
         ),
       ).annotate({ identifier: "ListShardsOutput" });
   }
 }
-function __c35(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5046,17 +6650,17 @@ function __c35(j: number): any {
         ),
       ).annotate({ identifier: "ListStreamConsumersInput" });
     case 1:
-      return S.Array(__S(1152, __c36, 0));
+      return S.Array(__S(1440, __c45, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Consumers: S.optional(__S(1121, __c35, 1)),
+          Consumers: S.optional(__S(1409, __c44, 1)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListStreamConsumersOutput" });
   }
 }
-function __c36(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5069,7 +6673,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "Consumer" });
   }
 }
-function __c37(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5096,24 +6700,24 @@ function __c37(j: number): any {
           StreamName: S.String,
           StreamARN: S.String,
           StreamStatus: S.String,
-          StreamModeDetails: S.optional(__S(192, __c6, 0)),
+          StreamModeDetails: S.optional(__S(352, __c11, 0)),
           StreamCreationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "StreamSummary" });
     case 2:
-      return S.Array(__S(1185, __c37, 1));
+      return S.Array(__S(1473, __c46, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          StreamNames: __S(896, __c28, 0),
+          StreamNames: __S(1120, __c35, 0),
           HasMoreStreams: S.Boolean,
           NextToken: S.optional(S.String),
-          StreamSummaries: S.optional(__S(1186, __c37, 2)),
+          StreamSummaries: S.optional(__S(1474, __c46, 2)),
         }).pipe(ns),
       ).annotate({ identifier: "ListStreamsOutput" });
   }
 }
-function __c38(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5134,22 +6738,22 @@ function __c38(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceInput" });
     case 1:
-      return S.suspend(() => S.Struct({ Tags: S.optional(__S(1249, __c39, 1)) }).pipe(ns)).annotate(
+      return S.suspend(() => S.Struct({ Tags: S.optional(__S(1537, __c48, 1)) }).pipe(ns)).annotate(
         { identifier: "ListTagsForResourceOutput" },
       );
   }
 }
-function __c39(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Key: S.String, Value: S.optional(S.String) })).annotate({
         identifier: "Tag",
       });
     case 1:
-      return S.Array(__S(1248, __c39, 0));
+      return S.Array(__S(1536, __c48, 0));
   }
 }
-function __c40(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5174,11 +6778,11 @@ function __c40(j: number): any {
       ).annotate({ identifier: "ListTagsForStreamInput" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Tags: __S(1249, __c39, 1), HasMoreTags: S.Boolean }).pipe(ns),
+        S.Struct({ Tags: __S(1537, __c48, 1), HasMoreTags: S.Boolean }).pipe(ns),
       ).annotate({ identifier: "ListTagsForStreamOutput" });
   }
 }
-function __c41(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5203,7 +6807,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "MergeShardsInput" });
   }
 }
-function __c42(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5239,7 +6843,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "PutRecordOutput" });
   }
 }
-function __c43(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5250,11 +6854,11 @@ function __c43(j: number): any {
         }),
       ).annotate({ identifier: "PutRecordsRequestEntry" });
     case 1:
-      return S.Array(__S(1376, __c43, 0));
+      return S.Array(__S(1664, __c52, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Records: __S(1377, __c43, 1),
+          Records: __S(1665, __c52, 1),
           StreamName: S.optional(S.String),
           StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
           StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
@@ -5282,18 +6886,18 @@ function __c43(j: number): any {
         }),
       ).annotate({ identifier: "PutRecordsResultEntry" });
     case 4:
-      return S.Array(__S(1379, __c43, 3));
+      return S.Array(__S(1667, __c52, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           FailedRecordCount: S.optional(S.Number),
-          Records: __S(1380, __c43, 4),
+          Records: __S(1668, __c52, 4),
           EncryptionType: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "PutRecordsOutput" });
   }
 }
-function __c44(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5316,7 +6920,83 @@ function __c44(j: number): any {
       ).annotate({ identifier: "PutResourcePolicyInput" });
   }
 }
-function __c45(j: number): any {
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          QueueARN: S.String.pipe(T.ContextParam("QueueARN")),
+          Limit: S.optional(S.Number),
+          WaitTimeSeconds: S.optional(S.Number),
+          VisibilityTimeoutSeconds: S.optional(S.Number),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({
+              ResourceType: { value: "queue" },
+              OperationType: { value: "data" },
+            }),
+          ),
+        ),
+      ).annotate({ identifier: "ReceiveDeadLetterQueueRecordsInput" });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReceiptHandle: S.String,
+          RecordId: S.String,
+          PartitionKey: S.optional(S.String),
+          Data: T.Blob,
+          ApproximateArrivalTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          FirstReceiveTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          ReceiveCount: S.Number,
+        }),
+      ).annotate({ identifier: "QueueRecord" });
+    case 1:
+      return S.Array(__S(1760, __c55, 0));
+    case 2:
+      return S.suspend(() => S.Struct({ QueueRecords: __S(1761, __c55, 1) }).pipe(ns)).annotate({
+        identifier: "ReceiveDeadLetterQueueRecordsOutput",
+      });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          QueueARN: S.String.pipe(T.ContextParam("QueueARN")),
+          Limit: S.optional(S.Number),
+          WaitTimeSeconds: S.optional(S.Number),
+          VisibilityTimeoutSeconds: S.optional(S.Number),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({
+              ResourceType: { value: "queue" },
+              OperationType: { value: "data" },
+            }),
+          ),
+        ),
+      ).annotate({ identifier: "ReceiveQueueRecordsInput" });
+  }
+}
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5324,7 +7004,7 @@ function __c45(j: number): any {
           StreamARN: S.String.pipe(T.ContextParam("StreamARN")),
           ConsumerName: S.String,
           StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-          Tags: S.optional(__S(32, __c1, 0)),
+          Tags: S.optional(__S(128, __c4, 0)),
         }).pipe(
           T.all(
             ns,
@@ -5339,18 +7019,18 @@ function __c45(j: number): any {
         ),
       ).annotate({ identifier: "RegisterStreamConsumerInput" });
     case 1:
-      return S.suspend(() => S.Struct({ Consumer: __S(1152, __c36, 0) }).pipe(ns)).annotate({
+      return S.suspend(() => S.Struct({ Consumer: __S(1440, __c45, 0) }).pipe(ns)).annotate({
         identifier: "RegisterStreamConsumerOutput",
       });
   }
 }
-function __c46(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           StreamName: S.optional(S.String),
-          TagKeys: __S(896, __c28, 0),
+          TagKeys: __S(1120, __c35, 0),
           StreamARN: S.optional(S.String).pipe(T.ContextParam("StreamARN")),
           StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
         }).pipe(
@@ -5368,7 +7048,32 @@ function __c46(j: number): any {
       ).annotate({ identifier: "RemoveTagsFromStreamInput" });
   }
 }
-function __c47(j: number): any {
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          QueueARN: S.String.pipe(T.ContextParam("QueueARN")),
+          Entries: __S(33, __c1, 1),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({
+              ResourceType: { value: "queue" },
+              OperationType: { value: "data" },
+            }),
+          ),
+        ),
+      ).annotate({ identifier: "RestoreDeadLetterQueueRecordsInput" });
+  }
+}
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5393,7 +7098,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "SplitShardInput" });
   }
 }
-function __c48(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5418,7 +7123,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "StartStreamEncryptionInput" });
   }
 }
-function __c49(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5443,7 +7148,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "StopStreamEncryptionInput" });
   }
 }
-function __c50(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5459,7 +7164,7 @@ function __c50(j: number): any {
           ConsumerARN: S.String.pipe(T.ContextParam("ConsumerARN")),
           StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
           ShardId: S.String,
-          StartingPosition: __S(1600, __c50, 0),
+          StartingPosition: __S(2016, __c63, 0),
           DryRun: S.optional(S.Boolean),
         }).pipe(
           T.all(
@@ -5477,16 +7182,16 @@ function __c50(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Records: __S(929, __c29, 1),
+          Records: __S(1153, __c36, 1),
           ContinuationSequenceNumber: S.String,
           MillisBehindLatest: S.Number,
-          ChildShards: S.optional(__S(931, __c29, 3)),
+          ChildShards: S.optional(__S(1155, __c36, 3)),
         }),
       ).annotate({ identifier: "SubscribeToShardEvent" });
     case 3:
       return T.EventStream(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.Struct({ SubscribeToShardEvent: __S(1602, __c50, 2) }),
+          /*@__PURE__*/ S.Struct({ SubscribeToShardEvent: __S(2018, __c63, 2) }),
           /*@__PURE__*/ S.Struct({
             ResourceNotFoundException: /*@__PURE__*/ S.suspend(
               () => ResourceNotFoundException,
@@ -5535,17 +7240,17 @@ function __c50(j: number): any {
         ]),
       );
     case 4:
-      return S.suspend(() => S.Struct({ EventStream: __S(1603, __c50, 3) }).pipe(ns)).annotate({
+      return S.suspend(() => S.Struct({ EventStream: __S(2019, __c63, 3) }).pipe(ns)).annotate({
         identifier: "SubscribeToShardOutput",
       });
   }
 }
-function __c51(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Tags: __S(32, __c1, 0),
+          Tags: __S(128, __c4, 0),
           ResourceARN: S.String.pipe(T.ContextParam("ResourceARN")),
           StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
         }).pipe(
@@ -5563,12 +7268,12 @@ function __c51(j: number): any {
       ).annotate({ identifier: "TagResourceInput" });
   }
 }
-function __c52(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          TagKeys: __S(896, __c28, 0),
+          TagKeys: __S(1120, __c35, 0),
           ResourceARN: S.String.pipe(T.ContextParam("ResourceARN")),
           StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
         }).pipe(
@@ -5586,7 +7291,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "UntagResourceInput" });
   }
 }
-function __c53(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Status: S.String })).annotate({
@@ -5594,7 +7299,7 @@ function __c53(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({ MinimumThroughputBillingCommitment: __S(1696, __c53, 0) }).pipe(
+        S.Struct({ MinimumThroughputBillingCommitment: __S(2112, __c66, 0) }).pipe(
           T.all(
             ns,
             T.Http({ method: "POST", uri: "/" }),
@@ -5609,7 +7314,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "UpdateAccountSettingsInput" });
   }
 }
-function __c54(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ DataFreshnessInSeconds: S.Number })).annotate({
@@ -5619,9 +7324,9 @@ function __c54(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ChannelARN: S.String.pipe(T.ContextParam("ChannelARN")),
-          S3DestinationConfiguration: S.optional(__S(1728, __c54, 0)),
-          S3TablesDestinationConfiguration: S.optional(__S(1728, __c54, 0)),
-          LoggingConfiguration: S.optional(__S(138, __c4, 10)),
+          S3DestinationConfiguration: S.optional(__S(2144, __c67, 0)),
+          S3TablesDestinationConfiguration: S.optional(__S(2144, __c67, 0)),
+          LoggingConfiguration: S.optional(__S(234, __c7, 10)),
         }).pipe(
           T.all(
             ns,
@@ -5637,7 +7342,42 @@ function __c54(j: number): any {
       ).annotate({ identifier: "UpdateChannelInput" });
   }
 }
-function __c55(j: number): any {
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          QueueARN: S.String.pipe(T.ContextParam("QueueARN")),
+          Entries: __S(2209, __c69, 1),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({
+              ResourceType: { value: "queue" },
+              OperationType: { value: "data" },
+            }),
+          ),
+        ),
+      ).annotate({ identifier: "UpdateDeadLetterQueueRecordsVisibilityInput" });
+  }
+}
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ReceiptHandle: S.String, VisibilityTimeoutSeconds: S.Number }),
+      ).annotate({ identifier: "UpdateDeadLetterQueueRecordsVisibilityRequestEntry" });
+    case 1:
+      return S.Array(__S(2208, __c69, 0));
+  }
+}
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5660,7 +7400,57 @@ function __c55(j: number): any {
       ).annotate({ identifier: "UpdateMaxRecordSizeInput" });
   }
 }
-function __c56(j: number): any {
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          QueueARN: S.String.pipe(T.ContextParam("QueueARN")),
+          QueueAttributes: __S(292, __c9, 4),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({
+              ResourceType: { value: "queue" },
+              OperationType: { value: "control" },
+            }),
+          ),
+        ),
+      ).annotate({ identifier: "UpdateQueueInput" });
+  }
+}
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          QueueARN: S.String.pipe(T.ContextParam("QueueARN")),
+          Entries: __S(2209, __c69, 1),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({
+              ResourceType: { value: "queue" },
+              OperationType: { value: "data" },
+            }),
+          ),
+        ),
+      ).annotate({ identifier: "UpdateQueueRecordsVisibilityInput" });
+  }
+}
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5694,14 +7484,14 @@ function __c56(j: number): any {
       ).annotate({ identifier: "UpdateShardCountOutput" });
   }
 }
-function __c57(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           StreamARN: S.String.pipe(T.ContextParam("StreamARN")),
           StreamId: S.optional(S.String).pipe(T.ContextParam("StreamId")),
-          StreamModeDetails: __S(192, __c6, 0),
+          StreamModeDetails: __S(352, __c11, 0),
           WarmThroughputMiBps: S.optional(S.Number),
         }).pipe(
           T.all(
@@ -5718,7 +7508,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "UpdateStreamModeInput" });
   }
 }
-function __c58(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5741,7 +7531,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "UpdateStreamRecordDistributionStrategyInput" });
   }
 }
-function __c59(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5768,7 +7558,7 @@ function __c59(j: number): any {
         S.Struct({
           StreamARN: S.optional(S.String),
           StreamName: S.optional(S.String),
-          WarmThroughput: S.optional(__S(736, __c23, 0)),
+          WarmThroughput: S.optional(__S(960, __c30, 0)),
         }).pipe(ns),
       ).annotate({ identifier: "UpdateStreamWarmThroughputOutput" });
   }

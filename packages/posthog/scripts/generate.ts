@@ -71,6 +71,7 @@ const spec: SdkSpec = {
     // (typically BadRequest/Forbidden/NotFound); everything else rides the
     // PosthogOpError union.
     commonErrorClasses: [],
+    serviceErrors: "PosthogServiceErrors",
     protocol: "PosthogProtocol",
     retry: "Retry.Retry",
   },

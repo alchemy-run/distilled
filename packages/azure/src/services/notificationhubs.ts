@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -263,11 +263,11 @@ export interface NetworkAcls {
 /** Description of a NotificationHub AdmCredential. */
 export interface AdmCredentialProperties {
   /** Gets or sets the client identifier. */
-  clientId: string;
+  clientId: string | Redacted.Redacted<string>;
   /** Gets or sets the credential secret access key. */
   clientSecret: string | Redacted.Redacted<string>;
   /** Gets or sets the URL of the authorization token. */
-  authTokenUrl: string;
+  authTokenUrl: string | Redacted.Redacted<string>;
 }
 /** Description of a NotificationHub AdmCredential. */
 export interface AdmCredential {
@@ -276,21 +276,21 @@ export interface AdmCredential {
 /** Description of a NotificationHub ApnsCredential. */
 export interface ApnsCredentialProperties {
   /** Gets or sets the APNS certificate. */
-  apnsCertificate?: string | undefined;
+  apnsCertificate?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets the certificate key. */
-  certificateKey?: string | undefined;
+  certificateKey?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets the endpoint of this credential. */
-  endpoint: string;
+  endpoint: string | Redacted.Redacted<string>;
   /** Gets or sets the APNS certificate Thumbprint */
-  thumbprint?: string | undefined;
+  thumbprint?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets a 10-character key identifier (kid) key, obtained from your developer account */
-  keyId?: string | undefined;
+  keyId?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets the name of the application */
-  appName?: string | undefined;
+  appName?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets the issuer (iss) registered claim key, whose value is your 10-character Team ID, obtained from your developer account */
-  appId?: string | undefined;
+  appId?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets provider Authentication Token, obtained through your developer account */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 /** Description of a NotificationHub ApnsCredential. */
 export interface ApnsCredential {
@@ -299,9 +299,9 @@ export interface ApnsCredential {
 /** Description of a NotificationHub BaiduCredential. */
 export interface BaiduCredentialProperties {
   /** Gets or sets baidu Api Key. */
-  baiduApiKey: string;
+  baiduApiKey: string | Redacted.Redacted<string>;
   /** Gets or sets baidu Endpoint. */
-  baiduEndPoint: string;
+  baiduEndPoint: string | Redacted.Redacted<string>;
   /** Gets or sets baidu Secret Key */
   baiduSecretKey: string | Redacted.Redacted<string>;
 }
@@ -312,11 +312,11 @@ export interface BaiduCredential {
 /** Description of a NotificationHub BrowserCredential. */
 export interface BrowserCredentialProperties {
   /** Gets or sets web push subject. */
-  subject: string;
+  subject: string | Redacted.Redacted<string>;
   /** Gets or sets VAPID private key. */
-  vapidPrivateKey: string;
+  vapidPrivateKey: string | Redacted.Redacted<string>;
   /** Gets or sets VAPID public key. */
-  vapidPublicKey: string;
+  vapidPublicKey: string | Redacted.Redacted<string>;
 }
 /** Description of a NotificationHub BrowserCredential. */
 export interface BrowserCredential {
@@ -325,9 +325,9 @@ export interface BrowserCredential {
 /** Description of a NotificationHub GcmCredential. */
 export interface GcmCredentialProperties {
   /** Gets or sets the GCM endpoint. */
-  gcmEndpoint?: string | undefined;
+  gcmEndpoint?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets the Google API key. */
-  googleApiKey: string;
+  googleApiKey: string | Redacted.Redacted<string>;
 }
 /** Description of a NotificationHub GcmCredential. */
 export interface GcmCredential {
@@ -336,11 +336,11 @@ export interface GcmCredential {
 /** Description of a NotificationHub MpnsCredential. */
 export interface MpnsCredentialProperties {
   /** Gets or sets the MPNS certificate. */
-  mpnsCertificate: string;
+  mpnsCertificate: string | Redacted.Redacted<string>;
   /** Gets or sets the certificate key for this credential. */
-  certificateKey: string;
+  certificateKey: string | Redacted.Redacted<string>;
   /** Gets or sets the MPNS certificate Thumbprint */
-  thumbprint: string;
+  thumbprint: string | Redacted.Redacted<string>;
 }
 /** Description of a NotificationHub MpnsCredential. */
 export interface MpnsCredential {
@@ -349,15 +349,15 @@ export interface MpnsCredential {
 /** Description of a NotificationHub WnsCredential. */
 export interface WnsCredentialProperties {
   /** Gets or sets the package ID for this credential. */
-  packageSid?: string | undefined;
+  packageSid?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets the secret key. */
   secretKey?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets the Windows Live endpoint. */
-  windowsLiveEndpoint?: string | undefined;
+  windowsLiveEndpoint?: string | Redacted.Redacted<string> | undefined;
   /** Ges or sets the WNS Certificate Key. */
-  certificateKey?: string | undefined;
+  certificateKey?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets the WNS Certificate. */
-  wnsCertificate?: string | undefined;
+  wnsCertificate?: string | Redacted.Redacted<string> | undefined;
 }
 /** Description of a NotificationHub WnsCredential. */
 export interface WnsCredential {
@@ -366,9 +366,9 @@ export interface WnsCredential {
 /** Description of a NotificationHub XiaomiCredentialProperties. */
 export interface XiaomiCredentialProperties {
   /** Gets or sets app secret. */
-  appSecret?: string | undefined;
+  appSecret?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets xiaomi service endpoint. */
-  endpoint?: string | undefined;
+  endpoint?: string | Redacted.Redacted<string> | undefined;
 }
 /** Description of a NotificationHub XiaomiCredential. */
 export interface XiaomiCredential {
@@ -505,9 +505,9 @@ export interface SharedAccessAuthorizationRuleProperties {
   /** Gets or sets the rights associated with the rule. */
   rights: SharedAccessAuthorizationRulePropertiesRightsList;
   /** Gets a base64-encoded 256-bit primary key for signing and validating the SAS token. */
-  primaryKey?: string | undefined;
+  primaryKey?: string | Redacted.Redacted<string> | undefined;
   /** Gets a base64-encoded 256-bit primary key for signing and validating the SAS token. */
-  secondaryKey?: string | undefined;
+  secondaryKey?: string | Redacted.Redacted<string> | undefined;
   /** Gets a string that describes the authorization rule. */
   keyName?: string | undefined;
   /** Gets the last modified time for this rule */
@@ -732,6 +732,8 @@ export interface ListNamespaceAllRequest {
   _skipToken?: string | undefined;
   /** Maximum number of results to return. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type NamespaceResourceTagsMap = { [key: string]: string | undefined };
@@ -757,7 +759,7 @@ export type NamespaceListResultValueList = Array<NamespaceResource>;
 /** The response of the List Namespace operation. */
 export interface NamespaceListResult {
   /** Gets or sets result of the List AuthorizationRules operation. */
-  value?: NamespaceListResultValueList | undefined;
+  value: NamespaceListResultValueList;
   /** Gets or sets link to the next set of results. */
   nextLink?: string | undefined;
 }
@@ -768,6 +770,8 @@ export interface ListNamespaceAuthorizationRulesRequest {
   resourceGroupName: string;
   /** Namespace name */
   namespaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Deprecated - only for compatibility. */
 export type SharedAccessAuthorizationRuleResourceTagsMap = { [key: string]: string | undefined };
@@ -793,7 +797,7 @@ export type SharedAccessAuthorizationRuleListResultValueList =
 /** The response of the List Namespace operation. */
 export interface SharedAccessAuthorizationRuleListResult {
   /** Gets or sets result of the List AuthorizationRules operation. */
-  value?: SharedAccessAuthorizationRuleListResultValueList | undefined;
+  value: SharedAccessAuthorizationRuleListResultValueList;
   /** Gets or sets link to the next set of results. */
   nextLink?: string | undefined;
 }
@@ -810,13 +814,13 @@ export interface ListNamespaceKeysRequest {
 /** Response for the POST request that returns Namespace or NotificationHub access keys (connection strings). */
 export interface ResourceListKeys {
   /** Gets or sets primaryConnectionString of the AuthorizationRule. */
-  primaryConnectionString?: string | undefined;
+  primaryConnectionString?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets secondaryConnectionString of the created AuthorizationRule */
-  secondaryConnectionString?: string | undefined;
+  secondaryConnectionString?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets primaryKey of the created AuthorizationRule. */
-  primaryKey?: string | undefined;
+  primaryKey?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets secondaryKey of the created AuthorizationRule */
-  secondaryKey?: string | undefined;
+  secondaryKey?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets keyName of the created AuthorizationRule */
   keyName?: string | undefined;
 }
@@ -829,6 +833,8 @@ export interface ListNamespacesRequest {
   _skipToken?: string | undefined;
   /** Maximum number of results to return. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListNotificationHubAuthorizationRulesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -839,6 +845,8 @@ export interface ListNotificationHubAuthorizationRulesRequest {
   namespaceName: string;
   /** Notification Hub name */
   notificationHubName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListNotificationHubKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -863,6 +871,8 @@ export interface ListNotificationHubsRequest {
   _skipToken?: string | undefined;
   /** Page size. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type NotificationHubResourceTagsMap = { [key: string]: string | undefined };
@@ -888,11 +898,14 @@ export type NotificationHubListResultValueList = Array<NotificationHubResource>;
 /** The response of the List NotificationHub operation. */
 export interface NotificationHubListResult {
   /** Gets or sets result of the List AuthorizationRules operation. */
-  value?: NotificationHubListResultValueList | undefined;
+  value: NotificationHubListResultValueList;
   /** Gets or sets link to the next set of results. */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** The object that represents the operation. */
 export interface OperationDisplay {
   /** Gets service provider: Microsoft.NotificationHubs */
@@ -970,7 +983,7 @@ export type OperationListResultValueList = Array<Operation>;
 /** Result of the request to list NotificationHubs operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /** Gets list of NotificationHubs operations supported by the Microsoft.NotificationHubs resource provider. */
-  value?: OperationListResultValueList | undefined;
+  value: OperationListResultValueList;
   /** Gets URL to get the next set of operation list results if there are any. */
   nextLink?: string | undefined;
 }
@@ -999,7 +1012,7 @@ export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
 /** The response of the List Private Link Resources operation. */
 export interface PrivateLinkResourceListResult {
   /** Gets or sets result of the List AuthorizationRules operation. */
-  value?: PrivateLinkResourceListResultValueList | undefined;
+  value: PrivateLinkResourceListResultValueList;
   /** Gets or sets link to the next set of results. */
   nextLink?: string | undefined;
 }
@@ -1017,7 +1030,7 @@ export type PrivateEndpointConnectionResourceListResultValueList =
 /** The response of the List Private Endpoint Connections operation. */
 export interface PrivateEndpointConnectionResourceListResult {
   /** Gets or sets result of the List AuthorizationRules operation. */
-  value?: PrivateEndpointConnectionResourceListResultValueList | undefined;
+  value: PrivateEndpointConnectionResourceListResultValueList;
   /** Gets or sets link to the next set of results. */
   nextLink?: string | undefined;
 }
@@ -1079,9 +1092,9 @@ export interface SharedAccessAuthorizationRulePropertiesInput {
   /** Gets or sets the rights associated with the rule. */
   rights: SharedAccessAuthorizationRulePropertiesInputRightsList;
   /** Gets a base64-encoded 256-bit primary key for signing and validating the SAS token. */
-  primaryKey?: string | undefined;
+  primaryKey?: string | Redacted.Redacted<string> | undefined;
   /** Gets a base64-encoded 256-bit primary key for signing and validating the SAS token. */
-  secondaryKey?: string | undefined;
+  secondaryKey?: string | Redacted.Redacted<string> | undefined;
 }
 /** Deprecated - only for compatibility. */
 export type NamespacesCreateOrUpdateAuthorizationRuleRequestTagsMap = {
@@ -1393,7 +1406,8 @@ export const CheckNamespaceAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CheckNamespaceAvailabilityRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CheckNamespaceAvailabilityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1418,7 +1432,8 @@ export const CheckNotificationHubNotificationHubAvailability: API.OperationMetho
     __c1,
     0,
   ) as any as S.Schema<CheckNotificationHubNotificationHubAvailabilityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1435,7 +1450,8 @@ export const DeleteNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<DeleteNamespaceRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<DeleteNamespaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1452,7 +1468,8 @@ export const DeleteNamespaceAuthorizationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<DeleteNamespaceAuthorizationRuleRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<DeleteNamespaceAuthorizationRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1469,7 +1486,8 @@ export const DeleteNotificationHub: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<DeleteNotificationHubRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<DeleteNotificationHubResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1486,7 +1504,8 @@ export const DeleteNotificationHubAuthorizationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<DeleteNotificationHubAuthorizationRuleRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<DeleteNotificationHubAuthorizationRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1503,7 +1522,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
   output: __S(705, __c44, 1) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1520,7 +1540,8 @@ export const GetNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<GetNamespaceRequest>,
   output: __S(789, __c49, 5) as any as S.Schema<GetNamespaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1537,7 +1558,8 @@ export const GetNamespaceAuthorizationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<GetNamespaceAuthorizationRuleRequest>,
   output: __S(880, __c55, 0) as any as S.Schema<GetNamespaceAuthorizationRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1554,7 +1576,8 @@ export const GetNamespacePnsCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c56, 0) as any as S.Schema<GetNamespacePnsCredentialsRequest>,
   output: __S(912, __c57, 0) as any as S.Schema<GetNamespacePnsCredentialsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1571,7 +1594,8 @@ export const GetNotificationHub: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<GetNotificationHubRequest>,
   output: __S(114, __c7, 2) as any as S.Schema<GetNotificationHubResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1588,7 +1612,8 @@ export const GetNotificationHubAuthorizationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<GetNotificationHubAuthorizationRuleRequest>,
   output: __S(880, __c55, 0) as any as S.Schema<GetNotificationHubAuthorizationRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1605,7 +1630,8 @@ export const GetNotificationHubPnsCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<GetNotificationHubPnsCredentialsRequest>,
   output: __S(912, __c57, 0) as any as S.Schema<GetNotificationHubPnsCredentialsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1622,7 +1648,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
   output: __S(755, __c47, 3) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1639,7 +1666,8 @@ export const GetPrivateEndpointConnectionGroupId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<GetPrivateEndpointConnectionGroupIdRequest>,
   output: __S(193, __c12, 1) as any as S.Schema<GetPrivateEndpointConnectionGroupIdResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1648,37 +1676,53 @@ export const GetPrivateEndpointConnectionGroupId: API.OperationMethod<
 
 export type ListNamespaceAllError = AzureOpError;
 /** Lists all the available namespaces within the subscription. */
-export const ListNamespaceAll: API.OperationMethod<
+export const ListNamespaceAll: API.PaginatedOperationMethod<
   ListNamespaceAllRequest,
   NamespaceListResult,
   ListNamespaceAllError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  NamespaceResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<ListNamespaceAllRequest>,
   output: __S(225, __c14, 1) as any as S.Schema<NamespaceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNamespaceAll",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNamespaceAuthorizationRulesError = AzureOpError;
 /** Gets the authorization rules for a namespace. */
-export const ListNamespaceAuthorizationRules: API.OperationMethod<
+export const ListNamespaceAuthorizationRules: API.PaginatedOperationMethod<
   ListNamespaceAuthorizationRulesRequest,
   SharedAccessAuthorizationRuleListResult,
   ListNamespaceAuthorizationRulesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SharedAccessAuthorizationRuleResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<ListNamespaceAuthorizationRulesRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<SharedAccessAuthorizationRuleListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNamespaceAuthorizationRules",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNamespaceKeysError = AzureOpError;
 /** Gets the Primary and Secondary ConnectionStrings to the namespace. */
@@ -1690,7 +1734,8 @@ export const ListNamespaceKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<ListNamespaceKeysRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<ResourceListKeys>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1699,37 +1744,53 @@ export const ListNamespaceKeys: API.OperationMethod<
 
 export type ListNamespacesError = AzureOpError;
 /** Lists the available namespaces within a resource group. */
-export const ListNamespaces: API.OperationMethod<
+export const ListNamespaces: API.PaginatedOperationMethod<
   ListNamespacesRequest,
   NamespaceListResult,
   ListNamespacesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  NamespaceResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<ListNamespacesRequest>,
   output: __S(225, __c14, 1) as any as S.Schema<NamespaceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNamespaces",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNotificationHubAuthorizationRulesError = AzureOpError;
 /** Gets the authorization rules for a NotificationHub. */
-export const ListNotificationHubAuthorizationRules: API.OperationMethod<
+export const ListNotificationHubAuthorizationRules: API.PaginatedOperationMethod<
   ListNotificationHubAuthorizationRulesRequest,
   SharedAccessAuthorizationRuleListResult,
   ListNotificationHubAuthorizationRulesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SharedAccessAuthorizationRuleResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<ListNotificationHubAuthorizationRulesRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<SharedAccessAuthorizationRuleListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNotificationHubAuthorizationRules",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNotificationHubKeysError = AzureOpError;
 /** Gets the Primary and Secondary ConnectionStrings to the NotificationHub */
@@ -1741,7 +1802,8 @@ export const ListNotificationHubKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<ListNotificationHubKeysRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<ResourceListKeys>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1750,71 +1812,93 @@ export const ListNotificationHubKeys: API.OperationMethod<
 
 export type ListNotificationHubsError = AzureOpError;
 /** Lists the notification hubs associated with a namespace. */
-export const ListNotificationHubs: API.OperationMethod<
+export const ListNotificationHubs: API.PaginatedOperationMethod<
   ListNotificationHubsRequest,
   NotificationHubListResult,
   ListNotificationHubsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  NotificationHubResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<ListNotificationHubsRequest>,
   output: __S(386, __c24, 2) as any as S.Schema<NotificationHubListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNotificationHubs",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** Lists all available Notification Hubs operations. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(412, __c25, 12) as any as S.Schema<OperationListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateEndpointConnectionGroupIdsError = AzureOpError;
 /** Returns all Group Ids supported by the Notification Hubs RP. This is a public API required by the Networking RP contract. It can be used directly by Notification Hubs users. Even though this namespace requires subscription id, resource group and namespace name, it returns a constant payload (for a given namespacE) every time it's called. That's why we don't send it to the sibling RP, but process it directly in the scale unit that received the request. */
-export const ListPrivateEndpointConnectionGroupIds: API.OperationMethod<
+export const ListPrivateEndpointConnectionGroupIds: API.PaginatedOperationMethod<
   ListPrivateEndpointConnectionGroupIdsRequest,
   PrivateLinkResourceListResult,
   ListPrivateEndpointConnectionGroupIdsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateLinkResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<ListPrivateEndpointConnectionGroupIdsRequest>,
   output: __S(418, __c26, 2) as any as S.Schema<PrivateLinkResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateEndpointConnectionGroupIds",
-}));
+  pagination: { mode: "single", items: "value" } as const,
+})) as any;
 
 export type ListPrivateEndpointConnectionsError = AzureOpError;
 /** Returns all Private Endpoint Connections that belong to the given Notification Hubs namespace. This is a public API that can be called directly by Notification Hubs users. */
-export const ListPrivateEndpointConnections: API.OperationMethod<
+export const ListPrivateEndpointConnections: API.PaginatedOperationMethod<
   ListPrivateEndpointConnectionsRequest,
   PrivateEndpointConnectionResourceListResult,
   ListPrivateEndpointConnectionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateEndpointConnectionResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<ListPrivateEndpointConnectionsRequest>,
   output: __S(433, __c27, 1) as any as S.Schema<PrivateEndpointConnectionResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateEndpointConnections",
-}));
+  pagination: { mode: "single", items: "value" } as const,
+})) as any;
 
 export type NamespacesCreateOrUpdateError = AzureOpError;
 /** Creates / Updates a Notification Hub namespace. This operation is idempotent. */
@@ -1826,7 +1910,8 @@ export const NamespacesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<NamespacesCreateOrUpdateRequest>,
   output: __S(789, __c49, 5) as any as S.Schema<NamespacesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1843,7 +1928,8 @@ export const NamespacesCreateOrUpdateAuthorizationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<NamespacesCreateOrUpdateAuthorizationRuleRequest>,
   output: __S(880, __c55, 0) as any as S.Schema<NamespacesCreateOrUpdateAuthorizationRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1860,7 +1946,8 @@ export const NotificationHubsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<NotificationHubsCreateOrUpdateRequest>,
   output: __S(114, __c7, 2) as any as S.Schema<NotificationHubsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1885,7 +1972,8 @@ export const NotificationHubsCreateOrUpdateAuthorizationRule: API.OperationMetho
     __c55,
     0,
   ) as any as S.Schema<NotificationHubsCreateOrUpdateAuthorizationRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1902,7 +1990,8 @@ export const RegenerateNamespaceKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<RegenerateNamespaceKeysRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<ResourceListKeys>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1919,7 +2008,8 @@ export const RegenerateNotificationHubKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<RegenerateNotificationHubKeysRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<ResourceListKeys>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1936,7 +2026,8 @@ export const SendNotificationHubsDebug: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<SendNotificationHubsDebugRequest>,
   output: __S(612, __c38, 4) as any as S.Schema<SendNotificationHubsDebugResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1953,7 +2044,8 @@ export const UpdateNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<UpdateNamespaceRequest>,
   output: __S(789, __c49, 5) as any as S.Schema<UpdateNamespaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1970,7 +2062,8 @@ export const UpdateNotificationHub: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<UpdateNotificationHubRequest>,
   output: __S(114, __c7, 2) as any as S.Schema<UpdateNotificationHubResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1987,7 +2080,8 @@ export const UpdatePrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(658, __c41, 2) as any as S.Schema<UpdatePrivateEndpointConnectionRequest>,
   output: __S(755, __c47, 3) as any as S.Schema<UpdatePrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2260,12 +2354,14 @@ function __c13(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.NotificationHubs/namespaces",
             code: 200,
             apiVersion: "2023-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNamespaceAllRequest" });
@@ -2278,7 +2374,7 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(224, __c14, 0)),
+          value: __S(224, __c14, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "NamespaceListResult" });
@@ -2292,12 +2388,14 @@ function __c15(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           namespaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/authorizationRules",
             code: 200,
             apiVersion: "2023-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNamespaceAuthorizationRulesRequest" });
@@ -2310,7 +2408,7 @@ function __c16(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(256, __c16, 0)),
+          value: __S(256, __c16, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SharedAccessAuthorizationRuleListResult" });
@@ -2341,10 +2439,10 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          primaryConnectionString: S.optional(S.String),
-          secondaryConnectionString: S.optional(S.String),
-          primaryKey: S.optional(S.String),
-          secondaryKey: S.optional(S.String),
+          primaryConnectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          secondaryConnectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          primaryKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          secondaryKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           keyName: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceListKeys" });
@@ -2359,12 +2457,14 @@ function __c19(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces",
             code: 200,
             apiVersion: "2023-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNamespacesRequest" });
@@ -2379,12 +2479,14 @@ function __c20(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           namespaceName: S.String.pipe(T.Label()),
           notificationHubName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs/{notificationHubName}/authorizationRules",
             code: 200,
             apiVersion: "2023-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNotificationHubAuthorizationRulesRequest" });
@@ -2446,12 +2548,14 @@ function __c24(j: number): any {
           namespaceName: S.String.pipe(T.Label()),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/notificationHubs",
             code: 200,
             apiVersion: "2023-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNotificationHubsRequest" });
@@ -2460,7 +2564,7 @@ function __c24(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(385, __c24, 1)),
+          value: __S(385, __c24, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "NotificationHubListResult" });
@@ -2470,12 +2574,15 @@ function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.NotificationHubs/operations",
             code: 200,
             apiVersion: "2023-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -2549,7 +2656,7 @@ function __c25(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(411, __c25, 11)),
+          value: __S(411, __c25, 11),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationListResult" });
@@ -2577,7 +2684,7 @@ function __c26(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(417, __c26, 1)),
+          value: __S(417, __c26, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateLinkResourceListResult" });
@@ -2603,7 +2710,7 @@ function __c27(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(768, __c48, 0)),
+          value: __S(768, __c48, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionResourceListResult" });
@@ -2680,8 +2787,8 @@ function __c31(j: number): any {
       return S.suspend(() =>
         S.Struct({
           rights: __S(800, __c50, 0),
-          primaryKey: S.optional(S.String),
-          secondaryKey: S.optional(S.String),
+          primaryKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          secondaryKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "SharedAccessAuthorizationRulePropertiesInput" });
   }
@@ -3157,9 +3264,9 @@ function __c51(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clientId: S.String,
+          clientId: S.String.pipe(T.SensitiveValue({})),
           clientSecret: S.String.pipe(T.SensitiveValue({})),
-          authTokenUrl: S.String,
+          authTokenUrl: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "AdmCredentialProperties" });
     case 1:
@@ -3171,14 +3278,14 @@ function __c51(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          apnsCertificate: S.optional(S.String),
-          certificateKey: S.optional(S.String),
-          endpoint: S.String,
-          thumbprint: S.optional(S.String),
-          keyId: S.optional(S.String),
-          appName: S.optional(S.String),
-          appId: S.optional(S.String),
-          token: S.optional(S.String),
+          apnsCertificate: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          certificateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          endpoint: S.String.pipe(T.SensitiveValue({})),
+          thumbprint: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          keyId: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          appName: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          appId: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ApnsCredentialProperties" });
     case 3:
@@ -3190,8 +3297,8 @@ function __c51(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          baiduApiKey: S.String,
-          baiduEndPoint: S.String,
+          baiduApiKey: S.String.pipe(T.SensitiveValue({})),
+          baiduEndPoint: S.String.pipe(T.SensitiveValue({})),
           baiduSecretKey: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "BaiduCredentialProperties" });
@@ -3204,9 +3311,9 @@ function __c51(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          subject: S.String,
-          vapidPrivateKey: S.String,
-          vapidPublicKey: S.String,
+          subject: S.String.pipe(T.SensitiveValue({})),
+          vapidPrivateKey: S.String.pipe(T.SensitiveValue({})),
+          vapidPublicKey: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "BrowserCredentialProperties" });
     case 7:
@@ -3218,8 +3325,8 @@ function __c51(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          gcmEndpoint: S.optional(S.String),
-          googleApiKey: S.String,
+          gcmEndpoint: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          googleApiKey: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "GcmCredentialProperties" });
     case 9:
@@ -3231,9 +3338,9 @@ function __c51(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          mpnsCertificate: S.String,
-          certificateKey: S.String,
-          thumbprint: S.String,
+          mpnsCertificate: S.String.pipe(T.SensitiveValue({})),
+          certificateKey: S.String.pipe(T.SensitiveValue({})),
+          thumbprint: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "MpnsCredentialProperties" });
     case 11:
@@ -3245,11 +3352,11 @@ function __c51(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          packageSid: S.optional(S.String),
+          packageSid: S.optional(S.String.pipe(T.SensitiveValue({}))),
           secretKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          windowsLiveEndpoint: S.optional(S.String),
-          certificateKey: S.optional(S.String),
-          wnsCertificate: S.optional(S.String),
+          windowsLiveEndpoint: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          certificateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          wnsCertificate: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "WnsCredentialProperties" });
     case 13:
@@ -3261,8 +3368,8 @@ function __c51(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          appSecret: S.optional(S.String),
-          endpoint: S.optional(S.String),
+          appSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          endpoint: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "XiaomiCredentialProperties" });
     case 15:
@@ -3316,8 +3423,8 @@ function __c54(j: number): any {
       return S.suspend(() =>
         S.Struct({
           rights: __S(800, __c50, 0),
-          primaryKey: S.optional(S.String),
-          secondaryKey: S.optional(S.String),
+          primaryKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          secondaryKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           keyName: S.optional(S.String),
           modifiedTime: S.optional(S.String),
           createdTime: S.optional(S.String),

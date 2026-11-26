@@ -4,7 +4,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  *
  * API-compatible port of the distilled v0 Neon credentials module: the
  * `Credentials` service holds an *effect* that resolves the current
- * credentials on every request (the protocol layer resolves it per request
+ * credentials on every request (the protocol resolves it per request
  * on the calling fiber).
  */
 import * as Context from "effect/Context";

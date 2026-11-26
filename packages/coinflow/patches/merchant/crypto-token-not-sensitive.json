@@ -1,0 +1,53 @@
+{
+  "description": "Coinflow names a crypto asset `token`: the symbol, mint address or contract of the coin being paid, deposited or withdrawn (\"The symbol of the token to execute the payin with.\", \"The token address or contract of the token which the user is withdrawing.\", \"The token symbol to deposit\", next to `chain`, `depositAddress` or `destinationAddress`). The converter marks every member named `token` sensitive, so these came back as Redacted. This removes the mark on the crypto shapes only; card, bank account and session tokens keep it.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.coinflow.merchant#MerchantActivatePassiveDepositAddressRequest/members/token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coinflow.merchant#MerchantCreateCryptoWithdrawDepositRequest/members/token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coinflow.merchant#IPaymentCryptoInfo/members/token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coinflow.merchant#IPaymentStringCryptoInfo/members/token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coinflow.merchant#PaymentListResponseCryptoInfo/members/token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coinflow.merchant#PickIWithdrawExcludeKeyofIWithdrawProviderCryptoPayoutInfo/members/token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coinflow.merchant#PickPaymentResponseExcludeKeyofPaymentResponseMerchantCryptoInfo/members/token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coinflow.merchant#PickDelegatedCryptoDestinationChainOrToken/members/token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coinflow.merchant#PaymentWithEnhancedResponseCryptoInfo/members/token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coinflow.merchant#WithdrawalResponseCryptoPayoutInfo/members/token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coinflow.merchant#PassiveDepositAddressListItem/members/token/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coinflow.merchant#DelegatedCryptoDestination/members/token/traits/smithy.api#sensitive"
+    }
+  ]
+}

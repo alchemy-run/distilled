@@ -75,7 +75,7 @@ const ovhSpec: SdkSpec = {
   operationDecl: {
     contextType: "OvhOpContext",
     commonErrorType: "OvhOpError",
-    commonErrorClasses: ["UnknownOvhError"],
+    serviceErrors: "OvhServiceErrors",
     protocol: "OvhProtocol",
     retry: "Retry.Retry",
   },

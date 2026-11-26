@@ -10,7 +10,8 @@ import * as Schema from "effect/Schema";
 import * as Tracer from "effect/Tracer";
 import { describe, expect, test } from "vitest";
 import * as API from "../src/api.ts";
-import { makeRestProtocol } from "../src/protocol-rest.ts";
+import { API_ERRORS } from "../src/errors.ts";
+import { restProtocol } from "../src/protocol-rest.ts";
 import * as S from "../src/schema.ts";
 import { TelemetryHooks } from "../src/telemetry-hooks.ts";
 import * as TxLambda from "../src/telemetry-lambda-context.ts";
@@ -25,7 +26,7 @@ interface CredsShape {
 class Creds extends Context.Service<Creds, CredsShape>()("TelemetryExtensionsCreds") {}
 class TestError extends Schema.TaggedError<TestError>()("TestError", { info: Schema.Unknown }) {}
 
-const Protocol = makeRestProtocol<CredsShape>({
+const Protocol = restProtocol({
   credentials: Effect.gen(function* () {
     return yield* Creds;
   }),
@@ -46,6 +47,7 @@ const getThing = API.make(() => ({
     Usage: S.optional(S.Unknown),
     Capacity: S.optional(S.Unknown),
   }),
+  serviceErrors: API_ERRORS,
   protocol: Protocol,
   telemetry: {
     system: "test-api",
@@ -189,6 +191,7 @@ describe("operation span extensions", () => {
         T.Http({ method: "GET", uri: "/things/{id}" }),
       ),
       output: S.Struct({}),
+      serviceErrors: API_ERRORS,
       protocol: Protocol,
       telemetry: { system: "test-api", prefix: "Test", service: "Things", propagate: "w3c" },
       span: "GetThing",

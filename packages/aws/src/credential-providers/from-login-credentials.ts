@@ -1,5 +1,4 @@
 import { createHash, createPrivateKey, createPublicKey, randomUUID, sign } from "node:crypto";
-import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { loadModule } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
@@ -28,6 +27,7 @@ import type * as Region from "../region.ts";
 import { getHomeDir } from "../util/shared-config.ts";
 import { type CredentialSource, CredentialSourceError, env } from "./credential-source.ts";
 import { withHttpClient } from "./http-client.ts";
+import { nodeFileSystem } from "./node-file-system.ts";
 import { getProfileName, loadProfiles, profileRegion } from "./profile.ts";
 import { stsRegion } from "./sts.ts";
 
@@ -91,10 +91,8 @@ const isLoginToken = (value: unknown): value is LoginToken => {
 
 const loadToken = (loginSession: string): Effect.Effect<LoginToken, CredentialSourceError> => {
   const path = tokenFilePath(loginSession);
-  return Effect.tryPromise({
-    try: () => readFile(path, "utf8"),
-    catch: (cause) => invalidToken(`Failed to load the login token at ${path}.`, cause),
-  }).pipe(
+  return nodeFileSystem.readFileString(path).pipe(
+    Effect.mapError((cause) => invalidToken(`Failed to load the login token at ${path}.`, cause)),
     Effect.flatMap((contents) =>
       Effect.try({
         try: () => JSON.parse(contents) as unknown,
@@ -116,11 +114,18 @@ const loadToken = (loginSession: string): Effect.Effect<LoginToken, CredentialSo
  */
 const saveToken = (loginSession: string, token: LoginToken) => {
   const path = tokenFilePath(loginSession);
-  return Effect.tryPromise(() =>
-    mkdir(dirname(path), { recursive: true }).then(() =>
-      writeFile(path, JSON.stringify(token, null, 2), "utf8"),
+  // Only the owner may read the token: a new folder is 700 and the file 600.
+  // `mode` applies only when the write creates the file, so an existing file
+  // is tightened first.
+  return nodeFileSystem.makeDirectory(dirname(path), { recursive: true, mode: 0o700 }).pipe(
+    Effect.andThen(
+      nodeFileSystem
+        .chmod(path, 0o600)
+        .pipe(Effect.catchReason("PlatformError", "NotFound", () => Effect.void)),
     ),
-  ).pipe(
+    Effect.andThen(
+      nodeFileSystem.writeFileString(path, JSON.stringify(token, null, 2), { mode: 0o600 }),
+    ),
     Effect.ignore({
       log: "Warn",
       message: `Could not save the refreshed AWS login token to ${path}`,
@@ -309,10 +314,14 @@ const refresh = (
         // Lenient response validation passes a malformed body through as read.
         const accessToken = output.accessToken as Partial<typeof output.accessToken> | undefined;
         const expiry = new Date(Date.now() + (output.expiresIn || 900) * 1000);
+        // The secret members arrive as Redacted.
+        const secretAccessKey =
+          accessToken?.secretAccessKey && unredact(accessToken.secretAccessKey);
+        const sessionToken = accessToken?.sessionToken && unredact(accessToken.sessionToken);
         if (
           typeof accessToken?.accessKeyId !== "string" ||
-          typeof accessToken.secretAccessKey !== "string" ||
-          typeof accessToken.sessionToken !== "string" ||
+          typeof secretAccessKey !== "string" ||
+          typeof sessionToken !== "string" ||
           Number.isNaN(expiry.getTime())
         ) {
           return Effect.fail(
@@ -324,8 +333,8 @@ const refresh = (
           accessToken: {
             ...token.accessToken,
             accessKeyId: accessToken.accessKeyId,
-            secretAccessKey: accessToken.secretAccessKey,
-            sessionToken: accessToken.sessionToken,
+            secretAccessKey,
+            sessionToken,
             expiresAt: expiry.toISOString(),
           },
           refreshToken: unredact(output.refreshToken),

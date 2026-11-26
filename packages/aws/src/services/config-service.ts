@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -1515,9 +1516,15 @@ export interface DescribeConformancePackComplianceResponse {
   NextToken?: string | undefined;
 }
 export type ConformancePackNamesList = string[];
+export type ConformancePackType = "CUSTOM" | "MANAGED" | (string & {});
+export type ConformancePackTypeList = ConformancePackType[];
+export interface DescribeConformancePacksFilters {
+  Types?: ConformancePackType[] | undefined;
+}
 export type PageSizeLimit = number;
 export interface DescribeConformancePacksRequest {
   ConformancePackNames?: string[] | undefined;
+  Filters?: DescribeConformancePacksFilters | undefined;
   Limit?: number | undefined;
   NextToken?: string | undefined;
 }
@@ -1538,6 +1545,16 @@ export interface TemplateSSMDocumentDetails {
   DocumentName: string;
   DocumentVersion?: string | undefined;
 }
+export type ConformancePackSourceIdentifier = string;
+export interface ConformancePackSource {
+  SourceIdentifier: string;
+}
+export type TagKey = string;
+export type TagValue = string;
+export interface ConformancePackScope {
+  TagKey: string;
+  TagValue?: string | undefined;
+}
 export interface ConformancePackDetail {
   ConformancePackName: string;
   ConformancePackArn: string;
@@ -1548,6 +1565,9 @@ export interface ConformancePackDetail {
   LastUpdateRequestedTime?: Date | undefined;
   CreatedBy?: string | undefined;
   TemplateSSMDocumentDetails?: TemplateSSMDocumentDetails | undefined;
+  Type?: ConformancePackType | undefined;
+  Source?: ConformancePackSource | undefined;
+  Scope?: ConformancePackScope | undefined;
 }
 export type ConformancePackDetailList = ConformancePackDetail[];
 export interface DescribeConformancePacksResponse {
@@ -1556,6 +1576,7 @@ export interface DescribeConformancePacksResponse {
 }
 export interface DescribeConformancePackStatusRequest {
   ConformancePackNames?: string[] | undefined;
+  Filters?: DescribeConformancePacksFilters | undefined;
   Limit?: number | undefined;
   NextToken?: string | undefined;
 }
@@ -1563,6 +1584,9 @@ export type ConformancePackState =
   | "CREATE_IN_PROGRESS"
   | "CREATE_COMPLETE"
   | "CREATE_FAILED"
+  | "UPDATE_IN_PROGRESS"
+  | "UPDATE_COMPLETE"
+  | "UPDATE_FAILED"
   | "DELETE_IN_PROGRESS"
   | "DELETE_FAILED"
   | (string & {});
@@ -1573,10 +1597,11 @@ export interface ConformancePackStatusDetail {
   ConformancePackId: string;
   ConformancePackArn: string;
   ConformancePackState: ConformancePackState;
-  StackArn: string;
+  StackArn?: string | undefined;
   ConformancePackStatusReason?: string | undefined;
   LastUpdateRequestedTime: Date;
   LastUpdateCompletedTime?: Date | undefined;
+  Type?: ConformancePackType | undefined;
 }
 export type ConformancePackStatusDetailsList = ConformancePackStatusDetail[];
 export interface DescribeConformancePackStatusResponse {
@@ -2521,8 +2546,6 @@ export interface ListTagsForResourceRequest {
   Limit?: number | undefined;
   NextToken?: string | undefined;
 }
-export type TagKey = string;
-export type TagValue = string;
 export interface Tag {
   Key?: string | undefined;
   Value?: string | undefined;
@@ -2572,6 +2595,8 @@ export interface PutConformancePackRequest {
   ConformancePackInputParameters?: ConformancePackInputParameter[] | undefined;
   TemplateSSMDocumentDetails?: TemplateSSMDocumentDetails | undefined;
   Tags?: Tag[] | undefined;
+  Source?: ConformancePackSource | undefined;
+  Scope?: ConformancePackScope | undefined;
 }
 export interface PutConformancePackResponse {
   ConformancePackArn?: string | undefined;
@@ -2815,6 +2840,7 @@ export const associateResourceTypes: API.OperationMethod<
   input: __S(584, __c73, 0) as any as S.Schema<AssociateResourceTypesRequest>,
   output: __S(592, __c74, 0) as any as S.Schema<AssociateResourceTypesResponse>,
   errors: [ConflictException, NoSuchConfigurationRecorderException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateResourceTypes",
@@ -2843,6 +2869,7 @@ export const batchGetAggregateResourceConfig: API.OperationMethod<
   input: __S(632, __c79, 0) as any as S.Schema<BatchGetAggregateResourceConfigRequest>,
   output: __S(633, __c79, 1) as any as S.Schema<BatchGetAggregateResourceConfigResponse>,
   errors: [NoSuchConfigurationAggregatorException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetAggregateResourceConfig",
@@ -2878,6 +2905,7 @@ export const batchGetResourceConfig: API.OperationMethod<
   input: __S(672, __c84, 0) as any as S.Schema<BatchGetResourceConfigRequest>,
   output: __S(673, __c84, 1) as any as S.Schema<BatchGetResourceConfigResponse>,
   errors: [NoAvailableConfigurationRecorderException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetResourceConfig",
@@ -2899,6 +2927,7 @@ export const deleteAggregationAuthorization: API.OperationMethod<
   input: __S(688, __c86, 0) as any as S.Schema<DeleteAggregationAuthorizationRequest>,
   output: __S(696, __c87, 0) as any as S.Schema<DeleteAggregationAuthorizationResponse>,
   errors: [InvalidParameterValueException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAggregationAuthorization",
@@ -2944,6 +2973,7 @@ export const deleteConfigRule: API.OperationMethod<
   input: __S(704, __c88, 0) as any as S.Schema<DeleteConfigRuleRequest>,
   output: __S(696, __c87, 0) as any as S.Schema<DeleteConfigRuleResponse>,
   errors: [NoSuchConfigRuleException, ResourceInUseException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigRule",
@@ -2967,6 +2997,7 @@ export const deleteConfigurationAggregator: API.OperationMethod<
   input: __S(712, __c89, 0) as any as S.Schema<DeleteConfigurationAggregatorRequest>,
   output: __S(696, __c87, 0) as any as S.Schema<DeleteConfigurationAggregatorResponse>,
   errors: [NoSuchConfigurationAggregatorException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationAggregator",
@@ -2997,6 +3028,7 @@ export const deleteConfigurationRecorder: API.OperationMethod<
   input: __S(720, __c90, 0) as any as S.Schema<DeleteConfigurationRecorderRequest>,
   output: __S(696, __c87, 0) as any as S.Schema<DeleteConfigurationRecorderResponse>,
   errors: [NoSuchConfigurationRecorderException, UnmodifiableEntityException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationRecorder",
@@ -3036,6 +3068,7 @@ export const deleteConformancePack: API.OperationMethod<
   input: __S(728, __c91, 0) as any as S.Schema<DeleteConformancePackRequest>,
   output: __S(696, __c87, 0) as any as S.Schema<DeleteConformancePackResponse>,
   errors: [NoSuchConformancePackException, ResourceInUseException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConformancePack",
@@ -3056,6 +3089,7 @@ export const deleteConnector: API.OperationMethod<
   input: __S(736, __c92, 0) as any as S.Schema<DeleteConnectorRequest>,
   output: __S(696, __c87, 0) as any as S.Schema<DeleteConnectorResponse>,
   errors: [ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnector",
@@ -3081,6 +3115,7 @@ export const deleteDeliveryChannel: API.OperationMethod<
   input: __S(744, __c93, 0) as any as S.Schema<DeleteDeliveryChannelRequest>,
   output: __S(696, __c87, 0) as any as S.Schema<DeleteDeliveryChannelResponse>,
   errors: [LastDeliveryChannelDeleteFailedException, NoSuchDeliveryChannelException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeliveryChannel",
@@ -3107,6 +3142,7 @@ export const deleteEvaluationResults: API.OperationMethod<
   input: __S(752, __c94, 0) as any as S.Schema<DeleteEvaluationResultsRequest>,
   output: __S(696, __c87, 0) as any as S.Schema<DeleteEvaluationResultsResponse>,
   errors: [NoSuchConfigRuleException, ResourceInUseException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEvaluationResults",
@@ -3154,6 +3190,7 @@ export const deleteOrganizationConfigRule: API.OperationMethod<
     OrganizationAccessDeniedException,
     ResourceInUseException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOrganizationConfigRule",
@@ -3202,6 +3239,7 @@ export const deleteOrganizationConformancePack: API.OperationMethod<
     OrganizationAccessDeniedException,
     ResourceInUseException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOrganizationConformancePack",
@@ -3223,6 +3261,7 @@ export const deletePendingAggregationRequest: API.OperationMethod<
   input: __S(776, __c97, 0) as any as S.Schema<DeletePendingAggregationRequestRequest>,
   output: __S(696, __c87, 0) as any as S.Schema<DeletePendingAggregationRequestResponse>,
   errors: [InvalidParameterValueException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePendingAggregationRequest",
@@ -3253,6 +3292,7 @@ export const deleteRemediationConfiguration: API.OperationMethod<
     NoSuchRemediationConfigurationException,
     RemediationInProgressException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRemediationConfiguration",
@@ -3276,6 +3316,7 @@ export const deleteRemediationExceptions: API.OperationMethod<
   input: __S(792, __c99, 0) as any as S.Schema<DeleteRemediationExceptionsRequest>,
   output: __S(795, __c99, 3) as any as S.Schema<DeleteRemediationExceptionsResponse>,
   errors: [NoSuchRemediationExceptionException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRemediationExceptions",
@@ -3299,6 +3340,7 @@ export const deleteResourceConfig: API.OperationMethod<
   input: __S(808, __c101, 0) as any as S.Schema<DeleteResourceConfigRequest>,
   output: __S(696, __c87, 0) as any as S.Schema<DeleteResourceConfigResponse>,
   errors: [NoRunningConfigurationRecorderException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceConfig",
@@ -3322,6 +3364,7 @@ export const deleteRetentionConfiguration: API.OperationMethod<
   input: __S(816, __c102, 0) as any as S.Schema<DeleteRetentionConfigurationRequest>,
   output: __S(696, __c87, 0) as any as S.Schema<DeleteRetentionConfigurationResponse>,
   errors: [InvalidParameterValueException, NoSuchRetentionConfigurationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRetentionConfiguration",
@@ -3356,6 +3399,7 @@ export const deleteServiceLinkedConfigurationRecorder: API.OperationMethod<
   input: __S(824, __c103, 0) as any as S.Schema<DeleteServiceLinkedConfigurationRecorderRequest>,
   output: __S(832, __c104, 0) as any as S.Schema<DeleteServiceLinkedConfigurationRecorderResponse>,
   errors: [ConflictException, NoSuchConfigurationRecorderException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceLinkedConfigurationRecorder",
@@ -3376,6 +3420,7 @@ export const deleteStoredQuery: API.OperationMethod<
   input: __S(840, __c105, 0) as any as S.Schema<DeleteStoredQueryRequest>,
   output: __S(696, __c87, 0) as any as S.Schema<DeleteStoredQueryResponse>,
   errors: [ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStoredQuery",
@@ -3415,6 +3460,7 @@ export const deliverConfigSnapshot: API.OperationMethod<
     NoRunningConfigurationRecorderException,
     NoSuchDeliveryChannelException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeliverConfigSnapshot",
@@ -3451,6 +3497,7 @@ export const describeAggregateComplianceByConfigRules: API.PaginatedOperationMet
     NoSuchConfigurationAggregatorException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAggregateComplianceByConfigRules",
@@ -3494,6 +3541,7 @@ export const describeAggregateComplianceByConformancePacks: API.PaginatedOperati
     NoSuchConfigurationAggregatorException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAggregateComplianceByConformancePacks",
@@ -3526,6 +3574,7 @@ export const describeAggregationAuthorizations: API.PaginatedOperationMethod<
   input: __S(888, __c111, 0) as any as S.Schema<DescribeAggregationAuthorizationsRequest>,
   output: __S(890, __c111, 2) as any as S.Schema<DescribeAggregationAuthorizationsResponse>,
   errors: [InvalidLimitException, InvalidNextTokenException, InvalidParameterValueException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAggregationAuthorizations",
@@ -3586,6 +3635,7 @@ export const describeComplianceByConfigRule: API.PaginatedOperationMethod<
   input: __S(904, __c113, 0) as any as S.Schema<DescribeComplianceByConfigRuleRequest>,
   output: __S(907, __c113, 3) as any as S.Schema<DescribeComplianceByConfigRuleResponse>,
   errors: [InvalidNextTokenException, InvalidParameterValueException, NoSuchConfigRuleException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeComplianceByConfigRule",
@@ -3644,6 +3694,7 @@ export const describeComplianceByResource: API.PaginatedOperationMethod<
   input: __S(912, __c114, 0) as any as S.Schema<DescribeComplianceByResourceRequest>,
   output: __S(915, __c114, 3) as any as S.Schema<DescribeComplianceByResourceResponse>,
   errors: [InvalidNextTokenException, InvalidParameterValueException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeComplianceByResource",
@@ -3676,6 +3727,7 @@ export const describeConfigRuleEvaluationStatus: API.PaginatedOperationMethod<
   input: __S(920, __c115, 0) as any as S.Schema<DescribeConfigRuleEvaluationStatusRequest>,
   output: __S(923, __c115, 3) as any as S.Schema<DescribeConfigRuleEvaluationStatusResponse>,
   errors: [InvalidNextTokenException, InvalidParameterValueException, NoSuchConfigRuleException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigRuleEvaluationStatus",
@@ -3707,6 +3759,7 @@ export const describeConfigRules: API.PaginatedOperationMethod<
   input: __S(929, __c116, 1) as any as S.Schema<DescribeConfigRulesRequest>,
   output: __S(931, __c116, 3) as any as S.Schema<DescribeConfigRulesResponse>,
   errors: [InvalidNextTokenException, InvalidParameterValueException, NoSuchConfigRuleException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigRules",
@@ -3742,6 +3795,7 @@ export const describeConfigurationAggregators: API.PaginatedOperationMethod<
     InvalidParameterValueException,
     NoSuchConfigurationAggregatorException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigurationAggregators",
@@ -3788,6 +3842,7 @@ export const describeConfigurationAggregatorSourcesStatus: API.PaginatedOperatio
     InvalidParameterValueException,
     NoSuchConfigurationAggregatorException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigurationAggregatorSourcesStatus",
@@ -3822,6 +3877,7 @@ export const describeConfigurationRecorders: API.OperationMethod<
   input: __S(968, __c121, 0) as any as S.Schema<DescribeConfigurationRecordersRequest>,
   output: __S(970, __c121, 2) as any as S.Schema<DescribeConfigurationRecordersResponse>,
   errors: [NoSuchConfigurationRecorderException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigurationRecorders",
@@ -3853,6 +3909,7 @@ export const describeConfigurationRecorderStatus: API.OperationMethod<
   input: __S(976, __c122, 0) as any as S.Schema<DescribeConfigurationRecorderStatusRequest>,
   output: __S(979, __c122, 3) as any as S.Schema<DescribeConfigurationRecorderStatusResponse>,
   errors: [NoSuchConfigurationRecorderException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigurationRecorderStatus",
@@ -3888,6 +3945,7 @@ export const describeConformancePackCompliance: API.PaginatedOperationMethod<
     NoSuchConfigRuleInConformancePackException,
     NoSuchConformancePackException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConformancePackCompliance",
@@ -3925,6 +3983,7 @@ export const describeConformancePacks: API.PaginatedOperationMethod<
     InvalidParameterValueException,
     NoSuchConformancePackException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConformancePacks",
@@ -3955,9 +4014,10 @@ export const describeConformancePackStatus: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ConformancePackStatusDetail
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1016, __c127, 0) as any as S.Schema<DescribeConformancePackStatusRequest>,
-  output: __S(1019, __c127, 3) as any as S.Schema<DescribeConformancePackStatusResponse>,
+  input: __S(1024, __c128, 0) as any as S.Schema<DescribeConformancePackStatusRequest>,
+  output: __S(1027, __c128, 3) as any as S.Schema<DescribeConformancePackStatusResponse>,
   errors: [InvalidLimitException, InvalidNextTokenException, InvalidParameterValueException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConformancePackStatus",
@@ -3986,9 +4046,10 @@ export const describeDeliveryChannels: API.OperationMethod<
   DescribeDeliveryChannelsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c128, 0) as any as S.Schema<DescribeDeliveryChannelsRequest>,
-  output: __S(1026, __c128, 2) as any as S.Schema<DescribeDeliveryChannelsResponse>,
+  input: __S(1032, __c129, 0) as any as S.Schema<DescribeDeliveryChannelsRequest>,
+  output: __S(1034, __c129, 2) as any as S.Schema<DescribeDeliveryChannelsResponse>,
   errors: [NoSuchDeliveryChannelException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDeliveryChannels",
@@ -4012,9 +4073,10 @@ export const describeDeliveryChannelStatus: API.OperationMethod<
   DescribeDeliveryChannelStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c130, 0) as any as S.Schema<DescribeDeliveryChannelStatusRequest>,
-  output: __S(1045, __c130, 5) as any as S.Schema<DescribeDeliveryChannelStatusResponse>,
+  input: __S(1048, __c131, 0) as any as S.Schema<DescribeDeliveryChannelStatusRequest>,
+  output: __S(1053, __c131, 5) as any as S.Schema<DescribeDeliveryChannelStatusResponse>,
   errors: [NoSuchDeliveryChannelException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDeliveryChannelStatus",
@@ -4056,14 +4118,15 @@ export const describeOrganizationConfigRules: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   OrganizationConfigRule
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1048, __c131, 0) as any as S.Schema<DescribeOrganizationConfigRulesRequest>,
-  output: __S(1052, __c131, 4) as any as S.Schema<DescribeOrganizationConfigRulesResponse>,
+  input: __S(1056, __c132, 0) as any as S.Schema<DescribeOrganizationConfigRulesRequest>,
+  output: __S(1060, __c132, 4) as any as S.Schema<DescribeOrganizationConfigRulesResponse>,
   errors: [
     InvalidLimitException,
     InvalidNextTokenException,
     NoSuchOrganizationConfigRuleException,
     OrganizationAccessDeniedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOrganizationConfigRules",
@@ -4100,14 +4163,15 @@ export const describeOrganizationConfigRuleStatuses: API.PaginatedOperationMetho
   Credentials | HttpClient.HttpClient,
   OrganizationConfigRuleStatus
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1064, __c133, 0) as any as S.Schema<DescribeOrganizationConfigRuleStatusesRequest>,
-  output: __S(1067, __c133, 3) as any as S.Schema<DescribeOrganizationConfigRuleStatusesResponse>,
+  input: __S(1072, __c134, 0) as any as S.Schema<DescribeOrganizationConfigRuleStatusesRequest>,
+  output: __S(1075, __c134, 3) as any as S.Schema<DescribeOrganizationConfigRuleStatusesResponse>,
   errors: [
     InvalidLimitException,
     InvalidNextTokenException,
     NoSuchOrganizationConfigRuleException,
     OrganizationAccessDeniedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOrganizationConfigRuleStatuses",
@@ -4155,14 +4219,15 @@ export const describeOrganizationConformancePacks: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   OrganizationConformancePack
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1072, __c134, 0) as any as S.Schema<DescribeOrganizationConformancePacksRequest>,
-  output: __S(1075, __c134, 3) as any as S.Schema<DescribeOrganizationConformancePacksResponse>,
+  input: __S(1080, __c135, 0) as any as S.Schema<DescribeOrganizationConformancePacksRequest>,
+  output: __S(1083, __c135, 3) as any as S.Schema<DescribeOrganizationConformancePacksResponse>,
   errors: [
     InvalidLimitException,
     InvalidNextTokenException,
     NoSuchOrganizationConformancePackException,
     OrganizationAccessDeniedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOrganizationConformancePacks",
@@ -4200,13 +4265,13 @@ export const describeOrganizationConformancePackStatuses: API.PaginatedOperation
   OrganizationConformancePackStatus
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    1080,
-    __c135,
+    1088,
+    __c136,
     0,
   ) as any as S.Schema<DescribeOrganizationConformancePackStatusesRequest>,
   output: __S(
-    1083,
-    __c135,
+    1091,
+    __c136,
     3,
   ) as any as S.Schema<DescribeOrganizationConformancePackStatusesResponse>,
   errors: [
@@ -4215,6 +4280,7 @@ export const describeOrganizationConformancePackStatuses: API.PaginatedOperation
     NoSuchOrganizationConformancePackException,
     OrganizationAccessDeniedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOrganizationConformancePackStatuses",
@@ -4243,9 +4309,10 @@ export const describePendingAggregationRequests: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PendingAggregationRequest
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1088, __c136, 0) as any as S.Schema<DescribePendingAggregationRequestsRequest>,
-  output: __S(1091, __c136, 3) as any as S.Schema<DescribePendingAggregationRequestsResponse>,
+  input: __S(1096, __c137, 0) as any as S.Schema<DescribePendingAggregationRequestsRequest>,
+  output: __S(1099, __c137, 3) as any as S.Schema<DescribePendingAggregationRequestsResponse>,
   errors: [InvalidLimitException, InvalidNextTokenException, InvalidParameterValueException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePendingAggregationRequests",
@@ -4269,9 +4336,10 @@ export const describeRemediationConfigurations: API.OperationMethod<
   DescribeRemediationConfigurationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1096, __c137, 0) as any as S.Schema<DescribeRemediationConfigurationsRequest>,
-  output: __S(1097, __c137, 1) as any as S.Schema<DescribeRemediationConfigurationsResponse>,
+  input: __S(1104, __c138, 0) as any as S.Schema<DescribeRemediationConfigurationsRequest>,
+  output: __S(1105, __c138, 1) as any as S.Schema<DescribeRemediationConfigurationsResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRemediationConfigurations",
@@ -4304,6 +4372,7 @@ export const describeRemediationExceptions: API.PaginatedOperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<DescribeRemediationExceptionsRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<DescribeRemediationExceptionsResponse>,
   errors: [InvalidNextTokenException, InvalidParameterValueException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRemediationExceptions",
@@ -4335,6 +4404,7 @@ export const describeRemediationExecutionStatus: API.PaginatedOperationMethod<
     InvalidParameterValueException,
     NoSuchRemediationConfigurationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRemediationExecutionStatus",
@@ -4376,6 +4446,7 @@ export const describeRetentionConfigurations: API.PaginatedOperationMethod<
     InvalidParameterValueException,
     NoSuchRetentionConfigurationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRetentionConfigurations",
@@ -4407,6 +4478,7 @@ export const disassociateResourceTypes: API.OperationMethod<
   input: __S(40, __c5, 0) as any as S.Schema<DisassociateResourceTypesRequest>,
   output: __S(592, __c74, 0) as any as S.Schema<DisassociateResourceTypesResponse>,
   errors: [ConflictException, NoSuchConfigurationRecorderException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateResourceTypes",
@@ -4445,6 +4517,7 @@ export const getAggregateComplianceDetailsByConfigRule: API.PaginatedOperationMe
     NoSuchConfigurationAggregatorException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAggregateComplianceDetailsByConfigRule",
@@ -4487,6 +4560,7 @@ export const getAggregateConfigRuleComplianceSummary: API.PaginatedOperationMeth
     NoSuchConfigurationAggregatorException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAggregateConfigRuleComplianceSummary",
@@ -4525,6 +4599,7 @@ export const getAggregateConformancePackComplianceSummary: API.PaginatedOperatio
     NoSuchConfigurationAggregatorException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAggregateConformancePackComplianceSummary",
@@ -4560,6 +4635,7 @@ export const getAggregateDiscoveredResourceCounts: API.PaginatedOperationMethod<
     NoSuchConfigurationAggregatorException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAggregateDiscoveredResourceCounts",
@@ -4593,6 +4669,7 @@ export const getAggregateResourceConfig: API.OperationMethod<
     ResourceNotDiscoveredException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAggregateResourceConfig",
@@ -4621,6 +4698,7 @@ export const getComplianceDetailsByConfigRule: API.PaginatedOperationMethod<
   input: __S(120, __c15, 0) as any as S.Schema<GetComplianceDetailsByConfigRuleRequest>,
   output: __S(130, __c16, 2) as any as S.Schema<GetComplianceDetailsByConfigRuleResponse>,
   errors: [InvalidNextTokenException, InvalidParameterValueException, NoSuchConfigRuleException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComplianceDetailsByConfigRule",
@@ -4651,6 +4729,7 @@ export const getComplianceDetailsByResource: API.PaginatedOperationMethod<
   input: __S(136, __c17, 0) as any as S.Schema<GetComplianceDetailsByResourceRequest>,
   output: __S(130, __c16, 2) as any as S.Schema<GetComplianceDetailsByResourceResponse>,
   errors: [InvalidParameterValueException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComplianceDetailsByResource",
@@ -4677,6 +4756,7 @@ export const getComplianceSummaryByConfigRule: API.OperationMethod<
   input: __S(144, __c18, 0) as any as S.Schema<GetComplianceSummaryByConfigRuleRequest>,
   output: __S(145, __c18, 1) as any as S.Schema<GetComplianceSummaryByConfigRuleResponse>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComplianceSummaryByConfigRule",
@@ -4700,6 +4780,7 @@ export const getComplianceSummaryByResourceType: API.OperationMethod<
   input: __S(152, __c19, 0) as any as S.Schema<GetComplianceSummaryByResourceTypeRequest>,
   output: __S(155, __c19, 3) as any as S.Schema<GetComplianceSummaryByResourceTypeResponse>,
   errors: [InvalidParameterValueException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComplianceSummaryByResourceType",
@@ -4733,6 +4814,7 @@ export const getConformancePackComplianceDetails: API.PaginatedOperationMethod<
     NoSuchConfigRuleInConformancePackException,
     NoSuchConformancePackException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConformancePackComplianceDetails",
@@ -4759,6 +4841,7 @@ export const getConformancePackComplianceSummary: API.PaginatedOperationMethod<
   input: __S(168, __c21, 0) as any as S.Schema<GetConformancePackComplianceSummaryRequest>,
   output: __S(171, __c21, 3) as any as S.Schema<GetConformancePackComplianceSummaryResponse>,
   errors: [InvalidLimitException, InvalidNextTokenException, NoSuchConformancePackException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConformancePackComplianceSummary",
@@ -4785,6 +4868,7 @@ export const getConnector: API.OperationMethod<
   input: __S(176, __c22, 0) as any as S.Schema<GetConnectorRequest>,
   output: __S(178, __c22, 2) as any as S.Schema<GetConnectorResponse>,
   errors: [ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnector",
@@ -4805,6 +4889,7 @@ export const getCustomRulePolicy: API.OperationMethod<
   input: __S(192, __c24, 0) as any as S.Schema<GetCustomRulePolicyRequest>,
   output: __S(200, __c25, 0) as any as S.Schema<GetCustomRulePolicyResponse>,
   errors: [NoSuchConfigRuleException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCustomRulePolicy",
@@ -4872,6 +4957,7 @@ export const getDiscoveredResourceCounts: API.PaginatedOperationMethod<
   input: __S(208, __c26, 0) as any as S.Schema<GetDiscoveredResourceCountsRequest>,
   output: __S(211, __c26, 3) as any as S.Schema<GetDiscoveredResourceCountsResponse>,
   errors: [InvalidLimitException, InvalidNextTokenException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDiscoveredResourceCounts",
@@ -4904,6 +4990,7 @@ export const getOrganizationConfigRuleDetailedStatus: API.PaginatedOperationMeth
     NoSuchOrganizationConfigRuleException,
     OrganizationAccessDeniedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOrganizationConfigRuleDetailedStatus",
@@ -4945,6 +5032,7 @@ export const getOrganizationConformancePackDetailedStatus: API.PaginatedOperatio
     NoSuchOrganizationConformancePackException,
     OrganizationAccessDeniedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOrganizationConformancePackDetailedStatus",
@@ -4974,6 +5062,7 @@ export const getOrganizationCustomRulePolicy: API.OperationMethod<
   input: __S(232, __c29, 0) as any as S.Schema<GetOrganizationCustomRulePolicyRequest>,
   output: __S(200, __c25, 0) as any as S.Schema<GetOrganizationCustomRulePolicyResponse>,
   errors: [NoSuchOrganizationConfigRuleException, OrganizationAccessDeniedException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOrganizationCustomRulePolicy",
@@ -5037,6 +5126,7 @@ export const getResourceConfigHistory: API.PaginatedOperationMethod<
     ResourceNotDiscoveredException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceConfigHistory",
@@ -5068,6 +5158,7 @@ export const getResourceEvaluationSummary: API.OperationMethod<
   input: __S(248, __c31, 0) as any as S.Schema<GetResourceEvaluationSummaryRequest>,
   output: __S(250, __c31, 2) as any as S.Schema<GetResourceEvaluationSummaryResponse>,
   errors: [ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceEvaluationSummary",
@@ -5088,6 +5179,7 @@ export const getStoredQuery: API.OperationMethod<
   input: __S(264, __c33, 0) as any as S.Schema<GetStoredQueryRequest>,
   output: __S(265, __c33, 1) as any as S.Schema<GetStoredQueryResponse>,
   errors: [ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStoredQuery",
@@ -5123,6 +5215,7 @@ export const listAggregateDiscoveredResources: API.PaginatedOperationMethod<
     NoSuchConfigurationAggregatorException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAggregateDiscoveredResources",
@@ -5150,6 +5243,7 @@ export const listConfigurationRecorders: API.PaginatedOperationMethod<
   input: __S(290, __c36, 2) as any as S.Schema<ListConfigurationRecordersRequest>,
   output: __S(293, __c36, 5) as any as S.Schema<ListConfigurationRecordersResponse>,
   errors: [ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConfigurationRecorders",
@@ -5186,6 +5280,7 @@ export const listConformancePackComplianceScores: API.PaginatedOperationMethod<
   input: __S(297, __c37, 1) as any as S.Schema<ListConformancePackComplianceScoresRequest>,
   output: __S(300, __c37, 4) as any as S.Schema<ListConformancePackComplianceScoresResponse>,
   errors: [InvalidLimitException, InvalidNextTokenException, InvalidParameterValueException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConformancePackComplianceScores",
@@ -5208,6 +5303,7 @@ export const listConnectors: API.PaginatedOperationMethod<
   input: __S(306, __c38, 2) as any as S.Schema<ListConnectorsRequest>,
   output: __S(309, __c38, 5) as any as S.Schema<ListConnectorsResponse>,
   errors: [ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConnectors",
@@ -5278,6 +5374,7 @@ export const listDiscoveredResources: API.PaginatedOperationMethod<
     NoAvailableConfigurationRecorderException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDiscoveredResources",
@@ -5309,6 +5406,7 @@ export const listResourceEvaluations: API.PaginatedOperationMethod<
   input: __S(322, __c40, 2) as any as S.Schema<ListResourceEvaluationsRequest>,
   output: __S(325, __c40, 5) as any as S.Schema<ListResourceEvaluationsResponse>,
   errors: [InvalidNextTokenException, InvalidParameterValueException, InvalidTimeRangeException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResourceEvaluations",
@@ -5336,6 +5434,7 @@ export const listStoredQueries: API.PaginatedOperationMethod<
   input: __S(328, __c41, 0) as any as S.Schema<ListStoredQueriesRequest>,
   output: __S(331, __c41, 3) as any as S.Schema<ListStoredQueriesResponse>,
   errors: [InvalidNextTokenException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListStoredQueries",
@@ -5372,6 +5471,7 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -5406,6 +5506,7 @@ export const putAggregationAuthorization: API.OperationMethod<
   input: __S(352, __c44, 0) as any as S.Schema<PutAggregationAuthorizationRequest>,
   output: __S(353, __c44, 1) as any as S.Schema<PutAggregationAuthorizationResponse>,
   errors: [InvalidParameterValueException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAggregationAuthorization",
@@ -5489,6 +5590,7 @@ export const putConfigRule: API.OperationMethod<
     NoAvailableConfigurationRecorderException,
     ResourceInUseException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConfigRule",
@@ -5544,6 +5646,7 @@ export const putConfigurationAggregator: API.OperationMethod<
     OrganizationAccessDeniedException,
     OrganizationAllFeaturesNotEnabledException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConfigurationAggregator",
@@ -5603,6 +5706,7 @@ export const putConfigurationRecorder: API.OperationMethod<
     UnmodifiableEntityException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConfigurationRecorder",
@@ -5638,7 +5742,9 @@ export type PutConformancePackError =
  * This API creates a service-linked role `AWSServiceRoleForConfigConforms` in your account.
  * The service-linked role is created only when the role does not exist in your account.
  *
- * You must specify only one of the follow parameters: `TemplateS3Uri`, `TemplateBody` or `TemplateSSMDocumentDetails`.
+ * For custom conformance packs, you must specify only one of `TemplateS3Uri`, `TemplateBody`, `TemplateSSMDocumentDetails`.
+ *
+ * For managed conformance packs, you must specify `Source`. Do not specify `TemplateS3Uri`, `TemplateBody`, `TemplateSSMDocumentDetails`, `DeliveryS3Bucket`, or `DeliveryS3KeyPrefix`.
  *
  * **Tags are added at creation and cannot be updated with this operation**
  *
@@ -5662,6 +5768,7 @@ export const putConformancePack: API.OperationMethod<
     MaxNumberOfConformancePacksExceededException,
     ResourceInUseException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConformancePack",
@@ -5704,6 +5811,7 @@ export const putConnector: API.OperationMethod<
     MaxNumberOfConnectorsExceededException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConnector",
@@ -5754,6 +5862,7 @@ export const putDeliveryChannel: API.OperationMethod<
     NoAvailableConfigurationRecorderException,
     NoSuchBucketException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDeliveryChannel",
@@ -5780,6 +5889,7 @@ export const putEvaluations: API.OperationMethod<
   input: __S(409, __c51, 1) as any as S.Schema<PutEvaluationsRequest>,
   output: __S(410, __c51, 2) as any as S.Schema<PutEvaluationsResponse>,
   errors: [InvalidParameterValueException, InvalidResultTokenException, NoSuchConfigRuleException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEvaluations",
@@ -5804,6 +5914,7 @@ export const putExternalEvaluation: API.OperationMethod<
   input: __S(424, __c53, 0) as any as S.Schema<PutExternalEvaluationRequest>,
   output: __S(696, __c87, 0) as any as S.Schema<PutExternalEvaluationResponse>,
   errors: [InvalidParameterValueException, NoSuchConfigRuleException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutExternalEvaluation",
@@ -5883,6 +5994,7 @@ export const putOrganizationConfigRule: API.OperationMethod<
     ResourceInUseException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutOrganizationConfigRule",
@@ -5955,6 +6067,7 @@ export const putOrganizationConformancePack: API.OperationMethod<
     ResourceInUseException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutOrganizationConformancePack",
@@ -6005,6 +6118,7 @@ export const putRemediationConfigurations: API.OperationMethod<
   input: __S(448, __c56, 0) as any as S.Schema<PutRemediationConfigurationsRequest>,
   output: __S(451, __c56, 3) as any as S.Schema<PutRemediationConfigurationsResponse>,
   errors: [InsufficientPermissionsException, InvalidParameterValueException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRemediationConfigurations",
@@ -6061,6 +6175,7 @@ export const putRemediationExceptions: API.OperationMethod<
   input: __S(456, __c57, 0) as any as S.Schema<PutRemediationExceptionsRequest>,
   output: __S(459, __c57, 3) as any as S.Schema<PutRemediationExceptionsResponse>,
   errors: [InsufficientPermissionsException, InvalidParameterValueException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRemediationExceptions",
@@ -6100,6 +6215,7 @@ export const putResourceConfig: API.OperationMethod<
     NoRunningConfigurationRecorderException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourceConfig",
@@ -6132,6 +6248,7 @@ export const putRetentionConfiguration: API.OperationMethod<
   input: __S(472, __c59, 0) as any as S.Schema<PutRetentionConfigurationRequest>,
   output: __S(473, __c59, 1) as any as S.Schema<PutRetentionConfigurationResponse>,
   errors: [InvalidParameterValueException, MaxNumberOfRetentionConfigurationsExceededException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRetentionConfiguration",
@@ -6178,6 +6295,7 @@ export const putServiceLinkedConfigurationRecorder: API.OperationMethod<
     LimitExceededException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutServiceLinkedConfigurationRecorder",
@@ -6208,6 +6326,7 @@ export const putStoredQuery: API.OperationMethod<
   input: __S(488, __c61, 0) as any as S.Schema<PutStoredQueryRequest>,
   output: __S(489, __c61, 1) as any as S.Schema<PutStoredQueryResponse>,
   errors: [ResourceConcurrentModificationException, TooManyTagsException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutStoredQuery",
@@ -6252,6 +6371,7 @@ export const putThirdPartyServiceLinkedConfigurationRecorder: API.OperationMetho
     0,
   ) as any as S.Schema<PutThirdPartyServiceLinkedConfigurationRecorderResponse>,
   errors: [ConflictException, InsufficientPermissionsException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutThirdPartyServiceLinkedConfigurationRecorder",
@@ -6295,6 +6415,7 @@ export const selectAggregateResourceConfig: API.PaginatedOperationMethod<
     InvalidNextTokenException,
     NoSuchConfigurationAggregatorException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SelectAggregateResourceConfig",
@@ -6331,6 +6452,7 @@ export const selectResourceConfig: API.PaginatedOperationMethod<
   input: __S(520, __c65, 0) as any as S.Schema<SelectResourceConfigRequest>,
   output: __S(515, __c64, 3) as any as S.Schema<SelectResourceConfigResponse>,
   errors: [InvalidExpressionException, InvalidLimitException, InvalidNextTokenException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SelectResourceConfig",
@@ -6406,6 +6528,7 @@ export const startConfigRulesEvaluation: API.OperationMethod<
     NoSuchConfigRuleException,
     ResourceInUseException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartConfigRulesEvaluation",
@@ -6437,6 +6560,7 @@ export const startConfigurationRecorder: API.OperationMethod<
     NoSuchConfigurationRecorderException,
     UnmodifiableEntityException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartConfigurationRecorder",
@@ -6467,6 +6591,7 @@ export const startRemediationExecution: API.OperationMethod<
     InvalidParameterValueException,
     NoSuchRemediationConfigurationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRemediationExecution",
@@ -6501,6 +6626,7 @@ export const startResourceEvaluation: API.OperationMethod<
   input: __S(552, __c69, 0) as any as S.Schema<StartResourceEvaluationRequest>,
   output: __S(553, __c69, 1) as any as S.Schema<StartResourceEvaluationResponse>,
   errors: [IdempotentParameterMismatch, InvalidParameterValueException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartResourceEvaluation",
@@ -6524,6 +6650,7 @@ export const stopConfigurationRecorder: API.OperationMethod<
   input: __S(560, __c70, 0) as any as S.Schema<StopConfigurationRecorderRequest>,
   output: __S(696, __c87, 0) as any as S.Schema<StopConfigurationRecorderResponse>,
   errors: [NoSuchConfigurationRecorderException, UnmodifiableEntityException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopConfigurationRecorder",
@@ -6549,6 +6676,7 @@ export const tagResource: API.OperationMethod<
   input: __S(568, __c71, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(696, __c87, 0) as any as S.Schema<TagResourceResponse>,
   errors: [ResourceNotFoundException, TooManyTagsException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -6569,6 +6697,7 @@ export const untagResource: API.OperationMethod<
   input: __S(576, __c72, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(696, __c87, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -7702,9 +7831,11 @@ function __c48(j: number): any {
           TemplateBody: S.optional(S.String),
           DeliveryS3Bucket: S.optional(S.String),
           DeliveryS3KeyPrefix: S.optional(S.String),
-          ConformancePackInputParameters: S.optional(__S(1009, __c126, 1)),
+          ConformancePackInputParameters: S.optional(__S(1017, __c127, 1)),
           TemplateSSMDocumentDetails: S.optional(__S(1000, __c125, 0)),
           Tags: S.optional(__S(345, __c43, 1)),
+          Source: S.optional(__S(1001, __c125, 1)),
+          Scope: S.optional(__S(1002, __c125, 2)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "PutConformancePackRequest" });
     case 1:
@@ -7732,7 +7863,7 @@ function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ DeliveryChannel: __S(1033, __c129, 1) }).pipe(
+        S.Struct({ DeliveryChannel: __S(1041, __c130, 1) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "PutDeliveryChannelRequest" });
@@ -7802,8 +7933,8 @@ function __c54(j: number): any {
       return S.suspend(() =>
         S.Struct({
           OrganizationConfigRuleName: S.String,
-          OrganizationManagedRuleMetadata: S.optional(__S(1056, __c132, 0)),
-          OrganizationCustomRuleMetadata: S.optional(__S(1057, __c132, 1)),
+          OrganizationManagedRuleMetadata: S.optional(__S(1064, __c133, 0)),
+          OrganizationCustomRuleMetadata: S.optional(__S(1065, __c133, 1)),
           ExcludedAccounts: S.optional(__S(608, __c76, 0)),
           OrganizationCustomPolicyRuleMetadata: S.optional(__S(432, __c54, 0)),
           Tags: S.optional(__S(345, __c43, 1)),
@@ -7825,7 +7956,7 @@ function __c55(j: number): any {
           TemplateBody: S.optional(S.String),
           DeliveryS3Bucket: S.optional(S.String),
           DeliveryS3KeyPrefix: S.optional(S.String),
-          ConformancePackInputParameters: S.optional(__S(1009, __c126, 1)),
+          ConformancePackInputParameters: S.optional(__S(1017, __c127, 1)),
           ExcludedAccounts: S.optional(__S(608, __c76, 0)),
           Tags: S.optional(__S(345, __c43, 1)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -7840,7 +7971,7 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ RemediationConfigurations: __S(1111, __c138, 7) }).pipe(
+        S.Struct({ RemediationConfigurations: __S(1119, __c139, 7) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "PutRemediationConfigurationsRequest" });
@@ -7848,7 +7979,7 @@ function __c56(j: number): any {
       return S.suspend(() =>
         S.Struct({
           FailureMessage: S.optional(S.String),
-          FailedItems: S.optional(__S(1111, __c138, 7)),
+          FailedItems: S.optional(__S(1119, __c139, 7)),
         }),
       ).annotate({ identifier: "FailedRemediationBatch" });
     case 2:
@@ -9035,6 +9166,7 @@ function __c124(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ConformancePackNames: S.optional(__S(608, __c76, 0)),
+          Filters: S.optional(__S(1008, __c126, 0)),
           Limit: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -9047,10 +9179,13 @@ function __c124(j: number): any {
           ConformancePackId: S.String,
           DeliveryS3Bucket: S.optional(S.String),
           DeliveryS3KeyPrefix: S.optional(S.String),
-          ConformancePackInputParameters: S.optional(__S(1009, __c126, 1)),
+          ConformancePackInputParameters: S.optional(__S(1017, __c127, 1)),
           LastUpdateRequestedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           CreatedBy: S.optional(S.String),
           TemplateSSMDocumentDetails: S.optional(__S(1000, __c125, 0)),
+          Type: S.optional(S.String),
+          Source: S.optional(__S(1001, __c125, 1)),
+          Scope: S.optional(__S(1002, __c125, 2)),
         }),
       ).annotate({ identifier: "ConformancePackDetail" });
     case 2:
@@ -9070,24 +9205,41 @@ function __c125(j: number): any {
       return S.suspend(() =>
         S.Struct({ DocumentName: S.String, DocumentVersion: S.optional(S.String) }),
       ).annotate({ identifier: "TemplateSSMDocumentDetails" });
+    case 1:
+      return S.suspend(() => S.Struct({ SourceIdentifier: S.String })).annotate({
+        identifier: "ConformancePackSource",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ TagKey: S.String, TagValue: S.optional(S.String) }),
+      ).annotate({ identifier: "ConformancePackScope" });
   }
 }
 function __c126(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({ ParameterName: S.String, ParameterValue: S.String }),
-      ).annotate({ identifier: "ConformancePackInputParameter" });
-    case 1:
-      return S.Array(__S(1008, __c126, 0));
+      return S.suspend(() => S.Struct({ Types: S.optional(__S(600, __c75, 0)) })).annotate({
+        identifier: "DescribeConformancePacksFilters",
+      });
   }
 }
 function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({ ParameterName: S.String, ParameterValue: S.String }),
+      ).annotate({ identifier: "ConformancePackInputParameter" });
+    case 1:
+      return S.Array(__S(1016, __c127, 0));
+  }
+}
+function __c128(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({
           ConformancePackNames: S.optional(__S(608, __c76, 0)),
+          Filters: S.optional(__S(1008, __c126, 0)),
           Limit: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -9099,24 +9251,25 @@ function __c127(j: number): any {
           ConformancePackId: S.String,
           ConformancePackArn: S.String,
           ConformancePackState: S.String,
-          StackArn: S.String,
+          StackArn: S.optional(S.String),
           ConformancePackStatusReason: S.optional(S.String),
           LastUpdateRequestedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           LastUpdateCompletedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Type: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConformancePackStatusDetail" });
     case 2:
-      return S.Array(__S(1017, __c127, 1));
+      return S.Array(__S(1025, __c128, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ConformancePackStatusDetails: S.optional(__S(1018, __c127, 2)),
+          ConformancePackStatusDetails: S.optional(__S(1026, __c128, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeConformancePackStatusResponse" });
   }
 }
-function __c128(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9125,14 +9278,14 @@ function __c128(j: number): any {
         ),
       ).annotate({ identifier: "DescribeDeliveryChannelsRequest" });
     case 1:
-      return S.Array(__S(1033, __c129, 1));
+      return S.Array(__S(1041, __c130, 1));
     case 2:
       return S.suspend(() =>
-        S.Struct({ DeliveryChannels: S.optional(__S(1025, __c128, 1)) }).pipe(ns),
+        S.Struct({ DeliveryChannels: S.optional(__S(1033, __c129, 1)) }).pipe(ns),
       ).annotate({ identifier: "DescribeDeliveryChannelsResponse" });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ deliveryFrequency: S.optional(S.String) })).annotate({
@@ -9146,12 +9299,12 @@ function __c129(j: number): any {
           s3KeyPrefix: S.optional(S.String),
           s3KmsKeyArn: S.optional(S.String),
           snsTopicARN: S.optional(S.String),
-          configSnapshotDeliveryProperties: S.optional(__S(1032, __c129, 0)),
+          configSnapshotDeliveryProperties: S.optional(__S(1040, __c130, 0)),
         }),
       ).annotate({ identifier: "DeliveryChannel" });
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9183,20 +9336,20 @@ function __c130(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          configSnapshotDeliveryInfo: S.optional(__S(1041, __c130, 1)),
-          configHistoryDeliveryInfo: S.optional(__S(1041, __c130, 1)),
-          configStreamDeliveryInfo: S.optional(__S(1042, __c130, 2)),
+          configSnapshotDeliveryInfo: S.optional(__S(1049, __c131, 1)),
+          configHistoryDeliveryInfo: S.optional(__S(1049, __c131, 1)),
+          configStreamDeliveryInfo: S.optional(__S(1050, __c131, 2)),
         }),
       ).annotate({ identifier: "DeliveryChannelStatus" });
     case 4:
-      return S.Array(__S(1043, __c130, 3));
+      return S.Array(__S(1051, __c131, 3));
     case 5:
       return S.suspend(() =>
-        S.Struct({ DeliveryChannelsStatus: S.optional(__S(1044, __c130, 4)) }).pipe(ns),
+        S.Struct({ DeliveryChannelsStatus: S.optional(__S(1052, __c131, 4)) }).pipe(ns),
       ).annotate({ identifier: "DescribeDeliveryChannelStatusResponse" });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9226,25 +9379,25 @@ function __c131(j: number): any {
         S.Struct({
           OrganizationConfigRuleName: S.String,
           OrganizationConfigRuleArn: S.String,
-          OrganizationManagedRuleMetadata: S.optional(__S(1056, __c132, 0)),
-          OrganizationCustomRuleMetadata: S.optional(__S(1057, __c132, 1)),
+          OrganizationManagedRuleMetadata: S.optional(__S(1064, __c133, 0)),
+          OrganizationCustomRuleMetadata: S.optional(__S(1065, __c133, 1)),
           ExcludedAccounts: S.optional(__S(608, __c76, 0)),
           LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          OrganizationCustomPolicyRuleMetadata: S.optional(__S(1049, __c131, 1)),
+          OrganizationCustomPolicyRuleMetadata: S.optional(__S(1057, __c132, 1)),
         }),
       ).annotate({ identifier: "OrganizationConfigRule" });
     case 3:
-      return S.Array(__S(1050, __c131, 2));
+      return S.Array(__S(1058, __c132, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          OrganizationConfigRules: S.optional(__S(1051, __c131, 3)),
+          OrganizationConfigRules: S.optional(__S(1059, __c132, 3)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeOrganizationConfigRulesResponse" });
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9275,7 +9428,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "OrganizationCustomRuleMetadata" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9296,17 +9449,17 @@ function __c133(j: number): any {
         }),
       ).annotate({ identifier: "OrganizationConfigRuleStatus" });
     case 2:
-      return S.Array(__S(1065, __c133, 1));
+      return S.Array(__S(1073, __c134, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          OrganizationConfigRuleStatuses: S.optional(__S(1066, __c133, 2)),
+          OrganizationConfigRuleStatuses: S.optional(__S(1074, __c134, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeOrganizationConfigRuleStatusesResponse" });
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9323,23 +9476,23 @@ function __c134(j: number): any {
           OrganizationConformancePackArn: S.String,
           DeliveryS3Bucket: S.optional(S.String),
           DeliveryS3KeyPrefix: S.optional(S.String),
-          ConformancePackInputParameters: S.optional(__S(1009, __c126, 1)),
+          ConformancePackInputParameters: S.optional(__S(1017, __c127, 1)),
           ExcludedAccounts: S.optional(__S(608, __c76, 0)),
           LastUpdateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
         }),
       ).annotate({ identifier: "OrganizationConformancePack" });
     case 2:
-      return S.Array(__S(1073, __c134, 1));
+      return S.Array(__S(1081, __c135, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          OrganizationConformancePacks: S.optional(__S(1074, __c134, 2)),
+          OrganizationConformancePacks: S.optional(__S(1082, __c135, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeOrganizationConformancePacksResponse" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9360,17 +9513,17 @@ function __c135(j: number): any {
         }),
       ).annotate({ identifier: "OrganizationConformancePackStatus" });
     case 2:
-      return S.Array(__S(1081, __c135, 1));
+      return S.Array(__S(1089, __c136, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          OrganizationConformancePackStatuses: S.optional(__S(1082, __c135, 2)),
+          OrganizationConformancePackStatuses: S.optional(__S(1090, __c136, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeOrganizationConformancePackStatusesResponse" });
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9386,17 +9539,17 @@ function __c136(j: number): any {
         }),
       ).annotate({ identifier: "PendingAggregationRequest" });
     case 2:
-      return S.Array(__S(1089, __c136, 1));
+      return S.Array(__S(1097, __c137, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          PendingAggregationRequests: S.optional(__S(1090, __c136, 2)),
+          PendingAggregationRequests: S.optional(__S(1098, __c137, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribePendingAggregationRequestsResponse" });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9406,11 +9559,11 @@ function __c137(j: number): any {
       ).annotate({ identifier: "DescribeRemediationConfigurationsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ RemediationConfigurations: S.optional(__S(1111, __c138, 7)) }).pipe(ns),
+        S.Struct({ RemediationConfigurations: S.optional(__S(1119, __c139, 7)) }).pipe(ns),
       ).annotate({ identifier: "DescribeRemediationConfigurationsResponse" });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Value: S.String })).annotate({
@@ -9423,12 +9576,12 @@ function __c138(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ResourceValue: S.optional(__S(1104, __c138, 0)),
-          StaticValue: S.optional(__S(1105, __c138, 1)),
+          ResourceValue: S.optional(__S(1112, __c139, 0)),
+          StaticValue: S.optional(__S(1113, __c139, 1)),
         }),
       ).annotate({ identifier: "RemediationParameterValue" });
     case 3:
-      return S.Record(S.String, /*@__PURE__*/ __S(1106, __c138, 2).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(1114, __c139, 2).pipe(S.optional));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -9437,7 +9590,7 @@ function __c138(j: number): any {
         }),
       ).annotate({ identifier: "SsmControls" });
     case 5:
-      return S.suspend(() => S.Struct({ SsmControls: S.optional(__S(1108, __c138, 4)) })).annotate({
+      return S.suspend(() => S.Struct({ SsmControls: S.optional(__S(1116, __c139, 4)) })).annotate({
         identifier: "ExecutionControls",
       });
     case 6:
@@ -9447,10 +9600,10 @@ function __c138(j: number): any {
           TargetType: S.String,
           TargetId: S.String,
           TargetVersion: S.optional(S.String),
-          Parameters: S.optional(__S(1107, __c138, 3)),
+          Parameters: S.optional(__S(1115, __c139, 3)),
           ResourceType: S.optional(S.String),
           Automatic: S.optional(S.Boolean),
-          ExecutionControls: S.optional(__S(1109, __c138, 5)),
+          ExecutionControls: S.optional(__S(1117, __c139, 5)),
           MaximumAutomaticAttempts: S.optional(S.Number),
           RetryAttemptSeconds: S.optional(S.Number),
           Arn: S.optional(S.String),
@@ -9458,7 +9611,7 @@ function __c138(j: number): any {
         }),
       ).annotate({ identifier: "RemediationConfiguration" });
     case 7:
-      return S.Array(__S(1110, __c138, 6));
+      return S.Array(__S(1118, __c139, 6));
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

@@ -1,5 +1,6 @@
 import * as EffectConfig from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
+import { refreshing } from "@distilled.cloud/core/token-cache";
 /**
  * 1Password credentials -- hand-written. One credentials service per API,
  * because each authenticates differently:
@@ -11,7 +12,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  *   Partnership  `PartnershipCredentials` partner bearer token
  *
  * Each service holds an *effect* that resolves the current credentials; the
- * protocol layer resolves it per request on the calling fiber.
+ * protocol resolves it per request on the calling fiber.
  */
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
@@ -22,6 +23,7 @@ import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
+import { TokenRequestFailed } from "./errors.ts";
 
 // ---------------------------------------------------------------------------
 // Connect -- access token for a self-hosted Connect server
@@ -219,10 +221,15 @@ export interface UsersConfig {
   readonly apiBaseUrl: string;
 }
 
+/**
+ * Resolves the Users API access token. Fails with `ConfigError` for a
+ * missing environment variable, and with {@link TokenRequestFailed} when the
+ * token request it makes at run time fails.
+ */
 export class UsersCredentials
   extends /*@__PURE__*/ Context.Service<
     UsersCredentials,
-    Effect.Effect<UsersConfig, ConfigError>
+    Effect.Effect<UsersConfig, ConfigError | TokenRequestFailed>
   >()("OnepasswordUsersCredentials") {}
 
 const TokenResponse = /*@__PURE__*/ Schema.Struct({
@@ -240,20 +247,21 @@ const decodeOAuthError = /*@__PURE__*/ Schema.decodeUnknownOption(
   ),
 );
 
-const tokenRequestFailed = (reason: string) =>
-  new ConfigError({ message: `1Password OAuth token request failed${reason}` });
+const tokenRequestFailed = (reason: string, status?: number) =>
+  new TokenRequestFailed({ message: `1Password OAuth token request failed${reason}`, status });
 
 /**
  * Exchange OAuth application client credentials for an access token at
  * `POST {apiBaseUrl}/v1/oauth/token` (client credentials grant, HTTP Basic
- * auth), through the caller's `HttpClient`. Errors carry the status and
- * OAuth error code, never the secret.
+ * auth), through the caller's `HttpClient`. It fails with
+ * {@link TokenRequestFailed}, which carries the status and OAuth error code,
+ * never the secret.
  */
 export const exchangeAccessToken = (
   config: OAuthConfig,
 ): Effect.Effect<
   { readonly accessToken: Redacted.Redacted<string>; readonly expiresInSeconds: number },
-  ConfigError,
+  TokenRequestFailed,
   HttpClient.HttpClient
 > =>
   Effect.gen(function* () {
@@ -273,6 +281,7 @@ export const exchangeAccessToken = (
         Effect.mapError((error) =>
           tokenRequestFailed(
             ` with ${response.status}, and its body could not be read: ${error.message}`,
+            response.status,
           ),
         ),
       );
@@ -280,12 +289,15 @@ export const exchangeAccessToken = (
       const code = oauth?.error !== undefined ? ` ${oauth.error}` : "";
       const description =
         oauth?.error_description !== undefined ? `: ${oauth.error_description}` : "";
-      return yield* tokenRequestFailed(` with ${response.status}${code}${description}`);
+      return yield* tokenRequestFailed(
+        ` with ${response.status}${code}${description}`,
+        response.status,
+      );
     }
 
     const token = yield* HttpClientResponse.schemaBodyJson(TokenResponse)(response).pipe(
       Effect.mapError((error) =>
-        tokenRequestFailed(`: unexpected token response: ${error.message}`),
+        tokenRequestFailed(`: unexpected token response: ${error.message}`, response.status),
       ),
     );
     return {
@@ -306,30 +318,37 @@ export const exchangeAccessToken = (
 const cachedAccessToken = (
   load: Effect.Effect<OAuthConfig, ConfigError>,
   exchange: (config: OAuthConfig) => ReturnType<typeof exchangeAccessToken>,
-): ((client: HttpClient.HttpClient) => Effect.Effect<UsersConfig, ConfigError>) => {
-  let cached: UsersConfig | undefined;
-  let refreshAt = 0;
-
-  return (client) =>
-    Effect.suspend(() => {
-      if (cached !== undefined && Date.now() < refreshAt) {
-        return Effect.succeed(cached);
-      }
-      return Effect.gen(function* () {
-        const config = yield* load;
-        const token = yield* exchange(config).pipe(
-          Effect.provideService(HttpClient.HttpClient, client),
-        );
-        cached = { accessToken: token.accessToken, apiBaseUrl: config.apiBaseUrl };
-        refreshAt =
+): ((
+  client: HttpClient.HttpClient,
+) => Effect.Effect<UsersConfig, ConfigError | TokenRequestFailed>) => {
+  // Concurrent calls on a cold or stale cache share one exchange.
+  const cached = refreshing(
+    Effect.gen(function* () {
+      const config = yield* load;
+      const token = yield* exchange(config);
+      return {
+        config: {
+          accessToken: token.accessToken,
+          apiBaseUrl: config.apiBaseUrl,
+        } satisfies UsersConfig,
+        refreshAt:
           Date.now() +
           Math.max(
             token.expiresInSeconds * 1000 - TOKEN_REFRESH_WINDOW_MS,
             TOKEN_REFRESH_WINDOW_MS,
-          );
-        return cached;
-      });
-    });
+          ),
+      };
+    }),
+    (token) => token.refreshAt,
+    {
+      onTimeout: (timeoutMs) =>
+        new TokenRequestFailed({
+          message: `1Password token exchange timed out after ${timeoutMs / 1000} s`,
+        }),
+    },
+  ).pipe(Effect.map((token) => token.config));
+
+  return (client) => Effect.provideService(cached, HttpClient.HttpClient, client);
 };
 
 /** A layer whose token cache exchanges through the `HttpClient` it is built with. */

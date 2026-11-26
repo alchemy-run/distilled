@@ -37,7 +37,6 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Proxmox.CredentialsFromEnv,
-  Proxmox.ProxmoxProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
@@ -75,7 +74,6 @@ const Live = Layer.mergeAll(
     rejectUnauthorized: true,
   }),
   Proxmox.CredentialsFromEnv,
-  Proxmox.ProxmoxProtocol,
 );
 ```
 

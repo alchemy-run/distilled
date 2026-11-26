@@ -7,7 +7,7 @@ import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { describe, expect, test } from "vitest";
-import { Credentials, credentials } from "../src/credentials.ts";
+import { check, Credentials, credentials } from "../src/credentials.ts";
 import { StackitParseError, UnknownStackitError } from "../src/errors.ts";
 import { applyRegion } from "../src/protocol.ts";
 import * as Retry from "../src/retry.ts";
@@ -62,7 +62,7 @@ const creds = (config: { region?: string; apiBaseUrl?: string } = {}) =>
 const run = <A, E>(
   operation: Effect.Effect<A, E, Credentials | HttpClient.HttpClient>,
   http: Layer.Layer<HttpClient.HttpClient>,
-  credentialsLayer: Layer.Layer<Credentials> = creds(),
+  credentialsLayer: Layer.Layer<Credentials, CoreErrors.ConfigError> = creds(),
 ) =>
   Effect.runPromise(
     operation.pipe(Retry.none, Effect.provide(credentialsLayer), Effect.provide(http)),
@@ -173,9 +173,15 @@ describe("request encoding", () => {
   test("resolves credentials per request", async () => {
     const { calls, layer } = fakeStackit(200, JSON.stringify({}));
     let n = 0;
-    const rotating = Layer.succeed(
+    const rotating = Layer.effect(
       Credentials,
-      Effect.sync(() => ({ token: Redacted.make(`t${++n}`), region: n === 1 ? "eu01" : "eu02" })),
+      Effect.map(
+        Effect.all([
+          check({ token: Redacted.make("t1"), region: "eu01" }),
+          check({ token: Redacted.make("t2"), region: "eu02" }),
+        ]),
+        (configs) => Effect.sync(() => configs[n++]),
+      ),
     );
     await run(getProject({ id: projectId }), layer, rotating);
     await run(getProject({ id: projectId }), layer, rotating);

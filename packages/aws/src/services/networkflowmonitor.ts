@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -186,6 +187,30 @@ export interface CreateMonitorOutput {
   modifiedAt: Date;
   tags?: { [key: string]: string | undefined } | undefined;
 }
+export type PerformanceMonitorTargetType = "AWS::EC2::VPC" | (string & {});
+export interface PerformanceMonitorTarget {
+  type: PerformanceMonitorTargetType;
+  identifier: string;
+}
+export type PerformanceMonitorTargets = PerformanceMonitorTarget[];
+export interface CreatePerformanceMonitorInput {
+  monitorName: string;
+  scopeArn?: string | undefined;
+  targets: PerformanceMonitorTarget[];
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+}
+export type PerformanceMonitorType = "VPC" | (string & {});
+export interface CreatePerformanceMonitorOutput {
+  monitorArn: string;
+  monitorName: string;
+  monitorStatus: MonitorStatus;
+  monitorType: PerformanceMonitorType;
+  targets: PerformanceMonitorTarget[];
+  createdAt: Date;
+  modifiedAt: Date;
+  tags?: { [key: string]: string | undefined } | undefined;
+}
 export type AccountId = string;
 export type TargetId = { accountId: string };
 export type TargetType = "ACCOUNT" | (string & {});
@@ -222,6 +247,10 @@ export interface DeleteMonitorInput {
   monitorName: string;
 }
 export interface DeleteMonitorOutput {}
+export interface DeletePerformanceMonitorInput {
+  monitorName: string;
+}
+export interface DeletePerformanceMonitorOutput {}
 export interface DeleteScopeInput {
   scopeId: string;
 }
@@ -235,6 +264,39 @@ export interface GetMonitorOutput {
   monitorStatus: MonitorStatus;
   localResources: MonitorLocalResource[];
   remoteResources: MonitorRemoteResource[];
+  createdAt: Date;
+  modifiedAt: Date;
+  tags?: { [key: string]: string | undefined } | undefined;
+}
+export type MaxResults = number;
+export interface GetMonitorScopeSuggestionsInput {
+  monitorArn: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+}
+export type ScopeCoverageStatus = "COMPLETE" | "INCOMPLETE" | "PENDING" | "STALE" | (string & {});
+export type OrgMembershipStatus = "IN_ORG" | "NOT_IN_ORG" | "UNKNOWN" | (string & {});
+export interface AccountToAdd {
+  accountId: string;
+  region: string;
+  membership: OrgMembershipStatus;
+}
+export type AccountToAddList = AccountToAdd[];
+export interface GetMonitorScopeSuggestionsOutput {
+  status: ScopeCoverageStatus;
+  accountsToAdd: AccountToAdd[];
+  nextToken?: string | undefined;
+  updatedAt?: Date | undefined;
+}
+export interface GetPerformanceMonitorInput {
+  monitorName: string;
+}
+export interface GetPerformanceMonitorOutput {
+  monitorArn: string;
+  monitorName: string;
+  monitorStatus: MonitorStatus;
+  monitorType: PerformanceMonitorType;
+  targets: PerformanceMonitorTarget[];
   createdAt: Date;
   modifiedAt: Date;
   tags?: { [key: string]: string | undefined } | undefined;
@@ -286,6 +348,10 @@ export type DestinationCategory =
   | "AMAZON_S3"
   | "AMAZON_DYNAMODB"
   | "INTER_REGION"
+  | "INTERNET"
+  | "AWS_SERVICE"
+  | "LOCAL_ZONE"
+  | "TRANSIT_GATEWAY"
   | (string & {});
 export type Component = string;
 export type ComponentType = string;
@@ -307,6 +373,19 @@ export interface KubernetesMetadata {
 export type InstanceArn = string;
 export type SubnetArn = string;
 export type VpcArn = string;
+export interface Network {
+  asName?: string | undefined;
+  asNumber?: number | undefined;
+}
+export interface ClientLocation {
+  city?: string | undefined;
+  subdivision?: string | undefined;
+  country?: string | undefined;
+}
+export interface AdditionalFlowInfo {
+  network?: Network | undefined;
+  clientLocation?: ClientLocation | undefined;
+}
 export interface MonitorTopContributorsRow {
   localIp?: string | undefined;
   snatIp?: string | undefined;
@@ -333,11 +412,31 @@ export interface MonitorTopContributorsRow {
   remoteInstanceArn?: string | undefined;
   remoteSubnetArn?: string | undefined;
   remoteVpcArn?: string | undefined;
+  additionalFlowInfo?: AdditionalFlowInfo | undefined;
 }
 export type MonitorTopContributorsRowList = MonitorTopContributorsRow[];
 export interface GetQueryResultsMonitorTopContributorsOutput {
   unit?: MetricUnit | undefined;
   topContributors?: MonitorTopContributorsRow[] | undefined;
+  nextToken?: string | undefined;
+}
+export type QueryMaxResults = number;
+export interface GetQueryResultsPerformanceMonitorInput {
+  monitorName: string;
+  queryId: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+}
+export interface QueryField {
+  name: string;
+  type: string;
+}
+export type QueryFields = QueryField[];
+export type QueryRow = (string | null)[];
+export type QueryData = (string | null)[][];
+export interface GetQueryResultsPerformanceMonitorOutput {
+  fields: QueryField[];
+  data: (string | null)[][];
   nextToken?: string | undefined;
 }
 export interface GetQueryResultsWorkloadInsightsTopContributorsInput {
@@ -395,6 +494,13 @@ export type QueryStatus =
 export interface GetQueryStatusMonitorTopContributorsOutput {
   status: QueryStatus;
 }
+export interface GetQueryStatusPerformanceMonitorInput {
+  monitorName: string;
+  queryId: string;
+}
+export interface GetQueryStatusPerformanceMonitorOutput {
+  status: QueryStatus;
+}
 export interface GetQueryStatusWorkloadInsightsTopContributorsInput {
   scopeId: string;
   queryId: string;
@@ -419,7 +525,6 @@ export interface GetScopeOutput {
   targets: TargetResource[];
   tags?: { [key: string]: string | undefined } | undefined;
 }
-export type MaxResults = number;
 export interface ListMonitorsInput {
   nextToken?: string | undefined;
   maxResults?: number | undefined;
@@ -433,6 +538,24 @@ export interface MonitorSummary {
 export type MonitorList = MonitorSummary[];
 export interface ListMonitorsOutput {
   monitors: MonitorSummary[];
+  nextToken?: string | undefined;
+}
+export interface ListPerformanceMonitorsInput {
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  monitorStatus?: MonitorStatus | undefined;
+  monitorType?: PerformanceMonitorType | undefined;
+}
+export interface PerformanceMonitorSummary {
+  monitorArn: string;
+  monitorName: string;
+  monitorStatus: MonitorStatus;
+  monitorType: PerformanceMonitorType;
+  targets?: PerformanceMonitorTarget[] | undefined;
+}
+export type PerformanceMonitorSummaryList = PerformanceMonitorSummary[];
+export interface ListPerformanceMonitorsOutput {
+  monitors: PerformanceMonitorSummary[];
   nextToken?: string | undefined;
 }
 export interface ListScopesInput {
@@ -473,6 +596,27 @@ export interface StartQueryMonitorTopContributorsInput {
 export interface StartQueryMonitorTopContributorsOutput {
   queryId: string;
 }
+export type PerformanceMonitorQueryType = "TOP_PATHS" | (string & {});
+export type FilterOperator = "EQUALS" | "NOT_EQUALS" | "IN" | "CONTAINS" | (string & {});
+export type FilterValues = string[];
+export interface FilterParameter {
+  field: string;
+  operator: FilterOperator;
+  values: string[];
+}
+export type FilterParameters = FilterParameter[];
+export type QueryLimit = number;
+export interface StartQueryPerformanceMonitorInput {
+  monitorName: string;
+  startTime: Date;
+  endTime: Date;
+  queryType: PerformanceMonitorQueryType;
+  filterParameters?: FilterParameter[] | undefined;
+  limit?: number | undefined;
+}
+export interface StartQueryPerformanceMonitorOutput {
+  queryId: string;
+}
 export type WorkloadInsightsMetric =
   | "TIMEOUTS"
   | "RETRANSMISSIONS"
@@ -504,6 +648,11 @@ export interface StopQueryMonitorTopContributorsInput {
   queryId: string;
 }
 export interface StopQueryMonitorTopContributorsOutput {}
+export interface StopQueryPerformanceMonitorInput {
+  monitorName: string;
+  queryId: string;
+}
+export interface StopQueryPerformanceMonitorOutput {}
 export interface StopQueryWorkloadInsightsTopContributorsInput {
   scopeId: string;
   queryId: string;
@@ -543,6 +692,22 @@ export interface UpdateMonitorOutput {
   modifiedAt: Date;
   tags?: { [key: string]: string | undefined } | undefined;
 }
+export interface UpdatePerformanceMonitorInput {
+  monitorName: string;
+  targetsToAdd?: PerformanceMonitorTarget[] | undefined;
+  targetsToRemove?: PerformanceMonitorTarget[] | undefined;
+  clientToken?: string | undefined;
+}
+export interface UpdatePerformanceMonitorOutput {
+  monitorArn: string;
+  monitorName: string;
+  monitorStatus: MonitorStatus;
+  monitorType: PerformanceMonitorType;
+  targets: PerformanceMonitorTarget[];
+  createdAt: Date;
+  modifiedAt: Date;
+  tags?: { [key: string]: string | undefined } | undefined;
+}
 export interface UpdateScopeInput {
   scopeId: string;
   resourcesToAdd?: TargetResource[] | undefined;
@@ -571,8 +736,8 @@ export const createMonitor: API.OperationMethod<
   CreateMonitorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<CreateMonitorInput>,
-  output: __S(202, __c25, 2) as any as S.Schema<CreateMonitorOutput>,
+  input: __S(576, __c36, 0) as any as S.Schema<CreateMonitorInput>,
+  output: __S(592, __c37, 0) as any as S.Schema<CreateMonitorOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -581,11 +746,47 @@ export const createMonitor: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMonitor",
   telemetry: TELEMETRY,
   span: "CreateMonitor",
+}));
+
+export type CreatePerformanceMonitorError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Create a performance monitor to monitor the traffic of the Amazon Virtual Private Clouds (VPCs) that you specify as targets, to determine whether the Amazon Web Services network is causing issues for your workloads. With a performance monitor, you can identify network degradation across paths between Availability Zones and across Amazon Web Services Regions.
+ */
+export const createPerformanceMonitor: API.OperationMethod<
+  CreatePerformanceMonitorInput & RegionInput,
+  CreatePerformanceMonitorOutput,
+  CreatePerformanceMonitorError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(640, __c40, 0) as any as S.Schema<CreatePerformanceMonitorInput>,
+  output: __S(656, __c41, 0) as any as S.Schema<CreatePerformanceMonitorOutput>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreatePerformanceMonitor",
+  telemetry: TELEMETRY,
+  span: "CreatePerformanceMonitor",
 }));
 
 export type CreateScopeError =
@@ -615,8 +816,8 @@ export const createScope: API.OperationMethod<
   CreateScopeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<CreateScopeInput>,
-  output: __S(232, __c29, 0) as any as S.Schema<CreateScopeOutput>,
+  input: __S(672, __c42, 0) as any as S.Schema<CreateScopeInput>,
+  output: __S(704, __c44, 0) as any as S.Schema<CreateScopeOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -625,6 +826,7 @@ export const createScope: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateScope",
@@ -649,8 +851,8 @@ export const deleteMonitor: API.OperationMethod<
   DeleteMonitorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<DeleteMonitorInput>,
-  output: __S(248, __c31, 0) as any as S.Schema<DeleteMonitorOutput>,
+  input: __S(0, __c0, 0) as any as S.Schema<DeleteMonitorInput>,
+  output: __S(16, __c1, 0) as any as S.Schema<DeleteMonitorOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -659,11 +861,47 @@ export const deleteMonitor: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMonitor",
   telemetry: TELEMETRY,
   span: "DeleteMonitor",
+}));
+
+export type DeletePerformanceMonitorError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Delete a performance monitor. Network Flow Monitor stops tracking network performance for the resources that the monitor included.
+ */
+export const deletePerformanceMonitor: API.OperationMethod<
+  DeletePerformanceMonitorInput & RegionInput,
+  DeletePerformanceMonitorOutput,
+  DeletePerformanceMonitorError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(32, __c2, 0) as any as S.Schema<DeletePerformanceMonitorInput>,
+  output: __S(16, __c1, 0) as any as S.Schema<DeletePerformanceMonitorOutput>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeletePerformanceMonitor",
+  telemetry: TELEMETRY,
+  span: "DeletePerformanceMonitor",
 }));
 
 export type DeleteScopeError =
@@ -684,8 +922,8 @@ export const deleteScope: API.OperationMethod<
   DeleteScopeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DeleteScopeInput>,
-  output: __S(248, __c31, 0) as any as S.Schema<DeleteScopeOutput>,
+  input: __S(48, __c3, 0) as any as S.Schema<DeleteScopeInput>,
+  output: __S(16, __c1, 0) as any as S.Schema<DeleteScopeOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -695,6 +933,7 @@ export const deleteScope: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScope",
@@ -718,8 +957,8 @@ export const getMonitor: API.OperationMethod<
   GetMonitorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<GetMonitorInput>,
-  output: __S(202, __c25, 2) as any as S.Schema<GetMonitorOutput>,
+  input: __S(64, __c4, 0) as any as S.Schema<GetMonitorInput>,
+  output: __S(592, __c37, 0) as any as S.Schema<GetMonitorOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -727,11 +966,85 @@ export const getMonitor: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMonitor",
   telemetry: TELEMETRY,
   span: "GetMonitor",
+}));
+
+export type GetMonitorScopeSuggestionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns the accounts that are sending traffic to, or receiving traffic from, resources in a monitor, but that aren't included in the monitoring scope for the monitor. By adding the suggested accounts to your scope, you enable Network Flow Monitor to resolve the network paths for that traffic.
+ */
+export const getMonitorScopeSuggestions: API.PaginatedOperationMethod<
+  GetMonitorScopeSuggestionsInput & RegionInput,
+  GetMonitorScopeSuggestionsOutput,
+  GetMonitorScopeSuggestionsError,
+  Credentials | HttpClient.HttpClient,
+  AccountToAdd
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(80, __c5, 0) as any as S.Schema<GetMonitorScopeSuggestionsInput>,
+  output: __S(83, __c5, 3) as any as S.Schema<GetMonitorScopeSuggestionsOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetMonitorScopeSuggestions",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "accountsToAdd",
+    pageSize: "maxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "GetMonitorScopeSuggestions",
+})) as any;
+
+export type GetPerformanceMonitorError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns information about a performance monitor, including the resources that it monitors, its status, and the tags for the monitor.
+ */
+export const getPerformanceMonitor: API.OperationMethod<
+  GetPerformanceMonitorInput & RegionInput,
+  GetPerformanceMonitorOutput,
+  GetPerformanceMonitorError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(96, __c6, 0) as any as S.Schema<GetPerformanceMonitorInput>,
+  output: __S(656, __c41, 0) as any as S.Schema<GetPerformanceMonitorOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetPerformanceMonitor",
+  telemetry: TELEMETRY,
+  span: "GetPerformanceMonitor",
 }));
 
 export type GetQueryResultsMonitorTopContributorsError =
@@ -756,8 +1069,8 @@ export const getQueryResultsMonitorTopContributors: API.PaginatedOperationMethod
   Credentials | HttpClient.HttpClient,
   MonitorTopContributorsRow
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<GetQueryResultsMonitorTopContributorsInput>,
-  output: __S(22, __c2, 6) as any as S.Schema<GetQueryResultsMonitorTopContributorsOutput>,
+  input: __S(112, __c7, 0) as any as S.Schema<GetQueryResultsMonitorTopContributorsInput>,
+  output: __S(121, __c7, 9) as any as S.Schema<GetQueryResultsMonitorTopContributorsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -766,6 +1079,7 @@ export const getQueryResultsMonitorTopContributors: API.PaginatedOperationMethod
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueryResultsMonitorTopContributors",
@@ -777,6 +1091,50 @@ export const getQueryResultsMonitorTopContributors: API.PaginatedOperationMethod
   } as const,
   telemetry: TELEMETRY,
   span: "GetQueryResultsMonitorTopContributors",
+})) as any;
+
+export type GetQueryResultsPerformanceMonitorError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns the results of a query for the Network Flow Monitor query interface, for a specified query ID and performance monitor. This call returns the top paths for a performance monitor.
+ *
+ * Create a query with StartQueryPerformanceMonitor, and then use the query ID with this call to return the results.
+ */
+export const getQueryResultsPerformanceMonitor: API.PaginatedOperationMethod<
+  GetQueryResultsPerformanceMonitorInput & RegionInput,
+  GetQueryResultsPerformanceMonitorOutput,
+  GetQueryResultsPerformanceMonitorError,
+  Credentials | HttpClient.HttpClient,
+  string[]
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(128, __c8, 0) as any as S.Schema<GetQueryResultsPerformanceMonitorInput>,
+  output: __S(133, __c8, 5) as any as S.Schema<GetQueryResultsPerformanceMonitorOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetQueryResultsPerformanceMonitor",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "data",
+    pageSize: "maxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "GetQueryResultsPerformanceMonitor",
 })) as any;
 
 export type GetQueryResultsWorkloadInsightsTopContributorsError =
@@ -803,8 +1161,12 @@ export const getQueryResultsWorkloadInsightsTopContributors: API.PaginatedOperat
   Credentials | HttpClient.HttpClient,
   WorkloadInsightsTopContributorsRow
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<GetQueryResultsWorkloadInsightsTopContributorsInput>,
-  output: __S(27, __c3, 3) as any as S.Schema<GetQueryResultsWorkloadInsightsTopContributorsOutput>,
+  input: __S(144, __c9, 0) as any as S.Schema<GetQueryResultsWorkloadInsightsTopContributorsInput>,
+  output: __S(
+    147,
+    __c9,
+    3,
+  ) as any as S.Schema<GetQueryResultsWorkloadInsightsTopContributorsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -813,6 +1175,7 @@ export const getQueryResultsWorkloadInsightsTopContributors: API.PaginatedOperat
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueryResultsWorkloadInsightsTopContributors",
@@ -853,13 +1216,13 @@ export const getQueryResultsWorkloadInsightsTopContributorsData: API.PaginatedOp
   WorkloadInsightsTopContributorsDataPoint
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    32,
-    __c4,
+    160,
+    __c10,
     0,
   ) as any as S.Schema<GetQueryResultsWorkloadInsightsTopContributorsDataInput>,
   output: __S(
-    37,
-    __c4,
+    165,
+    __c10,
     5,
   ) as any as S.Schema<GetQueryResultsWorkloadInsightsTopContributorsDataOutput>,
   errors: [
@@ -870,6 +1233,7 @@ export const getQueryResultsWorkloadInsightsTopContributorsData: API.PaginatedOp
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueryResultsWorkloadInsightsTopContributorsData",
@@ -903,8 +1267,8 @@ export const getQueryStatusMonitorTopContributors: API.OperationMethod<
   GetQueryStatusMonitorTopContributorsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<GetQueryStatusMonitorTopContributorsInput>,
-  output: __S(48, __c6, 0) as any as S.Schema<GetQueryStatusMonitorTopContributorsOutput>,
+  input: __S(176, __c11, 0) as any as S.Schema<GetQueryStatusMonitorTopContributorsInput>,
+  output: __S(192, __c12, 0) as any as S.Schema<GetQueryStatusMonitorTopContributorsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -912,11 +1276,49 @@ export const getQueryStatusMonitorTopContributors: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueryStatusMonitorTopContributors",
   telemetry: TELEMETRY,
   span: "GetQueryStatusMonitorTopContributors",
+}));
+
+export type GetQueryStatusPerformanceMonitorError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns the current status of a query for the Network Flow Monitor query interface, for a specified query ID and performance monitor. This call returns the query status for the top paths for a performance monitor.
+ *
+ * When you run a query, use this call to check the status of the query to make sure that the query has `SUCCEEDED` before you review the results. Use the same query ID that you used for the corresponding API call to start (create) the query, `StartQueryPerformanceMonitor`.
+ */
+export const getQueryStatusPerformanceMonitor: API.OperationMethod<
+  GetQueryStatusPerformanceMonitorInput & RegionInput,
+  GetQueryStatusPerformanceMonitorOutput,
+  GetQueryStatusPerformanceMonitorError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(208, __c13, 0) as any as S.Schema<GetQueryStatusPerformanceMonitorInput>,
+  output: __S(192, __c12, 0) as any as S.Schema<GetQueryStatusPerformanceMonitorOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetQueryStatusPerformanceMonitor",
+  telemetry: TELEMETRY,
+  span: "GetQueryStatusPerformanceMonitor",
 }));
 
 export type GetQueryStatusWorkloadInsightsTopContributorsError =
@@ -939,8 +1341,12 @@ export const getQueryStatusWorkloadInsightsTopContributors: API.OperationMethod<
   GetQueryStatusWorkloadInsightsTopContributorsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<GetQueryStatusWorkloadInsightsTopContributorsInput>,
-  output: __S(48, __c6, 0) as any as S.Schema<GetQueryStatusWorkloadInsightsTopContributorsOutput>,
+  input: __S(224, __c14, 0) as any as S.Schema<GetQueryStatusWorkloadInsightsTopContributorsInput>,
+  output: __S(
+    192,
+    __c12,
+    0,
+  ) as any as S.Schema<GetQueryStatusWorkloadInsightsTopContributorsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -948,6 +1354,7 @@ export const getQueryStatusWorkloadInsightsTopContributors: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueryStatusWorkloadInsightsTopContributors",
@@ -978,13 +1385,13 @@ export const getQueryStatusWorkloadInsightsTopContributorsData: API.OperationMet
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    64,
-    __c8,
+    240,
+    __c15,
     0,
   ) as any as S.Schema<GetQueryStatusWorkloadInsightsTopContributorsDataInput>,
   output: __S(
-    48,
-    __c6,
+    192,
+    __c12,
     0,
   ) as any as S.Schema<GetQueryStatusWorkloadInsightsTopContributorsDataOutput>,
   errors: [
@@ -994,6 +1401,7 @@ export const getQueryStatusWorkloadInsightsTopContributorsData: API.OperationMet
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueryStatusWorkloadInsightsTopContributorsData",
@@ -1018,8 +1426,8 @@ export const getScope: API.OperationMethod<
   GetScopeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<GetScopeInput>,
-  output: __S(73, __c9, 1) as any as S.Schema<GetScopeOutput>,
+  input: __S(256, __c16, 0) as any as S.Schema<GetScopeInput>,
+  output: __S(257, __c16, 1) as any as S.Schema<GetScopeOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1028,6 +1436,7 @@ export const getScope: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetScope",
@@ -1051,14 +1460,15 @@ export const listMonitors: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   MonitorSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<ListMonitorsInput>,
-  output: __S(83, __c10, 3) as any as S.Schema<ListMonitorsOutput>,
+  input: __S(272, __c17, 0) as any as S.Schema<ListMonitorsInput>,
+  output: __S(275, __c17, 3) as any as S.Schema<ListMonitorsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMonitors",
@@ -1070,6 +1480,46 @@ export const listMonitors: API.PaginatedOperationMethod<
   } as const,
   telemetry: TELEMETRY,
   span: "ListMonitors",
+})) as any;
+
+export type ListPerformanceMonitorsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns a list of the performance monitors in an account. You can optionally return only the monitors that have a specific status or type.
+ *
+ * Results are paginated. Use the `nextToken` parameter to return additional results.
+ */
+export const listPerformanceMonitors: API.PaginatedOperationMethod<
+  ListPerformanceMonitorsInput & RegionInput,
+  ListPerformanceMonitorsOutput,
+  ListPerformanceMonitorsError,
+  Credentials | HttpClient.HttpClient,
+  PerformanceMonitorSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(288, __c18, 0) as any as S.Schema<ListPerformanceMonitorsInput>,
+  output: __S(291, __c18, 3) as any as S.Schema<ListPerformanceMonitorsOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListPerformanceMonitors",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "monitors",
+    pageSize: "maxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListPerformanceMonitors",
 })) as any;
 
 export type ListScopesError =
@@ -1089,8 +1539,8 @@ export const listScopes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ScopeSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<ListScopesInput>,
-  output: __S(91, __c11, 3) as any as S.Schema<ListScopesOutput>,
+  input: __S(304, __c19, 0) as any as S.Schema<ListScopesInput>,
+  output: __S(307, __c19, 3) as any as S.Schema<ListScopesOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1098,6 +1548,7 @@ export const listScopes: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListScopes",
@@ -1128,8 +1579,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<ListTagsForResourceInput>,
-  output: __S(97, __c12, 1) as any as S.Schema<ListTagsForResourceOutput>,
+  input: __S(320, __c20, 0) as any as S.Schema<ListTagsForResourceInput>,
+  output: __S(321, __c20, 1) as any as S.Schema<ListTagsForResourceOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1138,6 +1589,7 @@ export const listTagsForResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -1165,8 +1617,8 @@ export const startQueryMonitorTopContributors: API.OperationMethod<
   StartQueryMonitorTopContributorsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<StartQueryMonitorTopContributorsInput>,
-  output: __S(112, __c14, 0) as any as S.Schema<StartQueryMonitorTopContributorsOutput>,
+  input: __S(336, __c21, 0) as any as S.Schema<StartQueryMonitorTopContributorsInput>,
+  output: __S(352, __c22, 0) as any as S.Schema<StartQueryMonitorTopContributorsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1174,11 +1626,51 @@ export const startQueryMonitorTopContributors: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartQueryMonitorTopContributors",
   telemetry: TELEMETRY,
   span: "StartQueryMonitorTopContributors",
+}));
+
+export type StartQueryPerformanceMonitorError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Create a query that you can use with the Network Flow Monitor query interface to return the top paths for a performance monitor. Specify the performance monitor that you want to create the query for.
+ *
+ * The call returns a query ID that you can use with GetQueryResultsPerformanceMonitor to return the results of the query.
+ *
+ * Top paths in Network Flow Monitor are the network paths used by the traffic for the resources that a performance monitor tracks, ranked by impact score and then by traffic volume. Each path includes the traffic and round-trip time for the path, together with a breakdown of the subnet pairs that the path includes.
+ */
+export const startQueryPerformanceMonitor: API.OperationMethod<
+  StartQueryPerformanceMonitorInput & RegionInput,
+  StartQueryPerformanceMonitorOutput,
+  StartQueryPerformanceMonitorError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(370, __c23, 2) as any as S.Schema<StartQueryPerformanceMonitorInput>,
+  output: __S(352, __c22, 0) as any as S.Schema<StartQueryPerformanceMonitorOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "StartQueryPerformanceMonitor",
+  telemetry: TELEMETRY,
+  span: "StartQueryPerformanceMonitor",
 }));
 
 export type StartQueryWorkloadInsightsTopContributorsError =
@@ -1201,8 +1693,8 @@ export const startQueryWorkloadInsightsTopContributors: API.OperationMethod<
   StartQueryWorkloadInsightsTopContributorsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<StartQueryWorkloadInsightsTopContributorsInput>,
-  output: __S(112, __c14, 0) as any as S.Schema<StartQueryWorkloadInsightsTopContributorsOutput>,
+  input: __S(400, __c25, 0) as any as S.Schema<StartQueryWorkloadInsightsTopContributorsInput>,
+  output: __S(352, __c22, 0) as any as S.Schema<StartQueryWorkloadInsightsTopContributorsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1210,6 +1702,7 @@ export const startQueryWorkloadInsightsTopContributors: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartQueryWorkloadInsightsTopContributors",
@@ -1237,10 +1730,10 @@ export const startQueryWorkloadInsightsTopContributorsData: API.OperationMethod<
   StartQueryWorkloadInsightsTopContributorsDataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<StartQueryWorkloadInsightsTopContributorsDataInput>,
+  input: __S(416, __c26, 0) as any as S.Schema<StartQueryWorkloadInsightsTopContributorsDataInput>,
   output: __S(
-    112,
-    __c14,
+    352,
+    __c22,
     0,
   ) as any as S.Schema<StartQueryWorkloadInsightsTopContributorsDataOutput>,
   errors: [
@@ -1250,6 +1743,7 @@ export const startQueryWorkloadInsightsTopContributorsData: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartQueryWorkloadInsightsTopContributorsData",
@@ -1275,8 +1769,8 @@ export const stopQueryMonitorTopContributors: API.OperationMethod<
   StopQueryMonitorTopContributorsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<StopQueryMonitorTopContributorsInput>,
-  output: __S(248, __c31, 0) as any as S.Schema<StopQueryMonitorTopContributorsOutput>,
+  input: __S(432, __c27, 0) as any as S.Schema<StopQueryMonitorTopContributorsInput>,
+  output: __S(16, __c1, 0) as any as S.Schema<StopQueryMonitorTopContributorsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1284,11 +1778,47 @@ export const stopQueryMonitorTopContributors: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopQueryMonitorTopContributors",
   telemetry: TELEMETRY,
   span: "StopQueryMonitorTopContributors",
+}));
+
+export type StopQueryPerformanceMonitorError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Stop a query for the Network Flow Monitor query interface, for a specified query ID and performance monitor. Use the same query ID that you used for the corresponding API call to start the query, `StartQueryPerformanceMonitor`.
+ */
+export const stopQueryPerformanceMonitor: API.OperationMethod<
+  StopQueryPerformanceMonitorInput & RegionInput,
+  StopQueryPerformanceMonitorOutput,
+  StopQueryPerformanceMonitorError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(448, __c28, 0) as any as S.Schema<StopQueryPerformanceMonitorInput>,
+  output: __S(16, __c1, 0) as any as S.Schema<StopQueryPerformanceMonitorOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "StopQueryPerformanceMonitor",
+  telemetry: TELEMETRY,
+  span: "StopQueryPerformanceMonitor",
 }));
 
 export type StopQueryWorkloadInsightsTopContributorsError =
@@ -1309,8 +1839,8 @@ export const stopQueryWorkloadInsightsTopContributors: API.OperationMethod<
   StopQueryWorkloadInsightsTopContributorsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<StopQueryWorkloadInsightsTopContributorsInput>,
-  output: __S(248, __c31, 0) as any as S.Schema<StopQueryWorkloadInsightsTopContributorsOutput>,
+  input: __S(464, __c29, 0) as any as S.Schema<StopQueryWorkloadInsightsTopContributorsInput>,
+  output: __S(16, __c1, 0) as any as S.Schema<StopQueryWorkloadInsightsTopContributorsOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1318,6 +1848,7 @@ export const stopQueryWorkloadInsightsTopContributors: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopQueryWorkloadInsightsTopContributors",
@@ -1343,8 +1874,8 @@ export const stopQueryWorkloadInsightsTopContributorsData: API.OperationMethod<
   StopQueryWorkloadInsightsTopContributorsDataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<StopQueryWorkloadInsightsTopContributorsDataInput>,
-  output: __S(248, __c31, 0) as any as S.Schema<StopQueryWorkloadInsightsTopContributorsDataOutput>,
+  input: __S(480, __c30, 0) as any as S.Schema<StopQueryWorkloadInsightsTopContributorsDataInput>,
+  output: __S(16, __c1, 0) as any as S.Schema<StopQueryWorkloadInsightsTopContributorsDataOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1352,6 +1883,7 @@ export const stopQueryWorkloadInsightsTopContributorsData: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopQueryWorkloadInsightsTopContributorsData",
@@ -1376,8 +1908,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<TagResourceInput>,
-  output: __S(248, __c31, 0) as any as S.Schema<TagResourceOutput>,
+  input: __S(496, __c31, 0) as any as S.Schema<TagResourceInput>,
+  output: __S(16, __c1, 0) as any as S.Schema<TagResourceOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1386,6 +1918,7 @@ export const tagResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -1410,8 +1943,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(169, __c21, 1) as any as S.Schema<UntagResourceInput>,
-  output: __S(248, __c31, 0) as any as S.Schema<UntagResourceOutput>,
+  input: __S(512, __c32, 0) as any as S.Schema<UntagResourceInput>,
+  output: __S(16, __c1, 0) as any as S.Schema<UntagResourceOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1420,6 +1953,7 @@ export const untagResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -1443,8 +1977,8 @@ export const updateMonitor: API.OperationMethod<
   UpdateMonitorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<UpdateMonitorInput>,
-  output: __S(202, __c25, 2) as any as S.Schema<UpdateMonitorOutput>,
+  input: __S(528, __c33, 0) as any as S.Schema<UpdateMonitorInput>,
+  output: __S(592, __c37, 0) as any as S.Schema<UpdateMonitorOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1452,11 +1986,49 @@ export const updateMonitor: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMonitor",
   telemetry: TELEMETRY,
   span: "UpdateMonitor",
+}));
+
+export type UpdatePerformanceMonitorError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Update a performance monitor, to add or remove the resources that the monitor tracks network performance for.
+ */
+export const updatePerformanceMonitor: API.OperationMethod<
+  UpdatePerformanceMonitorInput & RegionInput,
+  UpdatePerformanceMonitorOutput,
+  UpdatePerformanceMonitorError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(544, __c34, 0) as any as S.Schema<UpdatePerformanceMonitorInput>,
+  output: __S(656, __c41, 0) as any as S.Schema<UpdatePerformanceMonitorOutput>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdatePerformanceMonitor",
+  telemetry: TELEMETRY,
+  span: "UpdatePerformanceMonitor",
 }));
 
 export type UpdateScopeError =
@@ -1477,8 +2049,8 @@ export const updateScope: API.OperationMethod<
   UpdateScopeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<UpdateScopeInput>,
-  output: __S(232, __c29, 0) as any as S.Schema<UpdateScopeOutput>,
+  input: __S(560, __c35, 0) as any as S.Schema<UpdateScopeInput>,
+  output: __S(704, __c44, 0) as any as S.Schema<UpdateScopeOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1488,6 +2060,7 @@ export const updateScope: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateScope",
@@ -1497,6 +2070,46 @@ export const updateScope: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ monitorName: S.String.pipe(T.HttpLabel("monitorName")) }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/monitors/{monitorName}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteMonitorInput" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteMonitorOutput" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ monitorName: S.String.pipe(T.HttpLabel("monitorName")) }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/performance-monitors/{monitorName}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeletePerformanceMonitorInput" });
+  }
+}
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1513,7 +2126,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "DeleteScopeInput" });
   }
 }
-function __c1(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1530,7 +2143,60 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GetMonitorInput" });
   }
 }
-function __c2(j: number): any {
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          monitorArn: S.String.pipe(T.HttpQuery("monitorArn")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/monitor-scope-suggestions" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetMonitorScopeSuggestionsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ accountId: S.String, region: S.String, membership: S.String }),
+      ).annotate({ identifier: "AccountToAdd" });
+    case 2:
+      return S.Array(__S(81, __c5, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          accountsToAdd: __S(82, __c5, 2),
+          nextToken: S.optional(S.String),
+          updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "GetMonitorScopeSuggestionsOutput" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ monitorName: S.String.pipe(T.HttpLabel("monitorName")) }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/performance-monitors/{monitorName}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetPerformanceMonitorInput" });
+  }
+}
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1563,7 +2229,7 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "TraversedComponent" });
     case 2:
-      return S.Array(__S(17, __c2, 1));
+      return S.Array(__S(113, __c7, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1576,6 +2242,25 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "KubernetesMetadata" });
     case 4:
+      return S.suspend(() =>
+        S.Struct({ asName: S.optional(S.String), asNumber: S.optional(S.Number) }),
+      ).annotate({ identifier: "Network" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          city: S.optional(S.String),
+          subdivision: S.optional(S.String),
+          country: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ClientLocation" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          network: S.optional(__S(116, __c7, 4)),
+          clientLocation: S.optional(__S(117, __c7, 5)),
+        }),
+      ).annotate({ identifier: "AdditionalFlowInfo" });
+    case 7:
       return S.suspend(() =>
         S.Struct({
           localIp: S.optional(S.String),
@@ -1595,29 +2280,73 @@ function __c2(j: number): any {
           remoteIp: S.optional(S.String),
           dnatIp: S.optional(S.String),
           value: S.optional(S.Number),
-          traversedConstructs: S.optional(__S(18, __c2, 2)),
-          kubernetesMetadata: S.optional(__S(19, __c2, 3)),
+          traversedConstructs: S.optional(__S(114, __c7, 2)),
+          kubernetesMetadata: S.optional(__S(115, __c7, 3)),
           localInstanceArn: S.optional(S.String),
           localSubnetArn: S.optional(S.String),
           localVpcArn: S.optional(S.String),
           remoteInstanceArn: S.optional(S.String),
           remoteSubnetArn: S.optional(S.String),
           remoteVpcArn: S.optional(S.String),
+          additionalFlowInfo: S.optional(__S(118, __c7, 6)),
         }),
       ).annotate({ identifier: "MonitorTopContributorsRow" });
-    case 5:
-      return S.Array(__S(20, __c2, 4));
-    case 6:
+    case 8:
+      return S.Array(__S(119, __c7, 7));
+    case 9:
       return S.suspend(() =>
         S.Struct({
           unit: S.optional(S.String),
-          topContributors: S.optional(__S(21, __c2, 5)),
+          topContributors: S.optional(__S(120, __c7, 8)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetQueryResultsMonitorTopContributorsOutput" });
   }
 }
-function __c3(j: number): any {
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          monitorName: S.String.pipe(T.HttpLabel("monitorName")),
+          queryId: S.String.pipe(T.HttpLabel("queryId")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "GET",
+              uri: "/performance-monitors/{monitorName}/queries/{queryId}/results",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetQueryResultsPerformanceMonitorInput" });
+    case 1:
+      return S.suspend(() => S.Struct({ name: S.String, type: S.String })).annotate({
+        identifier: "QueryField",
+      });
+    case 2:
+      return S.Array(__S(129, __c8, 1));
+    case 3:
+      return S.Array(/*@__PURE__*/ S.NullOr(S.String)).pipe(/*@__PURE__*/ T.Sparse());
+    case 4:
+      return S.Array(__S(131, __c8, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          fields: __S(130, __c8, 2),
+          data: __S(132, __c8, 4),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetQueryResultsPerformanceMonitorOutput" });
+  }
+}
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1655,17 +2384,17 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "WorkloadInsightsTopContributorsRow" });
     case 2:
-      return S.Array(__S(25, __c3, 1));
+      return S.Array(__S(145, __c9, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          topContributors: S.optional(__S(26, __c3, 2)),
+          topContributors: S.optional(__S(146, __c9, 2)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetQueryResultsWorkloadInsightsTopContributorsOutput" });
   }
 }
-function __c4(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1694,17 +2423,21 @@ function __c4(j: number): any {
       return S.Array(S.Number);
     case 3:
       return S.suspend(() =>
-        S.Struct({ timestamps: __S(33, __c4, 1), values: __S(34, __c4, 2), label: S.String }),
+        S.Struct({ timestamps: __S(161, __c10, 1), values: __S(162, __c10, 2), label: S.String }),
       ).annotate({ identifier: "WorkloadInsightsTopContributorsDataPoint" });
     case 4:
-      return S.Array(__S(35, __c4, 3));
+      return S.Array(__S(163, __c10, 3));
     case 5:
       return S.suspend(() =>
-        S.Struct({ unit: S.String, datapoints: __S(36, __c4, 4), nextToken: S.optional(S.String) }),
+        S.Struct({
+          unit: S.String,
+          datapoints: __S(164, __c10, 4),
+          nextToken: S.optional(S.String),
+        }),
       ).annotate({ identifier: "GetQueryResultsWorkloadInsightsTopContributorsDataOutput" });
   }
 }
-function __c5(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1727,7 +2460,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetQueryStatusMonitorTopContributorsInput" });
   }
 }
-function __c6(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ status: S.String })).annotate({
@@ -1735,7 +2468,30 @@ function __c6(j: number): any {
       });
   }
 }
-function __c7(j: number): any {
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          monitorName: S.String.pipe(T.HttpLabel("monitorName")),
+          queryId: S.String.pipe(T.HttpLabel("queryId")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "GET",
+              uri: "/performance-monitors/{monitorName}/queries/{queryId}/status",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetQueryStatusPerformanceMonitorInput" });
+  }
+}
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1758,7 +2514,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetQueryStatusWorkloadInsightsTopContributorsInput" });
   }
 }
-function __c8(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1781,7 +2537,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetQueryStatusWorkloadInsightsTopContributorsDataInput" });
   }
 }
-function __c9(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1795,13 +2551,13 @@ function __c9(j: number): any {
           scopeId: S.String,
           status: S.String,
           scopeArn: S.String,
-          targets: __S(227, __c28, 3),
-          tags: S.optional(__S(208, __c26, 0)),
+          targets: __S(691, __c43, 3),
+          tags: S.optional(__S(624, __c39, 0)),
         }),
       ).annotate({ identifier: "GetScopeOutput" });
   }
 }
-function __c10(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1816,14 +2572,52 @@ function __c10(j: number): any {
         S.Struct({ monitorArn: S.String, monitorName: S.String, monitorStatus: S.String }),
       ).annotate({ identifier: "MonitorSummary" });
     case 2:
-      return S.Array(__S(81, __c10, 1));
+      return S.Array(__S(273, __c17, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ monitors: __S(82, __c10, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ monitors: __S(274, __c17, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListMonitorsOutput" });
   }
 }
-function __c11(j: number): any {
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          monitorStatus: S.optional(S.String).pipe(T.HttpQuery("monitorStatus")),
+          monitorType: S.optional(S.String).pipe(T.HttpQuery("monitorType")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/performance-monitors" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListPerformanceMonitorsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          monitorArn: S.String,
+          monitorName: S.String,
+          monitorStatus: S.String,
+          monitorType: S.String,
+          targets: S.optional(__S(609, __c38, 1)),
+        }),
+      ).annotate({ identifier: "PerformanceMonitorSummary" });
+    case 2:
+      return S.Array(__S(289, __c18, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ monitors: __S(290, __c18, 2), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListPerformanceMonitorsOutput" });
+  }
+}
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1837,14 +2631,14 @@ function __c11(j: number): any {
         S.Struct({ scopeId: S.String, status: S.String, scopeArn: S.String }),
       ).annotate({ identifier: "ScopeSummary" });
     case 2:
-      return S.Array(__S(89, __c11, 1));
+      return S.Array(__S(305, __c19, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ scopes: __S(90, __c11, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ scopes: __S(306, __c19, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListScopesOutput" });
   }
 }
-function __c12(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1860,12 +2654,12 @@ function __c12(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceInput" });
     case 1:
-      return S.suspend(() => S.Struct({ tags: S.optional(__S(208, __c26, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(624, __c39, 0)) })).annotate({
         identifier: "ListTagsForResourceOutput",
       });
   }
 }
-function __c13(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1889,7 +2683,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "StartQueryMonitorTopContributorsInput" });
   }
 }
-function __c14(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ queryId: S.String })).annotate({
@@ -1897,7 +2691,43 @@ function __c14(j: number): any {
       });
   }
 }
-function __c15(j: number): any {
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ field: S.String, operator: S.String, values: __S(384, __c24, 0) }),
+      ).annotate({ identifier: "FilterParameter" });
+    case 1:
+      return S.Array(__S(368, __c23, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          monitorName: S.String.pipe(T.HttpLabel("monitorName")),
+          startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          endTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          queryType: S.String,
+          filterParameters: S.optional(__S(369, __c23, 1)),
+          limit: S.optional(S.Number),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/performance-monitors/{monitorName}/queries" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "StartQueryPerformanceMonitorInput" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1921,7 +2751,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "StartQueryWorkloadInsightsTopContributorsInput" });
   }
 }
-function __c16(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1947,7 +2777,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "StartQueryWorkloadInsightsTopContributorsDataInput" });
   }
 }
-function __c17(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1970,7 +2800,30 @@ function __c17(j: number): any {
       ).annotate({ identifier: "StopQueryMonitorTopContributorsInput" });
   }
 }
-function __c18(j: number): any {
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          monitorName: S.String.pipe(T.HttpLabel("monitorName")),
+          queryId: S.String.pipe(T.HttpLabel("queryId")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "DELETE",
+              uri: "/performance-monitors/{monitorName}/queries/{queryId}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "StopQueryPerformanceMonitorInput" });
+  }
+}
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1993,7 +2846,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "StopQueryWorkloadInsightsTopContributorsInput" });
   }
 }
-function __c19(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2016,13 +2869,13 @@ function __c19(j: number): any {
       ).annotate({ identifier: "StopQueryWorkloadInsightsTopContributorsDataInput" });
   }
 }
-function __c20(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tags: __S(208, __c26, 0),
+          tags: __S(624, __c39, 0),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
@@ -2036,15 +2889,13 @@ function __c20(j: number): any {
       ).annotate({ identifier: "TagResourceInput" });
   }
 }
-function __c21(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
-    case 1:
       return S.suspend(() =>
         S.Struct({
           resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tagKeys: __S(168, __c21, 0).pipe(T.HttpQuery("tagKeys")),
+          tagKeys: __S(384, __c24, 0).pipe(T.HttpQuery("tagKeys")),
         }).pipe(
           T.all(
             T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
@@ -2058,16 +2909,16 @@ function __c21(j: number): any {
       ).annotate({ identifier: "UntagResourceInput" });
   }
 }
-function __c22(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           monitorName: S.String.pipe(T.HttpLabel("monitorName")),
-          localResourcesToAdd: S.optional(__S(201, __c25, 1)),
-          localResourcesToRemove: S.optional(__S(201, __c25, 1)),
-          remoteResourcesToAdd: S.optional(__S(201, __c25, 1)),
-          remoteResourcesToRemove: S.optional(__S(201, __c25, 1)),
+          localResourcesToAdd: S.optional(__S(609, __c38, 1)),
+          localResourcesToRemove: S.optional(__S(609, __c38, 1)),
+          remoteResourcesToAdd: S.optional(__S(609, __c38, 1)),
+          remoteResourcesToRemove: S.optional(__S(609, __c38, 1)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -2082,14 +2933,36 @@ function __c22(j: number): any {
       ).annotate({ identifier: "UpdateMonitorInput" });
   }
 }
-function __c23(j: number): any {
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          monitorName: S.String.pipe(T.HttpLabel("monitorName")),
+          targetsToAdd: S.optional(__S(609, __c38, 1)),
+          targetsToRemove: S.optional(__S(609, __c38, 1)),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PATCH", uri: "/performance-monitors/{monitorName}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdatePerformanceMonitorInput" });
+  }
+}
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           scopeId: S.String.pipe(T.HttpLabel("scopeId")),
-          resourcesToAdd: S.optional(__S(227, __c28, 3)),
-          resourcesToDelete: S.optional(__S(227, __c28, 3)),
+          resourcesToAdd: S.optional(__S(691, __c43, 3)),
+          resourcesToDelete: S.optional(__S(691, __c43, 3)),
         }).pipe(
           T.all(
             T.Http({ method: "PATCH", uri: "/scopes/{scopeId}" }),
@@ -2103,98 +2976,67 @@ function __c23(j: number): any {
       ).annotate({ identifier: "UpdateScopeInput" });
   }
 }
-function __c24(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           monitorName: S.String,
-          localResources: __S(201, __c25, 1),
-          remoteResources: S.optional(__S(201, __c25, 1)),
+          localResources: __S(609, __c38, 1),
+          remoteResources: S.optional(__S(609, __c38, 1)),
           scopeArn: S.String,
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          tags: S.optional(__S(208, __c26, 0)),
+          tags: S.optional(__S(624, __c39, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/monitors" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateMonitorInput" });
   }
 }
-function __c25(j: number): any {
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          monitorArn: S.String,
+          monitorName: S.String,
+          monitorStatus: S.String,
+          localResources: __S(609, __c38, 1),
+          remoteResources: __S(609, __c38, 1),
+          createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          modifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          tags: S.optional(__S(624, __c39, 0)),
+        }),
+      ).annotate({ identifier: "CreateMonitorOutput" });
+  }
+}
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ type: S.String, identifier: S.String })).annotate({
         identifier: "MonitorLocalResource",
       });
     case 1:
-      return S.Array(__S(200, __c25, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          monitorArn: S.String,
-          monitorName: S.String,
-          monitorStatus: S.String,
-          localResources: __S(201, __c25, 1),
-          remoteResources: __S(201, __c25, 1),
-          createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          modifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          tags: S.optional(__S(208, __c26, 0)),
-        }),
-      ).annotate({ identifier: "CreateMonitorOutput" });
+      return S.Array(__S(608, __c38, 0));
   }
 }
-function __c26(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
   }
 }
-function __c27(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          targets: __S(227, __c28, 3),
+          monitorName: S.String,
+          scopeArn: S.optional(S.String),
+          targets: __S(609, __c38, 1),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          tags: S.optional(__S(208, __c26, 0)),
-        }).pipe(T.all(T.Http({ method: "POST", uri: "/scopes" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "CreateScopeInput" });
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Union([/*@__PURE__*/ S.Struct({ accountId: S.String })]);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({ targetId: __S(224, __c28, 0), targetType: S.String }),
-      ).annotate({ identifier: "TargetIdentifier" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({ targetIdentifier: __S(225, __c28, 1), region: S.String }),
-      ).annotate({ identifier: "TargetResource" });
-    case 3:
-      return S.Array(__S(226, __c28, 2));
-  }
-}
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          scopeId: S.String,
-          status: S.String,
-          scopeArn: S.String,
-          tags: S.optional(__S(208, __c26, 0)),
-        }),
-      ).annotate({ identifier: "CreateScopeOutput" });
-  }
-}
-function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ monitorName: S.String.pipe(T.HttpLabel("monitorName")) }).pipe(
+          tags: S.optional(__S(624, __c39, 0)),
+        }).pipe(
           T.all(
-            T.Http({ method: "DELETE", uri: "/monitors/{monitorName}" }),
+            T.Http({ method: "POST", uri: "/performance-monitors" }),
             svc,
             auth,
             proto,
@@ -2202,13 +3044,65 @@ function __c30(j: number): any {
             rules,
           ),
         ),
-      ).annotate({ identifier: "DeleteMonitorInput" });
+      ).annotate({ identifier: "CreatePerformanceMonitorInput" });
   }
 }
-function __c31(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteMonitorOutput" });
+      return S.suspend(() =>
+        S.Struct({
+          monitorArn: S.String,
+          monitorName: S.String,
+          monitorStatus: S.String,
+          monitorType: S.String,
+          targets: __S(609, __c38, 1),
+          createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          modifiedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          tags: S.optional(__S(624, __c39, 0)),
+        }),
+      ).annotate({ identifier: "CreatePerformanceMonitorOutput" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          targets: __S(691, __c43, 3),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          tags: S.optional(__S(624, __c39, 0)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/scopes" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateScopeInput" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Union([/*@__PURE__*/ S.Struct({ accountId: S.String })]);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ targetId: __S(688, __c43, 0), targetType: S.String }),
+      ).annotate({ identifier: "TargetIdentifier" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ targetIdentifier: __S(689, __c43, 1), region: S.String }),
+      ).annotate({ identifier: "TargetResource" });
+    case 3:
+      return S.Array(__S(690, __c43, 2));
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          scopeId: S.String,
+          status: S.String,
+          scopeArn: S.String,
+          tags: S.optional(__S(624, __c39, 0)),
+        }),
+      ).annotate({ identifier: "CreateScopeOutput" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

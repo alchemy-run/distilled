@@ -109,7 +109,7 @@ const LENIENT: ReadonlyArray<Metric> = [
     path: "protocolCount",
     unit: "count",
     description:
-      "Protocols the SDK's operations use: distinct `protocol:` layers, and for AWS each wire family. Each one gets its own 1 auth + 1 op program (see the SDK page).",
+      "Protocols the SDK's operations use: distinct `protocol:` consts, and for AWS each wire family. Each one gets its own 1 auth + 1 op program (see the SDK page).",
   },
   {
     id: "size.bytesPerOp",

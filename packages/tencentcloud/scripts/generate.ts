@@ -23,6 +23,7 @@ import { lowerFirst } from "@distilled.cloud/dev/codegen/naming";
 import { NULLABLE_TRAIT } from "@distilled.cloud/dev/codegen/openapi";
 
 const ACTION_TRAIT = "com.tencentcloud#action";
+const SENSITIVE_TRAIT = "smithy.api#sensitive";
 
 const spec: SdkSpec = {
   // An operation shape carries a trailing `_` when an object owns its name
@@ -32,6 +33,25 @@ const spec: SdkSpec = {
   sourceNote:
     ".generated-specs (specs/spec-mirror-tencentcloud/specs/<product>/<version>/api.json)",
 
+  // Sensitive strings (passwords, keys, tokens): the schema member carries
+  // T.SensitiveValue; the protocol delivers Redacted values and accepts
+  // string | Redacted on input.
+  memberTraitPipes: {
+    [SENSITIVE_TRAIT]: "T.SensitiveValue",
+  },
+  memberTsType: (m) =>
+    SENSITIVE_TRAIT in m.traits
+      ? `string | Redacted.Redacted<string>${m.nullable ? " | null" : ""}`
+      : undefined,
+  // Sensitive member types reference Redacted; pull the import in when used.
+  postProcess: (code) =>
+    code.includes("Redacted.Redacted<")
+      ? code.replace(
+          `import * as S from "@distilled.cloud/core/schema-lite";\n`,
+          `import * as S from "@distilled.cloud/core/schema-lite";\nimport * as Redacted from "effect/Redacted";\n`,
+        )
+      : code,
+
   structPipes: ({ opTraits }) => {
     const action = opTraits?.[ACTION_TRAIT];
     return action ? [`T.Action(${JSON.stringify(action)})`] : [];
@@ -40,10 +60,7 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "TencentCloudOpContext",
     commonErrorType: "TencentCloudOpError",
-    // No per-operation error classes: every failure is a string code in the
-    // response envelope, and TencentCloudProtocol picks the class from the
-    // documented common codes (see src/errors.ts).
-    commonErrorClasses: ["UnknownTencentCloudError"],
+    serviceErrors: "TencentCloudServiceErrors",
     protocol: "TencentCloudProtocol",
     retry: "Retry.Retry",
   },

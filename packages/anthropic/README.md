@@ -75,7 +75,6 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Anthropic.CredentialsFromEnv,
-  Anthropic.AnthropicProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
@@ -121,9 +120,9 @@ while `has_more` is true, and every other list follows `next_page`.
 ## Files and binary responses
 
 `uploadFile` takes the file as a `Blob`, `Uint8Array` or `ArrayBuffer` and sends it as a
-multipart part. Downloads come back as a `Uint8Array`: `downloadFile`,
-`downloadSkillVersionContent`, `getPluginVersionContent`, and `getMessageBatchResults` (the
-`.jsonl` file; split it on newlines).
+multipart part. Downloads come back as `{ body, contentType }`: the bytes as a `Uint8Array` and
+the response's `Content-Type`. They are `downloadFile`, `downloadSkillVersionContent`,
+`getPluginVersionContent`, and `getMessageBatchResults` (the `.jsonl` file; split it on newlines).
 
 ## Not supported
 

@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownScalewayError } from "../errors.ts";
+import { ScalewayServiceErrors } from "../errors.ts";
 import { paginateToken } from "../pagination.ts";
 import { ScalewayProtocol, type ScalewayOpError, type ScalewayOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -2373,7 +2373,8 @@ export const addSecurityGroupRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AddSecurityGroupRulesRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<AddSecurityGroupRulesResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2390,7 +2391,8 @@ export const attachServerFileSystem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<AttachServerFileSystemRequest>,
   output: __S(91, __c5, 11) as any as S.Schema<Server>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2407,7 +2409,8 @@ export const attachServerIP: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<AttachServerIPRequest>,
   output: __S(91, __c5, 11) as any as S.Schema<Server>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2424,7 +2427,8 @@ export const attachServerPrivateNetworkInterface: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<AttachServerPrivateNetworkInterfaceRequest>,
   output: __S(91, __c5, 11) as any as S.Schema<Server>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2441,7 +2445,8 @@ export const attachServerVolume: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<AttachServerVolumeRequest>,
   output: __S(91, __c5, 11) as any as S.Schema<Server>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2458,7 +2463,8 @@ export const checkTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<CheckTemplateRequest>,
   output: __S(864, __c54, 0) as any as S.Schema<CheckTemplateResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2475,7 +2481,8 @@ export const createPlacementGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c66, 0) as any as S.Schema<CreatePlacementGroupRequest>,
   output: __S(1072, __c67, 0) as any as S.Schema<PlacementGroup>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2492,7 +2499,8 @@ export const createPrivateNetworkInterface: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1104, __c69, 0) as any as S.Schema<CreatePrivateNetworkInterfaceRequest>,
   output: __S(1120, __c70, 0) as any as S.Schema<PrivateNetworkInterface>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2509,7 +2517,8 @@ export const createSecurityGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1136, __c71, 0) as any as S.Schema<CreateSecurityGroupRequest>,
   output: __S(51, __c3, 3) as any as S.Schema<SecurityGroup>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2526,7 +2535,8 @@ export const createServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1159, __c72, 7) as any as S.Schema<CreateServerRequest>,
   output: __S(91, __c5, 11) as any as S.Schema<Server>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2543,7 +2553,8 @@ export const createServerFromTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<CreateServerFromTemplateRequest>,
   output: __S(91, __c5, 11) as any as S.Schema<Server>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2560,7 +2571,8 @@ export const createTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<CreateTemplateRequest>,
   output: __S(132, __c8, 4) as any as S.Schema<Template>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2577,7 +2589,8 @@ export const deletePlacementGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<DeletePlacementGroupRequest>,
   output: __S(864, __c54, 0) as any as S.Schema<DeletePlacementGroupResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2594,7 +2607,8 @@ export const deletePrivateNetworkInterface: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<DeletePrivateNetworkInterfaceRequest>,
   output: __S(864, __c54, 0) as any as S.Schema<DeletePrivateNetworkInterfaceResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2611,7 +2625,8 @@ export const deleteSecurityGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<DeleteSecurityGroupRequest>,
   output: __S(864, __c54, 0) as any as S.Schema<DeleteSecurityGroupResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2628,7 +2643,8 @@ export const deleteSecurityGroupRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<DeleteSecurityGroupRulesRequest>,
   output: __S(864, __c54, 0) as any as S.Schema<DeleteSecurityGroupRulesResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2645,7 +2661,8 @@ export const deleteServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<DeleteServerRequest>,
   output: __S(864, __c54, 0) as any as S.Schema<DeleteServerResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2662,7 +2679,8 @@ export const deleteTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<DeleteTemplateRequest>,
   output: __S(864, __c54, 0) as any as S.Schema<DeleteTemplateResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2679,7 +2697,8 @@ export const deleteTemplateUserData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<DeleteTemplateUserDataRequest>,
   output: __S(864, __c54, 0) as any as S.Schema<DeleteTemplateUserDataResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2696,7 +2715,8 @@ export const deleteUserData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<DeleteUserDataRequest>,
   output: __S(864, __c54, 0) as any as S.Schema<DeleteUserDataResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2712,7 +2732,8 @@ export const detachAndDeletePrivateNetworkInterface: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<DetachAndDeletePrivateNetworkInterfaceRequest>,
   output: __S(1120, __c70, 0) as any as S.Schema<PrivateNetworkInterface>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2729,7 +2750,8 @@ export const detachServerFileSystem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<DetachServerFileSystemRequest>,
   output: __S(91, __c5, 11) as any as S.Schema<Server>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2746,7 +2768,8 @@ export const detachServerIP: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<DetachServerIPRequest>,
   output: __S(91, __c5, 11) as any as S.Schema<Server>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2763,7 +2786,8 @@ export const detachServerPrivateNetworkInterface: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<DetachServerPrivateNetworkInterfaceRequest>,
   output: __S(91, __c5, 11) as any as S.Schema<Server>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2780,7 +2804,8 @@ export const detachServerVolume: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<DetachServerVolumeRequest>,
   output: __S(91, __c5, 11) as any as S.Schema<Server>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2797,7 +2822,8 @@ export const getPlacementGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<GetPlacementGroupRequest>,
   output: __S(1072, __c67, 0) as any as S.Schema<PlacementGroup>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2814,7 +2840,8 @@ export const getPrivateNetworkInterface: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<GetPrivateNetworkInterfaceRequest>,
   output: __S(1120, __c70, 0) as any as S.Schema<PrivateNetworkInterface>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2831,7 +2858,8 @@ export const getResourceCounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<GetResourceCountsRequest>,
   output: __S(402, __c25, 2) as any as S.Schema<ResourceCounts>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2848,7 +2876,8 @@ export const getSecurityGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<GetSecurityGroupRequest>,
   output: __S(51, __c3, 3) as any as S.Schema<SecurityGroup>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2865,7 +2894,8 @@ export const getServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<GetServerRequest>,
   output: __S(91, __c5, 11) as any as S.Schema<Server>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2882,7 +2912,8 @@ export const getServerCloudInit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<GetServerCloudInitRequest>,
   output: __S(480, __c30, 0) as any as S.Schema<UserData>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2899,7 +2930,8 @@ export const getTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<GetTemplateRequest>,
   output: __S(132, __c8, 4) as any as S.Schema<Template>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2916,7 +2948,8 @@ export const getTemplateCloudInit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<GetTemplateCloudInitRequest>,
   output: __S(480, __c30, 0) as any as S.Schema<UserData>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2933,7 +2966,8 @@ export const getTemplateUserData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<GetTemplateUserDataRequest>,
   output: __S(480, __c30, 0) as any as S.Schema<UserData>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2950,7 +2984,8 @@ export const getUserData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<GetUserDataRequest>,
   output: __S(480, __c30, 0) as any as S.Schema<UserData>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2969,7 +3004,8 @@ export const listPlacementGroups: API.PaginatedOperationMethod<
   () => ({
     input: __S(560, __c35, 0) as any as S.Schema<ListPlacementGroupsRequest>,
     output: __S(562, __c35, 2) as any as S.Schema<ListPlacementGroupsResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2997,7 +3033,8 @@ export const listPrivateNetworkInterfaces: API.PaginatedOperationMethod<
   () => ({
     input: __S(576, __c36, 0) as any as S.Schema<ListPrivateNetworkInterfacesRequest>,
     output: __S(578, __c36, 2) as any as S.Schema<ListPrivateNetworkInterfacesResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3025,7 +3062,8 @@ export const listSecurityGroups: API.PaginatedOperationMethod<
   () => ({
     input: __S(592, __c37, 0) as any as S.Schema<ListSecurityGroupsRequest>,
     output: __S(595, __c37, 3) as any as S.Schema<ListSecurityGroupsResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3053,7 +3091,8 @@ export const listServerCompatibleTypes: API.PaginatedOperationMethod<
   () => ({
     input: __S(608, __c38, 0) as any as S.Schema<ListServerCompatibleTypesRequest>,
     output: __S(629, __c39, 5) as any as S.Schema<ListServerCompatibleTypesResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3081,7 +3120,8 @@ export const listServers: API.PaginatedOperationMethod<
   () => ({
     input: __S(640, __c40, 0) as any as S.Schema<ListServersRequest>,
     output: __S(643, __c40, 3) as any as S.Schema<ListServersResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3109,7 +3149,8 @@ export const listServerTypes: API.PaginatedOperationMethod<
   () => ({
     input: __S(672, __c42, 0) as any as S.Schema<ListServerTypesRequest>,
     output: __S(629, __c39, 5) as any as S.Schema<ListServerTypesResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3137,7 +3178,8 @@ export const listTemplates: API.PaginatedOperationMethod<
   () => ({
     input: __S(688, __c43, 0) as any as S.Schema<ListTemplatesRequest>,
     output: __S(691, __c43, 3) as any as S.Schema<ListTemplatesResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3165,7 +3207,8 @@ export const listTemplateUserDataKeys: API.PaginatedOperationMethod<
   () => ({
     input: __S(704, __c44, 0) as any as S.Schema<ListTemplateUserDataKeysRequest>,
     output: __S(720, __c45, 0) as any as S.Schema<ListTemplateUserDataKeysResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3193,7 +3236,8 @@ export const listUserDataKeys: API.PaginatedOperationMethod<
   () => ({
     input: __S(736, __c46, 0) as any as S.Schema<ListUserDataKeysRequest>,
     output: __S(720, __c45, 0) as any as S.Schema<ListUserDataKeysResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3219,7 +3263,8 @@ export const pauseServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c47, 0) as any as S.Schema<PauseServerRequest>,
   output: __S(91, __c5, 11) as any as S.Schema<Server>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3236,7 +3281,8 @@ export const rebootServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<RebootServerRequest>,
   output: __S(91, __c5, 11) as any as S.Schema<Server>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3253,7 +3299,8 @@ export const setSecurityGroupRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<SetSecurityGroupRulesRequest>,
   output: __S(51, __c3, 3) as any as S.Schema<SecurityGroup>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3270,7 +3317,8 @@ export const setServerCloudInit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c50, 0) as any as S.Schema<SetServerCloudInitRequest>,
   output: __S(864, __c54, 0) as any as S.Schema<SetServerCloudInitResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3287,7 +3335,8 @@ export const setServerDefaultIP: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(816, __c51, 0) as any as S.Schema<SetServerDefaultIPRequest>,
   output: __S(91, __c5, 11) as any as S.Schema<Server>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3304,7 +3353,8 @@ export const setTemplateCloudInit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<SetTemplateCloudInitRequest>,
   output: __S(864, __c54, 0) as any as S.Schema<SetTemplateCloudInitResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3321,7 +3371,8 @@ export const setTemplateUserData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(880, __c55, 0) as any as S.Schema<SetTemplateUserDataRequest>,
   output: __S(864, __c54, 0) as any as S.Schema<SetTemplateUserDataResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3338,7 +3389,8 @@ export const setUserData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c56, 0) as any as S.Schema<SetUserDataRequest>,
   output: __S(864, __c54, 0) as any as S.Schema<SetUserDataResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3355,7 +3407,8 @@ export const startServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<StartServerRequest>,
   output: __S(91, __c5, 11) as any as S.Schema<Server>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3372,7 +3425,8 @@ export const stopAndDeleteServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<StopAndDeleteServerRequest>,
   output: __S(91, __c5, 11) as any as S.Schema<Server>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3389,7 +3443,8 @@ export const stopServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<StopServerRequest>,
   output: __S(91, __c5, 11) as any as S.Schema<Server>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3406,7 +3461,8 @@ export const updatePlacementGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<UpdatePlacementGroupRequest>,
   output: __S(1072, __c67, 0) as any as S.Schema<PlacementGroup>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3423,7 +3479,8 @@ export const updatePrivateNetworkInterface: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c62, 0) as any as S.Schema<UpdatePrivateNetworkInterfaceRequest>,
   output: __S(1120, __c70, 0) as any as S.Schema<PrivateNetworkInterface>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3440,7 +3497,8 @@ export const updateSecurityGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<UpdateSecurityGroupRequest>,
   output: __S(51, __c3, 3) as any as S.Schema<SecurityGroup>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3457,7 +3515,8 @@ export const updateSecurityGroupRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c64, 0) as any as S.Schema<UpdateSecurityGroupRuleRequest>,
   output: __S(51, __c3, 3) as any as S.Schema<SecurityGroup>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3474,7 +3533,8 @@ export const updateServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1041, __c65, 1) as any as S.Schema<UpdateServerRequest>,
   output: __S(91, __c5, 11) as any as S.Schema<Server>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3491,7 +3551,8 @@ export const updateTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1090, __c68, 2) as any as S.Schema<UpdateTemplateRequest>,
   output: __S(132, __c8, 4) as any as S.Schema<Template>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

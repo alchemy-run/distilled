@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownDopplerError } from "../errors.ts";
+import { DopplerServiceErrors } from "../errors.ts";
 import {
   DopplerProtocol,
   DopplerPublicProtocol,
@@ -136,7 +136,7 @@ export type AddWebhookRequestAuthenticationType = "None" | "Bearer" | "Basic";
 export interface AddWebhookRequestAuthentication {
   type?: AddWebhookRequestAuthenticationType | (string & {}) | undefined;
   /** Used when type = Bearer */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** Used when type = Basic */
   username?: string | undefined;
   /** Used when type = Basic */
@@ -2530,7 +2530,7 @@ export interface RenameEnvironmentResponse {
   environment?: CreateEnvironmentResponseEnvironment | undefined;
 }
 export interface RevokeAuthRequest {
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface RevokeAuthResponse {}
 export interface RevokeCliAuthRequest {
@@ -3166,7 +3166,7 @@ export type UpdateWebhookRequestAuthenticationType = "None" | "Bearer" | "Basic"
 export interface UpdateWebhookRequestAuthentication {
   type?: UpdateWebhookRequestAuthenticationType | (string & {}) | undefined;
   /** Used when type = Bearer */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** Used when type = Basic */
   username?: string | undefined;
   /** Used when type = Basic */
@@ -3338,7 +3338,8 @@ export const activityLogsList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(728, __c91, 0) as any as S.Schema<ActivityLogsListRequest>,
   output: __S(730, __c91, 2) as any as S.Schema<ActivityLogsListResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3355,7 +3356,8 @@ export const activityLogsRetrieve: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c104, 0) as any as S.Schema<ActivityLogsRetrieveRequest>,
   output: __S(833, __c104, 1) as any as S.Schema<ActivityLogsRetrieveResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3372,7 +3374,8 @@ export const addWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(920, __c115, 0) as any as S.Schema<AddWebhookRequest>,
   output: __S(936, __c117, 0) as any as S.Schema<AddWebhookResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3389,7 +3392,8 @@ export const auditGetUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c132, 0) as any as S.Schema<AuditGetUserRequest>,
   output: __S(1059, __c132, 3) as any as S.Schema<AuditGetUserResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3406,7 +3410,8 @@ export const authMe: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c152, 0) as any as S.Schema<AuthMeRequest>,
   output: __S(1217, __c152, 1) as any as S.Schema<AuthMeResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3423,7 +3428,8 @@ export const authOidc: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c168, 0) as any as S.Schema<AuthOidcRequest>,
   output: __S(1345, __c168, 1) as any as S.Schema<AuthOidcResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerPublicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3440,7 +3446,8 @@ export const authorizeCliAuth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1464, __c183, 0) as any as S.Schema<AuthorizeCliAuthRequest>,
   output: __S(1465, __c183, 1) as any as S.Schema<AuthorizeCliAuthResponse>,
-  errors: [Conflict, UnknownDopplerError],
+  errors: [Conflict],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerPublicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3457,7 +3464,8 @@ export const cloneConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<CloneConfigRequest>,
   output: __S(33, __c4, 1) as any as S.Schema<CloneConfigResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3474,7 +3482,8 @@ export const configLogsGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<ConfigLogsGetRequest>,
   output: __S(124, __c15, 4) as any as S.Schema<ConfigLogsGetResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3491,7 +3500,8 @@ export const configLogsList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(248, __c31, 0) as any as S.Schema<ConfigLogsListRequest>,
   output: __S(251, __c31, 3) as any as S.Schema<ConfigLogsListResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3508,7 +3518,8 @@ export const configLogsRollback: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c42, 0) as any as S.Schema<ConfigLogsRollbackRequest>,
   output: __S(340, __c42, 4) as any as S.Schema<ConfigLogsRollbackResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3525,7 +3536,8 @@ export const configsAddTrustedIp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c54, 0) as any as S.Schema<ConfigsAddTrustedIpRequest>,
   output: __S(433, __c54, 1) as any as S.Schema<ConfigsAddTrustedIpResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3542,7 +3554,8 @@ export const configsDeleteTrustedIp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(456, __c57, 0) as any as S.Schema<ConfigsDeleteTrustedIpRequest>,
   output: __S(464, __c58, 0) as any as S.Schema<ConfigsDeleteTrustedIpResponse>,
-  errors: [NotFound, UnknownDopplerError],
+  errors: [NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3559,7 +3572,8 @@ export const configsInheritable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(472, __c59, 0) as any as S.Schema<ConfigsInheritableRequest>,
   output: __S(481, __c60, 1) as any as S.Schema<ConfigsInheritableResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3576,7 +3590,8 @@ export const configsInherits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(489, __c61, 1) as any as S.Schema<ConfigsInheritsRequest>,
   output: __S(481, __c60, 1) as any as S.Schema<ConfigsInheritsResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3593,7 +3608,8 @@ export const configsListTrustedIps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(504, __c63, 0) as any as S.Schema<ConfigsListTrustedIpsRequest>,
   output: __S(505, __c63, 1) as any as S.Schema<ConfigsListTrustedIpsResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3610,7 +3626,8 @@ export const createChangeRequestPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c64, 0) as any as S.Schema<CreateChangeRequestPolicyRequest>,
   output: __S(528, __c66, 0) as any as S.Schema<CreateChangeRequestPolicyResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3627,7 +3644,8 @@ export const createConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c70, 0) as any as S.Schema<CreateConfigRequest>,
   output: __S(33, __c4, 1) as any as S.Schema<CreateConfigResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3644,7 +3662,8 @@ export const createEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(568, __c71, 0) as any as S.Schema<CreateEnvironmentRequest>,
   output: __S(576, __c72, 0) as any as S.Schema<CreateEnvironmentResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3661,7 +3680,8 @@ export const createGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c74, 0) as any as S.Schema<CreateGroupRequest>,
   output: __S(612, __c76, 4) as any as S.Schema<CreateGroupResponse>,
-  errors: [NotFound, UnknownDopplerError],
+  errors: [NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3678,7 +3698,8 @@ export const createIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(616, __c77, 0) as any as S.Schema<CreateIntegrationRequest>,
   output: __S(618, __c77, 2) as any as S.Schema<CreateIntegrationResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3695,7 +3716,8 @@ export const createIntegrationsIntegrationMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c78, 0) as any as S.Schema<CreateIntegrationsIntegrationMemberRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<CreateIntegrationsIntegrationMemberResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3712,7 +3734,8 @@ export const createProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(648, __c81, 0) as any as S.Schema<CreateProjectRequest>,
   output: __S(657, __c82, 1) as any as S.Schema<CreateProjectResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3729,7 +3752,8 @@ export const createSync: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(664, __c83, 0) as any as S.Schema<CreateSyncRequest>,
   output: __S(673, __c84, 1) as any as S.Schema<CreateSyncResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3746,7 +3770,8 @@ export const createTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(680, __c85, 0) as any as S.Schema<CreateTagRequest>,
   output: __S(688, __c86, 0) as any as S.Schema<CreateTagResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3763,7 +3788,8 @@ export const deleteChangeRequestPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c88, 0) as any as S.Schema<DeleteChangeRequestPolicyRequest>,
   output: __S(712, __c89, 0) as any as S.Schema<DeleteChangeRequestPolicyResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3780,7 +3806,8 @@ export const deleteConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c90, 0) as any as S.Schema<DeleteConfigRequest>,
   output: __S(712, __c89, 0) as any as S.Schema<DeleteConfigResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3797,7 +3824,8 @@ export const deleteEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(744, __c93, 0) as any as S.Schema<DeleteEnvironmentRequest>,
   output: __S(464, __c58, 0) as any as S.Schema<DeleteEnvironmentResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3814,7 +3842,8 @@ export const deleteGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c94, 0) as any as S.Schema<DeleteGroupRequest>,
   output: __S(464, __c58, 0) as any as S.Schema<DeleteGroupResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3831,7 +3860,8 @@ export const deleteIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(760, __c95, 0) as any as S.Schema<DeleteIntegrationRequest>,
   output: __S(936, __c117, 0) as any as S.Schema<DeleteIntegrationResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3848,7 +3878,8 @@ export const deleteProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c96, 0) as any as S.Schema<DeleteProjectRequest>,
   output: __S(464, __c58, 0) as any as S.Schema<DeleteProjectResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3865,7 +3896,8 @@ export const deleteSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(776, __c97, 0) as any as S.Schema<DeleteSecretRequest>,
   output: __S(464, __c58, 0) as any as S.Schema<DeleteSecretResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3882,7 +3914,8 @@ export const deleteSync: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c98, 0) as any as S.Schema<DeleteSyncRequest>,
   output: __S(936, __c117, 0) as any as S.Schema<DeleteSyncResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3899,7 +3932,8 @@ export const deleteTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(792, __c99, 0) as any as S.Schema<DeleteTagRequest>,
   output: __S(464, __c58, 0) as any as S.Schema<DeleteTagResponse>,
-  errors: [BadRequest, NotFound, UnknownDopplerError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3924,7 +3958,8 @@ export const deleteV3workplacechangeRequestschangeRequestChangeRequestIdUnitsuni
     __c101,
     1,
   ) as any as S.Schema<DeleteV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdReviewResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3949,7 +3984,8 @@ export const deleteV3workplaceserviceAccountsserviceAccountServiceAccountIdentit
     __c58,
     0,
   ) as any as S.Schema<DeleteV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3966,7 +4002,8 @@ export const deleteWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(824, __c103, 0) as any as S.Schema<DeleteWebhookRequest>,
   output: __S(936, __c117, 0) as any as S.Schema<DeleteWebhookResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3991,7 +4028,8 @@ export const deleteWorkplaceIntegrationsIntegrationMember: API.OperationMethod<
     __c58,
     0,
   ) as any as S.Schema<DeleteWorkplaceIntegrationsIntegrationMemberResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4008,7 +4046,8 @@ export const disableWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c106, 0) as any as S.Schema<DisableWebhookRequest>,
   output: __S(936, __c117, 0) as any as S.Schema<DisableWebhookResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4025,7 +4064,8 @@ export const downloadSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(856, __c107, 0) as any as S.Schema<DownloadSecretRequest>,
   output: __S(858, __c107, 2) as any as S.Schema<DownloadSecretResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4042,7 +4082,8 @@ export const dynamicSecretsIssueLease: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c108, 0) as any as S.Schema<DynamicSecretsIssueLeaseRequest>,
   output: __S(865, __c108, 1) as any as S.Schema<DynamicSecretsIssueLeaseResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4059,7 +4100,8 @@ export const dynamicSecretsRevokeLease: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(872, __c109, 0) as any as S.Schema<DynamicSecretsRevokeLeaseRequest>,
   output: __S(712, __c89, 0) as any as S.Schema<DynamicSecretsRevokeLeaseResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4076,7 +4118,8 @@ export const enableWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(880, __c110, 0) as any as S.Schema<EnableWebhookRequest>,
   output: __S(936, __c117, 0) as any as S.Schema<EnableWebhookResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4093,7 +4136,8 @@ export const generateCliAuth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(888, __c111, 0) as any as S.Schema<GenerateCliAuthRequest>,
   output: __S(889, __c111, 1) as any as S.Schema<GenerateCliAuthResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerPublicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4110,7 +4154,8 @@ export const getChangeRequestPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c112, 0) as any as S.Schema<GetChangeRequestPolicyRequest>,
   output: __S(528, __c66, 0) as any as S.Schema<GetChangeRequestPolicyResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4127,7 +4172,8 @@ export const getConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(904, __c113, 0) as any as S.Schema<GetConfigRequest>,
   output: __S(33, __c4, 1) as any as S.Schema<GetConfigResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4144,7 +4190,8 @@ export const getEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c114, 0) as any as S.Schema<GetEnvironmentRequest>,
   output: __S(576, __c72, 0) as any as S.Schema<GetEnvironmentResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4161,7 +4208,8 @@ export const getGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c118, 0) as any as S.Schema<GetGroupRequest>,
   output: __S(612, __c76, 4) as any as S.Schema<GetGroupResponse>,
-  errors: [NotFound, UnknownDopplerError],
+  errors: [NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4178,7 +4226,8 @@ export const getIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(952, __c119, 0) as any as S.Schema<GetIntegrationRequest>,
   output: __S(954, __c119, 2) as any as S.Schema<GetIntegrationResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4195,7 +4244,8 @@ export const getIntegrationsIntegrationMembers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c120, 0) as any as S.Schema<GetIntegrationsIntegrationMembersRequest>,
   output: __S(962, __c120, 2) as any as S.Schema<GetIntegrationsIntegrationMembersResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4212,7 +4262,8 @@ export const getMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(968, __c121, 0) as any as S.Schema<GetMemberRequest>,
   output: __S(612, __c76, 4) as any as S.Schema<GetMemberResponse>,
-  errors: [NotFound, UnknownDopplerError],
+  errors: [NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4229,7 +4280,8 @@ export const getOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c122, 0) as any as S.Schema<GetOptionsRequest>,
   output: __S(936, __c117, 0) as any as S.Schema<GetOptionsResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4246,7 +4298,8 @@ export const getProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(984, __c123, 0) as any as S.Schema<GetProjectRequest>,
   output: __S(657, __c82, 1) as any as S.Schema<GetProjectResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4263,7 +4316,8 @@ export const getSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c124, 0) as any as S.Schema<GetSecretRequest>,
   output: __S(993, __c124, 1) as any as S.Schema<GetSecretResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4280,7 +4334,8 @@ export const getSync: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1016, __c127, 0) as any as S.Schema<GetSyncRequest>,
   output: __S(673, __c84, 1) as any as S.Schema<GetSyncResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4297,7 +4352,8 @@ export const getTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c128, 0) as any as S.Schema<GetTagRequest>,
   output: __S(688, __c86, 0) as any as S.Schema<GetTagResponse>,
-  errors: [NotFound, UnknownDopplerError],
+  errors: [NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4314,7 +4370,8 @@ export const getUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1032, __c129, 0) as any as S.Schema<GetUserRequest>,
   output: __S(1040, __c130, 0) as any as S.Schema<GetUserResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4330,7 +4387,8 @@ export const getV3workplacechangeRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1064, __c133, 0) as any as S.Schema<GetV3workplacechangeRequestsRequest>,
   output: __S(1069, __c133, 5) as any as S.Schema<GetV3workplacechangeRequestsResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4354,7 +4412,8 @@ export const getV3workplacechangeRequestschangeRequestChangeRequestId: API.Opera
     __c136,
     3,
   ) as any as S.Schema<GetV3workplacechangeRequestschangeRequestChangeRequestIdResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4379,7 +4438,8 @@ export const getV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUn
     __c138,
     1,
   ) as any as S.Schema<GetV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4404,7 +4464,8 @@ export const getV3workplaceserviceAccountsserviceAccountServiceAccountIdentities
     __c139,
     3,
   ) as any as S.Schema<GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4429,7 +4490,8 @@ export const getV3workplaceserviceAccountsserviceAccountServiceAccountIdentities
     __c143,
     1,
   ) as any as S.Schema<GetV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4446,7 +4508,8 @@ export const getWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c144, 0) as any as S.Schema<GetWebhookRequest>,
   output: __S(1153, __c144, 1) as any as S.Schema<GetWebhookResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4463,7 +4526,8 @@ export const getWorkplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1176, __c147, 0) as any as S.Schema<GetWorkplaceRequest>,
   output: __S(1185, __c148, 1) as any as S.Schema<GetWorkplaceResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4480,7 +4544,8 @@ export const getWorkplaceIntegrationsIntegrationMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1192, __c149, 0) as any as S.Schema<GetWorkplaceIntegrationsIntegrationMemberRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<GetWorkplaceIntegrationsIntegrationMemberResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4497,7 +4562,8 @@ export const groupsAddMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1200, __c150, 0) as any as S.Schema<GroupsAddMemberRequest>,
   output: __S(464, __c58, 0) as any as S.Schema<GroupsAddMemberResponse>,
-  errors: [Conflict, UnknownDopplerError],
+  errors: [Conflict],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4514,7 +4580,8 @@ export const groupsDeleteMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1208, __c151, 0) as any as S.Schema<GroupsDeleteMemberRequest>,
   output: __S(464, __c58, 0) as any as S.Schema<GroupsDeleteMemberResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4531,7 +4598,8 @@ export const listChangeRequestPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1240, __c155, 0) as any as S.Schema<ListChangeRequestPoliciesRequest>,
   output: __S(1243, __c155, 3) as any as S.Schema<ListChangeRequestPoliciesResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4548,7 +4616,8 @@ export const listConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c156, 0) as any as S.Schema<ListConfigsRequest>,
   output: __S(1251, __c156, 3) as any as S.Schema<ListConfigsResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4565,7 +4634,8 @@ export const listEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1256, __c157, 0) as any as S.Schema<ListEnvironmentsRequest>,
   output: __S(1258, __c157, 2) as any as S.Schema<ListEnvironmentsResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4582,7 +4652,8 @@ export const listGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1264, __c158, 0) as any as S.Schema<ListGroupsRequest>,
   output: __S(1267, __c158, 3) as any as S.Schema<ListGroupsResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4599,7 +4670,8 @@ export const listIntegrations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1272, __c159, 0) as any as S.Schema<ListIntegrationsRequest>,
   output: __S(1275, __c159, 3) as any as S.Schema<ListIntegrationsResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4616,7 +4688,8 @@ export const listInvites: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c160, 0) as any as S.Schema<ListInvitesRequest>,
   output: __S(1283, __c160, 3) as any as S.Schema<ListInvitesResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4633,7 +4706,8 @@ export const listProjects: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1296, __c162, 0) as any as S.Schema<ListProjectsRequest>,
   output: __S(1299, __c162, 3) as any as S.Schema<ListProjectsResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4650,7 +4724,8 @@ export const listSecrets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1304, __c163, 0) as any as S.Schema<ListSecretsRequest>,
   output: __S(1313, __c164, 1) as any as S.Schema<ListSecretsResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4667,7 +4742,8 @@ export const listTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1320, __c165, 0) as any as S.Schema<ListTagsRequest>,
   output: __S(1329, __c166, 1) as any as S.Schema<ListTagsResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4684,7 +4760,8 @@ export const listUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1336, __c167, 0) as any as S.Schema<ListUsersRequest>,
   output: __S(1338, __c167, 2) as any as S.Schema<ListUsersResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4701,7 +4778,8 @@ export const listWebhooks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1352, __c169, 0) as any as S.Schema<ListWebhooksRequest>,
   output: __S(1354, __c169, 2) as any as S.Schema<ListWebhooksResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4718,7 +4796,8 @@ export const lockConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1360, __c170, 0) as any as S.Schema<LockConfigRequest>,
   output: __S(33, __c4, 1) as any as S.Schema<LockConfigResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4734,7 +4813,8 @@ export const postV3workplacechangeRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1372, __c171, 4) as any as S.Schema<PostV3workplacechangeRequestsRequest>,
   output: __S(1377, __c172, 1) as any as S.Schema<PostV3workplacechangeRequestsResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4758,7 +4838,8 @@ export const postV3workplacechangeRequestschangeRequestChangeRequestId: API.Oper
     __c173,
     1,
   ) as any as S.Schema<PostV3workplacechangeRequestschangeRequestChangeRequestIdResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4782,7 +4863,8 @@ export const postV3workplacechangeRequestschangeRequestChangeRequestIdClose: API
     __c89,
     0,
   ) as any as S.Schema<PostV3workplacechangeRequestschangeRequestChangeRequestIdCloseResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4807,7 +4889,8 @@ export const postV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitU
     __c101,
     1,
   ) as any as S.Schema<PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdApplyResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4832,7 +4915,8 @@ export const postV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitU
     __c101,
     1,
   ) as any as S.Schema<PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdReviewResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4857,7 +4941,8 @@ export const postV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitU
     __c101,
     1,
   ) as any as S.Schema<PostV3workplacechangeRequestschangeRequestChangeRequestIdUnitsunitUnitIdStatusResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4882,7 +4967,8 @@ export const postV3workplaceserviceAccountsserviceAccountServiceAccountIdentitie
     __c178,
     3,
   ) as any as S.Schema<PostV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4899,7 +4985,8 @@ export const projectMembersAdd: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c180, 0) as any as S.Schema<ProjectMembersAddRequest>,
   output: __S(1456, __c182, 0) as any as S.Schema<ProjectMembersAddResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4916,7 +5003,8 @@ export const projectMembersDelete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c184, 0) as any as S.Schema<ProjectMembersDeleteRequest>,
   output: __S(464, __c58, 0) as any as S.Schema<ProjectMembersDeleteResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4933,7 +5021,8 @@ export const projectMembersGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1480, __c185, 0) as any as S.Schema<ProjectMembersGetRequest>,
   output: __S(1456, __c182, 0) as any as S.Schema<ProjectMembersGetResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4950,7 +5039,8 @@ export const projectMembersList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1488, __c186, 0) as any as S.Schema<ProjectMembersListRequest>,
   output: __S(1490, __c186, 2) as any as S.Schema<ProjectMembersListResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4967,7 +5057,8 @@ export const projectMembersUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1496, __c187, 0) as any as S.Schema<ProjectMembersUpdateRequest>,
   output: __S(1456, __c182, 0) as any as S.Schema<ProjectMembersUpdateResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4984,7 +5075,8 @@ export const projectRolesCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c188, 0) as any as S.Schema<ProjectRolesCreateRequest>,
   output: __S(1520, __c190, 0) as any as S.Schema<ProjectRolesCreateResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5001,7 +5093,8 @@ export const projectRolesDelete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1528, __c191, 0) as any as S.Schema<ProjectRolesDeleteRequest>,
   output: __S(464, __c58, 0) as any as S.Schema<ProjectRolesDeleteResponse>,
-  errors: [NotFound, UnknownDopplerError],
+  errors: [NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5018,7 +5111,8 @@ export const projectRolesGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c192, 0) as any as S.Schema<ProjectRolesGetRequest>,
   output: __S(1520, __c190, 0) as any as S.Schema<ProjectRolesGetResponse>,
-  errors: [NotFound, UnknownDopplerError],
+  errors: [NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5035,7 +5129,8 @@ export const projectRolesList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1544, __c193, 0) as any as S.Schema<ProjectRolesListRequest>,
   output: __S(1546, __c193, 2) as any as S.Schema<ProjectRolesListResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5052,7 +5147,8 @@ export const projectRolesListPermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1552, __c194, 0) as any as S.Schema<ProjectRolesListPermissionsRequest>,
   output: __S(1560, __c195, 0) as any as S.Schema<ProjectRolesListPermissionsResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5069,7 +5165,8 @@ export const projectRolesUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c196, 0) as any as S.Schema<ProjectRolesUpdateRequest>,
   output: __S(1520, __c190, 0) as any as S.Schema<ProjectRolesUpdateResponse>,
-  errors: [NotFound, UnknownDopplerError],
+  errors: [NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5086,7 +5183,8 @@ export const projectTagsAssign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<ProjectTagsAssignRequest>,
   output: __S(688, __c86, 0) as any as S.Schema<ProjectTagsAssignResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownDopplerError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5103,7 +5201,8 @@ export const projectTagsList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<ProjectTagsListRequest>,
   output: __S(1329, __c166, 1) as any as S.Schema<ProjectTagsListResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5120,7 +5219,8 @@ export const projectTagsUnassign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<ProjectTagsUnassignRequest>,
   output: __S(464, __c58, 0) as any as S.Schema<ProjectTagsUnassignResponse>,
-  errors: [BadRequest, NotFound, UnknownDopplerError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5144,7 +5244,8 @@ export const putV3workplacechangeRequestschangeRequestChangeRequestId: API.Opera
     __c172,
     1,
   ) as any as S.Schema<PutV3workplacechangeRequestschangeRequestChangeRequestIdResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5169,7 +5270,8 @@ export const putV3workplaceserviceAccountsserviceAccountServiceAccountIdentities
     __c143,
     1,
   ) as any as S.Schema<PutV3workplaceserviceAccountsserviceAccountServiceAccountIdentitiesidentityIdentityResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5186,7 +5288,8 @@ export const renameEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<RenameEnvironmentRequest>,
   output: __S(576, __c72, 0) as any as S.Schema<RenameEnvironmentResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5203,7 +5306,8 @@ export const revokeAuth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<RevokeAuthRequest>,
   output: __S(464, __c58, 0) as any as S.Schema<RevokeAuthResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5220,7 +5324,8 @@ export const revokeCliAuth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<RevokeCliAuthRequest>,
   output: __S(936, __c117, 0) as any as S.Schema<RevokeCliAuthResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerPublicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5237,7 +5342,8 @@ export const secretsNames: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<SecretsNamesRequest>,
   output: __S(105, __c13, 1) as any as S.Schema<SecretsNamesResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5254,7 +5360,8 @@ export const secretsUpdateNote: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<SecretsUpdateNoteRequest>,
   output: __S(113, __c14, 1) as any as S.Schema<SecretsUpdateNoteResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5271,7 +5378,8 @@ export const serviceAccountsCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<ServiceAccountsCreateRequest>,
   output: __S(144, __c18, 0) as any as S.Schema<ServiceAccountsCreateResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5288,7 +5396,8 @@ export const serviceAccountsDelete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<ServiceAccountsDeleteRequest>,
   output: __S(464, __c58, 0) as any as S.Schema<ServiceAccountsDeleteResponse>,
-  errors: [NotFound, UnknownDopplerError],
+  errors: [NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5305,7 +5414,8 @@ export const serviceAccountsGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c22, 0) as any as S.Schema<ServiceAccountsGetRequest>,
   output: __S(144, __c18, 0) as any as S.Schema<ServiceAccountsGetResponse>,
-  errors: [NotFound, UnknownDopplerError],
+  errors: [NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5322,7 +5432,8 @@ export const serviceAccountsList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<ServiceAccountsListRequest>,
   output: __S(186, __c23, 2) as any as S.Schema<ServiceAccountsListResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5339,7 +5450,8 @@ export const serviceAccountsUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<ServiceAccountsUpdateRequest>,
   output: __S(195, __c24, 3) as any as S.Schema<ServiceAccountsUpdateResponse>,
-  errors: [NotFound, UnknownDopplerError],
+  errors: [NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5356,7 +5468,8 @@ export const serviceAccountTokensCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(200, __c25, 0) as any as S.Schema<ServiceAccountTokensCreateRequest>,
   output: __S(201, __c25, 1) as any as S.Schema<ServiceAccountTokensCreateResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5373,7 +5486,8 @@ export const serviceAccountTokensDelete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(216, __c27, 0) as any as S.Schema<ServiceAccountTokensDeleteRequest>,
   output: __S(464, __c58, 0) as any as S.Schema<ServiceAccountTokensDeleteResponse>,
-  errors: [NotFound, UnknownDopplerError],
+  errors: [NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5390,7 +5504,8 @@ export const serviceAccountTokensGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c28, 0) as any as S.Schema<ServiceAccountTokensGetRequest>,
   output: __S(225, __c28, 1) as any as S.Schema<ServiceAccountTokensGetResponse>,
-  errors: [NotFound, UnknownDopplerError],
+  errors: [NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5407,7 +5522,8 @@ export const serviceAccountTokensList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(232, __c29, 0) as any as S.Schema<ServiceAccountTokensListRequest>,
   output: __S(234, __c29, 2) as any as S.Schema<ServiceAccountTokensListResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5424,7 +5540,8 @@ export const serviceTokensCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c30, 0) as any as S.Schema<ServiceTokensCreateRequest>,
   output: __S(242, __c30, 2) as any as S.Schema<ServiceTokensCreateResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5441,7 +5558,8 @@ export const serviceTokensDelete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c32, 0) as any as S.Schema<ServiceTokensDeleteRequest>,
   output: __S(712, __c89, 0) as any as S.Schema<ServiceTokensDeleteResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5458,7 +5576,8 @@ export const serviceTokensList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(264, __c33, 0) as any as S.Schema<ServiceTokensListRequest>,
   output: __S(267, __c33, 3) as any as S.Schema<ServiceTokensListResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5475,7 +5594,8 @@ export const shareSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c34, 0) as any as S.Schema<ShareSecretRequest>,
   output: __S(273, __c34, 1) as any as S.Schema<ShareSecretResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5492,7 +5612,8 @@ export const shareSecretEncrypted: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(280, __c35, 0) as any as S.Schema<ShareSecretEncryptedRequest>,
   output: __S(281, __c35, 1) as any as S.Schema<ShareSecretEncryptedResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5509,7 +5630,8 @@ export const unlockConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c36, 0) as any as S.Schema<UnlockConfigRequest>,
   output: __S(33, __c4, 1) as any as S.Schema<UnlockConfigResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5526,7 +5648,8 @@ export const updateChangeRequestPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(296, __c37, 0) as any as S.Schema<UpdateChangeRequestPolicyRequest>,
   output: __S(528, __c66, 0) as any as S.Schema<UpdateChangeRequestPolicyResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5543,7 +5666,8 @@ export const updateConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c38, 0) as any as S.Schema<UpdateConfigRequest>,
   output: __S(33, __c4, 1) as any as S.Schema<UpdateConfigResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5560,7 +5684,8 @@ export const updateGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(312, __c39, 0) as any as S.Schema<UpdateGroupRequest>,
   output: __S(612, __c76, 4) as any as S.Schema<UpdateGroupResponse>,
-  errors: [NotFound, UnknownDopplerError],
+  errors: [NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5577,7 +5702,8 @@ export const updateIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c40, 0) as any as S.Schema<UpdateIntegrationRequest>,
   output: __S(936, __c117, 0) as any as S.Schema<UpdateIntegrationResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5594,7 +5720,8 @@ export const updateIntegrationsIntegrationMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(328, __c41, 0) as any as S.Schema<UpdateIntegrationsIntegrationMemberRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<UpdateIntegrationsIntegrationMemberResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5611,7 +5738,8 @@ export const updateProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(344, __c43, 0) as any as S.Schema<UpdateProjectRequest>,
   output: __S(657, __c82, 1) as any as S.Schema<UpdateProjectResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5628,7 +5756,8 @@ export const updateSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(355, __c44, 3) as any as S.Schema<UpdateSecretRequest>,
   output: __S(1313, __c164, 1) as any as S.Schema<UpdateSecretResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5645,7 +5774,8 @@ export const updateTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(360, __c45, 0) as any as S.Schema<UpdateTagRequest>,
   output: __S(688, __c86, 0) as any as S.Schema<UpdateTagResponse>,
-  errors: [BadRequest, NotFound, UnknownDopplerError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5662,7 +5792,8 @@ export const updateUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c46, 0) as any as S.Schema<UpdateUserRequest>,
   output: __S(1040, __c130, 0) as any as S.Schema<UpdateUserResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5679,7 +5810,8 @@ export const updateWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(376, __c47, 0) as any as S.Schema<UpdateWebhookRequest>,
   output: __S(936, __c117, 0) as any as S.Schema<UpdateWebhookResponse>,
-  errors: [BadRequest, UnknownDopplerError],
+  errors: [BadRequest],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5696,7 +5828,8 @@ export const updateWorkplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c48, 0) as any as S.Schema<UpdateWorkplaceRequest>,
   output: __S(1185, __c148, 1) as any as S.Schema<UpdateWorkplaceResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5713,7 +5846,8 @@ export const workplaceRolesCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(392, __c49, 0) as any as S.Schema<WorkplaceRolesCreateRequest>,
   output: __S(400, __c50, 0) as any as S.Schema<WorkplaceRolesCreateResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5730,7 +5864,8 @@ export const workplaceRolesDelete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(408, __c51, 0) as any as S.Schema<WorkplaceRolesDeleteRequest>,
   output: __S(464, __c58, 0) as any as S.Schema<WorkplaceRolesDeleteResponse>,
-  errors: [NotFound, UnknownDopplerError],
+  errors: [NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5747,7 +5882,8 @@ export const workplaceRolesGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c52, 0) as any as S.Schema<WorkplaceRolesGetRequest>,
   output: __S(400, __c50, 0) as any as S.Schema<WorkplaceRolesGetResponse>,
-  errors: [NotFound, UnknownDopplerError],
+  errors: [NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5764,7 +5900,8 @@ export const workplaceRolesList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(424, __c53, 0) as any as S.Schema<WorkplaceRolesListRequest>,
   output: __S(426, __c53, 2) as any as S.Schema<WorkplaceRolesListResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5781,7 +5918,8 @@ export const workplaceRolesListPermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(440, __c55, 0) as any as S.Schema<WorkplaceRolesListPermissionsRequest>,
   output: __S(1560, __c195, 0) as any as S.Schema<WorkplaceRolesListPermissionsResponse>,
-  errors: [UnknownDopplerError],
+  errors: [],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5798,7 +5936,8 @@ export const workplaceRolesUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c56, 0) as any as S.Schema<WorkplaceRolesUpdateRequest>,
   output: __S(400, __c50, 0) as any as S.Schema<WorkplaceRolesUpdateResponse>,
-  errors: [NotFound, UnknownDopplerError],
+  errors: [NotFound],
+  serviceErrors: DopplerServiceErrors,
   protocol: DopplerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6004,7 +6143,7 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/v3/auth/revoke", code: 200 })),
       ).annotate({ identifier: "RevokeAuthRequest" });
   }
@@ -7732,7 +7871,7 @@ function __c116(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           username: S.optional(S.String),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),

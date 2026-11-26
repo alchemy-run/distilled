@@ -63,7 +63,7 @@ const atlasSpec: SdkSpec = {
   operationDecl: {
     contextType: "MongodbAtlasOpContext",
     commonErrorType: "MongodbAtlasOpError",
-    commonErrorClasses: ["UnknownMongodbAtlasError"],
+    serviceErrors: "MongodbAtlasServiceErrors",
     protocol: "MongodbAtlasProtocol",
     retry: "Retry.Retry",
   },

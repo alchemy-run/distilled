@@ -37,7 +37,6 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   OpenSearch.CredentialsFromEnv,
-  OpenSearch.OpenSearchProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
@@ -80,7 +79,7 @@ const result = yield* OpenSearch.bulkByIndex({
 
 ## Auth
 
-`CredentialsFromEnv` reads the environment on every request:
+`CredentialsFromEnv` reads the environment once, when the layer is built:
 
 - `OPENSEARCH_URL`: the endpoint. Default `http://localhost:9200`.
 - `OPENSEARCH_AWS_SERVICE` set to `es` (Amazon OpenSearch Service) or `aoss`

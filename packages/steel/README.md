@@ -31,7 +31,7 @@ const program = Effect.gen(function* () {
   return { markdown: page.content.markdown, viewer: session.sessionViewerUrl };
 });
 
-const Live = Layer.mergeAll(FetchHttpClient.layer, Steel.CredentialsFromEnv, Steel.SteelProtocol);
+const Live = Layer.mergeAll(FetchHttpClient.layer, Steel.CredentialsFromEnv);
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
 ```
@@ -52,7 +52,7 @@ const live = yield* Sessions.listSessions.items({ status: "live" }).pipe(Stream.
 control of the browser, and the second opens the session player without an API key.
 
 Downloads (`files.downloadFile`, `files.downloadArchive`, `extensions.downloadExtension`, …) return
-the body as a `Uint8Array`. Uploads are multipart and take a `Blob`, `Uint8Array` or `ArrayBuffer`.
+`{ body, contentType }`: the bytes as a `Uint8Array` and the response's `Content-Type`. Uploads are multipart and take a `Blob`, `Uint8Array` or `ArrayBuffer`.
 
 ## Auth
 

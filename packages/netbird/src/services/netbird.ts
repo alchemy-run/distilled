@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownNetBirdError } from "../errors.ts";
+import { NetBirdServiceErrors } from "../errors.ts";
 import { NetBirdProtocol, type NetBirdOpError, type NetBirdOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -5646,7 +5646,8 @@ export const acceptUsersInvite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3584, __c224, 0) as any as S.Schema<AcceptUsersInviteRequest>,
   output: __S(3585, __c224, 1) as any as S.Schema<UserInviteAcceptResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownNetBirdError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5667,7 +5668,8 @@ export const activateIntegrationsBillingAwsMarketplace: API.OperationMethod<
     __c239,
     0,
   ) as any as S.Schema<ActivateIntegrationsBillingAwsMarketplaceResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5684,7 +5686,8 @@ export const approveUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4000, __c250, 0) as any as S.Schema<ApproveUserRequest>,
   output: __S(4019, __c251, 3) as any as S.Schema<User>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5701,7 +5704,8 @@ export const bypassCompliance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4208, __c263, 0) as any as S.Schema<BypassComplianceRequest>,
   output: __S(4224, __c264, 0) as any as S.Schema<BypassResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5718,7 +5722,8 @@ export const createAgentNetworkBudgetRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4400, __c275, 0) as any as S.Schema<CreateAgentNetworkBudgetRuleRequest>,
   output: __S(4432, __c277, 0) as any as S.Schema<AgentNetworkBudgetRule>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5739,7 +5744,8 @@ export const createAgentNetworkCatalogProviderModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<CreateAgentNetworkCatalogProviderModelRequest>,
   output: __S(35, __c2, 3) as any as S.Schema<AgentNetworkModelDiscoveryResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5756,7 +5762,8 @@ export const createAgentNetworkGuardrail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<CreateAgentNetworkGuardrailRequest>,
   output: __S(243, __c15, 3) as any as S.Schema<AgentNetworkGuardrail>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5773,7 +5780,8 @@ export const createAgentNetworkPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<CreateAgentNetworkPolicyRequest>,
   output: __S(432, __c27, 0) as any as S.Schema<AgentNetworkPolicy>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5795,7 +5803,8 @@ export const createAgentNetworkProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<CreateAgentNetworkProviderRequest>,
   output: __S(642, __c40, 2) as any as S.Schema<AgentNetworkProvider>,
-  errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5817,7 +5826,8 @@ export const createAgentNetworkSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<CreateAgentNetworkSettingsRequest>,
   output: __S(864, __c54, 0) as any as S.Schema<AgentNetworkSettings>,
-  errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5834,7 +5844,8 @@ export const createAzureIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1040, __c65, 0) as any as S.Schema<CreateAzureIntegrationRequest>,
   output: __S(1056, __c66, 0) as any as S.Schema<CreateAzureIntegrationResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5851,7 +5862,8 @@ export const createDnsNameserver: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c78, 0) as any as S.Schema<CreateDnsNameserverRequest>,
   output: __S(1266, __c79, 2) as any as S.Schema<CreateDnsNameserverResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5868,7 +5880,8 @@ export const createDnsZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c90, 0) as any as S.Schema<CreateDnsZoneRequest>,
   output: __S(1472, __c92, 0) as any as S.Schema<CreateDnsZoneResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5885,7 +5898,8 @@ export const createDnsZoneRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1680, __c105, 0) as any as S.Schema<CreateDnsZoneRecordRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<CreateDnsZoneRecordResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5902,7 +5916,8 @@ export const createEDRIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c116, 0) as any as S.Schema<CreateEDRIntegrationRequest>,
   output: __S(1872, __c117, 0) as any as S.Schema<EDRIntuneResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5919,7 +5934,8 @@ export const createFalconEDRIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c132, 0) as any as S.Schema<CreateFalconEDRIntegrationRequest>,
   output: __S(2128, __c133, 0) as any as S.Schema<EDRFalconResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5936,7 +5952,8 @@ export const createFleetDMEDRIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c144, 0) as any as S.Schema<CreateFleetDMEDRIntegrationRequest>,
   output: __S(2322, __c145, 2) as any as S.Schema<EDRFleetDMResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5953,7 +5970,8 @@ export const createGoogleIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2512, __c157, 0) as any as S.Schema<CreateGoogleIntegrationRequest>,
   output: __S(2528, __c158, 0) as any as S.Schema<CreateGoogleIntegrationResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5970,7 +5988,8 @@ export const createGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c170, 0) as any as S.Schema<CreateGroupRequest>,
   output: __S(1922, __c120, 2) as any as S.Schema<CreateGroupResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5987,7 +6006,8 @@ export const createHuntressEDRIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2832, __c177, 0) as any as S.Schema<CreateHuntressEDRIntegrationRequest>,
   output: __S(2849, __c178, 1) as any as S.Schema<EDRHuntressResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6004,7 +6024,8 @@ export const createIdentityProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2864, __c179, 0) as any as S.Schema<CreateIdentityProviderRequest>,
   output: __S(2880, __c180, 0) as any as S.Schema<IdentityProvider>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6021,7 +6042,8 @@ export const createIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2896, __c181, 0) as any as S.Schema<CreateIntegrationRequest>,
   output: __S(2912, __c182, 0) as any as S.Schema<IntegrationResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6038,7 +6060,8 @@ export const createIntegrationAgentNetworkManagedProxy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2928, __c183, 0) as any as S.Schema<CreateIntegrationAgentNetworkManagedProxyRequest>,
   output: __S(2944, __c184, 0) as any as S.Schema<AgentNetworkManagedProxy>,
-  errors: [Forbidden, Conflict, UnknownNetBirdError],
+  errors: [Forbidden, Conflict],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6063,7 +6086,8 @@ export const createIntegrationBillingAwsMarketplaceEnrich: API.OperationMethod<
     __c239,
     0,
   ) as any as S.Schema<CreateIntegrationBillingAwsMarketplaceEnrichResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6080,7 +6104,8 @@ export const createIntegrationBillingCheckout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c186, 0) as any as S.Schema<CreateIntegrationBillingCheckoutRequest>,
   output: __S(2992, __c187, 0) as any as S.Schema<CheckoutResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6097,7 +6122,8 @@ export const createIntegrationMspTenant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c188, 0) as any as S.Schema<CreateIntegrationMspTenantRequest>,
   output: __S(3026, __c189, 2) as any as S.Schema<TenantResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6114,7 +6140,8 @@ export const createIntegrationMspTenantDns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c190, 0) as any as S.Schema<CreateIntegrationMspTenantDnsRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<CreateIntegrationMspTenantDnsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6135,7 +6162,8 @@ export const createIntegrationMspTenantSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3056, __c191, 0) as any as S.Schema<CreateIntegrationMspTenantSubscriptionRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<CreateIntegrationMspTenantSubscriptionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6152,7 +6180,8 @@ export const createNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c192, 0) as any as S.Schema<CreateNetworkRequest>,
   output: __S(3088, __c193, 0) as any as S.Schema<CreateNetworkResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6169,7 +6198,8 @@ export const createNetworkResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c194, 0) as any as S.Schema<CreateNetworkResourceRequest>,
   output: __S(3120, __c195, 0) as any as S.Schema<CreateNetworkResourceResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6186,7 +6216,8 @@ export const createNetworkRouter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3152, __c197, 0) as any as S.Schema<CreateNetworkRouterRequest>,
   output: __S(3168, __c198, 0) as any as S.Schema<CreateNetworkRouterResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6203,7 +6234,8 @@ export const createNotificationChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3184, __c199, 0) as any as S.Schema<CreateNotificationChannelRequest>,
   output: __S(3200, __c200, 0) as any as S.Schema<NotificationChannelResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6220,7 +6252,8 @@ export const createOktaScimIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3216, __c201, 0) as any as S.Schema<CreateOktaScimIntegrationRequest>,
   output: __S(3232, __c202, 0) as any as S.Schema<CreateOktaScimIntegrationResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6237,7 +6270,8 @@ export const createPeerJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3249, __c203, 1) as any as S.Schema<CreatePeerJobRequest>,
   output: __S(3267, __c204, 3) as any as S.Schema<JobResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6254,7 +6288,8 @@ export const createPeerTemporaryAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3280, __c205, 0) as any as S.Schema<CreatePeerTemporaryAccessRequest>,
   output: __S(3281, __c205, 1) as any as S.Schema<PeerTemporaryAccessResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6271,7 +6306,8 @@ export const createPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3296, __c206, 0) as any as S.Schema<CreatePolicyRequest>,
   output: __S(3317, __c207, 5) as any as S.Schema<CreatePolicyResponse>,
-  errors: [UnknownNetBirdError],
+  errors: [],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6288,7 +6324,8 @@ export const createPostureCheck: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3344, __c209, 0) as any as S.Schema<CreatePostureCheckRequest>,
   output: __S(3372, __c210, 12) as any as S.Schema<PostureCheck>,
-  errors: [UnknownNetBirdError],
+  errors: [],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6305,7 +6342,8 @@ export const createReverseProxyDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3376, __c211, 0) as any as S.Schema<CreateReverseProxyDomainRequest>,
   output: __S(3404, __c212, 12) as any as S.Schema<Service>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6322,7 +6360,8 @@ export const createReverseProxyProxyToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3408, __c213, 0) as any as S.Schema<CreateReverseProxyProxyTokenRequest>,
   output: __S(3409, __c213, 1) as any as S.Schema<CreateReverseProxyProxyTokenResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6339,7 +6378,8 @@ export const createReverseProxyService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3424, __c214, 0) as any as S.Schema<CreateReverseProxyServiceRequest>,
   output: __S(3404, __c212, 12) as any as S.Schema<Service>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6356,7 +6396,8 @@ export const createRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3440, __c215, 0) as any as S.Schema<CreateRouteRequest>,
   output: __S(3456, __c216, 0) as any as S.Schema<CreateRouteResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6373,7 +6414,8 @@ export const createSCIMIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3472, __c217, 0) as any as S.Schema<CreateSCIMIntegrationRequest>,
   output: __S(3488, __c218, 0) as any as S.Schema<CreateSCIMIntegrationResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6390,7 +6432,8 @@ export const createSentinelOneEDRIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3504, __c219, 0) as any as S.Schema<CreateSentinelOneEDRIntegrationRequest>,
   output: __S(3521, __c220, 1) as any as S.Schema<EDRSentinelOneResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6407,7 +6450,8 @@ export const createSetup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3536, __c221, 0) as any as S.Schema<CreateSetupRequest>,
   output: __S(3537, __c221, 1) as any as S.Schema<SetupResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6424,7 +6468,8 @@ export const createSetupKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3552, __c222, 0) as any as S.Schema<CreateSetupKeyRequest>,
   output: __S(3568, __c223, 0) as any as S.Schema<CreateSetupKeyResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6441,7 +6486,8 @@ export const createUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3600, __c225, 0) as any as S.Schema<CreateUserRequest>,
   output: __S(4019, __c251, 3) as any as S.Schema<User>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6463,7 +6509,8 @@ export const createUserInvite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3616, __c226, 0) as any as S.Schema<CreateUserInviteRequest>,
   output: __S(3632, __c227, 0) as any as S.Schema<UserInvite>,
-  errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6480,7 +6527,8 @@ export const createUserToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3648, __c228, 0) as any as S.Schema<CreateUserTokenRequest>,
   output: __S(3649, __c228, 1) as any as S.Schema<PersonalAccessTokenGenerated>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6497,7 +6545,8 @@ export const deleteAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3680, __c230, 0) as any as S.Schema<DeleteAccountRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<DeleteAccountResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6514,7 +6563,8 @@ export const deleteAgentNetworkBudgetRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3696, __c231, 0) as any as S.Schema<DeleteAgentNetworkBudgetRuleRequest>,
   output: __S(3712, __c232, 0) as any as S.Schema<DeleteAgentNetworkBudgetRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6531,7 +6581,8 @@ export const deleteAgentNetworkGuardrail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3728, __c233, 0) as any as S.Schema<DeleteAgentNetworkGuardrailRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<DeleteAgentNetworkGuardrailResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6548,7 +6599,8 @@ export const deleteAgentNetworkPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3744, __c234, 0) as any as S.Schema<DeleteAgentNetworkPolicyRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<DeleteAgentNetworkPolicyResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6565,7 +6617,8 @@ export const deleteAgentNetworkProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3760, __c235, 0) as any as S.Schema<DeleteAgentNetworkProviderRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<DeleteAgentNetworkProviderResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6582,7 +6635,8 @@ export const deleteAgentNetworkSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3776, __c236, 0) as any as S.Schema<DeleteAgentNetworkSettingsRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<DeleteAgentNetworkSettingsResponse>,
-  errors: [Forbidden, NotFound, UnknownNetBirdError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6599,7 +6653,8 @@ export const deleteAzureIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3792, __c237, 0) as any as S.Schema<DeleteAzureIntegrationRequest>,
   output: __S(3712, __c232, 0) as any as S.Schema<DeleteAzureIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6616,7 +6671,8 @@ export const deleteDnsNameserver: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3840, __c240, 0) as any as S.Schema<DeleteDnsNameserverRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<DeleteDnsNameserverResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6633,7 +6689,8 @@ export const deleteDnsZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3856, __c241, 0) as any as S.Schema<DeleteDnsZoneRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<DeleteDnsZoneResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6650,7 +6707,8 @@ export const deleteDnsZoneRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3872, __c242, 0) as any as S.Schema<DeleteDnsZoneRecordRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<DeleteDnsZoneRecordResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6667,7 +6725,8 @@ export const deleteEDRIntuneIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3888, __c243, 0) as any as S.Schema<DeleteEDRIntuneIntegrationRequest>,
   output: __S(3712, __c232, 0) as any as S.Schema<DeleteEDRIntuneIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6684,7 +6743,8 @@ export const deleteEventStreamingIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3904, __c244, 0) as any as S.Schema<DeleteEventStreamingIntegrationRequest>,
   output: __S(3712, __c232, 0) as any as S.Schema<DeleteEventStreamingIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6701,7 +6761,8 @@ export const deleteGoogleIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3920, __c245, 0) as any as S.Schema<DeleteGoogleIntegrationRequest>,
   output: __S(3712, __c232, 0) as any as S.Schema<DeleteGoogleIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6718,7 +6779,8 @@ export const deleteGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3936, __c246, 0) as any as S.Schema<DeleteGroupRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<DeleteGroupResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6735,7 +6797,8 @@ export const deleteIdentityProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3952, __c247, 0) as any as S.Schema<DeleteIdentityProviderRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<DeleteIdentityProviderResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6752,7 +6815,8 @@ export const deleteIntegrationEdrFalcon: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3968, __c248, 0) as any as S.Schema<DeleteIntegrationEdrFalconRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<DeleteIntegrationEdrFalconResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6769,7 +6833,8 @@ export const deleteIntegrationEdrFleetdm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3984, __c249, 0) as any as S.Schema<DeleteIntegrationEdrFleetdmRequest>,
   output: __S(3712, __c232, 0) as any as S.Schema<DeleteIntegrationEdrFleetdmResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6786,7 +6851,8 @@ export const deleteIntegrationEdrHuntress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4048, __c253, 0) as any as S.Schema<DeleteIntegrationEdrHuntressRequest>,
   output: __S(3712, __c232, 0) as any as S.Schema<DeleteIntegrationEdrHuntressResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6803,7 +6869,8 @@ export const deleteIntegrationEdrSentinelone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4064, __c254, 0) as any as S.Schema<DeleteIntegrationEdrSentineloneRequest>,
   output: __S(3712, __c232, 0) as any as S.Schema<DeleteIntegrationEdrSentineloneResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6820,7 +6887,8 @@ export const deleteIntegrationMspTenant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4080, __c255, 0) as any as S.Schema<DeleteIntegrationMspTenantRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<DeleteIntegrationMspTenantResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6837,7 +6905,8 @@ export const deleteNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4096, __c256, 0) as any as S.Schema<DeleteNetworkRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<DeleteNetworkResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6854,7 +6923,8 @@ export const deleteNetworkResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4112, __c257, 0) as any as S.Schema<DeleteNetworkResourceRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<DeleteNetworkResourceResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6871,7 +6941,8 @@ export const deleteNetworkRouter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4128, __c258, 0) as any as S.Schema<DeleteNetworkRouterRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<DeleteNetworkRouterResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6888,7 +6959,8 @@ export const deleteNotificationChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4144, __c259, 0) as any as S.Schema<DeleteNotificationChannelRequest>,
   output: __S(3712, __c232, 0) as any as S.Schema<DeleteNotificationChannelResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6905,7 +6977,8 @@ export const deleteOktaScimIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4160, __c260, 0) as any as S.Schema<DeleteOktaScimIntegrationRequest>,
   output: __S(3712, __c232, 0) as any as S.Schema<DeleteOktaScimIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6922,7 +6995,8 @@ export const deletePeer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4176, __c261, 0) as any as S.Schema<DeletePeerRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<DeletePeerResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6939,7 +7013,8 @@ export const deletePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4192, __c262, 0) as any as S.Schema<DeletePolicyRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<DeletePolicyResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6956,7 +7031,8 @@ export const deletePostureCheck: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4240, __c265, 0) as any as S.Schema<DeletePostureCheckRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<DeletePostureCheckResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6973,7 +7049,8 @@ export const deleteReverseProxyCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4256, __c266, 0) as any as S.Schema<DeleteReverseProxyClusterRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<DeleteReverseProxyClusterResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6990,7 +7067,8 @@ export const deleteReverseProxyDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4272, __c267, 0) as any as S.Schema<DeleteReverseProxyDomainRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<DeleteReverseProxyDomainResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7007,7 +7085,8 @@ export const deleteReverseProxyProxyToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4288, __c268, 0) as any as S.Schema<DeleteReverseProxyProxyTokenRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<DeleteReverseProxyProxyTokenResponse>,
-  errors: [Forbidden, NotFound, UnknownNetBirdError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7024,7 +7103,8 @@ export const deleteReverseProxyService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4304, __c269, 0) as any as S.Schema<DeleteReverseProxyServiceRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<DeleteReverseProxyServiceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7041,7 +7121,8 @@ export const deleteRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4320, __c270, 0) as any as S.Schema<DeleteRouteRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<DeleteRouteResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7058,7 +7139,8 @@ export const deleteSCIMIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4336, __c271, 0) as any as S.Schema<DeleteSCIMIntegrationRequest>,
   output: __S(3712, __c232, 0) as any as S.Schema<DeleteSCIMIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7075,7 +7157,8 @@ export const deleteSetupKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4352, __c272, 0) as any as S.Schema<DeleteSetupKeyRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<DeleteSetupKeyResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7092,7 +7175,8 @@ export const deleteUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4368, __c273, 0) as any as S.Schema<DeleteUserRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<DeleteUserResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7109,7 +7193,8 @@ export const deleteUserInvite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4384, __c274, 0) as any as S.Schema<DeleteUserInviteRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<DeleteUserInviteResponse>,
-  errors: [Forbidden, NotFound, UnknownNetBirdError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7126,7 +7211,8 @@ export const deleteUserReject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4448, __c278, 0) as any as S.Schema<DeleteUserRejectRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<DeleteUserRejectResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7143,7 +7229,8 @@ export const deleteUserToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4464, __c279, 0) as any as S.Schema<DeleteUserTokenRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<DeleteUserTokenResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7160,7 +7247,8 @@ export const getAgentNetworkAccessLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4480, __c280, 0) as any as S.Schema<GetAgentNetworkAccessLogsRequest>,
   output: __S(4481, __c280, 1) as any as S.Schema<AgentNetworkAccessLogsResponse>,
-  errors: [Forbidden, UnknownNetBirdError],
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7177,7 +7265,8 @@ export const getAgentNetworkAccessLogSessions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4512, __c282, 0) as any as S.Schema<GetAgentNetworkAccessLogSessionsRequest>,
   output: __S(4515, __c282, 3) as any as S.Schema<AgentNetworkAccessLogSessionsResponse>,
-  errors: [Forbidden, UnknownNetBirdError],
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7194,7 +7283,8 @@ export const getAgentNetworkBudgetRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4528, __c283, 0) as any as S.Schema<GetAgentNetworkBudgetRuleRequest>,
   output: __S(4432, __c277, 0) as any as S.Schema<AgentNetworkBudgetRule>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7211,7 +7301,8 @@ export const getAgentNetworkGuardrail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4544, __c284, 0) as any as S.Schema<GetAgentNetworkGuardrailRequest>,
   output: __S(243, __c15, 3) as any as S.Schema<AgentNetworkGuardrail>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7228,7 +7319,8 @@ export const getAgentNetworkPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4560, __c285, 0) as any as S.Schema<GetAgentNetworkPolicyRequest>,
   output: __S(432, __c27, 0) as any as S.Schema<AgentNetworkPolicy>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7245,7 +7337,8 @@ export const getAgentNetworkProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4576, __c286, 0) as any as S.Schema<GetAgentNetworkProviderRequest>,
   output: __S(642, __c40, 2) as any as S.Schema<AgentNetworkProvider>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7262,7 +7355,8 @@ export const getAgentNetworkSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4592, __c287, 0) as any as S.Schema<GetAgentNetworkSettingsRequest>,
   output: __S(864, __c54, 0) as any as S.Schema<AgentNetworkSettings>,
-  errors: [Forbidden, UnknownNetBirdError],
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7279,7 +7373,8 @@ export const getAllAzureIntegrations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4608, __c288, 0) as any as S.Schema<GetAllAzureIntegrationsRequest>,
   output: __S(4610, __c288, 2) as any as S.Schema<GetAllAzureIntegrationsResponse>,
-  errors: [UnknownNetBirdError],
+  errors: [],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7296,7 +7391,8 @@ export const getAllGoogleIntegrations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<GetAllGoogleIntegrationsRequest>,
   output: __S(50, __c3, 2) as any as S.Schema<GetAllGoogleIntegrationsResponse>,
-  errors: [UnknownNetBirdError],
+  errors: [],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7313,7 +7409,8 @@ export const getAllIntegrations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<GetAllIntegrationsRequest>,
   output: __S(66, __c4, 2) as any as S.Schema<GetAllIntegrationsResponse>,
-  errors: [UnknownNetBirdError],
+  errors: [],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7330,7 +7427,8 @@ export const getAllOktaScimIntegrations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<GetAllOktaScimIntegrationsRequest>,
   output: __S(82, __c5, 2) as any as S.Schema<GetAllOktaScimIntegrationsResponse>,
-  errors: [UnknownNetBirdError],
+  errors: [],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7347,7 +7445,8 @@ export const getAllSCIMIntegrations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<GetAllSCIMIntegrationsRequest>,
   output: __S(98, __c6, 2) as any as S.Schema<GetAllSCIMIntegrationsResponse>,
-  errors: [UnknownNetBirdError],
+  errors: [],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7364,7 +7463,8 @@ export const getAzureIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<GetAzureIntegrationRequest>,
   output: __S(1056, __c66, 0) as any as S.Schema<GetAzureIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7381,7 +7481,8 @@ export const getAzureIntegrationLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<GetAzureIntegrationLogsRequest>,
   output: __S(146, __c9, 2) as any as S.Schema<GetAzureIntegrationLogsResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7398,7 +7499,8 @@ export const getDnsNameserver: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<GetDnsNameserverRequest>,
   output: __S(1266, __c79, 2) as any as S.Schema<GetDnsNameserverResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7415,7 +7517,8 @@ export const getDnsZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<GetDnsZoneRequest>,
   output: __S(1472, __c92, 0) as any as S.Schema<GetDnsZoneResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7432,7 +7535,8 @@ export const getDnsZoneRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<GetDnsZoneRecordRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<GetDnsZoneRecordResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7449,7 +7553,8 @@ export const getEDRIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<GetEDRIntegrationRequest>,
   output: __S(1872, __c117, 0) as any as S.Schema<EDRIntuneResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7466,7 +7571,8 @@ export const getEventNetworkTraffic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<GetEventNetworkTrafficRequest>,
   output: __S(265, __c16, 9) as any as S.Schema<NetworkTrafficEventsResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7483,7 +7589,8 @@ export const getEventProxy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<GetEventProxyRequest>,
   output: __S(275, __c17, 3) as any as S.Schema<ProxyAccessLogsResponse>,
-  errors: [Forbidden, UnknownNetBirdError],
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7500,7 +7607,8 @@ export const getGoogleIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<GetGoogleIntegrationRequest>,
   output: __S(2528, __c158, 0) as any as S.Schema<GetGoogleIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7517,7 +7625,8 @@ export const getGoogleIntegrationLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<GetGoogleIntegrationLogsRequest>,
   output: __S(146, __c9, 2) as any as S.Schema<GetGoogleIntegrationLogsResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7534,7 +7643,8 @@ export const getGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<GetGroupRequest>,
   output: __S(1922, __c120, 2) as any as S.Schema<GetGroupResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7551,7 +7661,8 @@ export const getIdentityProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<GetIdentityProviderRequest>,
   output: __S(2880, __c180, 0) as any as S.Schema<IdentityProvider>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7568,7 +7679,8 @@ export const getInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<GetInstanceRequest>,
   output: __S(353, __c22, 1) as any as S.Schema<InstanceStatus>,
-  errors: [UnknownNetBirdError],
+  errors: [],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7585,7 +7697,8 @@ export const getInstanceVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<GetInstanceVersionRequest>,
   output: __S(369, __c23, 1) as any as S.Schema<InstanceVersionInfo>,
-  errors: [Forbidden, UnknownNetBirdError],
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7602,7 +7715,8 @@ export const getIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<GetIntegrationRequest>,
   output: __S(2912, __c182, 0) as any as S.Schema<IntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7619,7 +7733,8 @@ export const getIntegrationAgentNetworkManagedProxy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<GetIntegrationAgentNetworkManagedProxyRequest>,
   output: __S(2944, __c184, 0) as any as S.Schema<AgentNetworkManagedProxy>,
-  errors: [Forbidden, NotFound, UnknownNetBirdError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7636,7 +7751,8 @@ export const getIntegrationBillingInvoiceCsv: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<GetIntegrationBillingInvoiceCsvRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<GetIntegrationBillingInvoiceCsvResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7653,7 +7769,8 @@ export const getIntegrationBillingInvoicePdf: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<GetIntegrationBillingInvoicePdfRequest>,
   output: __S(465, __c29, 1) as any as S.Schema<InvoicePDFResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7670,7 +7787,8 @@ export const getIntegrationBillingPortal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<GetIntegrationBillingPortalRequest>,
   output: __S(2992, __c187, 0) as any as S.Schema<PortalResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7687,7 +7805,8 @@ export const getIntegrationBillingSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<GetIntegrationBillingSubscriptionRequest>,
   output: __S(497, __c31, 1) as any as S.Schema<Subscription>,
-  errors: [NotFound, UnknownNetBirdError],
+  errors: [NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7704,7 +7823,8 @@ export const getIntegrationBillingUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<GetIntegrationBillingUsageRequest>,
   output: __S(513, __c32, 1) as any as S.Schema<UsageStats>,
-  errors: [UnknownNetBirdError],
+  errors: [],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7721,7 +7841,8 @@ export const getIntegrationEdrFalcon: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<GetIntegrationEdrFalconRequest>,
   output: __S(2128, __c133, 0) as any as S.Schema<EDRFalconResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7738,7 +7859,8 @@ export const getIntegrationEdrFleetdm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<GetIntegrationEdrFleetdmRequest>,
   output: __S(2322, __c145, 2) as any as S.Schema<EDRFleetDMResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7755,7 +7877,8 @@ export const getIntegrationEdrHuntress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<GetIntegrationEdrHuntressRequest>,
   output: __S(2849, __c178, 1) as any as S.Schema<EDRHuntressResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7772,7 +7895,8 @@ export const getIntegrationEdrSentinelone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<GetIntegrationEdrSentineloneRequest>,
   output: __S(3521, __c220, 1) as any as S.Schema<EDRSentinelOneResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7789,7 +7913,8 @@ export const getLocationCountryCities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<GetLocationCountryCitiesRequest>,
   output: __S(593, __c37, 1) as any as S.Schema<City>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7806,7 +7931,8 @@ export const getNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<GetNetworkRequest>,
   output: __S(3088, __c193, 0) as any as S.Schema<GetNetworkResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7823,7 +7949,8 @@ export const getNetworkResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<GetNetworkResourceRequest>,
   output: __S(3120, __c195, 0) as any as S.Schema<GetNetworkResourceResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7840,7 +7967,8 @@ export const getNetworkRouter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<GetNetworkRouterRequest>,
   output: __S(3168, __c198, 0) as any as S.Schema<GetNetworkRouterResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7857,7 +7985,8 @@ export const getNotificationChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<GetNotificationChannelRequest>,
   output: __S(3200, __c200, 0) as any as S.Schema<NotificationChannelResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7874,7 +8003,8 @@ export const getOktaScimIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<GetOktaScimIntegrationRequest>,
   output: __S(3232, __c202, 0) as any as S.Schema<GetOktaScimIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7891,7 +8021,8 @@ export const getOktaScimIntegrationLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<GetOktaScimIntegrationLogsRequest>,
   output: __S(146, __c9, 2) as any as S.Schema<GetOktaScimIntegrationLogsResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7908,7 +8039,8 @@ export const getPeer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c47, 0) as any as S.Schema<GetPeerRequest>,
   output: __S(784, __c49, 0) as any as S.Schema<GetPeerResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7925,7 +8057,8 @@ export const getPeerJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c50, 0) as any as S.Schema<GetPeerJobRequest>,
   output: __S(3267, __c204, 3) as any as S.Schema<JobResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7942,7 +8075,8 @@ export const getPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(816, __c51, 0) as any as S.Schema<GetPolicyRequest>,
   output: __S(3317, __c207, 5) as any as S.Schema<GetPolicyResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7959,7 +8093,8 @@ export const getPostureCheck: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<GetPostureCheckRequest>,
   output: __S(3372, __c210, 12) as any as S.Schema<PostureCheck>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7976,7 +8111,8 @@ export const getReverseProxyDomainValidate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(880, __c55, 0) as any as S.Schema<GetReverseProxyDomainValidateRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<GetReverseProxyDomainValidateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7993,7 +8129,8 @@ export const getReverseProxyService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c56, 0) as any as S.Schema<GetReverseProxyServiceRequest>,
   output: __S(3404, __c212, 12) as any as S.Schema<Service>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8010,7 +8147,8 @@ export const getRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<GetRouteRequest>,
   output: __S(3456, __c216, 0) as any as S.Schema<GetRouteResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8027,7 +8165,8 @@ export const getSCIMIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<GetSCIMIntegrationRequest>,
   output: __S(3488, __c218, 0) as any as S.Schema<GetSCIMIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8044,7 +8183,8 @@ export const getSCIMIntegrationLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<GetSCIMIntegrationLogsRequest>,
   output: __S(146, __c9, 2) as any as S.Schema<GetSCIMIntegrationLogsResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8061,7 +8201,8 @@ export const getSetupKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<GetSetupKeyRequest>,
   output: __S(3568, __c223, 0) as any as S.Schema<GetSetupKeyResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8078,7 +8219,8 @@ export const getUserCurrent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<GetUserCurrentRequest>,
   output: __S(4019, __c251, 3) as any as S.Schema<User>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8095,7 +8237,8 @@ export const getUserInvite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c62, 0) as any as S.Schema<GetUserInviteRequest>,
   output: __S(993, __c62, 1) as any as S.Schema<UserInviteInfo>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8112,7 +8255,8 @@ export const getUserToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<GetUserTokenRequest>,
   output: __S(3664, __c229, 0) as any as S.Schema<PersonalAccessToken>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8129,7 +8273,8 @@ export const inviteIntegrationsMspTenant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c64, 0) as any as S.Schema<InviteIntegrationsMspTenantRequest>,
   output: __S(3026, __c189, 2) as any as S.Schema<TenantResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8146,7 +8291,8 @@ export const inviteUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1072, __c67, 0) as any as S.Schema<InviteUserRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<InviteUserResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8163,7 +8309,8 @@ export const listAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c68, 0) as any as S.Schema<ListAccountsRequest>,
   output: __S(1090, __c68, 2) as any as S.Schema<ListAccountsResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8180,7 +8327,8 @@ export const listAgentNetworkAgentConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c70, 0) as any as S.Schema<ListAgentNetworkAgentConfigRequest>,
   output: __S(1123, __c70, 3) as any as S.Schema<AgentNetworkAgentConfig>,
-  errors: [UnknownNetBirdError],
+  errors: [],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8197,7 +8345,8 @@ export const listAgentNetworkBudgetRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1136, __c71, 0) as any as S.Schema<ListAgentNetworkBudgetRulesRequest>,
   output: __S(1138, __c71, 2) as any as S.Schema<ListAgentNetworkBudgetRulesResponse>,
-  errors: [Forbidden, UnknownNetBirdError],
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8214,7 +8363,8 @@ export const listAgentNetworkCatalogProviders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c72, 0) as any as S.Schema<ListAgentNetworkCatalogProvidersRequest>,
   output: __S(1162, __c72, 10) as any as S.Schema<ListAgentNetworkCatalogProvidersResponse>,
-  errors: [Forbidden, UnknownNetBirdError],
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8231,7 +8381,8 @@ export const listAgentNetworkConsumption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1168, __c73, 0) as any as S.Schema<ListAgentNetworkConsumptionRequest>,
   output: __S(1171, __c73, 3) as any as S.Schema<ListAgentNetworkConsumptionResponse>,
-  errors: [Forbidden, UnknownNetBirdError],
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8248,7 +8399,8 @@ export const listAgentNetworkGuardrails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c74, 0) as any as S.Schema<ListAgentNetworkGuardrailsRequest>,
   output: __S(1186, __c74, 2) as any as S.Schema<ListAgentNetworkGuardrailsResponse>,
-  errors: [Forbidden, UnknownNetBirdError],
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8265,7 +8417,8 @@ export const listAgentNetworkPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1200, __c75, 0) as any as S.Schema<ListAgentNetworkPoliciesRequest>,
   output: __S(1202, __c75, 2) as any as S.Schema<ListAgentNetworkPoliciesResponse>,
-  errors: [Forbidden, UnknownNetBirdError],
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8282,7 +8435,8 @@ export const listAgentNetworkProviders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<ListAgentNetworkProvidersRequest>,
   output: __S(1218, __c76, 2) as any as S.Schema<ListAgentNetworkProvidersResponse>,
-  errors: [Forbidden, UnknownNetBirdError],
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8299,7 +8453,8 @@ export const listAgentNetworkUsageOverview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1232, __c77, 0) as any as S.Schema<ListAgentNetworkUsageOverviewRequest>,
   output: __S(1235, __c77, 3) as any as S.Schema<ListAgentNetworkUsageOverviewResponse>,
-  errors: [Forbidden, UnknownNetBirdError],
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8316,7 +8471,8 @@ export const listBypassedPeers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c80, 0) as any as S.Schema<ListBypassedPeersRequest>,
   output: __S(1282, __c80, 2) as any as S.Schema<ListBypassedPeersResponse>,
-  errors: [Forbidden, UnknownNetBirdError],
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8333,7 +8489,8 @@ export const listDnsNameservers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1296, __c81, 0) as any as S.Schema<ListDnsNameserversRequest>,
   output: __S(1298, __c81, 2) as any as S.Schema<ListDnsNameserversResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8350,7 +8507,8 @@ export const listDnsSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c82, 0) as any as S.Schema<ListDnsSettingsRequest>,
   output: __S(3712, __c232, 0) as any as S.Schema<ListDnsSettingsResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8367,7 +8525,8 @@ export const listDnsZoneRecords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1328, __c83, 0) as any as S.Schema<ListDnsZoneRecordsRequest>,
   output: __S(1329, __c83, 1) as any as S.Schema<ListDnsZoneRecordsResponse>,
-  errors: [Forbidden, NotFound, UnknownNetBirdError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8384,7 +8543,8 @@ export const listDnsZones: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c84, 0) as any as S.Schema<ListDnsZonesRequest>,
   output: __S(1346, __c84, 2) as any as S.Schema<ListDnsZonesResponse>,
-  errors: [Forbidden, UnknownNetBirdError],
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8401,7 +8561,8 @@ export const listEventAudit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1360, __c85, 0) as any as S.Schema<ListEventAuditRequest>,
   output: __S(1363, __c85, 3) as any as S.Schema<ListEventAuditResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8418,7 +8579,8 @@ export const listGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c86, 0) as any as S.Schema<ListGroupsRequest>,
   output: __S(1377, __c86, 1) as any as S.Schema<ListGroupsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8435,7 +8597,8 @@ export const listIdentityProviders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1392, __c87, 0) as any as S.Schema<ListIdentityProvidersRequest>,
   output: __S(1394, __c87, 2) as any as S.Schema<ListIdentityProvidersResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8452,7 +8615,8 @@ export const listIntegrationBillingInvoices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c88, 0) as any as S.Schema<ListIntegrationBillingInvoicesRequest>,
   output: __S(1411, __c88, 3) as any as S.Schema<ListIntegrationBillingInvoicesResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8469,7 +8633,8 @@ export const listIntegrationBillingPlans: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1424, __c89, 0) as any as S.Schema<ListIntegrationBillingPlansRequest>,
   output: __S(1429, __c89, 5) as any as S.Schema<ListIntegrationBillingPlansResponse>,
-  errors: [UnknownNetBirdError],
+  errors: [],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8486,7 +8651,8 @@ export const listIntegrationMspTenants: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c94, 0) as any as S.Schema<ListIntegrationMspTenantsRequest>,
   output: __S(1506, __c94, 2) as any as S.Schema<ListIntegrationMspTenantsResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8503,7 +8669,8 @@ export const listLocationCountries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1520, __c95, 0) as any as S.Schema<ListLocationCountriesRequest>,
   output: __S(1521, __c95, 1) as any as S.Schema<ListLocationCountriesResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8520,7 +8687,8 @@ export const listNetworkResources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c96, 0) as any as S.Schema<ListNetworkResourcesRequest>,
   output: __S(1538, __c96, 2) as any as S.Schema<ListNetworkResourcesResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8537,7 +8705,8 @@ export const listNetworkRouters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1552, __c97, 0) as any as S.Schema<ListNetworkRoutersRequest>,
   output: __S(1569, __c98, 1) as any as S.Schema<ListNetworkRoutersResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8554,7 +8723,8 @@ export const listNetworkRouters2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1584, __c99, 0) as any as S.Schema<ListNetworkRouters2Request>,
   output: __S(1569, __c98, 1) as any as S.Schema<ListNetworkRoutersResponse2>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8571,7 +8741,8 @@ export const listNetworks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c100, 0) as any as S.Schema<ListNetworksRequest>,
   output: __S(1602, __c100, 2) as any as S.Schema<ListNetworksResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8588,7 +8759,8 @@ export const listNotificationChannels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1616, __c101, 0) as any as S.Schema<ListNotificationChannelsRequest>,
   output: __S(1618, __c101, 2) as any as S.Schema<ListNotificationChannelsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8605,7 +8777,8 @@ export const listNotificationEventTypes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c102, 0) as any as S.Schema<ListNotificationEventTypesRequest>,
   output: __S(1633, __c102, 1) as any as S.Schema<ListNotificationEventTypesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8622,7 +8795,8 @@ export const listPeerAccessiblePeers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1648, __c103, 0) as any as S.Schema<ListPeerAccessiblePeersRequest>,
   output: __S(1651, __c103, 3) as any as S.Schema<ListPeerAccessiblePeersResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8639,7 +8813,8 @@ export const listPeerJobs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c104, 0) as any as S.Schema<ListPeerJobsRequest>,
   output: __S(1666, __c104, 2) as any as S.Schema<ListPeerJobsResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8656,7 +8831,8 @@ export const listPeers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c106, 0) as any as S.Schema<ListPeersRequest>,
   output: __S(1699, __c106, 3) as any as S.Schema<ListPeersResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8673,7 +8849,8 @@ export const listPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1712, __c107, 0) as any as S.Schema<ListPoliciesRequest>,
   output: __S(1714, __c107, 2) as any as S.Schema<ListPoliciesResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8690,7 +8867,8 @@ export const listPostureChecks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c108, 0) as any as S.Schema<ListPostureChecksRequest>,
   output: __S(1730, __c108, 2) as any as S.Schema<ListPostureChecksResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8707,7 +8885,8 @@ export const listReverseProxyClusters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1744, __c109, 0) as any as S.Schema<ListReverseProxyClustersRequest>,
   output: __S(1747, __c109, 3) as any as S.Schema<ListReverseProxyClustersResponse>,
-  errors: [Forbidden, UnknownNetBirdError],
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8724,7 +8903,8 @@ export const listReverseProxyDomains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c110, 0) as any as S.Schema<ListReverseProxyDomainsRequest>,
   output: __S(1763, __c110, 3) as any as S.Schema<ListReverseProxyDomainsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8741,7 +8921,8 @@ export const listReverseProxyProxyTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1776, __c111, 0) as any as S.Schema<ListReverseProxyProxyTokensRequest>,
   output: __S(1779, __c111, 3) as any as S.Schema<ListReverseProxyProxyTokensResponse>,
-  errors: [Forbidden, UnknownNetBirdError],
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8758,7 +8939,8 @@ export const listReverseProxyServices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c112, 0) as any as S.Schema<ListReverseProxyServicesRequest>,
   output: __S(1794, __c112, 2) as any as S.Schema<ListReverseProxyServicesResponse>,
-  errors: [Forbidden, UnknownNetBirdError],
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8775,7 +8957,8 @@ export const listRoutes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1808, __c113, 0) as any as S.Schema<ListRoutesRequest>,
   output: __S(1810, __c113, 2) as any as S.Schema<ListRoutesResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8792,7 +8975,8 @@ export const listSetupKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c114, 0) as any as S.Schema<ListSetupKeysRequest>,
   output: __S(1826, __c114, 2) as any as S.Schema<ListSetupKeysResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8809,7 +8993,8 @@ export const listUserInvites: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1840, __c115, 0) as any as S.Schema<ListUserInvitesRequest>,
   output: __S(1842, __c115, 2) as any as S.Schema<ListUserInvitesResponse>,
-  errors: [Forbidden, UnknownNetBirdError],
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8826,7 +9011,8 @@ export const listUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c122, 0) as any as S.Schema<ListUsersRequest>,
   output: __S(1954, __c122, 2) as any as S.Schema<ListUsersResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8843,7 +9029,8 @@ export const listUserTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1968, __c123, 0) as any as S.Schema<ListUserTokensRequest>,
   output: __S(1970, __c123, 2) as any as S.Schema<ListUserTokensResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8860,7 +9047,8 @@ export const putAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1985, __c124, 1) as any as S.Schema<PutAccountRequest>,
   output: __S(1108, __c69, 4) as any as S.Schema<Account>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8877,7 +9065,8 @@ export const putAgentNetworkBudgetRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2000, __c125, 0) as any as S.Schema<PutAgentNetworkBudgetRuleRequest>,
   output: __S(4432, __c277, 0) as any as S.Schema<AgentNetworkBudgetRule>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8899,7 +9088,8 @@ export const putAgentNetworkGuardrail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c126, 0) as any as S.Schema<PutAgentNetworkGuardrailRequest>,
   output: __S(243, __c15, 3) as any as S.Schema<AgentNetworkGuardrail>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8921,7 +9111,8 @@ export const putAgentNetworkPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2032, __c127, 0) as any as S.Schema<PutAgentNetworkPolicyRequest>,
   output: __S(432, __c27, 0) as any as S.Schema<AgentNetworkPolicy>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8944,7 +9135,8 @@ export const putAgentNetworkProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c128, 0) as any as S.Schema<PutAgentNetworkProviderRequest>,
   output: __S(642, __c40, 2) as any as S.Schema<AgentNetworkProvider>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8966,7 +9158,8 @@ export const putAgentNetworkSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2064, __c129, 0) as any as S.Schema<PutAgentNetworkSettingsRequest>,
   output: __S(864, __c54, 0) as any as S.Schema<AgentNetworkSettings>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8983,7 +9176,8 @@ export const putDnsNameserver: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c130, 0) as any as S.Schema<PutDnsNameserverRequest>,
   output: __S(1266, __c79, 2) as any as S.Schema<PutDnsNameserverResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9000,7 +9194,8 @@ export const putDnsSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2096, __c131, 0) as any as S.Schema<PutDnsSettingsRequest>,
   output: __S(2097, __c131, 1) as any as S.Schema<DNSSettings>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9017,7 +9212,8 @@ export const putDnsZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c134, 0) as any as S.Schema<PutDnsZoneRequest>,
   output: __S(1472, __c92, 0) as any as S.Schema<PutDnsZoneResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9034,7 +9230,8 @@ export const putDnsZoneRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2160, __c135, 0) as any as S.Schema<PutDnsZoneRecordRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<PutDnsZoneRecordResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9051,7 +9248,8 @@ export const putGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c136, 0) as any as S.Schema<PutGroupRequest>,
   output: __S(1922, __c120, 2) as any as S.Schema<PutGroupResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9068,7 +9266,8 @@ export const putIdentityProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2192, __c137, 0) as any as S.Schema<PutIdentityProviderRequest>,
   output: __S(2880, __c180, 0) as any as S.Schema<IdentityProvider>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9085,7 +9284,8 @@ export const putIntegrationBillingSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c138, 0) as any as S.Schema<PutIntegrationBillingSubscriptionRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<PutIntegrationBillingSubscriptionResponse>,
-  errors: [BadRequest, UnknownNetBirdError],
+  errors: [BadRequest],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9102,7 +9302,8 @@ export const putIntegrationMspTenant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2224, __c139, 0) as any as S.Schema<PutIntegrationMspTenantRequest>,
   output: __S(3026, __c189, 2) as any as S.Schema<TenantResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9119,7 +9320,8 @@ export const putIntegrationMspTenantInvite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c140, 0) as any as S.Schema<PutIntegrationMspTenantInviteRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<PutIntegrationMspTenantInviteResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9136,7 +9338,8 @@ export const putNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2256, __c141, 0) as any as S.Schema<PutNetworkRequest>,
   output: __S(3088, __c193, 0) as any as S.Schema<PutNetworkResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9153,7 +9356,8 @@ export const putNetworkResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c142, 0) as any as S.Schema<PutNetworkResourceRequest>,
   output: __S(3120, __c195, 0) as any as S.Schema<PutNetworkResourceResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9170,7 +9374,8 @@ export const putNetworkRouter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2288, __c143, 0) as any as S.Schema<PutNetworkRouterRequest>,
   output: __S(3168, __c198, 0) as any as S.Schema<PutNetworkRouterResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9187,7 +9392,8 @@ export const putPeer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c146, 0) as any as S.Schema<PutPeerRequest>,
   output: __S(784, __c49, 0) as any as S.Schema<PutPeerResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9204,7 +9410,8 @@ export const putPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2352, __c147, 0) as any as S.Schema<PutPolicyRequest>,
   output: __S(3317, __c207, 5) as any as S.Schema<PutPolicyResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9221,7 +9428,8 @@ export const putPostureCheck: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c148, 0) as any as S.Schema<PutPostureCheckRequest>,
   output: __S(3372, __c210, 12) as any as S.Schema<PostureCheck>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9243,7 +9451,8 @@ export const putReverseProxyService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2384, __c149, 0) as any as S.Schema<PutReverseProxyServiceRequest>,
   output: __S(3404, __c212, 12) as any as S.Schema<Service>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9260,7 +9469,8 @@ export const putRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c150, 0) as any as S.Schema<PutRouteRequest>,
   output: __S(3456, __c216, 0) as any as S.Schema<PutRouteResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9277,7 +9487,8 @@ export const putSetupKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2416, __c151, 0) as any as S.Schema<PutSetupKeyRequest>,
   output: __S(3568, __c223, 0) as any as S.Schema<PutSetupKeyResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9290,7 +9501,8 @@ export const putUser: API.OperationMethod<PutUserRequest, User, PutUserError, Ne
   /*@__PURE__*/ API.make(() => ({
     input: __S(2432, __c152, 0) as any as S.Schema<PutUserRequest>,
     output: __S(4019, __c251, 3) as any as S.Schema<User>,
-    errors: [BadRequest, Forbidden, UnknownNetBirdError],
+    errors: [BadRequest, Forbidden],
+    serviceErrors: NetBirdServiceErrors,
     protocol: NetBirdProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -9307,7 +9519,8 @@ export const putUserPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2448, __c153, 0) as any as S.Schema<PutUserPasswordRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<PutUserPasswordResponse>,
-  errors: [BadRequest, Forbidden, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9324,7 +9537,8 @@ export const regenerateOktaScimToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c154, 0) as any as S.Schema<RegenerateOktaScimTokenRequest>,
   output: __S(2480, __c155, 0) as any as S.Schema<ScimTokenResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9341,7 +9555,8 @@ export const regenerateSCIMToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c156, 0) as any as S.Schema<RegenerateSCIMTokenRequest>,
   output: __S(2480, __c155, 0) as any as S.Schema<ScimTokenResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9363,7 +9578,8 @@ export const regenerateUsersInvite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2544, __c159, 0) as any as S.Schema<RegenerateUsersInviteRequest>,
   output: __S(2545, __c159, 1) as any as S.Schema<UserInviteRegenerateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9380,7 +9596,8 @@ export const revokeBypass: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c160, 0) as any as S.Schema<RevokeBypassRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<RevokeBypassResponse>,
-  errors: [Forbidden, UnknownNetBirdError],
+  errors: [Forbidden],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9397,7 +9614,8 @@ export const syncAzureIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2576, __c161, 0) as any as S.Schema<SyncAzureIntegrationRequest>,
   output: __S(2592, __c162, 0) as any as S.Schema<SyncResult>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9414,7 +9632,8 @@ export const syncGoogleIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2608, __c163, 0) as any as S.Schema<SyncGoogleIntegrationRequest>,
   output: __S(2592, __c162, 0) as any as S.Schema<SyncResult>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9431,7 +9650,8 @@ export const unlinkIntegrationsMspTenant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c164, 0) as any as S.Schema<UnlinkIntegrationsMspTenantRequest>,
   output: __S(3824, __c239, 0) as any as S.Schema<UnlinkIntegrationsMspTenantResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9448,7 +9668,8 @@ export const updateAzureIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2640, __c165, 0) as any as S.Schema<UpdateAzureIntegrationRequest>,
   output: __S(1056, __c66, 0) as any as S.Schema<UpdateAzureIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9465,7 +9686,8 @@ export const updateEDRIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c166, 0) as any as S.Schema<UpdateEDRIntegrationRequest>,
   output: __S(1872, __c117, 0) as any as S.Schema<EDRIntuneResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9482,7 +9704,8 @@ export const updateFalconEDRIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2672, __c167, 0) as any as S.Schema<UpdateFalconEDRIntegrationRequest>,
   output: __S(2128, __c133, 0) as any as S.Schema<EDRFalconResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9499,7 +9722,8 @@ export const updateFleetDMEDRIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c168, 0) as any as S.Schema<UpdateFleetDMEDRIntegrationRequest>,
   output: __S(2322, __c145, 2) as any as S.Schema<EDRFleetDMResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9516,7 +9740,8 @@ export const updateGoogleIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2704, __c169, 0) as any as S.Schema<UpdateGoogleIntegrationRequest>,
   output: __S(2528, __c158, 0) as any as S.Schema<UpdateGoogleIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9533,7 +9758,8 @@ export const updateHuntressEDRIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2736, __c171, 0) as any as S.Schema<UpdateHuntressEDRIntegrationRequest>,
   output: __S(2849, __c178, 1) as any as S.Schema<EDRHuntressResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9550,7 +9776,8 @@ export const updateIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c172, 0) as any as S.Schema<UpdateIntegrationRequest>,
   output: __S(2912, __c182, 0) as any as S.Schema<IntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9567,7 +9794,8 @@ export const updateNotificationChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2768, __c173, 0) as any as S.Schema<UpdateNotificationChannelRequest>,
   output: __S(3200, __c200, 0) as any as S.Schema<NotificationChannelResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9584,7 +9812,8 @@ export const updateOktaScimIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c174, 0) as any as S.Schema<UpdateOktaScimIntegrationRequest>,
   output: __S(3232, __c202, 0) as any as S.Schema<UpdateOktaScimIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9601,7 +9830,8 @@ export const updateSCIMIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2800, __c175, 0) as any as S.Schema<UpdateSCIMIntegrationRequest>,
   output: __S(3488, __c218, 0) as any as S.Schema<UpdateSCIMIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9618,7 +9848,8 @@ export const updateSentinelOneEDRIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c176, 0) as any as S.Schema<UpdateSentinelOneEDRIntegrationRequest>,
   output: __S(3521, __c220, 1) as any as S.Schema<EDRSentinelOneResponse>,
-  errors: [BadRequest, NotFound, UnknownNetBirdError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: NetBirdServiceErrors,
   protocol: NetBirdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

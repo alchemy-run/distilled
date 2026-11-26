@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownOvhError } from "../errors.ts";
+import { OvhServiceErrors } from "../errors.ts";
 import { OvhProtocol, type OvhOpError, type OvhOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -410,7 +410,7 @@ export interface DomainConfigurationRulesRuleExtraData {
   /** Whether you accept the domain specific conditions or not */
   acceptCondition?: boolean | null | undefined;
   /** The auth info code for the domain */
-  authInfo?: string | null | undefined;
+  authInfo?: string | Redacted.Redacted<string> | null | undefined;
 }
 /** Missing description */
 export interface DomainContactAddress {
@@ -565,7 +565,7 @@ export interface ConfirmDomainZoneTerminationRequest {
   /** All reasons you can provide for a service termination */
   reason?: ServiceTerminationReasonEnum | (string & {}) | undefined;
   /** The termination token sent by email to the admin contact */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export type ConfirmDomainZoneTerminationResponse = string;
 export interface CreateContactRequest {
@@ -1519,7 +1519,7 @@ export interface DomainConfigurationsCustomFields {
   /** Domain name audience */
   audience?: string | null | undefined;
   /** Auth Info */
-  authInfo?: string | null | undefined;
+  authInfo?: string | Redacted.Redacted<string> | null | undefined;
   /** Purposes of the domain */
   isFor?: DomainConfigurationsCustomFieldsIsForList | null | undefined;
   /** Domain name other purpose */
@@ -2790,7 +2790,8 @@ export const approveDomainOutgoingTransfer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ApproveDomainOutgoingTransferRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ApproveDomainOutgoingTransferResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2807,7 +2808,8 @@ export const cancelDomainTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<CancelDomainTaskRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CancelDomainTaskResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2824,7 +2826,8 @@ export const cancelDomainZoneTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<CancelDomainZoneTaskRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CancelDomainZoneTaskResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2841,7 +2844,8 @@ export const changePasswordDynDnsLogin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<ChangePasswordDynDnsLoginRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ChangePasswordDynDnsLoginResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2858,7 +2862,8 @@ export const checkDomainConfigurationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(867, __c54, 3) as any as S.Schema<CheckDomainConfigurationRuleRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CheckDomainConfigurationRuleResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2875,7 +2880,8 @@ export const confirmDomainZoneTermination: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c70, 0) as any as S.Schema<ConfirmDomainZoneTerminationRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<ConfirmDomainZoneTerminationResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2892,7 +2898,8 @@ export const createContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c86, 0) as any as S.Schema<CreateContactRequest>,
   output: __S(1392, __c87, 0) as any as S.Schema<DomainContact>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2909,7 +2916,8 @@ export const createDomainChangeContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1584, __c99, 0) as any as S.Schema<CreateDomainChangeContactRequest>,
   output: __S(1616, __c101, 0) as any as S.Schema<CreateDomainChangeContactResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2926,7 +2934,8 @@ export const createDomainDataSmd: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c114, 0) as any as S.Schema<CreateDomainDataSmdRequest>,
   output: __S(1842, __c115, 2) as any as S.Schema<DomainDataSmdSmd>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2943,7 +2952,8 @@ export const createDomainDsRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2034, __c127, 2) as any as S.Schema<CreateDomainDsRecordRequest>,
   output: __S(2048, __c128, 0) as any as S.Schema<DomainTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2960,7 +2970,8 @@ export const createDomainGlueRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<CreateDomainGlueRecordRequest>,
   output: __S(2048, __c128, 0) as any as S.Schema<DomainTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2977,7 +2988,8 @@ export const createDomainNameServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<CreateDomainNameServerRequest>,
   output: __S(2048, __c128, 0) as any as S.Schema<DomainTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2994,7 +3006,8 @@ export const createDomainOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(308, __c19, 4) as any as S.Schema<CreateDomainOrderRequest>,
   output: __S(313, __c19, 9) as any as S.Schema<DomainOrderOrderResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3011,7 +3024,8 @@ export const createDomainTaskAccelerate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<CreateDomainTaskAccelerateRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CreateDomainTaskAccelerateResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3028,7 +3042,8 @@ export const createDomainTaskRelaunch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<CreateDomainTaskRelaunchRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CreateDomainTaskRelaunchResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3045,7 +3060,8 @@ export const createDomainUkOutgoingTransfer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<CreateDomainUkOutgoingTransferRequest>,
   output: __S(2048, __c128, 0) as any as S.Schema<DomainTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3062,7 +3078,8 @@ export const createDomainZoneChangeContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<CreateDomainZoneChangeContactRequest>,
   output: __S(1616, __c101, 0) as any as S.Schema<CreateDomainZoneChangeContactResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3079,7 +3096,8 @@ export const createDomainZoneTaskAccelerate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<CreateDomainZoneTaskAccelerateRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CreateDomainZoneTaskAccelerateResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3096,7 +3114,8 @@ export const createDomainZoneTaskRelaunch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<CreateDomainZoneTaskRelaunchRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CreateDomainZoneTaskRelaunchResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3113,7 +3132,8 @@ export const createDynDnsLogin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<CreateDynDnsLoginRequest>,
   output: __S(432, __c27, 0) as any as S.Schema<DomainZoneDynHostLogin>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3130,7 +3150,8 @@ export const createDynDnsRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<CreateDynDnsRecordRequest>,
   output: __S(480, __c30, 0) as any as S.Schema<DomainZoneDynHostRecord>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3147,7 +3168,8 @@ export const createRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<CreateRecordRequest>,
   output: __S(512, __c32, 0) as any as S.Schema<DomainZoneRecord>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3164,7 +3186,8 @@ export const createRedirection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<CreateRedirectionRequest>,
   output: __S(544, __c34, 0) as any as S.Schema<DomainZoneRedirection>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3181,7 +3204,8 @@ export const deleteDomainDataSmd: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<DeleteDomainDataSmdRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteDomainDataSmdResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3198,7 +3222,8 @@ export const deleteDomainGlueRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<DeleteDomainGlueRecordRequest>,
   output: __S(2048, __c128, 0) as any as S.Schema<DomainTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3215,7 +3240,8 @@ export const deleteDomainNameServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<DeleteDomainNameServerRequest>,
   output: __S(2048, __c128, 0) as any as S.Schema<DomainTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3232,7 +3258,8 @@ export const deleteDomainOption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<DeleteDomainOptionRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteDomainOptionResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3249,7 +3276,8 @@ export const deleteDynHostLogin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<DeleteDynHostLoginRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteDynHostLoginResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3266,7 +3294,8 @@ export const deleteDynHostRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<DeleteDynHostRecordRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteDynHostRecordResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3283,7 +3312,8 @@ export const deleteRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<DeleteRecordRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteRecordResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3300,7 +3330,8 @@ export const deleteRedirection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<DeleteRedirectionRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteRedirectionResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3317,7 +3348,8 @@ export const disableDNSSEC: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<DisableDNSSECRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DisableDNSSECResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3334,7 +3366,8 @@ export const editDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<EditDomainRequest>,
   output: __S(721, __c45, 1) as any as S.Schema<DomainDomainService>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3351,7 +3384,8 @@ export const editDynDnsLogin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c47, 0) as any as S.Schema<EditDynDnsLoginRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<EditDynDnsLoginResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3368,7 +3402,8 @@ export const editDynDnsRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<EditDynDnsRecordRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<EditDynDnsRecordResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3385,7 +3420,8 @@ export const editRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<EditRecordRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<EditRecordResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3402,7 +3438,8 @@ export const editRedirection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c50, 0) as any as S.Schema<EditRedirectionRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<EditRedirectionResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3419,7 +3456,8 @@ export const enableDNSSEC: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(816, __c51, 0) as any as S.Schema<EnableDNSSECRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<EnableDNSSECResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3436,7 +3474,8 @@ export const getContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<GetContactRequest>,
   output: __S(1392, __c87, 0) as any as S.Schema<DomainContact>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3453,7 +3492,8 @@ export const getContacts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<GetContactsRequest>,
   output: __S(850, __c53, 2) as any as S.Schema<GetContactsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3470,7 +3510,8 @@ export const getDNSSECStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c56, 0) as any as S.Schema<GetDNSSECStatusRequest>,
   output: __S(897, __c56, 1) as any as S.Schema<DomainZoneDnssec>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3487,7 +3528,8 @@ export const getDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<GetDomainRequest>,
   output: __S(913, __c57, 1) as any as S.Schema<DomainDomainServiceWithIAM>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3504,7 +3546,8 @@ export const getDomainAuthInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<GetDomainAuthInfoRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<GetDomainAuthInfoResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3521,7 +3564,8 @@ export const getDomainConfigurationData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<GetDomainConfigurationDataRequest>,
   output: __S(992, __c62, 0) as any as S.Schema<DomainConfigurationsCustomFields>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3538,7 +3582,8 @@ export const getDomainConfigurationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<GetDomainConfigurationRuleRequest>,
   output: __S(1012, __c63, 4) as any as S.Schema<DomainConfigurationRulesRule>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3555,7 +3600,8 @@ export const getDomainDataClaimNotice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c64, 0) as any as S.Schema<GetDomainDataClaimNoticeRequest>,
   output: __S(1036, __c64, 12) as any as S.Schema<DomainDataClaimNoticeClaimNotice>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3572,7 +3618,8 @@ export const getDomainDataSmd: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1040, __c65, 0) as any as S.Schema<GetDomainDataSmdRequest>,
   output: __S(1842, __c115, 2) as any as S.Schema<DomainDataSmdSmd>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3589,7 +3636,8 @@ export const getDomainDsRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c66, 0) as any as S.Schema<GetDomainDsRecordRequest>,
   output: __S(1057, __c66, 1) as any as S.Schema<DnssecKey>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3606,7 +3654,8 @@ export const getDomainExtension: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1072, __c67, 0) as any as S.Schema<GetDomainExtensionRequest>,
   output: __S(1088, __c68, 0) as any as S.Schema<DomainExtensionsExtension>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3627,7 +3676,8 @@ export const getDomainExtensionRegistryConfigurations: API.OperationMethod<
     __c69,
     10,
   ) as any as S.Schema<DomainExtensionsRegistryConfigurationsRegistryConfigurations>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3644,7 +3694,8 @@ export const getDomainGlueRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c72, 0) as any as S.Schema<GetDomainGlueRecordRequest>,
   output: __S(1153, __c72, 1) as any as S.Schema<DomainGlueRecordGlueRecord>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3661,7 +3712,8 @@ export const getDomainNameServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1168, __c73, 0) as any as S.Schema<GetDomainNameServerRequest>,
   output: __S(1169, __c73, 1) as any as S.Schema<DomainNameServerFullNameServer>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3678,7 +3730,8 @@ export const getDomainNameServerStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c74, 0) as any as S.Schema<GetDomainNameServerStatusRequest>,
   output: __S(1185, __c74, 1) as any as S.Schema<DomainNameServerNameServerStatus>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3695,7 +3748,8 @@ export const getDomainOption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1200, __c75, 0) as any as S.Schema<GetDomainOptionRequest>,
   output: __S(1201, __c75, 1) as any as S.Schema<DomainOption>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3712,7 +3766,8 @@ export const getDomainOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<GetDomainOptionsRequest>,
   output: __S(1218, __c76, 2) as any as S.Schema<DomainServiceOptions>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3729,7 +3784,8 @@ export const getDomains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1232, __c77, 0) as any as S.Schema<GetDomainsRequest>,
   output: __S(1248, __c78, 0) as any as S.Schema<GetDomainsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3746,7 +3802,8 @@ export const getDomainServiceInfos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c80, 0) as any as S.Schema<GetDomainServiceInfosRequest>,
   output: __S(1296, __c81, 0) as any as S.Schema<ServicesService>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3763,7 +3820,8 @@ export const getDomainTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1328, __c83, 0) as any as S.Schema<GetDomainTaskRequest>,
   output: __S(2048, __c128, 0) as any as S.Schema<DomainTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3780,7 +3838,8 @@ export const getDomainZoneCapabilities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c84, 0) as any as S.Schema<GetDomainZoneCapabilitiesRequest>,
   output: __S(1345, __c84, 1) as any as S.Schema<DomainZoneCapabilities>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3797,7 +3856,8 @@ export const getDomainZoneExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1360, __c85, 0) as any as S.Schema<GetDomainZoneExportRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<GetDomainZoneExportResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3814,7 +3874,8 @@ export const getDomainZoneHistory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c88, 0) as any as S.Schema<GetDomainZoneHistoryRequest>,
   output: __S(1409, __c88, 1) as any as S.Schema<DomainZoneZoneRestorePoint>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3831,7 +3892,8 @@ export const getDomainZoneOption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1424, __c89, 0) as any as S.Schema<GetDomainZoneOptionRequest>,
   output: __S(1088, __c68, 0) as any as S.Schema<DomainZoneOption>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3848,7 +3910,8 @@ export const getDomainZoneOptionServiceInfos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c90, 0) as any as S.Schema<GetDomainZoneOptionServiceInfosRequest>,
   output: __S(1296, __c81, 0) as any as S.Schema<ServicesService>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3865,7 +3928,8 @@ export const getDomainZoneServiceInfos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1456, __c91, 0) as any as S.Schema<GetDomainZoneServiceInfosRequest>,
   output: __S(1296, __c81, 0) as any as S.Schema<ServicesService>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3882,7 +3946,8 @@ export const getDomainZoneSoa: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c92, 0) as any as S.Schema<GetDomainZoneSoaRequest>,
   output: __S(1473, __c92, 1) as any as S.Schema<DomainZoneSoa>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3899,7 +3964,8 @@ export const getDomainZoneTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1488, __c93, 0) as any as S.Schema<GetDomainZoneTaskRequest>,
   output: __S(1504, __c94, 0) as any as S.Schema<DomainZoneTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3916,7 +3982,8 @@ export const getDynHostLogin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1520, __c95, 0) as any as S.Schema<GetDynHostLoginRequest>,
   output: __S(432, __c27, 0) as any as S.Schema<DomainZoneDynHostLogin>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3933,7 +4000,8 @@ export const getDynHostLogins: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c96, 0) as any as S.Schema<GetDynHostLoginsRequest>,
   output: __S(1248, __c78, 0) as any as S.Schema<GetDynHostLoginsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3950,7 +4018,8 @@ export const getDynHostRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1552, __c97, 0) as any as S.Schema<GetDynHostRecordRequest>,
   output: __S(480, __c30, 0) as any as S.Schema<DomainZoneDynHostRecord>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3967,7 +4036,8 @@ export const getDynHostRecords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c98, 0) as any as S.Schema<GetDynHostRecordsRequest>,
   output: __S(1616, __c101, 0) as any as S.Schema<GetDynHostRecordsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3984,7 +4054,8 @@ export const getRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c102, 0) as any as S.Schema<GetRecordRequest>,
   output: __S(512, __c32, 0) as any as S.Schema<DomainZoneRecord>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4001,7 +4072,8 @@ export const getRecords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1648, __c103, 0) as any as S.Schema<GetRecordsRequest>,
   output: __S(1616, __c101, 0) as any as S.Schema<GetRecordsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4018,7 +4090,8 @@ export const getRedirection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c104, 0) as any as S.Schema<GetRedirectionRequest>,
   output: __S(544, __c34, 0) as any as S.Schema<DomainZoneRedirection>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4035,7 +4108,8 @@ export const getRedirections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1680, __c105, 0) as any as S.Schema<GetRedirectionsRequest>,
   output: __S(1616, __c101, 0) as any as S.Schema<GetRedirectionsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4052,7 +4126,8 @@ export const getZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c106, 0) as any as S.Schema<GetZoneRequest>,
   output: __S(1697, __c106, 1) as any as S.Schema<DomainZoneWithIAM>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4069,7 +4144,8 @@ export const getZones: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1712, __c107, 0) as any as S.Schema<GetZonesRequest>,
   output: __S(1248, __c78, 0) as any as S.Schema<GetZonesResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4086,7 +4162,8 @@ export const importDomainZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c108, 0) as any as S.Schema<ImportDomainZoneRequest>,
   output: __S(1504, __c94, 0) as any as S.Schema<DomainZoneTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4103,7 +4180,8 @@ export const listDomainConfigurationObfuscatedEmails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1744, __c109, 0) as any as S.Schema<ListDomainConfigurationObfuscatedEmailsRequest>,
   output: __S(1762, __c110, 2) as any as S.Schema<ListDomainConfigurationObfuscatedEmailsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4120,7 +4198,8 @@ export const listDomainConfigurationOptin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1776, __c111, 0) as any as S.Schema<ListDomainConfigurationOptinRequest>,
   output: __S(1794, __c112, 2) as any as S.Schema<ListDomainConfigurationOptinResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4137,7 +4216,8 @@ export const listDomainDataSmd: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1808, __c113, 0) as any as S.Schema<ListDomainDataSmdRequest>,
   output: __S(1810, __c113, 2) as any as S.Schema<ListDomainDataSmdResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4154,7 +4234,8 @@ export const listDomainDsRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c116, 0) as any as S.Schema<ListDomainDsRecordRequest>,
   output: __S(1616, __c101, 0) as any as S.Schema<ListDomainDsRecordResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4171,7 +4252,8 @@ export const listDomainExtensionByCategory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1872, __c117, 0) as any as S.Schema<ListDomainExtensionByCategoryRequest>,
   output: __S(1875, __c117, 3) as any as S.Schema<DomainExtensionsExtensionsByCategory>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4188,7 +4270,8 @@ export const listDomainExtensionHighlighted: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c118, 0) as any as S.Schema<ListDomainExtensionHighlightedRequest>,
   output: __S(1248, __c78, 0) as any as S.Schema<ListDomainExtensionHighlightedResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4205,7 +4288,8 @@ export const listDomainExtensionPricingAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1904, __c119, 0) as any as S.Schema<ListDomainExtensionPricingAttributesRequest>,
   output: __S(1907, __c119, 3) as any as S.Schema<ListDomainExtensionPricingAttributesResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4222,7 +4306,8 @@ export const listDomainExtensions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c120, 0) as any as S.Schema<ListDomainExtensionsRequest>,
   output: __S(1248, __c78, 0) as any as S.Schema<ListDomainExtensionsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4239,7 +4324,8 @@ export const listDomainGlueRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1936, __c121, 0) as any as S.Schema<ListDomainGlueRecordRequest>,
   output: __S(1248, __c78, 0) as any as S.Schema<ListDomainGlueRecordResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4256,7 +4342,8 @@ export const listDomainNameServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c122, 0) as any as S.Schema<ListDomainNameServerRequest>,
   output: __S(1616, __c101, 0) as any as S.Schema<ListDomainNameServerResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4273,7 +4360,8 @@ export const listDomainOption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1968, __c123, 0) as any as S.Schema<ListDomainOptionRequest>,
   output: __S(1984, __c124, 0) as any as S.Schema<ListDomainOptionResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4290,7 +4378,8 @@ export const listDomainRuleEmailsObfuscation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2000, __c125, 0) as any as S.Schema<ListDomainRuleEmailsObfuscationRequest>,
   output: __S(1984, __c124, 0) as any as S.Schema<ListDomainRuleEmailsObfuscationResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4307,7 +4396,8 @@ export const listDomainRuleOptin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c126, 0) as any as S.Schema<ListDomainRuleOptinRequest>,
   output: __S(1794, __c112, 2) as any as S.Schema<ListDomainRuleOptinResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4324,7 +4414,8 @@ export const listDomainTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2064, __c129, 0) as any as S.Schema<ListDomainTaskRequest>,
   output: __S(1616, __c101, 0) as any as S.Schema<ListDomainTaskResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4341,7 +4432,8 @@ export const listDomainUkRegistrars: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c130, 0) as any as S.Schema<ListDomainUkRegistrarsRequest>,
   output: __S(2083, __c130, 3) as any as S.Schema<ListDomainUkRegistrarsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4358,7 +4450,8 @@ export const listDomainZoneHistory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2096, __c131, 0) as any as S.Schema<ListDomainZoneHistoryRequest>,
   output: __S(1248, __c78, 0) as any as S.Schema<ListDomainZoneHistoryResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4375,7 +4468,8 @@ export const listDomainZoneOption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c132, 0) as any as S.Schema<ListDomainZoneOptionRequest>,
   output: __S(1248, __c78, 0) as any as S.Schema<ListDomainZoneOptionResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4392,7 +4486,8 @@ export const listDomainZoneStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2128, __c133, 0) as any as S.Schema<ListDomainZoneStatusRequest>,
   output: __S(2129, __c133, 1) as any as S.Schema<DomainZoneStatus>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4409,7 +4504,8 @@ export const listDomainZoneTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c134, 0) as any as S.Schema<ListDomainZoneTaskRequest>,
   output: __S(1616, __c101, 0) as any as S.Schema<ListDomainZoneTaskResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4426,7 +4522,8 @@ export const putDomainConfigurationData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2161, __c135, 1) as any as S.Schema<PutDomainConfigurationDataRequest>,
   output: __S(992, __c62, 0) as any as S.Schema<DomainConfigurationsCustomFields>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4443,7 +4540,8 @@ export const putDomainConfigurationObfuscatedEmails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c136, 0) as any as S.Schema<PutDomainConfigurationObfuscatedEmailsRequest>,
   output: __S(1762, __c110, 2) as any as S.Schema<PutDomainConfigurationObfuscatedEmailsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4460,7 +4558,8 @@ export const putDomainConfigurationOptin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2192, __c137, 0) as any as S.Schema<PutDomainConfigurationOptinRequest>,
   output: __S(1794, __c112, 2) as any as S.Schema<PutDomainConfigurationOptinResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4477,7 +4576,8 @@ export const putDomainDataSmd: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c138, 0) as any as S.Schema<PutDomainDataSmdRequest>,
   output: __S(1842, __c115, 2) as any as S.Schema<DomainDataSmdSmd>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4494,7 +4594,8 @@ export const putDomainServiceInfos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<PutDomainServiceInfosRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<PutDomainServiceInfosResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4511,7 +4612,8 @@ export const putDomainZoneOptionServiceInfos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<PutDomainZoneOptionServiceInfosRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<PutDomainZoneOptionServiceInfosResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4528,7 +4630,8 @@ export const putDomainZoneServiceInfos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<PutDomainZoneServiceInfosRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<PutDomainZoneServiceInfosResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4545,7 +4648,8 @@ export const putDomainZoneSoa: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<PutDomainZoneSoaRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<PutDomainZoneSoaResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4562,7 +4666,8 @@ export const refreshDomainConfigurationsObfuscatedEmail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<RefreshDomainConfigurationsObfuscatedEmailRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<RefreshDomainConfigurationsObfuscatedEmailResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4579,7 +4684,8 @@ export const refreshZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<RefreshZoneRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<RefreshZoneResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4596,7 +4702,8 @@ export const resetDomainZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(178, __c11, 2) as any as S.Schema<ResetDomainZoneRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ResetDomainZoneResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4613,7 +4720,8 @@ export const restoreDomainZoneHistory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<RestoreDomainZoneHistoryRequest>,
   output: __S(1504, __c94, 0) as any as S.Schema<DomainZoneTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4630,7 +4738,8 @@ export const terminateDomainZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<TerminateDomainZoneRequest>,
   output: __S(1136, __c71, 0) as any as S.Schema<TerminateDomainZoneResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4647,7 +4756,8 @@ export const updateContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<UpdateContactRequest>,
   output: __S(1392, __c87, 0) as any as S.Schema<DomainContact>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4664,7 +4774,8 @@ export const updateDomainGlueRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<UpdateDomainGlueRecordRequest>,
   output: __S(2048, __c128, 0) as any as S.Schema<DomainTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4681,7 +4792,8 @@ export const updateDomainNameServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<UpdateDomainNameServerRequest>,
   output: __S(2048, __c128, 0) as any as S.Schema<DomainTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5628,7 +5740,7 @@ function __c54(j: number): any {
       return S.suspend(() =>
         S.Struct({
           acceptCondition: S.optional(S.NullOr(S.Boolean)),
-          authInfo: S.optional(S.NullOr(S.String)),
+          authInfo: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "DomainConfigurationRulesRuleExtraData" });
     case 2:
@@ -5812,7 +5924,7 @@ function __c62(j: number): any {
       return S.suspend(() =>
         S.Struct({
           audience: S.optional(S.NullOr(S.String)),
-          authInfo: S.optional(S.NullOr(S.String)),
+          authInfo: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           isFor: S.optional(S.NullOr(__S(976, __c61, 0))),
           otherPurpose: S.optional(S.NullOr(S.String)),
           reason: S.optional(S.NullOr(S.String)),
@@ -6125,7 +6237,7 @@ function __c70(j: number): any {
           commentaryReason: S.optional(S.String),
           futureUse: S.optional(S.String),
           reason: S.optional(S.String),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({ method: "POST", uri: "/domain/zone/{zoneName}/confirmTermination", code: 200 }),
         ),

@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -60,9 +60,9 @@ export type EncryptionAlgorithm = "None" | "AES256" | "RSAES_PKCS1_v_1_5";
 /** Represent the secrets intended for encryption with asymmetric key pair. */
 export interface AsymmetricEncryptedSecret {
   /** The value of the secret. */
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** Thumbprint certificate used to encrypt \"Value\". If the value is unencrypted, it will be null. */
-  encryptionCertThumbprint?: string | undefined;
+  encryptionCertThumbprint?: string | Redacted.Redacted<string> | undefined;
   /** The algorithm used to encrypt "Value". */
   encryptionAlgorithm: EncryptionAlgorithm | (string & {});
 }
@@ -1320,7 +1320,7 @@ export interface DataBoxEdgeDeviceExtendedInfoProperties {
   /** The digital signature of encrypted certificate. */
   encryptionKeyThumbprint?: string | undefined;
   /** The public part of the encryption certificate. Client uses this to encrypt any secret. */
-  encryptionKey?: string | undefined;
+  encryptionKey?: string | Redacted.Redacted<string> | undefined;
   /** The Resource ID of the Resource. */
   resourceKey?: string | undefined;
   /** The Key Vault ARM Id for client secrets */
@@ -2524,6 +2524,8 @@ export interface ListAddonByRoleRequest {
   deviceName: string;
   /** The name of the role. */
   roleName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The Addon items on this page */
 export type AddonListValueList = Array<Addon>;
@@ -2541,6 +2543,8 @@ export interface ListAlertByDataBoxEdgeDeviceRequest {
   resourceGroupName: string;
   /** The device name. */
   deviceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Alert on the data box edge/gateway device. */
 export interface Alert {
@@ -2567,6 +2571,8 @@ export interface AlertList {
 export interface ListAvailableSkusRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Availability of the Sku for the region. */
 export type DataBoxEdgeSkuLocationsList = Array<string>;
@@ -2664,6 +2670,8 @@ export interface ListBandwidthScheduleByDataBoxEdgeDeviceRequest {
   resourceGroupName: string;
   /** The device name. */
   deviceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The bandwidth schedule details. */
 export interface BandwidthSchedule {
@@ -2696,6 +2704,8 @@ export interface ListContainerByStorageAccountRequest {
   deviceName: string;
   /** The storage account name. */
   storageAccountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents a container on the Data Box Edge/Gateway device. */
 export interface Container {
@@ -2726,6 +2736,8 @@ export interface ListDeviceByResourceGroupRequest {
   resourceGroupName: string;
   /** Specify $expand=details to populate additional fields related to the resource or Specify $skipToken=<token> to populate the next page in the list. */
   _expand?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type DataBoxEdgeDeviceTagsMap = { [key: string]: string | undefined };
@@ -2768,6 +2780,8 @@ export interface ListDeviceBySubscriptionRequest {
   subscriptionId: string;
   /** Specify $expand=details to populate additional fields related to the resource or Specify $skipToken=<token> to populate the next page in the list. */
   _expand?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListMonitoringConfigRequest {
   /** The ID of the target subscription. */
@@ -2778,6 +2792,8 @@ export interface ListMonitoringConfigRequest {
   deviceName: string;
   /** The name of the role. */
   roleName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The metric setting details for the role */
 export interface MonitoringMetricConfiguration {
@@ -2808,6 +2824,8 @@ export interface ListNodeByDataBoxEdgeDeviceRequest {
   resourceGroupName: string;
   /** The device name. */
   deviceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The current status of the individual node */
 export type NodeStatus = "Unknown" | "Up" | "Down" | "Rebooting" | "ShuttingDown";
@@ -2848,7 +2866,10 @@ export interface NodeList {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Operation display properties. */
 export interface OperationDisplay {
   /** Provider name. */
@@ -2961,6 +2982,8 @@ export interface ListOrderByDataBoxEdgeDeviceRequest {
   resourceGroupName: string;
   /** The device name. */
   deviceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The order details. */
 export interface Order {
@@ -3011,6 +3034,8 @@ export interface ListRoleByDataBoxEdgeDeviceRequest {
   resourceGroupName: string;
   /** The device name. */
   deviceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The Role items on this page */
 export type RoleListValueList = Array<Role>;
@@ -3028,6 +3053,8 @@ export interface ListShareByDataBoxEdgeDeviceRequest {
   resourceGroupName: string;
   /** The device name. */
   deviceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents a share on the Data Box Edge/Gateway device. */
 export interface Share {
@@ -3058,6 +3085,8 @@ export interface ListStorageAccountByDataBoxEdgeDeviceRequest {
   resourceGroupName: string;
   /** The device name. */
   deviceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents a Storage Account on the Data Box Edge/Gateway device. */
 export interface StorageAccount {
@@ -3088,6 +3117,8 @@ export interface ListStorageAccountCredentialsByDataBoxEdgeDeviceRequest {
   resourceGroupName: string;
   /** The device name. */
   deviceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The storage account credential. */
 export interface StorageAccountCredential {
@@ -3120,6 +3151,8 @@ export interface ListTriggerByDataBoxEdgeDeviceRequest {
   deviceName: string;
   /** Specify $filter='CustomContextTag eq <tag>' to filter on custom context tag property */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The Trigger items on this page */
 export type TriggerListValueList = Array<Trigger>;
@@ -3139,6 +3172,8 @@ export interface ListUserByDataBoxEdgeDeviceRequest {
   deviceName: string;
   /** Specify $filter='Type eq <type>' to filter on user type property */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents a user who has access to one or more shares on the Data Box Edge/Gateway device. */
 export interface User {
@@ -3802,7 +3837,8 @@ export const AddonsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5, __c0, 5) as any as S.Schema<AddonsCreateOrUpdateRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<AddonsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3819,7 +3855,8 @@ export const BandwidthSchedulesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<BandwidthSchedulesCreateOrUpdateRequest>,
   output: __S(193, __c6, 1) as any as S.Schema<BandwidthSchedulesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3844,7 +3881,8 @@ export const CheckDeviceCapacityCheckResourceCreationFeasibility: API.OperationM
     __c22,
     5,
   ) as any as S.Schema<CheckDeviceCapacityCheckResourceCreationFeasibilityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3861,7 +3899,8 @@ export const ContainersCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1217, __c38, 1) as any as S.Schema<ContainersCreateOrUpdateRequest>,
   output: __S(1218, __c38, 2) as any as S.Schema<ContainersCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3878,7 +3917,8 @@ export const DeleteAddon: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<DeleteAddonRequest>,
   output: __S(2176, __c68, 0) as any as S.Schema<DeleteAddonResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3895,7 +3935,8 @@ export const DeleteBandwidthSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<DeleteBandwidthScheduleRequest>,
   output: __S(2176, __c68, 0) as any as S.Schema<DeleteBandwidthScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3912,7 +3953,8 @@ export const DeleteContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<DeleteContainerRequest>,
   output: __S(2176, __c68, 0) as any as S.Schema<DeleteContainerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3929,7 +3971,8 @@ export const DeleteDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3424, __c107, 0) as any as S.Schema<DeleteDeviceRequest>,
   output: __S(2176, __c68, 0) as any as S.Schema<DeleteDeviceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3946,7 +3989,8 @@ export const DeleteMonitoringConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3680, __c115, 0) as any as S.Schema<DeleteMonitoringConfigRequest>,
   output: __S(2176, __c68, 0) as any as S.Schema<DeleteMonitoringConfigResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3963,7 +4007,8 @@ export const DeleteOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3712, __c116, 0) as any as S.Schema<DeleteOrderRequest>,
   output: __S(2176, __c68, 0) as any as S.Schema<DeleteOrderResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3980,7 +4025,8 @@ export const DeleteRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<DeleteRoleRequest>,
   output: __S(2176, __c68, 0) as any as S.Schema<DeleteRoleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3997,7 +4043,8 @@ export const DeleteShare: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<DeleteShareRequest>,
   output: __S(2176, __c68, 0) as any as S.Schema<DeleteShareResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4014,7 +4061,8 @@ export const DeleteStorageAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<DeleteStorageAccountRequest>,
   output: __S(2176, __c68, 0) as any as S.Schema<DeleteStorageAccountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4031,7 +4079,8 @@ export const DeleteStorageAccountCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<DeleteStorageAccountCredentialsRequest>,
   output: __S(2176, __c68, 0) as any as S.Schema<DeleteStorageAccountCredentialsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4048,7 +4097,8 @@ export const DeleteTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<DeleteTriggerRequest>,
   output: __S(2176, __c68, 0) as any as S.Schema<DeleteTriggerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4065,7 +4115,8 @@ export const DeleteUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<DeleteUserRequest>,
   output: __S(2176, __c68, 0) as any as S.Schema<DeleteUserResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4082,7 +4133,8 @@ export const DevicesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(481, __c15, 1) as any as S.Schema<DevicesCreateOrUpdateRequest>,
   output: __S(581, __c18, 5) as any as S.Schema<DevicesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4099,7 +4151,8 @@ export const DevicesCreateOrUpdateSecuritySettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(609, __c19, 1) as any as S.Schema<DevicesCreateOrUpdateSecuritySettingsRequest>,
   output: __S(2176, __c68, 0) as any as S.Schema<DevicesCreateOrUpdateSecuritySettingsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4116,7 +4169,8 @@ export const DevicesGetUpdateSummary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<DevicesGetUpdateSummaryRequest>,
   output: __S(644, __c20, 4) as any as S.Schema<DevicesGetUpdateSummaryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4133,7 +4187,8 @@ export const DevicesScanForUpdates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<DevicesScanForUpdatesRequest>,
   output: __S(2176, __c68, 0) as any as S.Schema<DevicesScanForUpdatesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4150,7 +4205,8 @@ export const DownloadDeviceUpdates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<DownloadDeviceUpdatesRequest>,
   output: __S(2176, __c68, 0) as any as S.Schema<DownloadDeviceUpdatesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4167,7 +4223,8 @@ export const GenerateDeviceCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<GenerateDeviceCertificateRequest>,
   output: __S(801, __c25, 1) as any as S.Schema<GenerateCertResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4184,7 +4241,8 @@ export const GetAddon: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<GetAddonRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<GetAddonResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4201,7 +4259,8 @@ export const GetAlert: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<GetAlertRequest>,
   output: __S(898, __c28, 2) as any as S.Schema<GetAlertResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4218,7 +4277,8 @@ export const GetBandwidthSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<GetBandwidthScheduleRequest>,
   output: __S(960, __c30, 0) as any as S.Schema<GetBandwidthScheduleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4235,7 +4295,8 @@ export const GetContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<GetContainerRequest>,
   output: __S(1024, __c32, 0) as any as S.Schema<GetContainerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4252,7 +4313,8 @@ export const GetDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<GetDeviceRequest>,
   output: __S(581, __c18, 5) as any as S.Schema<GetDeviceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4269,7 +4331,8 @@ export const GetDeviceCapacityInfoDeviceCapacityInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<GetDeviceCapacityInfoDeviceCapacityInfoRequest>,
   output: __S(1101, __c34, 13) as any as S.Schema<GetDeviceCapacityInfoDeviceCapacityInfoResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4286,7 +4349,8 @@ export const GetDeviceExtendedInformation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<GetDeviceExtendedInformationRequest>,
   output: __S(1155, __c36, 3) as any as S.Schema<GetDeviceExtendedInformationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4303,7 +4367,8 @@ export const GetDeviceNetworkSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<GetDeviceNetworkSettingsRequest>,
   output: __S(1191, __c37, 7) as any as S.Schema<GetDeviceNetworkSettingsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4328,7 +4393,8 @@ export const GetDiagnosticSettingsDiagnosticProactiveLogCollectionSettings: API.
     __c41,
     1,
   ) as any as S.Schema<GetDiagnosticSettingsDiagnosticProactiveLogCollectionSettingsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4353,7 +4419,8 @@ export const GetDiagnosticSettingsDiagnosticRemoteSupportSettings: API.Operation
     __c43,
     1,
   ) as any as S.Schema<GetDiagnosticSettingsDiagnosticRemoteSupportSettingsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4370,7 +4437,8 @@ export const GetJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<GetJobRequest>,
   output: __S(1478, __c46, 6) as any as S.Schema<GetJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4387,7 +4455,8 @@ export const GetMonitoringConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<GetMonitoringConfigRequest>,
   output: __S(1536, __c48, 0) as any as S.Schema<GetMonitoringConfigResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4404,7 +4473,8 @@ export const GetOperationsStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<GetOperationsStatusRequest>,
   output: __S(1478, __c46, 6) as any as S.Schema<GetOperationsStatusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4421,7 +4491,8 @@ export const GetOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<GetOrderRequest>,
   output: __S(1664, __c52, 0) as any as S.Schema<GetOrderResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4438,7 +4509,8 @@ export const GetRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<GetRoleRequest>,
   output: __S(1824, __c57, 0) as any as S.Schema<GetRoleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4455,7 +4527,8 @@ export const GetShare: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<GetShareRequest>,
   output: __S(1888, __c59, 0) as any as S.Schema<GetShareResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4472,7 +4545,8 @@ export const GetStorageAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<GetStorageAccountRequest>,
   output: __S(1984, __c62, 0) as any as S.Schema<GetStorageAccountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4489,7 +4563,8 @@ export const GetStorageAccountCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<GetStorageAccountCredentialsRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<GetStorageAccountCredentialsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4506,7 +4581,8 @@ export const GetTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<GetTriggerRequest>,
   output: __S(2304, __c72, 0) as any as S.Schema<GetTriggerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4523,7 +4599,8 @@ export const GetUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<GetUserRequest>,
   output: __S(2368, __c74, 0) as any as S.Schema<GetUserResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4540,7 +4617,8 @@ export const InstallDeviceUpdates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<InstallDeviceUpdatesRequest>,
   output: __S(2176, __c68, 0) as any as S.Schema<InstallDeviceUpdatesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4549,190 +4627,278 @@ export const InstallDeviceUpdates: API.OperationMethod<
 
 export type ListAddonByRoleError = AzureOpError;
 /** Lists all the addons configured in the role. */
-export const ListAddonByRole: API.OperationMethod<
+export const ListAddonByRole: API.PaginatedOperationMethod<
   ListAddonByRoleRequest,
   AddonList,
   ListAddonByRoleError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Addon
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<ListAddonByRoleRequest>,
   output: __S(2466, __c77, 2) as any as S.Schema<AddonList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAddonByRole",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAlertByDataBoxEdgeDeviceError = AzureOpError;
 /** Gets all the alerts for a Data Box Edge/Data Box Gateway device. */
-export const ListAlertByDataBoxEdgeDevice: API.OperationMethod<
+export const ListAlertByDataBoxEdgeDevice: API.PaginatedOperationMethod<
   ListAlertByDataBoxEdgeDeviceRequest,
   AlertList,
   ListAlertByDataBoxEdgeDeviceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Alert
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<ListAlertByDataBoxEdgeDeviceRequest>,
   output: __S(2498, __c78, 2) as any as S.Schema<AlertList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAlertByDataBoxEdgeDevice",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAvailableSkusError = AzureOpError;
 /** List all the available Skus and information related to them. List all the available Skus and information related to them. */
-export const ListAvailableSkus: API.OperationMethod<
+export const ListAvailableSkus: API.PaginatedOperationMethod<
   ListAvailableSkusRequest,
   DataBoxEdgeSkuList,
   ListAvailableSkusError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DataBoxEdgeSku
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<ListAvailableSkusRequest>,
   output: __S(2537, __c79, 9) as any as S.Schema<DataBoxEdgeSkuList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAvailableSkus",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBandwidthScheduleByDataBoxEdgeDeviceError = AzureOpError;
 /** Gets all the bandwidth schedules for a Data Box Edge/Data Box Gateway device. */
-export const ListBandwidthScheduleByDataBoxEdgeDevice: API.OperationMethod<
+export const ListBandwidthScheduleByDataBoxEdgeDevice: API.PaginatedOperationMethod<
   ListBandwidthScheduleByDataBoxEdgeDeviceRequest,
   BandwidthSchedulesList,
   ListBandwidthScheduleByDataBoxEdgeDeviceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BandwidthSchedule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<ListBandwidthScheduleByDataBoxEdgeDeviceRequest>,
   output: __S(2562, __c80, 2) as any as S.Schema<BandwidthSchedulesList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBandwidthScheduleByDataBoxEdgeDevice",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListContainerByStorageAccountError = AzureOpError;
 /** Lists all the containers of a storage Account in a Data Box Edge/Data Box Gateway device. Lists all the containers of a storage Account in a Data Box Edge/Data Box Gateway device. */
-export const ListContainerByStorageAccount: API.OperationMethod<
+export const ListContainerByStorageAccount: API.PaginatedOperationMethod<
   ListContainerByStorageAccountRequest,
   ContainerList,
   ListContainerByStorageAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Container
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<ListContainerByStorageAccountRequest>,
   output: __S(2594, __c81, 2) as any as S.Schema<ContainerList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListContainerByStorageAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDeviceByResourceGroupError = AzureOpError;
 /** Gets all the Data Box Edge/Data Box Gateway devices in a resource group. */
-export const ListDeviceByResourceGroup: API.OperationMethod<
+export const ListDeviceByResourceGroup: API.PaginatedOperationMethod<
   ListDeviceByResourceGroupRequest,
   DataBoxEdgeDeviceList,
   ListDeviceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DataBoxEdgeDevice
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<ListDeviceByResourceGroupRequest>,
   output: __S(2657, __c83, 1) as any as S.Schema<DataBoxEdgeDeviceList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDeviceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDeviceBySubscriptionError = AzureOpError;
 /** Gets all the Data Box Edge/Data Box Gateway devices in a subscription. */
-export const ListDeviceBySubscription: API.OperationMethod<
+export const ListDeviceBySubscription: API.PaginatedOperationMethod<
   ListDeviceBySubscriptionRequest,
   DataBoxEdgeDeviceList,
   ListDeviceBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DataBoxEdgeDevice
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<ListDeviceBySubscriptionRequest>,
   output: __S(2657, __c83, 1) as any as S.Schema<DataBoxEdgeDeviceList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDeviceBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMonitoringConfigError = AzureOpError;
 /** Lists metric configurations in a role. Lists metric configurations in a role. */
-export const ListMonitoringConfig: API.OperationMethod<
+export const ListMonitoringConfig: API.PaginatedOperationMethod<
   ListMonitoringConfigRequest,
   MonitoringMetricConfigurationList,
   ListMonitoringConfigError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  MonitoringMetricConfiguration
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<ListMonitoringConfigRequest>,
   output: __S(2754, __c86, 2) as any as S.Schema<MonitoringMetricConfigurationList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMonitoringConfig",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNodeByDataBoxEdgeDeviceError = AzureOpError;
 /** Gets all the nodes currently configured under this Data Box Edge device */
-export const ListNodeByDataBoxEdgeDevice: API.OperationMethod<
+export const ListNodeByDataBoxEdgeDevice: API.PaginatedOperationMethod<
   ListNodeByDataBoxEdgeDeviceRequest,
   NodeList,
   ListNodeByDataBoxEdgeDeviceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Node
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2784, __c87, 0) as any as S.Schema<ListNodeByDataBoxEdgeDeviceRequest>,
   output: __S(2788, __c87, 4) as any as S.Schema<NodeList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNodeByDataBoxEdgeDevice",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List all the supported operations. List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationsList,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(2826, __c88, 10) as any as S.Schema<OperationsList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOrderByDataBoxEdgeDeviceError = AzureOpError;
 /** Lists all the orders related to a Data Box Edge/Data Box Gateway device. Lists all the orders related to a Data Box Edge/Data Box Gateway device. */
-export const ListOrderByDataBoxEdgeDevice: API.OperationMethod<
+export const ListOrderByDataBoxEdgeDevice: API.PaginatedOperationMethod<
   ListOrderByDataBoxEdgeDeviceRequest,
   OrderList,
   ListOrderByDataBoxEdgeDeviceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Order
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<ListOrderByDataBoxEdgeDeviceRequest>,
   output: __S(2850, __c89, 2) as any as S.Schema<OrderList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrderByDataBoxEdgeDevice",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOrderDCAccessCodeError = AzureOpError;
 /** Gets the DCAccess Code Gets the DCAccess Code */
@@ -4744,7 +4910,8 @@ export const ListOrderDCAccessCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2880, __c90, 0) as any as S.Schema<ListOrderDCAccessCodeRequest>,
   output: __S(2882, __c90, 2) as any as S.Schema<DCAccessCode>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4753,109 +4920,157 @@ export const ListOrderDCAccessCode: API.OperationMethod<
 
 export type ListRoleByDataBoxEdgeDeviceError = AzureOpError;
 /** Lists all the roles configured in a Data Box Edge/Data Box Gateway device. */
-export const ListRoleByDataBoxEdgeDevice: API.OperationMethod<
+export const ListRoleByDataBoxEdgeDevice: API.PaginatedOperationMethod<
   ListRoleByDataBoxEdgeDeviceRequest,
   RoleList,
   ListRoleByDataBoxEdgeDeviceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Role
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2912, __c91, 0) as any as S.Schema<ListRoleByDataBoxEdgeDeviceRequest>,
   output: __S(2914, __c91, 2) as any as S.Schema<RoleList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRoleByDataBoxEdgeDevice",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListShareByDataBoxEdgeDeviceError = AzureOpError;
 /** Lists all the shares in a Data Box Edge/Data Box Gateway device. Lists all the shares in a Data Box Edge/Data Box Gateway device. */
-export const ListShareByDataBoxEdgeDevice: API.OperationMethod<
+export const ListShareByDataBoxEdgeDevice: API.PaginatedOperationMethod<
   ListShareByDataBoxEdgeDeviceRequest,
   ShareList,
   ListShareByDataBoxEdgeDeviceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Share
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<ListShareByDataBoxEdgeDeviceRequest>,
   output: __S(2946, __c92, 2) as any as S.Schema<ShareList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListShareByDataBoxEdgeDevice",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListStorageAccountByDataBoxEdgeDeviceError = AzureOpError;
 /** Lists all the StorageAccounts in a Data Box Edge/Data Box Gateway device. Lists all the StorageAccounts in a Data Box Edge/Data Box Gateway device. */
-export const ListStorageAccountByDataBoxEdgeDevice: API.OperationMethod<
+export const ListStorageAccountByDataBoxEdgeDevice: API.PaginatedOperationMethod<
   ListStorageAccountByDataBoxEdgeDeviceRequest,
   StorageAccountList,
   ListStorageAccountByDataBoxEdgeDeviceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  StorageAccount
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<ListStorageAccountByDataBoxEdgeDeviceRequest>,
   output: __S(2978, __c93, 2) as any as S.Schema<StorageAccountList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStorageAccountByDataBoxEdgeDevice",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListStorageAccountCredentialsByDataBoxEdgeDeviceError = AzureOpError;
 /** Gets all the storage account credentials in a Data Box Edge/Data Box Gateway device. Gets all the storage account credentials in a Data Box Edge/Data Box Gateway device. */
-export const ListStorageAccountCredentialsByDataBoxEdgeDevice: API.OperationMethod<
+export const ListStorageAccountCredentialsByDataBoxEdgeDevice: API.PaginatedOperationMethod<
   ListStorageAccountCredentialsByDataBoxEdgeDeviceRequest,
   StorageAccountCredentialList,
   ListStorageAccountCredentialsByDataBoxEdgeDeviceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  StorageAccountCredential
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     3008,
     __c94,
     0,
   ) as any as S.Schema<ListStorageAccountCredentialsByDataBoxEdgeDeviceRequest>,
   output: __S(3010, __c94, 2) as any as S.Schema<StorageAccountCredentialList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStorageAccountCredentialsByDataBoxEdgeDevice",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListTriggerByDataBoxEdgeDeviceError = AzureOpError;
 /** Lists all the triggers configured in the device. */
-export const ListTriggerByDataBoxEdgeDevice: API.OperationMethod<
+export const ListTriggerByDataBoxEdgeDevice: API.PaginatedOperationMethod<
   ListTriggerByDataBoxEdgeDeviceRequest,
   TriggerList,
   ListTriggerByDataBoxEdgeDeviceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Trigger
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3040, __c95, 0) as any as S.Schema<ListTriggerByDataBoxEdgeDeviceRequest>,
   output: __S(3042, __c95, 2) as any as S.Schema<TriggerList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTriggerByDataBoxEdgeDevice",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListUserByDataBoxEdgeDeviceError = AzureOpError;
 /** Gets all the users registered on a Data Box Edge/Data Box Gateway device. */
-export const ListUserByDataBoxEdgeDevice: API.OperationMethod<
+export const ListUserByDataBoxEdgeDevice: API.PaginatedOperationMethod<
   ListUserByDataBoxEdgeDeviceRequest,
   UserList,
   ListUserByDataBoxEdgeDeviceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  User
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3104, __c97, 0) as any as S.Schema<ListUserByDataBoxEdgeDeviceRequest>,
   output: __S(3106, __c97, 2) as any as S.Schema<UserList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListUserByDataBoxEdgeDevice",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type MonitoringConfigCreateOrUpdateError = AzureOpError;
 /** Creates a new metric configuration or updates an existing one for a role. Creates a new metric configuration or updates an existing one for a role. */
@@ -4867,7 +5082,8 @@ export const MonitoringConfigCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3136, __c98, 0) as any as S.Schema<MonitoringConfigCreateOrUpdateRequest>,
   output: __S(3137, __c98, 1) as any as S.Schema<MonitoringConfigCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4884,7 +5100,8 @@ export const OrdersCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3169, __c99, 1) as any as S.Schema<OrdersCreateOrUpdateRequest>,
   output: __S(3170, __c99, 2) as any as S.Schema<OrdersCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4901,7 +5118,8 @@ export const RefreshContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c100, 0) as any as S.Schema<RefreshContainerRequest>,
   output: __S(2176, __c68, 0) as any as S.Schema<RefreshContainerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4918,7 +5136,8 @@ export const RefreshShare: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3232, __c101, 0) as any as S.Schema<RefreshShareRequest>,
   output: __S(2176, __c68, 0) as any as S.Schema<RefreshShareResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4935,7 +5154,8 @@ export const RolesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3276, __c102, 12) as any as S.Schema<RolesCreateOrUpdateRequest>,
   output: __S(1824, __c57, 0) as any as S.Schema<RolesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4952,7 +5172,8 @@ export const SharesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3297, __c103, 1) as any as S.Schema<SharesCreateOrUpdateRequest>,
   output: __S(3298, __c103, 2) as any as S.Schema<SharesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4969,7 +5190,8 @@ export const StorageAccountCredentialsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c104, 0) as any as S.Schema<StorageAccountCredentialsCreateOrUpdateRequest>,
   output: __S(3329, __c104, 1) as any as S.Schema<StorageAccountCredentialsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4986,7 +5208,8 @@ export const StorageAccountsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3361, __c105, 1) as any as S.Schema<StorageAccountsCreateOrUpdateRequest>,
   output: __S(3362, __c105, 2) as any as S.Schema<StorageAccountsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5003,7 +5226,8 @@ export const TriggersCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3395, __c106, 3) as any as S.Schema<TriggersCreateOrUpdateRequest>,
   output: __S(2304, __c72, 0) as any as S.Schema<TriggersCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5020,7 +5244,8 @@ export const TriggerSupportPackageSupportPackage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3457, __c108, 1) as any as S.Schema<TriggerSupportPackageSupportPackageRequest>,
   output: __S(2176, __c68, 0) as any as S.Schema<TriggerSupportPackageSupportPackageResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5037,7 +5262,8 @@ export const UpdateDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3491, __c109, 3) as any as S.Schema<UpdateDeviceRequest>,
   output: __S(581, __c18, 5) as any as S.Schema<UpdateDeviceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5054,7 +5280,8 @@ export const UpdateDeviceExtendedInformation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3520, __c110, 0) as any as S.Schema<UpdateDeviceExtendedInformationRequest>,
   output: __S(1155, __c36, 3) as any as S.Schema<UpdateDeviceExtendedInformationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5079,7 +5306,8 @@ export const UpdateDiagnosticSettingsDiagnosticProactiveLogCollectionSettings: A
     __c111,
     1,
   ) as any as S.Schema<UpdateDiagnosticSettingsDiagnosticProactiveLogCollectionSettingsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5104,7 +5332,8 @@ export const UpdateDiagnosticSettingsDiagnosticRemoteSupportSettings: API.Operat
     __c112,
     1,
   ) as any as S.Schema<UpdateDiagnosticSettingsDiagnosticRemoteSupportSettingsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5121,7 +5350,8 @@ export const UploadDeviceCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3617, __c113, 1) as any as S.Schema<UploadDeviceCertificateRequest>,
   output: __S(3618, __c113, 2) as any as S.Schema<UploadCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5138,7 +5368,8 @@ export const UsersCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3649, __c114, 1) as any as S.Schema<UsersCreateOrUpdateRequest>,
   output: __S(3650, __c114, 2) as any as S.Schema<UsersCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5220,8 +5451,8 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          value: S.String,
-          encryptionCertThumbprint: S.optional(S.String),
+          value: S.String.pipe(T.SensitiveValue({})),
+          encryptionCertThumbprint: S.optional(S.String.pipe(T.SensitiveValue({}))),
           encryptionAlgorithm: S.String,
         }),
       ).annotate({ identifier: "AsymmetricEncryptedSecret" });
@@ -6167,7 +6398,7 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           encryptionKeyThumbprint: S.optional(S.String),
-          encryptionKey: S.optional(S.String),
+          encryptionKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           resourceKey: S.optional(S.String),
           clientSecretStoreId: S.optional(S.String),
           clientSecretStoreUrl: S.optional(S.String),
@@ -7365,12 +7596,14 @@ function __c77(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           deviceName: S.String.pipe(T.Label()),
           roleName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/roles/{roleName}/addons",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAddonByRoleRequest" });
@@ -7393,12 +7626,14 @@ function __c78(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           deviceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/alerts",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAlertByDataBoxEdgeDeviceRequest" });
@@ -7419,12 +7654,14 @@ function __c79(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DataBoxEdge/availableSkus",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAvailableSkusRequest" });
@@ -7496,12 +7733,14 @@ function __c80(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           deviceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/bandwidthSchedules",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBandwidthScheduleByDataBoxEdgeDeviceRequest" });
@@ -7525,12 +7764,14 @@ function __c81(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           deviceName: S.String.pipe(T.Label()),
           storageAccountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/storageAccounts/{storageAccountName}/containers",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListContainerByStorageAccountRequest" });
@@ -7553,12 +7794,14 @@ function __c82(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           _expand: S.optional(S.String.pipe(T.Query("$expand"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDeviceByResourceGroupRequest" });
@@ -7584,12 +7827,14 @@ function __c84(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           _expand: S.optional(S.String.pipe(T.Query("$expand"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDeviceBySubscriptionRequest" });
@@ -7624,12 +7869,14 @@ function __c86(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           deviceName: S.String.pipe(T.Label()),
           roleName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/roles/{roleName}/monitoringConfig",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMonitoringConfigRequest" });
@@ -7652,12 +7899,14 @@ function __c87(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           deviceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/nodes",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNodeByDataBoxEdgeDeviceRequest" });
@@ -7697,12 +7946,15 @@ function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.DataBoxEdge/operations",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -7784,12 +8036,14 @@ function __c89(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           deviceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/orders",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOrderByDataBoxEdgeDeviceRequest" });
@@ -7843,12 +8097,14 @@ function __c91(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           deviceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/roles",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRoleByDataBoxEdgeDeviceRequest" });
@@ -7871,12 +8127,14 @@ function __c92(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           deviceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/shares",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListShareByDataBoxEdgeDeviceRequest" });
@@ -7899,12 +8157,14 @@ function __c93(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           deviceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/storageAccounts",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListStorageAccountByDataBoxEdgeDeviceRequest" });
@@ -7927,12 +8187,14 @@ function __c94(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           deviceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/storageAccountCredentials",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListStorageAccountCredentialsByDataBoxEdgeDeviceRequest" });
@@ -7956,12 +8218,14 @@ function __c95(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           deviceName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/triggers",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListTriggerByDataBoxEdgeDeviceRequest" });
@@ -8006,12 +8270,14 @@ function __c97(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           deviceName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/users",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListUserByDataBoxEdgeDeviceRequest" });

@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownClickHouseCloudError } from "../errors.ts";
+import { ClickHouseCloudServiceErrors } from "../errors.ts";
 import {
   ClickHouseCloudProtocol,
   type ClickHouseCloudOpError,
@@ -459,7 +459,7 @@ export interface Service {
   /** Service creation timestamp. ISO-8601. */
   createdAt?: string | undefined;
   /** Optional customer provided disk encryption key */
-  encryptionKey?: string | undefined;
+  encryptionKey?: string | Redacted.Redacted<string> | undefined;
   /** Optional role to use for disk encryption */
   encryptionAssumedRoleIdentifier?: string | undefined;
   /** IAM role used for accessing objects in s3 */
@@ -1065,7 +1065,7 @@ export interface ServiceScalingPatchResponse {
   /** Service creation timestamp. ISO-8601. */
   createdAt?: string | undefined;
   /** Optional customer provided disk encryption key */
-  encryptionKey?: string | undefined;
+  encryptionKey?: string | Redacted.Redacted<string> | undefined;
   /** Optional role to use for disk encryption */
   encryptionAssumedRoleIdentifier?: string | undefined;
   /** IAM role used for accessing objects in s3 */
@@ -1206,7 +1206,8 @@ export const createJwtProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(264, __c33, 0) as any as S.Schema<CreateJwtProviderRequest>,
   output: __S(272, __c34, 0) as any as S.Schema<JwtProvider>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1223,7 +1224,8 @@ export const createService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(281, __c35, 1) as any as S.Schema<CreateServiceRequest>,
   output: __S(282, __c35, 2) as any as S.Schema<ServicePostResponse>,
-  errors: [InstanceLimitReached, UnknownClickHouseCloudError],
+  errors: [InstanceLimitReached],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1240,7 +1242,8 @@ export const createServicePrivateEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c42, 0) as any as S.Schema<CreateServicePrivateEndpointRequest>,
   output: __S(337, __c42, 1) as any as S.Schema<InstancePrivateEndpoint>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1257,7 +1260,8 @@ export const deleteJwtProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(344, __c43, 0) as any as S.Schema<DeleteJwtProviderRequest>,
   output: __S(352, __c44, 0) as any as S.Schema<DeleteJwtProviderResponse>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1274,7 +1278,8 @@ export const deleteScalingSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(360, __c45, 0) as any as S.Schema<DeleteScalingScheduleRequest>,
   output: __S(352, __c44, 0) as any as S.Schema<DeleteScalingScheduleResponse>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1294,7 +1299,8 @@ export const deleteService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteServiceRequest>,
   output: __S(352, __c44, 0) as any as S.Schema<DeleteServiceResponse>,
-  errors: [DeletionProtectionEnabled, ServiceNotTerminable, UnknownClickHouseCloudError],
+  errors: [DeletionProtectionEnabled, ServiceNotTerminable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1311,7 +1317,8 @@ export const deleteServiceClickHouseSetting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<DeleteServiceClickHouseSettingRequest>,
   output: __S(352, __c44, 0) as any as S.Schema<DeleteServiceClickHouseSettingResponse>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1328,7 +1335,8 @@ export const deleteServiceQueryEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<DeleteServiceQueryEndpointRequest>,
   output: __S(352, __c44, 0) as any as S.Schema<DeleteServiceQueryEndpointResponse>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1345,7 +1353,8 @@ export const deleteUpgradeWindow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<DeleteUpgradeWindowRequest>,
   output: __S(352, __c44, 0) as any as S.Schema<DeleteUpgradeWindowResponse>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1362,7 +1371,8 @@ export const getJwtProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<GetJwtProviderRequest>,
   output: __S(272, __c34, 0) as any as S.Schema<JwtProvider>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1379,7 +1389,8 @@ export const getReplicaAwareRouting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<GetReplicaAwareRoutingRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<ReplicaAwareRouting>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1396,7 +1407,8 @@ export const getScalingSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<GetScalingScheduleRequest>,
   output: __S(299, __c37, 3) as any as S.Schema<ScalingSchedule>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1413,7 +1425,8 @@ export const getService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<GetServiceRequest>,
   output: __S(320, __c40, 0) as any as S.Schema<Service>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1430,7 +1443,8 @@ export const getServiceClickHouseSetting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<GetServiceClickHouseSettingRequest>,
   output: __S(80, __c10, 0) as any as S.Schema<ServiceClickhouseSetting>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1447,7 +1461,8 @@ export const getServiceClickHouseSettingsSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<GetServiceClickHouseSettingsSchemaRequest>,
   output: __S(99, __c12, 3) as any as S.Schema<ServiceClickhouseSettingsSchema>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1464,7 +1479,8 @@ export const getServicePrivateEndpointConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<GetServicePrivateEndpointConfigRequest>,
   output: __S(105, __c13, 1) as any as S.Schema<PrivateEndpointConfig>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1481,7 +1497,8 @@ export const getServiceQueryEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<GetServiceQueryEndpointRequest>,
   output: __S(121, __c15, 1) as any as S.Schema<ServiceQueryAPIEndpoint>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1498,7 +1515,8 @@ export const getUpgradeWindow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<GetUpgradeWindowRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<UpgradeWindow>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1515,7 +1533,8 @@ export const listJwtProviders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<ListJwtProvidersRequest>,
   output: __S(146, __c18, 2) as any as S.Schema<ListJwtProvidersResponse>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1532,7 +1551,8 @@ export const listServiceClickHouseSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<ListServiceClickHouseSettingsRequest>,
   output: __S(154, __c19, 2) as any as S.Schema<ServiceClickhouseSettingsList>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1549,7 +1569,8 @@ export const listServiceProfiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<ListServiceProfilesRequest>,
   output: __S(163, __c20, 3) as any as S.Schema<ListServiceProfilesResponse>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1566,7 +1587,8 @@ export const listServices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<ListServicesRequest>,
   output: __S(170, __c21, 2) as any as S.Schema<ListServicesResponse>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1583,7 +1605,8 @@ export const updateJwtProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c22, 0) as any as S.Schema<UpdateJwtProviderRequest>,
   output: __S(272, __c34, 0) as any as S.Schema<JwtProvider>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1600,7 +1623,8 @@ export const updateReplicaAwareRouting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<UpdateReplicaAwareRoutingRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<ReplicaAwareRouting>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1617,7 +1641,8 @@ export const updateService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(195, __c24, 3) as any as S.Schema<UpdateServiceRequest>,
   output: __S(320, __c40, 0) as any as S.Schema<Service>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1634,7 +1659,8 @@ export const updateServiceClickHouseSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(209, __c26, 1) as any as S.Schema<UpdateServiceClickHouseSettingsRequest>,
   output: __S(212, __c26, 4) as any as S.Schema<ServiceClickhouseSettingsPatchResponse>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1651,7 +1677,8 @@ export const updateServicePassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(216, __c27, 0) as any as S.Schema<UpdateServicePasswordRequest>,
   output: __S(217, __c27, 1) as any as S.Schema<ServicePasswordPatchResponse>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1668,7 +1695,8 @@ export const updateServiceReplicaScaling: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c28, 0) as any as S.Schema<UpdateServiceReplicaScalingRequest>,
   output: __S(225, __c28, 1) as any as S.Schema<ServiceScalingPatchResponse>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1685,7 +1713,8 @@ export const updateServiceState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(232, __c29, 0) as any as S.Schema<UpdateServiceStateRequest>,
   output: __S(320, __c40, 0) as any as S.Schema<Service>,
-  errors: [ServiceNotIdle, UnknownClickHouseCloudError],
+  errors: [ServiceNotIdle],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1702,7 +1731,8 @@ export const updateUpgradeWindow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c30, 0) as any as S.Schema<UpdateUpgradeWindowRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<UpgradeWindow>,
-  errors: [FeatureUnavailable, UnknownClickHouseCloudError],
+  errors: [FeatureUnavailable],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1719,7 +1749,8 @@ export const upsertScalingSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(250, __c31, 2) as any as S.Schema<UpsertScalingScheduleRequest>,
   output: __S(299, __c37, 3) as any as S.Schema<ScalingSchedule>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1736,7 +1767,8 @@ export const upsertServiceQueryEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c32, 0) as any as S.Schema<UpsertServiceQueryEndpointRequest>,
   output: __S(121, __c15, 1) as any as S.Schema<ServiceQueryAPIEndpoint>,
-  errors: [UnknownClickHouseCloudError],
+  errors: [],
+  serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2358,7 +2390,7 @@ function __c28(j: number): any {
           idleTimeoutMinutes: S.optional(S.Number),
           ipAccessList: S.optional(__S(313, __c39, 1)),
           createdAt: S.optional(S.String),
-          encryptionKey: S.optional(S.String),
+          encryptionKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           encryptionAssumedRoleIdentifier: S.optional(S.String),
           iamRole: S.optional(S.String),
           privateEndpointIds: S.optional(__S(304, __c38, 0)),
@@ -2691,7 +2723,7 @@ function __c40(j: number): any {
           idleTimeoutMinutes: S.optional(S.Number),
           ipAccessList: S.optional(__S(313, __c39, 1)),
           createdAt: S.optional(S.String),
-          encryptionKey: S.optional(S.String),
+          encryptionKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           encryptionAssumedRoleIdentifier: S.optional(S.String),
           iamRole: S.optional(S.String),
           privateEndpointIds: S.optional(__S(304, __c38, 0)),

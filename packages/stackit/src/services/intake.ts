@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownStackitError } from "../errors.ts";
+import { StackitServiceErrors } from "../errors.ts";
 import { StackitProtocol, type StackitOpError, type StackitOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -62,7 +62,7 @@ export class NotFound
 export type CreateIntakeRequestRegionId = "eu01" | "eu02";
 export interface DremioAuth {
   /** A Dremio personal access token for authentication */
-  personalAccessToken: string;
+  personalAccessToken: string | Redacted.Redacted<string>;
   /** The URL to the Dremio instance's OAuth 2.0 token endpoint */
   tokenEndpoint: string;
 }
@@ -355,7 +355,7 @@ export interface ListIntakeUsersResponse {
 export type UpdateIntakeRequestRegionId = "eu01" | "eu02";
 export interface DremioAuthPatch {
   /** A Dremio personal access token for authentication */
-  personalAccessToken?: string | undefined;
+  personalAccessToken?: string | Redacted.Redacted<string> | undefined;
   /** The URL to the Dremio instance's OAuth 2.0 token endpoint */
   tokenEndpoint?: string | undefined;
 }
@@ -455,7 +455,8 @@ export const createIntake: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<CreateIntakeRequest>,
   output: __S(84, __c10, 4) as any as S.Schema<IntakeResponse>,
-  errors: [BadRequest, Conflict, UnknownStackitError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -472,7 +473,8 @@ export const createIntakeRunner: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<CreateIntakeRunnerRequest>,
   output: __S(96, __c12, 0) as any as S.Schema<IntakeRunnerResponse>,
-  errors: [BadRequest, Conflict, UnknownStackitError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -489,7 +491,8 @@ export const createIntakeUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<CreateIntakeUserRequest>,
   output: __S(113, __c14, 1) as any as S.Schema<IntakeUserResponse>,
-  errors: [BadRequest, Conflict, UnknownStackitError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -506,7 +509,8 @@ export const deleteIntake: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<DeleteIntakeRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<DeleteIntakeResponse>,
-  errors: [NotFound, Conflict, UnknownStackitError],
+  errors: [NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -523,7 +527,8 @@ export const deleteIntakeRunner: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<DeleteIntakeRunnerRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<DeleteIntakeRunnerResponse>,
-  errors: [NotFound, Conflict, UnknownStackitError],
+  errors: [NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -540,7 +545,8 @@ export const deleteIntakeUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<DeleteIntakeUserRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<DeleteIntakeUserResponse>,
-  errors: [NotFound, Conflict, UnknownStackitError],
+  errors: [NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -557,7 +563,8 @@ export const getIntake: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<GetIntakeRequest>,
   output: __S(84, __c10, 4) as any as S.Schema<IntakeResponse>,
-  errors: [NotFound, UnknownStackitError],
+  errors: [NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -574,7 +581,8 @@ export const getIntakeRunner: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetIntakeRunnerRequest>,
   output: __S(96, __c12, 0) as any as S.Schema<IntakeRunnerResponse>,
-  errors: [NotFound, UnknownStackitError],
+  errors: [NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -591,7 +599,8 @@ export const getIntakeUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<GetIntakeUserRequest>,
   output: __S(113, __c14, 1) as any as S.Schema<IntakeUserResponse>,
-  errors: [NotFound, UnknownStackitError],
+  errors: [NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -608,7 +617,8 @@ export const listIntakeRunners: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<ListIntakeRunnersRequest>,
   output: __S(18, __c2, 2) as any as S.Schema<ListIntakeRunnersResponse>,
-  errors: [UnknownStackitError],
+  errors: [],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -625,7 +635,8 @@ export const listIntakes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<ListIntakesRequest>,
   output: __S(26, __c3, 2) as any as S.Schema<ListIntakesResponse>,
-  errors: [UnknownStackitError],
+  errors: [],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -642,7 +653,8 @@ export const listIntakeUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<ListIntakeUsersRequest>,
   output: __S(34, __c4, 2) as any as S.Schema<ListIntakeUsersResponse>,
-  errors: [UnknownStackitError],
+  errors: [],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -659,7 +671,8 @@ export const updateIntake: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(43, __c5, 3) as any as S.Schema<UpdateIntakeRequest>,
   output: __S(84, __c10, 4) as any as S.Schema<IntakeResponse>,
-  errors: [NotFound, Conflict, UnknownStackitError],
+  errors: [NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -676,7 +689,8 @@ export const updateIntakeRunner: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<UpdateIntakeRunnerRequest>,
   output: __S(96, __c12, 0) as any as S.Schema<IntakeRunnerResponse>,
-  errors: [BadRequest, Conflict, UnknownStackitError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -693,7 +707,8 @@ export const updateIntakeUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<UpdateIntakeUserRequest>,
   output: __S(113, __c14, 1) as any as S.Schema<IntakeUserResponse>,
-  errors: [NotFound, Conflict, UnknownStackitError],
+  errors: [NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -833,7 +848,7 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          personalAccessToken: S.optional(S.String),
+          personalAccessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           tokenEndpoint: S.optional(S.String),
         }),
       ).annotate({ identifier: "DremioAuthPatch" });
@@ -961,7 +976,7 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          personalAccessToken: S.String,
+          personalAccessToken: S.String.pipe(T.SensitiveValue({})),
           tokenEndpoint: S.String,
         }),
       ).annotate({ identifier: "DremioAuth" });

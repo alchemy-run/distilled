@@ -1,0 +1,10 @@
+{
+  "description": "Environment variable `value` holds the variable's content, and for `encrypted` and `sensitive` variables that content is a secret (Vercel docs, https://vercel.com/docs/environment-variables/sensitive-environment-variables; the REST reference describes `value` as \"The value of the Environment Variable\", returned in plain text when `decrypt=true`). The spec does not mark it, and the member is named `value`, so the converter's name rule cannot tell it from other `value` fields. This marks `value` on every environment-variable request and response shape, so the SDK returns it as Redacted and debug logs hide it.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.vercel.microfrontends#GetMicrofrontendsInGroupResponseProjectsItemEnvItem/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

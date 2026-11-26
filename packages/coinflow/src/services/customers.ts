@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownCoinflowError } from "../errors.ts";
+import { CoinflowServiceErrors } from "../errors.ts";
 import { CoinflowProtocol, type CoinflowOpError, type CoinflowOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -30,6 +30,7 @@ export class PreconditionFailed
     /*@__PURE__*/ S.TaggedError<PreconditionFailed>()("PreconditionFailed", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 412 }],
   ) {}
@@ -49,6 +50,7 @@ export class VerificationRequired
           readonly message?: string;
         }>,
       ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 451 }],
   ) {}
@@ -75,7 +77,7 @@ export interface AddBankAccountRequest {
   alias: string;
   type: BankAccountType | (string & {});
   routingNumber: string;
-  plaidAccessToken?: string | undefined;
+  plaidAccessToken?: string | Redacted.Redacted<string> | undefined;
   lastName: string;
   address1: string;
   address2?: string | undefined;
@@ -113,7 +115,7 @@ export interface AddIbanRequest {
 }
 export interface AddIbanResponse {}
 export interface CustomerPlaidCheckPostRequestBodyContentApplicationJsonSchemaAccountsItems {
-  bankAccountToken?: string | undefined;
+  bankAccountToken?: string | Redacted.Redacted<string> | undefined;
   customerId: string;
 }
 export type CheckPlaidRequestAccountsList =
@@ -142,13 +144,13 @@ export interface MultiPlaidAccountStatusResponse {
   accountType?: string | undefined;
   accountSubtype?: string | undefined;
   customerId: string;
-  bankAccountToken?: string | undefined;
+  bankAccountToken?: string | Redacted.Redacted<string> | undefined;
 }
 export type CheckPlaidResponseBodyList = Array<MultiPlaidAccountStatusResponse>;
 export type CheckPlaidResponse = CheckPlaidResponseBodyList;
 export interface CardData {
   /** This is the card token received from the `CoinflowCardNumberInput` */
-  cardToken: string;
+  cardToken: string | Redacted.Redacted<string>;
   /** The Cards Expiration Year ex: 2026 => 26 */
   expYear: string;
   /** The Cards Expiration Month ex: January => 01 December => 12 */
@@ -175,7 +177,7 @@ export type CustomerVenmoAccountType = "venmo";
 export interface CustomerVenmoAccount {
   isDeleted?: boolean | undefined;
   alias: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   type: CustomerVenmoAccountType;
   /** Derived, not persisted: true when the account holds a Venmo vault token and the merchant has vaulting enabled -- the frontend's signal to use the one-click vaulted checkout. */
   vaulted?: boolean | undefined;
@@ -185,7 +187,7 @@ export type CustomerPayPalAccountType = "paypal";
 export interface CustomerPayPalAccount {
   isDeleted?: boolean | undefined;
   alias: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   type: CustomerPayPalAccountType;
   /** Derived, not persisted: true when the account holds a PayPal vault token and the merchant has vaulting enabled -- the frontend's signal to use the one-click vaulted checkout. */
   vaulted?: boolean | undefined;
@@ -210,7 +212,7 @@ export interface Verification {
   vendor: VerificationVendor;
   name?: string | undefined;
   attested?: boolean | undefined;
-  shareToken?: string | undefined;
+  shareToken?: string | Redacted.Redacted<string> | undefined;
   shareTokenStatus?: string | undefined;
   sessionToken?: string | Redacted.Redacted<string> | undefined;
   rejectionReasons?: VerificationRejectionReasonsList | undefined;
@@ -540,16 +542,12 @@ export interface CustomPayInFeeConfig {
   lineItemLabel: string;
 }
 export type CustomPayInFeesConfig = Array<CustomPayInFeeConfig>;
-export interface IMerchantStringWalletsStellar {
-  usdcPayer: string;
-}
 export interface IMerchantStringWalletsEvm {
   usdcPayer: string;
   feePayer: string;
 }
 export type IMerchantStringWalletsSolana = IMerchantStringWalletsEvm;
 export interface IMerchantStringWallets {
-  stellar: IMerchantStringWalletsStellar;
   evm: IMerchantStringWalletsEvm;
   solana: IMerchantStringWalletsEvm;
 }
@@ -557,6 +555,7 @@ export interface IMerchantStringWallets {
 export type MerchantScope =
   | "admin"
   | "editor"
+  | "payouts"
   | "chargeback"
   | "chargeback_analyst"
   | "chargeback_analyst_read"
@@ -620,7 +619,7 @@ export interface UboEntry {
   vendor: VerificationVendor;
   name?: string | undefined;
   attested?: boolean | undefined;
-  shareToken?: string | undefined;
+  shareToken?: string | Redacted.Redacted<string> | undefined;
   shareTokenStatus?: string | undefined;
   sessionToken?: string | Redacted.Redacted<string> | undefined;
   rejectionReasons?: UboEntryRejectionReasonsList | undefined;
@@ -820,15 +819,19 @@ export interface HighnoteMerchantSettings {
   /** Network-assigned MID (Visa Field 42), from the approved contract. */
   visaCardAcceptorId?: string | undefined;
   mastercardCardAcceptorId?: string | undefined;
+  /** Only set once this MID has Amex acceptance live at Highnote; without it Amex skips Highnote, since auths on an MID without Amex set up decline. */
+  amexEnabled?: boolean | undefined;
   /** Set when onboardBusiness (the ProductApplication submission) succeeded. A re-run while underwriting is still Pending must not re-submit the application -- Highnote rejects duplicates, which would overwrite a healthy Pending status with an error. */
   applicationSubmittedAt?: string | undefined;
 }
 /** From T, pick a set of properties whose keys are in the union K */
-export interface PickHighnoteMerchantSettingsMerchantAcceptorIdOrVisaCardAcceptorIdOrMastercardCardAcceptorId {
+export interface PickHighnoteMerchantSettingsMerchantAcceptorIdOrVisaCardAcceptorIdOrMastercardCardAcceptorIdOrAmexEnabled {
   merchantAcceptorId?: string | undefined;
   /** Network-assigned MID (Visa Field 42), from the approved contract. */
   visaCardAcceptorId?: string | undefined;
   mastercardCardAcceptorId?: string | undefined;
+  /** Only set once this MID has Amex acceptance live at Highnote; without it Amex skips Highnote, since auths on an MID without Amex set up decline. */
+  amexEnabled?: boolean | undefined;
 }
 export interface PayarcMerchantArgs {
   apiKey: string | Redacted.Redacted<string>;
@@ -1233,7 +1236,7 @@ export interface CardSettings {
   crbMerchantArgs?: CrbMerchantSettings | undefined;
   highnoteMerchantArgs?: HighnoteMerchantSettings | undefined;
   highnote2MerchantArgs?:
-    | PickHighnoteMerchantSettingsMerchantAcceptorIdOrVisaCardAcceptorIdOrMastercardCardAcceptorId
+    | PickHighnoteMerchantSettingsMerchantAcceptorIdOrVisaCardAcceptorIdOrMastercardCardAcceptorIdOrAmexEnabled
     | undefined;
   payarcMerchantArgs?: PayarcMerchantArgs | undefined;
   threeDSArgs?: ThreeDSArgs | undefined;
@@ -1680,6 +1683,14 @@ export interface IMerchantStringWithdrawFeePayment {
   paysSwapFees?: boolean | undefined;
   paysWithdrawFees?: boolean | undefined;
 }
+export type CardNameMatchResult =
+  | "match"
+  | "partial_match"
+  | "no_match"
+  | "unverified"
+  | "not_supported";
+/** ANI/MAV results that block push to card. Unset blocks only NoMatch; Match never blocks. */
+export type IMerchantStringAniBlockedResultsList = Array<CardNameMatchResult>;
 export type PayoutProviderOption = "aptpay" | "coinfx" | "checkbook" | "BRAID" | "brale" | "mock";
 export type IMerchantStringBankPayoutProviderList = Array<PayoutProviderOption>;
 export type IbanPayoutProvider = "merge" | "mock" | "ivy" | "conduit";
@@ -2024,7 +2035,7 @@ export interface VendorSettings {
   verisoul?: VerisoulVendorSettings | undefined;
 }
 export interface MerchantBankSettlementOptions {
-  token: string;
+  token: string | Redacted.Redacted<string>;
   minRemainingBalance: Cents;
   useWire?: boolean | undefined;
 }
@@ -2133,7 +2144,7 @@ export interface LinkedBankAccount {
   accountNumber: string;
   accountType: LinkedBankAccountAccountType;
   institutionName?: string | undefined;
-  plaidAccessToken: string;
+  plaidAccessToken: string | Redacted.Redacted<string>;
   plaidAccountId: string;
 }
 export interface IMerchantStringProcessing {
@@ -2158,7 +2169,7 @@ export interface IMerchantString {
   apiKey: string | Redacted.Redacted<string>;
   webhookValidationKey?: string | undefined;
   nmiWebhookValidationKey?: string | undefined;
-  nmiApiKey?: string | undefined;
+  nmiApiKey?: string | Redacted.Redacted<string> | undefined;
   apiKeys: IMerchantStringApiKeysList;
   kycType: KycType;
   settlementToken: StableCoin;
@@ -2199,6 +2210,8 @@ export interface IMerchantString {
   withdrawFeePayment?: IMerchantStringWithdrawFeePayment | undefined;
   pushToCardEnabled: boolean;
   requireAniCheck: boolean;
+  /** ANI/MAV results that block push to card. Unset blocks only NoMatch; Match never blocks. */
+  aniBlockedResults?: IMerchantStringAniBlockedResultsList | undefined;
   /** Opts AptPay push to card into credit cards; other providers stay debit-only. */
   allowCreditForPushToCard?: boolean | undefined;
   bankPayoutProvider?: IMerchantStringBankPayoutProviderList | undefined;
@@ -2309,7 +2322,7 @@ export type Funding = "credit" | "debit" | "prepaid";
 export interface ICardAccountWithExpiry {
   last4: string;
   isDeleted?: boolean | undefined;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   type: CardType;
   disbursementStatus: DisbursementStatus;
   currency?: Currency | undefined;
@@ -2332,7 +2345,7 @@ export interface SerializedBankAccount {
   statementFileKey?: string | undefined;
   statementUploadedAt?: string | undefined;
   alias: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   reference: string;
   routingNumber?: string | undefined;
   wireRoutingNumber?: string | undefined;
@@ -2363,7 +2376,7 @@ export interface PickIIbanAccountExcludeKeyofIIbanAccountVendorData {
   statementFileKey?: string | undefined;
   statementUploadedAt?: string | undefined;
   alias: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   reference: string;
   sortCode: string;
   bic?: string | undefined;
@@ -2377,7 +2390,7 @@ export type PickIInteracExcludeKeyofIInteracVendorDataType = "interac";
 export interface PickIInteracExcludeKeyofIInteracVendorData {
   isDeleted?: boolean | undefined;
   alias: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   type: PickIInteracExcludeKeyofIInteracVendorDataType;
 }
 export type PickICustomerWithAccountsExcludeKeyofICustomerWithAccountsFraudControlFieldsInteracsList =
@@ -2386,7 +2399,7 @@ export type IMobileAccountWithExpiryType = "mobile";
 export type IMobileAccountWithExpiryRetiredTokensList = Array<string>;
 export interface IMobileAccountWithExpiry {
   alias: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   type: IMobileAccountWithExpiryType;
   disbursementStatus?: DisbursementStatus | undefined;
   currency?: Currency | undefined;
@@ -2606,6 +2619,31 @@ export type CustomersGetHistoryResponse200HistoryList = Array<PaymentHistory>;
 export interface CustomersGetHistoryResponse200 {
   history: CustomersGetHistoryResponse200HistoryList;
 }
+export interface AdditionalVerification {
+  name: string;
+  link: string;
+  reference: string;
+  vendor: VerificationVendor;
+  sessionToken?: string | Redacted.Redacted<string> | undefined;
+}
+/** Additional links which can be hosted in an iframe or redirect the user to complete verification. */
+export type VerificationRequiredResponseAdditionalVerificationLinksList =
+  Array<AdditionalVerification>;
+/** List of reasons as to why the verification was rejected. */
+export type VerificationRequiredResponseRejectionReasonsList = Array<string>;
+export interface VerificationRequiredResponse {
+  verification: Verification;
+  /** Link which can be hosted in an iframe or redirect the user to complete verification. */
+  verificationLink?: string | undefined;
+  /** Link where the user will be redirected to upon successful verification. */
+  redirectLink?: string | undefined;
+  /** Additional links which can be hosted in an iframe or redirect the user to complete verification. */
+  additionalVerificationLinks?:
+    | VerificationRequiredResponseAdditionalVerificationLinksList
+    | undefined;
+  /** List of reasons as to why the verification was rejected. */
+  rejectionReasons?: VerificationRequiredResponseRejectionReasonsList | undefined;
+}
 export type AddBankAccountError = CoinflowOpError;
 /** Add Bank Account Adds a bank account for a given customer */
 export const addBankAccount: API.OperationMethod<
@@ -2616,7 +2654,8 @@ export const addBankAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<AddBankAccountRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<AddBankAccountResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2633,7 +2672,8 @@ export const addIban: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(161, __c10, 1) as any as S.Schema<AddIbanRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<AddIbanResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2650,7 +2690,8 @@ export const checkPlaid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(178, __c11, 2) as any as S.Schema<CheckPlaidRequest>,
   output: __S(182, __c11, 6) as any as S.Schema<CheckPlaidResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2667,7 +2708,8 @@ export const createCardForCustomer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(193, __c12, 1) as any as S.Schema<CreateCardForCustomerRequest>,
   output: __S(222, __c13, 14) as any as S.Schema<GetCustomerResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2684,7 +2726,8 @@ export const createCustomer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<CreateCustomerRequest>,
   output: __S(222, __c13, 14) as any as S.Schema<GetCustomerResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2701,7 +2744,8 @@ export const deleteBankAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<DeleteBankAccountRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<DeleteBankAccountResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2718,7 +2762,8 @@ export const deleteCard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<DeleteCardRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<DeleteCardResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2735,7 +2780,8 @@ export const deleteIban: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<DeleteIbanRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<DeleteIbanResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2752,7 +2798,8 @@ export const deleteInterac: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteInteracRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<DeleteInteracResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2769,7 +2816,8 @@ export const deletePaypal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<DeletePaypalRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<DeletePaypalResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2786,7 +2834,8 @@ export const deleteVenmo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<DeleteVenmoRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<DeleteVenmoResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2803,7 +2852,8 @@ export const getCheckoutBalances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(49, __c3, 1) as any as S.Schema<GetCheckoutBalancesRequest>,
   output: __S(50, __c3, 2) as any as S.Schema<CustomerBalances>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2820,7 +2870,8 @@ export const getCustomer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<GetCustomerRequest>,
   output: __S(222, __c13, 14) as any as S.Schema<GetCustomerResponse>,
-  errors: [PreconditionFailed, VerificationRequired, UnknownCoinflowError],
+  errors: [PreconditionFailed, VerificationRequired],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2837,7 +2888,8 @@ export const getCustomerPaymentById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<GetCustomerPaymentByIdRequest>,
   output: __S(81, __c5, 1) as any as S.Schema<CustomersGetCustomerPaymentByIdResponse200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2854,7 +2906,8 @@ export const getHistory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<GetHistoryRequest>,
   output: __S(114, __c7, 2) as any as S.Schema<CustomersGetHistoryResponse200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3078,7 +3131,7 @@ function __c8(j: number): any {
           alias: S.String,
           type: S.String,
           routingNumber: S.String,
-          plaidAccessToken: S.optional(S.String),
+          plaidAccessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           lastName: S.String,
           address1: S.String,
           address2: S.optional(S.String),
@@ -3133,7 +3186,7 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          bankAccountToken: S.optional(S.String),
+          bankAccountToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           customerId: S.String,
         }),
       ).annotate({
@@ -3167,7 +3220,7 @@ function __c11(j: number): any {
           accountType: S.optional(S.String),
           accountSubtype: S.optional(S.String),
           customerId: S.String,
-          bankAccountToken: S.optional(S.String),
+          bankAccountToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "MultiPlaidAccountStatusResponse" });
     case 5:
@@ -3183,7 +3236,7 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          cardToken: S.String,
+          cardToken: S.String.pipe(T.SensitiveValue({})),
           expYear: S.String,
           expMonth: S.String,
           additionalVendorData: S.optional(S.Unknown),
@@ -3214,7 +3267,7 @@ function __c13(j: number): any {
         S.Struct({
           isDeleted: S.optional(S.Boolean),
           alias: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           type: S.String,
           vaulted: S.optional(S.Boolean),
         }),
@@ -3226,7 +3279,7 @@ function __c13(j: number): any {
         S.Struct({
           last4: S.String,
           isDeleted: S.optional(S.Boolean),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           type: S.String,
           disbursementStatus: S.String,
           currency: S.optional(S.String),
@@ -3252,7 +3305,7 @@ function __c13(j: number): any {
           statementFileKey: S.optional(S.String),
           statementUploadedAt: S.optional(S.String),
           alias: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           reference: S.String,
           routingNumber: S.optional(S.String),
           wireRoutingNumber: S.optional(S.String),
@@ -3272,7 +3325,7 @@ function __c13(j: number): any {
           statementFileKey: S.optional(S.String),
           statementUploadedAt: S.optional(S.String),
           alias: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           reference: S.String,
           sortCode: S.String,
           bic: S.optional(S.String),
@@ -3285,7 +3338,7 @@ function __c13(j: number): any {
         S.Struct({
           isDeleted: S.optional(S.Boolean),
           alias: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           type: S.String,
         }),
       ).annotate({ identifier: "PickIInteracExcludeKeyofIInteracVendorData" });
@@ -3295,7 +3348,7 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           alias: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           type: S.String,
           disbursementStatus: S.optional(S.String),
           currency: S.optional(S.String),

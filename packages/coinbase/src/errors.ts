@@ -43,6 +43,7 @@ import type {
   UnprocessableEntity as CoreUnprocessableEntity,
 } from "@distilled.cloud/core/errors";
 import {
+  API_ERRORS,
   BadGateway,
   BadRequest,
   Forbidden,
@@ -819,3 +820,66 @@ export type DefaultErrors =
   | CoreUnprocessableEntity
   | CoreLocked
   | ClientErrors;
+
+/**
+ * The errors declared on the Coinbase CDP service: any operation can return
+ * them, and every generated operation lists them as its `serviceErrors`.
+ * Each of core's status classes (built for a failed response's status, or
+ * for a standard `errorType`, see {@link STANDARD_ERROR_TYPE_MAP}) and every
+ * class an `errorType` or a status maps to ({@link ERROR_TYPE_MAP},
+ * {@link COINBASE_HTTP_STATUS_MAP}): the API documents its errors once, for
+ * all operations.
+ */
+export const CoinbaseServiceErrors = [
+  ...API_ERRORS,
+  PaymentRequired,
+  IdempotencyError,
+  AlreadyExists,
+  FaucetLimitExceeded,
+  InvalidSqlQuery,
+  InvalidSignature,
+  MalformedTransaction,
+  SettlementFailed,
+  TimedOut,
+  ClientClosedRequest,
+  RequestCanceled,
+  PolicyViolation,
+  PolicyInUse,
+  AccountLimitExceeded,
+  InsufficientBalance,
+  AccountNotReady,
+  MfaRequired,
+  MfaAlreadyEnrolled,
+  MfaInvalidCode,
+  MfaFlowExpired,
+  MfaNotEnrolled,
+  NetworkNotTradable,
+  GuestPermissionDenied,
+  GuestRegionForbidden,
+  GuestTransactionLimit,
+  GuestTransactionCount,
+  PhoneNumberVerificationExpired,
+  DocumentVerificationFailed,
+  RecipientAllowlistViolation,
+  RecipientAllowlistPending,
+  TravelRulesRecipientViolation,
+  TravelRulesFieldMissing,
+  SourceAccountInvalid,
+  TargetAccountInvalid,
+  SourceAccountNotFound,
+  TargetAccountNotFound,
+  SourceAssetNotSupported,
+  TargetAssetNotSupported,
+  TransferAssetNotSupported,
+  AssetMismatch,
+  TargetEmailInvalid,
+  TargetOnchainAddressInvalid,
+  TransferAmountInvalid,
+  MetadataTooManyEntries,
+  MetadataKeyTooLong,
+  MetadataValueTooLong,
+  OrderQuoteExpired,
+  OrderAlreadyFilled,
+  OrderAlreadyCanceled,
+] as const;
+export type CoinbaseServiceError = InstanceType<(typeof CoinbaseServiceErrors)[number]>;

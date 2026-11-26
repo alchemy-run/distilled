@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -153,7 +154,7 @@ export interface CreateDatasetRequest {
   DatasetName: string;
   DatasetSchema?: DatasetSchema | undefined;
   ServerSideKmsKeyId?: string | undefined;
-  ClientToken: string;
+  ClientToken?: string | undefined;
   Tags?: Tag[] | undefined;
 }
 export type DatasetArn = string;
@@ -208,7 +209,7 @@ export interface CreateInferenceSchedulerRequest {
   DataOutputConfiguration: InferenceOutputConfiguration;
   RoleArn: string;
   ServerSideKmsKeyId?: string | undefined;
-  ClientToken: string;
+  ClientToken?: string | undefined;
   Tags?: Tag[] | undefined;
 }
 export type InferenceSchedulerArn = string;
@@ -242,7 +243,7 @@ export interface CreateLabelRequest {
   FaultCode?: string | undefined;
   Notes?: string | undefined;
   Equipment?: string | undefined;
-  ClientToken: string;
+  ClientToken?: string | undefined;
 }
 export type LabelId = string;
 export interface CreateLabelResponse {
@@ -252,7 +253,7 @@ export type FaultCodes = string[];
 export interface CreateLabelGroupRequest {
   LabelGroupName: string;
   FaultCodes?: string[] | undefined;
-  ClientToken: string;
+  ClientToken?: string | undefined;
   Tags?: Tag[] | undefined;
 }
 export type LabelGroupArn = string;
@@ -299,7 +300,7 @@ export interface CreateModelRequest {
   DatasetName: string;
   DatasetSchema?: DatasetSchema | undefined;
   LabelsInputConfiguration?: LabelsInputConfiguration | undefined;
-  ClientToken: string;
+  ClientToken?: string | undefined;
   TrainingDataStartTime?: Date | undefined;
   TrainingDataEndTime?: Date | undefined;
   EvaluationDataStartTime?: Date | undefined;
@@ -331,7 +332,7 @@ export interface CreateRetrainingSchedulerRequest {
   RetrainingFrequency: string;
   LookbackWindow: string;
   PromoteMode?: ModelPromoteMode | undefined;
-  ClientToken: string;
+  ClientToken?: string | undefined;
 }
 export type RetrainingSchedulerStatus =
   | "PENDING"
@@ -657,7 +658,7 @@ export interface DescribeRetrainingSchedulerResponse {
 export interface ImportDatasetRequest {
   SourceDatasetArn: string;
   DatasetName?: string | undefined;
-  ClientToken: string;
+  ClientToken?: string | undefined;
   ServerSideKmsKeyId?: string | undefined;
   Tags?: Tag[] | undefined;
 }
@@ -677,7 +678,7 @@ export interface ImportModelVersionRequest {
   ModelName?: string | undefined;
   DatasetName: string;
   LabelsInputConfiguration?: LabelsInputConfiguration | undefined;
-  ClientToken: string;
+  ClientToken?: string | undefined;
   RoleArn?: string | undefined;
   ServerSideKmsKeyId?: string | undefined;
   Tags?: Tag[] | undefined;
@@ -978,7 +979,7 @@ export interface PutResourcePolicyRequest {
   ResourceArn: string;
   ResourcePolicy: string;
   PolicyRevisionId?: string | undefined;
-  ClientToken: string;
+  ClientToken?: string | undefined;
 }
 export interface PutResourcePolicyResponse {
   ResourceArn?: string | undefined;
@@ -988,7 +989,7 @@ export interface StartDataIngestionJobRequest {
   DatasetName: string;
   IngestionInputConfiguration: IngestionInputConfiguration;
   RoleArn: string;
-  ClientToken: string;
+  ClientToken?: string | undefined;
 }
 export interface StartDataIngestionJobResponse {
   JobId?: string | undefined;
@@ -1112,6 +1113,7 @@ export const createDataset: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataset",
@@ -1152,6 +1154,7 @@ export const createInferenceScheduler: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInferenceScheduler",
@@ -1188,6 +1191,7 @@ export const createLabel: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLabel",
@@ -1222,6 +1226,7 @@ export const createLabelGroup: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLabelGroup",
@@ -1268,6 +1273,7 @@ export const createModel: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModel",
@@ -1302,6 +1308,7 @@ export const createRetrainingScheduler: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRetrainingScheduler",
@@ -1340,6 +1347,7 @@ export const deleteDataset: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataset",
@@ -1375,6 +1383,7 @@ export const deleteInferenceScheduler: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInferenceScheduler",
@@ -1409,6 +1418,7 @@ export const deleteLabel: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLabel",
@@ -1443,6 +1453,7 @@ export const deleteLabelGroup: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLabelGroup",
@@ -1478,6 +1489,7 @@ export const deleteModel: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteModel",
@@ -1512,6 +1524,7 @@ export const deleteResourcePolicy: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
@@ -1547,6 +1560,7 @@ export const deleteRetrainingScheduler: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRetrainingScheduler",
@@ -1580,6 +1594,7 @@ export const describeDataIngestionJob: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataIngestionJob",
@@ -1613,6 +1628,7 @@ export const describeDataset: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataset",
@@ -1646,6 +1662,7 @@ export const describeInferenceScheduler: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInferenceScheduler",
@@ -1678,6 +1695,7 @@ export const describeLabel: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLabel",
@@ -1710,6 +1728,7 @@ export const describeLabelGroup: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLabelGroup",
@@ -1744,6 +1763,7 @@ export const describeModel: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeModel",
@@ -1776,6 +1796,7 @@ export const describeModelVersion: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeModelVersion",
@@ -1808,6 +1829,7 @@ export const describeResourcePolicy: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResourcePolicy",
@@ -1841,6 +1863,7 @@ export const describeRetrainingScheduler: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRetrainingScheduler",
@@ -1877,6 +1900,7 @@ export const importDataset: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportDataset",
@@ -1913,6 +1937,7 @@ export const importModelVersion: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportModelVersion",
@@ -1945,6 +1970,7 @@ export const listDataIngestionJobs: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDataIngestionJobs",
@@ -1981,6 +2007,7 @@ export const listDatasets: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDatasets",
@@ -2019,6 +2046,7 @@ export const listInferenceEvents: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListInferenceEvents",
@@ -2058,6 +2086,7 @@ export const listInferenceExecutions: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListInferenceExecutions",
@@ -2094,6 +2123,7 @@ export const listInferenceSchedulers: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListInferenceSchedulers",
@@ -2130,6 +2160,7 @@ export const listLabelGroups: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLabelGroups",
@@ -2166,6 +2197,7 @@ export const listLabels: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLabels",
@@ -2203,6 +2235,7 @@ export const listModels: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListModels",
@@ -2243,6 +2276,7 @@ export const listModelVersions: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListModelVersions",
@@ -2280,6 +2314,7 @@ export const listRetrainingSchedulers: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRetrainingSchedulers",
@@ -2320,6 +2355,7 @@ export const listSensorStatistics: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSensorStatistics",
@@ -2357,6 +2393,7 @@ export const listTagsForResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -2393,6 +2430,7 @@ export const putResourcePolicy: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
@@ -2429,6 +2467,7 @@ export const startDataIngestionJob: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDataIngestionJob",
@@ -2463,6 +2502,7 @@ export const startInferenceScheduler: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartInferenceScheduler",
@@ -2497,6 +2537,7 @@ export const startRetrainingScheduler: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRetrainingScheduler",
@@ -2531,6 +2572,7 @@ export const stopInferenceScheduler: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopInferenceScheduler",
@@ -2565,6 +2607,7 @@ export const stopRetrainingScheduler: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopRetrainingScheduler",
@@ -2603,6 +2646,7 @@ export const tagResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -2635,6 +2679,7 @@ export const untagResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -2669,6 +2714,7 @@ export const updateActiveModelVersion: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateActiveModelVersion",
@@ -2703,6 +2749,7 @@ export const updateInferenceScheduler: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInferenceScheduler",
@@ -2737,6 +2784,7 @@ export const updateLabelGroup: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLabelGroup",
@@ -2771,6 +2819,7 @@ export const updateModel: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateModel",
@@ -2805,6 +2854,7 @@ export const updateRetrainingScheduler: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRetrainingScheduler",
@@ -2820,7 +2870,7 @@ function __c0(j: number): any {
         S.Struct({
           LabelGroupName: S.String,
           FaultCodes: S.optional(__S(16, __c1, 0)),
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Tags: S.optional(__S(913, __c57, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateLabelGroupRequest" });
@@ -2845,7 +2895,7 @@ function __c2(j: number): any {
           DatasetName: S.String,
           DatasetSchema: S.optional(__S(896, __c56, 0)),
           LabelsInputConfiguration: S.optional(__S(64, __c4, 0)),
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           TrainingDataStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           TrainingDataEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           EvaluationDataStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2893,7 +2943,7 @@ function __c5(j: number): any {
           RetrainingFrequency: S.String,
           LookbackWindow: S.String,
           PromoteMode: S.optional(S.String),
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateRetrainingSchedulerRequest" });
   }
@@ -3360,7 +3410,7 @@ function __c27(j: number): any {
         S.Struct({
           SourceDatasetArn: S.String,
           DatasetName: S.optional(S.String),
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           ServerSideKmsKeyId: S.optional(S.String),
           Tags: S.optional(__S(913, __c57, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -3385,7 +3435,7 @@ function __c28(j: number): any {
           ModelName: S.optional(S.String),
           DatasetName: S.String,
           LabelsInputConfiguration: S.optional(__S(64, __c4, 0)),
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           RoleArn: S.optional(S.String),
           ServerSideKmsKeyId: S.optional(S.String),
           Tags: S.optional(__S(913, __c57, 1)),
@@ -3854,7 +3904,7 @@ function __c41(j: number): any {
           ResourceArn: S.String,
           ResourcePolicy: S.String,
           PolicyRevisionId: S.optional(S.String),
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "PutResourcePolicyRequest" });
     case 1:
@@ -3871,7 +3921,7 @@ function __c42(j: number): any {
           DatasetName: S.String,
           IngestionInputConfiguration: __S(289, __c18, 1),
           RoleArn: S.String,
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "StartDataIngestionJobRequest" });
     case 1:
@@ -4035,7 +4085,7 @@ function __c55(j: number): any {
           DatasetName: S.String,
           DatasetSchema: S.optional(__S(896, __c56, 0)),
           ServerSideKmsKeyId: S.optional(S.String),
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Tags: S.optional(__S(913, __c57, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateDatasetRequest" });
@@ -4080,7 +4130,7 @@ function __c58(j: number): any {
           DataOutputConfiguration: __S(960, __c60, 0),
           RoleArn: S.String,
           ServerSideKmsKeyId: S.optional(S.String),
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           Tags: S.optional(__S(913, __c57, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateInferenceSchedulerRequest" });
@@ -4142,7 +4192,7 @@ function __c62(j: number): any {
           FaultCode: S.optional(S.String),
           Notes: S.optional(S.String),
           Equipment: S.optional(S.String),
-          ClientToken: S.String.pipe(T.IdempotencyToken()),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateLabelRequest" });
     case 1:

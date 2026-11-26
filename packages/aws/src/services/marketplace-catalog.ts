@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -147,7 +148,7 @@ export class ValidationException
     {
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
       ValidationExceptionFieldList: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.suspend(() => __S(609, __c19, 1)).annotate({
+        /*@__PURE__*/ S.suspend(() => __S(673, __c21, 1)).annotate({
           identifier: "ValidationExceptionFieldList",
         }),
       ),
@@ -222,9 +223,46 @@ export interface AMISecuritySummary {
 export interface ContainerSecuritySummary {
   DeliveryOptionId?: string | undefined;
 }
+export type ListingQualityTier =
+  | "NEEDS_IMPROVEMENT"
+  | "BASIC"
+  | "STRONG"
+  | "EXCELLENT"
+  | (string & {});
+export type EntityRevision = string;
+export interface ListingQualitySummary {
+  Tier: ListingQualityTier;
+  EntityRevision?: string | undefined;
+}
+export interface ListingRecommendationsSummary {
+  Tier: ListingQualityTier;
+  EntityRevision?: string | undefined;
+}
 export type FrameworkSummary =
-  | { AMISecuritySummary: AMISecuritySummary; ContainerSecuritySummary?: undefined }
-  | { AMISecuritySummary?: undefined; ContainerSecuritySummary: ContainerSecuritySummary };
+  | {
+      AMISecuritySummary: AMISecuritySummary;
+      ContainerSecuritySummary?: undefined;
+      ListingQualitySummary?: undefined;
+      ListingRecommendationsSummary?: undefined;
+    }
+  | {
+      AMISecuritySummary?: undefined;
+      ContainerSecuritySummary: ContainerSecuritySummary;
+      ListingQualitySummary?: undefined;
+      ListingRecommendationsSummary?: undefined;
+    }
+  | {
+      AMISecuritySummary?: undefined;
+      ContainerSecuritySummary?: undefined;
+      ListingQualitySummary: ListingQualitySummary;
+      ListingRecommendationsSummary?: undefined;
+    }
+  | {
+      AMISecuritySummary?: undefined;
+      ContainerSecuritySummary?: undefined;
+      ListingQualitySummary?: undefined;
+      ListingRecommendationsSummary: ListingRecommendationsSummary;
+    };
 export type AssessmentResult = "PASS" | "FAIL" | (string & {});
 export type ControlAssessmentResult =
   | "PASS"
@@ -232,6 +270,7 @@ export type ControlAssessmentResult =
   | "NOT_EXECUTED"
   | "EXEMPTION_PASS"
   | (string & {});
+export type VerificationSource = "AWS_VERIFIED" | "SELF_ATTESTED" | (string & {});
 export type ErrorCode = string;
 export type ErrorMessage = string;
 export type ScopeName = string;
@@ -247,10 +286,194 @@ export interface ControlError {
   Scope?: ErrorScope[] | undefined;
 }
 export type ControlErrorList = ControlError[];
+export type ContentRecommendationStatus = "GENERATED" | "INSUFFICIENT_CONTEXT" | (string & {});
+export type FieldText = string;
+export type Rationale = string;
+export interface TextAlternative {
+  Value: string;
+  Rationale: string;
+}
+export type TextAlternativeList = TextAlternative[];
+export type FieldTextItem = string;
+export type FieldTextList = string[];
+export interface TextListAlternative {
+  Value: string[];
+  Rationale: string;
+}
+export type TextListAlternativeList = TextListAlternative[];
+export type ResourceType = string;
+export type ResourceText = string;
+export type ResourceUrl = string;
+export interface AdditionalResource {
+  Type: string;
+  Text: string;
+  Url: string;
+}
+export type AdditionalResourceList = AdditionalResource[];
+export interface AdditionalResourcesAlternative {
+  Value: AdditionalResource[];
+  Rationale: string;
+}
+export type AdditionalResourcesAlternativeList = AdditionalResourcesAlternative[];
+export type UseCaseId = string;
+export type UseCaseRank = number;
+export type UseCaseTaxonomyValue = string;
+export type UseCaseDetails = string;
+export interface ListingUseCase {
+  Id: string;
+  Rank: number;
+  Name: string;
+  Group: string;
+  Subgroup: string;
+  UseCaseDetails?: string | undefined;
+  Rationale: string;
+}
+export type UseCaseList = ListingUseCase[];
+export interface UseCasesAlternative {
+  Value: ListingUseCase[];
+  Rationale: string;
+}
+export type UseCasesAlternativeList = UseCasesAlternative[];
+export type CaseStudyTitle = string;
+export interface ListingCaseStudy {
+  Id: string;
+  Title: string;
+  Rationale: string;
+}
+export type CaseStudyList = ListingCaseStudy[];
+export interface CaseStudiesAlternative {
+  Value: ListingCaseStudy[];
+  Rationale: string;
+}
+export type CaseStudiesAlternativeList = CaseStudiesAlternative[];
+export type ContentAlternatives =
+  | {
+      Text: TextAlternative[];
+      TextList?: undefined;
+      AdditionalResources?: undefined;
+      UseCases?: undefined;
+      CaseStudies?: undefined;
+    }
+  | {
+      Text?: undefined;
+      TextList: TextListAlternative[];
+      AdditionalResources?: undefined;
+      UseCases?: undefined;
+      CaseStudies?: undefined;
+    }
+  | {
+      Text?: undefined;
+      TextList?: undefined;
+      AdditionalResources: AdditionalResourcesAlternative[];
+      UseCases?: undefined;
+      CaseStudies?: undefined;
+    }
+  | {
+      Text?: undefined;
+      TextList?: undefined;
+      AdditionalResources?: undefined;
+      UseCases: UseCasesAlternative[];
+      CaseStudies?: undefined;
+    }
+  | {
+      Text?: undefined;
+      TextList?: undefined;
+      AdditionalResources?: undefined;
+      UseCases?: undefined;
+      CaseStudies: CaseStudiesAlternative[];
+    };
+export type FollowUpQuestionText = string;
+export type FollowUpQuestionJustification = string;
+export interface FollowUpQuestion {
+  Question: string;
+  Justification: string;
+}
+export type FollowUpQuestionList = FollowUpQuestion[];
+export type RecommendedAction = string;
+export type FindingDescription = string;
+export type RecommendationSeverity = "BLOCKING" | "ADVISORY" | (string & {});
+export type ListingFindingStatus = "PASS" | "FAIL" | (string & {});
+export interface ListingFinding {
+  Action: string;
+  Description: string;
+  Severity: RecommendationSeverity;
+  Status: ListingFindingStatus;
+}
+export type FindingList = ListingFinding[];
+export interface ContentRecommendation {
+  Status: ContentRecommendationStatus;
+  Alternatives: ContentAlternatives;
+  FollowUpQuestions: FollowUpQuestion[];
+  Findings: ListingFinding[];
+}
+export type CitationUrl = string;
+export interface RecommendationCitation {
+  Url: string;
+}
+export type CitationList = RecommendationCitation[];
+export interface ProductContentRecommendations {
+  ProductTitle?: ContentRecommendation | undefined;
+  ShortDescription?: ContentRecommendation | undefined;
+  LongDescription?: ContentRecommendation | undefined;
+  SupportDescription?: ContentRecommendation | undefined;
+  Highlights?: ContentRecommendation | undefined;
+  SearchKeywords?: ContentRecommendation | undefined;
+  Categories?: ContentRecommendation | undefined;
+  AdditionalResources?: ContentRecommendation | undefined;
+  Citations: RecommendationCitation[];
+}
+export interface SolutionContentRecommendations {
+  Title?: ContentRecommendation | undefined;
+  ShortDescription?: ContentRecommendation | undefined;
+  LongDescription?: ContentRecommendation | undefined;
+  IntegrationDetails?: ContentRecommendation | undefined;
+  AdditionalResources?: ContentRecommendation | undefined;
+  UseCases?: ContentRecommendation | undefined;
+  CaseStudies?: ContentRecommendation | undefined;
+  Citations: RecommendationCitation[];
+}
+export type RecommendedFeatureId =
+  | "REQUEST_PRIVATE_OFFER"
+  | "REQUEST_A_DEMO"
+  | "PROMOTIONAL_MEDIA"
+  | "FREE_TRIAL"
+  | "QUICK_LAUNCH"
+  | (string & {});
+export type RecommendedFeatureStatus = "PASS" | "FAIL" | (string & {});
+export interface FeatureRecommendation {
+  FeatureId: RecommendedFeatureId;
+  Action: string;
+  Rationale: string;
+  Severity: RecommendationSeverity;
+  Status: RecommendedFeatureStatus;
+}
+export type FeatureRecommendationList = FeatureRecommendation[];
+export interface FeatureRecommendations {
+  Recommendations: FeatureRecommendation[];
+}
+export type ListingRecommendations =
+  | {
+      ProductContentRecommendations: ProductContentRecommendations;
+      SolutionContentRecommendations?: undefined;
+      FeatureRecommendations?: undefined;
+    }
+  | {
+      ProductContentRecommendations?: undefined;
+      SolutionContentRecommendations: SolutionContentRecommendations;
+      FeatureRecommendations?: undefined;
+    }
+  | {
+      ProductContentRecommendations?: undefined;
+      SolutionContentRecommendations?: undefined;
+      FeatureRecommendations: FeatureRecommendations;
+    };
+export type ControlSummary = { ListingRecommendations: ListingRecommendations };
 export interface ControlAssessment {
   ControlId?: string | undefined;
   ControlAssessmentResult?: ControlAssessmentResult | undefined;
+  VerificationSource?: VerificationSource | undefined;
   Errors?: ControlError[] | undefined;
+  ControlSummary?: ControlSummary | undefined;
 }
 export type ControlAssessmentList = ControlAssessment[];
 export interface DescribeAssessmentResponse {
@@ -334,9 +557,11 @@ export interface GetResourcePolicyResponse {
   Policy?: string | undefined;
 }
 export type FrameworkId = string;
+export type EntityIdList = string[];
 export interface AssessmentTargetFilter {
   EntityId?: string | undefined;
   ChangeSetId?: string | undefined;
+  EntityIds?: string[] | undefined;
 }
 export interface AMISecurityFilters {
   DeliveryOptionId?: string | undefined;
@@ -535,6 +760,11 @@ export type OfferResaleAuthorizationIdFilterValueList = string[];
 export interface OfferResaleAuthorizationIdFilter {
   ValueList?: string[] | undefined;
 }
+export type OfferSubsidiaryAuthorizationIdString = string;
+export type OfferSubsidiaryAuthorizationIdFilterValueList = string[];
+export interface OfferSubsidiaryAuthorizationIdFilter {
+  ValueList?: string[] | undefined;
+}
 export interface OfferReleaseDateFilterDateRange {
   AfterValue?: string | undefined;
   BeforeValue?: string | undefined;
@@ -600,6 +830,7 @@ export interface OfferFilters {
   Name?: OfferNameFilter | undefined;
   ProductId?: OfferProductIdFilter | undefined;
   ResaleAuthorizationId?: OfferResaleAuthorizationIdFilter | undefined;
+  SubsidiaryAuthorizationId?: OfferSubsidiaryAuthorizationIdFilter | undefined;
   ReleaseDate?: OfferReleaseDateFilter | undefined;
   AvailabilityEndDate?: OfferAvailabilityEndDateFilter | undefined;
   BuyerAccounts?: OfferBuyerAccountsFilter | undefined;
@@ -1090,6 +1321,7 @@ export type OfferSortBy =
   | "Name"
   | "ProductId"
   | "ResaleAuthorizationId"
+  | "SubsidiaryAuthorizationId"
   | "ReleaseDate"
   | "AvailabilityEndDate"
   | "BuyerAccounts"
@@ -1339,6 +1571,7 @@ export interface OfferSummary {
   Name?: string | undefined;
   ProductId?: string | undefined;
   ResaleAuthorizationId?: string | undefined;
+  SubsidiaryAuthorizationId?: string | undefined;
   ReleaseDate?: string | undefined;
   AvailabilityEndDate?: string | undefined;
   BuyerAccounts?: string[] | undefined;
@@ -1436,6 +1669,24 @@ export interface PutResourcePolicyRequest {
   Policy: string;
 }
 export interface PutResourcePolicyResponse {}
+export type ClientRequestToken = string;
+export interface ControlInput {
+  ControlId: string;
+  Input?: any | undefined;
+}
+export type ControlInputList = ControlInput[];
+export type TagMap = { [key: string]: string | undefined };
+export interface StartAssessmentRequest {
+  Catalog: string;
+  ClientToken?: string | undefined;
+  FrameworkId: string;
+  EntityId: string;
+  Controls?: ControlInput[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+}
+export interface StartAssessmentResponse {
+  AssessmentId?: string | undefined;
+}
 export interface Change {
   ChangeType: string;
   Entity: Entity;
@@ -1445,7 +1696,6 @@ export interface Change {
   ChangeName?: string | undefined;
 }
 export type RequestedChangeList = Change[];
-export type ClientRequestToken = string;
 export interface StartChangeSetRequest {
   Catalog: string;
   ChangeSet: Change[];
@@ -1500,14 +1750,15 @@ export const batchDescribeEntities: API.OperationMethod<
   BatchDescribeEntitiesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(642, __c20, 2) as any as S.Schema<BatchDescribeEntitiesRequest>,
-  output: __S(646, __c20, 6) as any as S.Schema<BatchDescribeEntitiesResponse>,
+  input: __S(706, __c22, 2) as any as S.Schema<BatchDescribeEntitiesRequest>,
+  output: __S(710, __c22, 6) as any as S.Schema<BatchDescribeEntitiesResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceException,
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDescribeEntities",
@@ -1535,8 +1786,8 @@ export const cancelChangeSet: API.OperationMethod<
   CancelChangeSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<CancelChangeSetRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<CancelChangeSetResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<CancelChangeSetRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<CancelChangeSetResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceException,
@@ -1545,6 +1796,7 @@ export const cancelChangeSet: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelChangeSet",
@@ -1578,6 +1830,7 @@ export const deleteResourcePolicy: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
@@ -1608,7 +1861,7 @@ export const describeAssessment: API.PaginatedOperationMethod<
   ControlAssessment
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<DescribeAssessmentRequest>,
-  output: __S(71, __c2, 7) as any as S.Schema<DescribeAssessmentResponse>,
+  output: __S(102, __c3, 6) as any as S.Schema<DescribeAssessmentResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceException,
@@ -1616,6 +1869,7 @@ export const describeAssessment: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAssessment",
@@ -1645,8 +1899,8 @@ export const describeChangeSet: API.OperationMethod<
   DescribeChangeSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<DescribeChangeSetRequest>,
-  output: __S(132, __c4, 4) as any as S.Schema<DescribeChangeSetResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<DescribeChangeSetRequest>,
+  output: __S(196, __c6, 4) as any as S.Schema<DescribeChangeSetResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceException,
@@ -1654,6 +1908,7 @@ export const describeChangeSet: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChangeSet",
@@ -1678,8 +1933,8 @@ export const describeEntity: API.OperationMethod<
   DescribeEntityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<DescribeEntityRequest>,
-  output: __S(193, __c6, 1) as any as S.Schema<DescribeEntityResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<DescribeEntityRequest>,
+  output: __S(257, __c8, 1) as any as S.Schema<DescribeEntityResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceException,
@@ -1688,6 +1943,7 @@ export const describeEntity: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEntity",
@@ -1712,8 +1968,8 @@ export const getResourcePolicy: API.OperationMethod<
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<GetResourcePolicyRequest>,
-  output: __S(225, __c7, 1) as any as S.Schema<GetResourcePolicyResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<GetResourcePolicyRequest>,
+  output: __S(289, __c9, 1) as any as S.Schema<GetResourcePolicyResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceException,
@@ -1721,6 +1977,7 @@ export const getResourcePolicy: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
@@ -1754,14 +2011,15 @@ export const listAssessments: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AssessmentSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(257, __c8, 1) as any as S.Schema<ListAssessmentsRequest>,
-  output: __S(260, __c8, 4) as any as S.Schema<ListAssessmentsResponse>,
+  input: __S(322, __c10, 2) as any as S.Schema<ListAssessmentsRequest>,
+  output: __S(325, __c10, 5) as any as S.Schema<ListAssessmentsResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceException,
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAssessments",
@@ -1797,14 +2055,15 @@ export const listChangeSets: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ChangeSetSummaryListItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<ListChangeSetsRequest>,
-  output: __S(291, __c9, 3) as any as S.Schema<ListChangeSetsResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<ListChangeSetsRequest>,
+  output: __S(355, __c11, 3) as any as S.Schema<ListChangeSetsResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceException,
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListChangeSets",
@@ -1835,8 +2094,8 @@ export const listEntities: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   EntitySummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(402, __c12, 18) as any as S.Schema<ListEntitiesRequest>,
-  output: __S(411, __c12, 27) as any as S.Schema<ListEntitiesResponse>,
+  input: __S(434, __c13, 18) as any as S.Schema<ListEntitiesRequest>,
+  output: __S(443, __c13, 27) as any as S.Schema<ListEntitiesResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceException,
@@ -1844,6 +2103,7 @@ export const listEntities: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEntities",
@@ -1873,8 +2133,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(417, __c13, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(449, __c14, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceException,
@@ -1882,6 +2142,7 @@ export const listTagsForResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -1906,7 +2167,7 @@ export const putResourcePolicy: API.OperationMethod<
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<PutResourcePolicyRequest>,
+  input: __S(512, __c16, 0) as any as S.Schema<PutResourcePolicyRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutResourcePolicyResponse>,
   errors: [
     AccessDeniedException,
@@ -1915,11 +2176,57 @@ export const putResourcePolicy: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
   telemetry: TELEMETRY,
   span: "PutResourcePolicy",
+}));
+
+export type StartAssessmentError =
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Starts an assessment of a product entity against a framework. An
+ * *assessment* is the result of evaluating an entity against the
+ * controls of a framework. You choose the controls to run and provide the input that each
+ * control needs.
+ *
+ * The assessment runs asynchronously. This action returns the ID of the assessment
+ * immediately. To get its status and the results of each control, use the
+ * `DescribeAssessment` action. To find assessments that you started earlier,
+ * use the `ListAssessments` action.
+ */
+export const startAssessment: API.OperationMethod<
+  StartAssessmentRequest & RegionInput,
+  StartAssessmentResponse,
+  StartAssessmentError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(547, __c17, 3) as any as S.Schema<StartAssessmentRequest>,
+  output: __S(548, __c17, 4) as any as S.Schema<StartAssessmentResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "StartAssessment",
+  telemetry: TELEMETRY,
+  span: "StartAssessment",
 }));
 
 export type StartChangeSetError =
@@ -1957,8 +2264,8 @@ export const startChangeSet: API.OperationMethod<
   StartChangeSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(514, __c16, 2) as any as S.Schema<StartChangeSetRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<StartChangeSetResponse>,
+  input: __S(578, __c18, 2) as any as S.Schema<StartChangeSetRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<StartChangeSetResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceException,
@@ -1968,6 +2275,7 @@ export const startChangeSet: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartChangeSet",
@@ -1991,7 +2299,7 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<TagResourceRequest>,
+  input: __S(608, __c19, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     AccessDeniedException,
@@ -2000,6 +2308,7 @@ export const tagResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -2023,7 +2332,7 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<UntagResourceRequest>,
+  input: __S(640, __c20, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     AccessDeniedException,
@@ -2032,6 +2341,7 @@ export const untagResource: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -2100,33 +2410,181 @@ function __c2(j: number): any {
     case 4:
       return S.Array(__S(67, __c2, 3));
     case 5:
+      return S.suspend(() => S.Struct({ Value: S.String, Rationale: S.String })).annotate({
+        identifier: "TextAlternative",
+      });
+    case 6:
+      return S.Array(__S(69, __c2, 5));
+    case 7:
+      return S.suspend(() => S.Struct({ Value: __S(160, __c5, 0), Rationale: S.String })).annotate({
+        identifier: "TextListAlternative",
+      });
+    case 8:
+      return S.Array(__S(71, __c2, 7));
+    case 9:
+      return S.suspend(() => S.Struct({ Type: S.String, Text: S.String, Url: S.String })).annotate({
+        identifier: "AdditionalResource",
+      });
+    case 10:
+      return S.Array(__S(73, __c2, 9));
+    case 11:
+      return S.suspend(() => S.Struct({ Value: __S(74, __c2, 10), Rationale: S.String })).annotate({
+        identifier: "AdditionalResourcesAlternative",
+      });
+    case 12:
+      return S.Array(__S(75, __c2, 11));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.String,
+          Rank: S.Number,
+          Name: S.String,
+          Group: S.String,
+          Subgroup: S.String,
+          UseCaseDetails: S.optional(S.String),
+          Rationale: S.String,
+        }),
+      ).annotate({ identifier: "ListingUseCase" });
+    case 14:
+      return S.Array(__S(77, __c2, 13));
+    case 15:
+      return S.suspend(() => S.Struct({ Value: __S(78, __c2, 14), Rationale: S.String })).annotate({
+        identifier: "UseCasesAlternative",
+      });
+    case 16:
+      return S.Array(__S(79, __c2, 15));
+    case 17:
+      return S.suspend(() =>
+        S.Struct({ Id: S.String, Title: S.String, Rationale: S.String }),
+      ).annotate({ identifier: "ListingCaseStudy" });
+    case 18:
+      return S.Array(__S(81, __c2, 17));
+    case 19:
+      return S.suspend(() => S.Struct({ Value: __S(82, __c2, 18), Rationale: S.String })).annotate({
+        identifier: "CaseStudiesAlternative",
+      });
+    case 20:
+      return S.Array(__S(83, __c2, 19));
+    case 21:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ Text: __S(70, __c2, 6) }),
+        /*@__PURE__*/ S.Struct({ TextList: __S(72, __c2, 8) }),
+        /*@__PURE__*/ S.Struct({ AdditionalResources: __S(76, __c2, 12) }),
+        /*@__PURE__*/ S.Struct({ UseCases: __S(80, __c2, 16) }),
+        /*@__PURE__*/ S.Struct({ CaseStudies: __S(84, __c2, 20) }),
+      ]);
+    case 22:
+      return S.suspend(() => S.Struct({ Question: S.String, Justification: S.String })).annotate({
+        identifier: "FollowUpQuestion",
+      });
+    case 23:
+      return S.Array(__S(86, __c2, 22));
+    case 24:
+      return S.suspend(() =>
+        S.Struct({ Action: S.String, Description: S.String, Severity: S.String, Status: S.String }),
+      ).annotate({ identifier: "ListingFinding" });
+    case 25:
+      return S.Array(__S(88, __c2, 24));
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          Status: S.String,
+          Alternatives: __S(85, __c2, 21),
+          FollowUpQuestions: __S(87, __c2, 23),
+          Findings: __S(89, __c2, 25),
+        }),
+      ).annotate({ identifier: "ContentRecommendation" });
+    case 27:
+      return S.suspend(() => S.Struct({ Url: S.String })).annotate({
+        identifier: "RecommendationCitation",
+      });
+    case 28:
+      return S.Array(__S(91, __c2, 27));
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          ProductTitle: S.optional(__S(90, __c2, 26)),
+          ShortDescription: S.optional(__S(90, __c2, 26)),
+          LongDescription: S.optional(__S(90, __c2, 26)),
+          SupportDescription: S.optional(__S(90, __c2, 26)),
+          Highlights: S.optional(__S(90, __c2, 26)),
+          SearchKeywords: S.optional(__S(90, __c2, 26)),
+          Categories: S.optional(__S(90, __c2, 26)),
+          AdditionalResources: S.optional(__S(90, __c2, 26)),
+          Citations: __S(92, __c2, 28),
+        }),
+      ).annotate({ identifier: "ProductContentRecommendations" });
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          Title: S.optional(__S(90, __c2, 26)),
+          ShortDescription: S.optional(__S(90, __c2, 26)),
+          LongDescription: S.optional(__S(90, __c2, 26)),
+          IntegrationDetails: S.optional(__S(90, __c2, 26)),
+          AdditionalResources: S.optional(__S(90, __c2, 26)),
+          UseCases: S.optional(__S(90, __c2, 26)),
+          CaseStudies: S.optional(__S(90, __c2, 26)),
+          Citations: __S(92, __c2, 28),
+        }),
+      ).annotate({ identifier: "SolutionContentRecommendations" });
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          FeatureId: S.String,
+          Action: S.String,
+          Rationale: S.String,
+          Severity: S.String,
+          Status: S.String,
+        }),
+      ).annotate({ identifier: "FeatureRecommendation" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(95, __c2, 31));
+    case 1:
+      return S.suspend(() => S.Struct({ Recommendations: __S(96, __c3, 0) })).annotate({
+        identifier: "FeatureRecommendations",
+      });
+    case 2:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ ProductContentRecommendations: __S(93, __c2, 29) }),
+        /*@__PURE__*/ S.Struct({ SolutionContentRecommendations: __S(94, __c2, 30) }),
+        /*@__PURE__*/ S.Struct({ FeatureRecommendations: __S(97, __c3, 1) }),
+      ]);
+    case 3:
+      return S.Union([/*@__PURE__*/ S.Struct({ ListingRecommendations: __S(98, __c3, 2) })]);
+    case 4:
       return S.suspend(() =>
         S.Struct({
           ControlId: S.optional(S.String),
           ControlAssessmentResult: S.optional(S.String),
+          VerificationSource: S.optional(S.String),
           Errors: S.optional(__S(68, __c2, 4)),
+          ControlSummary: S.optional(__S(99, __c3, 3)),
         }),
       ).annotate({ identifier: "ControlAssessment" });
+    case 5:
+      return S.Array(__S(100, __c3, 4));
     case 6:
-      return S.Array(__S(69, __c2, 5));
-    case 7:
       return S.suspend(() =>
         S.Struct({
           AssessmentArn: S.optional(S.String),
           AssessmentId: S.optional(S.String),
           FrameworkId: S.optional(S.String),
-          AssessmentTargetSummary: S.optional(__S(96, __c3, 0)),
-          FrameworkSummary: S.optional(__S(98, __c3, 2)),
+          AssessmentTargetSummary: S.optional(__S(128, __c4, 0)),
+          FrameworkSummary: S.optional(__S(131, __c4, 3)),
           AssessmentResult: S.optional(S.String),
           CreatedAt: S.optional(S.String),
           ExpiresAt: S.optional(S.String),
-          ControlAssessments: S.optional(__S(70, __c2, 6)),
+          ControlAssessments: S.optional(__S(101, __c3, 5)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeAssessmentResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2137,13 +2595,25 @@ function __c3(j: number): any {
         identifier: "AMISecuritySummary",
       });
     case 2:
+      return S.suspend(() =>
+        S.Struct({ Tier: S.String, EntityRevision: S.optional(S.String) }),
+      ).annotate({ identifier: "ListingQualitySummary" });
+    case 3:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ AMISecuritySummary: __S(97, __c3, 1) }),
-        /*@__PURE__*/ S.Struct({ ContainerSecuritySummary: __S(97, __c3, 1) }),
+        /*@__PURE__*/ S.Struct({ AMISecuritySummary: __S(129, __c4, 1) }),
+        /*@__PURE__*/ S.Struct({ ContainerSecuritySummary: __S(129, __c4, 1) }),
+        /*@__PURE__*/ S.Struct({ ListingQualitySummary: __S(130, __c4, 2) }),
+        /*@__PURE__*/ S.Struct({ ListingRecommendationsSummary: __S(130, __c4, 2) }),
       ]);
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2155,20 +2625,20 @@ function __c4(j: number): any {
         ),
       ).annotate({ identifier: "DescribeChangeSetRequest" });
     case 1:
-      return S.Array(__S(672, __c21, 0));
+      return S.Array(__S(736, __c23, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           ChangeType: S.optional(S.String),
-          Entity: S.optional(__S(160, __c5, 0)),
+          Entity: S.optional(__S(224, __c7, 0)),
           Details: S.optional(S.String),
           DetailsDocument: S.optional(S.Any),
-          ErrorDetailList: S.optional(__S(129, __c4, 1)),
+          ErrorDetailList: S.optional(__S(193, __c6, 1)),
           ChangeName: S.optional(S.String),
         }),
       ).annotate({ identifier: "ChangeSummary" });
     case 3:
-      return S.Array(__S(130, __c4, 2));
+      return S.Array(__S(194, __c6, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -2181,12 +2651,12 @@ function __c4(j: number): any {
           Status: S.optional(S.String),
           FailureCode: S.optional(S.String),
           FailureDescription: S.optional(S.String),
-          ChangeSet: S.optional(__S(131, __c4, 3)),
+          ChangeSet: S.optional(__S(195, __c6, 3)),
         }),
       ).annotate({ identifier: "DescribeChangeSetResponse" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2194,7 +2664,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "Entity" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2218,7 +2688,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "DescribeEntityResponse" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2232,58 +2702,66 @@ function __c7(j: number): any {
       });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ AMISecurityFilters: __S(97, __c3, 1) }),
-        /*@__PURE__*/ S.Struct({ ContainerSecurityFilters: __S(97, __c3, 1) }),
-      ]);
+      return S.suspend(() =>
+        S.Struct({
+          EntityId: S.optional(S.String),
+          ChangeSetId: S.optional(S.String),
+          EntityIds: S.optional(__S(160, __c5, 0)),
+        }),
+      ).annotate({ identifier: "AssessmentTargetFilter" });
     case 1:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ AMISecurityFilters: __S(129, __c4, 1) }),
+        /*@__PURE__*/ S.Struct({ ContainerSecurityFilters: __S(129, __c4, 1) }),
+      ]);
+    case 2:
       return S.suspend(() =>
         S.Struct({
           Catalog: S.String,
           FrameworkId: S.optional(S.String),
-          AssessmentTargetFilter: S.optional(__S(96, __c3, 0)),
-          FrameworkFilters: S.optional(__S(256, __c8, 0)),
+          AssessmentTargetFilter: S.optional(__S(320, __c10, 0)),
+          FrameworkFilters: S.optional(__S(321, __c10, 1)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/ListAssessments" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "ListAssessmentsRequest" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           AssessmentArn: S.optional(S.String),
           AssessmentId: S.optional(S.String),
           FrameworkId: S.optional(S.String),
-          AssessmentTargetSummary: S.optional(__S(96, __c3, 0)),
-          FrameworkSummary: S.optional(__S(98, __c3, 2)),
+          AssessmentTargetSummary: S.optional(__S(128, __c4, 0)),
+          FrameworkSummary: S.optional(__S(131, __c4, 3)),
           AssessmentResult: S.optional(S.String),
           CreatedAt: S.optional(S.String),
           ExpiresAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "AssessmentSummary" });
-    case 3:
-      return S.Array(__S(258, __c8, 2));
     case 4:
+      return S.Array(__S(323, __c10, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          AssessmentSummaryList: S.optional(__S(259, __c8, 3)),
+          AssessmentSummaryList: S.optional(__S(324, __c10, 4)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAssessmentsResponse" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Catalog: S.String,
-          FilterList: S.optional(__S(321, __c10, 1)),
-          Sort: S.optional(__S(322, __c10, 2)),
+          FilterList: S.optional(__S(385, __c12, 1)),
+          Sort: S.optional(__S(386, __c12, 2)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(
@@ -2299,58 +2777,49 @@ function __c9(j: number): any {
           StartTime: S.optional(S.String),
           EndTime: S.optional(S.String),
           Status: S.optional(S.String),
-          EntityIdList: S.optional(__S(352, __c11, 0)),
+          EntityIdList: S.optional(__S(160, __c5, 0)),
           FailureCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "ChangeSetSummaryListItem" });
     case 2:
-      return S.Array(__S(289, __c9, 1));
+      return S.Array(__S(353, __c11, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ChangeSetSummaryList: S.optional(__S(290, __c9, 2)),
+          ChangeSetSummaryList: S.optional(__S(354, __c11, 2)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListChangeSetsResponse" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Name: S.optional(S.String), ValueList: S.optional(__S(352, __c11, 0)) }),
+        S.Struct({ Name: S.optional(S.String), ValueList: S.optional(__S(160, __c5, 0)) }),
       ).annotate({ identifier: "Filter" });
     case 1:
-      return S.Array(__S(320, __c10, 0));
+      return S.Array(__S(384, __c12, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({ SortBy: S.optional(S.String), SortOrder: S.optional(S.String) }),
       ).annotate({ identifier: "Sort" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ ValueList: S.optional(__S(352, __c11, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ ValueList: S.optional(__S(160, __c5, 0)) })).annotate({
         identifier: "DataProductEntityIdFilter",
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          ValueList: S.optional(__S(352, __c11, 0)),
-          WildCardValue: S.optional(S.String),
-        }),
+        S.Struct({ ValueList: S.optional(__S(160, __c5, 0)), WildCardValue: S.optional(S.String) }),
       ).annotate({ identifier: "DataProductTitleFilter" });
     case 2:
       return S.Array(S.String);
     case 3:
-      return S.suspend(() => S.Struct({ ValueList: S.optional(__S(386, __c12, 2)) })).annotate({
+      return S.suspend(() => S.Struct({ ValueList: S.optional(__S(418, __c13, 2)) })).annotate({
         identifier: "DataProductVisibilityFilter",
       });
     case 4:
@@ -2358,25 +2827,25 @@ function __c12(j: number): any {
         S.Struct({ AfterValue: S.optional(S.String), BeforeValue: S.optional(S.String) }),
       ).annotate({ identifier: "DataProductLastModifiedDateFilterDateRange" });
     case 5:
-      return S.suspend(() => S.Struct({ DateRange: S.optional(__S(388, __c12, 4)) })).annotate({
+      return S.suspend(() => S.Struct({ DateRange: S.optional(__S(420, __c13, 4)) })).annotate({
         identifier: "DataProductLastModifiedDateFilter",
       });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          EntityId: S.optional(__S(384, __c12, 0)),
-          ProductTitle: S.optional(__S(385, __c12, 1)),
-          Visibility: S.optional(__S(387, __c12, 3)),
-          LastModifiedDate: S.optional(__S(389, __c12, 5)),
+          EntityId: S.optional(__S(416, __c13, 0)),
+          ProductTitle: S.optional(__S(417, __c13, 1)),
+          Visibility: S.optional(__S(419, __c13, 3)),
+          LastModifiedDate: S.optional(__S(421, __c13, 5)),
         }),
       ).annotate({ identifier: "DataProductFilters" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          EntityId: S.optional(__S(384, __c12, 0)),
-          LastModifiedDate: S.optional(__S(389, __c12, 5)),
-          ProductTitle: S.optional(__S(385, __c12, 1)),
-          Visibility: S.optional(__S(387, __c12, 3)),
+          EntityId: S.optional(__S(416, __c13, 0)),
+          LastModifiedDate: S.optional(__S(421, __c13, 5)),
+          ProductTitle: S.optional(__S(417, __c13, 1)),
+          Visibility: S.optional(__S(419, __c13, 3)),
         }),
       ).annotate({ identifier: "AmiProductFilters" });
     case 8:
@@ -2386,95 +2855,96 @@ function __c12(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          EntityId: S.optional(__S(384, __c12, 0)),
-          Name: S.optional(__S(385, __c12, 1)),
-          ProductId: S.optional(__S(384, __c12, 0)),
-          ResaleAuthorizationId: S.optional(__S(384, __c12, 0)),
-          ReleaseDate: S.optional(__S(389, __c12, 5)),
-          AvailabilityEndDate: S.optional(__S(389, __c12, 5)),
-          BuyerAccounts: S.optional(__S(392, __c12, 8)),
-          State: S.optional(__S(387, __c12, 3)),
-          Targeting: S.optional(__S(387, __c12, 3)),
-          LastModifiedDate: S.optional(__S(389, __c12, 5)),
-          OfferSetId: S.optional(__S(384, __c12, 0)),
-          TargetAgreementId: S.optional(__S(384, __c12, 0)),
-          TargetAgreementIntent: S.optional(__S(387, __c12, 3)),
-          CreatedBySource: S.optional(__S(387, __c12, 3)),
+          EntityId: S.optional(__S(416, __c13, 0)),
+          Name: S.optional(__S(417, __c13, 1)),
+          ProductId: S.optional(__S(416, __c13, 0)),
+          ResaleAuthorizationId: S.optional(__S(416, __c13, 0)),
+          SubsidiaryAuthorizationId: S.optional(__S(416, __c13, 0)),
+          ReleaseDate: S.optional(__S(421, __c13, 5)),
+          AvailabilityEndDate: S.optional(__S(421, __c13, 5)),
+          BuyerAccounts: S.optional(__S(424, __c13, 8)),
+          State: S.optional(__S(419, __c13, 3)),
+          Targeting: S.optional(__S(419, __c13, 3)),
+          LastModifiedDate: S.optional(__S(421, __c13, 5)),
+          OfferSetId: S.optional(__S(416, __c13, 0)),
+          TargetAgreementId: S.optional(__S(416, __c13, 0)),
+          TargetAgreementIntent: S.optional(__S(419, __c13, 3)),
+          CreatedBySource: S.optional(__S(419, __c13, 3)),
         }),
       ).annotate({ identifier: "OfferFilters" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          DateRange: S.optional(__S(388, __c12, 4)),
-          ValueList: S.optional(__S(352, __c11, 0)),
+          DateRange: S.optional(__S(420, __c13, 4)),
+          ValueList: S.optional(__S(160, __c5, 0)),
         }),
       ).annotate({ identifier: "ResaleAuthorizationCreatedDateFilter" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          EntityId: S.optional(__S(384, __c12, 0)),
-          Name: S.optional(__S(385, __c12, 1)),
-          ProductId: S.optional(__S(385, __c12, 1)),
-          CreatedDate: S.optional(__S(394, __c12, 10)),
-          AvailabilityEndDate: S.optional(__S(394, __c12, 10)),
-          ManufacturerAccountId: S.optional(__S(385, __c12, 1)),
-          ProductName: S.optional(__S(385, __c12, 1)),
-          ManufacturerLegalName: S.optional(__S(385, __c12, 1)),
-          ResellerAccountID: S.optional(__S(385, __c12, 1)),
-          ResellerLegalName: S.optional(__S(385, __c12, 1)),
-          Status: S.optional(__S(387, __c12, 3)),
-          OfferExtendedStatus: S.optional(__S(384, __c12, 0)),
-          LastModifiedDate: S.optional(__S(389, __c12, 5)),
-          ResellerRole: S.optional(__S(387, __c12, 3)),
-          SourceAuthorization: S.optional(__S(384, __c12, 0)),
-          IssuerAccountId: S.optional(__S(384, __c12, 0)),
+          EntityId: S.optional(__S(416, __c13, 0)),
+          Name: S.optional(__S(417, __c13, 1)),
+          ProductId: S.optional(__S(417, __c13, 1)),
+          CreatedDate: S.optional(__S(426, __c13, 10)),
+          AvailabilityEndDate: S.optional(__S(426, __c13, 10)),
+          ManufacturerAccountId: S.optional(__S(417, __c13, 1)),
+          ProductName: S.optional(__S(417, __c13, 1)),
+          ManufacturerLegalName: S.optional(__S(417, __c13, 1)),
+          ResellerAccountID: S.optional(__S(417, __c13, 1)),
+          ResellerLegalName: S.optional(__S(417, __c13, 1)),
+          Status: S.optional(__S(419, __c13, 3)),
+          OfferExtendedStatus: S.optional(__S(416, __c13, 0)),
+          LastModifiedDate: S.optional(__S(421, __c13, 5)),
+          ResellerRole: S.optional(__S(419, __c13, 3)),
+          SourceAuthorization: S.optional(__S(416, __c13, 0)),
+          IssuerAccountId: S.optional(__S(416, __c13, 0)),
         }),
       ).annotate({ identifier: "ResaleAuthorizationFilters" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          EntityId: S.optional(__S(384, __c12, 0)),
-          Name: S.optional(__S(384, __c12, 0)),
-          State: S.optional(__S(387, __c12, 3)),
-          ReleaseDate: S.optional(__S(389, __c12, 5)),
-          AssociatedOfferIds: S.optional(__S(384, __c12, 0)),
-          SolutionId: S.optional(__S(384, __c12, 0)),
-          LastModifiedDate: S.optional(__S(389, __c12, 5)),
+          EntityId: S.optional(__S(416, __c13, 0)),
+          Name: S.optional(__S(416, __c13, 0)),
+          State: S.optional(__S(419, __c13, 3)),
+          ReleaseDate: S.optional(__S(421, __c13, 5)),
+          AssociatedOfferIds: S.optional(__S(416, __c13, 0)),
+          SolutionId: S.optional(__S(416, __c13, 0)),
+          LastModifiedDate: S.optional(__S(421, __c13, 5)),
         }),
       ).annotate({ identifier: "OfferSetFilters" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          EntityId: S.optional(__S(384, __c12, 0)),
-          ProductId: S.optional(__S(384, __c12, 0)),
-          State: S.optional(__S(387, __c12, 3)),
+          EntityId: S.optional(__S(416, __c13, 0)),
+          ProductId: S.optional(__S(416, __c13, 0)),
+          State: S.optional(__S(419, __c13, 3)),
         }),
       ).annotate({ identifier: "ExpressPrivateOfferConfigurationFilters" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          EntityId: S.optional(__S(384, __c12, 0)),
-          Status: S.optional(__S(387, __c12, 3)),
-          ResourceId: S.optional(__S(384, __c12, 0)),
-          ResourceName: S.optional(__S(385, __c12, 1)),
-          Name: S.optional(__S(385, __c12, 1)),
-          SubsidiaryAccountId: S.optional(__S(384, __c12, 0)),
-          CreatedDate: S.optional(__S(389, __c12, 5)),
-          LastModifiedDate: S.optional(__S(389, __c12, 5)),
+          EntityId: S.optional(__S(416, __c13, 0)),
+          Status: S.optional(__S(419, __c13, 3)),
+          ResourceId: S.optional(__S(416, __c13, 0)),
+          ResourceName: S.optional(__S(417, __c13, 1)),
+          Name: S.optional(__S(417, __c13, 1)),
+          SubsidiaryAccountId: S.optional(__S(416, __c13, 0)),
+          CreatedDate: S.optional(__S(421, __c13, 5)),
+          LastModifiedDate: S.optional(__S(421, __c13, 5)),
         }),
       ).annotate({ identifier: "SubsidiaryAuthorizationFilters" });
     case 15:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ DataProductFilters: __S(390, __c12, 6) }),
-        /*@__PURE__*/ S.Struct({ SaaSProductFilters: __S(390, __c12, 6) }),
-        /*@__PURE__*/ S.Struct({ AmiProductFilters: __S(391, __c12, 7) }),
-        /*@__PURE__*/ S.Struct({ OfferFilters: __S(393, __c12, 9) }),
-        /*@__PURE__*/ S.Struct({ ContainerProductFilters: __S(391, __c12, 7) }),
-        /*@__PURE__*/ S.Struct({ ResaleAuthorizationFilters: __S(395, __c12, 11) }),
-        /*@__PURE__*/ S.Struct({ MachineLearningProductFilters: __S(391, __c12, 7) }),
-        /*@__PURE__*/ S.Struct({ OfferSetFilters: __S(396, __c12, 12) }),
-        /*@__PURE__*/ S.Struct({ ExpressPrivateOfferConfigurationFilters: __S(397, __c12, 13) }),
-        /*@__PURE__*/ S.Struct({ SubsidiaryAuthorizationFilters: __S(398, __c12, 14) }),
+        /*@__PURE__*/ S.Struct({ DataProductFilters: __S(422, __c13, 6) }),
+        /*@__PURE__*/ S.Struct({ SaaSProductFilters: __S(422, __c13, 6) }),
+        /*@__PURE__*/ S.Struct({ AmiProductFilters: __S(423, __c13, 7) }),
+        /*@__PURE__*/ S.Struct({ OfferFilters: __S(425, __c13, 9) }),
+        /*@__PURE__*/ S.Struct({ ContainerProductFilters: __S(423, __c13, 7) }),
+        /*@__PURE__*/ S.Struct({ ResaleAuthorizationFilters: __S(427, __c13, 11) }),
+        /*@__PURE__*/ S.Struct({ MachineLearningProductFilters: __S(423, __c13, 7) }),
+        /*@__PURE__*/ S.Struct({ OfferSetFilters: __S(428, __c13, 12) }),
+        /*@__PURE__*/ S.Struct({ ExpressPrivateOfferConfigurationFilters: __S(429, __c13, 13) }),
+        /*@__PURE__*/ S.Struct({ SubsidiaryAuthorizationFilters: __S(430, __c13, 14) }),
       ]);
     case 16:
       return S.suspend(() =>
@@ -2482,29 +2952,29 @@ function __c12(j: number): any {
       ).annotate({ identifier: "DataProductSort" });
     case 17:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ DataProductSort: __S(400, __c12, 16) }),
-        /*@__PURE__*/ S.Struct({ SaaSProductSort: __S(400, __c12, 16) }),
-        /*@__PURE__*/ S.Struct({ AmiProductSort: __S(400, __c12, 16) }),
-        /*@__PURE__*/ S.Struct({ OfferSort: __S(400, __c12, 16) }),
-        /*@__PURE__*/ S.Struct({ ContainerProductSort: __S(400, __c12, 16) }),
-        /*@__PURE__*/ S.Struct({ ResaleAuthorizationSort: __S(400, __c12, 16) }),
-        /*@__PURE__*/ S.Struct({ MachineLearningProductSort: __S(400, __c12, 16) }),
-        /*@__PURE__*/ S.Struct({ OfferSetSort: __S(400, __c12, 16) }),
-        /*@__PURE__*/ S.Struct({ ExpressPrivateOfferConfigurationSort: __S(400, __c12, 16) }),
-        /*@__PURE__*/ S.Struct({ SubsidiaryAuthorizationSort: __S(400, __c12, 16) }),
+        /*@__PURE__*/ S.Struct({ DataProductSort: __S(432, __c13, 16) }),
+        /*@__PURE__*/ S.Struct({ SaaSProductSort: __S(432, __c13, 16) }),
+        /*@__PURE__*/ S.Struct({ AmiProductSort: __S(432, __c13, 16) }),
+        /*@__PURE__*/ S.Struct({ OfferSort: __S(432, __c13, 16) }),
+        /*@__PURE__*/ S.Struct({ ContainerProductSort: __S(432, __c13, 16) }),
+        /*@__PURE__*/ S.Struct({ ResaleAuthorizationSort: __S(432, __c13, 16) }),
+        /*@__PURE__*/ S.Struct({ MachineLearningProductSort: __S(432, __c13, 16) }),
+        /*@__PURE__*/ S.Struct({ OfferSetSort: __S(432, __c13, 16) }),
+        /*@__PURE__*/ S.Struct({ ExpressPrivateOfferConfigurationSort: __S(432, __c13, 16) }),
+        /*@__PURE__*/ S.Struct({ SubsidiaryAuthorizationSort: __S(432, __c13, 16) }),
       ]);
     case 18:
       return S.suspend(() =>
         S.Struct({
           Catalog: S.String,
           EntityType: S.String,
-          FilterList: S.optional(__S(321, __c10, 1)),
-          Sort: S.optional(__S(322, __c10, 2)),
+          FilterList: S.optional(__S(385, __c12, 1)),
+          Sort: S.optional(__S(386, __c12, 2)),
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
           OwnershipType: S.optional(S.String),
-          EntityTypeFilters: S.optional(__S(399, __c12, 15)),
-          EntityTypeSort: S.optional(__S(401, __c12, 17)),
+          EntityTypeFilters: S.optional(__S(431, __c13, 15)),
+          EntityTypeSort: S.optional(__S(433, __c13, 17)),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/ListEntities" }), svc, auth, proto, ver, rules),
         ),
@@ -2519,11 +2989,12 @@ function __c12(j: number): any {
           Name: S.optional(S.String),
           ProductId: S.optional(S.String),
           ResaleAuthorizationId: S.optional(S.String),
+          SubsidiaryAuthorizationId: S.optional(S.String),
           ReleaseDate: S.optional(S.String),
           AvailabilityEndDate: S.optional(S.String),
-          BuyerAccounts: S.optional(__S(352, __c11, 0)),
+          BuyerAccounts: S.optional(__S(160, __c5, 0)),
           State: S.optional(S.String),
-          Targeting: S.optional(__S(386, __c12, 2)),
+          Targeting: S.optional(__S(418, __c13, 2)),
           OfferSetId: S.optional(S.String),
           TargetAgreementId: S.optional(S.String),
           TargetAgreementIntent: S.optional(S.String),
@@ -2555,7 +3026,7 @@ function __c12(j: number): any {
           Name: S.optional(S.String),
           State: S.optional(S.String),
           ReleaseDate: S.optional(S.String),
-          AssociatedOfferIds: S.optional(__S(352, __c11, 0)),
+          AssociatedOfferIds: S.optional(__S(160, __c5, 0)),
           SolutionId: S.optional(S.String),
         }),
       ).annotate({ identifier: "OfferSetSummary" });
@@ -2583,30 +3054,30 @@ function __c12(j: number): any {
           EntityArn: S.optional(S.String),
           LastModifiedDate: S.optional(S.String),
           Visibility: S.optional(S.String),
-          AmiProductSummary: S.optional(__S(403, __c12, 19)),
-          ContainerProductSummary: S.optional(__S(403, __c12, 19)),
-          DataProductSummary: S.optional(__S(403, __c12, 19)),
-          SaaSProductSummary: S.optional(__S(403, __c12, 19)),
-          OfferSummary: S.optional(__S(404, __c12, 20)),
-          ResaleAuthorizationSummary: S.optional(__S(405, __c12, 21)),
-          MachineLearningProductSummary: S.optional(__S(403, __c12, 19)),
-          OfferSetSummary: S.optional(__S(406, __c12, 22)),
-          ExpressPrivateOfferConfigurationSummary: S.optional(__S(407, __c12, 23)),
-          SubsidiaryAuthorizationSummary: S.optional(__S(408, __c12, 24)),
+          AmiProductSummary: S.optional(__S(435, __c13, 19)),
+          ContainerProductSummary: S.optional(__S(435, __c13, 19)),
+          DataProductSummary: S.optional(__S(435, __c13, 19)),
+          SaaSProductSummary: S.optional(__S(435, __c13, 19)),
+          OfferSummary: S.optional(__S(436, __c13, 20)),
+          ResaleAuthorizationSummary: S.optional(__S(437, __c13, 21)),
+          MachineLearningProductSummary: S.optional(__S(435, __c13, 19)),
+          OfferSetSummary: S.optional(__S(438, __c13, 22)),
+          ExpressPrivateOfferConfigurationSummary: S.optional(__S(439, __c13, 23)),
+          SubsidiaryAuthorizationSummary: S.optional(__S(440, __c13, 24)),
         }),
       ).annotate({ identifier: "EntitySummary" });
     case 26:
-      return S.Array(__S(409, __c12, 25));
+      return S.Array(__S(441, __c13, 25));
     case 27:
       return S.suspend(() =>
         S.Struct({
-          EntitySummaryList: S.optional(__S(410, __c12, 26)),
+          EntitySummaryList: S.optional(__S(442, __c13, 26)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListEntitiesResponse" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2623,21 +3094,21 @@ function __c13(j: number): any {
       ).annotate({ identifier: "ListTagsForResourceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ ResourceArn: S.optional(S.String), Tags: S.optional(__S(449, __c14, 1)) }),
+        S.Struct({ ResourceArn: S.optional(S.String), Tags: S.optional(__S(481, __c15, 1)) }),
       ).annotate({ identifier: "ListTagsForResourceResponse" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Key: S.String, Value: S.String })).annotate({
         identifier: "Tag",
       });
     case 1:
-      return S.Array(__S(448, __c14, 0));
+      return S.Array(__S(480, __c15, 0));
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2654,29 +3125,58 @@ function __c15(j: number): any {
       ).annotate({ identifier: "PutResourcePolicyRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ ControlId: S.String, Input: S.optional(S.Any) })).annotate({
+        identifier: "ControlInput",
+      });
+    case 1:
+      return S.Array(__S(544, __c17, 0));
+    case 2:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Catalog: S.String,
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          FrameworkId: S.String,
+          EntityId: S.String,
+          Controls: S.optional(__S(545, __c17, 1)),
+          Tags: S.optional(__S(546, __c17, 2)),
+        }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/StartAssessment" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "StartAssessmentRequest" });
+    case 4:
+      return S.suspend(() => S.Struct({ AssessmentId: S.optional(S.String) })).annotate({
+        identifier: "StartAssessmentResponse",
+      });
+  }
+}
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ChangeType: S.String,
-          Entity: __S(160, __c5, 0),
-          EntityTags: S.optional(__S(449, __c14, 1)),
+          Entity: __S(224, __c7, 0),
+          EntityTags: S.optional(__S(481, __c15, 1)),
           Details: S.optional(S.String),
           DetailsDocument: S.optional(S.Any),
           ChangeName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Change" });
     case 1:
-      return S.Array(__S(512, __c16, 0));
+      return S.Array(__S(576, __c18, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           Catalog: S.String,
-          ChangeSet: __S(513, __c16, 1),
+          ChangeSet: __S(577, __c18, 1),
           ChangeSetName: S.optional(S.String),
           ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          ChangeSetTags: S.optional(__S(449, __c14, 1)),
+          ChangeSetTags: S.optional(__S(481, __c15, 1)),
           Intent: S.optional(S.String),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/StartChangeSet" }), svc, auth, proto, ver, rules),
@@ -2684,27 +3184,27 @@ function __c16(j: number): any {
       ).annotate({ identifier: "StartChangeSetRequest" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ ResourceArn: S.String, Tags: __S(449, __c14, 1) }).pipe(
+        S.Struct({ ResourceArn: S.String, Tags: __S(481, __c15, 1) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/TagResource" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "TagResourceRequest" });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ ResourceArn: S.String, TagKeys: __S(352, __c11, 0) }).pipe(
+        S.Struct({ ResourceArn: S.String, TagKeys: __S(160, __c5, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/UntagResource" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2718,20 +3218,20 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "ValidationExceptionField" });
     case 1:
-      return S.Array(__S(608, __c19, 0));
+      return S.Array(__S(672, __c21, 0));
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Catalog: S.String, EntityId: S.String })).annotate({
         identifier: "EntityRequest",
       });
     case 1:
-      return S.Array(__S(640, __c20, 0));
+      return S.Array(__S(704, __c22, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ EntityRequestList: __S(641, __c20, 1) }).pipe(
+        S.Struct({ EntityRequestList: __S(705, __c22, 1) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/BatchDescribeEntities" }),
             svc,
@@ -2753,19 +3253,19 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "EntityDetail" });
     case 4:
-      return S.Record(S.String, /*@__PURE__*/ __S(643, __c20, 3).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(707, __c22, 3).pipe(S.optional));
     case 5:
-      return S.Record(S.String, /*@__PURE__*/ __S(672, __c21, 0).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(736, __c23, 0).pipe(S.optional));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          EntityDetails: S.optional(__S(644, __c20, 4)),
-          Errors: S.optional(__S(645, __c20, 5)),
+          EntityDetails: S.optional(__S(708, __c22, 4)),
+          Errors: S.optional(__S(709, __c22, 5)),
         }),
       ).annotate({ identifier: "BatchDescribeEntitiesResponse" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2773,7 +3273,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "BatchDescribeErrorDetail" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2786,7 +3286,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "CancelChangeSetRequest" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

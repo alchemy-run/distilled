@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { VercelServiceErrors } from "../errors.ts";
 import { VercelProtocol, type VercelOpError, type VercelOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -174,7 +175,7 @@ export interface APIKey {
 }
 export interface CreateApiKeysResponse {
   /** The API key's actual value. This value is only provided in this response, and can never be retrieved again in the future. Be sure to save it somewhere safe! */
-  apiKeyString: string;
+  apiKeyString: string | Redacted.Redacted<string>;
   apiKey: APIKey;
 }
 export interface CreateAuthTokenRequest {
@@ -288,7 +289,7 @@ export interface AuthToken {
 }
 export interface CreateAuthTokenResponse {
   /** The authentication token's actual value. This token is only provided in this response, and can never be retrieved again in the future. Be sure to save it somewhere safe! */
-  bearerToken: string;
+  bearerToken: string | Redacted.Redacted<string>;
   token: AuthToken;
 }
 /** Identifies an explicit logout for the deletion event. Only applies when tokenId is current. */
@@ -344,14 +345,14 @@ export interface ExchangeSsoTokenRequest {
 export interface ExchangeSsoTokenResponseBodyCase0 {
   access_token: string | Redacted.Redacted<string> | null;
   expires_in?: number | undefined;
-  id_token: string;
+  id_token: string | Redacted.Redacted<string>;
   refresh_token?: string | Redacted.Redacted<string> | undefined;
   token_type: string | null;
 }
 export interface ExchangeSsoTokenResponseBodyCase1 {
   access_token: string | Redacted.Redacted<string>;
   expires_in: number;
-  id_token: string;
+  id_token: string | Redacted.Redacted<string>;
   refresh_token: string | Redacted.Redacted<string>;
   token_type: string;
 }
@@ -412,6 +413,7 @@ export const createApiKeys: API.OperationMethod<
   input: __S(11, __c1, 3) as any as S.Schema<CreateApiKeysRequest>,
   output: __S(15, __c1, 7) as any as S.Schema<CreateApiKeysResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -429,6 +431,7 @@ export const createAuthToken: API.OperationMethod<
   input: __S(16, __c2, 0) as any as S.Schema<CreateAuthTokenRequest>,
   output: __S(17, __c2, 1) as any as S.Schema<CreateAuthTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -446,6 +449,7 @@ export const deleteAuthToken: API.OperationMethod<
   input: __S(32, __c4, 0) as any as S.Schema<DeleteAuthTokenRequest>,
   output: __S(33, __c4, 1) as any as S.Schema<DeleteAuthTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -463,6 +467,7 @@ export const exchangeSsoToken: API.OperationMethod<
   input: __S(40, __c5, 0) as any as S.Schema<ExchangeSsoTokenRequest>,
   output: __S(41, __c5, 1) as any as S.Schema<ExchangeSsoTokenResponse>,
   errors: [BadRequest, Forbidden],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -480,6 +485,7 @@ export const getAuthToken: API.OperationMethod<
   input: __S(48, __c6, 0) as any as S.Schema<GetAuthTokenRequest>,
   output: __S(49, __c6, 1) as any as S.Schema<GetAuthTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -497,6 +503,7 @@ export const listAuthTokens: API.OperationMethod<
   input: __S(56, __c7, 0) as any as S.Schema<ListAuthTokensRequest>,
   output: __S(57, __c7, 1) as any as S.Schema<ListAuthTokensResponse>,
   errors: [BadRequest, Forbidden],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -588,7 +595,7 @@ function __c1(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          apiKeyString: S.String,
+          apiKeyString: S.String.pipe(T.SensitiveValue({})),
           apiKey: __S(14, __c1, 6),
         }),
       ).annotate({ identifier: "CreateApiKeysResponse" });
@@ -609,7 +616,7 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          bearerToken: S.String,
+          bearerToken: S.String.pipe(T.SensitiveValue({})),
           token: __S(25, __c3, 1),
         }),
       ).annotate({ identifier: "CreateAuthTokenResponse" });

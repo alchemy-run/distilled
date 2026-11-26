@@ -1,12 +1,10 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
  * RemoteProtocol -- hand-written.
  *
  * Remote speaks plain bearer-authenticated JSON REST (no response envelope),
- * so the whole protocol is one `makeRestProtocol` call from
+ * so the whole protocol is one `restProtocol` call from
  * `core/protocol-rest`:
  *
  *   request:  credentials -> `Authorization: Bearer <token>` + base URL
@@ -20,34 +18,26 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { UnknownRemoteError, RemoteParseError } from "./errors.ts";
+import { Credentials } from "./credentials.ts";
+import { UnknownRemoteError, RemoteParseError, type RemoteServiceError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Remote operation. Generated service
- * files annotate operations with `API.OperationMethod<I, O, RemoteOpError,
- * RemoteOpContext>` explicitly so the compiler never infers these back out of
- * the schema generics.
+ * What every generated Remote operation fails with besides its own errors: the
+ * service's errors, the protocol's, and what resolving the credentials fails
+ * with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, RemoteOpError, RemoteOpContext>` explicitly so
+ * the compiler never infers these back out of the schema generics.
  */
-export type RemoteOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | UnknownRemoteError
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | RemoteParseError
-  | InvalidInput
-  | SdkError;
+export type RemoteOpError = RemoteServiceError | ErrorOf<typeof RemoteProtocol>;
 
 /** Context (requirements) shared by every generated Remote operation. */
 export type RemoteOpContext = Credentials | HttpClient.HttpClient;
 
-export const RemoteProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+export const RemoteProtocol = /*@__PURE__*/ restProtocol({
   // The Credentials service holds an effect -- resolving it here (per
   // request, on the calling fiber) picks up context-provided credentials.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
     Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,

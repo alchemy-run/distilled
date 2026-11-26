@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -557,7 +558,7 @@ export interface DeleteDataCatalogOutput {
   DataCatalog?: DataCatalog | undefined;
 }
 export interface DeleteNamedQueryInput {
-  NamedQueryId: string;
+  NamedQueryId?: string | undefined;
 }
 export interface DeleteNamedQueryOutput {}
 export interface DeleteNotebookInput {
@@ -1003,11 +1004,14 @@ export interface ListCapacityReservationsOutput {
   CapacityReservations: CapacityReservation[];
 }
 export type MaxDatabasesCount = number;
+export type DatabaseAttributes = "NAME" | (string & {});
+export type DatabaseAttributesList = DatabaseAttributes[];
 export interface ListDatabasesInput {
   CatalogName: string;
   NextToken?: string | undefined;
   MaxResults?: number | undefined;
   WorkGroup?: string | undefined;
+  AttributesToGet?: DatabaseAttributes[] | undefined;
 }
 export type DatabaseList = Database[];
 export interface ListDatabasesOutput {
@@ -1167,6 +1171,8 @@ export interface ListSystemTableStatusesOutput {
 }
 export type ExpressionString = string;
 export type MaxTableMetadataCount = number;
+export type TableAttributes = "NAME" | "TABLE_TYPE" | (string & {});
+export type TableAttributesList = TableAttributes[];
 export interface ListTableMetadataInput {
   CatalogName: string;
   DatabaseName: string;
@@ -1174,6 +1180,7 @@ export interface ListTableMetadataInput {
   NextToken?: string | undefined;
   MaxResults?: number | undefined;
   WorkGroup?: string | undefined;
+  AttributesToGet?: TableAttributes[] | undefined;
 }
 export type TableMetadataList = TableMetadata[];
 export interface ListTableMetadataOutput {
@@ -1263,7 +1270,7 @@ export interface StopCalculationExecutionResponse {
   State?: CalculationExecutionState | undefined;
 }
 export interface StopQueryExecutionInput {
-  QueryExecutionId: string;
+  QueryExecutionId?: string | undefined;
 }
 export interface StopQueryExecutionOutput {}
 export interface TagResourceInput {
@@ -1396,9 +1403,10 @@ export const batchGetNamedQuery: API.OperationMethod<
   BatchGetNamedQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<BatchGetNamedQueryInput>,
-  output: __S(1652, __c103, 4) as any as S.Schema<BatchGetNamedQueryOutput>,
+  input: __S(1664, __c104, 0) as any as S.Schema<BatchGetNamedQueryInput>,
+  output: __S(1668, __c104, 4) as any as S.Schema<BatchGetNamedQueryOutput>,
   errors: [InternalServerException, InvalidRequestException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetNamedQuery",
@@ -1426,6 +1434,7 @@ export const batchGetPreparedStatement: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<BatchGetPreparedStatementInput>,
   output: __S(4, __c0, 4) as any as S.Schema<BatchGetPreparedStatementOutput>,
   errors: [InternalServerException, InvalidRequestException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetPreparedStatement",
@@ -1454,6 +1463,7 @@ export const batchGetQueryExecution: API.OperationMethod<
   input: __S(32, __c2, 0) as any as S.Schema<BatchGetQueryExecutionInput>,
   output: __S(36, __c2, 4) as any as S.Schema<BatchGetQueryExecutionOutput>,
   errors: [InternalServerException, InvalidRequestException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetQueryExecution",
@@ -1480,6 +1490,7 @@ export const cancelCapacityReservation: API.OperationMethod<
   input: __S(176, __c11, 0) as any as S.Schema<CancelCapacityReservationInput>,
   output: __S(192, __c12, 0) as any as S.Schema<CancelCapacityReservationOutput>,
   errors: [InternalServerException, InvalidRequestException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelCapacityReservation",
@@ -1504,6 +1515,7 @@ export const createCapacityReservation: API.OperationMethod<
   input: __S(208, __c13, 0) as any as S.Schema<CreateCapacityReservationInput>,
   output: __S(192, __c12, 0) as any as S.Schema<CreateCapacityReservationOutput>,
   errors: [InternalServerException, InvalidRequestException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCapacityReservation",
@@ -1543,6 +1555,7 @@ export const createDataCatalog: API.OperationMethod<
   input: __S(240, __c15, 0) as any as S.Schema<CreateDataCatalogInput>,
   output: __S(273, __c17, 1) as any as S.Schema<CreateDataCatalogOutput>,
   errors: [InternalServerException, InvalidRequestException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataCatalog",
@@ -1567,6 +1580,7 @@ export const createNamedQuery: API.OperationMethod<
   input: __S(288, __c18, 0) as any as S.Schema<CreateNamedQueryInput>,
   output: __S(289, __c18, 1) as any as S.Schema<CreateNamedQueryOutput>,
   errors: [InternalServerException, InvalidRequestException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNamedQuery",
@@ -1593,6 +1607,7 @@ export const createNotebook: API.OperationMethod<
   input: __S(304, __c19, 0) as any as S.Schema<CreateNotebookInput>,
   output: __S(320, __c20, 0) as any as S.Schema<CreateNotebookOutput>,
   errors: [InternalServerException, InvalidRequestException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNotebook",
@@ -1616,6 +1631,7 @@ export const createPreparedStatement: API.OperationMethod<
   input: __S(336, __c21, 0) as any as S.Schema<CreatePreparedStatementInput>,
   output: __S(192, __c12, 0) as any as S.Schema<CreatePreparedStatementOutput>,
   errors: [InternalServerException, InvalidRequestException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePreparedStatement",
@@ -1644,6 +1660,7 @@ export const createPresignedNotebookUrl: API.OperationMethod<
   input: __S(352, __c22, 0) as any as S.Schema<CreatePresignedNotebookUrlRequest>,
   output: __S(353, __c22, 1) as any as S.Schema<CreatePresignedNotebookUrlResponse>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePresignedNotebookUrl",
@@ -1670,6 +1687,7 @@ export const createSystemTableConfiguration: API.OperationMethod<
   input: __S(368, __c23, 0) as any as S.Schema<CreateSystemTableConfigurationInput>,
   output: __S(384, __c24, 0) as any as S.Schema<CreateSystemTableConfigurationOutput>,
   errors: [InternalServerException, InvalidRequestException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSystemTableConfiguration",
@@ -1691,6 +1709,7 @@ export const createWorkGroup: API.OperationMethod<
   input: __S(400, __c25, 0) as any as S.Schema<CreateWorkGroupInput>,
   output: __S(192, __c12, 0) as any as S.Schema<CreateWorkGroupOutput>,
   errors: [InternalServerException, InvalidRequestException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkGroup",
@@ -1718,6 +1737,7 @@ export const deleteCapacityReservation: API.OperationMethod<
   input: __S(480, __c30, 0) as any as S.Schema<DeleteCapacityReservationInput>,
   output: __S(192, __c12, 0) as any as S.Schema<DeleteCapacityReservationOutput>,
   errors: [InternalServerException, InvalidRequestException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCapacityReservation",
@@ -1742,6 +1762,7 @@ export const deleteDataCatalog: API.OperationMethod<
   input: __S(496, __c31, 0) as any as S.Schema<DeleteDataCatalogInput>,
   output: __S(273, __c17, 1) as any as S.Schema<DeleteDataCatalogOutput>,
   errors: [InternalServerException, InvalidRequestException, DataCatalogNotFound],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataCatalog",
@@ -1767,6 +1788,7 @@ export const deleteNamedQuery: API.OperationMethod<
   input: __S(512, __c32, 0) as any as S.Schema<DeleteNamedQueryInput>,
   output: __S(192, __c12, 0) as any as S.Schema<DeleteNamedQueryOutput>,
   errors: [InternalServerException, InvalidRequestException, NamedQueryNotFound],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNamedQuery",
@@ -1791,6 +1813,7 @@ export const deleteNotebook: API.OperationMethod<
   input: __S(528, __c33, 0) as any as S.Schema<DeleteNotebookInput>,
   output: __S(192, __c12, 0) as any as S.Schema<DeleteNotebookOutput>,
   errors: [InternalServerException, InvalidRequestException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotebook",
@@ -1822,6 +1845,7 @@ export const deletePreparedStatement: API.OperationMethod<
     ResourceNotFoundException,
     WorkGroupNotFound,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePreparedStatement",
@@ -1848,6 +1872,7 @@ export const deleteSystemTableConfiguration: API.OperationMethod<
   input: __S(560, __c35, 0) as any as S.Schema<DeleteSystemTableConfigurationInput>,
   output: __S(192, __c12, 0) as any as S.Schema<DeleteSystemTableConfigurationOutput>,
   errors: [InternalServerException, InvalidRequestException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSystemTableConfiguration",
@@ -1869,6 +1894,7 @@ export const deleteWorkGroup: API.OperationMethod<
   input: __S(576, __c36, 0) as any as S.Schema<DeleteWorkGroupInput>,
   output: __S(192, __c12, 0) as any as S.Schema<DeleteWorkGroupOutput>,
   errors: [InternalServerException, InvalidRequestException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkGroup",
@@ -1893,6 +1919,7 @@ export const exportNotebook: API.OperationMethod<
   input: __S(592, __c37, 0) as any as S.Schema<ExportNotebookInput>,
   output: __S(593, __c37, 1) as any as S.Schema<ExportNotebookOutput>,
   errors: [InternalServerException, InvalidRequestException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportNotebook",
@@ -1917,6 +1944,7 @@ export const getCalculationExecution: API.OperationMethod<
   input: __S(624, __c39, 0) as any as S.Schema<GetCalculationExecutionRequest>,
   output: __S(626, __c39, 2) as any as S.Schema<GetCalculationExecutionResponse>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCalculationExecution",
@@ -1941,6 +1969,7 @@ export const getCalculationExecutionCode: API.OperationMethod<
   input: __S(672, __c42, 0) as any as S.Schema<GetCalculationExecutionCodeRequest>,
   output: __S(688, __c43, 0) as any as S.Schema<GetCalculationExecutionCodeResponse>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCalculationExecutionCode",
@@ -1965,6 +1994,7 @@ export const getCalculationExecutionStatus: API.OperationMethod<
   input: __S(704, __c44, 0) as any as S.Schema<GetCalculationExecutionStatusRequest>,
   output: __S(705, __c44, 1) as any as S.Schema<GetCalculationExecutionStatusResponse>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCalculationExecutionStatus",
@@ -1989,6 +2019,7 @@ export const getCapacityAssignmentConfiguration: API.OperationMethod<
   input: __S(720, __c45, 0) as any as S.Schema<GetCapacityAssignmentConfigurationInput>,
   output: __S(722, __c45, 2) as any as S.Schema<GetCapacityAssignmentConfigurationOutput>,
   errors: [InternalServerException, InvalidRequestException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCapacityAssignmentConfiguration",
@@ -2012,6 +2043,7 @@ export const getCapacityReservation: API.OperationMethod<
   input: __S(752, __c47, 0) as any as S.Schema<GetCapacityReservationInput>,
   output: __S(753, __c47, 1) as any as S.Schema<GetCapacityReservationOutput>,
   errors: [InternalServerException, InvalidRequestException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCapacityReservation",
@@ -2036,6 +2068,7 @@ export const getDatabase: API.OperationMethod<
   input: __S(784, __c49, 0) as any as S.Schema<GetDatabaseInput>,
   output: __S(785, __c49, 1) as any as S.Schema<GetDatabaseOutput>,
   errors: [InternalServerException, InvalidRequestException, MetadataException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDatabase",
@@ -2060,6 +2093,7 @@ export const getDataCatalog: API.OperationMethod<
   input: __S(816, __c51, 0) as any as S.Schema<GetDataCatalogInput>,
   output: __S(273, __c17, 1) as any as S.Schema<GetDataCatalogOutput>,
   errors: [InternalServerException, InvalidRequestException, DataCatalogNotFound],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataCatalog",
@@ -2085,6 +2119,7 @@ export const getNamedQuery: API.OperationMethod<
   input: __S(832, __c52, 0) as any as S.Schema<GetNamedQueryInput>,
   output: __S(833, __c52, 1) as any as S.Schema<GetNamedQueryOutput>,
   errors: [InternalServerException, InvalidRequestException, NamedQueryNotFound],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNamedQuery",
@@ -2109,6 +2144,7 @@ export const getNotebookMetadata: API.OperationMethod<
   input: __S(848, __c53, 0) as any as S.Schema<GetNotebookMetadataInput>,
   output: __S(849, __c53, 1) as any as S.Schema<GetNotebookMetadataOutput>,
   errors: [InternalServerException, InvalidRequestException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNotebookMetadata",
@@ -2140,6 +2176,7 @@ export const getPreparedStatement: API.OperationMethod<
     ResourceNotFoundException,
     WorkGroupNotFound,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPreparedStatement",
@@ -2165,6 +2202,7 @@ export const getQueryExecution: API.OperationMethod<
   input: __S(880, __c55, 0) as any as S.Schema<GetQueryExecutionInput>,
   output: __S(881, __c55, 1) as any as S.Schema<GetQueryExecutionOutput>,
   errors: [InternalServerException, InvalidRequestException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueryExecution",
@@ -2205,6 +2243,7 @@ export const getQueryResults: API.PaginatedOperationMethod<
   input: __S(896, __c56, 0) as any as S.Schema<GetQueryResultsInput>,
   output: __S(905, __c56, 9) as any as S.Schema<GetQueryResultsOutput>,
   errors: [InternalServerException, InvalidRequestException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueryResults",
@@ -2239,6 +2278,7 @@ export const getQueryRuntimeStatistics: API.OperationMethod<
   input: __S(912, __c57, 0) as any as S.Schema<GetQueryRuntimeStatisticsInput>,
   output: __S(920, __c57, 8) as any as S.Schema<GetQueryRuntimeStatisticsOutput>,
   errors: [InternalServerException, InvalidRequestException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueryRuntimeStatistics",
@@ -2263,6 +2303,7 @@ export const getResourceDashboard: API.OperationMethod<
   input: __S(928, __c58, 0) as any as S.Schema<GetResourceDashboardRequest>,
   output: __S(929, __c58, 1) as any as S.Schema<GetResourceDashboardResponse>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceDashboard",
@@ -2288,6 +2329,7 @@ export const getSession: API.OperationMethod<
   input: __S(944, __c59, 0) as any as S.Schema<GetSessionRequest>,
   output: __S(947, __c59, 3) as any as S.Schema<GetSessionResponse>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSession",
@@ -2312,6 +2354,7 @@ export const getSessionEndpoint: API.OperationMethod<
   input: __S(976, __c61, 0) as any as S.Schema<GetSessionEndpointRequest>,
   output: __S(977, __c61, 1) as any as S.Schema<GetSessionEndpointResponse>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSessionEndpoint",
@@ -2336,6 +2379,7 @@ export const getSessionStatus: API.OperationMethod<
   input: __S(992, __c62, 0) as any as S.Schema<GetSessionStatusRequest>,
   output: __S(993, __c62, 1) as any as S.Schema<GetSessionStatusResponse>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSessionStatus",
@@ -2368,6 +2412,7 @@ export const getSystemTableConfiguration: API.OperationMethod<
     ResourceNotFoundException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSystemTableConfiguration",
@@ -2392,6 +2437,7 @@ export const getTableMetadata: API.OperationMethod<
   input: __S(1024, __c64, 0) as any as S.Schema<GetTableMetadataInput>,
   output: __S(1025, __c64, 1) as any as S.Schema<GetTableMetadataOutput>,
   errors: [InternalServerException, InvalidRequestException, MetadataException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableMetadata",
@@ -2416,6 +2462,7 @@ export const getWorkGroup: API.OperationMethod<
   input: __S(1056, __c66, 0) as any as S.Schema<GetWorkGroupInput>,
   output: __S(1058, __c66, 2) as any as S.Schema<GetWorkGroupOutput>,
   errors: [InternalServerException, InvalidRequestException, WorkGroupNotFound],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkGroup",
@@ -2445,6 +2492,7 @@ export const importNotebook: API.OperationMethod<
   input: __S(1072, __c67, 0) as any as S.Schema<ImportNotebookInput>,
   output: __S(320, __c20, 0) as any as S.Schema<ImportNotebookOutput>,
   errors: [InternalServerException, InvalidRequestException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportNotebook",
@@ -2471,6 +2519,7 @@ export const listApplicationDPUSizes: API.PaginatedOperationMethod<
   input: __S(1088, __c68, 0) as any as S.Schema<ListApplicationDPUSizesInput>,
   output: __S(1092, __c68, 4) as any as S.Schema<ListApplicationDPUSizesOutput>,
   errors: [InternalServerException, InvalidRequestException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListApplicationDPUSizes",
@@ -2502,6 +2551,7 @@ export const listCalculationExecutions: API.PaginatedOperationMethod<
   input: __S(1104, __c69, 0) as any as S.Schema<ListCalculationExecutionsRequest>,
   output: __S(1107, __c69, 3) as any as S.Schema<ListCalculationExecutionsResponse>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCalculationExecutions",
@@ -2531,6 +2581,7 @@ export const listCapacityReservations: API.PaginatedOperationMethod<
   input: __S(1120, __c70, 0) as any as S.Schema<ListCapacityReservationsInput>,
   output: __S(1122, __c70, 2) as any as S.Schema<ListCapacityReservationsOutput>,
   errors: [InternalServerException, InvalidRequestException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCapacityReservations",
@@ -2561,6 +2612,7 @@ export const listDatabases: API.PaginatedOperationMethod<
   input: __S(1136, __c71, 0) as any as S.Schema<ListDatabasesInput>,
   output: __S(1138, __c71, 2) as any as S.Schema<ListDatabasesOutput>,
   errors: [InternalServerException, InvalidRequestException, MetadataException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDatabases",
@@ -2591,9 +2643,10 @@ export const listDataCatalogs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DataCatalogSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<ListDataCatalogsInput>,
-  output: __S(1155, __c72, 3) as any as S.Schema<ListDataCatalogsOutput>,
+  input: __S(1168, __c73, 0) as any as S.Schema<ListDataCatalogsInput>,
+  output: __S(1171, __c73, 3) as any as S.Schema<ListDataCatalogsOutput>,
   errors: [InternalServerException, InvalidRequestException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDataCatalogs",
@@ -2622,9 +2675,10 @@ export const listEngineVersions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<ListEngineVersionsInput>,
-  output: __S(1170, __c73, 2) as any as S.Schema<ListEngineVersionsOutput>,
+  input: __S(1184, __c74, 0) as any as S.Schema<ListEngineVersionsInput>,
+  output: __S(1186, __c74, 2) as any as S.Schema<ListEngineVersionsOutput>,
   errors: [InternalServerException, InvalidRequestException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEngineVersions",
@@ -2654,9 +2708,10 @@ export const listExecutors: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<ListExecutorsRequest>,
-  output: __S(1187, __c74, 3) as any as S.Schema<ListExecutorsResponse>,
+  input: __S(1200, __c75, 0) as any as S.Schema<ListExecutorsRequest>,
+  output: __S(1203, __c75, 3) as any as S.Schema<ListExecutorsResponse>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListExecutors",
@@ -2685,9 +2740,10 @@ export const listNamedQueries: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<ListNamedQueriesInput>,
-  output: __S(1201, __c75, 1) as any as S.Schema<ListNamedQueriesOutput>,
+  input: __S(1216, __c76, 0) as any as S.Schema<ListNamedQueriesInput>,
+  output: __S(1217, __c76, 1) as any as S.Schema<ListNamedQueriesOutput>,
   errors: [InternalServerException, InvalidRequestException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListNamedQueries",
@@ -2714,9 +2770,10 @@ export const listNotebookMetadata: API.OperationMethod<
   ListNotebookMetadataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1217, __c76, 1) as any as S.Schema<ListNotebookMetadataInput>,
-  output: __S(1219, __c76, 3) as any as S.Schema<ListNotebookMetadataOutput>,
+  input: __S(1233, __c77, 1) as any as S.Schema<ListNotebookMetadataInput>,
+  output: __S(1235, __c77, 3) as any as S.Schema<ListNotebookMetadataOutput>,
   errors: [InternalServerException, InvalidRequestException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListNotebookMetadata",
@@ -2741,9 +2798,10 @@ export const listNotebookSessions: API.OperationMethod<
   ListNotebookSessionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<ListNotebookSessionsRequest>,
-  output: __S(1235, __c77, 3) as any as S.Schema<ListNotebookSessionsResponse>,
+  input: __S(1248, __c78, 0) as any as S.Schema<ListNotebookSessionsRequest>,
+  output: __S(1251, __c78, 3) as any as S.Schema<ListNotebookSessionsResponse>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListNotebookSessions",
@@ -2765,9 +2823,10 @@ export const listPreparedStatements: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<ListPreparedStatementsInput>,
-  output: __S(1251, __c78, 3) as any as S.Schema<ListPreparedStatementsOutput>,
+  input: __S(1264, __c79, 0) as any as S.Schema<ListPreparedStatementsInput>,
+  output: __S(1267, __c79, 3) as any as S.Schema<ListPreparedStatementsOutput>,
   errors: [InternalServerException, InvalidRequestException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPreparedStatements",
@@ -2797,9 +2856,10 @@ export const listQueryExecutions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<ListQueryExecutionsInput>,
-  output: __S(1265, __c79, 1) as any as S.Schema<ListQueryExecutionsOutput>,
+  input: __S(1280, __c80, 0) as any as S.Schema<ListQueryExecutionsInput>,
+  output: __S(1281, __c80, 1) as any as S.Schema<ListQueryExecutionsOutput>,
   errors: [InternalServerException, InvalidRequestException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListQueryExecutions",
@@ -2830,9 +2890,10 @@ export const listSessions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<ListSessionsRequest>,
-  output: __S(1283, __c80, 3) as any as S.Schema<ListSessionsResponse>,
+  input: __S(1296, __c81, 0) as any as S.Schema<ListSessionsRequest>,
+  output: __S(1299, __c81, 3) as any as S.Schema<ListSessionsResponse>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSessions",
@@ -2862,9 +2923,10 @@ export const listSystemTableStatuses: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SystemTableStatus
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<ListSystemTableStatusesInput>,
-  output: __S(1297, __c81, 1) as any as S.Schema<ListSystemTableStatusesOutput>,
+  input: __S(1312, __c82, 0) as any as S.Schema<ListSystemTableStatusesInput>,
+  output: __S(1313, __c82, 1) as any as S.Schema<ListSystemTableStatusesOutput>,
   errors: [InternalServerException, InvalidRequestException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSystemTableStatuses",
@@ -2893,9 +2955,10 @@ export const listTableMetadata: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TableMetadata
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<ListTableMetadataInput>,
-  output: __S(1314, __c82, 2) as any as S.Schema<ListTableMetadataOutput>,
+  input: __S(1328, __c83, 0) as any as S.Schema<ListTableMetadataInput>,
+  output: __S(1330, __c83, 2) as any as S.Schema<ListTableMetadataOutput>,
   errors: [InternalServerException, InvalidRequestException, MetadataException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTableMetadata",
@@ -2924,9 +2987,10 @@ export const listTagsForResource: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Tag
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<ListTagsForResourceInput>,
-  output: __S(1329, __c83, 1) as any as S.Schema<ListTagsForResourceOutput>,
+  input: __S(1344, __c84, 0) as any as S.Schema<ListTagsForResourceInput>,
+  output: __S(1345, __c84, 1) as any as S.Schema<ListTagsForResourceOutput>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -2951,9 +3015,10 @@ export const listWorkGroups: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<ListWorkGroupsInput>,
-  output: __S(1347, __c84, 3) as any as S.Schema<ListWorkGroupsOutput>,
+  input: __S(1360, __c85, 0) as any as S.Schema<ListWorkGroupsInput>,
+  output: __S(1363, __c85, 3) as any as S.Schema<ListWorkGroupsOutput>,
   errors: [InternalServerException, InvalidRequestException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWorkGroups",
@@ -2981,9 +3046,10 @@ export const putCapacityAssignmentConfiguration: API.OperationMethod<
   PutCapacityAssignmentConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<PutCapacityAssignmentConfigurationInput>,
+  input: __S(1376, __c86, 0) as any as S.Schema<PutCapacityAssignmentConfigurationInput>,
   output: __S(192, __c12, 0) as any as S.Schema<PutCapacityAssignmentConfigurationOutput>,
   errors: [InternalServerException, InvalidRequestException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutCapacityAssignmentConfiguration",
@@ -3011,9 +3077,10 @@ export const startCalculationExecution: API.OperationMethod<
   StartCalculationExecutionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<StartCalculationExecutionRequest>,
-  output: __S(1377, __c86, 1) as any as S.Schema<StartCalculationExecutionResponse>,
+  input: __S(1392, __c87, 0) as any as S.Schema<StartCalculationExecutionRequest>,
+  output: __S(1393, __c87, 1) as any as S.Schema<StartCalculationExecutionResponse>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCalculationExecution",
@@ -3040,9 +3107,10 @@ export const startQueryExecution: API.OperationMethod<
   StartQueryExecutionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<StartQueryExecutionInput>,
-  output: __S(1393, __c87, 1) as any as S.Schema<StartQueryExecutionOutput>,
+  input: __S(1408, __c88, 0) as any as S.Schema<StartQueryExecutionInput>,
+  output: __S(1409, __c88, 1) as any as S.Schema<StartQueryExecutionOutput>,
   errors: [InternalServerException, InvalidRequestException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartQueryExecution",
@@ -3067,8 +3135,8 @@ export const startSession: API.OperationMethod<
   StartSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<StartSessionRequest>,
-  output: __S(1409, __c88, 1) as any as S.Schema<StartSessionResponse>,
+  input: __S(1424, __c89, 0) as any as S.Schema<StartSessionRequest>,
+  output: __S(1425, __c89, 1) as any as S.Schema<StartSessionResponse>,
   errors: [
     InternalServerException,
     InvalidRequestException,
@@ -3076,6 +3144,7 @@ export const startSession: API.OperationMethod<
     SessionAlreadyExistsException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSession",
@@ -3105,9 +3174,10 @@ export const stopCalculationExecution: API.OperationMethod<
   StopCalculationExecutionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<StopCalculationExecutionRequest>,
-  output: __S(1440, __c90, 0) as any as S.Schema<StopCalculationExecutionResponse>,
+  input: __S(1440, __c90, 0) as any as S.Schema<StopCalculationExecutionRequest>,
+  output: __S(1456, __c91, 0) as any as S.Schema<StopCalculationExecutionResponse>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopCalculationExecution",
@@ -3129,9 +3199,10 @@ export const stopQueryExecution: API.OperationMethod<
   StopQueryExecutionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<StopQueryExecutionInput>,
+  input: __S(1472, __c92, 0) as any as S.Schema<StopQueryExecutionInput>,
   output: __S(192, __c12, 0) as any as S.Schema<StopQueryExecutionOutput>,
   errors: [InternalServerException, InvalidRequestException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopQueryExecution",
@@ -3163,9 +3234,10 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<TagResourceInput>,
+  input: __S(1488, __c93, 0) as any as S.Schema<TagResourceInput>,
   output: __S(192, __c12, 0) as any as S.Schema<TagResourceOutput>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -3191,9 +3263,10 @@ export const terminateSession: API.OperationMethod<
   TerminateSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<TerminateSessionRequest>,
-  output: __S(1440, __c90, 0) as any as S.Schema<TerminateSessionResponse>,
+  input: __S(1504, __c94, 0) as any as S.Schema<TerminateSessionRequest>,
+  output: __S(1456, __c91, 0) as any as S.Schema<TerminateSessionResponse>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateSession",
@@ -3215,9 +3288,10 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<UntagResourceInput>,
+  input: __S(1520, __c95, 0) as any as S.Schema<UntagResourceInput>,
   output: __S(192, __c12, 0) as any as S.Schema<UntagResourceOutput>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -3239,9 +3313,10 @@ export const updateCapacityReservation: API.OperationMethod<
   UpdateCapacityReservationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<UpdateCapacityReservationInput>,
+  input: __S(1536, __c96, 0) as any as S.Schema<UpdateCapacityReservationInput>,
   output: __S(192, __c12, 0) as any as S.Schema<UpdateCapacityReservationOutput>,
   errors: [InternalServerException, InvalidRequestException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCapacityReservation",
@@ -3263,9 +3338,10 @@ export const updateDataCatalog: API.OperationMethod<
   UpdateDataCatalogError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<UpdateDataCatalogInput>,
+  input: __S(1552, __c97, 0) as any as S.Schema<UpdateDataCatalogInput>,
   output: __S(192, __c12, 0) as any as S.Schema<UpdateDataCatalogOutput>,
   errors: [InternalServerException, InvalidRequestException, DataCatalogNotFound],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataCatalog",
@@ -3288,9 +3364,10 @@ export const updateNamedQuery: API.OperationMethod<
   UpdateNamedQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<UpdateNamedQueryInput>,
+  input: __S(1568, __c98, 0) as any as S.Schema<UpdateNamedQueryInput>,
   output: __S(192, __c12, 0) as any as S.Schema<UpdateNamedQueryOutput>,
   errors: [InternalServerException, InvalidRequestException, NamedQueryNotFound],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNamedQuery",
@@ -3312,9 +3389,10 @@ export const updateNotebook: API.OperationMethod<
   UpdateNotebookError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<UpdateNotebookInput>,
+  input: __S(1584, __c99, 0) as any as S.Schema<UpdateNotebookInput>,
   output: __S(192, __c12, 0) as any as S.Schema<UpdateNotebookOutput>,
   errors: [InternalServerException, InvalidRequestException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotebook",
@@ -3336,9 +3414,10 @@ export const updateNotebookMetadata: API.OperationMethod<
   UpdateNotebookMetadataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<UpdateNotebookMetadataInput>,
+  input: __S(1600, __c100, 0) as any as S.Schema<UpdateNotebookMetadataInput>,
   output: __S(192, __c12, 0) as any as S.Schema<UpdateNotebookMetadataOutput>,
   errors: [InternalServerException, InvalidRequestException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotebookMetadata",
@@ -3360,9 +3439,10 @@ export const updatePreparedStatement: API.OperationMethod<
   UpdatePreparedStatementError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<UpdatePreparedStatementInput>,
+  input: __S(1616, __c101, 0) as any as S.Schema<UpdatePreparedStatementInput>,
   output: __S(192, __c12, 0) as any as S.Schema<UpdatePreparedStatementOutput>,
   errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePreparedStatement",
@@ -3387,7 +3467,7 @@ export const updateSystemTableConfiguration: API.OperationMethod<
   UpdateSystemTableConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<UpdateSystemTableConfigurationInput>,
+  input: __S(1632, __c102, 0) as any as S.Schema<UpdateSystemTableConfigurationInput>,
   output: __S(384, __c24, 0) as any as S.Schema<UpdateSystemTableConfigurationOutput>,
   errors: [
     InternalServerException,
@@ -3395,6 +3475,7 @@ export const updateSystemTableConfiguration: API.OperationMethod<
     ResourceNotFoundException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSystemTableConfiguration",
@@ -3417,9 +3498,10 @@ export const updateWorkGroup: API.OperationMethod<
   UpdateWorkGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1635, __c102, 3) as any as S.Schema<UpdateWorkGroupInput>,
+  input: __S(1651, __c103, 3) as any as S.Schema<UpdateWorkGroupInput>,
   output: __S(192, __c12, 0) as any as S.Schema<UpdateWorkGroupOutput>,
   errors: [InternalServerException, InvalidRequestException, WorkGroupNotFound],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkGroup",
@@ -3432,7 +3514,7 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ PreparedStatementNames: __S(1664, __c104, 0), WorkGroup: S.String }).pipe(
+        S.Struct({ PreparedStatementNames: __S(1680, __c105, 0), WorkGroup: S.String }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "BatchGetPreparedStatementInput" });
@@ -3475,7 +3557,7 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ QueryExecutionIds: __S(1664, __c104, 0) }).pipe(
+        S.Struct({ QueryExecutionIds: __S(1680, __c105, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "BatchGetQueryExecutionInput" });
@@ -3618,7 +3700,7 @@ function __c9(j: number): any {
           Statistics: S.optional(__S(147, __c9, 3)),
           WorkGroup: S.optional(S.String),
           EngineVersion: S.optional(__S(80, __c5, 0)),
-          ExecutionParameters: S.optional(__S(1664, __c104, 0)),
+          ExecutionParameters: S.optional(__S(1680, __c105, 0)),
           SubstatementType: S.optional(S.String),
           QueryResultsS3AccessGrantsConfiguration: S.optional(__S(129, __c8, 1)),
         }),
@@ -3850,7 +3932,7 @@ function __c26(j: number): any {
 function __c27(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, /*@__PURE__*/ __S(1664, __c104, 0).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(1680, __c105, 0).pipe(S.optional));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -3948,7 +4030,7 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ NamedQueryId: S.String.pipe(T.IdempotencyToken()) }).pipe(
+        S.Struct({ NamedQueryId: S.optional(S.String).pipe(T.IdempotencyToken()) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "DeleteNamedQueryInput" });
@@ -4138,7 +4220,7 @@ function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ WorkGroupNames: S.optional(__S(1664, __c104, 0)) }),
+        S.Struct({ WorkGroupNames: S.optional(__S(1680, __c105, 0)) }),
       ).annotate({ identifier: "CapacityAssignment" });
     case 1:
       return S.Array(__S(736, __c46, 0));
@@ -4230,7 +4312,7 @@ function __c52(j: number): any {
         ),
       ).annotate({ identifier: "GetNamedQueryInput" });
     case 1:
-      return S.suspend(() => S.Struct({ NamedQuery: S.optional(__S(1680, __c105, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ NamedQuery: S.optional(__S(1696, __c106, 0)) })).annotate({
         identifier: "GetNamedQueryOutput",
       });
   }
@@ -4380,7 +4462,7 @@ function __c57(j: number): any {
           Children: S.optional(
             S.suspend(() => __S(915, __c57, 3)).annotate({ identifier: "QueryStagePlanNodes" }),
           ),
-          RemoteSources: S.optional(__S(1664, __c104, 0)),
+          RemoteSources: S.optional(__S(1680, __c105, 0)),
         }),
       ).annotate({ identifier: "QueryStagePlanNode" });
     case 5:
@@ -4695,6 +4777,7 @@ function __c71(j: number): any {
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
           WorkGroup: S.optional(S.String),
+          AttributesToGet: S.optional(__S(1152, __c72, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListDatabasesInput" });
     case 1:
@@ -4709,6 +4792,12 @@ function __c71(j: number): any {
   }
 }
 function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4729,17 +4818,17 @@ function __c72(j: number): any {
         }),
       ).annotate({ identifier: "DataCatalogSummary" });
     case 2:
-      return S.Array(__S(1153, __c72, 1));
+      return S.Array(__S(1169, __c73, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DataCatalogsSummary: S.optional(__S(1154, __c72, 2)),
+          DataCatalogsSummary: S.optional(__S(1170, __c73, 2)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDataCatalogsOutput" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4752,13 +4841,13 @@ function __c73(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          EngineVersions: S.optional(__S(1169, __c73, 1)),
+          EngineVersions: S.optional(__S(1185, __c74, 1)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListEngineVersionsOutput" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4781,18 +4870,18 @@ function __c74(j: number): any {
         }),
       ).annotate({ identifier: "ExecutorsSummary" });
     case 2:
-      return S.Array(__S(1185, __c74, 1));
+      return S.Array(__S(1201, __c75, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           SessionId: S.String,
           NextToken: S.optional(S.String),
-          ExecutorsSummary: S.optional(__S(1186, __c74, 2)),
+          ExecutorsSummary: S.optional(__S(1202, __c75, 2)),
         }),
       ).annotate({ identifier: "ListExecutorsResponse" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4805,13 +4894,13 @@ function __c75(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          NamedQueryIds: S.optional(__S(1664, __c104, 0)),
+          NamedQueryIds: S.optional(__S(1680, __c105, 0)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListNamedQueriesOutput" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Name: S.optional(S.String) })).annotate({
@@ -4820,7 +4909,7 @@ function __c76(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Filters: S.optional(__S(1216, __c76, 0)),
+          Filters: S.optional(__S(1232, __c77, 0)),
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
           WorkGroup: S.String,
@@ -4832,12 +4921,12 @@ function __c76(j: number): any {
       return S.suspend(() =>
         S.Struct({
           NextToken: S.optional(S.String),
-          NotebookMetadataList: S.optional(__S(1218, __c76, 2)),
+          NotebookMetadataList: S.optional(__S(1234, __c77, 2)),
         }),
       ).annotate({ identifier: "ListNotebookMetadataOutput" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4855,14 +4944,14 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "NotebookSessionSummary" });
     case 2:
-      return S.Array(__S(1233, __c77, 1));
+      return S.Array(__S(1249, __c78, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ NotebookSessionsList: __S(1234, __c77, 2), NextToken: S.optional(S.String) }),
+        S.Struct({ NotebookSessionsList: __S(1250, __c78, 2), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListNotebookSessionsResponse" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4880,17 +4969,17 @@ function __c78(j: number): any {
         }),
       ).annotate({ identifier: "PreparedStatementSummary" });
     case 2:
-      return S.Array(__S(1249, __c78, 1));
+      return S.Array(__S(1265, __c79, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          PreparedStatements: S.optional(__S(1250, __c78, 2)),
+          PreparedStatements: S.optional(__S(1266, __c79, 2)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListPreparedStatementsOutput" });
   }
 }
-function __c79(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4903,13 +4992,13 @@ function __c79(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          QueryExecutionIds: S.optional(__S(1664, __c104, 0)),
+          QueryExecutionIds: S.optional(__S(1680, __c105, 0)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListQueryExecutionsOutput" });
   }
 }
-function __c80(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4931,14 +5020,14 @@ function __c80(j: number): any {
         }),
       ).annotate({ identifier: "SessionSummary" });
     case 2:
-      return S.Array(__S(1281, __c80, 1));
+      return S.Array(__S(1297, __c81, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ NextToken: S.optional(S.String), Sessions: S.optional(__S(1282, __c80, 2)) }),
+        S.Struct({ NextToken: S.optional(S.String), Sessions: S.optional(__S(1298, __c81, 2)) }),
       ).annotate({ identifier: "ListSessionsResponse" });
   }
 }
-function __c81(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4952,7 +5041,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "ListSystemTableStatusesOutput" });
   }
 }
-function __c82(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4963,6 +5052,7 @@ function __c82(j: number): any {
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
           WorkGroup: S.optional(S.String),
+          AttributesToGet: S.optional(__S(1152, __c72, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListTableMetadataInput" });
     case 1:
@@ -4970,13 +5060,13 @@ function __c82(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          TableMetadataList: S.optional(__S(1313, __c82, 1)),
+          TableMetadataList: S.optional(__S(1329, __c83, 1)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTableMetadataOutput" });
   }
 }
-function __c83(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4992,7 +5082,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "ListTagsForResourceOutput" });
   }
 }
-function __c84(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5012,14 +5102,14 @@ function __c84(j: number): any {
         }),
       ).annotate({ identifier: "WorkGroupSummary" });
     case 2:
-      return S.Array(__S(1345, __c84, 1));
+      return S.Array(__S(1361, __c85, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ WorkGroups: S.optional(__S(1346, __c84, 2)), NextToken: S.optional(S.String) }),
+        S.Struct({ WorkGroups: S.optional(__S(1362, __c85, 2)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListWorkGroupsOutput" });
   }
 }
-function __c85(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5030,7 +5120,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "PutCapacityAssignmentConfigurationInput" });
   }
 }
-function __c86(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5048,7 +5138,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "StartCalculationExecutionResponse" });
   }
 }
-function __c87(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5058,7 +5148,7 @@ function __c87(j: number): any {
           QueryExecutionContext: S.optional(__S(162, __c10, 2)),
           ResultConfiguration: S.optional(__S(96, __c6, 0)),
           WorkGroup: S.optional(S.String),
-          ExecutionParameters: S.optional(__S(1664, __c104, 0)),
+          ExecutionParameters: S.optional(__S(1680, __c105, 0)),
           ResultReuseConfiguration: S.optional(__S(161, __c10, 1)),
           EngineConfiguration: S.optional(__S(418, __c26, 2)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -5069,7 +5159,7 @@ function __c87(j: number): any {
       });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5092,7 +5182,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "StartSessionResponse" });
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5102,7 +5192,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "StopCalculationExecutionRequest" });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ State: S.optional(S.String) })).annotate({
@@ -5110,17 +5200,17 @@ function __c90(j: number): any {
       });
   }
 }
-function __c91(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ QueryExecutionId: S.String.pipe(T.IdempotencyToken()) }).pipe(
+        S.Struct({ QueryExecutionId: S.optional(S.String).pipe(T.IdempotencyToken()) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "StopQueryExecutionInput" });
   }
 }
-function __c92(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5130,7 +5220,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "TagResourceInput" });
   }
 }
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5140,17 +5230,17 @@ function __c93(j: number): any {
       ).annotate({ identifier: "TerminateSessionRequest" });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ ResourceARN: S.String, TagKeys: __S(1664, __c104, 0) }).pipe(
+        S.Struct({ ResourceARN: S.String, TagKeys: __S(1680, __c105, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "UntagResourceInput" });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5160,7 +5250,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "UpdateCapacityReservationInput" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5173,7 +5263,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "UpdateDataCatalogInput" });
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5186,7 +5276,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "UpdateNamedQueryInput" });
   }
 }
-function __c98(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5200,7 +5290,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "UpdateNotebookInput" });
   }
 }
-function __c99(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5212,7 +5302,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "UpdateNotebookMetadataInput" });
   }
 }
-function __c100(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5225,7 +5315,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "UpdatePreparedStatementInput" });
   }
 }
-function __c101(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5235,7 +5325,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "UpdateSystemTableConfigurationInput" });
   }
 }
-function __c102(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5262,8 +5352,8 @@ function __c102(j: number): any {
       return S.suspend(() =>
         S.Struct({
           EnforceWorkGroupConfiguration: S.optional(S.Boolean),
-          ResultConfigurationUpdates: S.optional(__S(1632, __c102, 0)),
-          ManagedQueryResultsConfigurationUpdates: S.optional(__S(1633, __c102, 1)),
+          ResultConfigurationUpdates: S.optional(__S(1648, __c103, 0)),
+          ManagedQueryResultsConfigurationUpdates: S.optional(__S(1649, __c103, 1)),
           PublishCloudWatchMetricsEnabled: S.optional(S.Boolean),
           BytesScannedCutoffPerQuery: S.optional(S.Number),
           RemoveBytesScannedCutoffPerQuery: S.optional(S.Boolean),
@@ -5284,22 +5374,22 @@ function __c102(j: number): any {
         S.Struct({
           WorkGroup: S.String,
           Description: S.optional(S.String),
-          ConfigurationUpdates: S.optional(__S(1634, __c102, 2)),
+          ConfigurationUpdates: S.optional(__S(1650, __c103, 2)),
           State: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateWorkGroupInput" });
   }
 }
-function __c103(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ NamedQueryIds: __S(1664, __c104, 0) }).pipe(
+        S.Struct({ NamedQueryIds: __S(1680, __c105, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "BatchGetNamedQueryInput" });
     case 1:
-      return S.Array(__S(1680, __c105, 0));
+      return S.Array(__S(1696, __c106, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -5309,23 +5399,23 @@ function __c103(j: number): any {
         }),
       ).annotate({ identifier: "UnprocessedNamedQueryId" });
     case 3:
-      return S.Array(__S(1650, __c103, 2));
+      return S.Array(__S(1666, __c104, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          NamedQueries: S.optional(__S(1649, __c103, 1)),
-          UnprocessedNamedQueryIds: S.optional(__S(1651, __c103, 3)),
+          NamedQueries: S.optional(__S(1665, __c104, 1)),
+          UnprocessedNamedQueryIds: S.optional(__S(1667, __c104, 3)),
         }),
       ).annotate({ identifier: "BatchGetNamedQueryOutput" });
   }
 }
-function __c104(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c105(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -2,7 +2,7 @@
  * Slack credentials -- hand-written.
  *
  * The `Credentials` service resolves `{ token, apiBaseUrl }` per request; the
- * protocol layer formats the `Authorization: Bearer <token>` header from it.
+ * protocol formats the `Authorization: Bearer <token>` header from it.
  *
  * Slack authorizes Web API calls with one bearer token, and the token's
  * PREFIX carries its kind (https://docs.slack.dev/authentication/tokens):

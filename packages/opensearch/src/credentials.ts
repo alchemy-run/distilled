@@ -4,8 +4,14 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * OpenSearch credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the cluster's
- * endpoint and how to authenticate; the protocol layer resolves it per
+ * endpoint and how to authenticate; the protocol resolves it per
  * request on the calling fiber, so the effect can refresh credentials.
+ *
+ * `CredentialsFromEnv` reads and checks the environment when it is built: a
+ * missing variable or an unknown `OPENSEARCH_AWS_SERVICE` is a `ConfigError`
+ * at setup, and no call fails for it. The service's effect can still fail
+ * with `ConfigError`: the `credentials` effect given to {@link fromSigV4}
+ * runs on every request.
  *
  * A cluster authenticates in one of these ways:
  *
@@ -189,7 +195,8 @@ const fromEnv: Effect.Effect<Config, ConfigError> = /*@__PURE__*/ Effect.gen(fun
 );
 
 /**
- * Reads the environment on every request:
+ * Reads the environment, and checks the values, once: when the layer is
+ * built.
  *
  *   - `OPENSEARCH_URL`: the endpoint (default `http://localhost:9200`).
  *   - `OPENSEARCH_AWS_SERVICE` (`es` or `aoss`): sign with SigV4, using
@@ -199,4 +206,7 @@ const fromEnv: Effect.Effect<Config, ConfigError> = /*@__PURE__*/ Effect.gen(fun
  *   - else `OPENSEARCH_USERNAME` and `OPENSEARCH_PASSWORD`: basic auth.
  *   - else no authentication.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ layerOf(fromEnv);
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.effect(
+  Credentials,
+  /*@__PURE__*/ Effect.map(fromEnv, (config) => Effect.succeed(config)),
+);

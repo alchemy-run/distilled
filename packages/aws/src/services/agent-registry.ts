@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -188,8 +189,16 @@ export type RegistryRecordStatus =
   | "UPDATING"
   | "CREATE_FAILED"
   | "UPDATE_FAILED"
+  | "CREATE_PENDING_AUTH"
+  | "UPDATE_PENDING_AUTH"
   | (string & {});
 export type CustomMetadataDocument = unknown;
+export type Sha256Hash = string;
+export type PresignedDownloadUrl = string | redacted.Redacted<string>;
+export interface RegistryRecordArtifactDownload {
+  sha256?: string | undefined;
+  downloadUrl?: string | redacted.Redacted<string> | undefined;
+}
 export interface RegistryRecordSummary {
   registryArn: string;
   recordArn: string;
@@ -204,6 +213,7 @@ export interface RegistryRecordSummary {
   createdAt: Date;
   updatedAt: Date;
   customMetadata?: any | undefined;
+  artifact?: RegistryRecordArtifactDownload | undefined;
 }
 export type RegistryRecordSummaryList = RegistryRecordSummary[];
 export type BatchGetDiscoverableRegistryRecordErrorCode =
@@ -260,14 +270,19 @@ export interface ListDiscoverableRegistryRecordsResponse {
 export type SearchQuery = string | redacted.Redacted<string>;
 export type RegistryIdList = string[];
 export type MetadataFilterExpression = unknown;
+export type SearchType = "HYBRID" | "SEMANTIC" | "KEYWORD" | (string & {});
 export interface SearchDiscoverableRegistryRecordsRequest {
   searchQuery: string | redacted.Redacted<string>;
   registryIds: string[];
   maxResults?: number | undefined;
   filters?: any | undefined;
+  searchType?: SearchType | undefined;
+  nextToken?: string | undefined;
 }
 export interface SearchDiscoverableRegistryRecordsResponse {
   registryRecords: RegistryRecordSummary[];
+  searchType?: SearchType | undefined;
+  nextToken?: string | undefined;
 }
 export type NonBlankString = string;
 export type ValidationExceptionReason =
@@ -276,6 +291,7 @@ export type ValidationExceptionReason =
   | "IdempotentParameterMismatchException"
   | "EventInOtherSession"
   | "ResourceConflict"
+  | "UnsupportedInRegion"
   | (string & {});
 export interface ValidationExceptionField {
   name: string;
@@ -291,7 +307,7 @@ export type BatchGetDiscoverableRegistryRecordError =
   | ValidationException
   | CommonErrors;
 /**
- * Retrieves multiple discoverable registry records by ID from a single registry. Records that cannot be retrieved are reported individually in the `errors` list rather than failing the entire request.
+ * Retrieves multiple discoverable registry records by ID from a single registry. Records that cannot be retrieved are reported individually in the `errors` list rather than failing the entire request. For each skill record that has a skill package, the operation also returns `artifact`. It contains a short-lived download URL and a SHA-256 checksum for the package of the record's latest approved revision. If the registry can't create a download URL for a package, the whole request fails.
  */
 export const batchGetDiscoverableRegistryRecord: API.OperationMethod<
   BatchGetDiscoverableRegistryRecordRequest & RegionInput,
@@ -309,6 +325,7 @@ export const batchGetDiscoverableRegistryRecord: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetDiscoverableRegistryRecord",
@@ -344,6 +361,7 @@ export const listDiscoverableRegistryRecords: API.PaginatedOperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDiscoverableRegistryRecords",
@@ -367,13 +385,16 @@ export type SearchDiscoverableRegistryRecordsError =
   | CommonErrors;
 /**
  * Searches the discoverable registry records in a registry using a natural language query. Returns metadata for the matching records ordered by relevance.
+ *
+ * Returns at most 1000 results across all pages when `searchType` is `KEYWORD`, and at most 20 results when it is `HYBRID` or `SEMANTIC`. To retrieve more records, refine the query or filters, or use `ListDiscoverableRegistryRecords` to list every record.
  */
-export const searchDiscoverableRegistryRecords: API.OperationMethod<
+export const searchDiscoverableRegistryRecords: API.PaginatedOperationMethod<
   SearchDiscoverableRegistryRecordsRequest & RegionInput,
   SearchDiscoverableRegistryRecordsResponse,
   SearchDiscoverableRegistryRecordsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ API.make(() => ({
+  Credentials | HttpClient.HttpClient,
+  RegistryRecordSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<SearchDiscoverableRegistryRecordsRequest>,
   output: __S(81, __c5, 1) as any as S.Schema<SearchDiscoverableRegistryRecordsResponse>,
   errors: [
@@ -384,12 +405,19 @@ export const searchDiscoverableRegistryRecords: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchDiscoverableRegistryRecords",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "registryRecords",
+    pageSize: "maxResults",
+  } as const,
   telemetry: TELEMETRY,
   span: "SearchDiscoverableRegistryRecords",
-}));
+})) as any;
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
@@ -436,7 +464,7 @@ function __c1(j: number): any {
       return S.Array(__S(19, __c1, 3));
     case 5:
       return S.suspend(() =>
-        S.Struct({ registryRecords: __S(60, __c3, 12), errors: __S(20, __c1, 4) }),
+        S.Struct({ registryRecords: __S(61, __c3, 13), errors: __S(20, __c1, 4) }),
       ).annotate({ identifier: "BatchGetDiscoverableRegistryRecordResponse" });
   }
 }
@@ -514,6 +542,10 @@ function __c3(j: number): any {
       ).annotate({ identifier: "Descriptors" });
     case 11:
       return S.suspend(() =>
+        S.Struct({ sha256: S.optional(S.String), downloadUrl: S.optional(SensitiveString) }),
+      ).annotate({ identifier: "RegistryRecordArtifactDownload" });
+    case 12:
+      return S.suspend(() =>
         S.Struct({
           registryArn: S.String,
           recordArn: S.String,
@@ -528,10 +560,11 @@ function __c3(j: number): any {
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           customMetadata: S.optional(S.Any),
+          artifact: S.optional(__S(59, __c3, 11)),
         }),
       ).annotate({ identifier: "RegistryRecordSummary" });
-    case 12:
-      return S.Array(__S(59, __c3, 11));
+    case 13:
+      return S.Array(__S(60, __c3, 12));
   }
 }
 function __c4(j: number): any {
@@ -594,6 +627,8 @@ function __c5(j: number): any {
           registryIds: __S(32, __c2, 0),
           maxResults: S.optional(S.Number),
           filters: S.optional(S.Any),
+          searchType: S.optional(S.String),
+          nextToken: S.optional(S.String),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/discoverable-records-search" }),
@@ -606,9 +641,13 @@ function __c5(j: number): any {
         ),
       ).annotate({ identifier: "SearchDiscoverableRegistryRecordsRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ registryRecords: __S(60, __c3, 12) })).annotate({
-        identifier: "SearchDiscoverableRegistryRecordsResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          registryRecords: __S(61, __c3, 13),
+          searchType: S.optional(S.String),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SearchDiscoverableRegistryRecordsResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

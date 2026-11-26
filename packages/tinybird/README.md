@@ -23,7 +23,7 @@ const program = Effect.gen(function* () {
     wait: true,
     body: '{"timestamp":"2026-11-17 00:00:00","city":"Chicago","amount":3}\n',
   });
-  const bytes = yield* Query.querySql({
+  const { body: bytes } = yield* Query.querySql({
     q: "SELECT city, sum(amount) AS total FROM events GROUP BY city FORMAT JSON",
   });
   const { data } = JSON.parse(new TextDecoder().decode(bytes));
@@ -33,7 +33,6 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Tinybird.CredentialsFromEnv,
-  Tinybird.TinybirdProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise).then(console.log);
@@ -80,7 +79,8 @@ One module per reference page, each imported from its subpath:
 
 - `queryPipe`, `queryPipeWithBody`, `querySql` and `querySqlWithBody` answer in the format you ask for
   (`format: "csv" | "json" | "ndjson" | "parquet" | "prometheus"`, or `FORMAT <name>` in the SQL), so they
-  return the response bytes as a `Uint8Array`. Decode JSON or text yourself; Parquet stays intact.
+  return `{ body, contentType }`: the response bytes as a `Uint8Array` and its `Content-Type`. Decode
+  JSON or text yourself; Parquet stays intact.
 - `getPipeByFileName` returns the Pipe's datafile as a `string`.
 - `sendEvents` sends `body` verbatim as NDJSON; `createPipeNode` sends its SQL `body` as text.
 - `createDatasource` and `analyzeData` upload files as multipart parts (`csv`, `ndjson`, `file`) given as

@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownStackitError } from "../errors.ts";
+import { StackitServiceErrors } from "../errors.ts";
 import { StackitProtocol, type StackitOpError, type StackitOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -552,7 +552,7 @@ export interface EnvironmentSecret {
   /** Last update timestamp of this registry entry. */
   updatedAt?: string | undefined;
   /** Secret value. Omit or set to null to keep the existing value unchanged. */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
 }
 /** The collection of configured secrets. */
 export type EnvironmentSecretsVaultSecretsList = Array<EnvironmentSecret>;
@@ -613,7 +613,7 @@ export interface EnvironmentSecretInput {
   /** Secret key. */
   key: string;
   /** Secret value. Omit or set to null to keep the existing value unchanged. */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
 }
 /** The collection of configured secrets. */
 export type UpdateEnvironmentSecretsRequestSecretsList = Array<EnvironmentSecretInput>;
@@ -644,7 +644,8 @@ export const createApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<CreateApplicationRequest>,
   output: __S(532, __c16, 20) as any as S.Schema<Application>,
-  errors: [BadRequest, Conflict, UnknownStackitError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -661,7 +662,8 @@ export const createEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<CreateEnvironmentRequest>,
   output: __S(577, __c18, 1) as any as S.Schema<Environment>,
-  errors: [BadRequest, Conflict, UnknownStackitError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -678,7 +680,8 @@ export const deleteApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<DeleteApplicationRequest>,
   output: __S(532, __c16, 20) as any as S.Schema<Application>,
-  errors: [NotFound, UnknownStackitError],
+  errors: [NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -695,7 +698,8 @@ export const getApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<GetApplicationRequest>,
   output: __S(532, __c16, 20) as any as S.Schema<Application>,
-  errors: [NotFound, UnknownStackitError],
+  errors: [NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -712,7 +716,8 @@ export const getApplicationEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<GetApplicationEventsRequest>,
   output: __S(673, __c21, 1) as any as S.Schema<GetApplicationEventsResponse>,
-  errors: [NotFound, UnknownStackitError],
+  errors: [NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -729,7 +734,8 @@ export const getApplicationLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<GetApplicationLogsRequest>,
   output: __S(737, __c23, 1) as any as S.Schema<GetApplicationLogsResponse>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -746,7 +752,8 @@ export const getEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<GetEnvironmentRequest>,
   output: __S(577, __c18, 1) as any as S.Schema<Environment>,
-  errors: [NotFound, UnknownStackitError],
+  errors: [NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -763,7 +770,8 @@ export const getOverview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<GetOverviewRequest>,
   output: __S(34, __c1, 2) as any as S.Schema<GetOverviewResponse>,
-  errors: [UnknownStackitError],
+  errors: [],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -780,7 +788,8 @@ export const listApplications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<ListApplicationsRequest>,
   output: __S(98, __c3, 2) as any as S.Schema<ListApplicationsResponse>,
-  errors: [BadRequest, UnknownStackitError],
+  errors: [BadRequest],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -797,7 +806,8 @@ export const listEnvironmentRegistries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<ListEnvironmentRegistriesRequest>,
   output: __S(194, __c6, 2) as any as S.Schema<EnvironmentRegistriesVault>,
-  errors: [NotFound, UnknownStackitError],
+  errors: [NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -814,7 +824,8 @@ export const listEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<ListEnvironmentsRequest>,
   output: __S(226, __c7, 2) as any as S.Schema<ListEnvironmentsResponse>,
-  errors: [BadRequest, UnknownStackitError],
+  errors: [BadRequest],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -831,7 +842,8 @@ export const listEnvironmentSecrets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<ListEnvironmentSecretsRequest>,
   output: __S(290, __c9, 2) as any as S.Schema<EnvironmentSecretsVault>,
-  errors: [NotFound, UnknownStackitError],
+  errors: [NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -848,7 +860,8 @@ export const listProjectApplications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<ListProjectApplicationsRequest>,
   output: __S(98, __c3, 2) as any as S.Schema<ListApplicationsResponse>,
-  errors: [BadRequest, UnknownStackitError],
+  errors: [BadRequest],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -865,7 +878,8 @@ export const updateApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<UpdateApplicationRequest>,
   output: __S(532, __c16, 20) as any as S.Schema<Application>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -882,7 +896,8 @@ export const updateEnvironmentRegistries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(386, __c12, 2) as any as S.Schema<UpdateEnvironmentRegistriesRequest>,
   output: __S(194, __c6, 2) as any as S.Schema<EnvironmentRegistriesVault>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -899,7 +914,8 @@ export const updateEnvironmentSecrets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(418, __c13, 2) as any as S.Schema<UpdateEnvironmentSecretsRequest>,
   output: __S(290, __c9, 2) as any as S.Schema<EnvironmentSecretsVault>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1113,7 +1129,7 @@ function __c9(j: number): any {
           region: S.optional(S.String),
           status: S.optional(__S(162, __c5, 2)),
           updatedAt: S.optional(S.String),
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "EnvironmentSecret" });
     case 1:
@@ -1205,7 +1221,7 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           key: S.String,
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "EnvironmentSecretInput" });
     case 1:

@@ -85,7 +85,7 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "StackitOpContext",
     commonErrorType: "StackitOpError",
-    commonErrorClasses: ["UnknownStackitError"],
+    serviceErrors: "StackitServiceErrors",
     protocol: "StackitProtocol",
     retry: "Retry.Retry",
   },

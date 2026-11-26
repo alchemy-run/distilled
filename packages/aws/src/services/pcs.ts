@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -194,6 +195,18 @@ export interface CgroupCustomSetting {
   parameterValue: string;
 }
 export type CgroupCustomSettings = CgroupCustomSetting[];
+export type JobSubmitPluginType = "STARLARK" | (string & {});
+export interface JobSubmitScriptSource {
+  scriptLocation: string;
+  s3VersionId?: string | undefined;
+  checksum?: string | undefined;
+}
+export interface JobSubmitPlugin {
+  name: string;
+  type: JobSubmitPluginType;
+  scriptSource: JobSubmitScriptSource;
+}
+export type JobSubmitPluginList = JobSubmitPlugin[];
 export type AccountingMode = "STANDARD" | "NONE" | (string & {});
 export interface AccountingRequest {
   defaultPurgeTimeInDays?: number | undefined;
@@ -208,6 +221,7 @@ export interface ClusterSlurmConfigurationRequest {
   slurmCustomSettings?: SlurmCustomSetting[] | undefined;
   slurmdbdCustomSettings?: SlurmdbdCustomSetting[] | undefined;
   cgroupCustomSettings?: CgroupCustomSetting[] | undefined;
+  jobSubmitPlugins?: JobSubmitPlugin[] | undefined;
   accounting?: AccountingRequest | undefined;
   slurmRest?: SlurmRestRequest | undefined;
 }
@@ -263,6 +277,7 @@ export interface ClusterSlurmConfiguration {
   slurmCustomSettings?: SlurmCustomSetting[] | undefined;
   slurmdbdCustomSettings?: SlurmdbdCustomSetting[] | undefined;
   cgroupCustomSettings?: CgroupCustomSetting[] | undefined;
+  jobSubmitPlugins?: JobSubmitPlugin[] | undefined;
   authKey?: SlurmAuthKey | undefined;
   jwtAuth?: JwtAuth | undefined;
   accounting?: Accounting | undefined;
@@ -281,7 +296,7 @@ export interface Endpoint {
   ipv6Address?: string | undefined;
   port: string;
 }
-const Endpoint = /*@__PURE__*/ __L.at(__c23, 0) as any as S.Schema<Endpoint>;
+const Endpoint = /*@__PURE__*/ __L.at(__c24, 0) as any as S.Schema<Endpoint>;
 export type Endpoints = Endpoint[];
 export interface ErrorInfo {
   code?: string | undefined;
@@ -630,6 +645,7 @@ export interface UpdateClusterSlurmConfigurationRequest {
   slurmCustomSettings?: SlurmCustomSetting[] | undefined;
   slurmdbdCustomSettings?: SlurmdbdCustomSetting[] | undefined;
   cgroupCustomSettings?: CgroupCustomSetting[] | undefined;
+  jobSubmitPlugins?: JobSubmitPlugin[] | undefined;
   accounting?: UpdateAccountingRequest | undefined;
   slurmRest?: UpdateSlurmRestRequest | undefined;
 }
@@ -721,7 +737,7 @@ export const createCluster: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(305, __c19, 1) as any as S.Schema<CreateClusterRequest>,
-  output: __S(344, __c21, 8) as any as S.Schema<CreateClusterResponse>,
+  output: __S(346, __c21, 10) as any as S.Schema<CreateClusterResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -730,6 +746,7 @@ export const createCluster: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
@@ -755,8 +772,8 @@ export const createComputeNodeGroup: API.OperationMethod<
   CreateComputeNodeGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<CreateComputeNodeGroupRequest>,
-  output: __S(456, __c28, 8) as any as S.Schema<CreateComputeNodeGroupResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<CreateComputeNodeGroupRequest>,
+  output: __S(472, __c29, 8) as any as S.Schema<CreateComputeNodeGroupResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -766,6 +783,7 @@ export const createComputeNodeGroup: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateComputeNodeGroup",
@@ -791,8 +809,8 @@ export const createQueue: API.OperationMethod<
   CreateQueueError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<CreateQueueRequest>,
-  output: __S(484, __c30, 4) as any as S.Schema<CreateQueueResponse>,
+  input: __S(480, __c30, 0) as any as S.Schema<CreateQueueRequest>,
+  output: __S(500, __c31, 4) as any as S.Schema<CreateQueueResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -802,6 +820,7 @@ export const createQueue: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQueue",
@@ -836,6 +855,7 @@ export const deleteCluster: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
@@ -870,6 +890,7 @@ export const deleteComputeNodeGroup: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteComputeNodeGroup",
@@ -904,6 +925,7 @@ export const deleteQueue: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQueue",
@@ -929,7 +951,7 @@ export const getCluster: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<GetClusterRequest>,
-  output: __S(344, __c21, 8) as any as S.Schema<GetClusterResponse>,
+  output: __S(346, __c21, 10) as any as S.Schema<GetClusterResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -938,6 +960,7 @@ export const getCluster: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCluster",
@@ -963,7 +986,7 @@ export const getComputeNodeGroup: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<GetComputeNodeGroupRequest>,
-  output: __S(456, __c28, 8) as any as S.Schema<GetComputeNodeGroupResponse>,
+  output: __S(472, __c29, 8) as any as S.Schema<GetComputeNodeGroupResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -972,6 +995,7 @@ export const getComputeNodeGroup: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComputeNodeGroup",
@@ -997,7 +1021,7 @@ export const getQueue: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<GetQueueRequest>,
-  output: __S(484, __c30, 4) as any as S.Schema<GetQueueResponse>,
+  output: __S(500, __c31, 4) as any as S.Schema<GetQueueResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1006,6 +1030,7 @@ export const getQueue: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueue",
@@ -1041,6 +1066,7 @@ export const listClusters: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListClusters",
@@ -1082,6 +1108,7 @@ export const listComputeNodeGroups: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListComputeNodeGroups",
@@ -1123,6 +1150,7 @@ export const listQueues: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListQueues",
@@ -1149,6 +1177,7 @@ export const listTagsForResource: API.OperationMethod<
   input: __S(176, __c11, 0) as any as S.Schema<ListTagsForResourceRequest>,
   output: __S(177, __c11, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -1174,6 +1203,7 @@ export const registerComputeNodeGroupInstance: API.OperationMethod<
   input: __S(192, __c12, 0) as any as S.Schema<RegisterComputeNodeGroupInstanceRequest>,
   output: __S(193, __c12, 1) as any as S.Schema<RegisterComputeNodeGroupInstanceResponse>,
   errors: [AccessDeniedException, InternalServerException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterComputeNodeGroupInstance",
@@ -1197,6 +1227,7 @@ export const tagResource: API.OperationMethod<
   input: __S(208, __c13, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<TagResourceResponse>,
   errors: [ResourceNotFoundException, ServiceQuotaExceededException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -1217,6 +1248,7 @@ export const untagResource: API.OperationMethod<
   input: __S(224, __c14, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -1244,7 +1276,7 @@ export const updateCluster: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(244, __c15, 4) as any as S.Schema<UpdateClusterRequest>,
-  output: __S(344, __c21, 8) as any as S.Schema<UpdateClusterResponse>,
+  output: __S(346, __c21, 10) as any as S.Schema<UpdateClusterResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1253,6 +1285,7 @@ export const updateCluster: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCluster",
@@ -1279,7 +1312,7 @@ export const updateComputeNodeGroup: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<UpdateComputeNodeGroupRequest>,
-  output: __S(456, __c28, 8) as any as S.Schema<UpdateComputeNodeGroupResponse>,
+  output: __S(472, __c29, 8) as any as S.Schema<UpdateComputeNodeGroupResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1289,6 +1322,7 @@ export const updateComputeNodeGroup: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateComputeNodeGroup",
@@ -1315,7 +1349,7 @@ export const updateQueue: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<UpdateQueueRequest>,
-  output: __S(484, __c30, 4) as any as S.Schema<UpdateQueueResponse>,
+  output: __S(500, __c31, 4) as any as S.Schema<UpdateQueueResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1325,6 +1359,7 @@ export const updateQueue: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQueue",
@@ -1491,7 +1526,7 @@ function __c11(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ tags: S.optional(__S(400, __c25, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(416, __c26, 0)) })).annotate({
         identifier: "ListTagsForResourceResponse",
       });
   }
@@ -1513,7 +1548,7 @@ function __c12(j: number): any {
           clusterName: S.optional(S.String),
           computeNodeGroupId: S.optional(S.String),
           computeNodeGroupName: S.optional(S.String),
-          nodeLifecycleActions: S.optional(__S(436, __c27, 4)),
+          nodeLifecycleActions: S.optional(__S(451, __c28, 3)),
           schedulerVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "RegisterComputeNodeGroupInstanceResponse" });
@@ -1523,7 +1558,7 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ resourceArn: S.String, tags: __S(400, __c25, 0) }).pipe(
+        S.Struct({ resourceArn: S.String, tags: __S(416, __c26, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "TagResourceRequest" });
@@ -1554,9 +1589,10 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           scaleDownIdleTimeInSeconds: S.optional(S.Number),
-          slurmCustomSettings: S.optional(__S(385, __c24, 1)),
-          slurmdbdCustomSettings: S.optional(__S(385, __c24, 1)),
-          cgroupCustomSettings: S.optional(__S(385, __c24, 1)),
+          slurmCustomSettings: S.optional(__S(401, __c25, 1)),
+          slurmdbdCustomSettings: S.optional(__S(401, __c25, 1)),
+          cgroupCustomSettings: S.optional(__S(401, __c25, 1)),
+          jobSubmitPlugins: S.optional(__S(339, __c21, 3)),
           accounting: S.optional(__S(240, __c15, 0)),
           slurmRest: S.optional(__S(241, __c15, 1)),
         }),
@@ -1588,13 +1624,13 @@ function __c16(j: number): any {
           computeNodeGroupIdentifier: S.String,
           subnetIds: S.optional(__S(352, __c22, 0)),
           launchTemplateMode: S.optional(S.String),
-          customLaunchTemplate: S.optional(__S(448, __c28, 0)),
+          customLaunchTemplate: S.optional(__S(464, __c29, 0)),
           purchaseOption: S.optional(S.String),
-          spotOptions: S.optional(__S(452, __c28, 4)),
-          scalingConfiguration: S.optional(__S(449, __c28, 1)),
+          spotOptions: S.optional(__S(468, __c29, 4)),
+          scalingConfiguration: S.optional(__S(465, __c29, 1)),
           iamInstanceProfileArn: S.optional(S.String),
-          slurmConfiguration: S.optional(__S(454, __c28, 6)),
-          nodeLifecycleActions: S.optional(__S(436, __c27, 4)),
+          slurmConfiguration: S.optional(__S(470, __c29, 6)),
+          nodeLifecycleActions: S.optional(__S(451, __c28, 3)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateComputeNodeGroupRequest" });
@@ -1607,8 +1643,8 @@ function __c17(j: number): any {
         S.Struct({
           clusterIdentifier: S.String,
           queueIdentifier: S.String,
-          computeNodeGroupConfigurations: S.optional(__S(481, __c30, 1)),
-          slurmConfiguration: S.optional(__S(482, __c30, 2)),
+          computeNodeGroupConfigurations: S.optional(__S(497, __c31, 1)),
+          slurmConfiguration: S.optional(__S(498, __c31, 2)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateQueueRequest" });
@@ -1630,11 +1666,12 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           scaleDownIdleTimeInSeconds: S.optional(S.Number),
-          slurmCustomSettings: S.optional(__S(385, __c24, 1)),
-          slurmdbdCustomSettings: S.optional(__S(385, __c24, 1)),
-          cgroupCustomSettings: S.optional(__S(385, __c24, 1)),
-          accounting: S.optional(__S(338, __c21, 2)),
-          slurmRest: S.optional(__S(339, __c21, 3)),
+          slurmCustomSettings: S.optional(__S(401, __c25, 1)),
+          slurmdbdCustomSettings: S.optional(__S(401, __c25, 1)),
+          cgroupCustomSettings: S.optional(__S(401, __c25, 1)),
+          jobSubmitPlugins: S.optional(__S(339, __c21, 3)),
+          accounting: S.optional(__S(340, __c21, 4)),
+          slurmRest: S.optional(__S(341, __c21, 5)),
         }),
       ).annotate({ identifier: "ClusterSlurmConfigurationRequest" });
     case 1:
@@ -1646,7 +1683,7 @@ function __c19(j: number): any {
           networking: __S(337, __c21, 1),
           slurmConfiguration: S.optional(__S(304, __c19, 0)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          tags: S.optional(__S(400, __c25, 0)),
+          tags: S.optional(__S(416, __c26, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateClusterRequest" });
   }
@@ -1673,34 +1710,41 @@ function __c21(j: number): any {
       ).annotate({ identifier: "NetworkingRequest" });
     case 2:
       return S.suspend(() =>
+        S.Struct({ name: S.String, type: S.String, scriptSource: __S(368, __c23, 0) }),
+      ).annotate({ identifier: "JobSubmitPlugin" });
+    case 3:
+      return S.Array(__S(338, __c21, 2));
+    case 4:
+      return S.suspend(() =>
         S.Struct({ defaultPurgeTimeInDays: S.optional(S.Number), mode: S.String }),
       ).annotate({ identifier: "AccountingRequest" });
-    case 3:
+    case 5:
       return S.suspend(() => S.Struct({ mode: S.String })).annotate({
         identifier: "SlurmRestRequest",
       });
-    case 4:
+    case 6:
       return S.suspend(() => S.Struct({ secretArn: S.String, secretVersion: S.String })).annotate({
         identifier: "SlurmAuthKey",
       });
-    case 5:
-      return S.suspend(() => S.Struct({ jwtKey: S.optional(__S(340, __c21, 4)) })).annotate({
+    case 7:
+      return S.suspend(() => S.Struct({ jwtKey: S.optional(__S(342, __c21, 6)) })).annotate({
         identifier: "JwtAuth",
       });
-    case 6:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           scaleDownIdleTimeInSeconds: S.optional(S.Number),
-          slurmCustomSettings: S.optional(__S(385, __c24, 1)),
-          slurmdbdCustomSettings: S.optional(__S(385, __c24, 1)),
-          cgroupCustomSettings: S.optional(__S(385, __c24, 1)),
-          authKey: S.optional(__S(340, __c21, 4)),
-          jwtAuth: S.optional(__S(341, __c21, 5)),
-          accounting: S.optional(__S(338, __c21, 2)),
-          slurmRest: S.optional(__S(339, __c21, 3)),
+          slurmCustomSettings: S.optional(__S(401, __c25, 1)),
+          slurmdbdCustomSettings: S.optional(__S(401, __c25, 1)),
+          cgroupCustomSettings: S.optional(__S(401, __c25, 1)),
+          jobSubmitPlugins: S.optional(__S(339, __c21, 3)),
+          authKey: S.optional(__S(342, __c21, 6)),
+          jwtAuth: S.optional(__S(343, __c21, 7)),
+          accounting: S.optional(__S(340, __c21, 4)),
+          slurmRest: S.optional(__S(341, __c21, 5)),
         }),
       ).annotate({ identifier: "ClusterSlurmConfiguration" });
-    case 7:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
@@ -1711,14 +1755,14 @@ function __c21(j: number): any {
           modifiedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           scheduler: __S(336, __c21, 0),
           size: S.String,
-          slurmConfiguration: S.optional(__S(342, __c21, 6)),
+          slurmConfiguration: S.optional(__S(344, __c21, 8)),
           networking: __S(337, __c21, 1),
           endpoints: S.optional(__S(320, __c20, 0)),
-          errorInfo: S.optional(__S(387, __c24, 3)),
+          errorInfo: S.optional(__S(403, __c25, 3)),
         }),
       ).annotate({ identifier: "Cluster" });
-    case 8:
-      return S.suspend(() => S.Struct({ cluster: S.optional(__S(343, __c21, 7)) })).annotate({
+    case 10:
+      return S.suspend(() => S.Struct({ cluster: S.optional(__S(345, __c21, 9)) })).annotate({
         identifier: "CreateClusterResponse",
       });
   }
@@ -1734,6 +1778,18 @@ function __c23(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          scriptLocation: S.String,
+          s3VersionId: S.optional(S.String),
+          checksum: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "JobSubmitScriptSource" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           type: S.String,
           privateIpAddress: S.String,
           publicIpAddress: S.optional(S.String),
@@ -1743,29 +1799,29 @@ function __c23(j: number): any {
       ).annotate({ identifier: "Endpoint" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ parameterName: S.String, parameterValue: S.String }),
       ).annotate({ identifier: "SlurmCustomSetting" });
     case 1:
-      return S.Array(__S(384, __c24, 0));
+      return S.Array(__S(400, __c25, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({ code: S.optional(S.String), message: S.optional(S.String) }),
       ).annotate({ identifier: "ErrorInfo" });
     case 3:
-      return S.Array(__S(386, __c24, 2));
+      return S.Array(__S(402, __c25, 2));
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1778,55 +1834,47 @@ function __c26(j: number): any {
           subnetIds: __S(352, __c22, 0),
           purchaseOption: S.optional(S.String),
           launchTemplateMode: S.optional(S.String),
-          customLaunchTemplate: S.optional(__S(448, __c28, 0)),
+          customLaunchTemplate: S.optional(__S(464, __c29, 0)),
           iamInstanceProfileArn: S.String,
-          scalingConfiguration: __S(449, __c28, 1),
-          instanceConfigs: __S(451, __c28, 3),
-          spotOptions: S.optional(__S(452, __c28, 4)),
-          slurmConfiguration: S.optional(__S(454, __c28, 6)),
-          nodeLifecycleActions: S.optional(__S(436, __c27, 4)),
+          scalingConfiguration: __S(465, __c29, 1),
+          instanceConfigs: __S(467, __c29, 3),
+          spotOptions: S.optional(__S(468, __c29, 4)),
+          slurmConfiguration: S.optional(__S(470, __c29, 6)),
+          nodeLifecycleActions: S.optional(__S(451, __c28, 3)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          tags: S.optional(__S(400, __c25, 0)),
+          tags: S.optional(__S(416, __c26, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateComputeNodeGroupRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          scriptLocation: S.String,
-          s3VersionId: S.optional(S.String),
-          checksum: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ScriptSource" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String,
-          scriptSource: __S(432, __c27, 0),
+          scriptSource: __S(368, __c23, 0),
           arguments: S.optional(__S(352, __c22, 0)),
           onError: S.optional(S.String),
           executionPolicy: S.optional(S.String),
         }),
       ).annotate({ identifier: "NodeLifecycleScript" });
+    case 1:
+      return S.Array(__S(448, __c28, 0));
     case 2:
-      return S.Array(__S(433, __c27, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
-          nodeBootstrapped: S.optional(__S(434, __c27, 2)),
-          nodeReady: S.optional(__S(434, __c27, 2)),
+          nodeBootstrapped: S.optional(__S(449, __c28, 1)),
+          nodeReady: S.optional(__S(449, __c28, 1)),
         }),
       ).annotate({ identifier: "NodeLifecycleStages" });
-    case 4:
+    case 3:
       return S.suspend(() =>
-        S.Struct({ stages: __S(435, __c27, 3), scriptCachingPolicy: S.optional(S.String) }),
+        S.Struct({ stages: __S(450, __c28, 2), scriptCachingPolicy: S.optional(S.String) }),
       ).annotate({ identifier: "NodeLifecycleActionsRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ id: S.String, version: S.String })).annotate({
@@ -1841,19 +1889,19 @@ function __c28(j: number): any {
         identifier: "InstanceConfig",
       });
     case 3:
-      return S.Array(__S(450, __c28, 2));
+      return S.Array(__S(466, __c29, 2));
     case 4:
       return S.suspend(() => S.Struct({ allocationStrategy: S.optional(S.String) })).annotate({
         identifier: "SpotOptions",
       });
     case 5:
-      return S.Array(__S(400, __c25, 0));
+      return S.Array(__S(416, __c26, 0));
     case 6:
       return S.suspend(() =>
         S.Struct({
           scaleDownIdleTimeInSeconds: S.optional(S.Number),
-          slurmCustomSettings: S.optional(__S(385, __c24, 1)),
-          gresCustomSettings: S.optional(__S(453, __c28, 5)),
+          slurmCustomSettings: S.optional(__S(401, __c25, 1)),
+          gresCustomSettings: S.optional(__S(469, __c29, 5)),
         }),
       ).annotate({ identifier: "ComputeNodeGroupSlurmConfigurationRequest" });
     case 7:
@@ -1872,48 +1920,48 @@ function __c28(j: number): any {
           subnetIds: __S(352, __c22, 0),
           purchaseOption: S.optional(S.String),
           launchTemplateMode: S.optional(S.String),
-          customLaunchTemplate: S.optional(__S(448, __c28, 0)),
+          customLaunchTemplate: S.optional(__S(464, __c29, 0)),
           iamInstanceProfileArn: S.String,
-          scalingConfiguration: __S(449, __c28, 1),
-          instanceConfigs: __S(451, __c28, 3),
-          spotOptions: S.optional(__S(452, __c28, 4)),
-          slurmConfiguration: S.optional(__S(454, __c28, 6)),
-          nodeLifecycleActions: S.optional(__S(436, __c27, 4)),
-          errorInfo: S.optional(__S(387, __c24, 3)),
+          scalingConfiguration: __S(465, __c29, 1),
+          instanceConfigs: __S(467, __c29, 3),
+          spotOptions: S.optional(__S(468, __c29, 4)),
+          slurmConfiguration: S.optional(__S(470, __c29, 6)),
+          nodeLifecycleActions: S.optional(__S(451, __c28, 3)),
+          errorInfo: S.optional(__S(403, __c25, 3)),
         }),
       ).annotate({ identifier: "ComputeNodeGroup" });
     case 8:
       return S.suspend(() =>
-        S.Struct({ computeNodeGroup: S.optional(__S(455, __c28, 7)) }),
+        S.Struct({ computeNodeGroup: S.optional(__S(471, __c29, 7)) }),
       ).annotate({ identifier: "CreateComputeNodeGroupResponse" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           clusterIdentifier: S.String,
           queueName: S.String,
-          computeNodeGroupConfigurations: S.optional(__S(481, __c30, 1)),
-          slurmConfiguration: S.optional(__S(482, __c30, 2)),
+          computeNodeGroupConfigurations: S.optional(__S(497, __c31, 1)),
+          slurmConfiguration: S.optional(__S(498, __c31, 2)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          tags: S.optional(__S(400, __c25, 0)),
+          tags: S.optional(__S(416, __c26, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateQueueRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ computeNodeGroupId: S.optional(S.String) })).annotate({
         identifier: "ComputeNodeGroupConfiguration",
       });
     case 1:
-      return S.Array(__S(480, __c30, 0));
+      return S.Array(__S(496, __c31, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ slurmCustomSettings: S.optional(__S(385, __c24, 1)) }),
+        S.Struct({ slurmCustomSettings: S.optional(__S(401, __c25, 1)) }),
       ).annotate({ identifier: "QueueSlurmConfigurationRequest" });
     case 3:
       return S.suspend(() =>
@@ -1925,13 +1973,13 @@ function __c30(j: number): any {
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           modifiedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           status: S.String,
-          computeNodeGroupConfigurations: __S(481, __c30, 1),
-          slurmConfiguration: S.optional(__S(482, __c30, 2)),
-          errorInfo: S.optional(__S(387, __c24, 3)),
+          computeNodeGroupConfigurations: __S(497, __c31, 1),
+          slurmConfiguration: S.optional(__S(498, __c31, 2)),
+          errorInfo: S.optional(__S(403, __c25, 3)),
         }),
       ).annotate({ identifier: "Queue" });
     case 4:
-      return S.suspend(() => S.Struct({ queue: S.optional(__S(483, __c30, 3)) })).annotate({
+      return S.suspend(() => S.Struct({ queue: S.optional(__S(499, __c31, 3)) })).annotate({
         identifier: "CreateQueueResponse",
       });
   }

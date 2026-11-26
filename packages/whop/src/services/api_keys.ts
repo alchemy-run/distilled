@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { WhopServiceErrors } from "../errors.ts";
 import { paginateRelay } from "../pagination.ts";
 import { WhopProtocol, type WhopOpError, type WhopOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -495,6 +496,7 @@ export const createApiKey: API.OperationMethod<
   input: __S(16, __c2, 0) as any as S.Schema<CreateApiKeyRequest>,
   output: __S(37, __c4, 5) as any as S.Schema<ApiKey>,
   errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -512,6 +514,7 @@ export const deleteApiKey: API.OperationMethod<
   input: __S(40, __c5, 0) as any as S.Schema<DeleteApiKeyRequest>,
   output: __S(41, __c5, 1) as any as S.Schema<DeleteApiKeyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -529,6 +532,7 @@ export const getApiKey: API.OperationMethod<
   input: __S(48, __c6, 0) as any as S.Schema<GetApiKeyRequest>,
   output: __S(37, __c4, 5) as any as S.Schema<ApiKey>,
   errors: [Forbidden, NotFound],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -546,6 +550,7 @@ export const listApiKeyPermissions: API.OperationMethod<
   input: __S(56, __c7, 0) as any as S.Schema<ListApiKeyPermissionsRequest>,
   output: __S(60, __c7, 4) as any as S.Schema<ListApiKeyPermissionsResponse>,
   errors: [],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -565,6 +570,7 @@ export const listApiKeys: API.PaginatedOperationMethod<
     input: __S(72, __c9, 0) as any as S.Schema<ListApiKeysRequest>,
     output: __S(74, __c9, 2) as any as S.Schema<ListApiKeysResponse>,
     errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: WhopServiceErrors,
     protocol: WhopProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -592,6 +598,7 @@ export const rotateApiKey: API.OperationMethod<
   input: __S(80, __c10, 0) as any as S.Schema<RotateApiKeyRequest>,
   output: __S(37, __c4, 5) as any as S.Schema<ApiKey>,
   errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -609,6 +616,7 @@ export const updateApiKey: API.OperationMethod<
   input: __S(8, __c1, 0) as any as S.Schema<UpdateApiKeyRequest>,
   output: __S(37, __c4, 5) as any as S.Schema<ApiKey>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -661,7 +669,9 @@ function __c2(j: number): any {
           permissions: __S(26, __c3, 2),
           resource_id: S.String,
           resource_type: S.String,
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/api_keys", code: 200 })),
       ).annotate({ identifier: "CreateApiKeyRequest" });
   }
@@ -835,7 +845,9 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          idempotency_key: S.optional(
+            S.String.pipe(T.Header("Idempotency-Key"), T.IdempotencyToken()),
+          ),
         }).pipe(T.Http({ method: "POST", uri: "/api_keys/{id}/rotate", code: 200 })),
       ).annotate({ identifier: "RotateApiKeyRequest" });
   }

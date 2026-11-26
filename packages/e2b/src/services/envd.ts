@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownE2BError } from "../errors.ts";
+import { E2BServiceErrors } from "../errors.ts";
 import { EnvdProtocol, type E2BOpError, type EnvdOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -209,7 +209,11 @@ export interface ReadFileRequest {
   /** Unix timestamp (seconds) after which the signature expires. Only used with the signature parameter. */
   signature_expiration?: number | undefined;
 }
-export type ReadFileResponse = Uint8Array;
+export interface ReadFileResponse {
+  body?: Uint8Array | undefined;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 export interface UnfreezeEnvdRequest {}
 export interface UnfreezeEnvdResponse {}
 export interface WriteFilesRequest {
@@ -235,7 +239,8 @@ export const collapseEnvd: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CollapseEnvdRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<CollapseResult>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: EnvdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -252,7 +257,8 @@ export const composeFiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17, __c4, 1) as any as S.Schema<ComposeFilesRequest>,
   output: __S(20, __c5, 0) as any as S.Schema<EntryInfo>,
-  errors: [SandboxNotRunning, UnknownE2BError],
+  errors: [SandboxNotRunning],
+  serviceErrors: E2BServiceErrors,
   protocol: EnvdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -269,7 +275,8 @@ export const freezeEnvd: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<FreezeEnvdRequest>,
   output: __S(29, __c7, 1) as any as S.Schema<FreezeResult>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: EnvdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -286,7 +293,8 @@ export const fsfreezeEnvd: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<FsfreezeEnvdRequest>,
   output: __S(36, __c9, 0) as any as S.Schema<FsfreezeEnvdResponse>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: EnvdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -303,7 +311,8 @@ export const fsthawEnvd: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c10, 0) as any as S.Schema<FsthawEnvdRequest>,
   output: __S(36, __c9, 0) as any as S.Schema<FsthawEnvdResponse>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: EnvdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -320,7 +329,8 @@ export const getEnvVars: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44, __c11, 0) as any as S.Schema<GetEnvVarsRequest>,
   output: __S(45, __c11, 1) as any as S.Schema<GetEnvVarsResponse>,
-  errors: [SandboxNotRunning, UnknownE2BError],
+  errors: [SandboxNotRunning],
+  serviceErrors: E2BServiceErrors,
   protocol: EnvdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -337,7 +347,8 @@ export const getHealth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c12, 0) as any as S.Schema<GetHealthRequest>,
   output: __S(36, __c9, 0) as any as S.Schema<GetHealthResponse>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: EnvdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -354,7 +365,8 @@ export const getMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52, __c13, 0) as any as S.Schema<GetMetricsRequest>,
   output: __S(55, __c13, 3) as any as S.Schema<Metrics>,
-  errors: [SandboxNotRunning, UnknownE2BError],
+  errors: [SandboxNotRunning],
+  serviceErrors: E2BServiceErrors,
   protocol: EnvdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -371,7 +383,8 @@ export const initEnvd: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(58, __c14, 2) as any as S.Schema<InitEnvdRequest>,
   output: __S(36, __c9, 0) as any as S.Schema<InitEnvdResponse>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: EnvdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -387,8 +400,9 @@ export const readFile: API.OperationMethod<
   EnvdOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<ReadFileRequest>,
-  output: __S(5, __c1, 1) as any as S.Codec<ReadFileResponse>,
-  errors: [SandboxNotRunning, UnknownE2BError],
+  output: __S(5, __c1, 1) as any as S.Schema<ReadFileResponse>,
+  errors: [SandboxNotRunning],
+  serviceErrors: E2BServiceErrors,
   protocol: EnvdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -405,7 +419,8 @@ export const unfreezeEnvd: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<UnfreezeEnvdRequest>,
   output: __S(36, __c9, 0) as any as S.Schema<UnfreezeEnvdResponse>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: EnvdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -422,7 +437,8 @@ export const writeFiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<WriteFilesRequest>,
   output: __S(14, __c3, 2) as any as S.Schema<WriteFilesResponse>,
-  errors: [SandboxNotRunning, UnknownE2BError],
+  errors: [SandboxNotRunning],
+  serviceErrors: E2BServiceErrors,
   protocol: EnvdProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -461,7 +477,12 @@ function __c1(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/files", code: 200 })),
       ).annotate({ identifier: "ReadFileRequest" });
     case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
+      return S.suspend(() =>
+        S.Struct({
+          body: S.optional(S.instanceOf(Uint8Array).pipe(T.RawResponse(), T.BinaryResponse())),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+        }),
+      ).annotate({ identifier: "ReadFileResponse" });
   }
 }
 function __c2(j: number): any {

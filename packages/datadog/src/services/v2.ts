@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownDatadogError } from "../errors.ts";
+import { DatadogServiceErrors } from "../errors.ts";
 import { DatadogProtocol, type DatadogOpError, type DatadogOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -11337,7 +11337,7 @@ export interface CreateCustomRuleRequest {
   /** The ruleset name */
   ruleset_name: string;
   /** CSRF token for security, sent by browser-based clients. Ignored by the API when absent. */
-  _authentication_token?: string | undefined;
+  _authentication_token?: string | Redacted.Redacted<string> | undefined;
   data?: CustomRuleRequestData | undefined;
 }
 /** A named argument for a custom static analysis rule. */
@@ -11561,7 +11561,7 @@ export interface CreateCustomRuleRevisionRequest {
   /** The rule name */
   rule_name: string;
   /** CSRF token for security, sent by browser-based clients. Ignored by the API when absent. */
-  _authentication_token?: string | undefined;
+  _authentication_token?: string | Redacted.Redacted<string> | undefined;
   data?: CustomRuleRevisionRequestDataInput | undefined;
 }
 export interface CreateCustomRuleRevisionResponse {}
@@ -11798,7 +11798,7 @@ export interface SecureEmbedCreateResponseAttributes {
   /** Creation timestamp. */
   created_at?: string | undefined;
   /** The secret credential used for HMAC signing. Returned only on creation. Store securely -- it cannot be retrieved again. */
-  credential?: string | undefined;
+  credential?: string | Redacted.Redacted<string> | undefined;
   /** The source dashboard ID. */
   dashboard_id?: string | undefined;
   global_time?: SecureEmbedGlobalTime | undefined;
@@ -11815,7 +11815,7 @@ export interface SecureEmbedCreateResponseAttributes {
   /** Display title. */
   title?: string | undefined;
   /** Public share token. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** CDN URL for the shared dashboard. */
   url?: string | undefined;
   viewing_preferences?: SecureEmbedViewingPreferences | undefined;
@@ -20479,7 +20479,7 @@ export interface OpsgenieServiceCreateAttributes {
   /** The name for the Opsgenie service. */
   name: string;
   /** The Opsgenie API key for your Opsgenie service. */
-  opsgenie_api_key: string;
+  opsgenie_api_key: string | Redacted.Redacted<string>;
   region: OpsgenieServiceRegionType | (string & {});
 }
 /** Opsgenie service resource type. */
@@ -28876,7 +28876,7 @@ export interface SnowflakeIntegrationAccountPrivateKeyAuthRequest {
   /** Name that distinguishes this private key from other keys in Datadog. */
   private_key_name: string;
   /** Passphrase that decrypts the private key. Provide it only when the key is encrypted. */
-  private_key_passphrase?: string | undefined;
+  private_key_passphrase?: string | Redacted.Redacted<string> | undefined;
 }
 /** Settings of the account usage metrics dataflow. Only the fields provided are changed. */
 export interface SnowflakeAccountUsageMetricsIntegrationDataflowSettingsRequest {
@@ -29267,7 +29267,7 @@ export interface GetAstRequestData {
 }
 export interface CreateStaticAnalysisAstRequest {
   /** CSRF token for security, sent by browser-based clients. Ignored by the API when absent. */
-  _authentication_token?: string | undefined;
+  _authentication_token?: string | Redacted.Redacted<string> | undefined;
   data: GetAstRequestData;
 }
 /** The child nodes of this AST node, or null for a leaf node. */
@@ -29416,7 +29416,7 @@ export interface AnalysisRequestDataInput {
 }
 export interface CreateStaticAnalysisServerAnalysisRequest {
   /** CSRF token for security, sent by browser-based clients. Ignored by the API when absent. */
-  _authentication_token?: string | undefined;
+  _authentication_token?: string | Redacted.Redacted<string> | undefined;
   data: AnalysisRequestDataInput;
 }
 /** Top-level error messages encountered during the analysis operation. */
@@ -31218,7 +31218,7 @@ export type TemporalCloudOpenMetricsIntegrationAccountBearerTokenAuthType = "bea
 export interface TemporalCloudOpenMetricsIntegrationAccountBearerTokenAuthRequest {
   auth_type: TemporalCloudOpenMetricsIntegrationAccountBearerTokenAuthType | (string & {});
   /** Secret token used to authenticate with Temporal Cloud. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 /** Settings for creating the Temporal Cloud OpenMetrics integration account. */
 export interface TemporalCloudOpenMetricsIntegrationAccountSettingsRequest {
@@ -33057,7 +33057,7 @@ export interface WorkflowDataAttributesInput {
   /** Tags of the workflow. */
   tags?: WorkflowDataAttributesInputTagsList | undefined;
   /** If a Webhook trigger is defined on this workflow, a webhookSecret is required and should be provided here. */
-  webhookSecret?: string | undefined;
+  webhookSecret?: string | Redacted.Redacted<string> | undefined;
 }
 /** The definition of `WorkflowDataType` object. */
 export type WorkflowDataType = "workflows";
@@ -38870,7 +38870,7 @@ export interface SecureEmbedGetResponseAttributes {
   /** Display title. */
   title?: string | undefined;
   /** Public share token. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** CDN URL for the shared dashboard. */
   url?: string | undefined;
   viewing_preferences?: SecureEmbedViewingPreferences | undefined;
@@ -50056,7 +50056,7 @@ export interface Metadata {
   /** Number of entities included in the response. */
   count: number;
   /** The token that identifies the request. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Total number of entities across all pages. */
   total: number;
 }
@@ -56846,7 +56846,7 @@ export interface GetMultipleRulesetsRequestData {
 }
 export interface ListMultipleRulesetsRequest {
   /** CSRF token for security, sent by browser-based clients. Ignored by the API when absent. */
-  _authentication_token?: string | undefined;
+  _authentication_token?: string | Redacted.Redacted<string> | undefined;
   data?: GetMultipleRulesetsRequestData | undefined;
 }
 /** The list of static analysis rules included in this ruleset. */
@@ -60172,7 +60172,7 @@ export interface SharedDashboardResponseAttributes {
   /** Display title for the shared dashboard. */
   title: string;
   /** Token assigned to the shared dashboard. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** URL for the shared dashboard. */
   url: string;
   viewing_preferences: SharedDashboardViewingPreferences;
@@ -68671,7 +68671,7 @@ export interface SecureEmbedUpdateResponseAttributes {
   /** Display title. */
   title?: string | undefined;
   /** Public share token. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** CDN URL for the shared dashboard. */
   url?: string | undefined;
   viewing_preferences?: SecureEmbedViewingPreferences | undefined;
@@ -68713,7 +68713,7 @@ export interface DatabricksIntegrationAccountPrivateActionRunnerAuthUpdate {
 export interface DatabricksIntegrationAccountBearerTokenAuthUpdate {
   auth_type: DatabricksIntegrationAccountBearerTokenAuthType;
   /** Secret token used to authenticate with Databricks. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 /** Authentication for updating the Databricks integration account. Exactly one method is set. Choosing `private_action_runner` leaves the `databricks-model-serving-metrics` dataflow unable to collect data. `bearer_token` is deprecated on Databricks: it is accepted only on accounts that already use it and never on creation, so it cannot move an account onto token authentication. Migrate those accounts to `databricks_oauth` or `private_action_runner`. */
 export type DatabricksIntegrationAccountAuthenticationUpdate =
@@ -71062,7 +71062,7 @@ export interface OpsgenieServiceUpdateAttributes {
   /** The name for the Opsgenie service. */
   name?: string | undefined;
   /** The Opsgenie API key for your Opsgenie service. */
-  opsgenie_api_key?: string | undefined;
+  opsgenie_api_key?: string | Redacted.Redacted<string> | undefined;
   region?: OpsgenieServiceRegionType | (string & {}) | undefined;
 }
 /** Opsgenie service for an update request. */
@@ -72397,7 +72397,7 @@ export interface SnowflakeIntegrationAccountPrivateKeyAuthUpdate {
   /** Name that distinguishes this private key from other keys in Datadog. */
   private_key_name?: string | undefined;
   /** Passphrase that decrypts the private key. Provide it only when the key is encrypted. Omit it to keep the stored passphrase, send `null` or an empty string to remove it, or send a value to replace it. */
-  private_key_passphrase?: string | null | undefined;
+  private_key_passphrase?: string | Redacted.Redacted<string> | null | undefined;
 }
 /** Settings for updating the Snowflake integration account. Only the fields provided are changed. */
 export interface SnowflakeIntegrationAccountSettingsUpdate {
@@ -72806,7 +72806,7 @@ export interface TeamPermissionSettingResponse {
 export interface TemporalCloudOpenMetricsIntegrationAccountBearerTokenAuthUpdate {
   auth_type: TemporalCloudOpenMetricsIntegrationAccountBearerTokenAuthType | (string & {});
   /** Secret token used to authenticate with Temporal Cloud. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 /** Settings for updating the Temporal Cloud OpenMetrics integration account. Only the fields provided are changed. */
 export interface TemporalCloudOpenMetricsIntegrationAccountSettingsUpdate {
@@ -73158,7 +73158,7 @@ export interface WorkflowDataUpdateAttributesInput {
   /** Tags of the workflow. */
   tags?: WorkflowDataUpdateAttributesInputTagsList | undefined;
   /** If a Webhook trigger is defined on this workflow, a webhookSecret is required and should be provided here. */
-  webhookSecret?: string | undefined;
+  webhookSecret?: string | Redacted.Redacted<string> | undefined;
 }
 /** Data related to the workflow being updated. */
 export interface WorkflowDataUpdateInput {
@@ -74309,7 +74309,8 @@ export const acknowledgeOnCallPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(59168, __c1849, 0) as any as S.Schema<AcknowledgeOnCallPageRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<AcknowledgeOnCallPageResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74326,7 +74327,8 @@ export const activateContentPack: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(63456, __c1983, 0) as any as S.Schema<ActivateContentPackRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<ActivateContentPackResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74343,7 +74345,8 @@ export const activateIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68642, __c2145, 2) as any as S.Schema<ActivateIntegrationRequest>,
   output: __S(68704, __c2147, 0) as any as S.Schema<SecurityMonitoringIntegrationConfigResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74360,7 +74363,8 @@ export const addCaseInsights: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(74240, __c2320, 0) as any as S.Schema<AddCaseInsightsRequest>,
   output: __S(74400, __c2325, 0) as any as S.Schema<CaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74377,7 +74381,8 @@ export const addPermissionToRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(79968, __c2499, 0) as any as S.Schema<AddPermissionToRoleRequest>,
   output: __S(80035, __c2501, 3) as any as S.Schema<PermissionsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74394,7 +74399,8 @@ export const addReadRoleToArchive: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<AddReadRoleToArchiveRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<AddReadRoleToArchiveResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74411,7 +74417,8 @@ export const addRoleToRestrictionQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5248, __c164, 0) as any as S.Schema<AddRoleToRestrictionQueryRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<AddRoleToRestrictionQueryResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74428,7 +74435,8 @@ export const addRumReplaySessionToPlaylist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10048, __c314, 0) as any as S.Schema<AddRumReplaySessionToPlaylistRequest>,
   output: __S(10049, __c314, 1) as any as S.Schema<PlaylistsSession>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74445,7 +74453,8 @@ export const addSTIXThreatIntel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15042, __c470, 2) as any as S.Schema<AddSTIXThreatIntelRequest>,
   output: __S(15045, __c470, 5) as any as S.Schema<STIXIngestResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74462,7 +74471,8 @@ export const addTeamHierarchyLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19810, __c619, 2) as any as S.Schema<AddTeamHierarchyLinkRequest>,
   output: __S(19840, __c620, 0) as any as S.Schema<TeamHierarchyLinkResponse>,
-  errors: [Forbidden, Conflict, UnknownDatadogError],
+  errors: [Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74479,7 +74489,8 @@ export const addTestToSyntheticsDowntime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24192, __c756, 0) as any as S.Schema<AddTestToSyntheticsDowntimeRequest>,
   output: __S(24256, __c758, 0) as any as S.Schema<SyntheticsDowntimeResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74496,7 +74507,8 @@ export const addUserToRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28832, __c901, 0) as any as S.Schema<AddUserToRoleRequest>,
   output: __S(28896, __c903, 0) as any as S.Schema<UsersResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74513,7 +74525,8 @@ export const aggregateCases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33347, __c1042, 3) as any as S.Schema<AggregateCasesRequest>,
   output: __S(33352, __c1042, 8) as any as S.Schema<CaseAggregateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74530,7 +74543,8 @@ export const aggregateCIAppPipelineEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36544, __c1142, 0) as any as S.Schema<AggregateCIAppPipelineEventsRequest>,
   output: __S(36545, __c1142, 1) as any as S.Schema<CIAppPipelinesAnalyticsAggregateResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74547,7 +74561,8 @@ export const aggregateCIAppTestEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(37792, __c1181, 0) as any as S.Schema<AggregateCIAppTestEventsRequest>,
   output: __S(37793, __c1181, 1) as any as S.Schema<CIAppTestsAnalyticsAggregateResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74564,7 +74579,8 @@ export const aggregateLLMObsExperimentation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(38823, __c1213, 7) as any as S.Schema<AggregateLLMObsExperimentationRequest>,
   output: __S(38829, __c1213, 13) as any as S.Schema<LLMObsExperimentationAnalyticsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74581,7 +74597,8 @@ export const aggregateLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(39683, __c1240, 3) as any as S.Schema<AggregateLogsRequest>,
   output: __S(39688, __c1240, 8) as any as S.Schema<LogsAggregateResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74598,7 +74615,8 @@ export const aggregateRUMEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40866, __c1277, 2) as any as S.Schema<AggregateRUMEventsRequest>,
   output: __S(40872, __c1277, 8) as any as S.Schema<RUMAnalyticsAggregateResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74615,7 +74633,8 @@ export const aggregateSpans: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(41924, __c1310, 4) as any as S.Schema<AggregateSpansRequest>,
   output: __S(41929, __c1310, 9) as any as S.Schema<SpansAggregateResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74632,7 +74651,8 @@ export const anonymizeUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(42978, __c1343, 2) as any as S.Schema<AnonymizeUsersRequest>,
   output: __S(42983, __c1343, 7) as any as S.Schema<AnonymizeUsersResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74649,7 +74669,8 @@ export const archiveCase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(43936, __c1373, 0) as any as S.Schema<ArchiveCaseRequest>,
   output: __S(74400, __c2325, 0) as any as S.Schema<CaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74671,7 +74692,8 @@ export const archiveExperimentProtocol: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(45056, __c1408, 0) as any as S.Schema<ArchiveExperimentProtocolRequest>,
   output: __S(45135, __c1410, 15) as any as S.Schema<ExperimentsPublicProtocolResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74688,7 +74710,8 @@ export const archiveExposureSQLModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(45920, __c1435, 0) as any as S.Schema<ArchiveExposureSQLModelRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<ArchiveExposureSQLModelResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74705,7 +74728,8 @@ export const archiveFeatureFlag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(47232, __c1476, 0) as any as S.Schema<ArchiveFeatureFlagRequest>,
   output: __S(47300, __c1478, 4) as any as S.Schema<FeatureFlagResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74722,7 +74746,8 @@ export const assignCase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48162, __c1505, 2) as any as S.Schema<AssignCaseRequest>,
   output: __S(74400, __c2325, 0) as any as S.Schema<CaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74739,7 +74764,8 @@ export const assignSeatsUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(49056, __c1533, 0) as any as S.Schema<AssignSeatsUserRequest>,
   output: __S(49059, __c1533, 3) as any as S.Schema<AssignSeatsUserResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74756,7 +74782,8 @@ export const attachCase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(50177, __c1568, 1) as any as S.Schema<AttachCaseRequest>,
   output: __S(50208, __c1569, 0) as any as S.Schema<FindingCaseResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74773,7 +74800,8 @@ export const attachJiraIssue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(51201, __c1600, 1) as any as S.Schema<AttachJiraIssueRequest>,
   output: __S(50208, __c1569, 0) as any as S.Schema<FindingCaseResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74790,7 +74818,8 @@ export const attachLinearIssue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52162, __c1630, 2) as any as S.Schema<AttachLinearIssueRequest>,
   output: __S(50208, __c1569, 0) as any as S.Schema<FindingCaseResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74807,7 +74836,8 @@ export const attachServiceNowTicket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52834, __c1651, 2) as any as S.Schema<AttachServiceNowTicketRequest>,
   output: __S(50208, __c1569, 0) as any as S.Schema<FindingCaseResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74824,7 +74854,8 @@ export const batchGetJourneysByTestSuiteIDs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(53186, __c1662, 2) as any as S.Schema<BatchGetJourneysByTestSuiteIDsRequest>,
   output: __S(53217, __c1663, 1) as any as S.Schema<DemJourneysListResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74848,7 +74879,8 @@ export const batchGetSecurityMonitoringDatasetDependencies: API.OperationMethod<
     2,
   ) as any as S.Schema<BatchGetSecurityMonitoringDatasetDependenciesRequest>,
   output: __S(53638, __c1676, 6) as any as S.Schema<SecurityMonitoringDatasetDependenciesResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74865,7 +74897,8 @@ export const batchRowsQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(53986, __c1687, 2) as any as S.Schema<BatchRowsQueryRequest>,
   output: __S(53989, __c1687, 5) as any as S.Schema<BatchRowsQueryResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74882,7 +74915,8 @@ export const batchUpdateLLMObsDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(54375, __c1699, 7) as any as S.Schema<BatchUpdateLLMObsDatasetRequest>,
   output: __S(54434, __c1701, 2) as any as S.Schema<LLMObsDatasetRecordsMutationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74911,7 +74945,8 @@ export const bulkConvertExistingSecurityMonitoringRules: API.OperationMethod<
     __c1850,
     0,
   ) as any as S.Schema<BulkConvertExistingSecurityMonitoringRulesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74928,7 +74963,8 @@ export const bulkCreateAiGatewayModels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(55170, __c1724, 2) as any as S.Schema<BulkCreateAiGatewayModelsRequest>,
   output: __S(55200, __c1725, 0) as any as S.Schema<AiGatewayModelCatalogEntryListResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74952,7 +74988,8 @@ export const bulkCreateSampleLogGenerationSubscriptions: API.OperationMethod<
     2,
   ) as any as S.Schema<BulkCreateSampleLogGenerationSubscriptionsRequest>,
   output: __S(55718, __c1741, 6) as any as S.Schema<SampleLogGenerationBulkSubscriptionResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74969,7 +75006,8 @@ export const bulkDeleteDatastoreItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56098, __c1753, 2) as any as S.Schema<BulkDeleteDatastoreItemsRequest>,
   output: __S(56192, __c1756, 0) as any as S.Schema<DeleteAppsDatastoreItemResponseArray>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -74990,7 +75028,8 @@ export const bulkDeleteSecurityMonitoringRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56544, __c1767, 0) as any as S.Schema<BulkDeleteSecurityMonitoringRulesRequest>,
   output: __S(56547, __c1767, 3) as any as S.Schema<SecurityMonitoringRuleBulkDeleteResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75011,7 +75050,8 @@ export const bulkEditSecurityMonitoringSignals: API.OperationMethod<
     __c1779,
     4,
   ) as any as S.Schema<SecurityMonitoringSignalsBulkTriageUpdateResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75039,7 +75079,8 @@ export const bulkEditSecurityMonitoringSignalsAssignee: API.OperationMethod<
     __c1779,
     4,
   ) as any as S.Schema<SecurityMonitoringSignalsBulkTriageUpdateResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75060,7 +75101,8 @@ export const bulkEditSecurityMonitoringSignalsState: API.OperationMethod<
     __c1779,
     4,
   ) as any as S.Schema<SecurityMonitoringSignalsBulkTriageUpdateResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75081,7 +75123,8 @@ export const bulkExportSecurityMonitoringRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(58112, __c1816, 0) as any as S.Schema<BulkExportSecurityMonitoringRulesRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<BulkExportSecurityMonitoringRulesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75110,7 +75153,8 @@ export const bulkExportSecurityMonitoringTerraformResources: API.OperationMethod
     __c1850,
     0,
   ) as any as S.Schema<BulkExportSecurityMonitoringTerraformResourcesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75127,7 +75171,8 @@ export const bulkRemoveRumReplayPlaylistSessions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(58816, __c1838, 0) as any as S.Schema<BulkRemoveRumReplayPlaylistSessionsRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<BulkRemoveRumReplayPlaylistSessionsResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75144,7 +75189,8 @@ export const bulkUpdateCases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(59234, __c1851, 2) as any as S.Schema<BulkUpdateCasesRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<BulkUpdateCasesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75161,7 +75207,8 @@ export const bulkUpdateOrgGroupMemberships: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(59618, __c1863, 2) as any as S.Schema<BulkUpdateOrgGroupMembershipsRequest>,
   output: __S(59681, __c1865, 1) as any as S.Schema<OrgGroupMembershipListResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75178,7 +75225,8 @@ export const bulkWriteDatastoreItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60226, __c1882, 2) as any as S.Schema<BulkWriteDatastoreItemsRequest>,
   output: __S(56192, __c1756, 0) as any as S.Schema<PutAppsDatastoreItemResponseArray>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75195,7 +75243,8 @@ export const cancelArchiveSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60576, __c1893, 0) as any as S.Schema<CancelArchiveSearchRequest>,
   output: __S(60640, __c1895, 0) as any as S.Schema<ArchiveSearchResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75212,7 +75261,8 @@ export const cancelDataDeletionRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(61056, __c1908, 0) as any as S.Schema<CancelDataDeletionRequestRequest>,
   output: __S(61088, __c1909, 0) as any as S.Schema<CancelDataDeletionResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75229,7 +75279,8 @@ export const cancelDowntime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(61536, __c1923, 0) as any as S.Schema<CancelDowntimeRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<CancelDowntimeResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75246,7 +75297,8 @@ export const cancelExperiment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(61889, __c1934, 1) as any as S.Schema<CancelExperimentRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<CancelExperimentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75263,7 +75315,8 @@ export const cancelFleetDeploymentV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(62304, __c1947, 0) as any as S.Schema<CancelFleetDeploymentV2Request>,
   output: __S(62307, __c1947, 3) as any as S.Schema<FleetDeploymentV2CancelResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75285,7 +75338,8 @@ export const cancelHistoricalJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(62656, __c1958, 0) as any as S.Schema<CancelHistoricalJobRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<CancelHistoricalJobResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75307,7 +75361,8 @@ export const cancelSecurityMonitoringBatchMigration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(63072, __c1971, 0) as any as S.Schema<CancelSecurityMonitoringBatchMigrationRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<CancelSecurityMonitoringBatchMigrationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75324,7 +75379,8 @@ export const cancelWorkflowInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(63488, __c1984, 0) as any as S.Schema<CancelWorkflowInstanceRequest>,
   output: __S(63489, __c1984, 1) as any as S.Schema<WorklflowCancelInstanceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75341,7 +75397,8 @@ export const cloneForm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64001, __c2000, 1) as any as S.Schema<CloneFormRequest>,
   output: __S(64160, __c2005, 0) as any as S.Schema<FormResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75358,7 +75415,8 @@ export const cloneLLMObsDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64609, __c2019, 1) as any as S.Schema<CloneLLMObsDatasetRequest>,
   output: __S(64672, __c2021, 0) as any as S.Schema<LLMObsDatasetResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75375,7 +75433,8 @@ export const cloneRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(65154, __c2036, 2) as any as S.Schema<CloneRoleRequest>,
   output: __S(65216, __c2038, 0) as any as S.Schema<RoleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75392,7 +75451,8 @@ export const commentCase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(65696, __c2053, 0) as any as S.Schema<CommentCaseRequest>,
   output: __S(65732, __c2054, 4) as any as S.Schema<TimelineResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75409,7 +75469,8 @@ export const concludeExperiment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(66210, __c2069, 2) as any as S.Schema<ConcludeExperimentRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<ConcludeExperimentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75430,7 +75491,8 @@ export const convertExistingSecurityMonitoringRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(66784, __c2087, 0) as any as S.Schema<ConvertExistingSecurityMonitoringRuleRequest>,
   output: __S(66816, __c2088, 0) as any as S.Schema<SecurityMonitoringRuleConvertResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75447,7 +75509,8 @@ export const convertJobResultToSignal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(67202, __c2100, 2) as any as S.Schema<ConvertJobResultToSignalRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<ConvertJobResultToSignalResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75472,7 +75535,8 @@ export const convertSecurityMonitoringRuleFromJSONToTerraform: API.OperationMeth
     0,
   ) as any as S.Schema<ConvertSecurityMonitoringRuleFromJSONToTerraformRequest>,
   output: __S(66816, __c2088, 0) as any as S.Schema<SecurityMonitoringRuleConvertResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75496,7 +75560,8 @@ export const convertSecurityMonitoringTerraformResource: API.OperationMethod<
     2,
   ) as any as S.Schema<ConvertSecurityMonitoringTerraformResourceRequest>,
   output: __S(68194, __c2131, 2) as any as S.Schema<SecurityMonitoringTerraformExportResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75513,7 +75578,8 @@ export const countCases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68736, __c2148, 0) as any as S.Schema<CountCasesRequest>,
   output: __S(68741, __c2148, 5) as any as S.Schema<CaseCountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75530,7 +75596,8 @@ export const countSecurityAgentInvestigations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(69376, __c2168, 0) as any as S.Schema<CountSecurityAgentInvestigationsRequest>,
   output: __S(69379, __c2168, 3) as any as S.Schema<SecurityAgentInvestigationCountsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75547,7 +75614,8 @@ export const createActionConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(69794, __c2181, 2) as any as S.Schema<CreateActionConnectionRequest>,
   output: __S(69827, __c2182, 3) as any as S.Schema<CreateActionConnectionResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75564,7 +75632,8 @@ export const createAiCustomRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(70336, __c2198, 0) as any as S.Schema<CreateAiCustomRuleRequest>,
   output: __S(70401, __c2200, 1) as any as S.Schema<AiCustomRuleResponse>,
-  errors: [BadRequest, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75581,7 +75650,8 @@ export const createAiCustomRuleRevision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(70914, __c2216, 2) as any as S.Schema<CreateAiCustomRuleRevisionRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<CreateAiCustomRuleRevisionResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75598,7 +75668,8 @@ export const createAiCustomRuleset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(71330, __c2229, 2) as any as S.Schema<CreateAiCustomRulesetRequest>,
   output: __S(71360, __c2230, 0) as any as S.Schema<AiCustomRulesetResponse>,
-  errors: [BadRequest, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75615,7 +75686,8 @@ export const createAiGatewayBudget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(71874, __c2246, 2) as any as S.Schema<CreateAiGatewayBudgetRequest>,
   output: __S(71938, __c2248, 2) as any as S.Schema<AiGatewayBudgetResponse>,
-  errors: [BadRequest, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75636,7 +75708,8 @@ export const createAiGatewayDataCaptureOverride: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72642, __c2270, 2) as any as S.Schema<CreateAiGatewayDataCaptureOverrideRequest>,
   output: __S(72674, __c2271, 2) as any as S.Schema<AiGatewayCaptureOverrideResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75653,7 +75726,8 @@ export const createAiGatewayModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(73057, __c2283, 1) as any as S.Schema<CreateAiGatewayModelRequest>,
   output: __S(73088, __c2284, 0) as any as S.Schema<AiGatewayModelCatalogEntryResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75670,7 +75744,8 @@ export const createAiGatewayModelGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(73634, __c2301, 2) as any as S.Schema<CreateAiGatewayModelGroupRequest>,
   output: __S(73696, __c2303, 0) as any as S.Schema<AiGatewayModelGroupResponse>,
-  errors: [BadRequest, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75687,7 +75762,8 @@ export const createAiGatewayProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(74498, __c2328, 2) as any as S.Schema<CreateAiGatewayProviderRequest>,
   output: __S(74560, __c2330, 0) as any as S.Schema<AiGatewayProviderResponse>,
-  errors: [BadRequest, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75704,7 +75780,8 @@ export const createAiGatewayRateLimit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(74978, __c2343, 2) as any as S.Schema<CreateAiGatewayRateLimitRequest>,
   output: __S(75040, __c2345, 0) as any as S.Schema<AiGatewayRateLimitResponse>,
-  errors: [BadRequest, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75721,7 +75798,8 @@ export const createAiGatewayRoutingRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(75458, __c2358, 2) as any as S.Schema<CreateAiGatewayRoutingRuleRequest>,
   output: __S(75552, __c2361, 0) as any as S.Schema<AiGatewayRoutingRuleResponse>,
-  errors: [BadRequest, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75738,7 +75816,8 @@ export const createAIImpactUserActivity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(75939, __c2373, 3) as any as S.Schema<CreateAIImpactUserActivityRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<CreateAIImpactUserActivityResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75755,7 +75834,8 @@ export const createAiMemoryViolationResult: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76546, __c2392, 2) as any as S.Schema<CreateAiMemoryViolationResultRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<CreateAiMemoryViolationResultResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75781,7 +75861,8 @@ export const createAllocationsForFeatureFlagInEnvironment: API.OperationMethod<
     0,
   ) as any as S.Schema<CreateAllocationsForFeatureFlagInEnvironmentRequest>,
   output: __S(76993, __c2406, 1) as any as S.Schema<AllocationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75798,7 +75879,8 @@ export const createAndPublishForm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(77568, __c2424, 0) as any as S.Schema<CreateAndPublishFormRequest>,
   output: __S(64160, __c2005, 0) as any as S.Schema<FormResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75815,7 +75897,8 @@ export const createAnnotation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(78144, __c2442, 0) as any as S.Schema<CreateAnnotationRequest>,
   output: __S(78210, __c2444, 2) as any as S.Schema<AnnotationResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75832,7 +75915,8 @@ export const createAPIKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(78657, __c2458, 1) as any as S.Schema<CreateAPIKeyRequest>,
   output: __S(78754, __c2461, 2) as any as S.Schema<APIKeyResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75849,7 +75933,8 @@ export const createApmRetentionFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(79361, __c2480, 1) as any as S.Schema<CreateApmRetentionFilterRequest>,
   output: __S(79488, __c2484, 0) as any as S.Schema<RetentionFilterCreateResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75866,7 +75951,8 @@ export const createApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80065, __c2502, 1) as any as S.Schema<CreateAppRequest>,
   output: __S(80128, __c2504, 0) as any as S.Schema<CreateAppResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75887,7 +75973,8 @@ export const createApplicationSecurityWafCustomRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80608, __c2519, 0) as any as S.Schema<CreateApplicationSecurityWafCustomRuleRequest>,
   output: __S(80704, __c2522, 0) as any as S.Schema<ApplicationSecurityWafCustomRuleResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75912,7 +75999,8 @@ export const createApplicationSecurityWafExclusionFilter: API.OperationMethod<
     0,
   ) as any as S.Schema<CreateApplicationSecurityWafExclusionFilterRequest>,
   output: __S(81344, __c2542, 0) as any as S.Schema<ApplicationSecurityWafExclusionFilterResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75933,7 +76021,8 @@ export const createApplicationSecurityWafPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(81762, __c2555, 2) as any as S.Schema<CreateApplicationSecurityWafPolicyRequest>,
   output: __S(81824, __c2557, 0) as any as S.Schema<ApplicationSecurityPolicyResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75950,7 +76039,8 @@ export const createArchiveSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(82466, __c2577, 2) as any as S.Schema<CreateArchiveSearchRequest>,
   output: __S(60640, __c1895, 0) as any as S.Schema<ArchiveSearchResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75967,7 +76057,8 @@ export const createAuthNMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(82849, __c2589, 1) as any as S.Schema<CreateAuthNMappingRequest>,
   output: __S(82976, __c2593, 0) as any as S.Schema<AuthNMappingResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -75984,7 +76075,8 @@ export const createAWSAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(83490, __c2609, 2) as any as S.Schema<CreateAWSAccountRequest>,
   output: __S(83584, __c2612, 0) as any as S.Schema<AWSAccountResponseOutput>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76001,7 +76093,8 @@ export const createAWSAccountCCMConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84000, __c2625, 0) as any as S.Schema<CreateAWSAccountCCMConfigRequest>,
   output: __S(84068, __c2627, 4) as any as S.Schema<AWSCcmConfigResponse>,
-  errors: [Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76022,7 +76115,8 @@ export const createAWSCloudAuthIntakeMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84450, __c2639, 2) as any as S.Schema<CreateAWSCloudAuthIntakeMappingRequest>,
   output: __S(84480, __c2640, 0) as any as S.Schema<AWSCloudAuthIntakeMappingResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76043,7 +76137,8 @@ export const createAWSCloudAuthPersonaMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84866, __c2652, 2) as any as S.Schema<CreateAWSCloudAuthPersonaMappingRequest>,
   output: __S(84896, __c2653, 0) as any as S.Schema<AWSCloudAuthPersonaMappingResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76060,7 +76155,8 @@ export const createAWSEventBridgeSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(258, __c8, 2) as any as S.Schema<CreateAWSEventBridgeSourceRequest>,
   output: __S(261, __c8, 5) as any as S.Schema<AWSEventBridgeCreateResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76077,7 +76173,8 @@ export const createAwsOnDemandTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(642, __c20, 2) as any as S.Schema<CreateAwsOnDemandTaskRequest>,
   output: __S(672, __c21, 0) as any as S.Schema<AwsOnDemandResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76094,7 +76191,8 @@ export const createAwsScanOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1154, __c36, 2) as any as S.Schema<CreateAwsScanOptionsRequest>,
   output: __S(1184, __c37, 0) as any as S.Schema<AwsScanOptionsResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76111,7 +76209,8 @@ export const createAzureScanOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<CreateAzureScanOptionsRequest>,
   output: __S(1792, __c56, 0) as any as S.Schema<AzureScanOptions>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76128,7 +76227,8 @@ export const createBackfilledDegradation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2148, __c67, 4) as any as S.Schema<CreateBackfilledDegradationRequest>,
   output: __S(2368, __c74, 0) as any as S.Schema<Degradation>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76145,7 +76245,8 @@ export const createBackfilledMaintenance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2852, __c89, 4) as any as S.Schema<CreateBackfilledMaintenanceRequest>,
   output: __S(2912, __c91, 0) as any as S.Schema<Maintenance>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76162,7 +76263,8 @@ export const createCase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3395, __c106, 3) as any as S.Schema<CreateCaseRequest>,
   output: __S(74400, __c2325, 0) as any as S.Schema<CaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76179,7 +76281,8 @@ export const createCaseAutomationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3777, __c118, 1) as any as S.Schema<CreateCaseAutomationRuleRequest>,
   output: __S(3872, __c121, 0) as any as S.Schema<AutomationRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76196,7 +76299,8 @@ export const createCaseJiraIssue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4290, __c134, 2) as any as S.Schema<CreateCaseJiraIssueRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<CreateCaseJiraIssueResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76213,7 +76317,8 @@ export const createCaseLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4737, __c148, 1) as any as S.Schema<CreateCaseLinkRequest>,
   output: __S(4738, __c148, 2) as any as S.Schema<CaseLinkResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76230,7 +76335,8 @@ export const createCaseNotebook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5280, __c165, 0) as any as S.Schema<CreateCaseNotebookRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<CreateCaseNotebookResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76247,7 +76353,8 @@ export const createCases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5762, __c180, 2) as any as S.Schema<CreateCasesRequest>,
   output: __S(5793, __c181, 1) as any as S.Schema<FindingCaseResponseArray>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76264,7 +76371,8 @@ export const createCaseServiceNowTicket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6242, __c195, 2) as any as S.Schema<CreateCaseServiceNowTicketRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<CreateCaseServiceNowTicketResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76281,7 +76389,8 @@ export const createCaseType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6593, __c206, 1) as any as S.Schema<CreateCaseTypeRequest>,
   output: __S(6625, __c207, 1) as any as S.Schema<CaseTypeResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76298,7 +76407,8 @@ export const createCaseView: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7106, __c222, 2) as any as S.Schema<CreateCaseViewRequest>,
   output: __S(7168, __c224, 0) as any as S.Schema<CaseViewResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76315,7 +76425,8 @@ export const createChangeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7554, __c236, 2) as any as S.Schema<CreateChangeRequestRequest>,
   output: __S(7652, __c239, 4) as any as S.Schema<ChangeRequestResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76332,7 +76443,8 @@ export const createChangeRequestBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8066, __c252, 2) as any as S.Schema<CreateChangeRequestBranchRequest>,
   output: __S(7652, __c239, 4) as any as S.Schema<ChangeRequestResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76349,7 +76461,8 @@ export const createCIAppPipelineEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8480, __c265, 0) as any as S.Schema<CreateCIAppPipelineEventRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<CreateCIAppPipelineEventResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76366,7 +76479,8 @@ export const createCloudflareAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8962, __c280, 2) as any as S.Schema<CreateCloudflareAccountRequest>,
   output: __S(9024, __c282, 0) as any as S.Schema<CloudflareAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76387,7 +76501,8 @@ export const createCloudWorkloadSecurityAgentRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9472, __c296, 0) as any as S.Schema<CreateCloudWorkloadSecurityAgentRuleRequest>,
   output: __S(9600, __c300, 0) as any as S.Schema<CloudWorkloadSecurityAgentRuleResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76404,7 +76519,8 @@ export const createComponent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10117, __c316, 5) as any as S.Schema<CreateComponentRequest>,
   output: __S(10208, __c319, 0) as any as S.Schema<StatusPagesComponent>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76421,7 +76537,8 @@ export const createConfluentAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10626, __c332, 2) as any as S.Schema<CreateConfluentAccountRequest>,
   output: __S(10720, __c335, 0) as any as S.Schema<ConfluentAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76438,7 +76555,8 @@ export const createConfluentResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11104, __c347, 0) as any as S.Schema<CreateConfluentResourceRequest>,
   output: __S(11200, __c350, 0) as any as S.Schema<ConfluentResourceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76455,7 +76573,8 @@ export const createConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11682, __c365, 2) as any as S.Schema<CreateConnectionRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<CreateConnectionResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76472,7 +76591,8 @@ export const createCostAWSCURConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12258, __c383, 2) as any as S.Schema<CreateCostAWSCURConfigRequest>,
   output: __S(12322, __c385, 2) as any as S.Schema<AwsCurConfigResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76489,7 +76609,8 @@ export const createCostAzureUCConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12739, __c398, 3) as any as S.Schema<CreateCostAzureUCConfigsRequest>,
   output: __S(12800, __c400, 0) as any as S.Schema<AzureUCConfigPairsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76506,7 +76627,8 @@ export const createCostGCPUsageCostConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13218, __c413, 2) as any as S.Schema<CreateCostGCPUsageCostConfigRequest>,
   output: __S(13280, __c415, 0) as any as S.Schema<GCPUsageCostConfigResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76523,7 +76645,8 @@ export const createCSMThreatsAgentPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13730, __c429, 2) as any as S.Schema<CreateCSMThreatsAgentPolicyRequest>,
   output: __S(13792, __c431, 0) as any as S.Schema<CloudWorkloadSecurityAgentPolicyResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76540,7 +76663,8 @@ export const createCSMThreatsAgentRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14176, __c443, 0) as any as S.Schema<CreateCSMThreatsAgentRuleRequest>,
   output: __S(9600, __c300, 0) as any as S.Schema<CloudWorkloadSecurityAgentRuleResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76557,7 +76681,8 @@ export const createCurrentUserApplicationKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14528, __c454, 0) as any as S.Schema<CreateCurrentUserApplicationKeyRequest>,
   output: __S(14626, __c457, 2) as any as S.Schema<ApplicationKeyResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76574,7 +76699,8 @@ export const createCustomAllocationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15072, __c471, 0) as any as S.Schema<CreateCustomAllocationRuleRequest>,
   output: __S(15200, __c475, 0) as any as S.Schema<ArbitraryRuleResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76591,7 +76717,8 @@ export const createCustomAttributeConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15650, __c489, 2) as any as S.Schema<CreateCustomAttributeConfigRequest>,
   output: __S(15680, __c490, 0) as any as S.Schema<CustomAttributeConfigResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76608,7 +76735,8 @@ export const createCustomFramework: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16096, __c503, 0) as any as S.Schema<CreateCustomFrameworkRequest>,
   output: __S(16132, __c504, 4) as any as S.Schema<CreateCustomFrameworkResponse>,
-  errors: [BadRequest, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76625,7 +76753,8 @@ export const createCustomRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16512, __c516, 0) as any as S.Schema<CreateCustomRuleRequest>,
   output: __S(16610, __c519, 2) as any as S.Schema<CustomRuleResponse>,
-  errors: [BadRequest, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76642,7 +76771,8 @@ export const createCustomRuleRevision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16962, __c530, 2) as any as S.Schema<CreateCustomRuleRevisionRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<CreateCustomRuleRevisionResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76659,7 +76789,8 @@ export const createCustomRuleset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17312, __c541, 0) as any as S.Schema<CreateCustomRulesetRequest>,
   output: __S(17408, __c544, 0) as any as S.Schema<CustomRulesetResponse>,
-  errors: [BadRequest, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76676,7 +76807,8 @@ export const createDashboardListItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17856, __c558, 0) as any as S.Schema<CreateDashboardListItemsRequest>,
   output: __S(17857, __c558, 1) as any as S.Schema<DashboardListAddItemsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76693,7 +76825,8 @@ export const createDashboardSecureEmbed: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18242, __c570, 2) as any as S.Schema<CreateDashboardSecureEmbedRequest>,
   output: __S(18245, __c570, 5) as any as S.Schema<SecureEmbedCreateResponse>,
-  errors: [Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76715,7 +76848,8 @@ export const createDatabricksIntegrationAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18882, __c590, 2) as any as S.Schema<CreateDatabricksIntegrationAccountRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<DatabricksIntegrationAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76732,7 +76866,8 @@ export const createDataDeletionRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19458, __c608, 2) as any as S.Schema<CreateDataDeletionRequestRequest>,
   output: __S(61088, __c1909, 0) as any as S.Schema<CreateDataDeletionResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76749,7 +76884,8 @@ export const createDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19904, __c622, 0) as any as S.Schema<CreateDatasetRequest>,
   output: __S(20000, __c625, 0) as any as S.Schema<DatasetResponseSingle>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76766,7 +76902,8 @@ export const createDatastore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20354, __c636, 2) as any as S.Schema<CreateDatastoreRequest>,
   output: __S(20384, __c637, 0) as any as S.Schema<CreateAppsDatastoreResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76783,7 +76920,8 @@ export const createDegradation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20770, __c649, 2) as any as S.Schema<CreateDegradationRequest>,
   output: __S(2368, __c74, 0) as any as S.Schema<Degradation>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76800,7 +76938,8 @@ export const createDegradationTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21154, __c661, 2) as any as S.Schema<CreateDegradationTemplateRequest>,
   output: __S(21248, __c664, 0) as any as S.Schema<DegradationTemplate>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76817,7 +76956,8 @@ export const createDeploymentGate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21634, __c676, 2) as any as S.Schema<CreateDeploymentGateRequest>,
   output: __S(21728, __c679, 0) as any as S.Schema<DeploymentGateResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76834,7 +76974,8 @@ export const createDeploymentRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22082, __c690, 2) as any as S.Schema<CreateDeploymentRuleRequest>,
   output: __S(22145, __c692, 1) as any as S.Schema<DeploymentRuleResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76851,7 +76992,8 @@ export const createDerivedMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22496, __c703, 0) as any as S.Schema<CreateDerivedMetricRequest>,
   output: __S(22533, __c704, 5) as any as S.Schema<DerivedMetricResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76868,7 +77010,8 @@ export const createDORADeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22978, __c718, 2) as any as S.Schema<CreateDORADeploymentRequest>,
   output: __S(23009, __c719, 1) as any as S.Schema<DORADeploymentResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76885,7 +77028,8 @@ export const createDORAFailure: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23394, __c731, 2) as any as S.Schema<CreateDORAFailureRequest>,
   output: __S(23009, __c719, 1) as any as S.Schema<DORAFailureResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76902,7 +77046,8 @@ export const createDowntime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23746, __c742, 2) as any as S.Schema<CreateDowntimeRequest>,
   output: __S(23840, __c745, 0) as any as S.Schema<DowntimeResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76924,7 +77069,8 @@ export const createElasticCloudIntegrationAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24322, __c760, 2) as any as S.Schema<CreateElasticCloudIntegrationAccountRequest>,
   output: __S(24512, __c766, 0) as any as S.Schema<ElasticCloudIntegrationAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76941,7 +77087,8 @@ export const createEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24898, __c778, 2) as any as S.Schema<CreateEventRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<CreateEventResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76958,7 +77105,8 @@ export const createExclusionFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25250, __c789, 2) as any as S.Schema<CreateExclusionFilterRequest>,
   output: __S(25312, __c791, 0) as any as S.Schema<RumExclusionFilterResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76975,7 +77123,8 @@ export const createExecutionPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25729, __c804, 1) as any as S.Schema<CreateExecutionPolicyRequest>,
   output: __S(25824, __c807, 0) as any as S.Schema<ExecutionPolicyResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -76998,7 +77147,8 @@ export const createExperiment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26243, __c820, 3) as any as S.Schema<CreateExperimentRequest>,
   output: __S(26304, __c822, 0) as any as S.Schema<ExperimentsExperimentV2DTO>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77020,7 +77170,8 @@ export const createExperimentMetricGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26722, __c835, 2) as any as S.Schema<CreateExperimentMetricGroupRequest>,
   output: __S(26816, __c838, 0) as any as S.Schema<ExperimentsExperimentMetricGroupMutationV2>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77042,7 +77193,8 @@ export const createExperimentMetricGroupFromCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27200, __c850, 0) as any as S.Schema<CreateExperimentMetricGroupFromCollectionRequest>,
   output: __S(26816, __c838, 0) as any as S.Schema<ExperimentsExperimentMetricGroupMutationV2>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77059,7 +77211,8 @@ export const createExperimentProtocol: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27586, __c862, 2) as any as S.Schema<CreateExperimentProtocolRequest>,
   output: __S(45135, __c1410, 15) as any as S.Schema<ExperimentsPublicProtocolResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77076,7 +77229,8 @@ export const createExposureSQLModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27936, __c873, 0) as any as S.Schema<CreateExposureSQLModelRequest>,
   output: __S(28032, __c876, 0) as any as S.Schema<ExperimentsExposureSQLModelV2DTO>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77093,7 +77247,8 @@ export const createFastlyAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28418, __c888, 2) as any as S.Schema<CreateFastlyAccountRequest>,
   output: __S(28480, __c890, 0) as any as S.Schema<FastlyAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77110,7 +77265,8 @@ export const createFastlyService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29152, __c911, 0) as any as S.Schema<CreateFastlyServiceRequest>,
   output: __S(29248, __c914, 0) as any as S.Schema<FastlyServiceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77127,7 +77283,8 @@ export const createFeatureFlag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29603, __c925, 3) as any as S.Schema<CreateFeatureFlagRequest>,
   output: __S(47300, __c1478, 4) as any as S.Schema<FeatureFlagResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77144,7 +77301,8 @@ export const createFeatureFlagsEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29986, __c937, 2) as any as S.Schema<CreateFeatureFlagsEnvironmentRequest>,
   output: __S(30048, __c939, 0) as any as S.Schema<EnvironmentResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77161,7 +77319,8 @@ export const createFleetDeploymentConfigureV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30468, __c952, 4) as any as S.Schema<CreateFleetDeploymentConfigureV2Request>,
   output: __S(30472, __c952, 8) as any as S.Schema<FleetDeploymentConfigureV2DryRunResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77182,7 +77341,8 @@ export const createFleetDeploymentUpgradeV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30882, __c965, 2) as any as S.Schema<CreateFleetDeploymentUpgradeV2Request>,
   output: __S(30883, __c965, 3) as any as S.Schema<FleetDeploymentV2CreateResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77199,7 +77359,8 @@ export const createFleetSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31298, __c978, 2) as any as S.Schema<CreateFleetScheduleRequest>,
   output: __S(31331, __c979, 3) as any as S.Schema<FleetScheduleResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77216,7 +77377,8 @@ export const createForm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31712, __c991, 0) as any as S.Schema<CreateFormRequest>,
   output: __S(64160, __c2005, 0) as any as S.Schema<FormResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77233,7 +77395,8 @@ export const createGcpScanOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32064, __c1002, 0) as any as S.Schema<CreateGcpScanOptionsRequest>,
   output: __S(32128, __c1004, 0) as any as S.Schema<GcpScanOptions>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77250,7 +77413,8 @@ export const createGCPSTSAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32481, __c1015, 1) as any as S.Schema<CreateGCPSTSAccountRequest>,
   output: __S(32544, __c1017, 0) as any as S.Schema<GCPSTSServiceAccountResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77271,7 +77435,8 @@ export const createGitHubCloudAuthIntakeMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32897, __c1028, 1) as any as S.Schema<CreateGitHubCloudAuthIntakeMappingRequest>,
   output: __S(32960, __c1030, 0) as any as S.Schema<GitHubCloudAuthIntakeMappingResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77292,7 +77457,8 @@ export const createGitHubCloudAuthPersonaMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33410, __c1044, 2) as any as S.Schema<CreateGitHubCloudAuthPersonaMappingRequest>,
   output: __S(33440, __c1045, 0) as any as S.Schema<GitHubCloudAuthPersonaMappingResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77309,7 +77475,8 @@ export const createGlobalIncidentHandle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33824, __c1057, 0) as any as S.Schema<CreateGlobalIncidentHandleRequest>,
   output: __S(33891, __c1059, 3) as any as S.Schema<IncidentHandleResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77331,7 +77498,8 @@ export const createGoogleChatTargetAudience: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34273, __c1071, 1) as any as S.Schema<CreateGoogleChatTargetAudienceRequest>,
   output: __S(34336, __c1073, 0) as any as S.Schema<GoogleChatTargetAudienceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77348,7 +77516,8 @@ export const createHamrOrgConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34690, __c1084, 2) as any as S.Schema<CreateHamrOrgConnectionRequest>,
   output: __S(34722, __c1085, 2) as any as S.Schema<HamrOrgConnectionResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77369,7 +77538,8 @@ export const createHistoricalMetricsConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35072, __c1096, 0) as any as S.Schema<CreateHistoricalMetricsConfigurationRequest>,
   output: __S(35106, __c1097, 2) as any as S.Schema<HistoricalMetricsConfigurationResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77386,7 +77556,8 @@ export const createIncident: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35461, __c1108, 5) as any as S.Schema<CreateIncidentRequest>,
   output: __S(35552, __c1111, 0) as any as S.Schema<IncidentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77403,7 +77574,8 @@ export const createIncidentAttachment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35970, __c1124, 2) as any as S.Schema<CreateIncidentAttachmentRequest>,
   output: __S(36064, __c1127, 0) as any as S.Schema<Attachment>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77420,7 +77592,8 @@ export const createIncidentConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36257, __c1133, 1) as any as S.Schema<CreateIncidentConfigurationRequest>,
   output: __S(36291, __c1134, 3) as any as S.Schema<IncidentConfigurationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77437,7 +77610,8 @@ export const createIncidentGoogleChatConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36354, __c1136, 2) as any as S.Schema<CreateIncidentGoogleChatConfigurationRequest>,
   output: __S(36386, __c1137, 2) as any as S.Schema<IncidentGoogleChatConfigurationResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77454,7 +77628,8 @@ export const createIncidentGoogleMeetConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36482, __c1140, 2) as any as S.Schema<CreateIncidentGoogleMeetConfigurationRequest>,
   output: __S(36514, __c1141, 2) as any as S.Schema<IncidentGoogleMeetConfigurationResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77471,7 +77646,8 @@ export const createIncidentImpact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36802, __c1150, 2) as any as S.Schema<CreateIncidentImpactRequest>,
   output: __S(36864, __c1152, 0) as any as S.Schema<IncidentImpactResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77488,7 +77664,8 @@ export const createIncidentImpactField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36896, __c1153, 0) as any as S.Schema<CreateIncidentImpactFieldRequest>,
   output: __S(36961, __c1155, 1) as any as S.Schema<IncidentImpactFieldResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77505,7 +77682,8 @@ export const createIncidentIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36992, __c1156, 0) as any as S.Schema<CreateIncidentIntegrationRequest>,
   output: __S(37088, __c1159, 0) as any as S.Schema<IncidentIntegrationMetadataResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77526,7 +77704,8 @@ export const createIncidentNotificationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(37121, __c1160, 1) as any as S.Schema<CreateIncidentNotificationRuleRequest>,
   output: __S(37248, __c1164, 0) as any as S.Schema<IncidentNotificationRule>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77547,7 +77726,8 @@ export const createIncidentNotificationTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(37282, __c1165, 2) as any as S.Schema<CreateIncidentNotificationTemplateRequest>,
   output: __S(37344, __c1167, 0) as any as S.Schema<IncidentNotificationTemplate>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77564,7 +77744,8 @@ export const createIncidentPostmortemAttachment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(37413, __c1169, 5) as any as S.Schema<CreateIncidentPostmortemAttachmentRequest>,
   output: __S(36064, __c1127, 0) as any as S.Schema<Attachment>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77581,7 +77762,8 @@ export const createIncidentPostmortemTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(37440, __c1170, 0) as any as S.Schema<CreateIncidentPostmortemTemplateRequest>,
   output: __S(37536, __c1173, 0) as any as S.Schema<PostmortemTemplateResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77598,7 +77780,8 @@ export const createIncidentResponder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(37570, __c1174, 2) as any as S.Schema<CreateIncidentResponderRequest>,
   output: __S(37600, __c1175, 0) as any as S.Schema<IncidentResponderResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77615,7 +77798,8 @@ export const createIncidentRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(37666, __c1177, 2) as any as S.Schema<CreateIncidentRuleRequest>,
   output: __S(37728, __c1179, 0) as any as S.Schema<IncidentRuleResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77636,7 +77820,8 @@ export const createIncidentServiceNowRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(37762, __c1180, 2) as any as S.Schema<CreateIncidentServiceNowRecordRequest>,
   output: __S(37088, __c1159, 0) as any as S.Schema<IncidentIntegrationMetadataResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77653,7 +77838,8 @@ export const createIncidentTodo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(37888, __c1184, 0) as any as S.Schema<CreateIncidentTodoRequest>,
   output: __S(37984, __c1187, 0) as any as S.Schema<IncidentTodoResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77670,7 +77856,8 @@ export const createIncidentType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(38018, __c1188, 2) as any as S.Schema<CreateIncidentTypeRequest>,
   output: __S(38080, __c1190, 0) as any as S.Schema<IncidentTypeResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77691,7 +77878,8 @@ export const createIncidentUserDefinedField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(38114, __c1191, 2) as any as S.Schema<CreateIncidentUserDefinedFieldRequest>,
   output: __S(38176, __c1193, 0) as any as S.Schema<IncidentUserDefinedFieldResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77708,7 +77896,8 @@ export const createIncidentUserDefinedRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(38211, __c1194, 3) as any as S.Schema<CreateIncidentUserDefinedRoleRequest>,
   output: __S(38272, __c1196, 0) as any as S.Schema<IncidentUserDefinedRoleResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77725,7 +77914,8 @@ export const createIoCTriageState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(38306, __c1197, 2) as any as S.Schema<CreateIoCTriageStateRequest>,
   output: __S(38309, __c1197, 5) as any as S.Schema<IoCTriageWriteResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77742,7 +77932,8 @@ export const createJiraIssues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(38339, __c1198, 3) as any as S.Schema<CreateJiraIssuesRequest>,
   output: __S(5793, __c181, 1) as any as S.Schema<FindingCaseResponseArray>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77759,7 +77950,8 @@ export const createJiraIssueTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(38370, __c1199, 2) as any as S.Schema<CreateJiraIssueTemplateRequest>,
   output: __S(38496, __c1203, 0) as any as S.Schema<JiraIssueTemplateResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77776,7 +77968,8 @@ export const createJourney: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(38528, __c1204, 0) as any as S.Schema<CreateJourneyRequest>,
   output: __S(38624, __c1207, 0) as any as S.Schema<DemJourneyResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77793,7 +77986,8 @@ export const createJourneyVariant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(38656, __c1208, 0) as any as S.Schema<CreateJourneyVariantRequest>,
   output: __S(38690, __c1209, 2) as any as S.Schema<DemVariantResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77810,7 +78004,8 @@ export const createLinearIssues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(38723, __c1210, 3) as any as S.Schema<CreateLinearIssuesRequest>,
   output: __S(5793, __c181, 1) as any as S.Schema<FindingCaseResponseArray>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77827,7 +78022,8 @@ export const createLLMObsAnnotationQueue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(38914, __c1216, 2) as any as S.Schema<CreateLLMObsAnnotationQueueRequest>,
   output: __S(38976, __c1218, 0) as any as S.Schema<LLMObsAnnotationQueueResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77848,7 +78044,8 @@ export const createLLMObsAnnotationQueueInteractions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(39043, __c1220, 3) as any as S.Schema<CreateLLMObsAnnotationQueueInteractionsRequest>,
   output: __S(39047, __c1220, 7) as any as S.Schema<LLMObsAnnotationQueueInteractionsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77865,7 +78062,8 @@ export const createLLMObsDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(39074, __c1221, 2) as any as S.Schema<CreateLLMObsDatasetRequest>,
   output: __S(64672, __c2021, 0) as any as S.Schema<LLMObsDatasetResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77882,7 +78080,8 @@ export const createLLMObsDatasetRecords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(39108, __c1222, 4) as any as S.Schema<CreateLLMObsDatasetRecordsRequest>,
   output: __S(54434, __c1701, 2) as any as S.Schema<LLMObsDatasetRecordsMutationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77899,7 +78098,8 @@ export const createLLMObsExperiment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(39138, __c1223, 2) as any as S.Schema<CreateLLMObsExperimentRequest>,
   output: __S(39232, __c1226, 0) as any as S.Schema<LLMObsExperimentResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77916,7 +78116,8 @@ export const createLLMObsExperimentEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(39270, __c1227, 6) as any as S.Schema<CreateLLMObsExperimentEventsRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<CreateLLMObsExperimentEventsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77933,7 +78134,8 @@ export const createLLMObsIntegrationInference: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(39340, __c1229, 12) as any as S.Schema<CreateLLMObsIntegrationInferenceRequest>,
   output: __S(39346, __c1229, 18) as any as S.Schema<LLMObsIntegrationInferenceResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77950,7 +78152,8 @@ export const createLLMObsProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(39457, __c1233, 1) as any as S.Schema<CreateLLMObsProjectRequest>,
   output: __S(39520, __c1235, 0) as any as S.Schema<LLMObsProjectResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77967,7 +78170,8 @@ export const createLLMObsPrompt: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(39554, __c1236, 2) as any as S.Schema<CreateLLMObsPromptRequest>,
   output: __S(39557, __c1236, 5) as any as S.Schema<LLMObsCreatePromptResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -77984,7 +78188,8 @@ export const createLLMObsPromptVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(39618, __c1238, 2) as any as S.Schema<CreateLLMObsPromptVersionRequest>,
   output: __S(39650, __c1239, 2) as any as S.Schema<LLMObsPromptVersionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78001,7 +78206,8 @@ export const createLogsArchive: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(39776, __c1243, 0) as any as S.Schema<CreateLogsArchiveRequest>,
   output: __S(39872, __c1246, 0) as any as S.Schema<LogsArchive>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78018,7 +78224,8 @@ export const createLogsCustomDestination: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(39906, __c1247, 2) as any as S.Schema<CreateLogsCustomDestinationRequest>,
   output: __S(39968, __c1249, 0) as any as S.Schema<CustomDestinationResponseOutput>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78035,7 +78242,8 @@ export const createLogsMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40000, __c1250, 0) as any as S.Schema<CreateLogsMetricRequest>,
   output: __S(40192, __c1256, 0) as any as S.Schema<LogsMetricResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78052,7 +78260,8 @@ export const createMaintenance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40226, __c1257, 2) as any as S.Schema<CreateMaintenanceRequest>,
   output: __S(2912, __c91, 0) as any as S.Schema<Maintenance>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78069,7 +78278,8 @@ export const createMaintenanceTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40258, __c1258, 2) as any as S.Schema<CreateMaintenanceTemplateRequest>,
   output: __S(40320, __c1260, 0) as any as S.Schema<MaintenanceTemplate>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78086,7 +78296,8 @@ export const createMaintenanceWindow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40354, __c1261, 2) as any as S.Schema<CreateMaintenanceWindowRequest>,
   output: __S(40416, __c1263, 0) as any as S.Schema<MaintenanceWindowResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78103,7 +78314,8 @@ export const createMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40449, __c1264, 1) as any as S.Schema<CreateMetricRequest>,
   output: __S(40512, __c1266, 0) as any as S.Schema<ExperimentsMetricV2DTO>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78120,7 +78332,8 @@ export const createMetricCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40546, __c1267, 2) as any as S.Schema<CreateMetricCollectionRequest>,
   output: __S(40608, __c1269, 0) as any as S.Schema<ExperimentsMetricCollectionV2DTO>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78137,7 +78350,8 @@ export const createMetricSQLModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40640, __c1270, 0) as any as S.Schema<CreateMetricSQLModelRequest>,
   output: __S(40704, __c1272, 0) as any as S.Schema<ExperimentsMetricSQLModelV2DTO>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78154,7 +78368,8 @@ export const createMonitorConfigPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40770, __c1274, 2) as any as S.Schema<CreateMonitorConfigPolicyRequest>,
   output: __S(40832, __c1276, 0) as any as S.Schema<MonitorConfigPolicyResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78171,7 +78386,8 @@ export const createMonitorNotificationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40929, __c1279, 1) as any as S.Schema<CreateMonitorNotificationRuleRequest>,
   output: __S(40992, __c1281, 0) as any as S.Schema<MonitorNotificationRuleResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78188,7 +78404,8 @@ export const createMonitorUserTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(41056, __c1283, 0) as any as S.Schema<CreateMonitorUserTemplateRequest>,
   output: __S(41057, __c1283, 1) as any as S.Schema<MonitorUserTemplateCreateResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78205,7 +78422,8 @@ export const createNewAWSExternalID: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(41216, __c1288, 0) as any as S.Schema<CreateNewAWSExternalIDRequest>,
   output: __S(41219, __c1288, 3) as any as S.Schema<AWSNewExternalIDResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78222,7 +78440,8 @@ export const createOAuth2ClientCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(41250, __c1289, 2) as any as S.Schema<CreateOAuth2ClientCredentialsRequest>,
   output: __S(41312, __c1291, 0) as any as S.Schema<WebhooksOAuth2ClientCredentialsResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78243,7 +78462,8 @@ export const createOIDCCloudAuthPersonaMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(41346, __c1292, 2) as any as S.Schema<CreateOIDCCloudAuthPersonaMappingRequest>,
   output: __S(41408, __c1294, 0) as any as S.Schema<OIDCCloudAuthPersonaMappingResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78260,7 +78480,8 @@ export const createOIDCCloudAuthProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(41474, __c1296, 2) as any as S.Schema<CreateOIDCCloudAuthProviderRequest>,
   output: __S(41504, __c1297, 0) as any as S.Schema<OIDCCloudAuthProviderResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78277,7 +78498,8 @@ export const createOktaAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(41570, __c1299, 2) as any as S.Schema<CreateOktaAccountRequest>,
   output: __S(41633, __c1301, 1) as any as S.Schema<OktaAccountResponseOutput>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78294,7 +78516,8 @@ export const createOnCallEscalationPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(41668, __c1302, 4) as any as S.Schema<CreateOnCallEscalationPolicyRequest>,
   output: __S(41793, __c1306, 1) as any as S.Schema<EscalationPolicy>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78311,7 +78534,8 @@ export const createOnCallPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(41826, __c1307, 2) as any as S.Schema<CreateOnCallPageRequest>,
   output: __S(20384, __c637, 0) as any as S.Schema<CreatePageResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78328,7 +78552,8 @@ export const createOnCallPageFromIncident: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(41891, __c1309, 3) as any as S.Schema<CreateOnCallPageFromIncidentRequest>,
   output: __S(74336, __c2323, 0) as any as S.Schema<IncidentPageUUIDResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78345,7 +78570,8 @@ export const createOnCallSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(41956, __c1311, 4) as any as S.Schema<CreateOnCallScheduleRequest>,
   output: __S(42051, __c1314, 3) as any as S.Schema<Schedule>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78362,7 +78588,8 @@ export const createOpsgenieAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(42114, __c1316, 2) as any as S.Schema<CreateOpsgenieAccountRequest>,
   output: __S(42176, __c1318, 0) as any as S.Schema<OpsgenieAccountResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78379,7 +78606,8 @@ export const createOpsgenieService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(42210, __c1319, 2) as any as S.Schema<CreateOpsgenieServiceRequest>,
   output: __S(42272, __c1321, 0) as any as S.Schema<OpsgenieServiceResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78401,7 +78629,8 @@ export const createOrganizationHandle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(42306, __c1322, 2) as any as S.Schema<CreateOrganizationHandleRequest>,
   output: __S(42368, __c1324, 0) as any as S.Schema<GoogleChatOrganizationHandleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78423,7 +78652,8 @@ export const createOrgConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(42402, __c1325, 2) as any as S.Schema<CreateOrgConnectionsRequest>,
   output: __S(42465, __c1327, 1) as any as S.Schema<OrgConnectionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78440,7 +78670,8 @@ export const createOrgGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(42497, __c1328, 1) as any as S.Schema<CreateOrgGroupRequest>,
   output: __S(42560, __c1330, 0) as any as S.Schema<OrgGroupResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78457,7 +78688,8 @@ export const createOrgGroupMemberships: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(42625, __c1332, 1) as any as S.Schema<CreateOrgGroupMembershipsRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<CreateOrgGroupMembershipsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78474,7 +78706,8 @@ export const createOrgGroupPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(42690, __c1334, 2) as any as S.Schema<CreateOrgGroupPolicyRequest>,
   output: __S(42752, __c1336, 0) as any as S.Schema<OrgGroupPolicyResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78491,7 +78724,8 @@ export const createOrgGroupPolicyOverride: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(42786, __c1337, 2) as any as S.Schema<CreateOrgGroupPolicyOverrideRequest>,
   output: __S(42848, __c1339, 0) as any as S.Schema<OrgGroupPolicyOverrideResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78512,7 +78746,8 @@ export const createOrUpdateServiceDefinitions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(42880, __c1340, 0) as any as S.Schema<CreateOrUpdateServiceDefinitionsRequest>,
   output: __S(42913, __c1341, 1) as any as S.Schema<ServiceDefinitionCreateResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78529,7 +78764,8 @@ export const createOwnershipFeedback: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(43010, __c1344, 2) as any as S.Schema<CreateOwnershipFeedbackRequest>,
   output: __S(43013, __c1344, 5) as any as S.Schema<OwnershipFeedbackResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78546,7 +78782,8 @@ export const createPersonalAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(43042, __c1345, 2) as any as S.Schema<CreatePersonalAccessTokenRequest>,
   output: __S(43074, __c1346, 2) as any as S.Schema<PersonalAccessTokenCreateResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78563,7 +78800,8 @@ export const createPipeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(43104, __c1347, 0) as any as S.Schema<CreatePipelineRequest>,
   output: __S(43232, __c1351, 0) as any as S.Schema<ObservabilityPipeline>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78580,7 +78818,8 @@ export const createPowerpack: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(43264, __c1352, 0) as any as S.Schema<CreatePowerpackRequest>,
   output: __S(43328, __c1354, 0) as any as S.Schema<PowerpackResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78597,7 +78836,8 @@ export const createProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(43362, __c1355, 2) as any as S.Schema<CreateProjectRequest>,
   output: __S(43424, __c1357, 0) as any as S.Schema<ProjectResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78614,7 +78854,8 @@ export const createProjectNotificationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(43522, __c1360, 2) as any as S.Schema<CreateProjectNotificationRuleRequest>,
   output: __S(43523, __c1360, 3) as any as S.Schema<CaseNotificationRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78631,7 +78872,8 @@ export const createPublishRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(43618, __c1363, 2) as any as S.Schema<CreatePublishRequestRequest>,
   output: __S(43648, __c1364, 0) as any as S.Schema<PublishAppResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78648,7 +78890,8 @@ export const createQuotas: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(43715, __c1366, 3) as any as S.Schema<CreateQuotasRequest>,
   output: __S(43719, __c1366, 7) as any as S.Schema<UsageQuotasBulkResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78665,7 +78908,8 @@ export const createReferenceTable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(43746, __c1367, 2) as any as S.Schema<CreateReferenceTableRequest>,
   output: __S(43776, __c1368, 0) as any as S.Schema<TableResultV2>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78682,7 +78926,8 @@ export const createReferenceTableUpload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(43906, __c1372, 2) as any as S.Schema<CreateReferenceTableUploadRequest>,
   output: __S(43909, __c1372, 5) as any as S.Schema<CreateUploadResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78699,7 +78944,8 @@ export const createReplayHeatmapSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44002, __c1375, 2) as any as S.Schema<CreateReplayHeatmapSnapshotRequest>,
   output: __S(44064, __c1377, 0) as any as S.Schema<Snapshot>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78716,7 +78962,8 @@ export const createReportSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44098, __c1378, 2) as any as S.Schema<CreateReportScheduleRequest>,
   output: __S(44162, __c1380, 2) as any as S.Schema<ReportScheduleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78733,7 +78980,8 @@ export const createRestrictionQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44256, __c1383, 0) as any as S.Schema<CreateRestrictionQueryRequest>,
   output: __S(44290, __c1384, 2) as any as S.Schema<RestrictionQueryWithoutRelationshipsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78750,7 +78998,8 @@ export const createRetentionFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44387, __c1387, 3) as any as S.Schema<CreateRetentionFilterRequest>,
   output: __S(44480, __c1390, 0) as any as S.Schema<RumRetentionFilterResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78767,7 +79016,8 @@ export const createRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44514, __c1391, 2) as any as S.Schema<CreateRoleRequest>,
   output: __S(44517, __c1391, 5) as any as S.Schema<RoleCreateResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78784,7 +79034,8 @@ export const createRUMApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44546, __c1392, 2) as any as S.Schema<CreateRUMApplicationRequest>,
   output: __S(44578, __c1393, 2) as any as S.Schema<RUMApplicationResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78801,7 +79052,8 @@ export const createRumConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44640, __c1395, 0) as any as S.Schema<CreateRumConfigRequest>,
   output: __S(44706, __c1397, 2) as any as S.Schema<RumConfigResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78818,7 +79070,8 @@ export const createRumMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44739, __c1398, 3) as any as S.Schema<CreateRumMetricRequest>,
   output: __S(44800, __c1400, 0) as any as S.Schema<RumMetricResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78835,7 +79088,8 @@ export const createRUMOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44833, __c1401, 1) as any as S.Schema<CreateRUMOperationRequest>,
   output: __S(44928, __c1404, 0) as any as S.Schema<RUMOperationResponse>,
-  errors: [BadRequest, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78852,7 +79106,8 @@ export const createRUMOperationStrongLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44962, __c1405, 2) as any as S.Schema<CreateRUMOperationStrongLinkRequest>,
   output: __S(45024, __c1407, 0) as any as S.Schema<RUMOperationStrongLinkResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78874,7 +79129,8 @@ export const createRUMRecoveryRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(45185, __c1412, 1) as any as S.Schema<CreateRUMRecoveryRequestRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<CreateRUMRecoveryRequestResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78891,7 +79147,8 @@ export const createRumReplayPlaylist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(45216, __c1413, 0) as any as S.Schema<CreateRumReplayPlaylistRequest>,
   output: __S(45280, __c1415, 0) as any as S.Schema<Playlist>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78908,7 +79165,8 @@ export const createRumReplaySessionWatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(45314, __c1416, 2) as any as S.Schema<CreateRumReplaySessionWatchRequest>,
   output: __S(45315, __c1416, 3) as any as S.Schema<Watch>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78925,7 +79183,8 @@ export const createSampleLogGenerationSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(45346, __c1417, 2) as any as S.Schema<CreateSampleLogGenerationSubscriptionRequest>,
   output: __S(45376, __c1418, 0) as any as S.Schema<SampleLogGenerationSubscriptionResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78942,7 +79201,8 @@ export const createScanningGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(45441, __c1420, 1) as any as S.Schema<CreateScanningGroupRequest>,
   output: __S(45442, __c1420, 2) as any as S.Schema<SensitiveDataScannerCreateGroupResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78959,7 +79219,8 @@ export const createScanningRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(45537, __c1423, 1) as any as S.Schema<CreateScanningRuleRequest>,
   output: __S(45538, __c1423, 2) as any as S.Schema<SensitiveDataScannerCreateRuleResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78976,7 +79237,8 @@ export const createSCAResolveVulnerableSymbols: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(45634, __c1426, 2) as any as S.Schema<CreateSCAResolveVulnerableSymbolsRequest>,
   output: __S(45643, __c1426, 11) as any as S.Schema<ResolveVulnerableSymbolsResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -78993,7 +79255,8 @@ export const createSCAResult: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(45684, __c1427, 20) as any as S.Schema<CreateSCAResultRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<CreateSCAResultResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79010,7 +79273,8 @@ export const createSCAScan: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(45828, __c1432, 4) as any as S.Schema<CreateSCAScanRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<CreateSCAScanResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79027,7 +79291,8 @@ export const createScheduleOverrides: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(45860, __c1433, 4) as any as S.Schema<CreateScheduleOverridesRequest>,
   output: __S(45895, __c1434, 7) as any as S.Schema<OverrideCreateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79044,7 +79309,8 @@ export const createScorecardCampaign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(45954, __c1436, 2) as any as S.Schema<CreateScorecardCampaignRequest>,
   output: __S(46016, __c1438, 0) as any as S.Schema<CampaignResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79061,7 +79327,8 @@ export const createScorecardRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(46048, __c1439, 0) as any as S.Schema<CreateScorecardRuleRequest>,
   output: __S(46114, __c1441, 2) as any as S.Schema<CreateRuleResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79078,7 +79345,8 @@ export const createSecurityFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(46146, __c1442, 2) as any as S.Schema<CreateSecurityFilterRequest>,
   output: __S(46272, __c1446, 0) as any as S.Schema<SecurityFilterResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79103,7 +79371,8 @@ export const createSecurityFindingsAutomationDueDateRule: API.OperationMethod<
     1,
   ) as any as S.Schema<CreateSecurityFindingsAutomationDueDateRuleRequest>,
   output: __S(46432, __c1451, 0) as any as S.Schema<DueDateRuleResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79128,7 +79397,8 @@ export const createSecurityFindingsAutomationInboxRule: API.OperationMethod<
     1,
   ) as any as S.Schema<CreateSecurityFindingsAutomationInboxRuleRequest>,
   output: __S(46592, __c1456, 0) as any as S.Schema<InboxRuleResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79149,7 +79419,8 @@ export const createSecurityFindingsAutomationMuteRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(46625, __c1457, 1) as any as S.Schema<CreateSecurityFindingsAutomationMuteRuleRequest>,
   output: __S(46720, __c1460, 0) as any as S.Schema<MuteRuleResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79174,7 +79445,8 @@ export const createSecurityFindingsAutomationSeverityModifierRule: API.Operation
     1,
   ) as any as S.Schema<CreateSecurityFindingsAutomationSeverityModifierRuleRequest>,
   output: __S(46848, __c1464, 0) as any as S.Schema<SeverityModifierRuleResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79199,7 +79471,8 @@ export const createSecurityFindingsAutomationTicketCreationRule: API.OperationMe
     1,
   ) as any as S.Schema<CreateSecurityFindingsAutomationTicketCreationRuleRequest>,
   output: __S(46976, __c1468, 0) as any as S.Schema<TicketCreationRuleResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79216,7 +79489,8 @@ export const createSecurityMonitoringBatchMigration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(47010, __c1469, 2) as any as S.Schema<CreateSecurityMonitoringBatchMigrationRequest>,
   output: __S(47072, __c1471, 0) as any as S.Schema<SecurityMonitoringBatchMigrationResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79246,7 +79520,8 @@ export const createSecurityMonitoringBatchMigrationResources: API.OperationMetho
     __c1473,
     3,
   ) as any as S.Schema<SecurityMonitoringBatchMigrationResourcesCreateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79267,7 +79542,8 @@ export const createSecurityMonitoringCriticalAsset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(47362, __c1480, 2) as any as S.Schema<CreateSecurityMonitoringCriticalAssetRequest>,
   output: __S(47424, __c1482, 0) as any as S.Schema<SecurityMonitoringCriticalAssetResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79288,7 +79564,8 @@ export const createSecurityMonitoringDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(47456, __c1483, 0) as any as S.Schema<CreateSecurityMonitoringDatasetRequest>,
   output: __S(74336, __c2323, 0) as any as S.Schema<SecurityMonitoringDatasetCreateResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79312,7 +79589,8 @@ export const createSecurityMonitoringIntegrationConfig: API.OperationMethod<
     1,
   ) as any as S.Schema<CreateSecurityMonitoringIntegrationConfigRequest>,
   output: __S(68704, __c2147, 0) as any as S.Schema<SecurityMonitoringIntegrationConfigResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79329,7 +79607,8 @@ export const createSecurityMonitoringRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(47616, __c1488, 0) as any as S.Schema<CreateSecurityMonitoringRuleRequest>,
   output: __S(47648, __c1489, 0) as any as S.Schema<CreateSecurityMonitoringRuleResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79350,7 +79629,8 @@ export const createSecurityMonitoringSuppression: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(47680, __c1490, 0) as any as S.Schema<CreateSecurityMonitoringSuppressionRequest>,
   output: __S(47744, __c1492, 0) as any as S.Schema<SecurityMonitoringSuppressionResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79367,7 +79647,8 @@ export const createServiceAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(47842, __c1495, 2) as any as S.Schema<CreateServiceAccountRequest>,
   output: __S(47872, __c1496, 0) as any as S.Schema<UserResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79388,7 +79669,8 @@ export const createServiceAccountAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(47938, __c1498, 2) as any as S.Schema<CreateServiceAccountAccessTokenRequest>,
   output: __S(43074, __c1346, 2) as any as S.Schema<ServiceAccessTokenCreateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79405,7 +79687,8 @@ export const createServiceAccountApplicationKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(47968, __c1499, 0) as any as S.Schema<CreateServiceAccountApplicationKeyRequest>,
   output: __S(14626, __c457, 2) as any as S.Schema<ApplicationKeyResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79422,7 +79705,8 @@ export const createServiceNowTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48000, __c1500, 0) as any as S.Schema<CreateServiceNowTemplateRequest>,
   output: __S(48096, __c1503, 0) as any as S.Schema<ServiceNowTemplateResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79439,7 +79723,8 @@ export const createServiceNowTickets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48130, __c1504, 2) as any as S.Schema<CreateServiceNowTicketsRequest>,
   output: __S(5793, __c181, 1) as any as S.Schema<FindingCaseResponseArray>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79456,7 +79741,8 @@ export const createSignalNotificationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48192, __c1506, 0) as any as S.Schema<CreateSignalNotificationRuleRequest>,
   output: __S(48352, __c1511, 0) as any as S.Schema<NotificationRuleResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79473,7 +79759,8 @@ export const createSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48389, __c1512, 5) as any as S.Schema<CreateSnapshotRequest>,
   output: __S(48392, __c1512, 8) as any as S.Schema<CreateSnapshotResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79495,7 +79782,8 @@ export const createSnowflakeIntegrationAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48419, __c1513, 3) as any as S.Schema<CreateSnowflakeIntegrationAccountRequest>,
   output: __S(48480, __c1515, 0) as any as S.Schema<SnowflakeIntegrationAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79512,7 +79800,8 @@ export const createSpansMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48512, __c1516, 0) as any as S.Schema<CreateSpansMetricRequest>,
   output: __S(40192, __c1256, 0) as any as S.Schema<SpansMetricResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79529,7 +79818,8 @@ export const createStaticAnalysisAst: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48546, __c1517, 2) as any as S.Schema<CreateStaticAnalysisAstRequest>,
   output: __S(48551, __c1517, 7) as any as S.Schema<GetAstResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79546,7 +79836,8 @@ export const createStaticAnalysisServerAnalysis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48613, __c1519, 5) as any as S.Schema<CreateStaticAnalysisServerAnalysisRequest>,
   output: __S(48624, __c1519, 16) as any as S.Schema<AnalysisResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79563,7 +79854,8 @@ export const createStatusPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48710, __c1522, 6) as any as S.Schema<CreateStatusPageRequest>,
   output: __S(48768, __c1524, 0) as any as S.Schema<StatusPage>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79580,7 +79872,8 @@ export const createStatuspageAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48802, __c1525, 2) as any as S.Schema<CreateStatuspageAccountRequest>,
   output: __S(48834, __c1526, 2) as any as S.Schema<StatuspageAccountResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79597,7 +79890,8 @@ export const createStatuspageUrlSetting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48866, __c1527, 2) as any as S.Schema<CreateStatuspageUrlSettingRequest>,
   output: __S(48928, __c1529, 0) as any as S.Schema<StatuspageUrlSettingResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79614,7 +79908,8 @@ export const createSubjectType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48962, __c1530, 2) as any as S.Schema<CreateSubjectTypeRequest>,
   output: __S(49024, __c1532, 0) as any as S.Schema<ExperimentsSubjectTypeV2DTO>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79631,7 +79926,8 @@ export const createSyntheticsDowntime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(49120, __c1535, 0) as any as S.Schema<CreateSyntheticsDowntimeRequest>,
   output: __S(24256, __c758, 0) as any as S.Schema<SyntheticsDowntimeResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79648,7 +79944,8 @@ export const createSyntheticsNetworkTest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(49184, __c1537, 0) as any as S.Schema<CreateSyntheticsNetworkTestRequest>,
   output: __S(49259, __c1539, 11) as any as S.Schema<SyntheticsNetworkTestResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79665,7 +79962,8 @@ export const createSyntheticsSuite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(49280, __c1540, 0) as any as S.Schema<CreateSyntheticsSuiteRequest>,
   output: __S(49345, __c1542, 1) as any as S.Schema<SyntheticsSuiteResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79682,7 +79980,8 @@ export const createTagConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(49410, __c1544, 2) as any as S.Schema<CreateTagConfigurationRequest>,
   output: __S(49443, __c1545, 3) as any as S.Schema<MetricTagConfigurationResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79699,7 +79998,8 @@ export const createTagIndexingRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(49506, __c1547, 2) as any as S.Schema<CreateTagIndexingRuleRequest>,
   output: __S(49568, __c1549, 0) as any as S.Schema<TagIndexingRuleResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79716,7 +80016,8 @@ export const createTagIndexingRuleExemption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(49600, __c1550, 0) as any as S.Schema<CreateTagIndexingRuleExemptionRequest>,
   output: __S(49696, __c1553, 0) as any as S.Schema<TagIndexingRuleExemptionResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79733,7 +80034,8 @@ export const createTagPipelinesRuleset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(49730, __c1554, 2) as any as S.Schema<CreateTagPipelinesRulesetRequest>,
   output: __S(49792, __c1556, 0) as any as S.Schema<RulesetResp>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79750,7 +80052,8 @@ export const createTagRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(49826, __c1557, 2) as any as S.Schema<CreateTagRuleRequest>,
   output: __S(49888, __c1559, 0) as any as S.Schema<TagRuleResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79767,7 +80070,8 @@ export const createTeam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(49954, __c1561, 2) as any as S.Schema<CreateTeamRequest>,
   output: __S(50048, __c1564, 0) as any as S.Schema<TeamResponse>,
-  errors: [Forbidden, Conflict, UnknownDatadogError],
+  errors: [Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79784,7 +80088,8 @@ export const createTeamConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(50082, __c1565, 2) as any as S.Schema<CreateTeamConnectionsRequest>,
   output: __S(50116, __c1566, 4) as any as S.Schema<TeamConnectionsResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79801,7 +80106,8 @@ export const createTeamLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(50336, __c1573, 0) as any as S.Schema<CreateTeamLinkRequest>,
   output: __S(50400, __c1575, 0) as any as S.Schema<TeamLinkResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79818,7 +80124,8 @@ export const createTeamMembership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(50465, __c1577, 1) as any as S.Schema<CreateTeamMembershipRequest>,
   output: __S(50497, __c1578, 1) as any as S.Schema<UserTeamResponse>,
-  errors: [Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79835,7 +80142,8 @@ export const createTeamNotificationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(50560, __c1580, 0) as any as S.Schema<CreateTeamNotificationRuleRequest>,
   output: __S(50592, __c1581, 0) as any as S.Schema<TeamNotificationRuleResponse>,
-  errors: [Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79852,7 +80160,8 @@ export const createTeamsOwnershipMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(50658, __c1583, 2) as any as S.Schema<CreateTeamsOwnershipMappingRequest>,
   output: __S(50688, __c1584, 0) as any as S.Schema<TeamsOwnershipMappingResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79874,7 +80183,8 @@ export const createTeamsOwnershipMappingsBatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(50756, __c1586, 4) as any as S.Schema<CreateTeamsOwnershipMappingsBatchRequest>,
   output: __S(50763, __c1586, 11) as any as S.Schema<TeamsOwnershipMappingBatchResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79904,7 +80214,8 @@ export const createTemporalCloudOpenMetricsIntegrationAccount: API.OperationMeth
     __c1589,
     0,
   ) as any as S.Schema<TemporalCloudOpenMetricsIntegrationAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79926,7 +80237,8 @@ export const createTemporaryGrantRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(50882, __c1590, 2) as any as S.Schema<CreateTemporaryGrantRequestRequest>,
   output: __S(50944, __c1592, 0) as any as S.Schema<TemporaryGrantRequestResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79943,7 +80255,8 @@ export const createTenancyConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(50978, __c1593, 2) as any as S.Schema<CreateTenancyConfigRequest>,
   output: __S(51040, __c1595, 0) as any as S.Schema<TenancyConfig>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79965,7 +80278,8 @@ export const createTenantBasedHandle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(51106, __c1597, 2) as any as S.Schema<CreateTenantBasedHandleRequest>,
   output: __S(51138, __c1598, 2) as any as S.Schema<MicrosoftTeamsTenantBasedHandleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -79982,7 +80296,8 @@ export const createTestSuiteForJourney: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(51170, __c1599, 2) as any as S.Schema<CreateTestSuiteForJourneyRequest>,
   output: __S(51173, __c1599, 5) as any as S.Schema<DemJourneyTestSuiteResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80003,7 +80318,8 @@ export const createTimeseriesAnomalyInvestigation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(51302, __c1603, 6) as any as S.Schema<CreateTimeseriesAnomalyInvestigationRequest>,
   output: __S(51319, __c1603, 23) as any as S.Schema<TimeseriesAnomalyInvestigationResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80020,7 +80336,8 @@ export const createTimestampOverride: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(51394, __c1606, 2) as any as S.Schema<CreateTimestampOverrideRequest>,
   output: __S(51456, __c1608, 0) as any as S.Schema<IncidentTimestampOverrideResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80042,7 +80359,8 @@ export const createTwilioIntegrationAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(51490, __c1609, 2) as any as S.Schema<CreateTwilioIntegrationAccountRequest>,
   output: __S(51584, __c1612, 0) as any as S.Schema<TwilioIntegrationAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80059,7 +80377,8 @@ export const createUnitCost: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(51617, __c1613, 1) as any as S.Schema<CreateUnitCostRequest>,
   output: __S(51712, __c1616, 0) as any as S.Schema<UnitCostResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80076,7 +80395,8 @@ export const createUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(51746, __c1617, 2) as any as S.Schema<CreateUserRequest>,
   output: __S(47872, __c1496, 0) as any as S.Schema<UserResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80093,7 +80413,8 @@ export const createUserNotificationChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(51778, __c1618, 2) as any as S.Schema<CreateUserNotificationChannelRequest>,
   output: __S(51840, __c1620, 0) as any as S.Schema<NotificationChannel>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80110,7 +80431,8 @@ export const createUserNotificationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(51873, __c1621, 1) as any as S.Schema<CreateUserNotificationRuleRequest>,
   output: __S(51968, __c1624, 0) as any as S.Schema<OnCallNotificationRule>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80132,7 +80454,8 @@ export const createVariantForFeatureFlag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52001, __c1625, 1) as any as S.Schema<CreateVariantForFeatureFlagRequest>,
   output: __S(52004, __c1625, 4) as any as S.Schema<VariantResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80149,7 +80472,8 @@ export const createVulnerabilityNotificationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52032, __c1626, 0) as any as S.Schema<CreateVulnerabilityNotificationRuleRequest>,
   output: __S(48352, __c1511, 0) as any as S.Schema<NotificationRuleResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80171,7 +80495,8 @@ export const createWebIntegrationAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52066, __c1627, 2) as any as S.Schema<CreateWebIntegrationAccountRequest>,
   output: __S(52128, __c1629, 0) as any as S.Schema<WebIntegrationAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80188,7 +80513,8 @@ export const createWidget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52192, __c1631, 0) as any as S.Schema<CreateWidgetRequest>,
   output: __S(52320, __c1635, 0) as any as S.Schema<WidgetResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80205,7 +80531,8 @@ export const createWorkflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52354, __c1636, 2) as any as S.Schema<CreateWorkflowRequest>,
   output: __S(52355, __c1636, 3) as any as S.Schema<CreateWorkflowResponseOutput>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80222,7 +80549,8 @@ export const createWorkflowInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52513, __c1641, 1) as any as S.Schema<CreateWorkflowInstanceRequest>,
   output: __S(52514, __c1641, 2) as any as S.Schema<WorkflowInstanceCreateResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80244,7 +80572,8 @@ export const createWorkflowsWebhookHandle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52578, __c1643, 2) as any as S.Schema<CreateWorkflowsWebhookHandleRequest>,
   output: __S(52608, __c1644, 0) as any as S.Schema<MicrosoftTeamsWorkflowsWebhookHandleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80261,7 +80590,8 @@ export const deactivateContentPack: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52640, __c1645, 0) as any as S.Schema<DeactivateContentPackRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeactivateContentPackResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80278,7 +80608,8 @@ export const deactivateIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52672, __c1646, 0) as any as S.Schema<DeactivateIntegrationRequest>,
   output: __S(68704, __c2147, 0) as any as S.Schema<SecurityMonitoringIntegrationConfigResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80295,7 +80626,8 @@ export const deleteActionConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52704, __c1647, 0) as any as S.Schema<DeleteActionConnectionRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteActionConnectionResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80312,7 +80644,8 @@ export const deleteAiCustomRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52736, __c1648, 0) as any as S.Schema<DeleteAiCustomRuleRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteAiCustomRuleResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80329,7 +80662,8 @@ export const deleteAiCustomRuleset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52768, __c1649, 0) as any as S.Schema<DeleteAiCustomRulesetRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteAiCustomRulesetResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80346,7 +80680,8 @@ export const deleteAiGatewayBudget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52800, __c1650, 0) as any as S.Schema<DeleteAiGatewayBudgetRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteAiGatewayBudgetResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80368,7 +80703,8 @@ export const deleteAiGatewayDataCaptureOverride: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52866, __c1652, 2) as any as S.Schema<DeleteAiGatewayDataCaptureOverrideRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteAiGatewayDataCaptureOverrideResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80385,7 +80721,8 @@ export const deleteAiGatewayModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52896, __c1653, 0) as any as S.Schema<DeleteAiGatewayModelRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteAiGatewayModelResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80402,7 +80739,8 @@ export const deleteAiGatewayModelGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52928, __c1654, 0) as any as S.Schema<DeleteAiGatewayModelGroupRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteAiGatewayModelGroupResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80419,7 +80757,8 @@ export const deleteAiGatewayModelPricing: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52960, __c1655, 0) as any as S.Schema<DeleteAiGatewayModelPricingRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteAiGatewayModelPricingResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80436,7 +80775,8 @@ export const deleteAiGatewayPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52992, __c1656, 0) as any as S.Schema<DeleteAiGatewayPolicyRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteAiGatewayPolicyResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80453,7 +80793,8 @@ export const deleteAiGatewayProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(53024, __c1657, 0) as any as S.Schema<DeleteAiGatewayProviderRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteAiGatewayProviderResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80470,7 +80811,8 @@ export const deleteAiGatewayRateLimit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(53056, __c1658, 0) as any as S.Schema<DeleteAiGatewayRateLimitRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteAiGatewayRateLimitResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80487,7 +80829,8 @@ export const deleteAiGatewayRoutingRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(53088, __c1659, 0) as any as S.Schema<DeleteAiGatewayRoutingRuleRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteAiGatewayRoutingRuleResponse>,
-  errors: [NotFound, Conflict, UnknownDatadogError],
+  errors: [NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80504,7 +80847,8 @@ export const deleteAiMemoryViolationResult: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(53120, __c1660, 0) as any as S.Schema<DeleteAiMemoryViolationResultRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteAiMemoryViolationResultResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80521,7 +80865,8 @@ export const deleteAnnotation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(53152, __c1661, 0) as any as S.Schema<DeleteAnnotationRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteAnnotationResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80538,7 +80883,8 @@ export const deleteAPIKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(53312, __c1666, 0) as any as S.Schema<DeleteAPIKeyRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteAPIKeyResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80555,7 +80901,8 @@ export const deleteApmRetentionFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(53344, __c1667, 0) as any as S.Schema<DeleteApmRetentionFilterRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteApmRetentionFilterResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80572,7 +80919,8 @@ export const deleteApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(53376, __c1668, 0) as any as S.Schema<DeleteAppRequest>,
   output: __S(80128, __c2504, 0) as any as S.Schema<DeleteAppResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80589,7 +80937,8 @@ export const deleteApplicationKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(53408, __c1669, 0) as any as S.Schema<DeleteApplicationKeyRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteApplicationKeyResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80610,7 +80959,8 @@ export const deleteApplicationSecurityWafCustomRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(53440, __c1670, 0) as any as S.Schema<DeleteApplicationSecurityWafCustomRuleRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteApplicationSecurityWafCustomRuleResponse>,
-  errors: [Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80639,7 +80989,8 @@ export const deleteApplicationSecurityWafExclusionFilter: API.OperationMethod<
     __c1850,
     0,
   ) as any as S.Schema<DeleteApplicationSecurityWafExclusionFilterResponse>,
-  errors: [Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80660,7 +81011,8 @@ export const deleteApplicationSecurityWafPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(53504, __c1672, 0) as any as S.Schema<DeleteApplicationSecurityWafPolicyRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteApplicationSecurityWafPolicyResponse>,
-  errors: [Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80677,7 +81029,8 @@ export const deleteApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(53536, __c1673, 0) as any as S.Schema<DeleteAppsRequest>,
   output: __S(50272, __c1571, 0) as any as S.Schema<DeleteAppsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80694,7 +81047,8 @@ export const deleteAuthNMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(53568, __c1674, 0) as any as S.Schema<DeleteAuthNMappingRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteAuthNMappingResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80711,7 +81065,8 @@ export const deleteAWSAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(53600, __c1675, 0) as any as S.Schema<DeleteAWSAccountRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteAWSAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80728,7 +81083,8 @@ export const deleteAWSAccountCCMConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(53664, __c1677, 0) as any as S.Schema<DeleteAWSAccountCCMConfigRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteAWSAccountCCMConfigResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80745,7 +81101,8 @@ export const deleteAWSCloudAuthIntakeMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(53696, __c1678, 0) as any as S.Schema<DeleteAWSCloudAuthIntakeMappingRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteAWSCloudAuthIntakeMappingResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80762,7 +81119,8 @@ export const deleteAWSCloudAuthPersonaMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(53728, __c1679, 0) as any as S.Schema<DeleteAWSCloudAuthPersonaMappingRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteAWSCloudAuthPersonaMappingResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80779,7 +81137,8 @@ export const deleteAWSEventBridgeSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(53762, __c1680, 2) as any as S.Schema<DeleteAWSEventBridgeSourceRequest>,
   output: __S(53765, __c1680, 5) as any as S.Schema<AWSEventBridgeDeleteResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80796,7 +81155,8 @@ export const deleteAwsScanOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(53792, __c1681, 0) as any as S.Schema<DeleteAwsScanOptionsRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteAwsScanOptionsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80813,7 +81173,8 @@ export const deleteAzureScanOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(53824, __c1682, 0) as any as S.Schema<DeleteAzureScanOptionsRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteAzureScanOptionsResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80830,7 +81191,8 @@ export const deleteBudget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(53856, __c1683, 0) as any as S.Schema<DeleteBudgetRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteBudgetResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80847,7 +81209,8 @@ export const deleteCaseAutomationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(53888, __c1684, 0) as any as S.Schema<DeleteCaseAutomationRuleRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteCaseAutomationRuleResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80864,7 +81227,8 @@ export const deleteCaseComment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(53920, __c1685, 0) as any as S.Schema<DeleteCaseCommentRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteCaseCommentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80881,7 +81245,8 @@ export const deleteCaseCustomAttribute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(53952, __c1686, 0) as any as S.Schema<DeleteCaseCustomAttributeRequest>,
   output: __S(74400, __c2325, 0) as any as S.Schema<CaseResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80898,7 +81263,8 @@ export const deleteCaseLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(54048, __c1689, 0) as any as S.Schema<DeleteCaseLinkRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteCaseLinkResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80915,7 +81281,8 @@ export const deleteCaseType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(54080, __c1690, 0) as any as S.Schema<DeleteCaseTypeRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteCaseTypeResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80932,7 +81299,8 @@ export const deleteCaseView: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(54112, __c1691, 0) as any as S.Schema<DeleteCaseViewRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteCaseViewResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80949,7 +81317,8 @@ export const deleteCatalogEntity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(54144, __c1692, 0) as any as S.Schema<DeleteCatalogEntityRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteCatalogEntityResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80966,7 +81335,8 @@ export const deleteCatalogKind: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(54176, __c1693, 0) as any as S.Schema<DeleteCatalogKindRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteCatalogKindResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80983,7 +81353,8 @@ export const deleteChangeRequestDecision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(54208, __c1694, 0) as any as S.Schema<DeleteChangeRequestDecisionRequest>,
   output: __S(7652, __c239, 4) as any as S.Schema<ChangeRequestResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81000,7 +81371,8 @@ export const deleteCloudflareAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(54240, __c1695, 0) as any as S.Schema<DeleteCloudflareAccountRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteCloudflareAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81017,7 +81389,8 @@ export const deleteCloudWorkloadSecurityAgentRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(54272, __c1696, 0) as any as S.Schema<DeleteCloudWorkloadSecurityAgentRuleRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteCloudWorkloadSecurityAgentRuleResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81034,7 +81407,8 @@ export const deleteComponent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(54304, __c1697, 0) as any as S.Schema<DeleteComponentRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteComponentResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81051,7 +81425,8 @@ export const deleteConfluentAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(54336, __c1698, 0) as any as S.Schema<DeleteConfluentAccountRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteConfluentAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81068,7 +81443,8 @@ export const deleteConfluentResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(54464, __c1702, 0) as any as S.Schema<DeleteConfluentResourceRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteConfluentResourceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81085,7 +81461,8 @@ export const deleteConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(54496, __c1703, 0) as any as S.Schema<DeleteConnectionRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteConnectionResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81102,7 +81479,8 @@ export const deleteCostAWSCURConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(54528, __c1704, 0) as any as S.Schema<DeleteCostAWSCURConfigRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteCostAWSCURConfigResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81119,7 +81497,8 @@ export const deleteCostAzureUCConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(54560, __c1705, 0) as any as S.Schema<DeleteCostAzureUCConfigRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteCostAzureUCConfigResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81136,7 +81515,8 @@ export const deleteCostGCPUsageCostConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(54592, __c1706, 0) as any as S.Schema<DeleteCostGCPUsageCostConfigRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteCostGCPUsageCostConfigResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81153,7 +81533,8 @@ export const deleteCostTagDescriptionByKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(54624, __c1707, 0) as any as S.Schema<DeleteCostTagDescriptionByKeyRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteCostTagDescriptionByKeyResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81170,7 +81551,8 @@ export const deleteCSMThreatsAgentPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(54656, __c1708, 0) as any as S.Schema<DeleteCSMThreatsAgentPolicyRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteCSMThreatsAgentPolicyResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81187,7 +81569,8 @@ export const deleteCSMThreatsAgentRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(54688, __c1709, 0) as any as S.Schema<DeleteCSMThreatsAgentRuleRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteCSMThreatsAgentRuleResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81204,7 +81587,8 @@ export const deleteCurrentUserApplicationKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(54720, __c1710, 0) as any as S.Schema<DeleteCurrentUserApplicationKeyRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteCurrentUserApplicationKeyResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81221,7 +81605,8 @@ export const deleteCustomAllocationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(54752, __c1711, 0) as any as S.Schema<DeleteCustomAllocationRuleRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteCustomAllocationRuleResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81238,7 +81623,8 @@ export const deleteCustomAttributeConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(54848, __c1714, 0) as any as S.Schema<DeleteCustomAttributeConfigRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteCustomAttributeConfigResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81255,7 +81641,8 @@ export const deleteCustomCostsFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(54880, __c1715, 0) as any as S.Schema<DeleteCustomCostsFileRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteCustomCostsFileResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81272,7 +81659,8 @@ export const deleteCustomForecast: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(54912, __c1716, 0) as any as S.Schema<DeleteCustomForecastRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteCustomForecastResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81289,7 +81677,8 @@ export const deleteCustomFramework: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(54944, __c1717, 0) as any as S.Schema<DeleteCustomFrameworkRequest>,
   output: __S(54947, __c1717, 3) as any as S.Schema<DeleteCustomFrameworkResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81306,7 +81695,8 @@ export const deleteCustomRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(54976, __c1718, 0) as any as S.Schema<DeleteCustomRuleRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteCustomRuleResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81323,7 +81713,8 @@ export const deleteCustomRuleset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(55008, __c1719, 0) as any as S.Schema<DeleteCustomRulesetRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteCustomRulesetResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81340,7 +81731,8 @@ export const deleteDashboardListItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(55040, __c1720, 0) as any as S.Schema<DeleteDashboardListItemsRequest>,
   output: __S(55041, __c1720, 1) as any as S.Schema<DashboardListDeleteItemsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81357,7 +81749,8 @@ export const deleteDashboardSecureEmbed: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(55072, __c1721, 0) as any as S.Schema<DeleteDashboardSecureEmbedRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteDashboardSecureEmbedResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81378,7 +81771,8 @@ export const deleteDatabricksIntegrationAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(55104, __c1722, 0) as any as S.Schema<DeleteDatabricksIntegrationAccountRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteDatabricksIntegrationAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81395,7 +81789,8 @@ export const deleteDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(55136, __c1723, 0) as any as S.Schema<DeleteDatasetRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteDatasetResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81412,7 +81807,8 @@ export const deleteDatastore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(55392, __c1731, 0) as any as S.Schema<DeleteDatastoreRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteDatastoreResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81429,7 +81825,8 @@ export const deleteDatastoreItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(55426, __c1732, 2) as any as S.Schema<DeleteDatastoreItemRequest>,
   output: __S(20384, __c637, 0) as any as S.Schema<DeleteAppsDatastoreItemResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81446,7 +81843,8 @@ export const deleteDegradation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(55456, __c1733, 0) as any as S.Schema<DeleteDegradationRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteDegradationResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81463,7 +81861,8 @@ export const deleteDegradationTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(55488, __c1734, 0) as any as S.Schema<DeleteDegradationTemplateRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteDegradationTemplateResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81480,7 +81879,8 @@ export const deleteDeploymentGate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(55520, __c1735, 0) as any as S.Schema<DeleteDeploymentGateRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteDeploymentGateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81497,7 +81897,8 @@ export const deleteDeploymentRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(55552, __c1736, 0) as any as S.Schema<DeleteDeploymentRuleRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteDeploymentRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81514,7 +81915,8 @@ export const deleteDerivedMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(55584, __c1737, 0) as any as S.Schema<DeleteDerivedMetricRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteDerivedMetricResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81531,7 +81933,8 @@ export const deleteDORADeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(55616, __c1738, 0) as any as S.Schema<DeleteDORADeploymentRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteDORADeploymentResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81548,7 +81951,8 @@ export const deleteDORAFailure: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(55648, __c1739, 0) as any as S.Schema<DeleteDORAFailureRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteDORAFailureResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81569,7 +81973,8 @@ export const deleteElasticCloudIntegrationAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(55680, __c1740, 0) as any as S.Schema<DeleteElasticCloudIntegrationAccountRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteElasticCloudIntegrationAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81586,7 +81991,8 @@ export const deleteEntityIntegrationConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(55776, __c1743, 0) as any as S.Schema<DeleteEntityIntegrationConfigRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteEntityIntegrationConfigResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81603,7 +82009,8 @@ export const deleteExclusionFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(55808, __c1744, 0) as any as S.Schema<DeleteExclusionFilterRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteExclusionFilterResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81620,7 +82027,8 @@ export const deleteExecutionPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(55840, __c1745, 0) as any as S.Schema<DeleteExecutionPolicyRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteExecutionPolicyResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81637,7 +82045,8 @@ export const deleteExperiment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(55872, __c1746, 0) as any as S.Schema<DeleteExperimentRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteExperimentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81659,7 +82068,8 @@ export const deleteExperimentMetricGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(55904, __c1747, 0) as any as S.Schema<DeleteExperimentMetricGroupRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteExperimentMetricGroupResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81681,7 +82091,8 @@ export const deleteExperimentProtocol: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(55936, __c1748, 0) as any as S.Schema<DeleteExperimentProtocolRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteExperimentProtocolResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81698,7 +82109,8 @@ export const deleteFastlyAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(55968, __c1749, 0) as any as S.Schema<DeleteFastlyAccountRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteFastlyAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81715,7 +82127,8 @@ export const deleteFastlyService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56000, __c1750, 0) as any as S.Schema<DeleteFastlyServiceRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteFastlyServiceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81732,7 +82145,8 @@ export const deleteFeatureFlagsEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56032, __c1751, 0) as any as S.Schema<DeleteFeatureFlagsEnvironmentRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteFeatureFlagsEnvironmentResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81749,7 +82163,8 @@ export const deleteFleetSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56064, __c1752, 0) as any as S.Schema<DeleteFleetScheduleRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteFleetScheduleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81766,7 +82181,8 @@ export const deleteForm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56224, __c1757, 0) as any as S.Schema<DeleteFormRequest>,
   output: __S(80128, __c2504, 0) as any as S.Schema<DeleteFormResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81783,7 +82199,8 @@ export const deleteGcpScanOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56256, __c1758, 0) as any as S.Schema<DeleteGcpScanOptionsRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteGcpScanOptionsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81800,7 +82217,8 @@ export const deleteGCPSTSAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56288, __c1759, 0) as any as S.Schema<DeleteGCPSTSAccountRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteGCPSTSAccountResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81817,7 +82235,8 @@ export const deleteGitHubCloudAuthIntakeMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56320, __c1760, 0) as any as S.Schema<DeleteGitHubCloudAuthIntakeMappingRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteGitHubCloudAuthIntakeMappingResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81834,7 +82253,8 @@ export const deleteGitHubCloudAuthPersonaMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56352, __c1761, 0) as any as S.Schema<DeleteGitHubCloudAuthPersonaMappingRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteGitHubCloudAuthPersonaMappingResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81851,7 +82271,8 @@ export const deleteGlobalIncidentHandle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56384, __c1762, 0) as any as S.Schema<DeleteGlobalIncidentHandleRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteGlobalIncidentHandleResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81868,7 +82289,8 @@ export const deleteGoogleChatDelegatedUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56416, __c1763, 0) as any as S.Schema<DeleteGoogleChatDelegatedUserRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteGoogleChatDelegatedUserResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81885,7 +82307,8 @@ export const deleteGoogleChatOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56448, __c1764, 0) as any as S.Schema<DeleteGoogleChatOrganizationRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteGoogleChatOrganizationResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81902,7 +82325,8 @@ export const deleteGoogleChatTargetAudience: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56480, __c1765, 0) as any as S.Schema<DeleteGoogleChatTargetAudienceRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteGoogleChatTargetAudienceResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81924,7 +82348,8 @@ export const deleteHistoricalJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56512, __c1766, 0) as any as S.Schema<DeleteHistoricalJobRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteHistoricalJobResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81941,7 +82366,8 @@ export const deleteHistoricalMetricsConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56576, __c1768, 0) as any as S.Schema<DeleteHistoricalMetricsConfigurationRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteHistoricalMetricsConfigurationResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81958,7 +82384,8 @@ export const deleteIgnoredInferredJourney: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56608, __c1769, 0) as any as S.Schema<DeleteIgnoredInferredJourneyRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteIgnoredInferredJourneyResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81975,7 +82402,8 @@ export const deleteIncident: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56640, __c1770, 0) as any as S.Schema<DeleteIncidentRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteIncidentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -81992,7 +82420,8 @@ export const deleteIncidentAttachment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56672, __c1771, 0) as any as S.Schema<DeleteIncidentAttachmentRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteIncidentAttachmentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82009,7 +82438,8 @@ export const deleteIncidentImpact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56704, __c1772, 0) as any as S.Schema<DeleteIncidentImpactRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteIncidentImpactResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82026,7 +82456,8 @@ export const deleteIncidentImpactField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56736, __c1773, 0) as any as S.Schema<DeleteIncidentImpactFieldRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteIncidentImpactFieldResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82043,7 +82474,8 @@ export const deleteIncidentIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56768, __c1774, 0) as any as S.Schema<DeleteIncidentIntegrationRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteIncidentIntegrationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82064,7 +82496,8 @@ export const deleteIncidentNotificationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56800, __c1775, 0) as any as S.Schema<DeleteIncidentNotificationRuleRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteIncidentNotificationRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82085,7 +82518,8 @@ export const deleteIncidentNotificationTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56832, __c1776, 0) as any as S.Schema<DeleteIncidentNotificationTemplateRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteIncidentNotificationTemplateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82102,7 +82536,8 @@ export const deleteIncidentPostmortemTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56864, __c1777, 0) as any as S.Schema<DeleteIncidentPostmortemTemplateRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteIncidentPostmortemTemplateResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82119,7 +82554,8 @@ export const deleteIncidentResponder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(57056, __c1783, 0) as any as S.Schema<DeleteIncidentResponderRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteIncidentResponderResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82136,7 +82572,8 @@ export const deleteIncidentRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(57088, __c1784, 0) as any as S.Schema<DeleteIncidentRuleRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteIncidentRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82153,7 +82590,8 @@ export const deleteIncidentTodo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(57120, __c1785, 0) as any as S.Schema<DeleteIncidentTodoRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteIncidentTodoResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82170,7 +82608,8 @@ export const deleteIncidentType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(57152, __c1786, 0) as any as S.Schema<DeleteIncidentTypeRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteIncidentTypeResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82191,7 +82630,8 @@ export const deleteIncidentUserDefinedField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(57184, __c1787, 0) as any as S.Schema<DeleteIncidentUserDefinedFieldRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteIncidentUserDefinedFieldResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82208,7 +82648,8 @@ export const deleteIncidentUserDefinedRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(57216, __c1788, 0) as any as S.Schema<DeleteIncidentUserDefinedRoleRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteIncidentUserDefinedRoleResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82225,7 +82666,8 @@ export const deleteIssueAssignee: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(57248, __c1789, 0) as any as S.Schema<DeleteIssueAssigneeRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteIssueAssigneeResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82242,7 +82684,8 @@ export const deleteJiraAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(57280, __c1790, 0) as any as S.Schema<DeleteJiraAccountRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteJiraAccountResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82259,7 +82702,8 @@ export const deleteJiraIssueTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(57312, __c1791, 0) as any as S.Schema<DeleteJiraIssueTemplateRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteJiraIssueTemplateResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82276,7 +82720,8 @@ export const deleteJourney: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(57344, __c1792, 0) as any as S.Schema<DeleteJourneyRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteJourneyResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82293,7 +82738,8 @@ export const deleteJourneyVariant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(57408, __c1794, 0) as any as S.Schema<DeleteJourneyVariantRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteJourneyVariantResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82310,7 +82756,8 @@ export const deleteLLMObsAnnotationQueue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(57440, __c1795, 0) as any as S.Schema<DeleteLLMObsAnnotationQueueRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteLLMObsAnnotationQueueResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82335,7 +82782,8 @@ export const deleteLLMObsAnnotationQueueInteractions: API.OperationMethod<
     __c1850,
     0,
   ) as any as S.Schema<DeleteLLMObsAnnotationQueueInteractionsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82352,7 +82800,8 @@ export const deleteLLMObsAnnotations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(57506, __c1797, 2) as any as S.Schema<DeleteLLMObsAnnotationsRequest>,
   output: __S(57511, __c1797, 7) as any as S.Schema<LLMObsDeleteAnnotationsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82369,7 +82818,8 @@ export const deleteLLMObsCustomEvalConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(57536, __c1798, 0) as any as S.Schema<DeleteLLMObsCustomEvalConfigRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteLLMObsCustomEvalConfigResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82386,7 +82836,8 @@ export const deleteLLMObsDatasetRecords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(57570, __c1799, 2) as any as S.Schema<DeleteLLMObsDatasetRecordsRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteLLMObsDatasetRecordsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82403,7 +82854,8 @@ export const deleteLLMObsDatasets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(57602, __c1800, 2) as any as S.Schema<DeleteLLMObsDatasetsRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteLLMObsDatasetsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82420,7 +82872,8 @@ export const deleteLLMObsExperiments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(57634, __c1801, 2) as any as S.Schema<DeleteLLMObsExperimentsRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteLLMObsExperimentsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82437,7 +82890,8 @@ export const deleteLLMObsPatternsConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(57664, __c1802, 0) as any as S.Schema<DeleteLLMObsPatternsConfigRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteLLMObsPatternsConfigResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82454,7 +82908,8 @@ export const deleteLLMObsProjects: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(57698, __c1803, 2) as any as S.Schema<DeleteLLMObsProjectsRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteLLMObsProjectsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82471,7 +82926,8 @@ export const deleteLLMObsPrompt: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(57792, __c1806, 0) as any as S.Schema<DeleteLLMObsPromptRequest>,
   output: __S(57795, __c1806, 3) as any as S.Schema<LLMObsDeletedPromptResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82488,7 +82944,8 @@ export const deleteLogsArchive: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(57824, __c1807, 0) as any as S.Schema<DeleteLogsArchiveRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteLogsArchiveResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82505,7 +82962,8 @@ export const deleteLogsCustomDestination: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(57856, __c1808, 0) as any as S.Schema<DeleteLogsCustomDestinationRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteLogsCustomDestinationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82522,7 +82980,8 @@ export const deleteLogsMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(57888, __c1809, 0) as any as S.Schema<DeleteLogsMetricRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteLogsMetricResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82539,7 +82998,8 @@ export const deleteMaintenanceTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(57920, __c1810, 0) as any as S.Schema<DeleteMaintenanceTemplateRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteMaintenanceTemplateResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82556,7 +83016,8 @@ export const deleteMaintenanceWindow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(57952, __c1811, 0) as any as S.Schema<DeleteMaintenanceWindowRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteMaintenanceWindowResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82573,7 +83034,8 @@ export const deleteMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(57984, __c1812, 0) as any as S.Schema<DeleteMetricRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteMetricResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82590,7 +83052,8 @@ export const deleteMetricCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(58016, __c1813, 0) as any as S.Schema<DeleteMetricCollectionRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteMetricCollectionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82607,7 +83070,8 @@ export const deleteModelLabRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(58048, __c1814, 0) as any as S.Schema<DeleteModelLabRunRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteModelLabRunResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82624,7 +83088,8 @@ export const deleteMonitorConfigPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(58080, __c1815, 0) as any as S.Schema<DeleteMonitorConfigPolicyRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteMonitorConfigPolicyResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82641,7 +83106,8 @@ export const deleteMonitorNotificationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(58144, __c1817, 0) as any as S.Schema<DeleteMonitorNotificationRuleRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteMonitorNotificationRuleResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82658,7 +83124,8 @@ export const deleteMonitorUserTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(58176, __c1818, 0) as any as S.Schema<DeleteMonitorUserTemplateRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteMonitorUserTemplateResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82675,7 +83142,8 @@ export const deleteMSTeamsUserBinding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(58208, __c1819, 0) as any as S.Schema<DeleteMSTeamsUserBindingRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteMSTeamsUserBindingResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82692,7 +83160,8 @@ export const deleteOAuth2ClientCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(58240, __c1820, 0) as any as S.Schema<DeleteOAuth2ClientCredentialsRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteOAuth2ClientCredentialsResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82713,7 +83182,8 @@ export const deleteOIDCCloudAuthPersonaMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(58272, __c1821, 0) as any as S.Schema<DeleteOIDCCloudAuthPersonaMappingRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteOIDCCloudAuthPersonaMappingResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82735,7 +83205,8 @@ export const deleteOIDCCloudAuthProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(58304, __c1822, 0) as any as S.Schema<DeleteOIDCCloudAuthProviderRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteOIDCCloudAuthProviderResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82752,7 +83223,8 @@ export const deleteOktaAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(58336, __c1823, 0) as any as S.Schema<DeleteOktaAccountRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteOktaAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82769,7 +83241,8 @@ export const deleteOnCallEscalationPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(58368, __c1824, 0) as any as S.Schema<DeleteOnCallEscalationPolicyRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteOnCallEscalationPolicyResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82786,7 +83259,8 @@ export const deleteOnCallSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(58400, __c1825, 0) as any as S.Schema<DeleteOnCallScheduleRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteOnCallScheduleResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82803,7 +83277,8 @@ export const deleteOpsgenieAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(58432, __c1826, 0) as any as S.Schema<DeleteOpsgenieAccountRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteOpsgenieAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82820,7 +83295,8 @@ export const deleteOpsgenieService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(58496, __c1828, 0) as any as S.Schema<DeleteOpsgenieServiceRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteOpsgenieServiceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82837,7 +83313,8 @@ export const deleteOrganizationHandle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(58528, __c1829, 0) as any as S.Schema<DeleteOrganizationHandleRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteOrganizationHandleResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82854,7 +83331,8 @@ export const deleteOrgAuthorizedClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(58560, __c1830, 0) as any as S.Schema<DeleteOrgAuthorizedClientRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteOrgAuthorizedClientResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82882,7 +83360,8 @@ export const deleteOrgAuthorizedClientAllUserAuthorizations: API.OperationMethod
     __c1850,
     0,
   ) as any as S.Schema<DeleteOrgAuthorizedClientAllUserAuthorizationsResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82907,7 +83386,8 @@ export const deleteOrgAuthorizedClientUserAuthorization: API.OperationMethod<
     __c1850,
     0,
   ) as any as S.Schema<DeleteOrgAuthorizedClientUserAuthorizationResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82924,7 +83404,8 @@ export const deleteOrgConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(58656, __c1833, 0) as any as S.Schema<DeleteOrgConnectionsRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteOrgConnectionsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82941,7 +83422,8 @@ export const deleteOrgGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(58688, __c1834, 0) as any as S.Schema<DeleteOrgGroupRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteOrgGroupResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82958,7 +83440,8 @@ export const deleteOrgGroupMembership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(58720, __c1835, 0) as any as S.Schema<DeleteOrgGroupMembershipRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteOrgGroupMembershipResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82975,7 +83458,8 @@ export const deleteOrgGroupMemberships: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(58752, __c1836, 0) as any as S.Schema<DeleteOrgGroupMembershipsRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteOrgGroupMembershipsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -82992,7 +83476,8 @@ export const deleteOrgGroupPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(58784, __c1837, 0) as any as S.Schema<DeleteOrgGroupPolicyRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteOrgGroupPolicyResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83009,7 +83494,8 @@ export const deleteOrgGroupPolicyOverride: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(58848, __c1839, 0) as any as S.Schema<DeleteOrgGroupPolicyOverrideRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteOrgGroupPolicyOverrideResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83026,7 +83512,8 @@ export const deletePendingQuota: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(58880, __c1840, 0) as any as S.Schema<DeletePendingQuotaRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeletePendingQuotaResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83043,7 +83530,8 @@ export const deletePipeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(58912, __c1841, 0) as any as S.Schema<DeletePipelineRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeletePipelineResponse>,
-  errors: [Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83060,7 +83548,8 @@ export const deletePowerpack: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(58944, __c1842, 0) as any as S.Schema<DeletePowerpackRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeletePowerpackResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83077,7 +83566,8 @@ export const deleteProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(58976, __c1843, 0) as any as S.Schema<DeleteProjectRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteProjectResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83094,7 +83584,8 @@ export const deleteProjectNotificationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(59008, __c1844, 0) as any as S.Schema<DeleteProjectNotificationRuleRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteProjectNotificationRuleResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83111,7 +83602,8 @@ export const deleteQuota: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(59040, __c1845, 0) as any as S.Schema<DeleteQuotaRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteQuotaResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83128,7 +83620,8 @@ export const deleteReplayHeatmapSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(59072, __c1846, 0) as any as S.Schema<DeleteReplayHeatmapSnapshotRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteReplayHeatmapSnapshotResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83145,7 +83638,8 @@ export const deleteReportSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(59104, __c1847, 0) as any as S.Schema<DeleteReportScheduleRequest>,
   output: __S(44162, __c1380, 2) as any as S.Schema<ReportScheduleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83167,7 +83661,8 @@ export const deleteRequestedTemporaryGrant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(59136, __c1848, 0) as any as S.Schema<DeleteRequestedTemporaryGrantRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteRequestedTemporaryGrantResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83184,7 +83679,8 @@ export const deleteRestrictionPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(59296, __c1853, 0) as any as S.Schema<DeleteRestrictionPolicyRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteRestrictionPolicyResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83201,7 +83697,8 @@ export const deleteRestrictionQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(59328, __c1854, 0) as any as S.Schema<DeleteRestrictionQueryRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteRestrictionQueryResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83218,7 +83715,8 @@ export const deleteRetentionFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(59360, __c1855, 0) as any as S.Schema<DeleteRetentionFilterRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteRetentionFilterResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83235,7 +83733,8 @@ export const deleteRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(59392, __c1856, 0) as any as S.Schema<DeleteRoleRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteRoleResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83252,7 +83751,8 @@ export const deleteRows: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(59424, __c1857, 0) as any as S.Schema<DeleteRowsRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteRowsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83269,7 +83769,8 @@ export const deleteRUMApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(59456, __c1858, 0) as any as S.Schema<DeleteRUMApplicationRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteRUMApplicationResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83286,7 +83787,8 @@ export const deleteRUMArchiveConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(59488, __c1859, 0) as any as S.Schema<DeleteRUMArchiveConfigRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteRUMArchiveConfigResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83303,7 +83805,8 @@ export const deleteRumMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(59520, __c1860, 0) as any as S.Schema<DeleteRumMetricRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteRumMetricResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83320,7 +83823,8 @@ export const deleteRUMOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(59552, __c1861, 0) as any as S.Schema<DeleteRUMOperationRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteRUMOperationResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83337,7 +83841,8 @@ export const deleteRUMOperationStrongLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(59584, __c1862, 0) as any as S.Schema<DeleteRUMOperationStrongLinkRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteRUMOperationStrongLinkResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83354,7 +83859,8 @@ export const deleteRumQuotaConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(59872, __c1871, 0) as any as S.Schema<DeleteRumQuotaConfigRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteRumQuotaConfigResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83371,7 +83877,8 @@ export const deleteRumReplayPlaylist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(59904, __c1872, 0) as any as S.Schema<DeleteRumReplayPlaylistRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteRumReplayPlaylistResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83388,7 +83895,8 @@ export const deleteRumReplaySessionWatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(59936, __c1873, 0) as any as S.Schema<DeleteRumReplaySessionWatchRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteRumReplaySessionWatchResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83405,7 +83913,8 @@ export const deleteSampleLogGenerationSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(59968, __c1874, 0) as any as S.Schema<DeleteSampleLogGenerationSubscriptionRequest>,
   output: __S(45376, __c1418, 0) as any as S.Schema<SampleLogGenerationSubscriptionResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83422,7 +83931,8 @@ export const deleteScanningGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60000, __c1875, 0) as any as S.Schema<DeleteScanningGroupRequest>,
   output: __S(60032, __c1876, 0) as any as S.Schema<SensitiveDataScannerGroupDeleteResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83439,7 +83949,8 @@ export const deleteScanningRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60064, __c1877, 0) as any as S.Schema<DeleteScanningRuleRequest>,
   output: __S(60032, __c1876, 0) as any as S.Schema<SensitiveDataScannerRuleDeleteResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83456,7 +83967,8 @@ export const deleteScheduleOverride: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60096, __c1878, 0) as any as S.Schema<DeleteScheduleOverrideRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteScheduleOverrideResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83473,7 +83985,8 @@ export const deleteScopesRestriction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60128, __c1879, 0) as any as S.Schema<DeleteScopesRestrictionRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteScopesRestrictionResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83490,7 +84003,8 @@ export const deleteScorecardCampaign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60160, __c1880, 0) as any as S.Schema<DeleteScorecardCampaignRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteScorecardCampaignResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83507,7 +84021,8 @@ export const deleteScorecardRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60192, __c1881, 0) as any as S.Schema<DeleteScorecardRuleRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteScorecardRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83524,7 +84039,8 @@ export const deleteSecurityFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60256, __c1883, 0) as any as S.Schema<DeleteSecurityFilterRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteSecurityFilterResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83552,7 +84068,8 @@ export const deleteSecurityFindingsAutomationDueDateRule: API.OperationMethod<
     __c1850,
     0,
   ) as any as S.Schema<DeleteSecurityFindingsAutomationDueDateRuleResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83577,7 +84094,8 @@ export const deleteSecurityFindingsAutomationInboxRule: API.OperationMethod<
     __c1850,
     0,
   ) as any as S.Schema<DeleteSecurityFindingsAutomationInboxRuleResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83598,7 +84116,8 @@ export const deleteSecurityFindingsAutomationMuteRule: API.OperationMethod<
     __c1850,
     0,
   ) as any as S.Schema<DeleteSecurityFindingsAutomationMuteRuleResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83627,7 +84146,8 @@ export const deleteSecurityFindingsAutomationSeverityModifierRule: API.Operation
     __c1850,
     0,
   ) as any as S.Schema<DeleteSecurityFindingsAutomationSeverityModifierRuleResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83655,7 +84175,8 @@ export const deleteSecurityFindingsAutomationTicketCreationRule: API.OperationMe
     __c1850,
     0,
   ) as any as S.Schema<DeleteSecurityFindingsAutomationTicketCreationRuleResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83677,7 +84198,8 @@ export const deleteSecurityMonitoringBatchMigration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60448, __c1889, 0) as any as S.Schema<DeleteSecurityMonitoringBatchMigrationRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteSecurityMonitoringBatchMigrationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83707,7 +84229,8 @@ export const deleteSecurityMonitoringBatchMigrationResources: API.OperationMetho
     __c1850,
     0,
   ) as any as S.Schema<DeleteSecurityMonitoringBatchMigrationResourcesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83724,7 +84247,8 @@ export const deleteSecurityMonitoringCriticalAsset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60512, __c1891, 0) as any as S.Schema<DeleteSecurityMonitoringCriticalAssetRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteSecurityMonitoringCriticalAssetResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83745,7 +84269,8 @@ export const deleteSecurityMonitoringDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60544, __c1892, 0) as any as S.Schema<DeleteSecurityMonitoringDatasetRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteSecurityMonitoringDatasetResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83770,7 +84295,8 @@ export const deleteSecurityMonitoringIntegrationConfig: API.OperationMethod<
     __c1850,
     0,
   ) as any as S.Schema<DeleteSecurityMonitoringIntegrationConfigResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83787,7 +84313,8 @@ export const deleteSecurityMonitoringRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60704, __c1897, 0) as any as S.Schema<DeleteSecurityMonitoringRuleRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteSecurityMonitoringRuleResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83804,7 +84331,8 @@ export const deleteSecurityMonitoringSuppression: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60736, __c1898, 0) as any as S.Schema<DeleteSecurityMonitoringSuppressionRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteSecurityMonitoringSuppressionResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83821,7 +84349,8 @@ export const deleteServiceAccountApplicationKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60768, __c1899, 0) as any as S.Schema<DeleteServiceAccountApplicationKeyRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteServiceAccountApplicationKeyResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83838,7 +84367,8 @@ export const deleteServiceDefinition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60800, __c1900, 0) as any as S.Schema<DeleteServiceDefinitionRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteServiceDefinitionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83855,7 +84385,8 @@ export const deleteServiceNowTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60832, __c1901, 0) as any as S.Schema<DeleteServiceNowTemplateRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteServiceNowTemplateResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83872,7 +84403,8 @@ export const deleteSignalNotificationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60864, __c1902, 0) as any as S.Schema<DeleteSignalNotificationRuleRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteSignalNotificationRuleResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83893,7 +84425,8 @@ export const deleteSnowflakeIntegrationAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60896, __c1903, 0) as any as S.Schema<DeleteSnowflakeIntegrationAccountRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteSnowflakeIntegrationAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83910,7 +84443,8 @@ export const deleteSourcemaps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60928, __c1904, 0) as any as S.Schema<DeleteSourcemapsRequest>,
   output: __S(60992, __c1906, 0) as any as S.Schema<SourcemapsResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83927,7 +84461,8 @@ export const deleteSpansMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(61024, __c1907, 0) as any as S.Schema<DeleteSpansMetricRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteSpansMetricResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83944,7 +84479,8 @@ export const deleteStatusPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(61184, __c1912, 0) as any as S.Schema<DeleteStatusPageRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteStatusPageResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83961,7 +84497,8 @@ export const deleteStatuspageAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(61216, __c1913, 0) as any as S.Schema<DeleteStatuspageAccountRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteStatuspageAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83978,7 +84515,8 @@ export const deleteStatuspageUrlSetting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(61248, __c1914, 0) as any as S.Schema<DeleteStatuspageUrlSettingRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteStatuspageUrlSettingResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -83995,7 +84533,8 @@ export const deleteSubjectType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(61280, __c1915, 0) as any as S.Schema<DeleteSubjectTypeRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteSubjectTypeResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84012,7 +84551,8 @@ export const deleteSyncConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(61312, __c1916, 0) as any as S.Schema<DeleteSyncConfigRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteSyncConfigResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84029,7 +84569,8 @@ export const deleteSyntheticsDowntime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(61344, __c1917, 0) as any as S.Schema<DeleteSyntheticsDowntimeRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteSyntheticsDowntimeResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84046,7 +84587,8 @@ export const deleteSyntheticsSuites: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(61376, __c1918, 0) as any as S.Schema<DeleteSyntheticsSuitesRequest>,
   output: __S(61413, __c1919, 5) as any as S.Schema<DeletedSuitesResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84063,7 +84605,8 @@ export const deleteSyntheticsTests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(61440, __c1920, 0) as any as S.Schema<DeleteSyntheticsTestsRequest>,
   output: __S(61413, __c1919, 5) as any as S.Schema<DeletedTestsResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84080,7 +84623,8 @@ export const deleteTable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(61472, __c1921, 0) as any as S.Schema<DeleteTableRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteTableResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84097,7 +84641,8 @@ export const deleteTagConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(61504, __c1922, 0) as any as S.Schema<DeleteTagConfigurationRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteTagConfigurationResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84114,7 +84659,8 @@ export const deleteTagIndexingRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(61568, __c1924, 0) as any as S.Schema<DeleteTagIndexingRuleRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteTagIndexingRuleResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84131,7 +84677,8 @@ export const deleteTagIndexingRuleExemption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(61600, __c1925, 0) as any as S.Schema<DeleteTagIndexingRuleExemptionRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteTagIndexingRuleExemptionResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84148,7 +84695,8 @@ export const deleteTagPipelinesRuleset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(61632, __c1926, 0) as any as S.Schema<DeleteTagPipelinesRulesetRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteTagPipelinesRulesetResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84165,7 +84713,8 @@ export const deleteTagRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(61664, __c1927, 0) as any as S.Schema<DeleteTagRuleRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteTagRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84182,7 +84731,8 @@ export const deleteTeam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(61696, __c1928, 0) as any as S.Schema<DeleteTeamRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteTeamResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84199,7 +84749,8 @@ export const deleteTeamConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(61728, __c1929, 0) as any as S.Schema<DeleteTeamConnectionsRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteTeamConnectionsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84216,7 +84767,8 @@ export const deleteTeamLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(61760, __c1930, 0) as any as S.Schema<DeleteTeamLinkRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteTeamLinkResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84233,7 +84785,8 @@ export const deleteTeamMembership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(61792, __c1931, 0) as any as S.Schema<DeleteTeamMembershipRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteTeamMembershipResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84250,7 +84803,8 @@ export const deleteTeamNotificationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(61824, __c1932, 0) as any as S.Schema<DeleteTeamNotificationRuleRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteTeamNotificationRuleResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84267,7 +84821,8 @@ export const deleteTeamsOwnershipMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(61856, __c1933, 0) as any as S.Schema<DeleteTeamsOwnershipMappingRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteTeamsOwnershipMappingResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84296,7 +84851,8 @@ export const deleteTemporalCloudOpenMetricsIntegrationAccount: API.OperationMeth
     __c1850,
     0,
   ) as any as S.Schema<DeleteTemporalCloudOpenMetricsIntegrationAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84318,7 +84874,8 @@ export const deleteTemporaryGrantRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(61984, __c1937, 0) as any as S.Schema<DeleteTemporaryGrantRequestRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteTemporaryGrantRequestResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84335,7 +84892,8 @@ export const deleteTenancyConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(62016, __c1938, 0) as any as S.Schema<DeleteTenancyConfigRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteTenancyConfigResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84352,7 +84910,8 @@ export const deleteTenantBasedHandle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(62048, __c1939, 0) as any as S.Schema<DeleteTenantBasedHandleRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteTenantBasedHandleResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84373,7 +84932,8 @@ export const deleteTestOptimizationServiceSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(62080, __c1940, 0) as any as S.Schema<DeleteTestOptimizationServiceSettingsRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteTestOptimizationServiceSettingsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84390,7 +84950,8 @@ export const deleteTimestampOverride: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(62144, __c1942, 0) as any as S.Schema<DeleteTimestampOverrideRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteTimestampOverrideResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84411,7 +84972,8 @@ export const deleteTwilioIntegrationAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(62176, __c1943, 0) as any as S.Schema<DeleteTwilioIntegrationAccountRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteTwilioIntegrationAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84428,7 +84990,8 @@ export const deleteUnitCost: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(62208, __c1944, 0) as any as S.Schema<DeleteUnitCostRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteUnitCostResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84445,7 +85008,8 @@ export const deleteUserAuthorizedClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(62240, __c1945, 0) as any as S.Schema<DeleteUserAuthorizedClientRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteUserAuthorizedClientResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84462,7 +85026,8 @@ export const deleteUserAuthorizedClientsByClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(62272, __c1946, 0) as any as S.Schema<DeleteUserAuthorizedClientsByClientRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteUserAuthorizedClientsByClientResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84479,7 +85044,8 @@ export const deleteUserInvitations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(62336, __c1948, 0) as any as S.Schema<DeleteUserInvitationsRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteUserInvitationsResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84496,7 +85062,8 @@ export const deleteUserNotificationChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(62368, __c1949, 0) as any as S.Schema<DeleteUserNotificationChannelRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteUserNotificationChannelResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84513,7 +85080,8 @@ export const deleteUserNotificationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(62400, __c1950, 0) as any as S.Schema<DeleteUserNotificationRuleRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteUserNotificationRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84535,7 +85103,8 @@ export const deleteVariantFromFeatureFlag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(62432, __c1951, 0) as any as S.Schema<DeleteVariantFromFeatureFlagRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteVariantFromFeatureFlagResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84552,7 +85121,8 @@ export const deleteVulnerabilityNotificationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(62464, __c1952, 0) as any as S.Schema<DeleteVulnerabilityNotificationRuleRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteVulnerabilityNotificationRuleResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84569,7 +85139,8 @@ export const deleteWebIntegrationAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(62496, __c1953, 0) as any as S.Schema<DeleteWebIntegrationAccountRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteWebIntegrationAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84586,7 +85157,8 @@ export const deleteWidget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(62528, __c1954, 0) as any as S.Schema<DeleteWidgetRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteWidgetResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84603,7 +85175,8 @@ export const deleteWorkflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(62560, __c1955, 0) as any as S.Schema<DeleteWorkflowRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteWorkflowResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84620,7 +85193,8 @@ export const deleteWorkflowsWebhookHandle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(62592, __c1956, 0) as any as S.Schema<DeleteWorkflowsWebhookHandleRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DeleteWorkflowsWebhookHandleResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84637,7 +85211,8 @@ export const detachCase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(62625, __c1957, 1) as any as S.Schema<DetachCaseRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DetachCaseResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84654,7 +85229,8 @@ export const disableCaseAutomationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(62688, __c1959, 0) as any as S.Schema<DisableCaseAutomationRuleRequest>,
   output: __S(3872, __c121, 0) as any as S.Schema<AutomationRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84671,7 +85247,8 @@ export const disableCustomerOrg: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(62722, __c1960, 2) as any as S.Schema<DisableCustomerOrgRequest>,
   output: __S(62724, __c1960, 4) as any as S.Schema<CustomerOrgDisableResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84688,7 +85265,8 @@ export const disableFeatureFlagEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(62784, __c1962, 0) as any as S.Schema<DisableFeatureFlagEnvironmentRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DisableFeatureFlagEnvironmentResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84712,7 +85290,8 @@ export const disableSecurityFindingsAutomationDefaultInboxRule: API.OperationMet
     0,
   ) as any as S.Schema<DisableSecurityFindingsAutomationDefaultInboxRuleRequest>,
   output: __S(46592, __c1456, 0) as any as S.Schema<DefaultInboxRuleResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84729,7 +85308,8 @@ export const disableUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(62848, __c1964, 0) as any as S.Schema<DisableUserRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DisableUserResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84746,7 +85326,8 @@ export const downloadCloudWorkloadPolicyFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(62880, __c1965, 0) as any as S.Schema<DownloadCloudWorkloadPolicyFileRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DownloadCloudWorkloadPolicyFileResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84763,7 +85344,8 @@ export const downloadCSMThreatsPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(62912, __c1966, 0) as any as S.Schema<DownloadCSMThreatsPolicyRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<DownloadCSMThreatsPolicyResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84780,7 +85362,8 @@ export const editDegradationUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(62946, __c1967, 2) as any as S.Schema<EditDegradationUpdateRequest>,
   output: __S(62951, __c1967, 7) as any as S.Schema<DegradationUpdate>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84797,7 +85380,8 @@ export const editSecurityMonitoringSignal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(62977, __c1968, 1) as any as S.Schema<EditSecurityMonitoringSignalRequest>,
   output: __S(63010, __c1969, 2) as any as S.Schema<SecurityMonitoringSignalTriageUpdateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84818,7 +85402,8 @@ export const editSecurityMonitoringSignalAssignee: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(63042, __c1970, 2) as any as S.Schema<EditSecurityMonitoringSignalAssigneeRequest>,
   output: __S(63010, __c1969, 2) as any as S.Schema<SecurityMonitoringSignalTriageUpdateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84839,7 +85424,8 @@ export const editSecurityMonitoringSignalIncidents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(63106, __c1972, 2) as any as S.Schema<EditSecurityMonitoringSignalIncidentsRequest>,
   output: __S(63010, __c1969, 2) as any as S.Schema<SecurityMonitoringSignalTriageUpdateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84860,7 +85446,8 @@ export const editSecurityMonitoringSignalState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(63137, __c1973, 1) as any as S.Schema<EditSecurityMonitoringSignalStateRequest>,
   output: __S(63010, __c1969, 2) as any as S.Schema<SecurityMonitoringSignalTriageUpdateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84877,7 +85464,8 @@ export const editSyntheticsSuite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(63168, __c1974, 0) as any as S.Schema<EditSyntheticsSuiteRequest>,
   output: __S(49345, __c1542, 1) as any as S.Schema<SyntheticsSuiteResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84894,7 +85482,8 @@ export const enableCaseAutomationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(63200, __c1975, 0) as any as S.Schema<EnableCaseAutomationRuleRequest>,
   output: __S(3872, __c121, 0) as any as S.Schema<AutomationRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84911,7 +85500,8 @@ export const enableFeatureFlagEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(63232, __c1976, 0) as any as S.Schema<EnableFeatureFlagEnvironmentRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<EnableFeatureFlagEnvironmentResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84935,7 +85525,8 @@ export const enableSecurityFindingsAutomationDefaultInboxRule: API.OperationMeth
     0,
   ) as any as S.Schema<EnableSecurityFindingsAutomationDefaultInboxRuleRequest>,
   output: __S(46592, __c1456, 0) as any as S.Schema<DefaultInboxRuleResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84952,7 +85543,8 @@ export const escalateOnCallPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(63296, __c1978, 0) as any as S.Schema<EscalateOnCallPageRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<EscalateOnCallPageResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84969,7 +85561,8 @@ export const estimateMetricsOutputSeries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(63328, __c1979, 0) as any as S.Schema<EstimateMetricsOutputSeriesRequest>,
   output: __S(63331, __c1979, 3) as any as S.Schema<MetricEstimateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -84986,7 +85579,8 @@ export const evaluateAIGuardRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(63369, __c1980, 9) as any as S.Schema<EvaluateAIGuardRequestRequest>,
   output: __S(63382, __c1980, 22) as any as S.Schema<AIGuardEvaluateResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85003,7 +85597,8 @@ export const executeDdsqlTabularQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(63395, __c1981, 3) as any as S.Schema<ExecuteDdsqlTabularQueryRequest>,
   output: __S(63429, __c1982, 5) as any as S.Schema<DdsqlTabularQueryResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85020,7 +85615,8 @@ export const exportLLMObsDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(63552, __c1986, 0) as any as S.Schema<ExportLLMObsDatasetRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<ExportLLMObsDatasetResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85041,7 +85637,8 @@ export const exportSecurityMonitoringTerraformResource: API.OperationMethod<
     0,
   ) as any as S.Schema<ExportSecurityMonitoringTerraformResourceRequest>,
   output: __S(68194, __c2131, 2) as any as S.Schema<SecurityMonitoringTerraformExportResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85058,7 +85655,8 @@ export const favoriteCaseProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(63616, __c1988, 0) as any as S.Schema<FavoriteCaseProjectRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<FavoriteCaseProjectResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85075,7 +85673,8 @@ export const fetchDdsqlTabularQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(63650, __c1989, 2) as any as S.Schema<FetchDdsqlTabularQueryRequest>,
   output: __S(63429, __c1982, 5) as any as S.Schema<DdsqlTabularQueryResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85092,7 +85691,8 @@ export const generateCostTagDescriptionByKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(63680, __c1990, 0) as any as S.Schema<GenerateCostTagDescriptionByKeyRequest>,
   output: __S(63682, __c1990, 2) as any as S.Schema<GenerateCostTagDescriptionResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85109,7 +85709,8 @@ export const getAccountFacetInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(63744, __c1992, 0) as any as S.Schema<GetAccountFacetInfoRequest>,
   output: __S(63784, __c1993, 8) as any as S.Schema<FacetInfoResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85126,7 +85727,8 @@ export const getActionConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(63840, __c1995, 0) as any as S.Schema<GetActionConnectionRequest>,
   output: __S(69827, __c2182, 3) as any as S.Schema<GetActionConnectionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85143,7 +85745,8 @@ export const getActiveBillingDimensions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(63872, __c1996, 0) as any as S.Schema<GetActiveBillingDimensionsRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<GetActiveBillingDimensionsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85160,7 +85763,8 @@ export const getAggregatedConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(63904, __c1997, 0) as any as S.Schema<GetAggregatedConnectionsRequest>,
   output: __S(63908, __c1997, 4) as any as S.Schema<SingleAggregatedConnectionResponseArray>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85177,7 +85781,8 @@ export const getAggregatedDns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(63936, __c1998, 0) as any as S.Schema<GetAggregatedDnsRequest>,
   output: __S(63942, __c1998, 6) as any as S.Schema<SingleAggregatedDnsResponseArray>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85194,7 +85799,8 @@ export const getAiCustomRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64192, __c2006, 0) as any as S.Schema<GetAiCustomRuleRequest>,
   output: __S(70401, __c2200, 1) as any as S.Schema<AiCustomRuleResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85211,7 +85817,8 @@ export const getAiCustomRuleRevision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64224, __c2007, 0) as any as S.Schema<GetAiCustomRuleRevisionRequest>,
   output: __S(64225, __c2007, 1) as any as S.Schema<AiCustomRuleRevisionResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85228,7 +85835,8 @@ export const getAiCustomRuleset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64288, __c2009, 0) as any as S.Schema<GetAiCustomRulesetRequest>,
   output: __S(71360, __c2230, 0) as any as S.Schema<AiCustomRulesetResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85245,7 +85853,8 @@ export const getAiGatewayBudget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64320, __c2010, 0) as any as S.Schema<GetAiGatewayBudgetRequest>,
   output: __S(71938, __c2248, 2) as any as S.Schema<AiGatewayBudgetResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85262,7 +85871,8 @@ export const getAiGatewayBudgetCurrentPeriod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64352, __c2011, 0) as any as S.Schema<GetAiGatewayBudgetCurrentPeriodRequest>,
   output: __S(64355, __c2011, 3) as any as S.Schema<AiGatewayBudgetPeriodResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85279,7 +85889,8 @@ export const getAiGatewayBudgetInstancesSummary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64384, __c2012, 0) as any as S.Schema<GetAiGatewayBudgetInstancesSummaryRequest>,
   output: __S(64387, __c2012, 3) as any as S.Schema<AiGatewayBudgetInstancesSummaryResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85296,7 +85907,8 @@ export const getAiGatewayDataCaptureConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64416, __c2013, 0) as any as S.Schema<GetAiGatewayDataCaptureConfigurationRequest>,
   output: __S(64421, __c2013, 5) as any as S.Schema<AiGatewayCaptureConfigurationResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85313,7 +85925,8 @@ export const getAiGatewayGovernance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64448, __c2014, 0) as any as S.Schema<GetAiGatewayGovernanceRequest>,
   output: __S(64482, __c2015, 2) as any as S.Schema<AiGatewayGovernanceResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85330,7 +85943,8 @@ export const getAiGatewayModelGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64512, __c2016, 0) as any as S.Schema<GetAiGatewayModelGroupRequest>,
   output: __S(73696, __c2303, 0) as any as S.Schema<AiGatewayModelGroupResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85347,7 +85961,8 @@ export const getAiGatewayModelPricing: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64544, __c2017, 0) as any as S.Schema<GetAiGatewayModelPricingRequest>,
   output: __S(64581, __c2018, 5) as any as S.Schema<AiGatewayModelPricingResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85364,7 +85979,8 @@ export const getAiGatewayPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64736, __c2023, 0) as any as S.Schema<GetAiGatewayPolicyRequest>,
   output: __S(64800, __c2025, 0) as any as S.Schema<AiGatewayPolicyResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85381,7 +85997,8 @@ export const getAiGatewayProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64832, __c2026, 0) as any as S.Schema<GetAiGatewayProviderRequest>,
   output: __S(74560, __c2330, 0) as any as S.Schema<AiGatewayProviderResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85398,7 +86015,8 @@ export const getAiGatewayRateLimit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64864, __c2027, 0) as any as S.Schema<GetAiGatewayRateLimitRequest>,
   output: __S(75040, __c2345, 0) as any as S.Schema<AiGatewayRateLimitResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85415,7 +86033,8 @@ export const getAiGatewayRateLimitUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64896, __c2028, 0) as any as S.Schema<GetAiGatewayRateLimitUsageRequest>,
   output: __S(64900, __c2028, 4) as any as S.Schema<AiGatewayRateLimitUsageListResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85432,7 +86051,8 @@ export const getAiGatewayRoutingRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64928, __c2029, 0) as any as S.Schema<GetAiGatewayRoutingRuleRequest>,
   output: __S(75552, __c2361, 0) as any as S.Schema<AiGatewayRoutingRuleResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85449,7 +86069,8 @@ export const getAllAuthMethods: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64960, __c2030, 0) as any as S.Schema<GetAllAuthMethodsRequest>,
   output: __S(64966, __c2030, 6) as any as S.Schema<WebhooksAuthMethodsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85466,7 +86087,8 @@ export const getAllCaseTypes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64992, __c2031, 0) as any as S.Schema<GetAllCaseTypesRequest>,
   output: __S(64994, __c2031, 2) as any as S.Schema<CaseTypesResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85483,7 +86105,8 @@ export const getAllCustomAttributeConfigsByCaseType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(65024, __c2032, 0) as any as S.Schema<GetAllCustomAttributeConfigsByCaseTypeRequest>,
   output: __S(65057, __c2033, 1) as any as S.Schema<CustomAttributeConfigsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85500,7 +86123,8 @@ export const getAllCustomAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(65088, __c2034, 0) as any as S.Schema<GetAllCustomAttributesRequest>,
   output: __S(65057, __c2033, 1) as any as S.Schema<CustomAttributeConfigsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85517,7 +86141,8 @@ export const getAllDatasets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(65120, __c2035, 0) as any as S.Schema<GetAllDatasetsRequest>,
   output: __S(65122, __c2035, 2) as any as S.Schema<DatasetResponseMulti>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85534,7 +86159,8 @@ export const getAPIKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(65280, __c2040, 0) as any as S.Schema<GetAPIKeyRequest>,
   output: __S(78754, __c2461, 2) as any as S.Schema<APIKeyResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85551,7 +86177,8 @@ export const getApiMultistepSubtestParents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(65312, __c2041, 0) as any as S.Schema<GetApiMultistepSubtestParentsRequest>,
   output: __S(65347, __c2042, 3) as any as S.Schema<SyntheticsApiMultistepParentTestsResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85568,7 +86195,8 @@ export const getApiMultistepSubtests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(65376, __c2043, 0) as any as S.Schema<GetApiMultistepSubtestsRequest>,
   output: __S(65380, __c2043, 4) as any as S.Schema<SyntheticsApiMultistepSubtestsResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85585,7 +86213,8 @@ export const getApmRetentionFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(65408, __c2044, 0) as any as S.Schema<GetApmRetentionFilterRequest>,
   output: __S(79488, __c2484, 0) as any as S.Schema<RetentionFilterResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85602,7 +86231,8 @@ export const getApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(65440, __c2045, 0) as any as S.Schema<GetAppRequest>,
   output: __S(65511, __c2047, 7) as any as S.Schema<GetAppResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85619,7 +86249,8 @@ export const getAppKeyRegistration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(65536, __c2048, 0) as any as S.Schema<GetAppKeyRegistrationRequest>,
   output: __S(20384, __c637, 0) as any as S.Schema<GetAppKeyRegistrationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85636,7 +86267,8 @@ export const getApplicationKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(65568, __c2049, 0) as any as S.Schema<GetApplicationKeyRequest>,
   output: __S(14626, __c457, 2) as any as S.Schema<ApplicationKeyResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85653,7 +86285,8 @@ export const getApplicationSecurityWafCustomRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(65600, __c2050, 0) as any as S.Schema<GetApplicationSecurityWafCustomRuleRequest>,
   output: __S(80704, __c2522, 0) as any as S.Schema<ApplicationSecurityWafCustomRuleResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85670,7 +86303,8 @@ export const getApplicationSecurityWafExclusionFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(65632, __c2051, 0) as any as S.Schema<GetApplicationSecurityWafExclusionFilterRequest>,
   output: __S(81344, __c2542, 0) as any as S.Schema<ApplicationSecurityWafExclusionFilterResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85687,7 +86321,8 @@ export const getApplicationSecurityWafPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(65664, __c2052, 0) as any as S.Schema<GetApplicationSecurityWafPolicyRequest>,
   output: __S(81824, __c2557, 0) as any as S.Schema<ApplicationSecurityPolicyResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85704,7 +86339,8 @@ export const getArchiveSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(65856, __c2058, 0) as any as S.Schema<GetArchiveSearchRequest>,
   output: __S(60640, __c1895, 0) as any as S.Schema<ArchiveSearchResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85721,7 +86357,8 @@ export const getAsmServiceByName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(65888, __c2059, 0) as any as S.Schema<GetAsmServiceByNameRequest>,
   output: __S(65893, __c2059, 5) as any as S.Schema<ApplicationSecurityServicesResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85738,7 +86375,8 @@ export const getAuthNMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(65920, __c2060, 0) as any as S.Schema<GetAuthNMappingRequest>,
   output: __S(82976, __c2593, 0) as any as S.Schema<AuthNMappingResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85755,7 +86393,8 @@ export const getAWSAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(65952, __c2061, 0) as any as S.Schema<GetAWSAccountRequest>,
   output: __S(83584, __c2612, 0) as any as S.Schema<AWSAccountResponseOutput>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85772,7 +86411,8 @@ export const getAWSAccountCCMConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(65984, __c2062, 0) as any as S.Schema<GetAWSAccountCCMConfigRequest>,
   output: __S(84068, __c2627, 4) as any as S.Schema<AWSCcmConfigResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85789,7 +86429,8 @@ export const getAWSCloudAuthIntakeMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(66016, __c2063, 0) as any as S.Schema<GetAWSCloudAuthIntakeMappingRequest>,
   output: __S(84480, __c2640, 0) as any as S.Schema<AWSCloudAuthIntakeMappingResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85806,7 +86447,8 @@ export const getAWSCloudAuthPersonaMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(66048, __c2064, 0) as any as S.Schema<GetAWSCloudAuthPersonaMappingRequest>,
   output: __S(84896, __c2653, 0) as any as S.Schema<AWSCloudAuthPersonaMappingResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85823,7 +86465,8 @@ export const getAWSIntegrationIAMPermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(66080, __c2065, 0) as any as S.Schema<GetAWSIntegrationIAMPermissionsRequest>,
   output: __S(66114, __c2066, 2) as any as S.Schema<AWSIntegrationIamPermissionsResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85844,7 +86487,8 @@ export const getAWSIntegrationIAMPermissionsResourceCollection: API.OperationMet
     0,
   ) as any as S.Schema<GetAWSIntegrationIAMPermissionsResourceCollectionRequest>,
   output: __S(66114, __c2066, 2) as any as S.Schema<AWSIntegrationIamPermissionsResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85861,7 +86505,8 @@ export const getAWSIntegrationIAMPermissionsStandard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(66176, __c2068, 0) as any as S.Schema<GetAWSIntegrationIAMPermissionsStandardRequest>,
   output: __S(66114, __c2066, 2) as any as S.Schema<AWSIntegrationIamPermissionsResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85878,7 +86523,8 @@ export const getAWSMetricNameFilterPreview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(66240, __c2070, 0) as any as S.Schema<GetAWSMetricNameFilterPreviewRequest>,
   output: __S(66282, __c2071, 10) as any as S.Schema<AWSMetricNameFilterPreviewResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85895,7 +86541,8 @@ export const getAwsOnDemandTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(66304, __c2072, 0) as any as S.Schema<GetAwsOnDemandTaskRequest>,
   output: __S(672, __c21, 0) as any as S.Schema<AwsOnDemandResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85912,7 +86559,8 @@ export const getAwsScanOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(66336, __c2073, 0) as any as S.Schema<GetAwsScanOptionsRequest>,
   output: __S(1184, __c37, 0) as any as S.Schema<AwsScanOptionsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85929,7 +86577,8 @@ export const getAzureScanOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(66368, __c2074, 0) as any as S.Schema<GetAzureScanOptionsRequest>,
   output: __S(1792, __c56, 0) as any as S.Schema<AzureScanOptions>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85946,7 +86595,8 @@ export const getBillingDimensionMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(66400, __c2075, 0) as any as S.Schema<GetBillingDimensionMappingRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<GetBillingDimensionMappingResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85963,7 +86613,8 @@ export const getBlueprint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(66432, __c2076, 0) as any as S.Schema<GetBlueprintRequest>,
   output: __S(66433, __c2076, 1) as any as S.Schema<GetBlueprintResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85980,7 +86631,8 @@ export const getBlueprintsByIntegrationId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(66496, __c2078, 0) as any as S.Schema<GetBlueprintsByIntegrationIdRequest>,
   output: __S(66529, __c2079, 1) as any as S.Schema<GetBlueprintsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -85997,7 +86649,8 @@ export const getBlueprintsBySlugs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(66560, __c2080, 0) as any as S.Schema<GetBlueprintsBySlugsRequest>,
   output: __S(66529, __c2079, 1) as any as S.Schema<GetBlueprintsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86014,7 +86667,8 @@ export const getBudget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(66592, __c2081, 0) as any as S.Schema<GetBudgetRequest>,
   output: __S(66722, __c2085, 2) as any as S.Schema<BudgetWithEntries>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86031,7 +86685,8 @@ export const getCase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(66752, __c2086, 0) as any as S.Schema<GetCaseRequest>,
   output: __S(74400, __c2325, 0) as any as S.Schema<CaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86048,7 +86703,8 @@ export const getCaseAutomationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(66848, __c2089, 0) as any as S.Schema<GetCaseAutomationRuleRequest>,
   output: __S(3872, __c121, 0) as any as S.Schema<AutomationRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86065,7 +86721,8 @@ export const getCaseView: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(66880, __c2090, 0) as any as S.Schema<GetCaseViewRequest>,
   output: __S(7168, __c224, 0) as any as S.Schema<CaseViewResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86082,7 +86739,8 @@ export const getChangeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(66912, __c2091, 0) as any as S.Schema<GetChangeRequestRequest>,
   output: __S(7652, __c239, 4) as any as S.Schema<ChangeRequestResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86099,7 +86757,8 @@ export const getChannelByName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(66944, __c2092, 0) as any as S.Schema<GetChannelByNameRequest>,
   output: __S(66947, __c2092, 3) as any as S.Schema<MicrosoftTeamsGetChannelByNameResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86116,7 +86775,8 @@ export const getCloudflareAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(66976, __c2093, 0) as any as S.Schema<GetCloudflareAccountRequest>,
   output: __S(9024, __c282, 0) as any as S.Schema<CloudflareAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86133,7 +86793,8 @@ export const getCloudWorkloadSecurityAgentRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(67008, __c2094, 0) as any as S.Schema<GetCloudWorkloadSecurityAgentRuleRequest>,
   output: __S(9600, __c300, 0) as any as S.Schema<CloudWorkloadSecurityAgentRuleResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86150,7 +86811,8 @@ export const getCodeCoverageBranchSummary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(67042, __c2095, 2) as any as S.Schema<GetCodeCoverageBranchSummaryRequest>,
   output: __S(67076, __c2096, 4) as any as S.Schema<CoverageSummaryResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86167,7 +86829,8 @@ export const getCodeCoverageCommitSummary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(67106, __c2097, 2) as any as S.Schema<GetCodeCoverageCommitSummaryRequest>,
   output: __S(67076, __c2096, 4) as any as S.Schema<CoverageSummaryResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86184,7 +86847,8 @@ export const getCodeCoverageFiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(67138, __c2098, 2) as any as S.Schema<GetCodeCoverageFilesRequest>,
   output: __S(67143, __c2098, 7) as any as S.Schema<FilesCoverageResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86201,7 +86865,8 @@ export const getCodeCoveragePRSummary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(67170, __c2099, 2) as any as S.Schema<GetCodeCoveragePRSummaryRequest>,
   output: __S(67076, __c2096, 4) as any as S.Schema<CoverageSummaryResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86218,7 +86883,8 @@ export const getCommitmentsCommitmentList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(67232, __c2101, 0) as any as S.Schema<GetCommitmentsCommitmentListRequest>,
   output: __S(67242, __c2101, 10) as any as S.Schema<CommitmentsListResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86235,7 +86901,8 @@ export const getCommitmentsCoverageScalar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(67296, __c2103, 0) as any as S.Schema<GetCommitmentsCoverageScalarRequest>,
   output: __S(67360, __c2105, 0) as any as S.Schema<CommitmentsCoverageScalarResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86252,7 +86919,8 @@ export const getCommitmentsCoverageTimeseries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(67392, __c2106, 0) as any as S.Schema<GetCommitmentsCoverageTimeseriesRequest>,
   output: __S(67393, __c2106, 1) as any as S.Schema<CommitmentsCoverageTimeseriesResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86269,7 +86937,8 @@ export const getCommitmentsOnDemandHotspotsScalar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(67456, __c2108, 0) as any as S.Schema<GetCommitmentsOnDemandHotspotsScalarRequest>,
   output: __S(67458, __c2108, 2) as any as S.Schema<CommitmentsOnDemandHotspotsScalarResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86286,7 +86955,8 @@ export const getCommitmentsSavingsScalar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(67488, __c2109, 0) as any as S.Schema<GetCommitmentsSavingsScalarRequest>,
   output: __S(67360, __c2105, 0) as any as S.Schema<CommitmentsSavingsScalarResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86303,7 +86973,8 @@ export const getCommitmentsSavingsTimeseries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(67520, __c2110, 0) as any as S.Schema<GetCommitmentsSavingsTimeseriesRequest>,
   output: __S(67521, __c2110, 1) as any as S.Schema<CommitmentsSavingsTimeseriesResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86320,7 +86991,8 @@ export const getCommitmentsUtilizationScalar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(67552, __c2111, 0) as any as S.Schema<GetCommitmentsUtilizationScalarRequest>,
   output: __S(67555, __c2111, 3) as any as S.Schema<CommitmentsUtilizationScalarResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86337,7 +87009,8 @@ export const getCommitmentsUtilizationTimeseries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(67584, __c2112, 0) as any as S.Schema<GetCommitmentsUtilizationTimeseriesRequest>,
   output: __S(67425, __c2107, 1) as any as S.Schema<CommitmentsUtilizationTimeseriesResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86354,7 +87027,8 @@ export const getComponent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(67616, __c2113, 0) as any as S.Schema<GetComponentRequest>,
   output: __S(10208, __c319, 0) as any as S.Schema<StatusPagesComponent>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86371,7 +87045,8 @@ export const getConfluentAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(67648, __c2114, 0) as any as S.Schema<GetConfluentAccountRequest>,
   output: __S(10720, __c335, 0) as any as S.Schema<ConfluentAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86388,7 +87063,8 @@ export const getConfluentResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(67712, __c2116, 0) as any as S.Schema<GetConfluentResourceRequest>,
   output: __S(11200, __c350, 0) as any as S.Schema<ConfluentResourceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86405,7 +87081,8 @@ export const getContentPacksStates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(67744, __c2117, 0) as any as S.Schema<GetContentPacksStatesRequest>,
   output: __S(67749, __c2117, 5) as any as S.Schema<SecurityMonitoringContentPackStatesResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86422,7 +87099,8 @@ export const getCostAccountFilters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(67776, __c2118, 0) as any as S.Schema<GetCostAccountFiltersRequest>,
   output: __S(67810, __c2119, 2) as any as S.Schema<AccountFiltersResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86439,7 +87117,8 @@ export const getCostAnomaly: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(67840, __c2120, 0) as any as S.Schema<GetCostAnomalyRequest>,
   output: __S(67842, __c2120, 2) as any as S.Schema<CostAnomalyResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86456,7 +87135,8 @@ export const getCostAWSCURConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(67904, __c2122, 0) as any as S.Schema<GetCostAWSCURConfigRequest>,
   output: __S(12322, __c385, 2) as any as S.Schema<AwsCurConfigResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86473,7 +87153,8 @@ export const getCostAzureUCConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(67936, __c2123, 0) as any as S.Schema<GetCostAzureUCConfigRequest>,
   output: __S(67941, __c2123, 5) as any as S.Schema<UCConfigPair>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86490,7 +87171,8 @@ export const getCostGCPUsageCostConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(67968, __c2124, 0) as any as S.Schema<GetCostGCPUsageCostConfigRequest>,
   output: __S(67971, __c2124, 3) as any as S.Schema<GcpUcConfigResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86507,7 +87189,8 @@ export const getCostTagDescriptionByKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68000, __c2125, 0) as any as S.Schema<GetCostTagDescriptionByKeyRequest>,
   output: __S(68001, __c2125, 1) as any as S.Schema<CostTagDescriptionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86524,7 +87207,8 @@ export const getCostTagKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68064, __c2127, 0) as any as S.Schema<GetCostTagKeyRequest>,
   output: __S(68065, __c2127, 1) as any as S.Schema<CostTagKeyResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86541,7 +87225,8 @@ export const getCostTagMetadataCurrency: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68128, __c2129, 0) as any as S.Schema<GetCostTagMetadataCurrencyRequest>,
   output: __S(29120, __c910, 0) as any as S.Schema<CostCurrencyResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86558,7 +87243,8 @@ export const getCriticalAssetsAffectingRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68224, __c2132, 0) as any as S.Schema<GetCriticalAssetsAffectingRuleRequest>,
   output: __S(68257, __c2133, 1) as any as S.Schema<SecurityMonitoringCriticalAssetsResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86575,7 +87261,8 @@ export const getCSMAgentlessHostFacetInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68288, __c2134, 0) as any as S.Schema<GetCSMAgentlessHostFacetInfoRequest>,
   output: __S(68323, __c2135, 3) as any as S.Schema<CsmHostFacetInfoResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86592,7 +87279,8 @@ export const getCSMCloudAccountsCoverageAnalysis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68352, __c2136, 0) as any as S.Schema<GetCSMCloudAccountsCoverageAnalysisRequest>,
   output: __S(68355, __c2136, 3) as any as S.Schema<CsmCloudAccountsCoverageAnalysisResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86609,7 +87297,8 @@ export const getCSMHostsAndContainersCoverageAnalysis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68416, __c2138, 0) as any as S.Schema<GetCSMHostsAndContainersCoverageAnalysisRequest>,
   output: __S(68419, __c2138, 3) as any as S.Schema<CsmHostsAndContainersCoverageAnalysisResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86626,7 +87315,8 @@ export const getCSMServerlessCoverageAnalysis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68448, __c2139, 0) as any as S.Schema<GetCSMServerlessCoverageAnalysisRequest>,
   output: __S(68451, __c2139, 3) as any as S.Schema<CsmServerlessCoverageAnalysisResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86643,7 +87333,8 @@ export const getCSMThreatsAgentPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68480, __c2140, 0) as any as S.Schema<GetCSMThreatsAgentPolicyRequest>,
   output: __S(13792, __c431, 0) as any as S.Schema<CloudWorkloadSecurityAgentPolicyResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86660,7 +87351,8 @@ export const getCSMThreatsAgentRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68512, __c2141, 0) as any as S.Schema<GetCSMThreatsAgentRuleRequest>,
   output: __S(9600, __c300, 0) as any as S.Schema<CloudWorkloadSecurityAgentRuleResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86677,7 +87369,8 @@ export const getCSMUnifiedHostFacetInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68544, __c2142, 0) as any as S.Schema<GetCSMUnifiedHostFacetInfoRequest>,
   output: __S(68323, __c2135, 3) as any as S.Schema<CsmHostFacetInfoResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86694,7 +87387,8 @@ export const getCurrentUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68576, __c2143, 0) as any as S.Schema<GetCurrentUserRequest>,
   output: __S(47872, __c1496, 0) as any as S.Schema<UserResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86711,7 +87405,8 @@ export const getCurrentUserApplicationKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68608, __c2144, 0) as any as S.Schema<GetCurrentUserApplicationKeyRequest>,
   output: __S(14626, __c457, 2) as any as S.Schema<ApplicationKeyResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86728,7 +87423,8 @@ export const getCustomAllocationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68800, __c2150, 0) as any as S.Schema<GetCustomAllocationRuleRequest>,
   output: __S(15200, __c475, 0) as any as S.Schema<ArbitraryRuleResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86745,7 +87441,8 @@ export const getCustomCostsFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68832, __c2151, 0) as any as S.Schema<GetCustomCostsFileRequest>,
   output: __S(68835, __c2151, 3) as any as S.Schema<CustomCostsFileGetResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86762,7 +87459,8 @@ export const getCustomForecast: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68992, __c2156, 0) as any as S.Schema<GetCustomForecastRequest>,
   output: __S(69030, __c2157, 6) as any as S.Schema<CustomForecastResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86779,7 +87477,8 @@ export const getCustomFramework: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(69056, __c2158, 0) as any as S.Schema<GetCustomFrameworkRequest>,
   output: __S(69059, __c2158, 3) as any as S.Schema<GetCustomFrameworkResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86796,7 +87495,8 @@ export const getCustomRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(69088, __c2159, 0) as any as S.Schema<GetCustomRuleRequest>,
   output: __S(16610, __c519, 2) as any as S.Schema<CustomRuleResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86813,7 +87513,8 @@ export const getCustomRuleRevision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(69120, __c2160, 0) as any as S.Schema<GetCustomRuleRevisionRequest>,
   output: __S(69121, __c2160, 1) as any as S.Schema<CustomRuleRevisionResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86830,7 +87531,8 @@ export const getCustomRuleset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(69184, __c2162, 0) as any as S.Schema<GetCustomRulesetRequest>,
   output: __S(17408, __c544, 0) as any as S.Schema<CustomRulesetResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86847,7 +87549,8 @@ export const getDashboardListItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(69216, __c2163, 0) as any as S.Schema<GetDashboardListItemsRequest>,
   output: __S(69220, __c2163, 4) as any as S.Schema<DashboardListItems>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86864,7 +87567,8 @@ export const getDashboardSecureEmbed: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(69248, __c2164, 0) as any as S.Schema<GetDashboardSecureEmbedRequest>,
   output: __S(69282, __c2165, 2) as any as S.Schema<SecureEmbedGetResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86881,7 +87585,8 @@ export const getDashboardUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(69312, __c2166, 0) as any as S.Schema<GetDashboardUsageRequest>,
   output: __S(69313, __c2166, 1) as any as S.Schema<DashboardUsageResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86902,7 +87607,8 @@ export const getDatabricksIntegrationAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(69408, __c2169, 0) as any as S.Schema<GetDatabricksIntegrationAccountRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<DatabricksIntegrationAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86919,7 +87625,8 @@ export const getDataDeletionRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(69440, __c2170, 0) as any as S.Schema<GetDataDeletionRequestsRequest>,
   output: __S(69442, __c2170, 2) as any as S.Schema<GetDataDeletionsResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86936,7 +87643,8 @@ export const getDataObservabilityMonitorRunStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(69472, __c2171, 0) as any as S.Schema<GetDataObservabilityMonitorRunStatusRequest>,
   output: __S(69475, __c2171, 3) as any as S.Schema<GetDataObservabilityMonitorRunStatusResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86953,7 +87661,8 @@ export const getDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(69504, __c2172, 0) as any as S.Schema<GetDatasetRequest>,
   output: __S(20000, __c625, 0) as any as S.Schema<DatasetResponseSingle>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86970,7 +87679,8 @@ export const getDatastore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(69536, __c2173, 0) as any as S.Schema<GetDatastoreRequest>,
   output: __S(69600, __c2175, 0) as any as S.Schema<Datastore>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -86987,7 +87697,8 @@ export const getDegradation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(69632, __c2176, 0) as any as S.Schema<GetDegradationRequest>,
   output: __S(2368, __c74, 0) as any as S.Schema<Degradation>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87004,7 +87715,8 @@ export const getDegradationTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(69664, __c2177, 0) as any as S.Schema<GetDegradationTemplateRequest>,
   output: __S(21248, __c664, 0) as any as S.Schema<DegradationTemplate>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87021,7 +87733,8 @@ export const getDeploymentGate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(69696, __c2178, 0) as any as S.Schema<GetDeploymentGateRequest>,
   output: __S(21728, __c679, 0) as any as S.Schema<DeploymentGateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87038,7 +87751,8 @@ export const getDeploymentGateRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(69728, __c2179, 0) as any as S.Schema<GetDeploymentGateRulesRequest>,
   output: __S(69732, __c2179, 4) as any as S.Schema<DeploymentGateRulesResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87059,7 +87773,8 @@ export const getDeploymentGatesEvaluationResult: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(69760, __c2180, 0) as any as S.Schema<GetDeploymentGatesEvaluationResultRequest>,
   output: __S(69765, __c2180, 5) as any as S.Schema<DeploymentGatesEvaluationResultResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87076,7 +87791,8 @@ export const getDeploymentRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(69856, __c2183, 0) as any as S.Schema<GetDeploymentRuleRequest>,
   output: __S(22145, __c692, 1) as any as S.Schema<DeploymentRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87093,7 +87809,8 @@ export const getDerivedMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(69888, __c2184, 0) as any as S.Schema<GetDerivedMetricRequest>,
   output: __S(22533, __c704, 5) as any as S.Schema<DerivedMetricResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87110,7 +87827,8 @@ export const getDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(69920, __c2185, 0) as any as S.Schema<GetDeviceRequest>,
   output: __S(69923, __c2185, 3) as any as S.Schema<GetDeviceResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87127,7 +87845,8 @@ export const getDomainAllowlist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(69952, __c2186, 0) as any as S.Schema<GetDomainAllowlistRequest>,
   output: __S(69986, __c2187, 2) as any as S.Schema<DomainAllowlistResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87144,7 +87863,8 @@ export const getDORADeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(70016, __c2188, 0) as any as S.Schema<GetDORADeploymentRequest>,
   output: __S(70017, __c2188, 1) as any as S.Schema<DORADeploymentFetchResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87161,7 +87881,8 @@ export const getDORAFailure: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(70080, __c2190, 0) as any as S.Schema<GetDORAFailureRequest>,
   output: __S(70081, __c2190, 1) as any as S.Schema<DORAFailureFetchResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87178,7 +87899,8 @@ export const getDowntime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(70144, __c2192, 0) as any as S.Schema<GetDowntimeRequest>,
   output: __S(23840, __c745, 0) as any as S.Schema<DowntimeResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87199,7 +87921,8 @@ export const getElasticCloudIntegrationAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(70176, __c2193, 0) as any as S.Schema<GetElasticCloudIntegrationAccountRequest>,
   output: __S(24512, __c766, 0) as any as S.Schema<ElasticCloudIntegrationAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87216,7 +87939,8 @@ export const getEntityContext: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(70208, __c2194, 0) as any as S.Schema<GetEntityContextRequest>,
   output: __S(70211, __c2194, 3) as any as S.Schema<EntityContextResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87233,7 +87957,8 @@ export const getEntityContextRecentlyUpdated: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(70304, __c2197, 0) as any as S.Schema<GetEntityContextRecentlyUpdatedRequest>,
   output: __S(70305, __c2197, 1) as any as S.Schema<RecentlyUpdatedEntitiesResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87250,7 +87975,8 @@ export const getEntityIntegrationConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(70496, __c2203, 0) as any as S.Schema<GetEntityIntegrationConfigRequest>,
   output: __S(70530, __c2204, 2) as any as S.Schema<EntityIntegrationConfigResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87267,7 +87993,8 @@ export const getEntityRiskScore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(70560, __c2205, 0) as any as S.Schema<GetEntityRiskScoreRequest>,
   output: __S(70561, __c2205, 1) as any as S.Schema<SecurityEntityRiskScoreResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87288,7 +88015,8 @@ export const getEntraIdAzureAppRegistrations: API.OperationMethod<
     __c2207,
     5,
   ) as any as S.Schema<SecurityMonitoringEntraIdAzureAppRegistrationsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87305,7 +88033,8 @@ export const getEstimatedCostByOrg: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(70656, __c2208, 0) as any as S.Schema<GetEstimatedCostByOrgRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<GetEstimatedCostByOrgResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87322,7 +88051,8 @@ export const getEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(70688, __c2209, 0) as any as S.Schema<GetEventRequest>,
   output: __S(70691, __c2209, 3) as any as S.Schema<V2EventResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87339,7 +88069,8 @@ export const getExclusionFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(70720, __c2210, 0) as any as S.Schema<GetExclusionFilterRequest>,
   output: __S(25312, __c791, 0) as any as S.Schema<RumExclusionFilterResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87356,7 +88087,8 @@ export const getExecutionPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(70752, __c2211, 0) as any as S.Schema<GetExecutionPolicyRequest>,
   output: __S(25824, __c807, 0) as any as S.Schema<ExecutionPolicyResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87373,7 +88105,8 @@ export const getExperiment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(70784, __c2212, 0) as any as S.Schema<GetExperimentRequest>,
   output: __S(26304, __c822, 0) as any as S.Schema<ExperimentsExperimentV2DTO>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87390,7 +88123,8 @@ export const getExperimentAnalysisPlan: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(70816, __c2213, 0) as any as S.Schema<GetExperimentAnalysisPlanRequest>,
   output: __S(70817, __c2213, 1) as any as S.Schema<ExperimentsAnalysisPlanV2DTO>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87407,7 +88141,8 @@ export const getExperimentDiagnostics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(70880, __c2215, 0) as any as S.Schema<GetExperimentDiagnosticsRequest>,
   output: __S(70885, __c2215, 5) as any as S.Schema<ExperimentsExperimentDiagnosticsV2DTO>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87424,7 +88159,8 @@ export const getExperimentProtocol: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(70944, __c2217, 0) as any as S.Schema<GetExperimentProtocolRequest>,
   output: __S(45135, __c1410, 15) as any as S.Schema<ExperimentsPublicProtocolResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87446,7 +88182,8 @@ export const getExperimentResults: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(70976, __c2218, 0) as any as S.Schema<GetExperimentResultsRequest>,
   output: __S(70987, __c2218, 11) as any as S.Schema<ExperimentsVariantResultsV2DTOArray>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87468,7 +88205,8 @@ export const getExperimentTrafficSummary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(71008, __c2219, 0) as any as S.Schema<GetExperimentTrafficSummaryRequest>,
   output: __S(71013, __c2219, 5) as any as S.Schema<ExperimentsTrafficSummaryV2DTO>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87485,7 +88223,8 @@ export const getExposureSQLModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(71040, __c2220, 0) as any as S.Schema<GetExposureSQLModelRequest>,
   output: __S(28032, __c876, 0) as any as S.Schema<ExperimentsExposureSQLModelV2DTO>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87502,7 +88241,8 @@ export const getFastlyAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(71072, __c2221, 0) as any as S.Schema<GetFastlyAccountRequest>,
   output: __S(28480, __c890, 0) as any as S.Schema<FastlyAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87519,7 +88259,8 @@ export const getFastlyService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(71104, __c2222, 0) as any as S.Schema<GetFastlyServiceRequest>,
   output: __S(29248, __c914, 0) as any as S.Schema<FastlyServiceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87536,7 +88277,8 @@ export const getFeatureFlag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(71136, __c2223, 0) as any as S.Schema<GetFeatureFlagRequest>,
   output: __S(47300, __c1478, 4) as any as S.Schema<FeatureFlagResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87553,7 +88295,8 @@ export const getFeatureFlagsEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(71168, __c2224, 0) as any as S.Schema<GetFeatureFlagsEnvironmentRequest>,
   output: __S(30048, __c939, 0) as any as S.Schema<EnvironmentResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87570,7 +88313,8 @@ export const getFinding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(71200, __c2225, 0) as any as S.Schema<GetFindingRequest>,
   output: __S(71203, __c2225, 3) as any as S.Schema<GetFindingResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87595,7 +88339,8 @@ export const getFlakyTestsManagementPolicies: API.OperationMethod<
     __c2228,
     10,
   ) as any as S.Schema<TestOptimizationFlakyTestsManagementPoliciesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87612,7 +88357,8 @@ export const getFleetAgentDetailV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(71424, __c2232, 0) as any as S.Schema<GetFleetAgentDetailV2Request>,
   output: __S(71439, __c2232, 15) as any as S.Schema<FleetAgentDetailV2Response>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87629,7 +88375,8 @@ export const getFleetDeploymentV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(71456, __c2233, 0) as any as S.Schema<GetFleetDeploymentV2Request>,
   output: __S(71461, __c2233, 5) as any as S.Schema<FleetDeploymentV2DetailResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87646,7 +88393,8 @@ export const getFleetScheduleV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(71520, __c2235, 0) as any as S.Schema<GetFleetScheduleV2Request>,
   output: __S(71521, __c2235, 1) as any as S.Schema<FleetScheduleV2Response>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87663,7 +88411,8 @@ export const getForm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(71584, __c2237, 0) as any as S.Schema<GetFormRequest>,
   output: __S(64160, __c2005, 0) as any as S.Schema<FormResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87680,7 +88429,8 @@ export const getGcpScanOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(71616, __c2238, 0) as any as S.Schema<GetGcpScanOptionsRequest>,
   output: __S(32128, __c1004, 0) as any as S.Schema<GcpScanOptions>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87697,7 +88447,8 @@ export const getGCPSTSDelegate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(71648, __c2239, 0) as any as S.Schema<GetGCPSTSDelegateRequest>,
   output: __S(71682, __c2240, 2) as any as S.Schema<GCPSTSDelegateAccountResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87714,7 +88465,8 @@ export const getGitHubCloudAuthIntakeMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(71712, __c2241, 0) as any as S.Schema<GetGitHubCloudAuthIntakeMappingRequest>,
   output: __S(32960, __c1030, 0) as any as S.Schema<GitHubCloudAuthIntakeMappingResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87731,7 +88483,8 @@ export const getGitHubCloudAuthPersonaMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(71744, __c2242, 0) as any as S.Schema<GetGitHubCloudAuthPersonaMappingRequest>,
   output: __S(33440, __c1045, 0) as any as S.Schema<GitHubCloudAuthPersonaMappingResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87748,7 +88501,8 @@ export const getGlobalIncidentSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(71776, __c2243, 0) as any as S.Schema<GetGlobalIncidentSettingsRequest>,
   output: __S(71810, __c2244, 2) as any as S.Schema<GlobalIncidentSettingsResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87765,7 +88519,8 @@ export const getGoogleChatDelegatedUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(71840, __c2245, 0) as any as S.Schema<GetGoogleChatDelegatedUserRequest>,
   output: __S(71843, __c2245, 3) as any as S.Schema<GoogleChatDelegatedUserResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87782,7 +88537,8 @@ export const getGoogleChatOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(71968, __c2249, 0) as any as S.Schema<GetGoogleChatOrganizationRequest>,
   output: __S(71969, __c2249, 1) as any as S.Schema<GoogleChatOrganizationResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87799,7 +88555,8 @@ export const getGoogleChatTargetAudience: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72032, __c2251, 0) as any as S.Schema<GetGoogleChatTargetAudienceRequest>,
   output: __S(34336, __c1073, 0) as any as S.Schema<GoogleChatTargetAudienceResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87816,7 +88573,8 @@ export const getGovernanceConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72064, __c2252, 0) as any as S.Schema<GetGovernanceConfigRequest>,
   output: __S(72067, __c2252, 3) as any as S.Schema<GovernanceConfigResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87833,7 +88591,8 @@ export const getGovernanceControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72096, __c2253, 0) as any as S.Schema<GetGovernanceControlRequest>,
   output: __S(72160, __c2255, 0) as any as S.Schema<GovernanceControlResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87850,7 +88609,8 @@ export const getGovernanceControlNotificationSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72192, __c2256, 0) as any as S.Schema<GetGovernanceControlNotificationSettingsRequest>,
   output: __S(72230, __c2257, 6) as any as S.Schema<ControlNotificationSettingsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87867,7 +88627,8 @@ export const getGovernanceDetection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72256, __c2258, 0) as any as S.Schema<GetGovernanceDetectionRequest>,
   output: __S(72320, __c2260, 0) as any as S.Schema<GovernanceControlDetectionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87884,7 +88645,8 @@ export const getGovernanceNotificationSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72352, __c2261, 0) as any as S.Schema<GetGovernanceNotificationSettingsRequest>,
   output: __S(72386, __c2262, 2) as any as S.Schema<GovernanceNotificationSettingsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87901,7 +88663,8 @@ export const getHamrOrgConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72416, __c2263, 0) as any as S.Schema<GetHamrOrgConnectionRequest>,
   output: __S(34722, __c1085, 2) as any as S.Schema<HamrOrgConnectionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87918,7 +88681,8 @@ export const getHistoricalCostByOrg: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72448, __c2264, 0) as any as S.Schema<GetHistoricalCostByOrgRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<GetHistoricalCostByOrgResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87935,7 +88699,8 @@ export const getHistoricalJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72480, __c2265, 0) as any as S.Schema<GetHistoricalJobRequest>,
   output: __S(72481, __c2265, 1) as any as S.Schema<HistoricalJobResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87952,7 +88717,8 @@ export const getHistoricalMetricsConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72736, __c2273, 0) as any as S.Schema<GetHistoricalMetricsConfigurationRequest>,
   output: __S(35106, __c1097, 2) as any as S.Schema<HistoricalMetricsConfigurationResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87969,7 +88735,8 @@ export const getHourlyUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72768, __c2274, 0) as any as S.Schema<GetHourlyUsageRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<GetHourlyUsageResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -87986,7 +88753,8 @@ export const getIncident: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72800, __c2275, 0) as any as S.Schema<GetIncidentRequest>,
   output: __S(35552, __c1111, 0) as any as S.Schema<IncidentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88003,7 +88771,8 @@ export const getIncidentAIPostmortem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72832, __c2276, 0) as any as S.Schema<GetIncidentAIPostmortemRequest>,
   output: __S(72835, __c2276, 3) as any as S.Schema<IncidentAIPostmortemResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88020,7 +88789,8 @@ export const getIncidentIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72864, __c2277, 0) as any as S.Schema<GetIncidentIntegrationRequest>,
   output: __S(37088, __c1159, 0) as any as S.Schema<IncidentIntegrationMetadataResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88037,7 +88807,8 @@ export const getIncidentNotificationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72896, __c2278, 0) as any as S.Schema<GetIncidentNotificationRuleRequest>,
   output: __S(37248, __c1164, 0) as any as S.Schema<IncidentNotificationRule>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88058,7 +88829,8 @@ export const getIncidentNotificationTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72928, __c2279, 0) as any as S.Schema<GetIncidentNotificationTemplateRequest>,
   output: __S(37344, __c1167, 0) as any as S.Schema<IncidentNotificationTemplate>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88075,7 +88847,8 @@ export const getIncidentPostmortemTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72960, __c2280, 0) as any as S.Schema<GetIncidentPostmortemTemplateRequest>,
   output: __S(37536, __c1173, 0) as any as S.Schema<PostmortemTemplateResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88092,7 +88865,8 @@ export const getIncidentResponder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72992, __c2281, 0) as any as S.Schema<GetIncidentResponderRequest>,
   output: __S(37600, __c1175, 0) as any as S.Schema<IncidentResponderResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88109,7 +88883,8 @@ export const getIncidentRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(73024, __c2282, 0) as any as S.Schema<GetIncidentRuleRequest>,
   output: __S(37728, __c1179, 0) as any as S.Schema<IncidentRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88126,7 +88901,8 @@ export const getIncidentTodo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(73120, __c2285, 0) as any as S.Schema<GetIncidentTodoRequest>,
   output: __S(37984, __c1187, 0) as any as S.Schema<IncidentTodoResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88143,7 +88919,8 @@ export const getIncidentType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(73152, __c2286, 0) as any as S.Schema<GetIncidentTypeRequest>,
   output: __S(38080, __c1190, 0) as any as S.Schema<IncidentTypeResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88160,7 +88937,8 @@ export const getIncidentUserDefinedField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(73184, __c2287, 0) as any as S.Schema<GetIncidentUserDefinedFieldRequest>,
   output: __S(38176, __c1193, 0) as any as S.Schema<IncidentUserDefinedFieldResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88177,7 +88955,8 @@ export const getIncidentUserDefinedRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(73216, __c2288, 0) as any as S.Schema<GetIncidentUserDefinedRoleRequest>,
   output: __S(38272, __c1196, 0) as any as S.Schema<IncidentUserDefinedRoleResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88194,7 +88973,8 @@ export const getIndicatorOfCompromise: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(73248, __c2289, 0) as any as S.Schema<GetIndicatorOfCompromiseRequest>,
   output: __S(73256, __c2289, 8) as any as S.Schema<GetIoCIndicatorResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88211,7 +88991,8 @@ export const getInterfaces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(73344, __c2292, 0) as any as S.Schema<GetInterfacesRequest>,
   output: __S(73348, __c2292, 4) as any as S.Schema<GetInterfacesResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88228,7 +89009,8 @@ export const getInvestigation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(73376, __c2293, 0) as any as S.Schema<GetInvestigationRequest>,
   output: __S(73382, __c2293, 6) as any as S.Schema<GetInvestigationResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88249,7 +89031,8 @@ export const getInvestigationLogQueriesMatchingSignal: API.OperationMethod<
     __c2295,
     3,
   ) as any as S.Schema<SecurityMonitoringSignalSuggestedActionsResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88266,7 +89049,8 @@ export const getInvitation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(73472, __c2296, 0) as any as S.Schema<GetInvitationRequest>,
   output: __S(73473, __c2296, 1) as any as S.Schema<UserInvitationResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88283,7 +89067,8 @@ export const getIPAllowlist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(73568, __c2299, 0) as any as S.Schema<GetIPAllowlistRequest>,
   output: __S(73606, __c2300, 6) as any as S.Schema<IPAllowlistResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88300,7 +89085,8 @@ export const getIssue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(73760, __c2305, 0) as any as S.Schema<GetIssueRequest>,
   output: __S(73797, __c2306, 5) as any as S.Schema<IssueResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88317,7 +89103,8 @@ export const getJiraIssueTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(73824, __c2307, 0) as any as S.Schema<GetJiraIssueTemplateRequest>,
   output: __S(38496, __c1203, 0) as any as S.Schema<JiraIssueTemplateResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88334,7 +89121,8 @@ export const getJourney: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(73856, __c2308, 0) as any as S.Schema<GetJourneyRequest>,
   output: __S(38624, __c1207, 0) as any as S.Schema<DemJourneyResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88351,7 +89139,8 @@ export const getJourneyRecommendedTests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(73888, __c2309, 0) as any as S.Schema<GetJourneyRecommendedTestsRequest>,
   output: __S(73892, __c2309, 4) as any as S.Schema<DemRecommendedTestsResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88368,7 +89157,8 @@ export const getLLMObsAnnotatedInteraction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(73920, __c2310, 0) as any as S.Schema<GetLLMObsAnnotatedInteractionRequest>,
   output: __S(73925, __c2310, 5) as any as S.Schema<LLMObsAnnotatedInteractionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88389,7 +89179,8 @@ export const getLLMObsAnnotatedInteractions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(73952, __c2311, 0) as any as S.Schema<GetLLMObsAnnotatedInteractionsRequest>,
   output: __S(73956, __c2311, 4) as any as S.Schema<LLMObsAnnotatedInteractionsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88406,7 +89197,8 @@ export const getLLMObsAnnotatedInteractionsByTraceIDs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(73988, __c2312, 4) as any as S.Schema<GetLLMObsAnnotatedInteractionsByTraceIDsRequest>,
   output: __S(73993, __c2312, 9) as any as S.Schema<LLMObsAnnotatedInteractionsByTraceResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88423,7 +89215,8 @@ export const getLLMObsAnnotationQueueLabelSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(74016, __c2313, 0) as any as S.Schema<GetLLMObsAnnotationQueueLabelSchemaRequest>,
   output: __S(74050, __c2314, 2) as any as S.Schema<LLMObsAnnotationQueueLabelSchemaResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88440,7 +89233,8 @@ export const getLLMObsCustomEvalConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(74080, __c2315, 0) as any as S.Schema<GetLLMObsCustomEvalConfigRequest>,
   output: __S(74081, __c2315, 1) as any as S.Schema<LLMObsCustomEvalConfigResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88457,7 +89251,8 @@ export const getLLMObsDatasetDraftState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(74176, __c2318, 0) as any as S.Schema<GetLLMObsDatasetDraftStateRequest>,
   output: __S(74211, __c2319, 3) as any as S.Schema<LLMObsDatasetDraftStateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88474,7 +89269,8 @@ export const getLLMObsPatternsConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(74592, __c2331, 0) as any as S.Schema<GetLLMObsPatternsConfigRequest>,
   output: __S(74626, __c2332, 2) as any as S.Schema<LLMObsPatternsConfigResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88491,7 +89287,8 @@ export const getLLMObsPatternsRunStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(74656, __c2333, 0) as any as S.Schema<GetLLMObsPatternsRunStatusRequest>,
   output: __S(74661, __c2333, 5) as any as S.Schema<LLMObsPatternsRunStatusResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88508,7 +89305,8 @@ export const getLLMObsPrompt: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(74689, __c2334, 1) as any as S.Schema<GetLLMObsPromptRequest>,
   output: __S(74692, __c2334, 4) as any as S.Schema<LLMObsPromptSDKResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88525,7 +89323,8 @@ export const getLLMObsPromptVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(74720, __c2335, 0) as any as S.Schema<GetLLMObsPromptVersionRequest>,
   output: __S(39650, __c1239, 2) as any as S.Schema<LLMObsPromptVersionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88542,7 +89341,8 @@ export const getLogsArchive: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(74752, __c2336, 0) as any as S.Schema<GetLogsArchiveRequest>,
   output: __S(39872, __c1246, 0) as any as S.Schema<LogsArchive>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88559,7 +89359,8 @@ export const getLogsArchiveOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(74784, __c2337, 0) as any as S.Schema<GetLogsArchiveOrderRequest>,
   output: __S(74818, __c2338, 2) as any as S.Schema<LogsArchiveOrder>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88576,7 +89377,8 @@ export const getLogsCustomDestination: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(74848, __c2339, 0) as any as S.Schema<GetLogsCustomDestinationRequest>,
   output: __S(39968, __c1249, 0) as any as S.Schema<CustomDestinationResponseOutput>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88593,7 +89395,8 @@ export const getLogsMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(74880, __c2340, 0) as any as S.Schema<GetLogsMetricRequest>,
   output: __S(40192, __c1256, 0) as any as S.Schema<LogsMetricResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88610,7 +89413,8 @@ export const getMaintenance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(74912, __c2341, 0) as any as S.Schema<GetMaintenanceRequest>,
   output: __S(2912, __c91, 0) as any as S.Schema<Maintenance>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88627,7 +89431,8 @@ export const getMaintenanceTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(74944, __c2342, 0) as any as S.Schema<GetMaintenanceTemplateRequest>,
   output: __S(40320, __c1260, 0) as any as S.Schema<MaintenanceTemplate>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88644,7 +89449,8 @@ export const getMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(75072, __c2346, 0) as any as S.Schema<GetMappingRequest>,
   output: __S(75077, __c2346, 5) as any as S.Schema<GetMappingResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88661,7 +89467,8 @@ export const getMatchingSignals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(75104, __c2347, 0) as any as S.Schema<GetMatchingSignalsRequest>,
   output: __S(75108, __c2347, 4) as any as S.Schema<MatchingSignalsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88678,7 +89485,8 @@ export const getMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(75136, __c2348, 0) as any as S.Schema<GetMetricRequest>,
   output: __S(40512, __c1266, 0) as any as S.Schema<ExperimentsMetricV2DTO>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88695,7 +89503,8 @@ export const getMetricCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(75168, __c2349, 0) as any as S.Schema<GetMetricCollectionRequest>,
   output: __S(40608, __c1269, 0) as any as S.Schema<ExperimentsMetricCollectionV2DTO>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88712,7 +89521,8 @@ export const getMetricSQLModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(75200, __c2350, 0) as any as S.Schema<GetMetricSQLModelRequest>,
   output: __S(40704, __c1272, 0) as any as S.Schema<ExperimentsMetricSQLModelV2DTO>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88733,7 +89543,8 @@ export const getMetricTagCardinalityDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(75232, __c2351, 0) as any as S.Schema<GetMetricTagCardinalityDetailsRequest>,
   output: __S(75237, __c2351, 5) as any as S.Schema<MetricTagCardinalitiesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88750,7 +89561,8 @@ export const getModelLabArtifactContent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(75264, __c2352, 0) as any as S.Schema<GetModelLabArtifactContentRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<GetModelLabArtifactContentResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88767,7 +89579,8 @@ export const getModelLabProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(75296, __c2353, 0) as any as S.Schema<GetModelLabProjectRequest>,
   output: __S(75297, __c2353, 1) as any as S.Schema<ModelLabProjectResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88784,7 +89597,8 @@ export const getModelLabRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(75360, __c2355, 0) as any as S.Schema<GetModelLabRunRequest>,
   output: __S(75361, __c2355, 1) as any as S.Schema<ModelLabRunResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88801,7 +89615,8 @@ export const getMonitorConfigPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(75424, __c2357, 0) as any as S.Schema<GetMonitorConfigPolicyRequest>,
   output: __S(40832, __c1276, 0) as any as S.Schema<MonitorConfigPolicyResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88818,7 +89633,8 @@ export const getMonitorNotificationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(75584, __c2362, 0) as any as S.Schema<GetMonitorNotificationRuleRequest>,
   output: __S(40992, __c1281, 0) as any as S.Schema<MonitorNotificationRuleResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88835,7 +89651,8 @@ export const getMonitorNotificationRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(75616, __c2363, 0) as any as S.Schema<GetMonitorNotificationRulesRequest>,
   output: __S(75618, __c2363, 2) as any as S.Schema<MonitorNotificationRuleListResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88852,7 +89669,8 @@ export const getMonitorUserTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(75648, __c2364, 0) as any as S.Schema<GetMonitorUserTemplateRequest>,
   output: __S(75684, __c2365, 4) as any as S.Schema<MonitorUserTemplateResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88869,7 +89687,8 @@ export const getMonthlyCostAttribution: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(75712, __c2366, 0) as any as S.Schema<GetMonthlyCostAttributionRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<GetMonthlyCostAttributionResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88891,7 +89710,8 @@ export const getMyTemporaryGrantRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(75744, __c2367, 0) as any as S.Schema<GetMyTemporaryGrantRequestRequest>,
   output: __S(50944, __c1592, 0) as any as S.Schema<TemporaryGrantRequestResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88908,7 +89728,8 @@ export const getOAuth2ClientCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(75776, __c2368, 0) as any as S.Schema<GetOAuth2ClientCredentialsRequest>,
   output: __S(41312, __c1291, 0) as any as S.Schema<WebhooksOAuth2ClientCredentialsResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88925,7 +89746,8 @@ export const getOAuth2WellKnownSites: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(75808, __c2369, 0) as any as S.Schema<GetOAuth2WellKnownSitesRequest>,
   output: __S(75811, __c2369, 3) as any as S.Schema<OAuth2WellKnownSitesResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88946,7 +89768,8 @@ export const getOIDCCloudAuthPersonaMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(75840, __c2370, 0) as any as S.Schema<GetOIDCCloudAuthPersonaMappingRequest>,
   output: __S(41408, __c1294, 0) as any as S.Schema<OIDCCloudAuthPersonaMappingResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88963,7 +89786,8 @@ export const getOIDCCloudAuthProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(75872, __c2371, 0) as any as S.Schema<GetOIDCCloudAuthProviderRequest>,
   output: __S(41504, __c1297, 0) as any as S.Schema<OIDCCloudAuthProviderResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88980,7 +89804,8 @@ export const getOIDCDiscoveryDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(75904, __c2372, 0) as any as S.Schema<GetOIDCDiscoveryDocumentRequest>,
   output: __S(75905, __c2372, 1) as any as S.Schema<OIDCDiscoveryDocument>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -88997,7 +89822,8 @@ export const getOktaAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(75968, __c2374, 0) as any as S.Schema<GetOktaAccountRequest>,
   output: __S(41633, __c1301, 1) as any as S.Schema<OktaAccountResponseOutput>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89014,7 +89840,8 @@ export const getOnCallEscalationPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76000, __c2375, 0) as any as S.Schema<GetOnCallEscalationPolicyRequest>,
   output: __S(41793, __c1306, 1) as any as S.Schema<EscalationPolicy>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89031,7 +89858,8 @@ export const getOnCallPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76032, __c2376, 0) as any as S.Schema<GetOnCallPageRequest>,
   output: __S(76033, __c2376, 1) as any as S.Schema<OnCallPageResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89048,7 +89876,8 @@ export const getOnCallSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76128, __c2379, 0) as any as S.Schema<GetOnCallScheduleRequest>,
   output: __S(42051, __c1314, 3) as any as S.Schema<Schedule>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89065,7 +89894,8 @@ export const getOnCallTeamRoutingRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76160, __c2380, 0) as any as S.Schema<GetOnCallTeamRoutingRulesRequest>,
   output: __S(76200, __c2381, 8) as any as S.Schema<TeamRoutingRules>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89082,7 +89912,8 @@ export const getOnDemandConcurrencyCap: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76224, __c2382, 0) as any as S.Schema<GetOnDemandConcurrencyCapRequest>,
   output: __S(76258, __c2383, 2) as any as S.Schema<OnDemandConcurrencyCapResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89099,7 +89930,8 @@ export const getOpsgenieService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76288, __c2384, 0) as any as S.Schema<GetOpsgenieServiceRequest>,
   output: __S(42272, __c1321, 0) as any as S.Schema<OpsgenieServiceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89116,7 +89948,8 @@ export const getOrganizationHandle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76320, __c2385, 0) as any as S.Schema<GetOrganizationHandleRequest>,
   output: __S(42368, __c1324, 0) as any as S.Schema<GoogleChatOrganizationHandleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89133,7 +89966,8 @@ export const getOrgAuthorizedClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76352, __c2386, 0) as any as S.Schema<GetOrgAuthorizedClientRequest>,
   output: __S(76416, __c2388, 0) as any as S.Schema<OrgAuthorizedClientResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89150,7 +89984,8 @@ export const getOrgConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76448, __c2389, 0) as any as S.Schema<GetOrgConfigRequest>,
   output: __S(76512, __c2391, 0) as any as S.Schema<OrgConfigGetResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89167,7 +90002,8 @@ export const getOrgGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76576, __c2393, 0) as any as S.Schema<GetOrgGroupRequest>,
   output: __S(42560, __c1330, 0) as any as S.Schema<OrgGroupResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89184,7 +90020,8 @@ export const getOrgGroupMembership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76608, __c2394, 0) as any as S.Schema<GetOrgGroupMembershipRequest>,
   output: __S(76640, __c2395, 0) as any as S.Schema<OrgGroupMembershipResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89201,7 +90038,8 @@ export const getOrgGroupPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76672, __c2396, 0) as any as S.Schema<GetOrgGroupPolicyRequest>,
   output: __S(42752, __c1336, 0) as any as S.Schema<OrgGroupPolicyResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89218,7 +90056,8 @@ export const getOrgGroupPolicyOverride: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76704, __c2397, 0) as any as S.Schema<GetOrgGroupPolicyOverrideRequest>,
   output: __S(42848, __c1339, 0) as any as S.Schema<OrgGroupPolicyOverrideResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89235,7 +90074,8 @@ export const getOrgSettingsByIncidentType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76736, __c2398, 0) as any as S.Schema<GetOrgSettingsByIncidentTypeRequest>,
   output: __S(76737, __c2398, 1) as any as S.Schema<IncidentOrgSettingsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89252,7 +90092,8 @@ export const getOwnershipEvidence: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76800, __c2400, 0) as any as S.Schema<GetOwnershipEvidenceRequest>,
   output: __S(76803, __c2400, 3) as any as S.Schema<OwnershipEvidenceResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89269,7 +90110,8 @@ export const getOwnershipInference: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76832, __c2401, 0) as any as S.Schema<GetOwnershipInferenceRequest>,
   output: __S(194, __c6, 2) as any as S.Schema<OwnershipInferenceResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89286,7 +90128,8 @@ export const getOwnershipSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76864, __c2402, 0) as any as S.Schema<GetOwnershipSettingsRequest>,
   output: __S(76898, __c2403, 2) as any as S.Schema<OwnershipSettingsResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89303,7 +90146,8 @@ export const getOwnershipUntaggedFindings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76928, __c2404, 0) as any as S.Schema<GetOwnershipUntaggedFindingsRequest>,
   output: __S(76931, __c2404, 3) as any as S.Schema<OwnershipUntaggedFindingsResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89320,7 +90164,8 @@ export const getPageAnnotations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76960, __c2405, 0) as any as S.Schema<GetPageAnnotationsRequest>,
   output: __S(76965, __c2405, 5) as any as S.Schema<PageAnnotationsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89337,7 +90182,8 @@ export const getPermanentRetentionFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(77088, __c2409, 0) as any as S.Schema<GetPermanentRetentionFilterRequest>,
   output: __S(77152, __c2411, 0) as any as S.Schema<RumPermanentRetentionFilterResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89354,7 +90200,8 @@ export const getPersonalAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(77184, __c2412, 0) as any as S.Schema<GetPersonalAccessTokenRequest>,
   output: __S(77216, __c2413, 0) as any as S.Schema<PersonalAccessTokenResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89371,7 +90218,8 @@ export const getPipeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(77312, __c2416, 0) as any as S.Schema<GetPipelineRequest>,
   output: __S(43232, __c1351, 0) as any as S.Schema<ObservabilityPipeline>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89388,7 +90236,8 @@ export const getPowerpack: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(77344, __c2417, 0) as any as S.Schema<GetPowerpackRequest>,
   output: __S(43328, __c1354, 0) as any as S.Schema<PowerpackResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89405,7 +90254,8 @@ export const getProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(77376, __c2418, 0) as any as S.Schema<GetProjectRequest>,
   output: __S(43424, __c1357, 0) as any as S.Schema<ProjectResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89422,7 +90272,8 @@ export const getProjectedCost: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(77408, __c2419, 0) as any as S.Schema<GetProjectedCostRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<GetProjectedCostResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89439,7 +90290,8 @@ export const getProjectNotificationRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(77440, __c2420, 0) as any as S.Schema<GetProjectNotificationRulesRequest>,
   output: __S(77442, __c2420, 2) as any as S.Schema<CaseNotificationRulesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89456,7 +90308,8 @@ export const getProjects: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(77472, __c2421, 0) as any as S.Schema<GetProjectsRequest>,
   output: __S(77474, __c2421, 2) as any as S.Schema<ProjectsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89473,7 +90326,8 @@ export const getPrunedTrace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(77504, __c2422, 0) as any as S.Schema<GetPrunedTraceRequest>,
   output: __S(77510, __c2422, 6) as any as S.Schema<PrunedTraceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89490,7 +90344,8 @@ export const getReportSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(77536, __c2423, 0) as any as S.Schema<GetReportScheduleRequest>,
   output: __S(44162, __c1380, 2) as any as S.Schema<ReportScheduleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89507,7 +90362,8 @@ export const getReportSchedulesForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(77632, __c2426, 0) as any as S.Schema<GetReportSchedulesForResourceRequest>,
   output: __S(77671, __c2427, 7) as any as S.Schema<ReportScheduleListResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89524,7 +90380,8 @@ export const getResourceEvaluationFilters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(77696, __c2428, 0) as any as S.Schema<GetResourceEvaluationFiltersRequest>,
   output: __S(77698, __c2428, 2) as any as S.Schema<GetResourceEvaluationFiltersResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89541,7 +90398,8 @@ export const getRestrictionPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(77760, __c2430, 0) as any as S.Schema<GetRestrictionPolicyRequest>,
   output: __S(77796, __c2431, 4) as any as S.Schema<RestrictionPolicyResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89558,7 +90416,8 @@ export const getRestrictionQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(77824, __c2432, 0) as any as S.Schema<GetRestrictionQueryRequest>,
   output: __S(77826, __c2432, 2) as any as S.Schema<RestrictionQueryWithRelationshipsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89575,7 +90434,8 @@ export const getRetentionFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(77888, __c2434, 0) as any as S.Schema<GetRetentionFilterRequest>,
   output: __S(44480, __c1390, 0) as any as S.Schema<RumRetentionFilterResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89592,7 +90452,8 @@ export const getRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(77920, __c2435, 0) as any as S.Schema<GetRoleRequest>,
   output: __S(65216, __c2038, 0) as any as S.Schema<RoleResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89609,7 +90470,8 @@ export const getRoleRestrictionQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(77952, __c2436, 0) as any as S.Schema<GetRoleRestrictionQueryRequest>,
   output: __S(77985, __c2437, 1) as any as S.Schema<RestrictionQueryListResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89626,7 +90488,8 @@ export const getRowsByID: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(78016, __c2438, 0) as any as S.Schema<GetRowsByIDRequest>,
   output: __S(78018, __c2438, 2) as any as S.Schema<TableRowResourceArray>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89643,7 +90506,8 @@ export const getRuleVersionHistory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(78048, __c2439, 0) as any as S.Schema<GetRuleVersionHistoryRequest>,
   output: __S(78053, __c2439, 5) as any as S.Schema<GetRuleVersionHistoryResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89660,7 +90524,8 @@ export const getRUMApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(78112, __c2441, 0) as any as S.Schema<GetRUMApplicationRequest>,
   output: __S(44578, __c1393, 2) as any as S.Schema<RUMApplicationResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89677,7 +90542,8 @@ export const getRUMApplications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(78240, __c2445, 0) as any as S.Schema<GetRUMApplicationsRequest>,
   output: __S(78244, __c2445, 4) as any as S.Schema<RUMApplicationsResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89694,7 +90560,8 @@ export const getRUMArchiveConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(78272, __c2446, 0) as any as S.Schema<GetRUMArchiveConfigRequest>,
   output: __S(78336, __c2448, 0) as any as S.Schema<RumArchiveConfigResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89711,7 +90578,8 @@ export const getRumConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(78368, __c2449, 0) as any as S.Schema<GetRumConfigRequest>,
   output: __S(44706, __c1397, 2) as any as S.Schema<RumConfigResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89728,7 +90596,8 @@ export const getRumMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(78400, __c2450, 0) as any as S.Schema<GetRumMetricRequest>,
   output: __S(44800, __c1400, 0) as any as S.Schema<RumMetricResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89745,7 +90614,8 @@ export const getRUMOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(78432, __c2451, 0) as any as S.Schema<GetRUMOperationRequest>,
   output: __S(44928, __c1404, 0) as any as S.Schema<RUMOperationResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89762,7 +90632,8 @@ export const getRUMOperationByName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(78464, __c2452, 0) as any as S.Schema<GetRUMOperationByNameRequest>,
   output: __S(44928, __c1404, 0) as any as S.Schema<RUMOperationResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89779,7 +90650,8 @@ export const getRumQuotaConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(78496, __c2453, 0) as any as S.Schema<GetRumQuotaConfigRequest>,
   output: __S(78531, __c2454, 3) as any as S.Schema<RumRetentionQuotaConfigResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89796,7 +90668,8 @@ export const getRUMRecoveryRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(78560, __c2455, 0) as any as S.Schema<GetRUMRecoveryRequestRequest>,
   output: __S(78565, __c2455, 5) as any as S.Schema<RumRecoveryRequestResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89813,7 +90686,8 @@ export const getRUMRecoverySessionCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(78594, __c2456, 2) as any as S.Schema<GetRUMRecoverySessionCountRequest>,
   output: __S(78597, __c2456, 5) as any as S.Schema<RumRecoveryCountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89830,7 +90704,8 @@ export const getRumReplayPlaylist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(78624, __c2457, 0) as any as S.Schema<GetRumReplayPlaylistRequest>,
   output: __S(45280, __c1415, 0) as any as S.Schema<Playlist>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89847,7 +90722,8 @@ export const getRumSdkConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(78784, __c2462, 0) as any as S.Schema<GetRumSdkConfigRequest>,
   output: __S(78827, __c2463, 11) as any as S.Schema<RumSdkConfigResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89864,7 +90740,8 @@ export const getSAMLConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(78848, __c2464, 0) as any as S.Schema<GetSAMLConfigurationRequest>,
   output: __S(78944, __c2467, 0) as any as S.Schema<SAMLConfigurationResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89881,7 +90758,8 @@ export const getSavedFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(78976, __c2468, 0) as any as S.Schema<GetSavedFilterRequest>,
   output: __S(79014, __c2469, 6) as any as S.Schema<SavedFilterResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89898,7 +90776,8 @@ export const getSBOM: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(79040, __c2470, 0) as any as S.Schema<GetSBOMRequest>,
   output: __S(79041, __c2470, 1) as any as S.Schema<GetSBOMResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89915,7 +90794,8 @@ export const getSCAScan: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(79136, __c2473, 0) as any as S.Schema<GetSCAScanRequest>,
   output: __S(79137, __c2473, 1) as any as S.Schema<GetSCAScanResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89932,7 +90812,8 @@ export const getScheduleOnCallResponders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(79168, __c2474, 0) as any as S.Schema<GetScheduleOnCallRespondersRequest>,
   output: __S(79173, __c2474, 5) as any as S.Schema<ScheduleOnCallResponders>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89949,7 +90830,8 @@ export const getScopesRestriction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(79200, __c2475, 0) as any as S.Schema<GetScopesRestrictionRequest>,
   output: __S(79235, __c2476, 3) as any as S.Schema<OAuthScopesRestrictionResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89966,7 +90848,8 @@ export const getScorecardCampaign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(79264, __c2477, 0) as any as S.Schema<GetScorecardCampaignRequest>,
   output: __S(46016, __c1438, 0) as any as S.Schema<CampaignResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -89983,7 +90866,8 @@ export const getSeatsUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(79296, __c2478, 0) as any as S.Schema<GetSeatsUsersRequest>,
   output: __S(79301, __c2478, 5) as any as S.Schema<SeatUserDataArray>,
-  errors: [BadRequest, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90000,7 +90884,8 @@ export const getSecretsRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(79328, __c2479, 0) as any as S.Schema<GetSecretsRulesRequest>,
   output: __S(79334, __c2479, 6) as any as S.Schema<SecretRuleArray>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90017,7 +90902,8 @@ export const getSecurityAgentInvestigation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(79520, __c2485, 0) as any as S.Schema<GetSecurityAgentInvestigationRequest>,
   output: __S(79540, __c2485, 20) as any as S.Schema<SecurityAgentInvestigationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90034,7 +90920,8 @@ export const getSecurityFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(79584, __c2487, 0) as any as S.Schema<GetSecurityFilterRequest>,
   output: __S(46272, __c1446, 0) as any as S.Schema<SecurityFilterResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90058,7 +90945,8 @@ export const getSecurityFindingsAutomationDefaultInboxRule: API.OperationMethod<
     0,
   ) as any as S.Schema<GetSecurityFindingsAutomationDefaultInboxRuleRequest>,
   output: __S(46592, __c1456, 0) as any as S.Schema<DefaultInboxRuleResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90075,7 +90963,8 @@ export const getSecurityFindingsAutomationDueDateRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(79648, __c2489, 0) as any as S.Schema<GetSecurityFindingsAutomationDueDateRuleRequest>,
   output: __S(46432, __c1451, 0) as any as S.Schema<DueDateRuleResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90092,7 +90981,8 @@ export const getSecurityFindingsAutomationInboxRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(79680, __c2490, 0) as any as S.Schema<GetSecurityFindingsAutomationInboxRuleRequest>,
   output: __S(46592, __c1456, 0) as any as S.Schema<InboxRuleResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90109,7 +90999,8 @@ export const getSecurityFindingsAutomationMuteRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(79712, __c2491, 0) as any as S.Schema<GetSecurityFindingsAutomationMuteRuleRequest>,
   output: __S(46720, __c1460, 0) as any as S.Schema<MuteRuleResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90134,7 +91025,8 @@ export const getSecurityFindingsAutomationSeverityModifierRule: API.OperationMet
     0,
   ) as any as S.Schema<GetSecurityFindingsAutomationSeverityModifierRuleRequest>,
   output: __S(46848, __c1464, 0) as any as S.Schema<SeverityModifierRuleResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90158,7 +91050,8 @@ export const getSecurityFindingsAutomationTicketCreationRule: API.OperationMetho
     0,
   ) as any as S.Schema<GetSecurityFindingsAutomationTicketCreationRuleRequest>,
   output: __S(46976, __c1468, 0) as any as S.Schema<TicketCreationRuleResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90175,7 +91068,8 @@ export const getSecurityMonitoringCriticalAsset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(79808, __c2494, 0) as any as S.Schema<GetSecurityMonitoringCriticalAssetRequest>,
   output: __S(47424, __c1482, 0) as any as S.Schema<SecurityMonitoringCriticalAssetResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90192,7 +91086,8 @@ export const getSecurityMonitoringDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(79840, __c2495, 0) as any as S.Schema<GetSecurityMonitoringDatasetRequest>,
   output: __S(79872, __c2496, 0) as any as S.Schema<SecurityMonitoringDatasetResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90213,7 +91108,8 @@ export const getSecurityMonitoringDatasetByVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80192, __c2506, 0) as any as S.Schema<GetSecurityMonitoringDatasetByVersionRequest>,
   output: __S(79872, __c2496, 0) as any as S.Schema<SecurityMonitoringDatasetResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90242,7 +91138,8 @@ export const getSecurityMonitoringDatasetVersionHistory: API.OperationMethod<
     __c2507,
     7,
   ) as any as S.Schema<SecurityMonitoringDatasetVersionHistoryResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90263,7 +91160,8 @@ export const getSecurityMonitoringHistsignal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80256, __c2508, 0) as any as S.Schema<GetSecurityMonitoringHistsignalRequest>,
   output: __S(80320, __c2510, 0) as any as S.Schema<SecurityMonitoringSignalResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90284,7 +91182,8 @@ export const getSecurityMonitoringHistsignalsByJobId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80352, __c2511, 0) as any as S.Schema<GetSecurityMonitoringHistsignalsByJobIdRequest>,
   output: __S(80386, __c2512, 2) as any as S.Schema<SecurityMonitoringSignalsListResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90301,7 +91200,8 @@ export const getSecurityMonitoringIntegrationConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80416, __c2513, 0) as any as S.Schema<GetSecurityMonitoringIntegrationConfigRequest>,
   output: __S(68704, __c2147, 0) as any as S.Schema<SecurityMonitoringIntegrationConfigResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90318,7 +91218,8 @@ export const getSecurityMonitoringRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80448, __c2514, 0) as any as S.Schema<GetSecurityMonitoringRuleRequest>,
   output: __S(47648, __c1489, 0) as any as S.Schema<GetSecurityMonitoringRuleResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90339,7 +91240,8 @@ export const getSecurityMonitoringRuleProposal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80480, __c2515, 0) as any as S.Schema<GetSecurityMonitoringRuleProposalRequest>,
   output: __S(80484, __c2515, 4) as any as S.Schema<SecurityMonitoringRuleProposalResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90356,7 +91258,8 @@ export const getSecurityMonitoringSignal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80512, __c2516, 0) as any as S.Schema<GetSecurityMonitoringSignalRequest>,
   output: __S(80320, __c2510, 0) as any as S.Schema<SecurityMonitoringSignalResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90373,7 +91276,8 @@ export const getSecurityMonitoringSuppression: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80544, __c2517, 0) as any as S.Schema<GetSecurityMonitoringSuppressionRequest>,
   output: __S(47744, __c1492, 0) as any as S.Schema<SecurityMonitoringSuppressionResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90390,7 +91294,8 @@ export const getSegments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80576, __c2518, 0) as any as S.Schema<GetSegmentsRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<GetSegmentsResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90407,7 +91312,8 @@ export const getServiceAccountAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80832, __c2526, 0) as any as S.Schema<GetServiceAccountAccessTokenRequest>,
   output: __S(77216, __c2413, 0) as any as S.Schema<ServiceAccessTokenResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90424,7 +91330,8 @@ export const getServiceAccountApplicationKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80864, __c2527, 0) as any as S.Schema<GetServiceAccountApplicationKeyRequest>,
   output: __S(80928, __c2529, 0) as any as S.Schema<PartialApplicationKeyResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90446,7 +91353,8 @@ export const getServiceDefinition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80960, __c2530, 0) as any as S.Schema<GetServiceDefinitionRequest>,
   output: __S(80961, __c2530, 1) as any as S.Schema<ServiceDefinitionGetResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90463,7 +91371,8 @@ export const getServiceList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80992, __c2531, 0) as any as S.Schema<GetServiceListRequest>,
   output: __S(80997, __c2531, 5) as any as S.Schema<ServiceList>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90480,7 +91389,8 @@ export const getServiceNowTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(81024, __c2532, 0) as any as S.Schema<GetServiceNowTemplateRequest>,
   output: __S(48096, __c1503, 0) as any as S.Schema<ServiceNowTemplateResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90497,7 +91407,8 @@ export const getServiceRepositoryInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(81058, __c2533, 2) as any as S.Schema<GetServiceRepositoryInfoRequest>,
   output: __S(81061, __c2533, 5) as any as S.Schema<ServiceRepositoryInfoResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90514,7 +91425,8 @@ export const getSignalEntities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(81088, __c2534, 0) as any as S.Schema<GetSignalEntitiesRequest>,
   output: __S(81091, __c2534, 3) as any as S.Schema<SignalEntitiesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90531,7 +91443,8 @@ export const getSignalNotificationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(81120, __c2535, 0) as any as S.Schema<GetSignalNotificationRuleRequest>,
   output: __S(48352, __c1511, 0) as any as S.Schema<NotificationRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90548,7 +91461,8 @@ export const getSignalNotificationRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(81152, __c2536, 0) as any as S.Schema<GetSignalNotificationRulesRequest>,
   output: __S(81185, __c2537, 1) as any as S.Schema<NotificationRulesListResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90565,7 +91479,8 @@ export const getSingleEntityContext: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(81216, __c2538, 0) as any as S.Schema<GetSingleEntityContextRequest>,
   output: __S(81217, __c2538, 1) as any as S.Schema<SingleEntityContextResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90582,7 +91497,8 @@ export const getSloStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(81376, __c2543, 0) as any as S.Schema<GetSloStatusRequest>,
   output: __S(81380, __c2543, 4) as any as S.Schema<SloStatusResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90603,7 +91519,8 @@ export const getSnowflakeIntegrationAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(81408, __c2544, 0) as any as S.Schema<GetSnowflakeIntegrationAccountRequest>,
   output: __S(48480, __c1515, 0) as any as S.Schema<SnowflakeIntegrationAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90620,7 +91537,8 @@ export const getSourcemaps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(81440, __c2545, 0) as any as S.Schema<GetSourcemapsRequest>,
   output: __S(81443, __c2545, 3) as any as S.Schema<SourcemapFileResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90637,7 +91555,8 @@ export const getSpaceByDisplayName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(81472, __c2546, 0) as any as S.Schema<GetSpaceByDisplayNameRequest>,
   output: __S(81475, __c2546, 3) as any as S.Schema<GoogleChatAppNamedSpaceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90654,7 +91573,8 @@ export const getSpansMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(81504, __c2547, 0) as any as S.Schema<GetSpansMetricRequest>,
   output: __S(40192, __c1256, 0) as any as S.Schema<SpansMetricResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90671,7 +91591,8 @@ export const getStaticAnalysisDefaultRulesets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(81536, __c2548, 0) as any as S.Schema<GetStaticAnalysisDefaultRulesetsRequest>,
   output: __S(81539, __c2548, 3) as any as S.Schema<DefaultRulesetsPerLanguageResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90688,7 +91609,8 @@ export const getStaticAnalysisNodeTypes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(81568, __c2549, 0) as any as S.Schema<GetStaticAnalysisNodeTypesRequest>,
   output: __S(81571, __c2549, 3) as any as S.Schema<NodeTypesResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90705,7 +91627,8 @@ export const getStaticAnalysisRuleset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(81600, __c2550, 0) as any as S.Schema<GetStaticAnalysisRulesetRequest>,
   output: __S(81601, __c2550, 1) as any as S.Schema<SastRulesetResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90722,7 +91645,8 @@ export const getStaticAnalysisTreeSitterWasm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(81696, __c2553, 0) as any as S.Schema<GetStaticAnalysisTreeSitterWasmRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<GetStaticAnalysisTreeSitterWasmResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90739,7 +91663,8 @@ export const getStatusPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(81728, __c2554, 0) as any as S.Schema<GetStatusPageRequest>,
   output: __S(48768, __c1524, 0) as any as S.Schema<StatusPage>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90756,7 +91681,8 @@ export const getStatuspageAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(81856, __c2558, 0) as any as S.Schema<GetStatuspageAccountRequest>,
   output: __S(48834, __c1526, 2) as any as S.Schema<StatuspageAccountResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90773,7 +91699,8 @@ export const getStegadographyWidgets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(81888, __c2559, 0) as any as S.Schema<GetStegadographyWidgetsRequest>,
   output: __S(81892, __c2559, 4) as any as S.Schema<StegadographyGetWidgetsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90790,7 +91717,8 @@ export const getSubjectType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(81920, __c2560, 0) as any as S.Schema<GetSubjectTypeRequest>,
   output: __S(49024, __c1532, 0) as any as S.Schema<ExperimentsSubjectTypeV2DTO>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90811,7 +91739,8 @@ export const getSuggestedActionsMatchingSignal: API.OperationMethod<
     __c2295,
     3,
   ) as any as S.Schema<SecurityMonitoringSignalSuggestedActionsResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90828,7 +91757,8 @@ export const getSuppressionsAffectingFutureRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(81984, __c2562, 0) as any as S.Schema<GetSuppressionsAffectingFutureRuleRequest>,
   output: __S(82016, __c2563, 0) as any as S.Schema<SecurityMonitoringSuppressionsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90845,7 +91775,8 @@ export const getSuppressionsAffectingRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(82080, __c2565, 0) as any as S.Schema<GetSuppressionsAffectingRuleRequest>,
   output: __S(82016, __c2563, 0) as any as S.Schema<SecurityMonitoringSuppressionsResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90862,7 +91793,8 @@ export const getSuppressionVersionHistory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(82112, __c2566, 0) as any as S.Schema<GetSuppressionVersionHistoryRequest>,
   output: __S(82117, __c2566, 5) as any as S.Schema<GetSuppressionVersionHistoryResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90879,7 +91811,8 @@ export const getSyntheticsBrowserTestResult: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(82144, __c2567, 0) as any as S.Schema<GetSyntheticsBrowserTestResultRequest>,
   output: __S(82272, __c2571, 0) as any as S.Schema<SyntheticsTestResultResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90896,7 +91829,8 @@ export const getSyntheticsDowntime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(82400, __c2575, 0) as any as S.Schema<GetSyntheticsDowntimeRequest>,
   output: __S(24256, __c758, 0) as any as S.Schema<SyntheticsDowntimeResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90913,7 +91847,8 @@ export const getSyntheticsFastTestResult: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(82432, __c2576, 0) as any as S.Schema<GetSyntheticsFastTestResultRequest>,
   output: __S(82436, __c2576, 4) as any as S.Schema<SyntheticsFastTestResult>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90930,7 +91865,8 @@ export const getSyntheticsNetworkTest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(82496, __c2578, 0) as any as S.Schema<GetSyntheticsNetworkTestRequest>,
   output: __S(49259, __c1539, 11) as any as S.Schema<SyntheticsNetworkTestResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90947,7 +91883,8 @@ export const getSyntheticsSuite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(82528, __c2579, 0) as any as S.Schema<GetSyntheticsSuiteRequest>,
   output: __S(49345, __c1542, 1) as any as S.Schema<SyntheticsSuiteResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90964,7 +91901,8 @@ export const getSyntheticsTestResult: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(82560, __c2580, 0) as any as S.Schema<GetSyntheticsTestResultRequest>,
   output: __S(82272, __c2571, 0) as any as S.Schema<SyntheticsTestResultResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90981,7 +91919,8 @@ export const getSyntheticsTestVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(82592, __c2581, 0) as any as S.Schema<GetSyntheticsTestVersionRequest>,
   output: __S(82595, __c2581, 3) as any as S.Schema<SyntheticsTestVersionResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -90998,7 +91937,8 @@ export const getTable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(82656, __c2583, 0) as any as S.Schema<GetTableRequest>,
   output: __S(43776, __c1368, 0) as any as S.Schema<TableResultV2>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91015,7 +91955,8 @@ export const getTagIndexingRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(82688, __c2584, 0) as any as S.Schema<GetTagIndexingRuleRequest>,
   output: __S(49568, __c1549, 0) as any as S.Schema<TagIndexingRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91032,7 +91973,8 @@ export const getTagIndexingRuleExemption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(82720, __c2585, 0) as any as S.Schema<GetTagIndexingRuleExemptionRequest>,
   output: __S(49696, __c1553, 0) as any as S.Schema<TagIndexingRuleExemptionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91049,7 +91991,8 @@ export const getTagPipelinesRuleset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(82752, __c2586, 0) as any as S.Schema<GetTagPipelinesRulesetRequest>,
   output: __S(49792, __c1556, 0) as any as S.Schema<RulesetResp>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91066,7 +92009,8 @@ export const getTagRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(82784, __c2587, 0) as any as S.Schema<GetTagRuleRequest>,
   output: __S(49888, __c1559, 0) as any as S.Schema<TagRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91083,7 +92027,8 @@ export const getTagRuleScore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(82816, __c2588, 0) as any as S.Schema<GetTagRuleScoreRequest>,
   output: __S(82817, __c2588, 1) as any as S.Schema<TagRuleScoreResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91100,7 +92045,8 @@ export const getTeam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(83008, __c2594, 0) as any as S.Schema<GetTeamRequest>,
   output: __S(50048, __c1564, 0) as any as S.Schema<TeamResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91117,7 +92063,8 @@ export const getTeamHierarchyLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(83040, __c2595, 0) as any as S.Schema<GetTeamHierarchyLinkRequest>,
   output: __S(19840, __c620, 0) as any as S.Schema<TeamHierarchyLinkResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91134,7 +92081,8 @@ export const getTeamLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(83072, __c2596, 0) as any as S.Schema<GetTeamLinkRequest>,
   output: __S(50400, __c1575, 0) as any as S.Schema<TeamLinkResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91151,7 +92099,8 @@ export const getTeamLinks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(83104, __c2597, 0) as any as S.Schema<GetTeamLinksRequest>,
   output: __S(83106, __c2597, 2) as any as S.Schema<TeamLinksResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91168,7 +92117,8 @@ export const getTeamMemberships: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(83136, __c2598, 0) as any as S.Schema<GetTeamMembershipsRequest>,
   output: __S(83169, __c2599, 1) as any as S.Schema<UserTeamsResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91185,7 +92135,8 @@ export const getTeamNotificationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(83264, __c2602, 0) as any as S.Schema<GetTeamNotificationRuleRequest>,
   output: __S(50592, __c1581, 0) as any as S.Schema<TeamNotificationRuleResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91202,7 +92153,8 @@ export const getTeamNotificationRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(83296, __c2603, 0) as any as S.Schema<GetTeamNotificationRulesRequest>,
   output: __S(83298, __c2603, 2) as any as S.Schema<TeamNotificationRulesResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91219,7 +92171,8 @@ export const getTeamOnCallUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(83360, __c2605, 0) as any as S.Schema<GetTeamOnCallUsersRequest>,
   output: __S(83364, __c2605, 4) as any as S.Schema<TeamOnCallResponders>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91236,7 +92189,8 @@ export const getTeamPermissionSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(83392, __c2606, 0) as any as S.Schema<GetTeamPermissionSettingsRequest>,
   output: __S(83394, __c2606, 2) as any as S.Schema<TeamPermissionSettingsResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91253,7 +92207,8 @@ export const getTeamsOwnershipMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(83456, __c2608, 0) as any as S.Schema<GetTeamsOwnershipMappingRequest>,
   output: __S(50688, __c1584, 0) as any as S.Schema<TeamsOwnershipMappingResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91270,7 +92225,8 @@ export const getTeamSync: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(83616, __c2613, 0) as any as S.Schema<GetTeamSyncRequest>,
   output: __S(83618, __c2613, 2) as any as S.Schema<TeamSyncResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91299,7 +92255,8 @@ export const getTemporalCloudOpenMetricsIntegrationAccount: API.OperationMethod<
     __c1589,
     0,
   ) as any as S.Schema<TemporalCloudOpenMetricsIntegrationAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91321,7 +92278,8 @@ export const getTemporaryGrantRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(83712, __c2616, 0) as any as S.Schema<GetTemporaryGrantRequestRequest>,
   output: __S(50944, __c1592, 0) as any as S.Schema<TemporaryGrantRequestResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91338,7 +92296,8 @@ export const getTenancyConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(83744, __c2617, 0) as any as S.Schema<GetTenancyConfigRequest>,
   output: __S(51040, __c1595, 0) as any as S.Schema<TenancyConfig>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91355,7 +92314,8 @@ export const getTenancyConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(83776, __c2618, 0) as any as S.Schema<GetTenancyConfigsRequest>,
   output: __S(83778, __c2618, 2) as any as S.Schema<TenancyConfigList>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91372,7 +92332,8 @@ export const getTenantBasedHandle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(83808, __c2619, 0) as any as S.Schema<GetTenantBasedHandleRequest>,
   output: __S(51138, __c1598, 2) as any as S.Schema<MicrosoftTeamsTenantBasedHandleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91389,7 +92350,8 @@ export const getTestFileDownloadUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(83840, __c2620, 0) as any as S.Schema<GetTestFileDownloadUrlRequest>,
   output: __S(45792, __c1431, 0) as any as S.Schema<SyntheticsTestFileDownloadResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91414,7 +92376,8 @@ export const getTestFileMultipartPresignedUrls: API.OperationMethod<
     __c2621,
     4,
   ) as any as S.Schema<SyntheticsTestFileMultipartPresignedUrlsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91435,7 +92398,8 @@ export const getTestOptimizationServiceSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(83904, __c2622, 0) as any as S.Schema<GetTestOptimizationServiceSettingsRequest>,
   output: __S(83938, __c2623, 2) as any as S.Schema<TestOptimizationServiceSettingsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91452,7 +92416,8 @@ export const getTestParentSuites: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(83968, __c2624, 0) as any as S.Schema<GetTestParentSuitesRequest>,
   output: __S(65347, __c2042, 3) as any as S.Schema<SyntheticsTestParentSuitesResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91469,7 +92434,8 @@ export const getTrace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84096, __c2628, 0) as any as S.Schema<GetTraceRequest>,
   output: __S(84101, __c2628, 5) as any as S.Schema<TraceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91486,7 +92452,8 @@ export const getTwilioIntegrationAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84128, __c2629, 0) as any as S.Schema<GetTwilioIntegrationAccountRequest>,
   output: __S(51584, __c1612, 0) as any as S.Schema<TwilioIntegrationAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91503,7 +92470,8 @@ export const getUnitCost: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84160, __c2630, 0) as any as S.Schema<GetUnitCostRequest>,
   output: __S(51712, __c1616, 0) as any as S.Schema<UnitCostResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91520,7 +92488,8 @@ export const getUsageAttributionTypes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84192, __c2631, 0) as any as S.Schema<GetUsageAttributionTypesRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<GetUsageAttributionTypesResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91537,7 +92506,8 @@ export const getUsageSummaryAvailableFields: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84224, __c2632, 0) as any as S.Schema<GetUsageSummaryAvailableFieldsRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<GetUsageSummaryAvailableFieldsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91554,7 +92524,8 @@ export const getUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84256, __c2633, 0) as any as S.Schema<GetUserRequest>,
   output: __S(47872, __c1496, 0) as any as S.Schema<UserResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91571,7 +92542,8 @@ export const getUserAuthorizedClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84288, __c2634, 0) as any as S.Schema<GetUserAuthorizedClientRequest>,
   output: __S(84289, __c2634, 1) as any as S.Schema<UserAuthorizedClientResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91588,7 +92560,8 @@ export const getUserFacetInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84352, __c2636, 0) as any as S.Schema<GetUserFacetInfoRequest>,
   output: __S(63784, __c1993, 8) as any as S.Schema<FacetInfoResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91605,7 +92578,8 @@ export const getUserIdentityProviders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84384, __c2637, 0) as any as S.Schema<GetUserIdentityProvidersRequest>,
   output: __S(84388, __c2637, 4) as any as S.Schema<UserOverrideIdentityProvidersResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91622,7 +92596,8 @@ export const getUserMemberships: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84416, __c2638, 0) as any as S.Schema<GetUserMembershipsRequest>,
   output: __S(83169, __c2599, 1) as any as S.Schema<UserTeamsResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91639,7 +92614,8 @@ export const getUserNotificationChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84544, __c2642, 0) as any as S.Schema<GetUserNotificationChannelRequest>,
   output: __S(51840, __c1620, 0) as any as S.Schema<NotificationChannel>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91656,7 +92632,8 @@ export const getUserNotificationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84576, __c2643, 0) as any as S.Schema<GetUserNotificationRuleRequest>,
   output: __S(51968, __c1624, 0) as any as S.Schema<OnCallNotificationRule>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91677,7 +92654,8 @@ export const getVulnerabilityNotificationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84608, __c2644, 0) as any as S.Schema<GetVulnerabilityNotificationRuleRequest>,
   output: __S(48352, __c1511, 0) as any as S.Schema<NotificationRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91694,7 +92672,8 @@ export const getVulnerabilityNotificationRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84640, __c2645, 0) as any as S.Schema<GetVulnerabilityNotificationRulesRequest>,
   output: __S(81185, __c2537, 1) as any as S.Schema<NotificationRulesListResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91711,7 +92690,8 @@ export const getWebIntegrationAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84672, __c2646, 0) as any as S.Schema<GetWebIntegrationAccountRequest>,
   output: __S(52128, __c1629, 0) as any as S.Schema<WebIntegrationAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91728,7 +92708,8 @@ export const getWidget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84704, __c2647, 0) as any as S.Schema<GetWidgetRequest>,
   output: __S(52320, __c1635, 0) as any as S.Schema<WidgetResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91745,7 +92726,8 @@ export const getWorkflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84736, __c2648, 0) as any as S.Schema<GetWorkflowRequest>,
   output: __S(84737, __c2648, 1) as any as S.Schema<GetWorkflowResponseOutput>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91762,7 +92744,8 @@ export const getWorkflowInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84768, __c2649, 0) as any as S.Schema<GetWorkflowInstanceRequest>,
   output: __S(84770, __c2649, 2) as any as S.Schema<WorklflowGetInstanceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91779,7 +92762,8 @@ export const getWorkflowsWebhookHandle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84800, __c2650, 0) as any as S.Schema<GetWorkflowsWebhookHandleRequest>,
   output: __S(52608, __c1644, 0) as any as S.Schema<MicrosoftTeamsWorkflowsWebhookHandleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91796,7 +92780,8 @@ export const ignoreInferredJourney: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84832, __c2651, 0) as any as S.Schema<IgnoreInferredJourneyRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<IgnoreInferredJourneyResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91813,7 +92798,8 @@ export const importIncident: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84964, __c2655, 4) as any as S.Schema<ImportIncidentRequest>,
   output: __S(84968, __c2655, 8) as any as S.Schema<IncidentImportResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91830,7 +92816,8 @@ export const importSecurityVulnerabilities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(85009, __c2656, 17) as any as S.Schema<ImportSecurityVulnerabilitiesRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<ImportSecurityVulnerabilitiesResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91847,7 +92834,8 @@ export const linkIncident: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(85024, __c2657, 0) as any as S.Schema<LinkIncidentRequest>,
   output: __S(74400, __c2325, 0) as any as S.Schema<CaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91869,7 +92857,8 @@ export const linkJiraIssueToCase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(85057, __c2658, 1) as any as S.Schema<LinkJiraIssueToCaseRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<LinkJiraIssueToCaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91886,7 +92875,8 @@ export const linkPageToIncident: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(85091, __c2659, 3) as any as S.Schema<LinkPageToIncidentRequest>,
   output: __S(37088, __c1159, 0) as any as S.Schema<IncidentIntegrationMetadataResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91907,7 +92897,8 @@ export const listActiveMetricConfigurations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(85120, __c2660, 0) as any as S.Schema<ListActiveMetricConfigurationsRequest>,
   output: __S(85123, __c2660, 3) as any as S.Schema<MetricSuggestedTagsAndAggregationsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91924,7 +92915,8 @@ export const listAgentHealthHostIssues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(85152, __c2661, 0) as any as S.Schema<ListAgentHealthHostIssuesRequest>,
   output: __S(85157, __c2661, 5) as any as S.Schema<AgentHealthHostIssuesResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91941,7 +92933,8 @@ export const listAiCustomRuleRevisions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(85184, __c2662, 0) as any as S.Schema<ListAiCustomRuleRevisionsRequest>,
   output: __S(85186, __c2662, 2) as any as S.Schema<AiCustomRuleRevisionsResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91958,7 +92951,8 @@ export const listAiCustomRulesets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(85216, __c2663, 0) as any as S.Schema<ListAiCustomRulesetsRequest>,
   output: __S(85218, __c2663, 2) as any as S.Schema<AiCustomRulesetsResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91975,7 +92969,8 @@ export const listAiGatewayBudgetInstanceDimensions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(85248, __c2664, 0) as any as S.Schema<ListAiGatewayBudgetInstanceDimensionsRequest>,
   output: __S(85254, __c2664, 6) as any as S.Schema<AiGatewayBudgetInstanceDimensionListResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -91992,7 +92987,8 @@ export const listAiGatewayBudgetInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<ListAiGatewayBudgetInstancesRequest>,
   output: __S(291, __c9, 3) as any as S.Schema<AiGatewayBudgetInstanceListResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92009,7 +93005,8 @@ export const listAiGatewayBudgets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<ListAiGatewayBudgetsRequest>,
   output: __S(356, __c11, 4) as any as S.Schema<AiGatewayBudgetListResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92026,7 +93023,8 @@ export const listAiGatewayModelGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<ListAiGatewayModelGroupsRequest>,
   output: __S(386, __c12, 2) as any as S.Schema<AiGatewayModelGroupListResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92043,7 +93041,8 @@ export const listAiGatewayModels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<ListAiGatewayModelsRequest>,
   output: __S(55200, __c1725, 0) as any as S.Schema<AiGatewayModelCatalogEntryListResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92060,7 +93059,8 @@ export const listAiGatewayModelsByCanonical: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<ListAiGatewayModelsByCanonicalRequest>,
   output: __S(454, __c14, 6) as any as S.Schema<AiGatewayModelsByCanonicalListResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92077,7 +93077,8 @@ export const listAiGatewayPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<ListAiGatewayPoliciesRequest>,
   output: __S(482, __c15, 2) as any as S.Schema<AiGatewayPolicyListResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92094,7 +93095,8 @@ export const listAiGatewayProviderModels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<ListAiGatewayProviderModelsRequest>,
   output: __S(516, __c16, 4) as any as S.Schema<AiGatewayDiscoveredModelListResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92111,7 +93113,8 @@ export const listAiGatewayProviders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<ListAiGatewayProvidersRequest>,
   output: __S(546, __c17, 2) as any as S.Schema<AiGatewayProviderListResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92128,7 +93131,8 @@ export const listAiGatewayRateLimits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<ListAiGatewayRateLimitsRequest>,
   output: __S(578, __c18, 2) as any as S.Schema<AiGatewayRateLimitListResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92145,7 +93149,8 @@ export const listAiGatewayRoutingRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<ListAiGatewayRoutingRulesRequest>,
   output: __S(610, __c19, 2) as any as S.Schema<AiGatewayRoutingRuleListResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92162,7 +93167,8 @@ export const listAiMemoryViolationResults: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<ListAiMemoryViolationResultsRequest>,
   output: __S(740, __c23, 4) as any as S.Schema<AiMemoryViolationResultsResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92179,7 +93185,8 @@ export const listAiPrompts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<ListAiPromptsRequest>,
   output: __S(772, __c24, 4) as any as S.Schema<AiPromptsResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92196,7 +93203,8 @@ export const listAllCSMAgents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<ListAllCSMAgentsRequest>,
   output: __S(836, __c26, 4) as any as S.Schema<CsmAgentsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92213,7 +93221,8 @@ export const listAllCSMServerlessAgents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<ListAllCSMServerlessAgentsRequest>,
   output: __S(836, __c26, 4) as any as S.Schema<CsmAgentsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92230,7 +93239,8 @@ export const listAnnotations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<ListAnnotationsRequest>,
   output: __S(898, __c28, 2) as any as S.Schema<AnnotationsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92247,7 +93257,8 @@ export const listAPIKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<ListAPIKeysRequest>,
   output: __S(933, __c29, 5) as any as S.Schema<APIKeysResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92264,7 +93275,8 @@ export const listApmRetentionFilters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<ListApmRetentionFiltersRequest>,
   output: __S(994, __c31, 2) as any as S.Schema<RetentionFiltersResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92281,7 +93293,8 @@ export const listAppKeyRegistrations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<ListAppKeyRegistrationsRequest>,
   output: __S(1026, __c32, 2) as any as S.Schema<ListAppKeyRegistrationsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92298,7 +93311,8 @@ export const listApplicationKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<ListApplicationKeysRequest>,
   output: __S(1090, __c34, 2) as any as S.Schema<ListApplicationKeysResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92315,7 +93329,8 @@ export const listApplicationSecurityWAFCustomRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<ListApplicationSecurityWAFCustomRulesRequest>,
   output: __S(1122, __c35, 2) as any as S.Schema<ApplicationSecurityWafCustomRuleListResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92332,7 +93347,8 @@ export const listApplicationSecurityWafExclusionFilters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<ListApplicationSecurityWafExclusionFiltersRequest>,
   output: __S(1282, __c40, 2) as any as S.Schema<ApplicationSecurityWafExclusionFiltersResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92349,7 +93365,8 @@ export const listApplicationSecurityWAFPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<ListApplicationSecurityWAFPoliciesRequest>,
   output: __S(1314, __c41, 2) as any as S.Schema<ApplicationSecurityPolicyListResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92366,7 +93383,8 @@ export const listApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<ListAppsRequest>,
   output: __S(1349, __c42, 5) as any as S.Schema<ListAppsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92383,7 +93401,8 @@ export const listAppVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<ListAppVersionsRequest>,
   output: __S(1412, __c44, 4) as any as S.Schema<ListAppVersionsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92400,7 +93419,8 @@ export const listArchiveReadRoles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<ListArchiveReadRolesRequest>,
   output: __S(1472, __c46, 0) as any as S.Schema<RolesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92417,7 +93437,8 @@ export const listArchiveSearches: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<ListArchiveSearchesRequest>,
   output: __S(1507, __c47, 3) as any as S.Schema<ArchiveSearchListResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92434,7 +93455,8 @@ export const listAssetsSBOMs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<ListAssetsSBOMsRequest>,
   output: __S(1538, __c48, 2) as any as S.Schema<ListAssetsSBOMsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92451,7 +93473,8 @@ export const listAuditLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<ListAuditLogsRequest>,
   output: __S(1635, __c51, 3) as any as S.Schema<AuditLogsEventsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92468,7 +93491,8 @@ export const listAuthNMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<ListAuthNMappingsRequest>,
   output: __S(1666, __c52, 2) as any as S.Schema<AuthNMappingsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92485,7 +93509,8 @@ export const listAWSAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<ListAWSAccountsRequest>,
   output: __S(1698, __c53, 2) as any as S.Schema<AWSAccountsResponseOutput>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92502,7 +93527,8 @@ export const listAWSCloudAuthIntakeMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<ListAWSCloudAuthIntakeMappingsRequest>,
   output: __S(1826, __c57, 2) as any as S.Schema<AWSCloudAuthIntakeMappingsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92519,7 +93545,8 @@ export const listAWSCloudAuthPersonaMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<ListAWSCloudAuthPersonaMappingsRequest>,
   output: __S(1858, __c58, 2) as any as S.Schema<AWSCloudAuthPersonaMappingsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92536,7 +93563,8 @@ export const listAWSEventBridgeSources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<ListAWSEventBridgeSourcesRequest>,
   output: __S(1895, __c59, 7) as any as S.Schema<AWSEventBridgeListResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92553,7 +93581,8 @@ export const listAWSLogsServices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<ListAWSLogsServicesRequest>,
   output: __S(1923, __c60, 3) as any as S.Schema<AWSLogsServicesResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92570,7 +93599,8 @@ export const listAWSNamespaces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<ListAWSNamespacesRequest>,
   output: __S(1955, __c61, 3) as any as S.Schema<AWSNamespacesResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92587,7 +93617,8 @@ export const listAwsOnDemandTasks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<ListAwsOnDemandTasksRequest>,
   output: __S(1986, __c62, 2) as any as S.Schema<AwsOnDemandListResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92604,7 +93635,8 @@ export const listAwsScanOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<ListAwsScanOptionsRequest>,
   output: __S(2018, __c63, 2) as any as S.Schema<AwsScanOptionsListResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92621,7 +93653,8 @@ export const listAzureScanOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<ListAzureScanOptionsRequest>,
   output: __S(2050, __c64, 2) as any as S.Schema<AzureScanOptionsArray>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92638,7 +93671,8 @@ export const listBlueprints: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<ListBlueprintsRequest>,
   output: __S(2084, __c65, 4) as any as S.Schema<ListBlueprintsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92655,7 +93689,8 @@ export const listBudgets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<ListBudgetsRequest>,
   output: __S(2115, __c66, 3) as any as S.Schema<BudgetArray>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92672,7 +93707,8 @@ export const listCaseAutomationRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<ListCaseAutomationRulesRequest>,
   output: __S(2402, __c75, 2) as any as S.Schema<AutomationRulesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92689,7 +93725,8 @@ export const listCaseLinks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<ListCaseLinksRequest>,
   output: __S(2434, __c76, 2) as any as S.Schema<CaseLinksResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92706,7 +93743,8 @@ export const listCaseTimeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<ListCaseTimelineRequest>,
   output: __S(65732, __c2054, 4) as any as S.Schema<TimelineResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92723,7 +93761,8 @@ export const listCaseViews: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<ListCaseViewsRequest>,
   output: __S(2498, __c78, 2) as any as S.Schema<CaseViewsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92740,7 +93779,8 @@ export const listCaseWatchers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<ListCaseWatchersRequest>,
   output: __S(2531, __c79, 3) as any as S.Schema<CaseWatchersResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92757,7 +93797,8 @@ export const listCatalogEntity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<ListCatalogEntityRequest>,
   output: __S(2562, __c80, 2) as any as S.Schema<ListEntityCatalogResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92774,7 +93815,8 @@ export const listCatalogKind: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<ListCatalogKindRequest>,
   output: __S(2629, __c82, 5) as any as S.Schema<ListKindCatalogResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92791,7 +93833,8 @@ export const listCatalogRelation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<ListCatalogRelationRequest>,
   output: __S(2696, __c84, 8) as any as S.Schema<ListRelationCatalogResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92808,7 +93851,8 @@ export const listCIAppGitHubAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<ListCIAppGitHubAccountsRequest>,
   output: __S(2722, __c85, 2) as any as S.Schema<CIAppGitHubAccountsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92825,7 +93869,8 @@ export const listCIAppPipelineEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c87, 0) as any as S.Schema<ListCIAppPipelineEventsRequest>,
   output: __S(2819, __c88, 3) as any as S.Schema<CIAppPipelineEventsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92842,7 +93887,8 @@ export const listCIAppTestEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<ListCIAppTestEventsRequest>,
   output: __S(2979, __c93, 3) as any as S.Schema<CIAppTestEventsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92859,7 +93905,8 @@ export const listCloudflareAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<ListCloudflareAccountsRequest>,
   output: __S(3010, __c94, 2) as any as S.Schema<CloudflareAccountsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92876,7 +93923,8 @@ export const listCloudWorkloadSecurityAgentRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c95, 0) as any as S.Schema<ListCloudWorkloadSecurityAgentRulesRequest>,
   output: __S(3073, __c96, 1) as any as S.Schema<CloudWorkloadSecurityAgentRulesListResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92893,7 +93941,8 @@ export const listComponents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c97, 0) as any as S.Schema<ListComponentsRequest>,
   output: __S(3106, __c97, 2) as any as S.Schema<StatusPagesComponentArray>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92910,7 +93959,8 @@ export const listConfluentAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3136, __c98, 0) as any as S.Schema<ListConfluentAccountRequest>,
   output: __S(3138, __c98, 2) as any as S.Schema<ConfluentAccountsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92927,7 +93977,8 @@ export const listConfluentResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3168, __c99, 0) as any as S.Schema<ListConfluentResourceRequest>,
   output: __S(3170, __c99, 2) as any as S.Schema<ConfluentResourcesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92944,7 +93995,8 @@ export const listConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c100, 0) as any as S.Schema<ListConnectionsRequest>,
   output: __S(3206, __c100, 6) as any as S.Schema<ListConnectionsResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92961,7 +94013,8 @@ export const listContainerImages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3232, __c101, 0) as any as S.Schema<ListContainerImagesRequest>,
   output: __S(3234, __c101, 2) as any as S.Schema<ContainerImagesResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92978,7 +94031,8 @@ export const listContainers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c104, 0) as any as S.Schema<ListContainersRequest>,
   output: __S(3330, __c104, 2) as any as S.Schema<ContainersResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -92995,7 +94049,8 @@ export const listCostAnomalies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3360, __c105, 0) as any as S.Schema<ListCostAnomaliesRequest>,
   output: __S(3364, __c105, 4) as any as S.Schema<CostAnomaliesResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93012,7 +94067,8 @@ export const listCostAWSCURConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3424, __c107, 0) as any as S.Schema<ListCostAWSCURConfigsRequest>,
   output: __S(3459, __c108, 3) as any as S.Schema<AwsCURConfigsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93029,7 +94085,8 @@ export const listCostAzureUCConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3488, __c109, 0) as any as S.Schema<ListCostAzureUCConfigsRequest>,
   output: __S(3490, __c109, 2) as any as S.Schema<AzureUCConfigsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93046,7 +94103,8 @@ export const listCostCloudAccountsV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3520, __c110, 0) as any as S.Schema<ListCostCloudAccountsV2Request>,
   output: __S(3524, __c110, 4) as any as S.Schema<CloudCostAccountsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93063,7 +94121,8 @@ export const listCostGCPUsageCostConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3552, __c111, 0) as any as S.Schema<ListCostGCPUsageCostConfigsRequest>,
   output: __S(3554, __c111, 2) as any as S.Schema<GCPUsageCostConfigsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93080,7 +94139,8 @@ export const listCostTagDescriptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3584, __c112, 0) as any as S.Schema<ListCostTagDescriptionsRequest>,
   output: __S(3586, __c112, 2) as any as S.Schema<CostTagDescriptionsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93097,7 +94157,8 @@ export const listCostTagKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3616, __c113, 0) as any as S.Schema<ListCostTagKeysRequest>,
   output: __S(3618, __c113, 2) as any as S.Schema<CostTagKeysResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93114,7 +94175,8 @@ export const listCostTagKeySources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3648, __c114, 0) as any as S.Schema<ListCostTagKeySourcesRequest>,
   output: __S(3652, __c114, 4) as any as S.Schema<CostTagKeySourcesResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93131,7 +94193,8 @@ export const listCostTagMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3680, __c115, 0) as any as S.Schema<ListCostTagMetadataRequest>,
   output: __S(3684, __c115, 4) as any as S.Schema<CostTagKeyMetadataResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93148,7 +94211,8 @@ export const listCostTagMetadataMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3712, __c116, 0) as any as S.Schema<ListCostTagMetadataMetricsRequest>,
   output: __S(29120, __c910, 0) as any as S.Schema<CostMetricsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93165,7 +94229,8 @@ export const listCostTagMetadataMonths: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3744, __c117, 0) as any as S.Schema<ListCostTagMetadataMonthsRequest>,
   output: __S(29120, __c910, 0) as any as S.Schema<CostTagMetadataMonthsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93182,7 +94247,8 @@ export const listCostTagMetadataOrchestrators: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3904, __c122, 0) as any as S.Schema<ListCostTagMetadataOrchestratorsRequest>,
   output: __S(29120, __c910, 0) as any as S.Schema<CostOrchestratorsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93199,7 +94265,8 @@ export const listCostTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3936, __c123, 0) as any as S.Schema<ListCostTagsRequest>,
   output: __S(3940, __c123, 4) as any as S.Schema<CostTagsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93216,7 +94283,8 @@ export const listCSMAgentlessHostFacets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3968, __c124, 0) as any as S.Schema<ListCSMAgentlessHostFacetsRequest>,
   output: __S(4003, __c125, 3) as any as S.Schema<CsmAgentlessHostFacetsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93233,7 +94301,8 @@ export const listCSMAgentlessHosts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4032, __c126, 0) as any as S.Schema<ListCSMAgentlessHostsRequest>,
   output: __S(4037, __c126, 5) as any as S.Schema<CsmAgentlessHostsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93250,7 +94319,8 @@ export const listCSMThreatsAgentPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4064, __c127, 0) as any as S.Schema<ListCSMThreatsAgentPoliciesRequest>,
   output: __S(4066, __c127, 2) as any as S.Schema<CloudWorkloadSecurityAgentPoliciesListResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93267,7 +94337,8 @@ export const listCSMThreatsAgentRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4096, __c128, 0) as any as S.Schema<ListCSMThreatsAgentRulesRequest>,
   output: __S(3073, __c96, 1) as any as S.Schema<CloudWorkloadSecurityAgentRulesListResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93284,7 +94355,8 @@ export const listCSMUnifiedHostFacets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4128, __c129, 0) as any as S.Schema<ListCSMUnifiedHostFacetsRequest>,
   output: __S(4003, __c125, 3) as any as S.Schema<CsmUnifiedHostFacetsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93301,7 +94373,8 @@ export const listCSMUnifiedHosts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4160, __c130, 0) as any as S.Schema<ListCSMUnifiedHostsRequest>,
   output: __S(4165, __c130, 5) as any as S.Schema<CsmUnifiedHostsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93322,7 +94395,8 @@ export const listCurrentUserApplicationKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4192, __c131, 0) as any as S.Schema<ListCurrentUserApplicationKeysRequest>,
   output: __S(1090, __c34, 2) as any as S.Schema<ListApplicationKeysResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93339,7 +94413,8 @@ export const listCustomAllocationRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4224, __c132, 0) as any as S.Schema<ListCustomAllocationRulesRequest>,
   output: __S(4226, __c132, 2) as any as S.Schema<ArbitraryRuleResponseArray>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93356,7 +94431,8 @@ export const listCustomAllocationRulesStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4320, __c135, 0) as any as S.Schema<ListCustomAllocationRulesStatusRequest>,
   output: __S(4355, __c136, 3) as any as S.Schema<ArbitraryRuleStatusResponseArray>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93373,7 +94449,8 @@ export const listCustomCostsFiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4384, __c137, 0) as any as S.Schema<ListCustomCostsFilesRequest>,
   output: __S(4389, __c137, 5) as any as S.Schema<CustomCostsFileListResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93390,7 +94467,8 @@ export const listCustomRuleRevisions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4416, __c138, 0) as any as S.Schema<ListCustomRuleRevisionsRequest>,
   output: __S(4418, __c138, 2) as any as S.Schema<CustomRuleRevisionsResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93407,7 +94485,8 @@ export const listCustomRulesets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4448, __c139, 0) as any as S.Schema<ListCustomRulesetsRequest>,
   output: __S(4450, __c139, 2) as any as S.Schema<CustomRulesetListResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93424,7 +94503,8 @@ export const listDashboardsUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4480, __c140, 0) as any as S.Schema<ListDashboardsUsageRequest>,
   output: __S(4482, __c140, 2) as any as S.Schema<ListDashboardsUsageResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93445,7 +94525,8 @@ export const listDatabricksIntegrationAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4544, __c142, 0) as any as S.Schema<ListDatabricksIntegrationAccountsRequest>,
   output: __S(4546, __c142, 2) as any as S.Schema<DatabricksIntegrationAccountsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93462,7 +94543,8 @@ export const listDatasetReportSchedules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4576, __c143, 0) as any as S.Schema<ListDatasetReportSchedulesRequest>,
   output: __S(4580, __c143, 4) as any as S.Schema<DatasetReportScheduleListResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93479,7 +94561,8 @@ export const listDatastoreItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4608, __c144, 0) as any as S.Schema<ListDatastoreItemsRequest>,
   output: __S(4615, __c144, 7) as any as S.Schema<ItemApiPayloadArray>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93496,7 +94579,8 @@ export const listDatastores: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4672, __c146, 0) as any as S.Schema<ListDatastoresRequest>,
   output: __S(4674, __c146, 2) as any as S.Schema<DatastoreArray>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93513,7 +94597,8 @@ export const listDegradations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4704, __c147, 0) as any as S.Schema<ListDegradationsRequest>,
   output: __S(4706, __c147, 2) as any as S.Schema<DegradationArray>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93530,7 +94615,8 @@ export const listDegradationTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4800, __c150, 0) as any as S.Schema<ListDegradationTemplatesRequest>,
   output: __S(4802, __c150, 2) as any as S.Schema<DegradationTemplateArray>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93547,7 +94633,8 @@ export const listDeploymentGateEvaluations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4832, __c151, 0) as any as S.Schema<ListDeploymentGateEvaluationsRequest>,
   output: __S(4836, __c151, 4) as any as S.Schema<DeploymentGateEvaluationsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93564,7 +94651,8 @@ export const listDeploymentGates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4896, __c153, 0) as any as S.Schema<ListDeploymentGatesRequest>,
   output: __S(4900, __c153, 4) as any as S.Schema<DeploymentGatesListResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93581,7 +94669,8 @@ export const listDeploymentRuleEvaluations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4928, __c154, 0) as any as S.Schema<ListDeploymentRuleEvaluationsRequest>,
   output: __S(4938, __c154, 10) as any as S.Schema<DeploymentGateRuleEvaluationsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93598,7 +94687,8 @@ export const listDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4960, __c155, 0) as any as S.Schema<ListDevicesRequest>,
   output: __S(4965, __c155, 5) as any as S.Schema<ListDevicesResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93615,7 +94705,8 @@ export const listDeviceUserTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5024, __c157, 0) as any as S.Schema<ListDeviceUserTagsRequest>,
   output: __S(5060, __c158, 4) as any as S.Schema<ListTagsResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93632,7 +94723,8 @@ export const listDORADeployments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5088, __c159, 0) as any as S.Schema<ListDORADeploymentsRequest>,
   output: __S(5090, __c159, 2) as any as S.Schema<DORADeploymentsListResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93649,7 +94741,8 @@ export const listDORAFailures: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5152, __c161, 0) as any as S.Schema<ListDORAFailuresRequest>,
   output: __S(5154, __c161, 2) as any as S.Schema<DORAFailuresListResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93666,7 +94759,8 @@ export const listDowntimes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5184, __c162, 0) as any as S.Schema<ListDowntimesRequest>,
   output: __S(5186, __c162, 2) as any as S.Schema<ListDowntimesResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93687,7 +94781,8 @@ export const listElasticCloudIntegrationAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5216, __c163, 0) as any as S.Schema<ListElasticCloudIntegrationAccountsRequest>,
   output: __S(5218, __c163, 2) as any as S.Schema<ElasticCloudIntegrationAccountsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93704,7 +94799,8 @@ export const listEntityRiskScores: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5312, __c166, 0) as any as S.Schema<ListEntityRiskScoresRequest>,
   output: __S(5315, __c166, 3) as any as S.Schema<SecurityEntityRiskScoresResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93721,7 +94817,8 @@ export const listEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5344, __c167, 0) as any as S.Schema<ListEventsRequest>,
   output: __S(5383, __c168, 7) as any as S.Schema<EventsListResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93738,7 +94835,8 @@ export const listExclusionFilters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5408, __c169, 0) as any as S.Schema<ListExclusionFiltersRequest>,
   output: __S(5410, __c169, 2) as any as S.Schema<RumExclusionFiltersResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93755,7 +94853,8 @@ export const listExecutionPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5440, __c170, 0) as any as S.Schema<ListExecutionPoliciesRequest>,
   output: __S(5444, __c170, 4) as any as S.Schema<ExecutionPolicyListResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93772,7 +94871,8 @@ export const listExperimentMetricGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5472, __c171, 0) as any as S.Schema<ListExperimentMetricGroupsRequest>,
   output: __S(5474, __c171, 2) as any as S.Schema<ExperimentsExperimentMetricGroupV2DTOArray>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93789,7 +94889,8 @@ export const listExperimentProtocols: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5504, __c172, 0) as any as S.Schema<ListExperimentProtocolsRequest>,
   output: __S(5508, __c172, 4) as any as S.Schema<ExperimentsPublicProtocolListResponseArray>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93806,7 +94907,8 @@ export const listExperiments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5632, __c176, 0) as any as S.Schema<ListExperimentsRequest>,
   output: __S(5636, __c176, 4) as any as S.Schema<ExperimentsExperimentV2ListDTOArray>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93823,7 +94925,8 @@ export const listExposureSQLModels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5664, __c177, 0) as any as S.Schema<ListExposureSQLModelsRequest>,
   output: __S(5666, __c177, 2) as any as S.Schema<ExperimentsExposureSQLModelV2DTOArray>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93840,7 +94943,8 @@ export const listFastlyAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5696, __c178, 0) as any as S.Schema<ListFastlyAccountsRequest>,
   output: __S(5698, __c178, 2) as any as S.Schema<FastlyAccountsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93857,7 +94961,8 @@ export const listFastlyServices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5728, __c179, 0) as any as S.Schema<ListFastlyServicesRequest>,
   output: __S(5730, __c179, 2) as any as S.Schema<FastlyServicesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93874,7 +94979,8 @@ export const listFeatureFlags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5856, __c183, 0) as any as S.Schema<ListFeatureFlagsRequest>,
   output: __S(5864, __c183, 8) as any as S.Schema<ListFeatureFlagsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93891,7 +94997,8 @@ export const listFeatureFlagsEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5888, __c184, 0) as any as S.Schema<ListFeatureFlagsEnvironmentsRequest>,
   output: __S(5890, __c184, 2) as any as S.Schema<ListEnvironmentsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93908,7 +95015,8 @@ export const listFindings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5920, __c185, 0) as any as S.Schema<ListFindingsRequest>,
   output: __S(5926, __c185, 6) as any as S.Schema<ListFindingsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93925,7 +95033,8 @@ export const listFleetAgentsV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5952, __c186, 0) as any as S.Schema<ListFleetAgentsV2Request>,
   output: __S(5956, __c186, 4) as any as S.Schema<FleetAgentsV2Response>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93942,7 +95051,8 @@ export const listFleetAgentTracers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5984, __c187, 0) as any as S.Schema<ListFleetAgentTracersRequest>,
   output: __S(6020, __c188, 4) as any as S.Schema<FleetTracersResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93959,7 +95069,8 @@ export const listFleetAgentVersionsV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6048, __c189, 0) as any as S.Schema<ListFleetAgentVersionsV2Request>,
   output: __S(6051, __c189, 3) as any as S.Schema<FleetAgentVersionsV2Response>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93976,7 +95087,8 @@ export const listFleetDeploymentsV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6112, __c191, 0) as any as S.Schema<ListFleetDeploymentsV2Request>,
   output: __S(6114, __c191, 2) as any as S.Schema<FleetDeploymentsV2Response>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93993,7 +95105,8 @@ export const listFleetSchedulesV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6144, __c192, 0) as any as S.Schema<ListFleetSchedulesV2Request>,
   output: __S(6146, __c192, 2) as any as S.Schema<FleetSchedulesV2Response>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94010,7 +95123,8 @@ export const listFleetTracers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6176, __c193, 0) as any as S.Schema<ListFleetTracersRequest>,
   output: __S(6020, __c188, 4) as any as S.Schema<FleetTracersResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94027,7 +95141,8 @@ export const listForms: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6208, __c194, 0) as any as S.Schema<ListFormsRequest>,
   output: __S(6210, __c194, 2) as any as S.Schema<FormsResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94044,7 +95159,8 @@ export const listGcpScanOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6272, __c196, 0) as any as S.Schema<ListGcpScanOptionsRequest>,
   output: __S(6274, __c196, 2) as any as S.Schema<GcpScanOptionsArray>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94061,7 +95177,8 @@ export const listGCPSTSAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6304, __c197, 0) as any as S.Schema<ListGCPSTSAccountsRequest>,
   output: __S(6306, __c197, 2) as any as S.Schema<GCPSTSServiceAccountsResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94078,7 +95195,8 @@ export const listGitHubCloudAuthIntakeMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6336, __c198, 0) as any as S.Schema<ListGitHubCloudAuthIntakeMappingsRequest>,
   output: __S(6338, __c198, 2) as any as S.Schema<GitHubCloudAuthIntakeMappingsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94095,7 +95213,8 @@ export const listGitHubCloudAuthPersonaMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6368, __c199, 0) as any as S.Schema<ListGitHubCloudAuthPersonaMappingsRequest>,
   output: __S(6370, __c199, 2) as any as S.Schema<GitHubCloudAuthPersonaMappingsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94112,7 +95231,8 @@ export const listGlobalIncidentHandles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6400, __c200, 0) as any as S.Schema<ListGlobalIncidentHandlesRequest>,
   output: __S(6402, __c200, 2) as any as S.Schema<IncidentHandlesResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94129,7 +95249,8 @@ export const listGlobalOrgs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6432, __c201, 0) as any as S.Schema<ListGlobalOrgsRequest>,
   output: __S(6441, __c201, 9) as any as S.Schema<GlobalOrgsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94146,7 +95267,8 @@ export const listGoogleChatOrganizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6464, __c202, 0) as any as S.Schema<ListGoogleChatOrganizationsRequest>,
   output: __S(6466, __c202, 2) as any as S.Schema<GoogleChatOrganizationsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94163,7 +95285,8 @@ export const listGoogleChatTargetAudiences: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6496, __c203, 0) as any as S.Schema<ListGoogleChatTargetAudiencesRequest>,
   output: __S(6498, __c203, 2) as any as S.Schema<GoogleChatTargetAudiencesResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94180,7 +95303,8 @@ export const listGovernanceControlDetections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6528, __c204, 0) as any as S.Schema<ListGovernanceControlDetectionsRequest>,
   output: __S(6530, __c204, 2) as any as S.Schema<GovernanceControlDetectionsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94197,7 +95321,8 @@ export const listGovernanceControls: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6560, __c205, 0) as any as S.Schema<ListGovernanceControlsRequest>,
   output: __S(6562, __c205, 2) as any as S.Schema<GovernanceControlsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94214,7 +95339,8 @@ export const listGovernanceInsights: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6688, __c209, 0) as any as S.Schema<ListGovernanceInsightsRequest>,
   output: __S(6700, __c209, 12) as any as S.Schema<GovernanceInsightsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94231,7 +95357,8 @@ export const listHistoricalJobs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6720, __c210, 0) as any as S.Schema<ListHistoricalJobsRequest>,
   output: __S(6722, __c210, 2) as any as S.Schema<ListHistoricalJobsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94248,7 +95375,8 @@ export const listIdentityProviders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6784, __c212, 0) as any as S.Schema<ListIdentityProvidersRequest>,
   output: __S(6786, __c212, 2) as any as S.Schema<IdentityProvidersResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94265,7 +95393,8 @@ export const listIdentityProviderUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6848, __c214, 0) as any as S.Schema<ListIdentityProviderUsersRequest>,
   output: __S(28896, __c903, 0) as any as S.Schema<UsersResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94282,7 +95411,8 @@ export const listIncidentAttachments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6880, __c215, 0) as any as S.Schema<ListIncidentAttachmentsRequest>,
   output: __S(6882, __c215, 2) as any as S.Schema<AttachmentArray>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94299,7 +95429,8 @@ export const listIncidentImpactFields: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6912, __c216, 0) as any as S.Schema<ListIncidentImpactFieldsRequest>,
   output: __S(6914, __c216, 2) as any as S.Schema<IncidentImpactFieldsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94316,7 +95447,8 @@ export const listIncidentImpacts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6944, __c217, 0) as any as S.Schema<ListIncidentImpactsRequest>,
   output: __S(6946, __c217, 2) as any as S.Schema<IncidentImpactsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94333,7 +95465,8 @@ export const listIncidentIntegrations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6976, __c218, 0) as any as S.Schema<ListIncidentIntegrationsRequest>,
   output: __S(6978, __c218, 2) as any as S.Schema<IncidentIntegrationMetadataListResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94350,7 +95483,8 @@ export const listIncidentNotificationRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7040, __c220, 0) as any as S.Schema<ListIncidentNotificationRulesRequest>,
   output: __S(7042, __c220, 2) as any as S.Schema<IncidentNotificationRuleArray>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94371,7 +95505,8 @@ export const listIncidentNotificationTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7072, __c221, 0) as any as S.Schema<ListIncidentNotificationTemplatesRequest>,
   output: __S(7074, __c221, 2) as any as S.Schema<IncidentNotificationTemplateArray>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94388,7 +95523,8 @@ export const listIncidentPostmortemTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7200, __c225, 0) as any as S.Schema<ListIncidentPostmortemTemplatesRequest>,
   output: __S(7202, __c225, 2) as any as S.Schema<PostmortemTemplatesResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94405,7 +95541,8 @@ export const listIncidentResponders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7232, __c226, 0) as any as S.Schema<ListIncidentRespondersRequest>,
   output: __S(7236, __c226, 4) as any as S.Schema<IncidentRespondersResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94422,7 +95559,8 @@ export const listIncidentRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7296, __c228, 0) as any as S.Schema<ListIncidentRulesRequest>,
   output: __S(7298, __c228, 2) as any as S.Schema<IncidentRulesResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94439,7 +95577,8 @@ export const listIncidents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7328, __c229, 0) as any as S.Schema<ListIncidentsRequest>,
   output: __S(7330, __c229, 2) as any as S.Schema<IncidentsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94456,7 +95595,8 @@ export const listIncidentTodos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7360, __c230, 0) as any as S.Schema<ListIncidentTodosRequest>,
   output: __S(7362, __c230, 2) as any as S.Schema<IncidentTodoListResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94473,7 +95613,8 @@ export const listIncidentTypes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7392, __c231, 0) as any as S.Schema<ListIncidentTypesRequest>,
   output: __S(7394, __c231, 2) as any as S.Schema<IncidentTypeListResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94490,7 +95631,8 @@ export const listIncidentUserDefinedFields: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7424, __c232, 0) as any as S.Schema<ListIncidentUserDefinedFieldsRequest>,
   output: __S(7427, __c232, 3) as any as S.Schema<IncidentUserDefinedFieldListResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94507,7 +95649,8 @@ export const listIncidentUserDefinedRoles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7456, __c233, 0) as any as S.Schema<ListIncidentUserDefinedRolesRequest>,
   output: __S(7458, __c233, 2) as any as S.Schema<IncidentUserDefinedRolesResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94524,7 +95667,8 @@ export const listIndicatorsOfCompromise: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7488, __c234, 0) as any as S.Schema<ListIndicatorsOfCompromiseRequest>,
   output: __S(7494, __c234, 6) as any as S.Schema<IoCExplorerListResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94541,7 +95685,8 @@ export const listIntegrations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7520, __c235, 0) as any as S.Schema<ListIntegrationsRequest>,
   output: __S(7525, __c235, 5) as any as S.Schema<ListIntegrationsResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94558,7 +95703,8 @@ export const listInterfaceUserTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7680, __c240, 0) as any as S.Schema<ListInterfaceUserTagsRequest>,
   output: __S(5060, __c158, 4) as any as S.Schema<ListInterfaceTagsResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94575,7 +95721,8 @@ export const listInvestigations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7712, __c241, 0) as any as S.Schema<ListInvestigationsRequest>,
   output: __S(7719, __c241, 7) as any as S.Schema<ListInvestigationsResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94592,7 +95739,8 @@ export const listJiraAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7744, __c242, 0) as any as S.Schema<ListJiraAccountsRequest>,
   output: __S(7746, __c242, 2) as any as S.Schema<JiraAccountsResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94609,7 +95757,8 @@ export const listJiraIssueTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7776, __c243, 0) as any as S.Schema<ListJiraIssueTemplatesRequest>,
   output: __S(7778, __c243, 2) as any as S.Schema<JiraIssueTemplatesResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94626,7 +95775,8 @@ export const listLLMObsAnnotationQueues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7808, __c244, 0) as any as S.Schema<ListLLMObsAnnotationQueuesRequest>,
   output: __S(7810, __c244, 2) as any as S.Schema<LLMObsAnnotationQueuesResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94643,7 +95793,8 @@ export const listLLMObsCustomEvalConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7840, __c245, 0) as any as S.Schema<ListLLMObsCustomEvalConfigsRequest>,
   output: __S(7842, __c245, 2) as any as S.Schema<LLMObsCustomEvalConfigListResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94660,7 +95811,8 @@ export const listLLMObsDatasetRecords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7872, __c246, 0) as any as S.Schema<ListLLMObsDatasetRecordsRequest>,
   output: __S(7873, __c246, 1) as any as S.Schema<LLMObsDatasetRecordsListResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94677,7 +95829,8 @@ export const listLLMObsDatasets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7936, __c248, 0) as any as S.Schema<ListLLMObsDatasetsRequest>,
   output: __S(7937, __c248, 1) as any as S.Schema<LLMObsDatasetsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94694,7 +95847,8 @@ export const listLLMObsDatasetVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8000, __c250, 0) as any as S.Schema<ListLLMObsDatasetVersionsRequest>,
   output: __S(8004, __c250, 4) as any as S.Schema<LLMObsDatasetVersionsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94711,7 +95865,8 @@ export const listLLMObsExperimentEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8032, __c251, 0) as any as S.Schema<ListLLMObsExperimentEventsRequest>,
   output: __S(8039, __c251, 7) as any as S.Schema<LLMObsExperimentEventsV2Response>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94728,7 +95883,8 @@ export const listLLMObsExperiments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8096, __c253, 0) as any as S.Schema<ListLLMObsExperimentsRequest>,
   output: __S(8098, __c253, 2) as any as S.Schema<LLMObsExperimentsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94745,7 +95901,8 @@ export const listLLMObsIntegrationAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8128, __c254, 0) as any as S.Schema<ListLLMObsIntegrationAccountsRequest>,
   output: __S(8131, __c254, 3) as any as S.Schema<ListLLMObsIntegrationAccountsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94762,7 +95919,8 @@ export const listLLMObsIntegrationModels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8160, __c255, 0) as any as S.Schema<ListLLMObsIntegrationModelsRequest>,
   output: __S(8163, __c255, 3) as any as S.Schema<ListLLMObsIntegrationModelsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94783,7 +95941,8 @@ export const listLLMObsPatternsClusteredPoints: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8192, __c256, 0) as any as S.Schema<ListLLMObsPatternsClusteredPointsRequest>,
   output: __S(8197, __c256, 5) as any as S.Schema<LLMObsPatternsClusteredPointsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94800,7 +95959,8 @@ export const listLLMObsPatternsConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8224, __c257, 0) as any as S.Schema<ListLLMObsPatternsConfigsRequest>,
   output: __S(8229, __c257, 5) as any as S.Schema<LLMObsPatternsConfigsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94817,7 +95977,8 @@ export const listLLMObsPatternsRuns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8256, __c258, 0) as any as S.Schema<ListLLMObsPatternsRunsRequest>,
   output: __S(8261, __c258, 5) as any as S.Schema<LLMObsPatternsRunsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94834,7 +95995,8 @@ export const listLLMObsPatternsTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8320, __c260, 0) as any as S.Schema<ListLLMObsPatternsTemplatesRequest>,
   output: __S(8325, __c260, 5) as any as S.Schema<LLMObsPatternsTemplatesResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94851,7 +96013,8 @@ export const listLLMObsPatternsTopics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8352, __c261, 0) as any as S.Schema<ListLLMObsPatternsTopicsRequest>,
   output: __S(8357, __c261, 5) as any as S.Schema<LLMObsPatternsTopicsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94876,7 +96039,8 @@ export const listLLMObsPatternsTopicsWithClusteredPoints: API.OperationMethod<
     0,
   ) as any as S.Schema<ListLLMObsPatternsTopicsWithClusteredPointsRequest>,
   output: __S(8391, __c262, 7) as any as S.Schema<LLMObsPatternsTopicsWithClusteredPointsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94893,7 +96057,8 @@ export const listLLMObsProjects: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8416, __c263, 0) as any as S.Schema<ListLLMObsProjectsRequest>,
   output: __S(8417, __c263, 1) as any as S.Schema<LLMObsProjectsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94910,7 +96075,8 @@ export const listLLMObsPrompts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8512, __c266, 0) as any as S.Schema<ListLLMObsPromptsRequest>,
   output: __S(8514, __c266, 2) as any as S.Schema<LLMObsPromptsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94927,7 +96093,8 @@ export const listLLMObsPromptVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8576, __c268, 0) as any as S.Schema<ListLLMObsPromptVersionsRequest>,
   output: __S(8580, __c268, 4) as any as S.Schema<LLMObsPromptVersionsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94944,7 +96111,8 @@ export const listLLMObsSpans: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8608, __c269, 0) as any as S.Schema<ListLLMObsSpansRequest>,
   output: __S(8651, __c270, 11) as any as S.Schema<LLMObsSpansResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94961,7 +96129,8 @@ export const listLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8672, __c271, 0) as any as S.Schema<ListLogsRequest>,
   output: __S(8707, __c272, 3) as any as S.Schema<LogsListResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94978,7 +96147,8 @@ export const listLogsArchives: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8736, __c273, 0) as any as S.Schema<ListLogsArchivesRequest>,
   output: __S(8738, __c273, 2) as any as S.Schema<LogsArchives>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -94995,7 +96165,8 @@ export const listLogsCustomDestinations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8768, __c274, 0) as any as S.Schema<ListLogsCustomDestinationsRequest>,
   output: __S(8770, __c274, 2) as any as S.Schema<CustomDestinationsResponseOutput>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95012,7 +96183,8 @@ export const listLogsGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8800, __c275, 0) as any as S.Schema<ListLogsGetRequest>,
   output: __S(8707, __c272, 3) as any as S.Schema<LogsListResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95029,7 +96201,8 @@ export const listLogsMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8832, __c276, 0) as any as S.Schema<ListLogsMetricsRequest>,
   output: __S(8865, __c277, 1) as any as S.Schema<LogsMetricsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95046,7 +96219,8 @@ export const listMaintenances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8896, __c278, 0) as any as S.Schema<ListMaintenancesRequest>,
   output: __S(8898, __c278, 2) as any as S.Schema<MaintenanceArray>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95063,7 +96237,8 @@ export const listMaintenanceTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8928, __c279, 0) as any as S.Schema<ListMaintenanceTemplatesRequest>,
   output: __S(8930, __c279, 2) as any as S.Schema<MaintenanceTemplateArray>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95080,7 +96255,8 @@ export const listMaintenanceWindows: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9056, __c283, 0) as any as S.Schema<ListMaintenanceWindowsRequest>,
   output: __S(9058, __c283, 2) as any as S.Schema<MaintenanceWindowsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95097,7 +96273,8 @@ export const listMetricAssets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9088, __c284, 0) as any as S.Schema<ListMetricAssetsRequest>,
   output: __S(9092, __c284, 4) as any as S.Schema<MetricAssetsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95114,7 +96291,8 @@ export const listMetricCollections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9120, __c285, 0) as any as S.Schema<ListMetricCollectionsRequest>,
   output: __S(9122, __c285, 2) as any as S.Schema<ExperimentsMetricCollectionV2DTOArray>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95131,7 +96309,8 @@ export const listMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9152, __c286, 0) as any as S.Schema<ListMetricsRequest>,
   output: __S(9154, __c286, 2) as any as S.Schema<ExperimentsMetricV2DTOArray>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95148,7 +96327,8 @@ export const listMetricSQLModels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9184, __c287, 0) as any as S.Schema<ListMetricSQLModelsRequest>,
   output: __S(9186, __c287, 2) as any as S.Schema<ExperimentsMetricSQLModelV2DTOArray>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95165,7 +96345,8 @@ export const listModelLabProjectArtifacts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9216, __c288, 0) as any as S.Schema<ListModelLabProjectArtifactsRequest>,
   output: __S(9221, __c288, 5) as any as S.Schema<ModelLabProjectArtifactsResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95182,7 +96363,8 @@ export const listModelLabProjectFacetKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9248, __c289, 0) as any as S.Schema<ListModelLabProjectFacetKeysRequest>,
   output: __S(9282, __c290, 2) as any as S.Schema<ModelLabFacetKeysResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95199,7 +96381,8 @@ export const listModelLabProjectFacetValues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9312, __c291, 0) as any as S.Schema<ListModelLabProjectFacetValuesRequest>,
   output: __S(9349, __c292, 5) as any as S.Schema<ModelLabFacetValuesResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95216,7 +96399,8 @@ export const listModelLabProjects: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9376, __c293, 0) as any as S.Schema<ListModelLabProjectsRequest>,
   output: __S(9378, __c293, 2) as any as S.Schema<ModelLabProjectsResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95233,7 +96417,8 @@ export const listModelLabRunArtifacts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9440, __c295, 0) as any as S.Schema<ListModelLabRunArtifactsRequest>,
   output: __S(9445, __c295, 5) as any as S.Schema<ModelLabRunArtifactsResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95250,7 +96435,8 @@ export const listModelLabRunFacetKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9632, __c301, 0) as any as S.Schema<ListModelLabRunFacetKeysRequest>,
   output: __S(9282, __c290, 2) as any as S.Schema<ModelLabFacetKeysResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95267,7 +96453,8 @@ export const listModelLabRunFacetValues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9664, __c302, 0) as any as S.Schema<ListModelLabRunFacetValuesRequest>,
   output: __S(9349, __c292, 5) as any as S.Schema<ModelLabFacetValuesResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95284,7 +96471,8 @@ export const listModelLabRuns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9696, __c303, 0) as any as S.Schema<ListModelLabRunsRequest>,
   output: __S(9698, __c303, 2) as any as S.Schema<ModelLabRunsResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95301,7 +96489,8 @@ export const listMonitorConfigPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9728, __c304, 0) as any as S.Schema<ListMonitorConfigPoliciesRequest>,
   output: __S(9730, __c304, 2) as any as S.Schema<MonitorConfigPolicyListResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95318,7 +96507,8 @@ export const listMonitorDowntimes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9760, __c305, 0) as any as S.Schema<ListMonitorDowntimesRequest>,
   output: __S(9764, __c305, 4) as any as S.Schema<MonitorDowntimeMatchResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95335,7 +96525,8 @@ export const listMonitorUserTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9792, __c306, 0) as any as S.Schema<ListMonitorUserTemplatesRequest>,
   output: __S(9794, __c306, 2) as any as S.Schema<MonitorUserTemplateListResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95352,7 +96543,8 @@ export const listMultipleRulesets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9826, __c307, 2) as any as S.Schema<ListMultipleRulesetsRequest>,
   output: __S(9831, __c307, 7) as any as S.Schema<GetMultipleRulesetsResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95374,7 +96566,8 @@ export const listMyTemporaryGrantRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9856, __c308, 0) as any as S.Schema<ListMyTemporaryGrantRequestsRequest>,
   output: __S(9953, __c311, 1) as any as S.Schema<TemporaryGrantRequestListResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95391,7 +96584,8 @@ export const listOIDCCloudAuthPersonaMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9984, __c312, 0) as any as S.Schema<ListOIDCCloudAuthPersonaMappingsRequest>,
   output: __S(9986, __c312, 2) as any as S.Schema<OIDCCloudAuthPersonaMappingsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95408,7 +96602,8 @@ export const listOIDCCloudAuthProviders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10016, __c313, 0) as any as S.Schema<ListOIDCCloudAuthProvidersRequest>,
   output: __S(10018, __c313, 2) as any as S.Schema<OIDCCloudAuthProvidersResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95425,7 +96620,8 @@ export const listOktaAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10240, __c320, 0) as any as S.Schema<ListOktaAccountsRequest>,
   output: __S(10243, __c320, 3) as any as S.Schema<OktaAccountsResponseOutput>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95442,7 +96638,8 @@ export const listOnCallEscalationPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10272, __c321, 0) as any as S.Schema<ListOnCallEscalationPoliciesRequest>,
   output: __S(10275, __c321, 3) as any as S.Schema<EscalationPolicies>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95459,7 +96656,8 @@ export const listOnCallPages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10336, __c323, 0) as any as S.Schema<ListOnCallPagesRequest>,
   output: __S(10338, __c323, 2) as any as S.Schema<OnCallPagesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95476,7 +96674,8 @@ export const listOnCallSchedules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10370, __c324, 2) as any as S.Schema<ListOnCallSchedulesRequest>,
   output: __S(10374, __c324, 6) as any as S.Schema<Schedules>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95493,7 +96692,8 @@ export const listOpsgenieAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10400, __c325, 0) as any as S.Schema<ListOpsgenieAccountsRequest>,
   output: __S(10402, __c325, 2) as any as S.Schema<OpsgenieAccountsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95510,7 +96710,8 @@ export const listOpsgenieServices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10432, __c326, 0) as any as S.Schema<ListOpsgenieServicesRequest>,
   output: __S(10434, __c326, 2) as any as S.Schema<OpsgenieServicesResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95527,7 +96728,8 @@ export const listOrganizationHandles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10464, __c327, 0) as any as S.Schema<ListOrganizationHandlesRequest>,
   output: __S(10466, __c327, 2) as any as S.Schema<GoogleChatOrganizationHandlesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95544,7 +96746,8 @@ export const listOrgAuthorizedClients: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10496, __c328, 0) as any as S.Schema<ListOrgAuthorizedClientsRequest>,
   output: __S(10498, __c328, 2) as any as S.Schema<OrgAuthorizedClientsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95561,7 +96764,8 @@ export const listOrgAuthorizedClientUserAuthorizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10528, __c329, 0) as any as S.Schema<ListOrgAuthorizedClientUserAuthorizationsRequest>,
   output: __S(10561, __c330, 1) as any as S.Schema<UserAuthorizedClientsResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95578,7 +96782,8 @@ export const listOrgConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10592, __c331, 0) as any as S.Schema<ListOrgConfigsRequest>,
   output: __S(10594, __c331, 2) as any as S.Schema<OrgConfigListResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95595,7 +96800,8 @@ export const listOrgConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10752, __c336, 0) as any as S.Schema<ListOrgConnectionsRequest>,
   output: __S(10754, __c336, 2) as any as S.Schema<OrgConnectionListResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95612,7 +96818,8 @@ export const listOrgGroupMemberships: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10784, __c337, 0) as any as S.Schema<ListOrgGroupMembershipsRequest>,
   output: __S(59681, __c1865, 1) as any as S.Schema<OrgGroupMembershipListResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95629,7 +96836,8 @@ export const listOrgGroupPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10816, __c338, 0) as any as S.Schema<ListOrgGroupPoliciesRequest>,
   output: __S(10818, __c338, 2) as any as S.Schema<OrgGroupPolicyListResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95646,7 +96854,8 @@ export const listOrgGroupPolicyConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10848, __c339, 0) as any as S.Schema<ListOrgGroupPolicyConfigsRequest>,
   output: __S(10852, __c339, 4) as any as S.Schema<OrgGroupPolicyConfigListResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95663,7 +96872,8 @@ export const listOrgGroupPolicyOverrides: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10880, __c340, 0) as any as S.Schema<ListOrgGroupPolicyOverridesRequest>,
   output: __S(10882, __c340, 2) as any as S.Schema<OrgGroupPolicyOverrideListResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95680,7 +96890,8 @@ export const listOrgGroupPolicySuggestions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10912, __c341, 0) as any as S.Schema<ListOrgGroupPolicySuggestionsRequest>,
   output: __S(10916, __c341, 4) as any as S.Schema<OrgGroupPolicySuggestionListResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95697,7 +96908,8 @@ export const listOrgGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10944, __c342, 0) as any as S.Schema<ListOrgGroupsRequest>,
   output: __S(10946, __c342, 2) as any as S.Schema<OrgGroupListResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95714,7 +96926,8 @@ export const listOrgs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10976, __c343, 0) as any as S.Schema<ListOrgsRequest>,
   output: __S(10982, __c343, 6) as any as S.Schema<ManagedOrgsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95731,7 +96944,8 @@ export const listOrgSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11008, __c344, 0) as any as S.Schema<ListOrgSettingsRequest>,
   output: __S(11010, __c344, 2) as any as S.Schema<IncidentOrgSettingsListResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95748,7 +96962,8 @@ export const listOwnershipHistory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11040, __c345, 0) as any as S.Schema<ListOwnershipHistoryRequest>,
   output: __S(11077, __c346, 5) as any as S.Schema<OwnershipHistoryResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95765,7 +96980,8 @@ export const listOwnershipHistoryByOwnerType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11232, __c351, 0) as any as S.Schema<ListOwnershipHistoryByOwnerTypeRequest>,
   output: __S(11077, __c346, 5) as any as S.Schema<OwnershipHistoryResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95782,7 +96998,8 @@ export const listOwnershipInferences: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11264, __c352, 0) as any as S.Schema<ListOwnershipInferencesRequest>,
   output: __S(11269, __c352, 5) as any as S.Schema<OwnershipInferenceListResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95799,7 +97016,8 @@ export const listPermanentRetentionFilters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11296, __c353, 0) as any as S.Schema<ListPermanentRetentionFiltersRequest>,
   output: __S(11298, __c353, 2) as any as S.Schema<RumPermanentRetentionFiltersResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95816,7 +97034,8 @@ export const listPermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11328, __c354, 0) as any as S.Schema<ListPermissionsRequest>,
   output: __S(80035, __c2501, 3) as any as S.Schema<PermissionsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95833,7 +97052,8 @@ export const listPersonalAccessTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11360, __c355, 0) as any as S.Schema<ListPersonalAccessTokensRequest>,
   output: __S(11393, __c356, 1) as any as S.Schema<ListPersonalAccessTokensResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95850,7 +97070,8 @@ export const listPipelines: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11424, __c357, 0) as any as S.Schema<ListPipelinesRequest>,
   output: __S(11426, __c357, 2) as any as S.Schema<ListPipelinesResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95867,7 +97088,8 @@ export const listPowerpacks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11456, __c358, 0) as any as S.Schema<ListPowerpacksRequest>,
   output: __S(11460, __c358, 4) as any as S.Schema<ListPowerpacksResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95884,7 +97106,8 @@ export const listProcesses: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11488, __c359, 0) as any as S.Schema<ListProcessesRequest>,
   output: __S(11494, __c359, 6) as any as S.Schema<ProcessSummariesResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95901,7 +97124,8 @@ export const listProductCatalogSKUs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11520, __c360, 0) as any as S.Schema<ListProductCatalogSKUsRequest>,
   output: __S(11529, __c360, 9) as any as S.Schema<ProductCatalogSKUsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95918,7 +97142,8 @@ export const listQueryProductAnalytics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11555, __c361, 3) as any as S.Schema<ListQueryProductAnalyticsRequest>,
   output: __S(11558, __c361, 6) as any as S.Schema<ProductAnalyticsAnalyticsListResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95935,7 +97160,8 @@ export const listQueryProductAnalyticsJourney: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11781, __c368, 5) as any as S.Schema<ListQueryProductAnalyticsJourneyRequest>,
   output: __S(11784, __c368, 8) as any as S.Schema<ProductAnalyticsJourneyListResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95952,7 +97178,8 @@ export const listQueryProductAnalyticsRetention: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11912, __c372, 8) as any as S.Schema<ListQueryProductAnalyticsRetentionRequest>,
   output: __S(11915, __c372, 11) as any as S.Schema<ProductAnalyticsRetentionListResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95969,7 +97196,8 @@ export const listQuotas: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11968, __c374, 0) as any as S.Schema<ListQuotasRequest>,
   output: __S(11970, __c374, 2) as any as S.Schema<UsageQuotasListResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -95986,7 +97214,8 @@ export const listReferenceTableRows: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12032, __c376, 0) as any as S.Schema<ListReferenceTableRowsRequest>,
   output: __S(12036, __c376, 4) as any as S.Schema<ListRowsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96003,7 +97232,8 @@ export const listReplayHeatmapSnapshots: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12064, __c377, 0) as any as S.Schema<ListReplayHeatmapSnapshotsRequest>,
   output: __S(12066, __c377, 2) as any as S.Schema<SnapshotArray>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96020,7 +97250,8 @@ export const listReportSchedules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12096, __c378, 0) as any as S.Schema<ListReportSchedulesRequest>,
   output: __S(77671, __c2427, 7) as any as S.Schema<ReportScheduleListResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96037,7 +97268,8 @@ export const listRestrictionQueries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12128, __c379, 0) as any as S.Schema<ListRestrictionQueriesRequest>,
   output: __S(77985, __c2437, 1) as any as S.Schema<RestrictionQueryListResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96054,7 +97286,8 @@ export const listRestrictionQueryRoles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12160, __c380, 0) as any as S.Schema<ListRestrictionQueryRolesRequest>,
   output: __S(12161, __c380, 1) as any as S.Schema<RestrictionQueryRolesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96071,7 +97304,8 @@ export const listRetentionFilters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12192, __c381, 0) as any as S.Schema<ListRetentionFiltersRequest>,
   output: __S(12194, __c381, 2) as any as S.Schema<RumRetentionFiltersResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96088,7 +97322,8 @@ export const listRolePermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12224, __c382, 0) as any as S.Schema<ListRolePermissionsRequest>,
   output: __S(80035, __c2501, 3) as any as S.Schema<PermissionsResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96105,7 +97340,8 @@ export const listRoles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12352, __c386, 0) as any as S.Schema<ListRolesRequest>,
   output: __S(1472, __c46, 0) as any as S.Schema<RolesResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96122,7 +97358,8 @@ export const listRoleTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12384, __c387, 0) as any as S.Schema<ListRoleTemplatesRequest>,
   output: __S(12387, __c387, 3) as any as S.Schema<RoleTemplateArray>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96139,7 +97376,8 @@ export const listRoleUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12416, __c388, 0) as any as S.Schema<ListRoleUsersRequest>,
   output: __S(28896, __c903, 0) as any as S.Schema<UsersResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96156,7 +97394,8 @@ export const listRUMArchiveConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12448, __c389, 0) as any as S.Schema<ListRUMArchiveConfigsRequest>,
   output: __S(12450, __c389, 2) as any as S.Schema<RumArchiveConfigListResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96173,7 +97412,8 @@ export const listRUMEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12512, __c391, 0) as any as S.Schema<ListRUMEventsRequest>,
   output: __S(12547, __c392, 3) as any as S.Schema<RUMEventsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96190,7 +97430,8 @@ export const listRumMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12576, __c393, 0) as any as S.Schema<ListRumMetricsRequest>,
   output: __S(12578, __c393, 2) as any as S.Schema<RumMetricsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96207,7 +97448,8 @@ export const listRUMOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12608, __c394, 0) as any as S.Schema<ListRUMOperationsRequest>,
   output: __S(12610, __c394, 2) as any as S.Schema<RUMOperationsListResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96224,7 +97466,8 @@ export const listRUMOperationStrongLinks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12640, __c395, 0) as any as S.Schema<ListRUMOperationStrongLinksRequest>,
   output: __S(12643, __c395, 3) as any as S.Schema<RUMOperationStrongLinksListResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96241,7 +97484,8 @@ export const listRUMRecoveryBatchRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12672, __c396, 0) as any as S.Schema<ListRUMRecoveryBatchRequestsRequest>,
   output: __S(12676, __c396, 4) as any as S.Schema<RumRecoveryBatchListResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96258,7 +97502,8 @@ export const listRumReplayPlaylists: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12704, __c397, 0) as any as S.Schema<ListRumReplayPlaylistsRequest>,
   output: __S(12706, __c397, 2) as any as S.Schema<PlaylistArray>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96275,7 +97520,8 @@ export const listRumReplayPlaylistSessions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12832, __c401, 0) as any as S.Schema<ListRumReplayPlaylistSessionsRequest>,
   output: __S(12834, __c401, 2) as any as S.Schema<PlaylistsSessionArray>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96292,7 +97538,8 @@ export const listRumReplaySessionWatchers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12864, __c402, 0) as any as S.Schema<ListRumReplaySessionWatchersRequest>,
   output: __S(12868, __c402, 4) as any as S.Schema<WatcherArray>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96309,7 +97556,8 @@ export const listRumReplayViewershipHistorySessions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12896, __c403, 0) as any as S.Schema<ListRumReplayViewershipHistorySessionsRequest>,
   output: __S(12900, __c403, 4) as any as S.Schema<ViewershipHistorySessionArray>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96326,7 +97574,8 @@ export const listSAMLConfigurations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12928, __c404, 0) as any as S.Schema<ListSAMLConfigurationsRequest>,
   output: __S(12930, __c404, 2) as any as S.Schema<SAMLConfigurationsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96343,7 +97592,8 @@ export const listSampleLogGenerationSubscriptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12960, __c405, 0) as any as S.Schema<ListSampleLogGenerationSubscriptionsRequest>,
   output: __S(12963, __c405, 3) as any as S.Schema<SampleLogGenerationSubscriptionsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96360,7 +97610,8 @@ export const listSCALicenses: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12992, __c406, 0) as any as S.Schema<ListSCALicensesRequest>,
   output: __S(12997, __c406, 5) as any as S.Schema<LicensesListResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96377,7 +97628,8 @@ export const listScannedAssetsMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13024, __c407, 0) as any as S.Schema<ListScannedAssetsMetadataRequest>,
   output: __S(13029, __c407, 5) as any as S.Schema<ScannedAssetsMetadata>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96394,7 +97646,8 @@ export const listScanningGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13056, __c408, 0) as any as S.Schema<ListScanningGroupsRequest>,
   output: __S(13059, __c408, 3) as any as S.Schema<SensitiveDataScannerGetConfigResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96411,7 +97664,8 @@ export const listScheduleOverrides: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13120, __c410, 0) as any as S.Schema<ListScheduleOverridesRequest>,
   output: __S(45895, __c1434, 7) as any as S.Schema<Overrides>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96428,7 +97682,8 @@ export const listScorecardCampaigns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13152, __c411, 0) as any as S.Schema<ListScorecardCampaignsRequest>,
   output: __S(13154, __c411, 2) as any as S.Schema<ListCampaignsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96445,7 +97700,8 @@ export const listScorecardOutcomes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13312, __c416, 0) as any as S.Schema<ListScorecardOutcomesRequest>,
   output: __S(13321, __c416, 9) as any as S.Schema<OutcomesResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96462,7 +97718,8 @@ export const listScorecardRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13344, __c417, 0) as any as S.Schema<ListScorecardRulesRequest>,
   output: __S(13346, __c417, 2) as any as S.Schema<ListRulesResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96479,7 +97736,8 @@ export const listScorecards: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13376, __c418, 0) as any as S.Schema<ListScorecardsRequest>,
   output: __S(13380, __c418, 4) as any as S.Schema<ListScorecardsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96496,7 +97754,8 @@ export const listScorecardScores: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13408, __c419, 0) as any as S.Schema<ListScorecardScoresRequest>,
   output: __S(13414, __c419, 6) as any as S.Schema<ListScorecardScoresResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96513,7 +97772,8 @@ export const listSecurityAgentInvestigations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13440, __c420, 0) as any as S.Schema<ListSecurityAgentInvestigationsRequest>,
   output: __S(13445, __c420, 5) as any as S.Schema<SecurityAgentInvestigationsListResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96530,7 +97790,8 @@ export const listSecurityFilters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13472, __c421, 0) as any as S.Schema<ListSecurityFiltersRequest>,
   output: __S(13474, __c421, 2) as any as S.Schema<SecurityFiltersResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96547,7 +97808,8 @@ export const listSecurityFilterVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13504, __c422, 0) as any as S.Schema<ListSecurityFilterVersionsRequest>,
   output: __S(13510, __c422, 6) as any as S.Schema<SecurityFilterVersionsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96564,7 +97826,8 @@ export const listSecurityFindings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13536, __c423, 0) as any as S.Schema<ListSecurityFindingsRequest>,
   output: __S(13572, __c424, 4) as any as S.Schema<ListSecurityFindingsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96585,7 +97848,8 @@ export const listSecurityFindingsAutomationDefaultInboxRules: API.OperationMetho
     0,
   ) as any as S.Schema<ListSecurityFindingsAutomationDefaultInboxRulesRequest>,
   output: __S(13601, __c425, 1) as any as S.Schema<DefaultInboxRulesResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96606,7 +97870,8 @@ export const listSecurityFindingsAutomationDueDateRules: API.OperationMethod<
     0,
   ) as any as S.Schema<ListSecurityFindingsAutomationDueDateRulesRequest>,
   output: __S(13666, __c427, 2) as any as S.Schema<DueDateRulesResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96623,7 +97888,8 @@ export const listSecurityFindingsAutomationInboxRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13824, __c432, 0) as any as S.Schema<ListSecurityFindingsAutomationInboxRulesRequest>,
   output: __S(13825, __c432, 1) as any as S.Schema<InboxRulesResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96640,7 +97906,8 @@ export const listSecurityFindingsAutomationMuteRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13856, __c433, 0) as any as S.Schema<ListSecurityFindingsAutomationMuteRulesRequest>,
   output: __S(13858, __c433, 2) as any as S.Schema<MuteRulesResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96664,7 +97931,8 @@ export const listSecurityFindingsAutomationSeverityModifierRules: API.OperationM
     0,
   ) as any as S.Schema<ListSecurityFindingsAutomationSeverityModifierRulesRequest>,
   output: __S(13890, __c434, 2) as any as S.Schema<SeverityModifierRulesResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96685,7 +97953,8 @@ export const listSecurityFindingsAutomationTicketCreationRules: API.OperationMet
     0,
   ) as any as S.Schema<ListSecurityFindingsAutomationTicketCreationRulesRequest>,
   output: __S(13922, __c435, 2) as any as S.Schema<TicketCreationRulesResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96714,7 +97983,8 @@ export const listSecurityMonitoringBatchMigrationResources: API.OperationMethod<
     __c436,
     1,
   ) as any as S.Schema<SecurityMonitoringBatchMigrationResourcesListResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96731,7 +98001,8 @@ export const listSecurityMonitoringBatchMigrations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14016, __c438, 0) as any as S.Schema<ListSecurityMonitoringBatchMigrationsRequest>,
   output: __S(14018, __c438, 2) as any as S.Schema<SecurityMonitoringBatchMigrationsListResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96748,7 +98019,8 @@ export const listSecurityMonitoringCriticalAssets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14048, __c439, 0) as any as S.Schema<ListSecurityMonitoringCriticalAssetsRequest>,
   output: __S(68257, __c2133, 1) as any as S.Schema<SecurityMonitoringCriticalAssetsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96765,7 +98037,8 @@ export const listSecurityMonitoringDatasets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14080, __c440, 0) as any as S.Schema<ListSecurityMonitoringDatasetsRequest>,
   output: __S(14082, __c440, 2) as any as S.Schema<SecurityMonitoringDatasetsListResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96786,7 +98059,8 @@ export const listSecurityMonitoringHistsignals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14112, __c441, 0) as any as S.Schema<ListSecurityMonitoringHistsignalsRequest>,
   output: __S(80386, __c2512, 2) as any as S.Schema<SecurityMonitoringSignalsListResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96803,7 +98077,8 @@ export const listSecurityMonitoringIntegrationConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14144, __c442, 0) as any as S.Schema<ListSecurityMonitoringIntegrationConfigsRequest>,
   output: __S(14146, __c442, 2) as any as S.Schema<SecurityMonitoringIntegrationConfigsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96820,7 +98095,8 @@ export const listSecurityMonitoringRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14208, __c444, 0) as any as S.Schema<ListSecurityMonitoringRulesRequest>,
   output: __S(14210, __c444, 2) as any as S.Schema<SecurityMonitoringListRulesResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96837,7 +98113,8 @@ export const listSecurityMonitoringSignals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14240, __c445, 0) as any as S.Schema<ListSecurityMonitoringSignalsRequest>,
   output: __S(80386, __c2512, 2) as any as S.Schema<SecurityMonitoringSignalsListResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96854,7 +98131,8 @@ export const listSecurityMonitoringSuppressions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14272, __c446, 0) as any as S.Schema<ListSecurityMonitoringSuppressionsRequest>,
   output: __S(14275, __c446, 3) as any as S.Schema<SecurityMonitoringPaginatedSuppressionsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96875,7 +98153,8 @@ export const listServiceAccountAccessTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14304, __c447, 0) as any as S.Schema<ListServiceAccountAccessTokensRequest>,
   output: __S(11393, __c356, 1) as any as S.Schema<ListServiceAccessTokensResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96896,7 +98175,8 @@ export const listServiceAccountApplicationKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14336, __c448, 0) as any as S.Schema<ListServiceAccountApplicationKeysRequest>,
   output: __S(1090, __c34, 2) as any as S.Schema<ListApplicationKeysResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96913,7 +98193,8 @@ export const listServiceDefinitions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14368, __c449, 0) as any as S.Schema<ListServiceDefinitionsRequest>,
   output: __S(42913, __c1341, 1) as any as S.Schema<ServiceDefinitionsListResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96930,7 +98211,8 @@ export const listServiceNowAssignmentGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14400, __c450, 0) as any as S.Schema<ListServiceNowAssignmentGroupsRequest>,
   output: __S(14404, __c450, 4) as any as S.Schema<ServiceNowAssignmentGroupsResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96947,7 +98229,8 @@ export const listServiceNowBusinessServices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14432, __c451, 0) as any as S.Schema<ListServiceNowBusinessServicesRequest>,
   output: __S(14436, __c451, 4) as any as S.Schema<ServiceNowBusinessServicesResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96964,7 +98247,8 @@ export const listServiceNowInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14464, __c452, 0) as any as S.Schema<ListServiceNowInstancesRequest>,
   output: __S(14468, __c452, 4) as any as S.Schema<ServiceNowInstancesResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96981,7 +98265,8 @@ export const listServiceNowTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14496, __c453, 0) as any as S.Schema<ListServiceNowTemplatesRequest>,
   output: __S(14498, __c453, 2) as any as S.Schema<ServiceNowTemplatesResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -96998,7 +98283,8 @@ export const listServiceNowUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14688, __c459, 0) as any as S.Schema<ListServiceNowUsersRequest>,
   output: __S(14692, __c459, 4) as any as S.Schema<ServiceNowUsersResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97015,7 +98301,8 @@ export const listSharedDashboardsByDashboardId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14720, __c460, 0) as any as S.Schema<ListSharedDashboardsByDashboardIdRequest>,
   output: __S(14731, __c460, 11) as any as S.Schema<ListSharedDashboardsResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97032,7 +98319,8 @@ export const listSlackUserBindings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14752, __c461, 0) as any as S.Schema<ListSlackUserBindingsRequest>,
   output: __S(14753, __c461, 1) as any as S.Schema<SlackUserBindingsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97053,7 +98341,8 @@ export const listSnowflakeIntegrationAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14784, __c462, 0) as any as S.Schema<ListSnowflakeIntegrationAccountsRequest>,
   output: __S(14786, __c462, 2) as any as S.Schema<SnowflakeIntegrationAccountsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97070,7 +98359,8 @@ export const listSourcemaps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14816, __c463, 0) as any as S.Schema<ListSourcemapsRequest>,
   output: __S(14819, __c463, 3) as any as S.Schema<ListSourcemapsResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97087,7 +98377,8 @@ export const listSpans: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14850, __c464, 2) as any as S.Schema<ListSpansRequest>,
   output: __S(14883, __c465, 3) as any as S.Schema<SpansListResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97104,7 +98395,8 @@ export const listSpansGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14912, __c466, 0) as any as S.Schema<ListSpansGetRequest>,
   output: __S(14883, __c465, 3) as any as S.Schema<SpansListResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97121,7 +98413,8 @@ export const listSpansMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14944, __c467, 0) as any as S.Schema<ListSpansMetricsRequest>,
   output: __S(8865, __c277, 1) as any as S.Schema<SpansMetricsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97142,7 +98435,8 @@ export const listStandardPatterns: API.OperationMethod<
     __c468,
     4,
   ) as any as S.Schema<SensitiveDataScannerStandardPatternsResponseData>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97159,7 +98453,8 @@ export const listStaticAnalysisCodegenRulesets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15008, __c469, 0) as any as S.Schema<ListStaticAnalysisCodegenRulesetsRequest>,
   output: __S(15010, __c469, 2) as any as S.Schema<SastRulesetsResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97176,7 +98471,8 @@ export const listStatusPages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15264, __c477, 0) as any as S.Schema<ListStatusPagesRequest>,
   output: __S(15266, __c477, 2) as any as S.Schema<StatusPageArray>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97193,7 +98489,8 @@ export const listStatuspageUrlSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15296, __c478, 0) as any as S.Schema<ListStatuspageUrlSettingsRequest>,
   output: __S(15298, __c478, 2) as any as S.Schema<StatuspageUrlSettingsResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97210,7 +98507,8 @@ export const listSubjectTypes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15328, __c479, 0) as any as S.Schema<ListSubjectTypesRequest>,
   output: __S(15330, __c479, 2) as any as S.Schema<ExperimentsSubjectTypeV2DTOArray>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97227,7 +98525,8 @@ export const listSyntheticsBrowserTestLatestResults: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15360, __c480, 0) as any as S.Schema<ListSyntheticsBrowserTestLatestResultsRequest>,
   output: __S(15398, __c481, 6) as any as S.Schema<SyntheticsTestLatestResultsResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97244,7 +98543,8 @@ export const listSyntheticsDowntimes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15424, __c482, 0) as any as S.Schema<ListSyntheticsDowntimesRequest>,
   output: __S(15426, __c482, 2) as any as S.Schema<SyntheticsDowntimesResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97261,7 +98561,8 @@ export const listSyntheticsTestLatestResults: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15456, __c483, 0) as any as S.Schema<ListSyntheticsTestLatestResultsRequest>,
   output: __S(15398, __c481, 6) as any as S.Schema<SyntheticsTestLatestResultsResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97278,7 +98579,8 @@ export const listSyntheticsTestVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15488, __c484, 0) as any as S.Schema<ListSyntheticsTestVersionsRequest>,
   output: __S(15493, __c484, 5) as any as S.Schema<SyntheticsTestVersionHistoryResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97295,7 +98597,8 @@ export const listTables: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15520, __c485, 0) as any as S.Schema<ListTablesRequest>,
   output: __S(15522, __c485, 2) as any as S.Schema<TableResultV2Array>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97312,7 +98615,8 @@ export const listTagConfigurationByName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15552, __c486, 0) as any as S.Schema<ListTagConfigurationByNameRequest>,
   output: __S(49443, __c1545, 3) as any as S.Schema<MetricTagConfigurationResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97329,7 +98633,8 @@ export const listTagConfigurations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15584, __c487, 0) as any as S.Schema<ListTagConfigurationsRequest>,
   output: __S(15589, __c487, 5) as any as S.Schema<MetricsAndMetricTagConfigurationsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97346,7 +98651,8 @@ export const listTagIndexingRuleExemptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15744, __c492, 0) as any as S.Schema<ListTagIndexingRuleExemptionsRequest>,
   output: __S(15746, __c492, 2) as any as S.Schema<TagIndexingRuleExemptionsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97363,7 +98669,8 @@ export const listTagIndexingRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15776, __c493, 0) as any as S.Schema<ListTagIndexingRulesRequest>,
   output: __S(15810, __c494, 2) as any as S.Schema<TagIndexingRulesResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97380,7 +98687,8 @@ export const listTagIndexingRulesForMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15840, __c495, 0) as any as S.Schema<ListTagIndexingRulesForMetricRequest>,
   output: __S(15810, __c494, 2) as any as S.Schema<TagIndexingRulesResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97397,7 +98705,8 @@ export const listTagPipelinesRulesets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15872, __c496, 0) as any as S.Schema<ListTagPipelinesRulesetsRequest>,
   output: __S(15874, __c496, 2) as any as S.Schema<RulesetRespArray>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97414,7 +98723,8 @@ export const listTagPipelinesRulesetsStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15904, __c497, 0) as any as S.Schema<ListTagPipelinesRulesetsStatusRequest>,
   output: __S(4355, __c136, 3) as any as S.Schema<RulesetStatusRespArray>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97431,7 +98741,8 @@ export const listTagRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15936, __c498, 0) as any as S.Schema<ListTagRulesRequest>,
   output: __S(15938, __c498, 2) as any as S.Schema<TagRulesListResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97448,7 +98759,8 @@ export const listTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15968, __c499, 0) as any as S.Schema<ListTagsRequest>,
   output: __S(50272, __c1571, 0) as any as S.Schema<AppBuilderListTagsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97465,7 +98777,8 @@ export const listTagsByMetricName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16000, __c500, 0) as any as S.Schema<ListTagsByMetricNameRequest>,
   output: __S(16003, __c500, 3) as any as S.Schema<MetricAllTagsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97482,7 +98795,8 @@ export const listTeamConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16032, __c501, 0) as any as S.Schema<ListTeamConnectionsRequest>,
   output: __S(50116, __c1566, 4) as any as S.Schema<TeamConnectionsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97499,7 +98813,8 @@ export const listTeamHierarchyLinks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16064, __c502, 0) as any as S.Schema<ListTeamHierarchyLinksRequest>,
   output: __S(16066, __c502, 2) as any as S.Schema<TeamHierarchyLinksResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97516,7 +98831,8 @@ export const listTeamHierarchyMembers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16192, __c506, 0) as any as S.Schema<ListTeamHierarchyMembersRequest>,
   output: __S(16199, __c506, 7) as any as S.Schema<TeamHierarchyMembersResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97533,7 +98849,8 @@ export const listTeams: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16224, __c507, 0) as any as S.Schema<ListTeamsRequest>,
   output: __S(16226, __c507, 2) as any as S.Schema<TeamsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97550,7 +98867,8 @@ export const listTeamsOwnershipMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16256, __c508, 0) as any as S.Schema<ListTeamsOwnershipMappingsRequest>,
   output: __S(16258, __c508, 2) as any as S.Schema<TeamsOwnershipMappingsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97567,7 +98885,8 @@ export const listTeamsOwnershipRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16288, __c509, 0) as any as S.Schema<ListTeamsOwnershipRulesRequest>,
   output: __S(16294, __c509, 6) as any as S.Schema<TeamsOwnershipRulesResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97596,7 +98915,8 @@ export const listTemporalCloudOpenMetricsIntegrationAccounts: API.OperationMetho
     __c510,
     2,
   ) as any as S.Schema<TemporalCloudOpenMetricsIntegrationAccountsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97618,7 +98938,8 @@ export const listTemporaryGrantRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16352, __c511, 0) as any as S.Schema<ListTemporaryGrantRequestsRequest>,
   output: __S(9953, __c311, 1) as any as S.Schema<TemporaryGrantRequestListResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97635,7 +98956,8 @@ export const listTenancyProducts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16384, __c512, 0) as any as S.Schema<ListTenancyProductsRequest>,
   output: __S(16390, __c512, 6) as any as S.Schema<TenancyProductsList>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97652,7 +98974,8 @@ export const listTenantBasedHandles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16416, __c513, 0) as any as S.Schema<ListTenantBasedHandlesRequest>,
   output: __S(16420, __c513, 4) as any as S.Schema<MicrosoftTeamsTenantBasedHandlesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97669,7 +98992,8 @@ export const listTimestampOverrides: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16448, __c514, 0) as any as S.Schema<ListTimestampOverridesRequest>,
   output: __S(16450, __c514, 2) as any as S.Schema<IncidentTimestampOverridesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97686,7 +99010,8 @@ export const listTwilioIntegrationAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16480, __c515, 0) as any as S.Schema<ListTwilioIntegrationAccountsRequest>,
   output: __S(16482, __c515, 2) as any as S.Schema<TwilioIntegrationAccountsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97703,7 +99028,8 @@ export const listUnitCosts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16640, __c520, 0) as any as S.Schema<ListUnitCostsRequest>,
   output: __S(16642, __c520, 2) as any as S.Schema<UnitCostsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97720,7 +99046,8 @@ export const listUserAuthorizedClients: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16672, __c521, 0) as any as S.Schema<ListUserAuthorizedClientsRequest>,
   output: __S(10561, __c330, 1) as any as S.Schema<UserAuthorizedClientsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97737,7 +99064,8 @@ export const listUserCaseProjectFavorites: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16704, __c522, 0) as any as S.Schema<ListUserCaseProjectFavoritesRequest>,
   output: __S(29120, __c910, 0) as any as S.Schema<ProjectFavoritesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97754,7 +99082,8 @@ export const listUserNotificationChannels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16736, __c523, 0) as any as S.Schema<ListUserNotificationChannelsRequest>,
   output: __S(16737, __c523, 1) as any as S.Schema<ListNotificationChannelsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97771,7 +99100,8 @@ export const listUserNotificationRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16768, __c524, 0) as any as S.Schema<ListUserNotificationRulesRequest>,
   output: __S(16770, __c524, 2) as any as S.Schema<ListOnCallNotificationRulesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97788,7 +99118,8 @@ export const listUserOrganizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16800, __c525, 0) as any as S.Schema<ListUserOrganizationsRequest>,
   output: __S(47872, __c1496, 0) as any as S.Schema<UserResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97805,7 +99136,8 @@ export const listUserPermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16832, __c526, 0) as any as S.Schema<ListUserPermissionsRequest>,
   output: __S(80035, __c2501, 3) as any as S.Schema<PermissionsResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97822,7 +99154,8 @@ export const listUserRestrictionQueries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16864, __c527, 0) as any as S.Schema<ListUserRestrictionQueriesRequest>,
   output: __S(77985, __c2437, 1) as any as S.Schema<RestrictionQueryListResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97839,7 +99172,8 @@ export const listUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16896, __c528, 0) as any as S.Schema<ListUsersRequest>,
   output: __S(28896, __c903, 0) as any as S.Schema<UsersResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97856,7 +99190,8 @@ export const listVolumesByMetricName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16928, __c529, 0) as any as S.Schema<ListVolumesByMetricNameRequest>,
   output: __S(16929, __c529, 1) as any as S.Schema<MetricVolumesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97873,7 +99208,8 @@ export const listVulnerableAssets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16992, __c531, 0) as any as S.Schema<ListVulnerableAssetsRequest>,
   output: __S(16999, __c531, 7) as any as S.Schema<ListVulnerableAssetsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97890,7 +99226,8 @@ export const listWebIntegrationAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17024, __c532, 0) as any as S.Schema<ListWebIntegrationAccountsRequest>,
   output: __S(17026, __c532, 2) as any as S.Schema<WebIntegrationAccountsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97907,7 +99244,8 @@ export const listWorkflowInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17056, __c533, 0) as any as S.Schema<ListWorkflowInstancesRequest>,
   output: __S(17060, __c533, 4) as any as S.Schema<WorkflowListInstancesResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97924,7 +99262,8 @@ export const listWorkflows: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17088, __c534, 0) as any as S.Schema<ListWorkflowsRequest>,
   output: __S(17092, __c534, 4) as any as S.Schema<ListWorkflowsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97941,7 +99280,8 @@ export const listWorkflowsWebhookHandles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17120, __c535, 0) as any as S.Schema<ListWorkflowsWebhookHandlesRequest>,
   output: __S(17122, __c535, 2) as any as S.Schema<MicrosoftTeamsWorkflowsWebhookHandlesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97958,7 +99298,8 @@ export const lockLLMObsDatasetDraftState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17152, __c536, 0) as any as S.Schema<LockLLMObsDatasetDraftStateRequest>,
   output: __S(74211, __c2319, 3) as any as S.Schema<LLMObsDatasetDraftStateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97975,7 +99316,8 @@ export const makeGCPSTSDelegate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17184, __c537, 0) as any as S.Schema<MakeGCPSTSDelegateRequest>,
   output: __S(71682, __c2240, 2) as any as S.Schema<GCPSTSDelegateAccountResponse>,
-  errors: [Forbidden, Conflict, UnknownDatadogError],
+  errors: [Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -97992,7 +99334,8 @@ export const mitigateGovernanceDetections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17218, __c538, 2) as any as S.Schema<MitigateGovernanceDetectionsRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<MitigateGovernanceDetectionsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98009,7 +99352,8 @@ export const moveCaseToProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17248, __c539, 0) as any as S.Schema<MoveCaseToProjectRequest>,
   output: __S(74400, __c2325, 0) as any as S.Schema<CaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98030,7 +99374,8 @@ export const muteSecurityFindings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17283, __c540, 3) as any as S.Schema<MuteSecurityFindingsRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<MuteSecurityFindingsResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98047,7 +99392,8 @@ export const orderRetentionFilters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17440, __c545, 0) as any as S.Schema<OrderRetentionFiltersRequest>,
   output: __S(50272, __c1571, 0) as any as S.Schema<RumRetentionFiltersOrderResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98064,7 +99410,8 @@ export const overrideAiGatewayBudgetInstanceCapacity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17474, __c546, 2) as any as S.Schema<OverrideAiGatewayBudgetInstanceCapacityRequest>,
   output: __S(17504, __c547, 0) as any as S.Schema<AiGatewayBudgetInstanceResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98081,7 +99428,8 @@ export const patchDORADeploymentByVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17538, __c548, 2) as any as S.Schema<PatchDORADeploymentByVersionRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<PatchDORADeploymentByVersionResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98098,7 +99446,8 @@ export const patchGlobalVariable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17568, __c549, 0) as any as S.Schema<PatchGlobalVariableRequest>,
   output: __S(17577, __c549, 9) as any as S.Schema<GlobalVariableResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98115,7 +99464,8 @@ export const patchMaintenanceUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17633, __c551, 1) as any as S.Schema<PatchMaintenanceUpdateRequest>,
   output: __S(17637, __c551, 5) as any as S.Schema<MaintenanceUpdate>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98132,7 +99482,8 @@ export const patchReportSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17666, __c552, 2) as any as S.Schema<PatchReportScheduleRequest>,
   output: __S(44162, __c1380, 2) as any as S.Schema<ReportScheduleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98154,7 +99505,8 @@ export const patchSignalNotificationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17696, __c553, 0) as any as S.Schema<PatchSignalNotificationRuleRequest>,
   output: __S(48352, __c1511, 0) as any as S.Schema<NotificationRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98171,7 +99523,8 @@ export const patchSubjectType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17762, __c555, 2) as any as S.Schema<PatchSubjectTypeRequest>,
   output: __S(49024, __c1532, 0) as any as S.Schema<ExperimentsSubjectTypeV2DTO>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98188,7 +99541,8 @@ export const patchTestSuite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17792, __c556, 0) as any as S.Schema<PatchTestSuiteRequest>,
   output: __S(49345, __c1542, 1) as any as S.Schema<SyntheticsSuiteResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98210,7 +99564,8 @@ export const patchVulnerabilityNotificationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17824, __c557, 0) as any as S.Schema<PatchVulnerabilityNotificationRuleRequest>,
   output: __S(48352, __c1511, 0) as any as S.Schema<NotificationRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98232,7 +99587,8 @@ export const pauseExposureSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17888, __c559, 0) as any as S.Schema<PauseExposureScheduleRequest>,
   output: __S(17921, __c560, 1) as any as S.Schema<AllocationExposureScheduleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98249,7 +99605,8 @@ export const pinModelLabRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17952, __c561, 0) as any as S.Schema<PinModelLabRunRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<PinModelLabRunResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98266,7 +99623,8 @@ export const pollSyntheticsTestResults: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17984, __c562, 0) as any as S.Schema<PollSyntheticsTestResultsRequest>,
   output: __S(17986, __c562, 2) as any as S.Schema<SyntheticsPollTestResultsResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98283,7 +99641,8 @@ export const postOwnershipSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18018, __c563, 2) as any as S.Schema<PostOwnershipSettingsRequest>,
   output: __S(76898, __c2403, 2) as any as S.Schema<OwnershipSettingsResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98300,7 +99659,8 @@ export const previewAWSMetricNameFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18050, __c564, 2) as any as S.Schema<PreviewAWSMetricNameFilterRequest>,
   output: __S(66282, __c2071, 10) as any as S.Schema<AWSMetricNameFilterPreviewResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98317,7 +99677,8 @@ export const previewCatalogEntities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18080, __c565, 0) as any as S.Schema<PreviewCatalogEntitiesRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<PreviewCatalogEntitiesResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98339,7 +99700,8 @@ export const printReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18114, __c566, 2) as any as S.Schema<PrintReportRequest>,
   output: __S(18117, __c566, 5) as any as S.Schema<PrintReportResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98356,7 +99718,8 @@ export const publishApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18144, __c567, 0) as any as S.Schema<PublishAppRequest>,
   output: __S(43648, __c1364, 0) as any as S.Schema<PublishAppResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98378,7 +99741,8 @@ export const publishExperimentProtocol: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18176, __c568, 0) as any as S.Schema<PublishExperimentProtocolRequest>,
   output: __S(45135, __c1410, 15) as any as S.Schema<ExperimentsPublicProtocolResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98395,7 +99759,8 @@ export const publishForm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18210, __c569, 2) as any as S.Schema<PublishFormRequest>,
   output: __S(18212, __c569, 4) as any as S.Schema<FormPublicationResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98417,7 +99782,8 @@ export const publishSecurityMonitoringBatchMigration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18306, __c572, 2) as any as S.Schema<PublishSecurityMonitoringBatchMigrationRequest>,
   output: __S(18310, __c572, 6) as any as S.Schema<SecurityMonitoringBatchMigrationPublishResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98434,7 +99800,8 @@ export const publishStatusPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18336, __c573, 0) as any as S.Schema<PublishStatusPageRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<PublishStatusPageResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98451,7 +99818,8 @@ export const queryAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18368, __c574, 0) as any as S.Schema<QueryAccountsRequest>,
   output: __S(18402, __c575, 2) as any as S.Schema<QueryResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98468,7 +99836,8 @@ export const queryAggregatedLongTasks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18466, __c577, 2) as any as S.Schema<QueryAggregatedLongTasksRequest>,
   output: __S(18475, __c577, 11) as any as S.Schema<AggregatedLongTasksResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98485,7 +99854,8 @@ export const queryAggregatedWaterfall: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18530, __c579, 2) as any as S.Schema<QueryAggregatedWaterfallRequest>,
   output: __S(18536, __c579, 8) as any as S.Schema<AggregatedWaterfallResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98502,7 +99872,8 @@ export const queryEventFilteredUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18563, __c580, 3) as any as S.Schema<QueryEventFilteredUsersRequest>,
   output: __S(18402, __c575, 2) as any as S.Schema<QueryResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98519,7 +99890,8 @@ export const queryProductAnalyticsJourneyFunnel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18596, __c581, 4) as any as S.Schema<QueryProductAnalyticsJourneyFunnelRequest>,
   output: __S(18604, __c581, 12) as any as S.Schema<ProductAnalyticsJourneyFunnelResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98536,7 +99908,8 @@ export const queryProductAnalyticsJourneyScalar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18628, __c582, 4) as any as S.Schema<QueryProductAnalyticsJourneyScalarRequest>,
   output: __S(18630, __c582, 6) as any as S.Schema<ProductAnalyticsJourneyScalarResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98553,7 +99926,8 @@ export const queryProductAnalyticsJourneyTimeseries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18724, __c585, 4) as any as S.Schema<QueryProductAnalyticsJourneyTimeseriesRequest>,
   output: __S(18726, __c585, 6) as any as S.Schema<ProductAnalyticsJourneyTimeseriesResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98570,7 +99944,8 @@ export const queryProductAnalyticsRetentionGrid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18816, __c588, 0) as any as S.Schema<QueryProductAnalyticsRetentionGridRequest>,
   output: __S(18825, __c588, 9) as any as S.Schema<ProductAnalyticsRetentionGridResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98587,7 +99962,8 @@ export const queryProductAnalyticsRetentionScalar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19040, __c595, 0) as any as S.Schema<QueryProductAnalyticsRetentionScalarRequest>,
   output: __S(19073, __c596, 1) as any as S.Schema<ProductAnalyticsScalarResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98604,7 +99980,8 @@ export const queryProductAnalyticsRetentionTimeseries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19104, __c597, 0) as any as S.Schema<QueryProductAnalyticsRetentionTimeseriesRequest>,
   output: __S(19137, __c598, 1) as any as S.Schema<ProductAnalyticsTimeseriesResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98621,7 +99998,8 @@ export const queryProductAnalyticsSankey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19172, __c599, 4) as any as S.Schema<QueryProductAnalyticsSankeyRequest>,
   output: __S(19181, __c599, 13) as any as S.Schema<ProductAnalyticsSankeyResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98638,7 +100016,8 @@ export const queryProductAnalyticsScalar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19200, __c600, 0) as any as S.Schema<QueryProductAnalyticsScalarRequest>,
   output: __S(19073, __c596, 1) as any as S.Schema<ProductAnalyticsScalarResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98655,7 +100034,8 @@ export const queryProductAnalyticsTimeseries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19264, __c602, 0) as any as S.Schema<QueryProductAnalyticsTimeseriesRequest>,
   output: __S(19137, __c598, 1) as any as S.Schema<ProductAnalyticsTimeseriesResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98672,7 +100052,8 @@ export const queryScalarData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19299, __c603, 3) as any as S.Schema<QueryScalarDataRequest>,
   output: __S(19303, __c603, 7) as any as S.Schema<ScalarFormulaQueryResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98689,7 +100070,8 @@ export const queryTimeseriesData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19333, __c604, 5) as any as S.Schema<QueryTimeseriesDataRequest>,
   output: __S(19338, __c604, 10) as any as S.Schema<TimeseriesFormulaQueryResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98706,7 +100088,8 @@ export const queryUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19360, __c605, 0) as any as S.Schema<QueryUsersRequest>,
   output: __S(18402, __c575, 2) as any as S.Schema<QueryResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98728,7 +100111,8 @@ export const refreshExperimentResults: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19392, __c606, 0) as any as S.Schema<RefreshExperimentResultsRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<RefreshExperimentResultsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98745,7 +100129,8 @@ export const refreshExperimentResultsForOrg: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19424, __c607, 0) as any as S.Schema<RefreshExperimentResultsForOrgRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<RefreshExperimentResultsForOrgResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98762,7 +100147,8 @@ export const registerAppKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19488, __c609, 0) as any as S.Schema<RegisterAppKeyRequest>,
   output: __S(20384, __c637, 0) as any as S.Schema<RegisterAppKeyResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98779,7 +100165,8 @@ export const registerOAuthClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19520, __c610, 0) as any as S.Schema<RegisterOAuthClientRequest>,
   output: __S(19521, __c610, 1) as any as S.Schema<OAuthClientRegistrationResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98796,7 +100183,8 @@ export const rehydrateArchiveSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19555, __c611, 3) as any as S.Schema<RehydrateArchiveSearchRequest>,
   output: __S(60640, __c1895, 0) as any as S.Schema<ArchiveSearchResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98813,7 +100201,8 @@ export const removeCaseInsights: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19584, __c612, 0) as any as S.Schema<RemoveCaseInsightsRequest>,
   output: __S(74400, __c2325, 0) as any as S.Schema<CaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98830,7 +100219,8 @@ export const removePermissionFromRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19616, __c613, 0) as any as S.Schema<RemovePermissionFromRoleRequest>,
   output: __S(80035, __c2501, 3) as any as S.Schema<PermissionsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98847,7 +100237,8 @@ export const removeRoleFromArchive: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19648, __c614, 0) as any as S.Schema<RemoveRoleFromArchiveRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<RemoveRoleFromArchiveResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98868,7 +100259,8 @@ export const removeRoleFromRestrictionQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19680, __c615, 0) as any as S.Schema<RemoveRoleFromRestrictionQueryRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<RemoveRoleFromRestrictionQueryResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98885,7 +100277,8 @@ export const removeRumReplaySessionFromPlaylist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19712, __c616, 0) as any as S.Schema<RemoveRumReplaySessionFromPlaylistRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<RemoveRumReplaySessionFromPlaylistResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98902,7 +100295,8 @@ export const removeTeamHierarchyLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19744, __c617, 0) as any as S.Schema<RemoveTeamHierarchyLinkRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<RemoveTeamHierarchyLinkResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98923,7 +100317,8 @@ export const removeTestFromSyntheticsDowntime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19776, __c618, 0) as any as S.Schema<RemoveTestFromSyntheticsDowntimeRequest>,
   output: __S(24256, __c758, 0) as any as S.Schema<SyntheticsDowntimeResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98940,7 +100335,8 @@ export const removeUserFromRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20032, __c626, 0) as any as S.Schema<RemoveUserFromRoleRequest>,
   output: __S(28896, __c903, 0) as any as S.Schema<UsersResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98957,7 +100353,8 @@ export const reorderApmRetentionFilters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20064, __c627, 0) as any as S.Schema<ReorderApmRetentionFiltersRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<ReorderApmRetentionFiltersResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98974,7 +100371,8 @@ export const reorderCustomAllocationRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20096, __c628, 0) as any as S.Schema<ReorderCustomAllocationRulesRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<ReorderCustomAllocationRulesResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -98991,7 +100389,8 @@ export const reorderScanningGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20129, __c629, 1) as any as S.Schema<ReorderScanningGroupsRequest>,
   output: __S(20130, __c629, 2) as any as S.Schema<SensitiveDataScannerReorderGroupsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99016,7 +100415,8 @@ export const reorderSecurityFindingsAutomationDueDateRules: API.OperationMethod<
     0,
   ) as any as S.Schema<ReorderSecurityFindingsAutomationDueDateRulesRequest>,
   output: __S(29120, __c910, 0) as any as S.Schema<DueDateRuleReorderResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99041,7 +100441,8 @@ export const reorderSecurityFindingsAutomationInboxRules: API.OperationMethod<
     0,
   ) as any as S.Schema<ReorderSecurityFindingsAutomationInboxRulesRequest>,
   output: __S(29120, __c910, 0) as any as S.Schema<InboxRuleReorderResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99066,7 +100467,8 @@ export const reorderSecurityFindingsAutomationMuteRules: API.OperationMethod<
     0,
   ) as any as S.Schema<ReorderSecurityFindingsAutomationMuteRulesRequest>,
   output: __S(29120, __c910, 0) as any as S.Schema<MuteRuleReorderResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99091,7 +100493,8 @@ export const reorderSecurityFindingsAutomationSeverityModifierRules: API.Operati
     0,
   ) as any as S.Schema<ReorderSecurityFindingsAutomationSeverityModifierRulesRequest>,
   output: __S(29120, __c910, 0) as any as S.Schema<SeverityModifierRuleReorderResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99116,7 +100519,8 @@ export const reorderSecurityFindingsAutomationTicketCreationRules: API.Operation
     0,
   ) as any as S.Schema<ReorderSecurityFindingsAutomationTicketCreationRulesRequest>,
   output: __S(29120, __c910, 0) as any as S.Schema<TicketCreationRuleReorderResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99133,7 +100537,8 @@ export const reorderTagIndexingRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20322, __c635, 2) as any as S.Schema<ReorderTagIndexingRulesRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<ReorderTagIndexingRulesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99150,7 +100555,8 @@ export const reorderTagPipelinesRulesets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20416, __c638, 0) as any as S.Schema<ReorderTagPipelinesRulesetsRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<ReorderTagPipelinesRulesetsResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99172,7 +100578,8 @@ export const replaceExperimentProtocol: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20453, __c639, 5) as any as S.Schema<ReplaceExperimentProtocolRequest>,
   output: __S(45135, __c1410, 15) as any as S.Schema<ExperimentsPublicProtocolResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99189,7 +100596,8 @@ export const replaceRestrictionQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20512, __c641, 0) as any as S.Schema<ReplaceRestrictionQueryRequest>,
   output: __S(44290, __c1384, 2) as any as S.Schema<RestrictionQueryWithoutRelationshipsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99206,7 +100614,8 @@ export const rerouteOnCallPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20546, __c642, 2) as any as S.Schema<RerouteOnCallPageRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<RerouteOnCallPageResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99223,7 +100632,8 @@ export const resetAiGatewayBudgetInstanceSpend: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20578, __c643, 2) as any as S.Schema<ResetAiGatewayBudgetInstanceSpendRequest>,
   output: __S(17504, __c547, 0) as any as S.Schema<AiGatewayBudgetInstanceResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99240,7 +100650,8 @@ export const resolveOnCallPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20608, __c644, 0) as any as S.Schema<ResolveOnCallPageRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<ResolveOnCallPageResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99257,7 +100668,8 @@ export const restoreLLMObsDatasetVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20642, __c645, 2) as any as S.Schema<RestoreLLMObsDatasetVersionRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<RestoreLLMObsDatasetVersionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99279,7 +100691,8 @@ export const restoreSecurityMonitoringRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20672, __c646, 0) as any as S.Schema<RestoreSecurityMonitoringRuleRequest>,
   output: __S(47648, __c1489, 0) as any as S.Schema<RestoreSecurityMonitoringRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99296,7 +100709,8 @@ export const restoreSourcemaps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20704, __c647, 0) as any as S.Schema<RestoreSourcemapsRequest>,
   output: __S(60992, __c1906, 0) as any as S.Schema<SourcemapsResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99318,7 +100732,8 @@ export const resumeExposureSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20736, __c648, 0) as any as S.Schema<ResumeExposureScheduleRequest>,
   output: __S(17921, __c560, 1) as any as S.Schema<AllocationExposureScheduleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99335,7 +100750,8 @@ export const revertApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20832, __c651, 0) as any as S.Schema<RevertAppRequest>,
   output: __S(65511, __c2047, 7) as any as S.Schema<UpdateAppResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99352,7 +100768,8 @@ export const revertCustomRuleRevision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20866, __c652, 2) as any as S.Schema<RevertCustomRuleRevisionRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<RevertCustomRuleRevisionResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99369,7 +100786,8 @@ export const revokePersonalAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20896, __c653, 0) as any as S.Schema<RevokePersonalAccessTokenRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<RevokePersonalAccessTokenResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99386,7 +100804,8 @@ export const revokeServiceAccountAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20928, __c654, 0) as any as S.Schema<RevokeServiceAccountAccessTokenRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<RevokeServiceAccountAccessTokenResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99403,7 +100822,8 @@ export const runDataObservabilityMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20960, __c655, 0) as any as S.Schema<RunDataObservabilityMonitorRequest>,
   output: __S(74336, __c2323, 0) as any as S.Schema<RunDataObservabilityMonitorResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99420,7 +100840,8 @@ export const runHistoricalJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20995, __c656, 3) as any as S.Schema<RunHistoricalJobRequest>,
   output: __S(82912, __c2591, 0) as any as S.Schema<JobCreateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99437,7 +100858,8 @@ export const searchAuditLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21024, __c657, 0) as any as S.Schema<SearchAuditLogsRequest>,
   output: __S(1635, __c51, 3) as any as S.Schema<AuditLogsEventsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99454,7 +100876,8 @@ export const searchCases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21056, __c658, 0) as any as S.Schema<SearchCasesRequest>,
   output: __S(21060, __c658, 4) as any as S.Schema<CasesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99471,7 +100894,8 @@ export const searchCIAppPipelineEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21088, __c659, 0) as any as S.Schema<SearchCIAppPipelineEventsRequest>,
   output: __S(2819, __c88, 3) as any as S.Schema<CIAppPipelineEventsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99488,7 +100912,8 @@ export const searchCIAppTestEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21120, __c660, 0) as any as S.Schema<SearchCIAppTestEventsRequest>,
   output: __S(2979, __c93, 3) as any as S.Schema<CIAppTestEventsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99505,7 +100930,8 @@ export const searchCostRecommendations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21284, __c665, 4) as any as S.Schema<SearchCostRecommendationsRequest>,
   output: __S(21291, __c665, 11) as any as S.Schema<CostRecommendationArray>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99522,7 +100948,8 @@ export const searchEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21312, __c666, 0) as any as S.Schema<SearchEventsRequest>,
   output: __S(5383, __c168, 7) as any as S.Schema<EventsListResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99539,7 +100966,8 @@ export const searchFlakyTests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21347, __c667, 3) as any as S.Schema<SearchFlakyTestsRequest>,
   output: __S(21360, __c667, 16) as any as S.Schema<FlakyTestsSearchResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99556,7 +100984,8 @@ export const searchIncidents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21376, __c668, 0) as any as S.Schema<SearchIncidentsRequest>,
   output: __S(21390, __c668, 14) as any as S.Schema<IncidentSearchResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99573,7 +101002,8 @@ export const searchInferredJourneys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21408, __c669, 0) as any as S.Schema<SearchInferredJourneysRequest>,
   output: __S(21410, __c669, 2) as any as S.Schema<DemSearchInferredJourneysResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99590,7 +101020,8 @@ export const searchIssues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21442, __c670, 2) as any as S.Schema<SearchIssuesRequest>,
   output: __S(21448, __c670, 8) as any as S.Schema<IssuesSearchResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99607,7 +101038,8 @@ export const searchJourneys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21472, __c671, 0) as any as S.Schema<SearchJourneysRequest>,
   output: __S(53217, __c1663, 1) as any as S.Schema<DemJourneysListResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99624,7 +101056,8 @@ export const searchLLMObsExperimentation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21506, __c672, 2) as any as S.Schema<SearchLLMObsExperimentationRequest>,
   output: __S(21507, __c672, 3) as any as S.Schema<LLMObsExperimentationSearchResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99641,7 +101074,8 @@ export const searchLLMObsSpans: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21572, __c674, 4) as any as S.Schema<SearchLLMObsSpansRequest>,
   output: __S(8651, __c270, 11) as any as S.Schema<LLMObsSpansResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99658,7 +101092,8 @@ export const searchRUMArchiveSessions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21602, __c675, 2) as any as S.Schema<SearchRUMArchiveSessionsRequest>,
   output: __S(21609, __c675, 9) as any as S.Schema<RumArchiveSessionsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99675,7 +101110,8 @@ export const searchRUMEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21760, __c680, 0) as any as S.Schema<SearchRUMEventsRequest>,
   output: __S(12547, __c392, 3) as any as S.Schema<RUMEventsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99692,7 +101128,8 @@ export const searchSecurityFindings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21794, __c681, 2) as any as S.Schema<SearchSecurityFindingsRequest>,
   output: __S(13572, __c424, 4) as any as S.Schema<ListSecurityFindingsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99713,7 +101150,8 @@ export const searchSecurityMonitoringHistsignals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21824, __c682, 0) as any as S.Schema<SearchSecurityMonitoringHistsignalsRequest>,
   output: __S(80386, __c2512, 2) as any as S.Schema<SecurityMonitoringSignalsListResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99730,7 +101168,8 @@ export const searchSecurityMonitoringSignals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21856, __c683, 0) as any as S.Schema<SearchSecurityMonitoringSignalsRequest>,
   output: __S(80386, __c2512, 2) as any as S.Schema<SecurityMonitoringSignalsListResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99747,7 +101186,8 @@ export const searchSuites: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21888, __c684, 0) as any as S.Schema<SearchSuitesRequest>,
   output: __S(21892, __c684, 4) as any as S.Schema<SyntheticsSuiteSearchResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99764,7 +101204,8 @@ export const searchWidgets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21920, __c685, 0) as any as S.Schema<SearchWidgetsRequest>,
   output: __S(21923, __c685, 3) as any as S.Schema<WidgetListResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99781,7 +101222,8 @@ export const sendInvitations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21954, __c686, 2) as any as S.Schema<SendInvitationsRequest>,
   output: __S(21956, __c686, 4) as any as S.Schema<UserInvitationsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99801,7 +101243,8 @@ export const sendSecurityMonitoringNotificationPreview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21984, __c687, 0) as any as S.Schema<SendSecurityMonitoringNotificationPreviewRequest>,
   output: __S(21989, __c687, 5) as any as S.Schema<NotificationRulePreviewResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99818,7 +101261,8 @@ export const setDefaultSubjectType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22016, __c688, 0) as any as S.Schema<SetDefaultSubjectTypeRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<SetDefaultSubjectTypeResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99835,7 +101279,8 @@ export const setOnCallTeamRoutingRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22052, __c689, 4) as any as S.Schema<SetOnCallTeamRoutingRulesRequest>,
   output: __S(76200, __c2381, 8) as any as S.Schema<TeamRoutingRules>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99852,7 +101297,8 @@ export const setOnDemandConcurrencyCap: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22176, __c693, 0) as any as S.Schema<SetOnDemandConcurrencyCapRequest>,
   output: __S(76258, __c2383, 2) as any as S.Schema<OnDemandConcurrencyCapResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99869,7 +101315,8 @@ export const simpleSearchLLMObsExperimentation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22213, __c694, 5) as any as S.Schema<SimpleSearchLLMObsExperimentationRequest>,
   output: __S(22216, __c694, 8) as any as S.Schema<LLMObsExperimentationSimpleSearchResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99886,7 +101333,8 @@ export const softDeleteDegradationUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22240, __c695, 0) as any as S.Schema<SoftDeleteDegradationUpdateRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<SoftDeleteDegradationUpdateResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99903,7 +101351,8 @@ export const starModelLabProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22272, __c696, 0) as any as S.Schema<StarModelLabProjectRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<StarModelLabProjectResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99920,7 +101369,8 @@ export const startExperiment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22304, __c697, 0) as any as S.Schema<StartExperimentRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<StartExperimentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99942,7 +101392,8 @@ export const startExposureSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22336, __c698, 0) as any as S.Schema<StartExposureScheduleRequest>,
   output: __S(17921, __c560, 1) as any as S.Schema<AllocationExposureScheduleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99964,7 +101415,8 @@ export const startSecurityMonitoringBatchMigration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22368, __c699, 0) as any as S.Schema<StartSecurityMonitoringBatchMigrationRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<StartSecurityMonitoringBatchMigrationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -99981,7 +101433,8 @@ export const startSecurityMonitoringRuleProposal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22402, __c700, 2) as any as S.Schema<StartSecurityMonitoringRuleProposalRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<StartSecurityMonitoringRuleProposalResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100003,7 +101456,8 @@ export const stopExposureSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22432, __c701, 0) as any as S.Schema<StopExposureScheduleRequest>,
   output: __S(17921, __c560, 1) as any as S.Schema<AllocationExposureScheduleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100020,7 +101474,8 @@ export const submitCILog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22466, __c702, 2) as any as S.Schema<SubmitCILogRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<SubmitCILogResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100037,7 +101492,8 @@ export const submitLog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22562, __c705, 2) as any as S.Schema<SubmitLogRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<SubmitLogResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100054,7 +101510,8 @@ export const submitMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22599, __c706, 7) as any as S.Schema<SubmitMetricsRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<SubmitMetricsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100071,7 +101528,8 @@ export const submitProductAnalyticsEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22624, __c707, 0) as any as S.Schema<SubmitProductAnalyticsEventRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<SubmitProductAnalyticsEventResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100088,7 +101546,8 @@ export const syncTeams: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22656, __c708, 0) as any as S.Schema<SyncTeamsRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<SyncTeamsResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100109,7 +101568,8 @@ export const testExistingSecurityMonitoringRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22688, __c709, 0) as any as S.Schema<TestExistingSecurityMonitoringRuleRequest>,
   output: __S(22727, __c710, 7) as any as S.Schema<SecurityMonitoringRuleTestResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100126,7 +101586,8 @@ export const testSecurityMonitoringRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22784, __c712, 0) as any as S.Schema<TestSecurityMonitoringRuleRequest>,
   output: __S(22727, __c710, 7) as any as S.Schema<SecurityMonitoringRuleTestResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100143,7 +101604,8 @@ export const toggleReportSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22816, __c713, 0) as any as S.Schema<ToggleReportScheduleRequest>,
   output: __S(44162, __c1380, 2) as any as S.Schema<ReportScheduleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100164,7 +101626,8 @@ export const triggerDeploymentGatesEvaluation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22884, __c715, 4) as any as S.Schema<TriggerDeploymentGatesEvaluationRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<TriggerDeploymentGatesEvaluationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100181,7 +101644,8 @@ export const triggerFleetSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22912, __c716, 0) as any as S.Schema<TriggerFleetScheduleRequest>,
   output: __S(22919, __c716, 7) as any as S.Schema<FleetDeploymentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100198,7 +101662,8 @@ export const triggerInvestigation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22946, __c717, 2) as any as S.Schema<TriggerInvestigationRequest>,
   output: __S(22949, __c717, 5) as any as S.Schema<TriggerInvestigationResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100215,7 +101680,8 @@ export const triggerLLMObsPatterns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23074, __c721, 2) as any as S.Schema<TriggerLLMObsPatternsRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<TriggerLLMObsPatternsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100232,7 +101698,8 @@ export const unarchiveCase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23104, __c722, 0) as any as S.Schema<UnarchiveCaseRequest>,
   output: __S(74400, __c2325, 0) as any as S.Schema<CaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100249,7 +101716,8 @@ export const unarchiveExposureSQLModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23136, __c723, 0) as any as S.Schema<UnarchiveExposureSQLModelRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UnarchiveExposureSQLModelResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100266,7 +101734,8 @@ export const unarchiveFeatureFlag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23168, __c724, 0) as any as S.Schema<UnarchiveFeatureFlagRequest>,
   output: __S(47300, __c1478, 4) as any as S.Schema<FeatureFlagResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100283,7 +101752,8 @@ export const unassignCase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23200, __c725, 0) as any as S.Schema<UnassignCaseRequest>,
   output: __S(74400, __c2325, 0) as any as S.Schema<CaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100300,7 +101770,8 @@ export const unassignSeatsUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23232, __c726, 0) as any as S.Schema<UnassignSeatsUserRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UnassignSeatsUserResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100317,7 +101788,8 @@ export const unfavoriteCaseProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23264, __c727, 0) as any as S.Schema<UnfavoriteCaseProjectRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UnfavoriteCaseProjectResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100334,7 +101806,8 @@ export const unlinkJiraIssue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23296, __c728, 0) as any as S.Schema<UnlinkJiraIssueRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UnlinkJiraIssueResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100351,7 +101824,8 @@ export const unlockLLMObsDatasetDraftState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23328, __c729, 0) as any as S.Schema<UnlockLLMObsDatasetDraftStateRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UnlockLLMObsDatasetDraftStateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100368,7 +101842,8 @@ export const unpinModelLabRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23360, __c730, 0) as any as S.Schema<UnpinModelLabRunRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UnpinModelLabRunResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100385,7 +101860,8 @@ export const unpublishApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23424, __c732, 0) as any as S.Schema<UnpublishAppRequest>,
   output: __S(43648, __c1364, 0) as any as S.Schema<UnpublishAppResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100402,7 +101878,8 @@ export const unpublishStatusPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23456, __c733, 0) as any as S.Schema<UnpublishStatusPageRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UnpublishStatusPageResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100419,7 +101896,8 @@ export const unregisterAppKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23488, __c734, 0) as any as S.Schema<UnregisterAppKeyRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UnregisterAppKeyResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100436,7 +101914,8 @@ export const unstarModelLabProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23520, __c735, 0) as any as S.Schema<UnstarModelLabProjectRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UnstarModelLabProjectResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100453,7 +101932,8 @@ export const unwatchCase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23552, __c736, 0) as any as S.Schema<UnwatchCaseRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UnwatchCaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100470,7 +101950,8 @@ export const updateActionConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23586, __c737, 2) as any as S.Schema<UpdateActionConnectionRequest>,
   output: __S(69827, __c2182, 3) as any as S.Schema<UpdateActionConnectionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100487,7 +101968,8 @@ export const updateAiCustomRuleset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23618, __c738, 2) as any as S.Schema<UpdateAiCustomRulesetRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UpdateAiCustomRulesetResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100504,7 +101986,8 @@ export const updateAiGatewayBudget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23650, __c739, 2) as any as S.Schema<UpdateAiGatewayBudgetRequest>,
   output: __S(71938, __c2248, 2) as any as S.Schema<AiGatewayBudgetResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100526,7 +102009,8 @@ export const updateAiGatewayDataCaptureOverride: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23682, __c740, 2) as any as S.Schema<UpdateAiGatewayDataCaptureOverrideRequest>,
   output: __S(72674, __c2271, 2) as any as S.Schema<AiGatewayCaptureOverrideResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100543,7 +102027,8 @@ export const updateAiGatewayGovernance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23714, __c741, 2) as any as S.Schema<UpdateAiGatewayGovernanceRequest>,
   output: __S(64482, __c2015, 2) as any as S.Schema<AiGatewayGovernanceResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100560,7 +102045,8 @@ export const updateAiGatewayModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23874, __c746, 2) as any as S.Schema<UpdateAiGatewayModelRequest>,
   output: __S(73088, __c2284, 0) as any as S.Schema<AiGatewayModelCatalogEntryResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100582,7 +102068,8 @@ export const updateAiGatewayModelGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23906, __c747, 2) as any as S.Schema<UpdateAiGatewayModelGroupRequest>,
   output: __S(73696, __c2303, 0) as any as S.Schema<AiGatewayModelGroupResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100599,7 +102086,8 @@ export const updateAiGatewayModelPricing: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23938, __c748, 2) as any as S.Schema<UpdateAiGatewayModelPricingRequest>,
   output: __S(64581, __c2018, 5) as any as S.Schema<AiGatewayModelPricingResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100616,7 +102104,8 @@ export const updateAiGatewayProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23970, __c749, 2) as any as S.Schema<UpdateAiGatewayProviderRequest>,
   output: __S(74560, __c2330, 0) as any as S.Schema<AiGatewayProviderResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100633,7 +102122,8 @@ export const updateAiGatewayRateLimit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24002, __c750, 2) as any as S.Schema<UpdateAiGatewayRateLimitRequest>,
   output: __S(75040, __c2345, 0) as any as S.Schema<AiGatewayRateLimitResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100650,7 +102140,8 @@ export const updateAiGatewayRoutingRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24034, __c751, 2) as any as S.Schema<UpdateAiGatewayRoutingRuleRequest>,
   output: __S(75552, __c2361, 0) as any as S.Schema<AiGatewayRoutingRuleResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100676,7 +102167,8 @@ export const updateAllocationsForFeatureFlagInEnvironment: API.OperationMethod<
     1,
   ) as any as S.Schema<UpdateAllocationsForFeatureFlagInEnvironmentRequest>,
   output: __S(24067, __c752, 3) as any as S.Schema<ListAllocationsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100693,7 +102185,8 @@ export const updateAnnotation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24096, __c753, 0) as any as S.Schema<UpdateAnnotationRequest>,
   output: __S(78210, __c2444, 2) as any as S.Schema<AnnotationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100710,7 +102203,8 @@ export const updateAPIKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24129, __c754, 1) as any as S.Schema<UpdateAPIKeyRequest>,
   output: __S(78754, __c2461, 2) as any as S.Schema<APIKeyResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100727,7 +102221,8 @@ export const updateApmRetentionFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24161, __c755, 1) as any as S.Schema<UpdateApmRetentionFilterRequest>,
   output: __S(79488, __c2484, 0) as any as S.Schema<RetentionFilterResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100744,7 +102239,8 @@ export const updateApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24545, __c767, 1) as any as S.Schema<UpdateAppRequest>,
   output: __S(65511, __c2047, 7) as any as S.Schema<UpdateAppResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100761,7 +102257,8 @@ export const updateAppFavorite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24578, __c768, 2) as any as S.Schema<UpdateAppFavoriteRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UpdateAppFavoriteResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100778,7 +102275,8 @@ export const updateApplicationKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24608, __c769, 0) as any as S.Schema<UpdateApplicationKeyRequest>,
   output: __S(14626, __c457, 2) as any as S.Schema<ApplicationKeyResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100800,7 +102298,8 @@ export const updateApplicationSecurityWafCustomRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24672, __c771, 0) as any as S.Schema<UpdateApplicationSecurityWafCustomRuleRequest>,
   output: __S(80704, __c2522, 0) as any as S.Schema<ApplicationSecurityWafCustomRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100826,7 +102325,8 @@ export const updateApplicationSecurityWafExclusionFilter: API.OperationMethod<
     0,
   ) as any as S.Schema<UpdateApplicationSecurityWafExclusionFilterRequest>,
   output: __S(81344, __c2542, 0) as any as S.Schema<ApplicationSecurityWafExclusionFilterResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100848,7 +102348,8 @@ export const updateApplicationSecurityWafPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24738, __c773, 2) as any as S.Schema<UpdateApplicationSecurityWafPolicyRequest>,
   output: __S(81824, __c2557, 0) as any as S.Schema<ApplicationSecurityPolicyResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100865,7 +102366,8 @@ export const updateAppSelfService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24770, __c774, 2) as any as S.Schema<UpdateAppSelfServiceRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UpdateAppSelfServiceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100882,7 +102384,8 @@ export const updateAppTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24802, __c775, 2) as any as S.Schema<UpdateAppTagsRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UpdateAppTagsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100899,7 +102402,8 @@ export const updateAppVersionName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24833, __c776, 1) as any as S.Schema<UpdateAppVersionNameRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UpdateAppVersionNameResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100916,7 +102420,8 @@ export const updateAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24866, __c777, 2) as any as S.Schema<UpdateAttributesRequest>,
   output: __S(74400, __c2325, 0) as any as S.Schema<CaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100939,7 +102444,8 @@ export const updateAuthNMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24929, __c779, 1) as any as S.Schema<UpdateAuthNMappingRequest>,
   output: __S(82976, __c2593, 0) as any as S.Schema<AuthNMappingResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100956,7 +102462,8 @@ export const updateAWSAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24962, __c780, 2) as any as S.Schema<UpdateAWSAccountRequest>,
   output: __S(83584, __c2612, 0) as any as S.Schema<AWSAccountResponseOutput>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100973,7 +102480,8 @@ export const updateAWSAccountCCMConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24992, __c781, 0) as any as S.Schema<UpdateAWSAccountCCMConfigRequest>,
   output: __S(84068, __c2627, 4) as any as S.Schema<AWSCcmConfigResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -100990,7 +102498,8 @@ export const updateAwsScanOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25025, __c782, 1) as any as S.Schema<UpdateAwsScanOptionsRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UpdateAwsScanOptionsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101007,7 +102516,8 @@ export const updateAzureScanOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25056, __c783, 0) as any as S.Schema<UpdateAzureScanOptionsRequest>,
   output: __S(1792, __c56, 0) as any as S.Schema<AzureScanOptions>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101024,7 +102534,8 @@ export const updateCaseAutomationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25089, __c784, 1) as any as S.Schema<UpdateCaseAutomationRuleRequest>,
   output: __S(3872, __c121, 0) as any as S.Schema<AutomationRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101041,7 +102552,8 @@ export const updateCaseComment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25120, __c785, 0) as any as S.Schema<UpdateCaseCommentRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UpdateCaseCommentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101058,7 +102570,8 @@ export const updateCaseCustomAttribute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25153, __c786, 1) as any as S.Schema<UpdateCaseCustomAttributeRequest>,
   output: __S(74400, __c2325, 0) as any as S.Schema<CaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101075,7 +102588,8 @@ export const updateCaseDescription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25185, __c787, 1) as any as S.Schema<UpdateCaseDescriptionRequest>,
   output: __S(74400, __c2325, 0) as any as S.Schema<CaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101092,7 +102606,8 @@ export const updateCaseDueDate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25218, __c788, 2) as any as S.Schema<UpdateCaseDueDateRequest>,
   output: __S(74400, __c2325, 0) as any as S.Schema<CaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101109,7 +102624,8 @@ export const updateCaseResolvedReason: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25346, __c792, 2) as any as S.Schema<UpdateCaseResolvedReasonRequest>,
   output: __S(74400, __c2325, 0) as any as S.Schema<CaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101126,7 +102642,8 @@ export const updateCaseTitle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25378, __c793, 2) as any as S.Schema<UpdateCaseTitleRequest>,
   output: __S(74400, __c2325, 0) as any as S.Schema<CaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101143,7 +102660,8 @@ export const updateCaseType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25409, __c794, 1) as any as S.Schema<UpdateCaseTypeRequest>,
   output: __S(6625, __c207, 1) as any as S.Schema<CaseTypeResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101160,7 +102678,8 @@ export const updateCaseView: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25442, __c795, 2) as any as S.Schema<UpdateCaseViewRequest>,
   output: __S(7168, __c224, 0) as any as S.Schema<CaseViewResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101177,7 +102696,8 @@ export const updateChangeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25475, __c796, 3) as any as S.Schema<UpdateChangeRequestRequest>,
   output: __S(7652, __c239, 4) as any as S.Schema<ChangeRequestResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101194,7 +102714,8 @@ export const updateChangeRequestDecision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25538, __c798, 2) as any as S.Schema<UpdateChangeRequestDecisionRequest>,
   output: __S(7652, __c239, 4) as any as S.Schema<ChangeRequestResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101216,7 +102737,8 @@ export const updateCIAppGitHubAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25571, __c799, 3) as any as S.Schema<UpdateCIAppGitHubAccountRequest>,
   output: __S(25572, __c799, 4) as any as S.Schema<CIAppGitHubAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101233,7 +102755,8 @@ export const updateCloudflareAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25602, __c800, 2) as any as S.Schema<UpdateCloudflareAccountRequest>,
   output: __S(9024, __c282, 0) as any as S.Schema<CloudflareAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101255,7 +102778,8 @@ export const updateCloudWorkloadSecurityAgentRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25632, __c801, 0) as any as S.Schema<UpdateCloudWorkloadSecurityAgentRuleRequest>,
   output: __S(9600, __c300, 0) as any as S.Schema<CloudWorkloadSecurityAgentRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101272,7 +102796,8 @@ export const updateComponent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25698, __c803, 2) as any as S.Schema<UpdateComponentRequest>,
   output: __S(10208, __c319, 0) as any as S.Schema<StatusPagesComponent>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101289,7 +102814,8 @@ export const updateConfluentAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25858, __c808, 2) as any as S.Schema<UpdateConfluentAccountRequest>,
   output: __S(10720, __c335, 0) as any as S.Schema<ConfluentAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101306,7 +102832,8 @@ export const updateConfluentResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25888, __c809, 0) as any as S.Schema<UpdateConfluentResourceRequest>,
   output: __S(11200, __c350, 0) as any as S.Schema<ConfluentResourceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101323,7 +102850,8 @@ export const updateConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25924, __c810, 4) as any as S.Schema<UpdateConnectionRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UpdateConnectionResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101340,7 +102868,8 @@ export const updateCostAccountFilters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25954, __c811, 2) as any as S.Schema<UpdateCostAccountFiltersRequest>,
   output: __S(67810, __c2119, 2) as any as S.Schema<AccountFiltersResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101357,7 +102886,8 @@ export const updateCostAWSCURConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25986, __c812, 2) as any as S.Schema<UpdateCostAWSCURConfigRequest>,
   output: __S(3459, __c108, 3) as any as S.Schema<AwsCURConfigsResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101374,7 +102904,8 @@ export const updateCostAzureUCConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26017, __c813, 1) as any as S.Schema<UpdateCostAzureUCConfigsRequest>,
   output: __S(12800, __c400, 0) as any as S.Schema<AzureUCConfigPairsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101391,7 +102922,8 @@ export const updateCostGCPUsageCostConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26081, __c815, 1) as any as S.Schema<UpdateCostGCPUsageCostConfigRequest>,
   output: __S(13280, __c415, 0) as any as S.Schema<GCPUsageCostConfigResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101413,7 +102945,8 @@ export const updateCSMThreatsAgentPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26114, __c816, 2) as any as S.Schema<UpdateCSMThreatsAgentPolicyRequest>,
   output: __S(13792, __c431, 0) as any as S.Schema<CloudWorkloadSecurityAgentPolicyResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101435,7 +102968,8 @@ export const updateCSMThreatsAgentRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26144, __c817, 0) as any as S.Schema<UpdateCSMThreatsAgentRuleRequest>,
   output: __S(9600, __c300, 0) as any as S.Schema<CloudWorkloadSecurityAgentRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101457,7 +102991,8 @@ export const updateCurrentUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26176, __c818, 0) as any as S.Schema<UpdateCurrentUserRequest>,
   output: __S(47872, __c1496, 0) as any as S.Schema<UserResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101478,7 +103013,8 @@ export const updateCurrentUserApplicationKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26400, __c825, 0) as any as S.Schema<UpdateCurrentUserApplicationKeyRequest>,
   output: __S(14626, __c457, 2) as any as S.Schema<ApplicationKeyResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101495,7 +103031,8 @@ export const updateCustomAllocationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26432, __c826, 0) as any as S.Schema<UpdateCustomAllocationRuleRequest>,
   output: __S(15200, __c475, 0) as any as S.Schema<ArbitraryRuleResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101512,7 +103049,8 @@ export const updateCustomAttributeConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26469, __c827, 5) as any as S.Schema<UpdateCustomAttributeConfigRequest>,
   output: __S(15680, __c490, 0) as any as S.Schema<CustomAttributeConfigResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101529,7 +103067,8 @@ export const updateCustomFramework: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26496, __c828, 0) as any as S.Schema<UpdateCustomFrameworkRequest>,
   output: __S(16132, __c504, 4) as any as S.Schema<UpdateCustomFrameworkResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101546,7 +103085,8 @@ export const updateCustomRuleset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26528, __c829, 0) as any as S.Schema<UpdateCustomRulesetRequest>,
   output: __S(17408, __c544, 0) as any as S.Schema<CustomRulesetResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101563,7 +103103,8 @@ export const updateDashboardListItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26560, __c830, 0) as any as S.Schema<UpdateDashboardListItemsRequest>,
   output: __S(26561, __c830, 1) as any as S.Schema<DashboardListUpdateItemsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101580,7 +103121,8 @@ export const updateDashboardSecureEmbed: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26594, __c831, 2) as any as S.Schema<UpdateDashboardSecureEmbedRequest>,
   output: __S(69282, __c2165, 2) as any as S.Schema<SecureEmbedUpdateResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101602,7 +103144,8 @@ export const updateDatabricksIntegrationAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26627, __c832, 3) as any as S.Schema<UpdateDatabricksIntegrationAccountRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<DatabricksIntegrationAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101619,7 +103162,8 @@ export const updateDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26656, __c833, 0) as any as S.Schema<UpdateDatasetRequest>,
   output: __S(20000, __c625, 0) as any as S.Schema<DatasetResponseSingle>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101636,7 +103180,8 @@ export const updateDatastore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26689, __c834, 1) as any as S.Schema<UpdateDatastoreRequest>,
   output: __S(69600, __c2175, 0) as any as S.Schema<Datastore>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101653,7 +103198,8 @@ export const updateDatastoreItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26851, __c839, 3) as any as S.Schema<UpdateDatastoreItemRequest>,
   output: __S(26852, __c839, 4) as any as S.Schema<ItemApiPayload>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101670,7 +103216,8 @@ export const updateDegradation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26882, __c840, 2) as any as S.Schema<UpdateDegradationRequest>,
   output: __S(2368, __c74, 0) as any as S.Schema<Degradation>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101687,7 +103234,8 @@ export const updateDegradationTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26914, __c841, 2) as any as S.Schema<UpdateDegradationTemplateRequest>,
   output: __S(21248, __c664, 0) as any as S.Schema<DegradationTemplate>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101704,7 +103252,8 @@ export const updateDeploymentGate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26946, __c842, 2) as any as S.Schema<UpdateDeploymentGateRequest>,
   output: __S(21728, __c679, 0) as any as S.Schema<DeploymentGateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101721,7 +103270,8 @@ export const updateDeploymentRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26978, __c843, 2) as any as S.Schema<UpdateDeploymentRuleRequest>,
   output: __S(22145, __c692, 1) as any as S.Schema<DeploymentRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101738,7 +103288,8 @@ export const updateDerivedMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27008, __c844, 0) as any as S.Schema<UpdateDerivedMetricRequest>,
   output: __S(22533, __c704, 5) as any as S.Schema<DerivedMetricResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101755,7 +103306,8 @@ export const updateDeviceUserTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27040, __c845, 0) as any as S.Schema<UpdateDeviceUserTagsRequest>,
   output: __S(5060, __c158, 4) as any as S.Schema<ListTagsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101772,7 +103324,8 @@ export const updateDomainAllowlist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27104, __c847, 0) as any as S.Schema<UpdateDomainAllowlistRequest>,
   output: __S(69986, __c2187, 2) as any as S.Schema<DomainAllowlistResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101789,7 +103342,8 @@ export const updateDORADeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27139, __c848, 3) as any as S.Schema<UpdateDORADeploymentRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UpdateDORADeploymentResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101806,7 +103360,8 @@ export const updateDowntime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27170, __c849, 2) as any as S.Schema<UpdateDowntimeRequest>,
   output: __S(23840, __c745, 0) as any as S.Schema<DowntimeResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101828,7 +103383,8 @@ export const updateElasticCloudIntegrationAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27235, __c851, 3) as any as S.Schema<UpdateElasticCloudIntegrationAccountRequest>,
   output: __S(24512, __c766, 0) as any as S.Schema<ElasticCloudIntegrationAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101845,7 +103401,8 @@ export const updateEntityIntegrationConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27298, __c853, 2) as any as S.Schema<UpdateEntityIntegrationConfigRequest>,
   output: __S(70530, __c2204, 2) as any as S.Schema<EntityIntegrationConfigResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101867,7 +103424,8 @@ export const updateExclusionFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27329, __c854, 1) as any as S.Schema<UpdateExclusionFilterRequest>,
   output: __S(25312, __c791, 0) as any as S.Schema<RumExclusionFilterResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101884,7 +103442,8 @@ export const updateExecutionPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27361, __c855, 1) as any as S.Schema<UpdateExecutionPolicyRequest>,
   output: __S(25824, __c807, 0) as any as S.Schema<ExecutionPolicyResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101901,7 +103460,8 @@ export const updateExperiment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27395, __c856, 3) as any as S.Schema<UpdateExperimentRequest>,
   output: __S(27396, __c856, 4) as any as S.Schema<ExperimentsPatchExperimentV2Response>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101923,7 +103483,8 @@ export const updateExperimentAnalysisPlanAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27427, __c857, 3) as any as S.Schema<UpdateExperimentAnalysisPlanAttributesRequest>,
   output: __S(27428, __c857, 4) as any as S.Schema<ExperimentsAnalysisPlanV2MutationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101945,7 +103506,8 @@ export const updateExperimentMetricGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27458, __c858, 2) as any as S.Schema<UpdateExperimentMetricGroupRequest>,
   output: __S(26816, __c838, 0) as any as S.Schema<ExperimentsExperimentMetricGroupMutationV2>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101967,7 +103529,8 @@ export const updateExperimentProtocol: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27493, __c859, 5) as any as S.Schema<UpdateExperimentProtocolRequest>,
   output: __S(45135, __c1410, 15) as any as S.Schema<ExperimentsPublicProtocolResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -101989,7 +103552,8 @@ export const updateExposureSQLModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27520, __c860, 0) as any as S.Schema<UpdateExposureSQLModelRequest>,
   output: __S(27522, __c860, 2) as any as S.Schema<ExperimentsUpdateExposureSQLModelV2Response>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102006,7 +103570,8 @@ export const updateFastlyAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27554, __c861, 2) as any as S.Schema<UpdateFastlyAccountRequest>,
   output: __S(28480, __c890, 0) as any as S.Schema<FastlyAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102023,7 +103588,8 @@ export const updateFastlyService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27616, __c863, 0) as any as S.Schema<UpdateFastlyServiceRequest>,
   output: __S(29248, __c914, 0) as any as S.Schema<FastlyServiceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102040,7 +103606,8 @@ export const updateFeatureFlag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27650, __c864, 2) as any as S.Schema<UpdateFeatureFlagRequest>,
   output: __S(47300, __c1478, 4) as any as S.Schema<FeatureFlagResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102057,7 +103624,8 @@ export const updateFeatureFlagsEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27682, __c865, 2) as any as S.Schema<UpdateFeatureFlagsEnvironmentRequest>,
   output: __S(30048, __c939, 0) as any as S.Schema<EnvironmentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102074,7 +103642,8 @@ export const updateFindingsAssignee: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27714, __c866, 2) as any as S.Schema<UpdateFindingsAssigneeRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UpdateFindingsAssigneeResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102096,7 +103665,8 @@ export const updateFindingsSeverity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27746, __c867, 2) as any as S.Schema<UpdateFindingsSeverityRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UpdateFindingsSeverityResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102113,7 +103683,8 @@ export const updateFlakyTests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27780, __c868, 4) as any as S.Schema<UpdateFlakyTestsRequest>,
   output: __S(27785, __c868, 9) as any as S.Schema<UpdateFlakyTestsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102138,7 +103709,8 @@ export const updateFlakyTestsManagementPolicies: API.OperationMethod<
     __c2228,
     10,
   ) as any as S.Schema<TestOptimizationFlakyTestsManagementPoliciesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102155,7 +103727,8 @@ export const updateFleetSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27842, __c870, 2) as any as S.Schema<UpdateFleetScheduleRequest>,
   output: __S(31331, __c979, 3) as any as S.Schema<FleetScheduleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102172,7 +103745,8 @@ export const updateForm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27875, __c871, 3) as any as S.Schema<UpdateFormRequest>,
   output: __S(64160, __c2005, 0) as any as S.Schema<FormResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102189,7 +103763,8 @@ export const updateGcpScanOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27904, __c872, 0) as any as S.Schema<UpdateGcpScanOptionsRequest>,
   output: __S(32128, __c1004, 0) as any as S.Schema<GcpScanOptions>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102206,7 +103781,8 @@ export const updateGCPSTSAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28097, __c878, 1) as any as S.Schema<UpdateGCPSTSAccountRequest>,
   output: __S(32544, __c1017, 0) as any as S.Schema<GCPSTSServiceAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102223,7 +103799,8 @@ export const updateGlobalIncidentHandle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28128, __c879, 0) as any as S.Schema<UpdateGlobalIncidentHandleRequest>,
   output: __S(33891, __c1059, 3) as any as S.Schema<IncidentHandleResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102240,7 +103817,8 @@ export const updateGlobalIncidentSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28162, __c880, 2) as any as S.Schema<UpdateGlobalIncidentSettingsRequest>,
   output: __S(71810, __c2244, 2) as any as S.Schema<GlobalIncidentSettingsResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102261,7 +103839,8 @@ export const updateGoogleChatTargetAudience: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28194, __c881, 2) as any as S.Schema<UpdateGoogleChatTargetAudienceRequest>,
   output: __S(34336, __c1073, 0) as any as S.Schema<GoogleChatTargetAudienceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102278,7 +103857,8 @@ export const updateGovernanceControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28226, __c882, 2) as any as S.Schema<UpdateGovernanceControlRequest>,
   output: __S(72160, __c2255, 0) as any as S.Schema<GovernanceControlResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102302,7 +103882,8 @@ export const updateGovernanceControlNotificationSettings: API.OperationMethod<
     2,
   ) as any as S.Schema<UpdateGovernanceControlNotificationSettingsRequest>,
   output: __S(72230, __c2257, 6) as any as S.Schema<ControlNotificationSettingsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102319,7 +103900,8 @@ export const updateGovernanceDetection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28290, __c884, 2) as any as S.Schema<UpdateGovernanceDetectionRequest>,
   output: __S(72320, __c2260, 0) as any as S.Schema<GovernanceControlDetectionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102336,7 +103918,8 @@ export const updateGovernanceNotificationSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28322, __c885, 2) as any as S.Schema<UpdateGovernanceNotificationSettingsRequest>,
   output: __S(72386, __c2262, 2) as any as S.Schema<GovernanceNotificationSettingsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102353,7 +103936,8 @@ export const updateIdentityProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28354, __c886, 2) as any as S.Schema<UpdateIdentityProviderRequest>,
   output: __S(28355, __c886, 3) as any as S.Schema<IdentityProviderResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102370,7 +103954,8 @@ export const updateIncident: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28387, __c887, 3) as any as S.Schema<UpdateIncidentRequest>,
   output: __S(35552, __c1111, 0) as any as S.Schema<IncidentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102387,7 +103972,8 @@ export const updateIncidentAttachment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28514, __c891, 2) as any as S.Schema<UpdateIncidentAttachmentRequest>,
   output: __S(36064, __c1127, 0) as any as S.Schema<Attachment>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102404,7 +103990,8 @@ export const updateIncidentConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28545, __c892, 1) as any as S.Schema<UpdateIncidentConfigurationRequest>,
   output: __S(36291, __c1134, 3) as any as S.Schema<IncidentConfigurationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102425,7 +104012,8 @@ export const updateIncidentGoogleChatConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28578, __c893, 2) as any as S.Schema<UpdateIncidentGoogleChatConfigurationRequest>,
   output: __S(36386, __c1137, 2) as any as S.Schema<IncidentGoogleChatConfigurationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102446,7 +104034,8 @@ export const updateIncidentGoogleMeetConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28610, __c894, 2) as any as S.Schema<UpdateIncidentGoogleMeetConfigurationRequest>,
   output: __S(36514, __c1141, 2) as any as S.Schema<IncidentGoogleMeetConfigurationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102463,7 +104052,8 @@ export const updateIncidentImpact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28642, __c895, 2) as any as S.Schema<UpdateIncidentImpactRequest>,
   output: __S(36864, __c1152, 0) as any as S.Schema<IncidentImpactResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102480,7 +104070,8 @@ export const updateIncidentImpactField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28672, __c896, 0) as any as S.Schema<UpdateIncidentImpactFieldRequest>,
   output: __S(36961, __c1155, 1) as any as S.Schema<IncidentImpactFieldResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102497,7 +104088,8 @@ export const updateIncidentIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28704, __c897, 0) as any as S.Schema<UpdateIncidentIntegrationRequest>,
   output: __S(37088, __c1159, 0) as any as S.Schema<IncidentIntegrationMetadataResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102518,7 +104110,8 @@ export const updateIncidentNotificationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28737, __c898, 1) as any as S.Schema<UpdateIncidentNotificationRuleRequest>,
   output: __S(37248, __c1164, 0) as any as S.Schema<IncidentNotificationRule>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102539,7 +104132,8 @@ export const updateIncidentNotificationTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28770, __c899, 2) as any as S.Schema<UpdateIncidentNotificationTemplateRequest>,
   output: __S(37344, __c1167, 0) as any as S.Schema<IncidentNotificationTemplate>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102556,7 +104150,8 @@ export const updateIncidentPostmortemTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28800, __c900, 0) as any as S.Schema<UpdateIncidentPostmortemTemplateRequest>,
   output: __S(37536, __c1173, 0) as any as S.Schema<PostmortemTemplateResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102573,7 +104168,8 @@ export const updateIncidentRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29282, __c915, 2) as any as S.Schema<UpdateIncidentRuleRequest>,
   output: __S(37728, __c1179, 0) as any as S.Schema<IncidentRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102590,7 +104186,8 @@ export const updateIncidentTodo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29312, __c916, 0) as any as S.Schema<UpdateIncidentTodoRequest>,
   output: __S(37984, __c1187, 0) as any as S.Schema<IncidentTodoResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102607,7 +104204,8 @@ export const updateIncidentType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29346, __c917, 2) as any as S.Schema<UpdateIncidentTypeRequest>,
   output: __S(38080, __c1190, 0) as any as S.Schema<IncidentTypeResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102628,7 +104226,8 @@ export const updateIncidentUserDefinedField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29378, __c918, 2) as any as S.Schema<UpdateIncidentUserDefinedFieldRequest>,
   output: __S(38176, __c1193, 0) as any as S.Schema<IncidentUserDefinedFieldResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102645,7 +104244,8 @@ export const updateIncidentUserDefinedRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29410, __c919, 2) as any as S.Schema<UpdateIncidentUserDefinedRoleRequest>,
   output: __S(38272, __c1196, 0) as any as S.Schema<IncidentUserDefinedRoleResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102662,7 +104262,8 @@ export const updateInterfaceUserTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29440, __c920, 0) as any as S.Schema<UpdateInterfaceUserTagsRequest>,
   output: __S(5060, __c158, 4) as any as S.Schema<ListInterfaceTagsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102679,7 +104280,8 @@ export const updateIPAllowlist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29478, __c921, 6) as any as S.Schema<UpdateIPAllowlistRequest>,
   output: __S(73606, __c2300, 6) as any as S.Schema<IPAllowlistResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102696,7 +104298,8 @@ export const updateIssueAssignee: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29504, __c922, 0) as any as S.Schema<UpdateIssueAssigneeRequest>,
   output: __S(73797, __c2306, 5) as any as S.Schema<IssueResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102713,7 +104316,8 @@ export const updateIssueState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29538, __c923, 2) as any as S.Schema<UpdateIssueStateRequest>,
   output: __S(73797, __c2306, 5) as any as S.Schema<IssueResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102730,7 +104334,8 @@ export const updateJiraIssueTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29570, __c924, 2) as any as S.Schema<UpdateJiraIssueTemplateRequest>,
   output: __S(38496, __c1203, 0) as any as S.Schema<JiraIssueTemplateResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102747,7 +104352,8 @@ export const updateJourney: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29664, __c927, 0) as any as S.Schema<UpdateJourneyRequest>,
   output: __S(38624, __c1207, 0) as any as S.Schema<DemJourneyResponse>,
-  errors: [NotFound, UnknownDatadogError],
+  errors: [NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102764,7 +104370,8 @@ export const updateJourneyVariant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29696, __c928, 0) as any as S.Schema<UpdateJourneyVariantRequest>,
   output: __S(38690, __c1209, 2) as any as S.Schema<DemVariantResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102781,7 +104388,8 @@ export const updateLLMObsAnnotationQueue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29730, __c929, 2) as any as S.Schema<UpdateLLMObsAnnotationQueueRequest>,
   output: __S(38976, __c1218, 0) as any as S.Schema<LLMObsAnnotationQueueResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102802,7 +104410,8 @@ export const updateLLMObsAnnotationQueueLabelSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29761, __c930, 1) as any as S.Schema<UpdateLLMObsAnnotationQueueLabelSchemaRequest>,
   output: __S(74050, __c2314, 2) as any as S.Schema<LLMObsAnnotationQueueLabelSchemaResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102824,7 +104433,8 @@ export const updateLLMObsCustomEvalConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29794, __c931, 2) as any as S.Schema<UpdateLLMObsCustomEvalConfigRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UpdateLLMObsCustomEvalConfigResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102841,7 +104451,8 @@ export const updateLLMObsDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29826, __c932, 2) as any as S.Schema<UpdateLLMObsDatasetRequest>,
   output: __S(64672, __c2021, 0) as any as S.Schema<LLMObsDatasetResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102858,7 +104469,8 @@ export const updateLLMObsDatasetRecords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29860, __c933, 4) as any as S.Schema<UpdateLLMObsDatasetRecordsRequest>,
   output: __S(54434, __c1701, 2) as any as S.Schema<LLMObsDatasetRecordsMutationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102875,7 +104487,8 @@ export const updateLLMObsExperiment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29890, __c934, 2) as any as S.Schema<UpdateLLMObsExperimentRequest>,
   output: __S(39232, __c1226, 0) as any as S.Schema<LLMObsExperimentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102892,7 +104505,8 @@ export const updateLLMObsProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29921, __c935, 1) as any as S.Schema<UpdateLLMObsProjectRequest>,
   output: __S(39520, __c1235, 0) as any as S.Schema<LLMObsProjectResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102909,7 +104523,8 @@ export const updateLLMObsPrompt: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29954, __c936, 2) as any as S.Schema<UpdateLLMObsPromptRequest>,
   output: __S(29955, __c936, 3) as any as S.Schema<LLMObsPromptResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102926,7 +104541,8 @@ export const updateLLMObsPromptVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30082, __c940, 2) as any as S.Schema<UpdateLLMObsPromptVersionRequest>,
   output: __S(39650, __c1239, 2) as any as S.Schema<LLMObsPromptVersionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102947,7 +104563,8 @@ export const updateLoginOrgConfigsMaxSessionDuration: API.OperationMethod<
     __c1850,
     0,
   ) as any as S.Schema<UpdateLoginOrgConfigsMaxSessionDurationResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102964,7 +104581,8 @@ export const updateLogsArchive: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30144, __c942, 0) as any as S.Schema<UpdateLogsArchiveRequest>,
   output: __S(39872, __c1246, 0) as any as S.Schema<LogsArchive>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -102985,7 +104603,8 @@ export const updateLogsArchiveOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30176, __c943, 0) as any as S.Schema<UpdateLogsArchiveOrderRequest>,
   output: __S(74818, __c2338, 2) as any as S.Schema<LogsArchiveOrder>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103007,7 +104626,8 @@ export const updateLogsCustomDestination: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30210, __c944, 2) as any as S.Schema<UpdateLogsCustomDestinationRequest>,
   output: __S(39968, __c1249, 0) as any as S.Schema<CustomDestinationResponseOutput>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103024,7 +104644,8 @@ export const updateLogsMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30240, __c945, 0) as any as S.Schema<UpdateLogsMetricRequest>,
   output: __S(40192, __c1256, 0) as any as S.Schema<LogsMetricResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103041,7 +104662,8 @@ export const updateMaintenance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30338, __c948, 2) as any as S.Schema<UpdateMaintenanceRequest>,
   output: __S(2912, __c91, 0) as any as S.Schema<Maintenance>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103058,7 +104680,8 @@ export const updateMaintenanceTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30370, __c949, 2) as any as S.Schema<UpdateMaintenanceTemplateRequest>,
   output: __S(40320, __c1260, 0) as any as S.Schema<MaintenanceTemplate>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103075,7 +104698,8 @@ export const updateMaintenanceWindow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30402, __c950, 2) as any as S.Schema<UpdateMaintenanceWindowRequest>,
   output: __S(40416, __c1263, 0) as any as S.Schema<MaintenanceWindowResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103092,7 +104716,8 @@ export const updateMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30434, __c951, 2) as any as S.Schema<UpdateMetricRequest>,
   output: __S(40512, __c1266, 0) as any as S.Schema<ExperimentsMetricV2DTO>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103114,7 +104739,8 @@ export const updateMetricCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30530, __c954, 2) as any as S.Schema<UpdateMetricCollectionRequest>,
   output: __S(40608, __c1269, 0) as any as S.Schema<ExperimentsMetricCollectionV2DTO>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103136,7 +104762,8 @@ export const updateMetricSQLModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30560, __c955, 0) as any as S.Schema<UpdateMetricSQLModelRequest>,
   output: __S(30562, __c955, 2) as any as S.Schema<ExperimentsUpdateMetricSQLModelV2Response>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103157,7 +104784,8 @@ export const updateMonitorConfigPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30594, __c956, 2) as any as S.Schema<UpdateMonitorConfigPolicyRequest>,
   output: __S(40832, __c1276, 0) as any as S.Schema<MonitorConfigPolicyResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103174,7 +104802,8 @@ export const updateMonitorNotificationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30625, __c957, 1) as any as S.Schema<UpdateMonitorNotificationRuleRequest>,
   output: __S(40992, __c1281, 0) as any as S.Schema<MonitorNotificationRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103191,7 +104820,8 @@ export const updateMonitorUserTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30656, __c958, 0) as any as S.Schema<UpdateMonitorUserTemplateRequest>,
   output: __S(75684, __c2365, 4) as any as S.Schema<MonitorUserTemplateResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103213,7 +104843,8 @@ export const updateOAuth2ClientCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30722, __c960, 2) as any as S.Schema<UpdateOAuth2ClientCredentialsRequest>,
   output: __S(41312, __c1291, 0) as any as S.Schema<WebhooksOAuth2ClientCredentialsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103230,7 +104861,8 @@ export const updateOktaAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30754, __c961, 2) as any as S.Schema<UpdateOktaAccountRequest>,
   output: __S(41633, __c1301, 1) as any as S.Schema<OktaAccountResponseOutput>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103247,7 +104879,8 @@ export const updateOnCallEscalationPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30788, __c962, 4) as any as S.Schema<UpdateOnCallEscalationPolicyRequest>,
   output: __S(41793, __c1306, 1) as any as S.Schema<EscalationPolicy>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103264,7 +104897,8 @@ export const updateOnCallSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30820, __c963, 4) as any as S.Schema<UpdateOnCallScheduleRequest>,
   output: __S(42051, __c1314, 3) as any as S.Schema<Schedule>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103286,7 +104920,8 @@ export const updateOpsgenieAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30850, __c964, 2) as any as S.Schema<UpdateOpsgenieAccountRequest>,
   output: __S(42176, __c1318, 0) as any as S.Schema<OpsgenieAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103308,7 +104943,8 @@ export const updateOpsgenieService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30978, __c968, 2) as any as S.Schema<UpdateOpsgenieServiceRequest>,
   output: __S(42272, __c1321, 0) as any as S.Schema<OpsgenieServiceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103330,7 +104966,8 @@ export const updateOrganizationHandle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31010, __c969, 2) as any as S.Schema<UpdateOrganizationHandleRequest>,
   output: __S(42368, __c1324, 0) as any as S.Schema<GoogleChatOrganizationHandleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103352,7 +104989,8 @@ export const updateOrgAuthorizedClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31042, __c970, 2) as any as S.Schema<UpdateOrgAuthorizedClientRequest>,
   output: __S(76416, __c2388, 0) as any as S.Schema<OrgAuthorizedClientResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103369,7 +105007,8 @@ export const updateOrgConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31074, __c971, 2) as any as S.Schema<UpdateOrgConfigRequest>,
   output: __S(76512, __c2391, 0) as any as S.Schema<OrgConfigGetResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103386,7 +105025,8 @@ export const updateOrgConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31105, __c972, 1) as any as S.Schema<UpdateOrgConnectionsRequest>,
   output: __S(42465, __c1327, 1) as any as S.Schema<OrgConnectionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103403,7 +105043,8 @@ export const updateOrgGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31137, __c973, 1) as any as S.Schema<UpdateOrgGroupRequest>,
   output: __S(42560, __c1330, 0) as any as S.Schema<OrgGroupResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103420,7 +105061,8 @@ export const updateOrgGroupMembership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31169, __c974, 1) as any as S.Schema<UpdateOrgGroupMembershipRequest>,
   output: __S(76640, __c2395, 0) as any as S.Schema<OrgGroupMembershipResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103437,7 +105079,8 @@ export const updateOrgGroupPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31202, __c975, 2) as any as S.Schema<UpdateOrgGroupPolicyRequest>,
   output: __S(42752, __c1336, 0) as any as S.Schema<OrgGroupPolicyResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103454,7 +105097,8 @@ export const updateOrgGroupPolicyOverride: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31233, __c976, 1) as any as S.Schema<UpdateOrgGroupPolicyOverrideRequest>,
   output: __S(42848, __c1339, 0) as any as S.Schema<OrgGroupPolicyOverrideResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103471,7 +105115,8 @@ export const updateOrgSamlConfigurations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31266, __c977, 2) as any as S.Schema<UpdateOrgSamlConfigurationsRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UpdateOrgSamlConfigurationsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103492,7 +105137,8 @@ export const updatePermanentRetentionFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31362, __c980, 2) as any as S.Schema<UpdatePermanentRetentionFilterRequest>,
   output: __S(77152, __c2411, 0) as any as S.Schema<RumPermanentRetentionFilterResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103509,7 +105155,8 @@ export const updatePersonalAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31392, __c981, 0) as any as S.Schema<UpdatePersonalAccessTokenRequest>,
   output: __S(31427, __c982, 3) as any as S.Schema<UpdatedPersonalAccessTokenResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103526,7 +105173,8 @@ export const updatePipeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31456, __c983, 0) as any as S.Schema<UpdatePipelineRequest>,
   output: __S(43232, __c1351, 0) as any as S.Schema<ObservabilityPipeline>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103543,7 +105191,8 @@ export const updatePowerpack: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31488, __c984, 0) as any as S.Schema<UpdatePowerpackRequest>,
   output: __S(43328, __c1354, 0) as any as S.Schema<PowerpackResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103560,7 +105209,8 @@ export const updatePriority: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31522, __c985, 2) as any as S.Schema<UpdatePriorityRequest>,
   output: __S(74400, __c2325, 0) as any as S.Schema<CaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103577,7 +105227,8 @@ export const updateProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31554, __c986, 2) as any as S.Schema<UpdateProjectRequest>,
   output: __S(43424, __c1357, 0) as any as S.Schema<ProjectResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103594,7 +105245,8 @@ export const updateProjectNotificationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31585, __c987, 1) as any as S.Schema<UpdateProjectNotificationRuleRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UpdateProjectNotificationRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103611,7 +105263,8 @@ export const updateProtectionLevel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31618, __c988, 2) as any as S.Schema<UpdateProtectionLevelRequest>,
   output: __S(65511, __c2047, 7) as any as S.Schema<UpdateAppResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103628,7 +105281,8 @@ export const updateQuota: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31650, __c989, 2) as any as S.Schema<UpdateQuotaRequest>,
   output: __S(31651, __c989, 3) as any as S.Schema<UsageQuotaResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103645,7 +105299,8 @@ export const updateReferenceTable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31682, __c990, 2) as any as S.Schema<UpdateReferenceTableRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UpdateReferenceTableResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103662,7 +105317,8 @@ export const updateReplayHeatmapSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31746, __c992, 2) as any as S.Schema<UpdateReplayHeatmapSnapshotRequest>,
   output: __S(44064, __c1377, 0) as any as S.Schema<Snapshot>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103679,7 +105335,8 @@ export const updateResourceEvaluationFilters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31777, __c993, 1) as any as S.Schema<UpdateResourceEvaluationFiltersRequest>,
   output: __S(31778, __c993, 2) as any as S.Schema<UpdateResourceEvaluationFiltersResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103696,7 +105353,8 @@ export const updateRestrictionPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31808, __c994, 0) as any as S.Schema<UpdateRestrictionPolicyRequest>,
   output: __S(77796, __c2431, 4) as any as S.Schema<RestrictionPolicyResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103713,7 +105371,8 @@ export const updateRestrictionQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31840, __c995, 0) as any as S.Schema<UpdateRestrictionQueryRequest>,
   output: __S(44290, __c1384, 2) as any as S.Schema<RestrictionQueryWithoutRelationshipsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103730,7 +105389,8 @@ export const updateRetentionFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31873, __c996, 1) as any as S.Schema<UpdateRetentionFilterRequest>,
   output: __S(44480, __c1390, 0) as any as S.Schema<RumRetentionFilterResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103752,7 +105412,8 @@ export const updateRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31906, __c997, 2) as any as S.Schema<UpdateRoleRequest>,
   output: __S(31909, __c997, 5) as any as S.Schema<RoleUpdateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103773,7 +105434,8 @@ export const updateRUMApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31938, __c998, 2) as any as S.Schema<UpdateRUMApplicationRequest>,
   output: __S(44578, __c1393, 2) as any as S.Schema<RUMApplicationResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103790,7 +105452,8 @@ export const updateRUMArchiveConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31970, __c999, 2) as any as S.Schema<UpdateRUMArchiveConfigRequest>,
   output: __S(78336, __c2448, 0) as any as S.Schema<RumArchiveConfigResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103807,7 +105470,8 @@ export const updateRumConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32000, __c1000, 0) as any as S.Schema<UpdateRumConfigRequest>,
   output: __S(44706, __c1397, 2) as any as S.Schema<RumConfigResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103824,7 +105488,8 @@ export const updateRumMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32034, __c1001, 2) as any as S.Schema<UpdateRumMetricRequest>,
   output: __S(44800, __c1400, 0) as any as S.Schema<RumMetricResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103841,7 +105506,8 @@ export const updateRUMOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32161, __c1005, 1) as any as S.Schema<UpdateRUMOperationRequest>,
   output: __S(44928, __c1404, 0) as any as S.Schema<RUMOperationResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103858,7 +105524,8 @@ export const updateRUMOperationStrongLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32192, __c1006, 0) as any as S.Schema<UpdateRUMOperationStrongLinkRequest>,
   output: __S(45024, __c1407, 0) as any as S.Schema<RUMOperationStrongLinkResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103880,7 +105547,8 @@ export const updateRUMRecoveryBatchRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32225, __c1007, 1) as any as S.Schema<UpdateRUMRecoveryBatchRequestRequest>,
   output: __S(32228, __c1007, 4) as any as S.Schema<RumRecoveryCancelResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103897,7 +105565,8 @@ export const updateRumReplayPlaylist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32256, __c1008, 0) as any as S.Schema<UpdateRumReplayPlaylistRequest>,
   output: __S(45280, __c1415, 0) as any as S.Schema<Playlist>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103914,7 +105583,8 @@ export const updateRumSdkConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32291, __c1009, 3) as any as S.Schema<UpdateRumSdkConfigRequest>,
   output: __S(78827, __c2463, 11) as any as S.Schema<RumSdkConfigResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103936,7 +105606,8 @@ export const updateSAMLConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32322, __c1010, 2) as any as S.Schema<UpdateSAMLConfigurationRequest>,
   output: __S(78944, __c2467, 0) as any as S.Schema<SAMLConfigurationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103958,7 +105629,8 @@ export const updateSavedFilterAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32358, __c1011, 6) as any as S.Schema<UpdateSavedFilterAttributesRequest>,
   output: __S(79014, __c2469, 6) as any as S.Schema<SavedFilterResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103975,7 +105647,8 @@ export const updateScanningGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32384, __c1012, 0) as any as S.Schema<UpdateScanningGroupRequest>,
   output: __S(60032, __c1876, 0) as any as S.Schema<SensitiveDataScannerGroupUpdateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -103992,7 +105665,8 @@ export const updateScanningRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32416, __c1013, 0) as any as S.Schema<UpdateScanningRuleRequest>,
   output: __S(60032, __c1876, 0) as any as S.Schema<SensitiveDataScannerRuleUpdateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104009,7 +105683,8 @@ export const updateScorecardCampaign: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32450, __c1014, 2) as any as S.Schema<UpdateScorecardCampaignRequest>,
   output: __S(46016, __c1438, 0) as any as S.Schema<CampaignResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104026,7 +105701,8 @@ export const updateScorecardOutcomes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32580, __c1018, 4) as any as S.Schema<UpdateScorecardOutcomesRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UpdateScorecardOutcomesResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104043,7 +105719,8 @@ export const updateScorecardRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32608, __c1019, 0) as any as S.Schema<UpdateScorecardRuleRequest>,
   output: __S(46114, __c1441, 2) as any as S.Schema<UpdateRuleResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104065,7 +105742,8 @@ export const updateSecurityFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32642, __c1020, 2) as any as S.Schema<UpdateSecurityFilterRequest>,
   output: __S(46272, __c1446, 0) as any as S.Schema<SecurityFilterResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104091,7 +105769,8 @@ export const updateSecurityFindingsAutomationDueDateRule: API.OperationMethod<
     1,
   ) as any as S.Schema<UpdateSecurityFindingsAutomationDueDateRuleRequest>,
   output: __S(46432, __c1451, 0) as any as S.Schema<DueDateRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104117,7 +105796,8 @@ export const updateSecurityFindingsAutomationInboxRule: API.OperationMethod<
     1,
   ) as any as S.Schema<UpdateSecurityFindingsAutomationInboxRuleRequest>,
   output: __S(46592, __c1456, 0) as any as S.Schema<InboxRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104139,7 +105819,8 @@ export const updateSecurityFindingsAutomationMuteRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32737, __c1023, 1) as any as S.Schema<UpdateSecurityFindingsAutomationMuteRuleRequest>,
   output: __S(46720, __c1460, 0) as any as S.Schema<MuteRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104165,7 +105846,8 @@ export const updateSecurityFindingsAutomationSeverityModifierRule: API.Operation
     1,
   ) as any as S.Schema<UpdateSecurityFindingsAutomationSeverityModifierRuleRequest>,
   output: __S(46848, __c1464, 0) as any as S.Schema<SeverityModifierRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104191,7 +105873,8 @@ export const updateSecurityFindingsAutomationTicketCreationRule: API.OperationMe
     1,
   ) as any as S.Schema<UpdateSecurityFindingsAutomationTicketCreationRuleRequest>,
   output: __S(46976, __c1468, 0) as any as S.Schema<TicketCreationRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104212,7 +105895,8 @@ export const updateSecurityMonitoringBatchMigration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32834, __c1026, 2) as any as S.Schema<UpdateSecurityMonitoringBatchMigrationRequest>,
   output: __S(47072, __c1471, 0) as any as S.Schema<SecurityMonitoringBatchMigrationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104242,7 +105926,8 @@ export const updateSecurityMonitoringBatchMigrationResource: API.OperationMethod
     __c1027,
     3,
   ) as any as S.Schema<SecurityMonitoringBatchMigrationResourceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104264,7 +105949,8 @@ export const updateSecurityMonitoringCriticalAsset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33026, __c1032, 2) as any as S.Schema<UpdateSecurityMonitoringCriticalAssetRequest>,
   output: __S(47424, __c1482, 0) as any as S.Schema<SecurityMonitoringCriticalAssetResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104286,7 +105972,8 @@ export const updateSecurityMonitoringDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33056, __c1033, 0) as any as S.Schema<UpdateSecurityMonitoringDatasetRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UpdateSecurityMonitoringDatasetResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104311,7 +105998,8 @@ export const updateSecurityMonitoringIntegrationConfig: API.OperationMethod<
     1,
   ) as any as S.Schema<UpdateSecurityMonitoringIntegrationConfigRequest>,
   output: __S(68704, __c2147, 0) as any as S.Schema<SecurityMonitoringIntegrationConfigResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104328,7 +106016,8 @@ export const updateSecurityMonitoringRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33126, __c1035, 6) as any as S.Schema<UpdateSecurityMonitoringRuleRequest>,
   output: __S(47648, __c1489, 0) as any as S.Schema<UpdateSecurityMonitoringRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104350,7 +106039,8 @@ export const updateSecurityMonitoringSuppression: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33154, __c1036, 2) as any as S.Schema<UpdateSecurityMonitoringSuppressionRequest>,
   output: __S(47744, __c1492, 0) as any as S.Schema<SecurityMonitoringSuppressionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104371,7 +106061,8 @@ export const updateServiceAccountAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33184, __c1037, 0) as any as S.Schema<UpdateServiceAccountAccessTokenRequest>,
   output: __S(31427, __c982, 3) as any as S.Schema<UpdatedServiceAccessTokenResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104392,7 +106083,8 @@ export const updateServiceAccountApplicationKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33216, __c1038, 0) as any as S.Schema<UpdateServiceAccountApplicationKeyRequest>,
   output: __S(80928, __c2529, 0) as any as S.Schema<PartialApplicationKeyResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104409,7 +106101,8 @@ export const updateServiceNowTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33248, __c1039, 0) as any as S.Schema<UpdateServiceNowTemplateRequest>,
   output: __S(48096, __c1503, 0) as any as S.Schema<ServiceNowTemplateResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104431,7 +106124,8 @@ export const updateSnowflakeIntegrationAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33284, __c1040, 4) as any as S.Schema<UpdateSnowflakeIntegrationAccountRequest>,
   output: __S(48480, __c1515, 0) as any as S.Schema<SnowflakeIntegrationAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104448,7 +106142,8 @@ export const updateSpansMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33312, __c1041, 0) as any as S.Schema<UpdateSpansMetricRequest>,
   output: __S(40192, __c1256, 0) as any as S.Schema<SpansMetricResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104465,7 +106160,8 @@ export const updateStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33506, __c1047, 2) as any as S.Schema<UpdateStatusRequest>,
   output: __S(74400, __c2325, 0) as any as S.Schema<CaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104482,7 +106178,8 @@ export const updateStatusPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33538, __c1048, 2) as any as S.Schema<UpdateStatusPageRequest>,
   output: __S(48768, __c1524, 0) as any as S.Schema<StatusPage>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104499,7 +106196,8 @@ export const updateStatuspageAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33568, __c1049, 0) as any as S.Schema<UpdateStatuspageAccountRequest>,
   output: __S(48834, __c1526, 2) as any as S.Schema<StatuspageAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104521,7 +106219,8 @@ export const updateStatuspageUrlSetting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33600, __c1050, 0) as any as S.Schema<UpdateStatuspageUrlSettingRequest>,
   output: __S(48928, __c1529, 0) as any as S.Schema<StatuspageUrlSettingResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104538,7 +106237,8 @@ export const updateSyntheticsDowntime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33632, __c1051, 0) as any as S.Schema<UpdateSyntheticsDowntimeRequest>,
   output: __S(24256, __c758, 0) as any as S.Schema<SyntheticsDowntimeResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104555,7 +106255,8 @@ export const updateSyntheticsNetworkTest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33664, __c1052, 0) as any as S.Schema<UpdateSyntheticsNetworkTestRequest>,
   output: __S(49259, __c1539, 11) as any as S.Schema<SyntheticsNetworkTestResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104576,7 +106277,8 @@ export const updateTagConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33698, __c1053, 2) as any as S.Schema<UpdateTagConfigurationRequest>,
   output: __S(49443, __c1545, 3) as any as S.Schema<MetricTagConfigurationResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104598,7 +106300,8 @@ export const updateTagIndexingRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33730, __c1054, 2) as any as S.Schema<UpdateTagIndexingRuleRequest>,
   output: __S(49568, __c1549, 0) as any as S.Schema<TagIndexingRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104619,7 +106322,8 @@ export const updateTagIndexingRuleExemption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33760, __c1055, 0) as any as S.Schema<UpdateTagIndexingRuleExemptionRequest>,
   output: __S(49696, __c1553, 0) as any as S.Schema<TagIndexingRuleExemptionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104636,7 +106340,8 @@ export const updateTagPipelinesRuleset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33794, __c1056, 2) as any as S.Schema<UpdateTagPipelinesRulesetRequest>,
   output: __S(49792, __c1556, 0) as any as S.Schema<RulesetResp>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104653,7 +106358,8 @@ export const updateTagRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33954, __c1061, 2) as any as S.Schema<UpdateTagRuleRequest>,
   output: __S(49888, __c1559, 0) as any as S.Schema<TagRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104670,7 +106376,8 @@ export const updateTeam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33986, __c1062, 2) as any as S.Schema<UpdateTeamRequest>,
   output: __S(50048, __c1564, 0) as any as S.Schema<TeamResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104687,7 +106394,8 @@ export const updateTeamLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34016, __c1063, 0) as any as S.Schema<UpdateTeamLinkRequest>,
   output: __S(50400, __c1575, 0) as any as S.Schema<TeamLinkResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104704,7 +106412,8 @@ export const updateTeamMembership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34049, __c1064, 1) as any as S.Schema<UpdateTeamMembershipRequest>,
   output: __S(50497, __c1578, 1) as any as S.Schema<UserTeamResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104721,7 +106430,8 @@ export const updateTeamNotificationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34080, __c1065, 0) as any as S.Schema<UpdateTeamNotificationRuleRequest>,
   output: __S(50592, __c1581, 0) as any as S.Schema<TeamNotificationRuleResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104738,7 +106448,8 @@ export const updateTeamPermissionSetting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34114, __c1066, 2) as any as S.Schema<UpdateTeamPermissionSettingRequest>,
   output: __S(34115, __c1066, 3) as any as S.Schema<TeamPermissionSettingResponse>,
-  errors: [Forbidden, NotFound, UnknownDatadogError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104768,7 +106479,8 @@ export const updateTemporalCloudOpenMetricsIntegrationAccount: API.OperationMeth
     __c1589,
     0,
   ) as any as S.Schema<TemporalCloudOpenMetricsIntegrationAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104790,7 +106502,8 @@ export const updateTemporaryGrantRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34178, __c1068, 2) as any as S.Schema<UpdateTemporaryGrantRequestRequest>,
   output: __S(50944, __c1592, 0) as any as S.Schema<TemporaryGrantRequestResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104807,7 +106520,8 @@ export const updateTenancyConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34210, __c1069, 2) as any as S.Schema<UpdateTenancyConfigRequest>,
   output: __S(51040, __c1595, 0) as any as S.Schema<TenancyConfig>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104829,7 +106543,8 @@ export const updateTenantBasedHandle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34241, __c1070, 1) as any as S.Schema<UpdateTenantBasedHandleRequest>,
   output: __S(51138, __c1598, 2) as any as S.Schema<MicrosoftTeamsTenantBasedHandleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104850,7 +106565,8 @@ export const updateTestOptimizationServiceSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34370, __c1074, 2) as any as S.Schema<UpdateTestOptimizationServiceSettingsRequest>,
   output: __S(83938, __c2623, 2) as any as S.Schema<TestOptimizationServiceSettingsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104867,7 +106583,8 @@ export const updateTimestampOverride: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34402, __c1075, 2) as any as S.Schema<UpdateTimestampOverrideRequest>,
   output: __S(51456, __c1608, 0) as any as S.Schema<IncidentTimestampOverrideResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104889,7 +106606,8 @@ export const updateTwilioIntegrationAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34435, __c1076, 3) as any as S.Schema<UpdateTwilioIntegrationAccountRequest>,
   output: __S(51584, __c1612, 0) as any as S.Schema<TwilioIntegrationAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104906,7 +106624,8 @@ export const updateUnitCost: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34465, __c1077, 1) as any as S.Schema<UpdateUnitCostRequest>,
   output: __S(51712, __c1616, 0) as any as S.Schema<UnitCostResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104928,7 +106647,8 @@ export const updateUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34496, __c1078, 0) as any as S.Schema<UpdateUserRequest>,
   output: __S(47872, __c1496, 0) as any as S.Schema<UserResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104945,7 +106665,8 @@ export const updateUserIdentityProviders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34528, __c1079, 0) as any as S.Schema<UpdateUserIdentityProvidersRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UpdateUserIdentityProvidersResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104962,7 +106683,8 @@ export const updateUserNotificationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34560, __c1080, 0) as any as S.Schema<UpdateUserNotificationRuleRequest>,
   output: __S(51968, __c1624, 0) as any as S.Schema<OnCallNotificationRule>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -104984,7 +106706,8 @@ export const updateVariantForFeatureFlag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34593, __c1081, 1) as any as S.Schema<UpdateVariantForFeatureFlagRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UpdateVariantForFeatureFlagResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105006,7 +106729,8 @@ export const updateWebIntegrationAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34626, __c1082, 2) as any as S.Schema<UpdateWebIntegrationAccountRequest>,
   output: __S(52128, __c1629, 0) as any as S.Schema<WebIntegrationAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105023,7 +106747,8 @@ export const updateWidget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34656, __c1083, 0) as any as S.Schema<UpdateWidgetRequest>,
   output: __S(52320, __c1635, 0) as any as S.Schema<WidgetResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105040,7 +106765,8 @@ export const updateWorkflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34754, __c1086, 2) as any as S.Schema<UpdateWorkflowRequest>,
   output: __S(34757, __c1086, 5) as any as S.Schema<UpdateWorkflowResponseOutput>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105062,7 +106788,8 @@ export const updateWorkflowsWebhookHandle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34786, __c1087, 2) as any as S.Schema<UpdateWorkflowsWebhookHandleRequest>,
   output: __S(52608, __c1644, 0) as any as S.Schema<MicrosoftTeamsWorkflowsWebhookHandleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105079,7 +106806,8 @@ export const uploadAbortTestFileMultipart: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34816, __c1088, 0) as any as S.Schema<UploadAbortTestFileMultipartRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UploadAbortTestFileMultipartResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105100,7 +106828,8 @@ export const uploadCompleteTestFileMultipart: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34850, __c1089, 2) as any as S.Schema<UploadCompleteTestFileMultipartRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UploadCompleteTestFileMultipartResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105117,7 +106846,8 @@ export const uploadCustomCostsFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34880, __c1090, 0) as any as S.Schema<UploadCustomCostsFileRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UploadCustomCostsFileResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105134,7 +106864,8 @@ export const uploadIdPMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34912, __c1091, 0) as any as S.Schema<UploadIdPMetadataRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UploadIdPMetadataResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105155,7 +106886,8 @@ export const uploadLLMObsDatasetRecordsFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34944, __c1092, 0) as any as S.Schema<UploadLLMObsDatasetRecordsFileRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UploadLLMObsDatasetRecordsFileResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105172,7 +106904,8 @@ export const upsertAiGatewayPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34982, __c1093, 6) as any as S.Schema<UpsertAiGatewayPolicyRequest>,
   output: __S(64800, __c2025, 0) as any as S.Schema<AiGatewayPolicyResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105189,7 +106922,8 @@ export const upsertAndPublishFormVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35011, __c1094, 3) as any as S.Schema<UpsertAndPublishFormVersionRequest>,
   output: __S(64160, __c2005, 0) as any as S.Schema<FormResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105206,7 +106940,8 @@ export const upsertBudget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35040, __c1095, 0) as any as S.Schema<UpsertBudgetRequest>,
   output: __S(66722, __c2085, 2) as any as S.Schema<BudgetWithEntries>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105223,7 +106958,8 @@ export const upsertCatalogEntity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35136, __c1098, 0) as any as S.Schema<UpsertCatalogEntityRequest2>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UpsertCatalogEntityResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105240,7 +106976,8 @@ export const upsertCatalogKind: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35168, __c1099, 0) as any as S.Schema<UpsertCatalogKindRequest2>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UpsertCatalogKindResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105257,7 +106994,8 @@ export const upsertCostTagDescriptionByKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35202, __c1100, 2) as any as S.Schema<UpsertCostTagDescriptionByKeyRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UpsertCostTagDescriptionByKeyResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105274,7 +107012,8 @@ export const upsertCustomForecast: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35234, __c1101, 2) as any as S.Schema<UpsertCustomForecastRequest>,
   output: __S(69030, __c2157, 6) as any as S.Schema<CustomForecastResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105291,7 +107030,8 @@ export const upsertFormVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35267, __c1102, 3) as any as S.Schema<UpsertFormVersionRequest>,
   output: __S(35269, __c1102, 5) as any as S.Schema<FormVersionResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105308,7 +107048,8 @@ export const upsertLLMObsAnnotations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35302, __c1103, 6) as any as S.Schema<UpsertLLMObsAnnotationsRequest>,
   output: __S(35311, __c1103, 15) as any as S.Schema<LLMObsAnnotationsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105325,7 +107066,8 @@ export const upsertLLMObsPatternsConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35330, __c1104, 2) as any as S.Schema<UpsertLLMObsPatternsConfigRequest>,
   output: __S(74626, __c2332, 2) as any as S.Schema<LLMObsPatternsConfigResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105342,7 +107084,8 @@ export const upsertRows: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35364, __c1105, 4) as any as S.Schema<UpsertRowsRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<UpsertRowsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105359,7 +107102,8 @@ export const upsertRumQuotaConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35394, __c1106, 2) as any as S.Schema<UpsertRumQuotaConfigRequest>,
   output: __S(78531, __c2454, 3) as any as S.Schema<RumRetentionQuotaConfigResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105376,7 +107120,8 @@ export const upsertScopesRestriction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35426, __c1107, 2) as any as S.Schema<UpsertScopesRestrictionRequest>,
   output: __S(79235, __c2476, 3) as any as S.Schema<OAuthScopesRestrictionResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105393,7 +107138,8 @@ export const upsertSyncConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35621, __c1113, 5) as any as S.Schema<UpsertSyncConfigRequest>,
   output: __S(35624, __c1113, 8) as any as S.Schema<CloudInventorySyncConfigResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105410,7 +107156,8 @@ export const validate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35648, __c1114, 0) as any as S.Schema<ValidateRequest>,
   output: __S(35651, __c1114, 3) as any as S.Schema<ValidateV2Response>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105427,7 +107174,8 @@ export const validateAPIKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35680, __c1115, 0) as any as S.Schema<ValidateAPIKeyRequest>,
   output: __S(62752, __c1961, 0) as any as S.Schema<ValidateAPIKeyResponse>,
-  errors: [Forbidden, UnknownDatadogError],
+  errors: [Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105444,7 +107192,8 @@ export const validateAWSCCMConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35714, __c1116, 2) as any as S.Schema<ValidateAWSCCMConfigRequest>,
   output: __S(35719, __c1116, 7) as any as S.Schema<AWSCcmConfigValidationResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105461,7 +107210,8 @@ export const validateBudget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35746, __c1117, 2) as any as S.Schema<ValidateBudgetRequest>,
   output: __S(35749, __c1117, 5) as any as S.Schema<BudgetValidationResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105478,7 +107228,8 @@ export const validateCsvBudget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35776, __c1118, 0) as any as S.Schema<ValidateCsvBudgetRequest>,
   output: __S(35811, __c1119, 3) as any as S.Schema<ValidationResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105495,7 +107246,8 @@ export const validateExistingMonitorUserTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35840, __c1120, 0) as any as S.Schema<ValidateExistingMonitorUserTemplateRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<ValidateExistingMonitorUserTemplateResponse>,
-  errors: [BadRequest, NotFound, UnknownDatadogError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105512,7 +107264,8 @@ export const validateMonitorUserTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35872, __c1121, 0) as any as S.Schema<ValidateMonitorUserTemplateRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<ValidateMonitorUserTemplateResponse>,
-  errors: [BadRequest, UnknownDatadogError],
+  errors: [BadRequest],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105529,7 +107282,8 @@ export const validatePipeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35904, __c1122, 0) as any as S.Schema<ValidatePipelineRequest>,
   output: __S(35811, __c1119, 3) as any as S.Schema<ValidationResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105546,7 +107300,8 @@ export const validateQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(35938, __c1123, 2) as any as S.Schema<ValidateQueryRequest>,
   output: __S(35941, __c1123, 5) as any as S.Schema<RulesValidateQueryResponse>,
-  errors: [UnknownDatadogError],
+  errors: [],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105575,7 +107330,8 @@ export const validateSecurityMonitoringIntegrationConfig: API.OperationMethod<
     __c1850,
     0,
   ) as any as S.Schema<ValidateSecurityMonitoringIntegrationConfigResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105603,7 +107359,8 @@ export const validateSecurityMonitoringIntegrationCredentials: API.OperationMeth
     __c1850,
     0,
   ) as any as S.Schema<ValidateSecurityMonitoringIntegrationCredentialsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105620,7 +107377,8 @@ export const validateSecurityMonitoringRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36160, __c1130, 0) as any as S.Schema<ValidateSecurityMonitoringRuleRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<ValidateSecurityMonitoringRuleResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105637,7 +107395,8 @@ export const validateSecurityMonitoringSuppression: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36192, __c1131, 0) as any as S.Schema<ValidateSecurityMonitoringSuppressionRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<ValidateSecurityMonitoringSuppressionResponse>,
-  errors: [BadRequest, Forbidden, UnknownDatadogError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105654,7 +107413,8 @@ export const watchCase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36224, __c1132, 0) as any as S.Schema<WatchCaseRequest>,
   output: __S(59200, __c1850, 0) as any as S.Schema<WatchCaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDatadogError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DatadogServiceErrors,
   protocol: DatadogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -106874,7 +108634,7 @@ function __c49(j: number): any {
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           total: S.Number,
         }),
       ).annotate({ identifier: "Metadata" });
@@ -114146,7 +115906,7 @@ function __c307(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _authentication_token: S.optional(S.String),
+          _authentication_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           data: S.optional(__S(9825, __c307, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v2/static-analysis/rulesets", code: 200 })),
       ).annotate({ identifier: "ListMultipleRulesetsRequest" });
@@ -118306,7 +120066,7 @@ function __c460(j: number): any {
           sharer_disabled: S.Boolean,
           status: S.String,
           title: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           url: S.String,
           viewing_preferences: __S(14725, __c460, 5),
         }),
@@ -119855,7 +121615,7 @@ function __c516(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ruleset_name: S.String.pipe(T.Label()),
-          _authentication_token: S.optional(S.String),
+          _authentication_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           data: S.optional(__S(70368, __c2199, 0)),
         }).pipe(
           T.Http({
@@ -120144,7 +121904,7 @@ function __c530(j: number): any {
         S.Struct({
           ruleset_name: S.String.pipe(T.Label()),
           rule_name: S.String.pipe(T.Label()),
-          _authentication_token: S.optional(S.String),
+          _authentication_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           data: S.optional(__S(16961, __c530, 1)),
         }).pipe(
           T.Http({
@@ -121332,7 +123092,7 @@ function __c570(j: number): any {
       return S.suspend(() =>
         S.Struct({
           created_at: S.optional(S.String),
-          credential: S.optional(S.String),
+          credential: S.optional(S.String.pipe(T.SensitiveValue({}))),
           dashboard_id: S.optional(S.String),
           global_time: S.optional(__S(18272, __c571, 0)),
           global_time_selectable: S.optional(S.Boolean),
@@ -121341,7 +123101,7 @@ function __c570(j: number): any {
           share_type: S.optional(S.String),
           status: S.optional(S.String),
           title: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           url: S.optional(S.String),
           viewing_preferences: S.optional(__S(18275, __c571, 3)),
         }),
@@ -132551,7 +134311,7 @@ function __c968(j: number): any {
         S.Struct({
           custom_url: S.optional(S.NullOr(S.String)),
           name: S.optional(S.String),
-          opsgenie_api_key: S.optional(S.String),
+          opsgenie_api_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
           region: S.optional(S.String),
         }),
       ).annotate({ identifier: "OpsgenieServiceUpdateAttributes" });
@@ -134466,7 +136226,7 @@ function __c1040(j: number): any {
           auth_type: S.String,
           private_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
           private_key_name: S.optional(S.String),
-          private_key_passphrase: S.optional(S.NullOr(S.String)),
+          private_key_passphrase: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "SnowflakeIntegrationAccountPrivateKeyAuthUpdate" });
     case 1:
@@ -135125,7 +136885,7 @@ function __c1067(j: number): any {
       return S.suspend(() =>
         S.Struct({
           auth_type: S.String,
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "DatabricksIntegrationAccountBearerTokenAuthUpdate" });
     case 1:
@@ -135632,7 +137392,7 @@ function __c1086(j: number): any {
           sensitivePrivileges: S.optional(S.Boolean),
           spec: S.optional(__S(52480, __c1640, 0)),
           tags: S.optional(__S(32, __c1, 0)),
-          webhookSecret: S.optional(S.String),
+          webhookSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "WorkflowDataUpdateAttributesInput" });
     case 1:
@@ -141686,7 +143446,7 @@ function __c1319(j: number): any {
         S.Struct({
           custom_url: S.optional(S.String),
           name: S.String,
-          opsgenie_api_key: S.String,
+          opsgenie_api_key: S.String.pipe(T.SensitiveValue({})),
           region: S.String,
         }),
       ).annotate({ identifier: "OpsgenieServiceCreateAttributes" });
@@ -146667,7 +148427,7 @@ function __c1513(j: number): any {
           auth_type: S.String,
           private_key: S.String.pipe(T.SensitiveValue({})),
           private_key_name: S.String,
-          private_key_passphrase: S.optional(S.String),
+          private_key_passphrase: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "SnowflakeIntegrationAccountPrivateKeyAuthRequest" });
     case 1:
@@ -146921,7 +148681,7 @@ function __c1517(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          _authentication_token: S.optional(S.String),
+          _authentication_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           data: __S(48545, __c1517, 1),
         }).pipe(
           T.Http({
@@ -147041,7 +148801,7 @@ function __c1519(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          _authentication_token: S.optional(S.String),
+          _authentication_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           data: __S(48612, __c1519, 4),
         }).pipe(
           T.Http({
@@ -148949,7 +150709,7 @@ function __c1587(j: number): any {
       return S.suspend(() =>
         S.Struct({
           auth_type: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({
         identifier: "TemporalCloudOpenMetricsIntegrationAccountBearerTokenAuthRequest",
@@ -150231,7 +151991,7 @@ function __c1636(j: number): any {
           sensitivePrivileges: S.optional(S.Boolean),
           spec: __S(52480, __c1640, 0),
           tags: S.optional(__S(32, __c1, 0)),
-          webhookSecret: S.optional(S.String),
+          webhookSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "WorkflowDataAttributesInput" });
     case 1:
@@ -160863,7 +162623,7 @@ function __c2165(j: number): any {
           share_type: S.optional(S.String),
           status: S.optional(S.String),
           title: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           url: S.optional(S.String),
           viewing_preferences: S.optional(__S(18275, __c571, 3)),
         }),

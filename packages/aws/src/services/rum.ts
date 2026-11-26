@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -461,6 +462,7 @@ export interface PutRumEventsRequest {
   UserDetails: UserDetails;
   RumEvents: RumEvent[];
   Alias?: string | undefined;
+  SessionMetadata?: string | undefined;
 }
 export interface PutRumEventsResponse {}
 export interface PutRumMetricsDestinationRequest {
@@ -548,6 +550,7 @@ export const batchCreateRumMetricDefinitions: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateRumMetricDefinitions",
@@ -586,6 +589,7 @@ export const batchDeleteRumMetricDefinitions: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteRumMetricDefinitions",
@@ -617,6 +621,7 @@ export const batchGetRumMetricDefinitions: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetRumMetricDefinitions",
@@ -663,6 +668,7 @@ export const createAppMonitor: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppMonitor",
@@ -697,6 +703,7 @@ export const deleteAppMonitor: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppMonitor",
@@ -735,6 +742,7 @@ export const deleteResourcePolicy: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
@@ -769,6 +777,7 @@ export const deleteRumMetricsDestination: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRumMetricsDestination",
@@ -801,6 +810,7 @@ export const getAppMonitor: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAppMonitor",
@@ -834,6 +844,7 @@ export const getAppMonitorData: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAppMonitorData",
@@ -876,6 +887,7 @@ export const getResourcePolicy: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
@@ -907,6 +919,7 @@ export const listAppMonitors: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAppMonitors",
@@ -946,6 +959,7 @@ export const listRumMetricsDestinations: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRumMetricsDestinations",
@@ -976,6 +990,7 @@ export const listTagsForResource: API.OperationMethod<
   input: __S(152, __c19, 0) as any as S.Schema<ListTagsForResourceRequest>,
   output: __S(153, __c19, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -1016,6 +1031,7 @@ export const putResourcePolicy: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
@@ -1050,6 +1066,7 @@ export const putRumEvents: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRumEvents",
@@ -1087,6 +1104,7 @@ export const putRumMetricsDestination: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRumMetricsDestination",
@@ -1121,6 +1139,7 @@ export const tagResource: API.OperationMethod<
   input: __S(184, __c23, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(80, __c10, 0) as any as S.Schema<TagResourceResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -1145,6 +1164,7 @@ export const untagResource: API.OperationMethod<
   input: __S(192, __c24, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(80, __c10, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -1185,6 +1205,7 @@ export const updateAppMonitor: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppMonitor",
@@ -1221,6 +1242,7 @@ export const updateRumMetricDefinition: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRumMetricDefinition",
@@ -1743,6 +1765,7 @@ function __c21(j: number): any {
           UserDetails: __S(169, __c21, 1),
           RumEvents: __S(171, __c21, 3),
           Alias: S.optional(S.String),
+          SessionMetadata: S.optional(S.String),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/appmonitors/{Id}/" }),

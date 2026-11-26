@@ -67,7 +67,7 @@ const oktaSpec: SdkSpec = {
   operationDecl: {
     contextType: "OktaOpContext",
     commonErrorType: "OktaOpError",
-    commonErrorClasses: ["UnknownOktaError"],
+    serviceErrors: "OktaServiceErrors",
     protocol: "OktaProtocol",
     retry: "Retry.Retry",
   },

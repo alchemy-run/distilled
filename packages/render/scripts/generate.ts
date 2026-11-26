@@ -69,7 +69,7 @@ const renderSpec: SdkSpec = {
   operationDecl: {
     contextType: "RenderOpContext",
     commonErrorType: "RenderOpError",
-    commonErrorClasses: ["UnknownRenderError"],
+    serviceErrors: "RenderServiceErrors",
     protocol: "RenderProtocol",
     retry: "Retry.Retry",
   },

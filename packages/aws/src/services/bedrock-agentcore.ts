@@ -8,6 +8,7 @@ import type * as stream from "effect/Stream";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -655,6 +656,23 @@ export interface DeleteCapacityProviderSessionResponse {
   sessionId: string;
   status: CapacityProviderSessionStatus;
 }
+export type DatasetId = string;
+export type DatasetGenerationId = string;
+export interface DeleteDatasetGenerationRequest {
+  datasetId: string;
+  generationId: string;
+}
+export type DatasetGenerationStatus =
+  | "IN_PROGRESS"
+  | "COMPLETED"
+  | "COMPLETED_WITH_ERRORS"
+  | "FAILED"
+  | "DELETING"
+  | (string & {});
+export interface DeleteDatasetGenerationResponse {
+  generationId: string;
+  status: DatasetGenerationStatus;
+}
 export interface DeleteEventInput {
   memoryId: string;
   sessionId: string;
@@ -841,6 +859,65 @@ export interface GetAgentCardResponse {
   agentCard: any;
   statusCode?: number | undefined;
 }
+export type AgentApplicationName = string;
+export type AgentInsightId = string;
+export interface GetAgentInsightRequest {
+  applicationName: string;
+  agentInsightId: string;
+}
+export type InsightType = "FAILURE" | (string & {});
+export type InsightName = string | redacted.Redacted<string>;
+export type InsightDescription = string | redacted.Redacted<string>;
+export type FindingTargetId = string;
+export type FindingTargetType = "SPAN_ID" | "TRACE_ID" | "SPAN_NAME" | (string & {});
+export type FindingDescription = string | redacted.Redacted<string>;
+export interface SessionFinding {
+  targetId?: string | undefined;
+  targetType?: FindingTargetType | undefined;
+  description: string | redacted.Redacted<string>;
+  category?: string | undefined;
+  confidence?: number | undefined;
+}
+export type SessionFindingList = SessionFinding[];
+export interface SampleSession {
+  sessionId: string;
+  lastSeenAt?: Date | undefined;
+  findings?: SessionFinding[] | undefined;
+}
+export type InsightSampleSessionList = SampleSession[];
+export type RootCauseName = string | redacted.Redacted<string>;
+export type RootCauseExplanation = string | redacted.Redacted<string>;
+export type SuggestedFix = string | redacted.Redacted<string>;
+export interface InsightRootCause {
+  name: string | redacted.Redacted<string>;
+  explanation: string | redacted.Redacted<string>;
+  affectedSessionCount?: number | undefined;
+  suggestedFix?: string | redacted.Redacted<string> | undefined;
+  sampleSessions?: SampleSession[] | undefined;
+}
+export type InsightRootCauseList = InsightRootCause[];
+export type AgentInsightCustomerMetadataStatus =
+  | "AVAILABLE"
+  | "CUSTOMER_KEY_UNAVAILABLE"
+  | "UNAVAILABLE"
+  | (string & {});
+export type AgentInsightArchiveStatus = "ACTIVE" | "ARCHIVED" | (string & {});
+export interface GetAgentInsightResponse {
+  type: InsightType;
+  name: string | redacted.Redacted<string>;
+  description: string | redacted.Redacted<string>;
+  createdAt: Date;
+  affectedSessionCount?: number | undefined;
+  sampleSessions?: SampleSession[] | undefined;
+  rootCauses?: InsightRootCause[] | undefined;
+  agentInsightId: string;
+  applicationName: string;
+  batchEvaluationId?: string | undefined;
+  customerMetadataStatus: AgentInsightCustomerMetadataStatus;
+  updatedAt: Date;
+  archiveStatus: AgentInsightArchiveStatus;
+  lastSeenAt?: Date | undefined;
+}
 export interface GetBatchEvaluationRequest {
   batchEvaluationId: string;
 }
@@ -917,37 +994,6 @@ export interface EvaluationJobResults {
   numberOfSessionsIgnored?: number | undefined;
   evaluatorSummaries?: EvaluatorSummary[] | undefined;
 }
-export type InsightType = "FAILURE" | (string & {});
-export type InsightName = string | redacted.Redacted<string>;
-export type InsightDescription = string | redacted.Redacted<string>;
-export type FindingTargetId = string;
-export type FindingTargetType = "SPAN_ID" | "TRACE_ID" | "SPAN_NAME" | (string & {});
-export type FindingDescription = string | redacted.Redacted<string>;
-export interface SessionFinding {
-  targetId?: string | undefined;
-  targetType?: FindingTargetType | undefined;
-  description: string | redacted.Redacted<string>;
-  category?: string | undefined;
-  confidence?: number | undefined;
-}
-export type SessionFindingList = SessionFinding[];
-export interface SampleSession {
-  sessionId: string;
-  lastSeenAt?: Date | undefined;
-  findings?: SessionFinding[] | undefined;
-}
-export type InsightSampleSessionList = SampleSession[];
-export type RootCauseName = string | redacted.Redacted<string>;
-export type RootCauseExplanation = string | redacted.Redacted<string>;
-export type SuggestedFix = string | redacted.Redacted<string>;
-export interface InsightRootCause {
-  name: string | redacted.Redacted<string>;
-  explanation: string | redacted.Redacted<string>;
-  affectedSessionCount?: number | undefined;
-  suggestedFix?: string | redacted.Redacted<string> | undefined;
-  sampleSessions?: SampleSession[] | undefined;
-}
-export type InsightRootCauseList = InsightRootCause[];
 export interface InsightResult {
   type: InsightType;
   name: string | redacted.Redacted<string>;
@@ -1078,6 +1124,24 @@ export interface ExecutionSummaryClusteringResultContent {
 }
 export type BatchEvaluationDescription = string;
 export type KmsKeyArn = string;
+export type DatasetVersion = string;
+export interface DatasetDetails {
+  datasetId: string;
+  datasetVersion: string;
+}
+export type AgentRuntimeEndpointArn = string;
+export type AgentRuntimeVersion = string;
+export type RequestTemplate = string;
+export interface AgentCoreRuntimeInvocationDetails {
+  agentRuntimeEndpointArn: string;
+  agentRuntimeVersion: string;
+  requestTemplate?: string | undefined;
+}
+export type AgentInvocationDetails = { agentCoreRuntime: AgentCoreRuntimeInvocationDetails };
+export interface DatasetExecutionDetails {
+  dataset: DatasetDetails;
+  agentInvocation: AgentInvocationDetails;
+}
 export interface GetBatchEvaluationResponse {
   batchEvaluationId: string;
   batchEvaluationArn: string;
@@ -1097,6 +1161,7 @@ export interface GetBatchEvaluationResponse {
   description?: string | undefined;
   updatedAt?: Date | undefined;
   kmsKeyArn?: string | undefined;
+  datasetExecutionDetails?: DatasetExecutionDetails | undefined;
 }
 export type BrowserSessionId = string;
 export interface GetBrowserSessionRequest {
@@ -1230,6 +1295,265 @@ export interface GetCodeInterpreterSessionResponse {
   certificates?: Certificate[] | undefined;
   filesystemConfigurations?: ToolsFileSystemConfiguration[] | undefined;
 }
+export interface GetDatasetGenerationRequest {
+  datasetId: string;
+  generationId: string;
+}
+export type DatasetGenerationName = string;
+export type DatasetGenerationDescription = string;
+export type ScenarioType = "FIXED" | "DYNAMIC" | (string & {});
+export type CloudWatchLogsSourceConfigLogGroupNamesList = string[];
+export type CloudWatchLogsSourceConfigLogGroupNamePrefixesList = string[];
+export type ServiceName = string;
+export type ServiceNameList = string[];
+export interface CloudWatchLogsSourceConfig {
+  logGroupNames?: string[] | undefined;
+  logGroupNamePrefixes?: string[] | undefined;
+  serviceNames: string[];
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+}
+export interface OnlineEvaluationSourceConfig {
+  onlineEvaluationConfigArn: string;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+}
+export interface BatchEvaluationSourceConfig {
+  batchEvaluationArn: string;
+}
+export type TraceSourceConfig =
+  | {
+      cloudWatchLogs: CloudWatchLogsSourceConfig;
+      onlineEvaluation?: undefined;
+      batchEvaluation?: undefined;
+    }
+  | {
+      cloudWatchLogs?: undefined;
+      onlineEvaluation: OnlineEvaluationSourceConfig;
+      batchEvaluation?: undefined;
+    }
+  | {
+      cloudWatchLogs?: undefined;
+      onlineEvaluation?: undefined;
+      batchEvaluation: BatchEvaluationSourceConfig;
+    };
+export type GenerationFilterOperator =
+  | "Equals"
+  | "NotEquals"
+  | "GreaterThan"
+  | "LessThan"
+  | "GreaterThanOrEqual"
+  | "LessThanOrEqual"
+  | "Contains"
+  | "NotContains"
+  | (string & {});
+export type GenerationFilterStringValue = string;
+export type GenerationFilterValue =
+  | { stringValue: string; doubleValue?: undefined; booleanValue?: undefined }
+  | { stringValue?: undefined; doubleValue: number; booleanValue?: undefined }
+  | { stringValue?: undefined; doubleValue?: undefined; booleanValue: boolean };
+export interface GenerationAttributeFilter {
+  key: string;
+  operator: GenerationFilterOperator;
+  value: GenerationFilterValue;
+}
+export type GenerationAttributeFilterList = GenerationAttributeFilter[];
+export interface TurnCountRange {
+  min?: number | undefined;
+  max?: number | undefined;
+}
+export type ResultAggregation = "Min" | "Max" | "Mean" | "AllMatch" | "AnyMatch" | (string & {});
+export interface EvaluatorFilter {
+  evaluatorId: string;
+  evaluationDimensionName?: string | undefined;
+  operator: GenerationFilterOperator;
+  value: GenerationFilterValue;
+  aggregation?: ResultAggregation | undefined;
+}
+export type EvaluatorFilterList = EvaluatorFilter[];
+export interface GenerationFilters {
+  attributeFilters?: GenerationAttributeFilter[] | undefined;
+  turnCount?: TurnCountRange | undefined;
+  evaluatorFilters?: EvaluatorFilter[] | undefined;
+}
+export interface GenerationIdentifierCounts {
+  sessionIdCount?: number | undefined;
+  traceIdCount?: number | undefined;
+}
+export type GenerationSelectionRecord =
+  | { filters: GenerationFilters; identifiers?: undefined }
+  | { filters?: undefined; identifiers: GenerationIdentifierCounts };
+export interface GenerationSamplingConfig {
+  maxScenarios?: number | undefined;
+}
+export type GroundTruthField = "expected_response" | "expected_trajectory" | (string & {});
+export type GroundTruthFieldList = GroundTruthField[];
+export interface GroundTruthConfig {
+  fields: GroundTruthField[];
+  qualityFilters?: EvaluatorFilter[] | undefined;
+}
+export type RedactionIdentifier =
+  | "ADDRESS"
+  | "AWS_SECRET_KEY"
+  | "BANK_ACCOUNT_NUMBER_DE"
+  | "BANK_ACCOUNT_NUMBER_ES"
+  | "BANK_ACCOUNT_NUMBER_FR"
+  | "BANK_ACCOUNT_NUMBER_GB"
+  | "BANK_ACCOUNT_NUMBER_IT"
+  | "BANK_ACCOUNT_NUMBER_US"
+  | "CEP_CODE_BR"
+  | "CNPJ_BR"
+  | "CPF_CODE_BR"
+  | "CREDIT_CARD_EXPIRATION"
+  | "CREDIT_CARD_MAGNETIC_STRIPE"
+  | "CREDIT_CARD_NUMBER"
+  | "CREDIT_CARD_SECURITY_CODE"
+  | "DATE_OF_BIRTH"
+  | "DRIVERS_LICENSE_AT"
+  | "DRIVERS_LICENSE_AU"
+  | "DRIVERS_LICENSE_BE"
+  | "DRIVERS_LICENSE_BG"
+  | "DRIVERS_LICENSE_CA"
+  | "DRIVERS_LICENSE_CY"
+  | "DRIVERS_LICENSE_CZ"
+  | "DRIVERS_LICENSE_DE"
+  | "DRIVERS_LICENSE_DK"
+  | "DRIVERS_LICENSE_EE"
+  | "DRIVERS_LICENSE_ES"
+  | "DRIVERS_LICENSE_FI"
+  | "DRIVERS_LICENSE_FR"
+  | "DRIVERS_LICENSE_GB"
+  | "DRIVERS_LICENSE_GR"
+  | "DRIVERS_LICENSE_HR"
+  | "DRIVERS_LICENSE_HU"
+  | "DRIVERS_LICENSE_IE"
+  | "DRIVERS_LICENSE_IT"
+  | "DRIVERS_LICENSE_LT"
+  | "DRIVERS_LICENSE_LU"
+  | "DRIVERS_LICENSE_LV"
+  | "DRIVERS_LICENSE_MT"
+  | "DRIVERS_LICENSE_NL"
+  | "DRIVERS_LICENSE_PL"
+  | "DRIVERS_LICENSE_PT"
+  | "DRIVERS_LICENSE_RO"
+  | "DRIVERS_LICENSE_SE"
+  | "DRIVERS_LICENSE_SI"
+  | "DRIVERS_LICENSE_SK"
+  | "DRIVERS_LICENSE_US"
+  | "DRUG_ENFORCEMENT_AGENCY_NUMBER_US"
+  | "ELECTORAL_ROLL_NUMBER_GB"
+  | "EMAIL_ADDRESS"
+  | "HEALTH_INSURANCE_CARD_NUMBER_EU"
+  | "HEALTH_INSURANCE_CLAIM_NUMBER_US"
+  | "HEALTH_INSURANCE_NUMBER_FR"
+  | "HEALTHCARE_PROCEDURE_CODE_US"
+  | "INDIVIDUAL_TAX_IDENTIFICATION_NUMBER_US"
+  | "INSEE_CODE_FR"
+  | "IP_ADDRESS"
+  | "LAT_LONG"
+  | "MEDICARE_BENEFICIARY_NUMBER_US"
+  | "NAME"
+  | "NATIONAL_DRUG_CODE_US"
+  | "NATIONAL_IDENTIFICATION_NUMBER_DE"
+  | "NATIONAL_IDENTIFICATION_NUMBER_ES"
+  | "NATIONAL_IDENTIFICATION_NUMBER_IT"
+  | "NATIONAL_INSURANCE_NUMBER_GB"
+  | "NATIONAL_PROVIDER_ID_US"
+  | "NHS_NUMBER_GB"
+  | "NIE_NUMBER_ES"
+  | "NIF_NUMBER_ES"
+  | "OPEN_SSH_PRIVATE_KEY"
+  | "PASSPORT_NUMBER_CA"
+  | "PASSPORT_NUMBER_DE"
+  | "PASSPORT_NUMBER_ES"
+  | "PASSPORT_NUMBER_FR"
+  | "PASSPORT_NUMBER_GB"
+  | "PASSPORT_NUMBER_IT"
+  | "PASSPORT_NUMBER_US"
+  | "PERMANENT_RESIDENCE_NUMBER_CA"
+  | "PERSONAL_HEALTH_NUMBER_CA"
+  | "PGP_PRIVATE_KEY"
+  | "PHONE_NUMBER_BR"
+  | "PHONE_NUMBER_DE"
+  | "PHONE_NUMBER_ES"
+  | "PHONE_NUMBER_FR"
+  | "PHONE_NUMBER_GB"
+  | "PHONE_NUMBER_IT"
+  | "PHONE_NUMBER_US"
+  | "PKCS_PRIVATE_KEY"
+  | "POSTAL_CODE_CA"
+  | "PUTTY_PRIVATE_KEY"
+  | "RG_NUMBER_BR"
+  | "SOCIAL_INSURANCE_NUMBER_CA"
+  | "SSN_ES"
+  | "SSN_US"
+  | "TAX_ID_DE"
+  | "TAX_ID_ES"
+  | "TAX_ID_FR"
+  | "TAX_ID_GB"
+  | "VEHICLE_IDENTIFICATION_NUMBER"
+  | "ZIP_CODE_US"
+  | (string & {});
+export type RedactionIdentifierList = RedactionIdentifier[];
+export interface CustomDataIdentifier {
+  name: string;
+  regex: string;
+}
+export type CustomDataIdentifierList = CustomDataIdentifier[];
+export interface RedactionConfiguration {
+  identifiers?: RedactionIdentifier[] | undefined;
+  customDataIdentifiers?: CustomDataIdentifier[] | undefined;
+}
+export interface TraceGenerationRecord {
+  sourceConfig?: TraceSourceConfig | undefined;
+  selection?: GenerationSelectionRecord | undefined;
+  sampling?: GenerationSamplingConfig | undefined;
+  groundTruth?: GroundTruthConfig | undefined;
+  redactionConfiguration?: RedactionConfiguration | undefined;
+}
+export type GenerationSourceRecord = { traceGeneration: TraceGenerationRecord };
+export interface GenerationResults {
+  sessionsMatched?: number | undefined;
+  sessionsSelected?: number | undefined;
+  sessionsUnscored?: number | undefined;
+  sessionsFailed?: number | undefined;
+  scenariosGenerated?: number | undefined;
+  scenariosDeduplicated?: number | undefined;
+  examplesWritten?: number | undefined;
+  examplesWithGroundTruth?: number | undefined;
+}
+export type FindingIdentifierKey = string;
+export type FindingCountMap = { [key: string]: number | undefined };
+export interface RedactionSummary {
+  scenariosScanned?: number | undefined;
+  findingCounts?: { [key: string]: number | undefined } | undefined;
+}
+export type GenerationErrorCode = string;
+export type GenerationErrorMessage = string;
+export type GenerationErrorSessionIdList = string[];
+export interface GenerationErrorDetail {
+  errorCode?: string | undefined;
+  errorMessage?: string | undefined;
+  count?: number | undefined;
+  sessionIds?: string[] | undefined;
+}
+export type GenerationErrorDetailsList = GenerationErrorDetail[];
+export interface GetDatasetGenerationResponse {
+  generationId: string;
+  name: string;
+  description?: string | undefined;
+  datasetId: string;
+  scenarioType: ScenarioType;
+  status: DatasetGenerationStatus;
+  failureReason?: string | undefined;
+  createdAt: Date;
+  updatedAt?: Date | undefined;
+  completedAt?: Date | undefined;
+  source?: GenerationSourceRecord | undefined;
+  generationResults?: GenerationResults | undefined;
+  redactionSummary?: RedactionSummary | undefined;
+  errorDetails?: GenerationErrorDetail[] | undefined;
+}
 export interface GetEventInput {
   memoryId: string;
   sessionId: string;
@@ -1325,8 +1649,6 @@ export type SystemPromptConfig =
   | { text: string | redacted.Redacted<string>; configurationBundle?: undefined }
   | { text?: undefined; configurationBundle: SystemPromptConfigurationBundle };
 export type LogGroupArnList = string[];
-export type ServiceName = string;
-export type ServiceNameList = string[];
 export type CloudWatchLogsFilterOperator =
   | "Equals"
   | "NotEquals"
@@ -2832,6 +3154,33 @@ export interface ListActorsOutput {
   actorSummaries: ActorSummary[];
   nextToken?: string | undefined;
 }
+export type NextToken = string;
+export interface ListAgentInsightsRequest {
+  applicationName?: string | undefined;
+  batchEvaluationId?: string | undefined;
+  archiveStatus?: AgentInsightArchiveStatus | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+}
+export interface AgentInsightSummary {
+  type: InsightType;
+  name: string | redacted.Redacted<string>;
+  description: string | redacted.Redacted<string>;
+  createdAt: Date;
+  affectedSessionCount?: number | undefined;
+  agentInsightId: string;
+  applicationName: string;
+  batchEvaluationId?: string | undefined;
+  customerMetadataStatus: AgentInsightCustomerMetadataStatus;
+  updatedAt: Date;
+  archiveStatus: AgentInsightArchiveStatus;
+  lastSeenAt?: Date | undefined;
+}
+export type AgentInsightSummaryList = AgentInsightSummary[];
+export interface ListAgentInsightsResponse {
+  agentInsights: AgentInsightSummary[];
+  nextToken?: string | undefined;
+}
 export interface ListBatchEvaluationsRequest {
   maxResults?: number | undefined;
   nextToken?: string | undefined;
@@ -2855,7 +3204,6 @@ export interface ListBatchEvaluationsResponse {
   batchEvaluations: BatchEvaluationSummary[];
   nextToken?: string | undefined;
 }
-export type NextToken = string;
 export interface ListBrowserSessionsRequest {
   browserIdentifier: string;
   maxResults?: number | undefined;
@@ -2892,6 +3240,26 @@ export interface CodeInterpreterSessionSummary {
 export type CodeInterpreterSessionSummaries = CodeInterpreterSessionSummary[];
 export interface ListCodeInterpreterSessionsResponse {
   items: CodeInterpreterSessionSummary[];
+  nextToken?: string | undefined;
+}
+export interface ListDatasetGenerationsRequest {
+  datasetId: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+}
+export interface DatasetGenerationSummary {
+  generationId: string;
+  datasetId: string;
+  name: string;
+  description?: string | undefined;
+  scenarioType: ScenarioType;
+  status: DatasetGenerationStatus;
+  createdAt: Date;
+  completedAt?: Date | undefined;
+}
+export type DatasetGenerationSummaryList = DatasetGenerationSummary[];
+export interface ListDatasetGenerationsResponse {
+  datasetGenerations: DatasetGenerationSummary[];
   nextToken?: string | undefined;
 }
 export interface BranchFilter {
@@ -3086,7 +3454,7 @@ export interface ListSessionsOutput {
   sessionSummaries: SessionSummary[];
   nextToken?: string | undefined;
 }
-export type PaymentType = "CRYPTO_X402" | "MPP" | (string & {});
+export type PaymentType = "CRYPTO_X402" | "MPP" | "AWS_BILLING_X402" | (string & {});
 export type PaymentDocument = unknown;
 export type Permit2AllowanceLimit = string;
 export interface CryptoX402PaymentInput {
@@ -3102,9 +3470,26 @@ export interface MppPaymentInput {
   wwwAuthenticateHeaders: string[];
   buyerPaysGasFees?: boolean | undefined;
 }
+export type JwkKeyType = "EC" | (string & {});
+export type JwkEllipticCurve = "P-256" | "P-384" | "P-521" | (string & {});
+export interface DpopJwk {
+  kty: JwkKeyType;
+  crv: JwkEllipticCurve;
+  x: string;
+  y: string;
+}
+export interface AwsBillingPaymentOptions {
+  dpopJwk?: DpopJwk | undefined;
+}
+export interface AwsBillingX402PaymentInput {
+  version: string;
+  payload: any;
+  options?: AwsBillingPaymentOptions | undefined;
+}
 export type PaymentInput =
-  | { cryptoX402: CryptoX402PaymentInput; mpp?: undefined }
-  | { cryptoX402?: undefined; mpp: MppPaymentInput };
+  | { cryptoX402: CryptoX402PaymentInput; mpp?: undefined; awsBillingX402?: undefined }
+  | { cryptoX402?: undefined; mpp: MppPaymentInput; awsBillingX402?: undefined }
+  | { cryptoX402?: undefined; mpp?: undefined; awsBillingX402: AwsBillingX402PaymentInput };
 export interface ProcessPaymentRequest {
   userId?: string | undefined;
   agentName?: string | undefined;
@@ -3127,9 +3512,15 @@ export interface MppPaymentOutput {
   selectedPaymentId: string;
   paymentCredential: string | redacted.Redacted<string>;
 }
+export type AwsBillingPaymentToken = string | redacted.Redacted<string>;
+export interface AwsBillingX402PaymentOutput {
+  version: string;
+  paymentToken: string | redacted.Redacted<string>;
+}
 export type PaymentOutput =
-  | { cryptoX402: CryptoX402PaymentOutput; mpp?: undefined }
-  | { cryptoX402?: undefined; mpp: MppPaymentOutput };
+  | { cryptoX402: CryptoX402PaymentOutput; mpp?: undefined; awsBillingX402?: undefined }
+  | { cryptoX402?: undefined; mpp: MppPaymentOutput; awsBillingX402?: undefined }
+  | { cryptoX402?: undefined; mpp?: undefined; awsBillingX402: AwsBillingX402PaymentOutput };
 export interface ProcessPaymentResponse {
   processPaymentId: string;
   paymentManagerArn: string;
@@ -3275,6 +3666,19 @@ export interface SessionMetadataShape {
 }
 export type SessionMetadataList = SessionMetadataShape[];
 export type EvaluationMetadata = { sessionMetadata: SessionMetadataShape[] };
+export interface DatasetSource {
+  datasetId: string;
+  datasetVersion?: string | undefined;
+}
+export interface AgentCoreRuntimeInvocation {
+  agentRuntimeEndpointArn: string;
+  requestTemplate?: string | undefined;
+}
+export type AgentInvocationConfig = { agentCoreRuntime: AgentCoreRuntimeInvocation };
+export interface DatasetExecutionConfig {
+  dataset: DatasetSource;
+  agentInvocation: AgentInvocationConfig;
+}
 export interface StartBatchEvaluationRequest {
   batchEvaluationName: string;
   evaluators?: Evaluator[] | undefined;
@@ -3286,6 +3690,7 @@ export interface StartBatchEvaluationRequest {
   kmsKeyArn?: string | undefined;
   description?: string | undefined;
   outputConfig?: OutputConfig | undefined;
+  datasetExecutionConfig?: DatasetExecutionConfig | undefined;
 }
 export interface StartBatchEvaluationResponse {
   batchEvaluationId: string;
@@ -3334,6 +3739,38 @@ export interface StartCodeInterpreterSessionRequest {
 export interface StartCodeInterpreterSessionResponse {
   codeInterpreterIdentifier: string;
   sessionId: string;
+  createdAt: Date;
+}
+export type GenerationSessionIdList = string[];
+export type GenerationTraceIdList = string[];
+export interface GenerationIdentifiers {
+  sessionIds?: string[] | undefined;
+  traceIds?: string[] | undefined;
+}
+export type GenerationSelection =
+  | { filters: GenerationFilters; identifiers?: undefined }
+  | { filters?: undefined; identifiers: GenerationIdentifiers };
+export interface TraceGenerationSource {
+  sourceConfig: TraceSourceConfig;
+  selection?: GenerationSelection | undefined;
+  sampling?: GenerationSamplingConfig | undefined;
+  groundTruth?: GroundTruthConfig | undefined;
+  redactionConfiguration?: RedactionConfiguration | undefined;
+}
+export type GenerationSource = { traceGeneration: TraceGenerationSource };
+export interface StartDatasetGenerationRequest {
+  datasetId: string;
+  name: string;
+  description?: string | undefined;
+  scenarioType?: ScenarioType | undefined;
+  source: GenerationSource;
+  clientToken?: string | undefined;
+}
+export interface StartDatasetGenerationResponse {
+  generationId: string;
+  name: string;
+  datasetId: string;
+  status: DatasetGenerationStatus;
   createdAt: Date;
 }
 export interface ExtractionJob {
@@ -3428,6 +3865,16 @@ export interface UpdateABTestResponse {
   executionStatus: ABTestExecutionStatus;
   updatedAt: Date;
 }
+export interface UpdateAgentInsightRequest {
+  applicationName: string;
+  agentInsightId: string;
+  archiveStatus: AgentInsightArchiveStatus;
+}
+export interface UpdateAgentInsightResponse {
+  agentInsightId: string;
+  archiveStatus: AgentInsightArchiveStatus;
+  updatedAt: Date;
+}
 export interface AutomationStreamUpdate {
   streamStatus?: AutomationStreamStatus | undefined;
 }
@@ -3471,6 +3918,7 @@ export const batchCreateMemoryRecords: API.OperationMethod<
     ThrottledException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateMemoryRecords",
@@ -3505,6 +3953,7 @@ export const batchDeleteMemoryRecords: API.OperationMethod<
     ThrottledException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteMemoryRecords",
@@ -3539,6 +3988,7 @@ export const batchUpdateMemoryRecords: API.OperationMethod<
     ThrottledException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateMemoryRecords",
@@ -3573,6 +4023,7 @@ export const completeResourceTokenAuth: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteResourceTokenAuth",
@@ -3609,6 +4060,7 @@ export const createABTest: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateABTest",
@@ -3651,6 +4103,7 @@ export const createEvent: API.OperationMethod<
     ThrottledException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEvent",
@@ -3689,6 +4142,7 @@ export const createPaymentInstrument: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePaymentInstrument",
@@ -3725,6 +4179,7 @@ export const createPaymentSession: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePaymentSession",
@@ -3761,6 +4216,7 @@ export const deleteABTest: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteABTest",
@@ -3797,6 +4253,7 @@ export const deleteBatchEvaluation: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBatchEvaluation",
@@ -3829,11 +4286,49 @@ export const deleteCapacityProviderSession: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCapacityProviderSession",
   telemetry: TELEMETRY,
   span: "DeleteCapacityProviderSession",
+}));
+
+export type DeleteDatasetGenerationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Deletes the record of a dataset generation. The examples the generation added stay in the dataset's draft. To remove them, find them with the `generationIds` filter of `ListDatasetExamples`, then call `DeleteDatasetExamples`.
+ */
+export const deleteDatasetGeneration: API.OperationMethod<
+  DeleteDatasetGenerationRequest & RegionInput,
+  DeleteDatasetGenerationResponse,
+  DeleteDatasetGenerationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(832, __c26, 0) as any as S.Schema<DeleteDatasetGenerationRequest>,
+  output: __S(833, __c26, 1) as any as S.Schema<DeleteDatasetGenerationResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteDatasetGeneration",
+  telemetry: TELEMETRY,
+  span: "DeleteDatasetGeneration",
 }));
 
 export type DeleteEventError =
@@ -3856,8 +4351,8 @@ export const deleteEvent: API.OperationMethod<
   DeleteEventError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<DeleteEventInput>,
-  output: __S(833, __c26, 1) as any as S.Schema<DeleteEventOutput>,
+  input: __S(864, __c27, 0) as any as S.Schema<DeleteEventInput>,
+  output: __S(865, __c27, 1) as any as S.Schema<DeleteEventOutput>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -3867,6 +4362,7 @@ export const deleteEvent: API.OperationMethod<
     ThrottledException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEvent",
@@ -3894,8 +4390,8 @@ export const deleteMemoryRecord: API.OperationMethod<
   DeleteMemoryRecordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<DeleteMemoryRecordInput>,
-  output: __S(865, __c27, 1) as any as S.Schema<DeleteMemoryRecordOutput>,
+  input: __S(896, __c28, 0) as any as S.Schema<DeleteMemoryRecordInput>,
+  output: __S(897, __c28, 1) as any as S.Schema<DeleteMemoryRecordOutput>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -3905,6 +4401,7 @@ export const deleteMemoryRecord: API.OperationMethod<
     ThrottledException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMemoryRecord",
@@ -3928,8 +4425,8 @@ export const deletePaymentInstrument: API.OperationMethod<
   DeletePaymentInstrumentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<DeletePaymentInstrumentRequest>,
-  output: __S(928, __c29, 0) as any as S.Schema<DeletePaymentInstrumentResponse>,
+  input: __S(928, __c29, 0) as any as S.Schema<DeletePaymentInstrumentRequest>,
+  output: __S(960, __c30, 0) as any as S.Schema<DeletePaymentInstrumentResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3937,6 +4434,7 @@ export const deletePaymentInstrument: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePaymentInstrument",
@@ -3960,8 +4458,8 @@ export const deletePaymentSession: API.OperationMethod<
   DeletePaymentSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<DeletePaymentSessionRequest>,
-  output: __S(928, __c29, 0) as any as S.Schema<DeletePaymentSessionResponse>,
+  input: __S(992, __c31, 0) as any as S.Schema<DeletePaymentSessionRequest>,
+  output: __S(960, __c30, 0) as any as S.Schema<DeletePaymentSessionResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3969,6 +4467,7 @@ export const deletePaymentSession: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePaymentSession",
@@ -3993,8 +4492,8 @@ export const deleteRecommendation: API.OperationMethod<
   DeleteRecommendationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<DeleteRecommendationRequest>,
-  output: __S(993, __c31, 1) as any as S.Schema<DeleteRecommendationResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<DeleteRecommendationRequest>,
+  output: __S(1025, __c32, 1) as any as S.Schema<DeleteRecommendationResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4003,6 +4502,7 @@ export const deleteRecommendation: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecommendation",
@@ -4030,8 +4530,8 @@ export const evaluate: API.OperationMethod<
   EvaluateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1030, __c32, 6) as any as S.Schema<EvaluateRequest>,
-  output: __S(1034, __c32, 10) as any as S.Schema<EvaluateResponse>,
+  input: __S(1062, __c33, 6) as any as S.Schema<EvaluateRequest>,
+  output: __S(1066, __c33, 10) as any as S.Schema<EvaluateResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4043,6 +4543,7 @@ export const evaluate: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Evaluate",
@@ -4067,8 +4568,8 @@ export const getABTest: API.OperationMethod<
   GetABTestError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<GetABTestRequest>,
-  output: __S(1128, __c35, 8) as any as S.Schema<GetABTestResponse>,
+  input: __S(1152, __c36, 0) as any as S.Schema<GetABTestRequest>,
+  output: __S(1160, __c36, 8) as any as S.Schema<GetABTestResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4077,6 +4578,7 @@ export const getABTest: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetABTest",
@@ -4103,8 +4605,8 @@ export const getAgentCard: API.OperationMethod<
   GetAgentCardError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<GetAgentCardRequest>,
-  output: __S(1153, __c36, 1) as any as S.Schema<GetAgentCardResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<GetAgentCardRequest>,
+  output: __S(1185, __c37, 1) as any as S.Schema<GetAgentCardResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4115,11 +4617,47 @@ export const getAgentCard: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentCard",
   telemetry: TELEMETRY,
   span: "GetAgentCard",
+}));
+
+export type GetAgentInsightError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Amazon Bedrock AgentCore Agent Insights identifies patterns detected across your agent sessions. Use Agent Insights to identify recurring issues and prioritize fixes.
+ *
+ * Retrieves detailed information about an Amazon Bedrock AgentCore Agent Insight, including its archive status, affected sessions, and, when applicable, the batch evaluation that produced it.
+ */
+export const getAgentInsight: API.OperationMethod<
+  GetAgentInsightRequest & RegionInput,
+  GetAgentInsightResponse,
+  GetAgentInsightError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1216, __c38, 0) as any as S.Schema<GetAgentInsightRequest>,
+  output: __S(1217, __c38, 1) as any as S.Schema<GetAgentInsightResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetAgentInsight",
+  telemetry: TELEMETRY,
+  span: "GetAgentInsight",
 }));
 
 export type GetBatchEvaluationError =
@@ -4139,8 +4677,8 @@ export const getBatchEvaluation: API.OperationMethod<
   GetBatchEvaluationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<GetBatchEvaluationRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<GetBatchEvaluationResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<GetBatchEvaluationRequest>,
+  output: __S(1310, __c40, 30) as any as S.Schema<GetBatchEvaluationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4149,6 +4687,7 @@ export const getBatchEvaluation: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBatchEvaluation",
@@ -4182,8 +4721,8 @@ export const getBrowserSession: API.OperationMethod<
   GetBrowserSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<GetBrowserSessionRequest>,
-  output: __S(1345, __c42, 1) as any as S.Schema<GetBrowserSessionResponse>,
+  input: __S(1408, __c44, 0) as any as S.Schema<GetBrowserSessionRequest>,
+  output: __S(1409, __c44, 1) as any as S.Schema<GetBrowserSessionResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4191,6 +4730,7 @@ export const getBrowserSession: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBrowserSession",
@@ -4224,8 +4764,8 @@ export const getCodeInterpreterSession: API.OperationMethod<
   GetCodeInterpreterSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<GetCodeInterpreterSessionRequest>,
-  output: __S(1473, __c46, 1) as any as S.Schema<GetCodeInterpreterSessionResponse>,
+  input: __S(1536, __c48, 0) as any as S.Schema<GetCodeInterpreterSessionRequest>,
+  output: __S(1537, __c48, 1) as any as S.Schema<GetCodeInterpreterSessionResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4233,11 +4773,47 @@ export const getCodeInterpreterSession: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCodeInterpreterSession",
   telemetry: TELEMETRY,
   span: "GetCodeInterpreterSession",
+}));
+
+export type GetDatasetGenerationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Gets a dataset generation, including its status, the request it was started with, its progress counts, its redaction summary and its errors. Call this operation to track a generation that you started with `StartDatasetGeneration`.
+ */
+export const getDatasetGeneration: API.OperationMethod<
+  GetDatasetGenerationRequest & RegionInput,
+  GetDatasetGenerationResponse,
+  GetDatasetGenerationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1568, __c49, 0) as any as S.Schema<GetDatasetGenerationRequest>,
+  output: __S(1578, __c49, 10) as any as S.Schema<GetDatasetGenerationResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetDatasetGeneration",
+  telemetry: TELEMETRY,
+  span: "GetDatasetGeneration",
 }));
 
 export type GetEventError =
@@ -4260,7 +4836,7 @@ export const getEvent: API.OperationMethod<
   GetEventError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<GetEventInput>,
+  input: __S(1664, __c52, 0) as any as S.Schema<GetEventInput>,
   output: __S(480, __c15, 0) as any as S.Schema<GetEventOutput>,
   errors: [
     AccessDeniedException,
@@ -4271,6 +4847,7 @@ export const getEvent: API.OperationMethod<
     ThrottledException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEvent",
@@ -4298,8 +4875,8 @@ export const getMemoryRecord: API.OperationMethod<
   GetMemoryRecordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<GetMemoryRecordInput>,
-  output: __S(1538, __c48, 2) as any as S.Schema<GetMemoryRecordOutput>,
+  input: __S(1696, __c53, 0) as any as S.Schema<GetMemoryRecordInput>,
+  output: __S(1698, __c53, 2) as any as S.Schema<GetMemoryRecordOutput>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -4309,6 +4886,7 @@ export const getMemoryRecord: API.OperationMethod<
     ThrottledException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMemoryRecord",
@@ -4332,7 +4910,7 @@ export const getPaymentInstrument: API.OperationMethod<
   GetPaymentInstrumentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<GetPaymentInstrumentRequest>,
+  input: __S(1728, __c54, 0) as any as S.Schema<GetPaymentInstrumentRequest>,
   output: __S(650, __c20, 10) as any as S.Schema<GetPaymentInstrumentResponse>,
   errors: [
     AccessDeniedException,
@@ -4341,6 +4919,7 @@ export const getPaymentInstrument: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPaymentInstrument",
@@ -4364,8 +4943,8 @@ export const getPaymentInstrumentBalance: API.OperationMethod<
   GetPaymentInstrumentBalanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<GetPaymentInstrumentBalanceRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<GetPaymentInstrumentBalanceResponse>,
+  input: __S(1760, __c55, 0) as any as S.Schema<GetPaymentInstrumentBalanceRequest>,
+  output: __S(1762, __c55, 2) as any as S.Schema<GetPaymentInstrumentBalanceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4373,6 +4952,7 @@ export const getPaymentInstrumentBalance: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPaymentInstrumentBalance",
@@ -4396,7 +4976,7 @@ export const getPaymentSession: API.OperationMethod<
   GetPaymentSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<GetPaymentSessionRequest>,
+  input: __S(1792, __c56, 0) as any as S.Schema<GetPaymentSessionRequest>,
   output: __S(708, __c22, 4) as any as S.Schema<GetPaymentSessionResponse>,
   errors: [
     AccessDeniedException,
@@ -4405,6 +4985,7 @@ export const getPaymentSession: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPaymentSession",
@@ -4428,8 +5009,8 @@ export const getRecommendation: API.OperationMethod<
   GetRecommendationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<GetRecommendationRequest>,
-  output: __S(1671, __c52, 7) as any as S.Schema<GetRecommendationResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<GetRecommendationRequest>,
+  output: __S(1831, __c57, 7) as any as S.Schema<GetRecommendationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4437,6 +5018,7 @@ export const getRecommendation: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommendation",
@@ -4461,8 +5043,8 @@ export const getResourceApiKey: API.OperationMethod<
   GetResourceApiKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<GetResourceApiKeyRequest>,
-  output: __S(1729, __c54, 1) as any as S.Schema<GetResourceApiKeyResponse>,
+  input: __S(1888, __c59, 0) as any as S.Schema<GetResourceApiKeyRequest>,
+  output: __S(1889, __c59, 1) as any as S.Schema<GetResourceApiKeyResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4471,6 +5053,7 @@ export const getResourceApiKey: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceApiKey",
@@ -4495,8 +5078,8 @@ export const getResourceOauth2Token: API.OperationMethod<
   GetResourceOauth2TokenError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<GetResourceOauth2TokenRequest>,
-  output: __S(1761, __c55, 1) as any as S.Schema<GetResourceOauth2TokenResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<GetResourceOauth2TokenRequest>,
+  output: __S(1921, __c60, 1) as any as S.Schema<GetResourceOauth2TokenResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4505,6 +5088,7 @@ export const getResourceOauth2Token: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceOauth2Token",
@@ -4529,8 +5113,8 @@ export const getResourcePaymentToken: API.OperationMethod<
   GetResourcePaymentTokenError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1827, __c57, 3) as any as S.Schema<GetResourcePaymentTokenRequest>,
-  output: __S(1831, __c57, 7) as any as S.Schema<GetResourcePaymentTokenResponse>,
+  input: __S(1987, __c62, 3) as any as S.Schema<GetResourcePaymentTokenRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<GetResourcePaymentTokenResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4539,6 +5123,7 @@ export const getResourcePaymentToken: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePaymentToken",
@@ -4563,8 +5148,8 @@ export const getWorkloadAccessToken: API.OperationMethod<
   GetWorkloadAccessTokenError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<GetWorkloadAccessTokenRequest>,
-  output: __S(1888, __c59, 0) as any as S.Schema<GetWorkloadAccessTokenResponse>,
+  input: __S(2016, __c63, 0) as any as S.Schema<GetWorkloadAccessTokenRequest>,
+  output: __S(2048, __c64, 0) as any as S.Schema<GetWorkloadAccessTokenResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4573,6 +5158,7 @@ export const getWorkloadAccessToken: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkloadAccessToken",
@@ -4597,8 +5183,8 @@ export const getWorkloadAccessTokenForJWT: API.OperationMethod<
   GetWorkloadAccessTokenForJWTError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<GetWorkloadAccessTokenForJWTRequest>,
-  output: __S(1888, __c59, 0) as any as S.Schema<GetWorkloadAccessTokenForJWTResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<GetWorkloadAccessTokenForJWTRequest>,
+  output: __S(2048, __c64, 0) as any as S.Schema<GetWorkloadAccessTokenForJWTResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4607,6 +5193,7 @@ export const getWorkloadAccessTokenForJWT: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkloadAccessTokenForJWT",
@@ -4631,8 +5218,8 @@ export const getWorkloadAccessTokenForUserId: API.OperationMethod<
   GetWorkloadAccessTokenForUserIdError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<GetWorkloadAccessTokenForUserIdRequest>,
-  output: __S(1888, __c59, 0) as any as S.Schema<GetWorkloadAccessTokenForUserIdResponse>,
+  input: __S(2112, __c66, 0) as any as S.Schema<GetWorkloadAccessTokenForUserIdRequest>,
+  output: __S(2048, __c64, 0) as any as S.Schema<GetWorkloadAccessTokenForUserIdResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4641,6 +5228,7 @@ export const getWorkloadAccessTokenForUserId: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkloadAccessTokenForUserId",
@@ -4667,8 +5255,8 @@ export const ingestData: API.OperationMethod<
   IngestDataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1988, __c62, 4) as any as S.Schema<IngestDataInput>,
-  output: __S(1989, __c62, 5) as any as S.Schema<IngestDataOutput>,
+  input: __S(2148, __c67, 4) as any as S.Schema<IngestDataInput>,
+  output: __S(2149, __c67, 5) as any as S.Schema<IngestDataOutput>,
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -4677,6 +5265,7 @@ export const ingestData: API.OperationMethod<
     ThrottledException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IngestData",
@@ -4713,8 +5302,8 @@ export const invokeAgentRuntime: API.OperationMethod<
   InvokeAgentRuntimeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<InvokeAgentRuntimeRequest>,
-  output: __S(2017, __c63, 1) as any as S.Schema<InvokeAgentRuntimeResponse>,
+  input: __S(2176, __c68, 0) as any as S.Schema<InvokeAgentRuntimeRequest>,
+  output: __S(2177, __c68, 1) as any as S.Schema<InvokeAgentRuntimeResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4725,6 +5314,7 @@ export const invokeAgentRuntime: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeAgentRuntime",
@@ -4755,8 +5345,8 @@ export const invokeAgentRuntimeCommand: API.OperationMethod<
   InvokeAgentRuntimeCommandError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2049, __c64, 1) as any as S.Schema<InvokeAgentRuntimeCommandRequest>,
-  output: __S(2054, __c64, 6) as any as S.Schema<InvokeAgentRuntimeCommandResponse>,
+  input: __S(2209, __c69, 1) as any as S.Schema<InvokeAgentRuntimeCommandRequest>,
+  output: __S(2214, __c69, 6) as any as S.Schema<InvokeAgentRuntimeCommandResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4767,6 +5357,7 @@ export const invokeAgentRuntimeCommand: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeAgentRuntimeCommand",
@@ -4801,8 +5392,8 @@ export const invokeBrowser: API.OperationMethod<
   InvokeBrowserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2089, __c65, 9) as any as S.Schema<InvokeBrowserRequest>,
-  output: __S(2093, __c65, 13) as any as S.Schema<InvokeBrowserResponse>,
+  input: __S(2249, __c70, 9) as any as S.Schema<InvokeBrowserRequest>,
+  output: __S(2253, __c70, 13) as any as S.Schema<InvokeBrowserResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4811,6 +5402,7 @@ export const invokeBrowser: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeBrowser",
@@ -4846,8 +5438,8 @@ export const invokeCodeInterpreter: API.OperationMethod<
   InvokeCodeInterpreterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2115, __c66, 3) as any as S.Schema<InvokeCodeInterpreterRequest>,
-  output: __S(2122, __c66, 10) as any as S.Schema<InvokeCodeInterpreterResponse>,
+  input: __S(2275, __c71, 3) as any as S.Schema<InvokeCodeInterpreterRequest>,
+  output: __S(2282, __c71, 10) as any as S.Schema<InvokeCodeInterpreterResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4857,6 +5449,7 @@ export const invokeCodeInterpreter: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeCodeInterpreter",
@@ -4882,8 +5475,8 @@ export const invokeHarness: API.OperationMethod<
   InvokeHarnessError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2178, __c68, 2) as any as S.Schema<InvokeHarnessRequest>,
-  output: __S(2196, __c68, 20) as any as S.Schema<InvokeHarnessResponse>,
+  input: __S(2338, __c73, 2) as any as S.Schema<InvokeHarnessRequest>,
+  output: __S(2356, __c73, 20) as any as S.Schema<InvokeHarnessResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4893,6 +5486,7 @@ export const invokeHarness: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeHarness",
@@ -4921,8 +5515,8 @@ export const invokeWebSearch: API.OperationMethod<
   InvokeWebSearchError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2211, __c69, 3) as any as S.Schema<InvokeWebSearchInput>,
-  output: __S(2214, __c69, 6) as any as S.Schema<InvokeWebSearchOutput>,
+  input: __S(2371, __c74, 3) as any as S.Schema<InvokeWebSearchInput>,
+  output: __S(2374, __c74, 6) as any as S.Schema<InvokeWebSearchOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4931,6 +5525,7 @@ export const invokeWebSearch: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeWebSearch",
@@ -4955,8 +5550,8 @@ export const listABTests: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ABTestSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<ListABTestsRequest>,
-  output: __S(2243, __c70, 3) as any as S.Schema<ListABTestsResponse>,
+  input: __S(2400, __c75, 0) as any as S.Schema<ListABTestsRequest>,
+  output: __S(2403, __c75, 3) as any as S.Schema<ListABTestsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4964,6 +5559,7 @@ export const listABTests: API.PaginatedOperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListABTests",
@@ -4998,8 +5594,8 @@ export const listActors: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ActorSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<ListActorsInput>,
-  output: __S(2275, __c71, 3) as any as S.Schema<ListActorsOutput>,
+  input: __S(2432, __c76, 0) as any as S.Schema<ListActorsInput>,
+  output: __S(2435, __c76, 3) as any as S.Schema<ListActorsOutput>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -5009,6 +5605,7 @@ export const listActors: API.PaginatedOperationMethod<
     ThrottledException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListActors",
@@ -5020,6 +5617,44 @@ export const listActors: API.PaginatedOperationMethod<
   } as const,
   telemetry: TELEMETRY,
   span: "ListActors",
+})) as any;
+
+export type ListAgentInsightsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists Amazon Bedrock AgentCore Agent Insight summaries in your account and Region. Use this operation to review patterns across sessions before you investigate or archive an insight. The response paginates the results. Use the `nextToken` parameter to retrieve additional results.
+ */
+export const listAgentInsights: API.PaginatedOperationMethod<
+  ListAgentInsightsRequest & RegionInput,
+  ListAgentInsightsResponse,
+  ListAgentInsightsError,
+  Credentials | HttpClient.HttpClient,
+  AgentInsightSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(2464, __c77, 0) as any as S.Schema<ListAgentInsightsRequest>,
+  output: __S(2467, __c77, 3) as any as S.Schema<ListAgentInsightsResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListAgentInsights",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "agentInsights",
+    pageSize: "maxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListAgentInsights",
 })) as any;
 
 export type ListBatchEvaluationsError =
@@ -5039,8 +5674,8 @@ export const listBatchEvaluations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   BatchEvaluationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<ListBatchEvaluationsRequest>,
-  output: __S(2307, __c72, 3) as any as S.Schema<ListBatchEvaluationsResponse>,
+  input: __S(2496, __c78, 0) as any as S.Schema<ListBatchEvaluationsRequest>,
+  output: __S(2499, __c78, 3) as any as S.Schema<ListBatchEvaluationsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5048,6 +5683,7 @@ export const listBatchEvaluations: API.PaginatedOperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBatchEvaluations",
@@ -5087,8 +5723,8 @@ export const listBrowserSessions: API.OperationMethod<
   ListBrowserSessionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<ListBrowserSessionsRequest>,
-  output: __S(2339, __c73, 3) as any as S.Schema<ListBrowserSessionsResponse>,
+  input: __S(2528, __c79, 0) as any as S.Schema<ListBrowserSessionsRequest>,
+  output: __S(2531, __c79, 3) as any as S.Schema<ListBrowserSessionsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5096,6 +5732,7 @@ export const listBrowserSessions: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBrowserSessions",
@@ -5129,8 +5766,8 @@ export const listCodeInterpreterSessions: API.OperationMethod<
   ListCodeInterpreterSessionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<ListCodeInterpreterSessionsRequest>,
-  output: __S(2371, __c74, 3) as any as S.Schema<ListCodeInterpreterSessionsResponse>,
+  input: __S(2560, __c80, 0) as any as S.Schema<ListCodeInterpreterSessionsRequest>,
+  output: __S(2563, __c80, 3) as any as S.Schema<ListCodeInterpreterSessionsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5138,12 +5775,55 @@ export const listCodeInterpreterSessions: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCodeInterpreterSessions",
   telemetry: TELEMETRY,
   span: "ListCodeInterpreterSessions",
 }));
+
+export type ListDatasetGenerationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists the generations for a dataset. AgentCore keeps a generation until you delete it with `DeleteDatasetGeneration` or delete the dataset. To get a generation's counts and the request it was started with, call `GetDatasetGeneration`.
+ */
+export const listDatasetGenerations: API.PaginatedOperationMethod<
+  ListDatasetGenerationsRequest & RegionInput,
+  ListDatasetGenerationsResponse,
+  ListDatasetGenerationsError,
+  Credentials | HttpClient.HttpClient,
+  DatasetGenerationSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(2592, __c81, 0) as any as S.Schema<ListDatasetGenerationsRequest>,
+  output: __S(2595, __c81, 3) as any as S.Schema<ListDatasetGenerationsResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListDatasetGenerations",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "datasetGenerations",
+    pageSize: "maxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasetGenerations",
+})) as any;
 
 export type ListEventsError =
   | AccessDeniedException
@@ -5166,8 +5846,8 @@ export const listEvents: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Event
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2405, __c75, 5) as any as S.Schema<ListEventsInput>,
-  output: __S(2407, __c75, 7) as any as S.Schema<ListEventsOutput>,
+  input: __S(2629, __c82, 5) as any as S.Schema<ListEventsInput>,
+  output: __S(2631, __c82, 7) as any as S.Schema<ListEventsOutput>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -5177,6 +5857,7 @@ export const listEvents: API.PaginatedOperationMethod<
     ThrottledException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEvents",
@@ -5210,8 +5891,8 @@ export const listMemoryExtractionJobs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ExtractionJobMetadata
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2465, __c77, 1) as any as S.Schema<ListMemoryExtractionJobsInput>,
-  output: __S(2471, __c77, 7) as any as S.Schema<ListMemoryExtractionJobsOutput>,
+  input: __S(2689, __c84, 1) as any as S.Schema<ListMemoryExtractionJobsInput>,
+  output: __S(2695, __c84, 7) as any as S.Schema<ListMemoryExtractionJobsOutput>,
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -5220,6 +5901,7 @@ export const listMemoryExtractionJobs: API.PaginatedOperationMethod<
     ThrottledException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMemoryExtractionJobs",
@@ -5254,8 +5936,8 @@ export const listMemoryRecords: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   MemoryRecordSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<ListMemoryRecordsInput>,
-  output: __S(2533, __c79, 5) as any as S.Schema<ListMemoryRecordsOutput>,
+  input: __S(2720, __c85, 0) as any as S.Schema<ListMemoryRecordsInput>,
+  output: __S(2757, __c86, 5) as any as S.Schema<ListMemoryRecordsOutput>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -5265,6 +5947,7 @@ export const listMemoryRecords: API.PaginatedOperationMethod<
     ThrottledException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMemoryRecords",
@@ -5294,14 +5977,15 @@ export const listPaymentInstruments: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PaymentInstrumentSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<ListPaymentInstrumentsRequest>,
-  output: __S(2563, __c80, 3) as any as S.Schema<ListPaymentInstrumentsResponse>,
+  input: __S(2784, __c87, 0) as any as S.Schema<ListPaymentInstrumentsRequest>,
+  output: __S(2787, __c87, 3) as any as S.Schema<ListPaymentInstrumentsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPaymentInstruments",
@@ -5331,14 +6015,15 @@ export const listPaymentSessions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PaymentSessionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<ListPaymentSessionsRequest>,
-  output: __S(2595, __c81, 3) as any as S.Schema<ListPaymentSessionsResponse>,
+  input: __S(2816, __c88, 0) as any as S.Schema<ListPaymentSessionsRequest>,
+  output: __S(2819, __c88, 3) as any as S.Schema<ListPaymentSessionsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPaymentSessions",
@@ -5368,14 +6053,15 @@ export const listRecommendations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RecommendationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<ListRecommendationsRequest>,
-  output: __S(2627, __c82, 3) as any as S.Schema<ListRecommendationsResponse>,
+  input: __S(2848, __c89, 0) as any as S.Schema<ListRecommendationsRequest>,
+  output: __S(2851, __c89, 3) as any as S.Schema<ListRecommendationsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRecommendations",
@@ -5412,8 +6098,8 @@ export const listSessions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SessionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2657, __c83, 1) as any as S.Schema<ListSessionsInput>,
-  output: __S(2660, __c83, 4) as any as S.Schema<ListSessionsOutput>,
+  input: __S(2881, __c90, 1) as any as S.Schema<ListSessionsInput>,
+  output: __S(2884, __c90, 4) as any as S.Schema<ListSessionsOutput>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -5423,6 +6109,7 @@ export const listSessions: API.PaginatedOperationMethod<
     ThrottledException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSessions",
@@ -5455,8 +6142,8 @@ export const processPayment: API.OperationMethod<
   ProcessPaymentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2691, __c84, 3) as any as S.Schema<ProcessPaymentRequest>,
-  output: __S(2695, __c84, 7) as any as S.Schema<ProcessPaymentResponse>,
+  input: __S(2918, __c91, 6) as any as S.Schema<ProcessPaymentRequest>,
+  output: __S(2923, __c91, 11) as any as S.Schema<ProcessPaymentResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5467,6 +6154,7 @@ export const processPayment: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ProcessPayment",
@@ -5495,8 +6183,8 @@ export const retrieveMemoryRecords: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   MemoryRecordSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2721, __c85, 1) as any as S.Schema<RetrieveMemoryRecordsInput>,
-  output: __S(2533, __c79, 5) as any as S.Schema<RetrieveMemoryRecordsOutput>,
+  input: __S(2945, __c92, 1) as any as S.Schema<RetrieveMemoryRecordsInput>,
+  output: __S(2757, __c86, 5) as any as S.Schema<RetrieveMemoryRecordsOutput>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -5506,6 +6194,7 @@ export const retrieveMemoryRecords: API.PaginatedOperationMethod<
     ThrottledException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetrieveMemoryRecords",
@@ -5546,8 +6235,8 @@ export const saveBrowserSessionProfile: API.OperationMethod<
   SaveBrowserSessionProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<SaveBrowserSessionProfileRequest>,
-  output: __S(2753, __c86, 1) as any as S.Schema<SaveBrowserSessionProfileResponse>,
+  input: __S(2976, __c93, 0) as any as S.Schema<SaveBrowserSessionProfileRequest>,
+  output: __S(2977, __c93, 1) as any as S.Schema<SaveBrowserSessionProfileResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5556,6 +6245,7 @@ export const saveBrowserSessionProfile: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SaveBrowserSessionProfile",
@@ -5580,8 +6270,8 @@ export const searchRegistryRecords: API.OperationMethod<
   SearchRegistryRecordsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<SearchRegistryRecordsRequest>,
-  output: __S(2794, __c87, 10) as any as S.Schema<SearchRegistryRecordsResponse>,
+  input: __S(3008, __c94, 0) as any as S.Schema<SearchRegistryRecordsRequest>,
+  output: __S(3018, __c94, 10) as any as S.Schema<SearchRegistryRecordsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5590,6 +6280,7 @@ export const searchRegistryRecords: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchRegistryRecords",
@@ -5615,8 +6306,8 @@ export const startBatchEvaluation: API.OperationMethod<
   StartBatchEvaluationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2824, __c88, 8) as any as S.Schema<StartBatchEvaluationRequest>,
-  output: __S(2825, __c88, 9) as any as S.Schema<StartBatchEvaluationResponse>,
+  input: __S(3052, __c95, 12) as any as S.Schema<StartBatchEvaluationRequest>,
+  output: __S(3053, __c95, 13) as any as S.Schema<StartBatchEvaluationResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5626,6 +6317,7 @@ export const startBatchEvaluation: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBatchEvaluation",
@@ -5665,8 +6357,8 @@ export const startBrowserSession: API.OperationMethod<
   StartBrowserSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<StartBrowserSessionRequest>,
-  output: __S(2849, __c89, 1) as any as S.Schema<StartBrowserSessionResponse>,
+  input: __S(3072, __c96, 0) as any as S.Schema<StartBrowserSessionRequest>,
+  output: __S(3073, __c96, 1) as any as S.Schema<StartBrowserSessionResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5676,6 +6368,7 @@ export const startBrowserSession: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBrowserSession",
@@ -5711,8 +6404,8 @@ export const startCodeInterpreterSession: API.OperationMethod<
   StartCodeInterpreterSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<StartCodeInterpreterSessionRequest>,
-  output: __S(2881, __c90, 1) as any as S.Schema<StartCodeInterpreterSessionResponse>,
+  input: __S(3104, __c97, 0) as any as S.Schema<StartCodeInterpreterSessionRequest>,
+  output: __S(3105, __c97, 1) as any as S.Schema<StartCodeInterpreterSessionResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5722,11 +6415,57 @@ export const startCodeInterpreterSession: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCodeInterpreterSession",
   telemetry: TELEMETRY,
   span: "StartCodeInterpreterSession",
+}));
+
+export type StartDatasetGenerationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Starts a dataset generation, which creates examples for an existing dataset from your agent's traces. The dataset must be `ACTIVE`. Each generation produces one scenario type, set by `scenarioType`. When the generation finishes, AgentCore adds the examples to the dataset's draft. Examples that duplicate each other, or that duplicate examples already in the draft, are left out.
+ *
+ * A dataset can have only one generation in progress at a time. While it runs, requests that change the dataset's draft or publish a version are rejected with a `ConflictException`.
+ *
+ * AgentCore reads the traces with your credentials, so you need read access to the trace log groups, and to the dataset's KMS key if the dataset uses a customer managed key. The draft can hold at most 1,000 examples, including the examples this generation can add (`maxScenarios`).
+ *
+ * The operation returns immediately. To track progress, call `GetDatasetGeneration`.
+ */
+export const startDatasetGeneration: API.OperationMethod<
+  StartDatasetGenerationRequest & RegionInput,
+  StartDatasetGenerationResponse,
+  StartDatasetGenerationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3140, __c98, 4) as any as S.Schema<StartDatasetGenerationRequest>,
+  output: __S(3141, __c98, 5) as any as S.Schema<StartDatasetGenerationResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "StartDatasetGeneration",
+  telemetry: TELEMETRY,
+  span: "StartDatasetGeneration",
 }));
 
 export type StartMemoryExtractionJobError =
@@ -5748,8 +6487,8 @@ export const startMemoryExtractionJob: API.OperationMethod<
   StartMemoryExtractionJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2913, __c91, 1) as any as S.Schema<StartMemoryExtractionJobInput>,
-  output: __S(2912, __c91, 0) as any as S.Schema<StartMemoryExtractionJobOutput>,
+  input: __S(3169, __c99, 1) as any as S.Schema<StartMemoryExtractionJobInput>,
+  output: __S(3168, __c99, 0) as any as S.Schema<StartMemoryExtractionJobOutput>,
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -5758,6 +6497,7 @@ export const startMemoryExtractionJob: API.OperationMethod<
     ThrottledException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMemoryExtractionJob",
@@ -5782,8 +6522,8 @@ export const startRecommendation: API.OperationMethod<
   StartRecommendationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<StartRecommendationRequest>,
-  output: __S(2945, __c92, 1) as any as S.Schema<StartRecommendationResponse>,
+  input: __S(3200, __c100, 0) as any as S.Schema<StartRecommendationRequest>,
+  output: __S(3201, __c100, 1) as any as S.Schema<StartRecommendationResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5792,6 +6532,7 @@ export const startRecommendation: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRecommendation",
@@ -5817,8 +6558,8 @@ export const stopBatchEvaluation: API.OperationMethod<
   StopBatchEvaluationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<StopBatchEvaluationRequest>,
-  output: __S(2977, __c93, 1) as any as S.Schema<StopBatchEvaluationResponse>,
+  input: __S(3232, __c101, 0) as any as S.Schema<StopBatchEvaluationRequest>,
+  output: __S(3233, __c101, 1) as any as S.Schema<StopBatchEvaluationResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5828,6 +6569,7 @@ export const stopBatchEvaluation: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopBatchEvaluation",
@@ -5861,8 +6603,8 @@ export const stopBrowserSession: API.OperationMethod<
   StopBrowserSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<StopBrowserSessionRequest>,
-  output: __S(3009, __c94, 1) as any as S.Schema<StopBrowserSessionResponse>,
+  input: __S(3264, __c102, 0) as any as S.Schema<StopBrowserSessionRequest>,
+  output: __S(3265, __c102, 1) as any as S.Schema<StopBrowserSessionResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5872,6 +6614,7 @@ export const stopBrowserSession: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopBrowserSession",
@@ -5905,8 +6648,8 @@ export const stopCodeInterpreterSession: API.OperationMethod<
   StopCodeInterpreterSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<StopCodeInterpreterSessionRequest>,
-  output: __S(3041, __c95, 1) as any as S.Schema<StopCodeInterpreterSessionResponse>,
+  input: __S(3296, __c103, 0) as any as S.Schema<StopCodeInterpreterSessionRequest>,
+  output: __S(3297, __c103, 1) as any as S.Schema<StopCodeInterpreterSessionResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5916,6 +6659,7 @@ export const stopCodeInterpreterSession: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopCodeInterpreterSession",
@@ -5944,8 +6688,8 @@ export const stopRuntimeSession: API.OperationMethod<
   StopRuntimeSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<StopRuntimeSessionRequest>,
-  output: __S(3073, __c96, 1) as any as S.Schema<StopRuntimeSessionResponse>,
+  input: __S(3328, __c104, 0) as any as S.Schema<StopRuntimeSessionRequest>,
+  output: __S(3329, __c104, 1) as any as S.Schema<StopRuntimeSessionResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5958,6 +6702,7 @@ export const stopRuntimeSession: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopRuntimeSession",
@@ -5984,8 +6729,8 @@ export const updateABTest: API.OperationMethod<
   UpdateABTestError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<UpdateABTestRequest>,
-  output: __S(3105, __c97, 1) as any as S.Schema<UpdateABTestResponse>,
+  input: __S(3360, __c105, 0) as any as S.Schema<UpdateABTestRequest>,
+  output: __S(3361, __c105, 1) as any as S.Schema<UpdateABTestResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5996,11 +6741,47 @@ export const updateABTest: API.OperationMethod<
     UnauthorizedException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateABTest",
   telemetry: TELEMETRY,
   span: "UpdateABTest",
+}));
+
+export type UpdateAgentInsightError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Updates the archive status of an Amazon Bedrock AgentCore Agent Insight.
+ */
+export const updateAgentInsight: API.OperationMethod<
+  UpdateAgentInsightRequest & RegionInput,
+  UpdateAgentInsightResponse,
+  UpdateAgentInsightError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3392, __c106, 0) as any as S.Schema<UpdateAgentInsightRequest>,
+  output: __S(3393, __c106, 1) as any as S.Schema<UpdateAgentInsightResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  serviceErrors: AwsServiceErrors,
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateAgentInsight",
+  telemetry: TELEMETRY,
+  span: "UpdateAgentInsight",
 }));
 
 export type UpdateBrowserStreamError =
@@ -6021,8 +6802,8 @@ export const updateBrowserStream: API.OperationMethod<
   UpdateBrowserStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3138, __c98, 2) as any as S.Schema<UpdateBrowserStreamRequest>,
-  output: __S(3139, __c98, 3) as any as S.Schema<UpdateBrowserStreamResponse>,
+  input: __S(3426, __c107, 2) as any as S.Schema<UpdateBrowserStreamRequest>,
+  output: __S(3427, __c107, 3) as any as S.Schema<UpdateBrowserStreamResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6032,6 +6813,7 @@ export const updateBrowserStream: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBrowserStream",
@@ -6635,6 +7417,30 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          datasetId: S.String.pipe(T.HttpLabel("datasetId")),
+          generationId: S.String.pipe(T.HttpLabel("generationId")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/datasets/{datasetId}/generations/{generationId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteDatasetGenerationRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ generationId: S.String, status: S.String })).annotate({
+        identifier: "DeleteDatasetGenerationResponse",
+      });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           memoryId: S.String.pipe(T.HttpLabel("memoryId")),
           sessionId: S.String.pipe(T.HttpLabel("sessionId")),
           eventId: S.String.pipe(T.HttpLabel("eventId")),
@@ -6659,7 +7465,7 @@ function __c26(j: number): any {
       });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6687,7 +7493,7 @@ function __c27(j: number): any {
       });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6711,7 +7517,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "DeletePaymentInstrumentRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ status: S.String })).annotate({
@@ -6719,7 +7525,7 @@ function __c29(j: number): any {
       });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6742,7 +7548,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "DeletePaymentSessionRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6763,10 +7569,10 @@ function __c31(j: number): any {
       });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
-      return S.Union([/*@__PURE__*/ S.Struct({ sessionSpans: __S(1056, __c33, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ sessionSpans: __S(1088, __c34, 0) })]);
     case 1:
       return S.Union([
         /*@__PURE__*/ S.Struct({ spanIds: __S(128, __c4, 0) }),
@@ -6781,25 +7587,25 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "SpanContext" });
     case 3:
-      return S.Union([/*@__PURE__*/ S.Struct({ spanContext: __S(1026, __c32, 2) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ spanContext: __S(1058, __c33, 2) })]);
     case 4:
       return S.suspend(() =>
         S.Struct({
-          context: __S(1027, __c32, 3),
-          expectedResponse: S.optional(__S(1088, __c34, 0)),
-          assertions: S.optional(__S(1089, __c34, 1)),
-          expectedTrajectory: S.optional(__S(1090, __c34, 2)),
+          context: __S(1059, __c33, 3),
+          expectedResponse: S.optional(__S(1120, __c35, 0)),
+          assertions: S.optional(__S(1121, __c35, 1)),
+          expectedTrajectory: S.optional(__S(1122, __c35, 2)),
         }),
       ).annotate({ identifier: "EvaluationReferenceInput" });
     case 5:
-      return S.Array(__S(1028, __c32, 4));
+      return S.Array(__S(1060, __c33, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           evaluatorId: S.String.pipe(T.HttpLabel("evaluatorId")),
-          evaluationInput: __S(1024, __c32, 0),
-          evaluationTarget: S.optional(__S(1025, __c32, 1)),
-          evaluationReferenceInputs: S.optional(__S(1029, __c32, 5)),
+          evaluationInput: __S(1056, __c33, 0),
+          evaluationTarget: S.optional(__S(1057, __c33, 1)),
+          evaluationReferenceInputs: S.optional(__S(1061, __c33, 5)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/evaluations/evaluate/{evaluatorId}" }),
@@ -6827,42 +7633,42 @@ function __c32(j: number): any {
           evaluatorName: S.String,
           evaluationDimensionName: S.optional(S.String),
           explanation: S.optional(SensitiveString),
-          context: __S(1027, __c32, 3),
+          context: __S(1059, __c33, 3),
           value: S.optional(S.Number),
           label: S.optional(S.String),
-          tokenUsage: S.optional(__S(1031, __c32, 7)),
+          tokenUsage: S.optional(__S(1063, __c33, 7)),
           errorMessage: S.optional(S.String),
           errorCode: S.optional(S.String),
           ignoredReferenceInputFields: S.optional(__S(128, __c4, 0)),
         }),
       ).annotate({ identifier: "EvaluationResultContent" });
     case 9:
-      return S.Array(__S(1032, __c32, 8));
+      return S.Array(__S(1064, __c33, 8));
     case 10:
-      return S.suspend(() => S.Struct({ evaluationResults: __S(1033, __c32, 9) })).annotate({
+      return S.suspend(() => S.Struct({ evaluationResults: __S(1065, __c33, 9) })).annotate({
         identifier: "EvaluateResponse",
       });
-  }
-}
-function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Any);
   }
 }
 function __c34(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.Any);
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
       return S.Union([/*@__PURE__*/ S.Struct({ text: S.String })]);
     case 1:
-      return S.Array(__S(1088, __c34, 0));
+      return S.Array(__S(1120, __c35, 0));
     case 2:
       return S.suspend(() => S.Struct({ toolNames: S.optional(__S(128, __c4, 0)) })).annotate({
         identifier: "EvaluationExpectedTrajectory",
       });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6894,27 +7700,27 @@ function __c35(j: number): any {
           absoluteChange: S.optional(S.Number),
           percentChange: S.optional(S.Number),
           pValue: S.optional(S.Number),
-          confidenceInterval: S.optional(__S(1122, __c35, 2)),
+          confidenceInterval: S.optional(__S(1154, __c36, 2)),
           isSignificant: S.Boolean,
         }),
       ).annotate({ identifier: "VariantResult" });
     case 4:
-      return S.Array(__S(1123, __c35, 3));
+      return S.Array(__S(1155, __c36, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           evaluatorArn: S.String,
-          controlStats: __S(1121, __c35, 1),
-          variantResults: __S(1124, __c35, 4),
+          controlStats: __S(1153, __c36, 1),
+          variantResults: __S(1156, __c36, 4),
         }),
       ).annotate({ identifier: "EvaluatorMetric" });
     case 6:
-      return S.Array(__S(1125, __c35, 5));
+      return S.Array(__S(1157, __c36, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           analysisTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          evaluatorMetrics: __S(1126, __c35, 6),
+          evaluatorMetrics: __S(1158, __c36, 6),
         }),
       ).annotate({ identifier: "ABTestResults" });
     case 8:
@@ -6938,12 +7744,12 @@ function __c35(j: number): any {
           maxDurationExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          results: S.optional(__S(1127, __c35, 7)),
+          results: S.optional(__S(1159, __c36, 7)),
         }),
       ).annotate({ identifier: "GetABTestResponse" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6980,7 +7786,84 @@ function __c36(j: number): any {
       ).annotate({ identifier: "GetAgentCardResponse" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          applicationName: S.String.pipe(T.HttpQuery("applicationName")),
+          agentInsightId: S.String.pipe(T.HttpLabel("agentInsightId")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/agentinsights/{agentInsightId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetAgentInsightRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: SensitiveString,
+          description: SensitiveString,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          affectedSessionCount: S.optional(S.Number),
+          sampleSessions: S.optional(__S(1251, __c39, 3)),
+          rootCauses: S.optional(__S(1253, __c39, 5)),
+          agentInsightId: S.String,
+          applicationName: S.String,
+          batchEvaluationId: S.optional(S.String),
+          customerMetadataStatus: S.String,
+          updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          archiveStatus: S.String,
+          lastSeenAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+        }),
+      ).annotate({ identifier: "GetAgentInsightResponse" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          targetId: S.optional(S.String),
+          targetType: S.optional(S.String),
+          description: SensitiveString,
+          category: S.optional(S.String),
+          confidence: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SessionFinding" });
+    case 1:
+      return S.Array(__S(1248, __c39, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          sessionId: S.String,
+          lastSeenAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          findings: S.optional(__S(1249, __c39, 1)),
+        }),
+      ).annotate({ identifier: "SampleSession" });
+    case 3:
+      return S.Array(__S(1250, __c39, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          name: SensitiveString,
+          explanation: SensitiveString,
+          affectedSessionCount: S.optional(S.Number),
+          suggestedFix: S.optional(SensitiveString),
+          sampleSessions: S.optional(__S(1251, __c39, 3)),
+        }),
+      ).annotate({ identifier: "InsightRootCause" });
+    case 5:
+      return S.Array(__S(1252, __c39, 4));
+  }
+}
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6998,76 +7881,42 @@ function __c37(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          targetId: S.optional(S.String),
-          targetType: S.optional(S.String),
-          description: SensitiveString,
-          category: S.optional(S.String),
-          confidence: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "SessionFinding" });
-    case 2:
-      return S.Array(__S(1185, __c37, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          sessionId: S.String,
-          lastSeenAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          findings: S.optional(__S(1186, __c37, 2)),
-        }),
-      ).annotate({ identifier: "SampleSession" });
-    case 4:
-      return S.Array(__S(1187, __c37, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          name: SensitiveString,
-          explanation: SensitiveString,
-          affectedSessionCount: S.optional(S.Number),
-          suggestedFix: S.optional(SensitiveString),
-          sampleSessions: S.optional(__S(1188, __c37, 4)),
-        }),
-      ).annotate({ identifier: "InsightRootCause" });
-    case 6:
-      return S.Array(__S(1189, __c37, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
           type: S.String,
           name: SensitiveString,
           description: SensitiveString,
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           affectedSessionCount: S.optional(S.Number),
-          sampleSessions: S.optional(__S(1188, __c37, 4)),
-          rootCauses: S.optional(__S(1190, __c37, 6)),
+          sampleSessions: S.optional(__S(1251, __c39, 3)),
+          rootCauses: S.optional(__S(1253, __c39, 5)),
         }),
       ).annotate({ identifier: "InsightResult" });
-    case 8:
-      return S.Array(__S(1191, __c37, 7));
-    case 9:
+    case 2:
+      return S.Array(__S(1281, __c40, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({ category: S.String, evidence: S.String, confidence: S.Number }),
       ).annotate({ identifier: "InsightsFailureSignal" });
-    case 10:
-      return S.Array(__S(1193, __c37, 9));
-    case 11:
+    case 4:
+      return S.Array(__S(1283, __c40, 3));
+    case 5:
       return S.suspend(() =>
-        S.Struct({ spanId: S.String, traceId: S.String, signals: __S(1194, __c37, 10) }),
+        S.Struct({ spanId: S.String, traceId: S.String, signals: __S(1284, __c40, 4) }),
       ).annotate({ identifier: "FailureSpanDetail" });
-    case 12:
-      return S.Array(__S(1195, __c37, 11));
-    case 13:
+    case 6:
+      return S.Array(__S(1285, __c40, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
           sessionId: S.String,
           explanation: S.String,
           fixType: S.String,
           recommendation: S.String,
-          failureSpans: __S(1196, __c37, 12),
+          failureSpans: __S(1286, __c40, 6),
         }),
       ).annotate({ identifier: "AffectedSession" });
-    case 14:
-      return S.Array(__S(1197, __c37, 13));
-    case 15:
+    case 8:
+      return S.Array(__S(1287, __c40, 7));
+    case 9:
       return S.suspend(() =>
         S.Struct({
           clusterId: S.Number,
@@ -7075,88 +7924,102 @@ function __c37(j: number): any {
           rootCause: S.String,
           recommendation: S.String,
           affectedSessionCount: S.Number,
-          affectedSessions: __S(1198, __c37, 14),
+          affectedSessions: __S(1288, __c40, 8),
         }),
       ).annotate({ identifier: "RootCauseCluster" });
-    case 16:
-      return S.Array(__S(1199, __c37, 15));
-    case 17:
+    case 10:
+      return S.Array(__S(1289, __c40, 9));
+    case 11:
       return S.suspend(() =>
         S.Struct({
           clusterId: S.Number,
           name: S.String,
           description: S.String,
           affectedSessionCount: S.Number,
-          rootCauses: __S(1200, __c37, 16),
+          rootCauses: __S(1290, __c40, 10),
         }),
       ).annotate({ identifier: "FailureSubCategoryCluster" });
-    case 18:
-      return S.Array(__S(1201, __c37, 17));
-    case 19:
+    case 12:
+      return S.Array(__S(1291, __c40, 11));
+    case 13:
       return S.suspend(() =>
         S.Struct({
           clusterId: S.Number,
           name: S.String,
           description: S.String,
           affectedSessionCount: S.Number,
-          subCategories: __S(1202, __c37, 18),
+          subCategories: __S(1292, __c40, 12),
         }),
       ).annotate({ identifier: "FailureCategoryCluster" });
-    case 20:
-      return S.Array(__S(1203, __c37, 19));
-    case 21:
-      return S.suspend(() => S.Struct({ failures: __S(1204, __c37, 20) })).annotate({
+    case 14:
+      return S.Array(__S(1293, __c40, 13));
+    case 15:
+      return S.suspend(() => S.Struct({ failures: __S(1294, __c40, 14) })).annotate({
         identifier: "FailureAnalysisResultContent",
       });
-    case 22:
+    case 16:
       return S.suspend(() =>
         S.Struct({ sessionId: S.String, userMessages: __S(128, __c4, 0) }),
       ).annotate({ identifier: "UserIntentAffectedSession" });
-    case 23:
-      return S.Array(__S(1206, __c37, 22));
-    case 24:
+    case 17:
+      return S.Array(__S(1296, __c40, 16));
+    case 18:
       return S.suspend(() =>
         S.Struct({
           clusterId: S.Number,
           name: S.String,
           description: S.String,
           affectedSessionCount: S.Number,
-          affectedSessions: __S(1207, __c37, 23),
+          affectedSessions: __S(1297, __c40, 17),
         }),
       ).annotate({ identifier: "UserIntentCluster" });
-    case 25:
-      return S.Array(__S(1208, __c37, 24));
-    case 26:
-      return S.suspend(() => S.Struct({ userIntents: __S(1209, __c37, 25) })).annotate({
+    case 19:
+      return S.Array(__S(1298, __c40, 18));
+    case 20:
+      return S.suspend(() => S.Struct({ userIntents: __S(1299, __c40, 19) })).annotate({
         identifier: "UserIntentClusteringResultContent",
       });
-    case 27:
+    case 21:
       return S.suspend(() =>
         S.Struct({ sessionId: S.String, approachTaken: S.String, finalOutcome: S.String }),
       ).annotate({ identifier: "ExecutionSummaryAffectedSession" });
-    case 28:
-      return S.Array(__S(1211, __c37, 27));
-    case 29:
+    case 22:
+      return S.Array(__S(1301, __c40, 21));
+    case 23:
       return S.suspend(() =>
         S.Struct({
           clusterId: S.Number,
           name: S.String,
           description: S.String,
           affectedSessionCount: S.Number,
-          affectedSessions: __S(1212, __c37, 28),
+          affectedSessions: __S(1302, __c40, 22),
         }),
       ).annotate({ identifier: "ExecutionSummaryCluster" });
-    case 30:
-      return S.Array(__S(1213, __c37, 29));
-    case 31:
-      return S.suspend(() => S.Struct({ executionSummaries: __S(1214, __c37, 30) })).annotate({
+    case 24:
+      return S.Array(__S(1303, __c40, 23));
+    case 25:
+      return S.suspend(() => S.Struct({ executionSummaries: __S(1304, __c40, 24) })).annotate({
         identifier: "ExecutionSummaryClusteringResultContent",
       });
-  }
-}
-function __c38(j: number): any {
-  switch (j) {
-    case 0:
+    case 26:
+      return S.suspend(() => S.Struct({ datasetId: S.String, datasetVersion: S.String })).annotate({
+        identifier: "DatasetDetails",
+      });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          agentRuntimeEndpointArn: S.String,
+          agentRuntimeVersion: S.String,
+          requestTemplate: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AgentCoreRuntimeInvocationDetails" });
+    case 28:
+      return S.Union([/*@__PURE__*/ S.Struct({ agentCoreRuntime: __S(1307, __c40, 27) })]);
+    case 29:
+      return S.suspend(() =>
+        S.Struct({ dataset: __S(1306, __c40, 26), agentInvocation: __S(1308, __c40, 28) }),
+      ).annotate({ identifier: "DatasetExecutionDetails" });
+    case 30:
       return S.suspend(() =>
         S.Struct({
           batchEvaluationId: S.String,
@@ -7164,24 +8027,25 @@ function __c38(j: number): any {
           batchEvaluationName: S.String,
           status: S.String,
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-          evaluators: S.optional(__S(1281, __c40, 1)),
-          insights: S.optional(__S(1283, __c40, 3)),
-          dataSourceConfig: S.optional(__S(1318, __c41, 6)),
-          outputConfig: S.optional(__S(1320, __c41, 8)),
-          evaluationResults: S.optional(__S(1251, __c39, 3)),
-          insightResults: S.optional(__S(1192, __c37, 8)),
-          failureAnalysisResult: S.optional(__S(1205, __c37, 21)),
-          userIntentResult: S.optional(__S(1210, __c37, 26)),
-          executionSummaryResult: S.optional(__S(1215, __c37, 31)),
+          evaluators: S.optional(__S(1345, __c42, 1)),
+          insights: S.optional(__S(1347, __c42, 3)),
+          dataSourceConfig: S.optional(__S(1382, __c43, 6)),
+          outputConfig: S.optional(__S(1384, __c43, 8)),
+          evaluationResults: S.optional(__S(1315, __c41, 3)),
+          insightResults: S.optional(__S(1282, __c40, 2)),
+          failureAnalysisResult: S.optional(__S(1295, __c40, 15)),
+          userIntentResult: S.optional(__S(1300, __c40, 20)),
+          executionSummaryResult: S.optional(__S(1305, __c40, 25)),
           errorDetails: S.optional(__S(128, __c4, 0)),
           description: S.optional(S.String),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           kmsKeyArn: S.optional(S.String),
+          datasetExecutionDetails: S.optional(__S(1309, __c40, 29)),
         }),
       ).annotate({ identifier: "GetBatchEvaluationResponse" });
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ averageScore: S.optional(S.Number) })).annotate({
@@ -7192,13 +8056,13 @@ function __c39(j: number): any {
         S.Struct({
           evaluatorId: S.optional(S.String),
           evaluationDimensionName: S.optional(S.String),
-          statistics: S.optional(__S(1248, __c39, 0)),
+          statistics: S.optional(__S(1312, __c41, 0)),
           totalEvaluated: S.optional(S.Number),
           totalFailed: S.optional(S.Number),
         }),
       ).annotate({ identifier: "EvaluatorSummary" });
     case 2:
-      return S.Array(__S(1249, __c39, 1));
+      return S.Array(__S(1313, __c41, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -7207,26 +8071,26 @@ function __c39(j: number): any {
           numberOfSessionsFailed: S.optional(S.Number),
           totalNumberOfSessions: S.optional(S.Number),
           numberOfSessionsIgnored: S.optional(S.Number),
-          evaluatorSummaries: S.optional(__S(1250, __c39, 2)),
+          evaluatorSummaries: S.optional(__S(1314, __c41, 2)),
         }),
       ).annotate({ identifier: "EvaluationJobResults" });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ evaluatorId: S.String })).annotate({
         identifier: "Evaluator",
       });
     case 1:
-      return S.Array(__S(1280, __c40, 0));
+      return S.Array(__S(1344, __c42, 0));
     case 2:
       return S.suspend(() => S.Struct({ insightId: S.String })).annotate({ identifier: "Insight" });
     case 3:
-      return S.Array(__S(1282, __c40, 2));
+      return S.Array(__S(1346, __c42, 2));
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7240,13 +8104,13 @@ function __c41(j: number): any {
         S.Struct({ sessionId: S.String, traceIds: __S(128, __c4, 0) }),
       ).annotate({ identifier: "SessionTraceIds" });
     case 2:
-      return S.Array(__S(1313, __c41, 1));
+      return S.Array(__S(1377, __c43, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           sessionIds: S.optional(__S(128, __c4, 0)),
-          timeRange: S.optional(__S(1312, __c41, 0)),
-          sessionTraceIds: S.optional(__S(1314, __c41, 2)),
+          timeRange: S.optional(__S(1376, __c43, 0)),
+          sessionTraceIds: S.optional(__S(1378, __c43, 2)),
         }),
       ).annotate({ identifier: "CloudWatchFilterConfig" });
     case 4:
@@ -7255,20 +8119,20 @@ function __c41(j: number): any {
           serviceNames: __S(128, __c4, 0),
           logGroupNames: S.optional(__S(128, __c4, 0)),
           logGroupNamePrefixes: S.optional(__S(128, __c4, 0)),
-          filterConfig: S.optional(__S(1315, __c41, 3)),
+          filterConfig: S.optional(__S(1379, __c43, 3)),
         }),
       ).annotate({ identifier: "CloudWatchLogsSource" });
     case 5:
       return S.suspend(() =>
         S.Struct({
           onlineEvaluationConfigArn: S.String,
-          timeRange: S.optional(__S(1312, __c41, 0)),
+          timeRange: S.optional(__S(1376, __c43, 0)),
         }),
       ).annotate({ identifier: "OnlineEvaluationConfigSource" });
     case 6:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ cloudWatchLogs: __S(1316, __c41, 4) }),
-        /*@__PURE__*/ S.Struct({ onlineEvaluationConfigSource: __S(1317, __c41, 5) }),
+        /*@__PURE__*/ S.Struct({ cloudWatchLogs: __S(1380, __c43, 4) }),
+        /*@__PURE__*/ S.Struct({ onlineEvaluationConfigSource: __S(1381, __c43, 5) }),
       ]);
     case 7:
       return S.suspend(() =>
@@ -7280,10 +8144,10 @@ function __c41(j: number): any {
         }),
       ).annotate({ identifier: "CloudWatchOutputConfig" });
     case 8:
-      return S.Union([/*@__PURE__*/ S.Struct({ cloudWatchConfig: __S(1319, __c41, 7) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ cloudWatchConfig: __S(1383, __c43, 7) })]);
   }
 }
-function __c42(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7308,50 +8172,50 @@ function __c42(j: number): any {
           sessionId: S.String,
           name: S.optional(S.String),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-          viewPort: S.optional(__S(1408, __c44, 0)),
-          extensions: S.optional(__S(1412, __c44, 4)),
-          enterprisePolicies: S.optional(__S(1414, __c44, 6)),
-          profileConfiguration: S.optional(__S(1415, __c44, 7)),
+          viewPort: S.optional(__S(1472, __c46, 0)),
+          extensions: S.optional(__S(1476, __c46, 4)),
+          enterprisePolicies: S.optional(__S(1478, __c46, 6)),
+          profileConfiguration: S.optional(__S(1479, __c46, 7)),
           sessionTimeoutSeconds: S.optional(S.Number),
           status: S.optional(S.String),
-          streams: S.optional(__S(1442, __c45, 2)),
-          proxyConfiguration: S.optional(__S(1421, __c44, 13)),
-          certificates: S.optional(__S(1379, __c43, 3)),
-          filesystemConfigurations: S.optional(__S(1382, __c43, 6)),
+          streams: S.optional(__S(1506, __c47, 2)),
+          proxyConfiguration: S.optional(__S(1485, __c46, 13)),
+          certificates: S.optional(__S(1443, __c45, 3)),
+          filesystemConfigurations: S.optional(__S(1446, __c45, 6)),
           sessionReplayArtifact: S.optional(S.String),
           lastUpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
       ).annotate({ identifier: "GetBrowserSessionResponse" });
   }
 }
-function __c43(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ secretArn: S.String })).annotate({
         identifier: "BasicAuth",
       });
     case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ secretsManager: __S(1376, __c43, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ secretsManager: __S(1440, __c45, 0) })]);
     case 2:
-      return S.suspend(() => S.Struct({ location: __S(1377, __c43, 1) })).annotate({
+      return S.suspend(() => S.Struct({ location: __S(1441, __c45, 1) })).annotate({
         identifier: "Certificate",
       });
     case 3:
-      return S.Array(__S(1378, __c43, 2));
+      return S.Array(__S(1442, __c45, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({ accessPointArn: S.String, mountPath: S.String, fileSystemArn: S.String }),
       ).annotate({ identifier: "S3FilesConfiguration" });
     case 5:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ s3FilesConfiguration: __S(1380, __c43, 4) }),
-        /*@__PURE__*/ S.Struct({ efsConfiguration: __S(1380, __c43, 4) }),
+        /*@__PURE__*/ S.Struct({ s3FilesConfiguration: __S(1444, __c45, 4) }),
+        /*@__PURE__*/ S.Struct({ efsConfiguration: __S(1444, __c45, 4) }),
       ]);
     case 6:
-      return S.Array(__S(1381, __c43, 5));
+      return S.Array(__S(1445, __c45, 5));
   }
 }
-function __c44(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ width: S.Number, height: S.Number })).annotate({
@@ -7362,49 +8226,49 @@ function __c44(j: number): any {
         S.Struct({ bucket: S.String, prefix: S.String, versionId: S.optional(S.String) }),
       ).annotate({ identifier: "S3Location" });
     case 2:
-      return S.Union([/*@__PURE__*/ S.Struct({ s3: __S(1409, __c44, 1) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ s3: __S(1473, __c46, 1) })]);
     case 3:
-      return S.suspend(() => S.Struct({ location: __S(1410, __c44, 2) })).annotate({
+      return S.suspend(() => S.Struct({ location: __S(1474, __c46, 2) })).annotate({
         identifier: "BrowserExtension",
       });
     case 4:
-      return S.Array(__S(1411, __c44, 3));
+      return S.Array(__S(1475, __c46, 3));
     case 5:
       return S.suspend(() =>
-        S.Struct({ location: __S(1410, __c44, 2), type: S.optional(S.String) }),
+        S.Struct({ location: __S(1474, __c46, 2), type: S.optional(S.String) }),
       ).annotate({ identifier: "BrowserEnterprisePolicy" });
     case 6:
-      return S.Array(__S(1413, __c44, 5));
+      return S.Array(__S(1477, __c46, 5));
     case 7:
       return S.suspend(() => S.Struct({ profileIdentifier: S.String })).annotate({
         identifier: "BrowserProfileConfiguration",
       });
     case 8:
-      return S.Union([/*@__PURE__*/ S.Struct({ basicAuth: __S(1376, __c43, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ basicAuth: __S(1440, __c45, 0) })]);
     case 9:
       return S.suspend(() =>
         S.Struct({
           server: S.String,
           port: S.Number,
           domainPatterns: S.optional(__S(128, __c4, 0)),
-          credentials: S.optional(__S(1416, __c44, 8)),
+          credentials: S.optional(__S(1480, __c46, 8)),
         }),
       ).annotate({ identifier: "ExternalProxy" });
     case 10:
-      return S.Union([/*@__PURE__*/ S.Struct({ externalProxy: __S(1417, __c44, 9) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ externalProxy: __S(1481, __c46, 9) })]);
     case 11:
-      return S.Array(__S(1418, __c44, 10));
+      return S.Array(__S(1482, __c46, 10));
     case 12:
       return S.suspend(() => S.Struct({ domainPatterns: S.optional(__S(128, __c4, 0)) })).annotate({
         identifier: "ProxyBypass",
       });
     case 13:
       return S.suspend(() =>
-        S.Struct({ proxies: __S(1419, __c44, 11), bypass: S.optional(__S(1420, __c44, 12)) }),
+        S.Struct({ proxies: __S(1483, __c46, 11), bypass: S.optional(__S(1484, __c46, 12)) }),
       ).annotate({ identifier: "ProxyConfiguration" });
   }
 }
-function __c45(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7417,13 +8281,13 @@ function __c45(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          automationStream: __S(1440, __c45, 0),
-          liveViewStream: S.optional(__S(1441, __c45, 1)),
+          automationStream: __S(1504, __c47, 0),
+          liveViewStream: S.optional(__S(1505, __c47, 1)),
         }),
       ).annotate({ identifier: "BrowserSessionStream" });
   }
 }
-function __c46(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7453,13 +8317,201 @@ function __c46(j: number): any {
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           sessionTimeoutSeconds: S.optional(S.Number),
           status: S.optional(S.String),
-          certificates: S.optional(__S(1379, __c43, 3)),
-          filesystemConfigurations: S.optional(__S(1382, __c43, 6)),
+          certificates: S.optional(__S(1443, __c45, 3)),
+          filesystemConfigurations: S.optional(__S(1446, __c45, 6)),
         }),
       ).annotate({ identifier: "GetCodeInterpreterSessionResponse" });
   }
 }
-function __c47(j: number): any {
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          datasetId: S.String.pipe(T.HttpLabel("datasetId")),
+          generationId: S.String.pipe(T.HttpLabel("generationId")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/datasets/{datasetId}/generations/{generationId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetDatasetGenerationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ sessionIdCount: S.optional(S.Number), traceIdCount: S.optional(S.Number) }),
+      ).annotate({ identifier: "GenerationIdentifierCounts" });
+    case 2:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ filters: __S(1638, __c51, 6) }),
+        /*@__PURE__*/ S.Struct({ identifiers: __S(1569, __c49, 1) }),
+      ]);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          sourceConfig: S.optional(__S(1634, __c51, 2)),
+          selection: S.optional(__S(1570, __c49, 2)),
+          sampling: S.optional(__S(1639, __c51, 7)),
+          groundTruth: S.optional(__S(1641, __c51, 9)),
+          redactionConfiguration: S.optional(__S(1644, __c51, 12)),
+        }),
+      ).annotate({ identifier: "TraceGenerationRecord" });
+    case 4:
+      return S.Union([/*@__PURE__*/ S.Struct({ traceGeneration: __S(1571, __c49, 3) })]);
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          sessionsMatched: S.optional(S.Number),
+          sessionsSelected: S.optional(S.Number),
+          sessionsUnscored: S.optional(S.Number),
+          sessionsFailed: S.optional(S.Number),
+          scenariosGenerated: S.optional(S.Number),
+          scenariosDeduplicated: S.optional(S.Number),
+          examplesWritten: S.optional(S.Number),
+          examplesWithGroundTruth: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GenerationResults" });
+    case 6:
+      return S.Record(S.String, /*@__PURE__*/ S.Number.pipe(S.optional));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          scenariosScanned: S.optional(S.Number),
+          findingCounts: S.optional(__S(1574, __c49, 6)),
+        }),
+      ).annotate({ identifier: "RedactionSummary" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          errorCode: S.optional(S.String),
+          errorMessage: S.optional(S.String),
+          count: S.optional(S.Number),
+          sessionIds: S.optional(__S(128, __c4, 0)),
+        }),
+      ).annotate({ identifier: "GenerationErrorDetail" });
+    case 9:
+      return S.Array(__S(1576, __c49, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          generationId: S.String,
+          name: S.String,
+          description: S.optional(S.String),
+          datasetId: S.String,
+          scenarioType: S.String,
+          status: S.String,
+          failureReason: S.optional(S.String),
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          completedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          source: S.optional(__S(1572, __c49, 4)),
+          generationResults: S.optional(__S(1573, __c49, 5)),
+          redactionSummary: S.optional(__S(1575, __c49, 7)),
+          errorDetails: S.optional(__S(1577, __c49, 9)),
+        }),
+      ).annotate({ identifier: "GetDatasetGenerationResponse" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ batchEvaluationArn: S.String })).annotate({
+        identifier: "BatchEvaluationSourceConfig",
+      });
+    case 1:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ stringValue: S.String }),
+        /*@__PURE__*/ S.Struct({ doubleValue: S.Number }),
+        /*@__PURE__*/ S.Struct({ booleanValue: S.Boolean }),
+      ]);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ key: S.String, operator: S.String, value: __S(1601, __c50, 1) }),
+      ).annotate({ identifier: "GenerationAttributeFilter" });
+    case 3:
+      return S.Array(__S(1602, __c50, 2));
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          logGroupNames: S.optional(__S(128, __c4, 0)),
+          logGroupNamePrefixes: S.optional(__S(128, __c4, 0)),
+          serviceNames: __S(128, __c4, 0),
+          startTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+        }),
+      ).annotate({ identifier: "CloudWatchLogsSourceConfig" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          onlineEvaluationConfigArn: S.String,
+          startTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+        }),
+      ).annotate({ identifier: "OnlineEvaluationSourceConfig" });
+    case 2:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ cloudWatchLogs: __S(1632, __c51, 0) }),
+        /*@__PURE__*/ S.Struct({ onlineEvaluation: __S(1633, __c51, 1) }),
+        /*@__PURE__*/ S.Struct({ batchEvaluation: __S(1600, __c50, 0) }),
+      ]);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ min: S.optional(S.Number), max: S.optional(S.Number) }),
+      ).annotate({ identifier: "TurnCountRange" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          evaluatorId: S.String,
+          evaluationDimensionName: S.optional(S.String),
+          operator: S.String,
+          value: __S(1601, __c50, 1),
+          aggregation: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EvaluatorFilter" });
+    case 5:
+      return S.Array(__S(1636, __c51, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          attributeFilters: S.optional(__S(1603, __c50, 3)),
+          turnCount: S.optional(__S(1635, __c51, 3)),
+          evaluatorFilters: S.optional(__S(1637, __c51, 5)),
+        }),
+      ).annotate({ identifier: "GenerationFilters" });
+    case 7:
+      return S.suspend(() => S.Struct({ maxScenarios: S.optional(S.Number) })).annotate({
+        identifier: "GenerationSamplingConfig",
+      });
+    case 8:
+      return S.Array(S.String);
+    case 9:
+      return S.suspend(() =>
+        S.Struct({ fields: __S(1640, __c51, 8), qualityFilters: S.optional(__S(1637, __c51, 5)) }),
+      ).annotate({ identifier: "GroundTruthConfig" });
+    case 10:
+      return S.suspend(() => S.Struct({ name: S.String, regex: S.String })).annotate({
+        identifier: "CustomDataIdentifier",
+      });
+    case 11:
+      return S.Array(__S(1642, __c51, 10));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          identifiers: S.optional(__S(1640, __c51, 8)),
+          customDataIdentifiers: S.optional(__S(1643, __c51, 11)),
+        }),
+      ).annotate({ identifier: "RedactionConfiguration" });
+  }
+}
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7484,7 +8536,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "GetEventInput" });
   }
 }
-function __c48(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7517,12 +8569,12 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "MemoryRecord" });
     case 2:
-      return S.suspend(() => S.Struct({ memoryRecord: __S(1537, __c48, 1) })).annotate({
+      return S.suspend(() => S.Struct({ memoryRecord: __S(1697, __c53, 1) })).annotate({
         identifier: "GetMemoryRecordOutput",
       });
   }
 }
-function __c49(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7549,7 +8601,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "GetPaymentInstrumentRequest" });
   }
 }
-function __c50(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7588,11 +8640,11 @@ function __c50(j: number): any {
       ).annotate({ identifier: "TokenBalance" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ paymentInstrumentId: S.String, tokenBalance: __S(1601, __c50, 1) }),
+        S.Struct({ paymentInstrumentId: S.String, tokenBalance: __S(1761, __c55, 1) }),
       ).annotate({ identifier: "GetPaymentInstrumentBalanceResponse" });
   }
 }
-function __c51(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7618,7 +8670,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "GetPaymentSessionRequest" });
   }
 }
-function __c52(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7641,7 +8693,7 @@ function __c52(j: number): any {
       return S.suspend(() =>
         S.Struct({
           recommendedSystemPrompt: S.optional(SensitiveString),
-          configurationBundle: S.optional(__S(1665, __c52, 1)),
+          configurationBundle: S.optional(__S(1825, __c57, 1)),
           explanation: S.optional(S.String),
           errorCode: S.optional(S.String),
           errorMessage: S.optional(S.String),
@@ -7656,20 +8708,20 @@ function __c52(j: number): any {
         }),
       ).annotate({ identifier: "ToolDescriptionOutput" });
     case 4:
-      return S.Array(__S(1667, __c52, 3));
+      return S.Array(__S(1827, __c57, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          tools: S.optional(__S(1668, __c52, 4)),
-          configurationBundle: S.optional(__S(1665, __c52, 1)),
+          tools: S.optional(__S(1828, __c57, 4)),
+          configurationBundle: S.optional(__S(1825, __c57, 1)),
           errorCode: S.optional(S.String),
           errorMessage: S.optional(S.String),
         }),
       ).annotate({ identifier: "ToolDescriptionRecommendationResult" });
     case 6:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ systemPromptRecommendationResult: __S(1666, __c52, 2) }),
-        /*@__PURE__*/ S.Struct({ toolDescriptionRecommendationResult: __S(1669, __c52, 5) }),
+        /*@__PURE__*/ S.Struct({ systemPromptRecommendationResult: __S(1826, __c57, 2) }),
+        /*@__PURE__*/ S.Struct({ toolDescriptionRecommendationResult: __S(1829, __c57, 5) }),
       ]);
     case 7:
       return S.suspend(() =>
@@ -7679,17 +8731,17 @@ function __c52(j: number): any {
           name: S.String,
           description: S.optional(S.String),
           type: S.String,
-          recommendationConfig: __S(1718, __c53, 22),
+          recommendationConfig: __S(1874, __c58, 18),
           status: S.String,
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-          recommendationResult: S.optional(__S(1670, __c52, 6)),
+          recommendationResult: S.optional(__S(1830, __c57, 6)),
           kmsKeyArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetRecommendationResponse" });
   }
 }
-function __c53(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7698,39 +8750,23 @@ function __c53(j: number): any {
     case 1:
       return S.Union([
         /*@__PURE__*/ S.Struct({ text: SensitiveString }),
-        /*@__PURE__*/ S.Struct({ configurationBundle: __S(1696, __c53, 0) }),
+        /*@__PURE__*/ S.Struct({ configurationBundle: __S(1856, __c58, 0) }),
       ]);
     case 2:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ stringValue: S.String }),
-        /*@__PURE__*/ S.Struct({ doubleValue: S.Number }),
-        /*@__PURE__*/ S.Struct({ booleanValue: S.Boolean }),
-      ]);
-    case 3:
-      return S.suspend(() =>
-        S.Struct({ key: S.String, operator: S.String, value: __S(1698, __c53, 2) }),
-      ).annotate({ identifier: "CloudWatchLogsFilter" });
-    case 4:
-      return S.Array(__S(1699, __c53, 3));
-    case 5:
-      return S.suspend(() => S.Struct({ filters: S.optional(__S(1700, __c53, 4)) })).annotate({
+      return S.suspend(() => S.Struct({ filters: S.optional(__S(1603, __c50, 3)) })).annotate({
         identifier: "CloudWatchLogsRule",
       });
-    case 6:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           logGroupArns: __S(128, __c4, 0),
           serviceNames: __S(128, __c4, 0),
           startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           endTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-          rule: S.optional(__S(1701, __c53, 5)),
+          rule: S.optional(__S(1858, __c58, 2)),
         }),
       ).annotate({ identifier: "CloudWatchLogsTraceConfig" });
-    case 7:
-      return S.suspend(() => S.Struct({ batchEvaluationArn: S.String })).annotate({
-        identifier: "BatchEvaluationTraceConfig",
-      });
-    case 8:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           onlineEvaluationConfigArn: S.String,
@@ -7738,68 +8774,68 @@ function __c53(j: number): any {
           endTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
         }),
       ).annotate({ identifier: "OnlineEvaluationTraceConfig" });
-    case 9:
+    case 5:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ sessionSpans: __S(1056, __c33, 0) }),
-        /*@__PURE__*/ S.Struct({ cloudwatchLogs: __S(1702, __c53, 6) }),
-        /*@__PURE__*/ S.Struct({ batchEvaluation: __S(1703, __c53, 7) }),
-        /*@__PURE__*/ S.Struct({ onlineEvaluation: __S(1704, __c53, 8) }),
+        /*@__PURE__*/ S.Struct({ sessionSpans: __S(1088, __c34, 0) }),
+        /*@__PURE__*/ S.Struct({ cloudwatchLogs: __S(1859, __c58, 3) }),
+        /*@__PURE__*/ S.Struct({ batchEvaluation: __S(1600, __c50, 0) }),
+        /*@__PURE__*/ S.Struct({ onlineEvaluation: __S(1860, __c58, 4) }),
       ]);
-    case 10:
+    case 6:
       return S.suspend(() => S.Struct({ evaluatorArn: S.String })).annotate({
         identifier: "RecommendationEvaluatorReference",
       });
-    case 11:
-      return S.Array(__S(1706, __c53, 10));
-    case 12:
-      return S.suspend(() => S.Struct({ evaluators: __S(1707, __c53, 11) })).annotate({
+    case 7:
+      return S.Array(__S(1862, __c58, 6));
+    case 8:
+      return S.suspend(() => S.Struct({ evaluators: __S(1863, __c58, 7) })).annotate({
         identifier: "RecommendationEvaluationConfig",
       });
-    case 13:
+    case 9:
       return S.suspend(() =>
         S.Struct({
-          systemPrompt: __S(1697, __c53, 1),
-          agentTraces: __S(1705, __c53, 9),
-          evaluationConfig: S.optional(__S(1708, __c53, 12)),
+          systemPrompt: __S(1857, __c58, 1),
+          agentTraces: __S(1861, __c58, 5),
+          evaluationConfig: S.optional(__S(1864, __c58, 8)),
         }),
       ).annotate({ identifier: "SystemPromptRecommendationConfig" });
-    case 14:
+    case 10:
       return S.suspend(() =>
         S.Struct({ toolName: S.String, toolDescription: __S(160, __c5, 0) }),
       ).annotate({ identifier: "ToolDescriptionInput" });
-    case 15:
-      return S.Array(__S(1710, __c53, 14));
-    case 16:
-      return S.suspend(() => S.Struct({ tools: __S(1711, __c53, 15) })).annotate({
+    case 11:
+      return S.Array(__S(1866, __c58, 10));
+    case 12:
+      return S.suspend(() => S.Struct({ tools: __S(1867, __c58, 11) })).annotate({
         identifier: "ToolDescriptionTextInput",
       });
-    case 17:
+    case 13:
       return S.suspend(() =>
         S.Struct({ toolName: S.String, toolDescriptionJsonPath: S.String }),
       ).annotate({ identifier: "ConfigurationBundleToolEntry" });
-    case 18:
-      return S.Array(__S(1713, __c53, 17));
-    case 19:
+    case 14:
+      return S.Array(__S(1869, __c58, 13));
+    case 15:
       return S.suspend(() =>
-        S.Struct({ bundleArn: S.String, versionId: S.String, tools: __S(1714, __c53, 18) }),
+        S.Struct({ bundleArn: S.String, versionId: S.String, tools: __S(1870, __c58, 14) }),
       ).annotate({ identifier: "ToolDescriptionConfigurationBundle" });
-    case 20:
+    case 16:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ toolDescriptionText: __S(1712, __c53, 16) }),
-        /*@__PURE__*/ S.Struct({ configurationBundle: __S(1715, __c53, 19) }),
+        /*@__PURE__*/ S.Struct({ toolDescriptionText: __S(1868, __c58, 12) }),
+        /*@__PURE__*/ S.Struct({ configurationBundle: __S(1871, __c58, 15) }),
       ]);
-    case 21:
+    case 17:
       return S.suspend(() =>
-        S.Struct({ toolDescription: __S(1716, __c53, 20), agentTraces: __S(1705, __c53, 9) }),
+        S.Struct({ toolDescription: __S(1872, __c58, 16), agentTraces: __S(1861, __c58, 5) }),
       ).annotate({ identifier: "ToolDescriptionRecommendationConfig" });
-    case 22:
+    case 18:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ systemPromptRecommendationConfig: __S(1709, __c53, 13) }),
-        /*@__PURE__*/ S.Struct({ toolDescriptionRecommendationConfig: __S(1717, __c53, 21) }),
+        /*@__PURE__*/ S.Struct({ systemPromptRecommendationConfig: __S(1865, __c58, 9) }),
+        /*@__PURE__*/ S.Struct({ toolDescriptionRecommendationConfig: __S(1873, __c58, 17) }),
       ]);
   }
 }
-function __c54(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7823,7 +8859,7 @@ function __c54(j: number): any {
       });
   }
 }
-function __c55(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7835,7 +8871,7 @@ function __c55(j: number): any {
           sessionUri: S.optional(S.String),
           resourceOauth2ReturnUrl: S.optional(S.String),
           forceAuthentication: S.optional(S.Boolean),
-          customParameters: S.optional(__S(1792, __c56, 0)),
+          customParameters: S.optional(__S(1952, __c61, 0)),
           customState: S.optional(SensitiveString),
           resources: S.optional(__S(128, __c4, 0)),
           audiences: S.optional(__S(128, __c4, 0)),
@@ -7861,13 +8897,13 @@ function __c55(j: number): any {
       ).annotate({ identifier: "GetResourceOauth2TokenResponse" });
   }
 }
-function __c56(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ SensitiveString.pipe(S.optional));
   }
 }
-function __c57(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7890,15 +8926,15 @@ function __c57(j: number): any {
       ).annotate({ identifier: "StripePrivyTokenRequestInput" });
     case 2:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ coinbaseCdpTokenRequest: __S(1824, __c57, 0) }),
-        /*@__PURE__*/ S.Struct({ stripePrivyTokenRequest: __S(1825, __c57, 1) }),
+        /*@__PURE__*/ S.Struct({ coinbaseCdpTokenRequest: __S(1984, __c62, 0) }),
+        /*@__PURE__*/ S.Struct({ stripePrivyTokenRequest: __S(1985, __c62, 1) }),
       ]);
     case 3:
       return S.suspend(() =>
         S.Struct({
           workloadIdentityToken: SensitiveString,
           resourceCredentialProviderName: S.String,
-          paymentTokenRequest: __S(1826, __c57, 2),
+          paymentTokenRequest: __S(1986, __c62, 2),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/identities/payment/token" }),
@@ -7925,16 +8961,16 @@ function __c57(j: number): any {
       ).annotate({ identifier: "StripePrivyTokenResponseOutput" });
     case 6:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ coinbaseCdpTokenResponse: __S(1828, __c57, 4) }),
-        /*@__PURE__*/ S.Struct({ stripePrivyTokenResponse: __S(1829, __c57, 5) }),
+        /*@__PURE__*/ S.Struct({ coinbaseCdpTokenResponse: __S(1988, __c62, 4) }),
+        /*@__PURE__*/ S.Struct({ stripePrivyTokenResponse: __S(1989, __c62, 5) }),
       ]);
     case 7:
-      return S.suspend(() => S.Struct({ paymentTokenResponse: __S(1830, __c57, 6) })).annotate({
+      return S.suspend(() => S.Struct({ paymentTokenResponse: __S(1990, __c62, 6) })).annotate({
         identifier: "GetResourcePaymentTokenResponse",
       });
   }
 }
-function __c58(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7951,7 +8987,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "GetWorkloadAccessTokenRequest" });
   }
 }
-function __c59(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ workloadAccessToken: SensitiveString })).annotate({
@@ -7959,7 +8995,7 @@ function __c59(j: number): any {
       });
   }
 }
-function __c60(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7976,7 +9012,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "GetWorkloadAccessTokenForJWTRequest" });
   }
 }
-function __c61(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7993,7 +9029,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "GetWorkloadAccessTokenForUserIdRequest" });
   }
 }
-function __c62(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.Union([
@@ -8001,18 +9037,18 @@ function __c62(j: number): any {
         /*@__PURE__*/ S.Struct({ json: __S(513, __c16, 1) }),
       ]);
     case 1:
-      return S.Array(__S(1984, __c62, 0));
+      return S.Array(__S(2144, __c67, 0));
     case 2:
-      return S.suspend(() => S.Struct({ payload: __S(1985, __c62, 1) })).annotate({
+      return S.suspend(() => S.Struct({ payload: __S(2145, __c67, 1) })).annotate({
         identifier: "InlineMemoryContent",
       });
     case 3:
-      return S.Union([/*@__PURE__*/ S.Struct({ inline: __S(1986, __c62, 2) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ inline: __S(2146, __c67, 2) })]);
     case 4:
       return S.suspend(() =>
         S.Struct({
           memoryId: S.String.pipe(T.HttpLabel("memoryId")),
-          source: __S(1987, __c62, 3),
+          source: __S(2147, __c67, 3),
           contentTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           actorId: S.String,
           sessionId: S.optional(S.String),
@@ -8036,7 +9072,7 @@ function __c62(j: number): any {
       });
   }
 }
-function __c63(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8095,7 +9131,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "InvokeAgentRuntimeResponse" });
   }
 }
-function __c64(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8117,7 +9153,7 @@ function __c64(j: number): any {
           agentRuntimeArn: S.String.pipe(T.HttpLabel("agentRuntimeArn")),
           qualifier: S.optional(S.String).pipe(T.HttpQuery("qualifier")),
           accountId: S.optional(S.String).pipe(T.HttpQuery("accountId")),
-          body: __S(2048, __c64, 0)
+          body: __S(2208, __c69, 0)
             .pipe(T.HttpPayload())
             .annotate({ identifier: "InvokeAgentRuntimeCommandRequestBody" }),
         }).pipe(
@@ -8143,14 +9179,14 @@ function __c64(j: number): any {
       return S.suspend(() =>
         S.Struct({
           contentStart: S.optional(__S(320, __c10, 0)),
-          contentDelta: S.optional(__S(2050, __c64, 2)),
-          contentStop: S.optional(__S(2051, __c64, 3)),
+          contentDelta: S.optional(__S(2210, __c69, 2)),
+          contentStop: S.optional(__S(2211, __c69, 3)),
         }),
       ).annotate({ identifier: "ResponseChunk" });
     case 5:
       return T.EventStream(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.Struct({ chunk: __S(2052, __c64, 4) }),
+          /*@__PURE__*/ S.Struct({ chunk: __S(2212, __c69, 4) }),
           /*@__PURE__*/ S.Struct({
             accessDeniedException: /*@__PURE__*/ S.suspend(() => AccessDeniedException).annotate({
               identifier: "AccessDeniedException",
@@ -8200,12 +9236,12 @@ function __c64(j: number): any {
           baggage: S.optional(S.String).pipe(T.HttpHeader("baggage")),
           contentType: S.String.pipe(T.HttpHeader("Content-Type")),
           statusCode: S.optional(S.Number).pipe(T.HttpResponseCode()),
-          stream: __S(2053, __c64, 5).pipe(T.HttpPayload()),
+          stream: __S(2213, __c69, 5).pipe(T.HttpPayload()),
         }),
       ).annotate({ identifier: "InvokeAgentRuntimeCommandResponse" });
   }
 }
-function __c65(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8257,21 +9293,21 @@ function __c65(j: number): any {
       });
     case 8:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ mouseClick: __S(2080, __c65, 0) }),
-        /*@__PURE__*/ S.Struct({ mouseMove: __S(2081, __c65, 1) }),
-        /*@__PURE__*/ S.Struct({ mouseDrag: __S(2082, __c65, 2) }),
-        /*@__PURE__*/ S.Struct({ mouseScroll: __S(2083, __c65, 3) }),
-        /*@__PURE__*/ S.Struct({ keyType: __S(2084, __c65, 4) }),
-        /*@__PURE__*/ S.Struct({ keyPress: __S(2085, __c65, 5) }),
-        /*@__PURE__*/ S.Struct({ keyShortcut: __S(2086, __c65, 6) }),
-        /*@__PURE__*/ S.Struct({ screenshot: __S(2087, __c65, 7) }),
+        /*@__PURE__*/ S.Struct({ mouseClick: __S(2240, __c70, 0) }),
+        /*@__PURE__*/ S.Struct({ mouseMove: __S(2241, __c70, 1) }),
+        /*@__PURE__*/ S.Struct({ mouseDrag: __S(2242, __c70, 2) }),
+        /*@__PURE__*/ S.Struct({ mouseScroll: __S(2243, __c70, 3) }),
+        /*@__PURE__*/ S.Struct({ keyType: __S(2244, __c70, 4) }),
+        /*@__PURE__*/ S.Struct({ keyPress: __S(2245, __c70, 5) }),
+        /*@__PURE__*/ S.Struct({ keyShortcut: __S(2246, __c70, 6) }),
+        /*@__PURE__*/ S.Struct({ screenshot: __S(2247, __c70, 7) }),
       ]);
     case 9:
       return S.suspend(() =>
         S.Struct({
           browserIdentifier: S.String.pipe(T.HttpLabel("browserIdentifier")),
           sessionId: S.String.pipe(T.HttpHeader("x-amzn-browser-session-id")),
-          action: __S(2088, __c65, 8),
+          action: __S(2248, __c70, 8),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/browsers/{browserIdentifier}/sessions/invoke" }),
@@ -8293,32 +9329,32 @@ function __c65(j: number): any {
       ).annotate({ identifier: "ScreenshotResult" });
     case 12:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ mouseClick: __S(2090, __c65, 10) }),
-        /*@__PURE__*/ S.Struct({ mouseMove: __S(2090, __c65, 10) }),
-        /*@__PURE__*/ S.Struct({ mouseDrag: __S(2090, __c65, 10) }),
-        /*@__PURE__*/ S.Struct({ mouseScroll: __S(2090, __c65, 10) }),
-        /*@__PURE__*/ S.Struct({ keyType: __S(2090, __c65, 10) }),
-        /*@__PURE__*/ S.Struct({ keyPress: __S(2090, __c65, 10) }),
-        /*@__PURE__*/ S.Struct({ keyShortcut: __S(2090, __c65, 10) }),
-        /*@__PURE__*/ S.Struct({ screenshot: __S(2091, __c65, 11) }),
+        /*@__PURE__*/ S.Struct({ mouseClick: __S(2250, __c70, 10) }),
+        /*@__PURE__*/ S.Struct({ mouseMove: __S(2250, __c70, 10) }),
+        /*@__PURE__*/ S.Struct({ mouseDrag: __S(2250, __c70, 10) }),
+        /*@__PURE__*/ S.Struct({ mouseScroll: __S(2250, __c70, 10) }),
+        /*@__PURE__*/ S.Struct({ keyType: __S(2250, __c70, 10) }),
+        /*@__PURE__*/ S.Struct({ keyPress: __S(2250, __c70, 10) }),
+        /*@__PURE__*/ S.Struct({ keyShortcut: __S(2250, __c70, 10) }),
+        /*@__PURE__*/ S.Struct({ screenshot: __S(2251, __c70, 11) }),
       ]);
     case 13:
       return S.suspend(() =>
         S.Struct({
-          result: __S(2092, __c65, 12),
+          result: __S(2252, __c70, 12),
           sessionId: S.String.pipe(T.HttpHeader("x-amzn-browser-session-id")),
         }),
       ).annotate({ identifier: "InvokeBrowserResponse" });
   }
 }
-function __c66(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ path: S.String, text: S.optional(S.String), blob: S.optional(SensitiveBlob) }),
       ).annotate({ identifier: "InputContentBlock" });
     case 1:
-      return S.Array(__S(2112, __c66, 0));
+      return S.Array(__S(2272, __c71, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8328,7 +9364,7 @@ function __c66(j: number): any {
           command: S.optional(S.String),
           path: S.optional(S.String),
           paths: S.optional(__S(128, __c4, 0)),
-          content: S.optional(__S(2113, __c66, 1)),
+          content: S.optional(__S(2273, __c71, 1)),
           directoryPath: S.optional(S.String),
           taskId: S.optional(S.String),
           runtime: S.optional(S.String),
@@ -8342,7 +9378,7 @@ function __c66(j: number): any {
           traceId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Trace-Id")),
           traceParent: S.optional(S.String).pipe(T.HttpHeader("traceparent")),
           name: S.String,
-          arguments: S.optional(__S(2114, __c66, 2)),
+          arguments: S.optional(__S(2274, __c71, 2)),
         }).pipe(
           T.all(
             T.Http({
@@ -8378,11 +9414,11 @@ function __c66(j: number): any {
           name: S.optional(S.String),
           description: S.optional(S.String),
           size: S.optional(S.Number),
-          resource: S.optional(__S(2116, __c66, 4)),
+          resource: S.optional(__S(2276, __c71, 4)),
         }),
       ).annotate({ identifier: "ContentBlock" });
     case 6:
-      return S.Array(__S(2117, __c66, 5));
+      return S.Array(__S(2277, __c71, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -8397,15 +9433,15 @@ function __c66(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          content: __S(2118, __c66, 6),
-          structuredContent: S.optional(__S(2119, __c66, 7)),
+          content: __S(2278, __c71, 6),
+          structuredContent: S.optional(__S(2279, __c71, 7)),
           isError: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CodeInterpreterResult" });
     case 9:
       return T.EventStream(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.Struct({ result: __S(2120, __c66, 8) }),
+          /*@__PURE__*/ S.Struct({ result: __S(2280, __c71, 8) }),
           /*@__PURE__*/ S.Struct({
             accessDeniedException: /*@__PURE__*/ S.suspend(() => AccessDeniedException).annotate({
               identifier: "AccessDeniedException",
@@ -8447,12 +9483,12 @@ function __c66(j: number): any {
       return S.suspend(() =>
         S.Struct({
           sessionId: S.optional(S.String).pipe(T.HttpHeader("x-amzn-code-interpreter-session-id")),
-          stream: __S(2121, __c66, 9).pipe(T.HttpPayload()),
+          stream: __S(2281, __c71, 9).pipe(T.HttpPayload()),
         }),
       ).annotate({ identifier: "InvokeCodeInterpreterResponse" });
   }
 }
-function __c67(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8470,12 +9506,12 @@ function __c67(j: number): any {
         /*@__PURE__*/ S.Struct({ json: S.Any }),
       ]);
     case 2:
-      return S.Array(__S(2145, __c67, 1));
+      return S.Array(__S(2305, __c72, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           toolUseId: S.String,
-          content: __S(2146, __c67, 2),
+          content: __S(2306, __c72, 2),
           status: S.optional(S.String),
           type: S.optional(S.String),
         }),
@@ -8486,24 +9522,24 @@ function __c67(j: number): any {
       ).annotate({ identifier: "HarnessReasoningTextBlock" });
     case 5:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ reasoningText: __S(2148, __c67, 4) }),
+        /*@__PURE__*/ S.Struct({ reasoningText: __S(2308, __c72, 4) }),
         /*@__PURE__*/ S.Struct({ redactedContent: T.Blob }),
       ]);
     case 6:
       return S.Union([
         /*@__PURE__*/ S.Struct({ text: SensitiveString }),
-        /*@__PURE__*/ S.Struct({ toolUse: __S(2144, __c67, 0) }),
-        /*@__PURE__*/ S.Struct({ toolResult: __S(2147, __c67, 3) }),
-        /*@__PURE__*/ S.Struct({ reasoningContent: __S(2149, __c67, 5) }),
+        /*@__PURE__*/ S.Struct({ toolUse: __S(2304, __c72, 0) }),
+        /*@__PURE__*/ S.Struct({ toolResult: __S(2307, __c72, 3) }),
+        /*@__PURE__*/ S.Struct({ reasoningContent: __S(2309, __c72, 5) }),
       ]);
     case 7:
-      return S.Array(__S(2150, __c67, 6));
+      return S.Array(__S(2310, __c72, 6));
     case 8:
-      return S.suspend(() => S.Struct({ role: S.String, content: __S(2151, __c67, 7) })).annotate({
+      return S.suspend(() => S.Struct({ role: S.String, content: __S(2311, __c72, 7) })).annotate({
         identifier: "HarnessMessage",
       });
     case 9:
-      return S.Array(__S(2152, __c67, 8));
+      return S.Array(__S(2312, __c72, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -8554,10 +9590,10 @@ function __c67(j: number): any {
       ).annotate({ identifier: "HarnessLiteLlmModelConfig" });
     case 14:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ bedrockModelConfig: __S(2154, __c67, 10) }),
-        /*@__PURE__*/ S.Struct({ openAiModelConfig: __S(2155, __c67, 11) }),
-        /*@__PURE__*/ S.Struct({ geminiModelConfig: __S(2156, __c67, 12) }),
-        /*@__PURE__*/ S.Struct({ liteLlmModelConfig: __S(2157, __c67, 13) }),
+        /*@__PURE__*/ S.Struct({ bedrockModelConfig: __S(2314, __c72, 10) }),
+        /*@__PURE__*/ S.Struct({ openAiModelConfig: __S(2315, __c72, 11) }),
+        /*@__PURE__*/ S.Struct({ geminiModelConfig: __S(2316, __c72, 12) }),
+        /*@__PURE__*/ S.Struct({ liteLlmModelConfig: __S(2317, __c72, 13) }),
       ]);
     case 15:
       return S.Array(__S(160, __c5, 0));
@@ -8567,7 +9603,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "IamCredentialProvider" });
     case 17:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ awsIam: __S(2160, __c67, 16) }),
+        /*@__PURE__*/ S.Struct({ awsIam: __S(2320, __c72, 16) }),
         /*@__PURE__*/ S.Struct({ none: /*@__PURE__*/ S.Struct({}) }),
       ]);
     case 18:
@@ -8575,7 +9611,7 @@ function __c67(j: number): any {
         S.Struct({
           url: SensitiveString,
           headers: S.optional(__S(384, __c12, 0)),
-          outboundAuth: S.optional(__S(2161, __c67, 17)),
+          outboundAuth: S.optional(__S(2321, __c72, 17)),
         }),
       ).annotate({ identifier: "HarnessRemoteMcpConfig" });
     case 19:
@@ -8587,7 +9623,7 @@ function __c67(j: number): any {
         S.Struct({
           providerArn: S.String,
           scopes: __S(128, __c4, 0),
-          customParameters: S.optional(__S(1792, __c56, 0)),
+          customParameters: S.optional(__S(1952, __c61, 0)),
           grantType: S.optional(S.String),
           defaultReturnUrl: S.optional(S.String),
         }),
@@ -8596,11 +9632,11 @@ function __c67(j: number): any {
       return S.Union([
         /*@__PURE__*/ S.Struct({ awsIam: /*@__PURE__*/ S.Struct({}) }),
         /*@__PURE__*/ S.Struct({ none: /*@__PURE__*/ S.Struct({}) }),
-        /*@__PURE__*/ S.Struct({ oauth: __S(2164, __c67, 20) }),
+        /*@__PURE__*/ S.Struct({ oauth: __S(2324, __c72, 20) }),
       ]);
     case 22:
       return S.suspend(() =>
-        S.Struct({ gatewayArn: S.String, outboundAuth: S.optional(__S(2165, __c67, 21)) }),
+        S.Struct({ gatewayArn: S.String, outboundAuth: S.optional(__S(2325, __c72, 21)) }),
       ).annotate({ identifier: "HarnessAgentCoreGatewayConfig" });
     case 23:
       return S.suspend(() =>
@@ -8612,22 +9648,22 @@ function __c67(j: number): any {
       });
     case 25:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ remoteMcp: __S(2162, __c67, 18) }),
-        /*@__PURE__*/ S.Struct({ agentCoreBrowser: __S(2163, __c67, 19) }),
-        /*@__PURE__*/ S.Struct({ agentCoreGateway: __S(2166, __c67, 22) }),
-        /*@__PURE__*/ S.Struct({ inlineFunction: __S(2167, __c67, 23) }),
-        /*@__PURE__*/ S.Struct({ agentCoreCodeInterpreter: __S(2168, __c67, 24) }),
+        /*@__PURE__*/ S.Struct({ remoteMcp: __S(2322, __c72, 18) }),
+        /*@__PURE__*/ S.Struct({ agentCoreBrowser: __S(2323, __c72, 19) }),
+        /*@__PURE__*/ S.Struct({ agentCoreGateway: __S(2326, __c72, 22) }),
+        /*@__PURE__*/ S.Struct({ inlineFunction: __S(2327, __c72, 23) }),
+        /*@__PURE__*/ S.Struct({ agentCoreCodeInterpreter: __S(2328, __c72, 24) }),
       ]);
     case 26:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           name: S.optional(S.String),
-          config: S.optional(__S(2169, __c67, 25)),
+          config: S.optional(__S(2329, __c72, 25)),
         }),
       ).annotate({ identifier: "HarnessTool" });
     case 27:
-      return S.Array(__S(2170, __c67, 26));
+      return S.Array(__S(2330, __c72, 26));
     case 28:
       return S.suspend(() => S.Struct({ uri: S.String })).annotate({
         identifier: "HarnessSkillS3Source",
@@ -8641,7 +9677,7 @@ function __c67(j: number): any {
         S.Struct({
           url: S.String,
           path: S.optional(S.String),
-          auth: S.optional(__S(2173, __c67, 29)),
+          auth: S.optional(__S(2333, __c72, 29)),
         }),
       ).annotate({ identifier: "HarnessSkillGitSource" });
     case 31:
@@ -8650,17 +9686,17 @@ function __c67(j: number): any {
       });
   }
 }
-function __c68(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.Union([
         /*@__PURE__*/ S.Struct({ path: S.String }),
-        /*@__PURE__*/ S.Struct({ s3: __S(2172, __c67, 28) }),
-        /*@__PURE__*/ S.Struct({ git: __S(2174, __c67, 30) }),
-        /*@__PURE__*/ S.Struct({ awsSkills: __S(2175, __c67, 31) }),
+        /*@__PURE__*/ S.Struct({ s3: __S(2332, __c72, 28) }),
+        /*@__PURE__*/ S.Struct({ git: __S(2334, __c72, 30) }),
+        /*@__PURE__*/ S.Struct({ awsSkills: __S(2335, __c72, 31) }),
       ]);
     case 1:
-      return S.Array(__S(2176, __c68, 0));
+      return S.Array(__S(2336, __c73, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8676,11 +9712,11 @@ function __c68(j: number): any {
           traceState: S.optional(S.String).pipe(T.HttpHeader("tracestate")),
           traceId: S.optional(S.String).pipe(T.HttpHeader("X-Amzn-Trace-Id")),
           baggage: S.optional(S.String).pipe(T.HttpHeader("baggage")),
-          messages: __S(2153, __c67, 9),
-          model: S.optional(__S(2158, __c67, 14)),
-          systemPrompt: S.optional(__S(2159, __c67, 15)),
-          tools: S.optional(__S(2171, __c67, 27)),
-          skills: S.optional(__S(2177, __c68, 1)),
+          messages: __S(2313, __c72, 9),
+          model: S.optional(__S(2318, __c72, 14)),
+          systemPrompt: S.optional(__S(2319, __c72, 15)),
+          tools: S.optional(__S(2331, __c72, 27)),
+          skills: S.optional(__S(2337, __c73, 1)),
           allowedTools: S.optional(__S(128, __c4, 0)),
           maxIterations: S.optional(S.Number),
           maxTokens: S.optional(S.Number),
@@ -8709,12 +9745,12 @@ function __c68(j: number): any {
       ).annotate({ identifier: "HarnessToolResultBlockStart" });
     case 6:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ toolUse: __S(2180, __c68, 4) }),
-        /*@__PURE__*/ S.Struct({ toolResult: __S(2181, __c68, 5) }),
+        /*@__PURE__*/ S.Struct({ toolUse: __S(2340, __c73, 4) }),
+        /*@__PURE__*/ S.Struct({ toolResult: __S(2341, __c73, 5) }),
       ]);
     case 7:
       return S.suspend(() =>
-        S.Struct({ contentBlockIndex: S.Number, start: __S(2182, __c68, 6) }),
+        S.Struct({ contentBlockIndex: S.Number, start: __S(2342, __c73, 6) }),
       ).annotate({ identifier: "HarnessContentBlockStartEvent" });
     case 8:
       return S.suspend(() => S.Struct({ input: SensitiveString })).annotate({
@@ -8733,14 +9769,14 @@ function __c68(j: number): any {
     case 11:
       return S.Union([
         /*@__PURE__*/ S.Struct({ text: SensitiveString }),
-        /*@__PURE__*/ S.Struct({ toolUse: __S(2184, __c68, 8) }),
-        /*@__PURE__*/ S.Struct({ toolResult: __S(2146, __c67, 2) }),
-        /*@__PURE__*/ S.Struct({ reasoningContent: __S(2185, __c68, 9) }),
-        /*@__PURE__*/ S.Struct({ toolResultMetadata: __S(2186, __c68, 10) }),
+        /*@__PURE__*/ S.Struct({ toolUse: __S(2344, __c73, 8) }),
+        /*@__PURE__*/ S.Struct({ toolResult: __S(2306, __c72, 2) }),
+        /*@__PURE__*/ S.Struct({ reasoningContent: __S(2345, __c73, 9) }),
+        /*@__PURE__*/ S.Struct({ toolResultMetadata: __S(2346, __c73, 10) }),
       ]);
     case 12:
       return S.suspend(() =>
-        S.Struct({ contentBlockIndex: S.Number, delta: __S(2187, __c68, 11) }),
+        S.Struct({ contentBlockIndex: S.Number, delta: __S(2347, __c73, 11) }),
       ).annotate({ identifier: "HarnessContentBlockDeltaEvent" });
     case 13:
       return S.suspend(() => S.Struct({ contentBlockIndex: S.Number })).annotate({
@@ -8766,7 +9802,7 @@ function __c68(j: number): any {
       });
     case 17:
       return S.suspend(() =>
-        S.Struct({ usage: __S(2191, __c68, 15), metrics: __S(2192, __c68, 16) }),
+        S.Struct({ usage: __S(2351, __c73, 15), metrics: __S(2352, __c73, 16) }),
       ).annotate({ identifier: "HarnessMetadataEvent" });
     case 18:
       return S.suspend(() =>
@@ -8781,12 +9817,12 @@ function __c68(j: number): any {
     case 19:
       return T.EventStream(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.Struct({ messageStart: __S(2179, __c68, 3) }),
-          /*@__PURE__*/ S.Struct({ contentBlockStart: __S(2183, __c68, 7) }),
-          /*@__PURE__*/ S.Struct({ contentBlockDelta: __S(2188, __c68, 12) }),
-          /*@__PURE__*/ S.Struct({ contentBlockStop: __S(2189, __c68, 13) }),
-          /*@__PURE__*/ S.Struct({ messageStop: __S(2190, __c68, 14) }),
-          /*@__PURE__*/ S.Struct({ metadata: __S(2193, __c68, 17) }),
+          /*@__PURE__*/ S.Struct({ messageStart: __S(2339, __c73, 3) }),
+          /*@__PURE__*/ S.Struct({ contentBlockStart: __S(2343, __c73, 7) }),
+          /*@__PURE__*/ S.Struct({ contentBlockDelta: __S(2348, __c73, 12) }),
+          /*@__PURE__*/ S.Struct({ contentBlockStop: __S(2349, __c73, 13) }),
+          /*@__PURE__*/ S.Struct({ messageStop: __S(2350, __c73, 14) }),
+          /*@__PURE__*/ S.Struct({ metadata: __S(2353, __c73, 17) }),
           /*@__PURE__*/ S.Struct({
             internalServerException: /*@__PURE__*/ S.suspend(
               () => InternalServerException,
@@ -8802,16 +9838,16 @@ function __c68(j: number): any {
               identifier: "RuntimeClientError",
             }),
           }),
-          /*@__PURE__*/ S.Struct({ hookEvent: __S(2194, __c68, 18) }),
+          /*@__PURE__*/ S.Struct({ hookEvent: __S(2354, __c73, 18) }),
         ]),
       );
     case 20:
       return S.suspend(() =>
-        S.Struct({ stream: __S(2195, __c68, 19).pipe(T.HttpPayload()) }),
+        S.Struct({ stream: __S(2355, __c73, 19).pipe(T.HttpPayload()) }),
       ).annotate({ identifier: "InvokeHarnessResponse" });
   }
 }
-function __c69(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8830,8 +9866,8 @@ function __c69(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          domainFilter: S.optional(__S(2208, __c69, 0)),
-          publishedDateFilter: S.optional(__S(2209, __c69, 1)),
+          domainFilter: S.optional(__S(2368, __c74, 0)),
+          publishedDateFilter: S.optional(__S(2369, __c74, 1)),
         }),
       ).annotate({ identifier: "WebSearchFilters" });
     case 3:
@@ -8840,7 +9876,7 @@ function __c69(j: number): any {
           webSearchId: S.String.pipe(T.HttpLabel("webSearchId")),
           searchQuery: S.String,
           maxResults: S.optional(S.Number),
-          filters: S.optional(__S(2210, __c69, 2)),
+          filters: S.optional(__S(2370, __c74, 2)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/web-search/{webSearchId}/invoke" }),
@@ -8862,14 +9898,14 @@ function __c69(j: number): any {
         }),
       ).annotate({ identifier: "WebSearchResult" });
     case 5:
-      return S.Array(__S(2212, __c69, 4));
+      return S.Array(__S(2372, __c74, 4));
     case 6:
-      return S.suspend(() => S.Struct({ results: __S(2213, __c69, 5) })).annotate({
+      return S.suspend(() => S.Struct({ results: __S(2373, __c74, 5) })).annotate({
         identifier: "InvokeWebSearchOutput",
       });
   }
 }
-function __c70(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8893,14 +9929,14 @@ function __c70(j: number): any {
         }),
       ).annotate({ identifier: "ABTestSummary" });
     case 2:
-      return S.Array(__S(2241, __c70, 1));
+      return S.Array(__S(2401, __c75, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ abTests: __S(2242, __c70, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ abTests: __S(2402, __c75, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListABTestsResponse" });
   }
 }
-function __c71(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8924,14 +9960,53 @@ function __c71(j: number): any {
         identifier: "ActorSummary",
       });
     case 2:
-      return S.Array(__S(2273, __c71, 1));
+      return S.Array(__S(2433, __c76, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ actorSummaries: __S(2274, __c71, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ actorSummaries: __S(2434, __c76, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListActorsOutput" });
   }
 }
-function __c72(j: number): any {
+function __c77(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          applicationName: S.optional(S.String).pipe(T.HttpQuery("applicationName")),
+          batchEvaluationId: S.optional(S.String).pipe(T.HttpQuery("batchEvaluationId")),
+          archiveStatus: S.optional(S.String).pipe(T.HttpQuery("archiveStatus")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(T.Http({ method: "GET", uri: "/agentinsights" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListAgentInsightsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: SensitiveString,
+          description: SensitiveString,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          affectedSessionCount: S.optional(S.Number),
+          agentInsightId: S.String,
+          applicationName: S.String,
+          batchEvaluationId: S.optional(S.String),
+          customerMetadataStatus: S.String,
+          updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          archiveStatus: S.String,
+          lastSeenAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+        }),
+      ).annotate({ identifier: "AgentInsightSummary" });
+    case 2:
+      return S.Array(__S(2465, __c77, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ agentInsights: __S(2466, __c77, 2), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListAgentInsightsResponse" });
+  }
+}
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8958,23 +10033,23 @@ function __c72(j: number): any {
           status: S.String,
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           description: S.optional(S.String),
-          evaluators: S.optional(__S(1281, __c40, 1)),
-          insights: S.optional(__S(1283, __c40, 3)),
-          evaluationResults: S.optional(__S(1251, __c39, 3)),
+          evaluators: S.optional(__S(1345, __c42, 1)),
+          insights: S.optional(__S(1347, __c42, 3)),
+          evaluationResults: S.optional(__S(1315, __c41, 3)),
           errorDetails: S.optional(__S(128, __c4, 0)),
           kmsKeyArn: S.optional(S.String),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
       ).annotate({ identifier: "BatchEvaluationSummary" });
     case 2:
-      return S.Array(__S(2305, __c72, 1));
+      return S.Array(__S(2497, __c78, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ batchEvaluations: __S(2306, __c72, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ batchEvaluations: __S(2498, __c78, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListBatchEvaluationsResponse" });
   }
 }
-function __c73(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9006,14 +10081,14 @@ function __c73(j: number): any {
         }),
       ).annotate({ identifier: "BrowserSessionSummary" });
     case 2:
-      return S.Array(__S(2337, __c73, 1));
+      return S.Array(__S(2529, __c79, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: __S(2338, __c73, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(2530, __c79, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListBrowserSessionsResponse" });
   }
 }
-function __c74(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9048,14 +10123,54 @@ function __c74(j: number): any {
         }),
       ).annotate({ identifier: "CodeInterpreterSessionSummary" });
     case 2:
-      return S.Array(__S(2369, __c74, 1));
+      return S.Array(__S(2561, __c80, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: __S(2370, __c74, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(2562, __c80, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListCodeInterpreterSessionsResponse" });
   }
 }
-function __c75(j: number): any {
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          datasetId: S.String.pipe(T.HttpLabel("datasetId")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/datasets/{datasetId}/generations" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListDatasetGenerationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          generationId: S.String,
+          datasetId: S.String,
+          name: S.String,
+          description: S.optional(S.String),
+          scenarioType: S.String,
+          status: S.String,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          completedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+        }),
+      ).annotate({ identifier: "DatasetGenerationSummary" });
+    case 2:
+      return S.Array(__S(2593, __c81, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ datasetGenerations: __S(2594, __c81, 2), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListDatasetGenerationsResponse" });
+  }
+}
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9066,18 +10181,18 @@ function __c75(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          left: __S(2432, __c76, 0),
+          left: __S(2656, __c83, 0),
           operator: S.String,
-          right: S.optional(__S(2401, __c75, 1)),
+          right: S.optional(__S(2625, __c82, 1)),
         }),
       ).annotate({ identifier: "EventMetadataFilterExpression" });
     case 3:
-      return S.Array(__S(2402, __c75, 2));
+      return S.Array(__S(2626, __c82, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          branch: S.optional(__S(2400, __c75, 0)),
-          eventMetadata: S.optional(__S(2403, __c75, 3)),
+          branch: S.optional(__S(2624, __c82, 0)),
+          eventMetadata: S.optional(__S(2627, __c82, 3)),
         }),
       ).annotate({ identifier: "FilterInput" });
     case 5:
@@ -9087,7 +10202,7 @@ function __c75(j: number): any {
           sessionId: S.String.pipe(T.HttpLabel("sessionId")),
           actorId: S.String.pipe(T.HttpLabel("actorId")),
           includePayloads: S.optional(S.Boolean),
-          filter: S.optional(__S(2404, __c75, 4)),
+          filter: S.optional(__S(2628, __c82, 4)),
           maxResults: S.optional(S.Number),
           nextToken: S.optional(S.String),
         }).pipe(
@@ -9108,17 +10223,17 @@ function __c75(j: number): any {
       return S.Array(__S(547, __c17, 3));
     case 7:
       return S.suspend(() =>
-        S.Struct({ events: __S(2406, __c75, 6), nextToken: S.optional(S.String) }),
+        S.Struct({ events: __S(2630, __c82, 6), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListEventsOutput" });
   }
 }
-function __c76(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.Union([/*@__PURE__*/ S.Struct({ metadataKey: S.String })]);
   }
 }
-function __c77(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9134,7 +10249,7 @@ function __c77(j: number): any {
         S.Struct({
           memoryId: S.String.pipe(T.HttpLabel("memoryId")),
           maxResults: S.optional(S.Number),
-          filter: S.optional(__S(2464, __c77, 0)),
+          filter: S.optional(__S(2688, __c84, 0)),
           nextToken: S.optional(S.String),
         }).pipe(
           T.all(
@@ -9152,14 +10267,14 @@ function __c77(j: number): any {
         identifier: "MessageMetadata",
       });
     case 3:
-      return S.Array(__S(2466, __c77, 2));
+      return S.Array(__S(2690, __c84, 2));
     case 4:
-      return S.Union([/*@__PURE__*/ S.Struct({ messagesList: __S(2467, __c77, 3) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ messagesList: __S(2691, __c84, 3) })]);
     case 5:
       return S.suspend(() =>
         S.Struct({
           jobID: S.String,
-          messages: __S(2468, __c77, 4),
+          messages: __S(2692, __c84, 4),
           status: S.optional(S.String),
           failureReason: S.optional(S.String),
           strategyId: S.optional(S.String),
@@ -9168,14 +10283,14 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "ExtractionJobMetadata" });
     case 6:
-      return S.Array(__S(2469, __c77, 5));
+      return S.Array(__S(2693, __c84, 5));
     case 7:
       return S.suspend(() =>
-        S.Struct({ jobs: __S(2470, __c77, 6), nextToken: S.optional(S.String) }),
+        S.Struct({ jobs: __S(2694, __c84, 6), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListMemoryExtractionJobsOutput" });
   }
 }
-function __c78(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9186,7 +10301,7 @@ function __c78(j: number): any {
           memoryStrategyId: S.optional(S.String),
           maxResults: S.optional(S.Number),
           nextToken: S.optional(S.String),
-          metadataFilters: S.optional(__S(2530, __c79, 2)),
+          metadataFilters: S.optional(__S(2754, __c86, 2)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/memories/{memoryId}/memoryRecords" }),
@@ -9200,20 +10315,20 @@ function __c78(j: number): any {
       ).annotate({ identifier: "ListMemoryRecordsInput" });
   }
 }
-function __c79(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.Union([/*@__PURE__*/ S.Struct({ metadataValue: __S(192, __c6, 0) })]);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          left: __S(2432, __c76, 0),
+          left: __S(2656, __c83, 0),
           operator: S.String,
-          right: S.optional(__S(2528, __c79, 0)),
+          right: S.optional(__S(2752, __c86, 0)),
         }),
       ).annotate({ identifier: "MemoryMetadataFilterExpression" });
     case 2:
-      return S.Array(__S(2529, __c79, 1));
+      return S.Array(__S(2753, __c86, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -9228,14 +10343,14 @@ function __c79(j: number): any {
         }),
       ).annotate({ identifier: "MemoryRecordSummary" });
     case 4:
-      return S.Array(__S(2531, __c79, 3));
+      return S.Array(__S(2755, __c86, 3));
     case 5:
       return S.suspend(() =>
-        S.Struct({ memoryRecordSummaries: __S(2532, __c79, 4), nextToken: S.optional(S.String) }),
+        S.Struct({ memoryRecordSummaries: __S(2756, __c86, 4), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListMemoryRecordsOutput" });
   }
 }
-function __c80(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9275,14 +10390,14 @@ function __c80(j: number): any {
         }),
       ).annotate({ identifier: "PaymentInstrumentSummary" });
     case 2:
-      return S.Array(__S(2561, __c80, 1));
+      return S.Array(__S(2785, __c87, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ paymentInstruments: __S(2562, __c80, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ paymentInstruments: __S(2786, __c87, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListPaymentInstrumentsResponse" });
   }
 }
-function __c81(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9319,14 +10434,14 @@ function __c81(j: number): any {
         }),
       ).annotate({ identifier: "PaymentSessionSummary" });
     case 2:
-      return S.Array(__S(2593, __c81, 1));
+      return S.Array(__S(2817, __c88, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ paymentSessions: __S(2594, __c81, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ paymentSessions: __S(2818, __c88, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListPaymentSessionsResponse" });
   }
 }
-function __c82(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9352,14 +10467,14 @@ function __c82(j: number): any {
         }),
       ).annotate({ identifier: "RecommendationSummary" });
     case 2:
-      return S.Array(__S(2625, __c82, 1));
+      return S.Array(__S(2849, __c89, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ recommendationSummaries: __S(2626, __c82, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ recommendationSummaries: __S(2850, __c89, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListRecommendationsResponse" });
   }
 }
-function __c83(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ eventFilter: S.optional(S.String) })).annotate({
@@ -9372,7 +10487,7 @@ function __c83(j: number): any {
           actorId: S.String.pipe(T.HttpLabel("actorId")),
           maxResults: S.optional(S.Number),
           nextToken: S.optional(S.String),
-          filter: S.optional(__S(2656, __c83, 0)),
+          filter: S.optional(__S(2880, __c90, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/memories/{memoryId}/actor/{actorId}/sessions" }),
@@ -9393,14 +10508,14 @@ function __c83(j: number): any {
         }),
       ).annotate({ identifier: "SessionSummary" });
     case 3:
-      return S.Array(__S(2658, __c83, 2));
+      return S.Array(__S(2882, __c90, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({ sessionSummaries: __S(2659, __c83, 3), nextToken: S.optional(S.String) }),
+        S.Struct({ sessionSummaries: __S(2883, __c90, 3), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListSessionsOutput" });
   }
 }
-function __c84(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9419,11 +10534,24 @@ function __c84(j: number): any {
         }),
       ).annotate({ identifier: "MppPaymentInput" });
     case 2:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ cryptoX402: __S(2688, __c84, 0) }),
-        /*@__PURE__*/ S.Struct({ mpp: __S(2689, __c84, 1) }),
-      ]);
+      return S.suspend(() =>
+        S.Struct({ kty: S.String, crv: S.String, x: S.String, y: S.String }),
+      ).annotate({ identifier: "DpopJwk" });
     case 3:
+      return S.suspend(() => S.Struct({ dpopJwk: S.optional(__S(2914, __c91, 2)) })).annotate({
+        identifier: "AwsBillingPaymentOptions",
+      });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ version: S.String, payload: S.Any, options: S.optional(__S(2915, __c91, 3)) }),
+      ).annotate({ identifier: "AwsBillingX402PaymentInput" });
+    case 5:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ cryptoX402: __S(2912, __c91, 0) }),
+        /*@__PURE__*/ S.Struct({ mpp: __S(2913, __c91, 1) }),
+        /*@__PURE__*/ S.Struct({ awsBillingX402: __S(2916, __c91, 4) }),
+      ]);
+    case 6:
       return S.suspend(() =>
         S.Struct({
           userId: S.optional(S.String).pipe(
@@ -9436,7 +10564,7 @@ function __c84(j: number): any {
           paymentSessionId: S.String,
           paymentInstrumentId: S.String,
           paymentType: S.String,
-          paymentInput: __S(2690, __c84, 2),
+          paymentInput: __S(2917, __c91, 5),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -9449,11 +10577,11 @@ function __c84(j: number): any {
           ),
         ),
       ).annotate({ identifier: "ProcessPaymentRequest" });
-    case 4:
+    case 7:
       return S.suspend(() => S.Struct({ version: S.String, payload: S.Any })).annotate({
         identifier: "CryptoX402PaymentOutput",
       });
-    case 5:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           version: S.String,
@@ -9461,12 +10589,17 @@ function __c84(j: number): any {
           paymentCredential: SensitiveString,
         }),
       ).annotate({ identifier: "MppPaymentOutput" });
-    case 6:
+    case 9:
+      return S.suspend(() =>
+        S.Struct({ version: S.String, paymentToken: SensitiveString }),
+      ).annotate({ identifier: "AwsBillingX402PaymentOutput" });
+    case 10:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ cryptoX402: __S(2692, __c84, 4) }),
-        /*@__PURE__*/ S.Struct({ mpp: __S(2693, __c84, 5) }),
+        /*@__PURE__*/ S.Struct({ cryptoX402: __S(2919, __c91, 7) }),
+        /*@__PURE__*/ S.Struct({ mpp: __S(2920, __c91, 8) }),
+        /*@__PURE__*/ S.Struct({ awsBillingX402: __S(2921, __c91, 9) }),
       ]);
-    case 7:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           processPaymentId: S.String,
@@ -9475,14 +10608,14 @@ function __c84(j: number): any {
           paymentInstrumentId: S.String,
           paymentType: S.String,
           status: S.String,
-          paymentOutput: __S(2694, __c84, 6),
+          paymentOutput: __S(2922, __c91, 10),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
         }),
       ).annotate({ identifier: "ProcessPaymentResponse" });
   }
 }
-function __c85(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9490,7 +10623,7 @@ function __c85(j: number): any {
           searchQuery: SensitiveString,
           memoryStrategyId: S.optional(S.String),
           topK: S.optional(S.Number),
-          metadataFilters: S.optional(__S(2530, __c79, 2)),
+          metadataFilters: S.optional(__S(2754, __c86, 2)),
         }),
       ).annotate({ identifier: "SearchCriteria" });
     case 1:
@@ -9499,7 +10632,7 @@ function __c85(j: number): any {
           memoryId: S.String.pipe(T.HttpLabel("memoryId")),
           namespace: S.optional(S.String),
           namespacePath: S.optional(S.String),
-          searchCriteria: __S(2720, __c85, 0),
+          searchCriteria: __S(2944, __c92, 0),
           nextToken: S.optional(S.String),
           maxResults: S.optional(S.Number),
         }).pipe(
@@ -9515,7 +10648,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "RetrieveMemoryRecordsInput" });
   }
 }
-function __c86(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9548,7 +10681,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "SaveBrowserSessionProfileResponse" });
   }
 }
-function __c87(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9578,10 +10711,10 @@ function __c87(j: number): any {
       ).annotate({ identifier: "ToolsDefinition" });
     case 3:
       return S.suspend(() =>
-        S.Struct({ server: __S(2785, __c87, 1), tools: __S(2786, __c87, 2) }),
+        S.Struct({ server: __S(3009, __c94, 1), tools: __S(3010, __c94, 2) }),
       ).annotate({ identifier: "McpDescriptor" });
     case 4:
-      return S.suspend(() => S.Struct({ agentCard: __S(2785, __c87, 1) })).annotate({
+      return S.suspend(() => S.Struct({ agentCard: __S(3009, __c94, 1) })).annotate({
         identifier: "A2aDescriptor",
       });
     case 5:
@@ -9591,17 +10724,17 @@ function __c87(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          skillMd: __S(2789, __c87, 5),
-          skillDefinition: S.optional(__S(2785, __c87, 1)),
+          skillMd: __S(3013, __c94, 5),
+          skillDefinition: S.optional(__S(3009, __c94, 1)),
         }),
       ).annotate({ identifier: "AgentSkillsDescriptor" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          mcp: S.optional(__S(2787, __c87, 3)),
-          a2a: S.optional(__S(2788, __c87, 4)),
-          custom: S.optional(__S(2789, __c87, 5)),
-          agentSkills: S.optional(__S(2790, __c87, 6)),
+          mcp: S.optional(__S(3011, __c94, 3)),
+          a2a: S.optional(__S(3012, __c94, 4)),
+          custom: S.optional(__S(3013, __c94, 5)),
+          agentSkills: S.optional(__S(3014, __c94, 6)),
         }),
       ).annotate({ identifier: "Descriptors" });
     case 8:
@@ -9613,7 +10746,7 @@ function __c87(j: number): any {
           name: S.String,
           description: S.optional(SensitiveString),
           descriptorType: S.String,
-          descriptors: __S(2791, __c87, 7),
+          descriptors: __S(3015, __c94, 7),
           version: S.String,
           status: S.String,
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
@@ -9621,62 +10754,77 @@ function __c87(j: number): any {
         }),
       ).annotate({ identifier: "RegistryRecordSummary" });
     case 9:
-      return S.Array(__S(2792, __c87, 8));
+      return S.Array(__S(3016, __c94, 8));
     case 10:
-      return S.suspend(() => S.Struct({ registryRecords: __S(2793, __c87, 9) })).annotate({
+      return S.suspend(() => S.Struct({ registryRecords: __S(3017, __c94, 9) })).annotate({
         identifier: "SearchRegistryRecordsResponse",
       });
   }
 }
-function __c88(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.Union([/*@__PURE__*/ S.Struct({ prompt: S.String })]);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          input: S.optional(__S(2816, __c88, 0)),
-          expectedResponse: S.optional(__S(1088, __c34, 0)),
+          input: S.optional(__S(3040, __c95, 0)),
+          expectedResponse: S.optional(__S(1120, __c35, 0)),
         }),
       ).annotate({ identifier: "GroundTruthTurn" });
     case 2:
-      return S.Array(__S(2817, __c88, 1));
+      return S.Array(__S(3041, __c95, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          assertions: S.optional(__S(1089, __c34, 1)),
-          expectedTrajectory: S.optional(__S(1090, __c34, 2)),
-          turns: S.optional(__S(2818, __c88, 2)),
+          assertions: S.optional(__S(1121, __c35, 1)),
+          expectedTrajectory: S.optional(__S(1122, __c35, 2)),
+          turns: S.optional(__S(3042, __c95, 2)),
         }),
       ).annotate({ identifier: "InlineGroundTruth" });
     case 4:
-      return S.Union([/*@__PURE__*/ S.Struct({ inline: __S(2819, __c88, 3) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ inline: __S(3043, __c95, 3) })]);
     case 5:
       return S.suspend(() =>
         S.Struct({
           sessionId: S.String,
           testScenarioId: S.optional(S.String),
-          groundTruth: S.optional(__S(2820, __c88, 4)),
+          groundTruth: S.optional(__S(3044, __c95, 4)),
           metadata: S.optional(__S(384, __c12, 0)),
         }),
       ).annotate({ identifier: "SessionMetadataShape" });
     case 6:
-      return S.Array(__S(2821, __c88, 5));
+      return S.Array(__S(3045, __c95, 5));
     case 7:
-      return S.Union([/*@__PURE__*/ S.Struct({ sessionMetadata: __S(2822, __c88, 6) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ sessionMetadata: __S(3046, __c95, 6) })]);
     case 8:
+      return S.suspend(() =>
+        S.Struct({ datasetId: S.String, datasetVersion: S.optional(S.String) }),
+      ).annotate({ identifier: "DatasetSource" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({ agentRuntimeEndpointArn: S.String, requestTemplate: S.optional(S.String) }),
+      ).annotate({ identifier: "AgentCoreRuntimeInvocation" });
+    case 10:
+      return S.Union([/*@__PURE__*/ S.Struct({ agentCoreRuntime: __S(3049, __c95, 9) })]);
+    case 11:
+      return S.suspend(() =>
+        S.Struct({ dataset: __S(3048, __c95, 8), agentInvocation: __S(3050, __c95, 10) }),
+      ).annotate({ identifier: "DatasetExecutionConfig" });
+    case 12:
       return S.suspend(() =>
         S.Struct({
           batchEvaluationName: S.String,
-          evaluators: S.optional(__S(1281, __c40, 1)),
-          insights: S.optional(__S(1283, __c40, 3)),
-          dataSourceConfig: __S(1318, __c41, 6),
+          evaluators: S.optional(__S(1345, __c42, 1)),
+          insights: S.optional(__S(1347, __c42, 3)),
+          dataSourceConfig: __S(1382, __c43, 6),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          evaluationMetadata: S.optional(__S(2823, __c88, 7)),
+          evaluationMetadata: S.optional(__S(3047, __c95, 7)),
           tags: S.optional(__S(384, __c12, 0)),
           kmsKeyArn: S.optional(S.String),
           description: S.optional(S.String),
-          outputConfig: S.optional(__S(1320, __c41, 8)),
+          outputConfig: S.optional(__S(1384, __c43, 8)),
+          datasetExecutionConfig: S.optional(__S(3051, __c95, 11)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/evaluations/batch-evaluate" }),
@@ -9688,17 +10836,17 @@ function __c88(j: number): any {
           ),
         ),
       ).annotate({ identifier: "StartBatchEvaluationRequest" });
-    case 9:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           batchEvaluationId: S.String,
           batchEvaluationArn: S.String,
           batchEvaluationName: S.String,
-          evaluators: S.optional(__S(1281, __c40, 1)),
-          insights: S.optional(__S(1283, __c40, 3)),
+          evaluators: S.optional(__S(1345, __c42, 1)),
+          insights: S.optional(__S(1347, __c42, 3)),
           status: S.String,
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-          outputConfig: S.optional(__S(1320, __c41, 8)),
+          outputConfig: S.optional(__S(1384, __c43, 8)),
           tags: S.optional(__S(384, __c12, 0)),
           kmsKeyArn: S.optional(S.String),
           description: S.optional(S.String),
@@ -9706,7 +10854,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "StartBatchEvaluationResponse" });
   }
 }
-function __c89(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9716,13 +10864,13 @@ function __c89(j: number): any {
           browserIdentifier: S.String.pipe(T.HttpLabel("browserIdentifier")),
           name: S.optional(S.String),
           sessionTimeoutSeconds: S.optional(S.Number),
-          viewPort: S.optional(__S(1408, __c44, 0)),
-          extensions: S.optional(__S(1412, __c44, 4)),
-          profileConfiguration: S.optional(__S(1415, __c44, 7)),
-          proxyConfiguration: S.optional(__S(1421, __c44, 13)),
-          enterprisePolicies: S.optional(__S(1414, __c44, 6)),
-          certificates: S.optional(__S(1379, __c43, 3)),
-          filesystemConfigurations: S.optional(__S(1382, __c43, 6)),
+          viewPort: S.optional(__S(1472, __c46, 0)),
+          extensions: S.optional(__S(1476, __c46, 4)),
+          profileConfiguration: S.optional(__S(1479, __c46, 7)),
+          proxyConfiguration: S.optional(__S(1485, __c46, 13)),
+          enterprisePolicies: S.optional(__S(1478, __c46, 6)),
+          certificates: S.optional(__S(1443, __c45, 3)),
+          filesystemConfigurations: S.optional(__S(1446, __c45, 6)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -9741,12 +10889,12 @@ function __c89(j: number): any {
           browserIdentifier: S.String,
           sessionId: S.String,
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-          streams: S.optional(__S(1442, __c45, 2)),
+          streams: S.optional(__S(1506, __c47, 2)),
         }),
       ).annotate({ identifier: "StartBrowserSessionResponse" });
   }
 }
-function __c90(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9756,8 +10904,8 @@ function __c90(j: number): any {
           codeInterpreterIdentifier: S.String.pipe(T.HttpLabel("codeInterpreterIdentifier")),
           name: S.optional(S.String),
           sessionTimeoutSeconds: S.optional(S.Number),
-          certificates: S.optional(__S(1379, __c43, 3)),
-          filesystemConfigurations: S.optional(__S(1382, __c43, 6)),
+          certificates: S.optional(__S(1443, __c45, 3)),
+          filesystemConfigurations: S.optional(__S(1446, __c45, 6)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -9783,7 +10931,65 @@ function __c90(j: number): any {
       ).annotate({ identifier: "StartCodeInterpreterSessionResponse" });
   }
 }
-function __c91(j: number): any {
+function __c98(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sessionIds: S.optional(__S(128, __c4, 0)),
+          traceIds: S.optional(__S(128, __c4, 0)),
+        }),
+      ).annotate({ identifier: "GenerationIdentifiers" });
+    case 1:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ filters: __S(1638, __c51, 6) }),
+        /*@__PURE__*/ S.Struct({ identifiers: __S(3136, __c98, 0) }),
+      ]);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          sourceConfig: __S(1634, __c51, 2),
+          selection: S.optional(__S(3137, __c98, 1)),
+          sampling: S.optional(__S(1639, __c51, 7)),
+          groundTruth: S.optional(__S(1641, __c51, 9)),
+          redactionConfiguration: S.optional(__S(1644, __c51, 12)),
+        }),
+      ).annotate({ identifier: "TraceGenerationSource" });
+    case 3:
+      return S.Union([/*@__PURE__*/ S.Struct({ traceGeneration: __S(3138, __c98, 2) })]);
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          datasetId: S.String.pipe(T.HttpLabel("datasetId")),
+          name: S.String,
+          description: S.optional(S.String),
+          scenarioType: S.optional(S.String),
+          source: __S(3139, __c98, 3),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/datasets/{datasetId}/generations" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "StartDatasetGenerationRequest" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          generationId: S.String,
+          name: S.String,
+          datasetId: S.String,
+          status: S.String,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+        }),
+      ).annotate({ identifier: "StartDatasetGenerationResponse" });
+  }
+}
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ jobId: S.String })).annotate({
@@ -9793,7 +10999,7 @@ function __c91(j: number): any {
       return S.suspend(() =>
         S.Struct({
           memoryId: S.String.pipe(T.HttpLabel("memoryId")),
-          extractionJob: __S(2912, __c91, 0),
+          extractionJob: __S(3168, __c99, 0),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -9808,7 +11014,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "StartMemoryExtractionJobInput" });
   }
 }
-function __c92(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9816,7 +11022,7 @@ function __c92(j: number): any {
           name: S.String,
           description: S.optional(S.String),
           type: S.String,
-          recommendationConfig: __S(1718, __c53, 22),
+          recommendationConfig: __S(1874, __c58, 18),
           kmsKeyArn: S.optional(S.String),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           tags: S.optional(__S(384, __c12, 0)),
@@ -9832,7 +11038,7 @@ function __c92(j: number): any {
           name: S.String,
           description: S.optional(S.String),
           type: S.String,
-          recommendationConfig: __S(1718, __c53, 22),
+          recommendationConfig: __S(1874, __c58, 18),
           status: S.String,
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
@@ -9840,7 +11046,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "StartRecommendationResponse" });
   }
 }
-function __c93(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9866,7 +11072,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "StopBatchEvaluationResponse" });
   }
 }
-function __c94(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9897,7 +11103,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "StopBrowserSessionResponse" });
   }
 }
-function __c95(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9931,7 +11137,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "StopCodeInterpreterSessionResponse" });
   }
 }
-function __c96(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9964,7 +11170,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "StopRuntimeSessionResponse" });
   }
 }
-function __c97(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10001,20 +11207,49 @@ function __c97(j: number): any {
       ).annotate({ identifier: "UpdateABTestResponse" });
   }
 }
-function __c98(j: number): any {
+function __c106(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          applicationName: S.String.pipe(T.HttpQuery("applicationName")),
+          agentInsightId: S.String.pipe(T.HttpLabel("agentInsightId")),
+          archiveStatus: S.String,
+        }).pipe(
+          T.all(
+            T.Http({ method: "PUT", uri: "/agentinsights/{agentInsightId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateAgentInsightRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          agentInsightId: S.String,
+          archiveStatus: S.String,
+          updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+        }),
+      ).annotate({ identifier: "UpdateAgentInsightResponse" });
+  }
+}
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ streamStatus: S.optional(S.String) })).annotate({
         identifier: "AutomationStreamUpdate",
       });
     case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ automationStreamUpdate: __S(3136, __c98, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ automationStreamUpdate: __S(3424, __c107, 0) })]);
     case 2:
       return S.suspend(() =>
         S.Struct({
           browserIdentifier: S.String.pipe(T.HttpLabel("browserIdentifier")),
           sessionId: S.String.pipe(T.HttpQuery("sessionId")),
-          streamUpdate: __S(3137, __c98, 1),
+          streamUpdate: __S(3425, __c107, 1),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -10032,7 +11267,7 @@ function __c98(j: number): any {
         S.Struct({
           browserIdentifier: S.String,
           sessionId: S.String,
-          streams: __S(1442, __c45, 2),
+          streams: __S(1506, __c47, 2),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
         }),
       ).annotate({ identifier: "UpdateBrowserStreamResponse" });

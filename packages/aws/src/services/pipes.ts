@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -876,6 +877,7 @@ export const createPipe: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePipe",
@@ -908,6 +910,7 @@ export const deletePipe: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePipe",
@@ -933,6 +936,7 @@ export const describePipe: API.OperationMethod<
   input: __S(544, __c17, 0) as any as S.Schema<DescribePipeRequest>,
   output: __S(549, __c17, 5) as any as S.Schema<DescribePipeResponse>,
   errors: [InternalException, NotFoundException, ThrottlingException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePipe",
@@ -958,6 +962,7 @@ export const listPipes: API.PaginatedOperationMethod<
   input: __S(576, __c18, 0) as any as S.Schema<ListPipesRequest>,
   output: __S(579, __c18, 3) as any as S.Schema<ListPipesResponse>,
   errors: [InternalException, ThrottlingException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPipes",
@@ -988,6 +993,7 @@ export const listTagsForResource: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<ListTagsForResourceRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [InternalException, NotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -1020,6 +1026,7 @@ export const startPipe: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPipe",
@@ -1052,6 +1059,7 @@ export const stopPipe: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopPipe",
@@ -1089,6 +1097,7 @@ export const tagResource: API.OperationMethod<
   input: __S(96, __c3, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<TagResourceResponse>,
   errors: [InternalException, NotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -1113,6 +1122,7 @@ export const untagResource: API.OperationMethod<
   input: __S(160, __c5, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [InternalException, NotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -1157,6 +1167,7 @@ export const updatePipe: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePipe",

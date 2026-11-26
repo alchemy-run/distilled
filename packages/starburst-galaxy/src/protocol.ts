@@ -1,23 +1,16 @@
-import type * as API from "@distilled.cloud/core/api";
+import { TooManyRequests } from "@distilled.cloud/core/errors";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
-  type API_ERRORS,
-  type ConfigError,
-  HTTP_STATUS_MAP,
-  type InvalidInput,
-  TooManyRequests,
-} from "@distilled.cloud/core/errors";
-import {
-  makeRestProtocol,
+  restProtocol,
   type RestErrorInfo,
   unknownErrorProps,
 } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfter } from "@distilled.cloud/core/retry-after";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * StarburstGalaxyProtocol -- hand-written.
  *
  * Galaxy speaks bearer-authenticated JSON REST with no success envelope, so
- * the whole protocol is one `makeRestProtocol` call from
+ * the whole protocol is one `restProtocol` call from
  * `core/protocol-rest`:
  *
  *   request:  credentials -> `Authorization: Bearer <access token>` + the
@@ -35,31 +28,25 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import {
-  PreconditionFailed,
   StarburstGalaxyParseError,
   UnknownStarburstGalaxyError,
+  type StarburstGalaxyServiceError,
 } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Galaxy operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * StarburstGalaxyOpError, StarburstGalaxyOpContext>` explicitly so the
- * compiler never infers these back out of the schema generics.
+ * What every generated Galaxy operation fails with besides its own errors: the
+ * service's errors, the protocol's, and what resolving the credentials fails
+ * with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, StarburstGalaxyOpError,
+ * StarburstGalaxyOpContext>` explicitly so the compiler never infers these
+ * back out of the schema generics.
  */
 export type StarburstGalaxyOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | PreconditionFailed
-  | UnknownStarburstGalaxyError
-  | StarburstGalaxyParseError
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+  | StarburstGalaxyServiceError
+  | ErrorOf<typeof StarburstGalaxyProtocol>;
 
 /** Context (requirements) shared by every generated Galaxy operation. */
 export type StarburstGalaxyOpContext = Credentials | HttpClient.HttpClient;
@@ -87,22 +74,21 @@ export const rateLimited = (info: RestErrorInfo): TooManyRequests | undefined =>
   });
 };
 
-export const StarburstGalaxyProtocol: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ makeRestProtocol<Config>({
-    // The Credentials service holds an effect -- resolving it here (per
-    // request, on the calling fiber) picks up a refreshed access token.
-    credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => ({
-      Authorization: `Bearer ${Redacted.value(creds.accessToken)}`,
-    }),
-    // Core's classes plus 412 (`FailedPrecondition`), which Galaxy documents
-    // on cluster creation, schema discovery, data domain deletion and data
-    // quality operations.
-    statusMap: { ...HTTP_STATUS_MAP, 412: PreconditionFailed },
-    classifyError: rateLimited,
-    // Galaxy's error body is `{ message, ... }` -- the factory's default
-    // lenient `{ code?, message? }` envelope reads it.
-    unknownError: (info) => new UnknownStarburstGalaxyError(unknownErrorProps(info)),
-    parseError: ({ body, cause }) => new StarburstGalaxyParseError({ body, cause }),
-  });
+export const StarburstGalaxyProtocol = /*@__PURE__*/ restProtocol({
+  // The Credentials service holds an effect -- resolving it here (per
+  // request, on the calling fiber) picks up a refreshed access token.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => ({
+    Authorization: `Bearer ${Redacted.value(creds.accessToken)}`,
+  }),
+  // A status becomes the class the service declares for it
+  // (`StarburstGalaxyServiceErrors`: core's classes plus 412,
+  // `FailedPrecondition`, which Galaxy documents on cluster creation, schema
+  // discovery, data domain deletion and data quality operations).
+  classifyError: rateLimited,
+  // Galaxy's error body is `{ message, ... }` -- the factory's default
+  // lenient `{ code?, message? }` envelope reads it.
+  unknownError: (info) => new UnknownStarburstGalaxyError(unknownErrorProps(info)),
+  parseError: ({ body, cause }) => new StarburstGalaxyParseError({ body, cause }),
+});

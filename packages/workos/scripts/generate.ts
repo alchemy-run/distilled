@@ -64,7 +64,7 @@ const workosSpec: SdkSpec = {
   operationDecl: {
     contextType: "WorkosOpContext",
     commonErrorType: "WorkosOpError",
-    commonErrorClasses: ["UnknownWorkosError"],
+    serviceErrors: "WorkosServiceErrors",
     protocol: "WorkosProtocol",
     retry: "Retry.Retry",
   },

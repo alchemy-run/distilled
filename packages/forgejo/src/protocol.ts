@@ -1,11 +1,9 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
-  makeRestProtocol,
+  restProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
 } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * ForgejoProtocol -- the shared bearer-REST protocol instantiated for Forgejo.
  *
@@ -26,24 +24,18 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { UnknownForgejoError, type DefaultErrors, ForgejoParseError } from "./errors.ts";
+import { Credentials } from "./credentials.ts";
+import { UnknownForgejoError, ForgejoParseError, type ForgejoServiceError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Forgejo operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * ForgejoOpError, ForgejoOpContext>` explicitly so the compiler never infers
- * these back out of the schema generics.
+ * What every generated Forgejo operation fails with besides its own errors:
+ * the service's errors, the protocol's, and what resolving the credentials
+ * fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, ForgejoOpError, ForgejoOpContext>` explicitly so
+ * the compiler never infers these back out of the schema generics.
  */
-export type ForgejoOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+export type ForgejoOpError = ForgejoServiceError | ErrorOf<typeof ForgejoProtocol>;
 
 /** Context (requirements) shared by every generated Forgejo operation. */
 export type ForgejoOpContext = Credentials | HttpClient.HttpClient;
@@ -61,11 +53,10 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   };
 };
 
-export const ForgejoProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // Resolved on the CALLING fiber per request (the layer is memoized per
-  // process); the Credentials service holds an effect, so a token rotated
-  // between calls is picked up without rebuilding the layer.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+export const ForgejoProtocol = /*@__PURE__*/ restProtocol({
+  // Resolved on the CALLING fiber per request; the Credentials service holds
+  // an effect, so a token rotated between calls is picked up.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
     Authorization: `token ${Redacted.value(creds.token)}`,

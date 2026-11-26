@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { VercelServiceErrors } from "../errors.ts";
 import { VercelProtocol, type VercelOpError, type VercelOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -455,7 +456,7 @@ export interface ConnectConnectorCreateDataCase2 {
   /** GitHub App private key in PEM format. */
   privateKeyPem?: string | undefined;
   /** GitHub App webhook secret. */
-  webhookSecret?: string | undefined;
+  webhookSecret?: string | Redacted.Redacted<string> | undefined;
   /** Additional provider metadata stored with the connector. */
   extras?: ConnectConnectorCreateDataCase2ExtrasMap | undefined;
 }
@@ -523,7 +524,7 @@ export interface ConnectConnectorCreateDataCase3 {
   /** Linear OAuth client secret. */
   clientSecret: string | Redacted.Redacted<string>;
   /** Linear webhook verification secret. */
-  webhookSecret?: string | undefined;
+  webhookSecret?: string | Redacted.Redacted<string> | undefined;
   /** OAuth scopes requested for Linear application tokens. */
   appScopes?: ConnectConnectorCreateDataCase3AppScopesList | undefined;
   /** OAuth scopes requested for Linear user tokens. */
@@ -545,7 +546,7 @@ export interface ConnectConnectorCreateDataCase5 {
   /** Salesforce connected app consumer key. */
   consumerKey: string;
   /** Salesforce connected app consumer secret. */
-  consumerSecret: string;
+  consumerSecret: string | Redacted.Redacted<string>;
   /** Salesforce login host, such as login.salesforce.com. */
   loginHost: string;
 }
@@ -637,9 +638,9 @@ export interface ConnectConnectorCreateDataCase7 {
   /** Slack workspace metadata. */
   slackTeam?: ConnectConnectorCreateDataCase7SlackTeam | undefined;
   /** Slack request signing secret. */
-  signingSecret?: string | undefined;
+  signingSecret?: string | Redacted.Redacted<string> | undefined;
   /** Legacy Slack webhook verification token. */
-  verificationToken?: string | undefined;
+  verificationToken?: string | Redacted.Redacted<string> | undefined;
   /** OAuth scopes requested for Slack bot tokens. */
   botScopes?: ConnectConnectorCreateDataCase7BotScopesList | undefined;
   /** OAuth scopes requested for Slack user tokens. */
@@ -683,9 +684,9 @@ export interface ConnectConnectorCreateDataCase10 {
   /** Photon project ID. */
   projectId: string;
   /** Photon project secret. */
-  projectSecret: string;
+  projectSecret: string | Redacted.Redacted<string>;
   /** Photon webhook verification secret. */
-  webhookSecret?: string | undefined;
+  webhookSecret?: string | Redacted.Redacted<string> | undefined;
 }
 export type ConnectConnectorCreateDataCase11Map = { [key: string]: unknown | undefined };
 /** Provider configuration. With type, provide the complete configuration for that type. With service and connectionMethod, provide only credentials and preferences; Connect supplies the type, endpoints, templates, and defaults. Other connector types accept an arbitrary object. */
@@ -1066,7 +1067,7 @@ export interface CreateConnectorAuthorizationRequestRequestSubjectCase2 {
 export type CreateConnectorAuthorizationRequestRequestSubjectCase3Type = "token";
 export interface CreateConnectorAuthorizationRequestRequestSubjectCase3 {
   type: CreateConnectorAuthorizationRequestRequestSubjectCase3Type;
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface CreateConnectorAuthorizationRequestRequestSubjectCase4 {
   type: string;
@@ -1480,7 +1481,7 @@ export interface GetConnectorTokenRequestSubjectCase2 {
 export type GetConnectorTokenRequestSubjectCase3Type = "token";
 export interface GetConnectorTokenRequestSubjectCase3 {
   type: GetConnectorTokenRequestSubjectCase3Type;
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export type GetConnectorTokenRequestSubjectCase4 =
   CreateConnectorAuthorizationRequestRequestSubjectCase4;
@@ -1530,7 +1531,7 @@ export interface GetConnectorTokenResponse {
   metadata?: GetConnectorTokenResponseMetadataMap | undefined;
   name?: string | undefined;
   tenantId?: string | undefined;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Stable id that groups all tokens with the same parameters across refreshes. */
   tokenGroupId?: string | undefined;
   tokenId: string;
@@ -2018,7 +2019,7 @@ export interface ConnectConnectorUpdateDataCase2 {
   /** GitHub App private key in PEM format. */
   privateKeyPem?: string | undefined;
   /** GitHub App webhook secret. */
-  webhookSecret?: string | undefined;
+  webhookSecret?: string | Redacted.Redacted<string> | undefined;
   /** Additional provider metadata stored with the connector. */
   extras?: ConnectConnectorUpdateDataCase2ExtrasMap | undefined;
 }
@@ -2078,7 +2079,7 @@ export interface ConnectConnectorUpdateDataCase3 {
   /** Linear OAuth client secret. */
   clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** Linear webhook verification secret. */
-  webhookSecret?: string | undefined;
+  webhookSecret?: string | Redacted.Redacted<string> | undefined;
   /** OAuth scopes requested for Linear application tokens. */
   appScopes?: ConnectConnectorUpdateDataCase3AppScopesList | undefined;
   /** OAuth scopes requested for Linear user tokens. */
@@ -2094,7 +2095,7 @@ export interface ConnectConnectorUpdateDataCase4 {
   /** Salesforce connected app consumer key. */
   consumerKey?: string | undefined;
   /** Salesforce connected app consumer secret. */
-  consumerSecret?: string | undefined;
+  consumerSecret?: string | Redacted.Redacted<string> | undefined;
   /** Salesforce login host, such as login.salesforce.com. */
   loginHost?: string | undefined;
 }
@@ -2152,9 +2153,9 @@ export interface ConnectConnectorUpdateDataCase5 {
   /** Slack workspace metadata. */
   slackTeam?: ConnectConnectorCreateDataCase7SlackTeam | undefined;
   /** Slack request signing secret. */
-  signingSecret?: string | undefined;
+  signingSecret?: string | Redacted.Redacted<string> | undefined;
   /** Legacy Slack webhook verification token. */
-  verificationToken?: string | undefined;
+  verificationToken?: string | Redacted.Redacted<string> | undefined;
   /** OAuth scopes requested for Slack bot tokens. */
   botScopes?: ConnectConnectorUpdateDataCase5BotScopesList | undefined;
   /** OAuth scopes requested for Slack user tokens. */
@@ -2200,9 +2201,9 @@ export interface ConnectConnectorUpdateDataCase9 {
 }
 export interface ConnectConnectorUpdateDataCase10 {
   /** Photon project secret. */
-  projectSecret?: string | undefined;
+  projectSecret?: string | Redacted.Redacted<string> | undefined;
   /** Photon webhook verification secret. */
-  webhookSecret?: string | undefined;
+  webhookSecret?: string | Redacted.Redacted<string> | undefined;
   /** Whether Connect should recreate the Photon webhook. */
   repairWebhook?: boolean | undefined;
 }
@@ -2344,6 +2345,7 @@ export const createConnector: API.OperationMethod<
   input: __S(121, __c15, 1) as any as S.Schema<CreateConnectorRequest>,
   output: __S(122, __c15, 2) as any as S.Schema<ConnectConnectorCreateResult>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2367,6 +2369,7 @@ export const createConnectorAuthorizationRequest: API.OperationMethod<
   input: __S(160, __c20, 0) as any as S.Schema<CreateConnectorAuthorizationRequestRequest>,
   output: __S(162, __c20, 2) as any as S.Schema<CreateConnectorAuthorizationRequestResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2390,6 +2393,7 @@ export const deleteConnector: API.OperationMethod<
   input: __S(176, __c22, 0) as any as S.Schema<DeleteConnectorRequest>,
   output: __S(184, __c23, 0) as any as S.Schema<DeleteConnectorResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2413,6 +2417,7 @@ export const deleteConnectorProjectConnection: API.OperationMethod<
   input: __S(192, __c24, 0) as any as S.Schema<DeleteConnectorProjectConnectionRequest>,
   output: __S(184, __c23, 0) as any as S.Schema<DeleteConnectorProjectConnectionResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2436,6 +2441,7 @@ export const disconnectConnectorProjectEnvironment: API.OperationMethod<
   input: __S(200, __c25, 0) as any as S.Schema<DisconnectConnectorProjectEnvironmentRequest>,
   output: __S(184, __c23, 0) as any as S.Schema<DisconnectConnectorProjectEnvironmentResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2459,6 +2465,7 @@ export const ejectManagedConnector: API.OperationMethod<
   input: __S(8, __c1, 0) as any as S.Schema<EjectManagedConnectorRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<ConnectConnector>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2482,6 +2489,7 @@ export const getConnector: API.OperationMethod<
   input: __S(24, __c3, 0) as any as S.Schema<GetConnectorRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<ConnectConnector>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2504,6 +2512,7 @@ export const getConnectorProjectConnection: API.OperationMethod<
   input: __S(32, __c4, 0) as any as S.Schema<GetConnectorProjectConnectionRequest>,
   output: __S(44, __c5, 4) as any as S.Schema<ConnectProjectConnection>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2527,6 +2536,7 @@ export const getConnectorToken: API.OperationMethod<
   input: __S(48, __c6, 0) as any as S.Schema<GetConnectorTokenRequest>,
   output: __S(50, __c6, 2) as any as S.Schema<GetConnectorTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2549,6 +2559,7 @@ export const listConnectorProjectConnections: API.OperationMethod<
   input: __S(56, __c7, 0) as any as S.Schema<ListConnectorProjectConnectionsRequest>,
   output: __S(57, __c7, 1) as any as S.Schema<ConnectConnectorProjectConnectionList>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2572,6 +2583,7 @@ export const listConnectors: API.OperationMethod<
   input: __S(80, __c10, 0) as any as S.Schema<ListConnectorsRequest>,
   output: __S(82, __c10, 2) as any as S.Schema<ConnectConnectorList>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2593,6 +2605,7 @@ export const listProjectConnectorConnections: API.OperationMethod<
   input: __S(88, __c11, 0) as any as S.Schema<ListProjectConnectorConnectionsRequest>,
   output: __S(89, __c11, 1) as any as S.Schema<ConnectProjectConnectorConnectionList>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2616,6 +2629,7 @@ export const replaceConnectorTriggerDestinations: API.OperationMethod<
   input: __S(97, __c12, 1) as any as S.Schema<ReplaceConnectorTriggerDestinationsRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<ConnectConnector>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2639,6 +2653,7 @@ export const updateConnector: API.OperationMethod<
   input: __S(104, __c13, 0) as any as S.Schema<UpdateConnectorRequest>,
   output: __S(109, __c13, 5) as any as S.Schema<ConnectConnectorUpdateResult>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2662,6 +2677,7 @@ export const upsertConnectorProjectConnection: API.OperationMethod<
   input: __S(113, __c14, 1) as any as S.Schema<UpsertConnectorProjectConnectionRequest>,
   output: __S(44, __c5, 4) as any as S.Schema<ConnectProjectConnection>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2856,7 +2872,7 @@ function __c6(j: number): any {
           metadata: S.optional(__S(136, __c17, 0)),
           name: S.optional(S.String),
           tenantId: S.optional(S.String),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           tokenGroupId: S.optional(S.String),
           tokenId: S.String,
         }),

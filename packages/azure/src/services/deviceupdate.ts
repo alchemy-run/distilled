@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -750,6 +750,8 @@ export interface ListAccountByResourceGroupRequest {
   subscriptionId: string;
   /** The resource group name. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type AccountTagsMap = { [key: string]: string | undefined };
@@ -818,11 +820,13 @@ export interface AccountList {
   /** The link used to get the next page of Accounts list. */
   nextLink?: string | undefined;
   /** List of Accounts. */
-  value?: AccountListValueList | undefined;
+  value: AccountListValueList;
 }
 export interface ListAccountBySubscriptionRequest {
   /** The Azure subscription ID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListInstanceByAccountRequest {
   /** The Azure subscription ID. */
@@ -831,6 +835,8 @@ export interface ListInstanceByAccountRequest {
   resourceGroupName: string;
   /** Account name. */
   accountName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type InstanceTagsMap = { [key: string]: string | undefined };
@@ -880,9 +886,12 @@ export interface InstanceList {
   /** The link used to get the next page of Instances list. */
   nextLink?: string | undefined;
   /** List of Instances. */
-  value?: InstanceListValueList | undefined;
+  value: InstanceListValueList;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -915,7 +924,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -935,7 +944,7 @@ export type ListPrivateEndpointConnectionByAccountResponseValueList =
   Array<CreateAccountResponsePropertiesPrivateEndpointConnectionsItem>;
 export interface ListPrivateEndpointConnectionByAccountResponse {
   /** Array of private endpoint connections */
-  value?: ListPrivateEndpointConnectionByAccountResponseValueList | undefined;
+  value: ListPrivateEndpointConnectionByAccountResponseValueList;
 }
 export interface ListPrivateEndpointConnectionProxyByAccountRequest {
   /** The Azure subscription ID. */
@@ -973,7 +982,7 @@ export type PrivateEndpointConnectionProxyListResultValueList =
 /** The available private endpoint connection proxies for an Account (not to be used by anyone, here because of ARM requirements) */
 export interface PrivateEndpointConnectionProxyListResult {
   /** The list of available private endpoint connection proxies for an Account */
-  value?: PrivateEndpointConnectionProxyListResultValueList | undefined;
+  value: PrivateEndpointConnectionProxyListResultValueList;
   /** The URI that can be used to request the next list of private endpoint connection proxies. */
   nextLink?: string | undefined;
 }
@@ -1003,7 +1012,7 @@ export type PrivateLinkResourceListResultValueList = Array<GroupInformation>;
 /** The available private link resources for an Account */
 export interface PrivateLinkResourceListResult {
   /** The list of available private link resources for an Account */
-  value?: PrivateLinkResourceListResultValueList | undefined;
+  value: PrivateLinkResourceListResultValueList;
   /** The URI that can be used to request the next list of private link resources. */
   nextLink?: string | undefined;
 }
@@ -1323,7 +1332,8 @@ export const CheckNameAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CheckNameAvailabilityRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<CheckNameAvailabilityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1340,7 +1350,8 @@ export const CreateAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19, __c1, 3) as any as S.Schema<CreateAccountRequest>,
   output: __S(135, __c8, 7) as any as S.Schema<CreateAccountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1357,7 +1368,8 @@ export const CreateInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(449, __c28, 1) as any as S.Schema<CreateInstanceRequest>,
   output: __S(468, __c29, 4) as any as S.Schema<CreateInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1374,7 +1386,8 @@ export const DeleteAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<DeleteAccountRequest>,
   output: __S(576, __c36, 0) as any as S.Schema<DeleteAccountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1391,7 +1404,8 @@ export const DeleteInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<DeleteInstanceRequest>,
   output: __S(576, __c36, 0) as any as S.Schema<DeleteInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1408,7 +1422,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
   output: __S(576, __c36, 0) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1425,7 +1440,8 @@ export const DeletePrivateEndpointConnectionProxy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<DeletePrivateEndpointConnectionProxyRequest>,
   output: __S(576, __c36, 0) as any as S.Schema<DeletePrivateEndpointConnectionProxyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1442,7 +1458,8 @@ export const GetAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<GetAccountRequest>,
   output: __S(135, __c8, 7) as any as S.Schema<GetAccountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1459,7 +1476,8 @@ export const GetInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<GetInstanceRequest>,
   output: __S(468, __c29, 4) as any as S.Schema<GetInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1476,7 +1494,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
   output: __S(193, __c12, 1) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1493,7 +1512,8 @@ export const GetPrivateEndpointConnectionProxy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<GetPrivateEndpointConnectionProxyRequest>,
   output: __S(232, __c14, 8) as any as S.Schema<GetPrivateEndpointConnectionProxyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1510,7 +1530,8 @@ export const GetPrivateLinkResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<GetPrivateLinkResourceRequest>,
   output: __S(273, __c17, 1) as any as S.Schema<GetPrivateLinkResourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1519,122 +1540,163 @@ export const GetPrivateLinkResource: API.OperationMethod<
 
 export type ListAccountByResourceGroupError = AzureOpError;
 /** Returns list of Accounts. */
-export const ListAccountByResourceGroup: API.OperationMethod<
+export const ListAccountByResourceGroup: API.PaginatedOperationMethod<
   ListAccountByResourceGroupRequest,
   AccountList,
   ListAccountByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Account
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<ListAccountByResourceGroupRequest>,
   output: __S(305, __c19, 1) as any as S.Schema<AccountList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAccountByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAccountBySubscriptionError = AzureOpError;
 /** Returns list of Accounts. */
-export const ListAccountBySubscription: API.OperationMethod<
+export const ListAccountBySubscription: API.PaginatedOperationMethod<
   ListAccountBySubscriptionRequest,
   AccountList,
   ListAccountBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Account
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<ListAccountBySubscriptionRequest>,
   output: __S(305, __c19, 1) as any as S.Schema<AccountList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAccountBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListInstanceByAccountError = AzureOpError;
 /** Returns instances for the given account name. */
-export const ListInstanceByAccount: API.OperationMethod<
+export const ListInstanceByAccount: API.PaginatedOperationMethod<
   ListInstanceByAccountRequest,
   InstanceList,
   ListInstanceByAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Instance
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<ListInstanceByAccountRequest>,
   output: __S(338, __c21, 2) as any as S.Schema<InstanceList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListInstanceByAccount",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** Returns list of operations for Microsoft.DeviceUpdate resource provider. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(356, __c22, 4) as any as S.Schema<ListOperationsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateEndpointConnectionByAccountError = AzureOpError;
 /** List all private endpoint connections in a device update account. */
-export const ListPrivateEndpointConnectionByAccount: API.OperationMethod<
+export const ListPrivateEndpointConnectionByAccount: API.PaginatedOperationMethod<
   ListPrivateEndpointConnectionByAccountRequest,
   ListPrivateEndpointConnectionByAccountResponse,
   ListPrivateEndpointConnectionByAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CreateAccountResponsePropertiesPrivateEndpointConnectionsItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<ListPrivateEndpointConnectionByAccountRequest>,
   output: __S(369, __c23, 1) as any as S.Schema<ListPrivateEndpointConnectionByAccountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateEndpointConnectionByAccount",
-}));
+  pagination: { mode: "single", items: "value" } as const,
+})) as any;
 
 export type ListPrivateEndpointConnectionProxyByAccountError = AzureOpError;
 /** (INTERNAL - DO NOT USE) List all private endpoint connection proxies in a device update account. */
-export const ListPrivateEndpointConnectionProxyByAccount: API.OperationMethod<
+export const ListPrivateEndpointConnectionProxyByAccount: API.PaginatedOperationMethod<
   ListPrivateEndpointConnectionProxyByAccountRequest,
   PrivateEndpointConnectionProxyListResult,
   ListPrivateEndpointConnectionProxyByAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateEndpointConnectionProxy
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<ListPrivateEndpointConnectionProxyByAccountRequest>,
   output: __S(386, __c24, 2) as any as S.Schema<PrivateEndpointConnectionProxyListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateEndpointConnectionProxyByAccount",
-}));
+  pagination: { mode: "single", items: "value" } as const,
+})) as any;
 
 export type ListPrivateLinkResourceByAccountError = AzureOpError;
 /** List all private link resources in a device update account. */
-export const ListPrivateLinkResourceByAccount: API.OperationMethod<
+export const ListPrivateLinkResourceByAccount: API.PaginatedOperationMethod<
   ListPrivateLinkResourceByAccountRequest,
   PrivateLinkResourceListResult,
   ListPrivateLinkResourceByAccountError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  GroupInformation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<ListPrivateLinkResourceByAccountRequest>,
   output: __S(402, __c25, 2) as any as S.Schema<PrivateLinkResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateLinkResourceByAccount",
-}));
+  pagination: { mode: "single", items: "value" } as const,
+})) as any;
 
 export type PrivateEndpointConnectionProxiesCreateOrUpdateError = AzureOpError;
 /** (INTERNAL - DO NOT USE) Creates or updates the specified private endpoint connection proxy resource associated with the device update account. */
@@ -1654,7 +1716,8 @@ export const PrivateEndpointConnectionProxiesCreateOrUpdate: API.OperationMethod
     __c14,
     8,
   ) as any as S.Schema<PrivateEndpointConnectionProxiesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1671,7 +1734,8 @@ export const PrivateEndpointConnectionsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<PrivateEndpointConnectionsCreateOrUpdateRequest>,
   output: __S(193, __c12, 1) as any as S.Schema<PrivateEndpointConnectionsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1688,7 +1752,8 @@ export const UpdateAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<UpdateAccountRequest>,
   output: __S(135, __c8, 7) as any as S.Schema<UpdateAccountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1705,7 +1770,8 @@ export const UpdateInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<UpdateInstanceRequest>,
   output: __S(468, __c29, 4) as any as S.Schema<UpdateInstanceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1730,7 +1796,8 @@ export const UpdatePrivateEndpointConnectionProxyPrivateEndpointProperties: API.
     __c2,
     0,
   ) as any as S.Schema<UpdatePrivateEndpointConnectionProxyPrivateEndpointPropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1747,7 +1814,8 @@ export const ValidatePrivateEndpointConnectionProxy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<ValidatePrivateEndpointConnectionProxyRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<ValidatePrivateEndpointConnectionProxyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2151,12 +2219,14 @@ function __c18(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceUpdate/accounts",
             code: 200,
             apiVersion: "2023-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAccountByResourceGroupRequest" });
@@ -2170,7 +2240,7 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(304, __c19, 0)),
+          value: __S(304, __c19, 0),
         }),
       ).annotate({ identifier: "AccountList" });
   }
@@ -2181,12 +2251,14 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DeviceUpdate/accounts",
             code: 200,
             apiVersion: "2023-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAccountBySubscriptionRequest" });
@@ -2200,12 +2272,14 @@ function __c21(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceUpdate/accounts/{accountName}/instances",
             code: 200,
             apiVersion: "2023-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListInstanceByAccountRequest" });
@@ -2215,7 +2289,7 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(337, __c21, 1)),
+          value: __S(337, __c21, 1),
         }),
       ).annotate({ identifier: "InstanceList" });
   }
@@ -2224,12 +2298,15 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.DeviceUpdate/operations",
             code: 200,
             apiVersion: "2023-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -2257,7 +2334,7 @@ function __c22(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(355, __c22, 3)),
+          value: __S(355, __c22, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -2283,7 +2360,7 @@ function __c23(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(112, __c7, 0)),
+          value: __S(112, __c7, 0),
         }),
       ).annotate({ identifier: "ListPrivateEndpointConnectionByAccountResponse" });
   }
@@ -2310,7 +2387,7 @@ function __c24(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(385, __c24, 1)),
+          value: __S(385, __c24, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionProxyListResult" });
@@ -2338,7 +2415,7 @@ function __c25(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(401, __c25, 1)),
+          value: __S(401, __c25, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateLinkResourceListResult" });

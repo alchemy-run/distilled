@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownCoinflowError } from "../errors.ts";
+import { CoinflowServiceErrors } from "../errors.ts";
 import { CoinflowProtocol, type CoinflowOpError, type CoinflowOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -31,6 +31,7 @@ export class PreconditionRequired
     /*@__PURE__*/ S.TaggedError<PreconditionRequired>()("PreconditionRequired", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 428 }],
   ) {}
@@ -40,6 +41,7 @@ export class UnprocessableEntity
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
   ) {}
@@ -150,7 +152,7 @@ export interface TransactionHistoryItem {
   txType: string;
   chain: string;
   paymentAmount: string;
-  paymentToken: string;
+  paymentToken: string | Redacted.Redacted<string>;
   to: string;
   from: string;
   registryContract: string;
@@ -503,7 +505,7 @@ export interface CreateSubscriptionAchRequest {
   /** The code of the plan to use for the subscription */
   planCode: string;
   /** Token for the bank account to be used for the subscription */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The session key generated for the end user - see https://docs.coinflow.cash/api-reference/api-reference/authentication/get-session-key */
   authSessionKey: string | Redacted.Redacted<string>;
 }
@@ -556,7 +558,7 @@ export interface AccountFundingTransaction {
 }
 export interface CardData {
   /** This is the card token received from the `CoinflowCardNumberInput` */
-  cardToken: string;
+  cardToken: string | Redacted.Redacted<string>;
   /** The Cards Expiration Year ex: 2026 => 26 */
   expYear: string;
   /** The Cards Expiration Month ex: January => 01 December => 12 */
@@ -575,7 +577,7 @@ export interface CardData {
 }
 export interface CardDataWithoutAddress {
   /** This is the card token received from the `CoinflowCardNumberInput` */
-  cardToken: string;
+  cardToken: string | Redacted.Redacted<string>;
   /** The Cards Expiration Year ex: 2026 => 26 */
   expYear: string;
   /** The Cards Expiration Month ex: January => 01 December => 12 */
@@ -634,7 +636,7 @@ export interface CreateSubscriptionTokenRequest {
   threeDsChallengePreference?: ThreeDsChallengePreference | (string & {}) | undefined;
   accountFundingTransaction?: AccountFundingTransaction | undefined;
   /** Token for the card to be used for the subscription */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The address field is not needed here unless explicitly given instructions to do so. */
   address?: SubscriptionTokenSetupAddress | undefined;
   /** The session key generated for the end user - see https://docs.coinflow.cash/api-reference/api-reference/authentication/get-session-key */
@@ -813,7 +815,6 @@ export type BlockchainETH = "eth";
 export type BlockchainPOLYGON = "polygon";
 export type BlockchainBASE = "base";
 export type BlockchainARBITRUM = "arbitrum";
-export type BlockchainSTELLAR = "stellar";
 export type BlockchainMONAD = "monad";
 export type BlockchainTEMPO = "tempo";
 export type OperationalBlockchain =
@@ -822,7 +823,6 @@ export type OperationalBlockchain =
   | BlockchainPOLYGON
   | BlockchainBASE
   | BlockchainARBITRUM
-  | BlockchainSTELLAR
   | BlockchainMONAD
   | BlockchainTEMPO;
 export interface SubscriptionPlan {
@@ -892,7 +892,8 @@ export const cancelCustomerSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CancelCustomerSubscriptionRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<CancelCustomerSubscriptionResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -909,7 +910,8 @@ export const createSubscriptionAch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<CreateSubscriptionAchRequest>,
   output: __S(11, __c2, 3) as any as S.Schema<CreateSubscriptionAchResponse>,
-  errors: [PreconditionRequired, UnknownCoinflowError],
+  errors: [PreconditionRequired],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -926,7 +928,8 @@ export const createSubscriptionCard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<CreateSubscriptionCardRequest>,
   output: __S(11, __c2, 3) as any as S.Schema<CreateSubscriptionCardResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -943,7 +946,8 @@ export const createSubscriptionToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21, __c5, 1) as any as S.Schema<CreateSubscriptionTokenRequest>,
   output: __S(11, __c2, 3) as any as S.Schema<CreateSubscriptionTokenResponse>,
-  errors: [UnprocessableEntity, UnknownCoinflowError],
+  errors: [UnprocessableEntity],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -960,7 +964,8 @@ export const getAvailablePlans: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<GetAvailablePlansRequest>,
   output: __S(26, __c6, 2) as any as S.Schema<GetAvailablePlansResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -977,7 +982,8 @@ export const getCustomerSubscriptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<GetCustomerSubscriptionsRequest>,
   output: __S(35, __c8, 3) as any as S.Schema<GetCustomerSubscriptionsResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -994,7 +1000,8 @@ export const getPlan: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<GetPlanRequest>,
   output: __S(29, __c7, 1) as any as S.Schema<SubscriptionPlan>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1039,7 +1046,7 @@ function __c1(j: number): any {
           chargebackProtectionData: S.optional(__S(10, __c2, 2)),
           feePercentage: S.optional(S.Number),
           planCode: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           authSessionKey: S.String.pipe(
             T.Header("x-coinflow-auth-session-key"),
             T.SensitiveValue({}),
@@ -1150,7 +1157,7 @@ function __c5(j: number): any {
           authentication3DS: S.optional(S.Unknown),
           threeDsChallengePreference: S.optional(S.String),
           accountFundingTransaction: S.optional(__S(17, __c4, 1)),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           address: S.optional(__S(20, __c5, 0)),
           authSessionKey: S.String.pipe(
             T.Header("x-coinflow-auth-session-key"),

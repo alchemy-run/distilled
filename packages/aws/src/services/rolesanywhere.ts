@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -139,6 +140,14 @@ export interface Tag {
 }
 export type TagList = Tag[];
 export type AliasName = string;
+export type TipStatus = string;
+export type TipSubjectType = string;
+export type TipSubjectSource = string;
+export interface TipConfiguration {
+  status: string;
+  subjectType?: string | undefined;
+  subjectSource?: string | undefined;
+}
 export interface CreateProfileRequest {
   name: string;
   requireInstanceProperties?: boolean | undefined;
@@ -150,6 +159,7 @@ export interface CreateProfileRequest {
   tags?: Tag[] | undefined;
   acceptRoleSessionName?: boolean | undefined;
   aliasName?: string | undefined;
+  tipConfiguration?: TipConfiguration | undefined;
 }
 export type Uuid = string;
 export type ProfileResourceArn = string;
@@ -181,6 +191,7 @@ export interface ProfileDetail {
   attributeMappings?: AttributeMapping[] | undefined;
   aliasName?: string | undefined;
   aliasArn?: string | undefined;
+  tipConfiguration?: TipConfiguration | undefined;
   previousAliasName?: string | undefined;
 }
 export interface ProfileDetailResponse {
@@ -413,6 +424,7 @@ export interface UpdateProfileRequest {
   durationSeconds?: number | undefined;
   acceptRoleSessionName?: boolean | undefined;
   aliasName?: string | undefined;
+  tipConfiguration?: TipConfiguration | undefined;
 }
 export interface UpdateTrustAnchorRequest {
   trustAnchorId: string;
@@ -440,6 +452,7 @@ export const createProfile: API.OperationMethod<
   input: __S(144, __c18, 0) as any as S.Schema<CreateProfileRequest>,
   output: __S(168, __c21, 0) as any as S.Schema<ProfileDetailResponse>,
   errors: [AccessDeniedException, ServiceUnavailableException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProfile",
@@ -466,6 +479,7 @@ export const createTrustAnchor: API.OperationMethod<
   input: __S(176, __c22, 0) as any as S.Schema<CreateTrustAnchorRequest>,
   output: __S(192, __c24, 0) as any as S.Schema<TrustAnchorDetailResponse>,
   errors: [AccessDeniedException, ServiceUnavailableException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrustAnchor",
@@ -496,6 +510,7 @@ export const deleteAttributeMapping: API.OperationMethod<
     ServiceUnavailableException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAttributeMapping",
@@ -522,6 +537,7 @@ export const deleteCrl: API.OperationMethod<
   input: __S(224, __c28, 0) as any as S.Schema<ScalarCrlRequest>,
   output: __S(240, __c30, 0) as any as S.Schema<CrlDetailResponse>,
   errors: [AccessDeniedException, ResourceNotFoundException, ServiceUnavailableException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCrl",
@@ -548,6 +564,7 @@ export const deleteProfile: API.OperationMethod<
   input: __S(248, __c31, 0) as any as S.Schema<ScalarProfileRequest>,
   output: __S(168, __c21, 0) as any as S.Schema<ProfileDetailResponse>,
   errors: [AccessDeniedException, ResourceNotFoundException, ServiceUnavailableException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProfile",
@@ -574,6 +591,7 @@ export const deleteTrustAnchor: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<ScalarTrustAnchorRequest>,
   output: __S(192, __c24, 0) as any as S.Schema<TrustAnchorDetailResponse>,
   errors: [AccessDeniedException, ResourceNotFoundException, ServiceUnavailableException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrustAnchor",
@@ -604,6 +622,7 @@ export const disableCrl: API.OperationMethod<
   input: DisableCrlRequest,
   output: __S(240, __c30, 0) as any as S.Schema<CrlDetailResponse>,
   errors: [AccessDeniedException, ResourceNotFoundException, ServiceUnavailableException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableCrl",
@@ -634,6 +653,7 @@ export const disableProfile: API.OperationMethod<
   input: DisableProfileRequest,
   output: __S(168, __c21, 0) as any as S.Schema<ProfileDetailResponse>,
   errors: [AccessDeniedException, ResourceNotFoundException, ServiceUnavailableException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableProfile",
@@ -666,6 +686,7 @@ export const disableTrustAnchor: API.OperationMethod<
   input: DisableTrustAnchorRequest,
   output: __S(192, __c24, 0) as any as S.Schema<TrustAnchorDetailResponse>,
   errors: [AccessDeniedException, ResourceNotFoundException, ServiceUnavailableException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableTrustAnchor",
@@ -696,6 +717,7 @@ export const enableCrl: API.OperationMethod<
   input: EnableCrlRequest,
   output: __S(240, __c30, 0) as any as S.Schema<CrlDetailResponse>,
   errors: [AccessDeniedException, ResourceNotFoundException, ServiceUnavailableException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableCrl",
@@ -726,6 +748,7 @@ export const enableProfile: API.OperationMethod<
   input: EnableProfileRequest,
   output: __S(168, __c21, 0) as any as S.Schema<ProfileDetailResponse>,
   errors: [AccessDeniedException, ResourceNotFoundException, ServiceUnavailableException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableProfile",
@@ -758,6 +781,7 @@ export const enableTrustAnchor: API.OperationMethod<
   input: EnableTrustAnchorRequest,
   output: __S(192, __c24, 0) as any as S.Schema<TrustAnchorDetailResponse>,
   errors: [AccessDeniedException, ResourceNotFoundException, ServiceUnavailableException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableTrustAnchor",
@@ -784,6 +808,7 @@ export const getCrl: API.OperationMethod<
   input: GetCrlRequest,
   output: __S(240, __c30, 0) as any as S.Schema<CrlDetailResponse>,
   errors: [ResourceNotFoundException, ServiceUnavailableException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCrl",
@@ -814,6 +839,7 @@ export const getProfile: API.OperationMethod<
   input: GetProfileRequest,
   output: __S(168, __c21, 0) as any as S.Schema<ProfileDetailResponse>,
   errors: [AccessDeniedException, ResourceNotFoundException, ServiceUnavailableException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfile",
@@ -840,6 +866,7 @@ export const getSubject: API.OperationMethod<
   input: __S(8, __c1, 0) as any as S.Schema<ScalarSubjectRequest>,
   output: __S(15, __c1, 7) as any as S.Schema<SubjectDetailResponse>,
   errors: [AccessDeniedException, ResourceNotFoundException, ServiceUnavailableException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubject",
@@ -876,6 +903,7 @@ export const getTrustAnchor: API.OperationMethod<
     ServiceUnavailableException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrustAnchor",
@@ -902,6 +930,7 @@ export const importCrl: API.OperationMethod<
   input: __S(16, __c2, 0) as any as S.Schema<ImportCrlRequest>,
   output: __S(240, __c30, 0) as any as S.Schema<CrlDetailResponse>,
   errors: [AccessDeniedException, ServiceUnavailableException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportCrl",
@@ -929,6 +958,7 @@ export const listCrls: API.PaginatedOperationMethod<
   input: __S(32, __c4, 0) as any as S.Schema<ListRequest>,
   output: __S(25, __c3, 1) as any as S.Schema<ListCrlsResponse>,
   errors: [AccessDeniedException, ServiceUnavailableException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCrls",
@@ -961,6 +991,7 @@ export const listProfiles: API.PaginatedOperationMethod<
   input: ListProfilesRequest,
   output: __S(41, __c5, 1) as any as S.Schema<ListProfilesResponse>,
   errors: [AccessDeniedException, ServiceUnavailableException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProfiles",
@@ -993,6 +1024,7 @@ export const listSubjects: API.PaginatedOperationMethod<
   input: ListSubjectsRequest,
   output: __S(50, __c6, 2) as any as S.Schema<ListSubjectsResponse>,
   errors: [AccessDeniedException, ServiceUnavailableException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSubjects",
@@ -1026,6 +1058,7 @@ export const listTagsForResource: API.OperationMethod<
     ServiceUnavailableException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -1057,6 +1090,7 @@ export const listTrustAnchors: API.PaginatedOperationMethod<
   input: ListTrustAnchorsRequest,
   output: __S(65, __c8, 1) as any as S.Schema<ListTrustAnchorsResponse>,
   errors: [AccessDeniedException, ServiceUnavailableException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTrustAnchors",
@@ -1088,6 +1122,7 @@ export const putAttributeMapping: API.OperationMethod<
     ServiceUnavailableException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAttributeMapping",
@@ -1122,6 +1157,7 @@ export const putNotificationSettings: API.OperationMethod<
     ServiceUnavailableException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutNotificationSettings",
@@ -1154,6 +1190,7 @@ export const resetNotificationSettings: API.OperationMethod<
     ServiceUnavailableException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetNotificationSettings",
@@ -1188,6 +1225,7 @@ export const tagResource: API.OperationMethod<
     TooManyTagsException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -1220,6 +1258,7 @@ export const untagResource: API.OperationMethod<
     ServiceUnavailableException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -1252,6 +1291,7 @@ export const updateCrl: API.OperationMethod<
     ServiceUnavailableException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCrl",
@@ -1284,6 +1324,7 @@ export const updateProfile: API.OperationMethod<
     ServiceUnavailableException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProfile",
@@ -1316,6 +1357,7 @@ export const updateTrustAnchor: API.OperationMethod<
     ServiceUnavailableException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrustAnchor",
@@ -1440,7 +1482,7 @@ function __c4(j: number): any {
 function __c5(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(165, __c20, 5));
+      return S.Array(__S(166, __c20, 6));
     case 1:
       return S.suspend(() =>
         S.Struct({ nextToken: S.optional(S.String), profiles: S.optional(__S(40, __c5, 0)) }),
@@ -1507,7 +1549,7 @@ function __c9(j: number): any {
         S.Struct({
           profileId: S.String.pipe(T.HttpLabel("profileId")),
           certificateField: S.String,
-          mappingRules: __S(162, __c20, 2),
+          mappingRules: __S(163, __c20, 3),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/profiles/{profileId}/mappings" }),
@@ -1617,6 +1659,7 @@ function __c16(j: number): any {
           durationSeconds: S.optional(S.Number),
           acceptRoleSessionName: S.optional(S.Boolean),
           aliasName: S.optional(S.String),
+          tipConfiguration: S.optional(__S(161, __c20, 1)),
         }).pipe(
           T.all(
             T.Http({ method: "PATCH", uri: "/profile/{profileId}" }),
@@ -1668,6 +1711,7 @@ function __c18(j: number): any {
           tags: S.optional(__S(153, __c19, 1)),
           acceptRoleSessionName: S.optional(S.Boolean),
           aliasName: S.optional(S.String),
+          tipConfiguration: S.optional(__S(161, __c20, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/profiles" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateProfileRequest" });
   }
@@ -1687,21 +1731,29 @@ function __c20(j: number): any {
     case 0:
       return S.Array(S.String);
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          subjectType: S.optional(S.String),
+          subjectSource: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TipConfiguration" });
+    case 2:
       return S.suspend(() => S.Struct({ specifier: S.String })).annotate({
         identifier: "MappingRule",
       });
-    case 2:
-      return S.Array(__S(161, __c20, 1));
     case 3:
+      return S.Array(__S(162, __c20, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           certificateField: S.optional(S.String),
-          mappingRules: S.optional(__S(162, __c20, 2)),
+          mappingRules: S.optional(__S(163, __c20, 3)),
         }),
       ).annotate({ identifier: "AttributeMapping" });
-    case 4:
-      return S.Array(__S(163, __c20, 3));
     case 5:
+      return S.Array(__S(164, __c20, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
           profileId: S.optional(S.String),
@@ -1717,9 +1769,10 @@ function __c20(j: number): any {
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           durationSeconds: S.optional(S.Number),
           acceptRoleSessionName: S.optional(S.Boolean),
-          attributeMappings: S.optional(__S(164, __c20, 4)),
+          attributeMappings: S.optional(__S(165, __c20, 5)),
           aliasName: S.optional(S.String),
           aliasArn: S.optional(S.String),
+          tipConfiguration: S.optional(__S(161, __c20, 1)),
           previousAliasName: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProfileDetail" });
@@ -1728,7 +1781,7 @@ function __c20(j: number): any {
 function __c21(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ profile: S.optional(__S(165, __c20, 5)) })).annotate({
+      return S.suspend(() => S.Struct({ profile: S.optional(__S(166, __c20, 6)) })).annotate({
         identifier: "ProfileDetailResponse",
       });
   }
@@ -1840,7 +1893,7 @@ function __c26(j: number): any {
 function __c27(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ profile: __S(165, __c20, 5) })).annotate({
+      return S.suspend(() => S.Struct({ profile: __S(166, __c20, 6) })).annotate({
         identifier: "DeleteAttributeMappingResponse",
       });
   }

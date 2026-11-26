@@ -1,0 +1,10 @@
+{
+  "description": "SipRouting_Update (PATCH) consumes `application/merge-patch+json` (the spec's consumes).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_sip_routing#SipRoutingUpdate/traits/smithy.api#http/jsonContentType",
+      "value": "application/merge-patch+json"
+    }
+  ]
+}

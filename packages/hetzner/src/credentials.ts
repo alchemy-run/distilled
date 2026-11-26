@@ -2,7 +2,7 @@
  * Hetzner Cloud credentials -- hand-written.
  *
  * The `Credentials` service resolves `{ token, apiBaseUrl }` per request; the
- * protocol layer formats the `Authorization: Bearer <token>` header from it.
+ * protocol formats the `Authorization: Bearer <token>` header from it.
  * The token is a Hetzner Cloud API token, created per PROJECT in the Cloud
  * Console -- there is no account-wide token, so a token IS the project scope
  * and no project/tenant field rides on the requests.

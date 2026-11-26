@@ -33,7 +33,6 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Scaleway.CredentialsFromEnv,
-  Scaleway.ScalewayProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
@@ -125,12 +124,13 @@ Operations that answer a file (kubeconfigs, database certificates, invoices,
 DNS zone exports, contract PDFs) return Scaleway's JSON file object —
 `{ name, content_type, content }`, `content` base64 — as the Go SDK and CLI
 read it. Each also has a `…Raw` twin that asks for the file itself
-(`?dl=1`, as the JS SDK does) and answers a `Uint8Array`:
+(`?dl=1`, as the JS SDK does) and answers `{ body, contentType }`: the file as a
+`Uint8Array` and the response's `Content-Type`:
 
 ```ts
 import * as AccountContractV3 from "@distilled.cloud/scaleway/account_contract_v3";
 
-const pdf = yield* AccountContractV3.downloadContractSignatureRaw({
+const { body: pdf } = yield* AccountContractV3.downloadContractSignatureRaw({
   contract_signature_id,
   locale: "en_US",
 });

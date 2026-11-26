@@ -1,12 +1,10 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
+import type { Checked } from "@distilled.cloud/core/config";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
-  makeRestProtocol,
+  restProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
 } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * IcebergProtocol -- the shared bearer-REST protocol instantiated for the
  * Apache Iceberg REST Catalog API.
@@ -19,35 +17,24 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  *
  * response: plain JSON, no success envelope. Failures are
  *           `{ error: { message, type, code } }`. Per-operation exceptions
- *           match first, on status AND `error.type`; then the shared status
- *           map (core's, plus 419 AuthenticationTimeout); then
+ *           match first, on status AND `error.type`; then the service's
+ *           status classes (core's, plus 419 AuthenticationTimeout); then
  *           UnknownIcebergError.
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { Credentials, type Config } from "./credentials.ts";
-import {
-  AuthenticationTimeout,
-  IcebergParseError,
-  UnknownIcebergError,
-  type DefaultErrors,
-} from "./errors.ts";
+import { IcebergParseError, UnknownIcebergError, type IcebergServiceError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Iceberg operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * IcebergOpError, IcebergOpContext>` explicitly so the compiler never infers
- * these back out of the schema generics.
+ * What every generated Iceberg operation fails with besides its own errors:
+ * the service's errors, the protocol's, and what resolving the credentials
+ * fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, IcebergOpError, IcebergOpContext>` explicitly so
+ * the compiler never infers these back out of the schema generics.
  */
-export type IcebergOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+export type IcebergOpError = IcebergServiceError | ErrorOf<typeof IcebergProtocol>;
 
 /** Context (requirements) shared by every generated Iceberg operation. */
 export type IcebergOpContext = Credentials | HttpClient.HttpClient;
@@ -55,11 +42,25 @@ export type IcebergOpContext = Credentials | HttpClient.HttpClient;
 /** Routes that are not scoped to a warehouse prefix. */
 const UNPREFIXED_ROUTES = /*@__PURE__*/ new Set(["/config"]);
 
-/** `<uri>/v1` or `<uri>/v1/<prefix>` for a route. Exported for tests. */
-export const baseUrlFor = (creds: Config, uri: string): string => {
+/**
+ * Characters a path can't carry as written, and a `%` that starts no escape.
+ * `/` and existing `%XX` escapes stay: a prefix may span segments (Glue's
+ * `catalogs/<id>`) and catalogs hand it out already encoded (S3 Tables'
+ * `arn%3Aaws%3As3tables...`), so the official Java client inserts it as is.
+ */
+const UNSAFE_PATH_CHARACTER = /%(?![0-9A-Fa-f]{2})|[^A-Za-z0-9\-._~!$&'()*+,;=:@%/]/gu;
+
+/**
+ * `<uri>/v1` or `<uri>/v1/<prefix>` for a route. Exported for tests.
+ * A prefix with a `.` or `..` segment or a lone UTF-16 surrogate is refused
+ * earlier, when the credentials layer is built (`check` in
+ * ./credentials.ts).
+ */
+export const baseUrlFor = (creds: Checked<Config>, uri: string): string => {
   const root = `${creds.uri.replace(/\/+$/, "")}/v1`;
   const prefix = creds.prefix?.replace(/^\/+|\/+$/g, "");
-  return UNPREFIXED_ROUTES.has(uri) || !prefix ? root : `${root}/${prefix}`;
+  if (UNPREFIXED_ROUTES.has(uri) || !prefix) return root;
+  return `${root}/${prefix.replace(UNSAFE_PATH_CHARACTER, encodeURIComponent)}`;
 };
 
 /**
@@ -78,18 +79,14 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   };
 };
 
-export const IcebergProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+export const IcebergProtocol = /*@__PURE__*/ restProtocol({
   // Resolved on the CALLING fiber per request; the Credentials service holds
   // an effect, so a token rotated between calls is picked up.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
   baseUrl: (creds, target) => baseUrlFor(creds, target.uri),
   headers: (creds): Record<string, string> =>
     creds.token ? { Authorization: `Bearer ${Redacted.value(creds.token)}` } : {},
   errorEnvelope,
-  statusMap: {
-    ...HTTP_STATUS_MAP,
-    419: AuthenticationTimeout,
-  },
   unknownError: (info) => new UnknownIcebergError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new IcebergParseError({ body, cause }),
 });

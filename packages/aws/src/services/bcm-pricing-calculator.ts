@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { awsServiceErrorsWith } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -189,7 +190,7 @@ export class ValidationException
         }),
       ),
       fieldList: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.suspend(() => __S(385, __c48, 1)).annotate({
+        /*@__PURE__*/ S.suspend(() => __S(785, __c49, 1)).annotate({
           identifier: "ValidationExceptionFieldList",
         }),
       ),
@@ -741,6 +742,55 @@ export interface GetPreferencesResponse {
   memberAccountRateTypeSelections?: RateType[] | undefined;
   standaloneAccountRateTypeSelections?: RateType[] | undefined;
 }
+export type GetUsageLinesEstimatedCostAmount = number;
+export interface GetUsageLinesEstimatedCostInput {
+  serviceCode: string;
+  usageType: string;
+  operation: string;
+  key: string;
+  amount: number;
+}
+export type GetUsageLinesEstimatedCostInputList = GetUsageLinesEstimatedCostInput[];
+export interface GetUsageLinesEstimatedCostRequest {
+  usage: GetUsageLinesEstimatedCostInput[];
+  rateType: RateType;
+}
+export interface GetUsageLinesEstimatedCostEstimatedCost {
+  usageAmount?: number | undefined;
+  usageUnit?: string | undefined;
+  cost?: number | undefined;
+  currency?: CurrencyCode | undefined;
+}
+export interface GetUsageLinesEstimatedCostLineItem {
+  key: string;
+  serviceCode?: string | undefined;
+  usageType?: string | undefined;
+  operation?: string | undefined;
+  estimatedCost?: GetUsageLinesEstimatedCostEstimatedCost | undefined;
+}
+export type GetUsageLinesEstimatedCostLineItemList = GetUsageLinesEstimatedCostLineItem[];
+export type GetUsageLinesEstimatedCostErrorCode =
+  | "BAD_REQUEST"
+  | "NOT_FOUND"
+  | "CONFLICT"
+  | "INTERNAL_SERVER_ERROR"
+  | (string & {});
+export interface GetUsageLinesEstimatedCostError_ {
+  key: string;
+  serviceCode: string;
+  usageType: string;
+  operation: string;
+  errorCode: GetUsageLinesEstimatedCostErrorCode;
+  errorMessage: string;
+}
+export type GetUsageLinesEstimatedCostErrors = GetUsageLinesEstimatedCostError_[];
+export interface GetUsageLinesEstimatedCostResponse {
+  rateType?: RateType | undefined;
+  totalCost?: number | undefined;
+  currency?: CurrencyCode | undefined;
+  lineItems?: GetUsageLinesEstimatedCostLineItem[] | undefined;
+  errors?: GetUsageLinesEstimatedCostError_[] | undefined;
+}
 export interface GetWorkloadEstimateRequest {
   identifier: string;
 }
@@ -1135,24 +1185,22 @@ export const batchCreateBillScenarioCommitmentModification: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    394,
-    __c49,
+    802,
+    __c50,
     2,
   ) as any as S.Schema<BatchCreateBillScenarioCommitmentModificationRequest>,
   output: __S(
-    399,
-    __c49,
+    807,
+    __c50,
     7,
   ) as any as S.Schema<BatchCreateBillScenarioCommitmentModificationResponse>,
-  errors: [
-    ConflictException,
-    DataUnavailableException,
-    ResourceNotFoundException,
+  errors: [ConflictException, DataUnavailableException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateBillScenarioCommitmentModification",
@@ -1181,18 +1229,20 @@ export const batchCreateBillScenarioUsageModification: API.OperationMethod<
   BatchCreateBillScenarioUsageModificationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(410, __c51, 2) as any as S.Schema<BatchCreateBillScenarioUsageModificationRequest>,
-  output: __S(415, __c51, 7) as any as S.Schema<BatchCreateBillScenarioUsageModificationResponse>,
+  input: __S(834, __c52, 2) as any as S.Schema<BatchCreateBillScenarioUsageModificationRequest>,
+  output: __S(839, __c52, 7) as any as S.Schema<BatchCreateBillScenarioUsageModificationResponse>,
   errors: [
     ConflictException,
     DataUnavailableException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
+  ],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateBillScenarioUsageModification",
@@ -1228,11 +1278,13 @@ export const batchCreateWorkloadEstimateUsage: API.OperationMethod<
     DataUnavailableException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
+  ],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateWorkloadEstimateUsage",
@@ -1250,7 +1302,7 @@ export type BatchDeleteBillScenarioCommitmentModificationError =
   | ValidationException
   | CommonErrors;
 /**
- * Delete commitment that you have created in a Bill Scenario. You can only delete a commitment that you had added and cannot model deletion (or removal) of a existing commitment. If you want model deletion of an existing commitment, see the negate BillScenarioCommitmentModificationAction of BatchCreateBillScenarioCommitmentModification operation.
+ * Delete commitment that you have created in a Bill Scenario. You can only delete a commitment that you had added and can't model deletion (or removal) of a existing commitment. If you want model deletion of an existing commitment, see the negate BillScenarioCommitmentModificationAction of BatchCreateBillScenarioCommitmentModification operation.
  *
  * The `BatchDeleteBillScenarioCommitmentModification` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:DeleteBillScenarioCommitmentModification` in your policies.
  */
@@ -1260,21 +1312,19 @@ export const batchDeleteBillScenarioCommitmentModification: API.OperationMethod<
   BatchDeleteBillScenarioCommitmentModificationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<BatchDeleteBillScenarioCommitmentModificationRequest>,
+  input: __S(32, __c2, 0) as any as S.Schema<BatchDeleteBillScenarioCommitmentModificationRequest>,
   output: __S(
-    19,
+    35,
     __c2,
     3,
   ) as any as S.Schema<BatchDeleteBillScenarioCommitmentModificationResponse>,
-  errors: [
-    ConflictException,
-    DataUnavailableException,
-    ResourceNotFoundException,
+  errors: [ConflictException, DataUnavailableException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteBillScenarioCommitmentModification",
@@ -1293,7 +1343,7 @@ export type BatchDeleteBillScenarioUsageModificationError =
   | ValidationException
   | CommonErrors;
 /**
- * Delete usage that you have created in a Bill Scenario. You can only delete usage that you had added and cannot model deletion (or removal) of a existing usage. If you want model removal of an existing usage, see BatchUpdateBillScenarioUsageModification.
+ * Delete usage that you have created in a Bill Scenario. You can only delete usage that you had added and can't model deletion (or removal) of a existing usage. If you want model removal of an existing usage, see BatchUpdateBillScenarioUsageModification.
  *
  * The `BatchDeleteBillScenarioUsageModification` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:DeleteBillScenarioUsageModification` in your policies.
  */
@@ -1303,18 +1353,20 @@ export const batchDeleteBillScenarioUsageModification: API.OperationMethod<
   BatchDeleteBillScenarioUsageModificationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<BatchDeleteBillScenarioUsageModificationRequest>,
-  output: __S(27, __c3, 3) as any as S.Schema<BatchDeleteBillScenarioUsageModificationResponse>,
+  input: __S(48, __c3, 0) as any as S.Schema<BatchDeleteBillScenarioUsageModificationRequest>,
+  output: __S(51, __c3, 3) as any as S.Schema<BatchDeleteBillScenarioUsageModificationResponse>,
   errors: [
     ConflictException,
     DataUnavailableException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
+  ],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteBillScenarioUsageModification",
@@ -1332,7 +1384,7 @@ export type BatchDeleteWorkloadEstimateUsageError =
   | ValidationException
   | CommonErrors;
 /**
- * Delete usage that you have created in a Workload estimate. You can only delete usage that you had added and cannot model deletion (or removal) of a existing usage. If you want model removal of an existing usage, see BatchUpdateWorkloadEstimateUsage.
+ * Delete usage that you have created in a Workload estimate. You can only delete usage that you had added and can't model deletion (or removal) of a existing usage. If you want model removal of an existing usage, see BatchUpdateWorkloadEstimateUsage.
  *
  * The `BatchDeleteWorkloadEstimateUsage` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:DeleteWorkloadEstimateUsage` in your policies.
  */
@@ -1342,17 +1394,15 @@ export const batchDeleteWorkloadEstimateUsage: API.OperationMethod<
   BatchDeleteWorkloadEstimateUsageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<BatchDeleteWorkloadEstimateUsageRequest>,
-  output: __S(35, __c4, 3) as any as S.Schema<BatchDeleteWorkloadEstimateUsageResponse>,
-  errors: [
-    DataUnavailableException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
+  input: __S(64, __c4, 0) as any as S.Schema<BatchDeleteWorkloadEstimateUsageRequest>,
+  output: __S(67, __c4, 3) as any as S.Schema<BatchDeleteWorkloadEstimateUsageResponse>,
+  errors: [DataUnavailableException, ResourceNotFoundException, ServiceQuotaExceededException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteWorkloadEstimateUsage",
@@ -1380,21 +1430,19 @@ export const batchUpdateBillScenarioCommitmentModification: API.OperationMethod<
   BatchUpdateBillScenarioCommitmentModificationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(42, __c5, 2) as any as S.Schema<BatchUpdateBillScenarioCommitmentModificationRequest>,
+  input: __S(82, __c5, 2) as any as S.Schema<BatchUpdateBillScenarioCommitmentModificationRequest>,
   output: __S(
-    45,
+    85,
     __c5,
     5,
   ) as any as S.Schema<BatchUpdateBillScenarioCommitmentModificationResponse>,
-  errors: [
-    ConflictException,
-    DataUnavailableException,
-    ResourceNotFoundException,
+  errors: [ConflictException, DataUnavailableException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateBillScenarioCommitmentModification",
@@ -1423,18 +1471,20 @@ export const batchUpdateBillScenarioUsageModification: API.OperationMethod<
   BatchUpdateBillScenarioUsageModificationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(58, __c7, 2) as any as S.Schema<BatchUpdateBillScenarioUsageModificationRequest>,
-  output: __S(61, __c7, 5) as any as S.Schema<BatchUpdateBillScenarioUsageModificationResponse>,
+  input: __S(114, __c7, 2) as any as S.Schema<BatchUpdateBillScenarioUsageModificationRequest>,
+  output: __S(117, __c7, 5) as any as S.Schema<BatchUpdateBillScenarioUsageModificationResponse>,
   errors: [
     ConflictException,
     DataUnavailableException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
+  ],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateBillScenarioUsageModification",
@@ -1462,17 +1512,15 @@ export const batchUpdateWorkloadEstimateUsage: API.OperationMethod<
   BatchUpdateWorkloadEstimateUsageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(74, __c9, 2) as any as S.Schema<BatchUpdateWorkloadEstimateUsageRequest>,
-  output: __S(77, __c9, 5) as any as S.Schema<BatchUpdateWorkloadEstimateUsageResponse>,
-  errors: [
-    DataUnavailableException,
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
+  input: __S(146, __c9, 2) as any as S.Schema<BatchUpdateWorkloadEstimateUsageRequest>,
+  output: __S(149, __c9, 5) as any as S.Schema<BatchUpdateWorkloadEstimateUsageResponse>,
+  errors: [DataUnavailableException, ResourceNotFoundException, ServiceQuotaExceededException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateWorkloadEstimateUsage",
@@ -1498,17 +1546,15 @@ export const createBillEstimate: API.OperationMethod<
   CreateBillEstimateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<CreateBillEstimateRequest>,
-  output: __S(115, __c14, 3) as any as S.Schema<CreateBillEstimateResponse>,
-  errors: [
-    ConflictException,
-    DataUnavailableException,
-    ResourceNotFoundException,
+  input: __S(176, __c11, 0) as any as S.Schema<CreateBillEstimateRequest>,
+  output: __S(227, __c14, 3) as any as S.Schema<CreateBillEstimateResponse>,
+  errors: [ConflictException, DataUnavailableException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBillEstimate",
@@ -1534,17 +1580,15 @@ export const createBillScenario: API.OperationMethod<
   CreateBillScenarioError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<CreateBillScenarioRequest>,
-  output: __S(128, __c16, 0) as any as S.Schema<CreateBillScenarioResponse>,
-  errors: [
-    ConflictException,
-    DataUnavailableException,
-    ServiceQuotaExceededException,
+  input: __S(240, __c15, 0) as any as S.Schema<CreateBillScenarioRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<CreateBillScenarioResponse>,
+  errors: [ConflictException, DataUnavailableException, ServiceQuotaExceededException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBillScenario",
@@ -1570,17 +1614,15 @@ export const createWorkloadEstimate: API.OperationMethod<
   CreateWorkloadEstimateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<CreateWorkloadEstimateRequest>,
-  output: __S(144, __c18, 0) as any as S.Schema<CreateWorkloadEstimateResponse>,
-  errors: [
-    ConflictException,
-    DataUnavailableException,
-    ServiceQuotaExceededException,
+  input: __S(272, __c17, 0) as any as S.Schema<CreateWorkloadEstimateRequest>,
+  output: __S(288, __c18, 0) as any as S.Schema<CreateWorkloadEstimateResponse>,
+  errors: [ConflictException, DataUnavailableException, ServiceQuotaExceededException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkloadEstimate",
@@ -1605,16 +1647,15 @@ export const deleteBillEstimate: API.OperationMethod<
   DeleteBillEstimateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<DeleteBillEstimateRequest>,
-  output: __S(160, __c20, 0) as any as S.Schema<DeleteBillEstimateResponse>,
-  errors: [
-    ConflictException,
-    DataUnavailableException,
+  input: __S(304, __c19, 0) as any as S.Schema<DeleteBillEstimateRequest>,
+  output: __S(320, __c20, 0) as any as S.Schema<DeleteBillEstimateResponse>,
+  errors: [ConflictException, DataUnavailableException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBillEstimate",
@@ -1639,16 +1680,15 @@ export const deleteBillScenario: API.OperationMethod<
   DeleteBillScenarioError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<DeleteBillScenarioRequest>,
-  output: __S(160, __c20, 0) as any as S.Schema<DeleteBillScenarioResponse>,
-  errors: [
-    ConflictException,
-    DataUnavailableException,
+  input: __S(336, __c21, 0) as any as S.Schema<DeleteBillScenarioRequest>,
+  output: __S(320, __c20, 0) as any as S.Schema<DeleteBillScenarioResponse>,
+  errors: [ConflictException, DataUnavailableException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBillScenario",
@@ -1672,15 +1712,15 @@ export const deleteWorkloadEstimate: API.OperationMethod<
   DeleteWorkloadEstimateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<DeleteWorkloadEstimateRequest>,
-  output: __S(160, __c20, 0) as any as S.Schema<DeleteWorkloadEstimateResponse>,
-  errors: [
-    DataUnavailableException,
+  input: __S(352, __c22, 0) as any as S.Schema<DeleteWorkloadEstimateRequest>,
+  output: __S(320, __c20, 0) as any as S.Schema<DeleteWorkloadEstimateResponse>,
+  errors: [DataUnavailableException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkloadEstimate",
@@ -1705,16 +1745,15 @@ export const getBillEstimate: API.OperationMethod<
   GetBillEstimateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<GetBillEstimateRequest>,
-  output: __S(115, __c14, 3) as any as S.Schema<GetBillEstimateResponse>,
-  errors: [
-    DataUnavailableException,
-    ResourceNotFoundException,
+  input: __S(368, __c23, 0) as any as S.Schema<GetBillEstimateRequest>,
+  output: __S(227, __c14, 3) as any as S.Schema<GetBillEstimateResponse>,
+  errors: [DataUnavailableException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBillEstimate",
@@ -1739,16 +1778,15 @@ export const getBillScenario: API.OperationMethod<
   GetBillScenarioError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<GetBillScenarioRequest>,
-  output: __S(128, __c16, 0) as any as S.Schema<GetBillScenarioResponse>,
-  errors: [
-    DataUnavailableException,
-    ResourceNotFoundException,
+  input: __S(384, __c24, 0) as any as S.Schema<GetBillScenarioRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<GetBillScenarioResponse>,
+  errors: [DataUnavailableException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBillScenario",
@@ -1772,20 +1810,54 @@ export const getPreferences: API.OperationMethod<
   GetPreferencesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<GetPreferencesRequest>,
-  output: __S(209, __c26, 1) as any as S.Schema<GetPreferencesResponse>,
-  errors: [
-    DataUnavailableException,
+  input: __S(400, __c25, 0) as any as S.Schema<GetPreferencesRequest>,
+  output: __S(417, __c26, 1) as any as S.Schema<GetPreferencesResponse>,
+  errors: [DataUnavailableException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPreferences",
   telemetry: TELEMETRY,
   span: "GetPreferences",
+}));
+
+export type GetUsageLinesEstimatedCostError =
+  | AccessDeniedException
+  | DataUnavailableException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Retrieves the estimated cost of a list of usage lines. Each usage line identifies a billing line by its service code, usage type, and operation, and includes the usage amount to price. The estimate is based on Amazon Web Services pricing data and the rate type you choose. It doesn't include taxes, and your actual charges depend on your usage.
+ *
+ * The response includes the estimated cost of each usage line that was priced. It also includes each usage line that couldn't be priced, and the reason it couldn't be priced.
+ */
+export const getUsageLinesEstimatedCost: API.OperationMethod<
+  GetUsageLinesEstimatedCostRequest & RegionInput,
+  GetUsageLinesEstimatedCostResponse,
+  GetUsageLinesEstimatedCostError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(434, __c27, 2) as any as S.Schema<GetUsageLinesEstimatedCostRequest>,
+  output: __S(440, __c27, 8) as any as S.Schema<GetUsageLinesEstimatedCostResponse>,
+  errors: [DataUnavailableException],
+  serviceErrors: awsServiceErrorsWith(
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ),
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetUsageLinesEstimatedCost",
+  telemetry: TELEMETRY,
+  span: "GetUsageLinesEstimatedCost",
 }));
 
 export type GetWorkloadEstimateError =
@@ -1805,16 +1877,15 @@ export const getWorkloadEstimate: API.OperationMethod<
   GetWorkloadEstimateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<GetWorkloadEstimateRequest>,
-  output: __S(144, __c18, 0) as any as S.Schema<GetWorkloadEstimateResponse>,
-  errors: [
-    DataUnavailableException,
-    ResourceNotFoundException,
+  input: __S(448, __c28, 0) as any as S.Schema<GetWorkloadEstimateRequest>,
+  output: __S(288, __c18, 0) as any as S.Schema<GetWorkloadEstimateResponse>,
+  errors: [DataUnavailableException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkloadEstimate",
@@ -1840,16 +1911,15 @@ export const listBillEstimateCommitments: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   BillEstimateCommitmentSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<ListBillEstimateCommitmentsRequest>,
-  output: __S(227, __c28, 3) as any as S.Schema<ListBillEstimateCommitmentsResponse>,
-  errors: [
-    DataUnavailableException,
-    ResourceNotFoundException,
+  input: __S(464, __c29, 0) as any as S.Schema<ListBillEstimateCommitmentsRequest>,
+  output: __S(467, __c29, 3) as any as S.Schema<ListBillEstimateCommitmentsResponse>,
+  errors: [DataUnavailableException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBillEstimateCommitments",
@@ -1881,20 +1951,19 @@ export const listBillEstimateInputCommitmentModifications: API.PaginatedOperatio
   Credentials | HttpClient.HttpClient,
   BillEstimateInputCommitmentModificationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<ListBillEstimateInputCommitmentModificationsRequest>,
+  input: __S(480, __c30, 0) as any as S.Schema<ListBillEstimateInputCommitmentModificationsRequest>,
   output: __S(
-    235,
-    __c29,
+    483,
+    __c30,
     3,
   ) as any as S.Schema<ListBillEstimateInputCommitmentModificationsResponse>,
-  errors: [
-    DataUnavailableException,
-    ResourceNotFoundException,
+  errors: [DataUnavailableException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBillEstimateInputCommitmentModifications",
@@ -1926,16 +1995,15 @@ export const listBillEstimateInputUsageModifications: API.PaginatedOperationMeth
   Credentials | HttpClient.HttpClient,
   BillEstimateInputUsageModificationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<ListBillEstimateInputUsageModificationsRequest>,
-  output: __S(256, __c32, 0) as any as S.Schema<ListBillEstimateInputUsageModificationsResponse>,
-  errors: [
-    DataUnavailableException,
-    ResourceNotFoundException,
+  input: __S(496, __c31, 0) as any as S.Schema<ListBillEstimateInputUsageModificationsRequest>,
+  output: __S(528, __c33, 0) as any as S.Schema<ListBillEstimateInputUsageModificationsResponse>,
+  errors: [DataUnavailableException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBillEstimateInputUsageModifications",
@@ -1967,16 +2035,15 @@ export const listBillEstimateLineItems: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   BillEstimateLineItemSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<ListBillEstimateLineItemsRequest>,
-  output: __S(268, __c33, 4) as any as S.Schema<ListBillEstimateLineItemsResponse>,
-  errors: [
-    DataUnavailableException,
-    ResourceNotFoundException,
+  input: __S(544, __c34, 0) as any as S.Schema<ListBillEstimateLineItemsRequest>,
+  output: __S(548, __c34, 4) as any as S.Schema<ListBillEstimateLineItemsResponse>,
+  errors: [DataUnavailableException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBillEstimateLineItems",
@@ -2007,15 +2074,15 @@ export const listBillEstimates: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   BillEstimateSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<ListBillEstimatesRequest>,
-  output: __S(275, __c34, 3) as any as S.Schema<ListBillEstimatesResponse>,
-  errors: [
-    DataUnavailableException,
+  input: __S(560, __c35, 0) as any as S.Schema<ListBillEstimatesRequest>,
+  output: __S(563, __c35, 3) as any as S.Schema<ListBillEstimatesResponse>,
+  errors: [DataUnavailableException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBillEstimates",
@@ -2047,16 +2114,15 @@ export const listBillScenarioCommitmentModifications: API.PaginatedOperationMeth
   Credentials | HttpClient.HttpClient,
   BillScenarioCommitmentModificationItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<ListBillScenarioCommitmentModificationsRequest>,
-  output: __S(289, __c36, 1) as any as S.Schema<ListBillScenarioCommitmentModificationsResponse>,
-  errors: [
-    DataUnavailableException,
-    ResourceNotFoundException,
+  input: __S(592, __c37, 0) as any as S.Schema<ListBillScenarioCommitmentModificationsRequest>,
+  output: __S(593, __c37, 1) as any as S.Schema<ListBillScenarioCommitmentModificationsResponse>,
+  errors: [DataUnavailableException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBillScenarioCommitmentModifications",
@@ -2087,15 +2153,15 @@ export const listBillScenarios: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   BillScenarioSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<ListBillScenariosRequest>,
-  output: __S(298, __c37, 2) as any as S.Schema<ListBillScenariosResponse>,
-  errors: [
-    DataUnavailableException,
+  input: __S(608, __c38, 0) as any as S.Schema<ListBillScenariosRequest>,
+  output: __S(610, __c38, 2) as any as S.Schema<ListBillScenariosResponse>,
+  errors: [DataUnavailableException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBillScenarios",
@@ -2127,16 +2193,15 @@ export const listBillScenarioUsageModifications: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   BillScenarioUsageModificationItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(304, __c38, 0) as any as S.Schema<ListBillScenarioUsageModificationsRequest>,
-  output: __S(256, __c32, 0) as any as S.Schema<ListBillScenarioUsageModificationsResponse>,
-  errors: [
-    DataUnavailableException,
-    ResourceNotFoundException,
+  input: __S(624, __c39, 0) as any as S.Schema<ListBillScenarioUsageModificationsRequest>,
+  output: __S(528, __c33, 0) as any as S.Schema<ListBillScenarioUsageModificationsResponse>,
+  errors: [DataUnavailableException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBillScenarioUsageModifications",
@@ -2166,15 +2231,15 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(313, __c39, 1) as any as S.Schema<ListTagsForResourceResponse>,
-  errors: [
-    ResourceNotFoundException,
+  input: __S(640, __c40, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(641, __c40, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -2199,15 +2264,15 @@ export const listWorkloadEstimates: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   WorkloadEstimateSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(320, __c40, 0) as any as S.Schema<ListWorkloadEstimatesRequest>,
-  output: __S(322, __c40, 2) as any as S.Schema<ListWorkloadEstimatesResponse>,
-  errors: [
-    DataUnavailableException,
+  input: __S(656, __c41, 0) as any as S.Schema<ListWorkloadEstimatesRequest>,
+  output: __S(658, __c41, 2) as any as S.Schema<ListWorkloadEstimatesResponse>,
+  errors: [DataUnavailableException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWorkloadEstimates",
@@ -2239,16 +2304,15 @@ export const listWorkloadEstimateUsage: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   WorkloadEstimateUsageItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<ListWorkloadEstimateUsageRequest>,
-  output: __S(329, __c41, 1) as any as S.Schema<ListWorkloadEstimateUsageResponse>,
-  errors: [
-    DataUnavailableException,
-    ResourceNotFoundException,
+  input: __S(672, __c42, 0) as any as S.Schema<ListWorkloadEstimateUsageRequest>,
+  output: __S(673, __c42, 1) as any as S.Schema<ListWorkloadEstimateUsageResponse>,
+  errors: [DataUnavailableException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWorkloadEstimateUsage",
@@ -2279,16 +2343,15 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c42, 0) as any as S.Schema<TagResourceRequest>,
-  output: __S(160, __c20, 0) as any as S.Schema<TagResourceResponse>,
-  errors: [
-    ResourceNotFoundException,
-    ServiceQuotaExceededException,
+  input: __S(688, __c43, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(320, __c20, 0) as any as S.Schema<TagResourceResponse>,
+  errors: [ResourceNotFoundException, ServiceQuotaExceededException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -2312,15 +2375,15 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(344, __c43, 0) as any as S.Schema<UntagResourceRequest>,
-  output: __S(160, __c20, 0) as any as S.Schema<UntagResourceResponse>,
-  errors: [
-    ResourceNotFoundException,
+  input: __S(704, __c44, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(320, __c20, 0) as any as S.Schema<UntagResourceResponse>,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -2346,17 +2409,15 @@ export const updateBillEstimate: API.OperationMethod<
   UpdateBillEstimateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c44, 0) as any as S.Schema<UpdateBillEstimateRequest>,
-  output: __S(115, __c14, 3) as any as S.Schema<UpdateBillEstimateResponse>,
-  errors: [
-    ConflictException,
-    DataUnavailableException,
-    ResourceNotFoundException,
+  input: __S(720, __c45, 0) as any as S.Schema<UpdateBillEstimateRequest>,
+  output: __S(227, __c14, 3) as any as S.Schema<UpdateBillEstimateResponse>,
+  errors: [ConflictException, DataUnavailableException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBillEstimate",
@@ -2382,17 +2443,15 @@ export const updateBillScenario: API.OperationMethod<
   UpdateBillScenarioError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(360, __c45, 0) as any as S.Schema<UpdateBillScenarioRequest>,
-  output: __S(128, __c16, 0) as any as S.Schema<UpdateBillScenarioResponse>,
-  errors: [
-    ConflictException,
-    DataUnavailableException,
-    ResourceNotFoundException,
+  input: __S(736, __c46, 0) as any as S.Schema<UpdateBillScenarioRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<UpdateBillScenarioResponse>,
+  errors: [ConflictException, DataUnavailableException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBillScenario",
@@ -2417,16 +2476,15 @@ export const updatePreferences: API.OperationMethod<
   UpdatePreferencesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c46, 0) as any as S.Schema<UpdatePreferencesRequest>,
-  output: __S(209, __c26, 1) as any as S.Schema<UpdatePreferencesResponse>,
-  errors: [
-    DataUnavailableException,
-    ServiceQuotaExceededException,
+  input: __S(752, __c47, 0) as any as S.Schema<UpdatePreferencesRequest>,
+  output: __S(417, __c26, 1) as any as S.Schema<UpdatePreferencesResponse>,
+  errors: [DataUnavailableException, ServiceQuotaExceededException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePreferences",
@@ -2452,17 +2510,15 @@ export const updateWorkloadEstimate: API.OperationMethod<
   UpdateWorkloadEstimateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(376, __c47, 0) as any as S.Schema<UpdateWorkloadEstimateRequest>,
-  output: __S(144, __c18, 0) as any as S.Schema<UpdateWorkloadEstimateResponse>,
-  errors: [
-    ConflictException,
-    DataUnavailableException,
-    ResourceNotFoundException,
+  input: __S(768, __c48, 0) as any as S.Schema<UpdateWorkloadEstimateRequest>,
+  output: __S(288, __c18, 0) as any as S.Schema<UpdateWorkloadEstimateResponse>,
+  errors: [ConflictException, DataUnavailableException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     AccessDeniedException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkloadEstimate",
@@ -2483,7 +2539,7 @@ function __c0(j: number): any {
           group: S.optional(S.String),
           usageAccountId: S.String,
           amount: S.Number,
-          historicalUsage: S.optional(__S(435, __c54, 3)),
+          historicalUsage: S.optional(__S(883, __c55, 3)),
         }),
       ).annotate({ identifier: "BatchCreateWorkloadEstimateUsageEntry" });
     case 1:
@@ -2509,11 +2565,11 @@ function __c0(j: number): any {
           id: S.optional(S.String),
           usageAccountId: S.optional(S.String),
           group: S.optional(S.String),
-          quantity: S.optional(__S(8, __c1, 0)),
+          quantity: S.optional(__S(16, __c1, 0)),
           cost: S.optional(S.Number),
           currency: S.optional(S.String),
           status: S.optional(S.String),
-          historicalUsage: S.optional(__S(435, __c54, 3)),
+          historicalUsage: S.optional(__S(883, __c55, 3)),
           key: S.optional(S.String),
         }),
       ).annotate({ identifier: "BatchCreateWorkloadEstimateUsageItem" });
@@ -2547,7 +2603,7 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ billScenarioId: S.String, ids: __S(416, __c52, 0) }).pipe(
+        S.Struct({ billScenarioId: S.String, ids: __S(848, __c53, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "BatchDeleteBillScenarioCommitmentModificationRequest" });
@@ -2560,9 +2616,9 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "BatchDeleteBillScenarioCommitmentModificationError" });
     case 2:
-      return S.Array(__S(17, __c2, 1));
+      return S.Array(__S(33, __c2, 1));
     case 3:
-      return S.suspend(() => S.Struct({ errors: S.optional(__S(18, __c2, 2)) })).annotate({
+      return S.suspend(() => S.Struct({ errors: S.optional(__S(34, __c2, 2)) })).annotate({
         identifier: "BatchDeleteBillScenarioCommitmentModificationResponse",
       });
   }
@@ -2571,7 +2627,7 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ billScenarioId: S.String, ids: __S(416, __c52, 0) }).pipe(
+        S.Struct({ billScenarioId: S.String, ids: __S(848, __c53, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "BatchDeleteBillScenarioUsageModificationRequest" });
@@ -2584,9 +2640,9 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "BatchDeleteBillScenarioUsageModificationError" });
     case 2:
-      return S.Array(__S(25, __c3, 1));
+      return S.Array(__S(49, __c3, 1));
     case 3:
-      return S.suspend(() => S.Struct({ errors: S.optional(__S(26, __c3, 2)) })).annotate({
+      return S.suspend(() => S.Struct({ errors: S.optional(__S(50, __c3, 2)) })).annotate({
         identifier: "BatchDeleteBillScenarioUsageModificationResponse",
       });
   }
@@ -2595,7 +2651,7 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ workloadEstimateId: S.String, ids: __S(416, __c52, 0) }).pipe(
+        S.Struct({ workloadEstimateId: S.String, ids: __S(848, __c53, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "BatchDeleteWorkloadEstimateUsageRequest" });
@@ -2608,9 +2664,9 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "BatchDeleteWorkloadEstimateUsageError" });
     case 2:
-      return S.Array(__S(33, __c4, 1));
+      return S.Array(__S(65, __c4, 1));
     case 3:
-      return S.suspend(() => S.Struct({ errors: S.optional(__S(34, __c4, 2)) })).annotate({
+      return S.suspend(() => S.Struct({ errors: S.optional(__S(66, __c4, 2)) })).annotate({
         identifier: "BatchDeleteWorkloadEstimateUsageResponse",
       });
   }
@@ -2622,10 +2678,10 @@ function __c5(j: number): any {
         identifier: "BatchUpdateBillScenarioCommitmentModificationEntry",
       });
     case 1:
-      return S.Array(__S(40, __c5, 0));
+      return S.Array(__S(80, __c5, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ billScenarioId: S.String, commitmentModifications: __S(41, __c5, 1) }).pipe(
+        S.Struct({ billScenarioId: S.String, commitmentModifications: __S(81, __c5, 1) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "BatchUpdateBillScenarioCommitmentModificationRequest" });
@@ -2638,10 +2694,10 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "BatchUpdateBillScenarioCommitmentModificationError" });
     case 4:
-      return S.Array(__S(43, __c5, 3));
+      return S.Array(__S(83, __c5, 3));
     case 5:
       return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(49, __c6, 1)), errors: S.optional(__S(44, __c5, 4)) }),
+        S.Struct({ items: S.optional(__S(97, __c6, 1)), errors: S.optional(__S(84, __c5, 4)) }),
       ).annotate({ identifier: "BatchUpdateBillScenarioCommitmentModificationResponse" });
   }
 }
@@ -2653,11 +2709,11 @@ function __c6(j: number): any {
           id: S.optional(S.String),
           usageAccountId: S.optional(S.String),
           group: S.optional(S.String),
-          commitmentAction: S.optional(__S(404, __c50, 4)),
+          commitmentAction: S.optional(__S(820, __c51, 4)),
         }),
       ).annotate({ identifier: "BillScenarioCommitmentModificationItem" });
     case 1:
-      return S.Array(__S(48, __c6, 0));
+      return S.Array(__S(96, __c6, 0));
   }
 }
 function __c7(j: number): any {
@@ -2667,14 +2723,14 @@ function __c7(j: number): any {
         S.Struct({
           id: S.String,
           group: S.optional(S.String),
-          amounts: S.optional(__S(441, __c55, 1)),
+          amounts: S.optional(__S(897, __c56, 1)),
         }),
       ).annotate({ identifier: "BatchUpdateBillScenarioUsageModificationEntry" });
     case 1:
-      return S.Array(__S(56, __c7, 0));
+      return S.Array(__S(112, __c7, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ billScenarioId: S.String, usageModifications: __S(57, __c7, 1) }).pipe(
+        S.Struct({ billScenarioId: S.String, usageModifications: __S(113, __c7, 1) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "BatchUpdateBillScenarioUsageModificationRequest" });
@@ -2687,10 +2743,10 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "BatchUpdateBillScenarioUsageModificationError" });
     case 4:
-      return S.Array(__S(59, __c7, 3));
+      return S.Array(__S(115, __c7, 3));
     case 5:
       return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(65, __c8, 1)), errors: S.optional(__S(60, __c7, 4)) }),
+        S.Struct({ items: S.optional(__S(129, __c8, 1)), errors: S.optional(__S(116, __c7, 4)) }),
       ).annotate({ identifier: "BatchUpdateBillScenarioUsageModificationResponse" });
   }
 }
@@ -2707,12 +2763,12 @@ function __c8(j: number): any {
           id: S.optional(S.String),
           group: S.optional(S.String),
           usageAccountId: S.optional(S.String),
-          quantities: S.optional(__S(449, __c56, 1)),
-          historicalUsage: S.optional(__S(435, __c54, 3)),
+          quantities: S.optional(__S(913, __c57, 1)),
+          historicalUsage: S.optional(__S(883, __c55, 3)),
         }),
       ).annotate({ identifier: "BillScenarioUsageModificationItem" });
     case 1:
-      return S.Array(__S(64, __c8, 0));
+      return S.Array(__S(128, __c8, 0));
   }
 }
 function __c9(j: number): any {
@@ -2722,10 +2778,10 @@ function __c9(j: number): any {
         S.Struct({ id: S.String, group: S.optional(S.String), amount: S.optional(S.Number) }),
       ).annotate({ identifier: "BatchUpdateWorkloadEstimateUsageEntry" });
     case 1:
-      return S.Array(__S(72, __c9, 0));
+      return S.Array(__S(144, __c9, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ workloadEstimateId: S.String, usage: __S(73, __c9, 1) }).pipe(
+        S.Struct({ workloadEstimateId: S.String, usage: __S(145, __c9, 1) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "BatchUpdateWorkloadEstimateUsageRequest" });
@@ -2738,10 +2794,10 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "BatchUpdateWorkloadEstimateUsageError" });
     case 4:
-      return S.Array(__S(75, __c9, 3));
+      return S.Array(__S(147, __c9, 3));
     case 5:
       return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(81, __c10, 1)), errors: S.optional(__S(76, __c9, 4)) }),
+        S.Struct({ items: S.optional(__S(161, __c10, 1)), errors: S.optional(__S(148, __c9, 4)) }),
       ).annotate({ identifier: "BatchUpdateWorkloadEstimateUsageResponse" });
   }
 }
@@ -2757,15 +2813,15 @@ function __c10(j: number): any {
           id: S.optional(S.String),
           usageAccountId: S.optional(S.String),
           group: S.optional(S.String),
-          quantity: S.optional(__S(8, __c1, 0)),
+          quantity: S.optional(__S(16, __c1, 0)),
           cost: S.optional(S.Number),
           currency: S.optional(S.String),
           status: S.optional(S.String),
-          historicalUsage: S.optional(__S(435, __c54, 3)),
+          historicalUsage: S.optional(__S(883, __c55, 3)),
         }),
       ).annotate({ identifier: "WorkloadEstimateUsageItem" });
     case 1:
-      return S.Array(__S(80, __c10, 0));
+      return S.Array(__S(160, __c10, 0));
   }
 }
 function __c11(j: number): any {
@@ -2779,7 +2835,7 @@ function __c11(j: number): any {
             T.HttpHeader("X-Amzn-Client-Token"),
             T.IdempotencyToken(),
           ),
-          tags: S.optional(__S(96, __c12, 0)),
+          tags: S.optional(__S(192, __c12, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateBillEstimateRequest" });
   }
@@ -2803,17 +2859,17 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          historicalCost: S.optional(__S(104, __c13, 0)),
-          estimatedCost: S.optional(__S(104, __c13, 0)),
+          historicalCost: S.optional(__S(208, __c13, 0)),
+          estimatedCost: S.optional(__S(208, __c13, 0)),
         }),
       ).annotate({ identifier: "CostDifference" });
     case 1:
-      return S.Record(S.String, /*@__PURE__*/ __S(112, __c14, 0).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(224, __c14, 0).pipe(S.optional));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          totalCostDifference: S.optional(__S(112, __c14, 0)),
-          serviceCostDifferences: S.optional(__S(113, __c14, 1)),
+          totalCostDifference: S.optional(__S(224, __c14, 0)),
+          serviceCostDifferences: S.optional(__S(225, __c14, 1)),
         }),
       ).annotate({ identifier: "BillEstimateCostSummary" });
     case 3:
@@ -2823,8 +2879,8 @@ function __c14(j: number): any {
           name: S.optional(S.String),
           status: S.optional(S.String),
           failureMessage: S.optional(S.String),
-          billInterval: S.optional(__S(424, __c53, 0)),
-          costSummary: S.optional(__S(114, __c14, 2)),
+          billInterval: S.optional(__S(864, __c54, 0)),
+          costSummary: S.optional(__S(226, __c14, 2)),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           expiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           groupSharingPreference: S.optional(S.String),
@@ -2846,7 +2902,7 @@ function __c15(j: number): any {
             T.HttpHeader("X-Amzn-Client-Token"),
             T.IdempotencyToken(),
           ),
-          tags: S.optional(__S(96, __c12, 0)),
+          tags: S.optional(__S(192, __c12, 0)),
           groupSharingPreference: S.optional(S.String),
           costCategoryGroupSharingPreferenceArn: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -2860,7 +2916,7 @@ function __c16(j: number): any {
         S.Struct({
           id: S.String,
           name: S.optional(S.String),
-          billInterval: S.optional(__S(424, __c53, 0)),
+          billInterval: S.optional(__S(864, __c54, 0)),
           status: S.optional(S.String),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           expiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -2882,7 +2938,7 @@ function __c17(j: number): any {
             T.IdempotencyToken(),
           ),
           rateType: S.optional(S.String),
-          tags: S.optional(__S(96, __c12, 0)),
+          tags: S.optional(__S(192, __c12, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateWorkloadEstimateRequest" });
   }
@@ -2979,14 +3035,80 @@ function __c26(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          managementAccountRateTypeSelections: S.optional(__S(208, __c26, 0)),
-          memberAccountRateTypeSelections: S.optional(__S(208, __c26, 0)),
-          standaloneAccountRateTypeSelections: S.optional(__S(208, __c26, 0)),
+          managementAccountRateTypeSelections: S.optional(__S(416, __c26, 0)),
+          memberAccountRateTypeSelections: S.optional(__S(416, __c26, 0)),
+          standaloneAccountRateTypeSelections: S.optional(__S(416, __c26, 0)),
         }),
       ).annotate({ identifier: "GetPreferencesResponse" });
   }
 }
 function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          serviceCode: S.String,
+          usageType: S.String,
+          operation: S.String,
+          key: S.String,
+          amount: S.Number,
+        }),
+      ).annotate({ identifier: "GetUsageLinesEstimatedCostInput" });
+    case 1:
+      return S.Array(__S(432, __c27, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ usage: __S(433, __c27, 1), rateType: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetUsageLinesEstimatedCostRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          usageAmount: S.optional(S.Number),
+          usageUnit: S.optional(S.String),
+          cost: S.optional(S.Number),
+          currency: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetUsageLinesEstimatedCostEstimatedCost" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          serviceCode: S.optional(S.String),
+          usageType: S.optional(S.String),
+          operation: S.optional(S.String),
+          estimatedCost: S.optional(__S(435, __c27, 3)),
+        }),
+      ).annotate({ identifier: "GetUsageLinesEstimatedCostLineItem" });
+    case 5:
+      return S.Array(__S(436, __c27, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          serviceCode: S.String,
+          usageType: S.String,
+          operation: S.String,
+          errorCode: S.String,
+          errorMessage: S.String,
+        }),
+      ).annotate({ identifier: "GetUsageLinesEstimatedCostError" });
+    case 7:
+      return S.Array(__S(438, __c27, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          rateType: S.optional(S.String),
+          totalCost: S.optional(S.Number),
+          currency: S.optional(S.String),
+          lineItems: S.optional(__S(437, __c27, 5)),
+          errors: S.optional(__S(439, __c27, 7)),
+        }),
+      ).annotate({ identifier: "GetUsageLinesEstimatedCostResponse" });
+  }
+}
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2996,7 +3118,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GetWorkloadEstimateRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3016,19 +3138,19 @@ function __c28(j: number): any {
           region: S.optional(S.String),
           termLength: S.optional(S.String),
           paymentOption: S.optional(S.String),
-          upfrontPayment: S.optional(__S(104, __c13, 0)),
-          monthlyPayment: S.optional(__S(104, __c13, 0)),
+          upfrontPayment: S.optional(__S(208, __c13, 0)),
+          monthlyPayment: S.optional(__S(208, __c13, 0)),
         }),
       ).annotate({ identifier: "BillEstimateCommitmentSummary" });
     case 2:
-      return S.Array(__S(225, __c28, 1));
+      return S.Array(__S(465, __c29, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(226, __c28, 2)), nextToken: S.optional(S.String) }),
+        S.Struct({ items: S.optional(__S(466, __c29, 2)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListBillEstimateCommitmentsResponse" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3044,55 +3166,55 @@ function __c29(j: number): any {
           id: S.optional(S.String),
           group: S.optional(S.String),
           usageAccountId: S.optional(S.String),
-          commitmentAction: S.optional(__S(404, __c50, 4)),
+          commitmentAction: S.optional(__S(820, __c51, 4)),
         }),
       ).annotate({ identifier: "BillEstimateInputCommitmentModificationSummary" });
     case 2:
-      return S.Array(__S(233, __c29, 1));
+      return S.Array(__S(481, __c30, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(234, __c29, 2)), nextToken: S.optional(S.String) }),
+        S.Struct({ items: S.optional(__S(482, __c30, 2)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListBillEstimateInputCommitmentModificationsResponse" });
-  }
-}
-function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          billEstimateId: S.String,
-          filters: S.optional(__S(249, __c31, 1)),
-          nextToken: S.optional(S.String),
-          maxResults: S.optional(S.Number),
-        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "ListBillEstimateInputUsageModificationsRequest" });
   }
 }
 function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ name: S.String, values: __S(416, __c52, 0), matchOption: S.optional(S.String) }),
-      ).annotate({ identifier: "ListUsageFilter" });
-    case 1:
-      return S.Array(__S(248, __c31, 0));
+        S.Struct({
+          billEstimateId: S.String,
+          filters: S.optional(__S(513, __c32, 1)),
+          nextToken: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListBillEstimateInputUsageModificationsRequest" });
   }
 }
 function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(65, __c8, 1)), nextToken: S.optional(S.String) }),
-      ).annotate({ identifier: "ListBillEstimateInputUsageModificationsResponse" });
+        S.Struct({ name: S.String, values: __S(848, __c53, 0), matchOption: S.optional(S.String) }),
+      ).annotate({ identifier: "ListUsageFilter" });
+    case 1:
+      return S.Array(__S(512, __c32, 0));
   }
 }
 function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({ items: S.optional(__S(129, __c8, 1)), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListBillEstimateInputUsageModificationsResponse" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({
           billEstimateId: S.String,
-          filters: S.optional(__S(249, __c31, 1)),
+          filters: S.optional(__S(513, __c32, 1)),
           nextToken: S.optional(S.String),
           maxResults: S.optional(S.Number),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -3114,29 +3236,29 @@ function __c33(j: number): any {
           lineItemType: S.optional(S.String),
           payerAccountId: S.optional(S.String),
           usageAccountId: S.optional(S.String),
-          estimatedUsageQuantity: S.optional(__S(265, __c33, 1)),
-          estimatedCost: S.optional(__S(104, __c13, 0)),
-          historicalUsageQuantity: S.optional(__S(265, __c33, 1)),
-          historicalCost: S.optional(__S(104, __c13, 0)),
-          savingsPlanArns: S.optional(__S(416, __c52, 0)),
+          estimatedUsageQuantity: S.optional(__S(545, __c34, 1)),
+          estimatedCost: S.optional(__S(208, __c13, 0)),
+          historicalUsageQuantity: S.optional(__S(545, __c34, 1)),
+          historicalCost: S.optional(__S(208, __c13, 0)),
+          savingsPlanArns: S.optional(__S(848, __c53, 0)),
         }),
       ).annotate({ identifier: "BillEstimateLineItemSummary" });
     case 3:
-      return S.Array(__S(266, __c33, 2));
+      return S.Array(__S(546, __c34, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(267, __c33, 3)), nextToken: S.optional(S.String) }),
+        S.Struct({ items: S.optional(__S(547, __c34, 3)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListBillEstimateLineItemsResponse" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filters: S.optional(__S(249, __c31, 1)),
-          createdAtFilter: S.optional(__S(280, __c35, 0)),
-          expiresAtFilter: S.optional(__S(280, __c35, 0)),
+          filters: S.optional(__S(513, __c32, 1)),
+          createdAtFilter: S.optional(__S(576, __c36, 0)),
+          expiresAtFilter: S.optional(__S(576, __c36, 0)),
           nextToken: S.optional(S.String),
           maxResults: S.optional(S.Number),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -3147,20 +3269,20 @@ function __c34(j: number): any {
           id: S.String,
           name: S.optional(S.String),
           status: S.optional(S.String),
-          billInterval: S.optional(__S(424, __c53, 0)),
+          billInterval: S.optional(__S(864, __c54, 0)),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           expiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "BillEstimateSummary" });
     case 2:
-      return S.Array(__S(273, __c34, 1));
+      return S.Array(__S(561, __c35, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(274, __c34, 2)), nextToken: S.optional(S.String) }),
+        S.Struct({ items: S.optional(__S(562, __c35, 2)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListBillEstimatesResponse" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3171,7 +3293,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "FilterTimestamp" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3183,28 +3305,8 @@ function __c36(j: number): any {
       ).annotate({ identifier: "ListBillScenarioCommitmentModificationsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(49, __c6, 1)), nextToken: S.optional(S.String) }),
+        S.Struct({ items: S.optional(__S(97, __c6, 1)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListBillScenarioCommitmentModificationsResponse" });
-  }
-}
-function __c37(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          filters: S.optional(__S(249, __c31, 1)),
-          createdAtFilter: S.optional(__S(280, __c35, 0)),
-          expiresAtFilter: S.optional(__S(280, __c35, 0)),
-          nextToken: S.optional(S.String),
-          maxResults: S.optional(S.Number),
-        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "ListBillScenariosRequest" });
-    case 1:
-      return S.Array(__S(128, __c16, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(297, __c37, 1)), nextToken: S.optional(S.String) }),
-      ).annotate({ identifier: "ListBillScenariosResponse" });
   }
 }
 function __c38(j: number): any {
@@ -3212,15 +3314,35 @@ function __c38(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          filters: S.optional(__S(513, __c32, 1)),
+          createdAtFilter: S.optional(__S(576, __c36, 0)),
+          expiresAtFilter: S.optional(__S(576, __c36, 0)),
+          nextToken: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListBillScenariosRequest" });
+    case 1:
+      return S.Array(__S(256, __c16, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ items: S.optional(__S(609, __c38, 1)), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListBillScenariosResponse" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           billScenarioId: S.String,
-          filters: S.optional(__S(249, __c31, 1)),
+          filters: S.optional(__S(513, __c32, 1)),
           nextToken: S.optional(S.String),
           maxResults: S.optional(S.Number),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListBillScenarioUsageModificationsRequest" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3229,29 +3351,9 @@ function __c39(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ tags: S.optional(__S(96, __c12, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(192, __c12, 0)) })).annotate({
         identifier: "ListTagsForResourceResponse",
       });
-  }
-}
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          createdAtFilter: S.optional(__S(280, __c35, 0)),
-          expiresAtFilter: S.optional(__S(280, __c35, 0)),
-          filters: S.optional(__S(249, __c31, 1)),
-          nextToken: S.optional(S.String),
-          maxResults: S.optional(S.Number),
-        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "ListWorkloadEstimatesRequest" });
-    case 1:
-      return S.Array(__S(144, __c18, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(321, __c40, 1)), nextToken: S.optional(S.String) }),
-      ).annotate({ identifier: "ListWorkloadEstimatesResponse" });
   }
 }
 function __c41(j: number): any {
@@ -3259,39 +3361,59 @@ function __c41(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          workloadEstimateId: S.String,
-          filters: S.optional(__S(249, __c31, 1)),
+          createdAtFilter: S.optional(__S(576, __c36, 0)),
+          expiresAtFilter: S.optional(__S(576, __c36, 0)),
+          filters: S.optional(__S(513, __c32, 1)),
           nextToken: S.optional(S.String),
           maxResults: S.optional(S.Number),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "ListWorkloadEstimateUsageRequest" });
+      ).annotate({ identifier: "ListWorkloadEstimatesRequest" });
     case 1:
+      return S.Array(__S(288, __c18, 0));
+    case 2:
       return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(81, __c10, 1)), nextToken: S.optional(S.String) }),
-      ).annotate({ identifier: "ListWorkloadEstimateUsageResponse" });
+        S.Struct({ items: S.optional(__S(657, __c41, 1)), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListWorkloadEstimatesResponse" });
   }
 }
 function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ arn: S.String, tags: __S(96, __c12, 0) }).pipe(
-          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-        ),
-      ).annotate({ identifier: "TagResourceRequest" });
+        S.Struct({
+          workloadEstimateId: S.String,
+          filters: S.optional(__S(513, __c32, 1)),
+          nextToken: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListWorkloadEstimateUsageRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ items: S.optional(__S(161, __c10, 1)), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListWorkloadEstimateUsageResponse" });
   }
 }
 function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ arn: S.String, tagKeys: __S(416, __c52, 0) }).pipe(
+        S.Struct({ arn: S.String, tags: __S(192, __c12, 0) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String, tagKeys: __S(848, __c53, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3303,7 +3425,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "UpdateBillEstimateRequest" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3317,19 +3439,19 @@ function __c45(j: number): any {
       ).annotate({ identifier: "UpdateBillScenarioRequest" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          managementAccountRateTypeSelections: S.optional(__S(208, __c26, 0)),
-          memberAccountRateTypeSelections: S.optional(__S(208, __c26, 0)),
-          standaloneAccountRateTypeSelections: S.optional(__S(208, __c26, 0)),
+          managementAccountRateTypeSelections: S.optional(__S(416, __c26, 0)),
+          memberAccountRateTypeSelections: S.optional(__S(416, __c26, 0)),
+          standaloneAccountRateTypeSelections: S.optional(__S(416, __c26, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdatePreferencesRequest" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3341,17 +3463,17 @@ function __c47(j: number): any {
       ).annotate({ identifier: "UpdateWorkloadEstimateRequest" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ name: S.String, message: S.String })).annotate({
         identifier: "ValidationExceptionField",
       });
     case 1:
-      return S.Array(__S(384, __c48, 0));
+      return S.Array(__S(784, __c49, 0));
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3359,16 +3481,16 @@ function __c49(j: number): any {
           key: S.String,
           group: S.optional(S.String),
           usageAccountId: S.String,
-          commitmentAction: __S(404, __c50, 4),
+          commitmentAction: __S(820, __c51, 4),
         }),
       ).annotate({ identifier: "BatchCreateBillScenarioCommitmentModificationEntry" });
     case 1:
-      return S.Array(__S(392, __c49, 0));
+      return S.Array(__S(800, __c50, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           billScenarioId: S.String,
-          commitmentModifications: __S(393, __c49, 1),
+          commitmentModifications: __S(801, __c50, 1),
           clientToken: S.optional(S.String).pipe(
             T.HttpHeader("X-Amzn-Client-Token"),
             T.IdempotencyToken(),
@@ -3382,11 +3504,11 @@ function __c49(j: number): any {
           id: S.optional(S.String),
           group: S.optional(S.String),
           usageAccountId: S.optional(S.String),
-          commitmentAction: S.optional(__S(404, __c50, 4)),
+          commitmentAction: S.optional(__S(820, __c51, 4)),
         }),
       ).annotate({ identifier: "BatchCreateBillScenarioCommitmentModificationItem" });
     case 4:
-      return S.Array(__S(395, __c49, 3));
+      return S.Array(__S(803, __c50, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -3396,14 +3518,14 @@ function __c49(j: number): any {
         }),
       ).annotate({ identifier: "BatchCreateBillScenarioCommitmentModificationError" });
     case 6:
-      return S.Array(__S(397, __c49, 5));
+      return S.Array(__S(805, __c50, 5));
     case 7:
       return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(396, __c49, 4)), errors: S.optional(__S(398, __c49, 6)) }),
+        S.Struct({ items: S.optional(__S(804, __c50, 4)), errors: S.optional(__S(806, __c50, 6)) }),
       ).annotate({ identifier: "BatchCreateBillScenarioCommitmentModificationResponse" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3426,14 +3548,14 @@ function __c50(j: number): any {
       });
     case 4:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ addReservedInstanceAction: __S(400, __c50, 0) }),
-        /*@__PURE__*/ S.Struct({ addSavingsPlanAction: __S(401, __c50, 1) }),
-        /*@__PURE__*/ S.Struct({ negateReservedInstanceAction: __S(402, __c50, 2) }),
-        /*@__PURE__*/ S.Struct({ negateSavingsPlanAction: __S(403, __c50, 3) }),
+        /*@__PURE__*/ S.Struct({ addReservedInstanceAction: __S(816, __c51, 0) }),
+        /*@__PURE__*/ S.Struct({ addSavingsPlanAction: __S(817, __c51, 1) }),
+        /*@__PURE__*/ S.Struct({ negateReservedInstanceAction: __S(818, __c51, 2) }),
+        /*@__PURE__*/ S.Struct({ negateSavingsPlanAction: __S(819, __c51, 3) }),
       ]);
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3445,17 +3567,17 @@ function __c51(j: number): any {
           key: S.String,
           group: S.optional(S.String),
           usageAccountId: S.String,
-          amounts: S.optional(__S(441, __c55, 1)),
-          historicalUsage: S.optional(__S(435, __c54, 3)),
+          amounts: S.optional(__S(897, __c56, 1)),
+          historicalUsage: S.optional(__S(883, __c55, 3)),
         }),
       ).annotate({ identifier: "BatchCreateBillScenarioUsageModificationEntry" });
     case 1:
-      return S.Array(__S(408, __c51, 0));
+      return S.Array(__S(832, __c52, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           billScenarioId: S.String,
-          usageModifications: __S(409, __c51, 1),
+          usageModifications: __S(833, __c52, 1),
           clientToken: S.optional(S.String).pipe(
             T.HttpHeader("X-Amzn-Client-Token"),
             T.IdempotencyToken(),
@@ -3473,13 +3595,13 @@ function __c51(j: number): any {
           id: S.optional(S.String),
           group: S.optional(S.String),
           usageAccountId: S.optional(S.String),
-          quantities: S.optional(__S(449, __c56, 1)),
-          historicalUsage: S.optional(__S(435, __c54, 3)),
+          quantities: S.optional(__S(913, __c57, 1)),
+          historicalUsage: S.optional(__S(883, __c55, 3)),
           key: S.optional(S.String),
         }),
       ).annotate({ identifier: "BatchCreateBillScenarioUsageModificationItem" });
     case 4:
-      return S.Array(__S(411, __c51, 3));
+      return S.Array(__S(835, __c52, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -3489,20 +3611,20 @@ function __c51(j: number): any {
         }),
       ).annotate({ identifier: "BatchCreateBillScenarioUsageModificationError" });
     case 6:
-      return S.Array(__S(413, __c51, 5));
+      return S.Array(__S(837, __c52, 5));
     case 7:
       return S.suspend(() =>
-        S.Struct({ items: S.optional(__S(412, __c51, 4)), errors: S.optional(__S(414, __c51, 6)) }),
+        S.Struct({ items: S.optional(__S(836, __c52, 4)), errors: S.optional(__S(838, __c52, 6)) }),
       ).annotate({ identifier: "BatchCreateBillScenarioUsageModificationResponse" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3513,11 +3635,11 @@ function __c53(j: number): any {
       ).annotate({ identifier: "BillInterval" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.Array(
-        /*@__PURE__*/ S.suspend((): S.Schema<Expression> => __S(434, __c54, 2)).annotate({
+        /*@__PURE__*/ S.suspend((): S.Schema<Expression> => __S(882, __c55, 2)).annotate({
           identifier: "Expression",
         }),
       );
@@ -3525,27 +3647,27 @@ function __c54(j: number): any {
       return S.suspend(() =>
         S.Struct({
           key: S.optional(S.String),
-          matchOptions: S.optional(__S(416, __c52, 0)),
-          values: S.optional(__S(416, __c52, 0)),
+          matchOptions: S.optional(__S(848, __c53, 0)),
+          values: S.optional(__S(848, __c53, 0)),
         }),
       ).annotate({ identifier: "ExpressionFilter" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           and: S.optional(
-            S.suspend(() => __S(432, __c54, 0)).annotate({ identifier: "ExpressionList" }),
+            S.suspend(() => __S(880, __c55, 0)).annotate({ identifier: "ExpressionList" }),
           ),
           or: S.optional(
-            S.suspend(() => __S(432, __c54, 0)).annotate({ identifier: "ExpressionList" }),
+            S.suspend(() => __S(880, __c55, 0)).annotate({ identifier: "ExpressionList" }),
           ),
           not: S.optional(
-            S.suspend((): S.Schema<Expression> => __S(434, __c54, 2)).annotate({
+            S.suspend((): S.Schema<Expression> => __S(882, __c55, 2)).annotate({
               identifier: "Expression",
             }),
           ),
-          costCategories: S.optional(__S(433, __c54, 1)),
-          dimensions: S.optional(__S(433, __c54, 1)),
-          tags: S.optional(__S(433, __c54, 1)),
+          costCategories: S.optional(__S(881, __c55, 1)),
+          dimensions: S.optional(__S(881, __c55, 1)),
+          tags: S.optional(__S(881, __c55, 1)),
         }),
       ).annotate({ identifier: "Expression" });
     case 3:
@@ -3556,23 +3678,23 @@ function __c54(j: number): any {
           operation: S.String,
           location: S.optional(S.String),
           usageAccountId: S.String,
-          billInterval: __S(424, __c53, 0),
-          filterExpression: __S(434, __c54, 2),
+          billInterval: __S(864, __c54, 0),
+          filterExpression: __S(882, __c55, 2),
         }),
       ).annotate({ identifier: "HistoricalUsageEntity" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ startHour: S.Date.pipe(T.TimestampFormat("epoch-seconds")), amount: S.Number }),
       ).annotate({ identifier: "UsageAmount" });
     case 1:
-      return S.Array(__S(440, __c55, 0));
+      return S.Array(__S(896, __c56, 0));
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3583,7 +3705,7 @@ function __c56(j: number): any {
         }),
       ).annotate({ identifier: "UsageQuantity" });
     case 1:
-      return S.Array(__S(448, __c56, 0));
+      return S.Array(__S(912, __c57, 0));
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

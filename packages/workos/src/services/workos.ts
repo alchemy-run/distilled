@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownWorkosError } from "../errors.ts";
+import { WorkosServiceErrors } from "../errors.ts";
 import { WorkosProtocol, type WorkosOpError, type WorkosOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -254,9 +254,9 @@ export interface AcceptUserlandUserInvitesControllerResponse {
   /** An ISO 8601 timestamp. */
   updated_at: string;
   /** The token used to accept the invitation. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The URL where the recipient can accept the invitation. */
-  accept_invitation_url: string;
+  accept_invitation_url: string | Redacted.Redacted<string>;
 }
 export interface AddAuthorizationOrganizationRolePermissionsControllerPermissionRequest {
   /** The ID of the organization. */
@@ -361,7 +361,7 @@ export interface AgentAdminControllerLinkClaimAttemptToExternalUserRequest {
   /** The operation to perform on the claim attempt. Currently only `link_external_user` is supported. */
   type: string;
   /** The token identifying the claim attempt. */
-  claim_attempt_token: string;
+  claim_attempt_token: string | Redacted.Redacted<string>;
   /** The user to attach to the claim attempt, identified by email and external ID. */
   user: AgentAdminControllerLinkClaimAttemptToExternalUserRequestUser;
   /** The organization to place the agent in. Required when the user belongs to more than one organization. */
@@ -383,7 +383,7 @@ export interface ClaimViewResponse {
   /** Current status of the agent registration. */
   status: ClaimViewResponseStatus;
   /** The user code the agent needs to complete the claim. */
-  user_code: string;
+  user_code: string | Redacted.Redacted<string>;
   /** Organizations the user belongs to, offered as placement choices. */
   organizations: ClaimViewResponseOrganizationsList;
 }
@@ -391,7 +391,7 @@ export interface AgentBlueprintsTokenControllerMintTokenRequestBodyCase0 {
   /** How the session is minted: `user_delegated`, `autonomous`, `agent_delegated`, or `refresh`. */
   type: string;
   /** The access token of the user delegating to the agent. The token identifies the user and organization; effective permissions are resolved server-side. */
-  user_access_token: string;
+  user_access_token: string | Redacted.Redacted<string>;
   /** Optional caller-supplied context, echoed as an object with a `text` field in the `intent` claim of the minted access token. */
   intent?: string | undefined;
 }
@@ -407,7 +407,7 @@ export interface AgentBlueprintsTokenControllerMintTokenRequestBodyCase2 {
   /** How the session is minted: `user_delegated`, `autonomous`, `agent_delegated`, or `refresh`. */
   type: string;
   /** The agent's own access token to exchange for a new session on the same instance. The token must have been minted from this blueprint; permissions are re-derived from current authority. */
-  agent_access_token: string;
+  agent_access_token: string | Redacted.Redacted<string>;
   /** Optional caller-supplied context, echoed as an object with a `text` field in the `intent` claim of the minted access token. */
   intent?: string | undefined;
 }
@@ -765,7 +765,7 @@ export interface AuthenticationChallenge {
   /** The timestamp when the challenge will expire. Does not apply to TOTP factors. */
   expires_at?: string | undefined;
   /** The one-time code for the challenge. */
-  code?: string | undefined;
+  code?: string | Redacted.Redacted<string> | undefined;
   /** The unique ID of the authentication factor the challenge belongs to. */
   authentication_factor_id?: string | undefined;
   /** An ISO 8601 timestamp. */
@@ -909,7 +909,7 @@ export interface AuthorizeUserlandSsoControllerRequest {
   /** Additional OAuth scopes to request from the identity provider. */
   provider_scopes?: AuthorizeUserlandSsoControllerRequestProviderScopesList | undefined;
   /** A token representing a user invitation to redeem during authentication. */
-  invitation_token?: string | undefined;
+  invitation_token?: string | Redacted.Redacted<string> | undefined;
   /** Maximum allowable elapsed time, in seconds, since the user last actively authenticated. If the last authentication is older than this value, the user is prompted to re-authenticate; a value of `0` forces re-authentication. Only supported when the provider is `authkit`. */
   max_age?: number | undefined;
   /** Used to specify which screen to display when the provider is `authkit`. */
@@ -956,7 +956,7 @@ export interface ClientApiTokenControllerIssueClientApiTokenRequest {
 }
 export interface ClientApiTokenResponse {
   /** The Client API token. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 /** A set of key-value pairs to attach to the user. */
 export type UserObjectMetadataMap = { [key: string]: string | undefined };
@@ -1013,7 +1013,7 @@ export interface ConfirmUserlandUsersControllerEmailChangeRequest {
   /** The unique ID of the user. */
   id: string;
   /** The one-time code used to confirm the email change. */
-  code?: string | undefined;
+  code?: string | Redacted.Redacted<string> | undefined;
 }
 /** Object containing metadata key/value pairs associated with the user. */
 export type ConfirmUserlandUsersControllerEmailChangeResponseUserMetadataMap = {
@@ -1477,9 +1477,9 @@ export interface AuthenticationFactorEnrolledTotp {
   /** TOTP secret that can be manually entered into some authenticator apps in place of scanning a QR code. */
   secret: string | Redacted.Redacted<string>;
   /** Base64 encoded image containing scannable QR code. */
-  qr_code: string;
+  qr_code: string | Redacted.Redacted<string>;
   /** The `otpauth` URI that is encoded by the provided `qr_code`. */
-  uri: string;
+  uri: string | Redacted.Redacted<string>;
 }
 export interface AuthenticationFactorEnrolled {
   /** Distinguishes the authentication factor object. */
@@ -1723,7 +1723,7 @@ export interface CreateConnectionAttributeMapsDto {
 export type CreateConnectionSamlOptionsDtoIdpSigningCertsList = Array<string>;
 export interface CreateConnectionKeyPairDto {
   /** The PEM-encoded private key. */
-  key: string;
+  key: string | Redacted.Redacted<string>;
   /** The PEM-encoded X.509 certificate for the key. */
   cert: string;
 }
@@ -2289,7 +2289,7 @@ export interface CreateJumpWireWebDataVaultControllerRequest {
   /** Unique name for the object. */
   name: string;
   /** Plaintext data to encrypt and store. */
-  value: string;
+  value: string | Redacted.Redacted<string>;
 }
 /** Map of values used to determine the encryption key. */
 export type ObjectMetadataContextMap = { [key: string]: string | undefined };
@@ -2354,7 +2354,7 @@ export interface OrganizationApiKeyWithValue {
   /** An ISO 8601 timestamp. */
   updated_at: string;
   /** The full API Key value. Only returned once at creation time. */
-  value: string;
+  value: string | Redacted.Redacted<string>;
 }
 export interface CreateOrganizationDomainsControllerRequest {
   /** The domain to add to the organization. */
@@ -2385,7 +2385,7 @@ export interface CreateOrganizationDomainsControllerResponse {
   /** The prefix used in DNS verification. */
   verification_prefix?: string | undefined;
   /** Validation token to be used in DNS TXT record. */
-  verification_token?: string | undefined;
+  verification_token?: string | Redacted.Redacted<string> | undefined;
   /** Strategy used to verify the domain. */
   verification_strategy?:
     | CreateOrganizationDomainsControllerResponseVerificationStrategy
@@ -2446,7 +2446,7 @@ export interface OrganizationDomainsItem {
   /** The prefix used in DNS verification. */
   verification_prefix?: string | undefined;
   /** Validation token to be used in DNS TXT record. */
-  verification_token?: string | undefined;
+  verification_token?: string | Redacted.Redacted<string> | undefined;
   /** Strategy used to verify the domain. */
   verification_strategy?: OrganizationDomainsItemVerificationStrategy | undefined;
   /** An ISO 8601 timestamp. */
@@ -2507,7 +2507,7 @@ export interface CreatePortalSessionsControllerRequest {
 }
 export interface PortalLinkResponse {
   /** An ephemeral link to initiate the Admin Portal. */
-  link?: string | undefined;
+  link?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateRedirectUrisControllerRequest {
   /** The redirect URI to create. */
@@ -2647,7 +2647,7 @@ export interface UserApiKeyWithValue {
   /** An ISO 8601 timestamp. */
   updated_at: string;
   /** The full API Key value. Only returned once at creation time. */
-  value: string;
+  value: string | Redacted.Redacted<string>;
 }
 /** The locale to use when rendering the invitation email. Defaults to the environment's default locale. See [supported locales](/authkit/hosted-ui#localization). */
 export type CreateUserlandUserInvitesControllerRequestLocale =
@@ -2785,9 +2785,9 @@ export interface UserlandUserInvite {
   /** An ISO 8601 timestamp. */
   updated_at?: string | undefined;
   /** The token used to accept the invitation. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** The URL where the recipient can accept the invitation. */
-  accept_invitation_url?: string | undefined;
+  accept_invitation_url?: string | Redacted.Redacted<string> | undefined;
 }
 /** An array of role identifiers. Limited to one role when Multiple Roles is disabled. Mutually exclusive with `role_slug`. */
 export type CreateUserlandUserOrganizationMembershipsControllerRequestRoleSlugsList = Array<string>;
@@ -3158,7 +3158,7 @@ export interface DataIntegrationVendedCredentialCase0 {
   /** The authentication method for this credential. Additional values may be added in the future; handle unknown values gracefully. */
   auth_method: string;
   /** The vended secret. An OAuth access token when `auth_method` is `oauth`, the API key when `api_key`, or the client-credentials access token when `client_credentials`. */
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** The ISO-8601 formatted timestamp indicating when the credential expires, or `null` if it does not expire. Present for `oauth` and `client_credentials` credentials; absent for `api_key`. */
   expires_at: string | null;
   /** The scopes granted to the access token. Present for `oauth` and `client_credentials` credentials; absent for `api_key`. */
@@ -3178,7 +3178,7 @@ export interface DataIntegrationVendedCredentialCase1 {
   /** The authentication method for this credential. Additional values may be added in the future; handle unknown values gracefully. */
   auth_method: string;
   /** The API key secret. */
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** Provider-declared, non-secret config from the installation snapshot, with current defaults for unset fields. Includes both integration- and installation-scope fields; omits undeclared fields and fields marked secret. Use these values to address a per-tenant host, such as Snowflake's `account` or Zendesk's `subdomain`. Empty when no values are disclosable. Changes to integration or organization pins require reconnecting or explicitly rebinding the connection. Defaults are live and can differ from a cached token's audience until refresh or re-mint. */
   config: DataIntegrationVendedCredentialCase1ConfigMap;
 }
@@ -3198,7 +3198,7 @@ export interface DataIntegrationVendedCredentialCase2 {
   /** The authentication method for this credential. Additional values may be added in the future; handle unknown values gracefully. */
   auth_method: string;
   /** The client-credentials access token. */
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** The ISO-8601 formatted timestamp indicating when the credential expires. */
   expires_at: string | null;
   /** The scopes granted to the access token. */
@@ -4352,7 +4352,7 @@ export interface OrganizationDomainStandAlone {
   /** The prefix used in DNS verification. */
   verification_prefix?: string | undefined;
   /** Validation token to be used in DNS TXT record. */
-  verification_token?: string | undefined;
+  verification_token?: string | Redacted.Redacted<string> | undefined;
   /** Strategy used to verify the domain. */
   verification_strategy?: OrganizationDomainStandAloneVerificationStrategy | undefined;
   /** An ISO 8601 timestamp. */
@@ -4426,7 +4426,7 @@ export interface RadarChallenge {
   /** An ISO 8601 timestamp. */
   updated_at: string;
   /** The code used to verify the Radar Challenge. */
-  code: string;
+  code: string | Redacted.Redacted<string>;
 }
 export interface GetSamlSpSigningCertificatesControllerRequest {
   /** Unique identifier for the Connection. */
@@ -4548,7 +4548,7 @@ export interface MagicAuth {
   /** An ISO 8601 timestamp. */
   updated_at?: string | undefined;
   /** The code used to verify the Magic Auth code. */
-  code?: string | undefined;
+  code?: string | Redacted.Redacted<string> | undefined;
 }
 export interface GetUserlandUserIdentitiesControllerRequest {
   /** The unique ID of the user. */
@@ -4653,7 +4653,7 @@ export interface EmailVerification {
   /** An ISO 8601 timestamp. */
   updated_at?: string | undefined;
   /** The code used to verify the email. */
-  code?: string | undefined;
+  code?: string | Redacted.Redacted<string> | undefined;
 }
 export type InviteItContactsControllerRequestIntentsItem =
   | "sso"
@@ -4724,7 +4724,7 @@ export interface Object {
   /** Unique name of the object. */
   name: string;
   /** Decrypted plaintext value. */
-  value: string;
+  value: string | Redacted.Redacted<string>;
 }
 export interface JumpWireWebDataVaultControllerShowByNameRequest {
   /** Unique name of the object. */
@@ -5770,7 +5770,7 @@ export interface EventSchemaDataDomainsItem {
   /** The prefix used in DNS verification. */
   verification_prefix?: string | undefined;
   /** Validation token to be used in DNS TXT record. */
-  verification_token?: string | undefined;
+  verification_token?: string | Redacted.Redacted<string> | undefined;
   /** Strategy used to verify the domain. */
   verification_strategy?: EventSchemaDataDomainsItemVerificationStrategy | undefined;
   /** An ISO 8601 timestamp. */
@@ -5894,7 +5894,7 @@ export interface EventSchemaDataOrganizationDomain {
   /** The prefix used in DNS verification. */
   verification_prefix?: string | undefined;
   /** Validation token to be used in DNS TXT record. */
-  verification_token?: string | undefined;
+  verification_token?: string | Redacted.Redacted<string> | undefined;
   /** Strategy used to verify the domain. */
   verification_strategy?: EventSchemaDataOrganizationDomainVerificationStrategy | undefined;
   /** An ISO 8601 timestamp. */
@@ -6119,7 +6119,7 @@ export interface EventSchemaData {
   /** The prefix used in DNS verification. */
   verification_prefix?: string | undefined;
   /** Validation token to be used in DNS TXT record. */
-  verification_token?: string | undefined;
+  verification_token?: string | Redacted.Redacted<string> | undefined;
   /** Strategy used to verify the domain. */
   verification_strategy?: EventSchemaDataVerificationStrategy | undefined;
   /** The reason the domain verification failed. */
@@ -7003,7 +7003,7 @@ export interface WebhookEndpointList {
 }
 export interface LogoutSsoControllerRequest {
   /** The logout token returned from the [Logout Authorize](/reference/sso/logout/authorize) endpoint. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface LogoutSsoControllerResponse {}
 export interface LogoutUserlandSessionsControllerRequest {
@@ -7424,7 +7424,7 @@ export interface ResendUserlandUserInvitesControllerRequest {
 }
 export interface ResetUserlandUsersControllerPassword0Request {
   /** The password reset token. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** The new password to set for the user. */
   new_password?: string | Redacted.Redacted<string> | undefined;
 }
@@ -7497,15 +7497,15 @@ export interface RevokeUserlandUserInvitesControllerResponse {
   /** An ISO 8601 timestamp. */
   updated_at: string;
   /** The token used to accept the invitation. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The URL where the recipient can accept the invitation. */
-  accept_invitation_url: string;
+  accept_invitation_url: string | Redacted.Redacted<string>;
 }
 export interface SendPublicRadarChallengesControllerRadarSmsChallengeRequest {
   /** The ID of the user to send the SMS challenge to. */
   user_id: string;
   /** The pending authentication token from a previous authentication attempt that triggered the Radar challenge. */
-  pending_authentication_token: string;
+  pending_authentication_token: string | Redacted.Redacted<string>;
   /** The phone number to send the SMS verification code to. */
   phone_number: string;
   /** The IP address of the user's request. */
@@ -7850,9 +7850,9 @@ export interface SsoControllerLogoutAuthorizeRequest {
 }
 export interface SsoLogoutAuthorizeResponse {
   /** The URL to redirect the user to in order to log out ([Logout Redirect](/reference/sso/logout) endpoint ready to use). */
-  logout_url?: string | undefined;
+  logout_url?: string | Redacted.Redacted<string> | undefined;
   /** The logout token to be used in the [Logout Redirect](/reference/sso/logout) endpoint. */
-  logout_token?: string | undefined;
+  logout_token?: string | Redacted.Redacted<string> | undefined;
 }
 export type SsoControllerTokenRequestGrantType =
   | "authorization_code"
@@ -7861,15 +7861,15 @@ export interface SsoControllerTokenRequest {
   /** The client ID of the WorkOS environment. */
   client_id: string;
   /** The client secret of the WorkOS environment. */
-  client_secret: string;
+  client_secret: string | Redacted.Redacted<string>;
   /** The authorization code received from the authorization callback. Required when `grant_type` is `authorization_code`. */
-  code?: string | undefined;
+  code?: string | Redacted.Redacted<string> | undefined;
   /** The grant type for the token request. */
   grant_type: SsoControllerTokenRequestGrantType | (string & {});
   /** The PKCE code verifier matching the `code_challenge` sent with the authorization request. Required when the authorization request included a `code_challenge`. Must be sent in the request body. */
-  code_verifier?: string | undefined;
+  code_verifier?: string | Redacted.Redacted<string> | undefined;
   /** The OIDC ID token to exchange. Required when `grant_type` is `urn:ietf:params:oauth:grant-type:token-exchange`. Must be sent in the request body. */
-  subject_token?: string | undefined;
+  subject_token?: string | Redacted.Redacted<string> | undefined;
   /** The type of the subject token. Required when `grant_type` is `urn:ietf:params:oauth:grant-type:token-exchange`. Must be sent in the request body. */
   subject_token_type?: string | undefined;
   /** The ID of the organization whose connection the subject token is validated against. Required when `grant_type` is `urn:ietf:params:oauth:grant-type:token-exchange`. Must be sent in the request body. */
@@ -8415,7 +8415,7 @@ export interface UpdateJumpWireWebDataVaultControllerRequest {
   /** Unique identifier of the object. */
   id: string;
   /** New plaintext value. */
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** ID of the expected current version for optimistic locking. */
   version_check?: string | null | undefined;
 }
@@ -8764,7 +8764,7 @@ export interface UserlandMagicAuthControllerSendMagicAuthCodeAndReturnRequest {
   /** The email address to send the magic code to. */
   email?: string | undefined;
   /** The invitation token to associate with this magic code. */
-  invitation_token?: string | undefined;
+  invitation_token?: string | Redacted.Redacted<string> | undefined;
   /** The IP address of the user's request. Required when Radar is in Decision mode. */
   ip_address?: string | undefined;
   /** The user agent string from the user's request. */
@@ -8795,7 +8795,7 @@ export interface UserlandMagicAuthControllerSendMagicAuthCodeAndReturnResponse {
   /** An ISO 8601 timestamp. */
   updated_at?: string | undefined;
   /** The code used to verify the Magic Auth code. */
-  code?: string | undefined;
+  code?: string | Redacted.Redacted<string> | undefined;
   /** The ID of the Radar authentication attempt created for this request when Radar is enabled. Pass this value to the authenticate endpoint to associate the subsequent authentication with this Radar attempt. */
   radar_auth_attempt_id?: string | undefined;
 }
@@ -8806,11 +8806,11 @@ export interface UserlandSessionsControllerAuthenticate0RequestBodyCase0 {
   client_secret?: string | Redacted.Redacted<string> | undefined;
   grant_type: string;
   /** The authorization code received from the redirect. */
-  code: string;
+  code: string | Redacted.Redacted<string>;
   /** The PKCE code verifier used to derive the code challenge passed to the authorization URL. */
-  code_verifier?: string | undefined;
+  code_verifier?: string | Redacted.Redacted<string> | undefined;
   /** An invitation token to accept during authentication. */
-  invitation_token?: string | undefined;
+  invitation_token?: string | Redacted.Redacted<string> | undefined;
   /** The IP address of the user's request. Required when Radar is in Decision mode. */
   ip_address?: string | undefined;
   /** A unique identifier for the device. */
@@ -8831,7 +8831,7 @@ export interface UserlandSessionsControllerAuthenticate0RequestBodyCase1 {
   /** The user's password. */
   password: string | Redacted.Redacted<string>;
   /** An invitation token to accept during authentication. */
-  invitation_token?: string | undefined;
+  invitation_token?: string | Redacted.Redacted<string> | undefined;
   /** The IP address of the user's request. Required when Radar is in Decision mode. */
   ip_address?: string | undefined;
   /** A unique identifier for the device. */
@@ -8867,11 +8867,11 @@ export interface UserlandSessionsControllerAuthenticate0RequestBodyCase3 {
   client_secret: string | Redacted.Redacted<string>;
   grant_type: string;
   /** The one-time code for Magic Auth authentication. */
-  code: string;
+  code: string | Redacted.Redacted<string>;
   /** The user's email address. */
   email: string;
   /** An invitation token to accept during authentication. */
-  invitation_token?: string | undefined;
+  invitation_token?: string | Redacted.Redacted<string> | undefined;
   /** The IP address of the user's request. */
   ip_address?: string | undefined;
   /** A unique identifier for the device. */
@@ -8888,9 +8888,9 @@ export interface UserlandSessionsControllerAuthenticate0RequestBodyCase4 {
   client_secret: string | Redacted.Redacted<string>;
   grant_type: string;
   /** The email verification code. */
-  code: string;
+  code: string | Redacted.Redacted<string>;
   /** The pending authentication token from a previous authentication attempt. */
-  pending_authentication_token: string;
+  pending_authentication_token: string | Redacted.Redacted<string>;
   /** The IP address of the user's request. */
   ip_address?: string | undefined;
   /** A unique identifier for the device. */
@@ -8905,9 +8905,9 @@ export interface UserlandSessionsControllerAuthenticate0RequestBodyCase5 {
   client_secret: string | Redacted.Redacted<string>;
   grant_type: string;
   /** The TOTP code from the authenticator app. */
-  code: string;
+  code: string | Redacted.Redacted<string>;
   /** The pending authentication token from a previous authentication attempt. */
-  pending_authentication_token: string;
+  pending_authentication_token: string | Redacted.Redacted<string>;
   /** The ID of the MFA authentication challenge. */
   authentication_challenge_id: string;
   /** The IP address of the user's request. */
@@ -8924,7 +8924,7 @@ export interface UserlandSessionsControllerAuthenticate0RequestBodyCase6 {
   client_secret: string | Redacted.Redacted<string>;
   grant_type: string;
   /** The token from the `email_completion_required` response. */
-  email_completion_token: string;
+  email_completion_token: string | Redacted.Redacted<string>;
   /** The email address the user supplied for a profile the identity provider left without one. */
   email: string;
   /** The IP address of the user's request. Required when Radar is in Decision mode. */
@@ -8943,7 +8943,7 @@ export interface UserlandSessionsControllerAuthenticate0RequestBodyCase7 {
   client_secret: string | Redacted.Redacted<string>;
   grant_type: string;
   /** The pending authentication token from a previous authentication attempt. */
-  pending_authentication_token: string;
+  pending_authentication_token: string | Redacted.Redacted<string>;
   /** The ID of the organization the user selected. */
   organization_id: string;
   /** The IP address of the user's request. */
@@ -8960,11 +8960,11 @@ export interface UserlandSessionsControllerAuthenticate0RequestBodyCase8 {
   client_secret: string | Redacted.Redacted<string>;
   grant_type: string;
   /** The one-time code from the Radar email challenge. */
-  code: string;
+  code: string | Redacted.Redacted<string>;
   /** The ID of the Radar email challenge being verified. */
   radar_challenge_id: string;
   /** The pending authentication token from a previous authentication attempt. */
-  pending_authentication_token: string;
+  pending_authentication_token: string | Redacted.Redacted<string>;
   /** The IP address of the user's request. */
   ip_address?: string | undefined;
   /** A unique identifier for the device. */
@@ -8979,13 +8979,13 @@ export interface UserlandSessionsControllerAuthenticate0RequestBodyCase9 {
   client_secret: string | Redacted.Redacted<string>;
   grant_type: string;
   /** The one-time code from the Radar SMS challenge. */
-  code: string;
+  code: string | Redacted.Redacted<string>;
   /** The ID of the Radar SMS verification being confirmed. Required for sign-up challenges; omitted for sign-in challenges, where the verification is resolved server-side. */
   verification_id?: string | undefined;
   /** The phone number the Radar SMS challenge was sent to. Required for sign-up challenges; omitted for sign-in challenges, where the phone number on file is resolved server-side. */
   phone_number?: string | undefined;
   /** The pending authentication token from a previous authentication attempt. */
-  pending_authentication_token: string;
+  pending_authentication_token: string | Redacted.Redacted<string>;
   /** The IP address of the user's request. */
   ip_address?: string | undefined;
   /** A unique identifier for the device. */
@@ -8998,7 +8998,7 @@ export interface UserlandSessionsControllerAuthenticate0RequestBodyCase10 {
   client_id: string;
   grant_type: string;
   /** The device verification code. */
-  device_code: string;
+  device_code: string | Redacted.Redacted<string>;
   /** The IP address of the user's request. */
   ip_address?: string | undefined;
   /** A unique identifier for the device. */
@@ -9067,7 +9067,7 @@ export interface UserlandAuthenticateResponse {
   /** The ID of the organization the user selected to sign in to. */
   organization_id?: string | undefined;
   /** An authorization code that can be exchanged for tokens by a different application. */
-  authkit_authorization_code?: string | undefined;
+  authkit_authorization_code?: string | Redacted.Redacted<string> | undefined;
   /** A JWT containing information about the current session. */
   access_token?: string | Redacted.Redacted<string> | undefined;
   /** [Exchange this token](/reference/authkit/authentication/refresh-token) for a new access token. */
@@ -9085,9 +9085,9 @@ export interface UserlandSsoControllerDeviceAuthorizationRequest {
 }
 export interface DeviceAuthorizationResponse {
   /** The device verification code. */
-  device_code?: string | undefined;
+  device_code?: string | Redacted.Redacted<string> | undefined;
   /** The end-user verification code. */
-  user_code?: string | undefined;
+  user_code?: string | Redacted.Redacted<string> | undefined;
   /** The end-user verification URI. */
   verification_uri?: string | undefined;
   /** Verification URI that includes the user code. */
@@ -9356,7 +9356,7 @@ export interface UserlandUsersControllerEmailVerification0Request {
   /** The ID of the user. */
   id: string;
   /** The one-time email verification code. */
-  code?: string | undefined;
+  code?: string | Redacted.Redacted<string> | undefined;
 }
 export interface VerifyEmailResponse {
   /** The user whose email was verified. */
@@ -9452,13 +9452,13 @@ export interface ValidateAgentAdminControllerCredentialRequestBodyCase0 {
   /** The kind of credential being validated -- an agent API key or an agent access token. */
   type: string;
   /** The credential value to validate: the API key value for `api_key`, or the access token (JWT) for `access_token`. */
-  credential: string;
+  credential: string | Redacted.Redacted<string>;
 }
 export interface ValidateAgentAdminControllerCredentialRequestBodyCase1 {
   /** The kind of credential being validated -- an agent API key or an agent access token. */
   type: string;
   /** The credential value to validate: the API key value for `api_key`, or the access token (JWT) for `access_token`. */
-  credential: string;
+  credential: string | Redacted.Redacted<string>;
   /** When provided, the access token's `aud` claim is verified against this value. Tokens issued for a different resource are rejected. */
   audience?: string | undefined;
 }
@@ -9481,7 +9481,7 @@ export interface ValidateAgentBlueprintsTokenControllerTokenRequest {
   /** The unique ID of the agent blueprint. */
   agent_blueprint_id: string;
   /** The agent access token (a JWT) to validate. */
-  agent_access_token: string;
+  agent_access_token: string | Redacted.Redacted<string>;
 }
 /** The effective permission slugs carried by the token. */
 export type AgentTokenValidationPermissionsList = Array<string>;
@@ -9505,7 +9505,7 @@ export interface AgentTokenValidation {
 }
 export interface ValidateApiKeysControllerApiKeyRequest {
   /** The value for an API key. */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ApiKeyValidationResponse {
   api_key?: ApiKey | null | undefined;
@@ -9516,7 +9516,7 @@ export interface VerifyAuthenticationChallengesControllerRequest {
   /** The unique ID of the Authentication Challenge. */
   id: string;
   /** The one-time code to verify. */
-  code: string;
+  code: string | Redacted.Redacted<string>;
 }
 export interface AuthenticationChallengeVerifyResponse {
   /** The authentication challenge object. */
@@ -9586,7 +9586,7 @@ export interface WidgetsPublicControllerIssueWidgetSessionTokenRequest {
 }
 export interface WidgetSessionTokenResponse {
   /** The widget session token. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ErrorBodyWithCode {
   /** The error code identifying the type of error. */
@@ -9953,7 +9953,7 @@ export interface Error400BodyCase34 {
   /** The email address of the user that must authenticate via SSO. */
   email: string;
   /** A token that links the subsequent SSO authentication back to the pending authentication so the authorization session can be completed. */
-  pending_authentication_token?: string | undefined;
+  pending_authentication_token?: string | Redacted.Redacted<string> | undefined;
 }
 export type Error400Body6 =
   | ErrorBodyWithCode
@@ -10088,7 +10088,7 @@ export interface EmailCompletionRequiredErrorBodyWithEmailCompletionToken {
   /** A human-readable description of the error. */
   message: string;
   /** Pass this to the `email-completion` grant, with the address the user supplies, to finish authenticating. */
-  email_completion_token: string;
+  email_completion_token: string | Redacted.Redacted<string>;
 }
 export type EmailVerificationRequiredErrorBody = ErrorBodyWithCode;
 export type EmailPasswordAuthDisabledErrorBody = ErrorBodyWithCode;
@@ -10236,7 +10236,8 @@ export const AcceptUserlandUserInvitesController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9376, __c293, 0) as any as S.Schema<AcceptUserlandUserInvitesControllerRequest>,
   output: __S(9408, __c294, 0) as any as S.Schema<AcceptUserlandUserInvitesControllerResponse>,
-  errors: [BadRequest, NotFound, UnknownWorkosError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10266,7 +10267,8 @@ export const AddAuthorizationOrganizationRolePermissionsControllerPermission: AP
     __c315,
     0,
   ) as any as S.Schema<AddAuthorizationOrganizationRolePermissionsControllerPermissionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10296,7 +10298,8 @@ export const AddAuthorizationRolePermissionsControllerPermission: API.OperationM
     __c315,
     0,
   ) as any as S.Schema<AddAuthorizationRolePermissionsControllerPermissionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10318,7 +10321,8 @@ export const AddGroupMembershipsControllerMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10976, __c343, 0) as any as S.Schema<AddGroupMembershipsControllerMemberRequest>,
   output: __S(11008, __c344, 0) as any as S.Schema<Group>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10343,7 +10347,8 @@ export const AgentAdminControllerLinkClaimAttemptToExternalUser: API.OperationMe
     1,
   ) as any as S.Schema<AgentAdminControllerLinkClaimAttemptToExternalUserRequest>,
   output: __S(11362, __c355, 2) as any as S.Schema<ClaimViewResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10364,7 +10369,8 @@ export const AgentBlueprintsTokenControllerMintToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<AgentBlueprintsTokenControllerMintTokenRequest>,
   output: __S(193, __c6, 1) as any as S.Schema<AgentToken>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10385,7 +10391,8 @@ export const ApiKeysControllerExpire: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<ApiKeysControllerExpireRequest>,
   output: __S(896, __c28, 0) as any as S.Schema<ApiKey>,
-  errors: [NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10402,7 +10409,8 @@ export const ApplicationsControllerFind: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<ApplicationsControllerFindRequest>,
   output: __S(1410, __c44, 2) as any as S.Schema<ApplicationsControllerFindResponse>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10419,7 +10427,8 @@ export const ApproveWaitlistEntriesController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<ApproveWaitlistEntriesControllerRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<ApproveWaitlistEntriesControllerResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10444,7 +10453,8 @@ export const AssignAuthorizationRoleAssignmentsControllerRole: API.OperationMeth
     0,
   ) as any as S.Schema<AssignAuthorizationRoleAssignmentsControllerRoleRequest>,
   output: __S(2401, __c75, 1) as any as S.Schema<UserRoleAssignment>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10461,7 +10471,8 @@ export const AuditLogExportsControllerExports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c91, 0) as any as S.Schema<AuditLogExportsControllerExportsRequest>,
   output: __S(2944, __c92, 0) as any as S.Schema<AuditLogExportJson>,
-  errors: [BadRequest, NotFound, UnknownWorkosError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10482,7 +10493,8 @@ export const AuditLogsRetentionControllerAuditLogsRetention: API.OperationMethod
     0,
   ) as any as S.Schema<AuditLogsRetentionControllerAuditLogsRetentionRequest>,
   output: __S(3456, __c108, 0) as any as S.Schema<AuditLogsRetentionJson>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10506,7 +10518,8 @@ export const AuditLogValidatorVersionsControllerSchemas: API.OperationMethod<
     __c121,
     2,
   ) as any as S.Schema<AuditLogValidatorVersionsControllerSchemasResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10526,7 +10539,8 @@ export const AuthenticationFactorsControllerChallenge: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4416, __c138, 0) as any as S.Schema<AuthenticationFactorsControllerChallengeRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<AuthenticationChallenge>,
-  errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10543,7 +10557,8 @@ export const AuthorizationPermissionsControllerFind: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4864, __c152, 0) as any as S.Schema<AuthorizationPermissionsControllerFindRequest>,
   output: __S(4896, __c153, 0) as any as S.Schema<AuthorizationPermission>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10564,7 +10579,8 @@ export const AuthorizationResourcesControllerFindById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5280, __c165, 0) as any as S.Schema<AuthorizationResourcesControllerFindByIdRequest>,
   output: __S(5312, __c166, 0) as any as S.Schema<AuthorizationResource>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10581,7 +10597,8 @@ export const AuthorizeSsoController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5696, __c178, 0) as any as S.Schema<AuthorizeSsoControllerRequest>,
   output: __S(5697, __c178, 1) as any as S.Schema<SsoAuthorizeUrlResponse>,
-  errors: [UnknownWorkosError],
+  errors: [],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10598,7 +10615,8 @@ export const AuthorizeUserlandSsoController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6080, __c190, 0) as any as S.Schema<AuthorizeUserlandSsoControllerRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<AuthorizeUserlandSsoControllerResponse>,
-  errors: [UnknownWorkosError],
+  errors: [],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10619,7 +10637,8 @@ export const CheckAuthorizationController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6496, __c203, 0) as any as S.Schema<CheckAuthorizationControllerRequest>,
   output: __S(6497, __c203, 1) as any as S.Schema<AuthorizationCheck>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10644,7 +10663,8 @@ export const ClientApiTokenControllerIssueClientApiToken: API.OperationMethod<
     0,
   ) as any as S.Schema<ClientApiTokenControllerIssueClientApiTokenRequest>,
   output: __S(6881, __c215, 1) as any as S.Schema<ClientApiTokenResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10665,7 +10685,8 @@ export const CompleteExternalAuthControllerLogin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7237, __c226, 5) as any as S.Schema<CompleteExternalAuthControllerLoginRequest>,
   output: __S(7238, __c226, 6) as any as S.Schema<ExternalAuthCompleteResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10691,7 +10712,8 @@ export const ConfirmUserlandUsersControllerEmailChange: API.OperationMethod<
     __c238,
     2,
   ) as any as S.Schema<ConfirmUserlandUsersControllerEmailChangeResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10708,7 +10730,8 @@ export const ConnectionsControllerFind: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7968, __c249, 0) as any as S.Schema<ConnectionsControllerFindRequest>,
   output: __S(8002, __c250, 2) as any as S.Schema<Connection>,
-  errors: [Forbidden, NotFound, UnknownWorkosError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10729,7 +10752,8 @@ export const CreateAgentBlueprintsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8160, __c255, 0) as any as S.Schema<CreateAgentBlueprintsControllerRequest>,
   output: __S(8224, __c257, 0) as any as S.Schema<AgentBlueprint>,
-  errors: [BadRequest, Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10749,7 +10773,8 @@ export const CreateApplicationCredentialsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8320, __c260, 0) as any as S.Schema<CreateApplicationCredentialsControllerRequest>,
   output: __S(8321, __c260, 1) as any as S.Schema<NewConnectApplicationSecret>,
-  errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10766,7 +10791,8 @@ export const CreateApplicationsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8352, __c261, 0) as any as S.Schema<CreateApplicationsControllerRequest>,
   output: __S(1410, __c44, 2) as any as S.Schema<CreateApplicationsControllerResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10787,7 +10813,8 @@ export const CreateAuditLogEventsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8388, __c262, 4) as any as S.Schema<CreateAuditLogEventsControllerRequest>,
   output: __S(8389, __c262, 5) as any as S.Schema<AuditLogEventCreateResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10804,7 +10831,8 @@ export const CreateAuditLogValidatorVersionsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8419, __c263, 3) as any as S.Schema<CreateAuditLogValidatorVersionsControllerRequest>,
   output: __S(3939, __c123, 3) as any as S.Schema<AuditLogSchemaJson>,
-  errors: [UnprocessableEntity, UnknownWorkosError],
+  errors: [UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10821,7 +10849,8 @@ export const CreateAuthenticationFactorsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8448, __c264, 0) as any as S.Schema<CreateAuthenticationFactorsControllerRequest>,
   output: __S(8513, __c266, 1) as any as S.Schema<AuthenticationFactorEnrolled>,
-  errors: [UnprocessableEntity, UnknownWorkosError],
+  errors: [UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10838,7 +10867,8 @@ export const CreateAuthkitOauthResourcesController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8544, __c267, 0) as any as S.Schema<CreateAuthkitOauthResourcesControllerRequest>,
   output: __S(8576, __c268, 0) as any as S.Schema<AuthkitOauthResource>,
-  errors: [UnprocessableEntity, UnknownWorkosError],
+  errors: [UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10864,7 +10894,8 @@ export const CreateAuthorizationGroupRoleAssignmentsController: API.OperationMet
     0,
   ) as any as S.Schema<CreateAuthorizationGroupRoleAssignmentsControllerRequest>,
   output: __S(8640, __c270, 0) as any as S.Schema<GroupRoleAssignment>,
-  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10895,7 +10926,8 @@ export const CreateAuthorizationOrganizationRolesController: API.OperationMethod
     __c315,
     0,
   ) as any as S.Schema<CreateAuthorizationOrganizationRolesControllerResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10917,7 +10949,8 @@ export const CreateAuthorizationPermissionsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8704, __c272, 0) as any as S.Schema<CreateAuthorizationPermissionsControllerRequest>,
   output: __S(8705, __c272, 1) as any as S.Schema<CreateAuthorizationPermissionsControllerResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10940,7 +10973,8 @@ export const CreateAuthorizationResourcesController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8736, __c273, 0) as any as S.Schema<CreateAuthorizationResourcesControllerRequest>,
   output: __S(8768, __c274, 0) as any as S.Schema<CreateAuthorizationResourcesControllerResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10963,7 +10997,8 @@ export const CreateAuthorizationRolesController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8800, __c275, 0) as any as S.Schema<CreateAuthorizationRolesControllerRequest>,
   output: __S(10080, __c315, 0) as any as S.Schema<CreateAuthorizationRolesControllerResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10986,7 +11021,8 @@ export const CreateConnectionsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8869, __c277, 5) as any as S.Schema<CreateConnectionsControllerRequest>,
   output: __S(8002, __c250, 2) as any as S.Schema<Connection>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11006,7 +11042,8 @@ export const CreateCorsOriginsControllerCorsOrigin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8928, __c279, 0) as any as S.Schema<CreateCorsOriginsControllerCorsOriginRequest>,
   output: __S(8960, __c280, 0) as any as S.Schema<CorsOriginResponse>,
-  errors: [Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11032,7 +11069,8 @@ export const CreateDataIntegrationsControllerApiKeyConnection: API.OperationMeth
     0,
   ) as any as S.Schema<CreateDataIntegrationsControllerApiKeyConnectionRequest>,
   output: __S(9024, __c282, 0) as any as S.Schema<ConnectedAccount>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11058,7 +11096,8 @@ export const CreateDataIntegrationsControllerClientCredentialsConnection: API.Op
     0,
   ) as any as S.Schema<CreateDataIntegrationsControllerClientCredentialsConnectionRequest>,
   output: __S(9024, __c282, 0) as any as S.Schema<ConnectedAccount>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11085,7 +11124,8 @@ export const CreateDataIntegrationsManagementControllerDataIntegration: API.Oper
     1,
   ) as any as S.Schema<CreateDataIntegrationsManagementControllerDataIntegrationRequest>,
   output: __S(9123, __c285, 3) as any as S.Schema<DataIntegration>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11111,7 +11151,8 @@ export const CreateDataIntegrationsOrganizationControllerOrganizationDataInstall
     0,
   ) as any as S.Schema<CreateDataIntegrationsOrganizationControllerOrganizationDataInstallationRequest>,
   output: __S(9024, __c282, 0) as any as S.Schema<ConnectedAccount>,
-  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11136,7 +11177,8 @@ export const CreateDataIntegrationsUserManagementControllerUserDataInstallation:
     0,
   ) as any as S.Schema<CreateDataIntegrationsUserManagementControllerUserDataInstallationRequest>,
   output: __S(9024, __c282, 0) as any as S.Schema<ConnectedAccount>,
-  errors: [NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11157,7 +11199,8 @@ export const CreateFlagTargetsControllerTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9248, __c289, 0) as any as S.Schema<CreateFlagTargetsControllerTargetRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<CreateFlagTargetsControllerTargetResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11179,7 +11222,8 @@ export const CreateGroupsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9280, __c290, 0) as any as S.Schema<CreateGroupsControllerRequest>,
   output: __S(11008, __c344, 0) as any as S.Schema<Group>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11201,7 +11245,8 @@ export const CreateItContactsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9312, __c291, 0) as any as S.Schema<CreateItContactsControllerRequest>,
   output: __S(9344, __c292, 0) as any as S.Schema<ItContact>,
-  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11222,7 +11267,8 @@ export const CreateJumpWireWebDataVaultController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9440, __c295, 0) as any as S.Schema<CreateJumpWireWebDataVaultControllerRequest>,
   output: __S(9472, __c296, 0) as any as S.Schema<ObjectMetadata>,
-  errors: [BadRequest, Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11242,7 +11288,8 @@ export const CreateOrganizationApiKeysController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9504, __c297, 0) as any as S.Schema<CreateOrganizationApiKeysControllerRequest>,
   output: __S(9505, __c297, 1) as any as S.Schema<OrganizationApiKeyWithValue>,
-  errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11259,7 +11306,8 @@ export const CreateOrganizationDomainsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9568, __c299, 0) as any as S.Schema<CreateOrganizationDomainsControllerRequest>,
   output: __S(9600, __c300, 0) as any as S.Schema<CreateOrganizationDomainsControllerResponse>,
-  errors: [Conflict, UnknownWorkosError],
+  errors: [Conflict],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11280,7 +11328,8 @@ export const CreateOrganizationsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9632, __c301, 0) as any as S.Schema<CreateOrganizationsControllerRequest>,
   output: __S(9665, __c302, 1) as any as S.Schema<Organization>,
-  errors: [BadRequest, Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11302,7 +11351,8 @@ export const CreatePortalSessionsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9728, __c304, 0) as any as S.Schema<CreatePortalSessionsControllerRequest>,
   output: __S(9729, __c304, 1) as any as S.Schema<PortalLinkResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11319,7 +11369,8 @@ export const CreateRedirectUrisController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9760, __c305, 0) as any as S.Schema<CreateRedirectUrisControllerRequest>,
   output: __S(9792, __c306, 0) as any as S.Schema<RedirectUri>,
-  errors: [BadRequest, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11341,7 +11392,8 @@ export const CreateSamlIdpSigningCertificatesController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9824, __c307, 0) as any as S.Schema<CreateSamlIdpSigningCertificatesControllerRequest>,
   output: __S(9856, __c308, 0) as any as S.Schema<SamlIdpSigningCertificate>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11367,7 +11419,8 @@ export const CreateSamlSpEncryptionCertificatesController: API.OperationMethod<
     0,
   ) as any as S.Schema<CreateSamlSpEncryptionCertificatesControllerRequest>,
   output: __S(9856, __c308, 0) as any as S.Schema<SamlSpEncryptionCertificate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11389,7 +11442,8 @@ export const CreateSamlSpSigningCertificatesController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9920, __c310, 0) as any as S.Schema<CreateSamlSpSigningCertificatesControllerRequest>,
   output: __S(9856, __c308, 0) as any as S.Schema<SamlSpSigningCertificate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11406,7 +11460,8 @@ export const CreateTeamsControllerTeam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9952, __c311, 0) as any as S.Schema<CreateTeamsControllerTeamRequest>,
   output: __S(9984, __c312, 0) as any as S.Schema<Team>,
-  errors: [Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11427,7 +11482,8 @@ export const CreateUserApiKeysController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10112, __c316, 0) as any as S.Schema<CreateUserApiKeysControllerRequest>,
   output: __S(10113, __c316, 1) as any as S.Schema<UserApiKeyWithValue>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11448,7 +11504,8 @@ export const CreateUserlandUserInvitesController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10176, __c318, 0) as any as S.Schema<CreateUserlandUserInvitesControllerRequest>,
   output: __S(10208, __c319, 0) as any as S.Schema<UserlandUserInvite>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11477,7 +11534,8 @@ export const CreateUserlandUserOrganizationMembershipsController: API.OperationM
     __c321,
     0,
   ) as any as S.Schema<CreateUserlandUserOrganizationMembershipsControllerResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11494,7 +11552,8 @@ export const CreateWaitlistsControllerEntry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10368, __c324, 0) as any as S.Schema<CreateWaitlistsControllerEntryRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<WaitlistEntry>,
-  errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11511,7 +11570,8 @@ export const CreateWebhookEndpointsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10400, __c325, 0) as any as S.Schema<CreateWebhookEndpointsControllerRequest>,
   output: __S(10432, __c326, 0) as any as S.Schema<WebhookEndpointJson>,
-  errors: [Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11535,7 +11595,8 @@ export const DataIntegrationsControllerFinishConnection: API.OperationMethod<
     0,
   ) as any as S.Schema<DataIntegrationsControllerFinishConnectionRequest>,
   output: __S(10465, __c327, 1) as any as S.Schema<DataIntegrationFinishConnectionResponse>,
-  errors: [BadRequest, Forbidden, UnknownWorkosError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11562,7 +11623,8 @@ export const DataIntegrationsControllerGetDataIntegrationAuthorizeUrl: API.Opera
     0,
   ) as any as S.Schema<DataIntegrationsControllerGetDataIntegrationAuthorizeUrlRequest>,
   output: __S(10497, __c328, 1) as any as S.Schema<DataIntegrationAuthorizeUrlResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11589,7 +11651,8 @@ export const DataIntegrationsControllerVendCredentials: API.OperationMethod<
     __c329,
     1,
   ) as any as S.Schema<DataIntegrationsControllerVendCredentialsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11618,7 +11681,8 @@ export const DeactivateUserlandUserOrganizationMembershipsController: API.Operat
     __c321,
     0,
   ) as any as S.Schema<DeactivateUserlandUserOrganizationMembershipsControllerResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11635,7 +11699,8 @@ export const DecryptJumpWireWebKeyController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10592, __c331, 0) as any as S.Schema<DecryptJumpWireWebKeyControllerRequest>,
   output: __S(10593, __c331, 1) as any as S.Schema<DecryptResponse>,
-  errors: [BadRequest, UnknownWorkosError],
+  errors: [BadRequest],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11652,7 +11717,8 @@ export const DeleteAgentBlueprintsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10656, __c333, 0) as any as S.Schema<DeleteAgentBlueprintsControllerRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<DeleteAgentBlueprintsControllerResponse>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11669,7 +11735,8 @@ export const DeleteAgentInstancesController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10688, __c334, 0) as any as S.Schema<DeleteAgentInstancesControllerRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<DeleteAgentInstancesControllerResponse>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11686,7 +11753,8 @@ export const DeleteApiKeysController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10720, __c335, 0) as any as S.Schema<DeleteApiKeysControllerRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<DeleteApiKeysControllerResponse>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11703,7 +11771,8 @@ export const DeleteApplicationCredentialsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10752, __c336, 0) as any as S.Schema<DeleteApplicationCredentialsControllerRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<DeleteApplicationCredentialsControllerResponse>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11720,7 +11789,8 @@ export const DeleteApplicationsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10784, __c337, 0) as any as S.Schema<DeleteApplicationsControllerRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<DeleteApplicationsControllerResponse>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11737,7 +11807,8 @@ export const DeleteAuthenticationFactorsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10816, __c338, 0) as any as S.Schema<DeleteAuthenticationFactorsControllerRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<DeleteAuthenticationFactorsControllerResponse>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11754,7 +11825,8 @@ export const DeleteAuthkitOauthResourcesController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10848, __c339, 0) as any as S.Schema<DeleteAuthkitOauthResourcesControllerRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<DeleteAuthkitOauthResourcesControllerResponse>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11784,7 +11856,8 @@ export const DeleteAuthorizationOrganizationRolesController: API.OperationMethod
     __c191,
     0,
   ) as any as S.Schema<DeleteAuthorizationOrganizationRolesControllerResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11801,7 +11874,8 @@ export const DeleteAuthorizationPermissionsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10912, __c341, 0) as any as S.Schema<DeleteAuthorizationPermissionsControllerRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<DeleteAuthorizationPermissionsControllerResponse>,
-  errors: [Forbidden, NotFound, UnknownWorkosError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11831,7 +11905,8 @@ export const DeleteAuthorizationResourcesByExternalIdControllerByExternalId: API
     __c191,
     0,
   ) as any as S.Schema<DeleteAuthorizationResourcesByExternalIdControllerByExternalIdResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11853,7 +11928,8 @@ export const DeleteAuthorizationResourcesController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11040, __c345, 0) as any as S.Schema<DeleteAuthorizationResourcesControllerRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<DeleteAuthorizationResourcesControllerResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11870,7 +11946,8 @@ export const DeleteAuthorizedApplicationsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11072, __c346, 0) as any as S.Schema<DeleteAuthorizedApplicationsControllerRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<DeleteAuthorizedApplicationsControllerResponse>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11887,7 +11964,8 @@ export const DeleteConnectionsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11104, __c347, 0) as any as S.Schema<DeleteConnectionsControllerRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<DeleteConnectionsControllerResponse>,
-  errors: [Forbidden, NotFound, UnknownWorkosError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11914,7 +11992,8 @@ export const DeleteDataIntegrationsManagementControllerDataIntegration: API.Oper
     __c191,
     0,
   ) as any as S.Schema<DeleteDataIntegrationsManagementControllerDataIntegrationResponse>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11941,7 +12020,8 @@ export const DeleteDataIntegrationsManagementControllerOrganizationDataIntegrati
     __c191,
     0,
   ) as any as S.Schema<DeleteDataIntegrationsManagementControllerOrganizationDataIntegrationResponse>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11970,7 +12050,8 @@ export const DeleteDataIntegrationsOrganizationControllerOrganizationDataInstall
     __c191,
     0,
   ) as any as S.Schema<DeleteDataIntegrationsOrganizationControllerOrganizationDataInstallationResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownWorkosError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11999,7 +12080,8 @@ export const DeleteDataIntegrationsUserManagementControllerUserDataInstallation:
     __c191,
     0,
   ) as any as S.Schema<DeleteDataIntegrationsUserManagementControllerUserDataInstallationResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownWorkosError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12016,7 +12098,8 @@ export const DeleteDirectoriesControllerDirectory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11264, __c352, 0) as any as S.Schema<DeleteDirectoriesControllerDirectoryRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<DeleteDirectoriesControllerDirectoryResponse>,
-  errors: [Forbidden, NotFound, UnknownWorkosError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12037,7 +12120,8 @@ export const DeleteFlagTargetsControllerTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11296, __c353, 0) as any as S.Schema<DeleteFlagTargetsControllerTargetRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<DeleteFlagTargetsControllerTargetResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12054,7 +12138,8 @@ export const DeleteGroupsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11328, __c354, 0) as any as S.Schema<DeleteGroupsControllerRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<DeleteGroupsControllerResponse>,
-  errors: [Forbidden, NotFound, UnknownWorkosError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12071,7 +12156,8 @@ export const DeleteItContactsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11456, __c358, 0) as any as S.Schema<DeleteItContactsControllerRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<DeleteItContactsControllerResponse>,
-  errors: [Forbidden, NotFound, UnknownWorkosError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12088,7 +12174,8 @@ export const DeleteJumpWireWebDataVaultController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11488, __c359, 0) as any as S.Schema<DeleteJumpWireWebDataVaultControllerRequest>,
   output: __S(11489, __c359, 1) as any as S.Schema<DeleteObjectResponse>,
-  errors: [NotFound, Conflict, UnknownWorkosError],
+  errors: [NotFound, Conflict],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12105,7 +12192,8 @@ export const DeleteOrganizationDomainsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11520, __c360, 0) as any as S.Schema<DeleteOrganizationDomainsControllerRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<DeleteOrganizationDomainsControllerResponse>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12126,7 +12214,8 @@ export const DeleteOrganizationsControllerOrganization: API.OperationMethod<
     __c191,
     0,
   ) as any as S.Schema<DeleteOrganizationsControllerOrganizationResponse>,
-  errors: [Forbidden, NotFound, UnknownWorkosError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12143,7 +12232,8 @@ export const DeleteRedirectUrisController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11584, __c362, 0) as any as S.Schema<DeleteRedirectUrisControllerRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<DeleteRedirectUrisControllerResponse>,
-  errors: [NotFound, Conflict, UnknownWorkosError],
+  errors: [NotFound, Conflict],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12172,7 +12262,8 @@ export const DeleteSamlIdpSigningCertificatesController: API.OperationMethod<
     __c191,
     0,
   ) as any as S.Schema<DeleteSamlIdpSigningCertificatesControllerResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12200,7 +12291,8 @@ export const DeleteSamlSpEncryptionCertificatesController: API.OperationMethod<
     __c191,
     0,
   ) as any as S.Schema<DeleteSamlSpEncryptionCertificatesControllerResponse>,
-  errors: [Forbidden, NotFound, UnknownWorkosError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12221,7 +12313,8 @@ export const DeleteSamlSpSigningCertificatesController: API.OperationMethod<
     __c191,
     0,
   ) as any as S.Schema<DeleteSamlSpSigningCertificatesControllerResponse>,
-  errors: [Forbidden, NotFound, UnknownWorkosError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12249,7 +12342,8 @@ export const DeleteUserlandUserOrganizationMembershipsController: API.OperationM
     __c191,
     0,
   ) as any as S.Schema<DeleteUserlandUserOrganizationMembershipsControllerResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12266,7 +12360,8 @@ export const DeleteWaitlistEntriesController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11744, __c367, 0) as any as S.Schema<DeleteWaitlistEntriesControllerRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<DeleteWaitlistEntriesControllerResponse>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12283,7 +12378,8 @@ export const DeleteWebhookEndpointsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<DeleteWebhookEndpointsControllerRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<DeleteWebhookEndpointsControllerResponse>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12300,7 +12396,8 @@ export const DescribeJumpWireWebDataVaultController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<DescribeJumpWireWebDataVaultControllerRequest>,
   output: __S(288, __c9, 0) as any as S.Schema<ObjectWithoutValue>,
-  errors: [BadRequest, NotFound, UnknownWorkosError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12317,7 +12414,8 @@ export const DirectoriesControllerFind: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<DirectoriesControllerFindRequest>,
   output: __S(354, __c11, 2) as any as S.Schema<Directory>,
-  errors: [Forbidden, NotFound, UnknownWorkosError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12334,7 +12432,8 @@ export const DirectoryGroupsControllerFind: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<DirectoryGroupsControllerFindRequest>,
   output: __S(416, __c13, 0) as any as S.Schema<DirectoryGroup>,
-  errors: [Forbidden, NotFound, UnknownWorkosError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12351,7 +12450,8 @@ export const DirectoryUsersControllerFind: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<DirectoryUsersControllerFindRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<DirectoryUserWithGroups>,
-  errors: [Forbidden, NotFound, UnknownWorkosError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12368,7 +12468,8 @@ export const DisableFeatureFlagsControllerFlag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<DisableFeatureFlagsControllerFlagRequest>,
   output: __S(608, __c19, 0) as any as S.Schema<DisableFeatureFlagsControllerFlagResponse>,
-  errors: [NotFound, Conflict, UnknownWorkosError],
+  errors: [NotFound, Conflict],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12385,7 +12486,8 @@ export const EnableFeatureFlagsControllerFlag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<EnableFeatureFlagsControllerFlagRequest>,
   output: __S(608, __c19, 0) as any as S.Schema<EnableFeatureFlagsControllerFlagResponse>,
-  errors: [NotFound, Conflict, UnknownWorkosError],
+  errors: [NotFound, Conflict],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12402,7 +12504,8 @@ export const ExportAuditLogExportsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<ExportAuditLogExportsControllerRequest>,
   output: __S(2944, __c92, 0) as any as S.Schema<AuditLogExportJson>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12419,7 +12522,8 @@ export const FeatureFlagsControllerFindBySlug: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<FeatureFlagsControllerFindBySlugRequest>,
   output: __S(768, __c24, 0) as any as S.Schema<Flag>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12436,7 +12540,8 @@ export const GetAgentAdminControllerRegistration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<GetAgentAdminControllerRegistrationRequest>,
   output: __S(835, __c26, 3) as any as S.Schema<AgentRegistration>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12453,7 +12558,8 @@ export const GetAgentBlueprintsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<GetAgentBlueprintsControllerRequest>,
   output: __S(8224, __c257, 0) as any as S.Schema<AgentBlueprint>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12470,7 +12576,8 @@ export const GetAgentInstancesController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<GetAgentInstancesControllerRequest>,
   output: __S(992, __c31, 0) as any as S.Schema<AgentInstance>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12487,7 +12594,8 @@ export const GetAgentInstanceSessionsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<GetAgentInstanceSessionsControllerRequest>,
   output: __S(1056, __c33, 0) as any as S.Schema<AgentInstanceSession>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12504,7 +12612,8 @@ export const GetAuthenticationFactorsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<GetAuthenticationFactorsControllerRequest>,
   output: __S(1121, __c35, 1) as any as S.Schema<AuthenticationFactor>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12528,7 +12637,8 @@ export const GetAuthorizationGroupRoleAssignmentsController: API.OperationMethod
     0,
   ) as any as S.Schema<GetAuthorizationGroupRoleAssignmentsControllerRequest>,
   output: __S(8640, __c270, 0) as any as S.Schema<GroupRoleAssignment>,
-  errors: [Forbidden, NotFound, UnknownWorkosError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12549,7 +12659,8 @@ export const GetAuthorizationOrganizationRolesController: API.OperationMethod<
     __c315,
     0,
   ) as any as S.Schema<GetAuthorizationOrganizationRolesControllerResponse>,
-  errors: [Forbidden, NotFound, UnknownWorkosError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12573,7 +12684,8 @@ export const GetAuthorizationResourcesByExternalIdControllerByExternalId: API.Op
     0,
   ) as any as S.Schema<GetAuthorizationResourcesByExternalIdControllerByExternalIdRequest>,
   output: __S(5312, __c166, 0) as any as S.Schema<AuthorizationResource>,
-  errors: [Forbidden, NotFound, UnknownWorkosError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12590,7 +12702,8 @@ export const GetAuthorizationRolesController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<GetAuthorizationRolesControllerRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<Role>,
-  errors: [Forbidden, NotFound, UnknownWorkosError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12621,7 +12734,8 @@ export const GetDataIntegrationsControllerUserlandUserToken: API.OperationMethod
     __c41,
     1,
   ) as any as S.Schema<GetDataIntegrationsControllerUserlandUserTokenResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12642,7 +12756,8 @@ export const GetDataIntegrationsManagementControllerDataIntegration: API.Operati
     0,
   ) as any as S.Schema<GetDataIntegrationsManagementControllerDataIntegrationRequest>,
   output: __S(9123, __c285, 3) as any as S.Schema<DataIntegration>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12665,7 +12780,8 @@ export const GetDataIntegrationsManagementControllerOrganizationDataIntegration:
     0,
   ) as any as S.Schema<GetDataIntegrationsManagementControllerOrganizationDataIntegrationRequest>,
   output: __S(9123, __c285, 3) as any as S.Schema<DataIntegration>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12690,7 +12806,8 @@ export const GetDataIntegrationsOrganizationControllerOrganizationDataInstallati
     0,
   ) as any as S.Schema<GetDataIntegrationsOrganizationControllerOrganizationDataInstallationRequest>,
   output: __S(9024, __c282, 0) as any as S.Schema<ConnectedAccount>,
-  errors: [BadRequest, NotFound, Conflict, UnknownWorkosError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12713,7 +12830,8 @@ export const GetDataIntegrationsOrganizationControllerOrganizationDataIntegratio
     0,
   ) as any as S.Schema<GetDataIntegrationsOrganizationControllerOrganizationDataIntegrationsRequest>,
   output: __S(1540, __c48, 4) as any as S.Schema<DataIntegrationsListResponse>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12738,7 +12856,8 @@ export const GetDataIntegrationsUserManagementControllerUserDataInstallation: AP
     0,
   ) as any as S.Schema<GetDataIntegrationsUserManagementControllerUserDataInstallationRequest>,
   output: __S(9024, __c282, 0) as any as S.Schema<ConnectedAccount>,
-  errors: [BadRequest, NotFound, Conflict, UnknownWorkosError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12761,7 +12880,8 @@ export const GetDataIntegrationsUserManagementControllerUserDataIntegrations: AP
     0,
   ) as any as S.Schema<GetDataIntegrationsUserManagementControllerUserDataIntegrationsRequest>,
   output: __S(1540, __c48, 4) as any as S.Schema<DataIntegrationsListResponse>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12778,7 +12898,8 @@ export const GetGroupsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<GetGroupsControllerRequest>,
   output: __S(11008, __c344, 0) as any as S.Schema<Group>,
-  errors: [Forbidden, NotFound, UnknownWorkosError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12795,7 +12916,8 @@ export const GetJwtTemplatesControllerJwtTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<GetJwtTemplatesControllerJwtTemplateRequest>,
   output: __S(1696, __c53, 0) as any as S.Schema<JwtTemplate>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12812,7 +12934,8 @@ export const GetOrganizationDomainsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<GetOrganizationDomainsControllerRequest>,
   output: __S(1760, __c55, 0) as any as S.Schema<OrganizationDomainStandAlone>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12833,7 +12956,8 @@ export const GetOrganizationsControllerAuditLogConfiguration: API.OperationMetho
     0,
   ) as any as S.Schema<GetOrganizationsControllerAuditLogConfigurationRequest>,
   output: __S(1794, __c56, 2) as any as S.Schema<AuditLogConfiguration>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12850,7 +12974,8 @@ export const GetOrganizationsControllerByExternalId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<GetOrganizationsControllerByExternalIdRequest>,
   output: __S(9665, __c302, 1) as any as S.Schema<Organization>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12867,7 +12992,8 @@ export const GetPublicRadarChallengesController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<GetPublicRadarChallengesControllerRequest>,
   output: __S(1953, __c61, 1) as any as S.Schema<RadarChallenge>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12888,7 +13014,8 @@ export const GetSamlSpSigningCertificatesController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<GetSamlSpSigningCertificatesControllerRequest>,
   output: __S(9856, __c308, 0) as any as S.Schema<SamlSpSigningCertificate>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12905,7 +13032,8 @@ export const GetSsoControllerProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<GetSsoControllerProfileRequest>,
   output: __S(2048, __c64, 0) as any as S.Schema<Profile>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12922,7 +13050,8 @@ export const GetTeamsControllerTeam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<GetTeamsControllerTeamRequest>,
   output: __S(9984, __c312, 0) as any as S.Schema<Team>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12939,7 +13068,8 @@ export const GetUserlandMagicAuthController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<GetUserlandMagicAuthControllerRequest>,
   output: __S(2144, __c67, 0) as any as S.Schema<MagicAuth>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12956,7 +13086,8 @@ export const GetUserlandUserIdentitiesController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<GetUserlandUserIdentitiesControllerRequest>,
   output: __S(2179, __c68, 3) as any as S.Schema<GetUserlandUserIdentitiesControllerResponse>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12973,7 +13104,8 @@ export const GetUserlandUserInvitesController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<GetUserlandUserInvitesControllerRequest>,
   output: __S(10208, __c319, 0) as any as S.Schema<UserlandUserInvite>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12990,7 +13122,8 @@ export const GetUserlandUserInvitesControllerByToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<GetUserlandUserInvitesControllerByTokenRequest>,
   output: __S(10208, __c319, 0) as any as S.Schema<UserlandUserInvite>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13011,7 +13144,8 @@ export const GetUserlandUserOrganizationMembershipsController: API.OperationMeth
     0,
   ) as any as S.Schema<GetUserlandUserOrganizationMembershipsControllerRequest>,
   output: __S(2304, __c72, 0) as any as S.Schema<UserlandUserOrganizationMembership>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13028,7 +13162,8 @@ export const GetUserlandUsersControllerByExternalId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<GetUserlandUsersControllerByExternalIdRequest>,
   output: __S(10336, __c323, 0) as any as S.Schema<UserlandUser>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13045,7 +13180,8 @@ export const GetUserlandUsersControllerEmailVerification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<GetUserlandUsersControllerEmailVerificationRequest>,
   output: __S(2144, __c67, 0) as any as S.Schema<EmailVerification>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13067,7 +13203,8 @@ export const InviteItContactsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<InviteItContactsControllerRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<InviteItContactsControllerResponse>,
-  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13084,7 +13221,8 @@ export const JumpWireWebDataVaultControllerIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<JumpWireWebDataVaultControllerIndexRequest>,
   output: __S(2563, __c80, 3) as any as S.Schema<ObjectListResponse>,
-  errors: [BadRequest, UnknownWorkosError],
+  errors: [BadRequest],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13101,7 +13239,8 @@ export const JumpWireWebDataVaultControllerShowById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<JumpWireWebDataVaultControllerShowByIdRequest>,
   output: __S(2656, __c83, 0) as any as S.Schema<Object>,
-  errors: [BadRequest, NotFound, UnknownWorkosError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13118,7 +13257,8 @@ export const JumpWireWebDataVaultControllerShowByName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<JumpWireWebDataVaultControllerShowByNameRequest>,
   output: __S(2656, __c83, 0) as any as S.Schema<Object>,
-  errors: [BadRequest, NotFound, UnknownWorkosError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13135,7 +13275,8 @@ export const JumpWireWebDataVaultControllerVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<JumpWireWebDataVaultControllerVersionsRequest>,
   output: __S(2723, __c85, 3) as any as S.Schema<VersionListResponse>,
-  errors: [BadRequest, NotFound, UnknownWorkosError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13155,7 +13296,8 @@ export const JumpWireWebKeyControllerCreateDataKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<JumpWireWebKeyControllerCreateDataKeyRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<CreateDataKeyResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13172,7 +13314,8 @@ export const JumpWireWebKeyControllerRekey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<JumpWireWebKeyControllerRekeyRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<CreateDataKeyResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13189,7 +13332,8 @@ export const ListAgentBlueprintsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<ListAgentBlueprintsControllerRequest>,
   output: __S(2850, __c89, 2) as any as S.Schema<ListAgentBlueprintsControllerResponse>,
-  errors: [UnknownWorkosError],
+  errors: [],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13206,7 +13350,8 @@ export const ListAgentInstancesController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2880, __c90, 0) as any as S.Schema<ListAgentInstancesControllerRequest>,
   output: __S(2882, __c90, 2) as any as S.Schema<ListAgentInstancesControllerResponse>,
-  errors: [UnknownWorkosError],
+  errors: [],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13223,7 +13368,8 @@ export const ListAgentInstanceSessionsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<ListAgentInstanceSessionsControllerRequest>,
   output: __S(2978, __c93, 2) as any as S.Schema<ListAgentInstanceSessionsControllerResponse>,
-  errors: [UnprocessableEntity, UnknownWorkosError],
+  errors: [UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13240,7 +13386,8 @@ export const ListApplicationCredentialsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<ListApplicationCredentialsControllerRequest>,
   output: __S(3011, __c94, 3) as any as S.Schema<ListApplicationCredentialsControllerResponse>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13257,7 +13404,8 @@ export const ListApplicationsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c95, 0) as any as S.Schema<ListApplicationsControllerRequest>,
   output: __S(3042, __c95, 2) as any as S.Schema<ConnectApplicationList>,
-  errors: [UnprocessableEntity, UnknownWorkosError],
+  errors: [UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13274,7 +13422,8 @@ export const ListAuditLogValidatorsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<ListAuditLogValidatorsControllerRequest>,
   output: __S(3075, __c96, 3) as any as S.Schema<ListAuditLogValidatorsControllerResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13291,7 +13440,8 @@ export const ListAuthkitOauthResourcesController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c97, 0) as any as S.Schema<ListAuthkitOauthResourcesControllerRequest>,
   output: __S(3106, __c97, 2) as any as S.Schema<ListAuthkitOauthResourcesControllerResponse>,
-  errors: [UnknownWorkosError],
+  errors: [],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13316,7 +13466,8 @@ export const ListAuthorizationControllerEffectivePermissions: API.OperationMetho
     0,
   ) as any as S.Schema<ListAuthorizationControllerEffectivePermissionsRequest>,
   output: __S(3169, __c99, 1) as any as S.Schema<AuthorizationPermissionList>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13341,7 +13492,8 @@ export const ListAuthorizationControllerEffectivePermissionsByExternalId: API.Op
     0,
   ) as any as S.Schema<ListAuthorizationControllerEffectivePermissionsByExternalIdRequest>,
   output: __S(3169, __c99, 1) as any as S.Schema<AuthorizationPermissionList>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13367,7 +13519,8 @@ export const ListAuthorizationControllerResourcesForMembership: API.OperationMet
     0,
   ) as any as S.Schema<ListAuthorizationControllerResourcesForMembershipRequest>,
   output: __S(3265, __c102, 1) as any as S.Schema<AuthorizationResourceList>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13391,7 +13544,8 @@ export const ListAuthorizationGroupRoleAssignmentsController: API.OperationMetho
     0,
   ) as any as S.Schema<ListAuthorizationGroupRoleAssignmentsControllerRequest>,
   output: __S(3329, __c104, 1) as any as S.Schema<GroupRoleAssignmentList>,
-  errors: [Forbidden, NotFound, UnknownWorkosError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13415,7 +13569,8 @@ export const ListAuthorizationOrganizationRolesController: API.OperationMethod<
     0,
   ) as any as S.Schema<ListAuthorizationOrganizationRolesControllerRequest>,
   output: __S(3393, __c106, 1) as any as S.Schema<RoleList>,
-  errors: [Forbidden, NotFound, UnknownWorkosError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13432,7 +13587,8 @@ export const ListAuthorizationPermissionsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3488, __c109, 0) as any as S.Schema<ListAuthorizationPermissionsControllerRequest>,
   output: __S(3169, __c99, 1) as any as S.Schema<AuthorizationPermissionList>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13462,7 +13618,8 @@ export const ListAuthorizationResourcesByExternalIdControllerOrganizationMembers
     __c111,
     2,
   ) as any as S.Schema<UserlandUserOrganizationMembershipBaseWithUserList>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13483,7 +13640,8 @@ export const ListAuthorizationResourcesController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3584, __c112, 0) as any as S.Schema<ListAuthorizationResourcesControllerRequest>,
   output: __S(3265, __c102, 1) as any as S.Schema<AuthorizationResourceList>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13513,7 +13671,8 @@ export const ListAuthorizationResourcesControllerOrganizationMembershipsForResou
     __c111,
     2,
   ) as any as S.Schema<UserlandUserOrganizationMembershipBaseWithUserList>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13537,7 +13696,8 @@ export const ListAuthorizationRoleAssignmentsControllerRoleAssignments: API.Oper
     0,
   ) as any as S.Schema<ListAuthorizationRoleAssignmentsControllerRoleAssignmentsRequest>,
   output: __S(3681, __c115, 1) as any as S.Schema<UserRoleAssignmentList>,
-  errors: [Forbidden, NotFound, UnknownWorkosError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13561,7 +13721,8 @@ export const ListAuthorizationRoleAssignmentsControllerRoleAssignmentsForResourc
     0,
   ) as any as S.Schema<ListAuthorizationRoleAssignmentsControllerRoleAssignmentsForResourceRequest>,
   output: __S(3681, __c115, 1) as any as S.Schema<UserRoleAssignmentList>,
-  errors: [Forbidden, NotFound, UnknownWorkosError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13585,7 +13746,8 @@ export const ListAuthorizationRoleAssignmentsControllerRoleAssignmentsForResourc
     0,
   ) as any as S.Schema<ListAuthorizationRoleAssignmentsControllerRoleAssignmentsForResourceByExternalIdRequest>,
   output: __S(3681, __c115, 1) as any as S.Schema<UserRoleAssignmentList>,
-  errors: [Forbidden, NotFound, UnknownWorkosError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13602,7 +13764,8 @@ export const ListAuthorizationRolesController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3776, __c118, 0) as any as S.Schema<ListAuthorizationRolesControllerRequest>,
   output: __S(3393, __c106, 1) as any as S.Schema<RoleList>,
-  errors: [Forbidden, UnknownWorkosError],
+  errors: [Forbidden],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13622,7 +13785,8 @@ export const ListAuthorizedApplicationsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3808, __c119, 0) as any as S.Schema<ListAuthorizedApplicationsControllerRequest>,
   output: __S(3811, __c119, 3) as any as S.Schema<AuthorizedConnectApplicationList>,
-  errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13639,7 +13803,8 @@ export const ListConnectionsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3840, __c120, 0) as any as S.Schema<ListConnectionsControllerRequest>,
   output: __S(3842, __c120, 2) as any as S.Schema<ConnectionList>,
-  errors: [Forbidden, UnprocessableEntity, UnknownWorkosError],
+  errors: [Forbidden, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13656,7 +13821,8 @@ export const ListCorsOriginsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4000, __c125, 0) as any as S.Schema<ListCorsOriginsControllerRequest>,
   output: __S(4002, __c125, 2) as any as S.Schema<ListCorsOriginsControllerResponse>,
-  errors: [UnknownWorkosError],
+  errors: [],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13680,7 +13846,8 @@ export const ListDataIntegrationsManagementControllerDataIntegrations: API.Opera
     0,
   ) as any as S.Schema<ListDataIntegrationsManagementControllerDataIntegrationsRequest>,
   output: __S(4034, __c126, 2) as any as S.Schema<DataIntegrationList>,
-  errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13697,7 +13864,8 @@ export const ListDirectoriesController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4064, __c127, 0) as any as S.Schema<ListDirectoriesControllerRequest>,
   output: __S(4066, __c127, 2) as any as S.Schema<DirectoryList>,
-  errors: [Forbidden, UnprocessableEntity, UnknownWorkosError],
+  errors: [Forbidden, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13718,7 +13886,8 @@ export const ListDirectoryGroupsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4096, __c128, 0) as any as S.Schema<ListDirectoryGroupsControllerRequest>,
   output: __S(4097, __c128, 1) as any as S.Schema<DirectoryGroupList>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13739,7 +13908,8 @@ export const ListDirectoryUsersController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4128, __c129, 0) as any as S.Schema<ListDirectoryUsersControllerRequest>,
   output: __S(4130, __c129, 2) as any as S.Schema<DirectoryUserList>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13756,7 +13926,8 @@ export const ListEventsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4160, __c130, 0) as any as S.Schema<ListEventsControllerRequest>,
   output: __S(4185, __c130, 25) as any as S.Schema<EventList>,
-  errors: [BadRequest, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13777,7 +13948,8 @@ export const ListFeatureFlagsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4224, __c132, 0) as any as S.Schema<ListFeatureFlagsControllerRequest>,
   output: __S(4257, __c133, 1) as any as S.Schema<FlagList>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13794,7 +13966,8 @@ export const ListGroupMembershipsControllerMembers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4288, __c134, 0) as any as S.Schema<ListGroupMembershipsControllerMembersRequest>,
   output: __S(4291, __c134, 3) as any as S.Schema<UserlandUserOrganizationMembershipBaseList>,
-  errors: [Forbidden, NotFound, UnknownWorkosError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13811,7 +13984,8 @@ export const ListGroupsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4320, __c135, 0) as any as S.Schema<ListGroupsControllerRequest>,
   output: __S(4353, __c136, 1) as any as S.Schema<GroupList>,
-  errors: [Forbidden, NotFound, UnknownWorkosError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13828,7 +14002,8 @@ export const ListItContactsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4384, __c137, 0) as any as S.Schema<ListItContactsControllerRequest>,
   output: __S(4386, __c137, 2) as any as S.Schema<ItContactList>,
-  errors: [Forbidden, NotFound, UnknownWorkosError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13845,7 +14020,8 @@ export const ListOrganizationApiKeysController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4480, __c140, 0) as any as S.Schema<ListOrganizationApiKeysControllerRequest>,
   output: __S(4483, __c140, 3) as any as S.Schema<OrganizationApiKeyList>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13869,7 +14045,8 @@ export const ListOrganizationAuthorizedApplicationsController: API.OperationMeth
     0,
   ) as any as S.Schema<ListOrganizationAuthorizedApplicationsControllerRequest>,
   output: __S(4515, __c141, 3) as any as S.Schema<OrganizationAuthorizedConnectApplicationList>,
-  errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13886,7 +14063,8 @@ export const ListOrganizationFeatureFlagsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4544, __c142, 0) as any as S.Schema<ListOrganizationFeatureFlagsControllerRequest>,
   output: __S(4257, __c133, 1) as any as S.Schema<FlagList>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13907,7 +14085,8 @@ export const ListOrganizationMembershipGroupsControllerGroups: API.OperationMeth
     0,
   ) as any as S.Schema<ListOrganizationMembershipGroupsControllerGroupsRequest>,
   output: __S(4353, __c136, 1) as any as S.Schema<GroupList>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13924,7 +14103,8 @@ export const ListOrganizationsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4608, __c144, 0) as any as S.Schema<ListOrganizationsControllerRequest>,
   output: __S(4610, __c144, 2) as any as S.Schema<OrganizationList>,
-  errors: [UnprocessableEntity, UnknownWorkosError],
+  errors: [UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13941,7 +14121,8 @@ export const ListProviderControllerForOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4640, __c145, 0) as any as S.Schema<ListProviderControllerForOrganizationRequest>,
   output: __S(4642, __c145, 2) as any as S.Schema<DataIntegrationConfigurationListResponse>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13958,7 +14139,8 @@ export const ListRedirectUrisController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4704, __c147, 0) as any as S.Schema<ListRedirectUrisControllerRequest>,
   output: __S(4706, __c147, 2) as any as S.Schema<ListRedirectUrisControllerResponse>,
-  errors: [UnknownWorkosError],
+  errors: [],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13979,7 +14161,8 @@ export const ListSamlIdpSigningCertificatesController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4736, __c148, 0) as any as S.Schema<ListSamlIdpSigningCertificatesControllerRequest>,
   output: __S(4769, __c149, 1) as any as S.Schema<SamlIdpSigningCertificateList>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14000,7 +14183,8 @@ export const ListSamlSpEncryptionCertificatesController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4800, __c150, 0) as any as S.Schema<ListSamlSpEncryptionCertificatesControllerRequest>,
   output: __S(4769, __c149, 1) as any as S.Schema<SamlSpEncryptionCertificateList>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14017,7 +14201,8 @@ export const ListUserApiKeysController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4832, __c151, 0) as any as S.Schema<ListUserApiKeysControllerRequest>,
   output: __S(4835, __c151, 3) as any as S.Schema<UserApiKeyList>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14034,7 +14219,8 @@ export const ListUserlandUserFeatureFlagsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4928, __c154, 0) as any as S.Schema<ListUserlandUserFeatureFlagsControllerRequest>,
   output: __S(4257, __c133, 1) as any as S.Schema<FlagList>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14051,7 +14237,8 @@ export const ListUserlandUserInvitesController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4960, __c155, 0) as any as S.Schema<ListUserlandUserInvitesControllerRequest>,
   output: __S(4962, __c155, 2) as any as S.Schema<UserlandUserInviteList>,
-  errors: [UnprocessableEntity, UnknownWorkosError],
+  errors: [UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14076,7 +14263,8 @@ export const ListUserlandUserOrganizationMembershipsController: API.OperationMet
     0,
   ) as any as S.Schema<ListUserlandUserOrganizationMembershipsControllerRequest>,
   output: __S(4994, __c156, 2) as any as S.Schema<UserlandUserOrganizationMembershipList>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14096,7 +14284,8 @@ export const ListUserlandUserSessionsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5024, __c157, 0) as any as S.Schema<ListUserlandUserSessionsControllerRequest>,
   output: __S(5027, __c157, 3) as any as S.Schema<ListUserlandUserSessionsControllerResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14113,7 +14302,8 @@ export const ListWaitlistsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5056, __c158, 0) as any as S.Schema<ListWaitlistsControllerRequest>,
   output: __S(5058, __c158, 2) as any as S.Schema<ListWaitlistsControllerResponse>,
-  errors: [UnknownWorkosError],
+  errors: [],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14130,7 +14320,8 @@ export const ListWaitlistsControllerEntries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5120, __c160, 0) as any as S.Schema<ListWaitlistsControllerEntriesRequest>,
   output: __S(5122, __c160, 2) as any as S.Schema<ListWaitlistsControllerEntriesResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14147,7 +14338,8 @@ export const ListWebhookEndpointsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5152, __c161, 0) as any as S.Schema<ListWebhookEndpointsControllerRequest>,
   output: __S(5154, __c161, 2) as any as S.Schema<WebhookEndpointList>,
-  errors: [UnknownWorkosError],
+  errors: [],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14164,7 +14356,8 @@ export const LogoutSsoController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5184, __c162, 0) as any as S.Schema<LogoutSsoControllerRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<LogoutSsoControllerResponse>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14181,7 +14374,8 @@ export const LogoutUserlandSessionsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5216, __c163, 0) as any as S.Schema<LogoutUserlandSessionsControllerRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<LogoutUserlandSessionsControllerResponse>,
-  errors: [UnprocessableEntity, UnknownWorkosError],
+  errors: [UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14198,7 +14392,8 @@ export const OrganizationsControllerFind: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5248, __c164, 0) as any as S.Schema<OrganizationsControllerFindRequest>,
   output: __S(9665, __c302, 1) as any as S.Schema<Organization>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14228,7 +14423,8 @@ export const PatchAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignment
     __c191,
     0,
   ) as any as S.Schema<PatchAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignmentsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14251,7 +14447,8 @@ export const PatchConnectionsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5412, __c169, 4) as any as S.Schema<PatchConnectionsControllerRequest>,
   output: __S(8002, __c250, 2) as any as S.Schema<Connection>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14272,7 +14469,8 @@ export const ProviderControllerConfigure: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5440, __c170, 0) as any as S.Schema<ProviderControllerConfigureRequest>,
   output: __S(4673, __c146, 1) as any as S.Schema<DataIntegrationConfigurationResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14289,7 +14487,8 @@ export const RadarStandaloneControllerAssess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5472, __c171, 0) as any as S.Schema<RadarStandaloneControllerAssessRequest>,
   output: __S(5473, __c171, 1) as any as S.Schema<RadarStandaloneResponse>,
-  errors: [BadRequest, UnknownWorkosError],
+  errors: [BadRequest],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14317,7 +14516,8 @@ export const RadarStandaloneControllerDeleteRadarListEntry: API.OperationMethod<
     __c191,
     0,
   ) as any as S.Schema<RadarStandaloneControllerDeleteRadarListEntryResponse>,
-  errors: [BadRequest, NotFound, UnknownWorkosError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14334,7 +14534,8 @@ export const RadarStandaloneControllerUpdateRadarList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5536, __c173, 0) as any as S.Schema<RadarStandaloneControllerUpdateRadarListRequest>,
   output: __S(5537, __c173, 1) as any as S.Schema<RadarListEntryAlreadyPresentResponse>,
-  errors: [BadRequest, UnknownWorkosError],
+  errors: [BadRequest],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14362,7 +14563,8 @@ export const RemoveAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignmen
     __c191,
     0,
   ) as any as S.Schema<RemoveAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignmentResponse>,
-  errors: [Forbidden, NotFound, UnknownWorkosError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14391,7 +14593,8 @@ export const RemoveAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignmen
     __c191,
     0,
   ) as any as S.Schema<RemoveAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignmentsResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14415,7 +14618,8 @@ export const RemoveAuthorizationOrganizationRolePermissionsControllerPermission:
     0,
   ) as any as S.Schema<RemoveAuthorizationOrganizationRolePermissionsControllerPermissionRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<Role>,
-  errors: [Forbidden, NotFound, UnknownWorkosError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14444,7 +14648,8 @@ export const RemoveAuthorizationRoleAssignmentsControllerRoleByCriteria: API.Ope
     __c191,
     0,
   ) as any as S.Schema<RemoveAuthorizationRoleAssignmentsControllerRoleByCriteriaResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14472,7 +14677,8 @@ export const RemoveAuthorizationRoleAssignmentsControllerRoleById: API.Operation
     __c191,
     0,
   ) as any as S.Schema<RemoveAuthorizationRoleAssignmentsControllerRoleByIdResponse>,
-  errors: [Forbidden, NotFound, UnknownWorkosError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14489,7 +14695,8 @@ export const RemoveGroupMembershipsControllerMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5760, __c180, 0) as any as S.Schema<RemoveGroupMembershipsControllerMemberRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<RemoveGroupMembershipsControllerMemberResponse>,
-  errors: [Forbidden, NotFound, UnknownWorkosError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14514,7 +14721,8 @@ export const ReplaceAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignme
     0,
   ) as any as S.Schema<ReplaceAuthorizationGroupRoleAssignmentsControllerGroupRoleAssignmentsRequest>,
   output: __S(3329, __c104, 1) as any as S.Schema<GroupRoleAssignmentList>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14535,7 +14743,8 @@ export const ResendUserlandUserInvitesController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5824, __c182, 0) as any as S.Schema<ResendUserlandUserInvitesControllerRequest>,
   output: __S(10208, __c319, 0) as any as S.Schema<UserlandUserInvite>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14557,7 +14766,8 @@ export const ResetUserlandUsersControllerPassword0: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5856, __c183, 0) as any as S.Schema<ResetUserlandUsersControllerPassword0Request>,
   output: __S(5888, __c184, 0) as any as S.Schema<ResetPasswordResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14574,7 +14784,8 @@ export const RevokeAgentAdminControllerRegistration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5920, __c185, 0) as any as S.Schema<RevokeAgentAdminControllerRegistrationRequest>,
   output: __S(835, __c26, 3) as any as S.Schema<AgentRegistration>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14591,7 +14802,8 @@ export const RevokeAgentInstanceSessionsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5952, __c186, 0) as any as S.Schema<RevokeAgentInstanceSessionsControllerRequest>,
   output: __S(1056, __c33, 0) as any as S.Schema<AgentInstanceSession>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14608,7 +14820,8 @@ export const RevokeItContactsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5984, __c187, 0) as any as S.Schema<RevokeItContactsControllerRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<RevokeItContactsControllerResponse>,
-  errors: [Forbidden, NotFound, UnknownWorkosError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14628,7 +14841,8 @@ export const RevokePortalSessionsControllerLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6016, __c188, 0) as any as S.Schema<RevokePortalSessionsControllerLinkRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<RevokePortalSessionsControllerLinkResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14645,7 +14859,8 @@ export const RevokeUserlandSessionsControllerSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6048, __c189, 0) as any as S.Schema<RevokeUserlandSessionsControllerSessionRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<RevokeUserlandSessionsControllerSessionResponse>,
-  errors: [BadRequest, UnknownWorkosError],
+  errors: [BadRequest],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14662,7 +14877,8 @@ export const RevokeUserlandUserInvitesController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6144, __c192, 0) as any as S.Schema<RevokeUserlandUserInvitesControllerRequest>,
   output: __S(9408, __c294, 0) as any as S.Schema<RevokeUserlandUserInvitesControllerResponse>,
-  errors: [BadRequest, UnknownWorkosError],
+  errors: [BadRequest],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14683,7 +14899,8 @@ export const SendPublicRadarChallengesControllerRadarSmsChallenge: API.Operation
     0,
   ) as any as S.Schema<SendPublicRadarChallengesControllerRadarSmsChallengeRequest>,
   output: __S(6177, __c193, 1) as any as S.Schema<SendRadarSmsChallengeResponse>,
-  errors: [UnknownWorkosError],
+  errors: [],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14704,7 +14921,8 @@ export const SendUserlandUsersControllerEmailChange: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6208, __c194, 0) as any as S.Schema<SendUserlandUsersControllerEmailChangeRequest>,
   output: __S(6209, __c194, 1) as any as S.Schema<EmailChange>,
-  errors: [NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14729,7 +14947,8 @@ export const SendUserlandUsersControllerVerificationEmail0: API.OperationMethod<
     0,
   ) as any as S.Schema<SendUserlandUsersControllerVerificationEmail0Request>,
   output: __S(5888, __c184, 0) as any as S.Schema<SendVerificationEmailResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14758,7 +14977,8 @@ export const SetAuthorizationOrganizationRolePermissionsControllerPermissions: A
     __c315,
     0,
   ) as any as S.Schema<SetAuthorizationOrganizationRolePermissionsControllerPermissionsResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14788,7 +15008,8 @@ export const SetAuthorizationRolePermissionsControllerPermissions: API.Operation
     __c315,
     0,
   ) as any as S.Schema<SetAuthorizationRolePermissionsControllerPermissionsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14805,7 +15026,8 @@ export const SsoControllerJsonWebKeySet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6336, __c198, 0) as any as S.Schema<SsoControllerJsonWebKeySetRequest>,
   output: __S(6339, __c198, 3) as any as S.Schema<JwksResponse>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14822,7 +15044,8 @@ export const SsoControllerLogoutAuthorize: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6368, __c199, 0) as any as S.Schema<SsoControllerLogoutAuthorizeRequest>,
   output: __S(6369, __c199, 1) as any as S.Schema<SsoLogoutAuthorizeResponse>,
-  errors: [BadRequest, NotFound, UnknownWorkosError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14839,7 +15062,8 @@ export const SsoControllerToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6400, __c200, 0) as any as S.Schema<SsoControllerTokenRequest>,
   output: __S(6401, __c200, 1) as any as S.Schema<SsoTokenResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14861,7 +15085,8 @@ export const SyncDirectoriesControllerDirectory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6464, __c202, 0) as any as S.Schema<SyncDirectoriesControllerDirectoryRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<SyncDirectoriesControllerDirectoryResponse>,
-  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14883,7 +15108,8 @@ export const UpdateAgentBlueprintsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6529, __c204, 1) as any as S.Schema<UpdateAgentBlueprintsControllerRequest>,
   output: __S(8224, __c257, 0) as any as S.Schema<AgentBlueprint>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14900,7 +15126,8 @@ export const UpdateApplicationsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6562, __c205, 2) as any as S.Schema<UpdateApplicationsControllerRequest>,
   output: __S(1410, __c44, 2) as any as S.Schema<UpdateApplicationsControllerResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14924,7 +15151,8 @@ export const UpdateAuditLogsRetentionControllerAuditLogsRetention: API.Operation
     0,
   ) as any as S.Schema<UpdateAuditLogsRetentionControllerAuditLogsRetentionRequest>,
   output: __S(3456, __c108, 0) as any as S.Schema<AuditLogsRetentionJson>,
-  errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14954,7 +15182,8 @@ export const UpdateAuthorizationOrganizationRolesController: API.OperationMethod
     __c315,
     0,
   ) as any as S.Schema<UpdateAuthorizationOrganizationRolesControllerResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14975,7 +15204,8 @@ export const UpdateAuthorizationPermissionsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6656, __c208, 0) as any as S.Schema<UpdateAuthorizationPermissionsControllerRequest>,
   output: __S(4896, __c153, 0) as any as S.Schema<AuthorizationPermission>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15006,7 +15236,8 @@ export const UpdateAuthorizationResourcesByExternalIdControllerByExternalId: API
     __c274,
     0,
   ) as any as S.Schema<UpdateAuthorizationResourcesByExternalIdControllerByExternalIdResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15029,7 +15260,8 @@ export const UpdateAuthorizationResourcesController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6720, __c210, 0) as any as S.Schema<UpdateAuthorizationResourcesControllerRequest>,
   output: __S(8768, __c274, 0) as any as S.Schema<UpdateAuthorizationResourcesControllerResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15051,7 +15283,8 @@ export const UpdateAuthorizationRolesController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6752, __c211, 0) as any as S.Schema<UpdateAuthorizationRolesControllerRequest>,
   output: __S(10080, __c315, 0) as any as S.Schema<UpdateAuthorizationRolesControllerResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15078,7 +15311,8 @@ export const UpdateDataIntegrationsManagementControllerDataIntegration: API.Oper
     0,
   ) as any as S.Schema<UpdateDataIntegrationsManagementControllerDataIntegrationRequest>,
   output: __S(9123, __c285, 3) as any as S.Schema<DataIntegration>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15105,7 +15339,8 @@ export const UpdateDataIntegrationsManagementControllerOrganizationDataIntegrati
     0,
   ) as any as S.Schema<UpdateDataIntegrationsManagementControllerOrganizationDataIntegrationRequest>,
   output: __S(9123, __c285, 3) as any as S.Schema<DataIntegration>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15132,7 +15367,8 @@ export const UpdateDataIntegrationsOrganizationControllerOrganizationDataInstall
     0,
   ) as any as S.Schema<UpdateDataIntegrationsOrganizationControllerOrganizationDataInstallationRequest>,
   output: __S(9024, __c282, 0) as any as S.Schema<ConnectedAccount>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15158,7 +15394,8 @@ export const UpdateDataIntegrationsUserManagementControllerUserDataInstallation:
     0,
   ) as any as S.Schema<UpdateDataIntegrationsUserManagementControllerUserDataInstallationRequest>,
   output: __S(9024, __c282, 0) as any as S.Schema<ConnectedAccount>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15180,7 +15417,8 @@ export const UpdateGroupMembershipsControllerMembers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6976, __c218, 0) as any as S.Schema<UpdateGroupMembershipsControllerMembersRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<UpdateGroupMembershipsControllerMembersResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15202,7 +15440,8 @@ export const UpdateGroupsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7008, __c219, 0) as any as S.Schema<UpdateGroupsControllerRequest>,
   output: __S(11008, __c344, 0) as any as S.Schema<Group>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15219,7 +15458,8 @@ export const UpdateJumpWireWebDataVaultController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7040, __c220, 0) as any as S.Schema<UpdateJumpWireWebDataVaultControllerRequest>,
   output: __S(288, __c9, 0) as any as S.Schema<ObjectWithoutValue>,
-  errors: [BadRequest, Conflict, UnknownWorkosError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15236,7 +15476,8 @@ export const UpdateJwtTemplatesControllerJwtTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7072, __c221, 0) as any as S.Schema<UpdateJwtTemplatesControllerJwtTemplateRequest>,
   output: __S(1696, __c53, 0) as any as S.Schema<JwtTemplate>,
-  errors: [UnprocessableEntity, UnknownWorkosError],
+  errors: [UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15259,7 +15500,8 @@ export const UpdateOrganizationsControllerOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7104, __c222, 0) as any as S.Schema<UpdateOrganizationsControllerOrganizationRequest>,
   output: __S(9665, __c302, 1) as any as S.Schema<Organization>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15287,7 +15529,8 @@ export const UpdateRadarStandaloneControllerRadarAttempt: API.OperationMethod<
     __c191,
     0,
   ) as any as S.Schema<UpdateRadarStandaloneControllerRadarAttemptResponse>,
-  errors: [BadRequest, NotFound, UnknownWorkosError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15311,7 +15554,8 @@ export const UpdateUserlandUserOrganizationMembershipsController: API.OperationM
     0,
   ) as any as S.Schema<UpdateUserlandUserOrganizationMembershipsControllerRequest>,
   output: __S(2304, __c72, 0) as any as S.Schema<UserlandUserOrganizationMembership>,
-  errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15332,7 +15576,8 @@ export const UpdateWebhookEndpointsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7200, __c225, 0) as any as S.Schema<UpdateWebhookEndpointsControllerRequest>,
   output: __S(10432, __c326, 0) as any as S.Schema<WebhookEndpointJson>,
-  errors: [NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15355,7 +15600,8 @@ export const UpsertDataIntegrationsControllerApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7264, __c227, 0) as any as S.Schema<UpsertDataIntegrationsControllerApiKeyRequest>,
   output: __S(9024, __c282, 0) as any as S.Schema<ConnectedAccount>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15382,7 +15628,8 @@ export const UpsertDataIntegrationsControllerClientCredentials: API.OperationMet
     0,
   ) as any as S.Schema<UpsertDataIntegrationsControllerClientCredentialsRequest>,
   output: __S(9024, __c282, 0) as any as S.Schema<ConnectedAccount>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15411,7 +15658,8 @@ export const UserlandMagicAuthControllerSendMagicAuthCodeAndReturn: API.Operatio
     __c229,
     1,
   ) as any as S.Schema<UserlandMagicAuthControllerSendMagicAuthCodeAndReturnResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15433,7 +15681,8 @@ export const UserlandSessionsControllerAuthenticate0: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7360, __c230, 0) as any as S.Schema<UserlandSessionsControllerAuthenticate0Request>,
   output: __S(7361, __c230, 1) as any as S.Schema<UserlandAuthenticateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15450,7 +15699,8 @@ export const UserlandSsoControllerDeviceAuthorization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7392, __c231, 0) as any as S.Schema<UserlandSsoControllerDeviceAuthorizationRequest>,
   output: __S(7393, __c231, 1) as any as S.Schema<DeviceAuthorizationResponse>,
-  errors: [BadRequest, Forbidden, UnknownWorkosError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15473,7 +15723,8 @@ export const UserlandUserAuthenticationFactorsControllerCreate0: API.OperationMe
     0,
   ) as any as S.Schema<UserlandUserAuthenticationFactorsControllerCreate0Request>,
   output: __S(7425, __c232, 1) as any as S.Schema<UserlandUserAuthenticationFactorEnrollResponse>,
-  errors: [UnprocessableEntity, UnknownWorkosError],
+  errors: [UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15496,7 +15747,8 @@ export const UserlandUserAuthenticationFactorsControllerList0: API.OperationMeth
     0,
   ) as any as S.Schema<UserlandUserAuthenticationFactorsControllerList0Request>,
   output: __S(7458, __c233, 2) as any as S.Schema<UserlandUserAuthenticationFactorList>,
-  errors: [UnprocessableEntity, UnknownWorkosError],
+  errors: [UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15521,7 +15773,8 @@ export const UserlandUserOrganizationMembershipsControllerReactivate: API.Operat
     0,
   ) as any as S.Schema<UserlandUserOrganizationMembershipsControllerReactivateRequest>,
   output: __S(2304, __c72, 0) as any as S.Schema<UserlandUserOrganizationMembership>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15543,7 +15796,8 @@ export const UserlandUsersControllerCreate0: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7520, __c235, 0) as any as S.Schema<UserlandUsersControllerCreate0Request>,
   output: __S(7521, __c235, 1) as any as S.Schema<UserlandUsersControllerCreate0Response>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15568,7 +15822,8 @@ export const UserlandUsersControllerCreatePasswordResetToken: API.OperationMetho
     0,
   ) as any as S.Schema<UserlandUsersControllerCreatePasswordResetTokenRequest>,
   output: __S(7584, __c237, 0) as any as S.Schema<PasswordReset>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15585,7 +15840,8 @@ export const UserlandUsersControllerDelete0: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7648, __c239, 0) as any as S.Schema<UserlandUsersControllerDelete0Request>,
   output: __S(6112, __c191, 0) as any as S.Schema<UserlandUsersControllerDelete0Response>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15606,7 +15862,8 @@ export const UserlandUsersControllerEmailVerification0: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7680, __c240, 0) as any as S.Schema<UserlandUsersControllerEmailVerification0Request>,
   output: __S(5888, __c184, 0) as any as S.Schema<VerifyEmailResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15623,7 +15880,8 @@ export const UserlandUsersControllerGet0: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7712, __c241, 0) as any as S.Schema<UserlandUsersControllerGet0Request>,
   output: __S(10336, __c323, 0) as any as S.Schema<UserlandUser>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15640,7 +15898,8 @@ export const UserlandUsersControllerGetPasswordReset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7744, __c242, 0) as any as S.Schema<UserlandUsersControllerGetPasswordResetRequest>,
   output: __S(7584, __c237, 0) as any as S.Schema<PasswordReset>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15657,7 +15916,8 @@ export const UserlandUsersControllerList0: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7776, __c243, 0) as any as S.Schema<UserlandUsersControllerList0Request>,
   output: __S(7778, __c243, 2) as any as S.Schema<UserlandUserList>,
-  errors: [UnprocessableEntity, UnknownWorkosError],
+  errors: [UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15674,7 +15934,8 @@ export const UserlandUsersControllerUpdate0: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7808, __c244, 0) as any as S.Schema<UserlandUsersControllerUpdate0Request>,
   output: __S(10336, __c323, 0) as any as S.Schema<UserlandUser>,
-  errors: [BadRequest, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15691,7 +15952,8 @@ export const ValidateAgentAdminControllerCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7840, __c245, 0) as any as S.Schema<ValidateAgentAdminControllerCredentialRequest>,
   output: __S(7841, __c245, 1) as any as S.Schema<AgentCredentialValidation>,
-  errors: [BadRequest, UnknownWorkosError],
+  errors: [BadRequest],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15715,7 +15977,8 @@ export const ValidateAgentBlueprintsTokenControllerToken: API.OperationMethod<
     0,
   ) as any as S.Schema<ValidateAgentBlueprintsTokenControllerTokenRequest>,
   output: __S(7873, __c246, 1) as any as S.Schema<AgentTokenValidation>,
-  errors: [BadRequest, NotFound, UnknownWorkosError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15732,7 +15995,8 @@ export const ValidateApiKeysControllerApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7904, __c247, 0) as any as S.Schema<ValidateApiKeysControllerApiKeyRequest>,
   output: __S(7905, __c247, 1) as any as S.Schema<ApiKeyValidationResponse>,
-  errors: [UnprocessableEntity, UnknownWorkosError],
+  errors: [UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15753,7 +16017,8 @@ export const VerifyAuthenticationChallengesController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7936, __c248, 0) as any as S.Schema<VerifyAuthenticationChallengesControllerRequest>,
   output: __S(7937, __c248, 1) as any as S.Schema<AuthenticationChallengeVerifyResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15770,7 +16035,8 @@ export const VerifyOrganizationDomainsController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8032, __c251, 0) as any as S.Schema<VerifyOrganizationDomainsControllerRequest>,
   output: __S(1760, __c55, 0) as any as S.Schema<OrganizationDomainStandAlone>,
-  errors: [BadRequest, UnknownWorkosError],
+  errors: [BadRequest],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15787,7 +16053,8 @@ export const WaitlistEntriesControllerDeny: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8064, __c252, 0) as any as S.Schema<WaitlistEntriesControllerDenyRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<WaitlistEntriesControllerDenyResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15804,7 +16071,8 @@ export const WaitlistsControllerFind: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8096, __c253, 0) as any as S.Schema<WaitlistsControllerFindRequest>,
   output: __S(5088, __c159, 0) as any as S.Schema<Waitlist>,
-  errors: [NotFound, UnknownWorkosError],
+  errors: [NotFound],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15829,7 +16097,8 @@ export const WidgetsPublicControllerIssueWidgetSessionToken: API.OperationMethod
     0,
   ) as any as S.Schema<WidgetsPublicControllerIssueWidgetSessionTokenRequest>,
   output: __S(8129, __c254, 1) as any as S.Schema<WidgetSessionTokenResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownWorkosError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: WorkosServiceErrors,
   protocol: WorkosProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16782,7 +17051,7 @@ function __c55(j: number): any {
           domain: S.optional(S.String),
           state: S.optional(S.String),
           verification_prefix: S.optional(S.String),
-          verification_token: S.optional(S.String),
+          verification_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           verification_strategy: S.optional(S.String),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
@@ -16894,7 +17163,7 @@ function __c61(j: number): any {
           expires_at: S.String,
           created_at: S.String,
           updated_at: S.String,
-          code: S.String,
+          code: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "RadarChallenge" });
   }
@@ -16979,7 +17248,7 @@ function __c67(j: number): any {
           expires_at: S.optional(S.String),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
-          code: S.optional(S.String),
+          code: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "MagicAuth" });
   }
@@ -17248,7 +17517,7 @@ function __c83(j: number): any {
           id: S.String,
           metadata: __S(9472, __c296, 0),
           name: S.String,
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "Object" });
   }
@@ -18260,7 +18529,7 @@ function __c130(j: number): any {
           organization_id: S.String,
           state: S.optional(S.String),
           verification_prefix: S.optional(S.String),
-          verification_token: S.optional(S.String),
+          verification_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           verification_strategy: S.optional(S.String),
           created_at: S.String,
           updated_at: S.String,
@@ -18404,7 +18673,7 @@ function __c130(j: number): any {
             stripe_customer_id: S.optional(S.String),
             domain: S.optional(S.String),
             verification_prefix: S.optional(S.String),
-            verification_token: S.optional(S.String),
+            verification_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
             verification_strategy: S.optional(S.String),
             reason: S.optional(S.String),
             organization_domain: S.optional(__S(9600, __c300, 0)),
@@ -18715,7 +18984,7 @@ function __c139(j: number): any {
           object: S.optional(S.String),
           id: S.optional(S.String),
           expires_at: S.optional(S.String),
-          code: S.optional(S.String),
+          code: S.optional(S.String.pipe(T.SensitiveValue({}))),
           authentication_factor_id: S.optional(S.String),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
@@ -19265,7 +19534,7 @@ function __c162(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String.pipe(T.Query()),
+          token: S.String.pipe(T.Query(), T.SensitiveValue({})),
         }).pipe(T.Http({ method: "GET", uri: "/sso/logout", code: 200 })),
       ).annotate({ identifier: "LogoutSsoControllerRequest" });
   }
@@ -19666,7 +19935,7 @@ function __c183(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           new_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({ method: "POST", uri: "/user_management/password_reset/confirm", code: 200 }),
@@ -19759,7 +20028,7 @@ function __c190(j: number): any {
           connection_id: S.optional(S.String.pipe(T.Query())),
           provider_query_params: S.optional(__S(1888, __c59, 0).pipe(T.Query())),
           provider_scopes: S.optional(__S(10048, __c314, 0).pipe(T.Query())),
-          invitation_token: S.optional(S.String.pipe(T.Query())),
+          invitation_token: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
           max_age: S.optional(S.Number.pipe(T.Query())),
           screen_hint: S.optional(S.String.pipe(T.Query())),
           login_hint: S.optional(S.String.pipe(T.Query())),
@@ -19800,7 +20069,7 @@ function __c193(j: number): any {
       return S.suspend(() =>
         S.Struct({
           user_id: S.String,
-          pending_authentication_token: S.String,
+          pending_authentication_token: S.String.pipe(T.SensitiveValue({})),
           phone_number: S.String,
           ip_address: S.optional(S.String),
           user_agent: S.optional(S.String),
@@ -19935,8 +20204,8 @@ function __c199(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          logout_url: S.optional(S.String),
-          logout_token: S.optional(S.String),
+          logout_url: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          logout_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "SsoLogoutAuthorizeResponse" });
   }
@@ -19947,11 +20216,11 @@ function __c200(j: number): any {
       return S.suspend(() =>
         S.Struct({
           client_id: S.String.pipe(T.Query()),
-          client_secret: S.String.pipe(T.Query()),
-          code: S.optional(S.String.pipe(T.Query())),
+          client_secret: S.String.pipe(T.Query(), T.SensitiveValue({})),
+          code: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
           grant_type: S.String.pipe(T.Query()),
-          code_verifier: S.optional(S.String),
-          subject_token: S.optional(S.String),
+          code_verifier: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          subject_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           subject_token_type: S.optional(S.String),
           organization_id: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/sso/token", code: 200 })),
@@ -20236,7 +20505,7 @@ function __c215(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "ClientApiTokenResponse" });
   }
@@ -20348,7 +20617,7 @@ function __c220(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
           version_check: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "PUT", uri: "/vault/v1/kv/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateJumpWireWebDataVaultControllerRequest" });
@@ -20518,7 +20787,7 @@ function __c229(j: number): any {
       return S.suspend(() =>
         S.Struct({
           email: S.optional(S.String),
-          invitation_token: S.optional(S.String),
+          invitation_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           ip_address: S.optional(S.String),
           user_agent: S.optional(S.String),
           radar_auth_attempt_id: S.optional(S.String),
@@ -20536,7 +20805,7 @@ function __c229(j: number): any {
           expires_at: S.optional(S.String),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
-          code: S.optional(S.String),
+          code: S.optional(S.String.pipe(T.SensitiveValue({}))),
           radar_auth_attempt_id: S.optional(S.String),
         }),
       ).annotate({ identifier: "UserlandMagicAuthControllerSendMagicAuthCodeAndReturnResponse" });
@@ -20555,7 +20824,7 @@ function __c230(j: number): any {
         S.Struct({
           user: S.optional(__S(10336, __c323, 0)),
           organization_id: S.optional(S.String),
-          authkit_authorization_code: S.optional(S.String),
+          authkit_authorization_code: S.optional(S.String.pipe(T.SensitiveValue({}))),
           access_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           refresh_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           authentication_method: S.optional(S.String),
@@ -20576,8 +20845,8 @@ function __c231(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          device_code: S.optional(S.String),
-          user_code: S.optional(S.String),
+          device_code: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          user_code: S.optional(S.String.pipe(T.SensitiveValue({}))),
           verification_uri: S.optional(S.String),
           verification_uri_complete: S.optional(S.String),
           expires_in: S.optional(S.Number),
@@ -20736,7 +21005,7 @@ function __c238(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          code: S.optional(S.String),
+          code: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -20789,7 +21058,7 @@ function __c240(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          code: S.optional(S.String),
+          code: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -20892,7 +21161,7 @@ function __c246(j: number): any {
       return S.suspend(() =>
         S.Struct({
           agent_blueprint_id: S.String.pipe(T.Label()),
-          agent_access_token: S.String,
+          agent_access_token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({
             method: "POST",
@@ -20921,7 +21190,7 @@ function __c247(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "POST", uri: "/api_keys/validations", code: 200 })),
       ).annotate({ identifier: "ValidateApiKeysControllerApiKeyRequest" });
     case 1:
@@ -20939,7 +21208,7 @@ function __c248(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          code: S.String,
+          code: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/auth/challenges/{id}/verify", code: 200 })),
       ).annotate({ identifier: "VerifyAuthenticationChallengesControllerRequest" });
     case 1:
@@ -21035,7 +21304,7 @@ function __c254(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "WidgetSessionTokenResponse" });
   }
@@ -21265,8 +21534,8 @@ function __c266(j: number): any {
           issuer: S.String,
           user: S.String,
           secret: S.String.pipe(T.SensitiveValue({})),
-          qr_code: S.String,
-          uri: S.String,
+          qr_code: S.String.pipe(T.SensitiveValue({})),
+          uri: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "AuthenticationFactorEnrolledTotp" });
     case 1:
@@ -21476,7 +21745,7 @@ function __c277(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          key: S.String,
+          key: S.String.pipe(T.SensitiveValue({})),
           cert: S.String,
         }),
       ).annotate({ identifier: "CreateConnectionKeyPairDto" });
@@ -21902,8 +22171,8 @@ function __c294(j: number): any {
           role_slug: S.NullOr(S.String),
           created_at: S.String,
           updated_at: S.String,
-          token: S.String,
-          accept_invitation_url: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
+          accept_invitation_url: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "AcceptUserlandUserInvitesControllerResponse" });
   }
@@ -21915,7 +22184,7 @@ function __c295(j: number): any {
         S.Struct({
           key_context: __S(1888, __c59, 0),
           name: S.String,
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/vault/v1/kv", code: 200 })),
       ).annotate({ identifier: "CreateJumpWireWebDataVaultControllerRequest" });
   }
@@ -21962,7 +22231,7 @@ function __c297(j: number): any {
           permissions: __S(10048, __c314, 0),
           created_at: S.String,
           updated_at: S.String,
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "OrganizationApiKeyWithValue" });
   }
@@ -22000,7 +22269,7 @@ function __c300(j: number): any {
           domain: S.String,
           state: S.optional(S.String),
           verification_prefix: S.optional(S.String),
-          verification_token: S.optional(S.String),
+          verification_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           verification_strategy: S.optional(S.String),
           created_at: S.String,
           updated_at: S.String,
@@ -22073,7 +22342,7 @@ function __c304(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          link: S.optional(S.String),
+          link: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "PortalLinkResponse" });
   }
@@ -22267,7 +22536,7 @@ function __c316(j: number): any {
           permissions: __S(10048, __c314, 0),
           created_at: S.String,
           updated_at: S.String,
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "UserApiKeyWithValue" });
   }
@@ -22317,8 +22586,8 @@ function __c319(j: number): any {
           role_slug: S.optional(S.NullOr(S.String)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
-          token: S.optional(S.String),
-          accept_invitation_url: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          accept_invitation_url: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "UserlandUserInvite" });
   }
@@ -22873,7 +23142,7 @@ function __c355(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          claim_attempt_token: S.String,
+          claim_attempt_token: S.String.pipe(T.SensitiveValue({})),
           user: __S(11360, __c355, 0),
           organization_id: S.optional(S.String),
         }).pipe(T.Http({ method: "PATCH", uri: "/agents/claims/attempts", code: 200 })),
@@ -22883,7 +23152,7 @@ function __c355(j: number): any {
         S.Struct({
           id: S.String,
           status: S.String,
-          user_code: S.String,
+          user_code: S.String.pipe(T.SensitiveValue({})),
           organizations: __S(11424, __c357, 0),
         }),
       ).annotate({ identifier: "ClaimViewResponse" });

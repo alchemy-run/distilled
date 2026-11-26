@@ -70,7 +70,7 @@ const inngestSpec: SdkSpec = {
   operationDecl: {
     contextType: "InngestOpContext",
     commonErrorType: "InngestOpError",
-    commonErrorClasses: ["UnknownInngestError"],
+    serviceErrors: "InngestServiceErrors",
     protocol: "InngestProtocol",
     retry: "Retry.Retry",
   },

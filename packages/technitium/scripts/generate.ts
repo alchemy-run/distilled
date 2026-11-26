@@ -35,7 +35,7 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "TechnitiumOpContext",
     commonErrorType: "TechnitiumOpError",
-    commonErrorClasses: ["UnknownTechnitiumError"],
+    serviceErrors: "TechnitiumServiceErrors",
     protocol: "TechnitiumProtocol",
     // No retry policy: replaying a write could apply it twice.
   },

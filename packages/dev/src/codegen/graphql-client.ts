@@ -1,10 +1,17 @@
 /** GraphQL-native introspection compiler. No traversal limits or RPC projection. */
 import { readIntrospection, type TypeRef } from "./graphql.ts";
+import { isSensitiveMemberName } from "./openapi.ts";
 
 export interface GraphQLArgument {
   readonly type: string;
   readonly description?: string;
   readonly defaultValue?: string;
+  /**
+   * The value is a secret: typed `T | Redacted<T>`, so a caller can pass it
+   * without unwrapping (the client unwraps it before it sends the request).
+   * Set by the name rule for `String` / `ID` inputs, or by patch.
+   */
+  readonly sensitive?: true;
 }
 export interface GraphQLField {
   readonly type: string;
@@ -70,15 +77,27 @@ export const convertGraphQLClient = (
     Boolean: "boolean",
     ...options.scalars,
   };
-  const argument = (value: {
-    type: TypeRef;
-    description?: string | null;
-    defaultValue?: string | null;
-  }): GraphQLArgument => ({
-    type: graphqlTypeString(value.type),
-    ...(value.description ? { description: value.description } : {}),
-    ...(value.defaultValue != null ? { defaultValue: value.defaultValue } : {}),
-  });
+  const argument = (
+    value: {
+      name: string;
+      type: TypeRef;
+      description?: string | null;
+      defaultValue?: string | null;
+    },
+    parent: string,
+  ): GraphQLArgument => {
+    const type = graphqlTypeString(value.type);
+    // The converters' shared name rule, for string inputs (`password`, `token`, `apiKey`).
+    const named = type.replace(/[[\]!]/g, "");
+    const sensitive =
+      (named === "String" || named === "ID") && isSensitiveMemberName(value.name, { parent });
+    return {
+      type,
+      ...(value.description ? { description: value.description } : {}),
+      ...(value.defaultValue != null ? { defaultValue: value.defaultValue } : {}),
+      ...(sensitive ? { sensitive: true as const } : {}),
+    };
+  };
   const types: Record<string, GraphQLType> = {};
   for (const type of [...schema.types].sort((a, b) => a.name.localeCompare(b.name))) {
     if (type.name.startsWith("__")) continue;
@@ -97,7 +116,9 @@ export const convertGraphQLClient = (
                   field.name,
                   {
                     type: graphqlTypeString(field.type),
-                    args: Object.fromEntries(field.args.map((arg) => [arg.name, argument(arg)])),
+                    args: Object.fromEntries(
+                      field.args.map((arg) => [arg.name, argument(arg, field.name)]),
+                    ),
                     errors: [],
                     ...(field.description ? { description: field.description } : {}),
                     ...(field.isDeprecated
@@ -118,7 +139,7 @@ export const convertGraphQLClient = (
       ...(type.inputFields
         ? {
             inputFields: Object.fromEntries(
-              type.inputFields.map((field) => [field.name, argument(field)]),
+              type.inputFields.map((field) => [field.name, argument(field, type.name)]),
             ),
           }
         : {}),
@@ -153,7 +174,8 @@ export const validateGraphQLModel = (model: GraphQLModel): void => {
   };
   const checkInput = (input: GraphQLArgument, coordinate: string) => {
     checkType(input.type, coordinate);
-    if ("sensitive" in input) throw new Error(`${coordinate}: only output fields can be sensitive`);
+    if (input.sensitive && model.types[peelRef(input.type).name]?.kind !== "SCALAR")
+      throw new Error(`${coordinate}: only scalar inputs can be sensitive`);
   };
   for (const name of [model.queryType, model.mutationType, model.subscriptionType]) {
     if (name && !model.types[name]) throw new Error(`Unknown GraphQL root ${name}`);
@@ -257,13 +279,15 @@ export const generateGraphQLClient = (
     return nodeName;
   };
   /** Input type: nullable GraphQL inputs (no `!`) accept `null`. */
-  const tsArg = (ref: string): string => {
+  const tsArg = (ref: string, sensitive = false): string => {
     const nonNull = ref.endsWith("!");
     const inner = nonNull ? ref.slice(0, -1) : ref;
     const ts =
       inner.startsWith("[") && inner.endsWith("]")
-        ? `ReadonlyArray<${tsArg(inner.slice(1, -1))}>`
-        : tsNamed(inner);
+        ? `ReadonlyArray<${tsArg(inner.slice(1, -1), sensitive)}>`
+        : sensitive
+          ? `${tsNamed(inner)} | Redacted.Redacted<${tsNamed(inner)}>`
+          : tsNamed(inner);
     return nonNull ? ts : `${ts} | null`;
   };
   /** Response type: nullable GraphQL types (no `!`) include `null`. */
@@ -290,8 +314,12 @@ export const generateGraphQLClient = (
     const optional = entries.filter(([, arg]) => !arg.type.endsWith("!"));
     return {
       ts: [
-        ...required.map(([argName, arg]) => `readonly ${argName}: ${tsArg(arg.type)}`),
-        ...optional.map(([argName, arg]) => `readonly ${argName}?: ${tsArg(arg.type)} | undefined`),
+        ...required.map(
+          ([argName, arg]) => `readonly ${argName}: ${tsArg(arg.type, arg.sensitive)}`,
+        ),
+        ...optional.map(
+          ([argName, arg]) => `readonly ${argName}?: ${tsArg(arg.type, arg.sensitive)} | undefined`,
+        ),
       ].join("; "),
       required: required.length > 0,
     };
@@ -438,8 +466,11 @@ export const generateGraphQLClient = (
   const lines: string[] = [
     "// AUTO-GENERATED by scripts/generate.ts. Do not edit.",
     `import * as S from "effect/Schema";`,
-    ...(Object.values(model.types).some((type) =>
-      Object.values(type.fields ?? {}).some((field) => field.sensitive),
+    ...(Object.values(model.types).some(
+      (type) =>
+        Object.values(type.fields ?? {}).some(
+          (field) => field.sensitive || Object.values(field.args).some((arg) => arg.sensitive),
+        ) || Object.values(type.inputFields ?? {}).some((field) => field.sensitive),
     )
       ? [`import type * as Redacted from "effect/Redacted";`]
       : []),
@@ -522,7 +553,7 @@ export const generateGraphQLClient = (
     const type = model.types[name]!;
     const fields = Object.entries(type.inputFields ?? {}).map(
       ([fieldName, field]) =>
-        `  readonly ${fieldName}${field.type.endsWith("!") ? "" : "?"}: ${tsArg(field.type)}${field.type.endsWith("!") ? "" : " | undefined"};`,
+        `  readonly ${fieldName}${field.type.endsWith("!") ? "" : "?"}: ${tsArg(field.type, field.sensitive)}${field.type.endsWith("!") ? "" : " | undefined"};`,
     );
     lines.push(documentation(type.description) + `export interface ${name} {`, ...fields, "}", "");
   }

@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownMetabaseError } from "../errors.ts";
+import { MetabaseServiceErrors } from "../errors.ts";
 import { MetabaseProtocol, type MetabaseOpError, type MetabaseOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -3237,7 +3237,7 @@ export interface MetabaseNotificationModelsEchoedUser {
   jwt_attributes?: MetabaseNotificationModelsEchoedUserJwtAttributesMap | null | undefined;
   is_qbnewb?: boolean | null | undefined;
   user_group_memberships?: MetabaseNotificationModelsEchoedUserUserGroupMembershipsList | undefined;
-  reset_token?: string | null | undefined;
+  reset_token?: string | Redacted.Redacted<string> | null | undefined;
   settings?: unknown | null | undefined;
   deactivated_at?: string | null | undefined;
   entity_id?: string | null | undefined;
@@ -3245,7 +3245,7 @@ export interface MetabaseNotificationModelsEchoedUser {
   last_login?: string | null | undefined;
   id: number;
   email?: string | null | undefined;
-  password_salt?: string | null | undefined;
+  password_salt?: string | Redacted.Redacted<string> | null | undefined;
   deactivated_with_tenant?: boolean | null | undefined;
   is_data_analyst?: boolean | null | undefined;
   locale?: string | null | undefined;
@@ -3259,7 +3259,7 @@ export interface MetabaseNotificationModelsEchoedUser {
   first_name?: string | null | undefined;
   type?: string | null | undefined;
   date_joined?: string | null | undefined;
-  password?: string | null | undefined;
+  password?: string | Redacted.Redacted<string> | null | undefined;
   common_name?: string | null | undefined;
 }
 export type MetabaseNotificationModelsNotificationRecipientCase0Type =
@@ -6201,25 +6201,25 @@ export interface CreateSessionForgotPasswordRequest {
 export interface CreateSessionForgotPasswordResponse {}
 export interface CreateSessionGoogleAuthRequest {
   /** value must be a non-blank string. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface CreateSessionGoogleAuthResponse {}
 export interface CreateSessionMfaEnrollRequest {
   /** value must be a non-blank string. */
   code: string;
   /** value must be a non-blank string. */
-  enrollment_token: string;
+  enrollment_token: string | Redacted.Redacted<string>;
   remember?: boolean | undefined;
 }
 export interface CreateSessionMfaEnrollResponse {}
 export interface CreateSessionMfaSendEmailOtpRequest {
   /** value must be a non-blank string. */
-  challenge_token: string;
+  challenge_token: string | Redacted.Redacted<string>;
 }
 export interface CreateSessionMfaSendEmailOtpResponse {}
 export interface CreateSessionMfaVerifyRequest {
   /** value must be a non-blank string. */
-  challenge_token: string;
+  challenge_token: string | Redacted.Redacted<string>;
   /** value must be a non-blank string. */
   code: string;
   remember?: boolean | undefined;
@@ -6234,7 +6234,7 @@ export interface CreateSessionResetPasswordRequest {
   /** password is too common. */
   password: string | Redacted.Redacted<string>;
   /** value must be a non-blank string. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface CreateSessionResetPasswordResponse {}
 export interface CreateSetupRequestPrefs {
@@ -6253,7 +6253,7 @@ export interface CreateSetupRequestUser {
 export interface CreateSetupRequest {
   prefs: CreateSetupRequestPrefs;
   /** value must be a non-blank string. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   user: CreateSetupRequestUser;
 }
 export interface CreateSetupResponse {}
@@ -6586,7 +6586,7 @@ export interface CreateUserRequest {
   last_name?: string | null | undefined;
   first_name?: string | null | undefined;
   source?: string | null | undefined;
-  password?: string | null | undefined;
+  password?: string | Redacted.Redacted<string> | null | undefined;
   invite_target?: CreateUserRequestInviteTarget | null | undefined;
 }
 export interface CreateUserResponse {}
@@ -9231,7 +9231,7 @@ export interface GetSessionIllustrationRequest {
 export interface GetSessionIllustrationResponse {}
 export interface GetSessionPasswordResetTokenValidRequest {
   /** value must be a non-blank string. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface GetSessionPasswordResetTokenValidResponse {}
 export interface GetSessionPropertiesRequest {}
@@ -10212,7 +10212,7 @@ export interface PutEeDatabaseRoutingRouterDatabaseRequest {
 export interface PutEeDatabaseRoutingRouterDatabaseResponse {}
 export interface PutEeEmailOverrideRequest {
   email_smtp_host_override?: string | null | undefined;
-  email_smtp_password_override?: string | null | undefined;
+  email_smtp_password_override?: string | Redacted.Redacted<string> | null | undefined;
   email_smtp_port_override?: number | null | undefined;
   email_smtp_security_override?: string | null | undefined;
   email_smtp_username_override?: string | null | undefined;
@@ -10304,7 +10304,7 @@ export interface PutEeTransformTestRequest {
 export interface PutEeTransformTestResponse {}
 export interface PutEmailRequest {
   email_smtp_host?: string | null | undefined;
-  email_smtp_password?: string | null | undefined;
+  email_smtp_password?: string | Redacted.Redacted<string> | null | undefined;
   email_smtp_port?: number | null | undefined;
   email_smtp_security?: string | null | undefined;
   email_smtp_username?: string | null | undefined;
@@ -10418,7 +10418,7 @@ export type PutLdapSettingsRequestLdapSecurity = "none" | "ssl" | "starttls";
 export interface PutLdapSettingsRequest {
   ldap_host?: string | null | undefined;
   ldap_attribute_email?: string | null | undefined;
-  ldap_password?: string | null | undefined;
+  ldap_password?: string | Redacted.Redacted<string> | null | undefined;
   ldap_port?: number | null | undefined;
   ldap_bind_dn?: string | null | undefined;
   ldap_group_membership_filter?: string | null | undefined;
@@ -10460,9 +10460,9 @@ export interface PutMetabotMetabotRequest {
 }
 export interface PutMetabotMetabotResponse {}
 export interface PutMetabotSlackSettingsRequest {
-  metabot_slack_signing_secret: string | null;
+  metabot_slack_signing_secret: string | Redacted.Redacted<string> | null;
   slack_connect_client_id: string | null;
-  slack_connect_client_secret: string | null;
+  slack_connect_client_secret: string | Redacted.Redacted<string> | null;
 }
 export interface PutMetabotSlackSettingsResponse {}
 export interface PutMtGtapRequest {
@@ -10919,7 +10919,7 @@ export interface PutSettingByKeyRequest {
 }
 export interface PutSettingByKeyResponse {}
 export interface PutSlackSettingsRequest {
-  slack_app_token?: string | null | undefined;
+  slack_app_token?: string | Redacted.Redacted<string> | null | undefined;
   slack_bug_report_channel?: string | null | undefined;
 }
 export interface PutSlackSettingsResponse {}
@@ -11138,7 +11138,7 @@ export interface PutUserModalResponse {}
 export interface PutUserPasswordRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  old_password?: string | null | undefined;
+  old_password?: string | Redacted.Redacted<string> | null | undefined;
   /** password is too common. */
   password: string | Redacted.Redacted<string>;
 }
@@ -11421,7 +11421,8 @@ export const createAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateActionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateActionResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11438,7 +11439,8 @@ export const createActionExecute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<CreateActionExecuteRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateActionExecuteResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11455,7 +11457,8 @@ export const createActionExecute2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4001, __c125, 1) as any as S.Schema<CreateActionExecuteRequest2>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateActionExecute2Response>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11472,7 +11475,8 @@ export const createActionExecute3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7936, __c248, 0) as any as S.Schema<CreateActionExecuteRequest3>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateActionExecute3Response>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11489,7 +11493,8 @@ export const createActionExecuteValue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11520, __c360, 0) as any as S.Schema<CreateActionExecuteValueRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateActionExecuteValueResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11506,7 +11511,8 @@ export const createActionPublicLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15168, __c474, 0) as any as S.Schema<CreateActionPublicLinkRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateActionPublicLinkResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11523,7 +11529,8 @@ export const createActivityRecent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18720, __c585, 0) as any as S.Schema<CreateActivityRecentRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateActivityRecentResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11540,7 +11547,8 @@ export const createAgentCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22432, __c701, 0) as any as S.Schema<CreateAgentCollectionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateAgentCollectionResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11557,7 +11565,8 @@ export const createAgentConstructNativeQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23776, __c743, 0) as any as S.Schema<CreateAgentConstructNativeQueryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateAgentConstructNativeQueryResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11574,7 +11583,8 @@ export const createAgentConstructQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24192, __c756, 0) as any as S.Schema<CreateAgentConstructQueryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateAgentConstructQueryResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11591,7 +11601,8 @@ export const createAgentDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<CreateAgentDashboardRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateAgentDashboardResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11608,7 +11619,8 @@ export const createAgentExecute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<CreateAgentExecuteRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateAgentExecuteResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11625,7 +11637,8 @@ export const createAgentExecuteSql: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<CreateAgentExecuteSqlRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateAgentExecuteSqlResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11642,7 +11655,8 @@ export const createAgentMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<CreateAgentMetricRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateAgentMetricResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11659,7 +11673,8 @@ export const createAgentQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<CreateAgentQueryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateAgentQueryResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11676,7 +11691,8 @@ export const createAgentQuestion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<CreateAgentQuestionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateAgentQuestionResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11693,7 +11709,8 @@ export const createAgentQuestionQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<CreateAgentQuestionQueryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateAgentQuestionQueryResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11710,7 +11727,8 @@ export const createAgentReadResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<CreateAgentReadResourceRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateAgentReadResourceResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11727,7 +11745,8 @@ export const createAgentSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3232, __c101, 0) as any as S.Schema<CreateAgentSearchRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateAgentSearchResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11744,7 +11763,8 @@ export const createAnalyticsInternal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3618, __c113, 2) as any as S.Schema<CreateAnalyticsInternalRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateAnalyticsInternalResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11761,7 +11781,8 @@ export const createAnalyticsProxy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4033, __c126, 1) as any as S.Schema<CreateAnalyticsProxyRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateAnalyticsProxyResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11778,7 +11799,8 @@ export const createCacheInvalidate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4416, __c138, 0) as any as S.Schema<CreateCacheInvalidateRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateCacheInvalidateResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11795,7 +11817,8 @@ export const createCard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4769, __c149, 1) as any as S.Schema<CreateCardRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateCardResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11812,7 +11835,8 @@ export const createCardCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5440, __c170, 0) as any as S.Schema<CreateCardCollectionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateCardCollectionResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11829,7 +11853,8 @@ export const createCardCopy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5792, __c181, 0) as any as S.Schema<CreateCardCopyRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateCardCopyResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11846,7 +11871,8 @@ export const createCardPivotCardQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6144, __c192, 0) as any as S.Schema<CreateCardPivotCardQueryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateCardPivotCardQueryResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11863,7 +11889,8 @@ export const createCardPublicLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6528, __c204, 0) as any as S.Schema<CreateCardPublicLinkRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateCardPublicLinkResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11880,7 +11907,8 @@ export const createCardQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6880, __c215, 0) as any as S.Schema<CreateCardQueryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateCardQueryResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11897,7 +11925,8 @@ export const createCardsDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7232, __c226, 0) as any as S.Schema<CreateCardsDashboardRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateCardsDashboardResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11914,7 +11943,8 @@ export const createCardsMove: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7584, __c237, 0) as any as S.Schema<CreateCardsMoveRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateCardsMoveResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11931,7 +11961,8 @@ export const createChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7968, __c249, 0) as any as S.Schema<CreateChannelRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateChannelResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11948,7 +11979,8 @@ export const createChannelTest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8320, __c260, 0) as any as S.Schema<CreateChannelTestRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateChannelTestResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11965,7 +11997,8 @@ export const createCloudMigration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8672, __c271, 0) as any as S.Schema<CreateCloudMigrationRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateCloudMigrationResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11982,7 +12015,8 @@ export const createCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9024, __c282, 0) as any as S.Schema<CreateCollectionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateCollectionResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12007,7 +12041,8 @@ export const createCollectionMoveDashboardQuestionCandidate: API.OperationMethod
     __c1,
     0,
   ) as any as S.Schema<CreateCollectionMoveDashboardQuestionCandidateResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12032,7 +12067,8 @@ export const createCollectionRootMoveDashboardQuestionCandidate: API.OperationMe
     __c1,
     0,
   ) as any as S.Schema<CreateCollectionRootMoveDashboardQuestionCandidateResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12049,7 +12085,8 @@ export const createComment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10112, __c316, 0) as any as S.Schema<CreateCommentRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateCommentResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12066,7 +12103,8 @@ export const createCommentReaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10464, __c327, 0) as any as S.Schema<CreateCommentReactionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateCommentReactionResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12083,7 +12121,8 @@ export const createDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10816, __c338, 0) as any as S.Schema<CreateDashboardRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateDashboardResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12100,7 +12139,8 @@ export const createDashboardCopy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11168, __c349, 0) as any as S.Schema<CreateDashboardCopyRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateDashboardCopyResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12117,7 +12157,8 @@ export const createDashboardDashcardCardQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11584, __c362, 0) as any as S.Schema<CreateDashboardDashcardCardQueryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateDashboardDashcardCardQueryResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12134,7 +12175,8 @@ export const createDashboardDashcardExecute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11937, __c373, 1) as any as S.Schema<CreateDashboardDashcardExecuteRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateDashboardDashcardExecuteResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12151,7 +12193,8 @@ export const createDashboardDashcardExecute2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12288, __c384, 0) as any as S.Schema<CreateDashboardDashcardExecuteRequest2>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateDashboardDashcardExecute2Response>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12168,7 +12211,8 @@ export const createDashboardDashcardExecuteValue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12640, __c395, 0) as any as S.Schema<CreateDashboardDashcardExecuteValueRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateDashboardDashcardExecuteValueResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12185,7 +12229,8 @@ export const createDashboardDashcardExecuteValue2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12992, __c406, 0) as any as S.Schema<CreateDashboardDashcardExecuteValueRequest2>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateDashboardDashcardExecuteValue2Response>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12202,7 +12247,8 @@ export const createDashboardPdf: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13344, __c417, 0) as any as S.Schema<CreateDashboardPdfRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateDashboardPdfResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12227,7 +12273,8 @@ export const createDashboardPivotDashboardDashcardCardQuery: API.OperationMethod
     __c1,
     0,
   ) as any as S.Schema<CreateDashboardPivotDashboardDashcardCardQueryResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12244,7 +12291,8 @@ export const createDashboardPublicLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14048, __c439, 0) as any as S.Schema<CreateDashboardPublicLinkRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateDashboardPublicLinkResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12261,7 +12309,8 @@ export const createDashboardSave: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14405, __c450, 5) as any as S.Schema<CreateDashboardSaveRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateDashboardSaveResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12278,7 +12327,8 @@ export const createDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14784, __c462, 0) as any as S.Schema<CreateDatabaseRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateDatabaseResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12295,7 +12345,8 @@ export const createDatabaseDiscardValue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15200, __c475, 0) as any as S.Schema<CreateDatabaseDiscardValueRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateDatabaseDiscardValueResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12312,7 +12363,8 @@ export const createDatabaseDismissSpinner: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15552, __c486, 0) as any as S.Schema<CreateDatabaseDismissSpinnerRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateDatabaseDismissSpinnerResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12329,7 +12381,8 @@ export const createDatabaseRescanValue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15904, __c497, 0) as any as S.Schema<CreateDatabaseRescanValueRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateDatabaseRescanValueResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12346,7 +12399,8 @@ export const createDatabaseSampleDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16256, __c508, 0) as any as S.Schema<CreateDatabaseSampleDatabaseRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateDatabaseSampleDatabaseResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12363,7 +12417,8 @@ export const createDatabaseSyncSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16608, __c519, 0) as any as S.Schema<CreateDatabaseSyncSchemaRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateDatabaseSyncSchemaResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12380,7 +12435,8 @@ export const createDatabaseValidate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16961, __c530, 1) as any as S.Schema<CreateDatabaseValidateRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateDatabaseValidateResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12397,7 +12453,8 @@ export const createDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17312, __c541, 0) as any as S.Schema<CreateDatasetRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateDatasetResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12414,7 +12471,8 @@ export const createDatasetNative: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17664, __c552, 0) as any as S.Schema<CreateDatasetNativeRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateDatasetNativeResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12431,7 +12489,8 @@ export const createDatasetParameterRemapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18016, __c563, 0) as any as S.Schema<CreateDatasetParameterRemappingRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateDatasetParameterRemappingResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12448,7 +12507,8 @@ export const createDatasetParameterValue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18368, __c574, 0) as any as S.Schema<CreateDatasetParameterValueRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateDatasetParameterValueResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12465,7 +12525,8 @@ export const createDatasetPivot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18752, __c586, 0) as any as S.Schema<CreateDatasetPivotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateDatasetPivotResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12482,7 +12543,8 @@ export const createDatasetQueryMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19104, __c597, 0) as any as S.Schema<CreateDatasetQueryMetadataRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateDatasetQueryMetadataResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12499,7 +12561,8 @@ export const createDataStudioTableDiscardValue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19456, __c608, 0) as any as S.Schema<CreateDataStudioTableDiscardValueRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateDataStudioTableDiscardValueResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12516,7 +12579,8 @@ export const createDataStudioTableEdit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19808, __c619, 0) as any as S.Schema<CreateDataStudioTableEditRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateDataStudioTableEditResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12533,7 +12597,8 @@ export const createDataStudioTableRescanValue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20192, __c631, 0) as any as S.Schema<CreateDataStudioTableRescanValueRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateDataStudioTableRescanValueResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12550,7 +12615,8 @@ export const createDataStudioTableSelection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20608, __c644, 0) as any as S.Schema<CreateDataStudioTableSelectionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateDataStudioTableSelectionResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12567,7 +12633,8 @@ export const createDataStudioTableSyncSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20960, __c655, 0) as any as S.Schema<CreateDataStudioTableSyncSchemaRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateDataStudioTableSyncSchemaResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12584,7 +12651,8 @@ export const createDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21312, __c666, 0) as any as S.Schema<CreateDocumentRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateDocumentResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12601,7 +12669,8 @@ export const createDocumentCopy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21728, __c679, 0) as any as S.Schema<CreateDocumentCopyRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateDocumentCopyResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12618,7 +12687,8 @@ export const createDocumentPublicLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22080, __c690, 0) as any as S.Schema<CreateDocumentPublicLinkRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateDocumentPublicLinkResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12635,7 +12705,8 @@ export const createEeActionV2Execute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22464, __c702, 0) as any as S.Schema<CreateEeActionV2ExecuteRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeActionV2ExecuteResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12652,7 +12723,8 @@ export const createEeActionV2ExecuteBulk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22848, __c714, 0) as any as S.Schema<CreateEeActionV2ExecuteBulkRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeActionV2ExecuteBulkResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12669,7 +12741,8 @@ export const createEeActionV2ExecuteForm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23232, __c726, 0) as any as S.Schema<CreateEeActionV2ExecuteFormRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeActionV2ExecuteFormResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12686,7 +12759,8 @@ export const createEeAiControlsMcpPermissionsAdvanced: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23520, __c735, 0) as any as S.Schema<CreateEeAiControlsMcpPermissionsAdvancedRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeAiControlsMcpPermissionsAdvancedResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12703,7 +12777,8 @@ export const createEeAiControlsPermissionsAdvanced: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23552, __c736, 0) as any as S.Schema<CreateEeAiControlsPermissionsAdvancedRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeAiControlsPermissionsAdvancedResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12720,7 +12795,8 @@ export const createEeAppGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23584, __c737, 0) as any as S.Schema<CreateEeAppGroupRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeAppGroupResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12737,7 +12813,8 @@ export const createEeAppsGenerateAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23618, __c738, 2) as any as S.Schema<CreateEeAppsGenerateActionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeAppsGenerateActionResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12754,7 +12831,8 @@ export const createEeAppsGenerateQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23683, __c740, 3) as any as S.Schema<CreateEeAppsGenerateQueryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeAppsGenerateQueryResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12771,7 +12849,8 @@ export const createEeAuditAppAnalyticsDevExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23712, __c741, 0) as any as S.Schema<CreateEeAuditAppAnalyticsDevExportRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeAuditAppAnalyticsDevExportResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12788,7 +12867,8 @@ export const createEeContentDiagnosticsInvalidate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23744, __c742, 0) as any as S.Schema<CreateEeContentDiagnosticsInvalidateRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeContentDiagnosticsInvalidateResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12809,7 +12889,8 @@ export const createEeContentTranslationUploadDictionary: API.OperationMethod<
     0,
   ) as any as S.Schema<CreateEeContentTranslationUploadDictionaryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeContentTranslationUploadDictionaryResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12826,7 +12907,8 @@ export const createEeCustomVizPlugin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23872, __c746, 0) as any as S.Schema<CreateEeCustomVizPluginRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeCustomVizPluginResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12843,7 +12925,8 @@ export const createEeCustomVizPluginDev: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23904, __c747, 0) as any as S.Schema<CreateEeCustomVizPluginDevRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeCustomVizPluginDevResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12860,7 +12943,8 @@ export const createEeCustomVizPluginRefresh: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23936, __c748, 0) as any as S.Schema<CreateEeCustomVizPluginRefreshRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeCustomVizPluginRefreshResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12885,7 +12969,8 @@ export const createEeDatabaseReplicationConnectionDatabasePreview: API.Operation
     __c1,
     0,
   ) as any as S.Schema<CreateEeDatabaseReplicationConnectionDatabasePreviewResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12906,7 +12991,8 @@ export const createEeDatabaseRoutingDestinationDatabase: API.OperationMethod<
     2,
   ) as any as S.Schema<CreateEeDatabaseRoutingDestinationDatabaseRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeDatabaseRoutingDestinationDatabaseResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12923,7 +13009,8 @@ export const createEeDataStudioTablePublishTable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24064, __c752, 0) as any as S.Schema<CreateEeDataStudioTablePublishTableRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeDataStudioTablePublishTableResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12940,7 +13027,8 @@ export const createEeDataStudioTableUnpublishTable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24096, __c753, 0) as any as S.Schema<CreateEeDataStudioTableUnpublishTableRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeDataStudioTableUnpublishTableResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12957,7 +13045,8 @@ export const createEeGsheetsConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24128, __c754, 0) as any as S.Schema<CreateEeGsheetsConnectionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeGsheetsConnectionResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12974,7 +13063,8 @@ export const createEeGsheetsConnectionSync: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24160, __c755, 0) as any as S.Schema<CreateEeGsheetsConnectionSyncRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeGsheetsConnectionSyncResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12991,7 +13081,8 @@ export const createEeLibrary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24256, __c758, 0) as any as S.Schema<CreateEeLibraryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeLibraryResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13008,7 +13099,8 @@ export const createEeMfaAdminRemove: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24288, __c759, 0) as any as S.Schema<CreateEeMfaAdminRemoveRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeMfaAdminRemoveResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13025,7 +13117,8 @@ export const createEeMfaDisable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24320, __c760, 0) as any as S.Schema<CreateEeMfaDisableRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeMfaDisableResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13042,7 +13135,8 @@ export const createEeMfaEnroll: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24352, __c761, 0) as any as S.Schema<CreateEeMfaEnrollRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeMfaEnrollResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13059,7 +13153,8 @@ export const createEeMfaEnrollConfirm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24384, __c762, 0) as any as S.Schema<CreateEeMfaEnrollConfirmRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeMfaEnrollConfirmResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13076,7 +13171,8 @@ export const createEeMfaRecoveryCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24416, __c763, 0) as any as S.Schema<CreateEeMfaRecoveryCodeRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeMfaRecoveryCodeResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13093,7 +13189,8 @@ export const createEeRemoteSyncCreateBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24448, __c764, 0) as any as S.Schema<CreateEeRemoteSyncCreateBranchRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeRemoteSyncCreateBranchResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13110,7 +13207,8 @@ export const createEeRemoteSyncCurrentTaskCancel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24480, __c765, 0) as any as S.Schema<CreateEeRemoteSyncCurrentTaskCancelRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeRemoteSyncCurrentTaskCancelResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13127,7 +13225,8 @@ export const createEeRemoteSyncExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24512, __c766, 0) as any as S.Schema<CreateEeRemoteSyncExportRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeRemoteSyncExportResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13144,7 +13243,8 @@ export const createEeRemoteSyncImport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24544, __c767, 0) as any as S.Schema<CreateEeRemoteSyncImportRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeRemoteSyncImportResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13161,7 +13261,8 @@ export const createEeRemoteSyncStash: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<CreateEeRemoteSyncStashRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeRemoteSyncStashResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13178,7 +13279,8 @@ export const createEeRemoteSyncTestConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<CreateEeRemoteSyncTestConnectionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeRemoteSyncTestConnectionResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13195,7 +13297,8 @@ export const createEeReplacementCheckReplaceSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<CreateEeReplacementCheckReplaceSourceRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeReplacementCheckReplaceSourceResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13212,7 +13315,8 @@ export const createEeReplacementReplaceSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<CreateEeReplacementReplaceSourceRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeReplacementReplaceSourceResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13229,7 +13333,8 @@ export const createEeReplacementRunCancel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<CreateEeReplacementRunCancelRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeReplacementRunCancelResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13246,7 +13351,8 @@ export const createEeScimGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<CreateEeScimGroupRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeScimGroupResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13263,7 +13369,8 @@ export const createEeScimKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<CreateEeScimKeyRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeScimKeyResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13280,7 +13387,8 @@ export const createEeScimUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<CreateEeScimUserRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeScimUserResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13297,7 +13405,8 @@ export const createEeSecurityCenterAcknowledge: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<CreateEeSecurityCenterAcknowledgeRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeSecurityCenterAcknowledgeResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13314,7 +13423,8 @@ export const createEeSecurityCenterAcknowledge2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<CreateEeSecurityCenterAcknowledgeRequest2>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeSecurityCenterAcknowledge2Response>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13331,7 +13441,8 @@ export const createEeSecurityCenterSync: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<CreateEeSecurityCenterSyncRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeSecurityCenterSyncResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13348,7 +13459,8 @@ export const createEeSecurityCenterTestNotification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(673, __c21, 1) as any as S.Schema<CreateEeSecurityCenterTestNotificationRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeSecurityCenterTestNotificationResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13365,7 +13477,8 @@ export const createEeSerializationExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(705, __c22, 1) as any as S.Schema<CreateEeSerializationExportRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeSerializationExportResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13382,7 +13495,8 @@ export const createEeSerializationImport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(737, __c23, 1) as any as S.Schema<CreateEeSerializationImportRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeSerializationImportResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13399,7 +13513,8 @@ export const createEeSessionManagementRevoke: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(769, __c24, 1) as any as S.Schema<CreateEeSessionManagementRevokeRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeSessionManagementRevokeResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13416,7 +13531,8 @@ export const createEeSupportAccessGrant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<CreateEeSupportAccessGrantRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeSupportAccessGrantResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13433,7 +13549,8 @@ export const createEeTenant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<CreateEeTenantRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeTenantResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13450,7 +13567,8 @@ export const createEeTransformInspectQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<CreateEeTransformInspectQueryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeTransformInspectQueryResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13467,7 +13585,8 @@ export const createEeTransformsPythonTestRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(930, __c29, 2) as any as S.Schema<CreateEeTransformsPythonTestRunRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeTransformsPythonTestRunResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13484,7 +13603,8 @@ export const createEeTransformTest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<CreateEeTransformTestRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeTransformTestResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13501,7 +13621,8 @@ export const createEeTransformTestRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<CreateEeTransformTestRunRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEeTransformTestRunResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13518,7 +13639,8 @@ export const createEidTranslationTranslate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1089, __c34, 1) as any as S.Schema<CreateEidTranslationTranslateRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEidTranslationTranslateResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13535,7 +13657,8 @@ export const createEmailTest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<CreateEmailTestRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEmailTestResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13552,7 +13675,8 @@ export const createEmbedMcpDrill: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<CreateEmbedMcpDrillRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEmbedMcpDrillResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13569,7 +13693,8 @@ export const createEmbedMcpFeedback: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1186, __c37, 2) as any as S.Schema<CreateEmbedMcpFeedbackRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEmbedMcpFeedbackResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13586,7 +13711,8 @@ export const createEmbedTheme: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<CreateEmbedThemeRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEmbedThemeResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13603,7 +13729,8 @@ export const createEmbedThemeCopy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<CreateEmbedThemeCopyRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEmbedThemeCopyResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13620,7 +13747,8 @@ export const createEmbedThemeSeedDefault: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1282, __c40, 2) as any as S.Schema<CreateEmbedThemeSeedDefaultRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateEmbedThemeSeedDefaultResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13637,7 +13765,8 @@ export const createExploration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1320, __c41, 8) as any as S.Schema<CreateExplorationRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateExplorationResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13654,7 +13783,8 @@ export const createExplorationExploreFurther: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1345, __c42, 1) as any as S.Schema<CreateExplorationExploreFurtherRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateExplorationExploreFurtherResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13671,7 +13801,8 @@ export const createExplorationSummaryAppend: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<CreateExplorationSummaryAppendRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateExplorationSummaryAppendResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13688,7 +13819,8 @@ export const createExplorationThreadCancel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<CreateExplorationThreadCancelRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateExplorationThreadCancelResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13705,7 +13837,8 @@ export const createExplorationThreadRestart: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<CreateExplorationThreadRestartRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateExplorationThreadRestartResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13722,7 +13855,8 @@ export const createFieldDimension: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<CreateFieldDimensionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateFieldDimensionResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13739,7 +13873,8 @@ export const createFieldDiscardValue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<CreateFieldDiscardValueRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateFieldDiscardValueResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13756,7 +13891,8 @@ export const createFieldRescanValue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<CreateFieldRescanValueRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateFieldRescanValueResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13773,7 +13909,8 @@ export const createFieldTableIds: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<CreateFieldTableIdsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateFieldTableIdsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13790,7 +13927,8 @@ export const createFieldValue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1633, __c51, 1) as any as S.Schema<CreateFieldValueRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateFieldValueResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13807,7 +13945,8 @@ export const createFrontendError: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<CreateFrontendErrorRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateFrontendErrorResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13824,7 +13963,8 @@ export const createGlossary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<CreateGlossaryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateGlossaryResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13841,7 +13981,8 @@ export const createIndexRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<CreateIndexRequestRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateIndexRequestResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13858,7 +13999,8 @@ export const createKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<CreateKeyRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateKeyResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13875,7 +14017,8 @@ export const createLlmExtractSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1826, __c57, 2) as any as S.Schema<CreateLlmExtractSourceRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateLlmExtractSourceResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13892,7 +14035,8 @@ export const createLlmProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<CreateLlmProviderRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateLlmProviderResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13909,7 +14053,8 @@ export const createLoggerAdjustment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<CreateLoggerAdjustmentRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateLoggerAdjustmentResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13926,7 +14071,8 @@ export const createMeasure: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<CreateMeasureRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateMeasureResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13943,7 +14089,8 @@ export const createMetabotAgentStreaming: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1967, __c61, 15) as any as S.Schema<CreateMetabotAgentStreamingRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateMetabotAgentStreamingResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13960,7 +14107,8 @@ export const createMetabotConversationFork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<CreateMetabotConversationForkRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateMetabotConversationForkResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13977,7 +14125,8 @@ export const createMetabotConversationSavedEntity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2017, __c63, 1) as any as S.Schema<CreateMetabotConversationSavedEntityRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateMetabotConversationSavedEntityResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13994,7 +14143,8 @@ export const createMetabotDocumentGenerateContent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<CreateMetabotDocumentGenerateContentRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateMetabotDocumentGenerateContentResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14011,7 +14161,8 @@ export const createMetabotFeedback: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<CreateMetabotFeedbackRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateMetabotFeedbackResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14036,7 +14187,8 @@ export const createMetabotMetabotPromptSuggestionsRegenerate: API.OperationMetho
     __c1,
     0,
   ) as any as S.Schema<CreateMetabotMetabotPromptSuggestionsRegenerateResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14053,7 +14205,8 @@ export const createMetabotSlackEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<CreateMetabotSlackEventRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateMetabotSlackEventResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14070,7 +14223,8 @@ export const createMetabotSlackInteractive: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<CreateMetabotSlackInteractiveRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateMetabotSlackInteractiveResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14087,7 +14241,8 @@ export const createMetabotSourceFeedback: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<CreateMetabotSourceFeedbackRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateMetabotSourceFeedbackResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14104,7 +14259,8 @@ export const createMetaplowProxySend: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2273, __c71, 1) as any as S.Schema<CreateMetaplowProxySendRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateMetaplowProxySendResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14121,7 +14277,8 @@ export const createMetricBreakoutValue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<CreateMetricBreakoutValueRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateMetricBreakoutValueResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14138,7 +14295,8 @@ export const createMetricDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<CreateMetricDatasetRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateMetricDatasetResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14155,7 +14313,8 @@ export const createMetricDimensionAdd: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2402, __c75, 2) as any as S.Schema<CreateMetricDimensionAddRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateMetricDimensionAddResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14172,7 +14331,8 @@ export const createMetricDimensionRemove: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<CreateMetricDimensionRemoveRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateMetricDimensionRemoveResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14189,7 +14349,8 @@ export const createMetricDimensionReorder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<CreateMetricDimensionReorderRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateMetricDimensionReorderResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14206,7 +14367,8 @@ export const createMetricDimensionSetDefault: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<CreateMetricDimensionSetDefaultRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateMetricDimensionSetDefaultResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14223,7 +14385,8 @@ export const createModelIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<CreateModelIndexRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateModelIndexResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14240,7 +14403,8 @@ export const createModerationReview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<CreateModerationReviewRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateModerationReviewResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14257,7 +14421,8 @@ export const createMtGtap: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<CreateMtGtapRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateMtGtapResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14274,7 +14439,8 @@ export const createMtGtapValidate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<CreateMtGtapValidateRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateMtGtapValidateResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14291,7 +14457,8 @@ export const createNativeQuerySnippet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<CreateNativeQuerySnippetRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateNativeQuerySnippetResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14308,7 +14475,8 @@ export const createNotification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<CreateNotificationRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateNotificationResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14325,7 +14493,8 @@ export const createNotificationAdminBulk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c87, 0) as any as S.Schema<CreateNotificationAdminBulkRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateNotificationAdminBulkResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14342,7 +14511,8 @@ export const createNotificationSend: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<CreateNotificationSendRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateNotificationSendResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14359,7 +14529,8 @@ export const createNotificationSend2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c91, 0) as any as S.Schema<CreateNotificationSendRequest2>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateNotificationSend2Response>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14376,7 +14547,8 @@ export const createNotificationUnsubscribe: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<CreateNotificationUnsubscribeRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateNotificationUnsubscribeResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14393,7 +14565,8 @@ export const createNotificationUnsubscribe2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<CreateNotificationUnsubscribeRequest2>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateNotificationUnsubscribe2Response>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14410,7 +14583,8 @@ export const createNotificationUnsubscribeUndo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<CreateNotificationUnsubscribeUndoRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateNotificationUnsubscribeUndoResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14427,7 +14601,8 @@ export const createNotifyDbAttachedDatawarehouse: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c95, 0) as any as S.Schema<CreateNotifyDbAttachedDatawarehouseRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateNotifyDbAttachedDatawarehouseResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14444,7 +14619,8 @@ export const createNotifyDbNewTable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<CreateNotifyDbNewTableRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateNotifyDbNewTableResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14461,7 +14637,8 @@ export const createOsiAiContextReconcile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c97, 0) as any as S.Schema<CreateOsiAiContextReconcileRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateOsiAiContextReconcileResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14478,7 +14655,8 @@ export const createPermissionsGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3136, __c98, 0) as any as S.Schema<CreatePermissionsGroupRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreatePermissionsGroupResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14495,7 +14673,8 @@ export const createPermissionsMembership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3168, __c99, 0) as any as S.Schema<CreatePermissionsMembershipRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreatePermissionsMembershipResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14512,7 +14691,8 @@ export const createPersistCardPersist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c100, 0) as any as S.Schema<CreatePersistCardPersistRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreatePersistCardPersistResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14529,7 +14709,8 @@ export const createPersistCardRefresh: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3264, __c102, 0) as any as S.Schema<CreatePersistCardRefreshRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreatePersistCardRefreshResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14546,7 +14727,8 @@ export const createPersistCardUnpersist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3296, __c103, 0) as any as S.Schema<CreatePersistCardUnpersistRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreatePersistCardUnpersistResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14563,7 +14745,8 @@ export const createPersistDatabasePersist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c104, 0) as any as S.Schema<CreatePersistDatabasePersistRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreatePersistDatabasePersistResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14580,7 +14763,8 @@ export const createPersistDatabaseUnpersist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3360, __c105, 0) as any as S.Schema<CreatePersistDatabaseUnpersistRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreatePersistDatabaseUnpersistResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14597,7 +14781,8 @@ export const createPersistDisable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3392, __c106, 0) as any as S.Schema<CreatePersistDisableRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreatePersistDisableResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14614,7 +14799,8 @@ export const createPersistEnable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3424, __c107, 0) as any as S.Schema<CreatePersistEnableRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreatePersistEnableResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14631,7 +14817,8 @@ export const createPersistSetRefreshSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3456, __c108, 0) as any as S.Schema<CreatePersistSetRefreshScheduleRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreatePersistSetRefreshScheduleResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14648,7 +14835,8 @@ export const createPremiumFeaturesTokenRefresh: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3488, __c109, 0) as any as S.Schema<CreatePremiumFeaturesTokenRefreshRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreatePremiumFeaturesTokenRefreshResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14665,7 +14853,8 @@ export const createPulse: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3521, __c110, 1) as any as S.Schema<CreatePulseRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreatePulseResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14682,7 +14871,8 @@ export const createPulseTest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3585, __c112, 1) as any as S.Schema<CreatePulseTestRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreatePulseTestResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14699,7 +14889,8 @@ export const createPulseUnsubscribe: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3680, __c115, 0) as any as S.Schema<CreatePulseUnsubscribeRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreatePulseUnsubscribeResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14716,7 +14907,8 @@ export const createPulseUnsubscribeUndo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3712, __c116, 0) as any as S.Schema<CreatePulseUnsubscribeUndoRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreatePulseUnsubscribeUndoResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14733,7 +14925,8 @@ export const createRevisionRevert: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3744, __c117, 0) as any as S.Schema<CreateRevisionRevertRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateRevisionRevertResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14750,7 +14943,8 @@ export const createSearchForceReindex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3776, __c118, 0) as any as S.Schema<CreateSearchForceReindexRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateSearchForceReindexResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14767,7 +14961,8 @@ export const createSearchReInit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3808, __c119, 0) as any as S.Schema<CreateSearchReInitRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateSearchReInitResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14784,7 +14979,8 @@ export const createSegment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3840, __c120, 0) as any as S.Schema<CreateSegmentRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateSegmentResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14801,7 +14997,8 @@ export const createSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3872, __c121, 0) as any as S.Schema<CreateSessionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateSessionResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14818,7 +15015,8 @@ export const createSessionForgotPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3904, __c122, 0) as any as S.Schema<CreateSessionForgotPasswordRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateSessionForgotPasswordResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14835,7 +15033,8 @@ export const createSessionGoogleAuth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3936, __c123, 0) as any as S.Schema<CreateSessionGoogleAuthRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateSessionGoogleAuthResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14852,7 +15051,8 @@ export const createSessionMfaEnroll: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3968, __c124, 0) as any as S.Schema<CreateSessionMfaEnrollRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateSessionMfaEnrollResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14869,7 +15069,8 @@ export const createSessionMfaSendEmailOtp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4064, __c127, 0) as any as S.Schema<CreateSessionMfaSendEmailOtpRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateSessionMfaSendEmailOtpResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14886,7 +15087,8 @@ export const createSessionMfaVerify: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4096, __c128, 0) as any as S.Schema<CreateSessionMfaVerifyRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateSessionMfaVerifyResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14903,7 +15105,8 @@ export const createSessionPasswordCheck: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4128, __c129, 0) as any as S.Schema<CreateSessionPasswordCheckRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateSessionPasswordCheckResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14920,7 +15123,8 @@ export const createSessionResetPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4160, __c130, 0) as any as S.Schema<CreateSessionResetPasswordRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateSessionResetPasswordResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14937,7 +15141,8 @@ export const createSetup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4194, __c131, 2) as any as S.Schema<CreateSetupRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateSetupResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14954,7 +15159,8 @@ export const createSlackBugReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4225, __c132, 1) as any as S.Schema<CreateSlackBugReportRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateSlackBugReportResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14971,7 +15177,8 @@ export const createTableAppendCsv: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4256, __c133, 0) as any as S.Schema<CreateTableAppendCsvRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateTableAppendCsvResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14988,7 +15195,8 @@ export const createTableDiscardValue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4320, __c135, 0) as any as S.Schema<CreateTableDiscardValueRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateTableDiscardValueResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15005,7 +15213,8 @@ export const createTableReplaceCsv: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4352, __c136, 0) as any as S.Schema<CreateTableReplaceCsvRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateTableReplaceCsvResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15022,7 +15231,8 @@ export const createTableRescanValue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4384, __c137, 0) as any as S.Schema<CreateTableRescanValueRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateTableRescanValueResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15039,7 +15249,8 @@ export const createTableSyncSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4448, __c139, 0) as any as S.Schema<CreateTableSyncSchemaRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateTableSyncSchemaResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15056,7 +15267,8 @@ export const createTimeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4480, __c140, 0) as any as S.Schema<CreateTimelineRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateTimelineResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15073,7 +15285,8 @@ export const createTimelineEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4512, __c141, 0) as any as S.Schema<CreateTimelineEventRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateTimelineEventResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15090,7 +15303,8 @@ export const createTransform: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4544, __c142, 0) as any as S.Schema<CreateTransformRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateTransformResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15107,7 +15321,8 @@ export const createTransformCancel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4576, __c143, 0) as any as S.Schema<CreateTransformCancelRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateTransformCancelResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15124,7 +15339,8 @@ export const createTransformDagRunCancel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4608, __c144, 0) as any as S.Schema<CreateTransformDagRunCancelRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateTransformDagRunCancelResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15141,7 +15357,8 @@ export const createTransformJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4640, __c145, 0) as any as S.Schema<CreateTransformJobRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateTransformJobResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15158,7 +15375,8 @@ export const createTransformJobRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4672, __c146, 0) as any as S.Schema<CreateTransformJobRunRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateTransformJobRunResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15175,7 +15393,8 @@ export const createTransformJobRunCancel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4704, __c147, 0) as any as S.Schema<CreateTransformJobRunCancelRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateTransformJobRunCancelResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15192,7 +15411,8 @@ export const createTransformResetCheckpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4736, __c148, 0) as any as S.Schema<CreateTransformResetCheckpointRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateTransformResetCheckpointResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15209,7 +15429,8 @@ export const createTransformRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5088, __c159, 0) as any as S.Schema<CreateTransformRunRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateTransformRunResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15226,7 +15447,8 @@ export const createTransformRunDag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5120, __c160, 0) as any as S.Schema<CreateTransformRunDagRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateTransformRunDagResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15243,7 +15465,8 @@ export const createTransformTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5152, __c161, 0) as any as S.Schema<CreateTransformTagRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateTransformTagResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15260,7 +15483,8 @@ export const createUploadCsv: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5184, __c162, 0) as any as S.Schema<CreateUploadCsvRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateUploadCsvResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15277,7 +15501,8 @@ export const createUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5217, __c163, 1) as any as S.Schema<CreateUserRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateUserResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15294,7 +15519,8 @@ export const createUserPasswordResetUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5280, __c165, 0) as any as S.Schema<CreateUserPasswordResetUrlRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CreateUserPasswordResetUrlResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15311,7 +15537,8 @@ export const deleteAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5312, __c166, 0) as any as S.Schema<DeleteActionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteActionResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15328,7 +15555,8 @@ export const deleteActionPublicLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5344, __c167, 0) as any as S.Schema<DeleteActionPublicLinkRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteActionPublicLinkResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15345,7 +15573,8 @@ export const deleteAlertSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5376, __c168, 0) as any as S.Schema<DeleteAlertSubscriptionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteAlertSubscriptionResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15362,7 +15591,8 @@ export const deleteBookmark: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5408, __c169, 0) as any as S.Schema<DeleteBookmarkRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteBookmarkResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15379,7 +15609,8 @@ export const deleteCache: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5472, __c171, 0) as any as S.Schema<DeleteCacheRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteCacheResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15396,7 +15627,8 @@ export const deleteCard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5504, __c172, 0) as any as S.Schema<DeleteCardRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteCardResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15413,7 +15645,8 @@ export const deleteCardPublicLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5536, __c173, 0) as any as S.Schema<DeleteCardPublicLinkRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteCardPublicLinkResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15430,7 +15663,8 @@ export const deleteCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5568, __c174, 0) as any as S.Schema<DeleteCollectionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteCollectionResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15447,7 +15681,8 @@ export const deleteComment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5600, __c175, 0) as any as S.Schema<DeleteCommentRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteCommentResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15464,7 +15699,8 @@ export const deleteDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5632, __c176, 0) as any as S.Schema<DeleteDashboardRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteDashboardResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15481,7 +15717,8 @@ export const deleteDashboardPublicLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5664, __c177, 0) as any as S.Schema<DeleteDashboardPublicLinkRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteDashboardPublicLinkResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15498,7 +15735,8 @@ export const deleteDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5696, __c178, 0) as any as S.Schema<DeleteDatabaseRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteDatabaseResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15515,7 +15753,8 @@ export const deleteDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5728, __c179, 0) as any as S.Schema<DeleteDocumentRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteDocumentResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15532,7 +15771,8 @@ export const deleteDocumentPublicLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5760, __c180, 0) as any as S.Schema<DeleteDocumentPublicLinkRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteDocumentPublicLinkResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15549,7 +15789,8 @@ export const deleteEeAdvancedPermissionsImpersonation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5824, __c182, 0) as any as S.Schema<DeleteEeAdvancedPermissionsImpersonationRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteEeAdvancedPermissionsImpersonationResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15566,7 +15807,8 @@ export const deleteEeAiControlsMcpPermissionsAdvanced: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5856, __c183, 0) as any as S.Schema<DeleteEeAiControlsMcpPermissionsAdvancedRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteEeAiControlsMcpPermissionsAdvancedResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15583,7 +15825,8 @@ export const deleteEeAiControlsPermissionsAdvanced: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5888, __c184, 0) as any as S.Schema<DeleteEeAiControlsPermissionsAdvancedRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteEeAiControlsPermissionsAdvancedResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15600,7 +15843,8 @@ export const deleteEeAppGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5920, __c185, 0) as any as S.Schema<DeleteEeAppGroupRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteEeAppGroupResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15617,7 +15861,8 @@ export const deleteEeAuditAppUserSubscriptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5952, __c186, 0) as any as S.Schema<DeleteEeAuditAppUserSubscriptionsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteEeAuditAppUserSubscriptionsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15634,7 +15879,8 @@ export const deleteEeCloudAddOns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5984, __c187, 0) as any as S.Schema<DeleteEeCloudAddOnsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteEeCloudAddOnsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15651,7 +15897,8 @@ export const deleteEeCustomVizPlugin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6016, __c188, 0) as any as S.Schema<DeleteEeCustomVizPluginRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteEeCustomVizPluginResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15676,7 +15923,8 @@ export const deleteEeDatabaseReplicationConnectionDatabase: API.OperationMethod<
     __c1,
     0,
   ) as any as S.Schema<DeleteEeDatabaseReplicationConnectionDatabaseResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15693,7 +15941,8 @@ export const deleteEeEmailOverride: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6080, __c190, 0) as any as S.Schema<DeleteEeEmailOverrideRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteEeEmailOverrideResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15710,7 +15959,8 @@ export const deleteEeGsheetsConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6112, __c191, 0) as any as S.Schema<DeleteEeGsheetsConnectionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteEeGsheetsConnectionResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15727,7 +15977,8 @@ export const deleteEeScimGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6208, __c194, 0) as any as S.Schema<DeleteEeScimGroupRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteEeScimGroupResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15744,7 +15995,8 @@ export const deleteEeTransformTest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6240, __c195, 0) as any as S.Schema<DeleteEeTransformTestRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteEeTransformTestResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15761,7 +16013,8 @@ export const deleteEeUploadManagementTable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6272, __c196, 0) as any as S.Schema<DeleteEeUploadManagementTableRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteEeUploadManagementTableResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15778,7 +16031,8 @@ export const deleteEmail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6304, __c197, 0) as any as S.Schema<DeleteEmailRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteEmailResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15795,7 +16049,8 @@ export const deleteEmbedTheme: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6336, __c198, 0) as any as S.Schema<DeleteEmbedThemeRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteEmbedThemeResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15812,7 +16067,8 @@ export const deleteExploration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6368, __c199, 0) as any as S.Schema<DeleteExplorationRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteExplorationResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15829,7 +16085,8 @@ export const deleteFieldDimension: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6400, __c200, 0) as any as S.Schema<DeleteFieldDimensionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteFieldDimensionResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15846,7 +16103,8 @@ export const deleteGlossary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6432, __c201, 0) as any as S.Schema<DeleteGlossaryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteGlossaryResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15863,7 +16121,8 @@ export const deleteIndexRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6464, __c202, 0) as any as S.Schema<DeleteIndexRequestRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteIndexRequestResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15880,7 +16139,8 @@ export const deleteKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6496, __c203, 0) as any as S.Schema<DeleteKeyRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteKeyResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15897,7 +16157,8 @@ export const deleteLlmProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6560, __c205, 0) as any as S.Schema<DeleteLlmProviderRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteLlmProviderResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15914,7 +16175,8 @@ export const deleteLoggerAdjustment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6592, __c206, 0) as any as S.Schema<DeleteLoggerAdjustmentRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteLoggerAdjustmentResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15931,7 +16193,8 @@ export const deleteMetabotMetabotPromptSuggestions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6624, __c207, 0) as any as S.Schema<DeleteMetabotMetabotPromptSuggestionsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteMetabotMetabotPromptSuggestionsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15952,7 +16215,8 @@ export const deleteMetabotMetabotPromptSuggestionsPrompt: API.OperationMethod<
     0,
   ) as any as S.Schema<DeleteMetabotMetabotPromptSuggestionsPromptRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteMetabotMetabotPromptSuggestionsPromptResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15969,7 +16233,8 @@ export const deleteModelIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6688, __c209, 0) as any as S.Schema<DeleteModelIndexRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteModelIndexResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15986,7 +16251,8 @@ export const deleteMtGtap: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6720, __c210, 0) as any as S.Schema<DeleteMtGtapRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteMtGtapResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16003,7 +16269,8 @@ export const deleteOsiAiContext: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6752, __c211, 0) as any as S.Schema<DeleteOsiAiContextRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteOsiAiContextResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16020,7 +16287,8 @@ export const deletePermissionsGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6784, __c212, 0) as any as S.Schema<DeletePermissionsGroupRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeletePermissionsGroupResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16037,7 +16305,8 @@ export const deletePermissionsMembership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6816, __c213, 0) as any as S.Schema<DeletePermissionsMembershipRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeletePermissionsMembershipResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16054,7 +16323,8 @@ export const deletePulseSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6848, __c214, 0) as any as S.Schema<DeletePulseSubscriptionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeletePulseSubscriptionResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16071,7 +16341,8 @@ export const deleteSegment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6912, __c216, 0) as any as S.Schema<DeleteSegmentRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteSegmentResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16088,7 +16359,8 @@ export const deleteSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6944, __c217, 0) as any as S.Schema<DeleteSessionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteSessionResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16105,7 +16377,8 @@ export const deleteTimeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6976, __c218, 0) as any as S.Schema<DeleteTimelineRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteTimelineResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16122,7 +16395,8 @@ export const deleteTimelineEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7008, __c219, 0) as any as S.Schema<DeleteTimelineEventRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteTimelineEventResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16139,7 +16413,8 @@ export const deleteTransform: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7040, __c220, 0) as any as S.Schema<DeleteTransformRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteTransformResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16156,7 +16431,8 @@ export const deleteTransformJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7072, __c221, 0) as any as S.Schema<DeleteTransformJobRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteTransformJobResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16173,7 +16449,8 @@ export const deleteTransformTable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7104, __c222, 0) as any as S.Schema<DeleteTransformTableRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteTransformTableResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16190,7 +16467,8 @@ export const deleteTransformTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7136, __c223, 0) as any as S.Schema<DeleteTransformTagRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteTransformTagResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16207,7 +16485,8 @@ export const deleteUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7168, __c224, 0) as any as S.Schema<DeleteUserRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteUserResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16224,7 +16503,8 @@ export const deleteUserKeyValueNamespaceKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7200, __c225, 0) as any as S.Schema<DeleteUserKeyValueNamespaceKeyRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteUserKeyValueNamespaceKeyResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16241,7 +16521,8 @@ export const getAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7264, __c227, 0) as any as S.Schema<GetActionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetActionResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16258,7 +16539,8 @@ export const getAction2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7296, __c228, 0) as any as S.Schema<GetAction2Request>,
   output: __S(32, __c1, 0) as any as S.Schema<GetAction2Response>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16275,7 +16557,8 @@ export const getActionByActionId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7328, __c229, 0) as any as S.Schema<GetActionByActionIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetActionByActionIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16292,7 +16575,8 @@ export const getActionByUuid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7360, __c230, 0) as any as S.Schema<GetActionByUuidRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetActionByUuidResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16309,7 +16593,8 @@ export const getActivityMostRecentlyViewedDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7392, __c231, 0) as any as S.Schema<GetActivityMostRecentlyViewedDashboardRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetActivityMostRecentlyViewedDashboardResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16326,7 +16611,8 @@ export const getActivityPopularItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7424, __c232, 0) as any as S.Schema<GetActivityPopularItemsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetActivityPopularItemsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16343,7 +16629,8 @@ export const getActivityRecents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7456, __c233, 0) as any as S.Schema<GetActivityRecentsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetActivityRecentsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16360,7 +16647,8 @@ export const getAgentPing: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7488, __c234, 0) as any as S.Schema<GetAgentPingRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetAgentPingResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16377,7 +16665,8 @@ export const getAlert: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7520, __c235, 0) as any as S.Schema<GetAlertRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetAlertResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16394,7 +16683,8 @@ export const getAlertById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7552, __c236, 0) as any as S.Schema<GetAlertByIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetAlertByIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16411,7 +16701,8 @@ export const getAnalyticsAnonymousStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7616, __c238, 0) as any as S.Schema<GetAnalyticsAnonymousStatsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetAnalyticsAnonymousStatsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16428,7 +16719,8 @@ export const getAutomagicDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7648, __c239, 0) as any as S.Schema<GetAutomagicDashboardRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetAutomagicDashboardResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16445,7 +16737,8 @@ export const getAutomagicDashboardCell: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7680, __c240, 0) as any as S.Schema<GetAutomagicDashboardCellRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetAutomagicDashboardCellResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16462,7 +16755,8 @@ export const getAutomagicDashboardCellCompare: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7712, __c241, 0) as any as S.Schema<GetAutomagicDashboardCellCompareRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetAutomagicDashboardCellCompareResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16487,7 +16781,8 @@ export const getAutomagicDashboardCellRuleDashboardTemplate: API.OperationMethod
     __c1,
     0,
   ) as any as S.Schema<GetAutomagicDashboardCellRuleDashboardTemplateResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16512,7 +16807,8 @@ export const getAutomagicDashboardCellRuleDashboardTemplateCompare: API.Operatio
     __c1,
     0,
   ) as any as S.Schema<GetAutomagicDashboardCellRuleDashboardTemplateCompareResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16529,7 +16825,8 @@ export const getAutomagicDashboardCompare: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7808, __c244, 0) as any as S.Schema<GetAutomagicDashboardCompareRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetAutomagicDashboardCompareResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16554,7 +16851,8 @@ export const getAutomagicDashboardEntityOrQueryQueryMetadata: API.OperationMetho
     __c1,
     0,
   ) as any as S.Schema<GetAutomagicDashboardEntityOrQueryQueryMetadataResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16571,7 +16869,8 @@ export const getAutomagicDashboardRuleDashboardTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7872, __c246, 0) as any as S.Schema<GetAutomagicDashboardRuleDashboardTemplateRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetAutomagicDashboardRuleDashboardTemplateResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16596,7 +16895,8 @@ export const getAutomagicDashboardRuleDashboardTemplateCompare: API.OperationMet
     __c1,
     0,
   ) as any as S.Schema<GetAutomagicDashboardRuleDashboardTemplateCompareResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16613,7 +16913,8 @@ export const getAutomagicDashboardsDatabaseCandidates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8000, __c250, 0) as any as S.Schema<GetAutomagicDashboardsDatabaseCandidatesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetAutomagicDashboardsDatabaseCandidatesResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16630,7 +16931,8 @@ export const getAutomagicDashboardsModelIndexPrimaryKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8032, __c251, 0) as any as S.Schema<GetAutomagicDashboardsModelIndexPrimaryKeyRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetAutomagicDashboardsModelIndexPrimaryKeyResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16647,7 +16949,8 @@ export const getBookmark: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8064, __c252, 0) as any as S.Schema<GetBookmarkRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetBookmarkResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16664,7 +16967,8 @@ export const getBugReportingConnectionPoolDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8096, __c253, 0) as any as S.Schema<GetBugReportingConnectionPoolDetailsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetBugReportingConnectionPoolDetailsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16681,7 +16985,8 @@ export const getBugReportingDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8128, __c254, 0) as any as S.Schema<GetBugReportingDetailsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetBugReportingDetailsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16698,7 +17003,8 @@ export const getCache: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8160, __c255, 0) as any as S.Schema<GetCacheRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetCacheResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16715,7 +17021,8 @@ export const getCard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8192, __c256, 0) as any as S.Schema<GetCardRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetCardResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16732,7 +17039,8 @@ export const getCard2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8224, __c257, 0) as any as S.Schema<GetCard2Request>,
   output: __S(32, __c1, 0) as any as S.Schema<GetCard2Response>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16749,7 +17057,8 @@ export const getCardById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8256, __c258, 0) as any as S.Schema<GetCardByIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetCardByIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16766,7 +17075,8 @@ export const getCardByUuid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8288, __c259, 0) as any as S.Schema<GetCardByUuidRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetCardByUuidResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16783,7 +17093,8 @@ export const getCardDashboards: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8352, __c261, 0) as any as S.Schema<GetCardDashboardsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetCardDashboardsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16800,7 +17111,8 @@ export const getCardEmbeddable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8384, __c262, 0) as any as S.Schema<GetCardEmbeddableRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetCardEmbeddableResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16817,7 +17129,8 @@ export const getCardParamRemapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8416, __c263, 0) as any as S.Schema<GetCardParamRemappingRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetCardParamRemappingResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16834,7 +17147,8 @@ export const getCardParamRemapping2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8448, __c264, 0) as any as S.Schema<GetCardParamRemappingRequest2>,
   output: __S(32, __c1, 0) as any as S.Schema<GetCardParamRemapping2Response>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16851,7 +17165,8 @@ export const getCardParamSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8480, __c265, 0) as any as S.Schema<GetCardParamSearchRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetCardParamSearchResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16868,7 +17183,8 @@ export const getCardParamSearchByQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8512, __c266, 0) as any as S.Schema<GetCardParamSearchByQueryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetCardParamSearchByQueryResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16885,7 +17201,8 @@ export const getCardParamValues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8544, __c267, 0) as any as S.Schema<GetCardParamValuesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetCardParamValuesResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16902,7 +17219,8 @@ export const getCardParamValues2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8576, __c268, 0) as any as S.Schema<GetCardParamValuesRequest2>,
   output: __S(32, __c1, 0) as any as S.Schema<GetCardParamValues2Response>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16919,7 +17237,8 @@ export const getCardQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8608, __c269, 0) as any as S.Schema<GetCardQueryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetCardQueryResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16936,7 +17255,8 @@ export const getCardQueryByExportFormat: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8640, __c270, 0) as any as S.Schema<GetCardQueryByExportFormatRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetCardQueryByExportFormatResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16953,7 +17273,8 @@ export const getCardQueryMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8704, __c272, 0) as any as S.Schema<GetCardQueryMetadataRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetCardQueryMetadataResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16970,7 +17291,8 @@ export const getCardSeries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8736, __c273, 0) as any as S.Schema<GetCardSeriesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetCardSeriesResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16987,7 +17309,8 @@ export const getChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8768, __c274, 0) as any as S.Schema<GetChannelRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetChannelResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17004,7 +17327,8 @@ export const getChannelById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8800, __c275, 0) as any as S.Schema<GetChannelByIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetChannelByIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17021,7 +17345,8 @@ export const getCloudMigration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8832, __c276, 0) as any as S.Schema<GetCloudMigrationRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetCloudMigrationResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17038,7 +17363,8 @@ export const getCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8864, __c277, 0) as any as S.Schema<GetCollectionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetCollectionResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17055,7 +17381,8 @@ export const getCollectionById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8896, __c278, 0) as any as S.Schema<GetCollectionByIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetCollectionByIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17072,7 +17399,8 @@ export const getCollectionDashboardQuestionCandidates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8928, __c279, 0) as any as S.Schema<GetCollectionDashboardQuestionCandidatesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetCollectionDashboardQuestionCandidatesResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17089,7 +17417,8 @@ export const getCollectionGraph: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8960, __c280, 0) as any as S.Schema<GetCollectionGraphRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetCollectionGraphResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17106,7 +17435,8 @@ export const getCollectionItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8992, __c281, 0) as any as S.Schema<GetCollectionItemsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetCollectionItemsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17123,7 +17453,8 @@ export const getCollectionItemsMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9056, __c283, 0) as any as S.Schema<GetCollectionItemsMetadataRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetCollectionItemsMetadataResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17140,7 +17471,8 @@ export const getCollectionRoot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9088, __c284, 0) as any as S.Schema<GetCollectionRootRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetCollectionRootResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17161,7 +17493,8 @@ export const getCollectionRootDashboardQuestionCandidates: API.OperationMethod<
     0,
   ) as any as S.Schema<GetCollectionRootDashboardQuestionCandidatesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetCollectionRootDashboardQuestionCandidatesResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17178,7 +17511,8 @@ export const getCollectionRootItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9152, __c286, 0) as any as S.Schema<GetCollectionRootItemsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetCollectionRootItemsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17195,7 +17529,8 @@ export const getCollectionRootItemsMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9184, __c287, 0) as any as S.Schema<GetCollectionRootItemsMetadataRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetCollectionRootItemsMetadataResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17212,7 +17547,8 @@ export const getCollectionTrash: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9216, __c288, 0) as any as S.Schema<GetCollectionTrashRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetCollectionTrashResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17229,7 +17565,8 @@ export const getCollectionTree: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9248, __c289, 0) as any as S.Schema<GetCollectionTreeRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetCollectionTreeResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17246,7 +17583,8 @@ export const getComment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9280, __c290, 0) as any as S.Schema<GetCommentRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetCommentResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17263,7 +17601,8 @@ export const getCommentMentions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9312, __c291, 0) as any as S.Schema<GetCommentMentionsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetCommentMentionsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17280,7 +17619,8 @@ export const getDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9344, __c292, 0) as any as S.Schema<GetDashboardRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDashboardResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17297,7 +17637,8 @@ export const getDashboardById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9440, __c295, 0) as any as S.Schema<GetDashboardByIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDashboardByIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17314,7 +17655,8 @@ export const getDashboardByUuid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9472, __c296, 0) as any as S.Schema<GetDashboardByUuidRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDashboardByUuidResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17331,7 +17673,8 @@ export const getDashboardDashcardCard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9504, __c297, 0) as any as S.Schema<GetDashboardDashcardCardRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDashboardDashcardCardResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17348,7 +17691,8 @@ export const getDashboardEmbeddable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9536, __c298, 0) as any as S.Schema<GetDashboardEmbeddableRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDashboardEmbeddableResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17365,7 +17709,8 @@ export const getDashboardItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9568, __c299, 0) as any as S.Schema<GetDashboardItemsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDashboardItemsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17382,7 +17727,8 @@ export const getDashboardParamRemapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9600, __c300, 0) as any as S.Schema<GetDashboardParamRemappingRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDashboardParamRemappingResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17399,7 +17745,8 @@ export const getDashboardParamRemapping2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9632, __c301, 0) as any as S.Schema<GetDashboardParamRemappingRequest2>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDashboardParamRemapping2Response>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17416,7 +17763,8 @@ export const getDashboardParamSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9664, __c302, 0) as any as S.Schema<GetDashboardParamSearchRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDashboardParamSearchResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17433,7 +17781,8 @@ export const getDashboardParamSearchByQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9696, __c303, 0) as any as S.Schema<GetDashboardParamSearchByQueryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDashboardParamSearchByQueryResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17450,7 +17799,8 @@ export const getDashboardParamsValidFilterFields: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9728, __c304, 0) as any as S.Schema<GetDashboardParamsValidFilterFieldsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDashboardParamsValidFilterFieldsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17467,7 +17817,8 @@ export const getDashboardParamValues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9792, __c306, 0) as any as S.Schema<GetDashboardParamValuesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDashboardParamValuesResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17484,7 +17835,8 @@ export const getDashboardParamValues2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9824, __c307, 0) as any as S.Schema<GetDashboardParamValuesRequest2>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDashboardParamValues2Response>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17501,7 +17853,8 @@ export const getDashboardQueryMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9856, __c308, 0) as any as S.Schema<GetDashboardQueryMetadataRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDashboardQueryMetadataResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17518,7 +17871,8 @@ export const getDashboardRelated: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9888, __c309, 0) as any as S.Schema<GetDashboardRelatedRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDashboardRelatedResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17535,7 +17889,8 @@ export const getDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9920, __c310, 0) as any as S.Schema<GetDatabaseRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDatabaseResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17552,7 +17907,8 @@ export const getDatabaseAutocompleteSuggestions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9952, __c311, 0) as any as S.Schema<GetDatabaseAutocompleteSuggestionsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDatabaseAutocompleteSuggestionsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17569,7 +17925,8 @@ export const getDatabaseById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9984, __c312, 0) as any as S.Schema<GetDatabaseByIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDatabaseByIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17586,7 +17943,8 @@ export const getDatabaseCardAutocompleteSuggestions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10016, __c313, 0) as any as S.Schema<GetDatabaseCardAutocompleteSuggestionsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDatabaseCardAutocompleteSuggestionsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17603,7 +17961,8 @@ export const getDatabaseDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10048, __c314, 0) as any as S.Schema<GetDatabaseDatasetRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDatabaseDatasetResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17620,7 +17979,8 @@ export const getDatabaseDatasets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10080, __c315, 0) as any as S.Schema<GetDatabaseDatasetsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDatabaseDatasetsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17637,7 +17997,8 @@ export const getDatabaseFields: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10144, __c317, 0) as any as S.Schema<GetDatabaseFieldsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDatabaseFieldsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17654,7 +18015,8 @@ export const getDatabaseHealthcheck: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10176, __c318, 0) as any as S.Schema<GetDatabaseHealthcheckRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDatabaseHealthcheckResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17671,7 +18033,8 @@ export const getDatabaseIdfields: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10208, __c319, 0) as any as S.Schema<GetDatabaseIdfieldsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDatabaseIdfieldsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17688,7 +18051,8 @@ export const getDatabaseMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10240, __c320, 0) as any as S.Schema<GetDatabaseMetadataRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDatabaseMetadataResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17705,7 +18069,8 @@ export const getDatabaseMetadata2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10272, __c321, 0) as any as S.Schema<GetDatabaseMetadataRequest2>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDatabaseMetadata2Response>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17722,7 +18087,8 @@ export const getDatabaseSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10304, __c322, 0) as any as S.Schema<GetDatabaseSchemaRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDatabaseSchemaResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17739,7 +18105,8 @@ export const getDatabaseSchemaBySchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10336, __c323, 0) as any as S.Schema<GetDatabaseSchemaBySchemaRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDatabaseSchemaBySchemaResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17756,7 +18123,8 @@ export const getDatabaseSchemaBySchema2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10368, __c324, 0) as any as S.Schema<GetDatabaseSchemaBySchemaRequest2>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDatabaseSchemaBySchema2Response>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17773,7 +18141,8 @@ export const getDatabaseSchemas: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10400, __c325, 0) as any as S.Schema<GetDatabaseSchemasRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDatabaseSchemasResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17790,7 +18159,8 @@ export const getDatabaseSchemas2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10432, __c326, 0) as any as S.Schema<GetDatabaseSchemasRequest2>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDatabaseSchemas2Response>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17807,7 +18177,8 @@ export const getDatabaseSettingsAvailable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10496, __c328, 0) as any as S.Schema<GetDatabaseSettingsAvailableRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDatabaseSettingsAvailableResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17824,7 +18195,8 @@ export const getDatabaseSyncableSchemas: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10528, __c329, 0) as any as S.Schema<GetDatabaseSyncableSchemasRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDatabaseSyncableSchemasResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17841,7 +18213,8 @@ export const getDatabaseUsageInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10560, __c330, 0) as any as S.Schema<GetDatabaseUsageInfoRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDatabaseUsageInfoResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17858,7 +18231,8 @@ export const getDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10592, __c331, 0) as any as S.Schema<GetDocumentRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDocumentResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17875,7 +18249,8 @@ export const getDocument2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10624, __c332, 0) as any as S.Schema<GetDocument2Request>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDocument2Response>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17892,7 +18267,8 @@ export const getDocumentByDocumentId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10656, __c333, 0) as any as S.Schema<GetDocumentByDocumentIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDocumentByDocumentIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17909,7 +18285,8 @@ export const getDocumentByUuid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10688, __c334, 0) as any as S.Schema<GetDocumentByUuidRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDocumentByUuidResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17926,7 +18303,8 @@ export const getDocumentCard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10720, __c335, 0) as any as S.Schema<GetDocumentCardRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetDocumentCardResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17943,7 +18321,8 @@ export const getEeAdvancedPermissionsApplicationGraph: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10752, __c336, 0) as any as S.Schema<GetEeAdvancedPermissionsApplicationGraphRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeAdvancedPermissionsApplicationGraphResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17960,7 +18339,8 @@ export const getEeAdvancedPermissionsImpersonation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10784, __c337, 0) as any as S.Schema<GetEeAdvancedPermissionsImpersonationRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeAdvancedPermissionsImpersonationResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17977,7 +18357,8 @@ export const getEeAiControlsMcpPermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10848, __c339, 0) as any as S.Schema<GetEeAiControlsMcpPermissionsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeAiControlsMcpPermissionsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17994,7 +18375,8 @@ export const getEeAiControlsPermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10880, __c340, 0) as any as S.Schema<GetEeAiControlsPermissionsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeAiControlsPermissionsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18011,7 +18393,8 @@ export const getEeAiControlsUsageGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10912, __c341, 0) as any as S.Schema<GetEeAiControlsUsageGroupRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeAiControlsUsageGroupResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18028,7 +18411,8 @@ export const getEeAiControlsUsageGroupByGroupId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10944, __c342, 0) as any as S.Schema<GetEeAiControlsUsageGroupByGroupIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeAiControlsUsageGroupByGroupIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18045,7 +18429,8 @@ export const getEeAiControlsUsageInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10976, __c343, 0) as any as S.Schema<GetEeAiControlsUsageInstanceRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeAiControlsUsageInstanceResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18062,7 +18447,8 @@ export const getEeAiControlsUsageTenant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11008, __c344, 0) as any as S.Schema<GetEeAiControlsUsageTenantRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeAiControlsUsageTenantResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18079,7 +18465,8 @@ export const getEeAiControlsUsageTenantByTenantId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11040, __c345, 0) as any as S.Schema<GetEeAiControlsUsageTenantByTenantIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeAiControlsUsageTenantByTenantIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18096,7 +18483,8 @@ export const getEeApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11072, __c346, 0) as any as S.Schema<GetEeAppRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeAppResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18113,7 +18501,8 @@ export const getEeAppBundle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11104, __c347, 0) as any as S.Schema<GetEeAppBundleRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeAppBundleResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18130,7 +18519,8 @@ export const getEeAppGroupPermissionWarnings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11136, __c348, 0) as any as S.Schema<GetEeAppGroupPermissionWarningsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeAppGroupPermissionWarningsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18147,7 +18537,8 @@ export const getEeAppGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11200, __c350, 0) as any as S.Schema<GetEeAppGroupsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeAppGroupsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18164,7 +18555,8 @@ export const getEeApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11232, __c351, 0) as any as S.Schema<GetEeAppsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeAppsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18181,7 +18573,8 @@ export const getEeAppsGenerateSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11264, __c352, 0) as any as S.Schema<GetEeAppsGenerateSchemaRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeAppsGenerateSchemaResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18198,7 +18591,8 @@ export const getEeAppsRepoStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11296, __c353, 0) as any as S.Schema<GetEeAppsRepoStatusRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeAppsRepoStatusResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18215,7 +18609,8 @@ export const getEeAppsSandboxHost: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11328, __c354, 0) as any as S.Schema<GetEeAppsSandboxHostRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeAppsSandboxHostResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18232,7 +18627,8 @@ export const getEeAuditAppUserAuditInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11360, __c355, 0) as any as S.Schema<GetEeAuditAppUserAuditInfoRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeAuditAppUserAuditInfoResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18249,7 +18645,8 @@ export const getEeBilling: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11392, __c356, 0) as any as S.Schema<GetEeBillingRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeBillingResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18266,7 +18663,8 @@ export const getEeCloudAddOnsAddons: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11424, __c357, 0) as any as S.Schema<GetEeCloudAddOnsAddonsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeCloudAddOnsAddonsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18283,7 +18681,8 @@ export const getEeCloudAddOnsPlans: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11456, __c358, 0) as any as S.Schema<GetEeCloudAddOnsPlansRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeCloudAddOnsPlansResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18300,7 +18699,8 @@ export const getEeContentDiagnosticsDuplicated: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11488, __c359, 0) as any as S.Schema<GetEeContentDiagnosticsDuplicatedRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeContentDiagnosticsDuplicatedResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18317,7 +18717,8 @@ export const getEeContentDiagnosticsImbalanced: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11616, __c363, 0) as any as S.Schema<GetEeContentDiagnosticsImbalancedRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeContentDiagnosticsImbalancedResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18334,7 +18735,8 @@ export const getEeContentDiagnosticsSlow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11648, __c364, 0) as any as S.Schema<GetEeContentDiagnosticsSlowRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeContentDiagnosticsSlowResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18351,7 +18753,8 @@ export const getEeContentDiagnosticsStale: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11680, __c365, 0) as any as S.Schema<GetEeContentDiagnosticsStaleRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeContentDiagnosticsStaleResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18368,7 +18771,8 @@ export const getEeContentTranslationCsv: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11712, __c366, 0) as any as S.Schema<GetEeContentTranslationCsvRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeContentTranslationCsvResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18385,7 +18789,8 @@ export const getEeContentTranslationDictionary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11744, __c367, 0) as any as S.Schema<GetEeContentTranslationDictionaryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeContentTranslationDictionaryResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18402,7 +18807,8 @@ export const getEeContentTranslationDictionaryByToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11776, __c368, 0) as any as S.Schema<GetEeContentTranslationDictionaryByTokenRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeContentTranslationDictionaryByTokenResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18419,7 +18825,8 @@ export const getEeCustomVizPlugin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11808, __c369, 0) as any as S.Schema<GetEeCustomVizPluginRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeCustomVizPluginResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18436,7 +18843,8 @@ export const getEeCustomVizPluginAsset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11840, __c370, 0) as any as S.Schema<GetEeCustomVizPluginAssetRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeCustomVizPluginAssetResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18453,7 +18861,8 @@ export const getEeCustomVizPluginBundle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11872, __c371, 0) as any as S.Schema<GetEeCustomVizPluginBundleRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeCustomVizPluginBundleResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18470,7 +18879,8 @@ export const getEeCustomVizPluginDevSse: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11904, __c372, 0) as any as S.Schema<GetEeCustomVizPluginDevSseRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeCustomVizPluginDevSseResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18487,7 +18897,8 @@ export const getEeCustomVizPluginList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11968, __c374, 0) as any as S.Schema<GetEeCustomVizPluginListRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeCustomVizPluginListResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18504,7 +18915,8 @@ export const getEeCustomVizPluginSandboxHost: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12000, __c375, 0) as any as S.Schema<GetEeCustomVizPluginSandboxHostRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeCustomVizPluginSandboxHostResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18521,7 +18933,8 @@ export const getEeDataComplexityScoreComplexity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12032, __c376, 0) as any as S.Schema<GetEeDataComplexityScoreComplexityRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeDataComplexityScoreComplexityResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18538,7 +18951,8 @@ export const getEeDataStudioTablePublishingInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12064, __c377, 0) as any as S.Schema<GetEeDataStudioTablePublishingInfoRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeDataStudioTablePublishingInfoResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18555,7 +18969,8 @@ export const getEeDependenciesBackfillStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12096, __c378, 0) as any as S.Schema<GetEeDependenciesBackfillStatusRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeDependenciesBackfillStatusResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18572,7 +18987,8 @@ export const getEeDependenciesGraph: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12128, __c379, 0) as any as S.Schema<GetEeDependenciesGraphRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeDependenciesGraphResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18589,7 +19005,8 @@ export const getEeDependenciesGraphBreaking: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12160, __c380, 0) as any as S.Schema<GetEeDependenciesGraphBreakingRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeDependenciesGraphBreakingResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18606,7 +19023,8 @@ export const getEeDependenciesGraphBroken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12192, __c381, 0) as any as S.Schema<GetEeDependenciesGraphBrokenRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeDependenciesGraphBrokenResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18623,7 +19041,8 @@ export const getEeDependenciesGraphDependents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12224, __c382, 0) as any as S.Schema<GetEeDependenciesGraphDependentsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeDependenciesGraphDependentsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18640,7 +19059,8 @@ export const getEeDependenciesGraphUnreferenced: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12256, __c383, 0) as any as S.Schema<GetEeDependenciesGraphUnreferencedRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeDependenciesGraphUnreferencedResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18657,7 +19077,8 @@ export const getEeErd: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12320, __c385, 0) as any as S.Schema<GetEeErdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeErdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18674,7 +19095,8 @@ export const getEeGsheetsConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12352, __c386, 0) as any as S.Schema<GetEeGsheetsConnectionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeGsheetsConnectionResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18691,7 +19113,8 @@ export const getEeGsheetsServiceAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12384, __c387, 0) as any as S.Schema<GetEeGsheetsServiceAccountRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeGsheetsServiceAccountResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18708,7 +19131,8 @@ export const getEeLibrary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12416, __c388, 0) as any as S.Schema<GetEeLibraryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeLibraryResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18725,7 +19149,8 @@ export const getEeLibraryTree: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12448, __c389, 0) as any as S.Schema<GetEeLibraryTreeRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeLibraryTreeResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18742,7 +19167,8 @@ export const getEeLogsQueryExecution: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12480, __c390, 0) as any as S.Schema<GetEeLogsQueryExecutionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeLogsQueryExecutionResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18759,7 +19185,8 @@ export const getEeMetabotAnalyticsConversation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12512, __c391, 0) as any as S.Schema<GetEeMetabotAnalyticsConversationRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeMetabotAnalyticsConversationResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18776,7 +19203,8 @@ export const getEeMetabotAnalyticsConversations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12544, __c392, 0) as any as S.Schema<GetEeMetabotAnalyticsConversationsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeMetabotAnalyticsConversationsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18793,7 +19221,8 @@ export const getEeMetabotUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12576, __c393, 0) as any as S.Schema<GetEeMetabotUsageRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeMetabotUsageResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18810,7 +19239,8 @@ export const getEeMfaAdminEnrolledUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12608, __c394, 0) as any as S.Schema<GetEeMfaAdminEnrolledUsersRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeMfaAdminEnrolledUsersResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18827,7 +19257,8 @@ export const getEeMfaAdminOverview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12672, __c396, 0) as any as S.Schema<GetEeMfaAdminOverviewRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeMfaAdminOverviewResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18844,7 +19275,8 @@ export const getEeMfaAdminUnenrolledUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12704, __c397, 0) as any as S.Schema<GetEeMfaAdminUnenrolledUsersRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeMfaAdminUnenrolledUsersResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18861,7 +19293,8 @@ export const getEeMfaStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12736, __c398, 0) as any as S.Schema<GetEeMfaStatusRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeMfaStatusResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18878,7 +19311,8 @@ export const getEePermissionDebug: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12768, __c399, 0) as any as S.Schema<GetEePermissionDebugRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEePermissionDebugResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18895,7 +19329,8 @@ export const getEeRemoteSyncBranches: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12800, __c400, 0) as any as S.Schema<GetEeRemoteSyncBranchesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeRemoteSyncBranchesResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18912,7 +19347,8 @@ export const getEeRemoteSyncCurrentTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12832, __c401, 0) as any as S.Schema<GetEeRemoteSyncCurrentTaskRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeRemoteSyncCurrentTaskResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18929,7 +19365,8 @@ export const getEeRemoteSyncDirty: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12864, __c402, 0) as any as S.Schema<GetEeRemoteSyncDirtyRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeRemoteSyncDirtyResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18946,7 +19383,8 @@ export const getEeRemoteSyncExportPreflight: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12896, __c403, 0) as any as S.Schema<GetEeRemoteSyncExportPreflightRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeRemoteSyncExportPreflightResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18963,7 +19401,8 @@ export const getEeRemoteSyncHasRemoteChanges: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12928, __c404, 0) as any as S.Schema<GetEeRemoteSyncHasRemoteChangesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeRemoteSyncHasRemoteChangesResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18980,7 +19419,8 @@ export const getEeRemoteSyncIsDirty: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12960, __c405, 0) as any as S.Schema<GetEeRemoteSyncIsDirtyRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeRemoteSyncIsDirtyResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18997,7 +19437,8 @@ export const getEeReplacementRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13024, __c407, 0) as any as S.Schema<GetEeReplacementRunRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeReplacementRunResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19014,7 +19455,8 @@ export const getEeReplacementRuns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13056, __c408, 0) as any as S.Schema<GetEeReplacementRunsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeReplacementRunsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19031,7 +19473,8 @@ export const getEeScimGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13088, __c409, 0) as any as S.Schema<GetEeScimGroupRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeScimGroupResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19048,7 +19491,8 @@ export const getEeScimGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13120, __c410, 0) as any as S.Schema<GetEeScimGroupsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeScimGroupsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19065,7 +19509,8 @@ export const getEeScimKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13152, __c411, 0) as any as S.Schema<GetEeScimKeyRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeScimKeyResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19082,7 +19527,8 @@ export const getEeScimUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13184, __c412, 0) as any as S.Schema<GetEeScimUserRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeScimUserResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19099,7 +19545,8 @@ export const getEeScimUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13216, __c413, 0) as any as S.Schema<GetEeScimUsersRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeScimUsersResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19116,7 +19563,8 @@ export const getEeSecurityCenter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13248, __c414, 0) as any as S.Schema<GetEeSecurityCenterRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeSecurityCenterResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19133,7 +19581,8 @@ export const getEeSemanticSearchStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13280, __c415, 0) as any as S.Schema<GetEeSemanticSearchStatusRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeSemanticSearchStatusResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19150,7 +19599,8 @@ export const getEeSessionManagement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13312, __c416, 0) as any as S.Schema<GetEeSessionManagementRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeSessionManagementResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19167,7 +19617,8 @@ export const getEeStale: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13376, __c418, 0) as any as S.Schema<GetEeStaleRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeStaleResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19184,7 +19635,8 @@ export const getEeSupportAccessGrant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13408, __c419, 0) as any as S.Schema<GetEeSupportAccessGrantRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeSupportAccessGrantResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19201,7 +19653,8 @@ export const getEeSupportAccessGrantCurrent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13440, __c420, 0) as any as S.Schema<GetEeSupportAccessGrantCurrentRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeSupportAccessGrantCurrentResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19218,7 +19671,8 @@ export const getEeTenant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13472, __c421, 0) as any as S.Schema<GetEeTenantRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeTenantResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19235,7 +19689,8 @@ export const getEeTenantById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13504, __c422, 0) as any as S.Schema<GetEeTenantByIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeTenantByIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19252,7 +19707,8 @@ export const getEeTransformInspect: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13536, __c423, 0) as any as S.Schema<GetEeTransformInspectRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeTransformInspectResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19269,7 +19725,8 @@ export const getEeTransformInspectByLensId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13568, __c424, 0) as any as S.Schema<GetEeTransformInspectByLensIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeTransformInspectByLensIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19286,7 +19743,8 @@ export const getEeTransformsPythonLibrary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13600, __c425, 0) as any as S.Schema<GetEeTransformsPythonLibraryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeTransformsPythonLibraryResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19303,7 +19761,8 @@ export const getEeTransformTest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13632, __c426, 0) as any as S.Schema<GetEeTransformTestRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeTransformTestResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19320,7 +19779,8 @@ export const getEeTransformTestById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13664, __c427, 0) as any as S.Schema<GetEeTransformTestByIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeTransformTestByIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19337,7 +19797,8 @@ export const getEeTransformTestRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13728, __c429, 0) as any as S.Schema<GetEeTransformTestRunRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeTransformTestRunResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19354,7 +19815,8 @@ export const getEeUploadManagementTables: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13760, __c430, 0) as any as S.Schema<GetEeUploadManagementTablesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEeUploadManagementTablesResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19371,7 +19833,8 @@ export const getEmbedCard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13792, __c431, 0) as any as S.Schema<GetEmbedCardRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEmbedCardResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19388,7 +19851,8 @@ export const getEmbedCardParamRemapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13824, __c432, 0) as any as S.Schema<GetEmbedCardParamRemappingRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEmbedCardParamRemappingResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19405,7 +19869,8 @@ export const getEmbedCardParamSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13856, __c433, 0) as any as S.Schema<GetEmbedCardParamSearchRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEmbedCardParamSearchResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19422,7 +19887,8 @@ export const getEmbedCardParamValues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13888, __c434, 0) as any as S.Schema<GetEmbedCardParamValuesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEmbedCardParamValuesResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19439,7 +19905,8 @@ export const getEmbedCardQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13920, __c435, 0) as any as S.Schema<GetEmbedCardQueryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEmbedCardQueryResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19456,7 +19923,8 @@ export const getEmbedCardQueryByExportFormat: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13952, __c436, 0) as any as S.Schema<GetEmbedCardQueryByExportFormatRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEmbedCardQueryByExportFormatResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19473,7 +19941,8 @@ export const getEmbedDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13984, __c437, 0) as any as S.Schema<GetEmbedDashboardRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEmbedDashboardResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19490,7 +19959,8 @@ export const getEmbedDashboardDashcardCard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14016, __c438, 0) as any as S.Schema<GetEmbedDashboardDashcardCardRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEmbedDashboardDashcardCardResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19511,7 +19981,8 @@ export const getEmbedDashboardDashcardCardByExportFormat: API.OperationMethod<
     0,
   ) as any as S.Schema<GetEmbedDashboardDashcardCardByExportFormatRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEmbedDashboardDashcardCardByExportFormatResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19528,7 +19999,8 @@ export const getEmbedDashboardParamRemapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14112, __c441, 0) as any as S.Schema<GetEmbedDashboardParamRemappingRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEmbedDashboardParamRemappingResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19545,7 +20017,8 @@ export const getEmbedDashboardParamSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14144, __c442, 0) as any as S.Schema<GetEmbedDashboardParamSearchRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEmbedDashboardParamSearchResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19562,7 +20035,8 @@ export const getEmbedDashboardParamValues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14176, __c443, 0) as any as S.Schema<GetEmbedDashboardParamValuesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEmbedDashboardParamValuesResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19579,7 +20053,8 @@ export const getEmbeddingHubChecklist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14208, __c444, 0) as any as S.Schema<GetEmbeddingHubChecklistRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEmbeddingHubChecklistResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19596,7 +20071,8 @@ export const getEmbeddingSdkReact18Hosts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14240, __c445, 0) as any as S.Schema<GetEmbeddingSdkReact18HostsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEmbeddingSdkReact18HostsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19613,7 +20089,8 @@ export const getEmbedMcpBootstrap: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14272, __c446, 0) as any as S.Schema<GetEmbedMcpBootstrapRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEmbedMcpBootstrapResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19630,7 +20107,8 @@ export const getEmbedMcpQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14304, __c447, 0) as any as S.Schema<GetEmbedMcpQueryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEmbedMcpQueryResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19647,7 +20125,8 @@ export const getEmbedPivotCardQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14336, __c448, 0) as any as S.Schema<GetEmbedPivotCardQueryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEmbedPivotCardQueryResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19664,7 +20143,8 @@ export const getEmbedPivotDashboardDashcardCard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14368, __c449, 0) as any as S.Schema<GetEmbedPivotDashboardDashcardCardRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEmbedPivotDashboardDashcardCardResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19681,7 +20161,8 @@ export const getEmbedTheme: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14464, __c452, 0) as any as S.Schema<GetEmbedThemeRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEmbedThemeResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19698,7 +20179,8 @@ export const getEmbedThemeById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14496, __c453, 0) as any as S.Schema<GetEmbedThemeByIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEmbedThemeByIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19715,7 +20197,8 @@ export const getEmbedTilesCard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14528, __c454, 0) as any as S.Schema<GetEmbedTilesCardRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEmbedTilesCardResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19732,7 +20215,8 @@ export const getEmbedTilesDashboardDashcardCard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14560, __c455, 0) as any as S.Schema<GetEmbedTilesDashboardDashcardCardRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEmbedTilesDashboardDashcardCardResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19749,7 +20233,8 @@ export const getEvalTrace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14592, __c456, 0) as any as S.Schema<GetEvalTraceRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetEvalTraceResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19766,7 +20251,8 @@ export const getExploration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14624, __c457, 0) as any as S.Schema<GetExplorationRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetExplorationResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19783,7 +20269,8 @@ export const getExplorationDimensions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14656, __c458, 0) as any as S.Schema<GetExplorationDimensionsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetExplorationDimensionsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19800,7 +20287,8 @@ export const getExplorationMine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14688, __c459, 0) as any as S.Schema<GetExplorationMineRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetExplorationMineResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19817,7 +20305,8 @@ export const getExplorationQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14720, __c460, 0) as any as S.Schema<GetExplorationQueryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetExplorationQueryResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19834,7 +20323,8 @@ export const getField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14752, __c461, 0) as any as S.Schema<GetFieldRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetFieldResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19851,7 +20341,8 @@ export const getFieldRelated: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14848, __c464, 0) as any as S.Schema<GetFieldRelatedRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetFieldRelatedResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19868,7 +20359,8 @@ export const getFieldRemapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14880, __c465, 0) as any as S.Schema<GetFieldRemappingRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetFieldRemappingResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19885,7 +20377,8 @@ export const getFieldSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14912, __c466, 0) as any as S.Schema<GetFieldSearchRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetFieldSearchResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19902,7 +20395,8 @@ export const getFieldSummary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14944, __c467, 0) as any as S.Schema<GetFieldSummaryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetFieldSummaryResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19919,7 +20413,8 @@ export const getFieldValues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14976, __c468, 0) as any as S.Schema<GetFieldValuesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetFieldValuesResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19936,7 +20431,8 @@ export const getGeojson: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15008, __c469, 0) as any as S.Schema<GetGeojsonRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetGeojsonResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19953,7 +20449,8 @@ export const getGeojsonByKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15040, __c470, 0) as any as S.Schema<GetGeojsonByKeyRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetGeojsonByKeyResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19970,7 +20467,8 @@ export const getGlossary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15072, __c471, 0) as any as S.Schema<GetGlossaryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetGlossaryResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19987,7 +20485,8 @@ export const getHealthInspector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15104, __c472, 0) as any as S.Schema<GetHealthInspectorRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetHealthInspectorResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20004,7 +20503,8 @@ export const getIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15136, __c473, 0) as any as S.Schema<GetIndexRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetIndexResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20021,7 +20521,8 @@ export const getIndexRequestById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15232, __c476, 0) as any as S.Schema<GetIndexRequestByIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetIndexRequestByIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20038,7 +20539,8 @@ export const getKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15264, __c477, 0) as any as S.Schema<GetKeyRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetKeyResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20055,7 +20557,8 @@ export const getKeyCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15296, __c478, 0) as any as S.Schema<GetKeyCountRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetKeyCountResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20072,7 +20575,8 @@ export const getLlmModels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15328, __c479, 0) as any as S.Schema<GetLlmModelsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetLlmModelsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20089,7 +20593,8 @@ export const getLlmProviders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15360, __c480, 0) as any as S.Schema<GetLlmProvidersRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetLlmProvidersResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20106,7 +20611,8 @@ export const getLlmProviderTypes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15392, __c481, 0) as any as S.Schema<GetLlmProviderTypesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetLlmProviderTypesResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20123,7 +20629,8 @@ export const getLoggerLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15424, __c482, 0) as any as S.Schema<GetLoggerLogsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetLoggerLogsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20140,7 +20647,8 @@ export const getLoggerPresets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15456, __c483, 0) as any as S.Schema<GetLoggerPresetsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetLoggerPresetsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20157,7 +20665,8 @@ export const getLoginHistoryCurrent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15488, __c484, 0) as any as S.Schema<GetLoginHistoryCurrentRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetLoginHistoryCurrentResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20174,7 +20683,8 @@ export const getMeasure: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15520, __c485, 0) as any as S.Schema<GetMeasureRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetMeasureResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20191,7 +20701,8 @@ export const getMeasureById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15584, __c487, 0) as any as S.Schema<GetMeasureByIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetMeasureByIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20208,7 +20719,8 @@ export const getMeasureDimensionRemapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15616, __c488, 0) as any as S.Schema<GetMeasureDimensionRemappingRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetMeasureDimensionRemappingResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20225,7 +20737,8 @@ export const getMeasureDimensionSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15648, __c489, 0) as any as S.Schema<GetMeasureDimensionSearchRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetMeasureDimensionSearchResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20242,7 +20755,8 @@ export const getMeasureDimensionValues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15680, __c490, 0) as any as S.Schema<GetMeasureDimensionValuesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetMeasureDimensionValuesResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20259,7 +20773,8 @@ export const getMetabotConversation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15712, __c491, 0) as any as S.Schema<GetMetabotConversationRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetMetabotConversationResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20276,7 +20791,8 @@ export const getMetabotConversations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15744, __c492, 0) as any as S.Schema<GetMetabotConversationsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetMetabotConversationsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20293,7 +20809,8 @@ export const getMetabotConversationTitle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15776, __c493, 0) as any as S.Schema<GetMetabotConversationTitleRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetMetabotConversationTitleResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20310,7 +20827,8 @@ export const getMetabotMetabot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15808, __c494, 0) as any as S.Schema<GetMetabotMetabotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetMetabotMetabotResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20327,7 +20845,8 @@ export const getMetabotMetabotById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15840, __c495, 0) as any as S.Schema<GetMetabotMetabotByIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetMetabotMetabotByIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20344,7 +20863,8 @@ export const getMetabotMetabotPromptSuggestions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15872, __c496, 0) as any as S.Schema<GetMetabotMetabotPromptSuggestionsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetMetabotMetabotPromptSuggestionsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20361,7 +20881,8 @@ export const getMetabotPermissionsUserPermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15936, __c498, 0) as any as S.Schema<GetMetabotPermissionsUserPermissionsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetMetabotPermissionsUserPermissionsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20378,7 +20899,8 @@ export const getMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15968, __c499, 0) as any as S.Schema<GetMetricRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetMetricResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20395,7 +20917,8 @@ export const getMetricById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16000, __c500, 0) as any as S.Schema<GetMetricByIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetMetricByIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20412,7 +20935,8 @@ export const getMetricDimension: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16032, __c501, 0) as any as S.Schema<GetMetricDimensionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetMetricDimensionResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20429,7 +20953,8 @@ export const getMetricDimensionRemapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16064, __c502, 0) as any as S.Schema<GetMetricDimensionRemappingRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetMetricDimensionRemappingResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20446,7 +20971,8 @@ export const getMetricDimensionSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16096, __c503, 0) as any as S.Schema<GetMetricDimensionSearchRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetMetricDimensionSearchResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20463,7 +20989,8 @@ export const getMetricDimensionValues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16128, __c504, 0) as any as S.Schema<GetMetricDimensionValuesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetMetricDimensionValuesResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20480,7 +21007,8 @@ export const getModelIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16160, __c505, 0) as any as S.Schema<GetModelIndexRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetModelIndexResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20497,7 +21025,8 @@ export const getModelIndexById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16192, __c506, 0) as any as S.Schema<GetModelIndexByIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetModelIndexByIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20514,7 +21043,8 @@ export const getMtGtap: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16224, __c507, 0) as any as S.Schema<GetMtGtapRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetMtGtapResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20531,7 +21061,8 @@ export const getMtGtapById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16288, __c509, 0) as any as S.Schema<GetMtGtapByIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetMtGtapByIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20548,7 +21079,8 @@ export const getMtUserAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16320, __c510, 0) as any as S.Schema<GetMtUserAttributesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetMtUserAttributesResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20565,7 +21097,8 @@ export const getNativeQuerySnippet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16352, __c511, 0) as any as S.Schema<GetNativeQuerySnippetRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetNativeQuerySnippetResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20582,7 +21115,8 @@ export const getNativeQuerySnippetById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16384, __c512, 0) as any as S.Schema<GetNativeQuerySnippetByIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetNativeQuerySnippetByIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20599,7 +21133,8 @@ export const getNotification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16416, __c513, 0) as any as S.Schema<GetNotificationRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetNotificationResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20616,7 +21151,8 @@ export const getNotificationAdmin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16448, __c514, 0) as any as S.Schema<GetNotificationAdminRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetNotificationAdminResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20633,7 +21169,8 @@ export const getNotificationAdminById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16480, __c515, 0) as any as S.Schema<GetNotificationAdminByIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetNotificationAdminByIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20650,7 +21187,8 @@ export const getNotificationById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16512, __c516, 0) as any as S.Schema<GetNotificationByIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetNotificationByIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20667,7 +21205,8 @@ export const getOauthAuthorizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16544, __c517, 0) as any as S.Schema<GetOauthAuthorizationsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetOauthAuthorizationsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20684,7 +21223,8 @@ export const getOembed: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16576, __c518, 0) as any as S.Schema<GetOembedRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetOembedResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20701,7 +21241,8 @@ export const getOsiAiContext: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16640, __c520, 0) as any as S.Schema<GetOsiAiContextRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetOsiAiContextResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20718,7 +21259,8 @@ export const getOsiAiContextByEntityLocalId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16672, __c521, 0) as any as S.Schema<GetOsiAiContextByEntityLocalIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetOsiAiContextByEntityLocalIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20735,7 +21277,8 @@ export const getPermissionsGraph: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16704, __c522, 0) as any as S.Schema<GetPermissionsGraphRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetPermissionsGraphResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20752,7 +21295,8 @@ export const getPermissionsGraphDb: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16736, __c523, 0) as any as S.Schema<GetPermissionsGraphDbRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetPermissionsGraphDbResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20769,7 +21313,8 @@ export const getPermissionsGraphGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16768, __c524, 0) as any as S.Schema<GetPermissionsGraphGroupRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetPermissionsGraphGroupResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20786,7 +21331,8 @@ export const getPermissionsGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16800, __c525, 0) as any as S.Schema<GetPermissionsGroupRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetPermissionsGroupResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20803,7 +21349,8 @@ export const getPermissionsGroupById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16832, __c526, 0) as any as S.Schema<GetPermissionsGroupByIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetPermissionsGroupByIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20820,7 +21367,8 @@ export const getPermissionsInviteGroupIds: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16864, __c527, 0) as any as S.Schema<GetPermissionsInviteGroupIdsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetPermissionsInviteGroupIdsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20837,7 +21385,8 @@ export const getPermissionsMembership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16896, __c528, 0) as any as S.Schema<GetPermissionsMembershipRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetPermissionsMembershipResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20854,7 +21403,8 @@ export const getPersist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16928, __c529, 0) as any as S.Schema<GetPersistRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetPersistResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20871,7 +21421,8 @@ export const getPersistByPersistedInfoId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16992, __c531, 0) as any as S.Schema<GetPersistByPersistedInfoIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetPersistByPersistedInfoIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20888,7 +21439,8 @@ export const getPersistCard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17024, __c532, 0) as any as S.Schema<GetPersistCardRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetPersistCardResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20905,7 +21457,8 @@ export const getPivotCardQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17056, __c533, 0) as any as S.Schema<GetPivotCardQueryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetPivotCardQueryResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20922,7 +21475,8 @@ export const getPivotDashboardDashcardCard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17088, __c534, 0) as any as S.Schema<GetPivotDashboardDashcardCardRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetPivotDashboardDashcardCardResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20939,7 +21493,8 @@ export const getPremiumFeaturesTokenStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17120, __c535, 0) as any as S.Schema<GetPremiumFeaturesTokenStatusRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetPremiumFeaturesTokenStatusResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20956,7 +21511,8 @@ export const getPreviewEmbedCard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17152, __c536, 0) as any as S.Schema<GetPreviewEmbedCardRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetPreviewEmbedCardResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20973,7 +21529,8 @@ export const getPreviewEmbedCardParamRemapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17184, __c537, 0) as any as S.Schema<GetPreviewEmbedCardParamRemappingRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetPreviewEmbedCardParamRemappingResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20990,7 +21547,8 @@ export const getPreviewEmbedCardParamValues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17216, __c538, 0) as any as S.Schema<GetPreviewEmbedCardParamValuesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetPreviewEmbedCardParamValuesResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21007,7 +21565,8 @@ export const getPreviewEmbedCardQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17248, __c539, 0) as any as S.Schema<GetPreviewEmbedCardQueryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetPreviewEmbedCardQueryResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21024,7 +21583,8 @@ export const getPreviewEmbedDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17280, __c540, 0) as any as S.Schema<GetPreviewEmbedDashboardRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetPreviewEmbedDashboardResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21041,7 +21601,8 @@ export const getPreviewEmbedDashboardDashcardCard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17344, __c542, 0) as any as S.Schema<GetPreviewEmbedDashboardDashcardCardRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetPreviewEmbedDashboardDashcardCardResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21058,7 +21619,8 @@ export const getPreviewEmbedDashboardParamRemapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17376, __c543, 0) as any as S.Schema<GetPreviewEmbedDashboardParamRemappingRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetPreviewEmbedDashboardParamRemappingResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21075,7 +21637,8 @@ export const getPreviewEmbedDashboardParamSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17408, __c544, 0) as any as S.Schema<GetPreviewEmbedDashboardParamSearchRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetPreviewEmbedDashboardParamSearchResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21092,7 +21655,8 @@ export const getPreviewEmbedDashboardParamValues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17440, __c545, 0) as any as S.Schema<GetPreviewEmbedDashboardParamValuesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetPreviewEmbedDashboardParamValuesResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21109,7 +21673,8 @@ export const getPreviewEmbedPivotCardQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17472, __c546, 0) as any as S.Schema<GetPreviewEmbedPivotCardQueryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetPreviewEmbedPivotCardQueryResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21126,7 +21691,8 @@ export const getPreviewEmbedPivotDashboardDashcardCard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17504, __c547, 0) as any as S.Schema<GetPreviewEmbedPivotDashboardDashcardCardRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetPreviewEmbedPivotDashboardDashcardCardResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21143,7 +21709,8 @@ export const getPreviewEmbedTilesCard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17536, __c548, 0) as any as S.Schema<GetPreviewEmbedTilesCardRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetPreviewEmbedTilesCardResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21160,7 +21727,8 @@ export const getPreviewEmbedTilesDashboardDashcardCard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17568, __c549, 0) as any as S.Schema<GetPreviewEmbedTilesDashboardDashcardCardRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetPreviewEmbedTilesDashboardDashcardCardResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21177,7 +21745,8 @@ export const getPulse: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17600, __c550, 0) as any as S.Schema<GetPulseRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetPulseResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21194,7 +21763,8 @@ export const getPulseById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17632, __c551, 0) as any as S.Schema<GetPulseByIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetPulseByIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21211,7 +21781,8 @@ export const getPulseFormInput: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17696, __c553, 0) as any as S.Schema<GetPulseFormInputRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetPulseFormInputResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21228,7 +21799,8 @@ export const getRevision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17728, __c554, 0) as any as S.Schema<GetRevisionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetRevisionResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21245,7 +21817,8 @@ export const getRevisionById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17760, __c555, 0) as any as S.Schema<GetRevisionByIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetRevisionByIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21262,7 +21835,8 @@ export const getSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17792, __c556, 0) as any as S.Schema<GetSearchRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetSearchResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21279,7 +21853,8 @@ export const getSearchDebug: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17824, __c557, 0) as any as S.Schema<GetSearchDebugRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetSearchDebugResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21296,7 +21871,8 @@ export const getSearchWeights: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17856, __c558, 0) as any as S.Schema<GetSearchWeightsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetSearchWeightsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21313,7 +21889,8 @@ export const getSegment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17888, __c559, 0) as any as S.Schema<GetSegmentRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetSegmentResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21330,7 +21907,8 @@ export const getSegmentById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17920, __c560, 0) as any as S.Schema<GetSegmentByIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetSegmentByIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21347,7 +21925,8 @@ export const getSegmentRelated: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17952, __c561, 0) as any as S.Schema<GetSegmentRelatedRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetSegmentRelatedResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21364,7 +21943,8 @@ export const getSessionIllustration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17984, __c562, 0) as any as S.Schema<GetSessionIllustrationRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetSessionIllustrationResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21381,7 +21961,8 @@ export const getSessionPasswordResetTokenValid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18048, __c564, 0) as any as S.Schema<GetSessionPasswordResetTokenValidRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetSessionPasswordResetTokenValidResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21398,7 +21979,8 @@ export const getSessionProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18080, __c565, 0) as any as S.Schema<GetSessionPropertiesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetSessionPropertiesResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21415,7 +21997,8 @@ export const getSetting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18112, __c566, 0) as any as S.Schema<GetSettingRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetSettingResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21432,7 +22015,8 @@ export const getSettingByKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18144, __c567, 0) as any as S.Schema<GetSettingByKeyRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetSettingByKeyResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21449,7 +22033,8 @@ export const getSlackAppInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18176, __c568, 0) as any as S.Schema<GetSlackAppInfoRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetSlackAppInfoResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21466,7 +22051,8 @@ export const getSlackManifest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18208, __c569, 0) as any as S.Schema<GetSlackManifestRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetSlackManifestResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21483,7 +22069,8 @@ export const getTable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18240, __c570, 0) as any as S.Schema<GetTableRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTableResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21500,7 +22087,8 @@ export const getTableById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18272, __c571, 0) as any as S.Schema<GetTableByIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTableByIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21517,7 +22105,8 @@ export const getTableCardIdFks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18304, __c572, 0) as any as S.Schema<GetTableCardIdFksRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTableCardIdFksResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21534,7 +22123,8 @@ export const getTableCardIdQueryMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18336, __c573, 0) as any as S.Schema<GetTableCardIdQueryMetadataRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTableCardIdQueryMetadataResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21551,7 +22141,8 @@ export const getTableData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18400, __c575, 0) as any as S.Schema<GetTableDataRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTableDataResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21568,7 +22159,8 @@ export const getTableFks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18432, __c576, 0) as any as S.Schema<GetTableFksRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTableFksResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21585,7 +22177,8 @@ export const getTableQueryMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18464, __c577, 0) as any as S.Schema<GetTableQueryMetadataRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTableQueryMetadataResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21602,7 +22195,8 @@ export const getTableRelated: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18496, __c578, 0) as any as S.Schema<GetTableRelatedRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTableRelatedResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21619,7 +22213,8 @@ export const getTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18528, __c579, 0) as any as S.Schema<GetTaskRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTaskResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21636,7 +22231,8 @@ export const getTaskById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18560, __c580, 0) as any as S.Schema<GetTaskByIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTaskByIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21653,7 +22249,8 @@ export const getTaskInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18592, __c581, 0) as any as S.Schema<GetTaskInfoRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTaskInfoResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21670,7 +22267,8 @@ export const getTaskRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18624, __c582, 0) as any as S.Schema<GetTaskRunRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTaskRunResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21687,7 +22285,8 @@ export const getTaskRuns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18656, __c583, 0) as any as S.Schema<GetTaskRunsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTaskRunsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21704,7 +22303,8 @@ export const getTaskRunsEntities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18688, __c584, 0) as any as S.Schema<GetTaskRunsEntitiesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTaskRunsEntitiesResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21721,7 +22321,8 @@ export const getTaskUniqueTasks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18784, __c587, 0) as any as S.Schema<GetTaskUniqueTasksRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTaskUniqueTasksResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21738,7 +22339,8 @@ export const getTile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18816, __c588, 0) as any as S.Schema<GetTileRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTileResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21755,7 +22357,8 @@ export const getTileByY: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18848, __c589, 0) as any as S.Schema<GetTileByYRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTileByYResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21772,7 +22375,8 @@ export const getTileDashcardCard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18880, __c590, 0) as any as S.Schema<GetTileDashcardCardRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTileDashcardCardResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21789,7 +22393,8 @@ export const getTilesCard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18912, __c591, 0) as any as S.Schema<GetTilesCardRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTilesCardResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21806,7 +22411,8 @@ export const getTilesDashboardDashcardCard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18944, __c592, 0) as any as S.Schema<GetTilesDashboardDashcardCardRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTilesDashboardDashcardCardResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21823,7 +22429,8 @@ export const getTimeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18976, __c593, 0) as any as S.Schema<GetTimelineRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTimelineResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21840,7 +22447,8 @@ export const getTimelineById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19008, __c594, 0) as any as S.Schema<GetTimelineByIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTimelineByIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21857,7 +22465,8 @@ export const getTimelineCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19040, __c595, 0) as any as S.Schema<GetTimelineCollectionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTimelineCollectionResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21874,7 +22483,8 @@ export const getTimelineCollectionRoot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19072, __c596, 0) as any as S.Schema<GetTimelineCollectionRootRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTimelineCollectionRootResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21891,7 +22501,8 @@ export const getTimelineEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19136, __c598, 0) as any as S.Schema<GetTimelineEventRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTimelineEventResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21908,7 +22519,8 @@ export const getTransform: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19168, __c599, 0) as any as S.Schema<GetTransformRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTransformResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21925,7 +22537,8 @@ export const getTransformById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19200, __c600, 0) as any as S.Schema<GetTransformByIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTransformByIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21942,7 +22555,8 @@ export const getTransformDagRunTransformRuns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19232, __c601, 0) as any as S.Schema<GetTransformDagRunTransformRunsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTransformDagRunTransformRunsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21959,7 +22573,8 @@ export const getTransformDagTransforms: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19264, __c602, 0) as any as S.Schema<GetTransformDagTransformsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTransformDagTransformsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21976,7 +22591,8 @@ export const getTransformDependencies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19296, __c603, 0) as any as S.Schema<GetTransformDependenciesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTransformDependenciesResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21993,7 +22609,8 @@ export const getTransformJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19328, __c604, 0) as any as S.Schema<GetTransformJobRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTransformJobResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22010,7 +22627,8 @@ export const getTransformJobByJobId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19360, __c605, 0) as any as S.Schema<GetTransformJobByJobIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTransformJobByJobIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22027,7 +22645,8 @@ export const getTransformJobRuns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19392, __c606, 0) as any as S.Schema<GetTransformJobRunsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTransformJobRunsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22044,7 +22663,8 @@ export const getTransformJobRunTransformRuns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19424, __c607, 0) as any as S.Schema<GetTransformJobRunTransformRunsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTransformJobRunTransformRunsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22061,7 +22681,8 @@ export const getTransformJobTransforms: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19488, __c609, 0) as any as S.Schema<GetTransformJobTransformsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTransformJobTransformsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22078,7 +22699,8 @@ export const getTransformRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19520, __c610, 0) as any as S.Schema<GetTransformRunRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTransformRunResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22095,7 +22717,8 @@ export const getTransformRunByRunId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19552, __c611, 0) as any as S.Schema<GetTransformRunByRunIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTransformRunByRunIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22112,7 +22735,8 @@ export const getTransformRuns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19584, __c612, 0) as any as S.Schema<GetTransformRunsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTransformRunsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22129,7 +22753,8 @@ export const getTransformTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19616, __c613, 0) as any as S.Schema<GetTransformTagRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetTransformTagResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22146,7 +22771,8 @@ export const getUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19648, __c614, 0) as any as S.Schema<GetUserRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetUserResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22163,7 +22789,8 @@ export const getUserById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19680, __c615, 0) as any as S.Schema<GetUserByIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetUserByIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22180,7 +22807,8 @@ export const getUserCurrent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19712, __c616, 0) as any as S.Schema<GetUserCurrentRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetUserCurrentResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22197,7 +22825,8 @@ export const getUserKeyValueNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19744, __c617, 0) as any as S.Schema<GetUserKeyValueNamespaceRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetUserKeyValueNamespaceResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22214,7 +22843,8 @@ export const getUserKeyValueNamespaceKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19776, __c618, 0) as any as S.Schema<GetUserKeyValueNamespaceKeyRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetUserKeyValueNamespaceKeyResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22231,7 +22861,8 @@ export const getUserRecipients: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19840, __c620, 0) as any as S.Schema<GetUserRecipientsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetUserRecipientsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22248,7 +22879,8 @@ export const getUtilRandomToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19872, __c621, 0) as any as S.Schema<GetUtilRandomTokenRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GetUtilRandomTokenResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22273,7 +22905,8 @@ export const postApiEeReplacementReplaceModelWithTransform: API.OperationMethod<
     __c1,
     0,
   ) as any as S.Schema<PostApiEeReplacementReplaceModelWithTransformResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22290,7 +22923,8 @@ export const putAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19936, __c623, 0) as any as S.Schema<PutActionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutActionResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22307,7 +22941,8 @@ export const putAgentDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19969, __c624, 1) as any as S.Schema<PutAgentDashboardRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutAgentDashboardResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22324,7 +22959,8 @@ export const putAgentMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20000, __c625, 0) as any as S.Schema<PutAgentMetricRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutAgentMetricResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22341,7 +22977,8 @@ export const putAgentQuestion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20032, __c626, 0) as any as S.Schema<PutAgentQuestionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutAgentQuestionResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22358,7 +22995,8 @@ export const putBookmarkOrdering: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20066, __c627, 2) as any as S.Schema<PutBookmarkOrderingRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutBookmarkOrderingResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22375,7 +23013,8 @@ export const putCache: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20096, __c628, 0) as any as S.Schema<PutCacheRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutCacheResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22392,7 +23031,8 @@ export const putCard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20128, __c629, 0) as any as S.Schema<PutCardRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutCardResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22409,7 +23049,8 @@ export const putChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20224, __c632, 0) as any as S.Schema<PutChannelRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutChannelResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22426,7 +23067,8 @@ export const putCloudMigrationCancel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20256, __c633, 0) as any as S.Schema<PutCloudMigrationCancelRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutCloudMigrationCancelResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22443,7 +23085,8 @@ export const putCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20288, __c634, 0) as any as S.Schema<PutCollectionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutCollectionResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22460,7 +23103,8 @@ export const putCollectionGraph: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20320, __c635, 0) as any as S.Schema<PutCollectionGraphRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutCollectionGraphResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22477,7 +23121,8 @@ export const putComment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20384, __c637, 0) as any as S.Schema<PutCommentRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutCommentResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22494,7 +23139,8 @@ export const putDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20416, __c638, 0) as any as S.Schema<PutDashboardRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutDashboardResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22511,7 +23157,8 @@ export const putDashboardCards: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20480, __c640, 0) as any as S.Schema<PutDashboardCardsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutDashboardCardsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22528,7 +23175,8 @@ export const putDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20512, __c641, 0) as any as S.Schema<PutDatabaseRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutDatabaseResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22545,7 +23193,8 @@ export const putDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20544, __c642, 0) as any as S.Schema<PutDocumentRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutDocumentResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22562,7 +23211,8 @@ export const putEeAdvancedPermissionsApplicationGraph: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20576, __c643, 0) as any as S.Schema<PutEeAdvancedPermissionsApplicationGraphRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutEeAdvancedPermissionsApplicationGraphResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22579,7 +23229,8 @@ export const putEeAiControlsMcpPermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20642, __c645, 2) as any as S.Schema<PutEeAiControlsMcpPermissionsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutEeAiControlsMcpPermissionsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22596,7 +23247,8 @@ export const putEeAiControlsPermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20674, __c646, 2) as any as S.Schema<PutEeAiControlsPermissionsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutEeAiControlsPermissionsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22613,7 +23265,8 @@ export const putEeAiControlsUsageGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20704, __c647, 0) as any as S.Schema<PutEeAiControlsUsageGroupRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutEeAiControlsUsageGroupResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22630,7 +23283,8 @@ export const putEeAiControlsUsageInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20736, __c648, 0) as any as S.Schema<PutEeAiControlsUsageInstanceRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutEeAiControlsUsageInstanceResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22647,7 +23301,8 @@ export const putEeAiControlsUsageTenant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20768, __c649, 0) as any as S.Schema<PutEeAiControlsUsageTenantRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutEeAiControlsUsageTenantResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22664,7 +23319,8 @@ export const putEeApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20800, __c650, 0) as any as S.Schema<PutEeAppRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutEeAppResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22681,7 +23337,8 @@ export const putEeCustomVizPlugin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20832, __c651, 0) as any as S.Schema<PutEeCustomVizPluginRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutEeCustomVizPluginResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22698,7 +23355,8 @@ export const putEeCustomVizPluginBundle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20864, __c652, 0) as any as S.Schema<PutEeCustomVizPluginBundleRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutEeCustomVizPluginBundleResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22715,7 +23373,8 @@ export const putEeCustomVizPluginDevUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20896, __c653, 0) as any as S.Schema<PutEeCustomVizPluginDevUrlRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutEeCustomVizPluginDevUrlResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22732,7 +23391,8 @@ export const putEeDatabaseRoutingRouterDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20928, __c654, 0) as any as S.Schema<PutEeDatabaseRoutingRouterDatabaseRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutEeDatabaseRoutingRouterDatabaseResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22749,7 +23409,8 @@ export const putEeEmailOverride: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20992, __c656, 0) as any as S.Schema<PutEeEmailOverrideRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutEeEmailOverrideResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22766,7 +23427,8 @@ export const putEeRemoteSyncSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21025, __c657, 1) as any as S.Schema<PutEeRemoteSyncSettingsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutEeRemoteSyncSettingsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22783,7 +23445,8 @@ export const putEeScimGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21056, __c658, 0) as any as S.Schema<PutEeScimGroupRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutEeScimGroupResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22800,7 +23463,8 @@ export const putEeScimUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21088, __c659, 0) as any as S.Schema<PutEeScimUserRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutEeScimUserResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22817,7 +23481,8 @@ export const putEeSupportAccessGrantRevoke: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21120, __c660, 0) as any as S.Schema<PutEeSupportAccessGrantRevokeRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutEeSupportAccessGrantRevokeResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22834,7 +23499,8 @@ export const putEeTenant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21152, __c661, 0) as any as S.Schema<PutEeTenantRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutEeTenantResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22851,7 +23517,8 @@ export const putEeTransformsPythonLibrary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21184, __c662, 0) as any as S.Schema<PutEeTransformsPythonLibraryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutEeTransformsPythonLibraryResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22868,7 +23535,8 @@ export const putEeTransformTest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21216, __c663, 0) as any as S.Schema<PutEeTransformTestRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutEeTransformTestResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22885,7 +23553,8 @@ export const putEmail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21248, __c664, 0) as any as S.Schema<PutEmailRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutEmailResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22902,7 +23571,8 @@ export const putEmbedTheme: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21280, __c665, 0) as any as S.Schema<PutEmbedThemeRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutEmbedThemeResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22919,7 +23589,8 @@ export const putExploration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21408, __c669, 0) as any as S.Schema<PutExplorationRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutExplorationResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22936,7 +23607,8 @@ export const putExplorationPagesHidden: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21440, __c670, 0) as any as S.Schema<PutExplorationPagesHiddenRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutExplorationPagesHiddenResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22953,7 +23625,8 @@ export const putExplorationPageStarred: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21472, __c671, 0) as any as S.Schema<PutExplorationPageStarredRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutExplorationPageStarredResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22970,7 +23643,8 @@ export const putField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21504, __c672, 0) as any as S.Schema<PutFieldRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutFieldResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22987,7 +23661,8 @@ export const putGlossary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21536, __c673, 0) as any as S.Schema<PutGlossaryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutGlossaryResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23004,7 +23679,8 @@ export const putGoogleSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21568, __c674, 0) as any as S.Schema<PutGoogleSettingsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutGoogleSettingsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23021,7 +23697,8 @@ export const putIndexRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21600, __c675, 0) as any as S.Schema<PutIndexRequestRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutIndexRequestResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23038,7 +23715,8 @@ export const putKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21632, __c676, 0) as any as S.Schema<PutKeyRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutKeyResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23055,7 +23733,8 @@ export const putKeyRegenerate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21664, __c677, 0) as any as S.Schema<PutKeyRegenerateRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutKeyRegenerateResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23072,7 +23751,8 @@ export const putLdapSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21697, __c678, 1) as any as S.Schema<PutLdapSettingsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutLdapSettingsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23089,7 +23769,8 @@ export const putLlmProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21760, __c680, 0) as any as S.Schema<PutLlmProviderRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutLlmProviderResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23106,7 +23787,8 @@ export const putMeasure: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21792, __c681, 0) as any as S.Schema<PutMeasureRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutMeasureResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23123,7 +23805,8 @@ export const putMetabotMetabot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21824, __c682, 0) as any as S.Schema<PutMetabotMetabotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutMetabotMetabotResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23140,7 +23823,8 @@ export const putMetabotSlackSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21856, __c683, 0) as any as S.Schema<PutMetabotSlackSettingsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutMetabotSlackSettingsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23157,7 +23841,8 @@ export const putMtGtap: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21888, __c684, 0) as any as S.Schema<PutMtGtapRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutMtGtapResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23174,7 +23859,8 @@ export const putMtUserAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21920, __c685, 0) as any as S.Schema<PutMtUserAttributesRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutMtUserAttributesResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23191,7 +23877,8 @@ export const putNativeQuerySnippet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21952, __c686, 0) as any as S.Schema<PutNativeQuerySnippetRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutNativeQuerySnippetResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23208,7 +23895,8 @@ export const putNotification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21984, __c687, 0) as any as S.Schema<PutNotificationRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutNotificationResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23225,7 +23913,8 @@ export const putOsiAiContext: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22017, __c688, 1) as any as S.Schema<PutOsiAiContextRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutOsiAiContextResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23242,7 +23931,8 @@ export const putPermissionsGraph: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22057, __c689, 9) as any as S.Schema<PutPermissionsGraphRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutPermissionsGraphResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23259,7 +23949,8 @@ export const putPermissionsGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22112, __c691, 0) as any as S.Schema<PutPermissionsGroupRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutPermissionsGroupResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23276,7 +23967,8 @@ export const putPermissionsMembership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22144, __c692, 0) as any as S.Schema<PutPermissionsMembershipRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutPermissionsMembershipResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23293,7 +23985,8 @@ export const putPermissionsMembershipClear: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22176, __c693, 0) as any as S.Schema<PutPermissionsMembershipClearRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutPermissionsMembershipClearResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23310,7 +24003,8 @@ export const putPulse: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22209, __c694, 1) as any as S.Schema<PutPulseRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutPulseResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23327,7 +24021,8 @@ export const putSearchWeights: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22240, __c695, 0) as any as S.Schema<PutSearchWeightsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutSearchWeightsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23344,7 +24039,8 @@ export const putSegment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22272, __c696, 0) as any as S.Schema<PutSegmentRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutSegmentResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23361,7 +24057,8 @@ export const putSetting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22305, __c697, 1) as any as S.Schema<PutSettingRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutSettingResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23378,7 +24075,8 @@ export const putSettingByKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22336, __c698, 0) as any as S.Schema<PutSettingByKeyRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutSettingByKeyResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23395,7 +24093,8 @@ export const putSlackSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22368, __c699, 0) as any as S.Schema<PutSlackSettingsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutSlackSettingsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23412,7 +24111,8 @@ export const putTable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22400, __c700, 0) as any as S.Schema<PutTableRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutTableResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23429,7 +24129,8 @@ export const putTableById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22528, __c704, 0) as any as S.Schema<PutTableByIdRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutTableByIdResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23446,7 +24147,8 @@ export const putTableFieldsOrder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22560, __c705, 0) as any as S.Schema<PutTableFieldsOrderRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutTableFieldsOrderResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23463,7 +24165,8 @@ export const putTimeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22592, __c706, 0) as any as S.Schema<PutTimelineRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutTimelineResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23480,7 +24183,8 @@ export const putTimelineEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22624, __c707, 0) as any as S.Schema<PutTimelineEventRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutTimelineEventResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23497,7 +24201,8 @@ export const putTransform: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22656, __c708, 0) as any as S.Schema<PutTransformRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutTransformResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23514,7 +24219,8 @@ export const putTransformJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22688, __c709, 0) as any as S.Schema<PutTransformJobRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutTransformJobResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23531,7 +24237,8 @@ export const putTransformJobActive: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22720, __c710, 0) as any as S.Schema<PutTransformJobActiveRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutTransformJobActiveResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23548,7 +24255,8 @@ export const putTransformTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22752, __c711, 0) as any as S.Schema<PutTransformTagRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutTransformTagResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23565,7 +24273,8 @@ export const putUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22784, __c712, 0) as any as S.Schema<PutUserRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutUserResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23582,7 +24291,8 @@ export const putUserKeyValueNamespaceKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22816, __c713, 0) as any as S.Schema<PutUserKeyValueNamespaceKeyRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutUserKeyValueNamespaceKeyResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23599,7 +24309,8 @@ export const putUserModal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22912, __c716, 0) as any as S.Schema<PutUserModalRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutUserModalResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23616,7 +24327,8 @@ export const putUserPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22944, __c717, 0) as any as S.Schema<PutUserPasswordRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutUserPasswordResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23633,7 +24345,8 @@ export const putUserReactivate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22976, __c718, 0) as any as S.Schema<PutUserReactivateRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<PutUserReactivateResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23650,7 +24363,8 @@ export const updateBookmark: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23008, __c719, 0) as any as S.Schema<UpdateBookmarkRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<UpdateBookmarkResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23667,7 +24381,8 @@ export const updateCardQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23040, __c720, 0) as any as S.Schema<UpdateCardQueryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<UpdateCardQueryResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23684,7 +24399,8 @@ export const updateDashboardDashcardCard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23072, __c721, 0) as any as S.Schema<UpdateDashboardDashcardCardRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<UpdateDashboardDashcardCardResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23701,7 +24417,8 @@ export const updateDashboardDashcardCardQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23104, __c722, 0) as any as S.Schema<UpdateDashboardDashcardCardQueryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<UpdateDashboardDashcardCardQueryResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23718,7 +24435,8 @@ export const updateDashboardSaveCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23141, __c723, 5) as any as S.Schema<UpdateDashboardSaveCollectionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<UpdateDashboardSaveCollectionResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23735,7 +24453,8 @@ export const updateDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23168, __c724, 0) as any as S.Schema<UpdateDatasetRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<UpdateDatasetResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23752,7 +24471,8 @@ export const updateDatasetParameterSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23200, __c725, 0) as any as S.Schema<UpdateDatasetParameterSearchRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<UpdateDatasetParameterSearchResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23769,7 +24489,8 @@ export const updateDocumentCard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23264, __c727, 0) as any as S.Schema<UpdateDocumentCardRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<UpdateDocumentCardResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23786,7 +24507,8 @@ export const updateDocumentCardQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23296, __c728, 0) as any as S.Schema<UpdateDocumentCardQueryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<UpdateDocumentCardQueryResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23803,7 +24525,8 @@ export const updateEeCloudAddOns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23328, __c729, 0) as any as S.Schema<UpdateEeCloudAddOnsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<UpdateEeCloudAddOnsResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23820,7 +24543,8 @@ export const updateEeCloudProxy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23361, __c730, 1) as any as S.Schema<UpdateEeCloudProxyRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<UpdateEeCloudProxyResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23845,7 +24569,8 @@ export const updateEeDatabaseReplicationConnectionDatabase: API.OperationMethod<
     __c1,
     0,
   ) as any as S.Schema<UpdateEeDatabaseReplicationConnectionDatabaseResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23862,7 +24587,8 @@ export const updateEeScimUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23426, __c732, 2) as any as S.Schema<UpdateEeScimUserRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<UpdateEeScimUserResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23879,7 +24605,8 @@ export const updateMetricDimension: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23457, __c733, 1) as any as S.Schema<UpdateMetricDimensionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<UpdateMetricDimensionResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23896,7 +24623,8 @@ export const updateNotifyDb: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23488, __c734, 0) as any as S.Schema<UpdateNotifyDbRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<UpdateNotifyDbResponse>,
-  errors: [UnknownMetabaseError],
+  errors: [],
+  serviceErrors: MetabaseServiceErrors,
   protocol: MetabaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25668,7 +26396,7 @@ function __c123(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/api/session/google_auth", code: 200 })),
       ).annotate({ identifier: "CreateSessionGoogleAuthRequest" });
   }
@@ -25679,7 +26407,7 @@ function __c124(j: number): any {
       return S.suspend(() =>
         S.Struct({
           code: S.String,
-          enrollment_token: S.String,
+          enrollment_token: S.String.pipe(T.SensitiveValue({})),
           remember: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/api/session/mfa/enroll", code: 200 })),
       ).annotate({ identifier: "CreateSessionMfaEnrollRequest" });
@@ -25720,7 +26448,7 @@ function __c127(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          challenge_token: S.String,
+          challenge_token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/api/session/mfa/send-email-otp", code: 200 })),
       ).annotate({ identifier: "CreateSessionMfaSendEmailOtpRequest" });
   }
@@ -25730,7 +26458,7 @@ function __c128(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          challenge_token: S.String,
+          challenge_token: S.String.pipe(T.SensitiveValue({})),
           code: S.String,
           remember: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/api/session/mfa/verify", code: 200 })),
@@ -25753,7 +26481,7 @@ function __c130(j: number): any {
       return S.suspend(() =>
         S.Struct({
           password: S.String.pipe(T.SensitiveValue({})),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/api/session/reset_password", code: 200 })),
       ).annotate({ identifier: "CreateSessionResetPasswordRequest" });
   }
@@ -25780,7 +26508,7 @@ function __c131(j: number): any {
       return S.suspend(() =>
         S.Struct({
           prefs: __S(4192, __c131, 0),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           user: __S(4193, __c131, 1),
         }).pipe(T.Http({ method: "POST", uri: "/api/setup", code: 200 })),
       ).annotate({ identifier: "CreateSetupRequest" });
@@ -27140,7 +27868,7 @@ function __c163(j: number): any {
           last_name: S.optional(S.NullOr(S.String)),
           first_name: S.optional(S.NullOr(S.String)),
           source: S.optional(S.NullOr(S.String)),
-          password: S.optional(S.NullOr(S.String)),
+          password: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           invite_target: S.optional(S.NullOr(__S(5216, __c163, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/api/user", code: 200 })),
       ).annotate({ identifier: "CreateUserRequest" });
@@ -32216,7 +32944,7 @@ function __c564(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String.pipe(T.Query()),
+          token: S.String.pipe(T.Query(), T.SensitiveValue({})),
         }).pipe(
           T.Http({ method: "GET", uri: "/api/session/password_reset_token_valid", code: 200 }),
         ),
@@ -33617,7 +34345,7 @@ function __c656(j: number): any {
             S.NullOr(S.String).pipe(T.Body("email-smtp-host-override")),
           ),
           email_smtp_password_override: S.optional(
-            S.NullOr(S.String).pipe(T.Body("email-smtp-password-override")),
+            S.NullOr(S.String).pipe(T.Body("email-smtp-password-override"), T.SensitiveValue({})),
           ),
           email_smtp_port_override: S.optional(
             S.NullOr(S.Number).pipe(T.Body("email-smtp-port-override")),
@@ -33745,7 +34473,9 @@ function __c664(j: number): any {
       return S.suspend(() =>
         S.Struct({
           email_smtp_host: S.optional(S.NullOr(S.String).pipe(T.Body("email-smtp-host"))),
-          email_smtp_password: S.optional(S.NullOr(S.String).pipe(T.Body("email-smtp-password"))),
+          email_smtp_password: S.optional(
+            S.NullOr(S.String).pipe(T.Body("email-smtp-password"), T.SensitiveValue({})),
+          ),
           email_smtp_port: S.optional(S.NullOr(S.Number).pipe(T.Body("email-smtp-port"))),
           email_smtp_security: S.optional(S.NullOr(S.String).pipe(T.Body("email-smtp-security"))),
           email_smtp_username: S.optional(S.NullOr(S.String).pipe(T.Body("email-smtp-username"))),
@@ -33985,7 +34715,9 @@ function __c678(j: number): any {
         S.Struct({
           ldap_host: S.optional(S.NullOr(S.String).pipe(T.Body("ldap-host"))),
           ldap_attribute_email: S.optional(S.NullOr(S.String).pipe(T.Body("ldap-attribute-email"))),
-          ldap_password: S.optional(S.NullOr(S.String).pipe(T.Body("ldap-password"))),
+          ldap_password: S.optional(
+            S.NullOr(S.String).pipe(T.Body("ldap-password"), T.SensitiveValue({})),
+          ),
           ldap_port: S.optional(S.NullOr(S.Number).pipe(T.Body("ldap-port"))),
           ldap_bind_dn: S.optional(S.NullOr(S.String).pipe(T.Body("ldap-bind-dn"))),
           ldap_group_membership_filter: S.optional(
@@ -34072,10 +34804,12 @@ function __c683(j: number): any {
         S.Struct({
           metabot_slack_signing_secret: S.NullOr(S.String).pipe(
             T.Body("metabot-slack-signing-secret"),
+            T.SensitiveValue({}),
           ),
           slack_connect_client_id: S.NullOr(S.String).pipe(T.Body("slack-connect-client-id")),
           slack_connect_client_secret: S.NullOr(S.String).pipe(
             T.Body("slack-connect-client-secret"),
+            T.SensitiveValue({}),
           ),
         }).pipe(T.Http({ method: "PUT", uri: "/api/metabot/slack/settings", code: 200 })),
       ).annotate({ identifier: "PutMetabotSlackSettingsRequest" });
@@ -34342,7 +35076,9 @@ function __c699(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          slack_app_token: S.optional(S.NullOr(S.String).pipe(T.Body("slack-app-token"))),
+          slack_app_token: S.optional(
+            S.NullOr(S.String).pipe(T.Body("slack-app-token"), T.SensitiveValue({})),
+          ),
           slack_bug_report_channel: S.optional(
             S.NullOr(S.String).pipe(T.Body("slack-bug-report-channel")),
           ),
@@ -34618,7 +35354,7 @@ function __c717(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.Number.pipe(T.Label()),
-          old_password: S.optional(S.NullOr(S.String)),
+          old_password: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           password: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "PUT", uri: "/api/user/{id}/password", code: 200 })),
       ).annotate({ identifier: "PutUserPasswordRequest" });

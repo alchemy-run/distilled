@@ -11,7 +11,10 @@ number.
 
 1. **Fix a spec with a patch.** Typed errors, nullability, sensitive marks,
    missing fields and pagination go in `packages/<pkg>/patches/`, then
-   `pnpm generate <pkg>`. Example: a Clerk error code is a body matcher,
+   `pnpm generate <pkg>`. A typed error that any operation of the SDK can
+   return goes in the `<Sdk>ServiceErrors` list in
+   `packages/<pkg>/src/errors.ts`, as a class with a matcher and the evidence
+   of rule 7. Example: a Clerk error code is a body matcher,
    `{ "status": 404, "body": { "/errors/0/code": "resource_not_found" } }`.
 2. **Do not edit generated files.** `packages/*/src/services/` comes only from
    `pnpm generate`. Example: a `NotFound` added by hand to
@@ -85,6 +88,48 @@ number.
     the only way. Example: `S3.getObject({ Bucket, Key, region })` and
     `Effect.provide(Region.of("eu-west-1"))` both work; #1047 removed R2's
     `jurisdiction` members for a layer and #1063 put them back.
+16. **Cache tokens with core `refreshing`.** A credentials layer that
+    caches a token or credentials until they expire uses `refreshing` from
+    `@distilled.cloud/core/token-cache`, created once per layer value.
+    Concurrent calls on a cold or stale cache then share one mint, and no
+    call waits on another call's fiber. Pass `onTimeout` with an error the
+    layer already fails with, and `timeoutMs` when the mint's own retries
+    can run past the 60 s default. Do not share a `Semaphore`,
+    `Deferred`, `SynchronizedRef` or `Effect.cachedWithTTL` between calls:
+    in workerd one request never wakes another, and workerd cancels the
+    waiting request as hung. Example: 20 parallel calls on a cold cache run
+    one STS request or credential process, and all 20 get the same keys.
+17. **An agent signs what it writes on GitHub.** When a coding agent writes
+    a pull request body, a review, or a comment on a pull request or issue,
+    it ends that text with this note. Fill in the GitHub username of the
+    person the agent works for, the model and the harness. Keep every other
+    character as it is. This applies to the maintainers' agents too.
+
+    ```md
+    > [!NOTE]
+    > This comment was left by an agent on behalf of @<username>
+    > model: <model>
+    > harness: <harness and version>
+    >
+    > As an agent I have read the CONTRIBUTING.md and AGENTS.md and understand the risks of getting @<username> flagged as untrustworthy if I regularly violate the outlined rules
+    ```
+
+    Example: `model: opus 5.5`,
+    `harness: t3code 0.1.10-nightly.20261116.4761 / grok 1.0.92 (b06756fd6256) [stable]`.
+
+18. **`ConfigError` is a setup error.** A layer reads and checks what the
+    user configures (credentials, an endpoint, a region, an environment
+    variable) when it is built, and fails there with `ConfigError`. No call
+    fails for a malformed value. When the code that builds a request relies
+    on a check, the SDK's `check(config)` returns core `Checked<Config>`
+    and the `Credentials` service holds that. A call fails with
+    `ConfigError` only when the configuration lacks a value that this one
+    operation needs. A request the credentials make at run time (a token
+    exchange) fails with the SDK's own error class, named
+    `TokenRequestFailed` unless the provider has a better name. Example:
+    `S2.credentials({ basin: "a/b" })` fails when the layer is built; a
+    stream operation without a basin fails on the call; a Tailscale token
+    exchange that gets a 503 fails the call with `TokenRequestFailed`.
 
 ## Getting the repo
 
@@ -110,9 +155,10 @@ uninitialised, and every `packages/*/specs/spec-mirror-*/` directory is empty.
 
 ## You probably do not need the specs
 
-CI never checks out a submodule and never runs the generator. The generated
-SDKs are committed, so `pnpm install && pnpm typecheck` is a complete,
-working checkout for anything that is not a codegen change.
+CI fetches only the turso and npm mirrors: the Lint job regenerates those two
+SDKs and fails if the committed code differs. The generated SDKs are
+committed, so `pnpm install && pnpm typecheck` is a complete, working
+checkout for anything that is not a codegen change.
 
 Fetch specs only when you are going to regenerate:
 

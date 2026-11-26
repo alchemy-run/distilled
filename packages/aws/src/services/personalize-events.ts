@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -218,6 +219,7 @@ export const putActionInteractions: API.OperationMethod<
   input: __S(2, __c0, 2) as any as S.Schema<PutActionInteractionsRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<PutActionInteractionsResponse>,
   errors: [InvalidInputException, ResourceInUseException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutActionInteractions",
@@ -243,6 +245,7 @@ export const putActions: API.OperationMethod<
   input: __S(14, __c3, 2) as any as S.Schema<PutActionsRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<PutActionsResponse>,
   errors: [InvalidInputException, ResourceInUseException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutActions",
@@ -264,6 +267,7 @@ export const putEvents: API.OperationMethod<
   input: __S(19, __c4, 3) as any as S.Schema<PutEventsRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<PutEventsResponse>,
   errors: [InvalidInputException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEvents",
@@ -289,6 +293,7 @@ export const putItems: API.OperationMethod<
   input: __S(22, __c5, 2) as any as S.Schema<PutItemsRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<PutItemsResponse>,
   errors: [InvalidInputException, ResourceInUseException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutItems",
@@ -314,6 +319,7 @@ export const putUsers: API.OperationMethod<
   input: __S(26, __c6, 2) as any as S.Schema<PutUsersRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<PutUsersResponse>,
   errors: [InvalidInputException, ResourceInUseException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutUsers",

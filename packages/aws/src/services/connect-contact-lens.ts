@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -169,6 +170,7 @@ export interface IssueDetected {
   CharacterOffsets?: CharacterOffsets | undefined;
 }
 export type IssuesDetected = IssueDetected[];
+export type LanguageCode = string;
 export interface Transcript {
   Id?: string | undefined;
   ParticipantId?: string | undefined;
@@ -178,6 +180,7 @@ export interface Transcript {
   EndOffsetMillis?: number | undefined;
   Sentiment?: SentimentValue | undefined;
   IssuesDetected?: IssueDetected[] | undefined;
+  LanguageCode?: string | undefined;
 }
 export type CategoryName = string;
 export type MatchedCategories = string[];
@@ -315,6 +318,7 @@ export const listRealtimeContactAnalysisSegments: API.PaginatedOperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRealtimeContactAnalysisSegments",
@@ -398,6 +402,7 @@ function __c0(j: number): any {
           EndOffsetMillis: S.optional(S.Number),
           Sentiment: S.optional(S.String),
           IssuesDetected: S.optional(__S(9, __c0, 9)),
+          LanguageCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "Transcript" });
     case 11:

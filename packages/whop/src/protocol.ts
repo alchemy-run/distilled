@@ -1,12 +1,9 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
-  makeRestProtocol,
+  restProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
 } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * WhopProtocol -- the shared bearer-REST protocol instantiated for Whop.
  *
@@ -35,24 +32,18 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { PaymentRequired, UnknownWhopError, type DefaultErrors, WhopParseError } from "./errors.ts";
+import { Credentials } from "./credentials.ts";
+import { UnknownWhopError, WhopParseError, type WhopServiceError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Whop operation. Generated service
- * files annotate operations with `API.OperationMethod<I, O, WhopOpError,
- * WhopOpContext>` explicitly so the compiler never infers these back out of
- * the schema generics.
+ * What every generated Whop operation fails with besides its own errors: the
+ * service's errors, the protocol's, and what resolving the credentials fails
+ * with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, WhopOpError, WhopOpContext>` explicitly so the
+ * compiler never infers these back out of the schema generics.
  */
-export type WhopOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+export type WhopOpError = WhopServiceError | ErrorOf<typeof WhopProtocol>;
 
 /** Context (requirements) shared by every generated Whop operation. */
 export type WhopOpContext = Credentials | HttpClient.HttpClient;
@@ -76,25 +67,21 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   };
 };
 
-/**
- * Core's map plus `402`. Whop bills ad campaigns and generated media against
- * an account balance, and answers a call the balance can't cover with a 402
- * -- a real outcome to branch on rather than an unknown status.
- */
-const statusMap = { ...HTTP_STATUS_MAP, 402: PaymentRequired };
-
-export const WhopProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // Resolved on the CALLING fiber per request (the layer is memoized per
-  // process); the Credentials service holds an effect, so a key rotated
-  // between calls is picked up without rebuilding the layer.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+// A failed status becomes the class the service declares for it
+// (`WhopServiceErrors`: core's status classes plus `402`. Whop bills ad
+// campaigns and generated media against an account balance, and answers a
+// call the balance can't cover with a 402 -- a real outcome to branch on
+// rather than an unknown status).
+export const WhopProtocol = /*@__PURE__*/ restProtocol({
+  // Resolved on the CALLING fiber per request; the Credentials service holds
+  // an effect, so a key rotated between calls is picked up.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({
     Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
     "Api-Version-Date": creds.apiVersionDate,
   }),
   errorEnvelope,
-  statusMap,
   unknownError: (info) => new UnknownWhopError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new WhopParseError({ body, cause }),
 });

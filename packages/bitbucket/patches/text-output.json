@@ -1,0 +1,155 @@
+{
+  "description": "Six operations answer 200 with a raw text body that the spec describes only in words (\"The raw diff\", \"The raw patches\", \"The raw log file for this pipeline step.\", \"The raw diff contents.\", \"The raw patch contents.\") and declares no content for, so each came out with no output and the text was lost. Give each a string output: a sole raw `body` member, which the generator collapses to `string`; the REST protocol returns a non-JSON 2xx body as text. The operations: the repository diff and patch between two commits, a pipeline step's log and a build or service container's log, and a snippet's diff and patch between two revisions.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetDiffText",
+      "value": {
+        "type": "structure",
+        "members": {
+          "body": {
+            "target": "smithy.api#String",
+            "traits": {
+              "com.distilled.openapi#rawResponse": {},
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The raw diff"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#output": {}
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugDiffSpec/output/target",
+      "value": "org.bitbucket#GetDiffText"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetPatchText",
+      "value": {
+        "type": "structure",
+        "members": {
+          "body": {
+            "target": "smithy.api#String",
+            "traits": {
+              "com.distilled.openapi#rawResponse": {},
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The raw patches"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#output": {}
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugPatchSpec/output/target",
+      "value": "org.bitbucket#GetPatchText"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetPipelineStepLogText",
+      "value": {
+        "type": "structure",
+        "members": {
+          "body": {
+            "target": "smithy.api#String",
+            "traits": {
+              "com.distilled.openapi#rawResponse": {},
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The raw log file for this pipeline step."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#output": {}
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/org.bitbucket#GetPipelineStepLogForRepository/output/target",
+      "value": "org.bitbucket#GetPipelineStepLogText"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetPipelineContainerLogText",
+      "value": {
+        "type": "structure",
+        "members": {
+          "body": {
+            "target": "smithy.api#String",
+            "traits": {
+              "com.distilled.openapi#rawResponse": {},
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The raw log file for the build container or service container."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#output": {}
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/org.bitbucket#GetPipelineContainerLog/output/target",
+      "value": "org.bitbucket#GetPipelineContainerLogText"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetSnippetDiffText",
+      "value": {
+        "type": "structure",
+        "members": {
+          "body": {
+            "target": "smithy.api#String",
+            "traits": {
+              "com.distilled.openapi#rawResponse": {},
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The raw diff contents."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#output": {}
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/org.bitbucket#GetSnippetsWorkspaceEncodedIdRevisionDiff/output/target",
+      "value": "org.bitbucket#GetSnippetDiffText"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetSnippetPatchText",
+      "value": {
+        "type": "structure",
+        "members": {
+          "body": {
+            "target": "smithy.api#String",
+            "traits": {
+              "com.distilled.openapi#rawResponse": {},
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The raw patch contents."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#output": {}
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/org.bitbucket#GetSnippetsWorkspaceEncodedIdRevisionPatch/output/target",
+      "value": "org.bitbucket#GetSnippetPatchText"
+    }
+  ]
+}

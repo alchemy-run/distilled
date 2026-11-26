@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownZendeskError } from "../errors.ts";
+import { ZendeskServiceErrors } from "../errors.ts";
 import { paginatePageNumber } from "../pagination.ts";
 import { ZendeskProtocol, type ZendeskOpError, type ZendeskOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -1539,7 +1539,7 @@ export interface CreateApprovalRequestRequestApprovalRequestsItem {
 export type CreateApprovalRequestRequestApprovalRequestsList =
   Array<CreateApprovalRequestRequestApprovalRequestsItem>;
 export interface CreateApprovalRequestRequestMetadataCallbackInfo {
-  token?: string | null | undefined;
+  token?: string | Redacted.Redacted<string> | null | undefined;
 }
 /** Optional metadata used to determine the origination of the approval request */
 export interface CreateApprovalRequestRequestMetadata {
@@ -4674,7 +4674,7 @@ export interface TargetObject {
   /** Can be filled if it is a "todo" resource */
   todo_list_id?: string | undefined;
   /** Get the API token from My info > Show your tokens > Token for feed readers or the Basecamp API in your Basecamp account */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** The 37Signals username of the account you use to log in to Basecamp */
   username?: string | undefined;
   preserve_format?: boolean | undefined;
@@ -7630,7 +7630,7 @@ export interface EmailSettingsResponse {
 }
 export interface GetAccountSettingsRequest {
   /** Legacy CSRF token. Ignored by API. */
-  authenticity_token?: string | undefined;
+  authenticity_token?: string | Redacted.Redacted<string> | undefined;
 }
 /** The active features for an account. See [Active Features](#active-features) */
 export interface AccountSettingsActiveFeaturesObject {
@@ -8214,7 +8214,7 @@ export interface OauthTokenObject {
   /** An array of the valid scopes for this token. See [Scopes](#scopes) below */
   scopes?: OauthTokenObjectScopesList | undefined;
   /** The access token */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** The API url of this record */
   url?: string | undefined;
   /** The latest time this token was used for authentication */
@@ -8340,7 +8340,7 @@ export interface CurrentUserResponseUser {
   /** Any of the user's identities is verified. See [User Identities](/api-reference/ticketing/users/user_identities) */
   verified?: boolean | undefined;
   /** CSRF token required by some Zendesk APIs. */
-  authenticity_token?: string | undefined;
+  authenticity_token?: string | Redacted.Redacted<string> | undefined;
   [key: string]: unknown;
 }
 export interface CurrentUserResponse {
@@ -13338,7 +13338,7 @@ export interface RemoveOrganizationTagsRequest {
 export interface RenewCurrentSessionRequest {}
 export interface RenewSessionResponse {
   /** A token of authenticity for the request */
-  authenticity_token?: string | undefined;
+  authenticity_token?: string | Redacted.Redacted<string> | undefined;
 }
 /** The ids of the object's custom fields, in the desired order. Required */
 export type ReorderCustomObjectFieldsRequestCustomObjectFieldIdsList = Array<string>;
@@ -13689,7 +13689,7 @@ export type SuspendedTicketsAttachmentsResponseUploadAttachmentsList = Array<Att
 export interface SuspendedTicketsAttachmentsResponseUpload {
   attachments?: SuspendedTicketsAttachmentsResponseUploadAttachmentsList | undefined;
   /** Token for subsequent request */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface SuspendedTicketsAttachmentsResponse {
   upload?: SuspendedTicketsAttachmentsResponseUpload | undefined;
@@ -16428,7 +16428,7 @@ export interface AttachmentUploadResponseUpload {
   attachment?: AttachmentObject | undefined;
   attachments?: AttachmentUploadResponseUploadAttachmentsList | undefined;
   /** Token for subsequent request */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface AttachmentUploadResponse {
   upload?: AttachmentUploadResponseUpload | undefined;
@@ -16768,7 +16768,8 @@ export const addOrganizationTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19616, __c613, 0) as any as S.Schema<AddOrganizationTagsRequest>,
   output: __S(19680, __c615, 0) as any as S.Schema<TagsByObjectIdResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16785,7 +16786,8 @@ export const autocompleteGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24032, __c751, 0) as any as S.Schema<AutocompleteGroupsRequest>,
   output: __S(24065, __c752, 1) as any as S.Schema<GroupsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16802,7 +16804,8 @@ export const autocompleteOrganizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27872, __c871, 0) as any as S.Schema<AutocompleteOrganizationsRequest>,
   output: __S(27968, __c874, 0) as any as S.Schema<OrganizationsResponse>,
-  errors: [BadRequest, UnknownZendeskError],
+  errors: [BadRequest],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16819,7 +16822,8 @@ export const autocompleteProblems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28992, __c906, 0) as any as S.Schema<AutocompleteProblemsRequest>,
   output: __S(29024, __c907, 0) as any as S.Schema<AutocompleteProblemsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16836,7 +16840,8 @@ export const autocompleteTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29760, __c930, 0) as any as S.Schema<AutocompleteTagsRequest>,
   output: __S(19680, __c615, 0) as any as S.Schema<TagsByObjectIdResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16853,7 +16858,8 @@ export const autocompleteTickets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<AutocompleteTicketsRequest>,
   output: __S(416, __c13, 0) as any as S.Schema<TicketsResponseOutput>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16870,7 +16876,8 @@ export const autocompleteUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<AutocompleteUsersRequest>,
   output: __S(1728, __c54, 0) as any as S.Schema<UsersResponse>,
-  errors: [BadRequest, UnknownZendeskError],
+  errors: [BadRequest],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16887,7 +16894,8 @@ export const batchOperateTriggerCategories: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2406, __c75, 6) as any as S.Schema<BatchOperateTriggerCategoriesRequest>,
   output: __S(228, __c7, 4) as any as S.Schema<BatchJobResponseOutput>,
-  errors: [BadRequest, UnknownZendeskError],
+  errors: [BadRequest],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16904,7 +16912,8 @@ export const bulkDeleteAutomations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3136, __c98, 0) as any as S.Schema<BulkDeleteAutomationsRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<BulkDeleteAutomationsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16921,7 +16930,8 @@ export const bulkDeleteSessionsByUserId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3648, __c114, 0) as any as S.Schema<BulkDeleteSessionsByUserIdRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<BulkDeleteSessionsByUserIdResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16938,7 +16948,8 @@ export const bulkDeleteTickets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4032, __c126, 0) as any as S.Schema<BulkDeleteTicketsRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<JobStatusResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16955,7 +16966,8 @@ export const bulkDeleteViews: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4448, __c139, 0) as any as S.Schema<BulkDeleteViewsRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<BulkDeleteViewsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16972,7 +16984,8 @@ export const bulkPermanentlyDeleteTickets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4800, __c150, 0) as any as S.Schema<BulkPermanentlyDeleteTicketsRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<JobStatusResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16989,7 +17002,8 @@ export const bulkRecoverSuspendedTickets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5153, __c161, 1) as any as S.Schema<BulkRecoverSuspendedTicketsRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<JobStatusResponse>,
-  errors: [UnprocessableEntity, UnknownZendeskError],
+  errors: [UnprocessableEntity],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17006,7 +17020,8 @@ export const bulkRestoreDeletedTickets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5504, __c172, 0) as any as S.Schema<BulkRestoreDeletedTicketsRequest>,
   output: __S(5536, __c173, 0) as any as S.Schema<BulkRestoreDeletedTicketsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17023,7 +17038,8 @@ export const bulkSetAgentAttributeValuesJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5988, __c187, 4) as any as S.Schema<BulkSetAgentAttributeValuesJobRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<JobStatusResponse>,
-  errors: [BadRequest, UnknownZendeskError],
+  errors: [BadRequest],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17040,7 +17056,8 @@ export const bulkUpdateDefaultCustomStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6336, __c198, 0) as any as S.Schema<BulkUpdateDefaultCustomStatusRequest>,
   output: __S(6337, __c198, 1) as any as S.Schema<BulkUpdateDefaultCustomStatusResponse2>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17057,7 +17074,8 @@ export const changeOwnPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6784, __c212, 0) as any as S.Schema<ChangeOwnPasswordRequest>,
   output: __S(5536, __c173, 0) as any as S.Schema<ChangeOwnPasswordResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17074,7 +17092,8 @@ export const checkHostMappingValidity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7392, __c231, 0) as any as S.Schema<CheckHostMappingValidityRequest>,
   output: __S(7424, __c232, 0) as any as S.Schema<HostMappingObject>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17091,7 +17110,8 @@ export const checkHostMappingValidityForExistingBrand: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7936, __c248, 0) as any as S.Schema<CheckHostMappingValidityForExistingBrandRequest>,
   output: __S(7424, __c232, 0) as any as S.Schema<HostMappingObject>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17108,7 +17128,8 @@ export const clientGenerateSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8512, __c266, 0) as any as S.Schema<ClientGenerateSecretRequest>,
   output: __S(8576, __c268, 0) as any as S.Schema<OauthClientResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17125,7 +17146,8 @@ export const cloneTicketForm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9024, __c282, 0) as any as S.Schema<CloneTicketFormRequest>,
   output: __S(9120, __c285, 0) as any as S.Schema<TicketFormResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17142,7 +17164,8 @@ export const countActivities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9568, __c299, 0) as any as S.Schema<CountActivitiesRequest>,
   output: __S(9632, __c301, 0) as any as S.Schema<ActivitiesCountResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17159,7 +17182,8 @@ export const countAuditsForTicket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9984, __c312, 0) as any as S.Schema<CountAuditsForTicketRequest>,
   output: __S(9632, __c301, 0) as any as S.Schema<TicketAuditsCountResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17176,7 +17200,8 @@ export const countCustomObjectRecords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10592, __c331, 0) as any as S.Schema<CountCustomObjectRecordsRequest>,
   output: __S(10594, __c331, 2) as any as S.Schema<CountCustomObjectRecordsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17193,7 +17218,8 @@ export const countDeletedUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11040, __c345, 0) as any as S.Schema<CountDeletedUsersRequest>,
   output: __S(11073, __c346, 1) as any as S.Schema<CountResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17210,7 +17236,8 @@ export const countGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11584, __c362, 0) as any as S.Schema<CountGroupsRequest>,
   output: __S(9632, __c301, 0) as any as S.Schema<GroupsCountObject>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17227,7 +17254,8 @@ export const countGroupUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12032, __c376, 0) as any as S.Schema<CountGroupUsersRequest>,
   output: __S(11073, __c346, 1) as any as S.Schema<CountResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17244,7 +17272,8 @@ export const countOrganizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12480, __c390, 0) as any as S.Schema<CountOrganizationsRequest>,
   output: __S(9632, __c301, 0) as any as S.Schema<CountOrganizationResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17261,7 +17290,8 @@ export const countOrganizationTickets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12832, __c401, 0) as any as S.Schema<CountOrganizationTicketsRequest>,
   output: __S(9632, __c301, 0) as any as S.Schema<CountOrganizationTicketsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17278,7 +17308,8 @@ export const countOrganizationUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13248, __c414, 0) as any as S.Schema<CountOrganizationUsersRequest>,
   output: __S(11073, __c346, 1) as any as S.Schema<CountResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17295,7 +17326,8 @@ export const countSatisfactionRatings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13696, __c428, 0) as any as S.Schema<CountSatisfactionRatingsRequest>,
   output: __S(9632, __c301, 0) as any as S.Schema<SatisfactionRatingsCountResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17312,7 +17344,8 @@ export const countSearchResults: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14240, __c445, 0) as any as S.Schema<CountSearchResultsRequest>,
   output: __S(14241, __c445, 1) as any as S.Schema<SearchCountResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17329,7 +17362,8 @@ export const countTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14720, __c460, 0) as any as S.Schema<CountTagsRequest>,
   output: __S(9632, __c301, 0) as any as S.Schema<TagCountResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17346,7 +17380,8 @@ export const countTicketComments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15200, __c475, 0) as any as S.Schema<CountTicketCommentsRequest>,
   output: __S(9632, __c301, 0) as any as S.Schema<TicketCommentsCountResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17363,7 +17398,8 @@ export const countTicketFields: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15648, __c489, 0) as any as S.Schema<CountTicketFieldsRequest>,
   output: __S(9632, __c301, 0) as any as S.Schema<TicketFieldCountResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17380,7 +17416,8 @@ export const countTickets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16032, __c501, 0) as any as S.Schema<CountTicketsRequest>,
   output: __S(9632, __c301, 0) as any as S.Schema<CountTicketsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17397,7 +17434,8 @@ export const countUserAssignedTickets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16384, __c512, 0) as any as S.Schema<CountUserAssignedTicketsRequest>,
   output: __S(9632, __c301, 0) as any as S.Schema<CountUserAssignedTicketsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17414,7 +17452,8 @@ export const countUserCCDTickets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16768, __c524, 0) as any as S.Schema<CountUserCCDTicketsRequest>,
   output: __S(9632, __c301, 0) as any as S.Schema<CountUserCCDTicketsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17431,7 +17470,8 @@ export const countUserGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17152, __c536, 0) as any as S.Schema<CountUserGroupsRequest>,
   output: __S(9632, __c301, 0) as any as S.Schema<GroupsCountObject>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17448,7 +17488,8 @@ export const countUserOrganizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17536, __c548, 0) as any as S.Schema<CountUserOrganizationsRequest>,
   output: __S(9632, __c301, 0) as any as S.Schema<CountOrganizationResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17465,7 +17506,8 @@ export const countUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17888, __c559, 0) as any as S.Schema<CountUsersRequest>,
   output: __S(11073, __c346, 1) as any as S.Schema<CountResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17482,7 +17524,8 @@ export const countViews: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18336, __c573, 0) as any as S.Schema<CountViewsRequest>,
   output: __S(9632, __c301, 0) as any as S.Schema<ViewsCountResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17499,7 +17542,8 @@ export const createAccessRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18720, __c585, 0) as any as S.Schema<CreateAccessRuleRequest>,
   output: __S(18784, __c587, 0) as any as S.Schema<AccessRuleResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17521,7 +17565,8 @@ export const createApprovalClarificationFlowMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19200, __c600, 0) as any as S.Schema<CreateApprovalClarificationFlowMessageRequest>,
   output: __S(19235, __c601, 3) as any as S.Schema<ApprovalClarificationFlowMessagesShowResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownZendeskError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17538,7 +17583,8 @@ export const createApprovalRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19716, __c616, 4) as any as S.Schema<CreateApprovalRequestRequest>,
   output: __S(19719, __c616, 7) as any as S.Schema<ApprovalRequestCreateResponse>,
-  errors: [UnprocessableEntity, UnknownZendeskError],
+  errors: [UnprocessableEntity],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17555,7 +17601,8 @@ export const createAssociatedMacroAttachment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20064, __c627, 0) as any as S.Schema<CreateAssociatedMacroAttachmentRequest>,
   output: __S(20096, __c628, 0) as any as S.Schema<MacroAttachmentResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17572,7 +17619,8 @@ export const createAttribute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20480, __c640, 0) as any as S.Schema<CreateAttributeRequest>,
   output: __S(20544, __c642, 0) as any as S.Schema<SkillBasedRoutingAttributeResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17589,7 +17637,8 @@ export const createAttributeValue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20960, __c655, 0) as any as S.Schema<CreateAttributeValueRequest>,
   output: __S(21024, __c657, 0) as any as S.Schema<SkillBasedRoutingAttributeValueResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17606,7 +17655,8 @@ export const createAutomation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21377, __c668, 1) as any as S.Schema<CreateAutomationRequest>,
   output: __S(21440, __c670, 0) as any as S.Schema<AutomationResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17623,7 +17673,8 @@ export const createBookmark: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21921, __c685, 1) as any as S.Schema<CreateBookmarkRequest>,
   output: __S(21922, __c685, 2) as any as S.Schema<BookmarkResponseOutput>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17640,7 +17691,8 @@ export const createBrand: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22304, __c697, 0) as any as S.Schema<CreateBrandRequest>,
   output: __S(22368, __c699, 0) as any as S.Schema<BrandResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17657,7 +17709,8 @@ export const createBrandAgent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22753, __c711, 1) as any as S.Schema<CreateBrandAgentRequest>,
   output: __S(22784, __c712, 0) as any as S.Schema<BrandAgentResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17674,7 +17727,8 @@ export const createBrandUserMigration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23201, __c725, 1) as any as S.Schema<CreateBrandUserMigrationRequest>,
   output: __S(23264, __c727, 0) as any as S.Schema<BrandUserMigrationResponse>,
-  errors: [Conflict, UnprocessableEntity, UnknownZendeskError],
+  errors: [Conflict, UnprocessableEntity],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17691,7 +17745,8 @@ export const createCustomObject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23617, __c738, 1) as any as S.Schema<CreateCustomObjectRequest>,
   output: __S(23680, __c740, 0) as any as S.Schema<CustomObjectResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17708,7 +17763,8 @@ export const createCustomObjectField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24128, __c754, 0) as any as S.Schema<CreateCustomObjectFieldRequest>,
   output: __S(24160, __c755, 0) as any as S.Schema<CustomObjectFieldResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17725,7 +17781,8 @@ export const createCustomObjectRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24672, __c771, 0) as any as S.Schema<CreateCustomObjectRecordRequest>,
   output: __S(24736, __c773, 0) as any as S.Schema<CustomObjectRecordResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17742,7 +17799,8 @@ export const createCustomObjectRecordAttachment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25120, __c785, 0) as any as S.Schema<CreateCustomObjectRecordAttachmentRequest>,
   output: __S(25184, __c787, 0) as any as S.Schema<CustomObjectRecordAttachmentResponse>,
-  errors: [BadRequest, UnknownZendeskError],
+  errors: [BadRequest],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17759,7 +17817,8 @@ export const createCustomRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25536, __c798, 0) as any as S.Schema<CreateCustomRoleRequest>,
   output: __S(25600, __c800, 0) as any as S.Schema<CustomRoleResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17776,7 +17835,8 @@ export const createCustomStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25985, __c812, 1) as any as S.Schema<CreateCustomStatusRequest>,
   output: __S(26048, __c814, 0) as any as S.Schema<CustomStatusResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17793,7 +17853,8 @@ export const createCustomTaskItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26401, __c825, 1) as any as S.Schema<CreateCustomTaskItemRequest>,
   output: __S(26464, __c827, 0) as any as S.Schema<TaskItemInstanceResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17810,7 +17871,8 @@ export const createDeletionSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26816, __c838, 0) as any as S.Schema<CreateDeletionScheduleRequest>,
   output: __S(26880, __c840, 0) as any as S.Schema<CreateDeletionScheduleResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17827,7 +17889,8 @@ export const createDynamicContent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27267, __c852, 3) as any as S.Schema<CreateDynamicContentRequest>,
   output: __S(27328, __c854, 0) as any as S.Schema<DynamicContentResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17844,7 +17907,8 @@ export const createDynamicContentVariant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27648, __c864, 0) as any as S.Schema<CreateDynamicContentVariantRequest>,
   output: __S(27680, __c865, 0) as any as S.Schema<DynamicContentVariantResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17861,7 +17925,8 @@ export const createEndUserIdentity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27745, __c867, 1) as any as S.Schema<CreateEndUserIdentityRequest>,
   output: __S(27840, __c870, 0) as any as S.Schema<UserIdentityResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17878,7 +17943,8 @@ export const createGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28033, __c876, 1) as any as S.Schema<CreateGroupRequest>,
   output: __S(28064, __c877, 0) as any as S.Schema<GroupResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17895,7 +17961,8 @@ export const createGroupMembership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28096, __c878, 0) as any as S.Schema<CreateGroupMembershipRequest>,
   output: __S(28128, __c879, 0) as any as S.Schema<GroupMembershipResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17912,7 +17979,8 @@ export const createGroupSLAPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28228, __c882, 4) as any as S.Schema<CreateGroupSLAPolicyRequest>,
   output: __S(28320, __c885, 0) as any as S.Schema<GroupSLAPolicyResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17929,7 +17997,8 @@ export const createItamAsset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28385, __c887, 1) as any as S.Schema<CreateItamAssetRequest>,
   output: __S(28448, __c889, 0) as any as S.Schema<ItamAssetResponse>,
-  errors: [UnprocessableEntity, UnknownZendeskError],
+  errors: [UnprocessableEntity],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17946,7 +18015,8 @@ export const createItamAssetType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28481, __c890, 1) as any as S.Schema<CreateItamAssetTypeRequest>,
   output: __S(28544, __c892, 0) as any as S.Schema<ItamAssetTypeResponseOutput>,
-  errors: [UnprocessableEntity, UnknownZendeskError],
+  errors: [UnprocessableEntity],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17963,7 +18033,8 @@ export const createItamField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28576, __c893, 0) as any as S.Schema<CreateItamFieldRequest>,
   output: __S(28608, __c894, 0) as any as S.Schema<ItamAssetFieldResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17980,7 +18051,8 @@ export const createItamLocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28641, __c895, 1) as any as S.Schema<CreateItamLocationRequest>,
   output: __S(28704, __c897, 0) as any as S.Schema<ItamAssetLocationResponse>,
-  errors: [UnprocessableEntity, UnknownZendeskError],
+  errors: [UnprocessableEntity],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17997,7 +18069,8 @@ export const createItamStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28737, __c898, 1) as any as S.Schema<CreateItamStatusRequest>,
   output: __S(28800, __c900, 0) as any as S.Schema<ItamAssetStatusResponse>,
-  errors: [UnprocessableEntity, UnknownZendeskError],
+  errors: [UnprocessableEntity],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18014,7 +18087,8 @@ export const createMacro: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28832, __c901, 0) as any as S.Schema<CreateMacroRequest>,
   output: __S(28896, __c903, 0) as any as S.Schema<CreateMacroResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18031,7 +18105,8 @@ export const createMacroAttachment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28960, __c905, 0) as any as S.Schema<CreateMacroAttachmentRequest>,
   output: __S(20096, __c628, 0) as any as S.Schema<MacroAttachmentResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18048,7 +18123,8 @@ export const createManyDynamicContentVariants: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29057, __c908, 1) as any as S.Schema<CreateManyDynamicContentVariantsRequest>,
   output: __S(29088, __c909, 0) as any as S.Schema<DynamicContentVariantsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18065,7 +18141,8 @@ export const createManyOrganizationMemberships: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29122, __c910, 2) as any as S.Schema<CreateManyOrganizationMembershipsRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<JobStatusResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18082,7 +18159,8 @@ export const createManyOrganizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29152, __c911, 0) as any as S.Schema<CreateManyOrganizationsRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<JobStatusResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18099,7 +18177,8 @@ export const createManyUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29184, __c912, 0) as any as S.Schema<CreateManyUsersRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<JobStatusResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18116,7 +18195,8 @@ export const createOAuthClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29248, __c914, 0) as any as S.Schema<CreateOAuthClientRequest>,
   output: __S(8576, __c268, 0) as any as S.Schema<OauthClientResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18133,7 +18213,8 @@ export const createObjectTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29281, __c915, 1) as any as S.Schema<CreateObjectTriggerRequest>,
   output: __S(29344, __c917, 0) as any as S.Schema<ObjectTriggerResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18150,7 +18231,8 @@ export const createOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29378, __c918, 2) as any as S.Schema<CreateOrganizationRequest>,
   output: __S(29408, __c919, 0) as any as S.Schema<OrganizationResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18167,7 +18249,8 @@ export const createOrganizationField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29443, __c920, 3) as any as S.Schema<CreateOrganizationFieldRequest>,
   output: __S(29504, __c922, 0) as any as S.Schema<OrganizationFieldResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18184,7 +18267,8 @@ export const createOrganizationMembership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29568, __c924, 0) as any as S.Schema<CreateOrganizationMembershipRequest>,
   output: __S(29632, __c926, 0) as any as S.Schema<OrganizationMembershipResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18201,7 +18285,8 @@ export const createOrganizationMerge: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29697, __c928, 1) as any as S.Schema<CreateOrganizationMergeRequest>,
   output: __S(29729, __c929, 1) as any as S.Schema<OrganizationMergeResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18218,7 +18303,8 @@ export const createOrganizationSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29792, __c931, 0) as any as S.Schema<CreateOrganizationSubscriptionRequest>,
   output: __S(29824, __c932, 0) as any as S.Schema<OrganizationSubscriptionResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18235,7 +18321,8 @@ export const createOrUpdateManyUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29888, __c934, 0) as any as S.Schema<CreateOrUpdateManyUsersRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<JobStatusResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18252,7 +18339,8 @@ export const createOrUpdateOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29921, __c935, 1) as any as S.Schema<CreateOrUpdateOrganizationRequest>,
   output: __S(29408, __c919, 0) as any as S.Schema<OrganizationResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18269,7 +18357,8 @@ export const createOrUpdateTicketFieldOption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29952, __c936, 0) as any as S.Schema<CreateOrUpdateTicketFieldOptionRequest>,
   output: __S(29984, __c937, 0) as any as S.Schema<CustomFieldOptionResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18286,7 +18375,8 @@ export const createOrUpdateUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30016, __c938, 0) as any as S.Schema<CreateOrUpdateUserRequest>,
   output: __S(30048, __c939, 0) as any as S.Schema<UserResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18303,7 +18393,8 @@ export const createOrUpdateUserFieldOption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30081, __c940, 1) as any as S.Schema<CreateOrUpdateUserFieldOptionRequest>,
   output: __S(29984, __c937, 0) as any as S.Schema<CustomFieldOptionResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18320,7 +18411,8 @@ export const createQueue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30116, __c941, 4) as any as S.Schema<CreateQueueRequest>,
   output: __S(30240, __c945, 0) as any as S.Schema<QueueResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18337,7 +18429,8 @@ export const createRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30274, __c946, 2) as any as S.Schema<CreateRequestRequest>,
   output: __S(30336, __c948, 0) as any as S.Schema<RequestResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18354,7 +18447,8 @@ export const createRequestUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30400, __c950, 0) as any as S.Schema<CreateRequestUserRequest>,
   output: __S(5536, __c173, 0) as any as S.Schema<CreateRequestUserResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18371,7 +18465,8 @@ export const createResourceCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30432, __c951, 0) as any as S.Schema<CreateResourceCollectionRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<JobStatusResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18388,7 +18483,8 @@ export const createSavedSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<CreateSavedSearchRequest>,
   output: __S(704, __c22, 0) as any as S.Schema<SavedSearchResponse>,
-  errors: [Conflict, UnprocessableEntity, UnknownZendeskError],
+  errors: [Conflict, UnprocessableEntity],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18405,7 +18501,8 @@ export const createSharingAgreement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(737, __c23, 1) as any as S.Schema<CreateSharingAgreementRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<SharingAgreementResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18422,7 +18519,8 @@ export const createSLAPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(836, __c26, 4) as any as S.Schema<CreateSLAPolicyRequest>,
   output: __S(896, __c28, 0) as any as S.Schema<SLAPolicyResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18439,7 +18537,8 @@ export const createSubticket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(962, __c30, 2) as any as S.Schema<CreateSubticketRequest>,
   output: __S(964, __c30, 4) as any as S.Schema<SubticketCreateResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18456,7 +18555,8 @@ export const createSupportAddress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<CreateSupportAddressRequest>,
   output: __S(1088, __c34, 0) as any as S.Schema<SupportAddressResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18473,7 +18573,8 @@ export const createTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<CreateTargetRequest>,
   output: __S(1184, __c37, 0) as any as S.Schema<TargetResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18490,7 +18591,8 @@ export const createTaskList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1217, __c38, 1) as any as S.Schema<CreateTaskListRequest>,
   output: __S(1218, __c38, 2) as any as S.Schema<TaskListCreateResponse>,
-  errors: [UnprocessableEntity, UnknownZendeskError],
+  errors: [UnprocessableEntity],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18507,7 +18609,8 @@ export const createTaskListTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1283, __c40, 3) as any as S.Schema<CreateTaskListTemplateRequest>,
   output: __S(1376, __c43, 0) as any as S.Schema<TaskListTemplateResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18524,7 +18627,8 @@ export const createTicket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<CreateTicketRequest>,
   output: __S(1440, __c45, 0) as any as S.Schema<TicketResponseOutput>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18545,7 +18649,8 @@ export const createTicketContentPin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1569, __c49, 1) as any as S.Schema<CreateTicketContentPinRequest>,
   output: __S(1600, __c50, 0) as any as S.Schema<CreateTicketContentPinResponse>,
-  errors: [BadRequest, Conflict, UnprocessableEntity, UnknownZendeskError],
+  errors: [BadRequest, Conflict, UnprocessableEntity],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18562,7 +18667,8 @@ export const createTicketField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1763, __c55, 3) as any as S.Schema<CreateTicketFieldRequest>,
   output: __S(1824, __c57, 0) as any as S.Schema<TicketFieldResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18579,7 +18685,8 @@ export const createTicketForm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1889, __c59, 1) as any as S.Schema<CreateTicketFormRequest>,
   output: __S(9120, __c285, 0) as any as S.Schema<TicketFormResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18596,7 +18703,8 @@ export const createTicketFormStatuses: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1954, __c61, 2) as any as S.Schema<CreateTicketFormStatusesRequest>,
   output: __S(1986, __c62, 2) as any as S.Schema<TicketFormStatusesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18613,7 +18721,8 @@ export const createTicketFormStatusesForCustomStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2018, __c63, 2) as any as S.Schema<CreateTicketFormStatusesForCustomStatusRequest>,
   output: __S(1986, __c62, 2) as any as S.Schema<TicketFormStatusesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18630,7 +18739,8 @@ export const createTicketFromTweet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<CreateTicketFromTweetRequest>,
   output: __S(5536, __c173, 0) as any as S.Schema<CreateTicketFromTweetResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18647,7 +18757,8 @@ export const createTicketOrVoicemailTicket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2085, __c65, 5) as any as S.Schema<CreateTicketOrVoicemailTicketRequest>,
   output: __S(1440, __c45, 0) as any as S.Schema<TicketResponseOutput>,
-  errors: [NotFound, UnprocessableEntity, UnknownZendeskError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18664,7 +18775,8 @@ export const createTicketSatisfactionRating: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2113, __c66, 1) as any as S.Schema<CreateTicketSatisfactionRatingRequest>,
   output: __S(2144, __c67, 0) as any as S.Schema<SatisfactionRatingResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18681,7 +18793,8 @@ export const createTokenForGrantType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<CreateTokenForGrantTypeRequest>,
   output: __S(2209, __c69, 1) as any as S.Schema<OAuthTokenForGrantTypesObject>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18698,7 +18811,8 @@ export const createTrialAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2245, __c70, 5) as any as S.Schema<CreateTrialAccountRequest>,
   output: __S(2247, __c70, 7) as any as S.Schema<TrialAccountResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18715,7 +18829,8 @@ export const createTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<CreateTriggerRequest>,
   output: __S(2304, __c72, 0) as any as S.Schema<TriggerResponseOutput>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18732,7 +18847,8 @@ export const createTriggerCategory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2433, __c76, 1) as any as S.Schema<CreateTriggerCategoryRequest>,
   output: __S(2464, __c77, 0) as any as S.Schema<TriggerCategoryResponse>,
-  errors: [BadRequest, Forbidden, UnknownZendeskError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18749,7 +18865,8 @@ export const createUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<CreateUserRequest>,
   output: __S(30048, __c939, 0) as any as S.Schema<UserResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18766,7 +18883,8 @@ export const createUserField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2531, __c79, 3) as any as S.Schema<CreateUserFieldRequest>,
   output: __S(2560, __c80, 0) as any as S.Schema<UserFieldResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18783,7 +18901,8 @@ export const createUserGroupMembership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2625, __c82, 1) as any as S.Schema<CreateUserGroupMembershipRequest>,
   output: __S(28128, __c879, 0) as any as S.Schema<GroupMembershipResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18800,7 +18919,8 @@ export const createUserIdentity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2657, __c83, 1) as any as S.Schema<CreateUserIdentityRequest>,
   output: __S(27840, __c870, 0) as any as S.Schema<UserIdentityResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18817,7 +18937,8 @@ export const createUserOrganizationMembership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2689, __c84, 1) as any as S.Schema<CreateUserOrganizationMembershipRequest>,
   output: __S(29632, __c926, 0) as any as S.Schema<OrganizationMembershipResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18838,7 +18959,8 @@ export const createUserSuspension: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2721, __c85, 1) as any as S.Schema<CreateUserSuspensionRequest>,
   output: __S(2786, __c87, 2) as any as S.Schema<SuspensionResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownZendeskError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18855,7 +18977,8 @@ export const createView: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<CreateViewRequest>,
   output: __S(2880, __c90, 0) as any as S.Schema<ViewResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18872,7 +18995,8 @@ export const createWorkspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c91, 0) as any as S.Schema<CreateWorkspaceRequest>,
   output: __S(3008, __c94, 0) as any as S.Schema<CreateWorkspaceResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18889,7 +19013,8 @@ export const customObjectFieldsLimit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<CustomObjectFieldsLimitRequest>,
   output: __S(3104, __c97, 0) as any as S.Schema<CustomObjectLimitsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18906,7 +19031,8 @@ export const customObjectRecordBulkJobs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3202, __c100, 2) as any as S.Schema<CustomObjectRecordBulkJobsRequest>,
   output: __S(3204, __c100, 4) as any as S.Schema<CustomObjectRecordsJobsResponse>,
-  errors: [BadRequest, UnknownZendeskError],
+  errors: [BadRequest],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18923,7 +19049,8 @@ export const customObjectRecordsLimit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3264, __c102, 0) as any as S.Schema<CustomObjectRecordsLimitRequest>,
   output: __S(3104, __c97, 0) as any as S.Schema<CustomObjectLimitsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18940,7 +19067,8 @@ export const customObjectsLimit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3296, __c103, 0) as any as S.Schema<CustomObjectsLimitRequest>,
   output: __S(3104, __c97, 0) as any as S.Schema<CustomObjectLimitsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18962,7 +19090,8 @@ export const decideApprovalRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c104, 0) as any as S.Schema<DecideApprovalRequestRequest>,
   output: __S(3365, __c105, 5) as any as S.Schema<ApprovalRequestShowResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownZendeskError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18979,7 +19108,8 @@ export const deleteAccessRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3456, __c108, 0) as any as S.Schema<DeleteAccessRuleRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteAccessRuleResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18996,7 +19126,8 @@ export const deleteAttachment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3488, __c109, 0) as any as S.Schema<DeleteAttachmentRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteAttachmentResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19013,7 +19144,8 @@ export const deleteAttribute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3520, __c110, 0) as any as S.Schema<DeleteAttributeRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteAttributeResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19030,7 +19162,8 @@ export const deleteAttributeValue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3552, __c111, 0) as any as S.Schema<DeleteAttributeValueRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteAttributeValueResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19047,7 +19180,8 @@ export const deleteAuthenticatedSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3584, __c112, 0) as any as S.Schema<DeleteAuthenticatedSessionRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteAuthenticatedSessionResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19064,7 +19198,8 @@ export const deleteAutomation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3616, __c113, 0) as any as S.Schema<DeleteAutomationRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteAutomationResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19081,7 +19216,8 @@ export const deleteBookmark: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3680, __c115, 0) as any as S.Schema<DeleteBookmarkRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteBookmarkResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19098,7 +19234,8 @@ export const deleteBrand: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3712, __c116, 0) as any as S.Schema<DeleteBrandRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteBrandResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19115,7 +19252,8 @@ export const deleteBrandAgent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3744, __c117, 0) as any as S.Schema<DeleteBrandAgentRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteBrandAgentResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19132,7 +19270,8 @@ export const deleteBrandLogo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3776, __c118, 0) as any as S.Schema<DeleteBrandLogoRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteBrandLogoResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19149,7 +19288,8 @@ export const deleteClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3808, __c119, 0) as any as S.Schema<DeleteClientRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteClientResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19166,7 +19306,8 @@ export const deleteCustomObject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3840, __c120, 0) as any as S.Schema<DeleteCustomObjectRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteCustomObjectResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19183,7 +19324,8 @@ export const deleteCustomObjectField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3872, __c121, 0) as any as S.Schema<DeleteCustomObjectFieldRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteCustomObjectFieldResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19200,7 +19342,8 @@ export const deleteCustomObjectRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3904, __c122, 0) as any as S.Schema<DeleteCustomObjectRecordRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteCustomObjectRecordResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19217,7 +19360,8 @@ export const deleteCustomObjectRecordAttachment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3936, __c123, 0) as any as S.Schema<DeleteCustomObjectRecordAttachmentRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteCustomObjectRecordAttachmentResponse>,
-  errors: [BadRequest, UnknownZendeskError],
+  errors: [BadRequest],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19238,7 +19382,8 @@ export const deleteCustomObjectRecordByExternalIdOrName: API.OperationMethod<
     __c99,
     0,
   ) as any as S.Schema<DeleteCustomObjectRecordByExternalIdOrNameResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19255,7 +19400,8 @@ export const deleteCustomRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4128, __c129, 0) as any as S.Schema<DeleteCustomRoleRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteCustomRoleResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19272,7 +19418,8 @@ export const deleteCustomStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4160, __c130, 0) as any as S.Schema<DeleteCustomStatusRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteCustomStatusResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19289,7 +19436,8 @@ export const deleteCustomTaskItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4192, __c131, 0) as any as S.Schema<DeleteCustomTaskItemRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteCustomTaskItemResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19306,7 +19454,8 @@ export const deleteDeletionSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4224, __c132, 0) as any as S.Schema<DeleteDeletionScheduleRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteDeletionScheduleResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19323,7 +19472,8 @@ export const deleteDynamicContentItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4256, __c133, 0) as any as S.Schema<DeleteDynamicContentItemRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteDynamicContentItemResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19340,7 +19490,8 @@ export const deleteDynamicContentVariant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4288, __c134, 0) as any as S.Schema<DeleteDynamicContentVariantRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteDynamicContentVariantResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19357,7 +19508,8 @@ export const deleteEndUserIdentity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4320, __c135, 0) as any as S.Schema<DeleteEndUserIdentityRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteEndUserIdentityResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19374,7 +19526,8 @@ export const deleteGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4352, __c136, 0) as any as S.Schema<DeleteGroupRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteGroupResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19391,7 +19544,8 @@ export const deleteGroupMembership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4384, __c137, 0) as any as S.Schema<DeleteGroupMembershipRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteGroupMembershipResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19408,7 +19562,8 @@ export const deleteGroupSLAPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4416, __c138, 0) as any as S.Schema<DeleteGroupSLAPolicyRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteGroupSLAPolicyResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19425,7 +19580,8 @@ export const deleteItamAsset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4480, __c140, 0) as any as S.Schema<DeleteItamAssetRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteItamAssetResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19442,7 +19598,8 @@ export const deleteItamAssetType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4512, __c141, 0) as any as S.Schema<DeleteItamAssetTypeRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteItamAssetTypeResponse>,
-  errors: [UnprocessableEntity, UnknownZendeskError],
+  errors: [UnprocessableEntity],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19459,7 +19616,8 @@ export const deleteItamField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4544, __c142, 0) as any as S.Schema<DeleteItamFieldRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteItamFieldResponse>,
-  errors: [UnprocessableEntity, UnknownZendeskError],
+  errors: [UnprocessableEntity],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19476,7 +19634,8 @@ export const deleteItamLocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4576, __c143, 0) as any as S.Schema<DeleteItamLocationRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteItamLocationResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19493,7 +19652,8 @@ export const deleteItamStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4608, __c144, 0) as any as S.Schema<DeleteItamStatusRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteItamStatusResponse>,
-  errors: [UnprocessableEntity, UnknownZendeskError],
+  errors: [UnprocessableEntity],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19510,7 +19670,8 @@ export const deleteMacro: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4640, __c145, 0) as any as S.Schema<DeleteMacroRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteMacroResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19527,7 +19688,8 @@ export const deleteManyMacros: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4672, __c146, 0) as any as S.Schema<DeleteManyMacrosRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteManyMacrosResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19544,7 +19706,8 @@ export const deleteManyObjectTriggers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4704, __c147, 0) as any as S.Schema<DeleteManyObjectTriggersRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteManyObjectTriggersResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19561,7 +19724,8 @@ export const deleteManyOrganizationMemberships: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4736, __c148, 0) as any as S.Schema<DeleteManyOrganizationMembershipsRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<JobStatusResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19578,7 +19742,8 @@ export const deleteManyOrganizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4768, __c149, 0) as any as S.Schema<DeleteManyOrganizationsRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<JobStatusResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19595,7 +19760,8 @@ export const deleteManyTriggers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4832, __c151, 0) as any as S.Schema<DeleteManyTriggersRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteManyTriggersResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19612,7 +19778,8 @@ export const deleteObjectTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4864, __c152, 0) as any as S.Schema<DeleteObjectTriggerRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteObjectTriggerResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19629,7 +19796,8 @@ export const deleteOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4896, __c153, 0) as any as S.Schema<DeleteOrganizationRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteOrganizationResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19646,7 +19814,8 @@ export const deleteOrganizationField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4928, __c154, 0) as any as S.Schema<DeleteOrganizationFieldRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteOrganizationFieldResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19663,7 +19832,8 @@ export const deleteOrganizationMembership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4960, __c155, 0) as any as S.Schema<DeleteOrganizationMembershipRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteOrganizationMembershipResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19680,7 +19850,8 @@ export const deleteOrganizationSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4992, __c156, 0) as any as S.Schema<DeleteOrganizationSubscriptionRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteOrganizationSubscriptionResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19697,7 +19868,8 @@ export const deleteQueue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5024, __c157, 0) as any as S.Schema<DeleteQueueRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteQueueResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19714,7 +19886,8 @@ export const deleteRecipientAddress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5056, __c158, 0) as any as S.Schema<DeleteRecipientAddressRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteRecipientAddressResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19731,7 +19904,8 @@ export const deleteResourceCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5088, __c159, 0) as any as S.Schema<DeleteResourceCollectionRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<JobStatusResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19748,7 +19922,8 @@ export const deleteSavedSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5120, __c160, 0) as any as S.Schema<DeleteSavedSearchRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteSavedSearchResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownZendeskError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19765,7 +19940,8 @@ export const deleteSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5184, __c162, 0) as any as S.Schema<DeleteSessionRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteSessionResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19782,7 +19958,8 @@ export const deleteSharingAgreement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5216, __c163, 0) as any as S.Schema<DeleteSharingAgreementRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteSharingAgreementResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19799,7 +19976,8 @@ export const deleteSLAPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5248, __c164, 0) as any as S.Schema<DeleteSLAPolicyRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteSLAPolicyResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19816,7 +19994,8 @@ export const deleteSuspendedTicket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5280, __c165, 0) as any as S.Schema<DeleteSuspendedTicketRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteSuspendedTicketResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19833,7 +20012,8 @@ export const deleteSuspendedTickets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5312, __c166, 0) as any as S.Schema<DeleteSuspendedTicketsRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteSuspendedTicketsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19850,7 +20030,8 @@ export const deleteTagsTicket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5344, __c167, 0) as any as S.Schema<DeleteTagsTicketRequest>,
   output: __S(19680, __c615, 0) as any as S.Schema<TagsByObjectIdResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19867,7 +20048,8 @@ export const deleteTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5376, __c168, 0) as any as S.Schema<DeleteTargetRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteTargetResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19884,7 +20066,8 @@ export const deleteTaskList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5408, __c169, 0) as any as S.Schema<DeleteTaskListRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteTaskListResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19901,7 +20084,8 @@ export const deleteTaskListTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5440, __c170, 0) as any as S.Schema<DeleteTaskListTemplateRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteTaskListTemplateResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19918,7 +20102,8 @@ export const deleteTicket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5472, __c171, 0) as any as S.Schema<DeleteTicketRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteTicketResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19935,7 +20120,8 @@ export const deleteTicketContentPin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5568, __c174, 0) as any as S.Schema<DeleteTicketContentPinRequest>,
   output: __S(1600, __c50, 0) as any as S.Schema<DeleteTicketContentPinResponse>,
-  errors: [NotFound, UnknownZendeskError],
+  errors: [NotFound],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19952,7 +20138,8 @@ export const deleteTicketField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5600, __c175, 0) as any as S.Schema<DeleteTicketFieldRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteTicketFieldResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19969,7 +20156,8 @@ export const deleteTicketFieldOption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5632, __c176, 0) as any as S.Schema<DeleteTicketFieldOptionRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteTicketFieldOptionResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19986,7 +20174,8 @@ export const deleteTicketForm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5664, __c177, 0) as any as S.Schema<DeleteTicketFormRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteTicketFormResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20003,7 +20192,8 @@ export const deleteTicketFormStatusById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5696, __c178, 0) as any as S.Schema<DeleteTicketFormStatusByIdRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteTicketFormStatusByIdResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20020,7 +20210,8 @@ export const deleteTicketFormStatuses: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5728, __c179, 0) as any as S.Schema<DeleteTicketFormStatusesRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteTicketFormStatusesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20037,7 +20228,8 @@ export const deleteTicketPermanently: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5760, __c180, 0) as any as S.Schema<DeleteTicketPermanentlyRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<JobStatusResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20054,7 +20246,8 @@ export const deleteTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5792, __c181, 0) as any as S.Schema<DeleteTriggerRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteTriggerResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20071,7 +20264,8 @@ export const deleteTriggerCategory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5824, __c182, 0) as any as S.Schema<DeleteTriggerCategoryRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteTriggerCategoryResponse>,
-  errors: [BadRequest, NotFound, UnknownZendeskError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20088,7 +20282,8 @@ export const deleteUpload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5856, __c183, 0) as any as S.Schema<DeleteUploadRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteUploadResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20105,7 +20300,8 @@ export const deleteUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6016, __c188, 0) as any as S.Schema<DeleteUserRequest>,
   output: __S(30048, __c939, 0) as any as S.Schema<UserResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20122,7 +20318,8 @@ export const deleteUserField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6048, __c189, 0) as any as S.Schema<DeleteUserFieldRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteUserFieldResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20139,7 +20336,8 @@ export const deleteUserFieldOption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6080, __c190, 0) as any as S.Schema<DeleteUserFieldOptionRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteUserFieldOptionResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20156,7 +20354,8 @@ export const deleteUserGroupMembership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6112, __c191, 0) as any as S.Schema<DeleteUserGroupMembershipRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteUserGroupMembershipResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20173,7 +20372,8 @@ export const deleteUserIdentity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6144, __c192, 0) as any as S.Schema<DeleteUserIdentityRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteUserIdentityResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20190,7 +20390,8 @@ export const deleteUserOrganizationMembership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6176, __c193, 0) as any as S.Schema<DeleteUserOrganizationMembershipRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteUserOrganizationMembershipResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20207,7 +20408,8 @@ export const deleteUserSuspension: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6208, __c194, 0) as any as S.Schema<DeleteUserSuspensionRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteUserSuspensionResponse>,
-  errors: [BadRequest, NotFound, UnknownZendeskError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20224,7 +20426,8 @@ export const deleteUserTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6240, __c195, 0) as any as S.Schema<DeleteUserTagsRequest>,
   output: __S(19680, __c615, 0) as any as S.Schema<TagsByObjectIdResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20241,7 +20444,8 @@ export const deleteView: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6272, __c196, 0) as any as S.Schema<DeleteViewRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteViewResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20258,7 +20462,8 @@ export const deleteWorkspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6304, __c197, 0) as any as S.Schema<DeleteWorkspaceRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DeleteWorkspaceResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20275,7 +20480,8 @@ export const destroyManyUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6368, __c199, 0) as any as S.Schema<DestroyManyUsersRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<JobStatusResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20292,7 +20498,8 @@ export const destroyManyWorkspaces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6400, __c200, 0) as any as S.Schema<DestroyManyWorkspacesRequest>,
   output: __S(5536, __c173, 0) as any as S.Schema<DestroyManyWorkspacesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20309,7 +20516,8 @@ export const detectBestLocale: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6432, __c201, 0) as any as S.Schema<DetectBestLocaleRequest>,
   output: __S(6464, __c202, 0) as any as S.Schema<LocaleResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20326,7 +20534,8 @@ export const downloadCustomObjectRecordAttachment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6528, __c204, 0) as any as S.Schema<DownloadCustomObjectRecordAttachmentRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DownloadCustomObjectRecordAttachmentResponse>,
-  errors: [BadRequest, UnknownZendeskError],
+  errors: [BadRequest],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20343,7 +20552,8 @@ export const downloadMacroAttachment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6560, __c205, 0) as any as S.Schema<DownloadMacroAttachmentRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<DownloadMacroAttachmentResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20360,7 +20570,8 @@ export const dynamicContentListVariants: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6592, __c206, 0) as any as S.Schema<DynamicContentListVariantsRequest>,
   output: __S(29088, __c909, 0) as any as S.Schema<DynamicContentVariantsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20377,7 +20588,8 @@ export const executeView: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6624, __c207, 0) as any as S.Schema<ExecuteViewRequest>,
   output: __S(2880, __c90, 0) as any as S.Schema<ViewResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20394,7 +20606,8 @@ export const exportAuditLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6656, __c208, 0) as any as S.Schema<ExportAuditLogsRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<ExportAuditLogsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20411,7 +20624,8 @@ export const exportIncrementalOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6688, __c209, 0) as any as S.Schema<ExportIncrementalOrganizationRequest>,
   output: __S(6689, __c209, 1) as any as S.Schema<ExportIncrementalOrganizationsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20428,7 +20642,8 @@ export const exportIncrementalSample: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6720, __c210, 0) as any as S.Schema<ExportIncrementalSampleRequest>,
   output: __S(6752, __c211, 0) as any as S.Schema<TimeBasedExportIncrementalTicketsResponseOutput>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20445,7 +20660,8 @@ export const exportIncrementalSkilBasedRoutingAttribute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6816, __c213, 0) as any as S.Schema<ExportIncrementalSkilBasedRoutingAttributeRequest>,
   output: __S(6854, __c214, 6) as any as S.Schema<IncrementalSkillBasedRouting>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20466,7 +20682,8 @@ export const exportIncrementalSkilBasedRoutingAttributeValue: API.OperationMetho
     0,
   ) as any as S.Schema<ExportIncrementalSkilBasedRoutingAttributeValueRequest>,
   output: __S(6854, __c214, 6) as any as S.Schema<IncrementalSkillBasedRouting>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20487,7 +20704,8 @@ export const exportIncrementalSkilBasedRoutingInstanceValue: API.OperationMethod
     0,
   ) as any as S.Schema<ExportIncrementalSkilBasedRoutingInstanceValueRequest>,
   output: __S(6854, __c214, 6) as any as S.Schema<IncrementalSkillBasedRouting>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20504,7 +20722,8 @@ export const exportSearchResults: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6944, __c217, 0) as any as S.Schema<ExportSearchResultsRequest>,
   output: __S(6945, __c217, 1) as any as S.Schema<SearchExportResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20521,7 +20740,8 @@ export const exportSuspendedTickets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7008, __c219, 0) as any as S.Schema<ExportSuspendedTicketsRequest>,
   output: __S(7010, __c219, 2) as any as S.Schema<SuspendedTicketsExportResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20538,7 +20758,8 @@ export const exportView: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7040, __c220, 0) as any as S.Schema<ExportViewRequest>,
   output: __S(7042, __c220, 2) as any as S.Schema<ViewExportResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20555,7 +20776,8 @@ export const filteredSearchCustomObjectRecords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7072, __c221, 0) as any as S.Schema<FilteredSearchCustomObjectRecordsRequest>,
   output: __S(7136, __c223, 0) as any as S.Schema<CustomObjectRecordsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20572,7 +20794,8 @@ export const filteredSearchItamAssets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7168, __c224, 0) as any as S.Schema<FilteredSearchItamAssetsRequest>,
   output: __S(7232, __c226, 0) as any as S.Schema<ItamAssetsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20589,7 +20812,8 @@ export const getAccessRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7264, __c227, 0) as any as S.Schema<GetAccessRuleRequest>,
   output: __S(18784, __c587, 0) as any as S.Schema<AccessRuleResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20606,7 +20830,8 @@ export const getAccountEmailSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7296, __c228, 0) as any as S.Schema<GetAccountEmailSettingsRequest>,
   output: __S(7361, __c230, 1) as any as S.Schema<EmailSettingsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20623,7 +20848,8 @@ export const getAccountSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7456, __c233, 0) as any as S.Schema<GetAccountSettingsRequest>,
   output: __S(7523, __c235, 3) as any as S.Schema<AccountSettingsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20640,7 +20866,8 @@ export const getActivity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7552, __c236, 0) as any as S.Schema<GetActivityRequest>,
   output: __S(7553, __c236, 1) as any as S.Schema<ActivityResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20657,7 +20884,8 @@ export const getApprovalClarificationFlowMessages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7616, __c238, 0) as any as S.Schema<GetApprovalClarificationFlowMessagesRequest>,
   output: __S(19235, __c601, 3) as any as S.Schema<ApprovalClarificationFlowMessagesShowResponse>,
-  errors: [Forbidden, NotFound, UnknownZendeskError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20674,7 +20902,8 @@ export const getApprovalWorkflowInstanceApprovalRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7648, __c239, 0) as any as S.Schema<GetApprovalWorkflowInstanceApprovalRequestRequest>,
   output: __S(3365, __c105, 5) as any as S.Schema<ApprovalRequestShowResponse>,
-  errors: [Forbidden, NotFound, UnknownZendeskError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20691,7 +20920,8 @@ export const getAttachment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7680, __c240, 0) as any as S.Schema<GetAttachmentRequest>,
   output: __S(7712, __c241, 0) as any as S.Schema<AttachmentResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20708,7 +20938,8 @@ export const getAttribute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7744, __c242, 0) as any as S.Schema<GetAttributeRequest>,
   output: __S(20544, __c642, 0) as any as S.Schema<SkillBasedRoutingAttributeResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20725,7 +20956,8 @@ export const getAttributeValue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7776, __c243, 0) as any as S.Schema<GetAttributeValueRequest>,
   output: __S(21024, __c657, 0) as any as S.Schema<SkillBasedRoutingAttributeValueResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20742,7 +20974,8 @@ export const getAuditLog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7808, __c244, 0) as any as S.Schema<GetAuditLogRequest>,
   output: __S(7809, __c244, 1) as any as S.Schema<AuditLogResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20759,7 +20992,8 @@ export const getAutomation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7872, __c246, 0) as any as S.Schema<GetAutomationRequest>,
   output: __S(21440, __c670, 0) as any as S.Schema<AutomationResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20776,7 +21010,8 @@ export const getBrand: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7904, __c247, 0) as any as S.Schema<GetBrandRequest>,
   output: __S(22368, __c699, 0) as any as S.Schema<BrandResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20793,7 +21028,8 @@ export const getBrandAgentById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7968, __c249, 0) as any as S.Schema<GetBrandAgentByIdRequest>,
   output: __S(22784, __c712, 0) as any as S.Schema<BrandAgentResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20810,7 +21046,8 @@ export const getBrandUserMigration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8000, __c250, 0) as any as S.Schema<GetBrandUserMigrationRequest>,
   output: __S(23264, __c727, 0) as any as S.Schema<BrandUserMigrationResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20827,7 +21064,8 @@ export const getChangesToTicket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8032, __c251, 0) as any as S.Schema<GetChangesToTicketRequest>,
   output: __S(8070, __c252, 6) as any as S.Schema<MacroApplyTicketResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20844,7 +21082,8 @@ export const getClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8096, __c253, 0) as any as S.Schema<GetClientRequest>,
   output: __S(8576, __c268, 0) as any as S.Schema<OauthClientResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20861,7 +21100,8 @@ export const getComment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8128, __c254, 0) as any as S.Schema<GetCommentRequest>,
   output: __S(8160, __c255, 0) as any as S.Schema<TicketCommentResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20878,7 +21118,8 @@ export const getCountry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8192, __c256, 0) as any as S.Schema<GetCountryRequest>,
   output: __S(8193, __c256, 1) as any as S.Schema<GetCountryResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20895,7 +21136,8 @@ export const getCurrentLocale: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8256, __c258, 0) as any as S.Schema<GetCurrentLocaleRequest>,
   output: __S(6464, __c202, 0) as any as S.Schema<LocaleResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20912,7 +21154,8 @@ export const getCurrentlyAuthenticatedSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8288, __c259, 0) as any as S.Schema<GetCurrentlyAuthenticatedSessionRequest>,
   output: __S(8320, __c260, 0) as any as S.Schema<SessionResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20929,7 +21172,8 @@ export const getCurrentToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8384, __c262, 0) as any as S.Schema<GetCurrentTokenRequest>,
   output: __S(8416, __c263, 0) as any as S.Schema<OAuthTokenResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20946,7 +21190,8 @@ export const getCurrentUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8482, __c265, 2) as any as S.Schema<GetCurrentUserRequest>,
   output: __S(8484, __c265, 4) as any as S.Schema<CurrentUserResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20963,7 +21208,8 @@ export const getCurrentUserSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8608, __c269, 0) as any as S.Schema<GetCurrentUserSettingsRequest>,
   output: __S(8643, __c270, 3) as any as S.Schema<UserSettingsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20980,7 +21226,8 @@ export const getCustomObject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8672, __c271, 0) as any as S.Schema<GetCustomObjectRequest>,
   output: __S(23680, __c740, 0) as any as S.Schema<CustomObjectResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20997,7 +21244,8 @@ export const getCustomObjectField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8704, __c272, 0) as any as S.Schema<GetCustomObjectFieldRequest>,
   output: __S(24160, __c755, 0) as any as S.Schema<CustomObjectFieldResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21014,7 +21262,8 @@ export const getCustomObjectRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8736, __c273, 0) as any as S.Schema<GetCustomObjectRecordRequest>,
   output: __S(24736, __c773, 0) as any as S.Schema<CustomObjectRecordResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21031,7 +21280,8 @@ export const getCustomObjectRecordByUniqueIdentifier: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8768, __c274, 0) as any as S.Schema<GetCustomObjectRecordByUniqueIdentifierRequest>,
   output: __S(24736, __c773, 0) as any as S.Schema<CustomObjectRecordResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21048,7 +21298,8 @@ export const getCustomRoleById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8800, __c275, 0) as any as S.Schema<GetCustomRoleByIdRequest>,
   output: __S(25600, __c800, 0) as any as S.Schema<CustomRoleResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21065,7 +21316,8 @@ export const getCustomStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8832, __c276, 0) as any as S.Schema<GetCustomStatusRequest>,
   output: __S(26048, __c814, 0) as any as S.Schema<CustomStatusResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21082,7 +21334,8 @@ export const getDefaultGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8864, __c277, 0) as any as S.Schema<GetDefaultGroupRequest>,
   output: __S(28064, __c877, 0) as any as S.Schema<GroupResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21099,7 +21352,8 @@ export const getDeletedUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8896, __c278, 0) as any as S.Schema<GetDeletedUserRequest>,
   output: __S(8960, __c280, 0) as any as S.Schema<DeletedUserResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21116,7 +21370,8 @@ export const getDeletionSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8992, __c281, 0) as any as S.Schema<GetDeletionScheduleRequest>,
   output: __S(26880, __c840, 0) as any as S.Schema<GetDeletionScheduleResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21133,7 +21388,8 @@ export const getDerivedMacro: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9152, __c286, 0) as any as S.Schema<GetDerivedMacroRequest>,
   output: __S(28896, __c903, 0) as any as S.Schema<MacroResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21150,7 +21406,8 @@ export const getDynamicContentItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9184, __c287, 0) as any as S.Schema<GetDynamicContentItemRequest>,
   output: __S(27328, __c854, 0) as any as S.Schema<DynamicContentResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21167,7 +21424,8 @@ export const getDynamicContentVariant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9216, __c288, 0) as any as S.Schema<GetDynamicContentVariantRequest>,
   output: __S(27680, __c865, 0) as any as S.Schema<DynamicContentVariantResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21184,7 +21442,8 @@ export const getEmailNotification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9248, __c289, 0) as any as S.Schema<GetEmailNotificationRequest>,
   output: __S(9249, __c289, 1) as any as S.Schema<EmailNotificationResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21201,7 +21460,8 @@ export const getEndUserIdentity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9312, __c291, 0) as any as S.Schema<GetEndUserIdentityRequest>,
   output: __S(27840, __c870, 0) as any as S.Schema<UserIdentityResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21218,7 +21478,8 @@ export const getGlobalClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9344, __c292, 0) as any as S.Schema<GetGlobalClientRequest>,
   output: __S(9345, __c292, 1) as any as S.Schema<GlobalClientResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21235,7 +21496,8 @@ export const getGroupById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9408, __c294, 0) as any as S.Schema<GetGroupByIdRequest>,
   output: __S(28064, __c877, 0) as any as S.Schema<GroupResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21252,7 +21514,8 @@ export const getGroupMembershipById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9440, __c295, 0) as any as S.Schema<GetGroupMembershipByIdRequest>,
   output: __S(28128, __c879, 0) as any as S.Schema<GroupMembershipResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21269,7 +21532,8 @@ export const getGroupSLAPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9472, __c296, 0) as any as S.Schema<GetGroupSLAPolicyRequest>,
   output: __S(28320, __c885, 0) as any as S.Schema<GroupSLAPolicyResponse>,
-  errors: [Forbidden, NotFound, UnknownZendeskError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21286,7 +21550,8 @@ export const getGroupSLAPolicyFilterDefinitionItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9504, __c297, 0) as any as S.Schema<GetGroupSLAPolicyFilterDefinitionItemsRequest>,
   output: __S(9516, __c297, 12) as any as S.Schema<GroupSLAPolicyFilterDefinitionResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21303,7 +21568,8 @@ export const getItamAsset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9664, __c302, 0) as any as S.Schema<GetItamAssetRequest>,
   output: __S(28448, __c889, 0) as any as S.Schema<ItamAssetResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21320,7 +21586,8 @@ export const getItamAssetType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9696, __c303, 0) as any as S.Schema<GetItamAssetTypeRequest>,
   output: __S(28544, __c892, 0) as any as S.Schema<ItamAssetTypeResponseOutput>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21337,7 +21604,8 @@ export const getItamAssetTypeField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9728, __c304, 0) as any as S.Schema<GetItamAssetTypeFieldRequest>,
   output: __S(28608, __c894, 0) as any as S.Schema<ItamAssetFieldResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21354,7 +21622,8 @@ export const getItamField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9760, __c305, 0) as any as S.Schema<GetItamFieldRequest>,
   output: __S(28608, __c894, 0) as any as S.Schema<ItamAssetFieldResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21371,7 +21640,8 @@ export const getItamLocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9792, __c306, 0) as any as S.Schema<GetItamLocationRequest>,
   output: __S(28704, __c897, 0) as any as S.Schema<ItamAssetLocationResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21388,7 +21658,8 @@ export const getItamStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9824, __c307, 0) as any as S.Schema<GetItamStatusRequest>,
   output: __S(28800, __c900, 0) as any as S.Schema<ItamAssetStatusResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21405,7 +21676,8 @@ export const getJobStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9856, __c308, 0) as any as S.Schema<GetJobStatusRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<JobStatusResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21422,7 +21694,8 @@ export const getLocaleById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9888, __c309, 0) as any as S.Schema<GetLocaleByIdRequest>,
   output: __S(6464, __c202, 0) as any as S.Schema<LocaleResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21439,7 +21712,8 @@ export const getMacro: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9920, __c310, 0) as any as S.Schema<GetMacroRequest>,
   output: __S(28896, __c903, 0) as any as S.Schema<MacroResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21456,7 +21730,8 @@ export const getMacroAttachment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9952, __c311, 0) as any as S.Schema<GetMacroAttachmentRequest>,
   output: __S(20096, __c628, 0) as any as S.Schema<MacroAttachmentResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21473,7 +21748,8 @@ export const getManyCustomStatuses: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10016, __c313, 0) as any as S.Schema<GetManyCustomStatusesRequest>,
   output: __S(10049, __c314, 1) as any as S.Schema<CustomStatusesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21490,7 +21766,8 @@ export const getManyDynamicContents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10080, __c315, 0) as any as S.Schema<GetManyDynamicContentsRequest>,
   output: __S(10113, __c316, 1) as any as S.Schema<DynamicContentsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21507,7 +21784,8 @@ export const getManyEmailNotifications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10144, __c317, 0) as any as S.Schema<GetManyEmailNotificationsRequest>,
   output: __S(10177, __c318, 1) as any as S.Schema<EmailNotificationsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21524,7 +21802,8 @@ export const getManyJobStatuses: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10208, __c319, 0) as any as S.Schema<GetManyJobStatusesRequest>,
   output: __S(10241, __c320, 1) as any as S.Schema<GetManyJobStatusesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21541,7 +21820,8 @@ export const getManyOrganizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10272, __c321, 0) as any as S.Schema<GetManyOrganizationsRequest>,
   output: __S(27968, __c874, 0) as any as S.Schema<OrganizationsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21558,7 +21838,8 @@ export const getManyTicketFields: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10304, __c322, 0) as any as S.Schema<GetManyTicketFieldsRequest>,
   output: __S(10305, __c322, 1) as any as S.Schema<TicketFieldsShowManyResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21575,7 +21856,8 @@ export const getManyTicketForms: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10368, __c324, 0) as any as S.Schema<GetManyTicketFormsRequest>,
   output: __S(10401, __c325, 1) as any as S.Schema<TicketFormsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21592,7 +21874,8 @@ export const getManyTicketFormStatuses: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10432, __c326, 0) as any as S.Schema<GetManyTicketFormStatusesRequest>,
   output: __S(1986, __c62, 2) as any as S.Schema<TicketFormStatusesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21609,7 +21892,8 @@ export const getManyUserFields: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10464, __c327, 0) as any as S.Schema<GetManyUserFieldsRequest>,
   output: __S(10528, __c329, 0) as any as S.Schema<UserFieldsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21626,7 +21910,8 @@ export const getManyUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10560, __c330, 0) as any as S.Schema<GetManyUsersRequest>,
   output: __S(1728, __c54, 0) as any as S.Schema<UsersResponse>,
-  errors: [BadRequest, UnknownZendeskError],
+  errors: [BadRequest],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21643,7 +21928,8 @@ export const getMonitoredTwitterHandle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10624, __c332, 0) as any as S.Schema<GetMonitoredTwitterHandleRequest>,
   output: __S(10625, __c332, 1) as any as S.Schema<TwitterChannelResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21660,7 +21946,8 @@ export const getObjectTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10688, __c334, 0) as any as S.Schema<GetObjectTriggerRequest>,
   output: __S(29344, __c917, 0) as any as S.Schema<ObjectTriggerResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21677,7 +21964,8 @@ export const getOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10720, __c335, 0) as any as S.Schema<GetOrganizationRequest>,
   output: __S(29408, __c919, 0) as any as S.Schema<OrganizationResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21694,7 +21982,8 @@ export const getOrganizationField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10752, __c336, 0) as any as S.Schema<GetOrganizationFieldRequest>,
   output: __S(29504, __c922, 0) as any as S.Schema<OrganizationFieldResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21711,7 +22000,8 @@ export const getOrganizationMembershipById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10784, __c337, 0) as any as S.Schema<GetOrganizationMembershipByIdRequest>,
   output: __S(29632, __c926, 0) as any as S.Schema<OrganizationMembershipResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21728,7 +22018,8 @@ export const getOrganizationMembershipByUserId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10816, __c338, 0) as any as S.Schema<GetOrganizationMembershipByUserIdRequest>,
   output: __S(29632, __c926, 0) as any as S.Schema<OrganizationMembershipResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21745,7 +22036,8 @@ export const getOrganizationMerge: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10848, __c339, 0) as any as S.Schema<GetOrganizationMergeRequest>,
   output: __S(29729, __c929, 1) as any as S.Schema<OrganizationMergeResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21762,7 +22054,8 @@ export const getOrganizationSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10880, __c340, 0) as any as S.Schema<GetOrganizationSubscriptionRequest>,
   output: __S(29824, __c932, 0) as any as S.Schema<OrganizationSubscriptionResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21779,7 +22072,8 @@ export const getPermissionPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10912, __c341, 0) as any as S.Schema<GetPermissionPolicyRequest>,
   output: __S(10976, __c343, 0) as any as S.Schema<PermissionPolicyResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21796,7 +22090,8 @@ export const getQueueById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11008, __c344, 0) as any as S.Schema<GetQueueByIdRequest>,
   output: __S(30240, __c945, 0) as any as S.Schema<QueueResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21813,7 +22108,8 @@ export const getRelationshipFilterDefinitions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11104, __c347, 0) as any as S.Schema<GetRelationshipFilterDefinitionsRequest>,
   output: __S(11106, __c347, 2) as any as S.Schema<RelationshipFilterDefinitionResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21830,7 +22126,8 @@ export const getRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11232, __c351, 0) as any as S.Schema<GetRequestRequest>,
   output: __S(30336, __c948, 0) as any as S.Schema<RequestResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21847,7 +22144,8 @@ export const getResourceCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11264, __c352, 0) as any as S.Schema<GetResourceCollectionRequest>,
   output: __S(11265, __c352, 1) as any as S.Schema<ResourceCollectionResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21864,7 +22162,8 @@ export const getSatisfactionRating: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11328, __c354, 0) as any as S.Schema<GetSatisfactionRatingRequest>,
   output: __S(2144, __c67, 0) as any as S.Schema<SatisfactionRatingResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21881,7 +22180,8 @@ export const getSatisfactionRatings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11360, __c355, 0) as any as S.Schema<GetSatisfactionRatingsRequest>,
   output: __S(11361, __c355, 1) as any as S.Schema<SatisfactionReasonResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21898,7 +22198,8 @@ export const getSecuritySettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11424, __c357, 0) as any as S.Schema<GetSecuritySettingsRequest>,
   output: __S(11431, __c357, 7) as any as S.Schema<SecuritySettingsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21915,7 +22216,8 @@ export const getSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11456, __c358, 0) as any as S.Schema<GetSessionRequest>,
   output: __S(8320, __c260, 0) as any as S.Schema<SessionResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21932,7 +22234,8 @@ export const getSharingAgreement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11488, __c359, 0) as any as S.Schema<GetSharingAgreementRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<SharingAgreementResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21949,7 +22252,8 @@ export const getSLAPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11520, __c360, 0) as any as S.Schema<GetSLAPolicyRequest>,
   output: __S(896, __c28, 0) as any as S.Schema<SLAPolicyResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21966,7 +22270,8 @@ export const getSLAPolicyFilterDefinitionItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11552, __c361, 0) as any as S.Schema<GetSLAPolicyFilterDefinitionItemsRequest>,
   output: __S(11559, __c361, 7) as any as S.Schema<SLAPolicyFilterDefinitionResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21983,7 +22288,8 @@ export const getSourcesByTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11616, __c363, 0) as any as S.Schema<GetSourcesByTargetRequest>,
   output: __S(11617, __c363, 1) as any as S.Schema<GetSourcesByTargetResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22000,7 +22306,8 @@ export const getSupportAddress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11648, __c364, 0) as any as S.Schema<GetSupportAddressRequest>,
   output: __S(1088, __c34, 0) as any as S.Schema<SupportAddressResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22017,7 +22324,8 @@ export const getSuspendedTickets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11680, __c365, 0) as any as S.Schema<GetSuspendedTicketsRequest>,
   output: __S(11681, __c365, 1) as any as S.Schema<SuspendedTicketResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22034,7 +22342,8 @@ export const getTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11744, __c367, 0) as any as S.Schema<GetTargetRequest>,
   output: __S(1184, __c37, 0) as any as S.Schema<TargetResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22051,7 +22360,8 @@ export const getTargetFailure: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11776, __c368, 0) as any as S.Schema<GetTargetFailureRequest>,
   output: __S(11777, __c368, 1) as any as S.Schema<TargetFailureResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22068,7 +22378,8 @@ export const getTaskItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11840, __c370, 0) as any as S.Schema<GetTaskItemRequest>,
   output: __S(26464, __c827, 0) as any as S.Schema<TaskItemInstanceResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22085,7 +22396,8 @@ export const getTaskListInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11872, __c371, 0) as any as S.Schema<GetTaskListInstanceRequest>,
   output: __S(11905, __c372, 1) as any as S.Schema<TaskListInstanceResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22102,7 +22414,8 @@ export const getTaskListsForTicket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11936, __c373, 0) as any as S.Schema<GetTaskListsForTicketRequest>,
   output: __S(11938, __c373, 2) as any as S.Schema<TaskListByTicketIdResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22119,7 +22432,8 @@ export const getTaskListTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11968, __c374, 0) as any as S.Schema<GetTaskListTemplateRequest>,
   output: __S(1376, __c43, 0) as any as S.Schema<TaskListTemplateResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22136,7 +22450,8 @@ export const getTasksByTaskListTemplateId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12000, __c375, 0) as any as S.Schema<GetTasksByTaskListTemplateIdRequest>,
   output: __S(12001, __c375, 1) as any as S.Schema<TasksByTaskListTemplateIdResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22153,7 +22468,8 @@ export const getTicket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12064, __c377, 0) as any as S.Schema<GetTicketRequest>,
   output: __S(1440, __c45, 0) as any as S.Schema<TicketResponseOutput>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22170,7 +22486,8 @@ export const getTicketAfterChanges: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12096, __c378, 0) as any as S.Schema<GetTicketAfterChangesRequest>,
   output: __S(8070, __c252, 6) as any as S.Schema<MacroApplyTicketResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22187,7 +22504,8 @@ export const getTicketAudit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12128, __c379, 0) as any as S.Schema<GetTicketAuditRequest>,
   output: __S(12129, __c379, 1) as any as S.Schema<TicketAuditResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22204,7 +22522,8 @@ export const getTicketByMessagingConversationId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12192, __c381, 0) as any as S.Schema<GetTicketByMessagingConversationIdRequest>,
   output: __S(1440, __c45, 0) as any as S.Schema<TicketResponseOutput>,
-  errors: [NotFound, UnknownZendeskError],
+  errors: [NotFound],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22221,7 +22540,8 @@ export const getTicketfield: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12224, __c382, 0) as any as S.Schema<GetTicketfieldRequest>,
   output: __S(1824, __c57, 0) as any as S.Schema<TicketFieldResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22238,7 +22558,8 @@ export const getTicketFieldOption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12256, __c383, 0) as any as S.Schema<GetTicketFieldOptionRequest>,
   output: __S(29984, __c937, 0) as any as S.Schema<CustomFieldOptionResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22255,7 +22576,8 @@ export const getTicketForm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12288, __c384, 0) as any as S.Schema<GetTicketFormRequest>,
   output: __S(9120, __c285, 0) as any as S.Schema<TicketFormResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22272,7 +22594,8 @@ export const getTicketMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12320, __c385, 0) as any as S.Schema<GetTicketMetricsRequest>,
   output: __S(12352, __c386, 0) as any as S.Schema<TicketMetricsByTicketMetricIdResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22289,7 +22612,8 @@ export const getTicketMetricsByTicket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12416, __c388, 0) as any as S.Schema<GetTicketMetricsByTicketRequest>,
   output: __S(12352, __c386, 0) as any as S.Schema<TicketMetricsByTicketMetricIdResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22306,7 +22630,8 @@ export const gettingTwicketStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12448, __c389, 0) as any as S.Schema<GettingTwicketStatusRequest>,
   output: __S(12451, __c389, 3) as any as S.Schema<TwitterChannelTwicketStatusResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22323,7 +22648,8 @@ export const getToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12512, __c391, 0) as any as S.Schema<GetTokenRequest>,
   output: __S(8416, __c263, 0) as any as S.Schema<OAuthTokenResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22340,7 +22666,8 @@ export const getTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12544, __c392, 0) as any as S.Schema<GetTriggerRequest>,
   output: __S(2304, __c72, 0) as any as S.Schema<TriggerResponseOutput>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22357,7 +22684,8 @@ export const getTriggerCategoryById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12576, __c393, 0) as any as S.Schema<GetTriggerCategoryByIdRequest>,
   output: __S(2464, __c77, 0) as any as S.Schema<TriggerCategoryResponse>,
-  errors: [NotFound, UnknownZendeskError],
+  errors: [NotFound],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22374,7 +22702,8 @@ export const getTriggerLimits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12608, __c394, 0) as any as S.Schema<GetTriggerLimitsRequest>,
   output: __S(3104, __c97, 0) as any as S.Schema<TriggerLimitsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22391,7 +22720,8 @@ export const getUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12640, __c395, 0) as any as S.Schema<GetUserRequest>,
   output: __S(30048, __c939, 0) as any as S.Schema<UserResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22408,7 +22738,8 @@ export const getUserBrandAgentById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12672, __c396, 0) as any as S.Schema<GetUserBrandAgentByIdRequest>,
   output: __S(22784, __c712, 0) as any as S.Schema<BrandAgentResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22425,7 +22756,8 @@ export const getUserComplianceDeletionStatuses: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12704, __c397, 0) as any as S.Schema<GetUserComplianceDeletionStatusesRequest>,
   output: __S(12707, __c397, 3) as any as S.Schema<ComplianceDeletionStatusesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22442,7 +22774,8 @@ export const getUserEntitlementsFull: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12736, __c398, 0) as any as S.Schema<GetUserEntitlementsFullRequest>,
   output: __S(12739, __c398, 3) as any as S.Schema<UserEntitlementsFullResponse>,
-  errors: [NotFound, UnknownZendeskError],
+  errors: [NotFound],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22459,7 +22792,8 @@ export const getUserField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12768, __c399, 0) as any as S.Schema<GetUserFieldRequest>,
   output: __S(2560, __c80, 0) as any as S.Schema<UserFieldResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22476,7 +22810,8 @@ export const getUserFieldOption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12800, __c400, 0) as any as S.Schema<GetUserFieldOptionRequest>,
   output: __S(29984, __c937, 0) as any as S.Schema<CustomFieldOptionResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22493,7 +22828,8 @@ export const getUserGroupMembershipById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12864, __c402, 0) as any as S.Schema<GetUserGroupMembershipByIdRequest>,
   output: __S(28128, __c879, 0) as any as S.Schema<GroupMembershipResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22510,7 +22846,8 @@ export const getUserIdentity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12896, __c403, 0) as any as S.Schema<GetUserIdentityRequest>,
   output: __S(27840, __c870, 0) as any as S.Schema<UserIdentityResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22527,7 +22864,8 @@ export const getUserPasswordRequirements: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12928, __c404, 0) as any as S.Schema<GetUserPasswordRequirementsRequest>,
   output: __S(12929, __c404, 1) as any as S.Schema<UserPasswordRequirementsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22544,7 +22882,8 @@ export const getUserRelated: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12960, __c405, 0) as any as S.Schema<GetUserRelatedRequest>,
   output: __S(12962, __c405, 2) as any as S.Schema<UserRelatedResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22561,7 +22900,8 @@ export const getUserSuspension: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12992, __c406, 0) as any as S.Schema<GetUserSuspensionRequest>,
   output: __S(2786, __c87, 2) as any as S.Schema<SuspensionResponse>,
-  errors: [NotFound, UnknownZendeskError],
+  errors: [NotFound],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22578,7 +22918,8 @@ export const getView: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13024, __c407, 0) as any as S.Schema<GetViewRequest>,
   output: __S(2880, __c90, 0) as any as S.Schema<ViewResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22595,7 +22936,8 @@ export const getViewCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13056, __c408, 0) as any as S.Schema<GetViewCountRequest>,
   output: __S(13120, __c410, 0) as any as S.Schema<ViewCountResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22612,7 +22954,8 @@ export const getViewCounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13152, __c411, 0) as any as S.Schema<GetViewCountsRequest>,
   output: __S(13154, __c411, 2) as any as S.Schema<ViewCountsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22629,7 +22972,8 @@ export const getWorkspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13184, __c412, 0) as any as S.Schema<GetWorkspaceRequest>,
   output: __S(3008, __c94, 0) as any as S.Schema<GetWorkspaceResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22646,7 +22990,8 @@ export const globalOAuthClientsTokenSummary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13216, __c413, 0) as any as S.Schema<GlobalOAuthClientsTokenSummaryRequest>,
   output: __S(13219, __c413, 3) as any as S.Schema<GlobalClientsTokenSummaryResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22663,7 +23008,8 @@ export const groupMembershipBulkCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13281, __c415, 1) as any as S.Schema<GroupMembershipBulkCreateRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<JobStatusResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22680,7 +23026,8 @@ export const groupMembershipBulkDelete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13312, __c416, 0) as any as S.Schema<GroupMembershipBulkDeleteRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<JobStatusResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22697,7 +23044,8 @@ export const groupMembershipSetDefault: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13344, __c417, 0) as any as S.Schema<GroupMembershipSetDefaultRequest>,
   output: __S(13377, __c418, 1) as any as S.Schema<GroupMembershipsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22714,7 +23062,8 @@ export const importTicket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13408, __c419, 0) as any as S.Schema<ImportTicketRequest>,
   output: __S(1440, __c45, 0) as any as S.Schema<TicketResponseOutput>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22735,7 +23084,8 @@ export const incrementalCustomObjectRecordExportCursor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13472, __c421, 0) as any as S.Schema<IncrementalCustomObjectRecordExportCursorRequest>,
   output: __S(13477, __c421, 5) as any as S.Schema<IncrementalCustomObjectRecordsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownZendeskError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22752,7 +23102,8 @@ export const incrementalTicketEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13504, __c422, 0) as any as S.Schema<IncrementalTicketEventsRequest>,
   output: __S(13505, __c422, 1) as any as S.Schema<ExportIncrementalTicketEventsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22773,7 +23124,8 @@ export const incrementalTicketExportCursor: API.OperationMethod<
     __c424,
     1,
   ) as any as S.Schema<CursorBasedExportIncrementalTicketsResponseOutput>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22790,7 +23142,8 @@ export const incrementalTicketExportTime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13600, __c425, 0) as any as S.Schema<IncrementalTicketExportTimeRequest>,
   output: __S(6752, __c211, 0) as any as S.Schema<TimeBasedExportIncrementalTicketsResponseOutput>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22807,7 +23160,8 @@ export const incrementalUserExportCursor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13632, __c426, 0) as any as S.Schema<IncrementalUserExportCursorRequest>,
   output: __S(13633, __c426, 1) as any as S.Schema<CursorBasedExportIncrementalUsersResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22824,7 +23178,8 @@ export const incrementalUserExportTime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13664, __c427, 0) as any as S.Schema<IncrementalUserExportTimeRequest>,
   output: __S(13665, __c427, 1) as any as S.Schema<TimeBasedExportIncrementalUsersResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22841,7 +23196,8 @@ export const itamAssetBulkJobs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13730, __c429, 2) as any as S.Schema<ItamAssetBulkJobsRequest>,
   output: __S(13732, __c429, 4) as any as S.Schema<ItamAssetBulkJobResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22858,7 +23214,8 @@ export const linkExistingTicket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13761, __c430, 1) as any as S.Schema<LinkExistingTicketRequest>,
   output: __S(13762, __c430, 2) as any as S.Schema<TaskObjectLinkResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22875,7 +23232,8 @@ export const listAccessRuleDefinitions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13792, __c431, 0) as any as S.Schema<ListAccessRuleDefinitionsRequest>,
   output: __S(13799, __c431, 7) as any as S.Schema<AccessRuleDefinitionsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22892,7 +23250,8 @@ export const listAccessRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13856, __c433, 0) as any as S.Schema<ListAccessRulesRequest>,
   output: __S(13858, __c433, 2) as any as S.Schema<AccessRulesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22909,7 +23268,8 @@ export const listAccountAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13888, __c434, 0) as any as S.Schema<ListAccountAttributesRequest>,
   output: __S(13890, __c434, 2) as any as S.Schema<SkillBasedRoutingAttributesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22926,7 +23286,8 @@ export const listActiveAutomations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13920, __c435, 0) as any as S.Schema<ListActiveAutomationsRequest>,
   output: __S(13953, __c436, 1) as any as S.Schema<AutomationsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22945,7 +23306,8 @@ export const listActiveMacros: API.PaginatedOperationMethod<
   () => ({
     input: __S(13984, __c437, 0) as any as S.Schema<ListActiveMacrosRequest>,
     output: __S(14016, __c438, 0) as any as S.Schema<ListActiveMacrosResponse>,
-    errors: [UnknownZendeskError],
+    errors: [],
+    serviceErrors: ZendeskServiceErrors,
     protocol: ZendeskProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -22970,7 +23332,8 @@ export const listActiveObjectTriggers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14048, __c439, 0) as any as S.Schema<ListActiveObjectTriggersRequest>,
   output: __S(14081, __c440, 1) as any as S.Schema<ObjectTriggersResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22987,7 +23350,8 @@ export const listActiveTriggers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14112, __c441, 0) as any as S.Schema<ListActiveTriggersRequest>,
   output: __S(14144, __c442, 0) as any as S.Schema<TriggersResponseOutput>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23004,7 +23368,8 @@ export const listActiveViews: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14176, __c443, 0) as any as S.Schema<ListActiveViewsRequest>,
   output: __S(14209, __c444, 1) as any as S.Schema<ViewsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23023,7 +23388,8 @@ export const listActivities: API.PaginatedOperationMethod<
   () => ({
     input: __S(14272, __c446, 0) as any as S.Schema<ListActivitiesRequest>,
     output: __S(14274, __c446, 2) as any as S.Schema<ActivitiesResponse>,
-    errors: [UnknownZendeskError],
+    errors: [],
+    serviceErrors: ZendeskServiceErrors,
     protocol: ZendeskProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -23048,7 +23414,8 @@ export const listAgentAttributeValues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14304, __c447, 0) as any as S.Schema<ListAgentAttributeValuesRequest>,
   output: __S(14337, __c448, 1) as any as S.Schema<SkillBasedRoutingAttributeValuesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23065,7 +23432,8 @@ export const listApprovalRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14368, __c449, 0) as any as S.Schema<ListApprovalRequestsRequest>,
   output: __S(14377, __c449, 9) as any as S.Schema<ApprovalRequestsListResponse>,
-  errors: [BadRequest, UnknownZendeskError],
+  errors: [BadRequest],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23082,7 +23450,8 @@ export const listAssignableGroupMemberships: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14400, __c450, 0) as any as S.Schema<ListAssignableGroupMembershipsRequest>,
   output: __S(13377, __c418, 1) as any as S.Schema<GroupMembershipsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23099,7 +23468,8 @@ export const listAssignableGroupMembershipsByGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14432, __c451, 0) as any as S.Schema<ListAssignableGroupMembershipsByGroupRequest>,
   output: __S(13377, __c418, 1) as any as S.Schema<GroupMembershipsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23116,7 +23486,8 @@ export const listAssignableGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14464, __c452, 0) as any as S.Schema<ListAssignableGroupsRequest>,
   output: __S(24065, __c752, 1) as any as S.Schema<GroupsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23137,7 +23508,8 @@ export const listAttributeValues: API.OperationMethod<
     __c454,
     2,
   ) as any as S.Schema<SkillBasedRoutingAttributeValuesWithoutPriorityResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23154,7 +23526,8 @@ export const listAuditLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14560, __c455, 0) as any as S.Schema<ListAuditLogsRequest>,
   output: __S(14562, __c455, 2) as any as S.Schema<AuditLogsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23173,7 +23546,8 @@ export const listAuditsForTicket: API.PaginatedOperationMethod<
   () => ({
     input: __S(14624, __c457, 0) as any as S.Schema<ListAuditsForTicketRequest>,
     output: __S(14625, __c457, 1) as any as S.Schema<TicketAuditsResponseNoneCursor>,
-    errors: [UnknownZendeskError],
+    errors: [],
+    serviceErrors: ZendeskServiceErrors,
     protocol: ZendeskProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -23200,7 +23574,8 @@ export const listAutomations: API.PaginatedOperationMethod<
   () => ({
     input: __S(14688, __c459, 0) as any as S.Schema<ListAutomationsRequest>,
     output: __S(13953, __c436, 1) as any as S.Schema<AutomationsResponse>,
-    errors: [UnknownZendeskError],
+    errors: [],
+    serviceErrors: ZendeskServiceErrors,
     protocol: ZendeskProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -23225,7 +23600,8 @@ export const listAvailableAgents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14752, __c461, 0) as any as S.Schema<ListAvailableAgentsRequest>,
   output: __S(14755, __c461, 3) as any as S.Schema<ListAvailableAgentsResponse>,
-  errors: [Forbidden, UnknownZendeskError],
+  errors: [Forbidden],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23242,7 +23618,8 @@ export const listAvailablePublicLocales: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14784, __c462, 0) as any as S.Schema<ListAvailablePublicLocalesRequest>,
   output: __S(14817, __c463, 1) as any as S.Schema<LocalesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23259,7 +23636,8 @@ export const listBookmarks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14848, __c464, 0) as any as S.Schema<ListBookmarksRequest>,
   output: __S(14850, __c464, 2) as any as S.Schema<ListBookmarksResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23276,7 +23654,8 @@ export const listBrandAgents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14880, __c465, 0) as any as S.Schema<ListBrandAgentsRequest>,
   output: __S(14913, __c466, 1) as any as S.Schema<BrandAgentsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23293,7 +23672,8 @@ export const listBrandAgentsByBrand: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14944, __c467, 0) as any as S.Schema<ListBrandAgentsByBrandRequest>,
   output: __S(14913, __c466, 1) as any as S.Schema<BrandAgentsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23312,7 +23692,8 @@ export const listBrands: API.PaginatedOperationMethod<
   () => ({
     input: __S(14976, __c468, 0) as any as S.Schema<ListBrandsRequest>,
     output: __S(14978, __c468, 2) as any as S.Schema<ListBrandsResponse>,
-    errors: [UnknownZendeskError],
+    errors: [],
+    serviceErrors: ZendeskServiceErrors,
     protocol: ZendeskProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -23337,7 +23718,8 @@ export const listBrandUserMigrations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15008, __c469, 0) as any as S.Schema<ListBrandUserMigrationsRequest>,
   output: __S(15010, __c469, 2) as any as S.Schema<BrandUserMigrationsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23354,7 +23736,8 @@ export const listCCDRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15040, __c470, 0) as any as S.Schema<ListCCDRequestsRequest>,
   output: __S(15073, __c471, 1) as any as S.Schema<RequestsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23371,7 +23754,8 @@ export const listComments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15104, __c472, 0) as any as S.Schema<ListCommentsRequest>,
   output: __S(15137, __c473, 1) as any as S.Schema<TicketCommentsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23388,7 +23772,8 @@ export const listCompactViews: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15168, __c474, 0) as any as S.Schema<ListCompactViewsRequest>,
   output: __S(14209, __c444, 1) as any as S.Schema<ViewsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23405,7 +23790,8 @@ export const listConversationLogForTicket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15232, __c476, 0) as any as S.Schema<ListConversationLogForTicketRequest>,
   output: __S(15236, __c476, 4) as any as S.Schema<ConversationLogResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23422,7 +23808,8 @@ export const listCountries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15264, __c477, 0) as any as S.Schema<ListCountriesRequest>,
   output: __S(15266, __c477, 2) as any as S.Schema<ListCountriesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23439,7 +23826,8 @@ export const listCurrentUserOAuthClients: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15296, __c478, 0) as any as S.Schema<ListCurrentUserOAuthClientsRequest>,
   output: __S(15329, __c479, 1) as any as S.Schema<OAuthClientsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23456,7 +23844,8 @@ export const listCustomObjectFields: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15360, __c480, 0) as any as S.Schema<ListCustomObjectFieldsRequest>,
   output: __S(15361, __c480, 1) as any as S.Schema<CustomObjectFieldsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23473,7 +23862,8 @@ export const listCustomObjectRecordAttachments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15424, __c482, 0) as any as S.Schema<ListCustomObjectRecordAttachmentsRequest>,
   output: __S(15426, __c482, 2) as any as S.Schema<CustomObjectRecordAttachmentsResponse>,
-  errors: [BadRequest, UnknownZendeskError],
+  errors: [BadRequest],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23490,7 +23880,8 @@ export const listCustomObjectRecords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15456, __c483, 0) as any as S.Schema<ListCustomObjectRecordsRequest>,
   output: __S(7136, __c223, 0) as any as S.Schema<CustomObjectRecordsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23507,7 +23898,8 @@ export const listCustomObjects: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15488, __c484, 0) as any as S.Schema<ListCustomObjectsRequest>,
   output: __S(15490, __c484, 2) as any as S.Schema<CustomObjectsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23524,7 +23916,8 @@ export const listCustomRoles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15520, __c485, 0) as any as S.Schema<ListCustomRolesRequest>,
   output: __S(15522, __c485, 2) as any as S.Schema<CustomRolesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23541,7 +23934,8 @@ export const listCustomStatuses: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15552, __c486, 0) as any as S.Schema<ListCustomStatusesRequest>,
   output: __S(10049, __c314, 1) as any as S.Schema<CustomStatusesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23560,7 +23954,8 @@ export const listDeletedTickets: API.PaginatedOperationMethod<
   () => ({
     input: __S(15584, __c487, 0) as any as S.Schema<ListDeletedTicketsRequest>,
     output: __S(15587, __c487, 3) as any as S.Schema<ListDeletedTicketsResponse>,
-    errors: [UnknownZendeskError],
+    errors: [],
+    serviceErrors: ZendeskServiceErrors,
     protocol: ZendeskProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -23585,7 +23980,8 @@ export const listDeletedUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15680, __c490, 0) as any as S.Schema<ListDeletedUsersRequest>,
   output: __S(15682, __c490, 2) as any as S.Schema<DeletedUsersResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23602,7 +23998,8 @@ export const listDeletionSchedules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15712, __c491, 0) as any as S.Schema<ListDeletionSchedulesRequest>,
   output: __S(15714, __c491, 2) as any as S.Schema<ListDeletionSchedulesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23619,7 +24016,8 @@ export const listDynamicContents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15744, __c492, 0) as any as S.Schema<ListDynamicContentsRequest>,
   output: __S(10113, __c316, 1) as any as S.Schema<DynamicContentsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23636,7 +24034,8 @@ export const listEmailNotifications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15777, __c493, 1) as any as S.Schema<ListEmailNotificationsRequest>,
   output: __S(10177, __c318, 1) as any as S.Schema<EmailNotificationsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23653,7 +24052,8 @@ export const listEndUserIdentities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15808, __c494, 0) as any as S.Schema<ListEndUserIdentitiesRequest>,
   output: __S(15841, __c495, 1) as any as S.Schema<UserIdentitiesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23670,7 +24070,8 @@ export const listGlobalOAuthClients: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15872, __c496, 0) as any as S.Schema<ListGlobalOAuthClientsRequest>,
   output: __S(15874, __c496, 2) as any as S.Schema<GlobalClientsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23687,7 +24088,8 @@ export const listGroupMemberships: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15904, __c497, 0) as any as S.Schema<ListGroupMembershipsRequest>,
   output: __S(13377, __c418, 1) as any as S.Schema<GroupMembershipsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23704,7 +24106,8 @@ export const listGroupMembershipsByGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15936, __c498, 0) as any as S.Schema<ListGroupMembershipsByGroupRequest>,
   output: __S(13377, __c418, 1) as any as S.Schema<GroupMembershipsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23721,7 +24124,8 @@ export const listGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15968, __c499, 0) as any as S.Schema<ListGroupsRequest>,
   output: __S(24065, __c752, 1) as any as S.Schema<GroupsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23738,7 +24142,8 @@ export const listGroupSLAPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16000, __c500, 0) as any as S.Schema<ListGroupSLAPoliciesRequest>,
   output: __S(16002, __c500, 2) as any as S.Schema<GroupSLAPoliciesResponse>,
-  errors: [Forbidden, UnknownZendeskError],
+  errors: [Forbidden],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23755,7 +24160,8 @@ export const listGroupUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16064, __c502, 0) as any as S.Schema<ListGroupUsersRequest>,
   output: __S(1728, __c54, 0) as any as S.Schema<UsersResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23772,7 +24178,8 @@ export const listItamAssets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16096, __c503, 0) as any as S.Schema<ListItamAssetsRequest>,
   output: __S(7232, __c226, 0) as any as S.Schema<ItamAssetsResponse>,
-  errors: [BadRequest, UnknownZendeskError],
+  errors: [BadRequest],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23789,7 +24196,8 @@ export const listItamAssetTypeFields: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16128, __c504, 0) as any as S.Schema<ListItamAssetTypeFieldsRequest>,
   output: __S(16129, __c504, 1) as any as S.Schema<ItamAssetTypeFieldsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23806,7 +24214,8 @@ export const listItamAssetTypes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16160, __c505, 0) as any as S.Schema<ListItamAssetTypesRequest>,
   output: __S(16162, __c505, 2) as any as S.Schema<ItamAssetTypesResponseOutput>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23823,7 +24232,8 @@ export const listItamFields: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16192, __c506, 0) as any as S.Schema<ListItamFieldsRequest>,
   output: __S(16193, __c506, 1) as any as S.Schema<ListItamFieldsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23840,7 +24250,8 @@ export const listItamLocations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16224, __c507, 0) as any as S.Schema<ListItamLocationsRequest>,
   output: __S(16226, __c507, 2) as any as S.Schema<ListItamLocationsResponse>,
-  errors: [BadRequest, UnknownZendeskError],
+  errors: [BadRequest],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23857,7 +24268,8 @@ export const listItamStatuses: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16256, __c508, 0) as any as S.Schema<ListItamStatusesRequest>,
   output: __S(16258, __c508, 2) as any as S.Schema<ItamAssetStatusesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23876,7 +24288,8 @@ export const listJobStatuses: API.PaginatedOperationMethod<
   () => ({
     input: __S(16288, __c509, 0) as any as S.Schema<ListJobStatusesRequest>,
     output: __S(10241, __c320, 1) as any as S.Schema<ListJobStatusesResponse>,
-    errors: [UnknownZendeskError],
+    errors: [],
+    serviceErrors: ZendeskServiceErrors,
     protocol: ZendeskProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -23901,7 +24314,8 @@ export const listLinkedTicketsForTaskItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16320, __c510, 0) as any as S.Schema<ListLinkedTicketsForTaskItemRequest>,
   output: __S(16322, __c510, 2) as any as S.Schema<TaskObjectLinksResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23918,7 +24332,8 @@ export const listLocales: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16352, __c511, 0) as any as S.Schema<ListLocalesRequest>,
   output: __S(14817, __c463, 1) as any as S.Schema<LocalesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23935,7 +24350,8 @@ export const listLocalesForAgent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16416, __c513, 0) as any as S.Schema<ListLocalesForAgentRequest>,
   output: __S(14817, __c463, 1) as any as S.Schema<LocalesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23952,7 +24368,8 @@ export const listMacroActionDefinitions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16448, __c514, 0) as any as S.Schema<ListMacroActionDefinitionsRequest>,
   output: __S(16449, __c514, 1) as any as S.Schema<ListMacroActionDefinitionsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23969,7 +24386,8 @@ export const listMacroAttachments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16512, __c516, 0) as any as S.Schema<ListMacroAttachmentsRequest>,
   output: __S(16514, __c516, 2) as any as S.Schema<MacroAttachmentsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23986,7 +24404,8 @@ export const listMacroCategories: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16544, __c517, 0) as any as S.Schema<ListMacroCategoriesRequest>,
   output: __S(16545, __c517, 1) as any as S.Schema<MacroCategoriesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24003,7 +24422,8 @@ export const listMacroGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16576, __c518, 0) as any as S.Schema<ListMacroGroupsRequest>,
   output: __S(24065, __c752, 1) as any as S.Schema<GroupsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24022,7 +24442,8 @@ export const listMacros: API.PaginatedOperationMethod<
   () => ({
     input: __S(16608, __c519, 0) as any as S.Schema<ListMacrosRequest>,
     output: __S(14016, __c438, 0) as any as S.Schema<ListMacrosResponse>,
-    errors: [UnknownZendeskError],
+    errors: [],
+    serviceErrors: ZendeskServiceErrors,
     protocol: ZendeskProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -24047,7 +24468,8 @@ export const listMacrosActions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16640, __c520, 0) as any as S.Schema<ListMacrosActionsRequest>,
   output: __S(16480, __c515, 0) as any as S.Schema<ListMacrosActionsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24064,7 +24486,8 @@ export const listManyAgentsAttributeValues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16672, __c521, 0) as any as S.Schema<ListManyAgentsAttributeValuesRequest>,
   output: __S(16675, __c521, 3) as any as S.Schema<ManySkillBasedRoutingAttributeValuesResponse>,
-  errors: [BadRequest, UnknownZendeskError],
+  errors: [BadRequest],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24081,7 +24504,8 @@ export const listMonitoredTwitterHandles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16704, __c522, 0) as any as S.Schema<ListMonitoredTwitterHandlesRequest>,
   output: __S(16706, __c522, 2) as any as S.Schema<TwitterChannelsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24098,7 +24522,8 @@ export const listMostUsedMacros: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16736, __c523, 0) as any as S.Schema<ListMostUsedMacrosRequest>,
   output: __S(16739, __c523, 3) as any as S.Schema<MostUsedMacrosResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24115,7 +24540,8 @@ export const listOAuthClients: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16800, __c525, 0) as any as S.Schema<ListOAuthClientsRequest>,
   output: __S(15329, __c479, 1) as any as S.Schema<OAuthClientsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24132,7 +24558,8 @@ export const listOAuthTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16832, __c526, 0) as any as S.Schema<ListOAuthTokensRequest>,
   output: __S(16834, __c526, 2) as any as S.Schema<OAuthTokensResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24149,7 +24576,8 @@ export const listObjectTriggers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16864, __c527, 0) as any as S.Schema<ListObjectTriggersRequest>,
   output: __S(14081, __c440, 1) as any as S.Schema<ObjectTriggersResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24166,7 +24594,8 @@ export const listObjectTriggersDefinitions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16896, __c528, 0) as any as S.Schema<ListObjectTriggersDefinitionsRequest>,
   output: __S(16904, __c528, 8) as any as S.Schema<ObjectTriggerDefinitionResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24183,7 +24612,8 @@ export const listOpenRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16928, __c529, 0) as any as S.Schema<ListOpenRequestsRequest>,
   output: __S(15073, __c471, 1) as any as S.Schema<RequestsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24202,7 +24632,8 @@ export const listOrganizationFields: API.PaginatedOperationMethod<
   () => ({
     input: __S(16960, __c530, 0) as any as S.Schema<ListOrganizationFieldsRequest>,
     output: __S(16961, __c530, 1) as any as S.Schema<OrganizationFieldsResponse>,
-    errors: [UnknownZendeskError],
+    errors: [],
+    serviceErrors: ZendeskServiceErrors,
     protocol: ZendeskProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -24227,7 +24658,8 @@ export const listOrganizationMemberships: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16992, __c531, 0) as any as S.Schema<ListOrganizationMembershipsRequest>,
   output: __S(17025, __c532, 1) as any as S.Schema<OrganizationMembershipsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24244,7 +24676,8 @@ export const listOrganizationMembershipsByOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17056, __c533, 0) as any as S.Schema<ListOrganizationMembershipsByOrganizationRequest>,
   output: __S(17025, __c532, 1) as any as S.Schema<OrganizationMembershipsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24261,7 +24694,8 @@ export const listOrganizationMerges: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17088, __c534, 0) as any as S.Schema<ListOrganizationMergesRequest>,
   output: __S(17091, __c534, 3) as any as S.Schema<OrganizationMergeListResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24278,7 +24712,8 @@ export const listOrganizationRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17120, __c535, 0) as any as S.Schema<ListOrganizationRequestsRequest>,
   output: __S(15073, __c471, 1) as any as S.Schema<RequestsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24297,7 +24732,8 @@ export const listOrganizations: API.PaginatedOperationMethod<
   () => ({
     input: __S(17184, __c537, 0) as any as S.Schema<ListOrganizationsRequest>,
     output: __S(27968, __c874, 0) as any as S.Schema<OrganizationsResponse>,
-    errors: [UnknownZendeskError],
+    errors: [],
+    serviceErrors: ZendeskServiceErrors,
     protocol: ZendeskProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -24322,7 +24758,8 @@ export const listOrganizationSubscriptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17216, __c538, 0) as any as S.Schema<ListOrganizationSubscriptionsRequest>,
   output: __S(17249, __c539, 1) as any as S.Schema<ListOrganizationSubscriptionsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24347,7 +24784,8 @@ export const listOrganizationSubscriptionsByOrganization: API.OperationMethod<
     __c539,
     1,
   ) as any as S.Schema<ListOrganizationSubscriptionsByOrganizationResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24364,7 +24802,8 @@ export const listOrganizationTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17312, __c541, 0) as any as S.Schema<ListOrganizationTagsRequest>,
   output: __S(19680, __c615, 0) as any as S.Schema<TagsByObjectIdResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24381,7 +24820,8 @@ export const listOrganizationTickets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17344, __c542, 0) as any as S.Schema<ListOrganizationTicketsRequest>,
   output: __S(416, __c13, 0) as any as S.Schema<TicketsResponseOutput>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24398,7 +24838,8 @@ export const listOrganizationUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17376, __c543, 0) as any as S.Schema<ListOrganizationUsersRequest>,
   output: __S(1728, __c54, 0) as any as S.Schema<UsersResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24415,7 +24856,8 @@ export const listParentTicketReferences: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17408, __c544, 0) as any as S.Schema<ListParentTicketReferencesRequest>,
   output: __S(17413, __c544, 5) as any as S.Schema<ParentTicketTasksResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24432,7 +24874,8 @@ export const listPermissionPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17440, __c545, 0) as any as S.Schema<ListPermissionPoliciesRequest>,
   output: __S(17442, __c545, 2) as any as S.Schema<PermissionPoliciesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24449,7 +24892,8 @@ export const listQueueDefinitions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17472, __c546, 0) as any as S.Schema<ListQueueDefinitionsRequest>,
   output: __S(17474, __c546, 2) as any as S.Schema<DefinitionsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24466,7 +24910,8 @@ export const listQueues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17504, __c547, 0) as any as S.Schema<ListQueuesRequest>,
   output: __S(17506, __c547, 2) as any as S.Schema<QueuesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24483,7 +24928,8 @@ export const listRecentTickets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17568, __c549, 0) as any as S.Schema<ListRecentTicketsRequest>,
   output: __S(416, __c13, 0) as any as S.Schema<TicketsResponseOutput>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24500,7 +24946,8 @@ export const listRemoteAuthentications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17600, __c550, 0) as any as S.Schema<ListRemoteAuthenticationsRequest>,
   output: __S(17603, __c550, 3) as any as S.Schema<RemoteAuthenticationsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24519,7 +24966,8 @@ export const listRequests: API.PaginatedOperationMethod<
   () => ({
     input: __S(17632, __c551, 0) as any as S.Schema<ListRequestsRequest>,
     output: __S(15073, __c471, 1) as any as S.Schema<RequestsResponse>,
-    errors: [UnknownZendeskError],
+    errors: [],
+    serviceErrors: ZendeskServiceErrors,
     protocol: ZendeskProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -24544,7 +24992,8 @@ export const listResourceCollections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17664, __c552, 0) as any as S.Schema<ListResourceCollectionsRequest>,
   output: __S(17666, __c552, 2) as any as S.Schema<ResourceCollectionsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24561,7 +25010,8 @@ export const listResourceTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17696, __c553, 0) as any as S.Schema<ListResourceTagsRequest>,
   output: __S(19680, __c615, 0) as any as S.Schema<TagsByObjectIdResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24578,7 +25028,8 @@ export const listRoutingAttributeDefinitions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17728, __c554, 0) as any as S.Schema<ListRoutingAttributeDefinitionsRequest>,
   output: __S(17732, __c554, 4) as any as S.Schema<SkillBasedRoutingAttributeDefinitions>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24595,7 +25046,8 @@ export const listSatisfactionRatingReasons: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17760, __c555, 0) as any as S.Schema<ListSatisfactionRatingReasonsRequest>,
   output: __S(17761, __c555, 1) as any as S.Schema<SatisfactionReasonsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24612,7 +25064,8 @@ export const listSatisfactionRatings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17792, __c556, 0) as any as S.Schema<ListSatisfactionRatingsRequest>,
   output: __S(17793, __c556, 1) as any as S.Schema<SatisfactionRatingsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24629,7 +25082,8 @@ export const listSavedSearches: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17824, __c557, 0) as any as S.Schema<ListSavedSearchesRequest>,
   output: __S(17826, __c557, 2) as any as S.Schema<SavedSearchesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24646,7 +25100,8 @@ export const listSearchResults: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17856, __c558, 0) as any as S.Schema<ListSearchResultsRequest>,
   output: __S(17857, __c558, 1) as any as S.Schema<SearchResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24663,7 +25118,8 @@ export const listSessions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17920, __c560, 0) as any as S.Schema<ListSessionsRequest>,
   output: __S(17952, __c561, 0) as any as S.Schema<SessionsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24680,7 +25136,8 @@ export const listSharingAgreements: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17984, __c562, 0) as any as S.Schema<ListSharingAgreementsRequest>,
   output: __S(17986, __c562, 2) as any as S.Schema<SharingAgreementsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24697,7 +25154,8 @@ export const listSkips: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18016, __c563, 0) as any as S.Schema<ListSkipsRequest>,
   output: __S(18049, __c564, 1) as any as S.Schema<TicketSkipsResponseOutput>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24714,7 +25172,8 @@ export const listSLAPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18112, __c566, 0) as any as S.Schema<ListSLAPoliciesRequest>,
   output: __S(18114, __c566, 2) as any as S.Schema<SLAPoliciesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24731,7 +25190,8 @@ export const listSolvedRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18144, __c567, 0) as any as S.Schema<ListSolvedRequestsRequest>,
   output: __S(15073, __c471, 1) as any as S.Schema<RequestsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24748,7 +25208,8 @@ export const listSupportAddresses: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18176, __c568, 0) as any as S.Schema<ListSupportAddressesRequest>,
   output: __S(18178, __c568, 2) as any as S.Schema<SupportAddressesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24765,7 +25226,8 @@ export const listSuspendedTickets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18208, __c569, 0) as any as S.Schema<ListSuspendedTicketsRequest>,
   output: __S(18210, __c569, 2) as any as S.Schema<SuspendedTicketsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24784,7 +25246,8 @@ export const listTags: API.PaginatedOperationMethod<
   () => ({
     input: __S(18240, __c570, 0) as any as S.Schema<ListTagsRequest>,
     output: __S(18243, __c570, 3) as any as S.Schema<TagsResponse>,
-    errors: [UnknownZendeskError],
+    errors: [],
+    serviceErrors: ZendeskServiceErrors,
     protocol: ZendeskProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -24809,7 +25272,8 @@ export const listTargetFailures: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18272, __c571, 0) as any as S.Schema<ListTargetFailuresRequest>,
   output: __S(18274, __c571, 2) as any as S.Schema<TargetFailuresResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24826,7 +25290,8 @@ export const listTargets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18304, __c572, 0) as any as S.Schema<ListTargetsRequest>,
   output: __S(18306, __c572, 2) as any as S.Schema<TargetsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24843,7 +25308,8 @@ export const listTaskItems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18368, __c574, 0) as any as S.Schema<ListTaskItemsRequest>,
   output: __S(18370, __c574, 2) as any as S.Schema<TaskItemInstancesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24860,7 +25326,8 @@ export const listTaskListTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18400, __c575, 0) as any as S.Schema<ListTaskListTemplatesRequest>,
   output: __S(18402, __c575, 2) as any as S.Schema<TaskListTemplatesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24877,7 +25344,8 @@ export const listTicketAttributeValues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18432, __c576, 0) as any as S.Schema<ListTicketAttributeValuesRequest>,
   output: __S(14337, __c448, 1) as any as S.Schema<SkillBasedRoutingAttributeValuesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24894,7 +25362,8 @@ export const listTicketAudits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18464, __c577, 0) as any as S.Schema<ListTicketAuditsRequest>,
   output: __S(18465, __c577, 1) as any as S.Schema<TicketAuditsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24911,7 +25380,8 @@ export const listTicketCollaborators: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18496, __c578, 0) as any as S.Schema<ListTicketCollaboratorsRequest>,
   output: __S(29024, __c907, 0) as any as S.Schema<ListTicketCollaboratorsResponse2>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24928,7 +25398,8 @@ export const listTicketComments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18528, __c579, 0) as any as S.Schema<ListTicketCommentsRequest>,
   output: __S(15137, __c473, 1) as any as S.Schema<TicketCommentsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24945,7 +25416,8 @@ export const listTicketContentPins: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18560, __c580, 0) as any as S.Schema<ListTicketContentPinsRequest>,
   output: __S(18562, __c580, 2) as any as S.Schema<ListTicketContentPinsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24962,7 +25434,8 @@ export const listTicketEmailCCs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18592, __c581, 0) as any as S.Schema<ListTicketEmailCCsRequest>,
   output: __S(29024, __c907, 0) as any as S.Schema<ListTicketEmailCCsResponse2>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24979,7 +25452,8 @@ export const listTicketFieldOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18624, __c582, 0) as any as S.Schema<ListTicketFieldOptionsRequest>,
   output: __S(18656, __c583, 0) as any as S.Schema<CustomFieldOptionsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24996,7 +25470,8 @@ export const listTicketFields: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18688, __c584, 0) as any as S.Schema<ListTicketFieldsRequest>,
   output: __S(18689, __c584, 1) as any as S.Schema<TicketFieldsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25013,7 +25488,8 @@ export const listTicketFollowers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18848, __c589, 0) as any as S.Schema<ListTicketFollowersRequest>,
   output: __S(29024, __c907, 0) as any as S.Schema<ListTicketFollowersResponse2>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25030,7 +25506,8 @@ export const listTicketForms: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18880, __c590, 0) as any as S.Schema<ListTicketFormsRequest>,
   output: __S(10401, __c325, 1) as any as S.Schema<TicketFormsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25047,7 +25524,8 @@ export const listTicketFormStatuses: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18913, __c591, 1) as any as S.Schema<ListTicketFormStatusesRequest>,
   output: __S(1986, __c62, 2) as any as S.Schema<TicketFormStatusesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25064,7 +25542,8 @@ export const listTicketGroupSlaPolicyMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18944, __c592, 0) as any as S.Schema<ListTicketGroupSlaPolicyMetricsRequest>,
   output: __S(18978, __c593, 2) as any as S.Schema<ListTicketGroupSlaPolicyMetricsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25081,7 +25560,8 @@ export const listTicketIncidents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19008, __c594, 0) as any as S.Schema<ListTicketIncidentsRequest>,
   output: __S(29024, __c907, 0) as any as S.Schema<ListTicketIncidentsResponse2>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25100,7 +25580,8 @@ export const listTicketMetricEvents: API.PaginatedOperationMethod<
   () => ({
     input: __S(19040, __c595, 0) as any as S.Schema<ListTicketMetricEventsRequest>,
     output: __S(19041, __c595, 1) as any as S.Schema<ListTicketMetricEventsResponse>,
-    errors: [Forbidden, UnknownZendeskError],
+    errors: [Forbidden],
+    serviceErrors: ZendeskServiceErrors,
     protocol: ZendeskProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -25125,7 +25606,8 @@ export const listTicketMetricEventsByTicket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19072, __c596, 0) as any as S.Schema<ListTicketMetricEventsByTicketRequest>,
   output: __S(19076, __c596, 4) as any as S.Schema<ListTicketMetricEventsByTicketResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25142,7 +25624,8 @@ export const listTicketMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19104, __c597, 0) as any as S.Schema<ListTicketMetricsRequest>,
   output: __S(19106, __c597, 2) as any as S.Schema<TicketMetricsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25159,7 +25642,8 @@ export const listTicketProblems: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19136, __c598, 0) as any as S.Schema<ListTicketProblemsRequest>,
   output: __S(29024, __c907, 0) as any as S.Schema<ListTicketProblemsResponse2>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25176,7 +25660,8 @@ export const listTickets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19168, __c599, 0) as any as S.Schema<ListTicketsRequest>,
   output: __S(416, __c13, 0) as any as S.Schema<TicketsResponseOutput>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25193,7 +25678,8 @@ export const listTicketsFromView: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19264, __c602, 0) as any as S.Schema<ListTicketsFromViewRequest>,
   output: __S(416, __c13, 0) as any as S.Schema<TicketsResponseOutput>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25210,7 +25696,8 @@ export const listTicketsFullfilledByUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19296, __c603, 0) as any as S.Schema<ListTicketsFullfilledByUserRequest>,
   output: __S(19297, __c603, 1) as any as S.Schema<SkillBasedRoutingTicketFulfilledResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25227,7 +25714,8 @@ export const listTicketSkips: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19328, __c604, 0) as any as S.Schema<ListTicketSkipsRequest>,
   output: __S(18049, __c564, 1) as any as S.Schema<TicketSkipsResponseOutput>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25244,7 +25732,8 @@ export const listTicketSkipsByTicket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19360, __c605, 0) as any as S.Schema<ListTicketSkipsByTicketRequest>,
   output: __S(18049, __c564, 1) as any as S.Schema<TicketSkipsResponseOutput>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25261,7 +25750,8 @@ export const listTicketSlaPolicyMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19392, __c606, 0) as any as S.Schema<ListTicketSlaPolicyMetricsRequest>,
   output: __S(18978, __c593, 2) as any as S.Schema<ListTicketSlaPolicyMetricsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25278,7 +25768,8 @@ export const listTriggerActionConditionDefinitions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19424, __c607, 0) as any as S.Schema<ListTriggerActionConditionDefinitionsRequest>,
   output: __S(19428, __c607, 4) as any as S.Schema<TriggerDefinitionResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25295,7 +25786,8 @@ export const listTriggerCategories: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19456, __c608, 0) as any as S.Schema<ListTriggerCategoriesRequest>,
   output: __S(19461, __c608, 5) as any as S.Schema<ListTriggerCategoriesResponse>,
-  errors: [BadRequest, Forbidden, UnknownZendeskError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25312,7 +25804,8 @@ export const listTriggerRevisions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19488, __c609, 0) as any as S.Schema<ListTriggerRevisionsRequest>,
   output: __S(19499, __c609, 11) as any as S.Schema<TriggerRevisionsResponse>,
-  errors: [Forbidden, NotFound, UnknownZendeskError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25331,7 +25824,8 @@ export const listTriggers: API.PaginatedOperationMethod<
   () => ({
     input: __S(19552, __c611, 0) as any as S.Schema<ListTriggersRequest>,
     output: __S(14144, __c442, 0) as any as S.Schema<TriggersResponseOutput>,
-    errors: [UnknownZendeskError],
+    errors: [],
+    serviceErrors: ZendeskServiceErrors,
     protocol: ZendeskProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -25356,7 +25850,8 @@ export const listUserAssignedTickets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19584, __c612, 0) as any as S.Schema<ListUserAssignedTicketsRequest>,
   output: __S(416, __c13, 0) as any as S.Schema<TicketsResponseOutput>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25373,7 +25868,8 @@ export const listUserBrandAgents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19744, __c617, 0) as any as S.Schema<ListUserBrandAgentsRequest>,
   output: __S(14913, __c466, 1) as any as S.Schema<BrandAgentsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25390,7 +25886,8 @@ export const listUserCCDTickets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19776, __c618, 0) as any as S.Schema<ListUserCCDTicketsRequest>,
   output: __S(416, __c13, 0) as any as S.Schema<TicketsResponseOutput>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25407,7 +25904,8 @@ export const listUserFieldOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19808, __c619, 0) as any as S.Schema<ListUserFieldOptionsRequest>,
   output: __S(18656, __c583, 0) as any as S.Schema<CustomFieldOptionsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25426,7 +25924,8 @@ export const listUserFields: API.PaginatedOperationMethod<
   () => ({
     input: __S(19840, __c620, 0) as any as S.Schema<ListUserFieldsRequest>,
     output: __S(10528, __c329, 0) as any as S.Schema<UserFieldsResponse>,
-    errors: [UnknownZendeskError],
+    errors: [],
+    serviceErrors: ZendeskServiceErrors,
     protocol: ZendeskProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -25451,7 +25950,8 @@ export const listUserFollowedTickets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19872, __c621, 0) as any as S.Schema<ListUserFollowedTicketsRequest>,
   output: __S(416, __c13, 0) as any as S.Schema<TicketsResponseOutput>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25468,7 +25968,8 @@ export const listUserGroupMemberships: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19904, __c622, 0) as any as S.Schema<ListUserGroupMembershipsRequest>,
   output: __S(13377, __c418, 1) as any as S.Schema<GroupMembershipsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25485,7 +25986,8 @@ export const listUserGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19936, __c623, 0) as any as S.Schema<ListUserGroupsRequest>,
   output: __S(24065, __c752, 1) as any as S.Schema<GroupsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25502,7 +26004,8 @@ export const listUserIdentities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19968, __c624, 0) as any as S.Schema<ListUserIdentitiesRequest>,
   output: __S(15841, __c495, 1) as any as S.Schema<UserIdentitiesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25519,7 +26022,8 @@ export const listUserOrganizationMemberships: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20000, __c625, 0) as any as S.Schema<ListUserOrganizationMembershipsRequest>,
   output: __S(17025, __c532, 1) as any as S.Schema<OrganizationMembershipsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25538,7 +26042,8 @@ export const listUserOrganizations: API.PaginatedOperationMethod<
   () => ({
     input: __S(20032, __c626, 0) as any as S.Schema<ListUserOrganizationsRequest>,
     output: __S(27968, __c874, 0) as any as S.Schema<OrganizationsResponse>,
-    errors: [Forbidden, NotFound, UnknownZendeskError],
+    errors: [Forbidden, NotFound],
+    serviceErrors: ZendeskServiceErrors,
     protocol: ZendeskProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -25563,7 +26068,8 @@ export const listUserOrganizationSubscriptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20160, __c630, 0) as any as S.Schema<ListUserOrganizationSubscriptionsRequest>,
   output: __S(17249, __c539, 1) as any as S.Schema<ListUserOrganizationSubscriptionsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25580,7 +26086,8 @@ export const listUserRequestedTickets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20192, __c631, 0) as any as S.Schema<ListUserRequestedTicketsRequest>,
   output: __S(416, __c13, 0) as any as S.Schema<TicketsResponseOutput>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25597,7 +26104,8 @@ export const listUserRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20224, __c632, 0) as any as S.Schema<ListUserRequestsRequest>,
   output: __S(15073, __c471, 1) as any as S.Schema<RequestsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25614,7 +26122,8 @@ export const listUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20256, __c633, 0) as any as S.Schema<ListUsersRequest>,
   output: __S(1728, __c54, 0) as any as S.Schema<UsersResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25631,7 +26140,8 @@ export const listUserSessions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20288, __c634, 0) as any as S.Schema<ListUserSessionsRequest>,
   output: __S(17952, __c561, 0) as any as S.Schema<SessionsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25648,7 +26158,8 @@ export const listUserTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20320, __c635, 0) as any as S.Schema<ListUserTagsRequest>,
   output: __S(19680, __c615, 0) as any as S.Schema<TagsByObjectIdResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25665,7 +26176,8 @@ export const listViewDefinitions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20352, __c636, 0) as any as S.Schema<ListViewDefinitionsRequest>,
   output: __S(20354, __c636, 2) as any as S.Schema<ListViewDefinitionsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25684,7 +26196,8 @@ export const listViews: API.PaginatedOperationMethod<
   () => ({
     input: __S(20384, __c637, 0) as any as S.Schema<ListViewsRequest>,
     output: __S(14209, __c444, 1) as any as S.Schema<ViewsResponse>,
-    errors: [UnknownZendeskError],
+    errors: [],
+    serviceErrors: ZendeskServiceErrors,
     protocol: ZendeskProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -25709,7 +26222,8 @@ export const listViewsById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20416, __c638, 0) as any as S.Schema<ListViewsByIdRequest>,
   output: __S(14209, __c444, 1) as any as S.Schema<ViewsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25726,7 +26240,8 @@ export const listWhatsappTemplateLanguages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20448, __c639, 0) as any as S.Schema<ListWhatsappTemplateLanguagesRequest>,
   output: __S(20451, __c639, 3) as any as S.Schema<WhatsappTemplateLanguagesResponse>,
-  errors: [NotFound, UnknownZendeskError],
+  errors: [NotFound],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25745,7 +26260,8 @@ export const listWhatsappTemplates: API.PaginatedOperationMethod<
   () => ({
     input: __S(20576, __c643, 0) as any as S.Schema<ListWhatsappTemplatesRequest>,
     output: __S(20609, __c644, 1) as any as S.Schema<WhatsappTemplatesResponse>,
-    errors: [NotFound, UnknownZendeskError],
+    errors: [NotFound],
+    serviceErrors: ZendeskServiceErrors,
     protocol: ZendeskProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -25770,7 +26286,8 @@ export const listWorkspaces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20672, __c646, 0) as any as S.Schema<ListWorkspacesRequest>,
   output: __S(20674, __c646, 2) as any as S.Schema<ListWorkspacesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25787,7 +26304,8 @@ export const logoutManyUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20704, __c647, 0) as any as S.Schema<LogoutManyUsersRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<LogoutManyUsersResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25804,7 +26322,8 @@ export const makeEndUserIdentityPrimary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20736, __c648, 0) as any as S.Schema<MakeEndUserIdentityPrimaryRequest>,
   output: __S(15841, __c495, 1) as any as S.Schema<UserIdentitiesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25821,7 +26340,8 @@ export const makeTicketCommentPrivate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20768, __c649, 0) as any as S.Schema<MakeTicketCommentPrivateRequest>,
   output: __S(5536, __c173, 0) as any as S.Schema<MakeTicketCommentPrivateResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25838,7 +26358,8 @@ export const makeTicketCommentPrivateFromAudits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20800, __c650, 0) as any as S.Schema<MakeTicketCommentPrivateFromAuditsRequest>,
   output: __S(5536, __c173, 0) as any as S.Schema<MakeTicketCommentPrivateFromAuditsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25855,7 +26376,8 @@ export const makeUserIdentityPrimary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20832, __c651, 0) as any as S.Schema<MakeUserIdentityPrimaryRequest>,
   output: __S(15841, __c495, 1) as any as S.Schema<UserIdentitiesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25872,7 +26394,8 @@ export const markManyTicketsAsSpam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20864, __c652, 0) as any as S.Schema<MarkManyTicketsAsSpamRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<JobStatusResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25889,7 +26412,8 @@ export const markTicketAsSpamAndSuspendRequester: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20896, __c653, 0) as any as S.Schema<MarkTicketAsSpamAndSuspendRequesterRequest>,
   output: __S(5536, __c173, 0) as any as S.Schema<MarkTicketAsSpamAndSuspendRequesterResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25906,7 +26430,8 @@ export const mergeEndUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20928, __c654, 0) as any as S.Schema<MergeEndUsersRequest>,
   output: __S(30048, __c939, 0) as any as S.Schema<UserResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25923,7 +26448,8 @@ export const mergeTicketsIntoTargetTicket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21056, __c658, 0) as any as S.Schema<MergeTicketsIntoTargetTicketRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<JobStatusResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25940,7 +26466,8 @@ export const openTicketInAgentBrowser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21088, __c659, 0) as any as S.Schema<OpenTicketInAgentBrowserRequest>,
   output: __S(5536, __c173, 0) as any as S.Schema<OpenTicketInAgentBrowserResponse>,
-  errors: [NotFound, UnknownZendeskError],
+  errors: [NotFound],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25957,7 +26484,8 @@ export const openUsersProfileInAgentBrowser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21120, __c660, 0) as any as S.Schema<OpenUsersProfileInAgentBrowserRequest>,
   output: __S(5536, __c173, 0) as any as S.Schema<OpenUsersProfileInAgentBrowserResponse>,
-  errors: [NotFound, UnknownZendeskError],
+  errors: [NotFound],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25974,7 +26502,8 @@ export const organizationRelated: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21152, __c661, 0) as any as S.Schema<OrganizationRelatedRequest>,
   output: __S(21154, __c661, 2) as any as S.Schema<OrganizationsRelatedResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25991,7 +26520,8 @@ export const permanentlyDeleteUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21184, __c662, 0) as any as S.Schema<PermanentlyDeleteUserRequest>,
   output: __S(8960, __c280, 0) as any as S.Schema<DeletedUserResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26008,7 +26538,8 @@ export const postAutocompleteTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21216, __c663, 0) as any as S.Schema<PostAutocompleteTagRequest>,
   output: __S(19680, __c615, 0) as any as S.Schema<TagsByObjectIdResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26025,7 +26556,8 @@ export const postAutocompleteUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21248, __c664, 0) as any as S.Schema<PostAutocompleteUserRequest>,
   output: __S(1728, __c54, 0) as any as S.Schema<UsersResponse>,
-  errors: [BadRequest, UnknownZendeskError],
+  errors: [BadRequest],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26042,7 +26574,8 @@ export const previewCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21280, __c665, 0) as any as S.Schema<PreviewCountRequest>,
   output: __S(13120, __c410, 0) as any as S.Schema<ViewCountResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26059,7 +26592,8 @@ export const previewViews: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21318, __c666, 6) as any as S.Schema<PreviewViewsRequest>,
   output: __S(2880, __c90, 0) as any as S.Schema<ViewResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26076,7 +26610,8 @@ export const pushContentToSupport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21344, __c667, 0) as any as S.Schema<PushContentToSupportRequest>,
   output: __S(21348, __c667, 4) as any as S.Schema<ChannelFrameworkPushResultsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26093,7 +26628,8 @@ export const pushNotificationDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21568, __c674, 0) as any as S.Schema<PushNotificationDevicesRequest>,
   output: __S(5536, __c173, 0) as any as S.Schema<PushNotificationDevicesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26110,7 +26646,8 @@ export const putTagsTicket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21600, __c675, 0) as any as S.Schema<PutTagsTicketRequest>,
   output: __S(19680, __c615, 0) as any as S.Schema<TagsByObjectIdResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26127,7 +26664,8 @@ export const putUserTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21632, __c676, 0) as any as S.Schema<PutUserTagsRequest>,
   output: __S(19680, __c615, 0) as any as S.Schema<TagsByObjectIdResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26144,7 +26682,8 @@ export const recordNewSkip: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21665, __c677, 1) as any as S.Schema<RecordNewSkipRequest>,
   output: __S(21666, __c677, 2) as any as S.Schema<TicketSkipCreationOutput>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26161,7 +26700,8 @@ export const recoverSuspendedTicket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21696, __c678, 0) as any as S.Schema<RecoverSuspendedTicketRequest>,
   output: __S(1440, __c45, 0) as any as S.Schema<RecoverSuspendedTicketResponseOutput>,
-  errors: [UnprocessableEntity, UnknownZendeskError],
+  errors: [UnprocessableEntity],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26178,7 +26718,8 @@ export const recoverSuspendedTickets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21728, __c679, 0) as any as S.Schema<RecoverSuspendedTicketsRequest>,
   output: __S(416, __c13, 0) as any as S.Schema<RecoverSuspendedTicketsResponseOutput>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26195,7 +26736,8 @@ export const redactChatComment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21760, __c680, 0) as any as S.Schema<RedactChatCommentRequest>,
   output: __S(21794, __c681, 2) as any as S.Schema<TicketChatCommentRedactionResponse>,
-  errors: [Conflict, UnknownZendeskError],
+  errors: [Conflict],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26212,7 +26754,8 @@ export const redactChatCommentAttachment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21824, __c682, 0) as any as S.Schema<RedactChatCommentAttachmentRequest>,
   output: __S(21794, __c681, 2) as any as S.Schema<TicketChatCommentRedactionResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26229,7 +26772,8 @@ export const redactCommentAttachment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21856, __c683, 0) as any as S.Schema<RedactCommentAttachmentRequest>,
   output: __S(7712, __c241, 0) as any as S.Schema<AttachmentResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26246,7 +26790,8 @@ export const redactStringInComment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21888, __c684, 0) as any as S.Schema<RedactStringInCommentRequest>,
   output: __S(8160, __c255, 0) as any as S.Schema<TicketCommentResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26263,7 +26808,8 @@ export const redactTicketCommentInAgentWorkspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21984, __c687, 0) as any as S.Schema<RedactTicketCommentInAgentWorkspaceRequest>,
   output: __S(8160, __c255, 0) as any as S.Schema<TicketCommentResponse>,
-  errors: [Conflict, UnknownZendeskError],
+  errors: [Conflict],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26280,7 +26826,8 @@ export const removeOrganizationTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22016, __c688, 0) as any as S.Schema<RemoveOrganizationTagsRequest>,
   output: __S(19680, __c615, 0) as any as S.Schema<TagsByObjectIdResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26297,7 +26844,8 @@ export const renewCurrentSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22048, __c689, 0) as any as S.Schema<RenewCurrentSessionRequest>,
   output: __S(22049, __c689, 1) as any as S.Schema<RenewSessionResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26314,7 +26862,8 @@ export const reorderCustomObjectFields: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22080, __c690, 0) as any as S.Schema<ReorderCustomObjectFieldsRequest>,
   output: __S(5536, __c173, 0) as any as S.Schema<ReorderCustomObjectFieldsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26335,7 +26884,8 @@ export const reorderGroupSLAPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22112, __c691, 0) as any as S.Schema<ReorderGroupSLAPoliciesRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<ReorderGroupSLAPoliciesResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownZendeskError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26352,7 +26902,8 @@ export const reorderOrganizationField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22145, __c692, 1) as any as S.Schema<ReorderOrganizationFieldRequest>,
   output: __S(5536, __c173, 0) as any as S.Schema<ReorderOrganizationFieldResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26369,7 +26920,8 @@ export const reorderQueues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22176, __c693, 0) as any as S.Schema<ReorderQueuesRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<ReorderQueuesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26386,7 +26938,8 @@ export const reorderSLAPolicies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22208, __c694, 0) as any as S.Schema<ReorderSLAPoliciesRequest>,
   output: __S(5536, __c173, 0) as any as S.Schema<ReorderSLAPoliciesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26403,7 +26956,8 @@ export const reorderTicketFields: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22240, __c695, 0) as any as S.Schema<ReorderTicketFieldsRequest>,
   output: __S(5536, __c173, 0) as any as S.Schema<ReorderTicketFieldsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26420,7 +26974,8 @@ export const reorderTicketForms: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22272, __c696, 0) as any as S.Schema<ReorderTicketFormsRequest>,
   output: __S(10401, __c325, 1) as any as S.Schema<TicketFormsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26437,7 +26992,8 @@ export const reorderTriggers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22432, __c701, 0) as any as S.Schema<ReorderTriggersRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<ReorderTriggersResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26454,7 +27010,8 @@ export const reorderUserField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22464, __c702, 0) as any as S.Schema<ReorderUserFieldRequest>,
   output: __S(5536, __c173, 0) as any as S.Schema<ReorderUserFieldResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26471,7 +27028,8 @@ export const reorderWorkspaces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22496, __c703, 0) as any as S.Schema<ReorderWorkspacesRequest>,
   output: __S(5536, __c173, 0) as any as S.Schema<ReorderWorkspacesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26488,7 +27046,8 @@ export const reportChannelbackError: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22528, __c704, 0) as any as S.Schema<ReportChannelbackErrorRequest>,
   output: __S(5536, __c173, 0) as any as S.Schema<ReportChannelbackErrorResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26505,7 +27064,8 @@ export const requestEndUserVerification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22560, __c705, 0) as any as S.Schema<RequestEndUserVerificationRequest>,
   output: __S(5536, __c173, 0) as any as S.Schema<RequestEndUserVerificationResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26522,7 +27082,8 @@ export const requestUserVerification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22592, __c706, 0) as any as S.Schema<RequestUserVerificationRequest>,
   output: __S(5536, __c173, 0) as any as S.Schema<RequestUserVerificationResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26539,7 +27100,8 @@ export const restoreDeletedTicket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22624, __c707, 0) as any as S.Schema<RestoreDeletedTicketRequest>,
   output: __S(5536, __c173, 0) as any as S.Schema<RestoreDeletedTicketResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26556,7 +27118,8 @@ export const revokeCurrentOAuthToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22656, __c708, 0) as any as S.Schema<RevokeCurrentOAuthTokenRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<RevokeCurrentOAuthTokenResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26573,7 +27136,8 @@ export const revokeManyOAuthTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22688, __c709, 0) as any as S.Schema<RevokeManyOAuthTokensRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<RevokeManyOAuthTokensResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26590,7 +27154,8 @@ export const revokeOAuthToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22720, __c710, 0) as any as S.Schema<RevokeOAuthTokenRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<RevokeOAuthTokenResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26607,7 +27172,8 @@ export const searchAutocompleteCustomObjectRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22849, __c714, 1) as any as S.Schema<SearchAutocompleteCustomObjectRecordRequest>,
   output: __S(7136, __c223, 0) as any as S.Schema<CustomObjectRecordsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26624,7 +27190,8 @@ export const searchAutomations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22880, __c715, 0) as any as S.Schema<SearchAutomationsRequest>,
   output: __S(13953, __c436, 1) as any as S.Schema<AutomationsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26641,7 +27208,8 @@ export const searchCustomObjectRecords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22912, __c716, 0) as any as S.Schema<SearchCustomObjectRecordsRequest>,
   output: __S(7136, __c223, 0) as any as S.Schema<CustomObjectRecordsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26658,7 +27226,8 @@ export const searchItamAssets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22944, __c717, 0) as any as S.Schema<SearchItamAssetsRequest>,
   output: __S(7232, __c226, 0) as any as S.Schema<ItamAssetsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26675,7 +27244,8 @@ export const searchMacro: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22976, __c718, 0) as any as S.Schema<SearchMacroRequest>,
   output: __S(23008, __c719, 0) as any as S.Schema<SearchMacroResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26692,7 +27262,8 @@ export const searchObjectTriggers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23040, __c720, 0) as any as S.Schema<SearchObjectTriggersRequest>,
   output: __S(14081, __c440, 1) as any as S.Schema<ObjectTriggersResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26709,7 +27280,8 @@ export const searchOrganizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23072, __c721, 0) as any as S.Schema<SearchOrganizationsRequest>,
   output: __S(27968, __c874, 0) as any as S.Schema<OrganizationsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26726,7 +27298,8 @@ export const searchRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23104, __c722, 0) as any as S.Schema<SearchRequestsRequest>,
   output: __S(15073, __c471, 1) as any as S.Schema<RequestsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26743,7 +27316,8 @@ export const searchTriggers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23136, __c723, 0) as any as S.Schema<SearchTriggersRequest>,
   output: __S(14144, __c442, 0) as any as S.Schema<TriggersResponseOutput>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26760,7 +27334,8 @@ export const searchUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23168, __c724, 0) as any as S.Schema<SearchUsersRequest>,
   output: __S(1728, __c54, 0) as any as S.Schema<UsersResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26777,7 +27352,8 @@ export const searchViews: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23296, __c728, 0) as any as S.Schema<SearchViewsRequest>,
   output: __S(14209, __c444, 1) as any as S.Schema<ViewsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26798,7 +27374,8 @@ export const setAgentAttributeValues: API.OperationMethod<
     __c454,
     2,
   ) as any as S.Schema<SkillBasedRoutingAttributeValuesWithoutPriorityResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26815,7 +27392,8 @@ export const setOrganizationAsDefault: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23360, __c730, 0) as any as S.Schema<SetOrganizationAsDefaultRequest>,
   output: __S(29632, __c926, 0) as any as S.Schema<OrganizationMembershipResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26832,7 +27410,8 @@ export const setOrganizationMembershipAsDefault: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23392, __c731, 0) as any as S.Schema<SetOrganizationMembershipAsDefaultRequest>,
   output: __S(17025, __c532, 1) as any as S.Schema<OrganizationMembershipsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26849,7 +27428,8 @@ export const setOrganizationTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23424, __c732, 0) as any as S.Schema<SetOrganizationTagsRequest>,
   output: __S(19680, __c615, 0) as any as S.Schema<TagsByObjectIdResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26866,7 +27446,8 @@ export const setTagsTicket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23456, __c733, 0) as any as S.Schema<SetTagsTicketRequest>,
   output: __S(19680, __c615, 0) as any as S.Schema<TagsByObjectIdResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26888,7 +27469,8 @@ export const setTicketAttributeValues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23488, __c734, 0) as any as S.Schema<SetTicketAttributeValuesRequest>,
   output: __S(14337, __c448, 1) as any as S.Schema<SkillBasedRoutingAttributeValuesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownZendeskError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26905,7 +27487,8 @@ export const setUserPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23520, __c735, 0) as any as S.Schema<SetUserPasswordRequest>,
   output: __S(5536, __c173, 0) as any as S.Schema<SetUserPasswordResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26922,7 +27505,8 @@ export const setUserTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23552, __c736, 0) as any as S.Schema<SetUserTagsRequest>,
   output: __S(19680, __c615, 0) as any as S.Schema<TagsByObjectIdResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26939,7 +27523,8 @@ export const suspendedTicketsAttachments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23584, __c737, 0) as any as S.Schema<SuspendedTicketsAttachmentsRequest>,
   output: __S(23586, __c737, 2) as any as S.Schema<SuspendedTicketsAttachmentsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26956,7 +27541,8 @@ export const ticketBulkImport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23713, __c741, 1) as any as S.Schema<TicketBulkImportRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<JobStatusResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26973,7 +27559,8 @@ export const ticketFormTicketFormStatuses: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23744, __c742, 0) as any as S.Schema<TicketFormTicketFormStatusesRequest>,
   output: __S(1986, __c62, 2) as any as S.Schema<TicketFormStatusesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26990,7 +27577,8 @@ export const ticketRelatedInformation2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23776, __c743, 0) as any as S.Schema<TicketRelatedInformationRequest>,
   output: __S(23777, __c743, 1) as any as S.Schema<TicketRelatedInformation>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27007,7 +27595,8 @@ export const ticketsCreateMany: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23809, __c744, 1) as any as S.Schema<TicketsCreateManyRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<JobStatusResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27024,7 +27613,8 @@ export const ticketsShowMany: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23840, __c745, 0) as any as S.Schema<TicketsShowManyRequest>,
   output: __S(416, __c13, 0) as any as S.Schema<TicketsResponseOutput>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27041,7 +27631,8 @@ export const ticketsUpdateMany: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23872, __c746, 0) as any as S.Schema<TicketsUpdateManyRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<JobStatusResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27063,7 +27654,8 @@ export const toggleManyWhatsappTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23904, __c747, 0) as any as S.Schema<ToggleManyWhatsappTemplatesRequest>,
   output: __S(20609, __c644, 1) as any as S.Schema<WhatsappTemplatesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownZendeskError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27080,7 +27672,8 @@ export const toggleWhatsappTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23936, __c748, 0) as any as S.Schema<ToggleWhatsappTemplateRequest>,
   output: __S(23937, __c748, 1) as any as S.Schema<ToggleWhatsappTemplateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownZendeskError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27097,7 +27690,8 @@ export const triggerRevision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23968, __c749, 0) as any as S.Schema<TriggerRevisionRequest>,
   output: __S(23970, __c749, 2) as any as S.Schema<TriggerRevisionResponse>,
-  errors: [Forbidden, NotFound, UnknownZendeskError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27114,7 +27708,8 @@ export const unassignOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24000, __c750, 0) as any as S.Schema<UnassignOrganizationRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<UnassignOrganizationResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27131,7 +27726,8 @@ export const unlinkTicket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24320, __c760, 0) as any as S.Schema<UnlinkTicketRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<UnlinkTicketResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27148,7 +27744,8 @@ export const updateAccessRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24352, __c761, 0) as any as S.Schema<UpdateAccessRuleRequest>,
   output: __S(18784, __c587, 0) as any as S.Schema<AccessRuleResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27165,7 +27762,8 @@ export const updateAccountEmailSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24385, __c762, 1) as any as S.Schema<UpdateAccountEmailSettingsRequest>,
   output: __S(7361, __c230, 1) as any as S.Schema<EmailSettingsResponse>,
-  errors: [BadRequest, UnknownZendeskError],
+  errors: [BadRequest],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27182,7 +27780,8 @@ export const updateAccountSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24448, __c764, 0) as any as S.Schema<UpdateAccountSettingsRequest>,
   output: __S(7523, __c235, 3) as any as S.Schema<AccountSettingsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27199,7 +27798,8 @@ export const updateAttachment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24481, __c765, 1) as any as S.Schema<UpdateAttachmentRequest>,
   output: __S(7712, __c241, 0) as any as S.Schema<AttachmentResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27216,7 +27816,8 @@ export const updateAttribute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24512, __c766, 0) as any as S.Schema<UpdateAttributeRequest>,
   output: __S(20544, __c642, 0) as any as S.Schema<SkillBasedRoutingAttributeResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27233,7 +27834,8 @@ export const updateAttributeValue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24544, __c767, 0) as any as S.Schema<UpdateAttributeValueRequest>,
   output: __S(21024, __c657, 0) as any as S.Schema<SkillBasedRoutingAttributeValueResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27250,7 +27852,8 @@ export const updateAttributeValuePut: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24576, __c768, 0) as any as S.Schema<UpdateAttributeValuePutRequest>,
   output: __S(21024, __c657, 0) as any as S.Schema<SkillBasedRoutingAttributeValueResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27267,7 +27870,8 @@ export const updateAutomation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24609, __c769, 1) as any as S.Schema<UpdateAutomationRequest>,
   output: __S(21440, __c670, 0) as any as S.Schema<AutomationResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27284,7 +27888,8 @@ export const updateBrand: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24640, __c770, 0) as any as S.Schema<UpdateBrandRequest>,
   output: __S(22368, __c699, 0) as any as S.Schema<BrandResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27301,7 +27906,8 @@ export const updateBrandLogo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24800, __c775, 0) as any as S.Schema<UpdateBrandLogoRequest>,
   output: __S(22368, __c699, 0) as any as S.Schema<BrandResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27318,7 +27924,8 @@ export const updateBrandUserMigration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24833, __c776, 1) as any as S.Schema<UpdateBrandUserMigrationRequest>,
   output: __S(23264, __c727, 0) as any as S.Schema<BrandUserMigrationResponse>,
-  errors: [UnprocessableEntity, UnknownZendeskError],
+  errors: [UnprocessableEntity],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27335,7 +27942,8 @@ export const updateClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24864, __c777, 0) as any as S.Schema<UpdateClientRequest>,
   output: __S(8576, __c268, 0) as any as S.Schema<OauthClientResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27352,7 +27960,8 @@ export const updateCurrentUserSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24898, __c778, 2) as any as S.Schema<UpdateCurrentUserSettingsRequest>,
   output: __S(8643, __c270, 3) as any as S.Schema<UserSettingsResponse>,
-  errors: [BadRequest, UnknownZendeskError],
+  errors: [BadRequest],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27369,7 +27978,8 @@ export const updateCustomObject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24929, __c779, 1) as any as S.Schema<UpdateCustomObjectRequest>,
   output: __S(23680, __c740, 0) as any as S.Schema<CustomObjectResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27386,7 +27996,8 @@ export const updateCustomObjectField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24963, __c780, 3) as any as S.Schema<UpdateCustomObjectFieldRequest>,
   output: __S(24160, __c755, 0) as any as S.Schema<CustomObjectFieldResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27403,7 +28014,8 @@ export const updateCustomObjectRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24992, __c781, 0) as any as S.Schema<UpdateCustomObjectRecordRequest>,
   output: __S(24736, __c773, 0) as any as S.Schema<CustomObjectRecordResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27420,7 +28032,8 @@ export const updateCustomObjectRecordAttachment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25025, __c782, 1) as any as S.Schema<UpdateCustomObjectRecordAttachmentRequest>,
   output: __S(25184, __c787, 0) as any as S.Schema<CustomObjectRecordAttachmentResponse>,
-  errors: [BadRequest, UnknownZendeskError],
+  errors: [BadRequest],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27441,7 +28054,8 @@ export const updateCustomObjectRecordByUniqueIdentifier: API.OperationMethod<
     0,
   ) as any as S.Schema<UpdateCustomObjectRecordByUniqueIdentifierRequest>,
   output: __S(24736, __c773, 0) as any as S.Schema<CustomObjectRecordResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27462,7 +28076,8 @@ export const updateCustomObjectRecordByUniqueIdentifierViaPut: API.OperationMeth
     0,
   ) as any as S.Schema<UpdateCustomObjectRecordByUniqueIdentifierViaPutRequest>,
   output: __S(24736, __c773, 0) as any as S.Schema<CustomObjectRecordResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27479,7 +28094,8 @@ export const updateCustomRoleById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25216, __c788, 0) as any as S.Schema<UpdateCustomRoleByIdRequest>,
   output: __S(25600, __c800, 0) as any as S.Schema<CustomRoleResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27496,7 +28112,8 @@ export const updateCustomStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25249, __c789, 1) as any as S.Schema<UpdateCustomStatusRequest>,
   output: __S(26048, __c814, 0) as any as S.Schema<CustomStatusResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27513,7 +28130,8 @@ export const updateCustomTaskList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25281, __c790, 1) as any as S.Schema<UpdateCustomTaskListRequest>,
   output: __S(11905, __c372, 1) as any as S.Schema<TaskListInstanceResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27530,7 +28148,8 @@ export const updateDeletionSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25312, __c791, 0) as any as S.Schema<UpdateDeletionScheduleRequest>,
   output: __S(26880, __c840, 0) as any as S.Schema<UpdateDeletionScheduleResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27547,7 +28166,8 @@ export const updateDynamicContentItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25345, __c792, 1) as any as S.Schema<UpdateDynamicContentItemRequest>,
   output: __S(27328, __c854, 0) as any as S.Schema<DynamicContentResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27564,7 +28184,8 @@ export const updateDynamicContentVariant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25376, __c793, 0) as any as S.Schema<UpdateDynamicContentVariantRequest>,
   output: __S(27680, __c865, 0) as any as S.Schema<DynamicContentVariantResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27581,7 +28202,8 @@ export const updateGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25409, __c794, 1) as any as S.Schema<UpdateGroupRequest>,
   output: __S(28064, __c877, 0) as any as S.Schema<GroupResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27598,7 +28220,8 @@ export const updateGroupSLAPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25441, __c795, 1) as any as S.Schema<UpdateGroupSLAPolicyRequest>,
   output: __S(28320, __c885, 0) as any as S.Schema<GroupSLAPolicyResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27615,7 +28238,8 @@ export const updateItamAsset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25473, __c796, 1) as any as S.Schema<UpdateItamAssetRequest>,
   output: __S(28448, __c889, 0) as any as S.Schema<ItamAssetResponse>,
-  errors: [UnprocessableEntity, UnknownZendeskError],
+  errors: [UnprocessableEntity],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27632,7 +28256,8 @@ export const updateItamAssetType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25505, __c797, 1) as any as S.Schema<UpdateItamAssetTypeRequest>,
   output: __S(28544, __c892, 0) as any as S.Schema<ItamAssetTypeResponseOutput>,
-  errors: [UnprocessableEntity, UnknownZendeskError],
+  errors: [UnprocessableEntity],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27649,7 +28274,8 @@ export const updateItamField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25632, __c801, 0) as any as S.Schema<UpdateItamFieldRequest>,
   output: __S(28608, __c894, 0) as any as S.Schema<ItamAssetFieldResponse>,
-  errors: [UnprocessableEntity, UnknownZendeskError],
+  errors: [UnprocessableEntity],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27666,7 +28292,8 @@ export const updateItamLocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25665, __c802, 1) as any as S.Schema<UpdateItamLocationRequest>,
   output: __S(28704, __c897, 0) as any as S.Schema<ItamAssetLocationResponse>,
-  errors: [UnprocessableEntity, UnknownZendeskError],
+  errors: [UnprocessableEntity],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27683,7 +28310,8 @@ export const updateItamStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25697, __c803, 1) as any as S.Schema<UpdateItamStatusRequest>,
   output: __S(28800, __c900, 0) as any as S.Schema<ItamAssetStatusResponse>,
-  errors: [UnprocessableEntity, UnknownZendeskError],
+  errors: [UnprocessableEntity],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27700,7 +28328,8 @@ export const updateMacro: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25728, __c804, 0) as any as S.Schema<UpdateMacroRequest>,
   output: __S(28896, __c903, 0) as any as S.Schema<UpdateMacroResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27717,7 +28346,8 @@ export const updateManyAutomations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25762, __c805, 2) as any as S.Schema<UpdateManyAutomationsRequest>,
   output: __S(13953, __c436, 1) as any as S.Schema<AutomationsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27734,7 +28364,8 @@ export const updateManyDynamicContentVariants: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25794, __c806, 2) as any as S.Schema<UpdateManyDynamicContentVariantsRequest>,
   output: __S(29088, __c909, 0) as any as S.Schema<DynamicContentVariantsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27751,7 +28382,8 @@ export const updateManyMacros: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25824, __c807, 0) as any as S.Schema<UpdateManyMacrosRequest>,
   output: __S(23008, __c719, 0) as any as S.Schema<UpdateManyMacrosResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27768,7 +28400,8 @@ export const updateManyObjectTriggers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25888, __c809, 0) as any as S.Schema<UpdateManyObjectTriggersRequest>,
   output: __S(14081, __c440, 1) as any as S.Schema<ObjectTriggersResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27785,7 +28418,8 @@ export const updateManyOrganizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25920, __c810, 0) as any as S.Schema<UpdateManyOrganizationsRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<JobStatusResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27802,7 +28436,8 @@ export const updateManyTriggers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25954, __c811, 2) as any as S.Schema<UpdateManyTriggersRequest>,
   output: __S(14144, __c442, 0) as any as S.Schema<TriggersResponseOutput>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27819,7 +28454,8 @@ export const updateManyUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26080, __c815, 0) as any as S.Schema<UpdateManyUsersRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<JobStatusResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27836,7 +28472,8 @@ export const updateManyViews: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26112, __c816, 0) as any as S.Schema<UpdateManyViewsRequest>,
   output: __S(14209, __c444, 1) as any as S.Schema<ViewsResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27853,7 +28490,8 @@ export const updateObjectTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26145, __c817, 1) as any as S.Schema<UpdateObjectTriggerRequest>,
   output: __S(29344, __c917, 0) as any as S.Schema<ObjectTriggerResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27870,7 +28508,8 @@ export const updateOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26177, __c818, 1) as any as S.Schema<UpdateOrganizationRequest>,
   output: __S(29408, __c919, 0) as any as S.Schema<OrganizationResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27887,7 +28526,8 @@ export const updateOrganizationField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26211, __c819, 3) as any as S.Schema<UpdateOrganizationFieldRequest>,
   output: __S(29504, __c922, 0) as any as S.Schema<OrganizationFieldResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27904,7 +28544,8 @@ export const updatePermissionPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26241, __c820, 1) as any as S.Schema<UpdatePermissionPolicyRequest>,
   output: __S(10976, __c343, 0) as any as S.Schema<PermissionPolicyResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownZendeskError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27921,7 +28562,8 @@ export const updateQueue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26273, __c821, 1) as any as S.Schema<UpdateQueueRequest>,
   output: __S(30240, __c945, 0) as any as S.Schema<QueueResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27938,7 +28580,8 @@ export const updateRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26305, __c822, 1) as any as S.Schema<UpdateRequestRequest>,
   output: __S(30336, __c948, 0) as any as S.Schema<RequestResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27955,7 +28598,8 @@ export const updateResourceCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26336, __c823, 0) as any as S.Schema<UpdateResourceCollectionRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<JobStatusResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27972,7 +28616,8 @@ export const updateSavedSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26368, __c824, 0) as any as S.Schema<UpdateSavedSearchRequest>,
   output: __S(704, __c22, 0) as any as S.Schema<SavedSearchResponse>,
-  errors: [NotFound, Conflict, UnprocessableEntity, UnknownZendeskError],
+  errors: [NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27989,7 +28634,8 @@ export const updateSharingAgreement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26497, __c828, 1) as any as S.Schema<UpdateSharingAgreementRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<SharingAgreementResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28006,7 +28652,8 @@ export const updateSLAPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26529, __c829, 1) as any as S.Schema<UpdateSLAPolicyRequest>,
   output: __S(896, __c28, 0) as any as S.Schema<SLAPolicyResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28023,7 +28670,8 @@ export const updateSupportAddress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26560, __c830, 0) as any as S.Schema<UpdateSupportAddressRequest>,
   output: __S(1088, __c34, 0) as any as S.Schema<SupportAddressResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28040,7 +28688,8 @@ export const updateTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26592, __c831, 0) as any as S.Schema<UpdateTargetRequest>,
   output: __S(1184, __c37, 0) as any as S.Schema<TargetResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28057,7 +28706,8 @@ export const updateTaskItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26625, __c832, 1) as any as S.Schema<UpdateTaskItemRequest>,
   output: __S(26464, __c827, 0) as any as S.Schema<TaskItemInstanceResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28074,7 +28724,8 @@ export const updateTaskListTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26658, __c833, 2) as any as S.Schema<UpdateTaskListTemplateRequest>,
   output: __S(1376, __c43, 0) as any as S.Schema<TaskListTemplateResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28091,7 +28742,8 @@ export const updateTicket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26688, __c834, 0) as any as S.Schema<UpdateTicketRequest>,
   output: __S(26692, __c834, 4) as any as S.Schema<TicketUpdateResponseOutput>,
-  errors: [NotFound, Conflict, UnknownZendeskError],
+  errors: [NotFound, Conflict],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28108,7 +28760,8 @@ export const updateTicketField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26723, __c835, 3) as any as S.Schema<UpdateTicketFieldRequest>,
   output: __S(1824, __c57, 0) as any as S.Schema<TicketFieldResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28125,7 +28778,8 @@ export const updateTicketForm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26753, __c836, 1) as any as S.Schema<UpdateTicketFormRequest>,
   output: __S(9120, __c285, 0) as any as S.Schema<TicketFormResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28142,7 +28796,8 @@ export const updateTicketFormStatusById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26785, __c837, 1) as any as S.Schema<UpdateTicketFormStatusByIdRequest>,
   output: __S(1986, __c62, 2) as any as S.Schema<TicketFormStatusesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28159,7 +28814,8 @@ export const updateTicketFormStatuses: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26946, __c842, 2) as any as S.Schema<UpdateTicketFormStatusesRequest>,
   output: __S(1986, __c62, 2) as any as S.Schema<TicketFormStatusesResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28176,7 +28832,8 @@ export const updateTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26977, __c843, 1) as any as S.Schema<UpdateTriggerRequest>,
   output: __S(2304, __c72, 0) as any as S.Schema<TriggerResponseOutput>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28193,7 +28850,8 @@ export const updateTriggerCategory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27008, __c844, 0) as any as S.Schema<UpdateTriggerCategoryRequest>,
   output: __S(2464, __c77, 0) as any as S.Schema<TriggerCategoryResponse>,
-  errors: [BadRequest, NotFound, UnknownZendeskError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28210,7 +28868,8 @@ export const updateUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27043, __c845, 3) as any as S.Schema<UpdateUserRequest>,
   output: __S(30048, __c939, 0) as any as S.Schema<UserResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28227,7 +28886,8 @@ export const updateUserField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27075, __c846, 3) as any as S.Schema<UpdateUserFieldRequest>,
   output: __S(2560, __c80, 0) as any as S.Schema<UserFieldResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28244,7 +28904,8 @@ export const updateUserIdentity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27105, __c847, 1) as any as S.Schema<UpdateUserIdentityRequest>,
   output: __S(27840, __c870, 0) as any as S.Schema<UserIdentityResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28265,7 +28926,8 @@ export const updateUserSuspension: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27137, __c848, 1) as any as S.Schema<UpdateUserSuspensionRequest>,
   output: __S(2786, __c87, 2) as any as S.Schema<SuspensionResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownZendeskError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28282,7 +28944,8 @@ export const updateView: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27168, __c849, 0) as any as S.Schema<UpdateViewRequest>,
   output: __S(2880, __c90, 0) as any as S.Schema<ViewResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28299,7 +28962,8 @@ export const updateWorkspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27200, __c850, 0) as any as S.Schema<UpdateWorkspaceRequest>,
   output: __S(3008, __c94, 0) as any as S.Schema<UpdateWorkspaceResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28316,7 +28980,8 @@ export const uploadFiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27232, __c851, 0) as any as S.Schema<UploadFilesRequest>,
   output: __S(27234, __c851, 2) as any as S.Schema<AttachmentUploadResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28337,7 +29002,8 @@ export const upsertCustomObjectRecordByExternalIdOrName: API.OperationMethod<
     0,
   ) as any as S.Schema<UpsertCustomObjectRecordByExternalIdOrNameRequest>,
   output: __S(24736, __c773, 0) as any as S.Schema<CustomObjectRecordResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28354,7 +29020,8 @@ export const validateToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27456, __c858, 0) as any as S.Schema<ValidateTokenRequest>,
   output: __S(5536, __c173, 0) as any as S.Schema<ValidateTokenResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28371,7 +29038,8 @@ export const validateTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27488, __c859, 0) as any as S.Schema<ValidateTriggerRequest>,
   output: __S(27491, __c859, 3) as any as S.Schema<TriggerValidationResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28388,7 +29056,8 @@ export const verifySubdomainAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27520, __c860, 0) as any as S.Schema<VerifySubdomainAvailabilityRequest>,
   output: __S(27521, __c860, 1) as any as S.Schema<VerifySubdomainAvailabilityResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28405,7 +29074,8 @@ export const verifySupportAddressForwarding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27552, __c861, 0) as any as S.Schema<VerifySupportAddressForwardingRequest>,
   output: __S(5536, __c173, 0) as any as S.Schema<VerifySupportAddressForwardingResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28422,7 +29092,8 @@ export const verifyUserIdentity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27584, __c862, 0) as any as S.Schema<VerifyUserIdentityRequest>,
   output: __S(27840, __c870, 0) as any as S.Schema<UserIdentityResponse>,
-  errors: [UnknownZendeskError],
+  errors: [],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28444,7 +29115,8 @@ export const withdrawApprovalWorkflowInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27616, __c863, 0) as any as S.Schema<WithdrawApprovalWorkflowInstanceRequest>,
   output: __S(27619, __c863, 3) as any as S.Schema<ApprovalWorkflowInstanceWithdrawResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownZendeskError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ZendeskServiceErrors,
   protocol: ZendeskProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29208,7 +29880,7 @@ function __c36(j: number): any {
             resource: S.optional(S.String),
             target_url: S.optional(S.String),
             todo_list_id: S.optional(S.String),
-            token: S.optional(S.String),
+            token: S.optional(S.String.pipe(T.SensitiveValue({}))),
             username: S.optional(S.String),
             preserve_format: S.optional(S.Boolean),
             room: S.optional(S.String),
@@ -32747,7 +33419,7 @@ function __c233(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          authenticity_token: S.optional(S.String.pipe(T.Query())),
+          authenticity_token: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/account/settings", code: 200 })),
       ).annotate({ identifier: "GetAccountSettingsRequest" });
   }
@@ -33568,7 +34240,7 @@ function __c264(j: number): any {
           refresh_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           refresh_token_expires_at: S.optional(S.String),
           scopes: S.optional(__S(5920, __c185, 0)),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           url: S.optional(S.String),
           used_at: S.optional(S.String),
           user_id: S.optional(S.Number),
@@ -33643,7 +34315,7 @@ function __c265(j: number): any {
             url: S.optional(S.String),
             user_fields: S.optional(__S(288, __c9, 0)),
             verified: S.optional(S.Boolean),
-            authenticity_token: S.optional(S.String),
+            authenticity_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -40179,7 +40851,7 @@ function __c616(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.NullOr(S.String)),
+          token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CreateApprovalRequestRequestMetadataCallbackInfo" });
     case 3:
@@ -41427,7 +42099,7 @@ function __c689(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          authenticity_token: S.optional(S.String),
+          authenticity_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "RenewSessionResponse" });
   }
@@ -42159,7 +42831,7 @@ function __c737(j: number): any {
       return S.suspend(() =>
         S.Struct({
           attachments: S.optional(__S(448, __c14, 0)),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "SuspendedTicketsAttachmentsResponseUpload" });
     case 2:
@@ -44990,7 +45662,7 @@ function __c851(j: number): any {
         S.Struct({
           attachment: S.optional(__S(578, __c18, 2)),
           attachments: S.optional(__S(448, __c14, 0)),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AttachmentUploadResponseUpload" });
     case 2:

@@ -9,6 +9,7 @@
  * `detail-type` — what an EventBridge rule's target receives.
  */
 import type { SdkSpec } from "@distilled.cloud/dev/codegen/generator";
+import { assertIdentifier, assertModuleName } from "./spec.ts";
 
 /** Marks an event envelope with its `source` and `detail-type`. */
 export const AWS_EVENT_TRAIT = "com.distilled.aws#event";
@@ -23,7 +24,7 @@ export const eventsResourceName = (model: { shapes?: Record<string, any> }): str
   const id = Object.keys(model.shapes ?? {})[0] ?? "";
   const service = /^com\.amazonaws\.(.+)\.events#/.exec(id)?.[1];
   if (service === undefined) throw new Error(`not an event model: ${id}`);
-  return `${service}-events`;
+  return assertModuleName(`${service}-events`);
 };
 
 export const eventsSpec = (model: { shapes: Record<string, any> }): SdkSpec => {
@@ -31,7 +32,9 @@ export const eventsSpec = (model: { shapes: Record<string, any> }): SdkSpec => {
   for (const [id, shape] of Object.entries<any>(model.shapes)) {
     const meta = shape.traits?.[AWS_EVENT_TRAIT];
     if (!meta) continue;
-    events.push({ detailType: meta.detailType, name: id.slice(id.indexOf("#") + 1) });
+    const name = id.slice(id.indexOf("#") + 1);
+    assertIdentifier(name, "event shape id");
+    events.push({ detailType: meta.detailType, name });
   }
   events.sort((a, b) => a.detailType.localeCompare(b.detailType));
   const map = [

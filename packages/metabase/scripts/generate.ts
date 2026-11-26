@@ -57,7 +57,7 @@ const metabaseSpec: SdkSpec = {
   operationDecl: {
     contextType: "MetabaseOpContext",
     commonErrorType: "MetabaseOpError",
-    commonErrorClasses: ["UnknownMetabaseError"],
+    serviceErrors: "MetabaseServiceErrors",
     protocol: "MetabaseProtocol",
     retry: "Retry.Retry",
   },

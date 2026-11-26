@@ -23,7 +23,6 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Unkey.CredentialsFromEnv,
-  Unkey.UnkeyProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);

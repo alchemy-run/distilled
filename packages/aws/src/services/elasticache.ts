@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -1174,6 +1175,19 @@ export interface MigrationSummary {
   MigrationEndpoint?: Endpoint | undefined;
   CutoverMode?: string | undefined;
 }
+export type IntegrationType = "dynamodb" | (string & {});
+export type IntegrationStatus =
+  | "enabled"
+  | "disabled"
+  | "enabling"
+  | "disabling"
+  | "failed"
+  | (string & {});
+export interface Integration {
+  IntegrationType?: IntegrationType | undefined;
+  Status?: IntegrationStatus | undefined;
+}
+export type IntegrationList = Integration[];
 export interface ServerlessCache {
   ServerlessCacheName?: string | undefined;
   Description?: string | undefined;
@@ -1196,6 +1210,7 @@ export interface ServerlessCache {
   NetworkType?: NetworkType | undefined;
   ConnectionType?: ConnectionType | undefined;
   Migration?: MigrationSummary | undefined;
+  Integrations?: Integration[] | undefined;
 }
 export interface CompleteMigrationResponse {
   ReplicationGroup?: ReplicationGroup | undefined;
@@ -1565,6 +1580,10 @@ export interface CreateReplicationGroupMessage {
 export interface CreateReplicationGroupResult {
   ReplicationGroup?: ReplicationGroup | undefined;
 }
+export interface IntegrationRequest {
+  IntegrationType?: IntegrationType | undefined;
+}
+export type IntegrationRequestList = IntegrationRequest[];
 export interface CreateServerlessCacheRequest {
   ServerlessCacheName?: string | undefined;
   Description?: string | undefined;
@@ -1581,6 +1600,7 @@ export interface CreateServerlessCacheRequest {
   DailySnapshotTime?: string | undefined;
   NetworkType?: NetworkType | undefined;
   ConnectionType?: ConnectionType | undefined;
+  Integrations?: IntegrationRequest[] | undefined;
 }
 export interface CreateServerlessCacheResponse {
   ServerlessCache?:
@@ -2565,6 +2585,7 @@ export const addTagsToResource: API.OperationMethod<
     UserGroupNotFoundFault,
     UserNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToResource",
@@ -2602,6 +2623,7 @@ export const authorizeCacheSecurityGroupIngress: API.OperationMethod<
     InvalidParameterCombinationException,
     InvalidParameterValueException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AuthorizeCacheSecurityGroupIngress",
@@ -2627,6 +2649,7 @@ export const batchApplyUpdateAction: API.OperationMethod<
   input: __S(1104, __c69, 0) as any as S.Schema<BatchApplyUpdateActionMessage>,
   output: __S(1124, __c70, 4) as any as S.Schema<UpdateActionResultsMessage>,
   errors: [InvalidParameterValueException, ServiceUpdateNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchApplyUpdateAction",
@@ -2652,6 +2675,7 @@ export const batchStopUpdateAction: API.OperationMethod<
   input: __S(1152, __c72, 0) as any as S.Schema<BatchStopUpdateActionMessage>,
   output: __S(1124, __c70, 4) as any as S.Schema<UpdateActionResultsMessage>,
   errors: [InvalidParameterValueException, ServiceUpdateNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchStopUpdateAction",
@@ -2694,6 +2718,7 @@ export const completeMigration: API.OperationMethod<
     ServerlessCacheNotFoundFault,
     ServerlessCacheNotUnderMigrationFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteMigration",
@@ -2732,6 +2757,7 @@ export const copyServerlessCacheSnapshot: API.OperationMethod<
     ServiceLinkedRoleNotFoundFault,
     TagQuotaPerResourceExceeded,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyServerlessCacheSnapshot",
@@ -2838,6 +2864,7 @@ export const copySnapshot: API.OperationMethod<
     SnapshotQuotaExceededFault,
     TagQuotaPerResourceExceeded,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopySnapshot",
@@ -2891,6 +2918,7 @@ export const createCacheCluster: API.OperationMethod<
     ReplicationGroupNotFoundFault,
     TagQuotaPerResourceExceeded,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCacheCluster",
@@ -2937,6 +2965,7 @@ export const createCacheParameterGroup: API.OperationMethod<
     InvalidParameterValueException,
     TagQuotaPerResourceExceeded,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCacheParameterGroup",
@@ -2974,6 +3003,7 @@ export const createCacheSecurityGroup: API.OperationMethod<
     InvalidParameterValueException,
     TagQuotaPerResourceExceeded,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCacheSecurityGroup",
@@ -3011,6 +3041,7 @@ export const createCacheSubnetGroup: API.OperationMethod<
     SubnetNotAllowedFault,
     TagQuotaPerResourceExceeded,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCacheSubnetGroup",
@@ -3056,6 +3087,7 @@ export const createGlobalReplicationGroup: API.OperationMethod<
     ServiceLinkedRoleNotFoundFault,
     TagQuotaPerResourceExceeded,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGlobalReplicationGroup",
@@ -3150,6 +3182,7 @@ export const createReplicationGroup: API.OperationMethod<
     TagQuotaPerResourceExceeded,
     UserGroupNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReplicationGroup",
@@ -3179,8 +3212,8 @@ export const createServerlessCache: API.OperationMethod<
   CreateServerlessCacheError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<CreateServerlessCacheRequest>,
-  output: __S(1601, __c100, 1) as any as S.Schema<CreateServerlessCacheResponse>,
+  input: __S(1602, __c100, 2) as any as S.Schema<CreateServerlessCacheRequest>,
+  output: __S(1603, __c100, 3) as any as S.Schema<CreateServerlessCacheResponse>,
   errors: [
     InvalidCredentialsException,
     InvalidParameterCombinationException,
@@ -3194,6 +3227,7 @@ export const createServerlessCache: API.OperationMethod<
     TagQuotaPerResourceExceeded,
     UserGroupNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServerlessCache",
@@ -3232,6 +3266,7 @@ export const createServerlessCacheSnapshot: API.OperationMethod<
     ServiceLinkedRoleNotFoundFault,
     TagQuotaPerResourceExceeded,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServerlessCacheSnapshot",
@@ -3277,6 +3312,7 @@ export const createSnapshot: API.OperationMethod<
     SnapshotQuotaExceededFault,
     TagQuotaPerResourceExceeded,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSnapshot",
@@ -3314,6 +3350,7 @@ export const createUser: API.OperationMethod<
     UserAlreadyExistsFault,
     UserQuotaExceededFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
@@ -3353,6 +3390,7 @@ export const createUserGroup: API.OperationMethod<
     UserGroupQuotaExceededFault,
     UserNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUserGroup",
@@ -3383,6 +3421,7 @@ export const decreaseNodeGroupsInGlobalReplicationGroup: API.OperationMethod<
     InvalidParameterCombinationException,
     InvalidParameterValueException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DecreaseNodeGroupsInGlobalReplicationGroup",
@@ -3432,6 +3471,7 @@ export const decreaseReplicaCount: API.OperationMethod<
     ReplicationGroupNotFoundFault,
     ServiceLinkedRoleNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DecreaseReplicaCount",
@@ -3487,6 +3527,7 @@ export const deleteCacheCluster: API.OperationMethod<
     SnapshotFeatureNotSupportedFault,
     SnapshotQuotaExceededFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCacheCluster",
@@ -3519,6 +3560,7 @@ export const deleteCacheParameterGroup: API.OperationMethod<
     InvalidParameterCombinationException,
     InvalidParameterValueException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCacheParameterGroup",
@@ -3552,6 +3594,7 @@ export const deleteCacheSecurityGroup: API.OperationMethod<
     InvalidParameterCombinationException,
     InvalidParameterValueException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCacheSecurityGroup",
@@ -3578,6 +3621,7 @@ export const deleteCacheSubnetGroup: API.OperationMethod<
   input: __S(32, __c2, 0) as any as S.Schema<DeleteCacheSubnetGroupMessage>,
   output: __S(33, __c2, 1) as any as S.Schema<DeleteCacheSubnetGroupResponse>,
   errors: [CacheSubnetGroupInUse, CacheSubnetGroupNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCacheSubnetGroup",
@@ -3624,6 +3668,7 @@ export const deleteGlobalReplicationGroup: API.OperationMethod<
     InvalidGlobalReplicationGroupStateFault,
     InvalidParameterValueException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGlobalReplicationGroup",
@@ -3673,6 +3718,7 @@ export const deleteReplicationGroup: API.OperationMethod<
     SnapshotFeatureNotSupportedFault,
     SnapshotQuotaExceededFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReplicationGroup",
@@ -3712,6 +3758,7 @@ export const deleteServerlessCache: API.OperationMethod<
     ServerlessCacheSnapshotAlreadyExistsFault,
     ServiceLinkedRoleNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServerlessCache",
@@ -3742,6 +3789,7 @@ export const deleteServerlessCacheSnapshot: API.OperationMethod<
     ServerlessCacheSnapshotNotFoundFault,
     ServiceLinkedRoleNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServerlessCacheSnapshot",
@@ -3776,6 +3824,7 @@ export const deleteSnapshot: API.OperationMethod<
     InvalidSnapshotStateFault,
     SnapshotNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSnapshot",
@@ -3810,6 +3859,7 @@ export const deleteUser: API.OperationMethod<
     ServiceLinkedRoleNotFoundFault,
     UserNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
@@ -3842,6 +3892,7 @@ export const deleteUserGroup: API.OperationMethod<
     ServiceLinkedRoleNotFoundFault,
     UserGroupNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserGroup",
@@ -3891,6 +3942,7 @@ export const describeCacheClusters: API.PaginatedOperationMethod<
     InvalidParameterCombinationException,
     InvalidParameterValueException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCacheClusters",
@@ -3918,6 +3970,7 @@ export const describeCacheEngineVersions: API.PaginatedOperationMethod<
   input: __S(176, __c11, 0) as any as S.Schema<DescribeCacheEngineVersionsMessage>,
   output: __S(179, __c11, 3) as any as S.Schema<CacheEngineVersionMessage>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCacheEngineVersions",
@@ -3954,6 +4007,7 @@ export const describeCacheParameterGroups: API.PaginatedOperationMethod<
     InvalidParameterCombinationException,
     InvalidParameterValueException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCacheParameterGroups",
@@ -3989,6 +4043,7 @@ export const describeCacheParameters: API.PaginatedOperationMethod<
     InvalidParameterCombinationException,
     InvalidParameterValueException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCacheParameters",
@@ -4026,6 +4081,7 @@ export const describeCacheSecurityGroups: API.PaginatedOperationMethod<
     InvalidParameterCombinationException,
     InvalidParameterValueException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCacheSecurityGroups",
@@ -4056,6 +4112,7 @@ export const describeCacheSubnetGroups: API.PaginatedOperationMethod<
   input: __S(256, __c16, 0) as any as S.Schema<DescribeCacheSubnetGroupsMessage>,
   output: __S(258, __c16, 2) as any as S.Schema<CacheSubnetGroupMessage>,
   errors: [CacheSubnetGroupNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCacheSubnetGroups",
@@ -4087,6 +4144,7 @@ export const describeEngineDefaultParameters: API.PaginatedOperationMethod<
   input: __S(272, __c17, 0) as any as S.Schema<DescribeEngineDefaultParametersMessage>,
   output: __S(274, __c17, 2) as any as S.Schema<DescribeEngineDefaultParametersResult>,
   errors: [InvalidParameterCombinationException, InvalidParameterValueException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEngineDefaultParameters",
@@ -4122,6 +4180,7 @@ export const describeEvents: API.PaginatedOperationMethod<
   input: __S(288, __c18, 0) as any as S.Schema<DescribeEventsMessage>,
   output: __S(291, __c18, 3) as any as S.Schema<EventsMessage>,
   errors: [InvalidParameterCombinationException, InvalidParameterValueException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEvents",
@@ -4158,6 +4217,7 @@ export const describeGlobalReplicationGroups: API.PaginatedOperationMethod<
     InvalidParameterCombinationException,
     InvalidParameterValueException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGlobalReplicationGroups",
@@ -4197,6 +4257,7 @@ export const describeReplicationGroups: API.PaginatedOperationMethod<
     InvalidParameterValueException,
     ReplicationGroupNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReplicationGroups",
@@ -4233,6 +4294,7 @@ export const describeReservedCacheNodes: API.PaginatedOperationMethod<
     InvalidParameterValueException,
     ReservedCacheNodeNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReservedCacheNodes",
@@ -4268,6 +4330,7 @@ export const describeReservedCacheNodesOfferings: API.PaginatedOperationMethod<
     InvalidParameterValueException,
     ReservedCacheNodesOfferingNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReservedCacheNodesOfferings",
@@ -4305,6 +4368,7 @@ export const describeServerlessCaches: API.PaginatedOperationMethod<
     InvalidParameterValueException,
     ServerlessCacheNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeServerlessCaches",
@@ -4345,6 +4409,7 @@ export const describeServerlessCacheSnapshots: API.PaginatedOperationMethod<
     ServerlessCacheNotFoundFault,
     ServerlessCacheSnapshotNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeServerlessCacheSnapshots",
@@ -4380,6 +4445,7 @@ export const describeServiceUpdates: API.PaginatedOperationMethod<
     InvalidParameterValueException,
     ServiceUpdateNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeServiceUpdates",
@@ -4422,6 +4488,7 @@ export const describeSnapshots: API.PaginatedOperationMethod<
     InvalidParameterValueException,
     SnapshotNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSnapshots",
@@ -4452,6 +4519,7 @@ export const describeUpdateActions: API.PaginatedOperationMethod<
   input: __S(482, __c30, 2) as any as S.Schema<DescribeUpdateActionsMessage>,
   output: __S(491, __c30, 11) as any as S.Schema<UpdateActionsMessage>,
   errors: [InvalidParameterCombinationException, InvalidParameterValueException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUpdateActions",
@@ -4487,6 +4555,7 @@ export const describeUserGroups: API.PaginatedOperationMethod<
     ServiceLinkedRoleNotFoundFault,
     UserGroupNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUserGroups",
@@ -4518,6 +4587,7 @@ export const describeUsers: API.PaginatedOperationMethod<
   input: __S(515, __c32, 3) as any as S.Schema<DescribeUsersMessage>,
   output: __S(517, __c32, 5) as any as S.Schema<DescribeUsersResult>,
   errors: [InvalidParameterCombinationException, ServiceLinkedRoleNotFoundFault, UserNotFoundFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUsers",
@@ -4556,6 +4626,7 @@ export const disassociateGlobalReplicationGroup: API.OperationMethod<
     InvalidParameterCombinationException,
     InvalidParameterValueException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateGlobalReplicationGroup",
@@ -4586,6 +4657,7 @@ export const exportServerlessCacheSnapshot: API.OperationMethod<
     ServerlessCacheSnapshotNotFoundFault,
     ServiceLinkedRoleNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportServerlessCacheSnapshot",
@@ -4617,6 +4689,7 @@ export const failoverGlobalReplicationGroup: API.OperationMethod<
     InvalidParameterCombinationException,
     InvalidParameterValueException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "FailoverGlobalReplicationGroup",
@@ -4645,6 +4718,7 @@ export const increaseNodeGroupsInGlobalReplicationGroup: API.OperationMethod<
     InvalidGlobalReplicationGroupStateFault,
     InvalidParameterValueException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IncreaseNodeGroupsInGlobalReplicationGroup",
@@ -4694,6 +4768,7 @@ export const increaseReplicaCount: API.OperationMethod<
     NoOperationFault,
     ReplicationGroupNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IncreaseReplicaCount",
@@ -4730,6 +4805,7 @@ export const listAllowedNodeTypeModifications: API.OperationMethod<
     InvalidParameterValueException,
     ReplicationGroupNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAllowedNodeTypeModifications",
@@ -4795,6 +4871,7 @@ export const listTagsForResource: API.OperationMethod<
     UserGroupNotFoundFault,
     UserNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -4840,6 +4917,7 @@ export const modifyCacheCluster: API.OperationMethod<
     NodeQuotaForClusterExceededFault,
     NodeQuotaForCustomerExceededFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCacheCluster",
@@ -4873,6 +4951,7 @@ export const modifyCacheParameterGroup: API.OperationMethod<
     InvalidParameterCombinationException,
     InvalidParameterValueException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCacheParameterGroup",
@@ -4905,6 +4984,7 @@ export const modifyCacheSubnetGroup: API.OperationMethod<
     SubnetInUse,
     SubnetNotAllowedFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCacheSubnetGroup",
@@ -4933,6 +5013,7 @@ export const modifyGlobalReplicationGroup: API.OperationMethod<
     InvalidGlobalReplicationGroupStateFault,
     InvalidParameterValueException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyGlobalReplicationGroup",
@@ -4995,6 +5076,7 @@ export const modifyReplicationGroup: API.OperationMethod<
     ReplicationGroupNotFoundFault,
     UserGroupNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyReplicationGroup",
@@ -5038,6 +5120,7 @@ export const modifyReplicationGroupShardConfiguration: API.OperationMethod<
     NodeQuotaForCustomerExceededFault,
     ReplicationGroupNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyReplicationGroupShardConfiguration",
@@ -5076,6 +5159,7 @@ export const modifyServerlessCache: API.OperationMethod<
     ServiceLinkedRoleNotFoundFault,
     UserGroupNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyServerlessCache",
@@ -5108,6 +5192,7 @@ export const modifyUser: API.OperationMethod<
     ServiceLinkedRoleNotFoundFault,
     UserNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyUser",
@@ -5146,6 +5231,7 @@ export const modifyUserGroup: API.OperationMethod<
     UserGroupNotFoundFault,
     UserNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyUserGroup",
@@ -5176,6 +5262,7 @@ export const prepareMigration: API.OperationMethod<
     ServerlessCacheAlreadyUnderMigrationFault,
     ServerlessCacheNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PrepareMigration",
@@ -5211,6 +5298,7 @@ export const purchaseReservedCacheNodesOffering: API.OperationMethod<
     ReservedCacheNodesOfferingNotFoundFault,
     TagQuotaPerResourceExceeded,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseReservedCacheNodesOffering",
@@ -5240,6 +5328,7 @@ export const rebalanceSlotsInGlobalReplicationGroup: API.OperationMethod<
     InvalidGlobalReplicationGroupStateFault,
     InvalidParameterValueException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebalanceSlotsInGlobalReplicationGroup",
@@ -5278,6 +5367,7 @@ export const rebootCacheCluster: API.OperationMethod<
   input: __S(880, __c55, 0) as any as S.Schema<RebootCacheClusterMessage>,
   output: __S(881, __c55, 1) as any as S.Schema<RebootCacheClusterResult>,
   errors: [CacheClusterNotFoundFault, InvalidCacheClusterStateFault],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootCacheCluster",
@@ -5340,6 +5430,7 @@ export const removeTagsFromResource: API.OperationMethod<
     UserGroupNotFoundFault,
     UserNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromResource",
@@ -5375,6 +5466,7 @@ export const resetCacheParameterGroup: API.OperationMethod<
     InvalidParameterCombinationException,
     InvalidParameterValueException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetCacheParameterGroup",
@@ -5408,6 +5500,7 @@ export const revokeCacheSecurityGroupIngress: API.OperationMethod<
     InvalidParameterCombinationException,
     InvalidParameterValueException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeCacheSecurityGroupIngress",
@@ -5450,6 +5543,7 @@ export const startMigration: API.OperationMethod<
     ServerlessCacheNotFoundFault,
     ServerlessCacheNotUnderMigrationFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMigration",
@@ -5483,6 +5577,7 @@ export const stopMigration: API.OperationMethod<
     ServerlessCacheNotFoundFault,
     ServerlessCacheNotUnderMigrationFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopMigration",
@@ -5573,6 +5668,7 @@ export const testFailover: API.OperationMethod<
     ReplicationGroupNotFoundFault,
     TestFailoverNotAvailableFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestFailover",
@@ -5607,6 +5703,7 @@ export const testMigration: API.OperationMethod<
     ReplicationGroupAlreadyUnderMigrationFault,
     ReplicationGroupNotFoundFault,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestMigration",
@@ -5699,7 +5796,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "DeleteServerlessCacheRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ ServerlessCache: S.optional(__S(1253, __c78, 5)) }).pipe(ns),
+        S.Struct({ ServerlessCache: S.optional(__S(1255, __c78, 7)) }).pipe(ns),
       ).annotate({ identifier: "DeleteServerlessCacheResponse" });
   }
 }
@@ -6199,7 +6296,7 @@ function __c25(j: number): any {
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeServerlessCachesRequest" });
     case 1:
-      return S.Array(__S(1253, __c78, 5));
+      return S.Array(__S(1255, __c78, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6826,7 +6923,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "ModifyServerlessCacheRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ ServerlessCache: S.optional(__S(1253, __c78, 5)) }).pipe(ns),
+        S.Struct({ ServerlessCache: S.optional(__S(1255, __c78, 7)) }).pipe(ns),
       ).annotate({ identifier: "ModifyServerlessCacheResponse" });
   }
 }
@@ -6887,7 +6984,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "PrepareMigrationRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({ ServerlessCache: S.optional(__S(1253, __c78, 5)) }).pipe(ns),
+        S.Struct({ ServerlessCache: S.optional(__S(1255, __c78, 7)) }).pipe(ns),
       ).annotate({ identifier: "PrepareMigrationResponse" });
   }
 }
@@ -7005,7 +7102,7 @@ function __c59(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ReplicationGroup: S.optional(__S(1243, __c77, 11)),
-          ServerlessCache: S.optional(__S(1253, __c78, 5)),
+          ServerlessCache: S.optional(__S(1255, __c78, 7)),
         }).pipe(ns),
       ).annotate({ identifier: "StartMigrationResponse" });
   }
@@ -7020,7 +7117,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "StopMigrationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ ServerlessCache: S.optional(__S(1253, __c78, 5)) }).pipe(ns),
+        S.Struct({ ServerlessCache: S.optional(__S(1255, __c78, 7)) }).pipe(ns),
       ).annotate({ identifier: "StopMigrationResponse" });
   }
 }
@@ -7227,7 +7324,7 @@ function __c73(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ReplicationGroup: S.optional(__S(1243, __c77, 11)),
-          ServerlessCache: S.optional(__S(1253, __c78, 5)),
+          ServerlessCache: S.optional(__S(1255, __c78, 7)),
         }).pipe(ns),
       ).annotate({ identifier: "CompleteMigrationResponse" });
   }
@@ -7448,6 +7545,16 @@ function __c78(j: number): any {
       ).annotate({ identifier: "MigrationSummary" });
     case 5:
       return S.suspend(() =>
+        S.Struct({ IntegrationType: S.optional(S.String), Status: S.optional(S.String) }),
+      ).annotate({ identifier: "Integration" });
+    case 6:
+      return S.Array(
+        /*@__PURE__*/ __S(1253, __c78, 5)
+          .pipe(/*@__PURE__*/ T.XmlName("Integration"))
+          .annotate({ identifier: "Integration" }),
+      );
+    case 7:
+      return S.suspend(() =>
         S.Struct({
           ServerlessCacheName: S.optional(S.String),
           Description: S.optional(S.String),
@@ -7470,6 +7577,7 @@ function __c78(j: number): any {
           NetworkType: S.optional(S.String),
           ConnectionType: S.optional(S.String),
           Migration: S.optional(__S(1252, __c78, 4)),
+          Integrations: S.optional(__S(1254, __c78, 6)),
         }),
       ).annotate({ identifier: "ServerlessCache" });
   }
@@ -8055,6 +8163,16 @@ function __c99(j: number): any {
 function __c100(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() => S.Struct({ IntegrationType: S.optional(S.String) })).annotate({
+        identifier: "IntegrationRequest",
+      });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(1600, __c100, 0)
+          .pipe(/*@__PURE__*/ T.XmlName("IntegrationRequest"))
+          .annotate({ identifier: "IntegrationRequest" }),
+      );
+    case 2:
       return S.suspend(() =>
         S.Struct({
           ServerlessCacheName: S.optional(S.String),
@@ -8072,11 +8190,12 @@ function __c100(j: number): any {
           DailySnapshotTime: S.optional(S.String),
           NetworkType: S.optional(S.String),
           ConnectionType: S.optional(S.String),
+          Integrations: S.optional(__S(1601, __c100, 1)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateServerlessCacheRequest" });
-    case 1:
+    case 3:
       return S.suspend(() =>
-        S.Struct({ ServerlessCache: S.optional(__S(1253, __c78, 5)) }).pipe(ns),
+        S.Struct({ ServerlessCache: S.optional(__S(1255, __c78, 7)) }).pipe(ns),
       ).annotate({ identifier: "CreateServerlessCacheResponse" });
   }
 }

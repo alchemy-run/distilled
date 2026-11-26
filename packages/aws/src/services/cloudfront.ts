@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -1682,12 +1683,16 @@ export interface CreateConnectionFunctionResult {
   Location?: string | undefined;
   ETag?: string | undefined;
 }
+export interface ViewerFallback {
+  DistributionId?: string | undefined;
+}
 export interface CreateConnectionGroupRequest {
   Name: string;
   Ipv6Enabled?: boolean | undefined;
   Tags?: Tags | undefined;
   AnycastIpListId?: string | undefined;
   Enabled?: boolean | undefined;
+  ViewerFallback?: ViewerFallback | undefined;
 }
 export interface ConnectionGroup {
   Id?: string | undefined;
@@ -1702,6 +1707,7 @@ export interface ConnectionGroup {
   Status?: string | undefined;
   Enabled?: boolean | undefined;
   IsDefault?: boolean | undefined;
+  ViewerFallback?: ViewerFallback | undefined;
 }
 export interface CreateConnectionGroupResult {
   ConnectionGroup?: ConnectionGroup | undefined;
@@ -1756,8 +1762,10 @@ export interface CreateDistributionResult {
   Location?: string | undefined;
   ETag?: string | undefined;
 }
+export type ServeOn = "any" | "anycast-ip-list-only" | (string & {});
 export interface DomainItem {
   Domain: string;
+  ServeOn?: ServeOn | undefined;
 }
 export type DomainList = DomainItem[];
 export type CustomizationActionType = "override" | "disable" | (string & {});
@@ -1789,6 +1797,7 @@ export interface ManagedCertificateRequest {
   PrimaryDomainName?: string | undefined;
   CertificateTransparencyLoggingPreference?: CertificateTransparencyLoggingPreference | undefined;
 }
+export type OnDomainTakeover = "allow" | "reject" | (string & {});
 export interface CreateDistributionTenantRequest {
   DistributionId: string;
   Name: string;
@@ -1799,11 +1808,13 @@ export interface CreateDistributionTenantRequest {
   ConnectionGroupId?: string | undefined;
   ManagedCertificateRequest?: ManagedCertificateRequest | undefined;
   Enabled?: boolean | undefined;
+  OnDomainTakeover?: OnDomainTakeover | undefined;
 }
 export type DomainStatus = "active" | "inactive" | (string & {});
 export interface DomainResult {
   Domain: string;
   Status?: DomainStatus | undefined;
+  ServeOn?: ServeOn | undefined;
 }
 export type DomainResultList = DomainResult[];
 export interface DistributionTenant {
@@ -2968,6 +2979,7 @@ export interface ConnectionGroupSummary {
   Enabled?: boolean | undefined;
   Status?: string | undefined;
   IsDefault?: boolean | undefined;
+  ViewerFallback?: ViewerFallback | undefined;
 }
 export type ConnectionGroupSummaryList = ConnectionGroupSummary[];
 export interface ListConnectionGroupsResult {
@@ -3628,6 +3640,7 @@ export interface UpdateConnectionGroupRequest {
   IfMatch: string;
   AnycastIpListId?: string | undefined;
   Enabled?: boolean | undefined;
+  ViewerFallback?: ViewerFallback | undefined;
 }
 export interface UpdateConnectionGroupResult {
   ConnectionGroup?: ConnectionGroup | undefined;
@@ -3661,6 +3674,7 @@ export interface UpdateDistributionTenantRequest {
   IfMatch: string;
   ManagedCertificateRequest?: ManagedCertificateRequest | undefined;
   Enabled?: boolean | undefined;
+  OnDomainTakeover?: OnDomainTakeover | undefined;
 }
 export interface UpdateDistributionTenantResult {
   DistributionTenant?: DistributionTenant | undefined;
@@ -3856,6 +3870,7 @@ export const associateAlias: API.OperationMethod<
     NoSuchDistribution,
     TooManyDistributionCNAMEs,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAlias",
@@ -3890,6 +3905,7 @@ export const associateDistributionTenantWebACL: API.OperationMethod<
     InvalidIfMatchVersion,
     PreconditionFailed,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateDistributionTenantWebACL",
@@ -3924,6 +3940,7 @@ export const associateDistributionWebACL: API.OperationMethod<
     InvalidIfMatchVersion,
     PreconditionFailed,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateDistributionWebACL",
@@ -4084,6 +4101,7 @@ export const copyDistribution: API.OperationMethod<
     TrustedKeyGroupDoesNotExist,
     TrustedSignerDoesNotExist,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyDistribution",
@@ -4118,6 +4136,7 @@ export const createAnycastIpList: API.OperationMethod<
     InvalidTagging,
     UnsupportedOperation,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAnycastIpList",
@@ -4168,6 +4187,7 @@ export const createCachePolicy: API.OperationMethod<
     TooManyHeadersInCachePolicy,
     TooManyQueryStringsInCachePolicy,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCachePolicy",
@@ -4200,6 +4220,7 @@ export const createCloudFrontOriginAccessIdentity: API.OperationMethod<
     MissingBody,
     TooManyCloudFrontOriginAccessIdentities,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCloudFrontOriginAccessIdentity",
@@ -4236,6 +4257,7 @@ export const createConnectionFunction: API.OperationMethod<
     InvalidTagging,
     UnsupportedOperation,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectionFunction",
@@ -4270,6 +4292,7 @@ export const createConnectionGroup: API.OperationMethod<
     InvalidArgument,
     InvalidTagging,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectionGroup",
@@ -4298,8 +4321,8 @@ export const createContinuousDeploymentPolicy: API.OperationMethod<
   CreateContinuousDeploymentPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<CreateContinuousDeploymentPolicyRequest>,
-  output: __S(961, __c30, 1) as any as S.Schema<CreateContinuousDeploymentPolicyResult>,
+  input: __S(992, __c31, 0) as any as S.Schema<CreateContinuousDeploymentPolicyRequest>,
+  output: __S(993, __c31, 1) as any as S.Schema<CreateContinuousDeploymentPolicyResult>,
   errors: [
     AccessDenied,
     ContinuousDeploymentPolicyAlreadyExists,
@@ -4308,6 +4331,7 @@ export const createContinuousDeploymentPolicy: API.OperationMethod<
     StagingDistributionInUse,
     TooManyContinuousDeploymentPolicies,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContinuousDeploymentPolicy",
@@ -4393,8 +4417,8 @@ export const createDistribution: API.OperationMethod<
   CreateDistributionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<CreateDistributionRequest>,
-  output: __S(1057, __c33, 1) as any as S.Schema<CreateDistributionResult>,
+  input: __S(1088, __c34, 0) as any as S.Schema<CreateDistributionRequest>,
+  output: __S(1089, __c34, 1) as any as S.Schema<CreateDistributionResult>,
   errors: [
     AccessDenied,
     CNAMEAlreadyExists,
@@ -4464,6 +4488,7 @@ export const createDistribution: API.OperationMethod<
     TrustedKeyGroupDoesNotExist,
     TrustedSignerDoesNotExist,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDistribution",
@@ -4490,8 +4515,8 @@ export const createDistributionTenant: API.OperationMethod<
   CreateDistributionTenantError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<CreateDistributionTenantRequest>,
-  output: __S(1089, __c34, 1) as any as S.Schema<CreateDistributionTenantResult>,
+  input: __S(1120, __c35, 0) as any as S.Schema<CreateDistributionTenantRequest>,
+  output: __S(1121, __c35, 1) as any as S.Schema<CreateDistributionTenantResult>,
   errors: [
     AccessDenied,
     CNAMEAlreadyExists,
@@ -4502,6 +4527,7 @@ export const createDistributionTenant: API.OperationMethod<
     InvalidAssociation,
     InvalidTagging,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDistributionTenant",
@@ -4591,8 +4617,8 @@ export const createDistributionWithTags: API.OperationMethod<
   CreateDistributionWithTagsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1217, __c38, 1) as any as S.Schema<CreateDistributionWithTagsRequest>,
-  output: __S(1218, __c38, 2) as any as S.Schema<CreateDistributionWithTagsResult>,
+  input: __S(1249, __c39, 1) as any as S.Schema<CreateDistributionWithTagsRequest>,
+  output: __S(1250, __c39, 2) as any as S.Schema<CreateDistributionWithTagsResult>,
   errors: [
     AccessDenied,
     CNAMEAlreadyExists,
@@ -4662,6 +4688,7 @@ export const createDistributionWithTags: API.OperationMethod<
     TrustedKeyGroupDoesNotExist,
     TrustedSignerDoesNotExist,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDistributionWithTags",
@@ -4688,8 +4715,8 @@ export const createFieldLevelEncryptionConfig: API.OperationMethod<
   CreateFieldLevelEncryptionConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<CreateFieldLevelEncryptionConfigRequest>,
-  output: __S(1249, __c39, 1) as any as S.Schema<CreateFieldLevelEncryptionConfigResult>,
+  input: __S(1280, __c40, 0) as any as S.Schema<CreateFieldLevelEncryptionConfigRequest>,
+  output: __S(1281, __c40, 1) as any as S.Schema<CreateFieldLevelEncryptionConfigResult>,
   errors: [
     FieldLevelEncryptionConfigAlreadyExists,
     InconsistentQuantities,
@@ -4700,6 +4727,7 @@ export const createFieldLevelEncryptionConfig: API.OperationMethod<
     TooManyFieldLevelEncryptionContentTypeProfiles,
     TooManyFieldLevelEncryptionQueryArgProfiles,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFieldLevelEncryptionConfig",
@@ -4726,8 +4754,8 @@ export const createFieldLevelEncryptionProfile: API.OperationMethod<
   CreateFieldLevelEncryptionProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<CreateFieldLevelEncryptionProfileRequest>,
-  output: __S(1377, __c43, 1) as any as S.Schema<CreateFieldLevelEncryptionProfileResult>,
+  input: __S(1408, __c44, 0) as any as S.Schema<CreateFieldLevelEncryptionProfileRequest>,
+  output: __S(1409, __c44, 1) as any as S.Schema<CreateFieldLevelEncryptionProfileResult>,
   errors: [
     FieldLevelEncryptionProfileAlreadyExists,
     FieldLevelEncryptionProfileSizeExceeded,
@@ -4738,6 +4766,7 @@ export const createFieldLevelEncryptionProfile: API.OperationMethod<
     TooManyFieldLevelEncryptionFieldPatterns,
     TooManyFieldLevelEncryptionProfiles,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFieldLevelEncryptionProfile",
@@ -4767,8 +4796,8 @@ export const createFunction: API.OperationMethod<
   CreateFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<CreateFunctionRequest>,
-  output: __S(1505, __c47, 1) as any as S.Schema<CreateFunctionResult>,
+  input: __S(1536, __c48, 0) as any as S.Schema<CreateFunctionRequest>,
+  output: __S(1537, __c48, 1) as any as S.Schema<CreateFunctionResult>,
   errors: [
     FunctionAlreadyExists,
     FunctionSizeLimitExceeded,
@@ -4776,6 +4805,7 @@ export const createFunction: API.OperationMethod<
     TooManyFunctions,
     UnsupportedOperation,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFunction",
@@ -4801,8 +4831,8 @@ export const createInvalidation: API.OperationMethod<
   CreateInvalidationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<CreateInvalidationRequest>,
-  output: __S(1569, __c49, 1) as any as S.Schema<CreateInvalidationResult>,
+  input: __S(1600, __c50, 0) as any as S.Schema<CreateInvalidationRequest>,
+  output: __S(1601, __c50, 1) as any as S.Schema<CreateInvalidationResult>,
   errors: [
     AccessDenied,
     BatchTooLarge,
@@ -4812,6 +4842,7 @@ export const createInvalidation: API.OperationMethod<
     NoSuchDistribution,
     TooManyInvalidationsInProgress,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInvalidation",
@@ -4837,8 +4868,8 @@ export const createInvalidationForDistributionTenant: API.OperationMethod<
   CreateInvalidationForDistributionTenantError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<CreateInvalidationForDistributionTenantRequest>,
-  output: __S(1633, __c51, 1) as any as S.Schema<CreateInvalidationForDistributionTenantResult>,
+  input: __S(1664, __c52, 0) as any as S.Schema<CreateInvalidationForDistributionTenantRequest>,
+  output: __S(1665, __c52, 1) as any as S.Schema<CreateInvalidationForDistributionTenantResult>,
   errors: [
     AccessDenied,
     BatchTooLarge,
@@ -4848,6 +4879,7 @@ export const createInvalidationForDistributionTenant: API.OperationMethod<
     MissingBody,
     TooManyInvalidationsInProgress,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInvalidationForDistributionTenant",
@@ -4872,9 +4904,10 @@ export const createKeyGroup: API.OperationMethod<
   CreateKeyGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<CreateKeyGroupRequest>,
-  output: __S(1665, __c52, 1) as any as S.Schema<CreateKeyGroupResult>,
+  input: __S(1696, __c53, 0) as any as S.Schema<CreateKeyGroupRequest>,
+  output: __S(1697, __c53, 1) as any as S.Schema<CreateKeyGroupResult>,
   errors: [InvalidArgument, KeyGroupAlreadyExists, TooManyKeyGroups, TooManyPublicKeysInKeyGroup],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKeyGroup",
@@ -4899,8 +4932,8 @@ export const createKeyValueStore: API.OperationMethod<
   CreateKeyValueStoreError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1761, __c55, 1) as any as S.Schema<CreateKeyValueStoreRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<CreateKeyValueStoreResult>,
+  input: __S(1793, __c56, 1) as any as S.Schema<CreateKeyValueStoreRequest>,
+  output: __S(1794, __c56, 2) as any as S.Schema<CreateKeyValueStoreResult>,
   errors: [
     AccessDenied,
     EntityAlreadyExists,
@@ -4909,6 +4942,7 @@ export const createKeyValueStore: API.OperationMethod<
     InvalidArgument,
     UnsupportedOperation,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKeyValueStore",
@@ -4933,14 +4967,15 @@ export const createMonitoringSubscription: API.OperationMethod<
   CreateMonitoringSubscriptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<CreateMonitoringSubscriptionRequest>,
-  output: __S(1825, __c57, 1) as any as S.Schema<CreateMonitoringSubscriptionResult>,
+  input: __S(1856, __c58, 0) as any as S.Schema<CreateMonitoringSubscriptionRequest>,
+  output: __S(1857, __c58, 1) as any as S.Schema<CreateMonitoringSubscriptionResult>,
   errors: [
     AccessDenied,
     MonitoringSubscriptionAlreadyExists,
     NoSuchDistribution,
     UnsupportedOperation,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMonitoringSubscription",
@@ -4966,9 +5001,10 @@ export const createOriginAccessControl: API.OperationMethod<
   CreateOriginAccessControlError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<CreateOriginAccessControlRequest>,
-  output: __S(1889, __c59, 1) as any as S.Schema<CreateOriginAccessControlResult>,
+  input: __S(1920, __c60, 0) as any as S.Schema<CreateOriginAccessControlRequest>,
+  output: __S(1921, __c60, 1) as any as S.Schema<CreateOriginAccessControlResult>,
   errors: [InvalidArgument, OriginAccessControlAlreadyExists, TooManyOriginAccessControls],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOriginAccessControl",
@@ -5007,8 +5043,8 @@ export const createOriginRequestPolicy: API.OperationMethod<
   CreateOriginRequestPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<CreateOriginRequestPolicyRequest>,
-  output: __S(1985, __c62, 1) as any as S.Schema<CreateOriginRequestPolicyResult>,
+  input: __S(2016, __c63, 0) as any as S.Schema<CreateOriginRequestPolicyRequest>,
+  output: __S(2017, __c63, 1) as any as S.Schema<CreateOriginRequestPolicyResult>,
   errors: [
     AccessDenied,
     InconsistentQuantities,
@@ -5019,6 +5055,7 @@ export const createOriginRequestPolicy: API.OperationMethod<
     TooManyOriginRequestPolicies,
     TooManyQueryStringsInOriginRequestPolicy,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOriginRequestPolicy",
@@ -5040,9 +5077,10 @@ export const createPublicKey: API.OperationMethod<
   CreatePublicKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<CreatePublicKeyRequest>,
-  output: __S(2081, __c65, 1) as any as S.Schema<CreatePublicKeyResult>,
+  input: __S(2112, __c66, 0) as any as S.Schema<CreatePublicKeyRequest>,
+  output: __S(2113, __c66, 1) as any as S.Schema<CreatePublicKeyResult>,
   errors: [InvalidArgument, PublicKeyAlreadyExists, TooManyPublicKeys],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePublicKey",
@@ -5069,14 +5107,15 @@ export const createRealtimeLogConfig: API.OperationMethod<
   CreateRealtimeLogConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<CreateRealtimeLogConfigRequest>,
-  output: __S(2177, __c68, 1) as any as S.Schema<CreateRealtimeLogConfigResult>,
+  input: __S(2208, __c69, 0) as any as S.Schema<CreateRealtimeLogConfigRequest>,
+  output: __S(2209, __c69, 1) as any as S.Schema<CreateRealtimeLogConfigResult>,
   errors: [
     AccessDenied,
     InvalidArgument,
     RealtimeLogConfigAlreadyExists,
     TooManyRealtimeLogConfigs,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRealtimeLogConfig",
@@ -5109,8 +5148,8 @@ export const createResponseHeadersPolicy: API.OperationMethod<
   CreateResponseHeadersPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<CreateResponseHeadersPolicyRequest>,
-  output: __S(2241, __c70, 1) as any as S.Schema<CreateResponseHeadersPolicyResult>,
+  input: __S(2272, __c71, 0) as any as S.Schema<CreateResponseHeadersPolicyRequest>,
+  output: __S(2273, __c71, 1) as any as S.Schema<CreateResponseHeadersPolicyResult>,
   errors: [
     AccessDenied,
     InconsistentQuantities,
@@ -5121,6 +5160,7 @@ export const createResponseHeadersPolicy: API.OperationMethod<
     TooManyRemoveHeadersInResponseHeadersPolicy,
     TooManyResponseHeadersPolicies,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResponseHeadersPolicy",
@@ -5152,8 +5192,8 @@ export const createStreamingDistribution: API.OperationMethod<
   CreateStreamingDistributionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<CreateStreamingDistributionRequest>,
-  output: __S(2337, __c73, 1) as any as S.Schema<CreateStreamingDistributionResult>,
+  input: __S(2368, __c74, 0) as any as S.Schema<CreateStreamingDistributionRequest>,
+  output: __S(2369, __c74, 1) as any as S.Schema<CreateStreamingDistributionResult>,
   errors: [
     AccessDenied,
     CNAMEAlreadyExists,
@@ -5169,6 +5209,7 @@ export const createStreamingDistribution: API.OperationMethod<
     TooManyTrustedSigners,
     TrustedSignerDoesNotExist,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStreamingDistribution",
@@ -5201,8 +5242,8 @@ export const createStreamingDistributionWithTags: API.OperationMethod<
   CreateStreamingDistributionWithTagsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2465, __c77, 1) as any as S.Schema<CreateStreamingDistributionWithTagsRequest>,
-  output: __S(2466, __c77, 2) as any as S.Schema<CreateStreamingDistributionWithTagsResult>,
+  input: __S(2497, __c78, 1) as any as S.Schema<CreateStreamingDistributionWithTagsRequest>,
+  output: __S(2498, __c78, 2) as any as S.Schema<CreateStreamingDistributionWithTagsResult>,
   errors: [
     AccessDenied,
     CNAMEAlreadyExists,
@@ -5219,6 +5260,7 @@ export const createStreamingDistributionWithTags: API.OperationMethod<
     TooManyTrustedSigners,
     TrustedSignerDoesNotExist,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStreamingDistributionWithTags",
@@ -5243,8 +5285,8 @@ export const createTrustStore: API.OperationMethod<
   CreateTrustStoreError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<CreateTrustStoreRequest>,
-  output: __S(2497, __c78, 1) as any as S.Schema<CreateTrustStoreResult>,
+  input: __S(2528, __c79, 0) as any as S.Schema<CreateTrustStoreRequest>,
+  output: __S(2529, __c79, 1) as any as S.Schema<CreateTrustStoreResult>,
   errors: [
     AccessDenied,
     EntityAlreadyExists,
@@ -5253,6 +5295,7 @@ export const createTrustStore: API.OperationMethod<
     InvalidArgument,
     InvalidTagging,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrustStore",
@@ -5278,8 +5321,8 @@ export const createVpcOrigin: API.OperationMethod<
   CreateVpcOriginError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<CreateVpcOriginRequest>,
-  output: __S(2593, __c81, 1) as any as S.Schema<CreateVpcOriginResult>,
+  input: __S(2624, __c82, 0) as any as S.Schema<CreateVpcOriginRequest>,
+  output: __S(2625, __c82, 1) as any as S.Schema<CreateVpcOriginResult>,
   errors: [
     AccessDenied,
     EntityAlreadyExists,
@@ -5289,6 +5332,7 @@ export const createVpcOrigin: API.OperationMethod<
     InvalidTagging,
     UnsupportedOperation,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcOrigin",
@@ -5315,8 +5359,8 @@ export const deleteAnycastIpList: API.OperationMethod<
   DeleteAnycastIpListError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<DeleteAnycastIpListRequest>,
-  output: __S(2657, __c83, 1) as any as S.Schema<DeleteAnycastIpListResponse>,
+  input: __S(2688, __c84, 0) as any as S.Schema<DeleteAnycastIpListRequest>,
+  output: __S(2689, __c84, 1) as any as S.Schema<DeleteAnycastIpListResponse>,
   errors: [
     AccessDenied,
     CannotDeleteEntityWhileInUse,
@@ -5327,6 +5371,7 @@ export const deleteAnycastIpList: API.OperationMethod<
     PreconditionFailed,
     UnsupportedOperation,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAnycastIpList",
@@ -5355,8 +5400,8 @@ export const deleteCachePolicy: API.OperationMethod<
   DeleteCachePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<DeleteCachePolicyRequest>,
-  output: __S(2689, __c84, 1) as any as S.Schema<DeleteCachePolicyResponse>,
+  input: __S(2720, __c85, 0) as any as S.Schema<DeleteCachePolicyRequest>,
+  output: __S(2721, __c85, 1) as any as S.Schema<DeleteCachePolicyResponse>,
   errors: [
     AccessDenied,
     CachePolicyInUse,
@@ -5365,6 +5410,7 @@ export const deleteCachePolicy: API.OperationMethod<
     NoSuchCachePolicy,
     PreconditionFailed,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCachePolicy",
@@ -5388,8 +5434,8 @@ export const deleteCloudFrontOriginAccessIdentity: API.OperationMethod<
   DeleteCloudFrontOriginAccessIdentityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<DeleteCloudFrontOriginAccessIdentityRequest>,
-  output: __S(2721, __c85, 1) as any as S.Schema<DeleteCloudFrontOriginAccessIdentityResponse>,
+  input: __S(2752, __c86, 0) as any as S.Schema<DeleteCloudFrontOriginAccessIdentityRequest>,
+  output: __S(2753, __c86, 1) as any as S.Schema<DeleteCloudFrontOriginAccessIdentityResponse>,
   errors: [
     AccessDenied,
     CloudFrontOriginAccessIdentityInUse,
@@ -5397,6 +5443,7 @@ export const deleteCloudFrontOriginAccessIdentity: API.OperationMethod<
     NoSuchCloudFrontOriginAccessIdentity,
     PreconditionFailed,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCloudFrontOriginAccessIdentity",
@@ -5422,8 +5469,8 @@ export const deleteConnectionFunction: API.OperationMethod<
   DeleteConnectionFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<DeleteConnectionFunctionRequest>,
-  output: __S(2753, __c86, 1) as any as S.Schema<DeleteConnectionFunctionResponse>,
+  input: __S(2784, __c87, 0) as any as S.Schema<DeleteConnectionFunctionRequest>,
+  output: __S(2785, __c87, 1) as any as S.Schema<DeleteConnectionFunctionResponse>,
   errors: [
     AccessDenied,
     CannotDeleteEntityWhileInUse,
@@ -5433,6 +5480,7 @@ export const deleteConnectionFunction: API.OperationMethod<
     PreconditionFailed,
     UnsupportedOperation,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnectionFunction",
@@ -5457,8 +5505,8 @@ export const deleteConnectionGroup: API.OperationMethod<
   DeleteConnectionGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<DeleteConnectionGroupRequest>,
-  output: __S(2785, __c87, 1) as any as S.Schema<DeleteConnectionGroupResponse>,
+  input: __S(2816, __c88, 0) as any as S.Schema<DeleteConnectionGroupRequest>,
+  output: __S(2817, __c88, 1) as any as S.Schema<DeleteConnectionGroupResponse>,
   errors: [
     AccessDenied,
     CannotDeleteEntityWhileInUse,
@@ -5467,6 +5515,7 @@ export const deleteConnectionGroup: API.OperationMethod<
     PreconditionFailed,
     ResourceNotDisabled,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnectionGroup",
@@ -5493,8 +5542,8 @@ export const deleteContinuousDeploymentPolicy: API.OperationMethod<
   DeleteContinuousDeploymentPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<DeleteContinuousDeploymentPolicyRequest>,
-  output: __S(2817, __c88, 1) as any as S.Schema<DeleteContinuousDeploymentPolicyResponse>,
+  input: __S(2848, __c89, 0) as any as S.Schema<DeleteContinuousDeploymentPolicyRequest>,
+  output: __S(2849, __c89, 1) as any as S.Schema<DeleteContinuousDeploymentPolicyResponse>,
   errors: [
     AccessDenied,
     ContinuousDeploymentPolicyInUse,
@@ -5503,6 +5552,7 @@ export const deleteContinuousDeploymentPolicy: API.OperationMethod<
     NoSuchContinuousDeploymentPolicy,
     PreconditionFailed,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContinuousDeploymentPolicy",
@@ -5529,8 +5579,8 @@ export const deleteDistribution: API.OperationMethod<
   DeleteDistributionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<DeleteDistributionRequest>,
-  output: __S(2849, __c89, 1) as any as S.Schema<DeleteDistributionResponse>,
+  input: __S(2880, __c90, 0) as any as S.Schema<DeleteDistributionRequest>,
+  output: __S(2881, __c90, 1) as any as S.Schema<DeleteDistributionResponse>,
   errors: [
     AccessDenied,
     DistributionNotDisabled,
@@ -5539,6 +5589,7 @@ export const deleteDistribution: API.OperationMethod<
     PreconditionFailed,
     ResourceInUse,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDistribution",
@@ -5564,8 +5615,8 @@ export const deleteDistributionTenant: API.OperationMethod<
   DeleteDistributionTenantError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<DeleteDistributionTenantRequest>,
-  output: __S(2881, __c90, 1) as any as S.Schema<DeleteDistributionTenantResponse>,
+  input: __S(2912, __c91, 0) as any as S.Schema<DeleteDistributionTenantRequest>,
+  output: __S(2913, __c91, 1) as any as S.Schema<DeleteDistributionTenantResponse>,
   errors: [
     AccessDenied,
     EntityNotFound,
@@ -5573,6 +5624,7 @@ export const deleteDistributionTenant: API.OperationMethod<
     PreconditionFailed,
     ResourceNotDisabled,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDistributionTenant",
@@ -5596,8 +5648,8 @@ export const deleteFieldLevelEncryptionConfig: API.OperationMethod<
   DeleteFieldLevelEncryptionConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<DeleteFieldLevelEncryptionConfigRequest>,
-  output: __S(2913, __c91, 1) as any as S.Schema<DeleteFieldLevelEncryptionConfigResponse>,
+  input: __S(2944, __c92, 0) as any as S.Schema<DeleteFieldLevelEncryptionConfigRequest>,
+  output: __S(2945, __c92, 1) as any as S.Schema<DeleteFieldLevelEncryptionConfigResponse>,
   errors: [
     AccessDenied,
     FieldLevelEncryptionConfigInUse,
@@ -5605,6 +5657,7 @@ export const deleteFieldLevelEncryptionConfig: API.OperationMethod<
     NoSuchFieldLevelEncryptionConfig,
     PreconditionFailed,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFieldLevelEncryptionConfig",
@@ -5628,8 +5681,8 @@ export const deleteFieldLevelEncryptionProfile: API.OperationMethod<
   DeleteFieldLevelEncryptionProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<DeleteFieldLevelEncryptionProfileRequest>,
-  output: __S(2945, __c92, 1) as any as S.Schema<DeleteFieldLevelEncryptionProfileResponse>,
+  input: __S(2976, __c93, 0) as any as S.Schema<DeleteFieldLevelEncryptionProfileRequest>,
+  output: __S(2977, __c93, 1) as any as S.Schema<DeleteFieldLevelEncryptionProfileResponse>,
   errors: [
     AccessDenied,
     FieldLevelEncryptionProfileInUse,
@@ -5637,6 +5690,7 @@ export const deleteFieldLevelEncryptionProfile: API.OperationMethod<
     NoSuchFieldLevelEncryptionProfile,
     PreconditionFailed,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFieldLevelEncryptionProfile",
@@ -5664,8 +5718,8 @@ export const deleteFunction: API.OperationMethod<
   DeleteFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<DeleteFunctionRequest>,
-  output: __S(2977, __c93, 1) as any as S.Schema<DeleteFunctionResponse>,
+  input: __S(3008, __c94, 0) as any as S.Schema<DeleteFunctionRequest>,
+  output: __S(3009, __c94, 1) as any as S.Schema<DeleteFunctionResponse>,
   errors: [
     FunctionInUse,
     InvalidIfMatchVersion,
@@ -5673,6 +5727,7 @@ export const deleteFunction: API.OperationMethod<
     PreconditionFailed,
     UnsupportedOperation,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFunction",
@@ -5699,9 +5754,10 @@ export const deleteKeyGroup: API.OperationMethod<
   DeleteKeyGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<DeleteKeyGroupRequest>,
-  output: __S(3009, __c94, 1) as any as S.Schema<DeleteKeyGroupResponse>,
+  input: __S(3040, __c95, 0) as any as S.Schema<DeleteKeyGroupRequest>,
+  output: __S(3041, __c95, 1) as any as S.Schema<DeleteKeyGroupResponse>,
   errors: [InvalidIfMatchVersion, NoSuchResource, PreconditionFailed, ResourceInUse],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKeyGroup",
@@ -5726,8 +5782,8 @@ export const deleteKeyValueStore: API.OperationMethod<
   DeleteKeyValueStoreError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<DeleteKeyValueStoreRequest>,
-  output: __S(3041, __c95, 1) as any as S.Schema<DeleteKeyValueStoreResponse>,
+  input: __S(3072, __c96, 0) as any as S.Schema<DeleteKeyValueStoreRequest>,
+  output: __S(3073, __c96, 1) as any as S.Schema<DeleteKeyValueStoreResponse>,
   errors: [
     AccessDenied,
     CannotDeleteEntityWhileInUse,
@@ -5736,6 +5792,7 @@ export const deleteKeyValueStore: API.OperationMethod<
     PreconditionFailed,
     UnsupportedOperation,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKeyValueStore",
@@ -5758,9 +5815,10 @@ export const deleteMonitoringSubscription: API.OperationMethod<
   DeleteMonitoringSubscriptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<DeleteMonitoringSubscriptionRequest>,
-  output: __S(3073, __c96, 1) as any as S.Schema<DeleteMonitoringSubscriptionResult>,
+  input: __S(3104, __c97, 0) as any as S.Schema<DeleteMonitoringSubscriptionRequest>,
+  output: __S(3105, __c97, 1) as any as S.Schema<DeleteMonitoringSubscriptionResult>,
   errors: [AccessDenied, NoSuchDistribution, NoSuchMonitoringSubscription, UnsupportedOperation],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMonitoringSubscription",
@@ -5786,8 +5844,8 @@ export const deleteOriginAccessControl: API.OperationMethod<
   DeleteOriginAccessControlError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<DeleteOriginAccessControlRequest>,
-  output: __S(3105, __c97, 1) as any as S.Schema<DeleteOriginAccessControlResponse>,
+  input: __S(3136, __c98, 0) as any as S.Schema<DeleteOriginAccessControlRequest>,
+  output: __S(3137, __c98, 1) as any as S.Schema<DeleteOriginAccessControlResponse>,
   errors: [
     AccessDenied,
     InvalidIfMatchVersion,
@@ -5795,6 +5853,7 @@ export const deleteOriginAccessControl: API.OperationMethod<
     OriginAccessControlInUse,
     PreconditionFailed,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOriginAccessControl",
@@ -5823,8 +5882,8 @@ export const deleteOriginRequestPolicy: API.OperationMethod<
   DeleteOriginRequestPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<DeleteOriginRequestPolicyRequest>,
-  output: __S(3137, __c98, 1) as any as S.Schema<DeleteOriginRequestPolicyResponse>,
+  input: __S(3168, __c99, 0) as any as S.Schema<DeleteOriginRequestPolicyRequest>,
+  output: __S(3169, __c99, 1) as any as S.Schema<DeleteOriginRequestPolicyResponse>,
   errors: [
     AccessDenied,
     IllegalDelete,
@@ -5833,6 +5892,7 @@ export const deleteOriginRequestPolicy: API.OperationMethod<
     OriginRequestPolicyInUse,
     PreconditionFailed,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOriginRequestPolicy",
@@ -5856,8 +5916,8 @@ export const deletePublicKey: API.OperationMethod<
   DeletePublicKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<DeletePublicKeyRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<DeletePublicKeyResponse>,
+  input: __S(3200, __c100, 0) as any as S.Schema<DeletePublicKeyRequest>,
+  output: __S(3201, __c100, 1) as any as S.Schema<DeletePublicKeyResponse>,
   errors: [
     AccessDenied,
     InvalidIfMatchVersion,
@@ -5865,6 +5925,7 @@ export const deletePublicKey: API.OperationMethod<
     PreconditionFailed,
     PublicKeyInUse,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePublicKey",
@@ -5891,9 +5952,10 @@ export const deleteRealtimeLogConfig: API.OperationMethod<
   DeleteRealtimeLogConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<DeleteRealtimeLogConfigRequest>,
-  output: __S(3201, __c100, 1) as any as S.Schema<DeleteRealtimeLogConfigResponse>,
+  input: __S(3232, __c101, 0) as any as S.Schema<DeleteRealtimeLogConfigRequest>,
+  output: __S(3233, __c101, 1) as any as S.Schema<DeleteRealtimeLogConfigResponse>,
   errors: [AccessDenied, InvalidArgument, NoSuchRealtimeLogConfig, RealtimeLogConfigInUse],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRealtimeLogConfig",
@@ -5918,8 +5980,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<DeleteResourcePolicyRequest>,
-  output: __S(3233, __c101, 1) as any as S.Schema<DeleteResourcePolicyResponse>,
+  input: __S(3264, __c102, 0) as any as S.Schema<DeleteResourcePolicyRequest>,
+  output: __S(3265, __c102, 1) as any as S.Schema<DeleteResourcePolicyResponse>,
   errors: [
     AccessDenied,
     EntityNotFound,
@@ -5928,6 +5990,7 @@ export const deleteResourcePolicy: API.OperationMethod<
     PreconditionFailed,
     UnsupportedOperation,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
@@ -5956,8 +6019,8 @@ export const deleteResponseHeadersPolicy: API.OperationMethod<
   DeleteResponseHeadersPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<DeleteResponseHeadersPolicyRequest>,
-  output: __S(3265, __c102, 1) as any as S.Schema<DeleteResponseHeadersPolicyResponse>,
+  input: __S(3296, __c103, 0) as any as S.Schema<DeleteResponseHeadersPolicyRequest>,
+  output: __S(3297, __c103, 1) as any as S.Schema<DeleteResponseHeadersPolicyResponse>,
   errors: [
     AccessDenied,
     IllegalDelete,
@@ -5966,6 +6029,7 @@ export const deleteResponseHeadersPolicy: API.OperationMethod<
     PreconditionFailed,
     ResponseHeadersPolicyInUse,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResponseHeadersPolicy",
@@ -6009,8 +6073,8 @@ export const deleteStreamingDistribution: API.OperationMethod<
   DeleteStreamingDistributionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<DeleteStreamingDistributionRequest>,
-  output: __S(3297, __c103, 1) as any as S.Schema<DeleteStreamingDistributionResponse>,
+  input: __S(3328, __c104, 0) as any as S.Schema<DeleteStreamingDistributionRequest>,
+  output: __S(3329, __c104, 1) as any as S.Schema<DeleteStreamingDistributionResponse>,
   errors: [
     AccessDenied,
     InvalidIfMatchVersion,
@@ -6018,6 +6082,7 @@ export const deleteStreamingDistribution: API.OperationMethod<
     PreconditionFailed,
     StreamingDistributionNotDisabled,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStreamingDistribution",
@@ -6042,8 +6107,8 @@ export const deleteTrustStore: API.OperationMethod<
   DeleteTrustStoreError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<DeleteTrustStoreRequest>,
-  output: __S(3329, __c104, 1) as any as S.Schema<DeleteTrustStoreResponse>,
+  input: __S(3360, __c105, 0) as any as S.Schema<DeleteTrustStoreRequest>,
+  output: __S(3361, __c105, 1) as any as S.Schema<DeleteTrustStoreResponse>,
   errors: [
     AccessDenied,
     CannotDeleteEntityWhileInUse,
@@ -6052,6 +6117,7 @@ export const deleteTrustStore: API.OperationMethod<
     InvalidIfMatchVersion,
     PreconditionFailed,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrustStore",
@@ -6078,8 +6144,8 @@ export const deleteVpcOrigin: API.OperationMethod<
   DeleteVpcOriginError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<DeleteVpcOriginRequest>,
-  output: __S(3361, __c105, 1) as any as S.Schema<DeleteVpcOriginResult>,
+  input: __S(3392, __c106, 0) as any as S.Schema<DeleteVpcOriginRequest>,
+  output: __S(3393, __c106, 1) as any as S.Schema<DeleteVpcOriginResult>,
   errors: [
     AccessDenied,
     CannotDeleteEntityWhileInUse,
@@ -6090,6 +6156,7 @@ export const deleteVpcOrigin: API.OperationMethod<
     PreconditionFailed,
     UnsupportedOperation,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcOrigin",
@@ -6112,9 +6179,10 @@ export const describeConnectionFunction: API.OperationMethod<
   DescribeConnectionFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<DescribeConnectionFunctionRequest>,
-  output: __S(3393, __c106, 1) as any as S.Schema<DescribeConnectionFunctionResult>,
+  input: __S(3424, __c107, 0) as any as S.Schema<DescribeConnectionFunctionRequest>,
+  output: __S(3425, __c107, 1) as any as S.Schema<DescribeConnectionFunctionResult>,
   errors: [AccessDenied, EntityNotFound, InvalidArgument, UnsupportedOperation],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConnectionFunction",
@@ -6134,9 +6202,10 @@ export const describeFunction: API.OperationMethod<
   DescribeFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<DescribeFunctionRequest>,
-  output: __S(3425, __c107, 1) as any as S.Schema<DescribeFunctionResult>,
+  input: __S(3456, __c108, 0) as any as S.Schema<DescribeFunctionRequest>,
+  output: __S(3457, __c108, 1) as any as S.Schema<DescribeFunctionResult>,
   errors: [NoSuchFunctionExists, UnsupportedOperation],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFunction",
@@ -6159,9 +6228,10 @@ export const describeKeyValueStore: API.OperationMethod<
   DescribeKeyValueStoreError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<DescribeKeyValueStoreRequest>,
-  output: __S(3457, __c108, 1) as any as S.Schema<DescribeKeyValueStoreResult>,
+  input: __S(3488, __c109, 0) as any as S.Schema<DescribeKeyValueStoreRequest>,
+  output: __S(3489, __c109, 1) as any as S.Schema<DescribeKeyValueStoreResult>,
   errors: [AccessDenied, EntityNotFound, InvalidArgument, UnsupportedOperation],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeKeyValueStore",
@@ -6185,8 +6255,8 @@ export const disassociateDistributionTenantWebACL: API.OperationMethod<
   DisassociateDistributionTenantWebACLError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<DisassociateDistributionTenantWebACLRequest>,
-  output: __S(3489, __c109, 1) as any as S.Schema<DisassociateDistributionTenantWebACLResult>,
+  input: __S(3520, __c110, 0) as any as S.Schema<DisassociateDistributionTenantWebACLRequest>,
+  output: __S(3521, __c110, 1) as any as S.Schema<DisassociateDistributionTenantWebACLResult>,
   errors: [
     AccessDenied,
     EntityNotFound,
@@ -6194,6 +6264,7 @@ export const disassociateDistributionTenantWebACL: API.OperationMethod<
     InvalidIfMatchVersion,
     PreconditionFailed,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateDistributionTenantWebACL",
@@ -6217,8 +6288,8 @@ export const disassociateDistributionWebACL: API.OperationMethod<
   DisassociateDistributionWebACLError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<DisassociateDistributionWebACLRequest>,
-  output: __S(3521, __c110, 1) as any as S.Schema<DisassociateDistributionWebACLResult>,
+  input: __S(3552, __c111, 0) as any as S.Schema<DisassociateDistributionWebACLRequest>,
+  output: __S(3553, __c111, 1) as any as S.Schema<DisassociateDistributionWebACLResult>,
   errors: [
     AccessDenied,
     EntityNotFound,
@@ -6226,6 +6297,7 @@ export const disassociateDistributionWebACL: API.OperationMethod<
     InvalidIfMatchVersion,
     PreconditionFailed,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateDistributionWebACL",
@@ -6248,9 +6320,10 @@ export const getAnycastIpList: API.OperationMethod<
   GetAnycastIpListError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<GetAnycastIpListRequest>,
-  output: __S(3553, __c111, 1) as any as S.Schema<GetAnycastIpListResult>,
+  input: __S(3584, __c112, 0) as any as S.Schema<GetAnycastIpListRequest>,
+  output: __S(3585, __c112, 1) as any as S.Schema<GetAnycastIpListResult>,
   errors: [AccessDenied, EntityNotFound, InvalidArgument, UnsupportedOperation],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAnycastIpList",
@@ -6274,9 +6347,10 @@ export const getCachePolicy: API.OperationMethod<
   GetCachePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<GetCachePolicyRequest>,
-  output: __S(3585, __c112, 1) as any as S.Schema<GetCachePolicyResult>,
+  input: __S(3616, __c113, 0) as any as S.Schema<GetCachePolicyRequest>,
+  output: __S(3617, __c113, 1) as any as S.Schema<GetCachePolicyResult>,
   errors: [AccessDenied, NoSuchCachePolicy],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCachePolicy",
@@ -6296,9 +6370,10 @@ export const getCachePolicyConfig: API.OperationMethod<
   GetCachePolicyConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<GetCachePolicyConfigRequest>,
-  output: __S(3617, __c113, 1) as any as S.Schema<GetCachePolicyConfigResult>,
+  input: __S(3648, __c114, 0) as any as S.Schema<GetCachePolicyConfigRequest>,
+  output: __S(3649, __c114, 1) as any as S.Schema<GetCachePolicyConfigResult>,
   errors: [AccessDenied, NoSuchCachePolicy],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCachePolicyConfig",
@@ -6319,9 +6394,10 @@ export const getCloudFrontOriginAccessIdentity: API.OperationMethod<
   GetCloudFrontOriginAccessIdentityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<GetCloudFrontOriginAccessIdentityRequest>,
-  output: __S(3649, __c114, 1) as any as S.Schema<GetCloudFrontOriginAccessIdentityResult>,
+  input: __S(3680, __c115, 0) as any as S.Schema<GetCloudFrontOriginAccessIdentityRequest>,
+  output: __S(3681, __c115, 1) as any as S.Schema<GetCloudFrontOriginAccessIdentityResult>,
   errors: [AccessDenied, NoSuchCloudFrontOriginAccessIdentity],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudFrontOriginAccessIdentity",
@@ -6342,9 +6418,10 @@ export const getCloudFrontOriginAccessIdentityConfig: API.OperationMethod<
   GetCloudFrontOriginAccessIdentityConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<GetCloudFrontOriginAccessIdentityConfigRequest>,
-  output: __S(3681, __c115, 1) as any as S.Schema<GetCloudFrontOriginAccessIdentityConfigResult>,
+  input: __S(3712, __c116, 0) as any as S.Schema<GetCloudFrontOriginAccessIdentityConfigRequest>,
+  output: __S(3713, __c116, 1) as any as S.Schema<GetCloudFrontOriginAccessIdentityConfigResult>,
   errors: [AccessDenied, NoSuchCloudFrontOriginAccessIdentity],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudFrontOriginAccessIdentityConfig",
@@ -6366,9 +6443,10 @@ export const getConnectionFunction: API.OperationMethod<
   GetConnectionFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c116, 0) as any as S.Schema<GetConnectionFunctionRequest>,
-  output: __S(3713, __c116, 1) as any as S.Schema<GetConnectionFunctionResult>,
+  input: __S(3744, __c117, 0) as any as S.Schema<GetConnectionFunctionRequest>,
+  output: __S(3745, __c117, 1) as any as S.Schema<GetConnectionFunctionResult>,
   errors: [AccessDenied, EntityNotFound, UnsupportedOperation],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectionFunction",
@@ -6386,9 +6464,10 @@ export const getConnectionGroup: API.OperationMethod<
   GetConnectionGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<GetConnectionGroupRequest>,
-  output: __S(3745, __c117, 1) as any as S.Schema<GetConnectionGroupResult>,
+  input: __S(3776, __c118, 0) as any as S.Schema<GetConnectionGroupRequest>,
+  output: __S(3777, __c118, 1) as any as S.Schema<GetConnectionGroupResult>,
   errors: [AccessDenied, EntityNotFound],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectionGroup",
@@ -6406,9 +6485,10 @@ export const getConnectionGroupByRoutingEndpoint: API.OperationMethod<
   GetConnectionGroupByRoutingEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<GetConnectionGroupByRoutingEndpointRequest>,
-  output: __S(3777, __c118, 1) as any as S.Schema<GetConnectionGroupByRoutingEndpointResult>,
+  input: __S(3808, __c119, 0) as any as S.Schema<GetConnectionGroupByRoutingEndpointRequest>,
+  output: __S(3809, __c119, 1) as any as S.Schema<GetConnectionGroupByRoutingEndpointResult>,
   errors: [AccessDenied, EntityNotFound],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectionGroupByRoutingEndpoint",
@@ -6429,9 +6509,10 @@ export const getContinuousDeploymentPolicy: API.OperationMethod<
   GetContinuousDeploymentPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<GetContinuousDeploymentPolicyRequest>,
-  output: __S(3809, __c119, 1) as any as S.Schema<GetContinuousDeploymentPolicyResult>,
+  input: __S(3840, __c120, 0) as any as S.Schema<GetContinuousDeploymentPolicyRequest>,
+  output: __S(3841, __c120, 1) as any as S.Schema<GetContinuousDeploymentPolicyResult>,
   errors: [AccessDenied, NoSuchContinuousDeploymentPolicy],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContinuousDeploymentPolicy",
@@ -6452,9 +6533,10 @@ export const getContinuousDeploymentPolicyConfig: API.OperationMethod<
   GetContinuousDeploymentPolicyConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<GetContinuousDeploymentPolicyConfigRequest>,
-  output: __S(3841, __c120, 1) as any as S.Schema<GetContinuousDeploymentPolicyConfigResult>,
+  input: __S(3872, __c121, 0) as any as S.Schema<GetContinuousDeploymentPolicyConfigRequest>,
+  output: __S(3873, __c121, 1) as any as S.Schema<GetContinuousDeploymentPolicyConfigResult>,
   errors: [AccessDenied, NoSuchContinuousDeploymentPolicy],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContinuousDeploymentPolicyConfig",
@@ -6472,9 +6554,10 @@ export const getDistribution: API.OperationMethod<
   GetDistributionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<GetDistributionRequest>,
-  output: __S(3873, __c121, 1) as any as S.Schema<GetDistributionResult>,
+  input: __S(3904, __c122, 0) as any as S.Schema<GetDistributionRequest>,
+  output: __S(3905, __c122, 1) as any as S.Schema<GetDistributionResult>,
   errors: [AccessDenied, NoSuchDistribution],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDistribution",
@@ -6492,9 +6575,10 @@ export const getDistributionConfig: API.OperationMethod<
   GetDistributionConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c122, 0) as any as S.Schema<GetDistributionConfigRequest>,
-  output: __S(3905, __c122, 1) as any as S.Schema<GetDistributionConfigResult>,
+  input: __S(3936, __c123, 0) as any as S.Schema<GetDistributionConfigRequest>,
+  output: __S(3937, __c123, 1) as any as S.Schema<GetDistributionConfigResult>,
   errors: [AccessDenied, NoSuchDistribution],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDistributionConfig",
@@ -6512,9 +6596,10 @@ export const getDistributionTenant: API.OperationMethod<
   GetDistributionTenantError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<GetDistributionTenantRequest>,
-  output: __S(3937, __c123, 1) as any as S.Schema<GetDistributionTenantResult>,
+  input: __S(3968, __c124, 0) as any as S.Schema<GetDistributionTenantRequest>,
+  output: __S(3969, __c124, 1) as any as S.Schema<GetDistributionTenantResult>,
   errors: [AccessDenied, EntityNotFound],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDistributionTenant",
@@ -6532,9 +6617,10 @@ export const getDistributionTenantByDomain: API.OperationMethod<
   GetDistributionTenantByDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c124, 0) as any as S.Schema<GetDistributionTenantByDomainRequest>,
-  output: __S(3969, __c124, 1) as any as S.Schema<GetDistributionTenantByDomainResult>,
+  input: __S(4000, __c125, 0) as any as S.Schema<GetDistributionTenantByDomainRequest>,
+  output: __S(4001, __c125, 1) as any as S.Schema<GetDistributionTenantByDomainResult>,
   errors: [AccessDenied, EntityNotFound],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDistributionTenantByDomain",
@@ -6555,9 +6641,10 @@ export const getFieldLevelEncryption: API.OperationMethod<
   GetFieldLevelEncryptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<GetFieldLevelEncryptionRequest>,
-  output: __S(4001, __c125, 1) as any as S.Schema<GetFieldLevelEncryptionResult>,
+  input: __S(4032, __c126, 0) as any as S.Schema<GetFieldLevelEncryptionRequest>,
+  output: __S(4033, __c126, 1) as any as S.Schema<GetFieldLevelEncryptionResult>,
   errors: [AccessDenied, NoSuchFieldLevelEncryptionConfig],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFieldLevelEncryption",
@@ -6578,9 +6665,10 @@ export const getFieldLevelEncryptionConfig: API.OperationMethod<
   GetFieldLevelEncryptionConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<GetFieldLevelEncryptionConfigRequest>,
-  output: __S(4033, __c126, 1) as any as S.Schema<GetFieldLevelEncryptionConfigResult>,
+  input: __S(4064, __c127, 0) as any as S.Schema<GetFieldLevelEncryptionConfigRequest>,
+  output: __S(4065, __c127, 1) as any as S.Schema<GetFieldLevelEncryptionConfigResult>,
   errors: [AccessDenied, NoSuchFieldLevelEncryptionConfig],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFieldLevelEncryptionConfig",
@@ -6601,9 +6689,10 @@ export const getFieldLevelEncryptionProfile: API.OperationMethod<
   GetFieldLevelEncryptionProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<GetFieldLevelEncryptionProfileRequest>,
-  output: __S(4065, __c127, 1) as any as S.Schema<GetFieldLevelEncryptionProfileResult>,
+  input: __S(4096, __c128, 0) as any as S.Schema<GetFieldLevelEncryptionProfileRequest>,
+  output: __S(4097, __c128, 1) as any as S.Schema<GetFieldLevelEncryptionProfileResult>,
   errors: [AccessDenied, NoSuchFieldLevelEncryptionProfile],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFieldLevelEncryptionProfile",
@@ -6624,9 +6713,10 @@ export const getFieldLevelEncryptionProfileConfig: API.OperationMethod<
   GetFieldLevelEncryptionProfileConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<GetFieldLevelEncryptionProfileConfigRequest>,
-  output: __S(4097, __c128, 1) as any as S.Schema<GetFieldLevelEncryptionProfileConfigResult>,
+  input: __S(4128, __c129, 0) as any as S.Schema<GetFieldLevelEncryptionProfileConfigRequest>,
+  output: __S(4129, __c129, 1) as any as S.Schema<GetFieldLevelEncryptionProfileConfigResult>,
   errors: [AccessDenied, NoSuchFieldLevelEncryptionProfile],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFieldLevelEncryptionProfileConfig",
@@ -6646,9 +6736,10 @@ export const getFunction: API.OperationMethod<
   GetFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<GetFunctionRequest>,
-  output: __S(4129, __c129, 1) as any as S.Schema<GetFunctionResult>,
+  input: __S(4160, __c130, 0) as any as S.Schema<GetFunctionRequest>,
+  output: __S(4161, __c130, 1) as any as S.Schema<GetFunctionResult>,
   errors: [NoSuchFunctionExists, UnsupportedOperation],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunction",
@@ -6670,9 +6761,10 @@ export const getInvalidation: API.OperationMethod<
   GetInvalidationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<GetInvalidationRequest>,
-  output: __S(4161, __c130, 1) as any as S.Schema<GetInvalidationResult>,
+  input: __S(4192, __c131, 0) as any as S.Schema<GetInvalidationRequest>,
+  output: __S(4193, __c131, 1) as any as S.Schema<GetInvalidationResult>,
   errors: [AccessDenied, NoSuchDistribution, NoSuchInvalidation],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvalidation",
@@ -6694,9 +6786,10 @@ export const getInvalidationForDistributionTenant: API.OperationMethod<
   GetInvalidationForDistributionTenantError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<GetInvalidationForDistributionTenantRequest>,
-  output: __S(4193, __c131, 1) as any as S.Schema<GetInvalidationForDistributionTenantResult>,
+  input: __S(4224, __c132, 0) as any as S.Schema<GetInvalidationForDistributionTenantRequest>,
+  output: __S(4225, __c132, 1) as any as S.Schema<GetInvalidationForDistributionTenantResult>,
   errors: [AccessDenied, EntityNotFound, NoSuchInvalidation],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvalidationForDistributionTenant",
@@ -6716,9 +6809,10 @@ export const getKeyGroup: API.OperationMethod<
   GetKeyGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<GetKeyGroupRequest>,
-  output: __S(4225, __c132, 1) as any as S.Schema<GetKeyGroupResult>,
+  input: __S(4256, __c133, 0) as any as S.Schema<GetKeyGroupRequest>,
+  output: __S(4257, __c133, 1) as any as S.Schema<GetKeyGroupResult>,
   errors: [NoSuchResource],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKeyGroup",
@@ -6738,9 +6832,10 @@ export const getKeyGroupConfig: API.OperationMethod<
   GetKeyGroupConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<GetKeyGroupConfigRequest>,
-  output: __S(4257, __c133, 1) as any as S.Schema<GetKeyGroupConfigResult>,
+  input: __S(4288, __c134, 0) as any as S.Schema<GetKeyGroupConfigRequest>,
+  output: __S(4289, __c134, 1) as any as S.Schema<GetKeyGroupConfigResult>,
   errors: [NoSuchResource],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKeyGroupConfig",
@@ -6758,9 +6853,10 @@ export const getManagedCertificateDetails: API.OperationMethod<
   GetManagedCertificateDetailsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<GetManagedCertificateDetailsRequest>,
-  output: __S(4292, __c134, 4) as any as S.Schema<GetManagedCertificateDetailsResult>,
+  input: __S(4320, __c135, 0) as any as S.Schema<GetManagedCertificateDetailsRequest>,
+  output: __S(4324, __c135, 4) as any as S.Schema<GetManagedCertificateDetailsResult>,
   errors: [AccessDenied, EntityNotFound],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedCertificateDetails",
@@ -6783,9 +6879,10 @@ export const getMonitoringSubscription: API.OperationMethod<
   GetMonitoringSubscriptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c135, 0) as any as S.Schema<GetMonitoringSubscriptionRequest>,
-  output: __S(4321, __c135, 1) as any as S.Schema<GetMonitoringSubscriptionResult>,
+  input: __S(4352, __c136, 0) as any as S.Schema<GetMonitoringSubscriptionRequest>,
+  output: __S(4353, __c136, 1) as any as S.Schema<GetMonitoringSubscriptionResult>,
   errors: [AccessDenied, NoSuchDistribution, NoSuchMonitoringSubscription, UnsupportedOperation],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMonitoringSubscription",
@@ -6803,9 +6900,10 @@ export const getOriginAccessControl: API.OperationMethod<
   GetOriginAccessControlError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<GetOriginAccessControlRequest>,
-  output: __S(4353, __c136, 1) as any as S.Schema<GetOriginAccessControlResult>,
+  input: __S(4384, __c137, 0) as any as S.Schema<GetOriginAccessControlRequest>,
+  output: __S(4385, __c137, 1) as any as S.Schema<GetOriginAccessControlResult>,
   errors: [AccessDenied, NoSuchOriginAccessControl],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOriginAccessControl",
@@ -6826,9 +6924,10 @@ export const getOriginAccessControlConfig: API.OperationMethod<
   GetOriginAccessControlConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<GetOriginAccessControlConfigRequest>,
-  output: __S(4385, __c137, 1) as any as S.Schema<GetOriginAccessControlConfigResult>,
+  input: __S(4416, __c138, 0) as any as S.Schema<GetOriginAccessControlConfigRequest>,
+  output: __S(4417, __c138, 1) as any as S.Schema<GetOriginAccessControlConfigResult>,
   errors: [AccessDenied, NoSuchOriginAccessControl],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOriginAccessControlConfig",
@@ -6852,9 +6951,10 @@ export const getOriginRequestPolicy: API.OperationMethod<
   GetOriginRequestPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<GetOriginRequestPolicyRequest>,
-  output: __S(4417, __c138, 1) as any as S.Schema<GetOriginRequestPolicyResult>,
+  input: __S(4448, __c139, 0) as any as S.Schema<GetOriginRequestPolicyRequest>,
+  output: __S(4449, __c139, 1) as any as S.Schema<GetOriginRequestPolicyResult>,
   errors: [AccessDenied, NoSuchOriginRequestPolicy],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOriginRequestPolicy",
@@ -6877,9 +6977,10 @@ export const getOriginRequestPolicyConfig: API.OperationMethod<
   GetOriginRequestPolicyConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4448, __c139, 0) as any as S.Schema<GetOriginRequestPolicyConfigRequest>,
-  output: __S(4449, __c139, 1) as any as S.Schema<GetOriginRequestPolicyConfigResult>,
+  input: __S(4480, __c140, 0) as any as S.Schema<GetOriginRequestPolicyConfigRequest>,
+  output: __S(4481, __c140, 1) as any as S.Schema<GetOriginRequestPolicyConfigResult>,
   errors: [AccessDenied, NoSuchOriginRequestPolicy],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOriginRequestPolicyConfig",
@@ -6897,9 +6998,10 @@ export const getPublicKey: API.OperationMethod<
   GetPublicKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<GetPublicKeyRequest>,
-  output: __S(4481, __c140, 1) as any as S.Schema<GetPublicKeyResult>,
+  input: __S(4512, __c141, 0) as any as S.Schema<GetPublicKeyRequest>,
+  output: __S(4513, __c141, 1) as any as S.Schema<GetPublicKeyResult>,
   errors: [AccessDenied, NoSuchPublicKey],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPublicKey",
@@ -6917,9 +7019,10 @@ export const getPublicKeyConfig: API.OperationMethod<
   GetPublicKeyConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4512, __c141, 0) as any as S.Schema<GetPublicKeyConfigRequest>,
-  output: __S(4513, __c141, 1) as any as S.Schema<GetPublicKeyConfigResult>,
+  input: __S(4544, __c142, 0) as any as S.Schema<GetPublicKeyConfigRequest>,
+  output: __S(4545, __c142, 1) as any as S.Schema<GetPublicKeyConfigResult>,
   errors: [AccessDenied, NoSuchPublicKey],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPublicKeyConfig",
@@ -6943,9 +7046,10 @@ export const getRealtimeLogConfig: API.OperationMethod<
   GetRealtimeLogConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4544, __c142, 0) as any as S.Schema<GetRealtimeLogConfigRequest>,
-  output: __S(4545, __c142, 1) as any as S.Schema<GetRealtimeLogConfigResult>,
+  input: __S(4576, __c143, 0) as any as S.Schema<GetRealtimeLogConfigRequest>,
+  output: __S(4577, __c143, 1) as any as S.Schema<GetRealtimeLogConfigResult>,
   errors: [AccessDenied, InvalidArgument, NoSuchRealtimeLogConfig],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRealtimeLogConfig",
@@ -6968,9 +7072,10 @@ export const getResourcePolicy: API.OperationMethod<
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<GetResourcePolicyRequest>,
-  output: __S(4577, __c143, 1) as any as S.Schema<GetResourcePolicyResult>,
+  input: __S(4608, __c144, 0) as any as S.Schema<GetResourcePolicyRequest>,
+  output: __S(4609, __c144, 1) as any as S.Schema<GetResourcePolicyResult>,
   errors: [AccessDenied, EntityNotFound, InvalidArgument, UnsupportedOperation],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
@@ -6993,9 +7098,10 @@ export const getResponseHeadersPolicy: API.OperationMethod<
   GetResponseHeadersPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<GetResponseHeadersPolicyRequest>,
-  output: __S(4609, __c144, 1) as any as S.Schema<GetResponseHeadersPolicyResult>,
+  input: __S(4640, __c145, 0) as any as S.Schema<GetResponseHeadersPolicyRequest>,
+  output: __S(4641, __c145, 1) as any as S.Schema<GetResponseHeadersPolicyResult>,
   errors: [AccessDenied, NoSuchResponseHeadersPolicy],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResponseHeadersPolicy",
@@ -7018,9 +7124,10 @@ export const getResponseHeadersPolicyConfig: API.OperationMethod<
   GetResponseHeadersPolicyConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<GetResponseHeadersPolicyConfigRequest>,
-  output: __S(4641, __c145, 1) as any as S.Schema<GetResponseHeadersPolicyConfigResult>,
+  input: __S(4672, __c146, 0) as any as S.Schema<GetResponseHeadersPolicyConfigRequest>,
+  output: __S(4673, __c146, 1) as any as S.Schema<GetResponseHeadersPolicyConfigResult>,
   errors: [AccessDenied, NoSuchResponseHeadersPolicy],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResponseHeadersPolicyConfig",
@@ -7041,9 +7148,10 @@ export const getStreamingDistribution: API.OperationMethod<
   GetStreamingDistributionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<GetStreamingDistributionRequest>,
-  output: __S(4673, __c146, 1) as any as S.Schema<GetStreamingDistributionResult>,
+  input: __S(4704, __c147, 0) as any as S.Schema<GetStreamingDistributionRequest>,
+  output: __S(4705, __c147, 1) as any as S.Schema<GetStreamingDistributionResult>,
   errors: [AccessDenied, NoSuchStreamingDistribution],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStreamingDistribution",
@@ -7064,9 +7172,10 @@ export const getStreamingDistributionConfig: API.OperationMethod<
   GetStreamingDistributionConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4704, __c147, 0) as any as S.Schema<GetStreamingDistributionConfigRequest>,
-  output: __S(4705, __c147, 1) as any as S.Schema<GetStreamingDistributionConfigResult>,
+  input: __S(4736, __c148, 0) as any as S.Schema<GetStreamingDistributionConfigRequest>,
+  output: __S(4737, __c148, 1) as any as S.Schema<GetStreamingDistributionConfigResult>,
   errors: [AccessDenied, NoSuchStreamingDistribution],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStreamingDistributionConfig",
@@ -7084,9 +7193,10 @@ export const getTrustStore: API.OperationMethod<
   GetTrustStoreError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<GetTrustStoreRequest>,
-  output: __S(4737, __c148, 1) as any as S.Schema<GetTrustStoreResult>,
+  input: __S(4768, __c149, 0) as any as S.Schema<GetTrustStoreRequest>,
+  output: __S(4769, __c149, 1) as any as S.Schema<GetTrustStoreResult>,
   errors: [AccessDenied, EntityNotFound, InvalidArgument],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrustStore",
@@ -7109,9 +7219,10 @@ export const getVpcOrigin: API.OperationMethod<
   GetVpcOriginError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4768, __c149, 0) as any as S.Schema<GetVpcOriginRequest>,
-  output: __S(4769, __c149, 1) as any as S.Schema<GetVpcOriginResult>,
+  input: __S(4800, __c150, 0) as any as S.Schema<GetVpcOriginRequest>,
+  output: __S(4801, __c150, 1) as any as S.Schema<GetVpcOriginResult>,
   errors: [AccessDenied, EntityNotFound, InvalidArgument, UnsupportedOperation],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVpcOrigin",
@@ -7134,9 +7245,10 @@ export const listAnycastIpLists: API.OperationMethod<
   ListAnycastIpListsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4800, __c150, 0) as any as S.Schema<ListAnycastIpListsRequest>,
-  output: __S(4804, __c150, 4) as any as S.Schema<ListAnycastIpListsResult>,
+  input: __S(4832, __c151, 0) as any as S.Schema<ListAnycastIpListsRequest>,
+  output: __S(4836, __c151, 4) as any as S.Schema<ListAnycastIpListsResult>,
   errors: [AccessDenied, EntityNotFound, InvalidArgument, UnsupportedOperation],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAnycastIpLists",
@@ -7162,9 +7274,10 @@ export const listCachePolicies: API.OperationMethod<
   ListCachePoliciesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4832, __c151, 0) as any as S.Schema<ListCachePoliciesRequest>,
-  output: __S(4836, __c151, 4) as any as S.Schema<ListCachePoliciesResult>,
+  input: __S(4864, __c152, 0) as any as S.Schema<ListCachePoliciesRequest>,
+  output: __S(4868, __c152, 4) as any as S.Schema<ListCachePoliciesResult>,
   errors: [AccessDenied, InvalidArgument, NoSuchCachePolicy],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCachePolicies",
@@ -7183,9 +7296,10 @@ export const listCloudFrontOriginAccessIdentities: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4864, __c152, 0) as any as S.Schema<ListCloudFrontOriginAccessIdentitiesRequest>,
-  output: __S(4868, __c152, 4) as any as S.Schema<ListCloudFrontOriginAccessIdentitiesResult>,
+  input: __S(4896, __c153, 0) as any as S.Schema<ListCloudFrontOriginAccessIdentitiesRequest>,
+  output: __S(4900, __c153, 4) as any as S.Schema<ListCloudFrontOriginAccessIdentitiesResult>,
   errors: [InvalidArgument],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCloudFrontOriginAccessIdentities",
@@ -7219,9 +7333,10 @@ export const listConflictingAliases: API.OperationMethod<
   ListConflictingAliasesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4896, __c153, 0) as any as S.Schema<ListConflictingAliasesRequest>,
-  output: __S(4900, __c153, 4) as any as S.Schema<ListConflictingAliasesResult>,
+  input: __S(4928, __c154, 0) as any as S.Schema<ListConflictingAliasesRequest>,
+  output: __S(4932, __c154, 4) as any as S.Schema<ListConflictingAliasesResult>,
   errors: [InvalidArgument, NoSuchDistribution],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConflictingAliases",
@@ -7244,9 +7359,10 @@ export const listConnectionFunctions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ConnectionFunctionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4928, __c154, 0) as any as S.Schema<ListConnectionFunctionsRequest>,
-  output: __S(4930, __c154, 2) as any as S.Schema<ListConnectionFunctionsResult>,
+  input: __S(4960, __c155, 0) as any as S.Schema<ListConnectionFunctionsRequest>,
+  output: __S(4962, __c155, 2) as any as S.Schema<ListConnectionFunctionsResult>,
   errors: [AccessDenied, InvalidArgument, UnsupportedOperation],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConnectionFunctions",
@@ -7275,9 +7391,10 @@ export const listConnectionGroups: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ConnectionGroupSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4961, __c155, 1) as any as S.Schema<ListConnectionGroupsRequest>,
-  output: __S(4964, __c155, 4) as any as S.Schema<ListConnectionGroupsResult>,
+  input: __S(4993, __c156, 1) as any as S.Schema<ListConnectionGroupsRequest>,
+  output: __S(4996, __c156, 4) as any as S.Schema<ListConnectionGroupsResult>,
   errors: [AccessDenied, EntityNotFound, InvalidArgument],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConnectionGroups",
@@ -7307,9 +7424,10 @@ export const listContinuousDeploymentPolicies: API.OperationMethod<
   ListContinuousDeploymentPoliciesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4992, __c156, 0) as any as S.Schema<ListContinuousDeploymentPoliciesRequest>,
-  output: __S(4996, __c156, 4) as any as S.Schema<ListContinuousDeploymentPoliciesResult>,
+  input: __S(5024, __c157, 0) as any as S.Schema<ListContinuousDeploymentPoliciesRequest>,
+  output: __S(5028, __c157, 4) as any as S.Schema<ListContinuousDeploymentPoliciesResult>,
   errors: [AccessDenied, InvalidArgument, NoSuchContinuousDeploymentPolicy],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListContinuousDeploymentPolicies",
@@ -7328,9 +7446,10 @@ export const listDistributions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5024, __c157, 0) as any as S.Schema<ListDistributionsRequest>,
-  output: __S(5025, __c157, 1) as any as S.Schema<ListDistributionsResult>,
+  input: __S(5056, __c158, 0) as any as S.Schema<ListDistributionsRequest>,
+  output: __S(5057, __c158, 1) as any as S.Schema<ListDistributionsResult>,
   errors: [InvalidArgument],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributions",
@@ -7359,9 +7478,10 @@ export const listDistributionsByAnycastIpListId: API.OperationMethod<
   ListDistributionsByAnycastIpListIdError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5088, __c159, 0) as any as S.Schema<ListDistributionsByAnycastIpListIdRequest>,
-  output: __S(5089, __c159, 1) as any as S.Schema<ListDistributionsByAnycastIpListIdResult>,
+  input: __S(5120, __c160, 0) as any as S.Schema<ListDistributionsByAnycastIpListIdRequest>,
+  output: __S(5121, __c160, 1) as any as S.Schema<ListDistributionsByAnycastIpListIdResult>,
   errors: [AccessDenied, EntityNotFound, InvalidArgument, UnsupportedOperation],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByAnycastIpListId",
@@ -7385,9 +7505,10 @@ export const listDistributionsByCachePolicyId: API.OperationMethod<
   ListDistributionsByCachePolicyIdError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5120, __c160, 0) as any as S.Schema<ListDistributionsByCachePolicyIdRequest>,
-  output: __S(5121, __c160, 1) as any as S.Schema<ListDistributionsByCachePolicyIdResult>,
+  input: __S(5152, __c161, 0) as any as S.Schema<ListDistributionsByCachePolicyIdRequest>,
+  output: __S(5153, __c161, 1) as any as S.Schema<ListDistributionsByCachePolicyIdResult>,
   errors: [AccessDenied, InvalidArgument, NoSuchCachePolicy],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByCachePolicyId",
@@ -7410,9 +7531,10 @@ export const listDistributionsByConnectionFunction: API.PaginatedOperationMethod
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5184, __c162, 0) as any as S.Schema<ListDistributionsByConnectionFunctionRequest>,
-  output: __S(5185, __c162, 1) as any as S.Schema<ListDistributionsByConnectionFunctionResult>,
+  input: __S(5216, __c163, 0) as any as S.Schema<ListDistributionsByConnectionFunctionRequest>,
+  output: __S(5217, __c163, 1) as any as S.Schema<ListDistributionsByConnectionFunctionResult>,
   errors: [AccessDenied, EntityNotFound, InvalidArgument],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByConnectionFunction",
@@ -7437,9 +7559,10 @@ export const listDistributionsByConnectionMode: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5216, __c163, 0) as any as S.Schema<ListDistributionsByConnectionModeRequest>,
-  output: __S(5217, __c163, 1) as any as S.Schema<ListDistributionsByConnectionModeResult>,
+  input: __S(5248, __c164, 0) as any as S.Schema<ListDistributionsByConnectionModeRequest>,
+  output: __S(5249, __c164, 1) as any as S.Schema<ListDistributionsByConnectionModeResult>,
   errors: [AccessDenied, InvalidArgument],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByConnectionMode",
@@ -7465,9 +7588,10 @@ export const listDistributionsByKeyGroup: API.OperationMethod<
   ListDistributionsByKeyGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5248, __c164, 0) as any as S.Schema<ListDistributionsByKeyGroupRequest>,
-  output: __S(5249, __c164, 1) as any as S.Schema<ListDistributionsByKeyGroupResult>,
+  input: __S(5280, __c165, 0) as any as S.Schema<ListDistributionsByKeyGroupRequest>,
+  output: __S(5281, __c165, 1) as any as S.Schema<ListDistributionsByKeyGroupResult>,
   errors: [InvalidArgument, NoSuchResource],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByKeyGroup",
@@ -7491,9 +7615,10 @@ export const listDistributionsByOriginRequestPolicyId: API.OperationMethod<
   ListDistributionsByOriginRequestPolicyIdError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5280, __c165, 0) as any as S.Schema<ListDistributionsByOriginRequestPolicyIdRequest>,
-  output: __S(5281, __c165, 1) as any as S.Schema<ListDistributionsByOriginRequestPolicyIdResult>,
+  input: __S(5312, __c166, 0) as any as S.Schema<ListDistributionsByOriginRequestPolicyIdRequest>,
+  output: __S(5313, __c166, 1) as any as S.Schema<ListDistributionsByOriginRequestPolicyIdResult>,
   errors: [AccessDenied, InvalidArgument, NoSuchOriginRequestPolicy],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByOriginRequestPolicyId",
@@ -7516,9 +7641,10 @@ export const listDistributionsByOwnedResource: API.OperationMethod<
   ListDistributionsByOwnedResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5312, __c166, 0) as any as S.Schema<ListDistributionsByOwnedResourceRequest>,
-  output: __S(5316, __c166, 4) as any as S.Schema<ListDistributionsByOwnedResourceResult>,
+  input: __S(5344, __c167, 0) as any as S.Schema<ListDistributionsByOwnedResourceRequest>,
+  output: __S(5348, __c167, 4) as any as S.Schema<ListDistributionsByOwnedResourceResult>,
   errors: [AccessDenied, EntityNotFound, InvalidArgument, UnsupportedOperation],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByOwnedResource",
@@ -7540,9 +7666,10 @@ export const listDistributionsByRealtimeLogConfig: API.OperationMethod<
   ListDistributionsByRealtimeLogConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5344, __c167, 0) as any as S.Schema<ListDistributionsByRealtimeLogConfigRequest>,
-  output: __S(5345, __c167, 1) as any as S.Schema<ListDistributionsByRealtimeLogConfigResult>,
+  input: __S(5376, __c168, 0) as any as S.Schema<ListDistributionsByRealtimeLogConfigRequest>,
+  output: __S(5377, __c168, 1) as any as S.Schema<ListDistributionsByRealtimeLogConfigResult>,
   errors: [InvalidArgument],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByRealtimeLogConfig",
@@ -7566,9 +7693,10 @@ export const listDistributionsByResponseHeadersPolicyId: API.OperationMethod<
   ListDistributionsByResponseHeadersPolicyIdError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5376, __c168, 0) as any as S.Schema<ListDistributionsByResponseHeadersPolicyIdRequest>,
-  output: __S(5377, __c168, 1) as any as S.Schema<ListDistributionsByResponseHeadersPolicyIdResult>,
+  input: __S(5408, __c169, 0) as any as S.Schema<ListDistributionsByResponseHeadersPolicyIdRequest>,
+  output: __S(5409, __c169, 1) as any as S.Schema<ListDistributionsByResponseHeadersPolicyIdResult>,
   errors: [AccessDenied, InvalidArgument, NoSuchResponseHeadersPolicy],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByResponseHeadersPolicyId",
@@ -7591,9 +7719,10 @@ export const listDistributionsByTrustStore: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5408, __c169, 0) as any as S.Schema<ListDistributionsByTrustStoreRequest>,
-  output: __S(5409, __c169, 1) as any as S.Schema<ListDistributionsByTrustStoreResult>,
+  input: __S(5440, __c170, 0) as any as S.Schema<ListDistributionsByTrustStoreRequest>,
+  output: __S(5441, __c170, 1) as any as S.Schema<ListDistributionsByTrustStoreResult>,
   errors: [AccessDenied, EntityNotFound, InvalidArgument],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByTrustStore",
@@ -7622,9 +7751,10 @@ export const listDistributionsByVpcOriginId: API.OperationMethod<
   ListDistributionsByVpcOriginIdError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5440, __c170, 0) as any as S.Schema<ListDistributionsByVpcOriginIdRequest>,
-  output: __S(5441, __c170, 1) as any as S.Schema<ListDistributionsByVpcOriginIdResult>,
+  input: __S(5472, __c171, 0) as any as S.Schema<ListDistributionsByVpcOriginIdRequest>,
+  output: __S(5473, __c171, 1) as any as S.Schema<ListDistributionsByVpcOriginIdResult>,
   errors: [AccessDenied, EntityNotFound, InvalidArgument, UnsupportedOperation],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByVpcOriginId",
@@ -7642,9 +7772,10 @@ export const listDistributionsByWebACLId: API.OperationMethod<
   ListDistributionsByWebACLIdError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5472, __c171, 0) as any as S.Schema<ListDistributionsByWebACLIdRequest>,
-  output: __S(5473, __c171, 1) as any as S.Schema<ListDistributionsByWebACLIdResult>,
+  input: __S(5504, __c172, 0) as any as S.Schema<ListDistributionsByWebACLIdRequest>,
+  output: __S(5505, __c172, 1) as any as S.Schema<ListDistributionsByWebACLIdResult>,
   errors: [InvalidArgument, InvalidWebACLId],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionsByWebACLId",
@@ -7667,9 +7798,10 @@ export const listDistributionTenants: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DistributionTenantSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5505, __c172, 1) as any as S.Schema<ListDistributionTenantsRequest>,
-  output: __S(5506, __c172, 2) as any as S.Schema<ListDistributionTenantsResult>,
+  input: __S(5537, __c173, 1) as any as S.Schema<ListDistributionTenantsRequest>,
+  output: __S(5538, __c173, 2) as any as S.Schema<ListDistributionTenantsResult>,
   errors: [AccessDenied, EntityNotFound, InvalidArgument],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionTenants",
@@ -7700,9 +7832,10 @@ export const listDistributionTenantsByCustomization: API.PaginatedOperationMetho
   Credentials | HttpClient.HttpClient,
   DistributionTenantSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5568, __c174, 0) as any as S.Schema<ListDistributionTenantsByCustomizationRequest>,
-  output: __S(5569, __c174, 1) as any as S.Schema<ListDistributionTenantsByCustomizationResult>,
+  input: __S(5600, __c175, 0) as any as S.Schema<ListDistributionTenantsByCustomizationRequest>,
+  output: __S(5601, __c175, 1) as any as S.Schema<ListDistributionTenantsByCustomizationResult>,
   errors: [AccessDenied, EntityNotFound, InvalidArgument],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributionTenantsByCustomization",
@@ -7747,9 +7880,10 @@ export const listDomainConflicts: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DomainConflict
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5600, __c175, 0) as any as S.Schema<ListDomainConflictsRequest>,
-  output: __S(5603, __c175, 3) as any as S.Schema<ListDomainConflictsResult>,
+  input: __S(5632, __c176, 0) as any as S.Schema<ListDomainConflictsRequest>,
+  output: __S(5635, __c176, 3) as any as S.Schema<ListDomainConflictsResult>,
   errors: [AccessDenied, EntityNotFound, InvalidArgument],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDomainConflicts",
@@ -7773,9 +7907,10 @@ export const listFieldLevelEncryptionConfigs: API.OperationMethod<
   ListFieldLevelEncryptionConfigsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5664, __c177, 0) as any as S.Schema<ListFieldLevelEncryptionConfigsRequest>,
-  output: __S(5668, __c177, 4) as any as S.Schema<ListFieldLevelEncryptionConfigsResult>,
+  input: __S(5696, __c178, 0) as any as S.Schema<ListFieldLevelEncryptionConfigsRequest>,
+  output: __S(5700, __c178, 4) as any as S.Schema<ListFieldLevelEncryptionConfigsResult>,
   errors: [InvalidArgument],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFieldLevelEncryptionConfigs",
@@ -7793,9 +7928,10 @@ export const listFieldLevelEncryptionProfiles: API.OperationMethod<
   ListFieldLevelEncryptionProfilesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5696, __c178, 0) as any as S.Schema<ListFieldLevelEncryptionProfilesRequest>,
-  output: __S(5700, __c178, 4) as any as S.Schema<ListFieldLevelEncryptionProfilesResult>,
+  input: __S(5728, __c179, 0) as any as S.Schema<ListFieldLevelEncryptionProfilesRequest>,
+  output: __S(5732, __c179, 4) as any as S.Schema<ListFieldLevelEncryptionProfilesResult>,
   errors: [InvalidArgument],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFieldLevelEncryptionProfiles",
@@ -7817,9 +7953,10 @@ export const listFunctions: API.OperationMethod<
   ListFunctionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5728, __c179, 0) as any as S.Schema<ListFunctionsRequest>,
-  output: __S(5731, __c179, 3) as any as S.Schema<ListFunctionsResult>,
+  input: __S(5760, __c180, 0) as any as S.Schema<ListFunctionsRequest>,
+  output: __S(5763, __c180, 3) as any as S.Schema<ListFunctionsResult>,
   errors: [InvalidArgument, UnsupportedOperation],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFunctions",
@@ -7842,9 +7979,10 @@ export const listInvalidations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5760, __c180, 0) as any as S.Schema<ListInvalidationsRequest>,
-  output: __S(5761, __c180, 1) as any as S.Schema<ListInvalidationsResult>,
+  input: __S(5792, __c181, 0) as any as S.Schema<ListInvalidationsRequest>,
+  output: __S(5793, __c181, 1) as any as S.Schema<ListInvalidationsResult>,
   errors: [AccessDenied, InvalidArgument, NoSuchDistribution],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListInvalidations",
@@ -7873,9 +8011,10 @@ export const listInvalidationsForDistributionTenant: API.PaginatedOperationMetho
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5824, __c182, 0) as any as S.Schema<ListInvalidationsForDistributionTenantRequest>,
-  output: __S(5825, __c182, 1) as any as S.Schema<ListInvalidationsForDistributionTenantResult>,
+  input: __S(5856, __c183, 0) as any as S.Schema<ListInvalidationsForDistributionTenantRequest>,
+  output: __S(5857, __c183, 1) as any as S.Schema<ListInvalidationsForDistributionTenantResult>,
   errors: [AccessDenied, EntityNotFound, InvalidArgument],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListInvalidationsForDistributionTenant",
@@ -7901,9 +8040,10 @@ export const listKeyGroups: API.OperationMethod<
   ListKeyGroupsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5856, __c183, 0) as any as S.Schema<ListKeyGroupsRequest>,
-  output: __S(5860, __c183, 4) as any as S.Schema<ListKeyGroupsResult>,
+  input: __S(5888, __c184, 0) as any as S.Schema<ListKeyGroupsRequest>,
+  output: __S(5892, __c184, 4) as any as S.Schema<ListKeyGroupsResult>,
   errors: [InvalidArgument],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListKeyGroups",
@@ -7926,9 +8066,10 @@ export const listKeyValueStores: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5888, __c184, 0) as any as S.Schema<ListKeyValueStoresRequest>,
-  output: __S(5891, __c184, 3) as any as S.Schema<ListKeyValueStoresResult>,
+  input: __S(5920, __c185, 0) as any as S.Schema<ListKeyValueStoresRequest>,
+  output: __S(5923, __c185, 3) as any as S.Schema<ListKeyValueStoresResult>,
   errors: [AccessDenied, InvalidArgument, UnsupportedOperation],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListKeyValueStores",
@@ -7957,9 +8098,10 @@ export const listOriginAccessControls: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5920, __c185, 0) as any as S.Schema<ListOriginAccessControlsRequest>,
-  output: __S(5924, __c185, 4) as any as S.Schema<ListOriginAccessControlsResult>,
+  input: __S(5952, __c186, 0) as any as S.Schema<ListOriginAccessControlsRequest>,
+  output: __S(5956, __c186, 4) as any as S.Schema<ListOriginAccessControlsResult>,
   errors: [InvalidArgument],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOriginAccessControls",
@@ -7991,9 +8133,10 @@ export const listOriginRequestPolicies: API.OperationMethod<
   ListOriginRequestPoliciesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5952, __c186, 0) as any as S.Schema<ListOriginRequestPoliciesRequest>,
-  output: __S(5956, __c186, 4) as any as S.Schema<ListOriginRequestPoliciesResult>,
+  input: __S(5984, __c187, 0) as any as S.Schema<ListOriginRequestPoliciesRequest>,
+  output: __S(5988, __c187, 4) as any as S.Schema<ListOriginRequestPoliciesResult>,
   errors: [AccessDenied, InvalidArgument, NoSuchOriginRequestPolicy],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOriginRequestPolicies",
@@ -8012,9 +8155,10 @@ export const listPublicKeys: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5984, __c187, 0) as any as S.Schema<ListPublicKeysRequest>,
-  output: __S(5988, __c187, 4) as any as S.Schema<ListPublicKeysResult>,
+  input: __S(6016, __c188, 0) as any as S.Schema<ListPublicKeysRequest>,
+  output: __S(6020, __c188, 4) as any as S.Schema<ListPublicKeysResult>,
   errors: [InvalidArgument],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPublicKeys",
@@ -8044,9 +8188,10 @@ export const listRealtimeLogConfigs: API.OperationMethod<
   ListRealtimeLogConfigsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6016, __c188, 0) as any as S.Schema<ListRealtimeLogConfigsRequest>,
-  output: __S(6019, __c188, 3) as any as S.Schema<ListRealtimeLogConfigsResult>,
+  input: __S(6048, __c189, 0) as any as S.Schema<ListRealtimeLogConfigsRequest>,
+  output: __S(6051, __c189, 3) as any as S.Schema<ListRealtimeLogConfigsResult>,
   errors: [AccessDenied, InvalidArgument, NoSuchRealtimeLogConfig],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRealtimeLogConfigs",
@@ -8072,9 +8217,10 @@ export const listResponseHeadersPolicies: API.OperationMethod<
   ListResponseHeadersPoliciesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c189, 0) as any as S.Schema<ListResponseHeadersPoliciesRequest>,
-  output: __S(6052, __c189, 4) as any as S.Schema<ListResponseHeadersPoliciesResult>,
+  input: __S(6080, __c190, 0) as any as S.Schema<ListResponseHeadersPoliciesRequest>,
+  output: __S(6084, __c190, 4) as any as S.Schema<ListResponseHeadersPoliciesResult>,
   errors: [AccessDenied, InvalidArgument, NoSuchResponseHeadersPolicy],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResponseHeadersPolicies",
@@ -8093,9 +8239,10 @@ export const listStreamingDistributions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(6080, __c190, 0) as any as S.Schema<ListStreamingDistributionsRequest>,
-  output: __S(6084, __c190, 4) as any as S.Schema<ListStreamingDistributionsResult>,
+  input: __S(6112, __c191, 0) as any as S.Schema<ListStreamingDistributionsRequest>,
+  output: __S(6116, __c191, 4) as any as S.Schema<ListStreamingDistributionsResult>,
   errors: [InvalidArgument],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListStreamingDistributions",
@@ -8124,9 +8271,10 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6112, __c191, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(6113, __c191, 1) as any as S.Schema<ListTagsForResourceResult>,
+  input: __S(6144, __c192, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(6145, __c192, 1) as any as S.Schema<ListTagsForResourceResult>,
   errors: [AccessDenied, InvalidArgument, InvalidTagging, NoSuchResource],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -8145,9 +8293,10 @@ export const listTrustStores: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TrustStoreSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(6144, __c192, 0) as any as S.Schema<ListTrustStoresRequest>,
-  output: __S(6147, __c192, 3) as any as S.Schema<ListTrustStoresResult>,
+  input: __S(6176, __c193, 0) as any as S.Schema<ListTrustStoresRequest>,
+  output: __S(6179, __c193, 3) as any as S.Schema<ListTrustStoresResult>,
   errors: [AccessDenied, EntityNotFound, InvalidArgument],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTrustStores",
@@ -8176,9 +8325,10 @@ export const listVpcOrigins: API.OperationMethod<
   ListVpcOriginsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6176, __c193, 0) as any as S.Schema<ListVpcOriginsRequest>,
-  output: __S(6180, __c193, 4) as any as S.Schema<ListVpcOriginsResult>,
+  input: __S(6208, __c194, 0) as any as S.Schema<ListVpcOriginsRequest>,
+  output: __S(6212, __c194, 4) as any as S.Schema<ListVpcOriginsResult>,
   errors: [AccessDenied, EntityNotFound, InvalidArgument, UnsupportedOperation],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVpcOrigins",
@@ -8203,8 +8353,8 @@ export const publishConnectionFunction: API.OperationMethod<
   PublishConnectionFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6208, __c194, 0) as any as S.Schema<PublishConnectionFunctionRequest>,
-  output: __S(6209, __c194, 1) as any as S.Schema<PublishConnectionFunctionResult>,
+  input: __S(6240, __c195, 0) as any as S.Schema<PublishConnectionFunctionRequest>,
+  output: __S(6241, __c195, 1) as any as S.Schema<PublishConnectionFunctionResult>,
   errors: [
     AccessDenied,
     EntityNotFound,
@@ -8213,6 +8363,7 @@ export const publishConnectionFunction: API.OperationMethod<
     PreconditionFailed,
     UnsupportedOperation,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishConnectionFunction",
@@ -8240,8 +8391,8 @@ export const publishFunction: API.OperationMethod<
   PublishFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6240, __c195, 0) as any as S.Schema<PublishFunctionRequest>,
-  output: __S(6241, __c195, 1) as any as S.Schema<PublishFunctionResult>,
+  input: __S(6272, __c196, 0) as any as S.Schema<PublishFunctionRequest>,
+  output: __S(6273, __c196, 1) as any as S.Schema<PublishFunctionResult>,
   errors: [
     InvalidArgument,
     InvalidIfMatchVersion,
@@ -8249,6 +8400,7 @@ export const publishFunction: API.OperationMethod<
     PreconditionFailed,
     UnsupportedOperation,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishFunction",
@@ -8273,8 +8425,8 @@ export const putResourcePolicy: API.OperationMethod<
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6272, __c196, 0) as any as S.Schema<PutResourcePolicyRequest>,
-  output: __S(6273, __c196, 1) as any as S.Schema<PutResourcePolicyResult>,
+  input: __S(6304, __c197, 0) as any as S.Schema<PutResourcePolicyRequest>,
+  output: __S(6305, __c197, 1) as any as S.Schema<PutResourcePolicyResult>,
   errors: [
     AccessDenied,
     EntityNotFound,
@@ -8283,6 +8435,7 @@ export const putResourcePolicy: API.OperationMethod<
     PreconditionFailed,
     UnsupportedOperation,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
@@ -8305,9 +8458,10 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6304, __c197, 0) as any as S.Schema<TagResourceRequest>,
-  output: __S(6305, __c197, 1) as any as S.Schema<TagResourceResponse>,
+  input: __S(6336, __c198, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(6337, __c198, 1) as any as S.Schema<TagResourceResponse>,
   errors: [AccessDenied, InvalidArgument, InvalidTagging, NoSuchResource],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -8332,8 +8486,8 @@ export const testConnectionFunction: API.OperationMethod<
   TestConnectionFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6336, __c198, 0) as any as S.Schema<TestConnectionFunctionRequest>,
-  output: __S(6338, __c198, 2) as any as S.Schema<TestConnectionFunctionResult>,
+  input: __S(6368, __c199, 0) as any as S.Schema<TestConnectionFunctionRequest>,
+  output: __S(6370, __c199, 2) as any as S.Schema<TestConnectionFunctionResult>,
   errors: [
     EntityNotFound,
     InvalidArgument,
@@ -8342,6 +8496,7 @@ export const testConnectionFunction: API.OperationMethod<
     TestFunctionFailed,
     UnsupportedOperation,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestConnectionFunction",
@@ -8369,8 +8524,8 @@ export const testFunction: API.OperationMethod<
   TestFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6400, __c200, 0) as any as S.Schema<TestFunctionRequest>,
-  output: __S(6402, __c200, 2) as any as S.Schema<TestFunctionResult>,
+  input: __S(6432, __c201, 0) as any as S.Schema<TestFunctionRequest>,
+  output: __S(6434, __c201, 2) as any as S.Schema<TestFunctionResult>,
   errors: [
     InvalidArgument,
     InvalidIfMatchVersion,
@@ -8378,6 +8533,7 @@ export const testFunction: API.OperationMethod<
     TestFunctionFailed,
     UnsupportedOperation,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestFunction",
@@ -8400,9 +8556,10 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6434, __c201, 2) as any as S.Schema<UntagResourceRequest>,
-  output: __S(6435, __c201, 3) as any as S.Schema<UntagResourceResponse>,
+  input: __S(6466, __c202, 2) as any as S.Schema<UntagResourceRequest>,
+  output: __S(6467, __c202, 3) as any as S.Schema<UntagResourceResponse>,
   errors: [AccessDenied, InvalidArgument, InvalidTagging, NoSuchResource],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -8427,8 +8584,8 @@ export const updateAnycastIpList: API.OperationMethod<
   UpdateAnycastIpListError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6464, __c202, 0) as any as S.Schema<UpdateAnycastIpListRequest>,
-  output: __S(6465, __c202, 1) as any as S.Schema<UpdateAnycastIpListResult>,
+  input: __S(6496, __c203, 0) as any as S.Schema<UpdateAnycastIpListRequest>,
+  output: __S(6497, __c203, 1) as any as S.Schema<UpdateAnycastIpListResult>,
   errors: [
     AccessDenied,
     EntityNotFound,
@@ -8437,6 +8594,7 @@ export const updateAnycastIpList: API.OperationMethod<
     PreconditionFailed,
     UnsupportedOperation,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAnycastIpList",
@@ -8476,8 +8634,8 @@ export const updateCachePolicy: API.OperationMethod<
   UpdateCachePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6496, __c203, 0) as any as S.Schema<UpdateCachePolicyRequest>,
-  output: __S(6497, __c203, 1) as any as S.Schema<UpdateCachePolicyResult>,
+  input: __S(6528, __c204, 0) as any as S.Schema<UpdateCachePolicyRequest>,
+  output: __S(6529, __c204, 1) as any as S.Schema<UpdateCachePolicyResult>,
   errors: [
     AccessDenied,
     CachePolicyAlreadyExists,
@@ -8491,6 +8649,7 @@ export const updateCachePolicy: API.OperationMethod<
     TooManyHeadersInCachePolicy,
     TooManyQueryStringsInCachePolicy,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCachePolicy",
@@ -8517,8 +8676,8 @@ export const updateCloudFrontOriginAccessIdentity: API.OperationMethod<
   UpdateCloudFrontOriginAccessIdentityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6528, __c204, 0) as any as S.Schema<UpdateCloudFrontOriginAccessIdentityRequest>,
-  output: __S(6529, __c204, 1) as any as S.Schema<UpdateCloudFrontOriginAccessIdentityResult>,
+  input: __S(6560, __c205, 0) as any as S.Schema<UpdateCloudFrontOriginAccessIdentityRequest>,
+  output: __S(6561, __c205, 1) as any as S.Schema<UpdateCloudFrontOriginAccessIdentityResult>,
   errors: [
     AccessDenied,
     IllegalUpdate,
@@ -8529,6 +8688,7 @@ export const updateCloudFrontOriginAccessIdentity: API.OperationMethod<
     NoSuchCloudFrontOriginAccessIdentity,
     PreconditionFailed,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCloudFrontOriginAccessIdentity",
@@ -8554,8 +8714,8 @@ export const updateConnectionFunction: API.OperationMethod<
   UpdateConnectionFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6560, __c205, 0) as any as S.Schema<UpdateConnectionFunctionRequest>,
-  output: __S(6561, __c205, 1) as any as S.Schema<UpdateConnectionFunctionResult>,
+  input: __S(6592, __c206, 0) as any as S.Schema<UpdateConnectionFunctionRequest>,
+  output: __S(6593, __c206, 1) as any as S.Schema<UpdateConnectionFunctionResult>,
   errors: [
     AccessDenied,
     EntityNotFound,
@@ -8565,6 +8725,7 @@ export const updateConnectionFunction: API.OperationMethod<
     PreconditionFailed,
     UnsupportedOperation,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectionFunction",
@@ -8591,8 +8752,8 @@ export const updateConnectionGroup: API.OperationMethod<
   UpdateConnectionGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6592, __c206, 0) as any as S.Schema<UpdateConnectionGroupRequest>,
-  output: __S(6593, __c206, 1) as any as S.Schema<UpdateConnectionGroupResult>,
+  input: __S(6624, __c207, 0) as any as S.Schema<UpdateConnectionGroupRequest>,
+  output: __S(6625, __c207, 1) as any as S.Schema<UpdateConnectionGroupResult>,
   errors: [
     AccessDenied,
     EntityAlreadyExists,
@@ -8603,6 +8764,7 @@ export const updateConnectionGroup: API.OperationMethod<
     PreconditionFailed,
     ResourceInUse,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectionGroup",
@@ -8636,8 +8798,8 @@ export const updateContinuousDeploymentPolicy: API.OperationMethod<
   UpdateContinuousDeploymentPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6624, __c207, 0) as any as S.Schema<UpdateContinuousDeploymentPolicyRequest>,
-  output: __S(6625, __c207, 1) as any as S.Schema<UpdateContinuousDeploymentPolicyResult>,
+  input: __S(6656, __c208, 0) as any as S.Schema<UpdateContinuousDeploymentPolicyRequest>,
+  output: __S(6657, __c208, 1) as any as S.Schema<UpdateContinuousDeploymentPolicyResult>,
   errors: [
     AccessDenied,
     InconsistentQuantities,
@@ -8647,6 +8809,7 @@ export const updateContinuousDeploymentPolicy: API.OperationMethod<
     PreconditionFailed,
     StagingDistributionInUse,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContinuousDeploymentPolicy",
@@ -8658,6 +8821,7 @@ export type UpdateDistributionError =
   | AccessDenied
   | CNAMEAlreadyExists
   | ContinuousDeploymentPolicyInUse
+  | EntityLimitExceeded
   | EntityNotFound
   | IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior
   | IllegalOriginAccessConfiguration
@@ -8746,12 +8910,13 @@ export const updateDistribution: API.OperationMethod<
   UpdateDistributionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6656, __c208, 0) as any as S.Schema<UpdateDistributionRequest>,
-  output: __S(6657, __c208, 1) as any as S.Schema<UpdateDistributionResult>,
+  input: __S(6688, __c209, 0) as any as S.Schema<UpdateDistributionRequest>,
+  output: __S(6689, __c209, 1) as any as S.Schema<UpdateDistributionResult>,
   errors: [
     AccessDenied,
     CNAMEAlreadyExists,
     ContinuousDeploymentPolicyInUse,
+    EntityLimitExceeded,
     EntityNotFound,
     IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior,
     IllegalOriginAccessConfiguration,
@@ -8817,6 +8982,7 @@ export const updateDistribution: API.OperationMethod<
     TrustedKeyGroupDoesNotExist,
     TrustedSignerDoesNotExist,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDistribution",
@@ -8844,8 +9010,8 @@ export const updateDistributionTenant: API.OperationMethod<
   UpdateDistributionTenantError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6688, __c209, 0) as any as S.Schema<UpdateDistributionTenantRequest>,
-  output: __S(6689, __c209, 1) as any as S.Schema<UpdateDistributionTenantResult>,
+  input: __S(6720, __c210, 0) as any as S.Schema<UpdateDistributionTenantRequest>,
+  output: __S(6721, __c210, 1) as any as S.Schema<UpdateDistributionTenantResult>,
   errors: [
     AccessDenied,
     CNAMEAlreadyExists,
@@ -8857,6 +9023,7 @@ export const updateDistributionTenant: API.OperationMethod<
     InvalidIfMatchVersion,
     PreconditionFailed,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDistributionTenant",
@@ -8946,8 +9113,8 @@ export const updateDistributionWithStagingConfig: API.OperationMethod<
   UpdateDistributionWithStagingConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6720, __c210, 0) as any as S.Schema<UpdateDistributionWithStagingConfigRequest>,
-  output: __S(6721, __c210, 1) as any as S.Schema<UpdateDistributionWithStagingConfigResult>,
+  input: __S(6752, __c211, 0) as any as S.Schema<UpdateDistributionWithStagingConfigRequest>,
+  output: __S(6753, __c211, 1) as any as S.Schema<UpdateDistributionWithStagingConfigResult>,
   errors: [
     AccessDenied,
     CNAMEAlreadyExists,
@@ -9013,6 +9180,7 @@ export const updateDistributionWithStagingConfig: API.OperationMethod<
     TrustedKeyGroupDoesNotExist,
     TrustedSignerDoesNotExist,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDistributionWithStagingConfig",
@@ -9022,9 +9190,11 @@ export const updateDistributionWithStagingConfig: API.OperationMethod<
 
 export type UpdateDomainAssociationError =
   | AccessDenied
+  | EntityLimitExceeded
   | EntityNotFound
   | IllegalUpdate
   | InvalidArgument
+  | InvalidAssociation
   | InvalidIfMatchVersion
   | PreconditionFailed
   | CommonErrors;
@@ -9043,16 +9213,19 @@ export const updateDomainAssociation: API.OperationMethod<
   UpdateDomainAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6752, __c211, 0) as any as S.Schema<UpdateDomainAssociationRequest>,
-  output: __S(6753, __c211, 1) as any as S.Schema<UpdateDomainAssociationResult>,
+  input: __S(6784, __c212, 0) as any as S.Schema<UpdateDomainAssociationRequest>,
+  output: __S(6785, __c212, 1) as any as S.Schema<UpdateDomainAssociationResult>,
   errors: [
     AccessDenied,
+    EntityLimitExceeded,
     EntityNotFound,
     IllegalUpdate,
     InvalidArgument,
+    InvalidAssociation,
     InvalidIfMatchVersion,
     PreconditionFailed,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainAssociation",
@@ -9082,8 +9255,8 @@ export const updateFieldLevelEncryptionConfig: API.OperationMethod<
   UpdateFieldLevelEncryptionConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6784, __c212, 0) as any as S.Schema<UpdateFieldLevelEncryptionConfigRequest>,
-  output: __S(6785, __c212, 1) as any as S.Schema<UpdateFieldLevelEncryptionConfigResult>,
+  input: __S(6816, __c213, 0) as any as S.Schema<UpdateFieldLevelEncryptionConfigRequest>,
+  output: __S(6817, __c213, 1) as any as S.Schema<UpdateFieldLevelEncryptionConfigResult>,
   errors: [
     AccessDenied,
     IllegalUpdate,
@@ -9097,6 +9270,7 @@ export const updateFieldLevelEncryptionConfig: API.OperationMethod<
     TooManyFieldLevelEncryptionContentTypeProfiles,
     TooManyFieldLevelEncryptionQueryArgProfiles,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFieldLevelEncryptionConfig",
@@ -9127,8 +9301,8 @@ export const updateFieldLevelEncryptionProfile: API.OperationMethod<
   UpdateFieldLevelEncryptionProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6816, __c213, 0) as any as S.Schema<UpdateFieldLevelEncryptionProfileRequest>,
-  output: __S(6817, __c213, 1) as any as S.Schema<UpdateFieldLevelEncryptionProfileResult>,
+  input: __S(6848, __c214, 0) as any as S.Schema<UpdateFieldLevelEncryptionProfileRequest>,
+  output: __S(6849, __c214, 1) as any as S.Schema<UpdateFieldLevelEncryptionProfileResult>,
   errors: [
     AccessDenied,
     FieldLevelEncryptionProfileAlreadyExists,
@@ -9143,6 +9317,7 @@ export const updateFieldLevelEncryptionProfile: API.OperationMethod<
     TooManyFieldLevelEncryptionEncryptionEntities,
     TooManyFieldLevelEncryptionFieldPatterns,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFieldLevelEncryptionProfile",
@@ -9171,8 +9346,8 @@ export const updateFunction: API.OperationMethod<
   UpdateFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6848, __c214, 0) as any as S.Schema<UpdateFunctionRequest>,
-  output: __S(6849, __c214, 1) as any as S.Schema<UpdateFunctionResult>,
+  input: __S(6880, __c215, 0) as any as S.Schema<UpdateFunctionRequest>,
+  output: __S(6881, __c215, 1) as any as S.Schema<UpdateFunctionResult>,
   errors: [
     FunctionSizeLimitExceeded,
     InvalidArgument,
@@ -9181,6 +9356,7 @@ export const updateFunction: API.OperationMethod<
     PreconditionFailed,
     UnsupportedOperation,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFunction",
@@ -9213,8 +9389,8 @@ export const updateKeyGroup: API.OperationMethod<
   UpdateKeyGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6880, __c215, 0) as any as S.Schema<UpdateKeyGroupRequest>,
-  output: __S(6881, __c215, 1) as any as S.Schema<UpdateKeyGroupResult>,
+  input: __S(6912, __c216, 0) as any as S.Schema<UpdateKeyGroupRequest>,
+  output: __S(6913, __c216, 1) as any as S.Schema<UpdateKeyGroupResult>,
   errors: [
     InvalidArgument,
     InvalidIfMatchVersion,
@@ -9223,6 +9399,7 @@ export const updateKeyGroup: API.OperationMethod<
     PreconditionFailed,
     TooManyPublicKeysInKeyGroup,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKeyGroup",
@@ -9247,8 +9424,8 @@ export const updateKeyValueStore: API.OperationMethod<
   UpdateKeyValueStoreError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6912, __c216, 0) as any as S.Schema<UpdateKeyValueStoreRequest>,
-  output: __S(6913, __c216, 1) as any as S.Schema<UpdateKeyValueStoreResult>,
+  input: __S(6944, __c217, 0) as any as S.Schema<UpdateKeyValueStoreRequest>,
+  output: __S(6945, __c217, 1) as any as S.Schema<UpdateKeyValueStoreResult>,
   errors: [
     AccessDenied,
     EntityNotFound,
@@ -9257,6 +9434,7 @@ export const updateKeyValueStore: API.OperationMethod<
     PreconditionFailed,
     UnsupportedOperation,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKeyValueStore",
@@ -9282,8 +9460,8 @@ export const updateOriginAccessControl: API.OperationMethod<
   UpdateOriginAccessControlError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6944, __c217, 0) as any as S.Schema<UpdateOriginAccessControlRequest>,
-  output: __S(6945, __c217, 1) as any as S.Schema<UpdateOriginAccessControlResult>,
+  input: __S(6976, __c218, 0) as any as S.Schema<UpdateOriginAccessControlRequest>,
+  output: __S(6977, __c218, 1) as any as S.Schema<UpdateOriginAccessControlResult>,
   errors: [
     AccessDenied,
     IllegalUpdate,
@@ -9293,6 +9471,7 @@ export const updateOriginAccessControl: API.OperationMethod<
     OriginAccessControlAlreadyExists,
     PreconditionFailed,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOriginAccessControl",
@@ -9330,8 +9509,8 @@ export const updateOriginRequestPolicy: API.OperationMethod<
   UpdateOriginRequestPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6976, __c218, 0) as any as S.Schema<UpdateOriginRequestPolicyRequest>,
-  output: __S(6977, __c218, 1) as any as S.Schema<UpdateOriginRequestPolicyResult>,
+  input: __S(7008, __c219, 0) as any as S.Schema<UpdateOriginRequestPolicyRequest>,
+  output: __S(7009, __c219, 1) as any as S.Schema<UpdateOriginRequestPolicyResult>,
   errors: [
     AccessDenied,
     IllegalUpdate,
@@ -9345,6 +9524,7 @@ export const updateOriginRequestPolicy: API.OperationMethod<
     TooManyHeadersInOriginRequestPolicy,
     TooManyQueryStringsInOriginRequestPolicy,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOriginRequestPolicy",
@@ -9370,8 +9550,8 @@ export const updatePublicKey: API.OperationMethod<
   UpdatePublicKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7008, __c219, 0) as any as S.Schema<UpdatePublicKeyRequest>,
-  output: __S(7009, __c219, 1) as any as S.Schema<UpdatePublicKeyResult>,
+  input: __S(7040, __c220, 0) as any as S.Schema<UpdatePublicKeyRequest>,
+  output: __S(7041, __c220, 1) as any as S.Schema<UpdatePublicKeyResult>,
   errors: [
     AccessDenied,
     CannotChangeImmutablePublicKeyFields,
@@ -9381,6 +9561,7 @@ export const updatePublicKey: API.OperationMethod<
     NoSuchPublicKey,
     PreconditionFailed,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePublicKey",
@@ -9412,9 +9593,10 @@ export const updateRealtimeLogConfig: API.OperationMethod<
   UpdateRealtimeLogConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7040, __c220, 0) as any as S.Schema<UpdateRealtimeLogConfigRequest>,
-  output: __S(7041, __c220, 1) as any as S.Schema<UpdateRealtimeLogConfigResult>,
+  input: __S(7072, __c221, 0) as any as S.Schema<UpdateRealtimeLogConfigRequest>,
+  output: __S(7073, __c221, 1) as any as S.Schema<UpdateRealtimeLogConfigResult>,
   errors: [AccessDenied, InvalidArgument, NoSuchRealtimeLogConfig],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRealtimeLogConfig",
@@ -9452,8 +9634,8 @@ export const updateResponseHeadersPolicy: API.OperationMethod<
   UpdateResponseHeadersPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7072, __c221, 0) as any as S.Schema<UpdateResponseHeadersPolicyRequest>,
-  output: __S(7073, __c221, 1) as any as S.Schema<UpdateResponseHeadersPolicyResult>,
+  input: __S(7104, __c222, 0) as any as S.Schema<UpdateResponseHeadersPolicyRequest>,
+  output: __S(7105, __c222, 1) as any as S.Schema<UpdateResponseHeadersPolicyResult>,
   errors: [
     AccessDenied,
     IllegalUpdate,
@@ -9467,6 +9649,7 @@ export const updateResponseHeadersPolicy: API.OperationMethod<
     TooManyCustomHeadersInResponseHeadersPolicy,
     TooManyRemoveHeadersInResponseHeadersPolicy,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResponseHeadersPolicy",
@@ -9499,8 +9682,8 @@ export const updateStreamingDistribution: API.OperationMethod<
   UpdateStreamingDistributionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7104, __c222, 0) as any as S.Schema<UpdateStreamingDistributionRequest>,
-  output: __S(7105, __c222, 1) as any as S.Schema<UpdateStreamingDistributionResult>,
+  input: __S(7136, __c223, 0) as any as S.Schema<UpdateStreamingDistributionRequest>,
+  output: __S(7137, __c223, 1) as any as S.Schema<UpdateStreamingDistributionResult>,
   errors: [
     AccessDenied,
     CNAMEAlreadyExists,
@@ -9517,6 +9700,7 @@ export const updateStreamingDistribution: API.OperationMethod<
     TooManyTrustedSigners,
     TrustedSignerDoesNotExist,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStreamingDistribution",
@@ -9540,8 +9724,8 @@ export const updateTrustStore: API.OperationMethod<
   UpdateTrustStoreError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7136, __c223, 0) as any as S.Schema<UpdateTrustStoreRequest>,
-  output: __S(7137, __c223, 1) as any as S.Schema<UpdateTrustStoreResult>,
+  input: __S(7168, __c224, 0) as any as S.Schema<UpdateTrustStoreRequest>,
+  output: __S(7169, __c224, 1) as any as S.Schema<UpdateTrustStoreResult>,
   errors: [
     AccessDenied,
     EntityNotFound,
@@ -9549,6 +9733,7 @@ export const updateTrustStore: API.OperationMethod<
     InvalidIfMatchVersion,
     PreconditionFailed,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrustStore",
@@ -9578,8 +9763,8 @@ export const updateVpcOrigin: API.OperationMethod<
   UpdateVpcOriginError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7168, __c224, 0) as any as S.Schema<UpdateVpcOriginRequest>,
-  output: __S(7169, __c224, 1) as any as S.Schema<UpdateVpcOriginResult>,
+  input: __S(7200, __c225, 0) as any as S.Schema<UpdateVpcOriginRequest>,
+  output: __S(7201, __c225, 1) as any as S.Schema<UpdateVpcOriginResult>,
   errors: [
     AccessDenied,
     CannotUpdateEntityWhileInUse,
@@ -9593,6 +9778,7 @@ export const updateVpcOrigin: API.OperationMethod<
     PreconditionFailed,
     UnsupportedOperation,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVpcOrigin",
@@ -9614,9 +9800,10 @@ export const verifyDnsConfiguration: API.OperationMethod<
   VerifyDnsConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7200, __c225, 0) as any as S.Schema<VerifyDnsConfigurationRequest>,
-  output: __S(7203, __c225, 3) as any as S.Schema<VerifyDnsConfigurationResult>,
+  input: __S(7232, __c226, 0) as any as S.Schema<VerifyDnsConfigurationRequest>,
+  output: __S(7235, __c226, 3) as any as S.Schema<VerifyDnsConfigurationResult>,
   errors: [AccessDenied, EntityNotFound, InvalidArgument],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyDnsConfiguration",
@@ -10589,6 +10776,7 @@ function __c28(j: number): any {
           Tags: S.optional(__S(482, __c15, 2)),
           AnycastIpListId: S.optional(S.String),
           Enabled: S.optional(S.Boolean),
+          ViewerFallback: S.optional(__S(928, __c29, 0)),
         }).pipe(
           T.all(
             ns,
@@ -10604,7 +10792,7 @@ function __c28(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ConnectionGroup: S.optional(__S(928, __c29, 0))
+          ConnectionGroup: S.optional(__S(960, __c30, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "ConnectionGroup" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -10613,6 +10801,14 @@ function __c28(j: number): any {
   }
 }
 function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ DistributionId: S.optional(S.String) })).annotate({
+        identifier: "ViewerFallback",
+      });
+  }
+}
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10629,16 +10825,17 @@ function __c29(j: number): any {
           Status: S.optional(S.String),
           Enabled: S.optional(S.Boolean),
           IsDefault: S.optional(S.Boolean),
+          ViewerFallback: S.optional(__S(928, __c29, 0)),
         }),
       ).annotate({ identifier: "ConnectionGroup" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ContinuousDeploymentPolicyConfig: __S(998, __c31, 6)
+          ContinuousDeploymentPolicyConfig: __S(1030, __c32, 6)
             .pipe(T.HttpPayload(), T.XmlName("ContinuousDeploymentPolicyConfig"))
             .annotate({ identifier: "ContinuousDeploymentPolicyConfig" }),
         }).pipe(
@@ -10656,7 +10853,7 @@ function __c30(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ContinuousDeploymentPolicy: S.optional(__S(1024, __c32, 0))
+          ContinuousDeploymentPolicy: S.optional(__S(1056, __c33, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "ContinuousDeploymentPolicy" }),
           Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
@@ -10665,13 +10862,13 @@ function __c30(j: number): any {
       ).annotate({ identifier: "CreateContinuousDeploymentPolicyResult" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("DnsName")));
     case 1:
       return S.suspend(() =>
-        S.Struct({ Quantity: S.Number, Items: S.optional(__S(992, __c31, 0)) }),
+        S.Struct({ Quantity: S.Number, Items: S.optional(__S(1024, __c32, 0)) }),
       ).annotate({ identifier: "StagingDistributionDnsNames" });
     case 2:
       return S.suspend(() => S.Struct({ IdleTTL: S.Number, MaximumTTL: S.Number })).annotate({
@@ -10679,7 +10876,7 @@ function __c31(j: number): any {
       });
     case 3:
       return S.suspend(() =>
-        S.Struct({ Weight: S.Number, SessionStickinessConfig: S.optional(__S(994, __c31, 2)) }),
+        S.Struct({ Weight: S.Number, SessionStickinessConfig: S.optional(__S(1026, __c32, 2)) }),
       ).annotate({ identifier: "ContinuousDeploymentSingleWeightConfig" });
     case 4:
       return S.suspend(() => S.Struct({ Header: S.String, Value: S.String })).annotate({
@@ -10688,34 +10885,34 @@ function __c31(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          SingleWeightConfig: S.optional(__S(995, __c31, 3)),
-          SingleHeaderConfig: S.optional(__S(996, __c31, 4)),
+          SingleWeightConfig: S.optional(__S(1027, __c32, 3)),
+          SingleHeaderConfig: S.optional(__S(1028, __c32, 4)),
           Type: S.String,
         }),
       ).annotate({ identifier: "TrafficConfig" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          StagingDistributionDnsNames: __S(993, __c31, 1),
+          StagingDistributionDnsNames: __S(1025, __c32, 1),
           Enabled: S.Boolean,
-          TrafficConfig: S.optional(__S(997, __c31, 5)),
+          TrafficConfig: S.optional(__S(1029, __c32, 5)),
         }),
       ).annotate({ identifier: "ContinuousDeploymentPolicyConfig" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Id: S.String,
           LastModifiedTime: T.DateFromString,
-          ContinuousDeploymentPolicyConfig: __S(998, __c31, 6),
+          ContinuousDeploymentPolicyConfig: __S(1030, __c32, 6),
         }),
       ).annotate({ identifier: "ContinuousDeploymentPolicy" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10747,20 +10944,21 @@ function __c33(j: number): any {
       ).annotate({ identifier: "CreateDistributionResult" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           DistributionId: S.String,
           Name: S.String,
-          Domains: __S(1185, __c37, 1),
+          Domains: __S(1217, __c38, 1),
           Tags: S.optional(__S(482, __c15, 2)),
-          Customizations: S.optional(__S(1123, __c35, 3)),
-          Parameters: S.optional(__S(1153, __c36, 1)),
+          Customizations: S.optional(__S(1155, __c36, 3)),
+          Parameters: S.optional(__S(1185, __c37, 1)),
           ConnectionGroupId: S.optional(S.String),
-          ManagedCertificateRequest: S.optional(__S(1186, __c37, 2)),
+          ManagedCertificateRequest: S.optional(__S(1218, __c38, 2)),
           Enabled: S.optional(S.Boolean),
+          OnDomainTakeover: S.optional(S.String),
         }).pipe(
           T.all(
             ns,
@@ -10776,7 +10974,7 @@ function __c34(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          DistributionTenant: S.optional(__S(1154, __c36, 2))
+          DistributionTenant: S.optional(__S(1186, __c37, 2))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "DistributionTenant" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -10784,7 +10982,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "CreateDistributionTenantResult" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Action: S.String, Arn: S.optional(S.String) })).annotate({
@@ -10799,27 +10997,27 @@ function __c35(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          WebAcl: S.optional(__S(1120, __c35, 0)),
-          Certificate: S.optional(__S(1121, __c35, 1)),
-          GeoRestrictions: S.optional(__S(1122, __c35, 2)),
+          WebAcl: S.optional(__S(1152, __c36, 0)),
+          Certificate: S.optional(__S(1153, __c36, 1)),
+          GeoRestrictions: S.optional(__S(1154, __c36, 2)),
         }),
       ).annotate({ identifier: "Customizations" });
     case 4:
-      return S.suspend(() => S.Struct({ Domain: S.String, Status: S.optional(S.String) })).annotate(
-        { identifier: "DomainResult" },
-      );
+      return S.suspend(() =>
+        S.Struct({ Domain: S.String, Status: S.optional(S.String), ServeOn: S.optional(S.String) }),
+      ).annotate({ identifier: "DomainResult" });
     case 5:
-      return S.Array(__S(1124, __c35, 4));
+      return S.Array(__S(1156, __c36, 4));
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Name: S.String, Value: S.String })).annotate({
         identifier: "Parameter",
       });
     case 1:
-      return S.Array(__S(1152, __c36, 0));
+      return S.Array(__S(1184, __c37, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10827,10 +11025,10 @@ function __c36(j: number): any {
           DistributionId: S.optional(S.String),
           Name: S.optional(S.String),
           Arn: S.optional(S.String),
-          Domains: S.optional(__S(1125, __c35, 5)),
+          Domains: S.optional(__S(1157, __c36, 5)),
           Tags: S.optional(__S(482, __c15, 2)),
-          Customizations: S.optional(__S(1123, __c35, 3)),
-          Parameters: S.optional(__S(1153, __c36, 1)),
+          Customizations: S.optional(__S(1155, __c36, 3)),
+          Parameters: S.optional(__S(1185, __c37, 1)),
           ConnectionGroupId: S.optional(S.String),
           CreatedTime: S.optional(T.DateFromString),
           LastModifiedTime: S.optional(T.DateFromString),
@@ -10840,12 +11038,14 @@ function __c36(j: number): any {
       ).annotate({ identifier: "DistributionTenant" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ Domain: S.String })).annotate({ identifier: "DomainItem" });
+      return S.suspend(() =>
+        S.Struct({ Domain: S.String, ServeOn: S.optional(S.String) }),
+      ).annotate({ identifier: "DomainItem" });
     case 1:
-      return S.Array(__S(1184, __c37, 0));
+      return S.Array(__S(1216, __c38, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10856,7 +11056,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "ManagedCertificateRequest" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10865,7 +11065,7 @@ function __c38(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          DistributionConfigWithTags: __S(1216, __c38, 0)
+          DistributionConfigWithTags: __S(1248, __c39, 0)
             .pipe(T.HttpPayload(), T.XmlName("DistributionConfigWithTags"))
             .annotate({ identifier: "DistributionConfigWithTags" }),
         }).pipe(
@@ -10892,12 +11092,12 @@ function __c38(j: number): any {
       ).annotate({ identifier: "CreateDistributionWithTagsResult" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          FieldLevelEncryptionConfig: __S(1312, __c41, 0)
+          FieldLevelEncryptionConfig: __S(1344, __c42, 0)
             .pipe(T.HttpPayload(), T.XmlName("FieldLevelEncryptionConfig"))
             .annotate({ identifier: "FieldLevelEncryptionConfig" }),
         }).pipe(
@@ -10915,7 +11115,7 @@ function __c39(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          FieldLevelEncryption: S.optional(__S(1344, __c42, 0))
+          FieldLevelEncryption: S.optional(__S(1376, __c43, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "FieldLevelEncryption" }),
           Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
@@ -10924,7 +11124,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "CreateFieldLevelEncryptionConfigResult" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ QueryArg: S.String, ProfileId: S.String })).annotate({
@@ -10932,19 +11132,19 @@ function __c40(j: number): any {
       });
     case 1:
       return S.Array(
-        /*@__PURE__*/ __S(1280, __c40, 0)
+        /*@__PURE__*/ __S(1312, __c41, 0)
           .pipe(/*@__PURE__*/ T.XmlName("QueryArgProfile"))
           .annotate({ identifier: "QueryArgProfile" }),
       );
     case 2:
       return S.suspend(() =>
-        S.Struct({ Quantity: S.Number, Items: S.optional(__S(1281, __c40, 1)) }),
+        S.Struct({ Quantity: S.Number, Items: S.optional(__S(1313, __c41, 1)) }),
       ).annotate({ identifier: "QueryArgProfiles" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           ForwardWhenQueryArgProfileIsUnknown: S.Boolean,
-          QueryArgProfiles: S.optional(__S(1282, __c40, 2)),
+          QueryArgProfiles: S.optional(__S(1314, __c41, 2)),
         }),
       ).annotate({ identifier: "QueryArgProfileConfig" });
     case 4:
@@ -10953,34 +11153,21 @@ function __c40(j: number): any {
       ).annotate({ identifier: "ContentTypeProfile" });
     case 5:
       return S.Array(
-        /*@__PURE__*/ __S(1284, __c40, 4)
+        /*@__PURE__*/ __S(1316, __c41, 4)
           .pipe(/*@__PURE__*/ T.XmlName("ContentTypeProfile"))
           .annotate({ identifier: "ContentTypeProfile" }),
       );
     case 6:
       return S.suspend(() =>
-        S.Struct({ Quantity: S.Number, Items: S.optional(__S(1285, __c40, 5)) }),
+        S.Struct({ Quantity: S.Number, Items: S.optional(__S(1317, __c41, 5)) }),
       ).annotate({ identifier: "ContentTypeProfiles" });
     case 7:
       return S.suspend(() =>
         S.Struct({
           ForwardWhenContentTypeIsUnknown: S.Boolean,
-          ContentTypeProfiles: S.optional(__S(1286, __c40, 6)),
+          ContentTypeProfiles: S.optional(__S(1318, __c41, 6)),
         }),
       ).annotate({ identifier: "ContentTypeProfileConfig" });
-  }
-}
-function __c41(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          CallerReference: S.String,
-          Comment: S.optional(S.String),
-          QueryArgProfileConfig: S.optional(__S(1283, __c40, 3)),
-          ContentTypeProfileConfig: S.optional(__S(1287, __c40, 7)),
-        }),
-      ).annotate({ identifier: "FieldLevelEncryptionConfig" });
   }
 }
 function __c42(j: number): any {
@@ -10988,11 +11175,12 @@ function __c42(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Id: S.String,
-          LastModifiedTime: T.DateFromString,
-          FieldLevelEncryptionConfig: __S(1312, __c41, 0),
+          CallerReference: S.String,
+          Comment: S.optional(S.String),
+          QueryArgProfileConfig: S.optional(__S(1315, __c41, 3)),
+          ContentTypeProfileConfig: S.optional(__S(1319, __c41, 7)),
         }),
-      ).annotate({ identifier: "FieldLevelEncryption" });
+      ).annotate({ identifier: "FieldLevelEncryptionConfig" });
   }
 }
 function __c43(j: number): any {
@@ -11000,7 +11188,19 @@ function __c43(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          FieldLevelEncryptionProfileConfig: __S(1440, __c45, 0)
+          Id: S.String,
+          LastModifiedTime: T.DateFromString,
+          FieldLevelEncryptionConfig: __S(1344, __c42, 0),
+        }),
+      ).annotate({ identifier: "FieldLevelEncryption" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FieldLevelEncryptionProfileConfig: __S(1472, __c46, 0)
             .pipe(T.HttpPayload(), T.XmlName("FieldLevelEncryptionProfileConfig"))
             .annotate({ identifier: "FieldLevelEncryptionProfileConfig" }),
         }).pipe(
@@ -11018,7 +11218,7 @@ function __c43(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          FieldLevelEncryptionProfile: S.optional(__S(1472, __c46, 0))
+          FieldLevelEncryptionProfile: S.optional(__S(1504, __c47, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "FieldLevelEncryptionProfile" }),
           Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
@@ -11027,45 +11227,32 @@ function __c43(j: number): any {
       ).annotate({ identifier: "CreateFieldLevelEncryptionProfileResult" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("FieldPattern")));
     case 1:
       return S.suspend(() =>
-        S.Struct({ Quantity: S.Number, Items: S.optional(__S(1408, __c44, 0)) }),
+        S.Struct({ Quantity: S.Number, Items: S.optional(__S(1440, __c45, 0)) }),
       ).annotate({ identifier: "FieldPatterns" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           PublicKeyId: S.String,
           ProviderId: S.String,
-          FieldPatterns: __S(1409, __c44, 1),
+          FieldPatterns: __S(1441, __c45, 1),
         }),
       ).annotate({ identifier: "EncryptionEntity" });
     case 3:
       return S.Array(
-        /*@__PURE__*/ __S(1410, __c44, 2)
+        /*@__PURE__*/ __S(1442, __c45, 2)
           .pipe(/*@__PURE__*/ T.XmlName("EncryptionEntity"))
           .annotate({ identifier: "EncryptionEntity" }),
       );
     case 4:
       return S.suspend(() =>
-        S.Struct({ Quantity: S.Number, Items: S.optional(__S(1411, __c44, 3)) }),
+        S.Struct({ Quantity: S.Number, Items: S.optional(__S(1443, __c45, 3)) }),
       ).annotate({ identifier: "EncryptionEntities" });
-  }
-}
-function __c45(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Name: S.String,
-          CallerReference: S.String,
-          Comment: S.optional(S.String),
-          EncryptionEntities: __S(1412, __c44, 4),
-        }),
-      ).annotate({ identifier: "FieldLevelEncryptionProfileConfig" });
   }
 }
 function __c46(j: number): any {
@@ -11073,14 +11260,27 @@ function __c46(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          Name: S.String,
+          CallerReference: S.String,
+          Comment: S.optional(S.String),
+          EncryptionEntities: __S(1444, __c45, 4),
+        }),
+      ).annotate({ identifier: "FieldLevelEncryptionProfileConfig" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           Id: S.String,
           LastModifiedTime: T.DateFromString,
-          FieldLevelEncryptionProfileConfig: __S(1440, __c45, 0),
+          FieldLevelEncryptionProfileConfig: __S(1472, __c46, 0),
         }),
       ).annotate({ identifier: "FieldLevelEncryptionProfile" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11104,7 +11304,7 @@ function __c47(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          FunctionSummary: S.optional(__S(1537, __c48, 1))
+          FunctionSummary: S.optional(__S(1569, __c49, 1))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "FunctionSummary" }),
           Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
@@ -11113,7 +11313,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "CreateFunctionResult" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11130,18 +11330,18 @@ function __c48(j: number): any {
           Name: S.String,
           Status: S.optional(S.String),
           FunctionConfig: __S(835, __c26, 3),
-          FunctionMetadata: __S(1536, __c48, 0),
+          FunctionMetadata: __S(1568, __c49, 0),
         }),
       ).annotate({ identifier: "FunctionSummary" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           DistributionId: S.String.pipe(T.HttpLabel("DistributionId")),
-          InvalidationBatch: __S(1602, __c50, 2)
+          InvalidationBatch: __S(1634, __c51, 2)
             .pipe(T.HttpPayload(), T.XmlName("InvalidationBatch"))
             .annotate({ identifier: "InvalidationBatch" }),
         }).pipe(
@@ -11163,24 +11363,24 @@ function __c49(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
-          Invalidation: S.optional(__S(1603, __c50, 3))
+          Invalidation: S.optional(__S(1635, __c51, 3))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "Invalidation" }),
         }).pipe(ns),
       ).annotate({ identifier: "CreateInvalidationResult" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("Path")));
     case 1:
       return S.suspend(() =>
-        S.Struct({ Quantity: S.Number, Items: S.optional(__S(1600, __c50, 0)) }),
+        S.Struct({ Quantity: S.Number, Items: S.optional(__S(1632, __c51, 0)) }),
       ).annotate({ identifier: "Paths" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ Paths: __S(1601, __c50, 1), CallerReference: S.String }),
+        S.Struct({ Paths: __S(1633, __c51, 1), CallerReference: S.String }),
       ).annotate({ identifier: "InvalidationBatch" });
     case 3:
       return S.suspend(() =>
@@ -11188,18 +11388,18 @@ function __c50(j: number): any {
           Id: S.String,
           Status: S.String,
           CreateTime: T.DateFromString,
-          InvalidationBatch: __S(1602, __c50, 2),
+          InvalidationBatch: __S(1634, __c51, 2),
         }),
       ).annotate({ identifier: "Invalidation" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Id: S.String.pipe(T.HttpLabel("Id")),
-          InvalidationBatch: __S(1602, __c50, 2)
+          InvalidationBatch: __S(1634, __c51, 2)
             .pipe(T.HttpPayload(), T.XmlName("InvalidationBatch"))
             .annotate({ identifier: "InvalidationBatch" }),
         }).pipe(
@@ -11218,19 +11418,19 @@ function __c51(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
-          Invalidation: S.optional(__S(1603, __c50, 3))
+          Invalidation: S.optional(__S(1635, __c51, 3))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "Invalidation" }),
         }).pipe(ns),
       ).annotate({ identifier: "CreateInvalidationForDistributionTenantResult" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          KeyGroupConfig: __S(1697, __c53, 1)
+          KeyGroupConfig: __S(1729, __c54, 1)
             .pipe(T.HttpPayload(), T.XmlName("KeyGroupConfig"))
             .annotate({ identifier: "KeyGroupConfig" }),
         }).pipe(
@@ -11248,7 +11448,7 @@ function __c52(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          KeyGroup: S.optional(__S(1728, __c54, 0))
+          KeyGroup: S.optional(__S(1760, __c55, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "KeyGroup" }),
           Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
@@ -11257,29 +11457,29 @@ function __c52(j: number): any {
       ).annotate({ identifier: "CreateKeyGroupResult" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("PublicKey")));
     case 1:
       return S.suspend(() =>
-        S.Struct({ Name: S.String, Items: __S(1696, __c53, 0), Comment: S.optional(S.String) }),
+        S.Struct({ Name: S.String, Items: __S(1728, __c54, 0), Comment: S.optional(S.String) }),
       ).annotate({ identifier: "KeyGroupConfig" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Id: S.String,
           LastModifiedTime: T.DateFromString,
-          KeyGroupConfig: __S(1697, __c53, 1),
+          KeyGroupConfig: __S(1729, __c54, 1),
         }),
       ).annotate({ identifier: "KeyGroup" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ SourceType: S.String, SourceARN: S.String })).annotate({
@@ -11290,7 +11490,7 @@ function __c55(j: number): any {
         S.Struct({
           Name: S.String,
           Comment: S.optional(S.String),
-          ImportSource: S.optional(__S(1760, __c55, 0)),
+          ImportSource: S.optional(__S(1792, __c56, 0)),
           Tags: S.optional(__S(482, __c15, 2)),
         }).pipe(
           T.all(
@@ -11307,7 +11507,7 @@ function __c55(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          KeyValueStore: S.optional(__S(1792, __c56, 0))
+          KeyValueStore: S.optional(__S(1824, __c57, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "KeyValueStore" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -11316,7 +11516,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "CreateKeyValueStoreResult" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11331,13 +11531,13 @@ function __c56(j: number): any {
       ).annotate({ identifier: "KeyValueStore" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           DistributionId: S.String.pipe(T.HttpLabel("DistributionId")),
-          MonitoringSubscription: __S(1857, __c58, 1)
+          MonitoringSubscription: __S(1889, __c59, 1)
             .pipe(T.HttpPayload(), T.XmlName("MonitoringSubscription"))
             .annotate({ identifier: "MonitoringSubscription" }),
         }).pipe(
@@ -11358,14 +11558,14 @@ function __c57(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          MonitoringSubscription: S.optional(__S(1857, __c58, 1))
+          MonitoringSubscription: S.optional(__S(1889, __c59, 1))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "MonitoringSubscription" }),
         }).pipe(ns),
       ).annotate({ identifier: "CreateMonitoringSubscriptionResult" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ RealtimeMetricsSubscriptionStatus: S.String })).annotate({
@@ -11373,16 +11573,16 @@ function __c58(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({ RealtimeMetricsSubscriptionConfig: S.optional(__S(1856, __c58, 0)) }),
+        S.Struct({ RealtimeMetricsSubscriptionConfig: S.optional(__S(1888, __c59, 0)) }),
       ).annotate({ identifier: "MonitoringSubscription" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          OriginAccessControlConfig: __S(1920, __c60, 0)
+          OriginAccessControlConfig: __S(1952, __c61, 0)
             .pipe(T.HttpPayload(), T.XmlName("OriginAccessControlConfig"))
             .annotate({ identifier: "OriginAccessControlConfig" }),
         }).pipe(
@@ -11400,7 +11600,7 @@ function __c59(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          OriginAccessControl: S.optional(__S(1952, __c61, 0))
+          OriginAccessControl: S.optional(__S(1984, __c62, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "OriginAccessControl" }),
           Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
@@ -11409,7 +11609,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "CreateOriginAccessControlResult" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11423,20 +11623,20 @@ function __c60(j: number): any {
       ).annotate({ identifier: "OriginAccessControlConfig" });
   }
 }
-function __c61(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ Id: S.String, OriginAccessControlConfig: S.optional(__S(1920, __c60, 0)) }),
-      ).annotate({ identifier: "OriginAccessControl" });
-  }
-}
 function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({ Id: S.String, OriginAccessControlConfig: S.optional(__S(1952, __c61, 0)) }),
+      ).annotate({ identifier: "OriginAccessControl" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({
-          OriginRequestPolicyConfig: __S(2019, __c63, 3)
+          OriginRequestPolicyConfig: __S(2051, __c64, 3)
             .pipe(T.HttpPayload(), T.XmlName("OriginRequestPolicyConfig"))
             .annotate({ identifier: "OriginRequestPolicyConfig" }),
         }).pipe(
@@ -11454,7 +11654,7 @@ function __c62(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          OriginRequestPolicy: S.optional(__S(2048, __c64, 0))
+          OriginRequestPolicy: S.optional(__S(2080, __c65, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "OriginRequestPolicy" }),
           Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
@@ -11463,7 +11663,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "CreateOriginRequestPolicyResult" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11482,23 +11682,11 @@ function __c63(j: number): any {
         S.Struct({
           Comment: S.optional(S.String),
           Name: S.String,
-          HeadersConfig: __S(2016, __c63, 0),
-          CookiesConfig: __S(2017, __c63, 1),
-          QueryStringsConfig: __S(2018, __c63, 2),
+          HeadersConfig: __S(2048, __c64, 0),
+          CookiesConfig: __S(2049, __c64, 1),
+          QueryStringsConfig: __S(2050, __c64, 2),
         }),
       ).annotate({ identifier: "OriginRequestPolicyConfig" });
-  }
-}
-function __c64(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Id: S.String,
-          LastModifiedTime: T.DateFromString,
-          OriginRequestPolicyConfig: __S(2019, __c63, 3),
-        }),
-      ).annotate({ identifier: "OriginRequestPolicy" });
   }
 }
 function __c65(j: number): any {
@@ -11506,7 +11694,19 @@ function __c65(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          PublicKeyConfig: __S(2112, __c66, 0)
+          Id: S.String,
+          LastModifiedTime: T.DateFromString,
+          OriginRequestPolicyConfig: __S(2051, __c64, 3),
+        }),
+      ).annotate({ identifier: "OriginRequestPolicy" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          PublicKeyConfig: __S(2144, __c67, 0)
             .pipe(T.HttpPayload(), T.XmlName("PublicKeyConfig"))
             .annotate({ identifier: "PublicKeyConfig" }),
         }).pipe(
@@ -11524,7 +11724,7 @@ function __c65(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          PublicKey: S.optional(__S(2144, __c67, 0))
+          PublicKey: S.optional(__S(2176, __c68, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "PublicKey" }),
           Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
@@ -11533,7 +11733,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "CreatePublicKeyResult" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11546,25 +11746,25 @@ function __c66(j: number): any {
       ).annotate({ identifier: "PublicKeyConfig" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Id: S.String,
           CreatedTime: T.DateFromString,
-          PublicKeyConfig: __S(2112, __c66, 0),
+          PublicKeyConfig: __S(2144, __c67, 0),
         }),
       ).annotate({ identifier: "PublicKey" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          EndPoints: __S(2210, __c69, 2),
-          Fields: __S(2211, __c69, 3),
+          EndPoints: __S(2242, __c70, 2),
+          Fields: __S(2243, __c70, 3),
           Name: S.String,
           SamplingRate: S.Number,
         }).pipe(
@@ -11581,11 +11781,11 @@ function __c68(j: number): any {
       ).annotate({ identifier: "CreateRealtimeLogConfigRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ RealtimeLogConfig: S.optional(__S(2212, __c69, 4)) }).pipe(ns),
+        S.Struct({ RealtimeLogConfig: S.optional(__S(2244, __c70, 4)) }).pipe(ns),
       ).annotate({ identifier: "CreateRealtimeLogConfigResult" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ RoleARN: S.String, StreamARN: S.String })).annotate({
@@ -11593,10 +11793,10 @@ function __c69(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({ StreamType: S.String, KinesisStreamConfig: S.optional(__S(2208, __c69, 0)) }),
+        S.Struct({ StreamType: S.String, KinesisStreamConfig: S.optional(__S(2240, __c70, 0)) }),
       ).annotate({ identifier: "EndPoint" });
     case 2:
-      return S.Array(__S(2209, __c69, 1));
+      return S.Array(__S(2241, __c70, 1));
     case 3:
       return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("Field")));
     case 4:
@@ -11605,18 +11805,18 @@ function __c69(j: number): any {
           ARN: S.String,
           Name: S.String,
           SamplingRate: S.Number,
-          EndPoints: __S(2210, __c69, 2),
-          Fields: __S(2211, __c69, 3),
+          EndPoints: __S(2242, __c70, 2),
+          Fields: __S(2243, __c70, 3),
         }),
       ).annotate({ identifier: "RealtimeLogConfig" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ResponseHeadersPolicyConfig: __S(2295, __c71, 23)
+          ResponseHeadersPolicyConfig: __S(2327, __c72, 23)
             .pipe(T.HttpPayload(), T.XmlName("ResponseHeadersPolicyConfig"))
             .annotate({ identifier: "ResponseHeadersPolicyConfig" }),
         }).pipe(
@@ -11634,7 +11834,7 @@ function __c70(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ResponseHeadersPolicy: S.optional(__S(2304, __c72, 0))
+          ResponseHeadersPolicy: S.optional(__S(2336, __c73, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "ResponseHeadersPolicy" }),
           Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
@@ -11643,40 +11843,40 @@ function __c70(j: number): any {
       ).annotate({ identifier: "CreateResponseHeadersPolicyResult" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("Origin")));
     case 1:
-      return S.suspend(() => S.Struct({ Quantity: S.Number, Items: __S(2272, __c71, 0) })).annotate(
+      return S.suspend(() => S.Struct({ Quantity: S.Number, Items: __S(2304, __c72, 0) })).annotate(
         { identifier: "ResponseHeadersPolicyAccessControlAllowOrigins" },
       );
     case 2:
       return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("Header")));
     case 3:
-      return S.suspend(() => S.Struct({ Quantity: S.Number, Items: __S(2274, __c71, 2) })).annotate(
+      return S.suspend(() => S.Struct({ Quantity: S.Number, Items: __S(2306, __c72, 2) })).annotate(
         { identifier: "ResponseHeadersPolicyAccessControlAllowHeaders" },
       );
     case 4:
       return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("Method")));
     case 5:
-      return S.suspend(() => S.Struct({ Quantity: S.Number, Items: __S(2276, __c71, 4) })).annotate(
+      return S.suspend(() => S.Struct({ Quantity: S.Number, Items: __S(2308, __c72, 4) })).annotate(
         { identifier: "ResponseHeadersPolicyAccessControlAllowMethods" },
       );
     case 6:
       return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("Header")));
     case 7:
       return S.suspend(() =>
-        S.Struct({ Quantity: S.Number, Items: S.optional(__S(2278, __c71, 6)) }),
+        S.Struct({ Quantity: S.Number, Items: S.optional(__S(2310, __c72, 6)) }),
       ).annotate({ identifier: "ResponseHeadersPolicyAccessControlExposeHeaders" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          AccessControlAllowOrigins: __S(2273, __c71, 1),
-          AccessControlAllowHeaders: __S(2275, __c71, 3),
-          AccessControlAllowMethods: __S(2277, __c71, 5),
+          AccessControlAllowOrigins: __S(2305, __c72, 1),
+          AccessControlAllowHeaders: __S(2307, __c72, 3),
+          AccessControlAllowMethods: __S(2309, __c72, 5),
           AccessControlAllowCredentials: S.Boolean,
-          AccessControlExposeHeaders: S.optional(__S(2279, __c71, 7)),
+          AccessControlExposeHeaders: S.optional(__S(2311, __c72, 7)),
           AccessControlMaxAgeSec: S.optional(S.Number),
           OriginOverride: S.Boolean,
         }),
@@ -11718,12 +11918,12 @@ function __c71(j: number): any {
     case 15:
       return S.suspend(() =>
         S.Struct({
-          XSSProtection: S.optional(__S(2281, __c71, 9)),
-          FrameOptions: S.optional(__S(2282, __c71, 10)),
-          ReferrerPolicy: S.optional(__S(2283, __c71, 11)),
-          ContentSecurityPolicy: S.optional(__S(2284, __c71, 12)),
-          ContentTypeOptions: S.optional(__S(2285, __c71, 13)),
-          StrictTransportSecurity: S.optional(__S(2286, __c71, 14)),
+          XSSProtection: S.optional(__S(2313, __c72, 9)),
+          FrameOptions: S.optional(__S(2314, __c72, 10)),
+          ReferrerPolicy: S.optional(__S(2315, __c72, 11)),
+          ContentSecurityPolicy: S.optional(__S(2316, __c72, 12)),
+          ContentTypeOptions: S.optional(__S(2317, __c72, 13)),
+          StrictTransportSecurity: S.optional(__S(2318, __c72, 14)),
         }),
       ).annotate({ identifier: "ResponseHeadersPolicySecurityHeadersConfig" });
     case 16:
@@ -11736,13 +11936,13 @@ function __c71(j: number): any {
       ).annotate({ identifier: "ResponseHeadersPolicyCustomHeader" });
     case 18:
       return S.Array(
-        /*@__PURE__*/ __S(2289, __c71, 17)
+        /*@__PURE__*/ __S(2321, __c72, 17)
           .pipe(/*@__PURE__*/ T.XmlName("ResponseHeadersPolicyCustomHeader"))
           .annotate({ identifier: "ResponseHeadersPolicyCustomHeader" }),
       );
     case 19:
       return S.suspend(() =>
-        S.Struct({ Quantity: S.Number, Items: S.optional(__S(2290, __c71, 18)) }),
+        S.Struct({ Quantity: S.Number, Items: S.optional(__S(2322, __c72, 18)) }),
       ).annotate({ identifier: "ResponseHeadersPolicyCustomHeadersConfig" });
     case 20:
       return S.suspend(() => S.Struct({ Header: S.String })).annotate({
@@ -11750,38 +11950,26 @@ function __c71(j: number): any {
       });
     case 21:
       return S.Array(
-        /*@__PURE__*/ __S(2292, __c71, 20)
+        /*@__PURE__*/ __S(2324, __c72, 20)
           .pipe(/*@__PURE__*/ T.XmlName("ResponseHeadersPolicyRemoveHeader"))
           .annotate({ identifier: "ResponseHeadersPolicyRemoveHeader" }),
       );
     case 22:
       return S.suspend(() =>
-        S.Struct({ Quantity: S.Number, Items: S.optional(__S(2293, __c71, 21)) }),
+        S.Struct({ Quantity: S.Number, Items: S.optional(__S(2325, __c72, 21)) }),
       ).annotate({ identifier: "ResponseHeadersPolicyRemoveHeadersConfig" });
     case 23:
       return S.suspend(() =>
         S.Struct({
           Comment: S.optional(S.String),
           Name: S.String,
-          CorsConfig: S.optional(__S(2280, __c71, 8)),
-          SecurityHeadersConfig: S.optional(__S(2287, __c71, 15)),
-          ServerTimingHeadersConfig: S.optional(__S(2288, __c71, 16)),
-          CustomHeadersConfig: S.optional(__S(2291, __c71, 19)),
-          RemoveHeadersConfig: S.optional(__S(2294, __c71, 22)),
+          CorsConfig: S.optional(__S(2312, __c72, 8)),
+          SecurityHeadersConfig: S.optional(__S(2319, __c72, 15)),
+          ServerTimingHeadersConfig: S.optional(__S(2320, __c72, 16)),
+          CustomHeadersConfig: S.optional(__S(2323, __c72, 19)),
+          RemoveHeadersConfig: S.optional(__S(2326, __c72, 22)),
         }),
       ).annotate({ identifier: "ResponseHeadersPolicyConfig" });
-  }
-}
-function __c72(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Id: S.String,
-          LastModifiedTime: T.DateFromString,
-          ResponseHeadersPolicyConfig: __S(2295, __c71, 23),
-        }),
-      ).annotate({ identifier: "ResponseHeadersPolicy" });
   }
 }
 function __c73(j: number): any {
@@ -11789,7 +11977,19 @@ function __c73(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          StreamingDistributionConfig: __S(2401, __c75, 1)
+          Id: S.String,
+          LastModifiedTime: T.DateFromString,
+          ResponseHeadersPolicyConfig: __S(2327, __c72, 23),
+        }),
+      ).annotate({ identifier: "ResponseHeadersPolicy" });
+  }
+}
+function __c74(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          StreamingDistributionConfig: __S(2433, __c76, 1)
             .pipe(T.HttpPayload(), T.XmlName("StreamingDistributionConfig"))
             .annotate({ identifier: "StreamingDistributionConfig" }),
         }).pipe(
@@ -11807,7 +12007,7 @@ function __c73(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          StreamingDistribution: S.optional(__S(2432, __c76, 0))
+          StreamingDistribution: S.optional(__S(2464, __c77, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "StreamingDistribution" }),
           Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
@@ -11816,7 +12016,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "CreateStreamingDistributionResult" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11824,7 +12024,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "S3Origin" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11834,10 +12034,10 @@ function __c75(j: number): any {
       return S.suspend(() =>
         S.Struct({
           CallerReference: S.String,
-          S3Origin: __S(2368, __c74, 0),
+          S3Origin: __S(2400, __c75, 0),
           Aliases: S.optional(__S(193, __c6, 1)),
           Comment: S.String,
-          Logging: S.optional(__S(2400, __c75, 0)),
+          Logging: S.optional(__S(2432, __c76, 0)),
           TrustedSigners: __S(195, __c6, 3),
           PriceClass: S.optional(S.String),
           Enabled: S.Boolean,
@@ -11845,7 +12045,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "StreamingDistributionConfig" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11856,21 +12056,21 @@ function __c76(j: number): any {
           LastModifiedTime: S.optional(T.DateFromString),
           DomainName: S.String,
           ActiveTrustedSigners: __S(228, __c7, 4),
-          StreamingDistributionConfig: __S(2401, __c75, 1),
+          StreamingDistributionConfig: __S(2433, __c76, 1),
         }),
       ).annotate({ identifier: "StreamingDistribution" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ StreamingDistributionConfig: __S(2401, __c75, 1), Tags: __S(482, __c15, 2) }),
+        S.Struct({ StreamingDistributionConfig: __S(2433, __c76, 1), Tags: __S(482, __c15, 2) }),
       ).annotate({ identifier: "StreamingDistributionConfigWithTags" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          StreamingDistributionConfigWithTags: __S(2464, __c77, 0)
+          StreamingDistributionConfigWithTags: __S(2496, __c78, 0)
             .pipe(T.HttpPayload(), T.XmlName("StreamingDistributionConfigWithTags"))
             .annotate({ identifier: "StreamingDistributionConfigWithTags" }),
         }).pipe(
@@ -11888,7 +12088,7 @@ function __c77(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          StreamingDistribution: S.optional(__S(2432, __c76, 0))
+          StreamingDistribution: S.optional(__S(2464, __c77, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "StreamingDistribution" }),
           Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
@@ -11897,13 +12097,13 @@ function __c77(j: number): any {
       ).annotate({ identifier: "CreateStreamingDistributionWithTagsResult" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          CaCertificatesBundleSource: __S(2561, __c80, 1),
+          CaCertificatesBundleSource: __S(2593, __c81, 1),
           UseClientCertificateOCSPEndpoint: S.optional(S.Boolean),
           Tags: S.optional(__S(482, __c15, 2)),
         }).pipe(
@@ -11921,7 +12121,7 @@ function __c78(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          TrustStore: S.optional(__S(2528, __c79, 0))
+          TrustStore: S.optional(__S(2560, __c80, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "TrustStore" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -11929,7 +12129,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "CreateTrustStoreResult" });
   }
 }
-function __c79(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11946,7 +12146,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "TrustStore" });
   }
 }
-function __c80(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11959,16 +12159,16 @@ function __c80(j: number): any {
       ).annotate({ identifier: "CaCertificatesBundleS3Location" });
     case 1:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ CaCertificatesBundleS3Location: __S(2560, __c80, 0) }),
+        /*@__PURE__*/ S.Struct({ CaCertificatesBundleS3Location: __S(2592, __c81, 0) }),
       ]).annotate({ identifier: "CaCertificatesBundleSource" });
   }
 }
-function __c81(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          VpcOriginEndpointConfig: __S(2624, __c82, 0),
+          VpcOriginEndpointConfig: __S(2656, __c83, 0),
           Tags: S.optional(__S(482, __c15, 2)),
         }).pipe(
           T.all(
@@ -11985,7 +12185,7 @@ function __c81(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          VpcOrigin: S.optional(__S(2625, __c82, 1))
+          VpcOrigin: S.optional(__S(2657, __c83, 1))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "VpcOrigin" }),
           Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
@@ -11994,7 +12194,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "CreateVpcOriginResult" });
   }
 }
-function __c82(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12017,12 +12217,12 @@ function __c82(j: number): any {
           Status: S.String,
           CreatedTime: T.DateFromString,
           LastModifiedTime: T.DateFromString,
-          VpcOriginEndpointConfig: __S(2624, __c82, 0),
+          VpcOriginEndpointConfig: __S(2656, __c83, 0),
         }),
       ).annotate({ identifier: "VpcOrigin" });
   }
 }
-function __c83(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12047,7 +12247,7 @@ function __c83(j: number): any {
       });
   }
 }
-function __c84(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12072,7 +12272,7 @@ function __c84(j: number): any {
       });
   }
 }
-function __c85(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12097,7 +12297,7 @@ function __c85(j: number): any {
       });
   }
 }
-function __c86(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12122,7 +12322,7 @@ function __c86(j: number): any {
       });
   }
 }
-function __c87(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12147,7 +12347,7 @@ function __c87(j: number): any {
       });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12172,7 +12372,7 @@ function __c88(j: number): any {
       });
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12197,7 +12397,7 @@ function __c89(j: number): any {
       });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12222,7 +12422,7 @@ function __c90(j: number): any {
       });
   }
 }
-function __c91(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12247,7 +12447,7 @@ function __c91(j: number): any {
       });
   }
 }
-function __c92(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12272,7 +12472,7 @@ function __c92(j: number): any {
       });
   }
 }
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12297,7 +12497,7 @@ function __c93(j: number): any {
       });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12322,7 +12522,7 @@ function __c94(j: number): any {
       });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12347,7 +12547,7 @@ function __c95(j: number): any {
       });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12372,7 +12572,7 @@ function __c96(j: number): any {
       });
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12397,7 +12597,7 @@ function __c97(j: number): any {
       });
   }
 }
-function __c98(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12422,7 +12622,7 @@ function __c98(j: number): any {
       });
   }
 }
-function __c99(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12447,7 +12647,7 @@ function __c99(j: number): any {
       });
   }
 }
-function __c100(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12469,7 +12669,7 @@ function __c100(j: number): any {
       });
   }
 }
-function __c101(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12491,7 +12691,7 @@ function __c101(j: number): any {
       });
   }
 }
-function __c102(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12516,7 +12716,7 @@ function __c102(j: number): any {
       });
   }
 }
-function __c103(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12541,7 +12741,7 @@ function __c103(j: number): any {
       });
   }
 }
-function __c104(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12566,7 +12766,7 @@ function __c104(j: number): any {
       });
   }
 }
-function __c105(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12588,7 +12788,7 @@ function __c105(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          VpcOrigin: S.optional(__S(2625, __c82, 1))
+          VpcOrigin: S.optional(__S(2657, __c83, 1))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "VpcOrigin" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -12596,7 +12796,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "DeleteVpcOriginResult" });
   }
 }
-function __c106(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12626,7 +12826,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "DescribeConnectionFunctionResult" });
   }
 }
-function __c107(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12648,7 +12848,7 @@ function __c107(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          FunctionSummary: S.optional(__S(1537, __c48, 1))
+          FunctionSummary: S.optional(__S(1569, __c49, 1))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "FunctionSummary" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -12656,7 +12856,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "DescribeFunctionResult" });
   }
 }
-function __c108(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12675,7 +12875,7 @@ function __c108(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          KeyValueStore: S.optional(__S(1792, __c56, 0))
+          KeyValueStore: S.optional(__S(1824, __c57, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "KeyValueStore" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -12683,7 +12883,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "DescribeKeyValueStoreResult" });
   }
 }
-function __c109(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12714,7 +12914,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "DisassociateDistributionTenantWebACLResult" });
   }
 }
-function __c110(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12742,7 +12942,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "DisassociateDistributionWebACLResult" });
   }
 }
-function __c111(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12769,7 +12969,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "GetAnycastIpListResult" });
   }
 }
-function __c112(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12796,7 +12996,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "GetCachePolicyResult" });
   }
 }
-function __c113(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12823,7 +13023,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "GetCachePolicyConfigResult" });
   }
 }
-function __c114(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12850,7 +13050,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "GetCloudFrontOriginAccessIdentityResult" });
   }
 }
-function __c115(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12880,7 +13080,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "GetCloudFrontOriginAccessIdentityConfigResult" });
   }
 }
-function __c116(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12909,7 +13109,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "GetConnectionFunctionResult" });
   }
 }
-function __c117(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12928,7 +13128,7 @@ function __c117(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ConnectionGroup: S.optional(__S(928, __c29, 0))
+          ConnectionGroup: S.optional(__S(960, __c30, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "ConnectionGroup" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -12936,7 +13136,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "GetConnectionGroupResult" });
   }
 }
-function __c118(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12955,7 +13155,7 @@ function __c118(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ConnectionGroup: S.optional(__S(928, __c29, 0))
+          ConnectionGroup: S.optional(__S(960, __c30, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "ConnectionGroup" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -12963,7 +13163,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "GetConnectionGroupByRoutingEndpointResult" });
   }
 }
-function __c119(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12982,7 +13182,7 @@ function __c119(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ContinuousDeploymentPolicy: S.optional(__S(1024, __c32, 0))
+          ContinuousDeploymentPolicy: S.optional(__S(1056, __c33, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "ContinuousDeploymentPolicy" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -12990,7 +13190,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "GetContinuousDeploymentPolicyResult" });
   }
 }
-function __c120(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13009,7 +13209,7 @@ function __c120(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ContinuousDeploymentPolicyConfig: S.optional(__S(998, __c31, 6))
+          ContinuousDeploymentPolicyConfig: S.optional(__S(1030, __c32, 6))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "ContinuousDeploymentPolicyConfig" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -13017,7 +13217,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "GetContinuousDeploymentPolicyConfigResult" });
   }
 }
-function __c121(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13044,7 +13244,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "GetDistributionResult" });
   }
 }
-function __c122(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13071,7 +13271,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "GetDistributionConfigResult" });
   }
 }
-function __c123(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13090,7 +13290,7 @@ function __c123(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          DistributionTenant: S.optional(__S(1154, __c36, 2))
+          DistributionTenant: S.optional(__S(1186, __c37, 2))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "DistributionTenant" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -13098,7 +13298,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "GetDistributionTenantResult" });
   }
 }
-function __c124(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13117,7 +13317,7 @@ function __c124(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          DistributionTenant: S.optional(__S(1154, __c36, 2))
+          DistributionTenant: S.optional(__S(1186, __c37, 2))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "DistributionTenant" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -13125,7 +13325,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "GetDistributionTenantByDomainResult" });
   }
 }
-function __c125(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13144,7 +13344,7 @@ function __c125(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          FieldLevelEncryption: S.optional(__S(1344, __c42, 0))
+          FieldLevelEncryption: S.optional(__S(1376, __c43, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "FieldLevelEncryption" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -13152,7 +13352,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "GetFieldLevelEncryptionResult" });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13171,7 +13371,7 @@ function __c126(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          FieldLevelEncryptionConfig: S.optional(__S(1312, __c41, 0))
+          FieldLevelEncryptionConfig: S.optional(__S(1344, __c42, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "FieldLevelEncryptionConfig" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -13179,7 +13379,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "GetFieldLevelEncryptionConfigResult" });
   }
 }
-function __c127(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13198,7 +13398,7 @@ function __c127(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          FieldLevelEncryptionProfile: S.optional(__S(1472, __c46, 0))
+          FieldLevelEncryptionProfile: S.optional(__S(1504, __c47, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "FieldLevelEncryptionProfile" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -13206,7 +13406,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "GetFieldLevelEncryptionProfileResult" });
   }
 }
-function __c128(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13228,7 +13428,7 @@ function __c128(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          FieldLevelEncryptionProfileConfig: S.optional(__S(1440, __c45, 0))
+          FieldLevelEncryptionProfileConfig: S.optional(__S(1472, __c46, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "FieldLevelEncryptionProfileConfig" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -13236,7 +13436,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "GetFieldLevelEncryptionProfileConfigResult" });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13265,7 +13465,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "GetFunctionResult" });
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13290,14 +13490,14 @@ function __c130(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Invalidation: S.optional(__S(1603, __c50, 3))
+          Invalidation: S.optional(__S(1635, __c51, 3))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "Invalidation" }),
         }).pipe(ns),
       ).annotate({ identifier: "GetInvalidationResult" });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13322,14 +13522,14 @@ function __c131(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Invalidation: S.optional(__S(1603, __c50, 3))
+          Invalidation: S.optional(__S(1635, __c51, 3))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "Invalidation" }),
         }).pipe(ns),
       ).annotate({ identifier: "GetInvalidationForDistributionTenantResult" });
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13348,7 +13548,7 @@ function __c132(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          KeyGroup: S.optional(__S(1728, __c54, 0))
+          KeyGroup: S.optional(__S(1760, __c55, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "KeyGroup" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -13356,7 +13556,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "GetKeyGroupResult" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13375,7 +13575,7 @@ function __c133(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          KeyGroupConfig: S.optional(__S(1697, __c53, 1))
+          KeyGroupConfig: S.optional(__S(1729, __c54, 1))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "KeyGroupConfig" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -13383,7 +13583,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "GetKeyGroupConfigResult" });
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13408,27 +13608,27 @@ function __c134(j: number): any {
         }),
       ).annotate({ identifier: "ValidationTokenDetail" });
     case 2:
-      return S.Array(__S(4289, __c134, 1));
+      return S.Array(__S(4321, __c135, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           CertificateArn: S.optional(S.String),
           CertificateStatus: S.optional(S.String),
           ValidationTokenHost: S.optional(S.String),
-          ValidationTokenDetails: S.optional(__S(4290, __c134, 2)),
+          ValidationTokenDetails: S.optional(__S(4322, __c135, 2)),
         }),
       ).annotate({ identifier: "ManagedCertificateDetails" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          ManagedCertificateDetails: S.optional(__S(4291, __c134, 3))
+          ManagedCertificateDetails: S.optional(__S(4323, __c135, 3))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "ManagedCertificateDetails" }),
         }).pipe(ns),
       ).annotate({ identifier: "GetManagedCertificateDetailsResult" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13450,14 +13650,14 @@ function __c135(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          MonitoringSubscription: S.optional(__S(1857, __c58, 1))
+          MonitoringSubscription: S.optional(__S(1889, __c59, 1))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "MonitoringSubscription" }),
         }).pipe(ns),
       ).annotate({ identifier: "GetMonitoringSubscriptionResult" });
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13476,7 +13676,7 @@ function __c136(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          OriginAccessControl: S.optional(__S(1952, __c61, 0))
+          OriginAccessControl: S.optional(__S(1984, __c62, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "OriginAccessControl" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -13484,7 +13684,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "GetOriginAccessControlResult" });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13503,7 +13703,7 @@ function __c137(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          OriginAccessControlConfig: S.optional(__S(1920, __c60, 0))
+          OriginAccessControlConfig: S.optional(__S(1952, __c61, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "OriginAccessControlConfig" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -13511,7 +13711,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "GetOriginAccessControlConfigResult" });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13530,7 +13730,7 @@ function __c138(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          OriginRequestPolicy: S.optional(__S(2048, __c64, 0))
+          OriginRequestPolicy: S.optional(__S(2080, __c65, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "OriginRequestPolicy" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -13538,7 +13738,7 @@ function __c138(j: number): any {
       ).annotate({ identifier: "GetOriginRequestPolicyResult" });
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13557,7 +13757,7 @@ function __c139(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          OriginRequestPolicyConfig: S.optional(__S(2019, __c63, 3))
+          OriginRequestPolicyConfig: S.optional(__S(2051, __c64, 3))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "OriginRequestPolicyConfig" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -13565,7 +13765,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "GetOriginRequestPolicyConfigResult" });
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13584,7 +13784,7 @@ function __c140(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          PublicKey: S.optional(__S(2144, __c67, 0))
+          PublicKey: S.optional(__S(2176, __c68, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "PublicKey" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -13592,7 +13792,7 @@ function __c140(j: number): any {
       ).annotate({ identifier: "GetPublicKeyResult" });
   }
 }
-function __c141(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13611,7 +13811,7 @@ function __c141(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          PublicKeyConfig: S.optional(__S(2112, __c66, 0))
+          PublicKeyConfig: S.optional(__S(2144, __c67, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "PublicKeyConfig" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -13619,7 +13819,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "GetPublicKeyConfigResult" });
   }
 }
-function __c142(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13637,11 +13837,11 @@ function __c142(j: number): any {
       ).annotate({ identifier: "GetRealtimeLogConfigRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ RealtimeLogConfig: S.optional(__S(2212, __c69, 4)) }).pipe(ns),
+        S.Struct({ RealtimeLogConfig: S.optional(__S(2244, __c70, 4)) }).pipe(ns),
       ).annotate({ identifier: "GetRealtimeLogConfigResult" });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13665,7 +13865,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "GetResourcePolicyResult" });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13684,7 +13884,7 @@ function __c144(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ResponseHeadersPolicy: S.optional(__S(2304, __c72, 0))
+          ResponseHeadersPolicy: S.optional(__S(2336, __c73, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "ResponseHeadersPolicy" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -13692,7 +13892,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "GetResponseHeadersPolicyResult" });
   }
 }
-function __c145(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13711,7 +13911,7 @@ function __c145(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ResponseHeadersPolicyConfig: S.optional(__S(2295, __c71, 23))
+          ResponseHeadersPolicyConfig: S.optional(__S(2327, __c72, 23))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "ResponseHeadersPolicyConfig" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -13719,7 +13919,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "GetResponseHeadersPolicyConfigResult" });
   }
 }
-function __c146(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13738,7 +13938,7 @@ function __c146(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          StreamingDistribution: S.optional(__S(2432, __c76, 0))
+          StreamingDistribution: S.optional(__S(2464, __c77, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "StreamingDistribution" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -13746,7 +13946,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "GetStreamingDistributionResult" });
   }
 }
-function __c147(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13765,7 +13965,7 @@ function __c147(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          StreamingDistributionConfig: S.optional(__S(2401, __c75, 1))
+          StreamingDistributionConfig: S.optional(__S(2433, __c76, 1))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "StreamingDistributionConfig" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -13773,7 +13973,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "GetStreamingDistributionConfigResult" });
   }
 }
-function __c148(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13792,7 +13992,7 @@ function __c148(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          TrustStore: S.optional(__S(2528, __c79, 0))
+          TrustStore: S.optional(__S(2560, __c80, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "TrustStore" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -13800,7 +14000,7 @@ function __c148(j: number): any {
       ).annotate({ identifier: "GetTrustStoreResult" });
   }
 }
-function __c149(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13819,7 +14019,7 @@ function __c149(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          VpcOrigin: S.optional(__S(2625, __c82, 1))
+          VpcOrigin: S.optional(__S(2657, __c83, 1))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "VpcOrigin" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -13827,7 +14027,7 @@ function __c149(j: number): any {
       ).annotate({ identifier: "GetVpcOriginResult" });
   }
 }
-function __c150(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13862,14 +14062,14 @@ function __c150(j: number): any {
       ).annotate({ identifier: "AnycastIpListSummary" });
     case 2:
       return S.Array(
-        /*@__PURE__*/ __S(4801, __c150, 1)
+        /*@__PURE__*/ __S(4833, __c151, 1)
           .pipe(/*@__PURE__*/ T.XmlName("AnycastIpListSummary"))
           .annotate({ identifier: "AnycastIpListSummary" }),
       );
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Items: S.optional(__S(4802, __c150, 2)),
+          Items: S.optional(__S(4834, __c151, 2)),
           Marker: S.optional(S.String),
           NextMarker: S.optional(S.String),
           MaxItems: S.Number,
@@ -13880,14 +14080,14 @@ function __c150(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          AnycastIpLists: S.optional(__S(4803, __c150, 3))
+          AnycastIpLists: S.optional(__S(4835, __c151, 3))
             .pipe(T.HttpPayload(), T.XmlName("AnycastIpListCollection"))
             .annotate({ identifier: "AnycastIpListCollection" }),
         }).pipe(ns),
       ).annotate({ identifier: "ListAnycastIpListsResult" });
   }
 }
-function __c151(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13913,7 +14113,7 @@ function __c151(j: number): any {
       ).annotate({ identifier: "CachePolicySummary" });
     case 2:
       return S.Array(
-        /*@__PURE__*/ __S(4833, __c151, 1)
+        /*@__PURE__*/ __S(4865, __c152, 1)
           .pipe(/*@__PURE__*/ T.XmlName("CachePolicySummary"))
           .annotate({ identifier: "CachePolicySummary" }),
       );
@@ -13923,20 +14123,20 @@ function __c151(j: number): any {
           NextMarker: S.optional(S.String),
           MaxItems: S.Number,
           Quantity: S.Number,
-          Items: S.optional(__S(4834, __c151, 2)),
+          Items: S.optional(__S(4866, __c152, 2)),
         }),
       ).annotate({ identifier: "CachePolicyList" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          CachePolicyList: S.optional(__S(4835, __c151, 3))
+          CachePolicyList: S.optional(__S(4867, __c152, 3))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "CachePolicyList" }),
         }).pipe(ns),
       ).annotate({ identifier: "ListCachePoliciesResult" });
   }
 }
-function __c152(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13961,7 +14161,7 @@ function __c152(j: number): any {
       ).annotate({ identifier: "CloudFrontOriginAccessIdentitySummary" });
     case 2:
       return S.Array(
-        /*@__PURE__*/ __S(4865, __c152, 1)
+        /*@__PURE__*/ __S(4897, __c153, 1)
           .pipe(/*@__PURE__*/ T.XmlName("CloudFrontOriginAccessIdentitySummary"))
           .annotate({ identifier: "CloudFrontOriginAccessIdentitySummary" }),
       );
@@ -13973,20 +14173,20 @@ function __c152(j: number): any {
           MaxItems: S.Number,
           IsTruncated: S.Boolean,
           Quantity: S.Number,
-          Items: S.optional(__S(4866, __c152, 2)),
+          Items: S.optional(__S(4898, __c153, 2)),
         }),
       ).annotate({ identifier: "CloudFrontOriginAccessIdentityList" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          CloudFrontOriginAccessIdentityList: S.optional(__S(4867, __c152, 3))
+          CloudFrontOriginAccessIdentityList: S.optional(__S(4899, __c153, 3))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "CloudFrontOriginAccessIdentityList" }),
         }).pipe(ns),
       ).annotate({ identifier: "ListCloudFrontOriginAccessIdentitiesResult" });
   }
 }
-function __c153(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14017,7 +14217,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "ConflictingAlias" });
     case 2:
       return S.Array(
-        /*@__PURE__*/ __S(4897, __c153, 1)
+        /*@__PURE__*/ __S(4929, __c154, 1)
           .pipe(/*@__PURE__*/ T.XmlName("ConflictingAlias"))
           .annotate({ identifier: "ConflictingAlias" }),
       );
@@ -14027,20 +14227,20 @@ function __c153(j: number): any {
           NextMarker: S.optional(S.String),
           MaxItems: S.optional(S.Number),
           Quantity: S.optional(S.Number),
-          Items: S.optional(__S(4898, __c153, 2)),
+          Items: S.optional(__S(4930, __c154, 2)),
         }),
       ).annotate({ identifier: "ConflictingAliasesList" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          ConflictingAliasesList: S.optional(__S(4899, __c153, 3))
+          ConflictingAliasesList: S.optional(__S(4931, __c154, 3))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "ConflictingAliasesList" }),
         }).pipe(ns),
       ).annotate({ identifier: "ListConflictingAliasesResult" });
   }
 }
-function __c154(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14070,12 +14270,12 @@ function __c154(j: number): any {
       return S.suspend(() =>
         S.Struct({
           NextMarker: S.optional(S.String),
-          ConnectionFunctions: S.optional(__S(4929, __c154, 1)),
+          ConnectionFunctions: S.optional(__S(4961, __c155, 1)),
         }).pipe(ns),
       ).annotate({ identifier: "ListConnectionFunctionsResult" });
   }
 }
-function __c155(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ AnycastIpListId: S.optional(S.String) })).annotate({
@@ -14084,7 +14284,7 @@ function __c155(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          AssociationFilter: S.optional(__S(4960, __c155, 0)),
+          AssociationFilter: S.optional(__S(4992, __c156, 0)),
           Marker: S.optional(S.String),
           MaxItems: S.optional(S.Number),
         }).pipe(
@@ -14113,11 +14313,12 @@ function __c155(j: number): any {
           Enabled: S.optional(S.Boolean),
           Status: S.optional(S.String),
           IsDefault: S.optional(S.Boolean),
+          ViewerFallback: S.optional(__S(928, __c29, 0)),
         }),
       ).annotate({ identifier: "ConnectionGroupSummary" });
     case 3:
       return S.Array(
-        /*@__PURE__*/ __S(4962, __c155, 2)
+        /*@__PURE__*/ __S(4994, __c156, 2)
           .pipe(/*@__PURE__*/ T.XmlName("ConnectionGroupSummary"))
           .annotate({ identifier: "ConnectionGroupSummary" }),
       );
@@ -14125,12 +14326,12 @@ function __c155(j: number): any {
       return S.suspend(() =>
         S.Struct({
           NextMarker: S.optional(S.String),
-          ConnectionGroups: S.optional(__S(4963, __c155, 3)),
+          ConnectionGroups: S.optional(__S(4995, __c156, 3)),
         }).pipe(ns),
       ).annotate({ identifier: "ListConnectionGroupsResult" });
   }
 }
-function __c156(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14151,11 +14352,11 @@ function __c156(j: number): any {
       ).annotate({ identifier: "ListContinuousDeploymentPoliciesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ ContinuousDeploymentPolicy: __S(1024, __c32, 0) }),
+        S.Struct({ ContinuousDeploymentPolicy: __S(1056, __c33, 0) }),
       ).annotate({ identifier: "ContinuousDeploymentPolicySummary" });
     case 2:
       return S.Array(
-        /*@__PURE__*/ __S(4993, __c156, 1)
+        /*@__PURE__*/ __S(5025, __c157, 1)
           .pipe(/*@__PURE__*/ T.XmlName("ContinuousDeploymentPolicySummary"))
           .annotate({ identifier: "ContinuousDeploymentPolicySummary" }),
       );
@@ -14165,20 +14366,20 @@ function __c156(j: number): any {
           NextMarker: S.optional(S.String),
           MaxItems: S.Number,
           Quantity: S.Number,
-          Items: S.optional(__S(4994, __c156, 2)),
+          Items: S.optional(__S(5026, __c157, 2)),
         }),
       ).annotate({ identifier: "ContinuousDeploymentPolicyList" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          ContinuousDeploymentPolicyList: S.optional(__S(4995, __c156, 3))
+          ContinuousDeploymentPolicyList: S.optional(__S(5027, __c157, 3))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "ContinuousDeploymentPolicyList" }),
         }).pipe(ns),
       ).annotate({ identifier: "ListContinuousDeploymentPoliciesResult" });
   }
 }
-function __c157(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14200,14 +14401,14 @@ function __c157(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          DistributionList: S.optional(__S(5058, __c158, 2))
+          DistributionList: S.optional(__S(5090, __c159, 2))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "DistributionList" }),
         }).pipe(ns),
       ).annotate({ identifier: "ListDistributionsResult" });
   }
 }
-function __c158(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14242,7 +14443,7 @@ function __c158(j: number): any {
       ).annotate({ identifier: "DistributionSummary" });
     case 1:
       return S.Array(
-        /*@__PURE__*/ __S(5056, __c158, 0)
+        /*@__PURE__*/ __S(5088, __c159, 0)
           .pipe(/*@__PURE__*/ T.XmlName("DistributionSummary"))
           .annotate({ identifier: "DistributionSummary" }),
       );
@@ -14254,12 +14455,12 @@ function __c158(j: number): any {
           MaxItems: S.Number,
           IsTruncated: S.Boolean,
           Quantity: S.Number,
-          Items: S.optional(__S(5057, __c158, 1)),
+          Items: S.optional(__S(5089, __c159, 1)),
         }),
       ).annotate({ identifier: "DistributionList" });
   }
 }
-function __c159(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14285,14 +14486,14 @@ function __c159(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          DistributionList: S.optional(__S(5058, __c158, 2))
+          DistributionList: S.optional(__S(5090, __c159, 2))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "DistributionList" }),
         }).pipe(ns),
       ).annotate({ identifier: "ListDistributionsByAnycastIpListIdResult" });
   }
 }
-function __c160(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14318,14 +14519,14 @@ function __c160(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          DistributionIdList: S.optional(__S(5153, __c161, 1))
+          DistributionIdList: S.optional(__S(5185, __c162, 1))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "DistributionIdList" }),
         }).pipe(ns),
       ).annotate({ identifier: "ListDistributionsByCachePolicyIdResult" });
   }
 }
-function __c161(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("DistributionId")));
@@ -14337,12 +14538,12 @@ function __c161(j: number): any {
           MaxItems: S.Number,
           IsTruncated: S.Boolean,
           Quantity: S.Number,
-          Items: S.optional(__S(5152, __c161, 0)),
+          Items: S.optional(__S(5184, __c162, 0)),
         }),
       ).annotate({ identifier: "DistributionIdList" });
   }
 }
-function __c162(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14365,14 +14566,14 @@ function __c162(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          DistributionList: S.optional(__S(5058, __c158, 2))
+          DistributionList: S.optional(__S(5090, __c159, 2))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "DistributionList" }),
         }).pipe(ns),
       ).annotate({ identifier: "ListDistributionsByConnectionFunctionResult" });
   }
 }
-function __c163(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14398,14 +14599,14 @@ function __c163(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          DistributionList: S.optional(__S(5058, __c158, 2))
+          DistributionList: S.optional(__S(5090, __c159, 2))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "DistributionList" }),
         }).pipe(ns),
       ).annotate({ identifier: "ListDistributionsByConnectionModeResult" });
   }
 }
-function __c164(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14428,14 +14629,14 @@ function __c164(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          DistributionIdList: S.optional(__S(5153, __c161, 1))
+          DistributionIdList: S.optional(__S(5185, __c162, 1))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "DistributionIdList" }),
         }).pipe(ns),
       ).annotate({ identifier: "ListDistributionsByKeyGroupResult" });
   }
 }
-function __c165(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14461,14 +14662,14 @@ function __c165(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          DistributionIdList: S.optional(__S(5153, __c161, 1))
+          DistributionIdList: S.optional(__S(5185, __c162, 1))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "DistributionIdList" }),
         }).pipe(ns),
       ).annotate({ identifier: "ListDistributionsByOriginRequestPolicyIdResult" });
   }
 }
-function __c166(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14497,7 +14698,7 @@ function __c166(j: number): any {
       ).annotate({ identifier: "DistributionIdOwner" });
     case 2:
       return S.Array(
-        /*@__PURE__*/ __S(5313, __c166, 1)
+        /*@__PURE__*/ __S(5345, __c167, 1)
           .pipe(/*@__PURE__*/ T.XmlName("DistributionIdOwner"))
           .annotate({ identifier: "DistributionIdOwner" }),
       );
@@ -14509,20 +14710,20 @@ function __c166(j: number): any {
           MaxItems: S.Number,
           IsTruncated: S.Boolean,
           Quantity: S.Number,
-          Items: S.optional(__S(5314, __c166, 2)),
+          Items: S.optional(__S(5346, __c167, 2)),
         }),
       ).annotate({ identifier: "DistributionIdOwnerList" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          DistributionList: S.optional(__S(5315, __c166, 3))
+          DistributionList: S.optional(__S(5347, __c167, 3))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "DistributionIdOwnerList" }),
         }).pipe(ns),
       ).annotate({ identifier: "ListDistributionsByOwnedResourceResult" });
   }
 }
-function __c167(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14546,14 +14747,14 @@ function __c167(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          DistributionList: S.optional(__S(5058, __c158, 2))
+          DistributionList: S.optional(__S(5090, __c159, 2))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "DistributionList" }),
         }).pipe(ns),
       ).annotate({ identifier: "ListDistributionsByRealtimeLogConfigResult" });
   }
 }
-function __c168(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14579,14 +14780,14 @@ function __c168(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          DistributionIdList: S.optional(__S(5153, __c161, 1))
+          DistributionIdList: S.optional(__S(5185, __c162, 1))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "DistributionIdList" }),
         }).pipe(ns),
       ).annotate({ identifier: "ListDistributionsByResponseHeadersPolicyIdResult" });
   }
 }
-function __c169(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14609,14 +14810,14 @@ function __c169(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          DistributionList: S.optional(__S(5058, __c158, 2))
+          DistributionList: S.optional(__S(5090, __c159, 2))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "DistributionList" }),
         }).pipe(ns),
       ).annotate({ identifier: "ListDistributionsByTrustStoreResult" });
   }
 }
-function __c170(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14639,14 +14840,14 @@ function __c170(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          DistributionIdList: S.optional(__S(5153, __c161, 1))
+          DistributionIdList: S.optional(__S(5185, __c162, 1))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "DistributionIdList" }),
         }).pipe(ns),
       ).annotate({ identifier: "ListDistributionsByVpcOriginIdResult" });
   }
 }
-function __c171(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14669,14 +14870,14 @@ function __c171(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          DistributionList: S.optional(__S(5058, __c158, 2))
+          DistributionList: S.optional(__S(5090, __c159, 2))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "DistributionList" }),
         }).pipe(ns),
       ).annotate({ identifier: "ListDistributionsByWebACLIdResult" });
   }
 }
-function __c172(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14685,7 +14886,7 @@ function __c172(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          AssociationFilter: S.optional(__S(5504, __c172, 0)),
+          AssociationFilter: S.optional(__S(5536, __c173, 0)),
           Marker: S.optional(S.String),
           MaxItems: S.optional(S.Number),
         }).pipe(
@@ -14704,12 +14905,12 @@ function __c172(j: number): any {
       return S.suspend(() =>
         S.Struct({
           NextMarker: S.optional(S.String),
-          DistributionTenantList: S.optional(__S(5537, __c173, 1)),
+          DistributionTenantList: S.optional(__S(5569, __c174, 1)),
         }).pipe(ns),
       ).annotate({ identifier: "ListDistributionTenantsResult" });
   }
 }
-function __c173(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14718,9 +14919,9 @@ function __c173(j: number): any {
           DistributionId: S.String,
           Name: S.String,
           Arn: S.String,
-          Domains: __S(1125, __c35, 5),
+          Domains: __S(1157, __c36, 5),
           ConnectionGroupId: S.optional(S.String),
-          Customizations: S.optional(__S(1123, __c35, 3)),
+          Customizations: S.optional(__S(1155, __c36, 3)),
           CreatedTime: T.DateFromString,
           LastModifiedTime: T.DateFromString,
           ETag: S.String,
@@ -14730,13 +14931,13 @@ function __c173(j: number): any {
       ).annotate({ identifier: "DistributionTenantSummary" });
     case 1:
       return S.Array(
-        /*@__PURE__*/ __S(5536, __c173, 0)
+        /*@__PURE__*/ __S(5568, __c174, 0)
           .pipe(/*@__PURE__*/ T.XmlName("DistributionTenantSummary"))
           .annotate({ identifier: "DistributionTenantSummary" }),
       );
   }
 }
-function __c174(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14761,18 +14962,18 @@ function __c174(j: number): any {
       return S.suspend(() =>
         S.Struct({
           NextMarker: S.optional(S.String),
-          DistributionTenantList: S.optional(__S(5537, __c173, 1)),
+          DistributionTenantList: S.optional(__S(5569, __c174, 1)),
         }).pipe(ns),
       ).annotate({ identifier: "ListDistributionTenantsByCustomizationResult" });
   }
 }
-function __c175(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Domain: S.String,
-          DomainControlValidationResource: __S(5632, __c176, 0),
+          DomainControlValidationResource: __S(5664, __c177, 0),
           MaxItems: S.optional(S.Number),
           Marker: S.optional(S.String),
         }).pipe(
@@ -14798,20 +14999,20 @@ function __c175(j: number): any {
       ).annotate({ identifier: "DomainConflict" });
     case 2:
       return S.Array(
-        /*@__PURE__*/ __S(5601, __c175, 1)
+        /*@__PURE__*/ __S(5633, __c176, 1)
           .pipe(/*@__PURE__*/ T.XmlName("DomainConflicts"))
           .annotate({ identifier: "DomainConflict" }),
       );
     case 3:
       return S.suspend(() =>
         S.Struct({
-          DomainConflicts: S.optional(__S(5602, __c175, 2)),
+          DomainConflicts: S.optional(__S(5634, __c176, 2)),
           NextMarker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListDomainConflictsResult" });
   }
 }
-function __c176(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14822,7 +15023,7 @@ function __c176(j: number): any {
       ).annotate({ identifier: "DistributionResourceId" });
   }
 }
-function __c177(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14847,13 +15048,13 @@ function __c177(j: number): any {
           Id: S.String,
           LastModifiedTime: T.DateFromString,
           Comment: S.optional(S.String),
-          QueryArgProfileConfig: S.optional(__S(1283, __c40, 3)),
-          ContentTypeProfileConfig: S.optional(__S(1287, __c40, 7)),
+          QueryArgProfileConfig: S.optional(__S(1315, __c41, 3)),
+          ContentTypeProfileConfig: S.optional(__S(1319, __c41, 7)),
         }),
       ).annotate({ identifier: "FieldLevelEncryptionSummary" });
     case 2:
       return S.Array(
-        /*@__PURE__*/ __S(5665, __c177, 1)
+        /*@__PURE__*/ __S(5697, __c178, 1)
           .pipe(/*@__PURE__*/ T.XmlName("FieldLevelEncryptionSummary"))
           .annotate({ identifier: "FieldLevelEncryptionSummary" }),
       );
@@ -14863,20 +15064,20 @@ function __c177(j: number): any {
           NextMarker: S.optional(S.String),
           MaxItems: S.Number,
           Quantity: S.Number,
-          Items: S.optional(__S(5666, __c177, 2)),
+          Items: S.optional(__S(5698, __c178, 2)),
         }),
       ).annotate({ identifier: "FieldLevelEncryptionList" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          FieldLevelEncryptionList: S.optional(__S(5667, __c177, 3))
+          FieldLevelEncryptionList: S.optional(__S(5699, __c178, 3))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "FieldLevelEncryptionList" }),
         }).pipe(ns),
       ).annotate({ identifier: "ListFieldLevelEncryptionConfigsResult" });
   }
 }
-function __c178(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14901,13 +15102,13 @@ function __c178(j: number): any {
           Id: S.String,
           LastModifiedTime: T.DateFromString,
           Name: S.String,
-          EncryptionEntities: __S(1412, __c44, 4),
+          EncryptionEntities: __S(1444, __c45, 4),
           Comment: S.optional(S.String),
         }),
       ).annotate({ identifier: "FieldLevelEncryptionProfileSummary" });
     case 2:
       return S.Array(
-        /*@__PURE__*/ __S(5697, __c178, 1)
+        /*@__PURE__*/ __S(5729, __c179, 1)
           .pipe(/*@__PURE__*/ T.XmlName("FieldLevelEncryptionProfileSummary"))
           .annotate({ identifier: "FieldLevelEncryptionProfileSummary" }),
       );
@@ -14917,20 +15118,20 @@ function __c178(j: number): any {
           NextMarker: S.optional(S.String),
           MaxItems: S.Number,
           Quantity: S.Number,
-          Items: S.optional(__S(5698, __c178, 2)),
+          Items: S.optional(__S(5730, __c179, 2)),
         }),
       ).annotate({ identifier: "FieldLevelEncryptionProfileList" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          FieldLevelEncryptionProfileList: S.optional(__S(5699, __c178, 3))
+          FieldLevelEncryptionProfileList: S.optional(__S(5731, __c179, 3))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "FieldLevelEncryptionProfileList" }),
         }).pipe(ns),
       ).annotate({ identifier: "ListFieldLevelEncryptionProfilesResult" });
   }
 }
-function __c179(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14952,7 +15153,7 @@ function __c179(j: number): any {
       ).annotate({ identifier: "ListFunctionsRequest" });
     case 1:
       return S.Array(
-        /*@__PURE__*/ __S(1537, __c48, 1)
+        /*@__PURE__*/ __S(1569, __c49, 1)
           .pipe(/*@__PURE__*/ T.XmlName("FunctionSummary"))
           .annotate({ identifier: "FunctionSummary" }),
       );
@@ -14962,20 +15163,20 @@ function __c179(j: number): any {
           NextMarker: S.optional(S.String),
           MaxItems: S.Number,
           Quantity: S.Number,
-          Items: S.optional(__S(5729, __c179, 1)),
+          Items: S.optional(__S(5761, __c180, 1)),
         }),
       ).annotate({ identifier: "FunctionList" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          FunctionList: S.optional(__S(5730, __c179, 2))
+          FunctionList: S.optional(__S(5762, __c180, 2))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "FunctionList" }),
         }).pipe(ns),
       ).annotate({ identifier: "ListFunctionsResult" });
   }
 }
-function __c180(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15001,14 +15202,14 @@ function __c180(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          InvalidationList: S.optional(__S(5794, __c181, 2))
+          InvalidationList: S.optional(__S(5826, __c182, 2))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "InvalidationList" }),
         }).pipe(ns),
       ).annotate({ identifier: "ListInvalidationsResult" });
   }
 }
-function __c181(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15016,7 +15217,7 @@ function __c181(j: number): any {
       ).annotate({ identifier: "InvalidationSummary" });
     case 1:
       return S.Array(
-        /*@__PURE__*/ __S(5792, __c181, 0)
+        /*@__PURE__*/ __S(5824, __c182, 0)
           .pipe(/*@__PURE__*/ T.XmlName("InvalidationSummary"))
           .annotate({ identifier: "InvalidationSummary" }),
       );
@@ -15028,12 +15229,12 @@ function __c181(j: number): any {
           MaxItems: S.Number,
           IsTruncated: S.Boolean,
           Quantity: S.Number,
-          Items: S.optional(__S(5793, __c181, 1)),
+          Items: S.optional(__S(5825, __c182, 1)),
         }),
       ).annotate({ identifier: "InvalidationList" });
   }
 }
-function __c182(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15056,14 +15257,14 @@ function __c182(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          InvalidationList: S.optional(__S(5794, __c181, 2))
+          InvalidationList: S.optional(__S(5826, __c182, 2))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "InvalidationList" }),
         }).pipe(ns),
       ).annotate({ identifier: "ListInvalidationsForDistributionTenantResult" });
   }
 }
-function __c183(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15083,12 +15284,12 @@ function __c183(j: number): any {
         ),
       ).annotate({ identifier: "ListKeyGroupsRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ KeyGroup: __S(1728, __c54, 0) })).annotate({
+      return S.suspend(() => S.Struct({ KeyGroup: __S(1760, __c55, 0) })).annotate({
         identifier: "KeyGroupSummary",
       });
     case 2:
       return S.Array(
-        /*@__PURE__*/ __S(5857, __c183, 1)
+        /*@__PURE__*/ __S(5889, __c184, 1)
           .pipe(/*@__PURE__*/ T.XmlName("KeyGroupSummary"))
           .annotate({ identifier: "KeyGroupSummary" }),
       );
@@ -15098,20 +15299,20 @@ function __c183(j: number): any {
           NextMarker: S.optional(S.String),
           MaxItems: S.Number,
           Quantity: S.Number,
-          Items: S.optional(__S(5858, __c183, 2)),
+          Items: S.optional(__S(5890, __c184, 2)),
         }),
       ).annotate({ identifier: "KeyGroupList" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          KeyGroupList: S.optional(__S(5859, __c183, 3))
+          KeyGroupList: S.optional(__S(5891, __c184, 3))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "KeyGroupList" }),
         }).pipe(ns),
       ).annotate({ identifier: "ListKeyGroupsResult" });
   }
 }
-function __c184(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15133,7 +15334,7 @@ function __c184(j: number): any {
       ).annotate({ identifier: "ListKeyValueStoresRequest" });
     case 1:
       return S.Array(
-        /*@__PURE__*/ __S(1792, __c56, 0)
+        /*@__PURE__*/ __S(1824, __c57, 0)
           .pipe(/*@__PURE__*/ T.XmlName("KeyValueStore"))
           .annotate({ identifier: "KeyValueStore" }),
       );
@@ -15143,20 +15344,20 @@ function __c184(j: number): any {
           NextMarker: S.optional(S.String),
           MaxItems: S.Number,
           Quantity: S.Number,
-          Items: S.optional(__S(5889, __c184, 1)),
+          Items: S.optional(__S(5921, __c185, 1)),
         }),
       ).annotate({ identifier: "KeyValueStoreList" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          KeyValueStoreList: S.optional(__S(5890, __c184, 2))
+          KeyValueStoreList: S.optional(__S(5922, __c185, 2))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "KeyValueStoreList" }),
         }).pipe(ns),
       ).annotate({ identifier: "ListKeyValueStoresResult" });
   }
 }
-function __c185(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15188,7 +15389,7 @@ function __c185(j: number): any {
       ).annotate({ identifier: "OriginAccessControlSummary" });
     case 2:
       return S.Array(
-        /*@__PURE__*/ __S(5921, __c185, 1)
+        /*@__PURE__*/ __S(5953, __c186, 1)
           .pipe(/*@__PURE__*/ T.XmlName("OriginAccessControlSummary"))
           .annotate({ identifier: "OriginAccessControlSummary" }),
       );
@@ -15200,20 +15401,20 @@ function __c185(j: number): any {
           MaxItems: S.Number,
           IsTruncated: S.Boolean,
           Quantity: S.Number,
-          Items: S.optional(__S(5922, __c185, 2)),
+          Items: S.optional(__S(5954, __c186, 2)),
         }),
       ).annotate({ identifier: "OriginAccessControlList" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          OriginAccessControlList: S.optional(__S(5923, __c185, 3))
+          OriginAccessControlList: S.optional(__S(5955, __c186, 3))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "OriginAccessControlList" }),
         }).pipe(ns),
       ).annotate({ identifier: "ListOriginAccessControlsResult" });
   }
 }
-function __c186(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15235,11 +15436,11 @@ function __c186(j: number): any {
       ).annotate({ identifier: "ListOriginRequestPoliciesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Type: S.String, OriginRequestPolicy: __S(2048, __c64, 0) }),
+        S.Struct({ Type: S.String, OriginRequestPolicy: __S(2080, __c65, 0) }),
       ).annotate({ identifier: "OriginRequestPolicySummary" });
     case 2:
       return S.Array(
-        /*@__PURE__*/ __S(5953, __c186, 1)
+        /*@__PURE__*/ __S(5985, __c187, 1)
           .pipe(/*@__PURE__*/ T.XmlName("OriginRequestPolicySummary"))
           .annotate({ identifier: "OriginRequestPolicySummary" }),
       );
@@ -15249,20 +15450,20 @@ function __c186(j: number): any {
           NextMarker: S.optional(S.String),
           MaxItems: S.Number,
           Quantity: S.Number,
-          Items: S.optional(__S(5954, __c186, 2)),
+          Items: S.optional(__S(5986, __c187, 2)),
         }),
       ).annotate({ identifier: "OriginRequestPolicyList" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          OriginRequestPolicyList: S.optional(__S(5955, __c186, 3))
+          OriginRequestPolicyList: S.optional(__S(5987, __c187, 3))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "OriginRequestPolicyList" }),
         }).pipe(ns),
       ).annotate({ identifier: "ListOriginRequestPoliciesResult" });
   }
 }
-function __c187(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15293,7 +15494,7 @@ function __c187(j: number): any {
       ).annotate({ identifier: "PublicKeySummary" });
     case 2:
       return S.Array(
-        /*@__PURE__*/ __S(5985, __c187, 1)
+        /*@__PURE__*/ __S(6017, __c188, 1)
           .pipe(/*@__PURE__*/ T.XmlName("PublicKeySummary"))
           .annotate({ identifier: "PublicKeySummary" }),
       );
@@ -15303,20 +15504,20 @@ function __c187(j: number): any {
           NextMarker: S.optional(S.String),
           MaxItems: S.Number,
           Quantity: S.Number,
-          Items: S.optional(__S(5986, __c187, 2)),
+          Items: S.optional(__S(6018, __c188, 2)),
         }),
       ).annotate({ identifier: "PublicKeyList" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          PublicKeyList: S.optional(__S(5987, __c187, 3))
+          PublicKeyList: S.optional(__S(6019, __c188, 3))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "PublicKeyList" }),
         }).pipe(ns),
       ).annotate({ identifier: "ListPublicKeysResult" });
   }
 }
-function __c188(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15336,12 +15537,12 @@ function __c188(j: number): any {
         ),
       ).annotate({ identifier: "ListRealtimeLogConfigsRequest" });
     case 1:
-      return S.Array(__S(2212, __c69, 4));
+      return S.Array(__S(2244, __c70, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
           MaxItems: S.Number,
-          Items: S.optional(__S(6017, __c188, 1)),
+          Items: S.optional(__S(6049, __c189, 1)),
           IsTruncated: S.Boolean,
           Marker: S.optional(S.String),
           NextMarker: S.optional(S.String),
@@ -15350,14 +15551,14 @@ function __c188(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          RealtimeLogConfigs: S.optional(__S(6018, __c188, 2))
+          RealtimeLogConfigs: S.optional(__S(6050, __c189, 2))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "RealtimeLogConfigs" }),
         }).pipe(ns),
       ).annotate({ identifier: "ListRealtimeLogConfigsResult" });
   }
 }
-function __c189(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15379,11 +15580,11 @@ function __c189(j: number): any {
       ).annotate({ identifier: "ListResponseHeadersPoliciesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Type: S.String, ResponseHeadersPolicy: __S(2304, __c72, 0) }),
+        S.Struct({ Type: S.String, ResponseHeadersPolicy: __S(2336, __c73, 0) }),
       ).annotate({ identifier: "ResponseHeadersPolicySummary" });
     case 2:
       return S.Array(
-        /*@__PURE__*/ __S(6049, __c189, 1)
+        /*@__PURE__*/ __S(6081, __c190, 1)
           .pipe(/*@__PURE__*/ T.XmlName("ResponseHeadersPolicySummary"))
           .annotate({ identifier: "ResponseHeadersPolicySummary" }),
       );
@@ -15393,20 +15594,20 @@ function __c189(j: number): any {
           NextMarker: S.optional(S.String),
           MaxItems: S.Number,
           Quantity: S.Number,
-          Items: S.optional(__S(6050, __c189, 2)),
+          Items: S.optional(__S(6082, __c190, 2)),
         }),
       ).annotate({ identifier: "ResponseHeadersPolicyList" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          ResponseHeadersPolicyList: S.optional(__S(6051, __c189, 3))
+          ResponseHeadersPolicyList: S.optional(__S(6083, __c190, 3))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "ResponseHeadersPolicyList" }),
         }).pipe(ns),
       ).annotate({ identifier: "ListResponseHeadersPoliciesResult" });
   }
 }
-function __c190(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15433,7 +15634,7 @@ function __c190(j: number): any {
           Status: S.String,
           LastModifiedTime: T.DateFromString,
           DomainName: S.String,
-          S3Origin: __S(2368, __c74, 0),
+          S3Origin: __S(2400, __c75, 0),
           Aliases: __S(193, __c6, 1),
           TrustedSigners: __S(195, __c6, 3),
           Comment: S.String,
@@ -15443,7 +15644,7 @@ function __c190(j: number): any {
       ).annotate({ identifier: "StreamingDistributionSummary" });
     case 2:
       return S.Array(
-        /*@__PURE__*/ __S(6081, __c190, 1)
+        /*@__PURE__*/ __S(6113, __c191, 1)
           .pipe(/*@__PURE__*/ T.XmlName("StreamingDistributionSummary"))
           .annotate({ identifier: "StreamingDistributionSummary" }),
       );
@@ -15455,20 +15656,20 @@ function __c190(j: number): any {
           MaxItems: S.Number,
           IsTruncated: S.Boolean,
           Quantity: S.Number,
-          Items: S.optional(__S(6082, __c190, 2)),
+          Items: S.optional(__S(6114, __c191, 2)),
         }),
       ).annotate({ identifier: "StreamingDistributionList" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          StreamingDistributionList: S.optional(__S(6083, __c190, 3))
+          StreamingDistributionList: S.optional(__S(6115, __c191, 3))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "StreamingDistributionList" }),
         }).pipe(ns),
       ).annotate({ identifier: "ListStreamingDistributionsResult" });
   }
 }
-function __c191(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15492,7 +15693,7 @@ function __c191(j: number): any {
       ).annotate({ identifier: "ListTagsForResourceResult" });
   }
 }
-function __c192(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15523,7 +15724,7 @@ function __c192(j: number): any {
       ).annotate({ identifier: "TrustStoreSummary" });
     case 2:
       return S.Array(
-        /*@__PURE__*/ __S(6145, __c192, 1)
+        /*@__PURE__*/ __S(6177, __c193, 1)
           .pipe(/*@__PURE__*/ T.XmlName("TrustStoreSummary"))
           .annotate({ identifier: "TrustStoreSummary" }),
       );
@@ -15531,12 +15732,12 @@ function __c192(j: number): any {
       return S.suspend(() =>
         S.Struct({
           NextMarker: S.optional(S.String),
-          TrustStoreList: S.optional(__S(6146, __c192, 2)),
+          TrustStoreList: S.optional(__S(6178, __c193, 2)),
         }).pipe(ns),
       ).annotate({ identifier: "ListTrustStoresResult" });
   }
 }
-function __c193(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15571,7 +15772,7 @@ function __c193(j: number): any {
       ).annotate({ identifier: "VpcOriginSummary" });
     case 2:
       return S.Array(
-        /*@__PURE__*/ __S(6177, __c193, 1)
+        /*@__PURE__*/ __S(6209, __c194, 1)
           .pipe(/*@__PURE__*/ T.XmlName("VpcOriginSummary"))
           .annotate({ identifier: "VpcOriginSummary" }),
       );
@@ -15583,20 +15784,20 @@ function __c193(j: number): any {
           MaxItems: S.optional(S.Number),
           IsTruncated: S.optional(S.Boolean),
           Quantity: S.optional(S.Number),
-          Items: S.optional(__S(6178, __c193, 2)),
+          Items: S.optional(__S(6210, __c194, 2)),
         }),
       ).annotate({ identifier: "VpcOriginList" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          VpcOriginList: S.optional(__S(6179, __c193, 3))
+          VpcOriginList: S.optional(__S(6211, __c194, 3))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "VpcOriginList" }),
         }).pipe(ns),
       ).annotate({ identifier: "ListVpcOriginsResult" });
   }
 }
-function __c194(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15625,7 +15826,7 @@ function __c194(j: number): any {
       ).annotate({ identifier: "PublishConnectionFunctionResult" });
   }
 }
-function __c195(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15647,14 +15848,14 @@ function __c195(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          FunctionSummary: S.optional(__S(1537, __c48, 1))
+          FunctionSummary: S.optional(__S(1569, __c49, 1))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "FunctionSummary" }),
         }).pipe(ns),
       ).annotate({ identifier: "PublishFunctionResult" });
   }
 }
-function __c196(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15676,7 +15877,7 @@ function __c196(j: number): any {
       });
   }
 }
-function __c197(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15701,7 +15902,7 @@ function __c197(j: number): any {
       return S.suspend(() => S.Struct({}).pipe(ns)).annotate({ identifier: "TagResourceResponse" });
   }
 }
-function __c198(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15727,7 +15928,7 @@ function __c198(j: number): any {
         S.Struct({
           ConnectionFunctionSummary: S.optional(__S(864, __c27, 0)),
           ComputeUtilization: S.optional(S.String),
-          ConnectionFunctionExecutionLogs: S.optional(__S(6368, __c199, 0)),
+          ConnectionFunctionExecutionLogs: S.optional(__S(6400, __c200, 0)),
           ConnectionFunctionErrorMessage: S.optional(SensitiveString),
           ConnectionFunctionOutput: S.optional(SensitiveString),
         }),
@@ -15735,20 +15936,20 @@ function __c198(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ConnectionFunctionTestResult: S.optional(__S(6337, __c198, 1))
+          ConnectionFunctionTestResult: S.optional(__S(6369, __c199, 1))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "ConnectionFunctionTestResult" }),
         }).pipe(ns),
       ).annotate({ identifier: "TestConnectionFunctionResult" });
   }
 }
-function __c199(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c200(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15772,9 +15973,9 @@ function __c200(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          FunctionSummary: S.optional(__S(1537, __c48, 1)),
+          FunctionSummary: S.optional(__S(1569, __c49, 1)),
           ComputeUtilization: S.optional(S.String),
-          FunctionExecutionLogs: S.optional(__S(6368, __c199, 0)),
+          FunctionExecutionLogs: S.optional(__S(6400, __c200, 0)),
           FunctionErrorMessage: S.optional(SensitiveString),
           FunctionOutput: S.optional(SensitiveString),
         }),
@@ -15782,26 +15983,26 @@ function __c200(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          TestResult: S.optional(__S(6401, __c200, 1))
+          TestResult: S.optional(__S(6433, __c201, 1))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "TestResult" }),
         }).pipe(ns),
       ).annotate({ identifier: "TestFunctionResult" });
   }
 }
-function __c201(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("Key")));
     case 1:
-      return S.suspend(() => S.Struct({ Items: S.optional(__S(6432, __c201, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ Items: S.optional(__S(6464, __c202, 0)) })).annotate({
         identifier: "TagKeys",
       });
     case 2:
       return S.suspend(() =>
         S.Struct({
           Resource: S.String.pipe(T.HttpQuery("Resource")),
-          TagKeys: __S(6433, __c201, 1)
+          TagKeys: __S(6465, __c202, 1)
             .pipe(T.HttpPayload(), T.XmlName("TagKeys"))
             .annotate({ identifier: "TagKeys" }),
         }).pipe(
@@ -15822,7 +16023,7 @@ function __c201(j: number): any {
       });
   }
 }
-function __c202(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15854,7 +16055,7 @@ function __c202(j: number): any {
       ).annotate({ identifier: "UpdateAnycastIpListResult" });
   }
 }
-function __c203(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15887,7 +16088,7 @@ function __c203(j: number): any {
       ).annotate({ identifier: "UpdateCachePolicyResult" });
   }
 }
-function __c204(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15923,7 +16124,7 @@ function __c204(j: number): any {
       ).annotate({ identifier: "UpdateCloudFrontOriginAccessIdentityResult" });
   }
 }
-function __c205(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15955,7 +16156,7 @@ function __c205(j: number): any {
       ).annotate({ identifier: "UpdateConnectionFunctionResult" });
   }
 }
-function __c206(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15965,6 +16166,7 @@ function __c206(j: number): any {
           IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
           AnycastIpListId: S.optional(S.String),
           Enabled: S.optional(S.Boolean),
+          ViewerFallback: S.optional(__S(928, __c29, 0)),
         }).pipe(
           T.all(
             ns,
@@ -15980,7 +16182,7 @@ function __c206(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ConnectionGroup: S.optional(__S(928, __c29, 0))
+          ConnectionGroup: S.optional(__S(960, __c30, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "ConnectionGroup" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -15988,12 +16190,12 @@ function __c206(j: number): any {
       ).annotate({ identifier: "UpdateConnectionGroupResult" });
   }
 }
-function __c207(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ContinuousDeploymentPolicyConfig: __S(998, __c31, 6)
+          ContinuousDeploymentPolicyConfig: __S(1030, __c32, 6)
             .pipe(T.HttpPayload(), T.XmlName("ContinuousDeploymentPolicyConfig"))
             .annotate({ identifier: "ContinuousDeploymentPolicyConfig" }),
           Id: S.String.pipe(T.HttpLabel("Id")),
@@ -16013,7 +16215,7 @@ function __c207(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ContinuousDeploymentPolicy: S.optional(__S(1024, __c32, 0))
+          ContinuousDeploymentPolicy: S.optional(__S(1056, __c33, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "ContinuousDeploymentPolicy" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -16021,7 +16223,7 @@ function __c207(j: number): any {
       ).annotate({ identifier: "UpdateContinuousDeploymentPolicyResult" });
   }
 }
-function __c208(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16054,20 +16256,21 @@ function __c208(j: number): any {
       ).annotate({ identifier: "UpdateDistributionResult" });
   }
 }
-function __c209(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Id: S.String.pipe(T.HttpLabel("Id")),
           DistributionId: S.optional(S.String),
-          Domains: S.optional(__S(1185, __c37, 1)),
-          Customizations: S.optional(__S(1123, __c35, 3)),
-          Parameters: S.optional(__S(1153, __c36, 1)),
+          Domains: S.optional(__S(1217, __c38, 1)),
+          Customizations: S.optional(__S(1155, __c36, 3)),
+          Parameters: S.optional(__S(1185, __c37, 1)),
           ConnectionGroupId: S.optional(S.String),
           IfMatch: S.String.pipe(T.HttpHeader("If-Match")),
-          ManagedCertificateRequest: S.optional(__S(1186, __c37, 2)),
+          ManagedCertificateRequest: S.optional(__S(1218, __c38, 2)),
           Enabled: S.optional(S.Boolean),
+          OnDomainTakeover: S.optional(S.String),
         }).pipe(
           T.all(
             ns,
@@ -16083,7 +16286,7 @@ function __c209(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          DistributionTenant: S.optional(__S(1154, __c36, 2))
+          DistributionTenant: S.optional(__S(1186, __c37, 2))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "DistributionTenant" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -16091,7 +16294,7 @@ function __c209(j: number): any {
       ).annotate({ identifier: "UpdateDistributionTenantResult" });
   }
 }
-function __c210(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16122,13 +16325,13 @@ function __c210(j: number): any {
       ).annotate({ identifier: "UpdateDistributionWithStagingConfigResult" });
   }
 }
-function __c211(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Domain: S.String,
-          TargetResource: __S(5632, __c176, 0),
+          TargetResource: __S(5664, __c177, 0),
           IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
         }).pipe(
           T.all(
@@ -16152,12 +16355,12 @@ function __c211(j: number): any {
       ).annotate({ identifier: "UpdateDomainAssociationResult" });
   }
 }
-function __c212(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          FieldLevelEncryptionConfig: __S(1312, __c41, 0)
+          FieldLevelEncryptionConfig: __S(1344, __c42, 0)
             .pipe(T.HttpPayload(), T.XmlName("FieldLevelEncryptionConfig"))
             .annotate({ identifier: "FieldLevelEncryptionConfig" }),
           Id: S.String.pipe(T.HttpLabel("Id")),
@@ -16177,7 +16380,7 @@ function __c212(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          FieldLevelEncryption: S.optional(__S(1344, __c42, 0))
+          FieldLevelEncryption: S.optional(__S(1376, __c43, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "FieldLevelEncryption" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -16185,12 +16388,12 @@ function __c212(j: number): any {
       ).annotate({ identifier: "UpdateFieldLevelEncryptionConfigResult" });
   }
 }
-function __c213(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          FieldLevelEncryptionProfileConfig: __S(1440, __c45, 0)
+          FieldLevelEncryptionProfileConfig: __S(1472, __c46, 0)
             .pipe(T.HttpPayload(), T.XmlName("FieldLevelEncryptionProfileConfig"))
             .annotate({ identifier: "FieldLevelEncryptionProfileConfig" }),
           Id: S.String.pipe(T.HttpLabel("Id")),
@@ -16213,7 +16416,7 @@ function __c213(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          FieldLevelEncryptionProfile: S.optional(__S(1472, __c46, 0))
+          FieldLevelEncryptionProfile: S.optional(__S(1504, __c47, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "FieldLevelEncryptionProfile" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -16221,7 +16424,7 @@ function __c213(j: number): any {
       ).annotate({ identifier: "UpdateFieldLevelEncryptionProfileResult" });
   }
 }
-function __c214(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16245,7 +16448,7 @@ function __c214(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          FunctionSummary: S.optional(__S(1537, __c48, 1))
+          FunctionSummary: S.optional(__S(1569, __c49, 1))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "FunctionSummary" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETtag")),
@@ -16253,12 +16456,12 @@ function __c214(j: number): any {
       ).annotate({ identifier: "UpdateFunctionResult" });
   }
 }
-function __c215(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          KeyGroupConfig: __S(1697, __c53, 1)
+          KeyGroupConfig: __S(1729, __c54, 1)
             .pipe(T.HttpPayload(), T.XmlName("KeyGroupConfig"))
             .annotate({ identifier: "KeyGroupConfig" }),
           Id: S.String.pipe(T.HttpLabel("Id")),
@@ -16278,7 +16481,7 @@ function __c215(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          KeyGroup: S.optional(__S(1728, __c54, 0))
+          KeyGroup: S.optional(__S(1760, __c55, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "KeyGroup" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -16286,7 +16489,7 @@ function __c215(j: number): any {
       ).annotate({ identifier: "UpdateKeyGroupResult" });
   }
 }
-function __c216(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16309,7 +16512,7 @@ function __c216(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          KeyValueStore: S.optional(__S(1792, __c56, 0))
+          KeyValueStore: S.optional(__S(1824, __c57, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "KeyValueStore" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -16317,12 +16520,12 @@ function __c216(j: number): any {
       ).annotate({ identifier: "UpdateKeyValueStoreResult" });
   }
 }
-function __c217(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          OriginAccessControlConfig: __S(1920, __c60, 0)
+          OriginAccessControlConfig: __S(1952, __c61, 0)
             .pipe(T.HttpPayload(), T.XmlName("OriginAccessControlConfig"))
             .annotate({ identifier: "OriginAccessControlConfig" }),
           Id: S.String.pipe(T.HttpLabel("Id")),
@@ -16342,7 +16545,7 @@ function __c217(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          OriginAccessControl: S.optional(__S(1952, __c61, 0))
+          OriginAccessControl: S.optional(__S(1984, __c62, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "OriginAccessControl" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -16350,12 +16553,12 @@ function __c217(j: number): any {
       ).annotate({ identifier: "UpdateOriginAccessControlResult" });
   }
 }
-function __c218(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          OriginRequestPolicyConfig: __S(2019, __c63, 3)
+          OriginRequestPolicyConfig: __S(2051, __c64, 3)
             .pipe(T.HttpPayload(), T.XmlName("OriginRequestPolicyConfig"))
             .annotate({ identifier: "OriginRequestPolicyConfig" }),
           Id: S.String.pipe(T.HttpLabel("Id")),
@@ -16375,7 +16578,7 @@ function __c218(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          OriginRequestPolicy: S.optional(__S(2048, __c64, 0))
+          OriginRequestPolicy: S.optional(__S(2080, __c65, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "OriginRequestPolicy" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -16383,12 +16586,12 @@ function __c218(j: number): any {
       ).annotate({ identifier: "UpdateOriginRequestPolicyResult" });
   }
 }
-function __c219(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          PublicKeyConfig: __S(2112, __c66, 0)
+          PublicKeyConfig: __S(2144, __c67, 0)
             .pipe(T.HttpPayload(), T.XmlName("PublicKeyConfig"))
             .annotate({ identifier: "PublicKeyConfig" }),
           Id: S.String.pipe(T.HttpLabel("Id")),
@@ -16408,7 +16611,7 @@ function __c219(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          PublicKey: S.optional(__S(2144, __c67, 0))
+          PublicKey: S.optional(__S(2176, __c68, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "PublicKey" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -16416,13 +16619,13 @@ function __c219(j: number): any {
       ).annotate({ identifier: "UpdatePublicKeyResult" });
   }
 }
-function __c220(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          EndPoints: S.optional(__S(2210, __c69, 2)),
-          Fields: S.optional(__S(2211, __c69, 3)),
+          EndPoints: S.optional(__S(2242, __c70, 2)),
+          Fields: S.optional(__S(2243, __c70, 3)),
           Name: S.optional(S.String),
           ARN: S.optional(S.String),
           SamplingRate: S.optional(S.Number),
@@ -16440,16 +16643,16 @@ function __c220(j: number): any {
       ).annotate({ identifier: "UpdateRealtimeLogConfigRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ RealtimeLogConfig: S.optional(__S(2212, __c69, 4)) }).pipe(ns),
+        S.Struct({ RealtimeLogConfig: S.optional(__S(2244, __c70, 4)) }).pipe(ns),
       ).annotate({ identifier: "UpdateRealtimeLogConfigResult" });
   }
 }
-function __c221(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ResponseHeadersPolicyConfig: __S(2295, __c71, 23)
+          ResponseHeadersPolicyConfig: __S(2327, __c72, 23)
             .pipe(T.HttpPayload(), T.XmlName("ResponseHeadersPolicyConfig"))
             .annotate({ identifier: "ResponseHeadersPolicyConfig" }),
           Id: S.String.pipe(T.HttpLabel("Id")),
@@ -16469,7 +16672,7 @@ function __c221(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ResponseHeadersPolicy: S.optional(__S(2304, __c72, 0))
+          ResponseHeadersPolicy: S.optional(__S(2336, __c73, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "ResponseHeadersPolicy" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -16477,12 +16680,12 @@ function __c221(j: number): any {
       ).annotate({ identifier: "UpdateResponseHeadersPolicyResult" });
   }
 }
-function __c222(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          StreamingDistributionConfig: __S(2401, __c75, 1)
+          StreamingDistributionConfig: __S(2433, __c76, 1)
             .pipe(T.HttpPayload(), T.XmlName("StreamingDistributionConfig"))
             .annotate({ identifier: "StreamingDistributionConfig" }),
           Id: S.String.pipe(T.HttpLabel("Id")),
@@ -16502,7 +16705,7 @@ function __c222(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          StreamingDistribution: S.optional(__S(2432, __c76, 0))
+          StreamingDistribution: S.optional(__S(2464, __c77, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "StreamingDistribution" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -16510,13 +16713,13 @@ function __c222(j: number): any {
       ).annotate({ identifier: "UpdateStreamingDistributionResult" });
   }
 }
-function __c223(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Id: S.String.pipe(T.HttpLabel("Id")),
-          CaCertificatesBundleSource: S.optional(__S(2561, __c80, 1)).pipe(T.HttpPayload()),
+          CaCertificatesBundleSource: S.optional(__S(2593, __c81, 1)).pipe(T.HttpPayload()),
           UseClientCertificateOCSPEndpoint: S.optional(S.Boolean).pipe(
             T.HttpHeader("UseClientCertificateOCSPEndpoint"),
           ),
@@ -16536,7 +16739,7 @@ function __c223(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          TrustStore: S.optional(__S(2528, __c79, 0))
+          TrustStore: S.optional(__S(2560, __c80, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "TrustStore" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -16544,12 +16747,12 @@ function __c223(j: number): any {
       ).annotate({ identifier: "UpdateTrustStoreResult" });
   }
 }
-function __c224(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          VpcOriginEndpointConfig: __S(2624, __c82, 0)
+          VpcOriginEndpointConfig: __S(2656, __c83, 0)
             .pipe(T.HttpPayload(), T.XmlName("VpcOriginEndpointConfig"))
             .annotate({ identifier: "VpcOriginEndpointConfig" }),
           Id: S.String.pipe(T.HttpLabel("Id")),
@@ -16569,7 +16772,7 @@ function __c224(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          VpcOrigin: S.optional(__S(2625, __c82, 1))
+          VpcOrigin: S.optional(__S(2657, __c83, 1))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "VpcOrigin" }),
           ETag: S.optional(S.String).pipe(T.HttpHeader("ETag")),
@@ -16577,7 +16780,7 @@ function __c224(j: number): any {
       ).annotate({ identifier: "UpdateVpcOriginResult" });
   }
 }
-function __c225(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16599,13 +16802,13 @@ function __c225(j: number): any {
       ).annotate({ identifier: "DnsConfiguration" });
     case 2:
       return S.Array(
-        /*@__PURE__*/ __S(7201, __c225, 1)
+        /*@__PURE__*/ __S(7233, __c226, 1)
           .pipe(/*@__PURE__*/ T.XmlName("DnsConfiguration"))
           .annotate({ identifier: "DnsConfiguration" }),
       );
     case 3:
       return S.suspend(() =>
-        S.Struct({ DnsConfigurationList: S.optional(__S(7202, __c225, 2)) }).pipe(ns),
+        S.Struct({ DnsConfigurationList: S.optional(__S(7234, __c226, 2)) }).pipe(ns),
       ).annotate({ identifier: "VerifyDnsConfigurationResult" });
   }
 }

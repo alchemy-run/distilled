@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -277,7 +278,7 @@ export type StatusReasonCode =
 export interface StandardsStatusReason {
   StatusReasonCode?: StatusReasonCode | undefined;
 }
-export type StandardsProvider = "AWS" | "Azure" | (string & {});
+export type StandardsProvider = "AWS" | "Azure" | "GCP" | (string & {});
 export interface StandardsSubscription {
   StandardsSubscriptionArn?: string | undefined;
   StandardsArn?: string | undefined;
@@ -632,7 +633,7 @@ export interface ParameterConfiguration {
 }
 export type Parameters = { [key: string]: ParameterConfiguration | undefined };
 export type AlphaNumericNonEmptyString = string;
-export type SecurityControlsProvider = "AWS" | "Azure" | (string & {});
+export type SecurityControlsProvider = "AWS" | "Azure" | "GCP" | (string & {});
 export interface SecurityControl {
   SecurityControlId?: string | undefined;
   SecurityControlArn?: string | undefined;
@@ -861,7 +862,7 @@ export type Partition =
   | "aws-us-iso-b"
   | "AzureCloud"
   | (string & {});
-export type CloudProviderName = "Azure" | "AWS" | (string & {});
+export type CloudProviderName = "Azure" | "AWS" | "GCP" | (string & {});
 export interface ResourceOwnerAccount {
   Id?: string | undefined;
 }
@@ -4736,6 +4737,7 @@ export interface CodeRepositoryDetails {
   CodeSecurityIntegrationArn?: string | undefined;
 }
 export type AzureResourceDetails = unknown;
+export type GcpResourceDetails = unknown;
 export interface ResourceDetails {
   AwsAutoScalingAutoScalingGroup?: AwsAutoScalingAutoScalingGroupDetails | undefined;
   AwsCodeBuildProject?: AwsCodeBuildProjectDetails | undefined;
@@ -4838,6 +4840,7 @@ export interface ResourceDetails {
   AwsEc2ClientVpnEndpoint?: AwsEc2ClientVpnEndpointDetails | undefined;
   CodeRepository?: CodeRepositoryDetails | undefined;
   AzureResource?: any | undefined;
+  GcpResource?: any | undefined;
 }
 export interface Resource {
   Type?: string | undefined;
@@ -5737,7 +5740,20 @@ export interface AzureProviderConfiguration {
   ScopeConfiguration?: AzureScopeConfiguration | undefined;
   AzureRegions?: string[] | undefined;
 }
-export type CspmProviderConfiguration = { Azure: AzureProviderConfiguration };
+export type GcpScopeType = "PROJECT" | "ORGANIZATION" | (string & {});
+export interface GcpScopeConfiguration {
+  ScopeType?: GcpScopeType | undefined;
+  ScopeValues?: string[] | undefined;
+}
+export type GcpRegionList = string[];
+export interface GcpProviderConfiguration {
+  AWSConfigConnectorArn?: string | undefined;
+  ScopeConfiguration?: GcpScopeConfiguration | undefined;
+  GCPRegions?: string[] | undefined;
+}
+export type CspmProviderConfiguration =
+  | { Azure: AzureProviderConfiguration; GCP?: undefined }
+  | { Azure?: undefined; GCP: GcpProviderConfiguration };
 export interface CreateConnectorRequest {
   Name?: string | undefined;
   Description?: string | undefined;
@@ -5771,9 +5787,30 @@ export interface ServiceNowProviderConfiguration {
   SecretArn?: string | undefined;
 }
 export type ProviderConfiguration =
-  | { JiraCloud: JiraCloudProviderConfiguration; ServiceNow?: undefined; Azure?: undefined }
-  | { JiraCloud?: undefined; ServiceNow: ServiceNowProviderConfiguration; Azure?: undefined }
-  | { JiraCloud?: undefined; ServiceNow?: undefined; Azure: AzureProviderConfiguration };
+  | {
+      JiraCloud: JiraCloudProviderConfiguration;
+      ServiceNow?: undefined;
+      Azure?: undefined;
+      GCP?: undefined;
+    }
+  | {
+      JiraCloud?: undefined;
+      ServiceNow: ServiceNowProviderConfiguration;
+      Azure?: undefined;
+      GCP?: undefined;
+    }
+  | {
+      JiraCloud?: undefined;
+      ServiceNow?: undefined;
+      Azure: AzureProviderConfiguration;
+      GCP?: undefined;
+    }
+  | {
+      JiraCloud?: undefined;
+      ServiceNow?: undefined;
+      Azure?: undefined;
+      GCP: GcpProviderConfiguration;
+    };
 export interface CreateConnectorV2Request {
   Name?: string | undefined;
   Description?: string | undefined;
@@ -6345,7 +6382,14 @@ export interface AzureDetail {
   ScopeConfiguration?: AzureScopeConfiguration | undefined;
   AzureRegions?: string[] | undefined;
 }
-export type CspmProviderDetail = { Azure: AzureDetail };
+export interface GcpDetail {
+  AWSConfigConnectorArn?: string | undefined;
+  ScopeConfiguration?: GcpScopeConfiguration | undefined;
+  GCPRegions?: string[] | undefined;
+}
+export type CspmProviderDetail =
+  | { Azure: AzureDetail; GCP?: undefined }
+  | { Azure?: undefined; GCP: GcpDetail };
 export interface GetConnectorResponse {
   ConnectorArn?: string | undefined;
   ConnectorId: string;
@@ -6385,9 +6429,10 @@ export interface ServiceNowDetail {
   AuthStatus?: ConnectorAuthStatus | undefined;
 }
 export type ProviderDetail =
-  | { JiraCloud: JiraCloudDetail; ServiceNow?: undefined; Azure?: undefined }
-  | { JiraCloud?: undefined; ServiceNow: ServiceNowDetail; Azure?: undefined }
-  | { JiraCloud?: undefined; ServiceNow?: undefined; Azure: AzureDetail };
+  | { JiraCloud: JiraCloudDetail; ServiceNow?: undefined; Azure?: undefined; GCP?: undefined }
+  | { JiraCloud?: undefined; ServiceNow: ServiceNowDetail; Azure?: undefined; GCP?: undefined }
+  | { JiraCloud?: undefined; ServiceNow?: undefined; Azure: AzureDetail; GCP?: undefined }
+  | { JiraCloud?: undefined; ServiceNow?: undefined; Azure?: undefined; GCP: GcpDetail };
 export interface GetConnectorV2Response {
   ConnectorArn?: string | undefined;
   ConnectorId: string;
@@ -7289,6 +7334,8 @@ export type CriticalitySourceType =
   | "AutomationRule"
   | "ResourceName"
   | "TagInference"
+  | "CloudWatchTelemetryInference"
+  | "InstalledSoftwareAndPackageInference"
   | (string & {});
 export interface CriticalitySource {
   Source?: CriticalitySourceType | undefined;
@@ -7709,7 +7756,7 @@ export interface ListConfigurationPolicyAssociationsResponse {
   ConfigurationPolicyAssociationSummaries?: ConfigurationPolicyAssociationSummary[] | undefined;
   NextToken?: string | undefined;
 }
-export type CspmConnectorProviderName = "AZURE" | (string & {});
+export type CspmConnectorProviderName = "AZURE" | "GCP" | (string & {});
 export interface ListConnectorsRequest {
   NextToken?: string | undefined;
   MaxResults?: number | undefined;
@@ -7737,7 +7784,7 @@ export interface ListConnectorsResponse {
   NextToken?: string | undefined;
   Connectors: CspmConnectorSummary[];
 }
-export type ConnectorProviderName = "JIRA_CLOUD" | "SERVICENOW" | "AZURE" | (string & {});
+export type ConnectorProviderName = "JIRA_CLOUD" | "SERVICENOW" | "AZURE" | "GCP" | (string & {});
 export interface ListConnectorsV2Request {
   NextToken?: string | undefined;
   MaxResults?: number | undefined;
@@ -8095,7 +8142,13 @@ export interface AzureUpdateConfiguration {
   ScopeConfiguration?: AzureScopeConfiguration | undefined;
   AzureRegions?: string[] | undefined;
 }
-export type CspmProviderUpdateConfiguration = { Azure: AzureUpdateConfiguration };
+export interface GcpUpdateConfiguration {
+  ScopeConfiguration?: GcpScopeConfiguration | undefined;
+  GCPRegions?: string[] | undefined;
+}
+export type CspmProviderUpdateConfiguration =
+  | { Azure: AzureUpdateConfiguration; GCP?: undefined }
+  | { Azure?: undefined; GCP: GcpUpdateConfiguration };
 export interface UpdateConnectorRequest {
   ConnectorId: string;
   Description?: string | undefined;
@@ -8112,9 +8165,30 @@ export interface ServiceNowUpdateConfiguration {
   SecretArn?: string | undefined;
 }
 export type ProviderUpdateConfiguration =
-  | { JiraCloud: JiraCloudUpdateConfiguration; ServiceNow?: undefined; Azure?: undefined }
-  | { JiraCloud?: undefined; ServiceNow: ServiceNowUpdateConfiguration; Azure?: undefined }
-  | { JiraCloud?: undefined; ServiceNow?: undefined; Azure: AzureUpdateConfiguration };
+  | {
+      JiraCloud: JiraCloudUpdateConfiguration;
+      ServiceNow?: undefined;
+      Azure?: undefined;
+      GCP?: undefined;
+    }
+  | {
+      JiraCloud?: undefined;
+      ServiceNow: ServiceNowUpdateConfiguration;
+      Azure?: undefined;
+      GCP?: undefined;
+    }
+  | {
+      JiraCloud?: undefined;
+      ServiceNow?: undefined;
+      Azure: AzureUpdateConfiguration;
+      GCP?: undefined;
+    }
+  | {
+      JiraCloud?: undefined;
+      ServiceNow?: undefined;
+      Azure?: undefined;
+      GCP: GcpUpdateConfiguration;
+    };
 export interface UpdateConnectorV2Request {
   ConnectorId: string;
   Description?: string | undefined;
@@ -8207,6 +8281,7 @@ export const acceptAdministratorInvitation: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptAdministratorInvitation",
@@ -8250,6 +8325,7 @@ export const acceptInvitation: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptInvitation",
@@ -8282,6 +8358,7 @@ export const batchDeleteAutomationRules: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteAutomationRules",
@@ -8318,6 +8395,7 @@ export const batchDisableStandards: API.OperationMethod<
     InvalidInputException,
     LimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDisableStandards",
@@ -8355,6 +8433,7 @@ export const batchEnableStandards: API.OperationMethod<
     InvalidInputException,
     LimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchEnableStandards",
@@ -8390,6 +8469,7 @@ export const batchGetAutomationRules: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetAutomationRules",
@@ -8426,6 +8506,7 @@ export const batchGetConfigurationPolicyAssociations: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetConfigurationPolicyAssociations",
@@ -8456,6 +8537,7 @@ export const batchGetSecurityControls: API.OperationMethod<
     InvalidInputException,
     LimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetSecurityControls",
@@ -8488,6 +8570,7 @@ export const batchGetStandardsControlAssociations: API.OperationMethod<
     InvalidInputException,
     LimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetStandardsControlAssociations",
@@ -8561,6 +8644,7 @@ export const batchImportFindings: API.OperationMethod<
     InvalidInputException,
     LimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchImportFindings",
@@ -8594,6 +8678,7 @@ export const batchUpdateAutomationRules: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateAutomationRules",
@@ -8653,6 +8738,7 @@ export const batchUpdateFindings: API.OperationMethod<
     InvalidInputException,
     LimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateFindings",
@@ -8694,6 +8780,7 @@ export const batchUpdateFindingsV2: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateFindingsV2",
@@ -8726,6 +8813,7 @@ export const batchUpdateStandardsControlAssociations: API.OperationMethod<
     InvalidInputException,
     LimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateStandardsControlAssociations",
@@ -8764,6 +8852,7 @@ export const cancelExportJobV2: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelExportJobV2",
@@ -8799,6 +8888,7 @@ export const createActionTarget: API.OperationMethod<
     LimitExceededException,
     ResourceConflictException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateActionTarget",
@@ -8835,6 +8925,7 @@ export const createAggregatorV2: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAggregatorV2",
@@ -8867,6 +8958,7 @@ export const createAutomationRule: API.OperationMethod<
     InvalidInputException,
     LimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutomationRule",
@@ -8901,6 +8993,7 @@ export const createAutomationRuleV2: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutomationRuleV2",
@@ -8936,6 +9029,7 @@ export const createConfigurationPolicy: API.OperationMethod<
     LimitExceededException,
     ResourceConflictException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationPolicy",
@@ -8974,6 +9068,7 @@ export const createConnector: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnector",
@@ -9010,6 +9105,7 @@ export const createConnectorV2: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectorV2",
@@ -9046,6 +9142,7 @@ export const createFindingAggregator: API.OperationMethod<
     InvalidInputException,
     LimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFindingAggregator",
@@ -9082,6 +9179,7 @@ export const createInsight: API.OperationMethod<
     LimitExceededException,
     ResourceConflictException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInsight",
@@ -9148,6 +9246,7 @@ export const createMembers: API.OperationMethod<
     LimitExceededException,
     ResourceConflictException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMembers",
@@ -9182,6 +9281,7 @@ export const createTicketV2: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTicketV2",
@@ -9221,6 +9321,7 @@ export const declineInvitations: API.OperationMethod<
     InvalidInputException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeclineInvitations",
@@ -9254,6 +9355,7 @@ export const deleteActionTarget: API.OperationMethod<
     InvalidInputException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteActionTarget",
@@ -9288,6 +9390,7 @@ export const deleteAggregatorV2: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAggregatorV2",
@@ -9322,6 +9425,7 @@ export const deleteAutomationRuleV2: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAutomationRuleV2",
@@ -9360,6 +9464,7 @@ export const deleteConfigurationPolicy: API.OperationMethod<
     ResourceConflictException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationPolicy",
@@ -9396,6 +9501,7 @@ export const deleteConnector: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnector",
@@ -9430,6 +9536,7 @@ export const deleteConnectorV2: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnectorV2",
@@ -9470,6 +9577,7 @@ export const deleteFindingAggregator: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFindingAggregator",
@@ -9502,6 +9610,7 @@ export const deleteInsight: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInsight",
@@ -9543,6 +9652,7 @@ export const deleteInvitations: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInvitations",
@@ -9578,6 +9688,7 @@ export const deleteMembers: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMembers",
@@ -9609,6 +9720,7 @@ export const describeActionTargets: API.PaginatedOperationMethod<
     InvalidInputException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeActionTargets",
@@ -9648,6 +9760,7 @@ export const describeHub: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHub",
@@ -9679,6 +9792,7 @@ export const describeOrganizationConfiguration: API.OperationMethod<
     InvalidInputException,
     LimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOrganizationConfiguration",
@@ -9716,6 +9830,7 @@ export const describeProducts: API.PaginatedOperationMethod<
     InvalidInputException,
     LimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProducts",
@@ -9755,6 +9870,7 @@ export const describeProductsV2: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProductsV2",
@@ -9791,6 +9907,7 @@ export const describeSecurityHubV2: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSecurityHubV2",
@@ -9818,6 +9935,7 @@ export const describeStandards: API.PaginatedOperationMethod<
   input: __S(4928, __c154, 0) as any as S.Schema<DescribeStandardsRequest>,
   output: __S(4932, __c154, 4) as any as S.Schema<DescribeStandardsResponse>,
   errors: [InternalException, InvalidAccessException, InvalidInputException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStandards",
@@ -9860,6 +9978,7 @@ export const describeStandardsControls: API.PaginatedOperationMethod<
     InvalidInputException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStandardsControls",
@@ -9899,6 +10018,7 @@ export const disableImportFindingsForProduct: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableImportFindingsForProduct",
@@ -9932,6 +10052,7 @@ export const disableOrganizationAdminAccount: API.OperationMethod<
     InvalidInputException,
     LimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableOrganizationAdminAccount",
@@ -9974,6 +10095,7 @@ export const disableSecurityHub: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableSecurityHub",
@@ -10006,6 +10128,7 @@ export const disableSecurityHubFeatureV2: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableSecurityHubFeatureV2",
@@ -10036,6 +10159,7 @@ export const disableSecurityHubV2: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableSecurityHubV2",
@@ -10073,6 +10197,7 @@ export const disassociateFromAdministratorAccount: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFromAdministratorAccount",
@@ -10114,6 +10239,7 @@ export const disassociateFromMasterAccount: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFromMasterAccount",
@@ -10151,6 +10277,7 @@ export const disassociateMembers: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateMembers",
@@ -10187,6 +10314,7 @@ export const enableImportFindingsForProduct: API.OperationMethod<
     LimitExceededException,
     ResourceConflictException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableImportFindingsForProduct",
@@ -10220,6 +10348,7 @@ export const enableOrganizationAdminAccount: API.OperationMethod<
     InvalidInputException,
     LimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableOrganizationAdminAccount",
@@ -10273,6 +10402,7 @@ export const enableSecurityHub: API.OperationMethod<
     LimitExceededException,
     ResourceConflictException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableSecurityHub",
@@ -10305,6 +10435,7 @@ export const enableSecurityHubFeatureV2: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableSecurityHubFeatureV2",
@@ -10335,6 +10466,7 @@ export const enableSecurityHubV2: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableSecurityHubV2",
@@ -10370,6 +10502,7 @@ export const generateRecommendedPolicyV2: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateRecommendedPolicyV2",
@@ -10405,6 +10538,7 @@ export const getAdministratorAccount: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAdministratorAccount",
@@ -10439,6 +10573,7 @@ export const getAggregatorV2: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAggregatorV2",
@@ -10473,6 +10608,7 @@ export const getAutomationRuleV2: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutomationRuleV2",
@@ -10508,6 +10644,7 @@ export const getConfigurationPolicy: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfigurationPolicy",
@@ -10544,6 +10681,7 @@ export const getConfigurationPolicyAssociation: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfigurationPolicyAssociation",
@@ -10580,6 +10718,7 @@ export const getConnector: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnector",
@@ -10614,6 +10753,7 @@ export const getConnectorV2: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectorV2",
@@ -10645,6 +10785,7 @@ export const getEnabledStandards: API.PaginatedOperationMethod<
     InvalidInputException,
     LimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnabledStandards",
@@ -10685,6 +10826,7 @@ export const getExportJobV2: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExportJobV2",
@@ -10722,6 +10864,7 @@ export const getFindingAggregator: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFindingAggregator",
@@ -10761,6 +10904,7 @@ export const getFindingHistory: API.PaginatedOperationMethod<
     InvalidInputException,
     LimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFindingHistory",
@@ -10800,6 +10944,7 @@ export const getFindings: API.PaginatedOperationMethod<
     InvalidInputException,
     LimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFindings",
@@ -10847,6 +10992,7 @@ export const getFindingStatisticsV2: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFindingStatisticsV2",
@@ -10878,6 +11024,7 @@ export const getFindingsTrendsV2: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFindingsTrendsV2",
@@ -10928,6 +11075,7 @@ export const getFindingsV2: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFindingsV2",
@@ -10966,6 +11114,7 @@ export const getInsightResults: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInsightResults",
@@ -10999,6 +11148,7 @@ export const getInsights: API.PaginatedOperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInsights",
@@ -11040,6 +11190,7 @@ export const getInvitationsCount: API.OperationMethod<
     InvalidInputException,
     LimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvitationsCount",
@@ -11079,6 +11230,7 @@ export const getMasterAccount: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMasterAccount",
@@ -11117,6 +11269,7 @@ export const getMembers: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMembers",
@@ -11153,6 +11306,7 @@ export const getRecommendedPolicyV2: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommendedPolicyV2",
@@ -11195,6 +11349,7 @@ export const getRemediationsV2: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRemediationsV2",
@@ -11243,6 +11398,7 @@ export const getResourcesStatisticsV2: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcesStatisticsV2",
@@ -11274,6 +11430,7 @@ export const getResourcesTrendsV2: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcesTrendsV2",
@@ -11327,6 +11484,7 @@ export const getResourcesV2: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcesV2",
@@ -11365,6 +11523,7 @@ export const getSecurityControlDefinition: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSecurityControlDefinition",
@@ -11410,6 +11569,7 @@ export const getSoftwareResourcesV2: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSoftwareResourcesV2",
@@ -11460,6 +11620,7 @@ export const getSoftwareStatisticsV2: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSoftwareStatisticsV2",
@@ -11507,6 +11668,7 @@ export const getSoftwareV2: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSoftwareV2",
@@ -11558,6 +11720,7 @@ export const inviteMembers: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InviteMembers",
@@ -11593,6 +11756,7 @@ export const listAggregatorsV2: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAggregatorsV2",
@@ -11631,6 +11795,7 @@ export const listAutomationRules: API.OperationMethod<
     InvalidInputException,
     LimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAutomationRules",
@@ -11663,6 +11828,7 @@ export const listAutomationRulesV2: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAutomationRulesV2",
@@ -11697,6 +11863,7 @@ export const listConfigurationPolicies: API.PaginatedOperationMethod<
     InvalidInputException,
     LimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConfigurationPolicies",
@@ -11737,6 +11904,7 @@ export const listConfigurationPolicyAssociations: API.PaginatedOperationMethod<
     InvalidInputException,
     LimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConfigurationPolicyAssociations",
@@ -11779,6 +11947,7 @@ export const listConnectors: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConnectors",
@@ -11813,6 +11982,7 @@ export const listConnectorsV2: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConnectorsV2",
@@ -11839,6 +12009,7 @@ export const listEnabledProductsForImport: API.PaginatedOperationMethod<
   input: __S(384, __c12, 0) as any as S.Schema<ListEnabledProductsForImportRequest>,
   output: __S(385, __c12, 1) as any as S.Schema<ListEnabledProductsForImportResponse>,
   errors: [InternalException, InvalidAccessException, LimitExceededException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEnabledProductsForImport",
@@ -11880,6 +12051,7 @@ export const listExportJobsV2: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListExportJobsV2",
@@ -11920,6 +12092,7 @@ export const listExposuresByRemediationV2: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListExposuresByRemediationV2",
@@ -11960,6 +12133,7 @@ export const listFindingAggregators: API.PaginatedOperationMethod<
     InvalidInputException,
     LimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFindingAggregators",
@@ -11999,6 +12173,7 @@ export const listFreeTrialStatusesV2: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFreeTrialStatusesV2",
@@ -12043,6 +12218,7 @@ export const listInvitations: API.PaginatedOperationMethod<
     InvalidInputException,
     LimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListInvitations",
@@ -12084,6 +12260,7 @@ export const listMembers: API.PaginatedOperationMethod<
     InvalidInputException,
     LimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMembers",
@@ -12122,6 +12299,7 @@ export const listOrganizationAdminAccounts: API.PaginatedOperationMethod<
     InvalidInputException,
     LimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOrganizationAdminAccounts",
@@ -12159,6 +12337,7 @@ export const listSecurityControlDefinitions: API.PaginatedOperationMethod<
     InvalidInputException,
     LimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSecurityControlDefinitions",
@@ -12198,6 +12377,7 @@ export const listStandardsControlAssociations: API.PaginatedOperationMethod<
     InvalidInputException,
     LimitExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListStandardsControlAssociations",
@@ -12228,6 +12408,7 @@ export const listTagsForResource: API.OperationMethod<
   input: __S(704, __c22, 0) as any as S.Schema<ListTagsForResourceRequest>,
   output: __S(705, __c22, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [InternalException, InvalidInputException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -12262,6 +12443,7 @@ export const registerConnectorV2: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterConnectorV2",
@@ -12298,6 +12480,7 @@ export const startConfigurationPolicyAssociation: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartConfigurationPolicyAssociation",
@@ -12336,6 +12519,7 @@ export const startConfigurationPolicyDisassociation: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartConfigurationPolicyDisassociation",
@@ -12384,6 +12568,7 @@ export const startExportJobV2: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartExportJobV2",
@@ -12408,6 +12593,7 @@ export const tagResource: API.OperationMethod<
   input: __S(864, __c27, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(1408, __c44, 0) as any as S.Schema<TagResourceResponse>,
   errors: [InternalException, InvalidInputException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -12432,6 +12618,7 @@ export const untagResource: API.OperationMethod<
   input: __S(896, __c28, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(1408, __c44, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [InternalException, InvalidInputException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -12462,6 +12649,7 @@ export const updateActionTarget: API.OperationMethod<
     InvalidInputException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateActionTarget",
@@ -12496,6 +12684,7 @@ export const updateAggregatorV2: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAggregatorV2",
@@ -12530,6 +12719,7 @@ export const updateAutomationRuleV2: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutomationRuleV2",
@@ -12567,6 +12757,7 @@ export const updateConfigurationPolicy: API.OperationMethod<
     ResourceConflictException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationPolicy",
@@ -12593,7 +12784,7 @@ export const updateConnector: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1057, __c33, 1) as any as S.Schema<UpdateConnectorRequest>,
-  output: __S(1089, __c34, 1) as any as S.Schema<UpdateConnectorResponse>,
+  output: __S(1090, __c34, 2) as any as S.Schema<UpdateConnectorResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -12603,6 +12794,7 @@ export const updateConnector: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnector",
@@ -12628,7 +12820,7 @@ export const updateConnectorV2: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1122, __c35, 2) as any as S.Schema<UpdateConnectorV2Request>,
-  output: __S(1089, __c34, 1) as any as S.Schema<UpdateConnectorV2Response>,
+  output: __S(1090, __c34, 2) as any as S.Schema<UpdateConnectorV2Response>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -12637,6 +12829,7 @@ export const updateConnectorV2: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectorV2",
@@ -12676,6 +12869,7 @@ export const updateFindingAggregator: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFindingAggregator",
@@ -12717,6 +12911,7 @@ export const updateFindings: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFindings",
@@ -12749,6 +12944,7 @@ export const updateInsight: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInsight",
@@ -12786,6 +12982,7 @@ export const updateOrganizationConfiguration: API.OperationMethod<
     ResourceConflictException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOrganizationConfiguration",
@@ -12822,6 +13019,7 @@ export const updateSecurityControl: API.OperationMethod<
     ResourceInUseException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSecurityControl",
@@ -12856,6 +13054,7 @@ export const updateSecurityHubConfiguration: API.OperationMethod<
     LimitExceededException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSecurityHubConfiguration",
@@ -12891,6 +13090,7 @@ export const updateStandardsControl: API.OperationMethod<
     InvalidInputException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStandardsControl",
@@ -13888,7 +14088,10 @@ function __c32(j: number): any {
 function __c33(j: number): any {
   switch (j) {
     case 0:
-      return S.Union([/*@__PURE__*/ S.Struct({ Azure: __S(1088, __c34, 0) })]);
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ Azure: __S(1088, __c34, 0) }),
+        /*@__PURE__*/ S.Struct({ GCP: __S(1089, __c34, 1) }),
+      ]);
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -13919,6 +14122,13 @@ function __c34(j: number): any {
       ).annotate({ identifier: "AzureUpdateConfiguration" });
     case 1:
       return S.suspend(() =>
+        S.Struct({
+          ScopeConfiguration: S.optional(__S(3872, __c121, 0)),
+          GCPRegions: S.optional(__S(1504, __c47, 0)),
+        }),
+      ).annotate({ identifier: "GcpUpdateConfiguration" });
+    case 2:
+      return S.suspend(() =>
         S.Struct({ ConnectorStatus: S.optional(S.String), EnablementStatus: S.optional(S.String) }),
       ).annotate({ identifier: "UpdateConnectorResponse" });
   }
@@ -13934,6 +14144,7 @@ function __c35(j: number): any {
         /*@__PURE__*/ S.Struct({ JiraCloud: __S(3968, __c124, 0) }),
         /*@__PURE__*/ S.Struct({ ServiceNow: __S(1120, __c35, 0) }),
         /*@__PURE__*/ S.Struct({ Azure: __S(1088, __c34, 0) }),
+        /*@__PURE__*/ S.Struct({ GCP: __S(1089, __c34, 1) }),
       ]);
     case 2:
       return S.suspend(() =>
@@ -19635,6 +19846,7 @@ function __c94(j: number): any {
           AwsEc2ClientVpnEndpoint: S.optional(__S(3017, __c94, 9)),
           CodeRepository: S.optional(__S(3018, __c94, 10)),
           AzureResource: S.optional(S.Any),
+          GcpResource: S.optional(S.Any),
         }),
       ).annotate({ identifier: "ResourceDetails" });
     case 12:
@@ -20683,6 +20895,14 @@ function __c120(j: number): any {
           AzureRegions: S.optional(__S(1504, __c47, 0)),
         }),
       ).annotate({ identifier: "AzureProviderConfiguration" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          AWSConfigConnectorArn: S.optional(S.String),
+          ScopeConfiguration: S.optional(__S(3872, __c121, 0)),
+          GCPRegions: S.optional(__S(1504, __c47, 0)),
+        }),
+      ).annotate({ identifier: "GcpProviderConfiguration" });
   }
 }
 function __c121(j: number): any {
@@ -20696,7 +20916,10 @@ function __c121(j: number): any {
 function __c122(j: number): any {
   switch (j) {
     case 0:
-      return S.Union([/*@__PURE__*/ S.Struct({ Azure: __S(3840, __c120, 0) })]);
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ Azure: __S(3840, __c120, 0) }),
+        /*@__PURE__*/ S.Struct({ GCP: __S(3841, __c120, 1) }),
+      ]);
   }
 }
 function __c123(j: number): any {
@@ -20710,6 +20933,7 @@ function __c123(j: number): any {
         /*@__PURE__*/ S.Struct({ JiraCloud: __S(3968, __c124, 0) }),
         /*@__PURE__*/ S.Struct({ ServiceNow: __S(3936, __c123, 0) }),
         /*@__PURE__*/ S.Struct({ Azure: __S(3840, __c120, 0) }),
+        /*@__PURE__*/ S.Struct({ GCP: __S(3841, __c120, 1) }),
       ]);
     case 2:
       return S.suspend(() =>
@@ -21866,6 +22090,7 @@ function __c179(j: number): any {
         /*@__PURE__*/ S.Struct({ JiraCloud: __S(5728, __c179, 0) }),
         /*@__PURE__*/ S.Struct({ ServiceNow: __S(5729, __c179, 1) }),
         /*@__PURE__*/ S.Struct({ Azure: __S(3840, __c120, 0) }),
+        /*@__PURE__*/ S.Struct({ GCP: __S(3841, __c120, 1) }),
       ]);
   }
 }

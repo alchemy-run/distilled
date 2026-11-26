@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -287,8 +288,12 @@ export type EnabledBaselineDriftStatus = "IN_SYNC" | "DRIFTED" | (string & {});
 export interface EnabledBaselineInheritanceDrift {
   status?: EnabledBaselineDriftStatus | undefined;
 }
+export interface EnabledBaselineSourceDrift {
+  status?: EnabledBaselineDriftStatus | undefined;
+}
 export interface EnabledBaselineDriftTypes {
   inheritance?: EnabledBaselineInheritanceDrift | undefined;
+  source?: EnabledBaselineSourceDrift | undefined;
 }
 export interface EnabledBaselineDriftStatusSummary {
   types?: EnabledBaselineDriftTypes | undefined;
@@ -456,6 +461,7 @@ export interface EnabledBaselineFilter {
   parentIdentifiers?: string[] | undefined;
   statuses?: EnablementStatus[] | undefined;
   inheritanceDriftStatuses?: EnabledBaselineDriftStatus[] | undefined;
+  sourceDriftStatuses?: EnabledBaselineDriftStatus[] | undefined;
 }
 export type ListEnabledBaselinesNextToken = string;
 export type ListEnabledBaselinesMaxResults = number;
@@ -632,6 +638,7 @@ export const createLandingZone: API.OperationMethod<
     ValidationException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLandingZone",
@@ -670,6 +677,7 @@ export const deleteLandingZone: API.OperationMethod<
     ValidationException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLandingZone",
@@ -708,6 +716,7 @@ export const disableBaseline: API.OperationMethod<
     ValidationException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableBaseline",
@@ -744,6 +753,7 @@ export const disableControl: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableControl",
@@ -782,6 +792,7 @@ export const enableBaseline: API.OperationMethod<
     ValidationException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableBaseline",
@@ -818,6 +829,7 @@ export const enableControl: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableControl",
@@ -852,6 +864,7 @@ export const getBaseline: API.OperationMethod<
     ValidationException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBaseline",
@@ -886,6 +899,7 @@ export const getBaselineOperation: API.OperationMethod<
     ValidationException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBaselineOperation",
@@ -918,6 +932,7 @@ export const getControlOperation: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetControlOperation",
@@ -952,6 +967,7 @@ export const getEnabledBaseline: API.OperationMethod<
     ValidationException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnabledBaseline",
@@ -984,6 +1000,7 @@ export const getEnabledControl: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnabledControl",
@@ -1018,6 +1035,7 @@ export const getLandingZone: API.OperationMethod<
     ValidationException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLandingZone",
@@ -1052,6 +1070,7 @@ export const getLandingZoneOperation: API.OperationMethod<
     ValidationException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLandingZoneOperation",
@@ -1085,6 +1104,7 @@ export const listBaselines: API.PaginatedOperationMethod<
     ValidationException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBaselines",
@@ -1122,6 +1142,7 @@ export const listControlOperations: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListControlOperations",
@@ -1161,6 +1182,7 @@ export const listEnabledBaselines: API.PaginatedOperationMethod<
     ValidationException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEnabledBaselines",
@@ -1200,6 +1222,7 @@ export const listEnabledControls: API.PaginatedOperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEnabledControls",
@@ -1239,6 +1262,7 @@ export const listLandingZoneOperations: API.PaginatedOperationMethod<
     ValidationException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLandingZoneOperations",
@@ -1280,6 +1304,7 @@ export const listLandingZones: API.PaginatedOperationMethod<
     ValidationException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLandingZones",
@@ -1316,6 +1341,7 @@ export const listTagsForResource: API.OperationMethod<
     ValidationException,
     BadRequestException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -1354,6 +1380,7 @@ export const resetEnabledBaseline: API.OperationMethod<
     ValidationException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetEnabledBaseline",
@@ -1390,6 +1417,7 @@ export const resetEnabledControl: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetEnabledControl",
@@ -1426,6 +1454,7 @@ export const resetLandingZone: API.OperationMethod<
     ValidationException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetLandingZone",
@@ -1456,6 +1485,7 @@ export const tagResource: API.OperationMethod<
     ValidationException,
     BadRequestException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -1486,6 +1516,7 @@ export const untagResource: API.OperationMethod<
     ValidationException,
     BadRequestException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -1524,6 +1555,7 @@ export const updateEnabledBaseline: API.OperationMethod<
     ValidationException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnabledBaseline",
@@ -1566,6 +1598,7 @@ export const updateEnabledControl: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnabledControl",
@@ -1602,6 +1635,7 @@ export const updateLandingZone: API.OperationMethod<
     ValidationException,
     UnauthorizedException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLandingZone",
@@ -1850,9 +1884,12 @@ function __c14(j: number): any {
 function __c15(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ inheritance: S.optional(__S(104, __c13, 0)) })).annotate({
-        identifier: "EnabledBaselineDriftTypes",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          inheritance: S.optional(__S(104, __c13, 0)),
+          source: S.optional(__S(104, __c13, 0)),
+        }),
+      ).annotate({ identifier: "EnabledBaselineDriftTypes" });
     case 1:
       return S.suspend(() => S.Struct({ types: S.optional(__S(120, __c15, 0)) })).annotate({
         identifier: "EnabledBaselineDriftStatusSummary",
@@ -2037,6 +2074,7 @@ function __c23(j: number): any {
           parentIdentifiers: S.optional(__S(176, __c22, 0)),
           statuses: S.optional(__S(320, __c40, 0)),
           inheritanceDriftStatuses: S.optional(__S(320, __c40, 0)),
+          sourceDriftStatuses: S.optional(__S(320, __c40, 0)),
         }),
       ).annotate({ identifier: "EnabledBaselineFilter" });
     case 1:

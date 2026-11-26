@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownOvhError } from "../errors.ts";
+import { OvhServiceErrors } from "../errors.ts";
 import { OvhProtocol, type OvhOpError, type OvhOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -59,7 +59,7 @@ export interface ConfirmHostingWebTerminationRequest {
   /** All reasons you can provide for a service termination */
   reason?: ServiceTerminationReasonEnum | (string & {}) | undefined;
   /** The termination token sent by email to the admin contact */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export type ConfirmHostingWebTerminationResponse = string;
 export interface CopyHostingWebDatabaseRequest {
@@ -698,7 +698,7 @@ export interface CreateHostingWebEnvVarRequest {
   /** Type of variable set */
   type: HostingWebEnvVarTypeEnum | (string & {});
   /** Value of the variable */
-  value: string;
+  value: string | Redacted.Redacted<string>;
 }
 export interface CreateHostingWebExtraSqlPersoServiceInfosUpdateRequest {
   /** The internal name of your hosting */
@@ -756,7 +756,7 @@ export interface HostingWebLocalSeoSearchData {
   /** Street numero of the location */
   streetNo?: string | undefined;
   /** Token to use to get the results of the search */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** Zipcode of the location */
   zip?: string | undefined;
 }
@@ -1369,7 +1369,7 @@ export interface HostingWebServiceWithIAM {
   /** State of your hosting */
   state?: HostingWebStateEnum | undefined;
   /** Use to link an external domain. ( This token has to be insert into a TXT field on your dns zone with ovhcontrol subdomain ) */
-  token?: string | null | undefined;
+  token?: string | Redacted.Redacted<string> | null | undefined;
   /** Traffic quota allowed ( null = unlimited ) */
   trafficQuotaSize?: ComplexTypeUnitAndValueDouble | null | undefined;
   /** Traffic quota used */
@@ -1961,7 +1961,7 @@ export interface HostingWebEnvVar {
   /** Type of variable set */
   type?: HostingWebEnvVarTypeEnum | undefined;
   /** Value of the variable */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
 }
 export interface GetHostingWebExtraSqlPersoRequest {
   /** The internal name of your hosting */
@@ -2113,7 +2113,7 @@ export interface HostingWebMetricsToken {
   /** Token expiration date */
   expiry?: string | undefined;
   /** Generated token */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface GetHostingWebModuleRequest {
   /** The internal name of your hosting */
@@ -3081,7 +3081,7 @@ export interface ListHostingWebLocalSeoVisibilityCheckResultRequest {
   /** Id of the check */
   id: number;
   /** Token received when requesting the check */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 /** Sync status of a location field */
 export type HostingWebLocalSeoFieldStatusEnum =
@@ -3480,7 +3480,7 @@ export interface PutHostingWebEnvVarRequest {
   /** Key */
   key: string;
   /** Value of the variable */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
 }
 export interface PutHostingWebOwnLogUserLogRequest {
   /** The internal name of your hosting */
@@ -3619,7 +3619,8 @@ export const confirmHostingWebTermination: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ConfirmHostingWebTerminationRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ConfirmHostingWebTerminationResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3636,7 +3637,8 @@ export const copyHostingWebDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<CopyHostingWebDatabaseRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<HostingWebDatabaseCopy>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3653,7 +3655,8 @@ export const copyHostingWebDatabaseRestore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c92, 0) as any as S.Schema<CopyHostingWebDatabaseRestoreRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<HostingWebTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3670,7 +3673,8 @@ export const createHostingWebAttachedDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c104, 0) as any as S.Schema<CreateHostingWebAttachedDomainRequest>,
   output: __S(1680, __c105, 0) as any as S.Schema<HostingWebPublicTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3687,7 +3691,8 @@ export const createHostingWebAttachedDomainSsl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c116, 0) as any as S.Schema<CreateHostingWebAttachedDomainSslRequest>,
   output: __S(1872, __c117, 0) as any as S.Schema<HostingWebSSL>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3704,7 +3709,8 @@ export const createHostingWebCdnDomainOption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2064, __c129, 0) as any as S.Schema<CreateHostingWebCdnDomainOptionRequest>,
   output: __S(2098, __c131, 2) as any as S.Schema<CdnDomainOption>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3721,7 +3727,8 @@ export const createHostingWebCdnServiceInfosUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2320, __c145, 0) as any as S.Schema<CreateHostingWebCdnServiceInfosUpdateRequest>,
   output: __S(2336, __c146, 0) as any as S.Schema<CreateHostingWebCdnServiceInfosUpdateResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3738,7 +3745,8 @@ export const createHostingWebChangeContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c158, 0) as any as S.Schema<CreateHostingWebChangeContactRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<CreateHostingWebChangeContactResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3755,7 +3763,8 @@ export const createHostingWebCron: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c172, 0) as any as S.Schema<CreateHostingWebCronRequest>,
   output: __S(1680, __c105, 0) as any as S.Schema<HostingWebPublicTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3772,7 +3781,8 @@ export const createHostingWebDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2960, __c185, 0) as any as S.Schema<CreateHostingWebDatabaseRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<HostingWebTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3789,7 +3799,8 @@ export const createHostingWebDatabaseChangePassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<CreateHostingWebDatabaseChangePasswordRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<HostingWebTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3806,7 +3817,8 @@ export const createHostingWebDatabaseDump: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<CreateHostingWebDatabaseDumpRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<HostingWebTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3823,7 +3835,8 @@ export const createHostingWebDatabaseRequest2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<CreateHostingWebDatabaseRequestRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<HostingWebTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3840,7 +3853,8 @@ export const createHostingWebEmailRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<CreateHostingWebEmailRequestRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CreateHostingWebEmailRequestResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3856,7 +3870,8 @@ export const createHostingWebEnvVar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(816, __c51, 0) as any as S.Schema<CreateHostingWebEnvVarRequest>,
   output: __S(1680, __c105, 0) as any as S.Schema<HostingWebPublicTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3881,7 +3896,8 @@ export const createHostingWebExtraSqlPersoServiceInfosUpdate: API.OperationMetho
     __c146,
     0,
   ) as any as S.Schema<CreateHostingWebExtraSqlPersoServiceInfosUpdateResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3898,7 +3914,8 @@ export const createHostingWebKeySsh: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1168, __c73, 0) as any as S.Schema<CreateHostingWebKeySshRequest>,
   output: __S(1184, __c74, 0) as any as S.Schema<HostingWebKey>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3923,7 +3940,8 @@ export const createHostingWebLocalSeoLocationServiceInfosUpdate: API.OperationMe
     __c146,
     0,
   ) as any as S.Schema<CreateHostingWebLocalSeoLocationServiceInfosUpdateResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3940,7 +3958,8 @@ export const createHostingWebLocalSeoVisibilityCheck: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1424, __c89, 0) as any as S.Schema<CreateHostingWebLocalSeoVisibilityCheckRequest>,
   output: __S(1426, __c89, 2) as any as S.Schema<HostingWebLocalSeoVisibilityCheckResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3957,7 +3976,8 @@ export const createHostingWebModule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c90, 0) as any as S.Schema<CreateHostingWebModuleRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<HostingWebTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3974,7 +3994,8 @@ export const createHostingWebModuleUpgrade: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c94, 0) as any as S.Schema<CreateHostingWebModuleUpgradeRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<HostingWebTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3995,7 +4016,8 @@ export const createHostingWebOvhConfigChangeConfiguration: API.OperationMethod<
     0,
   ) as any as S.Schema<CreateHostingWebOvhConfigChangeConfigurationRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<HostingWebTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4012,7 +4034,8 @@ export const createHostingWebOvhConfigRefresh: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c96, 0) as any as S.Schema<CreateHostingWebOvhConfigRefreshRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<HostingWebTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4029,7 +4052,8 @@ export const createHostingWebOvhConfigRollback: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1552, __c97, 0) as any as S.Schema<CreateHostingWebOvhConfigRollbackRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<HostingWebTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4046,7 +4070,8 @@ export const createHostingWebOwnLogUserLog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c98, 0) as any as S.Schema<CreateHostingWebOwnLogUserLogRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CreateHostingWebOwnLogUserLogResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4063,7 +4088,8 @@ export const createHostingWebOwnLogUserLogChangePassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1584, __c99, 0) as any as S.Schema<CreateHostingWebOwnLogUserLogChangePasswordRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<CreateHostingWebOwnLogUserLogChangePasswordResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4080,7 +4106,8 @@ export const createHostingWebRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c100, 0) as any as S.Schema<CreateHostingWebRequestRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<HostingWebTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4097,7 +4124,8 @@ export const createHostingWebRequestBoost: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1616, __c101, 0) as any as S.Schema<CreateHostingWebRequestBoostRequest>,
   output: __S(1680, __c105, 0) as any as S.Schema<HostingWebPublicTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4114,7 +4142,8 @@ export const createHostingWebRuntime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c102, 0) as any as S.Schema<CreateHostingWebRuntimeRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<HostingWebTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4131,7 +4160,8 @@ export const createHostingWebUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1648, __c103, 0) as any as S.Schema<CreateHostingWebUserRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<HostingWebTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4148,7 +4178,8 @@ export const createHostingWebUserChangePassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c106, 0) as any as S.Schema<CreateHostingWebUserChangePasswordRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<HostingWebTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4165,7 +4196,8 @@ export const createHostingWebWebsite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1712, __c107, 0) as any as S.Schema<CreateHostingWebWebsiteRequest>,
   output: __S(1680, __c105, 0) as any as S.Schema<HostingWebPublicTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4182,7 +4214,8 @@ export const deleteHostingWebAttachedDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c108, 0) as any as S.Schema<DeleteHostingWebAttachedDomainRequest>,
   output: __S(1680, __c105, 0) as any as S.Schema<HostingWebPublicTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4199,7 +4232,8 @@ export const deleteHostingWebAttachedDomainSsl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1744, __c109, 0) as any as S.Schema<DeleteHostingWebAttachedDomainSslRequest>,
   output: __S(1872, __c117, 0) as any as S.Schema<HostingWebSSL>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4216,7 +4250,8 @@ export const deleteHostingWebCdnDomainOption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c110, 0) as any as S.Schema<DeleteHostingWebCdnDomainOptionRequest>,
   output: __S(2336, __c146, 0) as any as S.Schema<DeleteHostingWebCdnDomainOptionResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4233,7 +4268,8 @@ export const deleteHostingWebCron: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1776, __c111, 0) as any as S.Schema<DeleteHostingWebCronRequest>,
   output: __S(1680, __c105, 0) as any as S.Schema<HostingWebPublicTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4250,7 +4286,8 @@ export const deleteHostingWebDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c112, 0) as any as S.Schema<DeleteHostingWebDatabaseRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<HostingWebTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4267,7 +4304,8 @@ export const deleteHostingWebDatabaseCopy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1808, __c113, 0) as any as S.Schema<DeleteHostingWebDatabaseCopyRequest>,
   output: __S(2336, __c146, 0) as any as S.Schema<DeleteHostingWebDatabaseCopyResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4284,7 +4322,8 @@ export const deleteHostingWebDatabaseDump: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c114, 0) as any as S.Schema<DeleteHostingWebDatabaseDumpRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<HostingWebTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4301,7 +4340,8 @@ export const deleteHostingWebDump: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1840, __c115, 0) as any as S.Schema<DeleteHostingWebDumpRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<HostingWebTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4317,7 +4357,8 @@ export const deleteHostingWebEnvVar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c118, 0) as any as S.Schema<DeleteHostingWebEnvVarRequest>,
   output: __S(1680, __c105, 0) as any as S.Schema<HostingWebPublicTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4334,7 +4375,8 @@ export const deleteHostingWebModule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1904, __c119, 0) as any as S.Schema<DeleteHostingWebModuleRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<HostingWebTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4351,7 +4393,8 @@ export const deleteHostingWebOwnLogUserLog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c120, 0) as any as S.Schema<DeleteHostingWebOwnLogUserLogRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteHostingWebOwnLogUserLogResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4368,7 +4411,8 @@ export const deleteHostingWebRuntime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1936, __c121, 0) as any as S.Schema<DeleteHostingWebRuntimeRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<HostingWebTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4385,7 +4429,8 @@ export const deleteHostingWebUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c122, 0) as any as S.Schema<DeleteHostingWebUserRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<HostingWebTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4402,7 +4447,8 @@ export const deleteHostingWebWebsite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1968, __c123, 0) as any as S.Schema<DeleteHostingWebWebsiteRequest>,
   output: __S(1680, __c105, 0) as any as S.Schema<HostingWebPublicTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4419,7 +4465,8 @@ export const deployHostingWebWebsite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c124, 0) as any as S.Schema<DeployHostingWebWebsiteRequest>,
   output: __S(1680, __c105, 0) as any as S.Schema<HostingWebPublicTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4436,7 +4483,8 @@ export const getHostingWeb: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2000, __c125, 0) as any as S.Schema<GetHostingWebRequest>,
   output: __S(2012, __c125, 12) as any as S.Schema<HostingWebServiceWithIAM>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4453,7 +4501,8 @@ export const getHostingWebAttachedDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2032, __c127, 0) as any as S.Schema<GetHostingWebAttachedDomainRequest>,
   output: __S(2035, __c127, 3) as any as S.Schema<HostingWebAttachedDomainPublicAttachedDomain>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4470,7 +4519,8 @@ export const getHostingWebAttachedDomainDigStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c128, 0) as any as S.Schema<GetHostingWebAttachedDomainDigStatusRequest>,
   output: __S(2052, __c128, 4) as any as S.Schema<HostingWebAttachedDomainDigStatus>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4487,7 +4537,8 @@ export const getHostingWebAttachedDomainSsl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c132, 0) as any as S.Schema<GetHostingWebAttachedDomainSslRequest>,
   output: __S(1872, __c117, 0) as any as S.Schema<HostingWebSSL>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4504,7 +4555,8 @@ export const getHostingWebBoostHistory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2128, __c133, 0) as any as S.Schema<GetHostingWebBoostHistoryRequest>,
   output: __S(2129, __c133, 1) as any as S.Schema<HostingWebBoostHistory>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4521,7 +4573,8 @@ export const getHostingWebCdn: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c134, 0) as any as S.Schema<GetHostingWebCdnRequest>,
   output: __S(2145, __c134, 1) as any as S.Schema<HostingWebCDN>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4538,7 +4591,8 @@ export const getHostingWebCdnDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2160, __c135, 0) as any as S.Schema<GetHostingWebCdnDomainRequest>,
   output: __S(2176, __c136, 0) as any as S.Schema<CdnDomain>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4555,7 +4609,8 @@ export const getHostingWebCdnDomainLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2192, __c137, 0) as any as S.Schema<GetHostingWebCdnDomainLogsRequest>,
   output: __S(2193, __c137, 1) as any as S.Schema<CdnLogs>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4572,7 +4627,8 @@ export const getHostingWebCdnDomainOption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c138, 0) as any as S.Schema<GetHostingWebCdnDomainOptionRequest>,
   output: __S(2098, __c131, 2) as any as S.Schema<CdnDomainOption>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4589,7 +4645,8 @@ export const getHostingWebCdnOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2224, __c139, 0) as any as S.Schema<GetHostingWebCdnOperationRequest>,
   output: __S(2241, __c140, 1) as any as S.Schema<CdnOperation>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4606,7 +4663,8 @@ export const getHostingWebCdnServiceInfos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2256, __c141, 0) as any as S.Schema<GetHostingWebCdnServiceInfosRequest>,
   output: __S(2272, __c142, 0) as any as S.Schema<ServicesService>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4623,7 +4681,8 @@ export const getHostingWebConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2288, __c143, 0) as any as S.Schema<GetHostingWebConfigurationRequest>,
   output: __S(2289, __c143, 1) as any as S.Schema<HostingWebConfiguration>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4640,7 +4699,8 @@ export const getHostingWebCron: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c144, 0) as any as S.Schema<GetHostingWebCronRequest>,
   output: __S(2305, __c144, 1) as any as S.Schema<HostingWebCron>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4657,7 +4717,8 @@ export const getHostingWebDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c148, 0) as any as S.Schema<GetHostingWebDatabaseRequest>,
   output: __S(2369, __c148, 1) as any as S.Schema<HostingWebDatabase>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4674,7 +4735,8 @@ export const getHostingWebDatabaseCapabilities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2384, __c149, 0) as any as S.Schema<GetHostingWebDatabaseCapabilitiesRequest>,
   output: __S(2385, __c149, 1) as any as S.Schema<HostingWebDatabaseDatabaseCapabilities>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4691,7 +4753,8 @@ export const getHostingWebDatabaseCopy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c150, 0) as any as S.Schema<GetHostingWebDatabaseCopyRequest>,
   output: __S(48, __c3, 0) as any as S.Schema<HostingWebDatabaseCopy>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4708,7 +4771,8 @@ export const getHostingWebDatabaseDump: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2416, __c151, 0) as any as S.Schema<GetHostingWebDatabaseDumpRequest>,
   output: __S(2417, __c151, 1) as any as S.Schema<HostingWebDatabaseDump>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4725,7 +4789,8 @@ export const getHostingWebDump: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c152, 0) as any as S.Schema<GetHostingWebDumpRequest>,
   output: __S(2433, __c152, 1) as any as S.Schema<HostingWebDump>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4742,7 +4807,8 @@ export const getHostingWebEmail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2448, __c153, 0) as any as S.Schema<GetHostingWebEmailRequest>,
   output: __S(2449, __c153, 1) as any as S.Schema<HostingWebEmail>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4759,7 +4825,8 @@ export const getHostingWebEmailOption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c154, 0) as any as S.Schema<GetHostingWebEmailOptionRequest>,
   output: __S(2465, __c154, 1) as any as S.Schema<HostingWebEmailoption>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4776,7 +4843,8 @@ export const getHostingWebEmailOptionServiceInfos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2480, __c155, 0) as any as S.Schema<GetHostingWebEmailOptionServiceInfosRequest>,
   output: __S(2272, __c142, 0) as any as S.Schema<ServicesService>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4792,7 +4860,8 @@ export const getHostingWebEnvVar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c156, 0) as any as S.Schema<GetHostingWebEnvVarRequest>,
   output: __S(2497, __c156, 1) as any as S.Schema<HostingWebEnvVar>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4809,7 +4878,8 @@ export const getHostingWebExtraSqlPerso: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2512, __c157, 0) as any as S.Schema<GetHostingWebExtraSqlPersoRequest>,
   output: __S(2513, __c157, 1) as any as S.Schema<HostingWebExtrasqlperso>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4826,7 +4896,8 @@ export const getHostingWebExtraSqlPersoServiceInfos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2576, __c161, 0) as any as S.Schema<GetHostingWebExtraSqlPersoServiceInfosRequest>,
   output: __S(2272, __c142, 0) as any as S.Schema<ServicesService>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4843,7 +4914,8 @@ export const getHostingWebIndy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c162, 0) as any as S.Schema<GetHostingWebIndyRequest>,
   output: __S(2593, __c162, 1) as any as S.Schema<HostingWebIndy>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4860,7 +4932,8 @@ export const getHostingWebKeySsh: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2608, __c163, 0) as any as S.Schema<GetHostingWebKeySshRequest>,
   output: __S(1184, __c74, 0) as any as S.Schema<HostingWebKey>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4877,7 +4950,8 @@ export const getHostingWebLocalSeoAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c164, 0) as any as S.Schema<GetHostingWebLocalSeoAccountRequest>,
   output: __S(2625, __c164, 1) as any as S.Schema<HostingWebLocalSeoAccount>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4894,7 +4968,8 @@ export const getHostingWebLocalSeoEmailAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2640, __c165, 0) as any as S.Schema<GetHostingWebLocalSeoEmailAvailabilityRequest>,
   output: __S(2656, __c166, 0) as any as S.Schema<HostingWebLocalSeoEmailAvailability>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4911,7 +4986,8 @@ export const getHostingWebLocalSeoEmailAvailability2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2672, __c167, 0) as any as S.Schema<GetHostingWebLocalSeoEmailAvailabilityRequest2>,
   output: __S(2656, __c166, 0) as any as S.Schema<HostingWebLocalSeoEmailAvailability>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4928,7 +5004,8 @@ export const getHostingWebLocalSeoLocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c168, 0) as any as S.Schema<GetHostingWebLocalSeoLocationRequest>,
   output: __S(2689, __c168, 1) as any as S.Schema<HostingWebLocalSeoLocation>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4945,7 +5022,8 @@ export const getHostingWebLocalSeoLocationServiceInfos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2704, __c169, 0) as any as S.Schema<GetHostingWebLocalSeoLocationServiceInfosRequest>,
   output: __S(2272, __c142, 0) as any as S.Schema<ServicesService>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4962,7 +5040,8 @@ export const getHostingWebMetricsToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c170, 0) as any as S.Schema<GetHostingWebMetricsTokenRequest>,
   output: __S(2721, __c170, 1) as any as S.Schema<HostingWebMetricsToken>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4979,7 +5058,8 @@ export const getHostingWebModule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2736, __c171, 0) as any as S.Schema<GetHostingWebModuleRequest>,
   output: __S(2737, __c171, 1) as any as S.Schema<HostingWebModule>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4996,7 +5076,8 @@ export const getHostingWebModuleList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2768, __c173, 0) as any as S.Schema<GetHostingWebModuleListRequest>,
   output: __S(2770, __c173, 2) as any as S.Schema<HostingWebModuleList>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5013,7 +5094,8 @@ export const getHostingWebOfferCapabilities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2800, __c175, 0) as any as S.Schema<GetHostingWebOfferCapabilitiesRequest>,
   output: __S(2804, __c175, 4) as any as S.Schema<HostingWebCapabilities>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5030,7 +5112,8 @@ export const getHostingWebOvhConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2832, __c177, 0) as any as S.Schema<GetHostingWebOvhConfigRequest>,
   output: __S(2833, __c177, 1) as any as S.Schema<HostingWebOvhConfig>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5047,7 +5130,8 @@ export const getHostingWebOvhConfigRecommendedValues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c178, 0) as any as S.Schema<GetHostingWebOvhConfigRecommendedValuesRequest>,
   output: __S(2849, __c178, 1) as any as S.Schema<HostingWebOvhConfigRecommendedValues>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5064,7 +5148,8 @@ export const getHostingWebOwnLog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2864, __c179, 0) as any as S.Schema<GetHostingWebOwnLogRequest>,
   output: __S(2865, __c179, 1) as any as S.Schema<HostingWebOwnLogs>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5081,7 +5166,8 @@ export const getHostingWebOwnLogUserLog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2880, __c180, 0) as any as S.Schema<GetHostingWebOwnLogUserLogRequest>,
   output: __S(2881, __c180, 1) as any as S.Schema<HostingWebUserLogs>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5098,7 +5184,8 @@ export const getHostingWebRuntime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2896, __c181, 0) as any as S.Schema<GetHostingWebRuntimeRequest>,
   output: __S(2897, __c181, 1) as any as S.Schema<HostingWebRuntime>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5115,7 +5202,8 @@ export const getHostingWebServiceInfos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c182, 0) as any as S.Schema<GetHostingWebServiceInfosRequest>,
   output: __S(2272, __c142, 0) as any as S.Schema<ServicesService>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5132,7 +5220,8 @@ export const getHostingWebTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2928, __c183, 0) as any as S.Schema<GetHostingWebTaskRequest>,
   output: __S(1680, __c105, 0) as any as S.Schema<HostingWebPublicTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5149,7 +5238,8 @@ export const getHostingWebToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c184, 0) as any as S.Schema<GetHostingWebTokenRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<GetHostingWebTokenResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5166,7 +5256,8 @@ export const getHostingWebUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c186, 0) as any as S.Schema<GetHostingWebUserRequest>,
   output: __S(2979, __c186, 3) as any as S.Schema<HostingWebUser>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5183,7 +5274,8 @@ export const getHostingWebUserLogsToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2992, __c187, 0) as any as S.Schema<GetHostingWebUserLogsTokenRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<GetHostingWebUserLogsTokenResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5200,7 +5292,8 @@ export const getHostingWebVcsWebhooks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c188, 0) as any as S.Schema<GetHostingWebVcsWebhooksRequest>,
   output: __S(3009, __c188, 1) as any as S.Schema<HostingWebVcsWebhooks>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5217,7 +5310,8 @@ export const getHostingWebWebsite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3024, __c189, 0) as any as S.Schema<GetHostingWebWebsiteRequest>,
   output: __S(3042, __c190, 2) as any as S.Schema<HostingWebWebsite>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5234,7 +5328,8 @@ export const getHostingWebWebsiteCreationCapabilities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3056, __c191, 0) as any as S.Schema<GetHostingWebWebsiteCreationCapabilitiesRequest>,
   output: __S(3057, __c191, 1) as any as S.Schema<HostingWebWebsiteCreationCapabilities>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5251,7 +5346,8 @@ export const getHostingWebWebsiteDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c192, 0) as any as S.Schema<GetHostingWebWebsiteDeploymentRequest>,
   output: __S(3073, __c192, 1) as any as S.Schema<HostingWebWebsiteDeployment>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5268,7 +5364,8 @@ export const importHostingWebDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3088, __c193, 0) as any as S.Schema<ImportHostingWebDatabaseRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<HostingWebTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5285,7 +5382,8 @@ export const listHostingWeb: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3106, __c194, 2) as any as S.Schema<ListHostingWebRequest>,
   output: __S(3120, __c195, 0) as any as S.Schema<ListHostingWebResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5302,7 +5400,8 @@ export const listHostingWebAttachedDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3136, __c196, 0) as any as S.Schema<ListHostingWebAttachedDomainRequest>,
   output: __S(3120, __c195, 0) as any as S.Schema<ListHostingWebAttachedDomainResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5319,7 +5418,8 @@ export const listHostingWebAttachedDomain2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3152, __c197, 0) as any as S.Schema<ListHostingWebAttachedDomainRequest2>,
   output: __S(3120, __c195, 0) as any as S.Schema<ListHostingWebAttachedDomainResponse2>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5336,7 +5436,8 @@ export const listHostingWebAvailableConfigurations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<ListHostingWebAvailableConfigurationsRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<ListHostingWebAvailableConfigurationsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5353,7 +5454,8 @@ export const listHostingWebAvailableOffer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<ListHostingWebAvailableOfferRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<ListHostingWebAvailableOfferResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5370,7 +5472,8 @@ export const listHostingWebBoostHistory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<ListHostingWebBoostHistoryRequest>,
   output: __S(3120, __c195, 0) as any as S.Schema<ListHostingWebBoostHistoryResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5387,7 +5490,8 @@ export const listHostingWebCdnAvailableOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<ListHostingWebCdnAvailableOptionsRequest>,
   output: __S(149, __c9, 5) as any as S.Schema<ListHostingWebCdnAvailableOptionsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5404,7 +5508,8 @@ export const listHostingWebCdnDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<ListHostingWebCdnDomainRequest>,
   output: __S(162, __c10, 2) as any as S.Schema<ListHostingWebCdnDomainResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5421,7 +5526,8 @@ export const listHostingWebCdnDomainOption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<ListHostingWebCdnDomainOptionRequest>,
   output: __S(178, __c11, 2) as any as S.Schema<ListHostingWebCdnDomainOptionResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5438,7 +5544,8 @@ export const listHostingWebCdnOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<ListHostingWebCdnOperationRequest>,
   output: __S(194, __c12, 2) as any as S.Schema<ListHostingWebCdnOperationResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5455,7 +5562,8 @@ export const listHostingWebCron: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<ListHostingWebCronRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<ListHostingWebCronResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5472,7 +5580,8 @@ export const listHostingWebCronAvailableLanguage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<ListHostingWebCronAvailableLanguageRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<ListHostingWebCronAvailableLanguageResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5489,7 +5598,8 @@ export const listHostingWebDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<ListHostingWebDatabaseRequest>,
   output: __S(3120, __c195, 0) as any as S.Schema<ListHostingWebDatabaseResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5506,7 +5616,8 @@ export const listHostingWebDatabaseAvailableType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<ListHostingWebDatabaseAvailableTypeRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<ListHostingWebDatabaseAvailableTypeResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5523,7 +5634,8 @@ export const listHostingWebDatabaseAvailableVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<ListHostingWebDatabaseAvailableVersionRequest>,
   output: __S(289, __c18, 1) as any as S.Schema<HostingWebDatabaseAvailableVersionStruct>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5540,7 +5652,8 @@ export const listHostingWebDatabaseCopy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<ListHostingWebDatabaseCopyRequest>,
   output: __S(3120, __c195, 0) as any as S.Schema<ListHostingWebDatabaseCopyResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5557,7 +5670,8 @@ export const listHostingWebDatabaseCreationCapabilities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<ListHostingWebDatabaseCreationCapabilitiesRequest>,
   output: __S(336, __c21, 0) as any as S.Schema<ListHostingWebDatabaseCreationCapabilitiesResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5574,7 +5688,8 @@ export const listHostingWebDatabaseDump: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<ListHostingWebDatabaseDumpRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<ListHostingWebDatabaseDumpResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5591,7 +5706,8 @@ export const listHostingWebDatabaseStatistics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<ListHostingWebDatabaseStatisticsRequest>,
   output: __S(388, __c24, 4) as any as S.Schema<ListHostingWebDatabaseStatisticsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5608,7 +5724,8 @@ export const listHostingWebDump: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<ListHostingWebDumpRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<ListHostingWebDumpResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5625,7 +5742,8 @@ export const listHostingWebEmailBounces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<ListHostingWebEmailBouncesRequest>,
   output: __S(419, __c26, 3) as any as S.Schema<ListHostingWebEmailBouncesResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5642,7 +5760,8 @@ export const listHostingWebEmailOption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<ListHostingWebEmailOptionRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<ListHostingWebEmailOptionResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5659,7 +5778,8 @@ export const listHostingWebEmailVolumes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<ListHostingWebEmailVolumesRequest>,
   output: __S(451, __c28, 3) as any as S.Schema<ListHostingWebEmailVolumesResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5675,7 +5795,8 @@ export const listHostingWebEnvVar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<ListHostingWebEnvVarRequest>,
   output: __S(3120, __c195, 0) as any as S.Schema<ListHostingWebEnvVarResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5692,7 +5813,8 @@ export const listHostingWebExtraSqlPerso: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<ListHostingWebExtraSqlPersoRequest>,
   output: __S(3120, __c195, 0) as any as S.Schema<ListHostingWebExtraSqlPersoResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5709,7 +5831,8 @@ export const listHostingWebExtraSqlPersoDatabases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<ListHostingWebExtraSqlPersoDatabasesRequest>,
   output: __S(3120, __c195, 0) as any as S.Schema<ListHostingWebExtraSqlPersoDatabasesResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5726,7 +5849,8 @@ export const listHostingWebFreedom: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<ListHostingWebFreedomRequest>,
   output: __S(3120, __c195, 0) as any as S.Schema<ListHostingWebFreedomResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5743,7 +5867,8 @@ export const listHostingWebIncident: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<ListHostingWebIncidentRequest>,
   output: __S(3120, __c195, 0) as any as S.Schema<ListHostingWebIncidentResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5760,7 +5885,8 @@ export const listHostingWebIndy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<ListHostingWebIndyRequest>,
   output: __S(3120, __c195, 0) as any as S.Schema<ListHostingWebIndyResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5777,7 +5903,8 @@ export const listHostingWebLocalSeoAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<ListHostingWebLocalSeoAccountRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<ListHostingWebLocalSeoAccountResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5794,7 +5921,8 @@ export const listHostingWebLocalSeoDirectoriesList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<ListHostingWebLocalSeoDirectoriesListRequest>,
   output: __S(595, __c37, 3) as any as S.Schema<HostingWebLocalSeoDirectoriesList>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5811,7 +5939,8 @@ export const listHostingWebLocalSeoLocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<ListHostingWebLocalSeoLocationRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<ListHostingWebLocalSeoLocationResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5832,7 +5961,8 @@ export const listHostingWebLocalSeoVisibilityCheckResult: API.OperationMethod<
     __c39,
     3,
   ) as any as S.Schema<ListHostingWebLocalSeoVisibilityCheckResultResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5849,7 +5979,8 @@ export const listHostingWebModule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<ListHostingWebModuleRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<ListHostingWebModuleResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5866,7 +5997,8 @@ export const listHostingWebModuleList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<ListHostingWebModuleListRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<ListHostingWebModuleListResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5883,7 +6015,8 @@ export const listHostingWebOvhConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<ListHostingWebOvhConfigRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<ListHostingWebOvhConfigResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5900,7 +6033,8 @@ export const listHostingWebOvhConfigCapabilities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<ListHostingWebOvhConfigCapabilitiesRequest>,
   output: __S(707, __c44, 3) as any as S.Schema<ListHostingWebOvhConfigCapabilitiesResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5917,7 +6051,8 @@ export const listHostingWebOwnLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<ListHostingWebOwnLogsRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<ListHostingWebOwnLogsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5934,7 +6069,8 @@ export const listHostingWebOwnLogUserLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<ListHostingWebOwnLogUserLogsRequest>,
   output: __S(3120, __c195, 0) as any as S.Schema<ListHostingWebOwnLogUserLogsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5959,7 +6095,8 @@ export const listHostingWebPrivateDatabaseCreationCapabilities: API.OperationMet
     __c21,
     0,
   ) as any as S.Schema<ListHostingWebPrivateDatabaseCreationCapabilitiesResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5976,7 +6113,8 @@ export const listHostingWebPrivateDatabases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<ListHostingWebPrivateDatabasesRequest>,
   output: __S(3120, __c195, 0) as any as S.Schema<ListHostingWebPrivateDatabasesResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5993,7 +6131,8 @@ export const listHostingWebRuntime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<ListHostingWebRuntimeRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<ListHostingWebRuntimeResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6010,7 +6149,8 @@ export const listHostingWebRuntimeAttachedDomains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c50, 0) as any as S.Schema<ListHostingWebRuntimeAttachedDomainsRequest>,
   output: __S(3120, __c195, 0) as any as S.Schema<ListHostingWebRuntimeAttachedDomainsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6027,7 +6167,8 @@ export const listHostingWebRuntimeAvailableTypes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<ListHostingWebRuntimeAvailableTypesRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<ListHostingWebRuntimeAvailableTypesResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6044,7 +6185,8 @@ export const listHostingWebStatistics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<ListHostingWebStatisticsRequest>,
   output: __S(388, __c24, 4) as any as S.Schema<ListHostingWebStatisticsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6061,7 +6203,8 @@ export const listHostingWebTasks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<ListHostingWebTasksRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<ListHostingWebTasksResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6078,7 +6221,8 @@ export const listHostingWebUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(880, __c55, 0) as any as S.Schema<ListHostingWebUserRequest>,
   output: __S(3120, __c195, 0) as any as S.Schema<ListHostingWebUserResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6095,7 +6239,8 @@ export const listHostingWebVcsSupported: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c56, 0) as any as S.Schema<ListHostingWebVcsSupportedRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<ListHostingWebVcsSupportedResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6112,7 +6257,8 @@ export const listHostingWebWebsite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<ListHostingWebWebsiteRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<ListHostingWebWebsiteResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6129,7 +6275,8 @@ export const listHostingWebWebsiteDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<ListHostingWebWebsiteDeploymentRequest>,
   output: __S(2544, __c159, 0) as any as S.Schema<ListHostingWebWebsiteDeploymentResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6146,7 +6293,8 @@ export const listHostingWebWebsiteDeploymentLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<ListHostingWebWebsiteDeploymentLogsRequest>,
   output: __S(947, __c59, 3) as any as S.Schema<ListHostingWebWebsiteDeploymentLogsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6163,7 +6311,8 @@ export const loginHostingWebLocalSeoAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<LoginHostingWebLocalSeoAccountRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<LoginHostingWebLocalSeoAccountResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6180,7 +6329,8 @@ export const purgeHostingWebAttachedDomainCache: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<PurgeHostingWebAttachedDomainCacheRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<HostingWebTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6197,7 +6347,8 @@ export const purgeHostingWebCdnDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<PurgeHostingWebCdnDomainRequest>,
   output: __S(2241, __c140, 1) as any as S.Schema<CdnOperation>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6214,7 +6365,8 @@ export const putHostingWeb: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c64, 0) as any as S.Schema<PutHostingWebRequest>,
   output: __S(2336, __c146, 0) as any as S.Schema<PutHostingWebResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6231,7 +6383,8 @@ export const putHostingWebAttachedDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1040, __c65, 0) as any as S.Schema<PutHostingWebAttachedDomainRequest>,
   output: __S(2336, __c146, 0) as any as S.Schema<PutHostingWebAttachedDomainResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6248,7 +6401,8 @@ export const putHostingWebCdnDomainOption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c66, 0) as any as S.Schema<PutHostingWebCdnDomainOptionRequest>,
   output: __S(2098, __c131, 2) as any as S.Schema<CdnDomainOption>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6265,7 +6419,8 @@ export const putHostingWebConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1072, __c67, 0) as any as S.Schema<PutHostingWebConfigurationRequest>,
   output: __S(2336, __c146, 0) as any as S.Schema<PutHostingWebConfigurationResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6282,7 +6437,8 @@ export const putHostingWebCron: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c68, 0) as any as S.Schema<PutHostingWebCronRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<PutHostingWebCronResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6299,7 +6455,8 @@ export const putHostingWebEmail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1104, __c69, 0) as any as S.Schema<PutHostingWebEmailRequest>,
   output: __S(2336, __c146, 0) as any as S.Schema<PutHostingWebEmailResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6315,7 +6472,8 @@ export const putHostingWebEnvVar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c70, 0) as any as S.Schema<PutHostingWebEnvVarRequest>,
   output: __S(1680, __c105, 0) as any as S.Schema<HostingWebPublicTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6332,7 +6490,8 @@ export const putHostingWebOwnLogUserLog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1136, __c71, 0) as any as S.Schema<PutHostingWebOwnLogUserLogRequest>,
   output: __S(2336, __c146, 0) as any as S.Schema<PutHostingWebOwnLogUserLogResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6349,7 +6508,8 @@ export const putHostingWebRuntime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c72, 0) as any as S.Schema<PutHostingWebRuntimeRequest>,
   output: __S(2336, __c146, 0) as any as S.Schema<PutHostingWebRuntimeResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6366,7 +6526,8 @@ export const putHostingWebServiceInfos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1200, __c75, 0) as any as S.Schema<PutHostingWebServiceInfosRequest>,
   output: __S(2336, __c146, 0) as any as S.Schema<PutHostingWebServiceInfosResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6383,7 +6544,8 @@ export const putHostingWebUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<PutHostingWebUserRequest>,
   output: __S(2336, __c146, 0) as any as S.Schema<PutHostingWebUserResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6400,7 +6562,8 @@ export const putHostingWebWebsite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1232, __c77, 0) as any as S.Schema<PutHostingWebWebsiteRequest>,
   output: __S(3042, __c190, 2) as any as S.Schema<HostingWebWebsite>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6417,7 +6580,8 @@ export const refreshHostingWebCdnDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c78, 0) as any as S.Schema<RefreshHostingWebCdnDomainRequest>,
   output: __S(2241, __c140, 1) as any as S.Schema<CdnOperation>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6434,7 +6598,8 @@ export const restartHostingWebAttachedDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1264, __c79, 0) as any as S.Schema<RestartHostingWebAttachedDomainRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<HostingWebTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6451,7 +6616,8 @@ export const restoreHostingWebDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c80, 0) as any as S.Schema<RestoreHostingWebDatabaseRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<HostingWebTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6468,7 +6634,8 @@ export const restoreHostingWebDatabaseDump: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1296, __c81, 0) as any as S.Schema<RestoreHostingWebDatabaseDumpRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<HostingWebTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6485,7 +6652,8 @@ export const restoreHostingWebSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c82, 0) as any as S.Schema<RestoreHostingWebSnapshotRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<HostingWebTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6502,7 +6670,8 @@ export const terminateHostingWeb: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1328, __c83, 0) as any as S.Schema<TerminateHostingWebRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<TerminateHostingWebResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6519,7 +6688,8 @@ export const terminateHostingWebCdn: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c84, 0) as any as S.Schema<TerminateHostingWebCdnRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<TerminateHostingWebCdnResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6536,7 +6706,8 @@ export const terminateHostingWebEmailOption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c86, 0) as any as S.Schema<TerminateHostingWebEmailOptionRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<TerminateHostingWebEmailOptionResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6553,7 +6724,8 @@ export const terminateHostingWebExtraSqlPerso: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1392, __c87, 0) as any as S.Schema<TerminateHostingWebExtraSqlPersoRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<TerminateHostingWebExtraSqlPersoResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6570,7 +6742,8 @@ export const terminateHostingWebLocalSeoLocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c88, 0) as any as S.Schema<TerminateHostingWebLocalSeoLocationRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<TerminateHostingWebLocalSeoLocationResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6587,7 +6760,7 @@ function __c0(j: number): any {
           commentary: S.optional(S.String),
           futureUse: S.optional(S.String),
           reason: S.optional(S.String),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7256,7 +7429,7 @@ function __c39(j: number): any {
         S.Struct({
           directory: S.String.pipe(T.Query()),
           id: S.Number.pipe(T.Query()),
-          token: S.String.pipe(T.Query()),
+          token: S.String.pipe(T.Query(), T.SensitiveValue({})),
         }).pipe(
           T.Http({ method: "GET", uri: "/hosting/web/localSeo/visibilityCheckResult", code: 200 }),
         ),
@@ -7474,7 +7647,7 @@ function __c51(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           key: S.String,
           type: S.String,
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/hosting/web/{serviceName}/envVar", code: 200 })),
       ).annotate({ identifier: "CreateHostingWebEnvVarRequest" });
   }
@@ -7781,7 +7954,7 @@ function __c70(j: number): any {
         S.Struct({
           serviceName: S.String.pipe(T.Label()),
           key: S.String.pipe(T.Label()),
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({ method: "PUT", uri: "/hosting/web/{serviceName}/envVar/{key}", code: 200 }),
         ),
@@ -8087,7 +8260,7 @@ function __c89(j: number): any {
           province: S.optional(S.NullOr(S.String)),
           street: S.optional(S.String),
           streetNo: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           zip: S.optional(S.String),
         }),
       ).annotate({ identifier: "HostingWebLocalSeoSearchData" });
@@ -8774,7 +8947,7 @@ function __c125(j: number): any {
           serviceManagementAccess: S.optional(__S(2011, __c125, 11)),
           serviceName: S.optional(S.String),
           state: S.optional(S.String),
-          token: S.optional(S.NullOr(S.String)),
+          token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           trafficQuotaSize: S.optional(S.NullOr(__S(2016, __c126, 0))),
           trafficQuotaUsed: S.optional(S.NullOr(__S(2016, __c126, 0))),
           updates: S.optional(__S(2080, __c130, 0)),
@@ -9470,7 +9643,7 @@ function __c156(j: number): any {
           status: S.optional(S.String),
           taskId: S.optional(S.NullOr(S.Number)),
           type: S.optional(S.String),
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "HostingWebEnvVar" });
   }
@@ -9713,7 +9886,7 @@ function __c170(j: number): any {
         S.Struct({
           endpoint: S.optional(S.String),
           expiry: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "HostingWebMetricsToken" });
   }

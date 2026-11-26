@@ -3,7 +3,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * SurrealDB credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
- * credentials on every request (the protocol layer resolves it per request
+ * credentials on every request (the protocol resolves it per request
  * on the calling fiber). Auth is a JWT or API token sent as
  * `Authorization: Bearer <apiKey>`. Self-hosted instances override the
  * default base URL (`http://127.0.0.1:8000`).

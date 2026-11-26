@@ -5,7 +5,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * Porkbun authenticates with a public API key and a secret API key, sent as
  * `X-API-Key` / `X-Secret-API-Key` (header auth; the JSON-body form is
  * equivalent). The `Credentials` service holds an *effect* that resolves the
- * current credentials on every request (the protocol layer resolves it per
+ * current credentials on every request (the protocol resolves it per
  * request on the calling fiber).
  */
 import * as Context from "effect/Context";

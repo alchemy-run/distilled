@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -530,7 +531,7 @@ export interface StartSigningJobRequest {
   source: Source;
   destination: Destination;
   profileName: string;
-  clientRequestToken: string;
+  clientRequestToken?: string | undefined;
   profileOwner?: string | undefined;
 }
 export interface StartSigningJobResponse {
@@ -579,6 +580,7 @@ export const addProfilePermission: API.OperationMethod<
     TooManyRequestsException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddProfilePermission",
@@ -611,6 +613,7 @@ export const cancelSigningProfile: API.OperationMethod<
     ResourceNotFoundException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelSigningProfile",
@@ -643,6 +646,7 @@ export const describeSigningJob: API.OperationMethod<
     ResourceNotFoundException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSigningJob",
@@ -674,6 +678,7 @@ export const getRevocationStatus: API.OperationMethod<
     TooManyRequestsException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRevocationStatus",
@@ -705,6 +710,7 @@ export const getSigningPlatform: API.OperationMethod<
     ResourceNotFoundException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSigningPlatform",
@@ -735,6 +741,7 @@ export const getSigningProfile: API.OperationMethod<
     ResourceNotFoundException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSigningProfile",
@@ -767,6 +774,7 @@ export const listProfilePermissions: API.OperationMethod<
     TooManyRequestsException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProfilePermissions",
@@ -804,6 +812,7 @@ export const listSigningJobs: API.PaginatedOperationMethod<
     TooManyRequestsException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSigningJobs",
@@ -846,6 +855,7 @@ export const listSigningPlatforms: API.PaginatedOperationMethod<
     TooManyRequestsException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSigningPlatforms",
@@ -883,6 +893,7 @@ export const listSigningProfiles: API.PaginatedOperationMethod<
   input: __S(80, __c20, 0) as any as S.Schema<ListSigningProfilesRequest>,
   output: __S(83, __c20, 3) as any as S.Schema<ListSigningProfilesResponse>,
   errors: [AccessDeniedException, InternalServiceErrorException, TooManyRequestsException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSigningProfiles",
@@ -918,6 +929,7 @@ export const listTagsForResource: API.OperationMethod<
     NotFoundException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -953,6 +965,7 @@ export const putSigningProfile: API.OperationMethod<
     ValidationException,
     SigningProfileAlreadyExists,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSigningProfile",
@@ -987,6 +1000,7 @@ export const removeProfilePermission: API.OperationMethod<
     TooManyRequestsException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveProfilePermission",
@@ -1020,6 +1034,7 @@ export const revokeSignature: API.OperationMethod<
     TooManyRequestsException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeSignature",
@@ -1056,6 +1071,7 @@ export const revokeSigningProfile: API.OperationMethod<
     TooManyRequestsException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeSigningProfile",
@@ -1088,6 +1104,7 @@ export const signPayload: API.OperationMethod<
     TooManyRequestsException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SignPayload",
@@ -1143,6 +1160,7 @@ export const startSigningJob: API.OperationMethod<
     TooManyRequestsException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSigningJob",
@@ -1176,6 +1194,7 @@ export const tagResource: API.OperationMethod<
     NotFoundException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -1207,6 +1226,7 @@ export const untagResource: API.OperationMethod<
     NotFoundException,
     TooManyRequestsException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -1831,7 +1851,7 @@ function __c27(j: number): any {
           source: __S(37, __c9, 1),
           destination: __S(109, __c27, 1),
           profileName: S.String,
-          clientRequestToken: S.String.pipe(T.IdempotencyToken()),
+          clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           profileOwner: S.optional(S.String),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/signing-jobs" }), svc, auth, proto, ver, rules),

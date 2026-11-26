@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownCoolifyError } from "../errors.ts";
+import { CoolifyServiceErrors } from "../errors.ts";
 import { CoolifyProtocol, type CoolifyOpError, type CoolifyOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -53,7 +53,8 @@ export class Conflict
       message: S.String,
       body: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.suspend(() => __S(10, __c1, 2)),
+          /*@__PURE__*/ S.suspend(() => __S(9, __c1, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(12, __c1, 4)),
           /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
           /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
           S.String,
@@ -64,7 +65,7 @@ export class Conflict
     [{ status: 409 }],
   )
 {
-  declare readonly body?: Error409Body | Error409Body2 | Error409Body3 | string;
+  declare readonly body?: DnsRecordConflict | Error409Body | Error409Body2 | Error409Body3 | string;
 }
 
 export class Forbidden
@@ -78,7 +79,6 @@ export class Forbidden
           /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
           /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
           /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
-          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
           S.String,
         ]),
       ),
@@ -87,13 +87,7 @@ export class Forbidden
     [{ status: 403 }],
   )
 {
-  declare readonly body?:
-    | Error403Body
-    | Error403Body3
-    | Error403Body5
-    | Error403Body2
-    | Error403Body4
-    | string;
+  declare readonly body?: Error403Body | Error403Body2 | Error403Body4 | Error403Body3 | string;
 }
 
 export class NotFound
@@ -124,7 +118,7 @@ export class UnprocessableEntity
       message: S.String,
       body: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.suspend(() => __S(2113, __c264, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(2465, __c308, 1)),
           /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
           S.String,
         ]),
@@ -143,6 +137,18 @@ export interface AddApplicationDestinationRequest {
   destination_uuid: string;
 }
 export interface AddApplicationDestinationResponse {}
+export type AddSecretManagerReferenceRequestResourceType =
+  | "applications"
+  | "services"
+  | "databases";
+export interface AddSecretManagerReferenceRequest {
+  /** Resource type. */
+  resource_type: AddSecretManagerReferenceRequestResourceType | (string & {});
+  /** Resource UUID. */
+  uuid: string;
+  key: string;
+}
+export interface AddSecretManagerReferenceResponse {}
 export interface CancelDeploymentByUuidRequest {
   /** Deployment UUID */
   uuid: string;
@@ -168,7 +174,7 @@ export interface CloneApplicationByUuidRequest {
   destination_uuid: string;
   /** Optional name for the cloned application. */
   name?: string | null | undefined;
-  /** Whether to clone volume data. */
+  /** Whether to clone volume data. Needs the deploy ability. */
   clone_volumes?: boolean | undefined;
 }
 export interface CloneApplicationByUuidResponse {
@@ -180,6 +186,7 @@ export interface CloneDatabaseByUuidRequest {
   uuid: string;
   destination_uuid: string;
   name?: string | null | undefined;
+  /** Whether to clone volume data. Needs the deploy ability. */
   clone_volumes?: boolean | undefined;
 }
 export interface CloneDatabaseByUuidResponse {}
@@ -188,15 +195,47 @@ export interface CloneServiceByUuidRequest {
   uuid: string;
   destination_uuid: string;
   name?: string | null | undefined;
+  /** Whether to clone volume data. Needs the deploy ability. */
   clone_volumes?: boolean | undefined;
 }
 export interface CloneServiceByUuidResponse {}
+export interface CompleteServerTransferRequest {
+  uuid: string;
+  export_id?: string | null | undefined;
+  target_instance_url?: string | null | undefined;
+}
+export interface CompleteServerTransferResponse {}
 export interface ConfigureApplicationSecretManagerRequest {
   uuid: string;
   integration_token_uuid: string;
   settings?: unknown | undefined;
 }
 export interface ConfigureApplicationSecretManagerResponse {}
+export interface CreateApplicationDnsRecordRequest {
+  /** Application UUID. */
+  uuid: string;
+  /** A saved domain of the resource. */
+  hostname: string;
+  /** Cloudflare token to use. Required when several tokens manage the zone of the hostname. */
+  integration_token_uuid?: string | undefined;
+  /** A public address of the server. Default: default_address of the DNS status. */
+  address?: string | undefined;
+}
+export type ManagedDnsRecordType = "A" | "AAAA";
+/** DNS record that Coolify manages at a DNS provider. */
+export interface ManagedDnsRecord {
+  uuid?: string | undefined;
+  hostname?: string | undefined;
+  type?: ManagedDnsRecordType | undefined;
+  /** Server IP address that the record points to. */
+  address?: string | undefined;
+  /** Coolify created the record, so it can delete it. */
+  owned?: boolean | undefined;
+  integration_token_uuid?: string | undefined;
+}
+export interface CreateApplicationDnsRecordResponse {
+  record?: ManagedDnsRecord | undefined;
+}
 export interface CreateCloudInitScriptRequest {
   name: string;
   /** Bash script (#!) or cloud-config YAML. */
@@ -204,12 +243,12 @@ export interface CreateCloudInitScriptRequest {
 }
 export interface CreateCloudInitScriptResponse {}
 /** The cloud provider. */
-export type CreateCloudTokenRequestProvider = "hetzner" | "digitalocean" | "vultr";
+export type CreateCloudTokenRequestProvider = "hetzner" | "digitalocean" | "vultr" | "hostinger";
 export interface CreateCloudTokenRequest {
   /** The cloud provider. */
   provider: CreateCloudTokenRequestProvider | (string & {});
   /** The API token for the cloud provider. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** A friendly name for the token. */
   name: string;
 }
@@ -217,6 +256,8 @@ export interface CreateCloudTokenResponse {
   /** The UUID of the token. */
   uuid?: string | undefined;
 }
+/** UUIDs of every S3 storage the backup is uploaded to. Replaces the current destinations. When s3_storage_uuid is also sent, it must be in this list and becomes the primary destination; otherwise the first entry is the primary destination. */
+export type CreateDatabaseBackupRequestS3StorageUuidsList = Array<string>;
 export interface CreateDatabaseBackupRequest {
   /** UUID of the database. */
   uuid: string;
@@ -226,13 +267,17 @@ export interface CreateDatabaseBackupRequest {
   enabled?: boolean | undefined;
   /** Whether to save backups to S3 */
   save_s3?: boolean | undefined;
-  /** S3 storage UUID (required if save_s3 is true) */
+  /** Delete the local backup file after the upload to S3. Only allowed when save_s3 is true. */
+  disable_local_backup?: boolean | undefined;
+  /** Primary S3 storage UUID. Sent without s3_storage_uuids, it selects this storage as the only destination. Either field is required if save_s3 is true. */
   s3_storage_uuid?: string | undefined;
+  /** UUIDs of every S3 storage the backup is uploaded to. Replaces the current destinations. When s3_storage_uuid is also sent, it must be in this list and becomes the primary destination; otherwise the first entry is the primary destination. */
+  s3_storage_uuids?: CreateDatabaseBackupRequestS3StorageUuidsList | undefined;
   /** Comma separated list of databases to backup */
   databases_to_backup?: string | undefined;
   /** Whether to dump all databases */
   dump_all?: boolean | undefined;
-  /** Whether to trigger backup immediately after creation */
+  /** Whether to trigger backup immediately after creation. Needs a token with the deploy permission. */
   backup_now?: boolean | undefined;
   /** Number of backups to retain locally */
   database_backup_retention_amount_locally?: number | undefined;
@@ -263,9 +308,9 @@ export interface CreateDatabaseClickhouseRequest {
   /** UUID of the project */
   project_uuid: string;
   /** Name of the environment. You need to provide at least one of environment_name or environment_uuid. */
-  environment_name: string;
+  environment_name?: string | undefined;
   /** UUID of the environment. You need to provide at least one of environment_name or environment_uuid. */
-  environment_uuid: string;
+  environment_uuid?: string | undefined;
   /** UUID of the destination if the server has multiple destinations */
   destination_uuid?: string | undefined;
   /** Clickhouse admin user */
@@ -312,9 +357,9 @@ export interface CreateDatabaseDragonflyRequest {
   /** UUID of the project */
   project_uuid: string;
   /** Name of the environment. You need to provide at least one of environment_name or environment_uuid. */
-  environment_name: string;
+  environment_name?: string | undefined;
   /** UUID of the environment. You need to provide at least one of environment_name or environment_uuid. */
-  environment_uuid: string;
+  environment_uuid?: string | undefined;
   /** UUID of the destination if the server has multiple destinations */
   destination_uuid?: string | undefined;
   /** DragonFly password */
@@ -412,9 +457,9 @@ export interface CreateDatabaseKeydbRequest {
   /** UUID of the project */
   project_uuid: string;
   /** Name of the environment. You need to provide at least one of environment_name or environment_uuid. */
-  environment_name: string;
+  environment_name?: string | undefined;
   /** UUID of the environment. You need to provide at least one of environment_name or environment_uuid. */
-  environment_uuid: string;
+  environment_uuid?: string | undefined;
   /** UUID of the destination if the server has multiple destinations */
   destination_uuid?: string | undefined;
   /** KeyDB password */
@@ -461,9 +506,9 @@ export interface CreateDatabaseMariadbRequest {
   /** UUID of the project */
   project_uuid: string;
   /** Name of the environment. You need to provide at least one of environment_name or environment_uuid. */
-  environment_name: string;
+  environment_name?: string | undefined;
   /** UUID of the environment. You need to provide at least one of environment_name or environment_uuid. */
-  environment_uuid: string;
+  environment_uuid?: string | undefined;
   /** UUID of the destination if the server has multiple destinations */
   destination_uuid?: string | undefined;
   /** MariaDB conf */
@@ -516,9 +561,9 @@ export interface CreateDatabaseMongodbRequest {
   /** UUID of the project */
   project_uuid: string;
   /** Name of the environment. You need to provide at least one of environment_name or environment_uuid. */
-  environment_name: string;
+  environment_name?: string | undefined;
   /** UUID of the environment. You need to provide at least one of environment_name or environment_uuid. */
-  environment_uuid: string;
+  environment_uuid?: string | undefined;
   /** UUID of the destination if the server has multiple destinations */
   destination_uuid?: string | undefined;
   /** MongoDB conf */
@@ -565,9 +610,9 @@ export interface CreateDatabaseMysqlRequest {
   /** UUID of the project */
   project_uuid: string;
   /** Name of the environment. You need to provide at least one of environment_name or environment_uuid. */
-  environment_name: string;
+  environment_name?: string | undefined;
   /** UUID of the environment. You need to provide at least one of environment_name or environment_uuid. */
-  environment_uuid: string;
+  environment_uuid?: string | undefined;
   /** UUID of the destination if the server has multiple destinations */
   destination_uuid?: string | undefined;
   /** MySQL root password */
@@ -620,9 +665,9 @@ export interface CreateDatabasePostgresqlRequest {
   /** UUID of the project */
   project_uuid: string;
   /** Name of the environment. You need to provide at least one of environment_name or environment_uuid. */
-  environment_name: string;
+  environment_name?: string | undefined;
   /** UUID of the environment. You need to provide at least one of environment_name or environment_uuid. */
-  environment_uuid: string;
+  environment_uuid?: string | undefined;
   /** PostgreSQL user */
   postgres_user?: string | undefined;
   /** PostgreSQL password */
@@ -677,9 +722,9 @@ export interface CreateDatabaseRedisRequest {
   /** UUID of the project */
   project_uuid: string;
   /** Name of the environment. You need to provide at least one of environment_name or environment_uuid. */
-  environment_name: string;
+  environment_name?: string | undefined;
   /** UUID of the environment. You need to provide at least one of environment_name or environment_uuid. */
-  environment_uuid: string;
+  environment_uuid?: string | undefined;
   /** UUID of the destination if the server has multiple destinations */
   destination_uuid?: string | undefined;
   /** Redis password */
@@ -690,7 +735,7 @@ export interface CreateDatabaseRedisRequest {
   name?: string | undefined;
   /** Description of the database */
   description?: string | undefined;
-  /** Docker Image of the database */
+  /** Docker image of the database. Default: valkey/valkey:9-alpine. For Redis, use a Redis image, for example redis:8. */
   image?: string | undefined;
   /** Is the database public? */
   is_public?: boolean | undefined;
@@ -726,9 +771,9 @@ export interface CreateDatabaseSqliteRequest {
   /** UUID of the project */
   project_uuid: string;
   /** Name of the environment. You need to provide at least one of environment_name or environment_uuid. */
-  environment_name: string;
+  environment_name?: string | undefined;
   /** UUID of the environment. You need to provide at least one of environment_name or environment_uuid. */
-  environment_uuid: string;
+  environment_uuid?: string | undefined;
   /** UUID of the destination if the server has multiple destinations */
   destination_uuid?: string | undefined;
   /** Comma-separated SQLite database file names */
@@ -767,6 +812,8 @@ export type CreateDockerfileApplicationRequestBuildPack = "dockerfile";
 export type CreateDockerfileApplicationRequestNoindexDomainsList = Array<string>;
 /** How to set redirect with Traefik / Caddy. www<->non-www. */
 export type CreateDockerfileApplicationRequestRedirect = "www" | "non-www" | "both";
+/** Hash algorithm for the HTTP Basic Authentication password. Argon2id needs the Caddy proxy, version 2.11 or newer. */
+export type CreateDockerfileApplicationRequestHttpBasicAuthHashAlgorithm = "bcrypt" | "argon2id";
 /** Tags to assign to the application. */
 export type CreateDockerfileApplicationRequestTagsList = Array<string>;
 export interface CreateDockerfileApplicationRequest {
@@ -775,9 +822,9 @@ export interface CreateDockerfileApplicationRequest {
   /** The server UUID. */
   server_uuid: string;
   /** The environment name. You need to provide at least one of environment_name or environment_uuid. */
-  environment_name: string;
+  environment_name?: string | undefined;
   /** The environment UUID. You need to provide at least one of environment_name or environment_uuid. */
-  environment_uuid: string;
+  environment_uuid?: string | undefined;
   /** The Dockerfile content. */
   dockerfile: string;
   /** The build pack type. */
@@ -852,13 +899,13 @@ export interface CreateDockerfileApplicationRequest {
   pre_deployment_command?: string | undefined;
   /** Pre deployment command container. */
   pre_deployment_command_container?: string | undefined;
-  /** Manual webhook secret for Github. */
+  /** Manual webhook secret for Github. Needs the deploy ability. */
   manual_webhook_secret_github?: string | undefined;
-  /** Manual webhook secret for Gitlab. */
+  /** Manual webhook secret for Gitlab. Needs the deploy ability. */
   manual_webhook_secret_gitlab?: string | undefined;
-  /** Manual webhook secret for Bitbucket. */
+  /** Manual webhook secret for Bitbucket. Needs the deploy ability. */
   manual_webhook_secret_bitbucket?: string | undefined;
-  /** Manual webhook secret for Gitea. */
+  /** Manual webhook secret for Gitea. Needs the deploy ability. */
   manual_webhook_secret_gitea?: string | undefined;
   /** How to set redirect with Traefik / Caddy. www<->non-www. */
   redirect?: CreateDockerfileApplicationRequestRedirect | (string & {}) | null | undefined;
@@ -878,26 +925,42 @@ export interface CreateDockerfileApplicationRequest {
   is_git_lfs_enabled?: boolean | undefined;
   /** Use a shallow Git clone. */
   is_git_shallow_clone_enabled?: boolean | undefined;
+  /** Cancel older queued webhook deployments when a newer push arrives. Default: true. */
+  is_auto_cancel_queued_deployments_enabled?: boolean | undefined;
+  /** Also stop an older webhook deployment that is still building when a newer push arrives. A deployment that already started to replace containers always finishes. This also cancels queued webhook deployments. Default: false. */
+  is_auto_cancel_building_deployments_enabled?: boolean | undefined;
   /** Disable the build cache. */
   disable_build_cache?: boolean | undefined;
   /** Inject build arguments into the Dockerfile build. */
   inject_build_args_to_dockerfile?: boolean | undefined;
   /** Include the source commit in the build. */
   include_source_commit_in_build?: boolean | undefined;
+  /** Add the containers of the destination network as build hosts. */
+  include_network_hosts_in_build?: boolean | undefined;
   /** Sort environment variables. */
   is_env_sorting_enabled?: boolean | undefined;
+  /** Redact all environment variable values in logs. When false, only locked (shown once) values are redacted. Requires team admin permissions. */
+  redact_all_env_values_in_logs?: boolean | undefined;
+  /** Add the predefined COOLIFY_* variables (COOLIFY_URL, COOLIFY_FQDN, ...) to the environment. Requires team admin permissions. Redeploy to apply it. */
+  include_coolify_default_variables?: boolean | undefined;
   /** Make pull request deployments public. */
   is_pr_deployments_public_enabled?: boolean | undefined;
   /** Container stop grace period in seconds. */
   stop_grace_period?: number | null | undefined;
+  /** Seconds to wait after the new container is healthy before old containers stop during a rolling update. 0 turns the wait off. Default: 5. */
+  rolling_update_drain_seconds?: number | undefined;
   /** Number of Docker images to retain. */
   docker_images_to_keep?: number | undefined;
   /** Enable gzip compression. */
   is_gzip_enabled?: boolean | undefined;
   /** Enable path prefix stripping. */
   is_stripprefix_enabled?: boolean | undefined;
+  /** Use permanent redirects (301/308) instead of temporary (302/307) for the HTTP to HTTPS and www redirects. Defaults to false. */
+  is_permanent_redirect_enabled?: boolean | undefined;
   /** Traefik certificate resolver for this application. Null uses the server setting, "none" uses no resolver. */
   traefik_certificate_resolver?: string | null | undefined;
+  /** Let Coolify manage the container labels. True regenerates custom_labels from domains, redirect, and proxy settings. False keeps custom_labels as you set them: domains, redirect, and basic auth changes then do not change the labels. */
+  is_container_label_readonly_enabled?: boolean | undefined;
   /** Deploy the raw Docker Compose definition. */
   is_raw_compose_deployment_enabled?: boolean | undefined;
   /** Enable log drain for the application. */
@@ -914,6 +977,8 @@ export interface CreateDockerfileApplicationRequest {
   gpu_options?: string | null | undefined;
   /** Use a consistent container name across deployments. */
   is_consistent_container_name_enabled?: boolean | undefined;
+  /** Scan the images of the application for vulnerabilities. Needs image scanning on the server. Default true. */
+  is_image_scan_enabled?: boolean | undefined;
   /** Custom internal container name. Turns is_consistent_container_name_enabled on when that field is not sent; sending it as false together with a name returns 422. */
   custom_internal_name?: string | null | undefined;
   /** Prefix for generated container names (prefix-20260908T141530). Slugified and unique across the instance. */
@@ -928,6 +993,17 @@ export interface CreateDockerfileApplicationRequest {
   http_basic_auth_username?: string | null | undefined;
   /** Password for HTTP Basic Authentication */
   http_basic_auth_password?: string | Redacted.Redacted<string> | null | undefined;
+  /** Hash algorithm for the HTTP Basic Authentication password. Argon2id needs the Caddy proxy, version 2.11 or newer. */
+  http_basic_auth_hash_algorithm?:
+    | CreateDockerfileApplicationRequestHttpBasicAuthHashAlgorithm
+    | (string & {})
+    | undefined;
+  /** Bcrypt cost for the HTTP Basic Authentication password. */
+  http_basic_auth_bcrypt_cost?: number | undefined;
+  /** Argon2id memory cost in KiB for the HTTP Basic Authentication password. */
+  http_basic_auth_argon2id_memory_cost?: number | undefined;
+  /** Argon2id time cost (iterations) for the HTTP Basic Authentication password. */
+  http_basic_auth_argon2id_time_cost?: number | undefined;
   /** The flag to connect the service to the predefined Docker network. */
   connect_to_docker_network?: boolean | undefined;
   /** Force domain usage even if conflicts are detected. Default is false. */
@@ -946,6 +1022,8 @@ export interface CreateDockerfileApplicationResponse {
 export type CreateDockerimageApplicationRequestNoindexDomainsList = Array<string>;
 /** How to set redirect with Traefik / Caddy. www<->non-www. */
 export type CreateDockerimageApplicationRequestRedirect = "www" | "non-www" | "both";
+/** Hash algorithm for the HTTP Basic Authentication password. Argon2id needs the Caddy proxy, version 2.11 or newer. */
+export type CreateDockerimageApplicationRequestHttpBasicAuthHashAlgorithm = "bcrypt" | "argon2id";
 /** Tags to assign to the application. */
 export type CreateDockerimageApplicationRequestTagsList = Array<string>;
 export interface CreateDockerimageApplicationRequest {
@@ -954,9 +1032,9 @@ export interface CreateDockerimageApplicationRequest {
   /** The server UUID. */
   server_uuid: string;
   /** The environment name. You need to provide at least one of environment_name or environment_uuid. */
-  environment_name: string;
+  environment_name?: string | undefined;
   /** The environment UUID. You need to provide at least one of environment_name or environment_uuid. */
-  environment_uuid: string;
+  environment_uuid?: string | undefined;
   /** The docker registry image name. */
   docker_registry_image_name: string;
   /** The docker registry image tag. */
@@ -1025,13 +1103,13 @@ export interface CreateDockerimageApplicationRequest {
   pre_deployment_command?: string | undefined;
   /** Pre deployment command container. */
   pre_deployment_command_container?: string | undefined;
-  /** Manual webhook secret for Github. */
+  /** Manual webhook secret for Github. Needs the deploy ability. */
   manual_webhook_secret_github?: string | undefined;
-  /** Manual webhook secret for Gitlab. */
+  /** Manual webhook secret for Gitlab. Needs the deploy ability. */
   manual_webhook_secret_gitlab?: string | undefined;
-  /** Manual webhook secret for Bitbucket. */
+  /** Manual webhook secret for Bitbucket. Needs the deploy ability. */
   manual_webhook_secret_bitbucket?: string | undefined;
-  /** Manual webhook secret for Gitea. */
+  /** Manual webhook secret for Gitea. Needs the deploy ability. */
   manual_webhook_secret_gitea?: string | undefined;
   /** How to set redirect with Traefik / Caddy. www<->non-www. */
   redirect?: CreateDockerimageApplicationRequestRedirect | (string & {}) | null | undefined;
@@ -1051,26 +1129,42 @@ export interface CreateDockerimageApplicationRequest {
   is_git_lfs_enabled?: boolean | undefined;
   /** Use a shallow Git clone. */
   is_git_shallow_clone_enabled?: boolean | undefined;
+  /** Cancel older queued webhook deployments when a newer push arrives. Default: true. */
+  is_auto_cancel_queued_deployments_enabled?: boolean | undefined;
+  /** Also stop an older webhook deployment that is still building when a newer push arrives. A deployment that already started to replace containers always finishes. This also cancels queued webhook deployments. Default: false. */
+  is_auto_cancel_building_deployments_enabled?: boolean | undefined;
   /** Disable the build cache. */
   disable_build_cache?: boolean | undefined;
   /** Inject build arguments into the Dockerfile build. */
   inject_build_args_to_dockerfile?: boolean | undefined;
   /** Include the source commit in the build. */
   include_source_commit_in_build?: boolean | undefined;
+  /** Add the containers of the destination network as build hosts. */
+  include_network_hosts_in_build?: boolean | undefined;
   /** Sort environment variables. */
   is_env_sorting_enabled?: boolean | undefined;
+  /** Redact all environment variable values in logs. When false, only locked (shown once) values are redacted. Requires team admin permissions. */
+  redact_all_env_values_in_logs?: boolean | undefined;
+  /** Add the predefined COOLIFY_* variables (COOLIFY_URL, COOLIFY_FQDN, ...) to the environment. Requires team admin permissions. Redeploy to apply it. */
+  include_coolify_default_variables?: boolean | undefined;
   /** Make pull request deployments public. */
   is_pr_deployments_public_enabled?: boolean | undefined;
   /** Container stop grace period in seconds. */
   stop_grace_period?: number | null | undefined;
+  /** Seconds to wait after the new container is healthy before old containers stop during a rolling update. 0 turns the wait off. Default: 5. */
+  rolling_update_drain_seconds?: number | undefined;
   /** Number of Docker images to retain. */
   docker_images_to_keep?: number | undefined;
   /** Enable gzip compression. */
   is_gzip_enabled?: boolean | undefined;
   /** Enable path prefix stripping. */
   is_stripprefix_enabled?: boolean | undefined;
+  /** Use permanent redirects (301/308) instead of temporary (302/307) for the HTTP to HTTPS and www redirects. Defaults to false. */
+  is_permanent_redirect_enabled?: boolean | undefined;
   /** Traefik certificate resolver for this application. Null uses the server setting, "none" uses no resolver. */
   traefik_certificate_resolver?: string | null | undefined;
+  /** Let Coolify manage the container labels. True regenerates custom_labels from domains, redirect, and proxy settings. False keeps custom_labels as you set them: domains, redirect, and basic auth changes then do not change the labels. */
+  is_container_label_readonly_enabled?: boolean | undefined;
   /** Deploy the raw Docker Compose definition. */
   is_raw_compose_deployment_enabled?: boolean | undefined;
   /** Enable log drain for the application. */
@@ -1087,6 +1181,8 @@ export interface CreateDockerimageApplicationRequest {
   gpu_options?: string | null | undefined;
   /** Use a consistent container name across deployments. */
   is_consistent_container_name_enabled?: boolean | undefined;
+  /** Scan the images of the application for vulnerabilities. Needs image scanning on the server. Default true. */
+  is_image_scan_enabled?: boolean | undefined;
   /** Custom internal container name. Turns is_consistent_container_name_enabled on when that field is not sent; sending it as false together with a name returns 422. */
   custom_internal_name?: string | null | undefined;
   /** Prefix for generated container names (prefix-20260908T141530). Slugified and unique across the instance. */
@@ -1101,6 +1197,17 @@ export interface CreateDockerimageApplicationRequest {
   http_basic_auth_username?: string | null | undefined;
   /** Password for HTTP Basic Authentication */
   http_basic_auth_password?: string | Redacted.Redacted<string> | null | undefined;
+  /** Hash algorithm for the HTTP Basic Authentication password. Argon2id needs the Caddy proxy, version 2.11 or newer. */
+  http_basic_auth_hash_algorithm?:
+    | CreateDockerimageApplicationRequestHttpBasicAuthHashAlgorithm
+    | (string & {})
+    | undefined;
+  /** Bcrypt cost for the HTTP Basic Authentication password. */
+  http_basic_auth_bcrypt_cost?: number | undefined;
+  /** Argon2id memory cost in KiB for the HTTP Basic Authentication password. */
+  http_basic_auth_argon2id_memory_cost?: number | undefined;
+  /** Argon2id time cost (iterations) for the HTTP Basic Authentication password. */
+  http_basic_auth_argon2id_time_cost?: number | undefined;
   /** The flag to connect the service to the predefined Docker network. */
   connect_to_docker_network?: boolean | undefined;
   /** Force domain usage even if conflicts are detected. Default is false. */
@@ -1128,7 +1235,7 @@ export interface CreateEnvByApplicationUuidRequest {
   is_literal?: boolean | undefined;
   /** The flag to indicate if the environment variable is multiline. */
   is_multiline?: boolean | undefined;
-  /** If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values. */
+  /** If true, the saved value is hidden in the UI and API responses. A lock is permanent: false does not unlock a locked variable, but a new value can still replace the locked one. MCP never returns environment variable values. */
   is_shown_once?: boolean | undefined;
 }
 export interface CreateEnvByApplicationUuidResponse {
@@ -1145,7 +1252,7 @@ export interface CreateEnvByDatabaseUuidRequest {
   is_literal?: boolean | undefined;
   /** The flag to indicate if the environment variable is multiline. */
   is_multiline?: boolean | undefined;
-  /** If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values. */
+  /** If true, the saved value is hidden in the UI and API responses. A lock is permanent: false does not unlock a locked variable, but a new value can still replace the locked one. MCP never returns environment variable values. */
   is_shown_once?: boolean | undefined;
 }
 export interface CreateEnvByDatabaseUuidResponse {
@@ -1158,13 +1265,11 @@ export interface CreateEnvByServiceUuidRequest {
   key?: string | undefined;
   /** The value of the environment variable. */
   value?: string | undefined;
-  /** The flag to indicate if the environment variable is used in preview deployments. */
-  is_preview?: boolean | undefined;
   /** The flag to indicate if the environment variable is a literal, nothing espaced. */
   is_literal?: boolean | undefined;
   /** The flag to indicate if the environment variable is multiline. */
   is_multiline?: boolean | undefined;
-  /** If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values. */
+  /** If true, the saved value is hidden in the UI and API responses. A lock is permanent: false does not unlock a locked variable, but a new value can still replace the locked one. MCP never returns environment variable values. */
   is_shown_once?: boolean | undefined;
 }
 export interface CreateEnvByServiceUuidResponse {
@@ -1185,6 +1290,13 @@ export interface CreateEnvironmentSharedEnvRequest {
   uuid: string;
   /** Environment name or UUID */
   environment_name_or_uuid: string;
+  key: string;
+  value?: string | null | undefined;
+  is_literal?: boolean | undefined;
+  is_multiline?: boolean | undefined;
+  /** If true, the saved value is hidden in the UI and API responses. A lock is permanent: false does not unlock a locked variable, but a new value can still replace the locked one. MCP never returns environment variable values. */
+  is_shown_once?: boolean | undefined;
+  comment?: string | null | undefined;
 }
 export interface CreateEnvironmentSharedEnvResponse {}
 export interface CreateGithubAppRequest {
@@ -1249,7 +1361,7 @@ export interface CreateGitlabAppRequest {
   /** GitLab OAuth Application Secret. */
   client_secret?: string | Redacted.Redacted<string> | null | undefined;
   /** Webhook secret token (auto-generated when omitted). */
-  webhook_token?: string | null | undefined;
+  webhook_token?: string | Redacted.Redacted<string> | null | undefined;
   /** OAuth redirect URI registered in GitLab. */
   redirect_uri?: string | null | undefined;
   /** Is this app system-wide (non-cloud instances only). */
@@ -1269,7 +1381,7 @@ export interface CreateGitlabAppResponse {
   is_system_wide?: boolean | undefined;
   team_id?: number | undefined;
 }
-/** Additional Hetzner SSH key IDs */
+/** Additional Hetzner SSH key IDs. Needs a token with the deploy permission. */
 export type CreateHetznerServerRequestHetznerSshKeyIdsList = Array<number>;
 /** Existing Hetzner firewall IDs to apply during server creation */
 export type CreateHetznerServerRequestHetznerFirewallIdsList = Array<number>;
@@ -1296,15 +1408,15 @@ export interface CreateHetznerServerRequest {
   enable_ipv6?: boolean | undefined;
   /** Enable Hetzner server backups after creation (adds 20% to the monthly server fee) */
   enable_backups?: boolean | undefined;
-  /** Additional Hetzner SSH key IDs */
+  /** Additional Hetzner SSH key IDs. Needs a token with the deploy permission. */
   hetzner_ssh_key_ids?: CreateHetznerServerRequestHetznerSshKeyIdsList | undefined;
   /** Existing Hetzner firewall IDs to apply during server creation */
   hetzner_firewall_ids?: CreateHetznerServerRequestHetznerFirewallIdsList | undefined;
   /** Existing Hetzner network IDs to attach during server creation */
   hetzner_network_ids?: CreateHetznerServerRequestHetznerNetworkIdsList | undefined;
-  /** Cloud-init YAML script (optional) */
+  /** Cloud-init YAML script (optional). Needs a token with the deploy permission. */
   cloud_init_script?: string | undefined;
-  /** Validate server immediately after creation */
+  /** Validate the server and install Docker when it is running. Defaults to true for tokens with the deploy permission, and needs that permission. */
   instant_validate?: boolean | undefined;
 }
 export interface CreateHetznerServerResponse {
@@ -1315,6 +1427,8 @@ export interface CreateHetznerServerResponse {
   /** The server IP address. */
   ip?: string | undefined;
 }
+export interface CreateHostingerServerRequest {}
+export interface CreateHostingerServerResponse {}
 /** Git provider that hosts the pull request. Sets the ref Coolify fetches (pull/{id}/head or merge-requests/{id}/head). */
 export type CreatePreviewDeploymentByApplicationUuidRequestGitType =
   | "github"
@@ -1332,7 +1446,7 @@ export interface CreatePreviewDeploymentByApplicationUuidRequest {
     | (string & {})
     | null
     | undefined;
-  /** Commit SHA to deploy. Required for Bitbucket. */
+  /** Commit SHA to deploy. Required for a new Bitbucket preview. Needs the write permission. */
   commit?: string | null | undefined;
   /** Docker image tag. Docker Image applications only. */
   docker_tag?: string | null | undefined;
@@ -1400,6 +1514,10 @@ export interface CreatePrivateDeployKeyApplicationRequestDockerComposeDomainsIte
 /** Array of URLs to be applied to containers of a dockercompose application. */
 export type CreatePrivateDeployKeyApplicationRequestDockerComposeDomainsList =
   Array<CreatePrivateDeployKeyApplicationRequestDockerComposeDomainsItem>;
+/** Hash algorithm for the HTTP Basic Authentication password. Argon2id needs the Caddy proxy, version 2.11 or newer. */
+export type CreatePrivateDeployKeyApplicationRequestHttpBasicAuthHashAlgorithm =
+  | "bcrypt"
+  | "argon2id";
 /** Tags to assign to the application. */
 export type CreatePrivateDeployKeyApplicationRequestTagsList = Array<string>;
 export interface CreatePrivateDeployKeyApplicationRequest {
@@ -1408,9 +1526,9 @@ export interface CreatePrivateDeployKeyApplicationRequest {
   /** The server UUID. */
   server_uuid: string;
   /** The environment name. You need to provide at least one of environment_name or environment_uuid. */
-  environment_name: string;
+  environment_name?: string | undefined;
   /** The environment UUID. You need to provide at least one of environment_name or environment_uuid. */
-  environment_uuid: string;
+  environment_uuid?: string | undefined;
   /** The private key UUID. */
   private_key_uuid: string;
   /** The git repository URL. */
@@ -1511,13 +1629,13 @@ export interface CreatePrivateDeployKeyApplicationRequest {
   pre_deployment_command?: string | undefined;
   /** Pre deployment command container. */
   pre_deployment_command_container?: string | undefined;
-  /** Manual webhook secret for Github. */
+  /** Manual webhook secret for Github. Needs the deploy ability. */
   manual_webhook_secret_github?: string | undefined;
-  /** Manual webhook secret for Gitlab. */
+  /** Manual webhook secret for Gitlab. Needs the deploy ability. */
   manual_webhook_secret_gitlab?: string | undefined;
-  /** Manual webhook secret for Bitbucket. */
+  /** Manual webhook secret for Bitbucket. Needs the deploy ability. */
   manual_webhook_secret_bitbucket?: string | undefined;
-  /** Manual webhook secret for Gitea. */
+  /** Manual webhook secret for Gitea. Needs the deploy ability. */
   manual_webhook_secret_gitea?: string | undefined;
   /** How to set redirect with Traefik / Caddy. www<->non-www. */
   redirect?: CreatePrivateDeployKeyApplicationRequestRedirect | (string & {}) | null | undefined;
@@ -1527,6 +1645,8 @@ export interface CreatePrivateDeployKeyApplicationRequest {
   dockerfile?: string | undefined;
   /** The Dockerfile location in the repository. */
   dockerfile_location?: string | undefined;
+  /** The Docker build target (stage) in the Dockerfile. */
+  dockerfile_target_build?: string | null | undefined;
   /** The Docker Compose location. */
   docker_compose_location?: string | undefined;
   /** The Docker Compose custom start command. */
@@ -1549,26 +1669,42 @@ export interface CreatePrivateDeployKeyApplicationRequest {
   is_git_lfs_enabled?: boolean | undefined;
   /** Use a shallow Git clone. */
   is_git_shallow_clone_enabled?: boolean | undefined;
+  /** Cancel older queued webhook deployments when a newer push arrives. Default: true. */
+  is_auto_cancel_queued_deployments_enabled?: boolean | undefined;
+  /** Also stop an older webhook deployment that is still building when a newer push arrives. A deployment that already started to replace containers always finishes. This also cancels queued webhook deployments. Default: false. */
+  is_auto_cancel_building_deployments_enabled?: boolean | undefined;
   /** Disable the build cache. */
   disable_build_cache?: boolean | undefined;
   /** Inject build arguments into the Dockerfile build. */
   inject_build_args_to_dockerfile?: boolean | undefined;
   /** Include the source commit in the build. */
   include_source_commit_in_build?: boolean | undefined;
+  /** Add the containers of the destination network as build hosts. */
+  include_network_hosts_in_build?: boolean | undefined;
   /** Sort environment variables. */
   is_env_sorting_enabled?: boolean | undefined;
+  /** Redact all environment variable values in logs. When false, only locked (shown once) values are redacted. Requires team admin permissions. */
+  redact_all_env_values_in_logs?: boolean | undefined;
+  /** Add the predefined COOLIFY_* variables (COOLIFY_URL, COOLIFY_FQDN, ...) to the environment. Requires team admin permissions. Redeploy to apply it. */
+  include_coolify_default_variables?: boolean | undefined;
   /** Make pull request deployments public. */
   is_pr_deployments_public_enabled?: boolean | undefined;
   /** Container stop grace period in seconds. */
   stop_grace_period?: number | null | undefined;
+  /** Seconds to wait after the new container is healthy before old containers stop during a rolling update. 0 turns the wait off. Default: 5. */
+  rolling_update_drain_seconds?: number | undefined;
   /** Number of Docker images to retain. */
   docker_images_to_keep?: number | undefined;
   /** Enable gzip compression. */
   is_gzip_enabled?: boolean | undefined;
   /** Enable path prefix stripping. */
   is_stripprefix_enabled?: boolean | undefined;
+  /** Use permanent redirects (301/308) instead of temporary (302/307) for the HTTP to HTTPS and www redirects. Defaults to false. */
+  is_permanent_redirect_enabled?: boolean | undefined;
   /** Traefik certificate resolver for this application. Null uses the server setting, "none" uses no resolver. */
   traefik_certificate_resolver?: string | null | undefined;
+  /** Let Coolify manage the container labels. True regenerates custom_labels from domains, redirect, and proxy settings. False keeps custom_labels as you set them: domains, redirect, and basic auth changes then do not change the labels. */
+  is_container_label_readonly_enabled?: boolean | undefined;
   /** Deploy the raw Docker Compose definition. */
   is_raw_compose_deployment_enabled?: boolean | undefined;
   /** Enable log drain for the application. */
@@ -1585,6 +1721,8 @@ export interface CreatePrivateDeployKeyApplicationRequest {
   gpu_options?: string | null | undefined;
   /** Use a consistent container name across deployments. */
   is_consistent_container_name_enabled?: boolean | undefined;
+  /** Scan the images of the application for vulnerabilities. Needs image scanning on the server. Default true. */
+  is_image_scan_enabled?: boolean | undefined;
   /** Custom internal container name. Turns is_consistent_container_name_enabled on when that field is not sent; sending it as false together with a name returns 422. */
   custom_internal_name?: string | null | undefined;
   /** Prefix for generated container names (prefix-20260908T141530). Slugified and unique across the instance. */
@@ -1599,6 +1737,17 @@ export interface CreatePrivateDeployKeyApplicationRequest {
   http_basic_auth_username?: string | null | undefined;
   /** Password for HTTP Basic Authentication */
   http_basic_auth_password?: string | Redacted.Redacted<string> | null | undefined;
+  /** Hash algorithm for the HTTP Basic Authentication password. Argon2id needs the Caddy proxy, version 2.11 or newer. */
+  http_basic_auth_hash_algorithm?:
+    | CreatePrivateDeployKeyApplicationRequestHttpBasicAuthHashAlgorithm
+    | (string & {})
+    | undefined;
+  /** Bcrypt cost for the HTTP Basic Authentication password. */
+  http_basic_auth_bcrypt_cost?: number | undefined;
+  /** Argon2id memory cost in KiB for the HTTP Basic Authentication password. */
+  http_basic_auth_argon2id_memory_cost?: number | undefined;
+  /** Argon2id time cost (iterations) for the HTTP Basic Authentication password. */
+  http_basic_auth_argon2id_time_cost?: number | undefined;
   /** The flag to connect the service to the predefined Docker network. */
   connect_to_docker_network?: boolean | undefined;
   /** Force domain usage even if conflicts are detected. Default is false. */
@@ -1613,6 +1762,289 @@ export interface CreatePrivateDeployKeyApplicationRequest {
   is_preserve_repository_enabled?: boolean | undefined;
 }
 export interface CreatePrivateDeployKeyApplicationResponse {
+  uuid?: string | undefined;
+}
+/** The build pack type. */
+export type CreatePrivateGiteaAppApplicationRequestBuildPack =
+  | "nixpacks"
+  | "railpack"
+  | "static"
+  | "dockerfile"
+  | "dockercompose";
+/** The subset of the application domains served with an X-Robots-Tag: noindex, nofollow response header, keeping them out of search engines. Entries that are not among the application domains are ignored. */
+export type CreatePrivateGiteaAppApplicationRequestNoindexDomainsList = Array<string>;
+/** The static image. */
+export type CreatePrivateGiteaAppApplicationRequestStaticImage = "nginx:alpine";
+/** How to set redirect with Traefik / Caddy. www<->non-www. */
+export type CreatePrivateGiteaAppApplicationRequestRedirect = "www" | "non-www" | "both";
+/** Per-service www/non-www redirect for this compose service. */
+export type CreatePrivateGiteaAppApplicationRequestDockerComposeDomainsItemRedirect =
+  | "www"
+  | "non-www"
+  | "both";
+export interface CreatePrivateGiteaAppApplicationRequestDockerComposeDomainsItem {
+  /** The service name as defined in docker-compose. */
+  name?: string | undefined;
+  /** Comma-separated list of URLs (e.g. "https://app.coolify.io,https://app2.coolify.io") */
+  domain?: string | undefined;
+  /** Per-service www/non-www redirect for this compose service. */
+  redirect?:
+    | CreatePrivateGiteaAppApplicationRequestDockerComposeDomainsItemRedirect
+    | (string & {})
+    | null
+    | undefined;
+}
+/** Array of URLs to be applied to containers of a dockercompose application. */
+export type CreatePrivateGiteaAppApplicationRequestDockerComposeDomainsList =
+  Array<CreatePrivateGiteaAppApplicationRequestDockerComposeDomainsItem>;
+/** Hash algorithm for the HTTP Basic Authentication password. Argon2id needs the Caddy proxy, version 2.11 or newer. */
+export type CreatePrivateGiteaAppApplicationRequestHttpBasicAuthHashAlgorithm =
+  | "bcrypt"
+  | "argon2id";
+/** Tags to assign to the application. */
+export type CreatePrivateGiteaAppApplicationRequestTagsList = Array<string>;
+export interface CreatePrivateGiteaAppApplicationRequest {
+  /** The project UUID. */
+  project_uuid: string;
+  /** The server UUID. */
+  server_uuid: string;
+  /** The environment name. You need to provide at least one of environment_name or environment_uuid. */
+  environment_name?: string | undefined;
+  /** The environment UUID. You need to provide at least one of environment_name or environment_uuid. */
+  environment_uuid?: string | undefined;
+  /** The Gitea App UUID. The source must be connected. */
+  gitea_app_uuid: string;
+  /** The repository as owner/name, or its URL on the Gitea instance. */
+  git_repository: string;
+  /** The git branch. */
+  git_branch: string;
+  /** The ports to expose. */
+  ports_exposes?: string | undefined;
+  /** The destination UUID. */
+  destination_uuid?: string | undefined;
+  /** The build pack type. */
+  build_pack: CreatePrivateGiteaAppApplicationRequestBuildPack | (string & {});
+  /** The application name. */
+  name?: string | undefined;
+  /** The application description. */
+  description?: string | undefined;
+  /** The application URLs in a comma-separated list. */
+  domains?: string | undefined;
+  /** The subset of the application domains served with an X-Robots-Tag: noindex, nofollow response header, keeping them out of search engines. Entries that are not among the application domains are ignored. */
+  noindex_domains?: CreatePrivateGiteaAppApplicationRequestNoindexDomainsList | undefined;
+  /** The git commit SHA. */
+  git_commit_sha?: string | undefined;
+  /** The docker registry image name. */
+  docker_registry_image_name?: string | undefined;
+  /** The docker registry image tag. */
+  docker_registry_image_tag?: string | undefined;
+  /** The flag to indicate if the application is static. */
+  is_static?: boolean | undefined;
+  /** The flag to indicate if the application is a single-page application (SPA). Only relevant when is_static is true. */
+  is_spa?: boolean | undefined;
+  /** The flag to indicate if auto-deploy is enabled on git push. Defaults to true. */
+  is_auto_deploy_enabled?: boolean | undefined;
+  /** The flag to indicate if HTTPS is forced. Defaults to true. */
+  is_force_https_enabled?: boolean | undefined;
+  /** Enable preview deployments for pull requests. */
+  is_preview_deployments_enabled?: boolean | undefined;
+  /** The static image. */
+  static_image?: CreatePrivateGiteaAppApplicationRequestStaticImage | (string & {}) | undefined;
+  /** The install command. */
+  install_command?: string | undefined;
+  /** The build command. */
+  build_command?: string | undefined;
+  /** The start command. */
+  start_command?: string | undefined;
+  /** The ports mappings. */
+  ports_mappings?: string | undefined;
+  /** The base directory for all commands. */
+  base_directory?: string | undefined;
+  /** The publish directory. */
+  publish_directory?: string | undefined;
+  /** Health check enabled. */
+  health_check_enabled?: boolean | undefined;
+  /** Health check path. */
+  health_check_path?: string | undefined;
+  /** Health check port. */
+  health_check_port?: string | null | undefined;
+  /** Health check host. */
+  health_check_host?: string | null | undefined;
+  /** Health check method. */
+  health_check_method?: string | undefined;
+  /** Health check return code. */
+  health_check_return_code?: number | undefined;
+  /** Health check scheme. */
+  health_check_scheme?: string | undefined;
+  /** Health check response text. */
+  health_check_response_text?: string | null | undefined;
+  /** Health check interval in seconds. */
+  health_check_interval?: number | undefined;
+  /** Health check timeout in seconds. */
+  health_check_timeout?: number | undefined;
+  /** Health check retries count. */
+  health_check_retries?: number | undefined;
+  /** Health check start period in seconds. */
+  health_check_start_period?: number | undefined;
+  /** Memory limit. */
+  limits_memory?: string | undefined;
+  /** Memory swap limit. */
+  limits_memory_swap?: string | undefined;
+  /** Memory swappiness. */
+  limits_memory_swappiness?: number | undefined;
+  /** Memory reservation. */
+  limits_memory_reservation?: string | undefined;
+  /** CPU limit. */
+  limits_cpus?: string | undefined;
+  /** CPU set. */
+  limits_cpuset?: string | null | undefined;
+  /** CPU shares. */
+  limits_cpu_shares?: number | undefined;
+  /** Custom labels. */
+  custom_labels?: string | undefined;
+  /** Custom docker run options. */
+  custom_docker_run_options?: string | undefined;
+  /** Post deployment command. */
+  post_deployment_command?: string | undefined;
+  /** Post deployment command container. */
+  post_deployment_command_container?: string | undefined;
+  /** Pre deployment command. */
+  pre_deployment_command?: string | undefined;
+  /** Pre deployment command container. */
+  pre_deployment_command_container?: string | undefined;
+  /** Manual webhook secret for Github. Needs the deploy ability. */
+  manual_webhook_secret_github?: string | undefined;
+  /** Manual webhook secret for Gitlab. Needs the deploy ability. */
+  manual_webhook_secret_gitlab?: string | undefined;
+  /** Manual webhook secret for Bitbucket. Needs the deploy ability. */
+  manual_webhook_secret_bitbucket?: string | undefined;
+  /** Manual webhook secret for Gitea. Needs the deploy ability. */
+  manual_webhook_secret_gitea?: string | undefined;
+  /** How to set redirect with Traefik / Caddy. www<->non-www. */
+  redirect?: CreatePrivateGiteaAppApplicationRequestRedirect | (string & {}) | null | undefined;
+  /** The flag to indicate if the application should be deployed instantly. */
+  instant_deploy?: boolean | undefined;
+  /** The Dockerfile content. */
+  dockerfile?: string | undefined;
+  /** The Dockerfile location in the repository */
+  dockerfile_location?: string | undefined;
+  /** The Docker build target (stage) in the Dockerfile. */
+  dockerfile_target_build?: string | null | undefined;
+  /** The Docker Compose location. */
+  docker_compose_location?: string | undefined;
+  /** The Docker Compose custom start command. */
+  docker_compose_custom_start_command?: string | undefined;
+  /** The Docker Compose custom build command. */
+  docker_compose_custom_build_command?: string | undefined;
+  /** Array of URLs to be applied to containers of a dockercompose application. */
+  docker_compose_domains?:
+    | CreatePrivateGiteaAppApplicationRequestDockerComposeDomainsList
+    | undefined;
+  /** Watch path patterns, one per line (newline-separated). Commas do not separate patterns. */
+  watch_paths?: string | undefined;
+  /** Use build server. */
+  use_build_server?: boolean | null | undefined;
+  /** Use Docker Build Secrets for build-time environment variables. */
+  use_build_secrets?: boolean | undefined;
+  /** Clone Git submodules. */
+  is_git_submodules_enabled?: boolean | undefined;
+  /** Enable Git LFS. */
+  is_git_lfs_enabled?: boolean | undefined;
+  /** Use a shallow Git clone. */
+  is_git_shallow_clone_enabled?: boolean | undefined;
+  /** Cancel older queued webhook deployments when a newer push arrives. Default: true. */
+  is_auto_cancel_queued_deployments_enabled?: boolean | undefined;
+  /** Also stop an older webhook deployment that is still building when a newer push arrives. A deployment that already started to replace containers always finishes. This also cancels queued webhook deployments. Default: false. */
+  is_auto_cancel_building_deployments_enabled?: boolean | undefined;
+  /** Disable the build cache. */
+  disable_build_cache?: boolean | undefined;
+  /** Inject build arguments into the Dockerfile build. */
+  inject_build_args_to_dockerfile?: boolean | undefined;
+  /** Include the source commit in the build. */
+  include_source_commit_in_build?: boolean | undefined;
+  /** Add the containers of the destination network as build hosts. */
+  include_network_hosts_in_build?: boolean | undefined;
+  /** Sort environment variables. */
+  is_env_sorting_enabled?: boolean | undefined;
+  /** Redact all environment variable values in logs. When false, only locked (shown once) values are redacted. Requires team admin permissions. */
+  redact_all_env_values_in_logs?: boolean | undefined;
+  /** Add the predefined COOLIFY_* variables (COOLIFY_URL, COOLIFY_FQDN, ...) to the environment. Requires team admin permissions. Redeploy to apply it. */
+  include_coolify_default_variables?: boolean | undefined;
+  /** Make pull request deployments public. */
+  is_pr_deployments_public_enabled?: boolean | undefined;
+  /** Container stop grace period in seconds. */
+  stop_grace_period?: number | null | undefined;
+  /** Seconds to wait after the new container is healthy before old containers stop during a rolling update. 0 turns the wait off. Default: 5. */
+  rolling_update_drain_seconds?: number | undefined;
+  /** Number of Docker images to retain. */
+  docker_images_to_keep?: number | undefined;
+  /** Enable gzip compression. */
+  is_gzip_enabled?: boolean | undefined;
+  /** Enable path prefix stripping. */
+  is_stripprefix_enabled?: boolean | undefined;
+  /** Use permanent redirects (301/308) instead of temporary (302/307) for the HTTP to HTTPS and www redirects. Defaults to false. */
+  is_permanent_redirect_enabled?: boolean | undefined;
+  /** Traefik certificate resolver for this application. Null uses the server setting, "none" uses no resolver. */
+  traefik_certificate_resolver?: string | null | undefined;
+  /** Let Coolify manage the container labels. True regenerates custom_labels from domains, redirect, and proxy settings. False keeps custom_labels as you set them: domains, redirect, and basic auth changes then do not change the labels. */
+  is_container_label_readonly_enabled?: boolean | undefined;
+  /** Deploy the raw Docker Compose definition. */
+  is_raw_compose_deployment_enabled?: boolean | undefined;
+  /** Enable log drain for the application. */
+  is_log_drain_enabled?: boolean | undefined;
+  /** Enable GPU support. */
+  is_gpu_enabled?: boolean | undefined;
+  /** GPU driver name. */
+  gpu_driver?: string | null | undefined;
+  /** Number of GPUs to allocate. */
+  gpu_count?: string | null | undefined;
+  /** Comma-separated GPU device IDs. */
+  gpu_device_ids?: string | null | undefined;
+  /** Additional GPU options. */
+  gpu_options?: string | null | undefined;
+  /** Use a consistent container name across deployments. */
+  is_consistent_container_name_enabled?: boolean | undefined;
+  /** Scan the images of the application for vulnerabilities. Needs image scanning on the server. Default true. */
+  is_image_scan_enabled?: boolean | undefined;
+  /** Custom internal container name. Turns is_consistent_container_name_enabled on when that field is not sent; sending it as false together with a name returns 422. */
+  custom_internal_name?: string | null | undefined;
+  /** Prefix for generated container names (prefix-20260908T141530). Slugified and unique across the instance. */
+  custom_container_name_prefix?: string | null | undefined;
+  /** Preview URL template. */
+  preview_url_template?: string | undefined;
+  /** Maximum container restart count before stopping. */
+  max_restart_count?: number | undefined;
+  /** HTTP Basic Authentication enabled. */
+  is_http_basic_auth_enabled?: boolean | undefined;
+  /** Username for HTTP Basic Authentication */
+  http_basic_auth_username?: string | null | undefined;
+  /** Password for HTTP Basic Authentication */
+  http_basic_auth_password?: string | Redacted.Redacted<string> | null | undefined;
+  /** Hash algorithm for the HTTP Basic Authentication password. Argon2id needs the Caddy proxy, version 2.11 or newer. */
+  http_basic_auth_hash_algorithm?:
+    | CreatePrivateGiteaAppApplicationRequestHttpBasicAuthHashAlgorithm
+    | (string & {})
+    | undefined;
+  /** Bcrypt cost for the HTTP Basic Authentication password. */
+  http_basic_auth_bcrypt_cost?: number | undefined;
+  /** Argon2id memory cost in KiB for the HTTP Basic Authentication password. */
+  http_basic_auth_argon2id_memory_cost?: number | undefined;
+  /** Argon2id time cost (iterations) for the HTTP Basic Authentication password. */
+  http_basic_auth_argon2id_time_cost?: number | undefined;
+  /** The flag to connect the service to the predefined Docker network. */
+  connect_to_docker_network?: boolean | undefined;
+  /** Force domain usage even if conflicts are detected. Default is false. */
+  force_domain_override?: boolean | undefined;
+  /** If true and domains is empty, auto-generate a domain using the server's wildcard domain or sslip.io fallback. Ignored for the dockercompose build pack, which uses docker_compose_domains. Default: true. */
+  autogenerate_domain?: boolean | undefined;
+  /** Escape special characters in labels. By default, $ (and other chars) is escaped. So if you write $ in the labels, it will be saved as $$. If you want to use env variables inside the labels, turn this off. */
+  is_container_label_escape_enabled?: boolean | undefined;
+  /** Tags to assign to the application. */
+  tags?: CreatePrivateGiteaAppApplicationRequestTagsList | undefined;
+  /** Preserve repository during deployment. */
+  is_preserve_repository_enabled?: boolean | undefined;
+}
+export interface CreatePrivateGiteaAppApplicationResponse {
   uuid?: string | undefined;
 }
 /** The build pack type. */
@@ -1648,6 +2080,10 @@ export interface CreatePrivateGithubAppApplicationRequestDockerComposeDomainsIte
 /** Array of URLs to be applied to containers of a dockercompose application. */
 export type CreatePrivateGithubAppApplicationRequestDockerComposeDomainsList =
   Array<CreatePrivateGithubAppApplicationRequestDockerComposeDomainsItem>;
+/** Hash algorithm for the HTTP Basic Authentication password. Argon2id needs the Caddy proxy, version 2.11 or newer. */
+export type CreatePrivateGithubAppApplicationRequestHttpBasicAuthHashAlgorithm =
+  | "bcrypt"
+  | "argon2id";
 /** Tags to assign to the application. */
 export type CreatePrivateGithubAppApplicationRequestTagsList = Array<string>;
 export interface CreatePrivateGithubAppApplicationRequest {
@@ -1656,9 +2092,9 @@ export interface CreatePrivateGithubAppApplicationRequest {
   /** The server UUID. */
   server_uuid: string;
   /** The environment name. You need to provide at least one of environment_name or environment_uuid. */
-  environment_name: string;
+  environment_name?: string | undefined;
   /** The environment UUID. You need to provide at least one of environment_name or environment_uuid. */
-  environment_uuid: string;
+  environment_uuid?: string | undefined;
   /** The Github App UUID. */
   github_app_uuid: string;
   /** The git repository URL. */
@@ -1759,13 +2195,13 @@ export interface CreatePrivateGithubAppApplicationRequest {
   pre_deployment_command?: string | undefined;
   /** Pre deployment command container. */
   pre_deployment_command_container?: string | undefined;
-  /** Manual webhook secret for Github. */
+  /** Manual webhook secret for Github. Needs the deploy ability. */
   manual_webhook_secret_github?: string | undefined;
-  /** Manual webhook secret for Gitlab. */
+  /** Manual webhook secret for Gitlab. Needs the deploy ability. */
   manual_webhook_secret_gitlab?: string | undefined;
-  /** Manual webhook secret for Bitbucket. */
+  /** Manual webhook secret for Bitbucket. Needs the deploy ability. */
   manual_webhook_secret_bitbucket?: string | undefined;
-  /** Manual webhook secret for Gitea. */
+  /** Manual webhook secret for Gitea. Needs the deploy ability. */
   manual_webhook_secret_gitea?: string | undefined;
   /** How to set redirect with Traefik / Caddy. www<->non-www. */
   redirect?: CreatePrivateGithubAppApplicationRequestRedirect | (string & {}) | null | undefined;
@@ -1775,6 +2211,8 @@ export interface CreatePrivateGithubAppApplicationRequest {
   dockerfile?: string | undefined;
   /** The Dockerfile location in the repository */
   dockerfile_location?: string | undefined;
+  /** The Docker build target (stage) in the Dockerfile. */
+  dockerfile_target_build?: string | null | undefined;
   /** The Docker Compose location. */
   docker_compose_location?: string | undefined;
   /** The Docker Compose custom start command. */
@@ -1797,26 +2235,42 @@ export interface CreatePrivateGithubAppApplicationRequest {
   is_git_lfs_enabled?: boolean | undefined;
   /** Use a shallow Git clone. */
   is_git_shallow_clone_enabled?: boolean | undefined;
+  /** Cancel older queued webhook deployments when a newer push arrives. Default: true. */
+  is_auto_cancel_queued_deployments_enabled?: boolean | undefined;
+  /** Also stop an older webhook deployment that is still building when a newer push arrives. A deployment that already started to replace containers always finishes. This also cancels queued webhook deployments. Default: false. */
+  is_auto_cancel_building_deployments_enabled?: boolean | undefined;
   /** Disable the build cache. */
   disable_build_cache?: boolean | undefined;
   /** Inject build arguments into the Dockerfile build. */
   inject_build_args_to_dockerfile?: boolean | undefined;
   /** Include the source commit in the build. */
   include_source_commit_in_build?: boolean | undefined;
+  /** Add the containers of the destination network as build hosts. */
+  include_network_hosts_in_build?: boolean | undefined;
   /** Sort environment variables. */
   is_env_sorting_enabled?: boolean | undefined;
+  /** Redact all environment variable values in logs. When false, only locked (shown once) values are redacted. Requires team admin permissions. */
+  redact_all_env_values_in_logs?: boolean | undefined;
+  /** Add the predefined COOLIFY_* variables (COOLIFY_URL, COOLIFY_FQDN, ...) to the environment. Requires team admin permissions. Redeploy to apply it. */
+  include_coolify_default_variables?: boolean | undefined;
   /** Make pull request deployments public. */
   is_pr_deployments_public_enabled?: boolean | undefined;
   /** Container stop grace period in seconds. */
   stop_grace_period?: number | null | undefined;
+  /** Seconds to wait after the new container is healthy before old containers stop during a rolling update. 0 turns the wait off. Default: 5. */
+  rolling_update_drain_seconds?: number | undefined;
   /** Number of Docker images to retain. */
   docker_images_to_keep?: number | undefined;
   /** Enable gzip compression. */
   is_gzip_enabled?: boolean | undefined;
   /** Enable path prefix stripping. */
   is_stripprefix_enabled?: boolean | undefined;
+  /** Use permanent redirects (301/308) instead of temporary (302/307) for the HTTP to HTTPS and www redirects. Defaults to false. */
+  is_permanent_redirect_enabled?: boolean | undefined;
   /** Traefik certificate resolver for this application. Null uses the server setting, "none" uses no resolver. */
   traefik_certificate_resolver?: string | null | undefined;
+  /** Let Coolify manage the container labels. True regenerates custom_labels from domains, redirect, and proxy settings. False keeps custom_labels as you set them: domains, redirect, and basic auth changes then do not change the labels. */
+  is_container_label_readonly_enabled?: boolean | undefined;
   /** Deploy the raw Docker Compose definition. */
   is_raw_compose_deployment_enabled?: boolean | undefined;
   /** Enable log drain for the application. */
@@ -1833,6 +2287,8 @@ export interface CreatePrivateGithubAppApplicationRequest {
   gpu_options?: string | null | undefined;
   /** Use a consistent container name across deployments. */
   is_consistent_container_name_enabled?: boolean | undefined;
+  /** Scan the images of the application for vulnerabilities. Needs image scanning on the server. Default true. */
+  is_image_scan_enabled?: boolean | undefined;
   /** Custom internal container name. Turns is_consistent_container_name_enabled on when that field is not sent; sending it as false together with a name returns 422. */
   custom_internal_name?: string | null | undefined;
   /** Prefix for generated container names (prefix-20260908T141530). Slugified and unique across the instance. */
@@ -1847,6 +2303,17 @@ export interface CreatePrivateGithubAppApplicationRequest {
   http_basic_auth_username?: string | null | undefined;
   /** Password for HTTP Basic Authentication */
   http_basic_auth_password?: string | Redacted.Redacted<string> | null | undefined;
+  /** Hash algorithm for the HTTP Basic Authentication password. Argon2id needs the Caddy proxy, version 2.11 or newer. */
+  http_basic_auth_hash_algorithm?:
+    | CreatePrivateGithubAppApplicationRequestHttpBasicAuthHashAlgorithm
+    | (string & {})
+    | undefined;
+  /** Bcrypt cost for the HTTP Basic Authentication password. */
+  http_basic_auth_bcrypt_cost?: number | undefined;
+  /** Argon2id memory cost in KiB for the HTTP Basic Authentication password. */
+  http_basic_auth_argon2id_memory_cost?: number | undefined;
+  /** Argon2id time cost (iterations) for the HTTP Basic Authentication password. */
+  http_basic_auth_argon2id_time_cost?: number | undefined;
   /** The flag to connect the service to the predefined Docker network. */
   connect_to_docker_network?: boolean | undefined;
   /** Force domain usage even if conflicts are detected. Default is false. */
@@ -1884,6 +2351,13 @@ export interface CreateProjectResponse {
 export interface CreateProjectSharedEnvRequest {
   /** Project UUID */
   uuid: string;
+  key: string;
+  value?: string | null | undefined;
+  is_literal?: boolean | undefined;
+  is_multiline?: boolean | undefined;
+  /** If true, the saved value is hidden in the UI and API responses. A lock is permanent: false does not unlock a locked variable, but a new value can still replace the locked one. MCP never returns environment variable values. */
+  is_shown_once?: boolean | undefined;
+  comment?: string | null | undefined;
 }
 export interface CreateProjectSharedEnvResponse {}
 /** The build pack type. */
@@ -1919,6 +2393,8 @@ export interface CreatePublicApplicationRequestDockerComposeDomainsItem {
 /** Array of URLs to be applied to containers of a dockercompose application. */
 export type CreatePublicApplicationRequestDockerComposeDomainsList =
   Array<CreatePublicApplicationRequestDockerComposeDomainsItem>;
+/** Hash algorithm for the HTTP Basic Authentication password. Argon2id needs the Caddy proxy, version 2.11 or newer. */
+export type CreatePublicApplicationRequestHttpBasicAuthHashAlgorithm = "bcrypt" | "argon2id";
 /** Tags to assign to the application. */
 export type CreatePublicApplicationRequestTagsList = Array<string>;
 export interface CreatePublicApplicationRequest {
@@ -1927,13 +2403,17 @@ export interface CreatePublicApplicationRequest {
   /** The server UUID. */
   server_uuid: string;
   /** The environment name. You need to provide at least one of environment_name or environment_uuid. */
-  environment_name: string;
+  environment_name?: string | undefined;
   /** The environment UUID. You need to provide at least one of environment_name or environment_uuid. */
-  environment_uuid: string;
+  environment_uuid?: string | undefined;
   /** The git repository URL. */
   git_repository: string;
   /** The git branch. */
   git_branch: string;
+  /** Username for HTTPS access to a private repository on a custom Git host (not github.com). */
+  git_https_username?: string | null | undefined;
+  /** Password or access token for HTTPS access to a private repository on a custom Git host (not github.com). It is stored encrypted and never returned. */
+  git_https_password?: string | Redacted.Redacted<string> | null | undefined;
   /** The build pack type. */
   build_pack: CreatePublicApplicationRequestBuildPack | (string & {});
   /** The ports to expose. */
@@ -2028,13 +2508,13 @@ export interface CreatePublicApplicationRequest {
   pre_deployment_command?: string | undefined;
   /** Pre deployment command container. */
   pre_deployment_command_container?: string | undefined;
-  /** Manual webhook secret for Github. */
+  /** Manual webhook secret for Github. Needs the deploy ability. */
   manual_webhook_secret_github?: string | undefined;
-  /** Manual webhook secret for Gitlab. */
+  /** Manual webhook secret for Gitlab. Needs the deploy ability. */
   manual_webhook_secret_gitlab?: string | undefined;
-  /** Manual webhook secret for Bitbucket. */
+  /** Manual webhook secret for Bitbucket. Needs the deploy ability. */
   manual_webhook_secret_bitbucket?: string | undefined;
-  /** Manual webhook secret for Gitea. */
+  /** Manual webhook secret for Gitea. Needs the deploy ability. */
   manual_webhook_secret_gitea?: string | undefined;
   /** How to set redirect with Traefik / Caddy. www<->non-www. */
   redirect?: CreatePublicApplicationRequestRedirect | (string & {}) | null | undefined;
@@ -2044,6 +2524,8 @@ export interface CreatePublicApplicationRequest {
   dockerfile?: string | undefined;
   /** The Dockerfile location in the repository. */
   dockerfile_location?: string | undefined;
+  /** The Docker build target (stage) in the Dockerfile. */
+  dockerfile_target_build?: string | null | undefined;
   /** The Docker Compose location. */
   docker_compose_location?: string | undefined;
   /** The Docker Compose custom start command. */
@@ -2064,26 +2546,42 @@ export interface CreatePublicApplicationRequest {
   is_git_lfs_enabled?: boolean | undefined;
   /** Use a shallow Git clone. */
   is_git_shallow_clone_enabled?: boolean | undefined;
+  /** Cancel older queued webhook deployments when a newer push arrives. Default: true. */
+  is_auto_cancel_queued_deployments_enabled?: boolean | undefined;
+  /** Also stop an older webhook deployment that is still building when a newer push arrives. A deployment that already started to replace containers always finishes. This also cancels queued webhook deployments. Default: false. */
+  is_auto_cancel_building_deployments_enabled?: boolean | undefined;
   /** Disable the build cache. */
   disable_build_cache?: boolean | undefined;
   /** Inject build arguments into the Dockerfile build. */
   inject_build_args_to_dockerfile?: boolean | undefined;
   /** Include the source commit in the build. */
   include_source_commit_in_build?: boolean | undefined;
+  /** Add the containers of the destination network as build hosts. */
+  include_network_hosts_in_build?: boolean | undefined;
   /** Sort environment variables. */
   is_env_sorting_enabled?: boolean | undefined;
+  /** Redact all environment variable values in logs. When false, only locked (shown once) values are redacted. Requires team admin permissions. */
+  redact_all_env_values_in_logs?: boolean | undefined;
+  /** Add the predefined COOLIFY_* variables (COOLIFY_URL, COOLIFY_FQDN, ...) to the environment. Requires team admin permissions. Redeploy to apply it. */
+  include_coolify_default_variables?: boolean | undefined;
   /** Make pull request deployments public. */
   is_pr_deployments_public_enabled?: boolean | undefined;
   /** Container stop grace period in seconds. */
   stop_grace_period?: number | null | undefined;
+  /** Seconds to wait after the new container is healthy before old containers stop during a rolling update. 0 turns the wait off. Default: 5. */
+  rolling_update_drain_seconds?: number | undefined;
   /** Number of Docker images to retain. */
   docker_images_to_keep?: number | undefined;
   /** Enable gzip compression. */
   is_gzip_enabled?: boolean | undefined;
   /** Enable path prefix stripping. */
   is_stripprefix_enabled?: boolean | undefined;
+  /** Use permanent redirects (301/308) instead of temporary (302/307) for the HTTP to HTTPS and www redirects. Defaults to false. */
+  is_permanent_redirect_enabled?: boolean | undefined;
   /** Traefik certificate resolver for this application. Null uses the server setting, "none" uses no resolver. */
   traefik_certificate_resolver?: string | null | undefined;
+  /** Let Coolify manage the container labels. True regenerates custom_labels from domains, redirect, and proxy settings. False keeps custom_labels as you set them: domains, redirect, and basic auth changes then do not change the labels. */
+  is_container_label_readonly_enabled?: boolean | undefined;
   /** Deploy the raw Docker Compose definition. */
   is_raw_compose_deployment_enabled?: boolean | undefined;
   /** Enable log drain for the application. */
@@ -2100,6 +2598,8 @@ export interface CreatePublicApplicationRequest {
   gpu_options?: string | null | undefined;
   /** Use a consistent container name across deployments. */
   is_consistent_container_name_enabled?: boolean | undefined;
+  /** Scan the images of the application for vulnerabilities. Needs image scanning on the server. Default true. */
+  is_image_scan_enabled?: boolean | undefined;
   /** Custom internal container name. Turns is_consistent_container_name_enabled on when that field is not sent; sending it as false together with a name returns 422. */
   custom_internal_name?: string | null | undefined;
   /** Prefix for generated container names (prefix-20260908T141530). Slugified and unique across the instance. */
@@ -2114,6 +2614,17 @@ export interface CreatePublicApplicationRequest {
   http_basic_auth_username?: string | null | undefined;
   /** Password for HTTP Basic Authentication */
   http_basic_auth_password?: string | Redacted.Redacted<string> | null | undefined;
+  /** Hash algorithm for the HTTP Basic Authentication password. Argon2id needs the Caddy proxy, version 2.11 or newer. */
+  http_basic_auth_hash_algorithm?:
+    | CreatePublicApplicationRequestHttpBasicAuthHashAlgorithm
+    | (string & {})
+    | undefined;
+  /** Bcrypt cost for the HTTP Basic Authentication password. */
+  http_basic_auth_bcrypt_cost?: number | undefined;
+  /** Argon2id memory cost in KiB for the HTTP Basic Authentication password. */
+  http_basic_auth_argon2id_memory_cost?: number | undefined;
+  /** Argon2id time cost (iterations) for the HTTP Basic Authentication password. */
+  http_basic_auth_argon2id_time_cost?: number | undefined;
   /** The flag to connect the service to the predefined Docker network. */
   connect_to_docker_network?: boolean | undefined;
   /** Force domain usage even if conflicts are detected. Default is false. */
@@ -2130,21 +2641,31 @@ export interface CreatePublicApplicationRequest {
 export interface CreatePublicApplicationResponse {
   uuid?: string | undefined;
 }
+/** The storage protocol. It cannot change later. */
+export type CreateS3StorageRequestType = "s3" | "sftp" | "ftps" | "webdav";
 export interface CreateS3StorageRequest {
+  /** The storage protocol. It cannot change later. */
+  type?: CreateS3StorageRequestType | (string & {}) | undefined;
   /** A friendly name for the storage. */
   name: string;
   /** Optional description. */
   description?: string | null | undefined;
-  /** S3-compatible endpoint URL. */
+  /** S3: the S3-compatible endpoint URL. SFTP and FTPS: sftp://host:port/directory or ftps://host:port/directory (explicit TLS); the directory is an absolute path, and without one the login directory is used. WebDAV: the https URL of the backup directory. */
   endpoint: string;
-  /** S3 bucket name. */
-  bucket: string;
-  /** S3 region. */
-  region: string;
-  /** Access key. */
+  /** S3 bucket name. Required for S3, not allowed for the other types. */
+  bucket?: string | undefined;
+  /** S3 region. Required for S3, not allowed for the other types. */
+  region?: string | undefined;
+  /** Use path-style URLs (endpoint/bucket). Set to false for providers that only accept virtual-hosted-style URLs (bucket.endpoint). Default: false for Alibaba Cloud OSS, Tencent Cloud COS, and Volcengine TOS endpoints, true for all other endpoints. */
+  use_path_style_endpoint?: boolean | undefined;
+  /** S3 only. Do not check the TLS certificate of the endpoint. Use only for endpoints with a self-signed or private CA certificate. Default: false. */
+  skip_tls_verification?: boolean | undefined;
+  /** S3: the access key. Other types: the username. */
   key: string;
-  /** Secret key. */
-  secret: string | Redacted.Redacted<string>;
+  /** S3: the secret key. Other types: the password. SFTP: not needed with private_key_uuid. */
+  secret?: string | Redacted.Redacted<string> | undefined;
+  /** SFTP only: the UUID of a private key of your team to log in with instead of a password. */
+  private_key_uuid?: string | null | undefined;
   /** Whether the storage is marked usable. */
   is_usable?: boolean | undefined;
 }
@@ -2165,6 +2686,8 @@ export interface CreateScheduledTaskByApplicationUuidRequest {
   container?: string | null | undefined;
   /** The timeout of the scheduled task in seconds. */
   timeout?: number | undefined;
+  /** Run the command with `sh -c` in the container. Set it to false for containers without a shell: the command is then split into arguments and run directly, without shell features such as variables, pipes, or redirects. */
+  use_shell?: boolean | undefined;
   /** The flag to indicate if the scheduled task is enabled. An enabled task requires the deploy ability. */
   enabled?: boolean | undefined;
 }
@@ -2186,6 +2709,14 @@ export interface ScheduledTask {
   container?: string | null | undefined;
   /** The timeout of the scheduled task in seconds. */
   timeout?: number | undefined;
+  /** Run the command with `sh -c` in the container. Set it to false for containers without a shell: the command is then split into arguments and run directly, without shell features such as variables, pipes, or redirects. */
+  use_shell?: boolean | undefined;
+  /** The number of failed runs since the last successful run. */
+  consecutive_failures?: number | undefined;
+  /** The date and time of the first failed run since the last successful run. */
+  failing_since?: string | null | undefined;
+  /** Why Coolify disabled the task automatically. It is cleared when the task is enabled again. */
+  disabled_reason?: string | null | undefined;
   /** The date and time when the scheduled task was created. */
   created_at?: string | undefined;
   /** The date and time when the scheduled task was last updated. */
@@ -2204,23 +2735,46 @@ export interface CreateScheduledTaskByServiceUuidRequest {
   container?: string | null | undefined;
   /** The timeout of the scheduled task in seconds. */
   timeout?: number | undefined;
+  /** Run the command with `sh -c` in the container. Set it to false for containers without a shell: the command is then split into arguments and run directly, without shell features such as variables, pipes, or redirects. */
+  use_shell?: boolean | undefined;
   /** The flag to indicate if the scheduled task is enabled. An enabled task requires the deploy ability. */
   enabled?: boolean | undefined;
 }
-export type CreateSecretManagerIntegrationTokenRequestProvider = "doppler" | "infisical" | "vault";
+export type CreateSecretManagerIntegrationTokenRequestProvider =
+  | "cloudflare"
+  | "doppler"
+  | "infisical"
+  | "vault";
+export type CreateSecretManagerIntegrationTokenRequestCapabilitiesItem =
+  | "dns"
+  | "tunnel"
+  | "secrets";
+/** Cloudflare: dns, tunnel (tunnel needs dns). Default: dns. Secret managers: secrets. */
+export type CreateSecretManagerIntegrationTokenRequestCapabilitiesList = Array<
+  CreateSecretManagerIntegrationTokenRequestCapabilitiesItem | (string & {})
+>;
 export interface CreateSecretManagerIntegrationTokenRequest {
   provider: CreateSecretManagerIntegrationTokenRequestProvider | (string & {});
   name: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
+  /** Cloudflare: dns, tunnel (tunnel needs dns). Default: dns. Secret managers: secrets. */
+  capabilities?: CreateSecretManagerIntegrationTokenRequestCapabilitiesList | undefined;
+  /** Cloudflare only. Create DNS records when a domain is added. Default: true. */
+  automatic_dns?: boolean | undefined;
+  /** Cloudflare only. Create new records proxied (orange cloud). Default: false. */
+  proxied_dns?: boolean | undefined;
+  /** Secret managers only: base_url, client_id (Infisical), namespace (Vault), timeout. */
   metadata?: unknown | undefined;
 }
-export interface CreateSecretManagerIntegrationTokenResponse {}
+export interface CreateSecretManagerIntegrationTokenResponse {
+  uuid?: string | undefined;
+}
 /** Server role. */
 export type CreateServerRequestServerRole = "deployment" | "build" | "both";
 /** The proxy type. */
 export type CreateServerRequestProxyType = "traefik" | "caddy" | "none";
 export interface CreateServerRequest {
-  /** The name of the server. */
+  /** The name of the server. Must not contain control characters such as new lines. */
   name?: string | undefined;
   /** The description of the server. */
   description?: string | undefined;
@@ -2240,6 +2794,8 @@ export interface CreateServerRequest {
   instant_validate?: boolean | undefined;
   /** The proxy type. */
   proxy_type?: CreateServerRequestProxyType | (string & {}) | undefined;
+  /** The SSH host key(s) of the server, as public key lines (for example the content of /etc/ssh/ssh_host_ed25519_key.pub) or known_hosts lines. Without it, Coolify trusts the key that the server sends on the first connection. */
+  ssh_host_key?: string | undefined;
 }
 export interface CreateServerResponse {
   /** The UUID of the server. */
@@ -2250,6 +2806,7 @@ export interface CreateServerDestinationRequest {
   /** Server UUID */
   server_uuid: string;
   name?: string | undefined;
+  /** Name of a new Docker network. Must not be bridge, host, none, or a network that already exists on the server. */
   network: string;
   type?: CreateServerDestinationRequestType | (string & {}) | undefined;
 }
@@ -2267,6 +2824,13 @@ export interface Destination {
 export interface CreateServerSharedEnvRequest {
   /** Server UUID */
   uuid: string;
+  key: string;
+  value?: string | null | undefined;
+  is_literal?: boolean | undefined;
+  is_multiline?: boolean | undefined;
+  /** If true, the saved value is hidden in the UI and API responses. A lock is permanent: false does not unlock a locked variable, but a new value can still replace the locked one. MCP never returns environment variable values. */
+  is_shown_once?: boolean | undefined;
+  comment?: string | null | undefined;
 }
 export interface CreateServerSharedEnvResponse {}
 export interface CreateServiceRequestUrlsItem {
@@ -2289,9 +2853,9 @@ export interface CreateServiceRequest {
   /** Project UUID. */
   project_uuid: string;
   /** Environment name. You need to provide at least one of environment_name or environment_uuid. */
-  environment_name: string;
+  environment_name?: string | undefined;
   /** Environment UUID. You need to provide at least one of environment_name or environment_uuid. */
-  environment_uuid: string;
+  environment_uuid?: string | undefined;
   /** Server UUID. */
   server_uuid: string;
   /** Destination UUID. Required if server has multiple destinations. */
@@ -2308,6 +2872,8 @@ export interface CreateServiceRequest {
   force_domain_override?: boolean | undefined;
   /** Escape special characters in labels. By default, $ (and other chars) is escaped. If you want to use env variables inside the labels, turn this off. */
   is_container_label_escape_enabled?: boolean | undefined;
+  /** Redact all environment variable values in logs. When false, only locked (shown once) values are redacted. Requires team admin permissions. */
+  redact_all_env_values_in_logs?: boolean | undefined;
   /** Tags to assign to the service. */
   tags?: CreateServiceRequestTagsList | undefined;
 }
@@ -2327,6 +2893,19 @@ export interface CreateServiceDatabaseImportRequest {
   body: DatabaseImportRequest;
 }
 export interface CreateServiceDatabaseImportResponse {}
+export interface CreateServiceDnsRecordRequest {
+  /** Service UUID. */
+  uuid: string;
+  /** A saved domain of the resource. */
+  hostname: string;
+  /** Cloudflare token to use. Required when several tokens manage the zone of the hostname. */
+  integration_token_uuid?: string | undefined;
+  /** A public address of the server. Default: default_address of the DNS status. */
+  address?: string | undefined;
+}
+export interface CreateServiceDnsRecordResponse {
+  record?: ManagedDnsRecord | undefined;
+}
 /** The type of storage. */
 export type CreateStorageByApplicationUuidRequestType = "persistent" | "file";
 export interface CreateStorageByApplicationUuidRequest {
@@ -2338,7 +2917,7 @@ export interface CreateStorageByApplicationUuidRequest {
   name?: string | undefined;
   /** The container mount path. */
   mount_path: string;
-  /** File content (file only, optional). */
+  /** File content (file only, optional). Needs the deploy ability when set. */
   content?: string | null | undefined;
   /** Whether this is a directory mount (file only, default false). */
   is_directory?: boolean | undefined;
@@ -2357,7 +2936,7 @@ export interface CreateStorageByDatabaseUuidRequest {
   name?: string | undefined;
   /** The container mount path. */
   mount_path: string;
-  /** File content (file only, optional). */
+  /** File content (file only, optional). Needs the deploy ability when set. */
   content?: string | null | undefined;
   /** Whether this is a directory mount (file only, default false). */
   is_directory?: boolean | undefined;
@@ -2378,7 +2957,7 @@ export interface CreateStorageByServiceUuidRequest {
   name?: string | undefined;
   /** The container mount path. */
   mount_path: string;
-  /** File content (file only, optional). */
+  /** File content (file only, optional). Needs the deploy ability when set. */
   content?: string | null | undefined;
   /** Whether this is a directory mount (file only, default false). */
   is_directory?: boolean | undefined;
@@ -2437,7 +3016,7 @@ export interface CreateTeamSharedEnvRequest {
   value?: string | null | undefined;
   is_literal?: boolean | undefined;
   is_multiline?: boolean | undefined;
-  /** If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values. */
+  /** If true, the saved value is hidden in the UI and API responses. A lock is permanent: false does not unlock a locked variable, but a new value can still replace the locked one. MCP never returns environment variable values. */
   is_shown_once?: boolean | undefined;
   comment?: string | null | undefined;
 }
@@ -2455,6 +3034,8 @@ export interface DeleteApplicationRequest {
   docker_cleanup?: boolean | undefined;
   /** Delete connected networks. */
   delete_connected_networks?: boolean | undefined;
+  /** Delete the storage backups, on the server and on S3. */
+  delete_backups?: boolean | undefined;
 }
 export interface DeleteApplicationResponse {
   message?: string | undefined;
@@ -2510,6 +3091,8 @@ export interface DeleteDatabaseRequest {
   docker_cleanup?: boolean | undefined;
   /** Delete connected networks. */
   delete_connected_networks?: boolean | undefined;
+  /** Delete the database and storage backups, on the server and on S3. */
+  delete_backups?: boolean | undefined;
 }
 export interface DeleteDatabaseResponse {
   message?: string | undefined;
@@ -2585,6 +3168,13 @@ export interface DeleteGitlabAppRequest {
 export interface DeleteGitlabAppResponse {
   message?: string | undefined;
 }
+export interface DeleteIntegrationTokenByUuidRequest {
+  /** Integration token UUID. */
+  uuid: string;
+}
+export interface DeleteIntegrationTokenByUuidResponse {
+  message?: string | undefined;
+}
 export interface DeletePreviewDeploymentByPullRequestIdRequest {
   /** UUID of the application. */
   uuid: string;
@@ -2643,10 +3233,14 @@ export interface DeleteScheduledTaskByServiceUuidResponse {
 export interface DeleteServerRequest {
   /** UUID of the server. */
   uuid: string;
-  /** Also delete all resources on the server. */
+  /** Also delete all resources whose main destination is on the server. Applications that use the server only as an additional destination are not deleted. They are removed from the server and keep running on their other servers. Needs the deploy permission. */
   force?: boolean | undefined;
-  /** Also delete the server from its cloud provider (Hetzner, Vultr or DigitalOcean). This cannot be undone. */
+  /** Also delete the server from its cloud provider (Hetzner, Vultr or DigitalOcean). This cannot be undone. Needs the deploy permission. */
   delete_from_provider?: boolean | undefined;
+  /** Remove the public key of the server's SSH key from ~/.ssh/authorized_keys on the server before the server is deleted. The server must have no resources. If the key cannot be removed, the server is not deleted. */
+  remove_ssh_key?: boolean | undefined;
+  /** With force=true, also remove the containers, volumes, and files of the resources from the server. Set it to false to delete the resources only from Coolify and leave them running on the server. */
+  remove_resources_from_server?: boolean | undefined;
 }
 export interface DeleteServerResponse {
   message?: string | undefined;
@@ -2669,8 +3263,8 @@ export interface DeleteServiceRequest {
   docker_cleanup?: boolean | undefined;
   /** Delete connected networks. */
   delete_connected_networks?: boolean | undefined;
-  /** Remove only Coolify metadata without deleting Docker resources. */
-  delete_from_coolify_only?: boolean | undefined;
+  /** Delete the database and storage backups, on the server and on S3. */
+  delete_backups?: boolean | undefined;
 }
 export interface DeleteServiceResponse {
   message?: string | undefined;
@@ -2740,6 +3334,7 @@ export interface DeleteTeamSharedEnvRequest {
   env_id: number;
 }
 export interface DeleteTeamSharedEnvResponse {}
+export type DeployByTagOrUuidRequestCancelPrevious = "none" | "queued" | "building";
 export interface DeployByTagOrUuidRequest {
   /** Tag name(s). Comma separated list is also accepted. */
   tag?: string | undefined;
@@ -2751,8 +3346,10 @@ export interface DeployByTagOrUuidRequest {
   pr?: number | undefined;
   /** Preview deployment identifier. Alias of pr. */
   pull_request_id?: number | undefined;
-  /** Docker image tag for Docker Image preview deployments. Requires pull_request_id. */
+  /** Docker image tag for Docker Image preview deployments. Requires pull_request_id. Opening a preview or changing its tag also needs the write permission. */
   docker_tag?: string | undefined;
+  /** Cancel the older webhook, API, and MCP deployments of the same application, pull request, and server. `queued` cancels the ones that wait in the queue. `building` also stops the ones that are still building; a deployment that already started to replace containers always finishes. Manual, restart, and rollback deployments are never cancelled. Default: `none`. */
+  cancel_previous?: DeployByTagOrUuidRequestCancelPrevious | (string & {}) | undefined;
 }
 export interface DeployByTagOrUuidResponseDeploymentsItem {
   message?: string | undefined;
@@ -2777,10 +3374,6 @@ export interface DisableServerCloudflareTunnelRequest {
   uuid: string;
 }
 export interface DisableServerCloudflareTunnelResponse {}
-export interface EnableApiRequest {}
-export interface EnableApiResponse {
-  message?: string | undefined;
-}
 export interface EnableMcpRequest {}
 export interface EnableMcpResponse {
   message?: string | undefined;
@@ -2821,6 +3414,8 @@ export type ApplicationBuildPack =
 export type ApplicationHealthCheckType = "http" | "cmd";
 /** How to set redirect with Traefik / Caddy. www<->non-www. */
 export type ApplicationRedirect = "www" | "non-www" | "both";
+/** Hash algorithm for the HTTP Basic Authentication password. Argon2id needs the Caddy proxy, version 2.11 or newer. */
+export type ApplicationHttpBasicAuthHashAlgorithm = "bcrypt" | "argon2id";
 /** Application settings. */
 export interface ApplicationSetting {
   is_static?: boolean | undefined;
@@ -2845,6 +3440,8 @@ export interface ApplicationSetting {
   /** Traefik certificate resolver override. Null uses the server setting, "none" uses no resolver. */
   traefik_certificate_resolver?: string | null | undefined;
   is_stripprefix_enabled?: boolean | undefined;
+  /** Use permanent (301/308) instead of temporary (302/307) proxy redirects. */
+  is_permanent_redirect_enabled?: boolean | undefined;
   connect_to_docker_network?: boolean | undefined;
   custom_internal_name?: string | null | undefined;
   custom_container_name_prefix?: string | null | undefined;
@@ -2858,10 +3455,16 @@ export interface ApplicationSetting {
   is_git_shallow_clone_enabled?: boolean | undefined;
   is_pr_deployments_public_enabled?: boolean | undefined;
   use_build_secrets?: boolean | undefined;
+  /** Hide every environment variable value in logs. When false, only locked values are hidden. */
+  redact_all_env_values_in_logs?: boolean | undefined;
   inject_build_args_to_dockerfile?: boolean | undefined;
   include_source_commit_in_build?: boolean | undefined;
+  /** Add the containers of the destination network as build hosts (--add-host). Turn off to keep the build cache when resources on the network change. */
+  include_network_hosts_in_build?: boolean | undefined;
   docker_images_to_keep?: number | undefined;
   stop_grace_period?: number | null | undefined;
+  /** Seconds to wait after the new container is healthy before old containers stop during a rolling update. 0 turns the wait off. */
+  rolling_update_drain_seconds?: number | undefined;
 }
 /** Application model */
 export interface Application {
@@ -2889,6 +3492,10 @@ export interface Application {
   git_commit_sha?: string | undefined;
   /** Git full URL. */
   git_full_url?: string | null | undefined;
+  /** SSH host keys (known_hosts lines) of self-hosted Git hosts that git over SSH accepts. Saved on the first deployment. */
+  git_ssh_known_hosts?: string | null | undefined;
+  /** Username for HTTPS access to a private repository on a custom Git host. The password or token is never returned. */
+  git_https_username?: string | null | undefined;
   /** Docker registry image name. */
   docker_registry_image_name?: string | null | undefined;
   /** Docker registry image tag. */
@@ -3035,7 +3642,43 @@ export interface Application {
   http_basic_auth_username?: string | null | undefined;
   /** Password for HTTP Basic Authentication */
   http_basic_auth_password?: string | Redacted.Redacted<string> | null | undefined;
+  /** Hash algorithm for the HTTP Basic Authentication password. Argon2id needs the Caddy proxy, version 2.11 or newer. */
+  http_basic_auth_hash_algorithm?: ApplicationHttpBasicAuthHashAlgorithm | undefined;
+  /** Bcrypt cost for the HTTP Basic Authentication password. */
+  http_basic_auth_bcrypt_cost?: number | undefined;
+  /** Argon2id memory cost in KiB for the HTTP Basic Authentication password. */
+  http_basic_auth_argon2id_memory_cost?: number | undefined;
+  /** Argon2id time cost (iterations) for the HTTP Basic Authentication password. */
+  http_basic_auth_argon2id_time_cost?: number | undefined;
   settings?: ApplicationSetting | undefined;
+}
+export interface GetApplicationDnsRequest {
+  /** Application UUID. */
+  uuid: string;
+}
+export type ResourceDnsStatusPublicAddressesList = Array<string>;
+export interface ResourceDnsStatusHostnamesItemProvidersItem {
+  integration_token_uuid?: string | undefined;
+  integration_token_name?: string | undefined;
+  zone?: string | undefined;
+  automatic_dns?: boolean | undefined;
+  proxied_dns?: boolean | undefined;
+}
+export type ResourceDnsStatusHostnamesItemProvidersList =
+  Array<ResourceDnsStatusHostnamesItemProvidersItem>;
+export type ResourceDnsStatusHostnamesItemRecordsList = Array<ManagedDnsRecord>;
+export interface ResourceDnsStatusHostnamesItem {
+  hostname?: string | undefined;
+  providers?: ResourceDnsStatusHostnamesItemProvidersList | undefined;
+  records?: ResourceDnsStatusHostnamesItemRecordsList | undefined;
+}
+export type ResourceDnsStatusHostnamesList = Array<ResourceDnsStatusHostnamesItem>;
+/** DNS providers and managed records for the domains of a resource. */
+export interface ResourceDnsStatus {
+  /** Address of a new record when none is given: the first public server address. Null when the server has no public address. */
+  default_address?: string | null | undefined;
+  public_addresses?: ResourceDnsStatusPublicAddressesList | undefined;
+  hostnames?: ResourceDnsStatusHostnamesList | undefined;
 }
 export type GetApplicationLogsByUuidRequestLinesCase1 = "all";
 export type GetApplicationLogsByUuidRequestLines =
@@ -3048,11 +3691,127 @@ export interface GetApplicationLogsByUuidRequest {
   lines?: GetApplicationLogsByUuidRequestLines | undefined;
   /** Show timestamps in the logs. */
   show_timestamps?: boolean | undefined;
-  /** Return logs only from the container of the Docker Compose service with this name. Returns 404 when no running container matches. */
+  /** Return logs only from the container of the Docker Compose service with this name. Returns 404 when no container matches. Stopped containers are included. */
   service_name?: string | undefined;
 }
 export interface GetApplicationLogsByUuidResponse {
   logs?: string | undefined;
+}
+export interface GetApplicationVulnerabilitiesRequest {
+  /** Application UUID */
+  uuid: string;
+  /** Comma-separated finding states: fixed, no_fix, ignored. All when not sent. */
+  state?: string | undefined;
+  /** Comma-separated severities: critical, high, medium, low, unknown. */
+  severity?: string | undefined;
+  /** Only the findings of this scanned image ref. */
+  image?: string | undefined;
+  /** Text in the vulnerability ID, an alias, the package, or the version. */
+  search?: string | undefined;
+  page?: number | undefined;
+  per_page?: number | undefined;
+}
+export type ResourceVulnerabilitiesType = "application" | "service" | "database";
+/** Why the resource is not scanned. Null when it is scanned. */
+export type ResourceVulnerabilitiesOffReason = "server" | "application";
+export type SecurityStatusStatus =
+  | "update_now"
+  | "update_available"
+  | "no_fix"
+  | "check_needed"
+  | "ok"
+  | "not_checked";
+export interface SecurityStatusActionsItem {
+  type?: string | undefined;
+  sentence?: string | undefined;
+  target?: string | null | undefined;
+  copy?: string | null | undefined;
+  image?: string | null | undefined;
+  ref?: string | null | undefined;
+}
+export type SecurityStatusActionsList = Array<SecurityStatusActionsItem>;
+/** Security status of a resource from image scanning. */
+export interface SecurityStatus {
+  status?: SecurityStatusStatus | undefined;
+  label?: string | undefined;
+  /** What to do, as the UI shows it. */
+  action?: string | null | undefined;
+  check_reason?: string | null | undefined;
+  problem_count?: number | undefined;
+  exploited_count?: number | undefined;
+  any_exploited?: boolean | undefined;
+  critical_count?: number | undefined;
+  high_count?: number | undefined;
+  medium_count?: number | undefined;
+  /** The end-of-life OS of the image. */
+  eol?: unknown | null | undefined;
+  checked_at?: string | null | undefined;
+  actions?: SecurityStatusActionsList | undefined;
+}
+export type ResourceVulnerabilitiesImagesItemScanStatus =
+  | "queued"
+  | "running"
+  | "completed"
+  | "failed";
+export interface ResourceVulnerabilitiesImagesItem {
+  scan_uuid?: string | undefined;
+  /** The application, database, or service application or database that runs the image. */
+  owner_uuid?: string | undefined;
+  image_ref?: string | undefined;
+  scan_status?: ResourceVulnerabilitiesImagesItemScanStatus | undefined;
+  error_code?: string | null | undefined;
+  scanned_at?: string | null | undefined;
+  truncated?: boolean | undefined;
+  security_status?: string | undefined;
+}
+export type ResourceVulnerabilitiesImagesList = Array<ResourceVulnerabilitiesImagesItem>;
+export type ResourceVulnerabilitiesFindingsItemAliasesList = Array<string>;
+export type ResourceVulnerabilitiesFindingsItemSeverity =
+  | "critical"
+  | "high"
+  | "medium"
+  | "low"
+  | "unknown";
+/** fixed: a fix is available upstream. */
+export type ResourceVulnerabilitiesFindingsItemState = "fixed" | "no_fix" | "ignored";
+export interface ResourceVulnerabilitiesFindingsItem {
+  id?: string | undefined;
+  display_id?: string | undefined;
+  aliases?: ResourceVulnerabilitiesFindingsItemAliasesList | undefined;
+  title?: string | undefined;
+  severity?: ResourceVulnerabilitiesFindingsItemSeverity | undefined;
+  package?: string | undefined;
+  version?: string | undefined;
+  package_type?: string | undefined;
+  fixed_in?: string | null | undefined;
+  /** fixed: a fix is available upstream. */
+  state?: ResourceVulnerabilitiesFindingsItemState | undefined;
+  ignore?: unknown | null | undefined;
+  /** Listed in the CISA Known Exploited Vulnerabilities catalog. */
+  kev?: boolean | undefined;
+  epss?: number | null | undefined;
+  risk?: number | null | undefined;
+  cvss_score?: number | null | undefined;
+  advisory_url?: string | null | undefined;
+  image_ref?: string | undefined;
+  owner_uuid?: string | undefined;
+}
+export type ResourceVulnerabilitiesFindingsList = Array<ResourceVulnerabilitiesFindingsItem>;
+export interface ResourceVulnerabilitiesPagination {
+  page?: number | undefined;
+  per_page?: number | undefined;
+  total?: number | undefined;
+}
+/** Image scan results of a resource. */
+export interface ResourceVulnerabilities {
+  uuid?: string | undefined;
+  type?: ResourceVulnerabilitiesType | undefined;
+  /** Why the resource is not scanned. Null when it is scanned. */
+  off_reason?: ResourceVulnerabilitiesOffReason | null | undefined;
+  security?: SecurityStatus | null | undefined;
+  images?: ResourceVulnerabilitiesImagesList | undefined;
+  findings?: ResourceVulnerabilitiesFindingsList | undefined;
+  pagination?: ResourceVulnerabilitiesPagination | undefined;
 }
 export interface GetCloudInitScriptRequest {
   uuid: string;
@@ -3087,7 +3846,271 @@ export interface GetDatabaseRequest {
   /** UUID of the database. */
   uuid: string;
 }
-export type GetDatabaseResponse = string;
+export type DatabaseDatabaseType =
+  | "standalone-postgresql"
+  | "standalone-redis"
+  | "standalone-mongodb"
+  | "standalone-mysql"
+  | "standalone-mariadb"
+  | "standalone-keydb"
+  | "standalone-dragonfly"
+  | "standalone-clickhouse"
+  | "standalone-sqlite";
+/** Environment model */
+export interface Environment {
+  id?: number | undefined;
+  name?: string | undefined;
+  project_id?: number | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
+  description?: string | undefined;
+}
+/** The proxy type. */
+export type ServerProxyType = "traefik" | "caddy" | "none";
+export type ServerSettingServerRole = "deployment" | "build" | "both";
+export type ServerSettingTrafficIpMode = "full" | "anonymized" | "off";
+export type ServerSettingSshHostKeySource = "tofu" | "upgrade" | "transfer" | "manual";
+/** SHA256 fingerprints of the pinned host keys, as `ssh-keygen -lf` shows them. */
+export type ServerSettingSshHostKeyFingerprintsList = Array<string>;
+/** SHA256 fingerprints of the host key that did not match. */
+export type ServerSettingSshHostKeyPendingFingerprintsList = Array<string>;
+/** Server Settings model */
+export interface ServerSetting {
+  id?: number | undefined;
+  concurrent_builds?: number | undefined;
+  deployment_queue_limit?: number | undefined;
+  backup_compression_cpu_percentage?: number | undefined;
+  dynamic_timeout?: number | undefined;
+  force_disabled?: boolean | undefined;
+  force_server_cleanup?: boolean | undefined;
+  server_role?: ServerSettingServerRole | undefined;
+  /** Deprecated: use server_role instead. true when server_role is build. */
+  is_build_server?: boolean | undefined;
+  is_cloudflare_tunnel?: boolean | undefined;
+  is_jump_server?: boolean | undefined;
+  is_logdrain_axiom_enabled?: boolean | undefined;
+  is_logdrain_cloudwatch_enabled?: boolean | undefined;
+  is_logdrain_custom_enabled?: boolean | undefined;
+  is_logdrain_newrelic_enabled?: boolean | undefined;
+  is_metrics_enabled?: boolean | undefined;
+  is_traffic_analytics_enabled?: boolean | undefined;
+  traffic_topn?: number | undefined;
+  traffic_sample_threshold?: number | undefined;
+  traffic_retention_1h_days?: number | undefined;
+  traffic_retention_1d_days?: number | undefined;
+  is_geoip_enabled?: boolean | undefined;
+  geoip_refresh_days?: number | undefined;
+  traffic_ip_mode?: ServerSettingTrafficIpMode | undefined;
+  /** Traefik certificate resolver for generated HTTPS routers. Null when the proxy uses its own certificates. */
+  traefik_certificate_resolver?: string | null | undefined;
+  /** Public IPv4 address that DNS records of resources on this server point to. Null uses the server IP. */
+  public_ipv4?: string | null | undefined;
+  /** Public IPv6 address that DNS records of resources on this server point to. Null uses the server IP. */
+  public_ipv6?: string | null | undefined;
+  is_reachable?: boolean | undefined;
+  /** Pinned SSH host key(s) of the server, one "type base64" line per key. */
+  ssh_host_key?: string | null | undefined;
+  ssh_host_key_source?: ServerSettingSshHostKeySource | null | undefined;
+  ssh_host_key_trusted_at?: string | null | undefined;
+  /** Host key that the server sent when it did not match the pinned key. */
+  ssh_host_key_pending?: string | null | undefined;
+  is_ssh_host_key_check_disabled?: boolean | undefined;
+  /** Refuse a changed host key on this server, also when the instance only warns. */
+  is_ssh_host_key_check_enforced?: boolean | undefined;
+  /** SHA256 fingerprints of the pinned host keys, as `ssh-keygen -lf` shows them. */
+  ssh_host_key_fingerprints?: ServerSettingSshHostKeyFingerprintsList | undefined;
+  /** SHA256 fingerprints of the host key that did not match. */
+  ssh_host_key_pending_fingerprints?: ServerSettingSshHostKeyPendingFingerprintsList | undefined;
+  is_sentinel_enabled?: boolean | undefined;
+  is_swarm_manager?: boolean | undefined;
+  is_swarm_worker?: boolean | undefined;
+  is_terminal_enabled?: boolean | undefined;
+  is_usable?: boolean | undefined;
+  logdrain_axiom_api_key?: string | Redacted.Redacted<string> | undefined;
+  logdrain_axiom_dataset_name?: string | undefined;
+  /** Base domain of the Axiom edge deployment, for example us-east-1.aws.edge.axiom.co or eu-central-1.aws.edge.axiom.co. */
+  logdrain_axiom_domain?: string | undefined;
+  logdrain_cloudwatch_region?: string | undefined;
+  logdrain_cloudwatch_group?: string | undefined;
+  logdrain_cloudwatch_stream_prefix?: string | undefined;
+  logdrain_custom_config?: string | undefined;
+  logdrain_custom_config_parser?: string | undefined;
+  logdrain_newrelic_base_uri?: string | undefined;
+  logdrain_newrelic_license_key?: string | Redacted.Redacted<string> | undefined;
+  sentinel_metrics_history_days?: number | undefined;
+  sentinel_metrics_refresh_rate_seconds?: number | undefined;
+  sentinel_token?: string | Redacted.Redacted<string> | undefined;
+  docker_cleanup_frequency?: string | undefined;
+  docker_cleanup_threshold?: number | undefined;
+  server_id?: number | undefined;
+  wildcard_domain?: string | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
+  /** The flag to indicate if the unused volumes should be deleted. */
+  delete_unused_volumes?: boolean | undefined;
+  /** The flag to indicate if the unused networks should be deleted. */
+  delete_unused_networks?: boolean | undefined;
+  /** SSH connection timeout in seconds. */
+  connection_timeout?: number | undefined;
+  /** Detected Docker Engine version on the server. */
+  docker_version?: string | null | undefined;
+  /** When Docker Engine version was last detected. */
+  docker_version_checked_at?: string | null | undefined;
+  /** Detected Docker Compose plugin version on the server. */
+  compose_version?: string | null | undefined;
+  /** When Docker Compose version was last detected. */
+  compose_version_checked_at?: string | null | undefined;
+}
+/** Server model */
+export interface Server {
+  /** The server ID. */
+  id?: number | undefined;
+  /** The server UUID. */
+  uuid?: string | undefined;
+  /** The server name. */
+  name?: string | undefined;
+  /** The server description. */
+  description?: string | undefined;
+  /** The IP address. */
+  ip?: string | undefined;
+  /** The user. */
+  user?: string | undefined;
+  /** The port number. */
+  port?: number | undefined;
+  /** The proxy configuration. */
+  proxy?: unknown | undefined;
+  /** The proxy type. */
+  proxy_type?: ServerProxyType | undefined;
+  /** The flag to indicate if the high disk usage notification has been sent. */
+  high_disk_usage_notification_sent?: boolean | undefined;
+  /** The flag to indicate if the unreachable notification has been sent. */
+  unreachable_notification_sent?: boolean | undefined;
+  /** The unreachable count for your server. */
+  unreachable_count?: number | undefined;
+  /** The validation logs. */
+  validation_logs?: string | undefined;
+  /** The flag to indicate if the log drain notification has been sent. */
+  log_drain_notification_sent?: boolean | undefined;
+  /** The swarm cluster configuration. */
+  swarm_cluster?: string | undefined;
+  settings?: ServerSetting | undefined;
+}
+/** Docker network destination of the database, with its server. */
+export interface DatabaseDestination {
+  uuid?: string | undefined;
+  name?: string | undefined;
+  network?: string | undefined;
+  server_id?: number | undefined;
+  server?: Server | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
+}
+export interface DatabaseInitScriptsItem {
+  index?: number | undefined;
+  filename?: string | undefined;
+  content?: string | undefined;
+}
+/** PostgreSQL only. */
+export type DatabaseInitScriptsList = Array<DatabaseInitScriptsItem>;
+/** Only returned by GET /databases. The scheduled backups of the database, as returned by GET /databases/{uuid}/backups. */
+export type DatabaseBackupConfigsList = Array<unknown>;
+/** Standalone database. The fields that start with an engine name (for example postgres_ or redis_) are only returned for that engine. Passwords, connection URLs and init_scripts are only returned for tokens with the read:sensitive or root ability. */
+export interface Database {
+  uuid?: string | undefined;
+  name?: string | undefined;
+  description?: string | null | undefined;
+  database_type?: DatabaseDatabaseType | undefined;
+  image?: string | undefined;
+  /** Container status and health, for example running:healthy or exited:unhealthy. */
+  status?: string | undefined;
+  /** True when the server of the database is reachable and usable. */
+  server_status?: boolean | undefined;
+  environment_id?: number | undefined;
+  /** Only returned by GET /databases/{uuid}. Includes the project. */
+  environment?: Environment | undefined;
+  destination_id?: number | undefined;
+  destination_type?: string | undefined;
+  /** Docker network destination of the database, with its server. */
+  destination?: DatabaseDestination | undefined;
+  /** Not returned for SQLite. */
+  is_public?: boolean | undefined;
+  /** Not returned for SQLite. */
+  public_port?: number | null | undefined;
+  /** Proxy timeout of the public port in seconds. Not returned for SQLite. */
+  public_port_timeout?: number | null | undefined;
+  /** Comma-separated host:container port mappings. Not returned for SQLite. */
+  ports_mappings?: string | null | undefined;
+  /** Not returned for ClickHouse and SQLite. */
+  enable_ssl?: boolean | undefined;
+  /** PostgreSQL, MongoDB and MySQL only. */
+  ssl_mode?: string | null | undefined;
+  /** Connection URL inside the Docker network. Contains the password. Not returned for SQLite. */
+  internal_db_url?: string | null | undefined;
+  /** Public connection URL, when the database is public. Contains the password. Not returned for SQLite. */
+  external_db_url?: string | null | undefined;
+  /** PostgreSQL only. */
+  init_scripts?: DatabaseInitScriptsList | null | undefined;
+  custom_docker_run_options?: string | null | undefined;
+  is_log_drain_enabled?: boolean | undefined;
+  /** Not returned for MariaDB. */
+  is_include_timestamps?: boolean | undefined;
+  include_coolify_default_variables?: boolean | undefined;
+  redact_all_env_values_in_logs?: boolean | undefined;
+  health_check_enabled?: boolean | undefined;
+  health_check_interval?: number | undefined;
+  health_check_timeout?: number | undefined;
+  health_check_retries?: number | undefined;
+  health_check_start_period?: number | undefined;
+  limits_memory?: string | undefined;
+  limits_memory_swap?: string | undefined;
+  limits_memory_swappiness?: number | undefined;
+  limits_memory_reservation?: string | undefined;
+  limits_cpus?: string | undefined;
+  limits_cpuset?: string | null | undefined;
+  limits_cpu_shares?: number | undefined;
+  /** Internal hash that Coolify uses to find configuration changes that need a restart. It changes only when the database starts, so do not use it to compare configurations. */
+  config_hash?: string | null | undefined;
+  restart_count?: number | undefined;
+  last_restart_at?: string | null | undefined;
+  last_restart_type?: string | null | undefined;
+  last_online_at?: string | null | undefined;
+  started_at?: string | null | undefined;
+  /** Only returned by GET /databases. The scheduled backups of the database, as returned by GET /databases/{uuid}/backups. */
+  backup_configs?: DatabaseBackupConfigsList | undefined;
+  postgres_user?: string | undefined;
+  postgres_password?: string | Redacted.Redacted<string> | undefined;
+  postgres_db?: string | undefined;
+  postgres_initdb_args?: string | null | undefined;
+  postgres_host_auth_method?: string | null | undefined;
+  postgres_conf?: string | null | undefined;
+  redis_password?: string | Redacted.Redacted<string> | undefined;
+  redis_conf?: string | null | undefined;
+  mongo_initdb_root_username?: string | undefined;
+  mongo_initdb_root_password?: string | Redacted.Redacted<string> | undefined;
+  mongo_initdb_database?: string | undefined;
+  mongo_conf?: string | null | undefined;
+  mysql_user?: string | undefined;
+  mysql_password?: string | Redacted.Redacted<string> | undefined;
+  mysql_root_password?: string | Redacted.Redacted<string> | undefined;
+  mysql_database?: string | undefined;
+  mysql_conf?: string | null | undefined;
+  mariadb_user?: string | undefined;
+  mariadb_password?: string | Redacted.Redacted<string> | undefined;
+  mariadb_root_password?: string | Redacted.Redacted<string> | undefined;
+  mariadb_database?: string | undefined;
+  mariadb_conf?: string | null | undefined;
+  keydb_password?: string | Redacted.Redacted<string> | undefined;
+  keydb_conf?: string | null | undefined;
+  dragonfly_password?: string | Redacted.Redacted<string> | undefined;
+  clickhouse_admin_user?: string | undefined;
+  clickhouse_admin_password?: string | Redacted.Redacted<string> | undefined;
+  clickhouse_db?: string | undefined;
+  /** Comma-separated SQLite database file names. */
+  sqlite_databases?: string | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
+  deleted_at?: string | null | undefined;
+}
 export interface GetDatabaseBackupsByUuidRequest {
   /** UUID of the database. */
   uuid: string;
@@ -3129,11 +4152,25 @@ export interface GetDatabaseLogsByUuidRequest {
 export interface GetDatabaseLogsByUuidResponse {
   logs?: string | undefined;
 }
+export interface GetDatabaseVulnerabilitiesRequest {
+  /** Database UUID */
+  uuid: string;
+  /** Comma-separated finding states: fixed, no_fix, ignored. All when not sent. */
+  state?: string | undefined;
+  /** Comma-separated severities: critical, high, medium, low, unknown. */
+  severity?: string | undefined;
+  /** Only the findings of this scanned image ref. */
+  image?: string | undefined;
+  /** Text in the vulnerability ID, an alias, the package, or the version. */
+  search?: string | undefined;
+  page?: number | undefined;
+  per_page?: number | undefined;
+}
 export interface GetDeploymentRequest {
   /** Deployment UUID */
   uuid: string;
 }
-/** Project model */
+/** Application deployment model */
 export interface ApplicationDeploymentQueue {
   id?: number | undefined;
   application_id?: string | undefined;
@@ -3148,6 +4185,7 @@ export interface ApplicationDeploymentQueue {
   status?: string | undefined;
   is_webhook?: boolean | undefined;
   is_api?: boolean | undefined;
+  is_mcp?: boolean | undefined;
   created_at?: string | undefined;
   updated_at?: string | undefined;
   logs?: string | undefined;
@@ -3204,15 +4242,6 @@ export interface GetEnvironmentByNameOrUuidRequest {
   uuid: string;
   /** Environment name or UUID */
   environment_name_or_uuid: string;
-}
-/** Environment model */
-export interface Environment {
-  id?: number | undefined;
-  name?: string | undefined;
-  project_id?: number | undefined;
-  created_at?: string | undefined;
-  updated_at?: string | undefined;
-  description?: string | undefined;
 }
 export interface GetEnvironmentsRequest {
   /** Project UUID */
@@ -3280,6 +4309,8 @@ export interface GetHetznerNetworksResponseBodyItem {
 export type GetHetznerNetworksResponseBodyList = Array<GetHetznerNetworksResponseBodyItem>;
 export type GetHetznerNetworksResponse = GetHetznerNetworksResponseBodyList;
 export interface GetHetznerServerTypesRequest {
+  /** Return only the server types that can be ordered in this location, for example nbg1. */
+  location?: string | undefined;
   /** Cloud provider token UUID. Required if cloud_provider_token_id is not provided. */
   cloud_provider_token_uuid?: string | undefined;
   /** Deprecated: Use cloud_provider_token_uuid instead. Cloud provider token UUID. */
@@ -3324,8 +4355,42 @@ export interface GetHetznerSshKeysResponseBodyItem {
 }
 export type GetHetznerSshKeysResponseBodyList = Array<GetHetznerSshKeysResponseBodyItem>;
 export type GetHetznerSshKeysResponse = GetHetznerSshKeysResponseBodyList;
+export interface GetHostingerCatalogRequest {}
+export interface GetHostingerCatalogResponse {}
+export interface GetHostingerDataCentersRequest {}
+export interface GetHostingerDataCentersResponse {}
+export interface GetHostingerPostInstallScriptsRequest {}
+export interface GetHostingerPostInstallScriptsResponse {}
+export interface GetHostingerSshKeysRequest {}
+export interface GetHostingerSshKeysResponse {}
+export interface GetHostingerTemplatesRequest {}
+export interface GetHostingerTemplatesResponse {}
 export interface GetInstanceEmailSettingsRequest {}
 export interface GetInstanceEmailSettingsResponse {}
+export interface GetIntegrationTokenByUuidRequest {
+  /** Integration token UUID. */
+  uuid: string;
+}
+export type IntegrationTokenProvider = "cloudflare" | "doppler" | "infisical" | "vault";
+export type IntegrationTokenCapabilitiesItem = "dns" | "tunnel" | "secrets";
+export type IntegrationTokenCapabilitiesList = Array<IntegrationTokenCapabilitiesItem>;
+/** Integration token. The secret is never returned. */
+export interface IntegrationToken {
+  uuid?: string | undefined;
+  name?: string | undefined;
+  provider?: IntegrationTokenProvider | undefined;
+  capabilities?: IntegrationTokenCapabilitiesList | undefined;
+  /** Cloudflare only. Create DNS records when a domain is added. */
+  automatic_dns?: boolean | undefined;
+  /** Cloudflare only. Create new records proxied (orange cloud). */
+  proxied_dns?: boolean | undefined;
+  /** Cloudflare only. */
+  dns_zones_count?: number | undefined;
+  /** Cloudflare only. */
+  zones_synced_at?: string | null | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
+}
 export interface GetMembersByTeamIdRequest {
   /** Team ID */
   id: number;
@@ -3366,7 +4431,7 @@ export interface GetPreviewApplicationLogsByPullRequestIdRequest {
   lines?: GetPreviewApplicationLogsByPullRequestIdRequestLines | undefined;
   /** Show timestamps in the logs. */
   show_timestamps?: boolean | undefined;
-  /** Return logs only from the container of the Docker Compose service with this name. Returns 404 when no running container matches. */
+  /** Return logs only from the container of the Docker Compose service with this name. Returns 404 when no container matches. Stopped containers are included. */
   service_name?: string | undefined;
 }
 export interface GetPreviewApplicationLogsByPullRequestIdResponse {
@@ -3429,125 +4494,54 @@ export interface GetS3StorageRequest {
   /** S3 Storage UUID */
   uuid: string;
 }
+export type GetS3StorageResponseType = "s3" | "sftp" | "ftps" | "webdav";
 export interface GetS3StorageResponse {
   uuid?: string | undefined;
+  type?: GetS3StorageResponseType | undefined;
   name?: string | undefined;
   description?: string | null | undefined;
   endpoint?: string | undefined;
-  bucket?: string | undefined;
+  /** S3 only. Null for the other types. */
+  bucket?: string | null | undefined;
+  /** S3 only. The other types have a placeholder value. */
   region?: string | undefined;
+  use_path_style_endpoint?: boolean | undefined;
+  skip_tls_verification?: boolean | undefined;
+  /** SFTP only: the UUID of the private key used to log in. Null with a password login. */
+  private_key_uuid?: string | null | undefined;
+  /** SFTP only: the pinned host key of the server, as "<key type> <base64>". Saved by the first successful connection test. */
+  sftp_host_key?: string | null | undefined;
   is_usable?: boolean | undefined;
   team_id?: number | undefined;
   created_at?: string | undefined;
   updated_at?: string | undefined;
 }
+export type GetSecretManagerSourceRequestResourceType = "applications" | "services" | "databases";
+export interface GetSecretManagerSourceRequest {
+  /** Resource type. */
+  resource_type: GetSecretManagerSourceRequestResourceType | (string & {});
+  /** Resource UUID. */
+  uuid: string;
+}
+export type SecretManagerSourceProvider = "doppler" | "infisical" | "vault";
+export interface SecretManagerSourceAvailableTokensItem {
+  uuid?: string | undefined;
+  name?: string | undefined;
+  provider?: string | undefined;
+}
+export type SecretManagerSourceAvailableTokensList = Array<SecretManagerSourceAvailableTokensItem>;
+/** The secret manager source of an application, service, or database. Routes start with the resource type (`applications`, `services`, `databases`), so tokens limited to some resources can use them. */
+export interface SecretManagerSource {
+  linked?: boolean | undefined;
+  integration_token_uuid?: string | null | undefined;
+  provider?: SecretManagerSourceProvider | null | undefined;
+  /** Doppler: project, config. Infisical: project_id, environment, secret_path. Vault: mount, path. */
+  settings?: unknown | null | undefined;
+  available_tokens?: SecretManagerSourceAvailableTokensList | undefined;
+}
 export interface GetServerRequest {
   /** Server's UUID */
   uuid: string;
-}
-/** The proxy type. */
-export type ServerProxyType = "traefik" | "caddy" | "none";
-export type ServerSettingServerRole = "deployment" | "build" | "both";
-export type ServerSettingTrafficIpMode = "full" | "anonymized" | "off";
-/** Server Settings model */
-export interface ServerSetting {
-  id?: number | undefined;
-  concurrent_builds?: number | undefined;
-  deployment_queue_limit?: number | undefined;
-  backup_compression_cpu_percentage?: number | undefined;
-  dynamic_timeout?: number | undefined;
-  force_disabled?: boolean | undefined;
-  force_server_cleanup?: boolean | undefined;
-  server_role?: ServerSettingServerRole | undefined;
-  /** Deprecated: use server_role instead. true when server_role is build. */
-  is_build_server?: boolean | undefined;
-  is_cloudflare_tunnel?: boolean | undefined;
-  is_jump_server?: boolean | undefined;
-  is_logdrain_axiom_enabled?: boolean | undefined;
-  is_logdrain_custom_enabled?: boolean | undefined;
-  is_logdrain_highlight_enabled?: boolean | undefined;
-  is_logdrain_newrelic_enabled?: boolean | undefined;
-  is_metrics_enabled?: boolean | undefined;
-  is_traffic_analytics_enabled?: boolean | undefined;
-  traffic_topn?: number | undefined;
-  traffic_sample_threshold?: number | undefined;
-  traffic_retention_1h_days?: number | undefined;
-  traffic_retention_1d_days?: number | undefined;
-  is_geoip_enabled?: boolean | undefined;
-  geoip_refresh_days?: number | undefined;
-  traffic_ip_mode?: ServerSettingTrafficIpMode | undefined;
-  /** Traefik certificate resolver for generated HTTPS routers. Null when the proxy uses its own certificates. */
-  traefik_certificate_resolver?: string | null | undefined;
-  is_reachable?: boolean | undefined;
-  is_sentinel_enabled?: boolean | undefined;
-  is_swarm_manager?: boolean | undefined;
-  is_swarm_worker?: boolean | undefined;
-  is_terminal_enabled?: boolean | undefined;
-  is_usable?: boolean | undefined;
-  logdrain_axiom_api_key?: string | undefined;
-  logdrain_axiom_dataset_name?: string | undefined;
-  logdrain_custom_config?: string | undefined;
-  logdrain_custom_config_parser?: string | undefined;
-  logdrain_highlight_project_id?: string | undefined;
-  logdrain_newrelic_base_uri?: string | undefined;
-  logdrain_newrelic_license_key?: string | undefined;
-  sentinel_metrics_history_days?: number | undefined;
-  sentinel_metrics_refresh_rate_seconds?: number | undefined;
-  sentinel_token?: string | undefined;
-  docker_cleanup_frequency?: string | undefined;
-  docker_cleanup_threshold?: number | undefined;
-  server_id?: number | undefined;
-  wildcard_domain?: string | undefined;
-  created_at?: string | undefined;
-  updated_at?: string | undefined;
-  /** The flag to indicate if the unused volumes should be deleted. */
-  delete_unused_volumes?: boolean | undefined;
-  /** The flag to indicate if the unused networks should be deleted. */
-  delete_unused_networks?: boolean | undefined;
-  /** SSH connection timeout in seconds. */
-  connection_timeout?: number | undefined;
-  /** Detected Docker Engine version on the server. */
-  docker_version?: string | null | undefined;
-  /** When Docker Engine version was last detected. */
-  docker_version_checked_at?: string | null | undefined;
-  /** Detected Docker Compose plugin version on the server. */
-  compose_version?: string | null | undefined;
-  /** When Docker Compose version was last detected. */
-  compose_version_checked_at?: string | null | undefined;
-}
-/** Server model */
-export interface Server {
-  /** The server ID. */
-  id?: number | undefined;
-  /** The server UUID. */
-  uuid?: string | undefined;
-  /** The server name. */
-  name?: string | undefined;
-  /** The server description. */
-  description?: string | undefined;
-  /** The IP address. */
-  ip?: string | undefined;
-  /** The user. */
-  user?: string | undefined;
-  /** The port number. */
-  port?: number | undefined;
-  /** The proxy configuration. */
-  proxy?: unknown | undefined;
-  /** The proxy type. */
-  proxy_type?: ServerProxyType | undefined;
-  /** The flag to indicate if the high disk usage notification has been sent. */
-  high_disk_usage_notification_sent?: boolean | undefined;
-  /** The flag to indicate if the unreachable notification has been sent. */
-  unreachable_notification_sent?: boolean | undefined;
-  /** The unreachable count for your server. */
-  unreachable_count?: number | undefined;
-  /** The validation logs. */
-  validation_logs?: string | undefined;
-  /** The flag to indicate if the log drain notification has been sent. */
-  log_drain_notification_sent?: boolean | undefined;
-  /** The swarm cluster configuration. */
-  swarm_cluster?: string | undefined;
-  settings?: ServerSetting | undefined;
 }
 export interface GetServerCloudflareTunnelRequest {
   /** Server UUID */
@@ -3570,6 +4564,44 @@ export interface GetServerDockerCleanupResponse {
   delete_unused_networks?: boolean | undefined;
   disable_application_image_retention?: boolean | undefined;
 }
+export interface GetServerImageScanningRequest {
+  /** Server UUID */
+  uuid: string;
+}
+/** Memory limit of each scanner step, in MB. */
+export type GetServerImageScanningResponseImageScanMemoryMb = 1024 | 2048 | 4096 | 8192;
+/** Time limit of one Syft run (package list of an image), in seconds. */
+export type GetServerImageScanningResponseImageScanSyftTimeout = 300 | 600 | 1200 | 1800 | 3600;
+/** Time limit of one Grype run (vulnerability match), in seconds. */
+export type GetServerImageScanningResponseImageScanGrypeTimeout = 300 | 600 | 1200 | 1800 | 3600;
+/** CPU limit of each scanner step. */
+export type GetServerImageScanningResponseImageScanCpus = 0.5 | 1 | 2 | 4;
+/** State of the scanner on the server. Null when unknown. */
+export type GetServerImageScanningResponseScannerState =
+  | "pulling"
+  | "updating_database"
+  | "ready"
+  | "failed";
+export interface GetServerImageScanningResponse {
+  /** Whether the server scans the images of its resources. */
+  is_image_scan_enabled?: boolean | undefined;
+  /** Memory limit of each scanner step, in MB. */
+  image_scan_memory_mb?: GetServerImageScanningResponseImageScanMemoryMb | undefined;
+  /** Time limit of one Syft run (package list of an image), in seconds. */
+  image_scan_syft_timeout?: GetServerImageScanningResponseImageScanSyftTimeout | undefined;
+  /** Time limit of one Grype run (vulnerability match), in seconds. */
+  image_scan_grype_timeout?: GetServerImageScanningResponseImageScanGrypeTimeout | undefined;
+  /** CPU limit of each scanner step. */
+  image_scan_cpus?: GetServerImageScanningResponseImageScanCpus | undefined;
+  /** State of the scanner on the server. Null when unknown. */
+  scanner_state?: GetServerImageScanningResponseScannerState | null | undefined;
+  /** The step that failed when scanner_state is failed. */
+  scanner_failed_step?: string | null | undefined;
+  /** Time of the vulnerability database on the server. */
+  scanner_built_at?: string | null | undefined;
+  /** Disk space that the scanner uses on the server. */
+  scanner_disk_used_bytes?: number | null | undefined;
+}
 export interface GetServerLogDrainsRequest {
   /** Server UUID */
   uuid: string;
@@ -3577,17 +4609,23 @@ export interface GetServerLogDrainsRequest {
 export interface GetServerLogDrainsResponse {
   is_logdrain_newrelic_enabled?: boolean | undefined;
   /** Only present with read:sensitive. */
-  logdrain_newrelic_license_key?: string | undefined;
+  logdrain_newrelic_license_key?: string | Redacted.Redacted<string> | undefined;
   logdrain_newrelic_base_uri?: string | null | undefined;
   is_logdrain_axiom_enabled?: boolean | undefined;
   logdrain_axiom_dataset_name?: string | null | undefined;
+  logdrain_axiom_domain?: string | null | undefined;
   /** Only present with read:sensitive. */
-  logdrain_axiom_api_key?: string | undefined;
+  logdrain_axiom_api_key?: string | Redacted.Redacted<string> | undefined;
   is_logdrain_custom_enabled?: boolean | undefined;
   /** Only present with read:sensitive. */
   logdrain_custom_config?: string | undefined;
   /** Only present with read:sensitive. */
   logdrain_custom_config_parser?: string | undefined;
+  is_logdrain_cloudwatch_enabled?: boolean | undefined;
+  logdrain_cloudwatch_region?: string | null | undefined;
+  logdrain_cloudwatch_group?: string | null | undefined;
+  /** Prepended to the container name to form the log stream name. */
+  logdrain_cloudwatch_stream_prefix?: string | null | undefined;
 }
 export interface GetServerProxyRequest {
   /** Server UUID */
@@ -3598,6 +4636,7 @@ export interface GetServerProxyResponse {
   status?: string | null | undefined;
   redirect_enabled?: boolean | undefined;
   redirect_url?: string | null | undefined;
+  proxy_error_page?: string | null | undefined;
   generate_exact_labels?: boolean | undefined;
   /** Traefik certificate resolver for generated HTTPS routers. Null when the proxy uses its own certificates. */
   traefik_certificate_resolver?: string | null | undefined;
@@ -3616,7 +4655,7 @@ export interface GetServerSentinelResponse {
   is_metrics_enabled?: boolean | undefined;
   is_sentinel_debug_enabled?: boolean | undefined;
   /** Only present with read:sensitive. */
-  sentinel_token?: string | undefined;
+  sentinel_token?: string | Redacted.Redacted<string> | undefined;
   sentinel_metrics_refresh_rate_seconds?: number | undefined;
   sentinel_metrics_history_days?: number | undefined;
   sentinel_push_interval_seconds?: number | undefined;
@@ -3632,8 +4671,12 @@ export interface GetServerSentinelResponse {
   /** How Sentinel stores client IPs for the Top IPs breakdown. */
   traffic_ip_mode?: GetServerSentinelResponseTrafficIpMode | undefined;
   /** Only present with read:sensitive. */
-  geoip_maxmind_license_key?: string | undefined;
+  geoip_maxmind_license_key?: string | Redacted.Redacted<string> | undefined;
 }
+export interface GetServerTransferStatusRequest {
+  uuid: string;
+}
+export interface GetServerTransferStatusResponse {}
 export interface GetServiceRequest {
   /** Service UUID */
   uuid: string;
@@ -3664,6 +4707,8 @@ export interface Service {
   connect_to_docker_network?: boolean | undefined;
   /** The flag to enable the container label escape. */
   is_container_label_escape_enabled?: boolean | undefined;
+  /** Hide every environment variable value in logs. When false, only locked values are hidden. */
+  redact_all_env_values_in_logs?: boolean | undefined;
   /** The flag to enable the container label readonly. */
   is_container_label_readonly_enabled?: boolean | undefined;
   /** The hash of the service configuration. */
@@ -3727,6 +4772,10 @@ export interface GetServiceDatabaseLogsByServiceAndDatabaseUuidRequest {
 export interface GetServiceDatabaseLogsByServiceAndDatabaseUuidResponse {
   logs?: string | undefined;
 }
+export interface GetServiceDnsRequest {
+  /** Service UUID. */
+  uuid: string;
+}
 export type GetServiceLogsByUuidRequestLinesCase1 = "all";
 export type GetServiceLogsByUuidRequestLines = number | GetServiceLogsByUuidRequestLinesCase1;
 export interface GetServiceLogsByUuidRequest {
@@ -3741,6 +4790,20 @@ export interface GetServiceLogsByUuidRequest {
 }
 export interface GetServiceLogsByUuidResponse {
   logs?: string | undefined;
+}
+export interface GetServiceVulnerabilitiesRequest {
+  /** Service UUID */
+  uuid: string;
+  /** Comma-separated finding states: fixed, no_fix, ignored. All when not sent. */
+  state?: string | undefined;
+  /** Comma-separated severities: critical, high, medium, low, unknown. */
+  severity?: string | undefined;
+  /** Only the findings of this scanned image ref. */
+  image?: string | undefined;
+  /** Text in the vulnerability ID, an alias, the package, or the version. */
+  search?: string | undefined;
+  page?: number | undefined;
+  per_page?: number | undefined;
 }
 export interface GetTeamRequest {
   /** Team ID */
@@ -3768,6 +4831,8 @@ export interface Team {
   custom_server_limit?: string | undefined;
   /** Whether deployments can fall back to the deployment server when no usable dedicated build server is available. */
   is_build_server_fallback_enabled?: boolean | undefined;
+  /** Whether image scanning is turned on for servers added to the team from now on. */
+  scan_images_on_new_servers?: boolean | undefined;
   /** The members of the team. */
   members?: TeamMembersList | undefined;
 }
@@ -3785,6 +4850,44 @@ export interface GetVultrSshKeysRequest {}
 export interface GetVultrSshKeysResponse {}
 export interface HealthcheckRequest {}
 export interface HealthcheckResponse {}
+export type ImportCheckServerRequestSystemGithubAppsList = Array<string>;
+export type ImportCheckServerRequestSystemGitlabAppsList = Array<string>;
+export interface ImportCheckServerRequest {
+  server_uuid: string;
+  ip: string;
+  port?: number | undefined;
+  schema_version?: number | undefined;
+  /** UUIDs of system-wide GitHub Apps that the server uses. The response lists the ones this instance does not have. */
+  system_github_apps__?: ImportCheckServerRequestSystemGithubAppsList | undefined;
+  /** UUIDs of system-wide GitLab Apps that the server uses. The response lists the ones this instance does not have. */
+  system_gitlab_apps__?: ImportCheckServerRequestSystemGitlabAppsList | undefined;
+}
+export interface ImportCheckServerResponse {}
+export type ImportSecretManagerReferencesRequestResourceType =
+  | "applications"
+  | "services"
+  | "databases";
+export interface ImportSecretManagerReferencesRequest {
+  /** Resource type. */
+  resource_type: ImportSecretManagerReferencesRequestResourceType | (string & {});
+  /** Resource UUID. */
+  uuid: string;
+}
+export type ImportSecretManagerReferencesResponseImportedList = Array<string>;
+export type ImportSecretManagerReferencesResponseSkippedList = Array<string>;
+export interface ImportSecretManagerReferencesResponse {
+  imported?: ImportSecretManagerReferencesResponseImportedList | undefined;
+  skipped?: ImportSecretManagerReferencesResponseSkippedList | undefined;
+}
+export interface ImportServerTransferBundleRequest {
+  /** Transfer bundle */
+  bundle?: unknown | undefined;
+  dry_run?: boolean | undefined;
+  preserve_uuids?: boolean | undefined;
+  /** Import without forcing redeploy; keep statuses for adoption */
+  adopt_mode?: boolean | undefined;
+}
+export interface ImportServerTransferBundleResponse {}
 export interface ListApplicationDestinationsRequest {
   /** UUID of the application. */
   uuid: string;
@@ -3794,10 +4897,12 @@ export interface ListApplicationRollbackImagesRequest {
   /** UUID of the application. */
   uuid: string;
 }
+export type ListApplicationRollbackImagesResponseImagesItemSource = "local" | "registry";
 export interface ListApplicationRollbackImagesResponseImagesItem {
   tag?: string | undefined;
   created_at?: string | undefined;
   is_current?: boolean | undefined;
+  source?: ListApplicationRollbackImagesResponseImagesItemSource | undefined;
 }
 export type ListApplicationRollbackImagesResponseImagesList =
   Array<ListApplicationRollbackImagesResponseImagesItem>;
@@ -3866,7 +4971,8 @@ export interface ListBackupExecutionsResponseExecutionsItem {
   filename?: string | undefined;
   size?: number | undefined;
   created_at?: string | undefined;
-  message?: string | undefined;
+  /** Redacted execution output. Null unless the token has the `read:sensitive` or `root` ability. */
+  message?: string | null | undefined;
   status?: string | undefined;
 }
 export type ListBackupExecutionsResponseExecutionsList =
@@ -3877,7 +4983,11 @@ export interface ListBackupExecutionsResponse {
 export interface ListCloudInitScriptsRequest {}
 export interface ListCloudInitScriptsResponse {}
 export interface ListCloudTokensRequest {}
-export type ListCloudTokensResponseBodyItemProvider = "hetzner" | "digitalocean" | "vultr";
+export type ListCloudTokensResponseBodyItemProvider =
+  | "hetzner"
+  | "digitalocean"
+  | "vultr"
+  | "hostinger";
 export interface ListCloudTokensResponseBodyItem {
   uuid?: string | undefined;
   name?: string | undefined;
@@ -3890,7 +5000,8 @@ export interface ListCloudTokensResponseBodyItem {
 export type ListCloudTokensResponseBodyList = Array<ListCloudTokensResponseBodyItem>;
 export type ListCloudTokensResponse = ListCloudTokensResponseBodyList;
 export interface ListDatabasesRequest {}
-export type ListDatabasesResponse = string;
+export type ListDatabasesResponseBodyList = Array<Database>;
+export type ListDatabasesResponse = ListDatabasesResponseBodyList;
 export interface ListDeploymentsRequest {}
 export type ListDeploymentsResponseBodyList = Array<ApplicationDeploymentQueue>;
 export type ListDeploymentsResponse = ListDeploymentsResponseBodyList;
@@ -3902,11 +5013,25 @@ export interface ListDeploymentsByAppUuidRequest {
   /** Number of records to take. */
   take?: number | undefined;
 }
-export type ListDeploymentsByAppUuidResponseBodyList = Array<Application>;
-export type ListDeploymentsByAppUuidResponse = ListDeploymentsByAppUuidResponseBodyList;
+export type ListDeploymentsByAppUuidResponseDeploymentsList = Array<ApplicationDeploymentQueue>;
+export interface ListDeploymentsByAppUuidResponse {
+  /** Total number of deployments of the application. */
+  count?: number | undefined;
+  deployments?: ListDeploymentsByAppUuidResponseDeploymentsList | undefined;
+}
 export interface ListDestinationsRequest {}
 export type ListDestinationsResponseBodyList = Array<Destination>;
 export type ListDestinationsResponse = ListDestinationsResponseBodyList;
+export interface ListDnsZonesRequest {}
+export interface ListDnsZonesResponseBodyItem {
+  zone?: string | undefined;
+  account_name?: string | null | undefined;
+  integration_token_uuid?: string | undefined;
+  integration_token_name?: string | undefined;
+  managed_records_count?: number | undefined;
+}
+export type ListDnsZonesResponseBodyList = Array<ListDnsZonesResponseBodyItem>;
+export type ListDnsZonesResponse = ListDnsZonesResponseBodyList;
 export interface ListEnvironmentSharedEnvsRequest {
   /** Project UUID */
   uuid: string;
@@ -3930,7 +5055,7 @@ export interface EnvironmentVariable {
   is_runtime?: boolean | undefined;
   is_buildtime?: boolean | undefined;
   is_shared?: boolean | undefined;
-  /** If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values. */
+  /** If true, the saved value is hidden in the UI and API responses. A lock is permanent: false does not unlock a locked variable, but a new value can still replace the locked one. MCP never returns environment variable values. */
   is_shown_once?: boolean | undefined;
   key?: string | undefined;
   value?: string | undefined;
@@ -3954,6 +5079,26 @@ export interface ListEnvsByServiceUuidRequest {
 }
 export type ListEnvsByServiceUuidResponseBodyList = Array<EnvironmentVariable>;
 export type ListEnvsByServiceUuidResponse = ListEnvsByServiceUuidResponseBodyList;
+export interface ListGiteaAppsRequest {}
+export interface ListGiteaAppsResponseBodyItem {
+  id?: number | undefined;
+  uuid?: string | undefined;
+  name?: string | undefined;
+  organization?: string | null | undefined;
+  api_url?: string | undefined;
+  html_url?: string | undefined;
+  custom_user?: string | undefined;
+  custom_port?: number | undefined;
+  client_id?: string | null | undefined;
+  redirect_uri?: string | null | undefined;
+  is_system_wide?: boolean | undefined;
+  is_public?: boolean | undefined;
+  /** True when the OAuth connection is complete and the source can deploy private repositories. */
+  is_connected?: boolean | undefined;
+  team_id?: number | undefined;
+}
+export type ListGiteaAppsResponseBodyList = Array<ListGiteaAppsResponseBodyItem>;
+export type ListGiteaAppsResponse = ListGiteaAppsResponseBodyList;
 export interface ListGithubAppsRequest {}
 export interface ListGithubAppsResponseBodyItem {
   id?: number | undefined;
@@ -3993,6 +5138,9 @@ export interface ListGitlabAppsResponseBodyItem {
 }
 export type ListGitlabAppsResponseBodyList = Array<ListGitlabAppsResponseBodyItem>;
 export type ListGitlabAppsResponse = ListGitlabAppsResponseBodyList;
+export interface ListIntegrationTokensRequest {}
+export type ListIntegrationTokensResponseBodyList = Array<IntegrationToken>;
+export type ListIntegrationTokensResponse = ListIntegrationTokensResponseBodyList;
 export interface ListPreviewDeploymentsByApplicationUuidRequest {
   /** UUID of the application. */
   uuid: string;
@@ -4012,15 +5160,39 @@ export interface ListProjectSharedEnvsRequest {
 }
 export interface ListProjectSharedEnvsResponse {}
 export interface ListResourcesRequest {}
-export type ListResourcesResponse = string;
-export interface ListS3StoragesRequest {}
-export interface ListS3StoragesResponseBodyItem {
+export interface ListResourcesResponseBodyItem {
   uuid?: string | undefined;
   name?: string | undefined;
   description?: string | null | undefined;
+  /** application, service, or standalone-<engine> for databases (for example standalone-postgresql). */
+  type?: string | undefined;
+  /** For example running:healthy or exited:unhealthy. */
+  status?: string | undefined;
+  environment_id?: number | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
+  [key: string]: unknown;
+}
+export type ListResourcesResponseBodyList = Array<ListResourcesResponseBodyItem>;
+export type ListResourcesResponse = ListResourcesResponseBodyList;
+export interface ListS3StoragesRequest {}
+export type ListS3StoragesResponseBodyItemType = "s3" | "sftp" | "ftps" | "webdav";
+export interface ListS3StoragesResponseBodyItem {
+  uuid?: string | undefined;
+  type?: ListS3StoragesResponseBodyItemType | undefined;
+  name?: string | undefined;
+  description?: string | null | undefined;
   endpoint?: string | undefined;
-  bucket?: string | undefined;
+  /** S3 only. Null for the other types. */
+  bucket?: string | null | undefined;
+  /** S3 only. The other types have a placeholder value. */
   region?: string | undefined;
+  use_path_style_endpoint?: boolean | undefined;
+  skip_tls_verification?: boolean | undefined;
+  /** SFTP only: the UUID of the private key used to log in. Null with a password login. */
+  private_key_uuid?: string | null | undefined;
+  /** SFTP only: the pinned host key of the server, as "<key type> <base64>". Saved by the first successful connection test. */
+  sftp_host_key?: string | null | undefined;
   is_usable?: boolean | undefined;
   team_id?: number | undefined;
   created_at?: string | undefined;
@@ -4085,6 +5257,17 @@ export interface ListScheduledTasksByServiceUuidRequest {
 export type ListScheduledTasksByServiceUuidResponseBodyList = Array<ScheduledTask>;
 export type ListScheduledTasksByServiceUuidResponse =
   ListScheduledTasksByServiceUuidResponseBodyList;
+export type ListSecretManagerKeysRequestResourceType = "applications" | "services" | "databases";
+export interface ListSecretManagerKeysRequest {
+  /** Resource type. */
+  resource_type: ListSecretManagerKeysRequestResourceType | (string & {});
+  /** Resource UUID. */
+  uuid: string;
+}
+export type ListSecretManagerKeysResponseKeysList = Array<string>;
+export interface ListSecretManagerKeysResponse {
+  keys?: ListSecretManagerKeysResponseKeysList | undefined;
+}
 export interface ListServerDestinationsRequest {
   /** Server UUID */
   server_uuid: string;
@@ -4216,6 +5399,30 @@ export type ListTeamsResponseBodyList = Array<Team>;
 export type ListTeamsResponse = ListTeamsResponseBodyList;
 export interface ListTeamSharedEnvsRequest {}
 export interface ListTeamSharedEnvsResponse {}
+export interface ListVulnerabilitiesRequest {
+  /** Comma-separated statuses to return. */
+  status?: string | undefined;
+}
+export type ListVulnerabilitiesResponseResourcesItemType = "application" | "service" | "database";
+export interface ListVulnerabilitiesResponseResourcesItemImages {
+  update?: number | undefined;
+  total?: number | undefined;
+}
+export interface ListVulnerabilitiesResponseResourcesItem {
+  uuid?: string | undefined;
+  name?: string | undefined;
+  type?: ListVulnerabilitiesResponseResourcesItemType | undefined;
+  project_uuid?: string | null | undefined;
+  environment_uuid?: string | null | undefined;
+  server_uuid?: string | null | undefined;
+  images?: ListVulnerabilitiesResponseResourcesItemImages | undefined;
+  security?: SecurityStatus | undefined;
+}
+export type ListVulnerabilitiesResponseResourcesList =
+  Array<ListVulnerabilitiesResponseResourcesItem>;
+export interface ListVulnerabilitiesResponse {
+  resources?: ListVulnerabilitiesResponseResourcesList | undefined;
+}
 export interface LoadBranchesRequest {
   /** GitHub App ID */
   github_app_id: number;
@@ -4275,6 +5482,13 @@ export interface MigrateDatabaseByUuidRequest {
   migrate_volumes?: boolean | undefined;
 }
 export interface MigrateDatabaseByUuidResponse {}
+export interface MigrateServerBetweenInstancesRequest {
+  uuid: string;
+  target_url: string;
+  /** API token on the target instance (root or write) */
+  target_token: string | Redacted.Redacted<string>;
+}
+export interface MigrateServerBetweenInstancesResponse {}
 export interface MigrateServiceByUuidRequest {
   /** UUID of the service. */
   uuid: string;
@@ -4322,6 +5536,8 @@ export interface MoveServiceByUuidResponse {
 }
 /** The subset of the service application domains served with an X-Robots-Tag: noindex, nofollow response header, keeping them out of search engines. Entries that are not among the domains are ignored. */
 export type PatchServiceApplicationByServiceAndAppUuidRequestNoindexDomainsList = Array<string>;
+/** How to handle www and non-www domains. "www" redirects non-www to www, "non-www" redirects www to non-www. Both need a www and a non-www domain in url. */
+export type PatchServiceApplicationByServiceAndAppUuidRequestRedirect = "both" | "www" | "non-www";
 export interface PatchServiceApplicationByServiceAndAppUuidRequest {
   /** Service UUID. */
   uuid: string;
@@ -4346,6 +5562,10 @@ export interface PatchServiceApplicationByServiceAndAppUuidRequest {
   traefik_certificate_resolver?: string | null | undefined;
   is_stripprefix_enabled?: boolean | null | undefined;
   is_force_https_enabled?: boolean | null | undefined;
+  /** Use permanent redirects (301/308) instead of temporary (302/307) for the HTTP to HTTPS and www redirects. Defaults to false. */
+  is_permanent_redirect_enabled?: boolean | null | undefined;
+  /** How to handle www and non-www domains. "www" redirects non-www to www, "non-www" redirects www to non-www. Both need a www and a non-www domain in url. */
+  redirect?: PatchServiceApplicationByServiceAndAppUuidRequestRedirect | (string & {}) | undefined;
   /** Maximum Docker restart count before Coolify stops the container. Set to 0 to disable the limit. */
   max_restart_count?: number | null | undefined;
 }
@@ -4360,6 +5580,7 @@ export interface PatchServiceDatabaseByServiceAndDatabaseUuidRequest {
   image?: string | undefined;
   exclude_from_status?: boolean | undefined;
   is_log_drain_enabled?: boolean | undefined;
+  /** Changing it starts or stops the database proxy, so it needs a token with the deploy permission. */
   is_public?: boolean | undefined;
   public_port?: number | null | undefined;
   public_port_timeout?: number | null | undefined;
@@ -4401,6 +5622,42 @@ export interface PostStopServiceApplicationByServiceAndAppUuidRequest {
 export interface PostStopServiceApplicationByServiceAndAppUuidResponse {
   message?: string | undefined;
 }
+export interface ReleaseApplicationDnsRecordRequest {
+  /** Application UUID. */
+  uuid: string;
+  /** Hostname of the record. */
+  hostname: string;
+  /** Delete the record at Cloudflare. Default: true. */
+  delete_record?: boolean | undefined;
+}
+export type ReleaseApplicationDnsRecordResponseResult =
+  | "deleted"
+  | "already_gone"
+  | "not_owned"
+  | "changed_externally"
+  | "kept";
+export interface ReleaseApplicationDnsRecordResponse {
+  result?: ReleaseApplicationDnsRecordResponseResult | undefined;
+  message?: string | undefined;
+}
+export interface ReleaseServiceDnsRecordRequest {
+  /** Service UUID. */
+  uuid: string;
+  /** Hostname of the record. */
+  hostname: string;
+  /** Delete the record at Cloudflare. Default: true. */
+  delete_record?: boolean | undefined;
+}
+export type ReleaseServiceDnsRecordResponseResult =
+  | "deleted"
+  | "already_gone"
+  | "not_owned"
+  | "changed_externally"
+  | "kept";
+export interface ReleaseServiceDnsRecordResponse {
+  result?: ReleaseServiceDnsRecordResponseResult | undefined;
+  message?: string | undefined;
+}
 export interface RemoveApplicationDestinationRequest {
   /** UUID of the application. */
   uuid: string;
@@ -4408,6 +5665,64 @@ export interface RemoveApplicationDestinationRequest {
   destination_uuid: string;
 }
 export interface RemoveApplicationDestinationResponse {}
+export type RemoveSecretManagerSourceRequestResourceType =
+  | "applications"
+  | "services"
+  | "databases";
+export interface RemoveSecretManagerSourceRequest {
+  /** Resource type. */
+  resource_type: RemoveSecretManagerSourceRequestResourceType | (string & {});
+  /** Resource UUID. */
+  uuid: string;
+}
+export interface RemoveSecretManagerSourceResponse {}
+export interface ReplaceApplicationDnsRecordRequest {
+  /** Application UUID. */
+  uuid: string;
+  /** A saved domain of the resource. */
+  hostname: string;
+  /** Cloudflare token to use. Required when several tokens manage the zone of the hostname. */
+  integration_token_uuid?: string | undefined;
+  /** conflict.record_id from the 409 response of the create request. */
+  record_id: string;
+  /** conflict.current from the 409 response. The record is replaced only when it still has this value. */
+  current: string;
+  /** A public address of the server. Default: default_address of the DNS status. */
+  address?: string | undefined;
+}
+export interface ReplaceApplicationDnsRecordResponse {
+  record?: ManagedDnsRecord | undefined;
+}
+export interface ReplaceServiceDnsRecordRequest {
+  /** Service UUID. */
+  uuid: string;
+  /** A saved domain of the resource. */
+  hostname: string;
+  /** Cloudflare token to use. Required when several tokens manage the zone of the hostname. */
+  integration_token_uuid?: string | undefined;
+  /** conflict.record_id from the 409 response of the create request. */
+  record_id: string;
+  /** conflict.current from the 409 response. The record is replaced only when it still has this value. */
+  current: string;
+  /** A public address of the server. Default: default_address of the DNS status. */
+  address?: string | undefined;
+}
+export interface ReplaceServiceDnsRecordResponse {
+  record?: ManagedDnsRecord | undefined;
+}
+export interface ResetServerHostKeyByUuidRequest {
+  /** Server UUID */
+  uuid: string;
+  /** The SSH host key(s) to trust, as public key lines or known_hosts lines. */
+  ssh_host_key?: string | undefined;
+}
+export type ResetServerHostKeyByUuidResponseSshHostKeyFingerprintsList = Array<string>;
+export interface ResetServerHostKeyByUuidResponse {
+  message?: string | undefined;
+  ssh_host_key_fingerprints?:
+    | ResetServerHostKeyByUuidResponseSshHostKeyFingerprintsList
+    | undefined;
+}
 export interface RestartApplicationByUuidRequest {
   /** UUID of the application. */
   uuid: string;
@@ -4450,7 +5765,7 @@ export interface RestartServiceDatabaseByServiceAndDatabaseUuidResponse {
 export interface RollbackApplicationByUuidRequest {
   /** UUID of the application. */
   uuid: string;
-  /** Image tag / commit to roll back to. */
+  /** Image tag / commit to roll back to. Must be a tag from the rollback images list or the commit of a successful production deployment. */
   commit: string;
 }
 export interface RollbackApplicationByUuidResponse {
@@ -4493,9 +5808,12 @@ export interface SaveServerProxyConfigurationResponse {
   status?: string | null | undefined;
   redirect_enabled?: boolean | undefined;
   redirect_url?: string | null | undefined;
+  proxy_error_page?: string | null | undefined;
   generate_exact_labels?: boolean | undefined;
   configuration?: string | null | undefined;
 }
+/** UUIDs of every S3 storage the backup is uploaded to. When s3_storage_uuid is also sent, it must be in this list and becomes the primary destination; otherwise the first entry is the primary destination. save_s3 requires at least one destination. */
+export type SetApplicationStorageBackupScheduleRequestS3StorageUuidsList = Array<string>;
 export interface SetApplicationStorageBackupScheduleRequest {
   /** UUID of the application. */
   uuid: string;
@@ -4505,8 +5823,12 @@ export interface SetApplicationStorageBackupScheduleRequest {
   enabled?: boolean | undefined;
   save_s3?: boolean | undefined;
   disable_local_backup?: boolean | undefined;
+  /** Stop the resource containers during the backup. Needs a token with the deploy permission. */
   stop_during_backup?: boolean | undefined;
+  /** Primary S3 storage UUID. Sent without s3_storage_uuids, it selects this storage as the only destination. */
   s3_storage_uuid?: string | null | undefined;
+  /** UUIDs of every S3 storage the backup is uploaded to. When s3_storage_uuid is also sent, it must be in this list and becomes the primary destination; otherwise the first entry is the primary destination. save_s3 requires at least one destination. */
+  s3_storage_uuids?: SetApplicationStorageBackupScheduleRequestS3StorageUuidsList | undefined;
   retention_amount_locally?: number | undefined;
   retention_days_locally?: number | undefined;
   retention_max_storage_locally?: number | undefined;
@@ -4518,6 +5840,8 @@ export interface SetApplicationStorageBackupScheduleRequest {
   missing_backup_notification_days?: number | undefined;
 }
 export type VolumeBackupScheduleResponseStorageType = "persistent" | "directory";
+/** Every S3 destination, primary first. */
+export type VolumeBackupScheduleResponseS3StorageUuidsList = Array<string>;
 export interface VolumeBackupScheduleResponse {
   uuid: string;
   message: string;
@@ -4528,7 +5852,10 @@ export interface VolumeBackupScheduleResponse {
   save_s3: boolean;
   disable_local_backup: boolean;
   stop_during_backup: boolean;
+  /** Primary S3 destination. */
   s3_storage_uuid?: string | null | undefined;
+  /** Every S3 destination, primary first. */
+  s3_storage_uuids?: VolumeBackupScheduleResponseS3StorageUuidsList | undefined;
   retention_amount_locally: number;
   retention_days_locally: number;
   retention_max_storage_locally: number;
@@ -4538,6 +5865,8 @@ export interface VolumeBackupScheduleResponse {
   timeout: number;
   missing_backup_notification_days: number;
 }
+/** UUIDs of every S3 storage the backup is uploaded to. When s3_storage_uuid is also sent, it must be in this list and becomes the primary destination; otherwise the first entry is the primary destination. save_s3 requires at least one destination. */
+export type SetDatabaseStorageBackupScheduleRequestS3StorageUuidsList = Array<string>;
 export interface SetDatabaseStorageBackupScheduleRequest {
   /** UUID of the database. */
   uuid: string;
@@ -4547,8 +5876,12 @@ export interface SetDatabaseStorageBackupScheduleRequest {
   enabled?: boolean | undefined;
   save_s3?: boolean | undefined;
   disable_local_backup?: boolean | undefined;
+  /** Stop the resource containers during the backup. Needs a token with the deploy permission. */
   stop_during_backup?: boolean | undefined;
+  /** Primary S3 storage UUID. Sent without s3_storage_uuids, it selects this storage as the only destination. */
   s3_storage_uuid?: string | null | undefined;
+  /** UUIDs of every S3 storage the backup is uploaded to. When s3_storage_uuid is also sent, it must be in this list and becomes the primary destination; otherwise the first entry is the primary destination. save_s3 requires at least one destination. */
+  s3_storage_uuids?: SetDatabaseStorageBackupScheduleRequestS3StorageUuidsList | undefined;
   retention_amount_locally?: number | undefined;
   retention_days_locally?: number | undefined;
   retention_max_storage_locally?: number | undefined;
@@ -4559,6 +5892,19 @@ export interface SetDatabaseStorageBackupScheduleRequest {
   /** Alert after this many days without an execution; 0 disables alerts */
   missing_backup_notification_days?: number | undefined;
 }
+export type SetSecretManagerSourceRequestResourceType = "applications" | "services" | "databases";
+export interface SetSecretManagerSourceRequest {
+  /** Resource type. */
+  resource_type: SetSecretManagerSourceRequestResourceType | (string & {});
+  /** Resource UUID. */
+  uuid: string;
+  integration_token_uuid: string;
+  /** Doppler service account: project, config. Infisical: project_id, environment, secret_path. Vault: mount, path. */
+  settings?: unknown | undefined;
+}
+export interface SetSecretManagerSourceResponse {}
+/** UUIDs of every S3 storage the backup is uploaded to. When s3_storage_uuid is also sent, it must be in this list and becomes the primary destination; otherwise the first entry is the primary destination. save_s3 requires at least one destination. */
+export type SetServiceStorageBackupScheduleRequestS3StorageUuidsList = Array<string>;
 export interface SetServiceStorageBackupScheduleRequest {
   /** UUID of the service. */
   uuid: string;
@@ -4568,8 +5914,12 @@ export interface SetServiceStorageBackupScheduleRequest {
   enabled?: boolean | undefined;
   save_s3?: boolean | undefined;
   disable_local_backup?: boolean | undefined;
+  /** Stop the resource containers during the backup. Needs a token with the deploy permission. */
   stop_during_backup?: boolean | undefined;
+  /** Primary S3 storage UUID. Sent without s3_storage_uuids, it selects this storage as the only destination. */
   s3_storage_uuid?: string | null | undefined;
+  /** UUIDs of every S3 storage the backup is uploaded to. When s3_storage_uuid is also sent, it must be in this list and becomes the primary destination; otherwise the first entry is the primary destination. save_s3 requires at least one destination. */
+  s3_storage_uuids?: SetServiceStorageBackupScheduleRequestS3StorageUuidsList | undefined;
   retention_amount_locally?: number | undefined;
   retention_days_locally?: number | undefined;
   retention_max_storage_locally?: number | undefined;
@@ -4651,6 +6001,13 @@ export interface StopServiceDatabaseByServiceAndDatabaseUuidRequest {
 export interface StopServiceDatabaseByServiceAndDatabaseUuidResponse {
   message?: string | undefined;
 }
+export interface SyncIntegrationTokenZonesRequest {
+  /** Integration token UUID. */
+  uuid: string;
+}
+export interface SyncIntegrationTokenZonesResponse {
+  zones_count?: number | undefined;
+}
 /** The build pack type. */
 export type UpdateApplicationByUuidRequestBuildPack =
   | "nixpacks"
@@ -4682,15 +6039,23 @@ export interface UpdateApplicationByUuidRequestDockerComposeDomainsItem {
 /** Array of URLs to be applied to containers of a dockercompose application. */
 export type UpdateApplicationByUuidRequestDockerComposeDomainsList =
   Array<UpdateApplicationByUuidRequestDockerComposeDomainsItem>;
+/** Hash algorithm for the HTTP Basic Authentication password. Argon2id needs the Caddy proxy, version 2.11 or newer. */
+export type UpdateApplicationByUuidRequestHttpBasicAuthHashAlgorithm = "bcrypt" | "argon2id";
 export interface UpdateApplicationByUuidRequest {
   /** UUID of the application. */
   uuid: string;
   /** The Github App UUID. */
   github_app_uuid?: string | undefined;
+  /** The Gitea App UUID. The source must be connected. Do not send it together with github_app_uuid. */
+  gitea_app_uuid?: string | undefined;
   /** The git repository URL. */
   git_repository?: string | undefined;
   /** The git branch. */
   git_branch?: string | undefined;
+  /** Username for HTTPS access to a private repository on a custom Git host. Send null to remove it. */
+  git_https_username?: string | null | undefined;
+  /** Password or access token for HTTPS access to a private repository on a custom Git host. It is stored encrypted and never returned. Send null or an empty string to remove the credentials. */
+  git_https_password?: string | Redacted.Redacted<string> | null | undefined;
   /** The ports to expose. */
   ports_exposes?: string | undefined;
   /** The build pack type. */
@@ -4781,13 +6146,13 @@ export interface UpdateApplicationByUuidRequest {
   pre_deployment_command?: string | undefined;
   /** Pre deployment command container. */
   pre_deployment_command_container?: string | undefined;
-  /** Manual webhook secret for Github. */
+  /** Manual webhook secret for Github. Needs the deploy ability. */
   manual_webhook_secret_github?: string | undefined;
-  /** Manual webhook secret for Gitlab. */
+  /** Manual webhook secret for Gitlab. Needs the deploy ability. */
   manual_webhook_secret_gitlab?: string | undefined;
-  /** Manual webhook secret for Bitbucket. */
+  /** Manual webhook secret for Bitbucket. Needs the deploy ability. */
   manual_webhook_secret_bitbucket?: string | undefined;
-  /** Manual webhook secret for Gitea. */
+  /** Manual webhook secret for Gitea. Needs the deploy ability. */
   manual_webhook_secret_gitea?: string | undefined;
   /** How to set redirect with Traefik / Caddy. www<->non-www. */
   redirect?: UpdateApplicationByUuidRequestRedirect | (string & {}) | null | undefined;
@@ -4797,6 +6162,8 @@ export interface UpdateApplicationByUuidRequest {
   dockerfile?: string | undefined;
   /** The Dockerfile location in the repository. */
   dockerfile_location?: string | undefined;
+  /** The Docker build target (stage) in the Dockerfile. */
+  dockerfile_target_build?: string | null | undefined;
   /** The Docker Compose location. */
   docker_compose_location?: string | undefined;
   /** The Docker Compose custom start command. */
@@ -4811,32 +6178,59 @@ export interface UpdateApplicationByUuidRequest {
   use_build_server?: boolean | null | undefined;
   /** Use Docker Build Secrets for build-time environment variables. */
   use_build_secrets?: boolean | undefined;
+  /** Hash algorithm for the HTTP Basic Authentication password. Argon2id needs the Caddy proxy, version 2.11 or newer. */
+  http_basic_auth_hash_algorithm?:
+    | UpdateApplicationByUuidRequestHttpBasicAuthHashAlgorithm
+    | (string & {})
+    | undefined;
+  /** Bcrypt cost for the HTTP Basic Authentication password. */
+  http_basic_auth_bcrypt_cost?: number | undefined;
+  /** Argon2id memory cost in KiB for the HTTP Basic Authentication password. */
+  http_basic_auth_argon2id_memory_cost?: number | undefined;
+  /** Argon2id time cost (iterations) for the HTTP Basic Authentication password. */
+  http_basic_auth_argon2id_time_cost?: number | undefined;
   /** Clone Git submodules. */
   is_git_submodules_enabled?: boolean | undefined;
   /** Enable Git LFS. */
   is_git_lfs_enabled?: boolean | undefined;
   /** Use a shallow Git clone. */
   is_git_shallow_clone_enabled?: boolean | undefined;
+  /** Cancel older queued webhook deployments when a newer push arrives. Default: true. */
+  is_auto_cancel_queued_deployments_enabled?: boolean | undefined;
+  /** Also stop an older webhook deployment that is still building when a newer push arrives. A deployment that already started to replace containers always finishes. This also cancels queued webhook deployments. Default: false. */
+  is_auto_cancel_building_deployments_enabled?: boolean | undefined;
   /** Disable the build cache. */
   disable_build_cache?: boolean | undefined;
   /** Inject build arguments into the Dockerfile build. */
   inject_build_args_to_dockerfile?: boolean | undefined;
   /** Include the source commit in the build. */
   include_source_commit_in_build?: boolean | undefined;
+  /** Add the containers of the destination network as build hosts. */
+  include_network_hosts_in_build?: boolean | undefined;
   /** Sort environment variables. */
   is_env_sorting_enabled?: boolean | undefined;
+  /** Redact all environment variable values in logs. When false, only locked (shown once) values are redacted. Requires team admin permissions. */
+  redact_all_env_values_in_logs?: boolean | undefined;
+  /** Add the predefined COOLIFY_* variables (COOLIFY_URL, COOLIFY_FQDN, ...) to the environment. Requires team admin permissions. Redeploy to apply it. */
+  include_coolify_default_variables?: boolean | undefined;
   /** Make pull request deployments public. */
   is_pr_deployments_public_enabled?: boolean | undefined;
   /** Container stop grace period in seconds. */
   stop_grace_period?: number | null | undefined;
+  /** Seconds to wait after the new container is healthy before old containers stop during a rolling update. 0 turns the wait off. Default: 5. */
+  rolling_update_drain_seconds?: number | undefined;
   /** Number of Docker images to retain. */
   docker_images_to_keep?: number | undefined;
   /** Enable gzip compression. */
   is_gzip_enabled?: boolean | undefined;
   /** Enable path prefix stripping. */
   is_stripprefix_enabled?: boolean | undefined;
+  /** Use permanent redirects (301/308) instead of temporary (302/307) for the HTTP to HTTPS and www redirects. Defaults to false. */
+  is_permanent_redirect_enabled?: boolean | undefined;
   /** Traefik certificate resolver for this application. Null uses the server setting, "none" uses no resolver. */
   traefik_certificate_resolver?: string | null | undefined;
+  /** Let Coolify manage the container labels. True regenerates custom_labels from domains, redirect, and proxy settings. False keeps custom_labels as you set them: domains, redirect, and basic auth changes then do not change the labels. */
+  is_container_label_readonly_enabled?: boolean | undefined;
   /** Deploy the raw Docker Compose definition. */
   is_raw_compose_deployment_enabled?: boolean | undefined;
   /** Enable log drain for the application. */
@@ -4853,6 +6247,8 @@ export interface UpdateApplicationByUuidRequest {
   gpu_options?: string | null | undefined;
   /** Use a consistent container name across deployments. */
   is_consistent_container_name_enabled?: boolean | undefined;
+  /** Scan the images of the application for vulnerabilities. Needs image scanning on the server. Default true. */
+  is_image_scan_enabled?: boolean | undefined;
   /** Custom internal container name. Turns is_consistent_container_name_enabled on when that field is not sent; sending it as false together with a name returns 422. */
   custom_internal_name?: string | null | undefined;
   /** Prefix for generated container names (prefix-20260908T141530). Slugified and unique across the instance. */
@@ -4900,6 +6296,8 @@ export interface UpdateCurrentTeamTelegramNotificationsRequest {}
 export interface UpdateCurrentTeamTelegramNotificationsResponse {}
 export interface UpdateCurrentTeamWebhookNotificationsRequest {}
 export interface UpdateCurrentTeamWebhookNotificationsResponse {}
+/** UUIDs of every S3 storage the backup is uploaded to. Replaces the current destinations. When s3_storage_uuid is also sent, it must be in this list and becomes the primary destination; otherwise the first entry is the primary destination. */
+export type UpdateDatabaseBackupRequestS3StorageUuidsList = Array<string>;
 export interface UpdateDatabaseBackupRequest {
   /** UUID of the database. */
   uuid: string;
@@ -4907,9 +6305,13 @@ export interface UpdateDatabaseBackupRequest {
   scheduled_backup_uuid: string;
   /** Whether data is saved in s3 or not */
   save_s3?: boolean | undefined;
-  /** S3 storage UUID */
+  /** Delete the local backup file after the upload to S3. Only allowed when save_s3 is true. Turning save_s3 off also turns this off. */
+  disable_local_backup?: boolean | undefined;
+  /** Primary S3 storage UUID. Sent without s3_storage_uuids, it selects this storage as the only destination; when it is already a destination, it becomes the primary destination and the other destinations stay. */
   s3_storage_uuid?: string | undefined;
-  /** Whether to take a backup now or not */
+  /** UUIDs of every S3 storage the backup is uploaded to. Replaces the current destinations. When s3_storage_uuid is also sent, it must be in this list and becomes the primary destination; otherwise the first entry is the primary destination. */
+  s3_storage_uuids?: UpdateDatabaseBackupRequestS3StorageUuidsList | undefined;
+  /** Whether to take a backup now or not. Needs a token with the deploy permission. */
   backup_now?: boolean | undefined;
   /** Whether the backup is enabled or not */
   enabled?: boolean | undefined;
@@ -4946,9 +6348,9 @@ export interface UpdateDatabaseByUuidRequest {
   description?: string | undefined;
   /** Docker Image of the database */
   image?: string | undefined;
-  /** Is the database public? */
+  /** Is the database public? Changing it starts or stops the database proxy, so it needs a token with the deploy permission. */
   is_public?: boolean | undefined;
-  /** Public port of the database */
+  /** Public port of the database (1024-65535) */
   public_port?: number | undefined;
   /** Public port timeout in seconds (default: 3600) */
   public_port_timeout?: number | undefined;
@@ -5034,6 +6436,12 @@ export interface UpdateDatabaseByUuidRequest {
   health_check_retries?: number | undefined;
   /** Healthcheck start period in seconds. */
   health_check_start_period?: number | undefined;
+  /** Redact all environment variable values in logs. When false, only locked (shown once) values, database passwords, and remote secrets are redacted. Requires team admin permissions. */
+  redact_all_env_values_in_logs?: boolean | undefined;
+  /** Add the predefined COOLIFY_* variables (COOLIFY_URL, COOLIFY_FQDN, ...) to the environment. Requires team admin permissions. Restart the database to apply it. */
+  include_coolify_default_variables?: boolean | undefined;
+  /** Send the database logs to the log drain of the server. Log drain must be enabled on the server. Restart the database to apply it. */
+  is_log_drain_enabled?: boolean | undefined;
 }
 export interface UpdateDatabaseByUuidResponse {}
 export interface UpdateDestinationByUuidRequest {
@@ -5054,7 +6462,7 @@ export interface UpdateEnvByApplicationUuidRequest {
   is_literal?: boolean | undefined;
   /** The flag to indicate if the environment variable is multiline. */
   is_multiline?: boolean | undefined;
-  /** If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values. */
+  /** If true, the saved value is hidden in the UI and API responses. A lock is permanent: false does not unlock a locked variable, but a new value can still replace the locked one. MCP never returns environment variable values. */
   is_shown_once?: boolean | undefined;
 }
 export interface UpdateEnvByDatabaseUuidRequest {
@@ -5068,7 +6476,7 @@ export interface UpdateEnvByDatabaseUuidRequest {
   is_literal?: boolean | undefined;
   /** The flag to indicate if the environment variable is multiline. */
   is_multiline?: boolean | undefined;
-  /** If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values. */
+  /** If true, the saved value is hidden in the UI and API responses. A lock is permanent: false does not unlock a locked variable, but a new value can still replace the locked one. MCP never returns environment variable values. */
   is_shown_once?: boolean | undefined;
 }
 export interface UpdateEnvByServiceUuidRequest {
@@ -5078,13 +6486,11 @@ export interface UpdateEnvByServiceUuidRequest {
   key: string;
   /** The value of the environment variable. */
   value: string;
-  /** The flag to indicate if the environment variable is used in preview deployments. */
-  is_preview?: boolean | undefined;
   /** The flag to indicate if the environment variable is a literal, nothing espaced. */
   is_literal?: boolean | undefined;
   /** The flag to indicate if the environment variable is multiline. */
   is_multiline?: boolean | undefined;
-  /** If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values. */
+  /** If true, the saved value is hidden in the UI and API responses. A lock is permanent: false does not unlock a locked variable, but a new value can still replace the locked one. MCP never returns environment variable values. */
   is_shown_once?: boolean | undefined;
 }
 export interface UpdateEnvironmentRequest {
@@ -5109,6 +6515,13 @@ export interface UpdateEnvironmentSharedEnvRequest {
   environment_name_or_uuid: string;
   /** Shared env id (integer). */
   env_id: number;
+  key?: string | undefined;
+  value?: string | null | undefined;
+  is_literal?: boolean | undefined;
+  is_multiline?: boolean | undefined;
+  /** If true, the saved value is hidden in the UI and API responses. A lock is permanent: false does not unlock a locked variable, but a new value can still replace the locked one. MCP never returns environment variable values. */
+  is_shown_once?: boolean | undefined;
+  comment?: string | null | undefined;
 }
 export interface UpdateEnvironmentSharedEnvResponse {}
 export interface UpdateEnvsByApplicationUuidRequestDataItem {
@@ -5122,7 +6535,7 @@ export interface UpdateEnvsByApplicationUuidRequestDataItem {
   is_literal?: boolean | undefined;
   /** The flag to indicate if the environment variable is multiline. */
   is_multiline?: boolean | undefined;
-  /** If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values. */
+  /** If true, the saved value is hidden in the UI and API responses. A lock is permanent: false does not unlock a locked variable, but a new value can still replace the locked one. MCP never returns environment variable values. */
   is_shown_once?: boolean | undefined;
 }
 export type UpdateEnvsByApplicationUuidRequestDataList =
@@ -5143,7 +6556,7 @@ export interface UpdateEnvsByDatabaseUuidRequestDataItem {
   is_literal?: boolean | undefined;
   /** The flag to indicate if the environment variable is multiline. */
   is_multiline?: boolean | undefined;
-  /** If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values. */
+  /** If true, the saved value is hidden in the UI and API responses. A lock is permanent: false does not unlock a locked variable, but a new value can still replace the locked one. MCP never returns environment variable values. */
   is_shown_once?: boolean | undefined;
 }
 export type UpdateEnvsByDatabaseUuidRequestDataList =
@@ -5155,9 +6568,8 @@ export interface UpdateEnvsByDatabaseUuidRequest {
 }
 export type UpdateEnvsByDatabaseUuidResponseBodyList = Array<EnvironmentVariable>;
 export type UpdateEnvsByDatabaseUuidResponse = UpdateEnvsByDatabaseUuidResponseBodyList;
-export type UpdateEnvsByServiceUuidRequestDataItem = UpdateEnvsByApplicationUuidRequestDataItem;
-export type UpdateEnvsByServiceUuidRequestDataList =
-  Array<UpdateEnvsByApplicationUuidRequestDataItem>;
+export type UpdateEnvsByServiceUuidRequestDataItem = UpdateEnvsByDatabaseUuidRequestDataItem;
+export type UpdateEnvsByServiceUuidRequestDataList = Array<UpdateEnvsByDatabaseUuidRequestDataItem>;
 export interface UpdateEnvsByServiceUuidRequest {
   /** UUID of the service. */
   uuid: string;
@@ -5220,7 +6632,7 @@ export interface UpdateGitlabAppRequest {
   /** OAuth Application Secret */
   client_secret?: string | Redacted.Redacted<string> | null | undefined;
   /** Webhook secret token */
-  webhook_token?: string | null | undefined;
+  webhook_token?: string | Redacted.Redacted<string> | null | undefined;
   /** OAuth redirect URI */
   redirect_uri?: string | null | undefined;
   /** Is system wide (non-cloud instances only) */
@@ -5233,6 +6645,24 @@ export interface UpdateGitlabAppResponse {
 }
 export interface UpdateInstanceEmailSettingsRequest {}
 export interface UpdateInstanceEmailSettingsResponse {}
+export type UpdateIntegrationTokenByUuidRequestCapabilitiesItem = "dns" | "tunnel" | "secrets";
+export type UpdateIntegrationTokenByUuidRequestCapabilitiesList = Array<
+  UpdateIntegrationTokenByUuidRequestCapabilitiesItem | (string & {})
+>;
+export interface UpdateIntegrationTokenByUuidRequest {
+  /** Integration token UUID. */
+  uuid: string;
+  name?: string | undefined;
+  /** New secret. Required when base_url, client_id (Infisical), or namespace (Vault) changes. */
+  token?: string | Redacted.Redacted<string> | undefined;
+  capabilities?: UpdateIntegrationTokenByUuidRequestCapabilitiesList | undefined;
+  /** Cloudflare only. */
+  automatic_dns?: boolean | undefined;
+  /** Cloudflare only. */
+  proxied_dns?: boolean | undefined;
+  /** Secret managers only. Fields to change: base_url, client_id, namespace, timeout. An empty value removes a field. */
+  metadata?: unknown | undefined;
+}
 export type UpdatePreviewDomainsByPullRequestIdRequestDockerComposeDomainsItemRedirect =
   | "www"
   | "non-www"
@@ -5264,7 +6694,7 @@ export interface UpdatePrivateKeyRequest {
   uuid: string;
   name?: string | undefined;
   description?: string | undefined;
-  private_key: string | Redacted.Redacted<string>;
+  private_key?: string | Redacted.Redacted<string> | undefined;
 }
 export interface UpdatePrivateKeyResponse {
   uuid?: string | undefined;
@@ -5287,6 +6717,13 @@ export interface UpdateProjectSharedEnvRequest {
   uuid: string;
   /** Shared env id (integer). */
   env_id: number;
+  key?: string | undefined;
+  value?: string | null | undefined;
+  is_literal?: boolean | undefined;
+  is_multiline?: boolean | undefined;
+  /** If true, the saved value is hidden in the UI and API responses. A lock is permanent: false does not unlock a locked variable, but a new value can still replace the locked one. MCP never returns environment variable values. */
+  is_shown_once?: boolean | undefined;
+  comment?: string | null | undefined;
 }
 export interface UpdateProjectSharedEnvResponse {}
 export interface UpdateS3StorageByUuidRequest {
@@ -5296,16 +6733,22 @@ export interface UpdateS3StorageByUuidRequest {
   name?: string | undefined;
   /** Optional description. */
   description?: string | null | undefined;
-  /** S3-compatible endpoint URL. */
+  /** The endpoint URL, in the format of the storage type (see Create S3 Storage). */
   endpoint?: string | undefined;
-  /** S3 bucket name. */
+  /** S3 bucket name. Only for S3 storages. */
   bucket?: string | undefined;
-  /** S3 region. */
+  /** S3 region. Only for S3 storages. */
   region?: string | undefined;
-  /** Access key. */
+  /** Use path-style URLs (endpoint/bucket). Set to false for providers that only accept virtual-hosted-style URLs (bucket.endpoint), such as Alibaba Cloud OSS. */
+  use_path_style_endpoint?: boolean | undefined;
+  /** S3 only. Do not check the TLS certificate of the endpoint. Use only for endpoints with a self-signed or private CA certificate. Default: false. */
+  skip_tls_verification?: boolean | undefined;
+  /** S3: the access key. Other types: the username. */
   key?: string | undefined;
-  /** Secret key. */
+  /** S3: the secret key. Other types: the password. SFTP: sending a password switches the login to the password. */
   secret?: string | Redacted.Redacted<string> | undefined;
+  /** SFTP only: the UUID of a private key of your team to log in with. Null switches the login to the saved password. */
+  private_key_uuid?: string | null | undefined;
   /** Whether the storage is marked usable. */
   is_usable?: boolean | undefined;
 }
@@ -5327,6 +6770,8 @@ export interface UpdateScheduledTaskByApplicationUuidRequest {
   container?: string | null | undefined;
   /** The timeout of the scheduled task in seconds. */
   timeout?: number | undefined;
+  /** Run the command with `sh -c` in the container. Set it to false for containers without a shell: the command is then split into arguments and run directly, without shell features such as variables, pipes, or redirects. */
+  use_shell?: boolean | undefined;
   /** The flag to indicate if the scheduled task is enabled. An enabled task requires the deploy ability. */
   enabled?: boolean | undefined;
 }
@@ -5345,17 +6790,21 @@ export interface UpdateScheduledTaskByServiceUuidRequest {
   container?: string | null | undefined;
   /** The timeout of the scheduled task in seconds. */
   timeout?: number | undefined;
+  /** Run the command with `sh -c` in the container. Set it to false for containers without a shell: the command is then split into arguments and run directly, without shell features such as variables, pipes, or redirects. */
+  use_shell?: boolean | undefined;
   /** The flag to indicate if the scheduled task is enabled. An enabled task requires the deploy ability. */
   enabled?: boolean | undefined;
 }
 /** Server role. */
 export type UpdateServerByUuidRequestServerRole = "deployment" | "build" | "both";
-/** The proxy type. */
+/** The proxy type. Changing it starts the new proxy on the server and needs the deploy permission. */
 export type UpdateServerByUuidRequestProxyType = "traefik" | "caddy" | "none";
+/** Maximum CPU percentage that backup compression can use. Default: 25. */
+export type UpdateServerByUuidRequestBackupCompressionCpuPercentage = 25 | 50 | 75 | 100;
 export interface UpdateServerByUuidRequest {
   /** Server UUID */
   uuid: string;
-  /** The name of the server. */
+  /** The name of the server. Must not contain control characters such as new lines. */
   name?: string | undefined;
   /** The description of the server. */
   description?: string | undefined;
@@ -5373,7 +6822,7 @@ export interface UpdateServerByUuidRequest {
   is_build_server?: boolean | undefined;
   /** Instant validate. */
   instant_validate?: boolean | undefined;
-  /** The proxy type. */
+  /** The proxy type. Changing it starts the new proxy on the server and needs the deploy permission. */
   proxy_type?: UpdateServerByUuidRequestProxyType | (string & {}) | undefined;
   /** Number of concurrent builds. */
   concurrent_builds?: number | undefined;
@@ -5389,6 +6838,19 @@ export interface UpdateServerByUuidRequest {
   server_disk_usage_notification_interval_hours?: number | undefined;
   /** SSH connection timeout in seconds (1-300). Default: 10. */
   connection_timeout?: number | undefined;
+  /** Wildcard domain (URL) used to generate domains for new resources on this server. Null removes it. */
+  wildcard_domain?: string | null | undefined;
+  /** Public IPv4 that DNS checks and DNS records use instead of the server IP, for servers that Coolify reaches over a private network. Ignored for localhost. Null removes it. */
+  public_ipv4?: string | null | undefined;
+  /** Public IPv6 that DNS checks and DNS records use instead of the server IP, for servers that Coolify reaches over a private network. Ignored for localhost. Null removes it. */
+  public_ipv6?: string | null | undefined;
+  /** Timezone of the server, for example Europe/Berlin. Scheduled tasks and backups use it. */
+  server_timezone?: string | undefined;
+  /** Maximum CPU percentage that backup compression can use. Default: 25. */
+  backup_compression_cpu_percentage?:
+    | UpdateServerByUuidRequestBackupCompressionCpuPercentage
+    | (number & {})
+    | undefined;
 }
 export interface UpdateServerCloudflareTunnelRequest {
   /** Server UUID */
@@ -5415,21 +6877,59 @@ export interface UpdateServerDockerCleanupResponse {
   delete_unused_networks?: boolean | undefined;
   disable_application_image_retention?: boolean | undefined;
 }
+/** Memory limit of each scanner step, in MB. A value above the memory of the server is refused. */
+export type UpdateServerImageScanningRequestImageScanMemoryMb = 1024 | 2048 | 4096 | 8192;
+/** Time limit of one Syft run (package list of an image), in seconds. */
+export type UpdateServerImageScanningRequestImageScanSyftTimeout = 300 | 600 | 1200 | 1800 | 3600;
+/** Time limit of one Grype run (vulnerability match), in seconds. */
+export type UpdateServerImageScanningRequestImageScanGrypeTimeout = 300 | 600 | 1200 | 1800 | 3600;
+/** CPU limit of each scanner step. A value above the CPU count of the server is refused. */
+export type UpdateServerImageScanningRequestImageScanCpus = 0.5 | 1 | 2 | 4;
+export interface UpdateServerImageScanningRequest {
+  /** Server UUID */
+  uuid: string;
+  is_image_scan_enabled?: boolean | undefined;
+  /** Memory limit of each scanner step, in MB. A value above the memory of the server is refused. */
+  image_scan_memory_mb?:
+    | UpdateServerImageScanningRequestImageScanMemoryMb
+    | (number & {})
+    | undefined;
+  /** Time limit of one Syft run (package list of an image), in seconds. */
+  image_scan_syft_timeout?:
+    | UpdateServerImageScanningRequestImageScanSyftTimeout
+    | (number & {})
+    | undefined;
+  /** Time limit of one Grype run (vulnerability match), in seconds. */
+  image_scan_grype_timeout?:
+    | UpdateServerImageScanningRequestImageScanGrypeTimeout
+    | (number & {})
+    | undefined;
+  /** CPU limit of each scanner step. A value above the CPU count of the server is refused. */
+  image_scan_cpus?: UpdateServerImageScanningRequestImageScanCpus | (number & {}) | undefined;
+}
+export interface UpdateServerImageScanningResponse {}
 export interface UpdateServerLogDrainsRequest {
   /** Server UUID */
   uuid: string;
   is_logdrain_newrelic_enabled?: boolean | undefined;
-  logdrain_newrelic_license_key?: string | undefined;
+  logdrain_newrelic_license_key?: string | Redacted.Redacted<string> | undefined;
   logdrain_newrelic_base_uri?: string | undefined;
   is_logdrain_axiom_enabled?: boolean | undefined;
   logdrain_axiom_dataset_name?: string | undefined;
-  logdrain_axiom_api_key?: string | undefined;
+  /** Base domain of the Axiom edge deployment. Default: us-east-1.aws.edge.axiom.co. Use eu-central-1.aws.edge.axiom.co for EU datasets. */
+  logdrain_axiom_domain?: string | undefined;
+  logdrain_axiom_api_key?: string | Redacted.Redacted<string> | undefined;
   is_logdrain_custom_enabled?: boolean | undefined;
   logdrain_custom_config?: string | undefined;
   logdrain_custom_config_parser?: string | undefined;
+  is_logdrain_cloudwatch_enabled?: boolean | undefined;
+  logdrain_cloudwatch_region?: string | null | undefined;
+  logdrain_cloudwatch_group?: string | null | undefined;
+  /** Prepended to the container name to form the log stream name. */
+  logdrain_cloudwatch_stream_prefix?: string | null | undefined;
 }
 export interface UpdateServerLogDrainsResponse {}
-/** Proxy type (case-insensitive). */
+/** Proxy type (case-insensitive). Changing it starts the new proxy on the server and needs the deploy permission. */
 export type UpdateServerProxyRequestProxyType = "traefik" | "caddy" | "nginx" | "none";
 export interface UpdateServerProxyRequest {
   /** Server UUID */
@@ -5437,10 +6937,12 @@ export interface UpdateServerProxyRequest {
   redirect_enabled?: boolean | undefined;
   /** Public http(s) redirect URL, or null to clear. */
   redirect_url?: string | null | undefined;
+  /** Custom HTML error page that the proxy shows for unknown hosts (when redirect_url is empty) and for resources in maintenance mode. Null restores the default page. */
+  proxy_error_page?: string | null | undefined;
   generate_exact_labels?: boolean | undefined;
   /** Traefik certificate resolver for generated HTTPS routers (letters, digits, _ and -). Null or empty to use your own certificates. Redeploy resources to apply. */
   traefik_certificate_resolver?: string | null | undefined;
-  /** Proxy type (case-insensitive). */
+  /** Proxy type (case-insensitive). Changing it starts the new proxy on the server and needs the deploy permission. */
   proxy_type?: UpdateServerProxyRequestProxyType | (string & {}) | undefined;
 }
 export interface UpdateServerProxyResponse {
@@ -5448,6 +6950,7 @@ export interface UpdateServerProxyResponse {
   status?: string | null | undefined;
   redirect_enabled?: boolean | undefined;
   redirect_url?: string | null | undefined;
+  proxy_error_page?: string | null | undefined;
   generate_exact_labels?: boolean | undefined;
   traefik_certificate_resolver?: string | null | undefined;
   configuration?: string | null | undefined;
@@ -5459,7 +6962,7 @@ export interface UpdateServerSentinelRequest {
   uuid: string;
   is_metrics_enabled?: boolean | undefined;
   is_sentinel_debug_enabled?: boolean | undefined;
-  sentinel_token?: string | undefined;
+  sentinel_token?: string | Redacted.Redacted<string> | undefined;
   sentinel_metrics_refresh_rate_seconds?: number | undefined;
   sentinel_metrics_history_days?: number | undefined;
   sentinel_push_interval_seconds?: number | undefined;
@@ -5470,7 +6973,7 @@ export interface UpdateServerSentinelRequest {
   traffic_retention_1d_days?: number | undefined;
   is_geoip_enabled?: boolean | undefined;
   geoip_refresh_days?: number | undefined;
-  geoip_maxmind_license_key?: string | null | undefined;
+  geoip_maxmind_license_key?: string | Redacted.Redacted<string> | null | undefined;
   /** How Sentinel stores client IPs: full, anonymized (IPv4 /24, IPv6 /48), or off. */
   traffic_ip_mode?: UpdateServerSentinelRequestTrafficIpMode | (string & {}) | undefined;
 }
@@ -5480,6 +6983,13 @@ export interface UpdateServerSharedEnvRequest {
   uuid: string;
   /** Shared env id (integer). */
   env_id: number;
+  key?: string | undefined;
+  value?: string | null | undefined;
+  is_literal?: boolean | undefined;
+  is_multiline?: boolean | undefined;
+  /** If true, the saved value is hidden in the UI and API responses. A lock is permanent: false does not unlock a locked variable, but a new value can still replace the locked one. MCP never returns environment variable values. */
+  is_shown_once?: boolean | undefined;
+  comment?: string | null | undefined;
 }
 export interface UpdateServerSharedEnvResponse {}
 export type UpdateServiceByUuidRequestUrlsItem = CreateServiceRequestUrlsItem;
@@ -5504,6 +7014,10 @@ export interface UpdateServiceByUuidRequest {
   force_domain_override?: boolean | undefined;
   /** Escape special characters in labels. By default, $ (and other chars) is escaped. If you want to use env variables inside the labels, turn this off. */
   is_container_label_escape_enabled?: boolean | undefined;
+  /** Redact all environment variable values in logs. When false, only locked (shown once) values are redacted. Requires team admin permissions. */
+  redact_all_env_values_in_logs?: boolean | undefined;
+  /** Add the predefined COOLIFY_* variables (COOLIFY_URL, COOLIFY_FQDN, ...) to the environment. Requires team admin permissions. Redeploy to apply it. */
+  include_coolify_default_variables?: boolean | undefined;
 }
 /** Service domains. */
 export type UpdateServiceByUuidResponseDomainsList = Array<string>;
@@ -5528,7 +7042,7 @@ export interface UpdateStorageByApplicationUuidRequest {
   name?: string | undefined;
   /** The container mount path (not allowed for read-only storages). */
   mount_path?: string | undefined;
-  /** The file content (file only, not allowed for read-only storages). Changing the content of a file outside the resource directory needs the deploy permission. */
+  /** The file content (file only, not allowed for read-only storages). Changing the content needs the deploy permission. */
   content?: string | null | undefined;
 }
 export type UpdateStorageByApplicationUuidResponse = unknown;
@@ -5547,7 +7061,7 @@ export interface UpdateStorageByDatabaseUuidRequest {
   name?: string | undefined;
   /** The container mount path (not allowed for read-only storages). */
   mount_path?: string | undefined;
-  /** The file content (file only, not allowed for read-only storages). Changing the content of a file outside the resource directory needs the deploy permission. */
+  /** The file content (file only, not allowed for read-only storages). Changing the content needs the deploy permission. */
   content?: string | null | undefined;
 }
 export type UpdateStorageByDatabaseUuidResponse = unknown;
@@ -5566,7 +7080,7 @@ export interface UpdateStorageByServiceUuidRequest {
   name?: string | undefined;
   /** The container mount path (not allowed for read-only storages). */
   mount_path?: string | undefined;
-  /** The file content (file only, not allowed for read-only storages). Changing the content of a file outside the resource directory needs the deploy permission. */
+  /** The file content (file only, not allowed for read-only storages). Changing the content needs the deploy permission. */
   content?: string | null | undefined;
 }
 export type UpdateStorageByServiceUuidResponse = unknown;
@@ -5578,11 +7092,20 @@ export interface UpdateTagByUuidRequest {
 export interface UpdateTeamSharedEnvRequest {
   /** Shared env id (integer). */
   env_id: number;
+  key?: string | undefined;
+  value?: string | null | undefined;
+  is_literal?: boolean | undefined;
+  is_multiline?: boolean | undefined;
+  /** If true, the saved value is hidden in the UI and API responses. A lock is permanent: false does not unlock a locked variable, but a new value can still replace the locked one. MCP never returns environment variable values. */
+  is_shown_once?: boolean | undefined;
+  comment?: string | null | undefined;
 }
 export interface UpdateTeamSharedEnvResponse {}
 export interface UpdateTokenTeamRequest {
   /** Whether deployments can fall back to the deployment server when no usable dedicated build server is available. */
-  is_build_server_fallback_enabled: boolean;
+  is_build_server_fallback_enabled?: boolean | undefined;
+  /** Whether image scanning is turned on for servers added to the team from now on. */
+  scan_images_on_new_servers?: boolean | undefined;
 }
 export interface UploadDatabaseImportRequest {
   /** UUID of the database. */
@@ -5615,7 +7138,7 @@ export interface ValidateS3StorageByUuidResponse {
 export interface ValidateServerByUuidRequest {
   /** Server UUID */
   uuid: string;
-  /** Install missing prerequisites and Docker. This can restart the Docker daemon. */
+  /** Install missing prerequisites and Docker, then start the proxy. This can restart the Docker daemon. Needs the deploy permission. */
   install?: boolean | undefined;
 }
 export interface ValidateServerByUuidResponse {
@@ -5627,6 +7150,15 @@ export interface Error400Body {
   message?: string | undefined;
 }
 export type Error400Body2 = Error400Body;
+export interface DnsRecordConflictConflict {
+  record_id?: string | undefined;
+  current?: string | undefined;
+  proposed?: string | undefined;
+}
+export interface DnsRecordConflict {
+  message?: string | undefined;
+  conflict?: DnsRecordConflictConflict | undefined;
+}
 export type Error409BodyConflictsItemResourceType = "application" | "service" | "instance";
 export interface Error409BodyConflictsItem {
   domain?: string | undefined;
@@ -5644,10 +7176,9 @@ export interface Error409Body {
 export type Error409Body2 = Error400Body;
 export type Error409Body3 = Error400Body;
 export type Error403Body = Error400Body;
-export type Error403Body3 = Error400Body;
-export type Error403Body5 = Error400Body;
 export type Error403Body2 = Error400Body;
 export type Error403Body4 = Error400Body;
+export type Error403Body3 = Error400Body;
 export type Error404Body = Error400Body;
 export type Error404Body2 = Error400Body;
 export type Error404Body3 = Error400Body;
@@ -5670,13 +7201,37 @@ export const addApplicationDestination: API.OperationMethod<
   AddApplicationDestinationError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2216, __c277, 0) as any as S.Schema<AddApplicationDestinationRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<AddApplicationDestinationResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2576, __c322, 0) as any as S.Schema<AddApplicationDestinationRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<AddApplicationDestinationResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddApplicationDestination",
+}));
+
+export type AddSecretManagerReferenceError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | CoolifyOpError;
+/** Add Secret Manager Reference Add a {{vault.KEY}} environment variable for one key of the linked source. */
+export const addSecretManagerReference: API.OperationMethod<
+  AddSecretManagerReferenceRequest,
+  AddSecretManagerReferenceResponse,
+  AddSecretManagerReferenceError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2704, __c338, 0) as any as S.Schema<AddSecretManagerReferenceRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<AddSecretManagerReferenceResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddSecretManagerReference",
 }));
 
 export type CancelDeploymentByUuidError = BadRequest | Forbidden | NotFound | CoolifyOpError;
@@ -5687,9 +7242,10 @@ export const cancelDeploymentByUuid: API.OperationMethod<
   CancelDeploymentByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2344, __c293, 0) as any as S.Schema<CancelDeploymentByUuidRequest>,
-  output: __S(2345, __c293, 1) as any as S.Schema<CancelDeploymentByUuidResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownCoolifyError],
+  input: __S(2808, __c351, 0) as any as S.Schema<CancelDeploymentByUuidRequest>,
+  output: __S(2809, __c351, 1) as any as S.Schema<CancelDeploymentByUuidResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5701,16 +7257,17 @@ export type CheckServerRegistryLoginError =
   | NotFound
   | UnprocessableEntity
   | CoolifyOpError;
-/** Check a registry login on a server Check that the saved login of the server for a registry still works. Runs docker login with the saved credentials on the server. */
+/** Check a registry login on a server Check that the saved login of the server for a registry still works. Runs docker login with the saved credentials on the server. Needs a token with the write and deploy permissions. */
 export const checkServerRegistryLogin: API.OperationMethod<
   CheckServerRegistryLoginRequest,
   CheckServerRegistryLoginResponse,
   CheckServerRegistryLoginError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c304, 0) as any as S.Schema<CheckServerRegistryLoginRequest>,
+  input: __S(2896, __c362, 0) as any as S.Schema<CheckServerRegistryLoginRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<CheckServerRegistryLoginResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5719,6 +7276,7 @@ export const checkServerRegistryLogin: API.OperationMethod<
 
 export type CloneApplicationByUuidError =
   | BadRequest
+  | Forbidden
   | NotFound
   | UnprocessableEntity
   | CoolifyOpError;
@@ -5729,16 +7287,22 @@ export const cloneApplicationByUuid: API.OperationMethod<
   CloneApplicationByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2520, __c315, 0) as any as S.Schema<CloneApplicationByUuidRequest>,
-  output: __S(2528, __c316, 0) as any as S.Schema<CloneApplicationByUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2984, __c373, 0) as any as S.Schema<CloneApplicationByUuidRequest>,
+  output: __S(2992, __c374, 0) as any as S.Schema<CloneApplicationByUuidResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CloneApplicationByUuid",
 }));
 
-export type CloneDatabaseByUuidError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
+export type CloneDatabaseByUuidError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | CoolifyOpError;
 /** Clone Clone a database to a destination owned by the authenticated team. */
 export const cloneDatabaseByUuid: API.OperationMethod<
   CloneDatabaseByUuidRequest,
@@ -5746,16 +7310,22 @@ export const cloneDatabaseByUuid: API.OperationMethod<
   CloneDatabaseByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2616, __c327, 0) as any as S.Schema<CloneDatabaseByUuidRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<CloneDatabaseByUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(16, __c2, 0) as any as S.Schema<CloneDatabaseByUuidRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<CloneDatabaseByUuidResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CloneDatabaseByUuid",
 }));
 
-export type CloneServiceByUuidError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
+export type CloneServiceByUuidError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | CoolifyOpError;
 /** Clone Clone a service to a destination owned by the authenticated team. */
 export const cloneServiceByUuid: API.OperationMethod<
   CloneServiceByUuidRequest,
@@ -5763,33 +7333,78 @@ export const cloneServiceByUuid: API.OperationMethod<
   CloneServiceByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<CloneServiceByUuidRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<CloneServiceByUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(104, __c13, 0) as any as S.Schema<CloneServiceByUuidRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<CloneServiceByUuidResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CloneServiceByUuid",
 }));
 
+export type CompleteServerTransferError = NotFound | CoolifyOpError;
+/** Mark server transferred Source-instance recovery step: disable automations here when the target already manages the server but the transfer could not finish on this instance. */
+export const completeServerTransfer: API.OperationMethod<
+  CompleteServerTransferRequest,
+  CompleteServerTransferResponse,
+  CompleteServerTransferError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(232, __c29, 0) as any as S.Schema<CompleteServerTransferRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<CompleteServerTransferResponse>,
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CompleteServerTransfer",
+}));
+
 export type ConfigureApplicationSecretManagerError =
+  | Forbidden
   | NotFound
   | UnprocessableEntity
   | CoolifyOpError;
-/** Configure Application Secret Manager Configure the secret manager source used by an application. */
+/** Configure Application Secret Manager Configure the secret manager source used by an application. Same as Set Secret Manager Source with resource_type applications. */
 export const configureApplicationSecretManager: API.OperationMethod<
   ConfigureApplicationSecretManagerRequest,
   ConfigureApplicationSecretManagerResponse,
   ConfigureApplicationSecretManagerError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<ConfigureApplicationSecretManagerRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<ConfigureApplicationSecretManagerResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(368, __c46, 0) as any as S.Schema<ConfigureApplicationSecretManagerRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<ConfigureApplicationSecretManagerResponse>,
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ConfigureApplicationSecretManager",
+}));
+
+export type CreateApplicationDnsRecordError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | CoolifyOpError;
+/** Create Application DNS Record Create a DNS record at Cloudflare that points a domain of the application to its server. An existing record with the same address is adopted. */
+export const createApplicationDnsRecord: API.OperationMethod<
+  CreateApplicationDnsRecordRequest,
+  CreateApplicationDnsRecordResponse,
+  CreateApplicationDnsRecordError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(456, __c57, 0) as any as S.Schema<CreateApplicationDnsRecordRequest>,
+  output: __S(472, __c59, 0) as any as S.Schema<CreateApplicationDnsRecordResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApplicationDnsRecord",
 }));
 
 export type CreateCloudInitScriptError = Forbidden | UnprocessableEntity | CoolifyOpError;
@@ -5800,16 +7415,17 @@ export const createCloudInitScript: API.OperationMethod<
   CreateCloudInitScriptError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<CreateCloudInitScriptRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<CreateCloudInitScriptResponse>,
-  errors: [Forbidden, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(568, __c71, 0) as any as S.Schema<CreateCloudInitScriptRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<CreateCloudInitScriptResponse>,
+  errors: [Forbidden, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateCloudInitScript",
 }));
 
-export type CreateCloudTokenError = BadRequest | UnprocessableEntity | CoolifyOpError;
+export type CreateCloudTokenError = BadRequest | Forbidden | UnprocessableEntity | CoolifyOpError;
 /** Create Cloud Provider Token Create a new cloud provider token. The token will be validated before being stored. */
 export const createCloudToken: API.OperationMethod<
   CreateCloudTokenRequest,
@@ -5817,9 +7433,10 @@ export const createCloudToken: API.OperationMethod<
   CreateCloudTokenError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<CreateCloudTokenRequest>,
-  output: __S(336, __c42, 0) as any as S.Schema<CreateCloudTokenResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(696, __c87, 0) as any as S.Schema<CreateCloudTokenRequest>,
+  output: __S(704, __c88, 0) as any as S.Schema<CreateCloudTokenResponse>,
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5828,6 +7445,7 @@ export const createCloudToken: API.OperationMethod<
 
 export type CreateDatabaseBackupError =
   | BadRequest
+  | Forbidden
   | NotFound
   | UnprocessableEntity
   | CoolifyOpError;
@@ -5838,9 +7456,10 @@ export const createDatabaseBackup: API.OperationMethod<
   CreateDatabaseBackupError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(456, __c57, 0) as any as S.Schema<CreateDatabaseBackupRequest>,
-  output: __S(2528, __c316, 0) as any as S.Schema<CreateDatabaseBackupResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(816, __c102, 0) as any as S.Schema<CreateDatabaseBackupRequest>,
+  output: __S(2992, __c374, 0) as any as S.Schema<CreateDatabaseBackupResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5855,9 +7474,10 @@ export const createDatabaseClickhouse: API.OperationMethod<
   CreateDatabaseClickhouseError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(584, __c73, 0) as any as S.Schema<CreateDatabaseClickhouseRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<CreateDatabaseClickhouseResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(912, __c114, 0) as any as S.Schema<CreateDatabaseClickhouseRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<CreateDatabaseClickhouseResponse>,
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5872,26 +7492,28 @@ export const createDatabaseDragonfly: API.OperationMethod<
   CreateDatabaseDragonflyError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(680, __c85, 0) as any as S.Schema<CreateDatabaseDragonflyRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<CreateDatabaseDragonflyResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1000, __c125, 0) as any as S.Schema<CreateDatabaseDragonflyRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<CreateDatabaseDragonflyResponse>,
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateDatabaseDragonfly",
 }));
 
-export type CreateDatabaseImportError = Conflict | UnprocessableEntity | CoolifyOpError;
-/** Import database backup */
+export type CreateDatabaseImportError = Forbidden | Conflict | UnprocessableEntity | CoolifyOpError;
+/** Import database backup Restore a backup into the database. Every import source requires the deploy ability. */
 export const createDatabaseImport: API.OperationMethod<
   CreateDatabaseImportRequest,
   CreateDatabaseImportResponse,
   CreateDatabaseImportError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(776, __c97, 0) as any as S.Schema<CreateDatabaseImportRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<CreateDatabaseImportResponse>,
-  errors: [Conflict, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1120, __c140, 0) as any as S.Schema<CreateDatabaseImportRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<CreateDatabaseImportResponse>,
+  errors: [Forbidden, Conflict, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5906,9 +7528,10 @@ export const createDatabaseKeydb: API.OperationMethod<
   CreateDatabaseKeydbError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(888, __c111, 0) as any as S.Schema<CreateDatabaseKeydbRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<CreateDatabaseKeydbResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1208, __c151, 0) as any as S.Schema<CreateDatabaseKeydbRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<CreateDatabaseKeydbResponse>,
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5923,9 +7546,10 @@ export const createDatabaseMariadb: API.OperationMethod<
   CreateDatabaseMariadbError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c124, 0) as any as S.Schema<CreateDatabaseMariadbRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<CreateDatabaseMariadbResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1312, __c164, 0) as any as S.Schema<CreateDatabaseMariadbRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<CreateDatabaseMariadbResponse>,
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5940,9 +7564,10 @@ export const createDatabaseMongodb: API.OperationMethod<
   CreateDatabaseMongodbError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c138, 0) as any as S.Schema<CreateDatabaseMongodbRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<CreateDatabaseMongodbResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1416, __c177, 0) as any as S.Schema<CreateDatabaseMongodbRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<CreateDatabaseMongodbResponse>,
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5957,9 +7582,10 @@ export const createDatabaseMysql: API.OperationMethod<
   CreateDatabaseMysqlError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1192, __c149, 0) as any as S.Schema<CreateDatabaseMysqlRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<CreateDatabaseMysqlResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1504, __c188, 0) as any as S.Schema<CreateDatabaseMysqlRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<CreateDatabaseMysqlResponse>,
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5974,9 +7600,10 @@ export const createDatabasePostgresql: API.OperationMethod<
   CreateDatabasePostgresqlError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1288, __c161, 0) as any as S.Schema<CreateDatabasePostgresqlRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<CreateDatabasePostgresqlResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1600, __c200, 0) as any as S.Schema<CreateDatabasePostgresqlRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<CreateDatabasePostgresqlResponse>,
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5984,16 +7611,17 @@ export const createDatabasePostgresql: API.OperationMethod<
 }));
 
 export type CreateDatabaseRedisError = BadRequest | UnprocessableEntity | CoolifyOpError;
-/** Create (Redis) Create a new Redis database. */
+/** Create (Redis / Valkey) Create a new Redis or Valkey database. Valkey (valkey/valkey:9-alpine) is the default. Set image to a Redis image (for example redis:8) for Redis. */
 export const createDatabaseRedis: API.OperationMethod<
   CreateDatabaseRedisRequest,
   CreateDatabaseRedisResponse,
   CreateDatabaseRedisError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1384, __c173, 0) as any as S.Schema<CreateDatabaseRedisRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<CreateDatabaseRedisResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1704, __c213, 0) as any as S.Schema<CreateDatabaseRedisRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<CreateDatabaseRedisResponse>,
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6008,33 +7636,35 @@ export const createDatabaseSqlite: API.OperationMethod<
   CreateDatabaseSqliteError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1480, __c185, 0) as any as S.Schema<CreateDatabaseSqliteRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<CreateDatabaseSqliteResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1792, __c224, 0) as any as S.Schema<CreateDatabaseSqliteRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<CreateDatabaseSqliteResponse>,
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateDatabaseSqlite",
 }));
 
-export type CreateDigitaloceanServerError = UnprocessableEntity | CoolifyOpError;
-/** Create a server on DigitalOcean */
+export type CreateDigitaloceanServerError = Forbidden | UnprocessableEntity | CoolifyOpError;
+/** Create a server on DigitalOcean Create a DigitalOcean droplet and link it as a Coolify server. A cloud-init script or extra SSH key IDs need a token with the deploy permission. */
 export const createDigitaloceanServer: API.OperationMethod<
   CreateDigitaloceanServerRequest,
   CreateDigitaloceanServerResponse,
   CreateDigitaloceanServerError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c196, 0) as any as S.Schema<CreateDigitaloceanServerRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<CreateDigitaloceanServerResponse>,
-  errors: [UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1888, __c236, 0) as any as S.Schema<CreateDigitaloceanServerRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<CreateDigitaloceanServerResponse>,
+  errors: [Forbidden, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateDigitaloceanServer",
 }));
 
-export type CreateDockerfileApplicationError = BadRequest | Conflict | CoolifyOpError;
+export type CreateDockerfileApplicationError = BadRequest | Forbidden | Conflict | CoolifyOpError;
 /** Create (Dockerfile without git) Create new application based on a simple Dockerfile (without git). */
 export const createDockerfileApplication: API.OperationMethod<
   CreateDockerfileApplicationRequest,
@@ -6042,16 +7672,17 @@ export const createDockerfileApplication: API.OperationMethod<
   CreateDockerfileApplicationError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1656, __c207, 0) as any as S.Schema<CreateDockerfileApplicationRequest>,
-  output: __S(336, __c42, 0) as any as S.Schema<CreateDockerfileApplicationResponse>,
-  errors: [BadRequest, Conflict, UnknownCoolifyError],
+  input: __S(1976, __c247, 0) as any as S.Schema<CreateDockerfileApplicationRequest>,
+  output: __S(704, __c88, 0) as any as S.Schema<CreateDockerfileApplicationResponse>,
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateDockerfileApplication",
 }));
 
-export type CreateDockerimageApplicationError = BadRequest | Conflict | CoolifyOpError;
+export type CreateDockerimageApplicationError = BadRequest | Forbidden | Conflict | CoolifyOpError;
 /** Create (Docker Image without git) Create new application based on a prebuilt docker image (without git). */
 export const createDockerimageApplication: API.OperationMethod<
   CreateDockerimageApplicationRequest,
@@ -6059,9 +7690,10 @@ export const createDockerimageApplication: API.OperationMethod<
   CreateDockerimageApplicationError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1768, __c221, 0) as any as S.Schema<CreateDockerimageApplicationRequest>,
-  output: __S(336, __c42, 0) as any as S.Schema<CreateDockerimageApplicationResponse>,
-  errors: [BadRequest, Conflict, UnknownCoolifyError],
+  input: __S(2072, __c259, 0) as any as S.Schema<CreateDockerimageApplicationRequest>,
+  output: __S(704, __c88, 0) as any as S.Schema<CreateDockerimageApplicationResponse>,
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6076,9 +7708,10 @@ export const createEnvByApplicationUuid: API.OperationMethod<
   CreateEnvByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c232, 0) as any as S.Schema<CreateEnvByApplicationUuidRequest>,
-  output: __S(336, __c42, 0) as any as S.Schema<CreateEnvByApplicationUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(2176, __c272, 0) as any as S.Schema<CreateEnvByApplicationUuidRequest>,
+  output: __S(704, __c88, 0) as any as S.Schema<CreateEnvByApplicationUuidResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6097,9 +7730,10 @@ export const createEnvByDatabaseUuid: API.OperationMethod<
   CreateEnvByDatabaseUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1944, __c243, 0) as any as S.Schema<CreateEnvByDatabaseUuidRequest>,
-  output: __S(336, __c42, 0) as any as S.Schema<CreateEnvByDatabaseUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2264, __c283, 0) as any as S.Schema<CreateEnvByDatabaseUuidRequest>,
+  output: __S(704, __c88, 0) as any as S.Schema<CreateEnvByDatabaseUuidResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6118,9 +7752,10 @@ export const createEnvByServiceUuid: API.OperationMethod<
   CreateEnvByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2008, __c251, 0) as any as S.Schema<CreateEnvByServiceUuidRequest>,
-  output: __S(336, __c42, 0) as any as S.Schema<CreateEnvByServiceUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2352, __c294, 0) as any as S.Schema<CreateEnvByServiceUuidRequest>,
+  output: __S(704, __c88, 0) as any as S.Schema<CreateEnvByServiceUuidResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6140,9 +7775,10 @@ export const createEnvironment: API.OperationMethod<
   CreateEnvironmentError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c252, 0) as any as S.Schema<CreateEnvironmentRequest>,
-  output: __S(336, __c42, 0) as any as S.Schema<CreateEnvironmentResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2408, __c301, 0) as any as S.Schema<CreateEnvironmentRequest>,
+  output: __S(704, __c88, 0) as any as S.Schema<CreateEnvironmentResponse>,
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6161,9 +7797,10 @@ export const createEnvironmentSharedEnv: API.OperationMethod<
   CreateEnvironmentSharedEnvError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2024, __c253, 0) as any as S.Schema<CreateEnvironmentSharedEnvRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<CreateEnvironmentSharedEnvResponse>,
-  errors: [NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2416, __c302, 0) as any as S.Schema<CreateEnvironmentSharedEnvRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<CreateEnvironmentSharedEnvResponse>,
+  errors: [NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6178,9 +7815,10 @@ export const createGithubApp: API.OperationMethod<
   CreateGithubAppError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c254, 0) as any as S.Schema<CreateGithubAppRequest>,
-  output: __S(2033, __c254, 1) as any as S.Schema<CreateGithubAppResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2424, __c303, 0) as any as S.Schema<CreateGithubAppRequest>,
+  output: __S(2425, __c303, 1) as any as S.Schema<CreateGithubAppResponse>,
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6195,54 +7833,85 @@ export const createGitlabApp: API.OperationMethod<
   CreateGitlabAppError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2040, __c255, 0) as any as S.Schema<CreateGitlabAppRequest>,
-  output: __S(2041, __c255, 1) as any as S.Schema<CreateGitlabAppResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2432, __c304, 0) as any as S.Schema<CreateGitlabAppRequest>,
+  output: __S(2433, __c304, 1) as any as S.Schema<CreateGitlabAppResponse>,
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateGitlabApp",
 }));
 
-export type CreateHetznerServerError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
-/** Create Hetzner Server Create a new server on Hetzner and register it in Coolify. */
+export type CreateHetznerServerError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | CoolifyOpError;
+/** Create Hetzner Server Create a new server on Hetzner and register it in Coolify. A cloud-init script or extra SSH key IDs need a token with the deploy permission. */
 export const createHetznerServer: API.OperationMethod<
   CreateHetznerServerRequest,
   CreateHetznerServerResponse,
   CreateHetznerServerError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2049, __c256, 1) as any as S.Schema<CreateHetznerServerRequest>,
-  output: __S(2050, __c256, 2) as any as S.Schema<CreateHetznerServerResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2441, __c305, 1) as any as S.Schema<CreateHetznerServerRequest>,
+  output: __S(2442, __c305, 2) as any as S.Schema<CreateHetznerServerResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateHetznerServer",
 }));
 
+export type CreateHostingerServerError = Forbidden | UnprocessableEntity | CoolifyOpError;
+/** Purchase a Hostinger VPS and create a linked server */
+export const createHostingerServer: API.OperationMethod<
+  CreateHostingerServerRequest,
+  CreateHostingerServerResponse,
+  CreateHostingerServerError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2448, __c306, 0) as any as S.Schema<CreateHostingerServerRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<CreateHostingerServerResponse>,
+  errors: [Forbidden, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingerServer",
+}));
+
 export type CreatePreviewDeploymentByApplicationUuidError =
   | BadRequest
+  | Forbidden
   | NotFound
   | UnprocessableEntity
   | CoolifyOpError;
-/** Create Preview Deployment Open a preview deployment for a pull request and queue its deployment. When the preview already exists, it is redeployed. Git based applications need git_type unless they use a GitHub or GitLab App source; Bitbucket also needs commit. Docker Image applications need docker_tag for a new preview. */
+/** Create Preview Deployment Open a preview deployment for a pull request and queue its deployment. When the preview already exists, it is redeployed. A token with the deploy permission can only redeploy an existing preview without changes; opening a preview, changing its pull request URL, git type, or docker tag, or choosing a commit also needs the write permission. Git based applications need git_type unless they use a GitHub or GitLab App source; Bitbucket also needs commit. Docker Image applications need docker_tag for a new preview. */
 export const createPreviewDeploymentByApplicationUuid: API.OperationMethod<
   CreatePreviewDeploymentByApplicationUuidRequest,
   ApplicationPreviewDeployment,
   CreatePreviewDeploymentByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2056, __c257, 0) as any as S.Schema<CreatePreviewDeploymentByApplicationUuidRequest>,
-  output: __S(2057, __c257, 1) as any as S.Schema<ApplicationPreviewDeployment>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2472, __c309, 0) as any as S.Schema<CreatePreviewDeploymentByApplicationUuidRequest>,
+  output: __S(2473, __c309, 1) as any as S.Schema<ApplicationPreviewDeployment>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreatePreviewDeploymentByApplicationUuid",
 }));
 
-export type CreatePrivateDeployKeyApplicationError = BadRequest | Conflict | CoolifyOpError;
+export type CreatePrivateDeployKeyApplicationError =
+  | BadRequest
+  | Forbidden
+  | Conflict
+  | CoolifyOpError;
 /** Create (Private - Deploy Key) Create new application based on a private repository through a Deploy Key. */
 export const createPrivateDeployKeyApplication: API.OperationMethod<
   CreatePrivateDeployKeyApplicationRequest,
@@ -6250,16 +7919,43 @@ export const createPrivateDeployKeyApplication: API.OperationMethod<
   CreatePrivateDeployKeyApplicationError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2072, __c259, 0) as any as S.Schema<CreatePrivateDeployKeyApplicationRequest>,
-  output: __S(336, __c42, 0) as any as S.Schema<CreatePrivateDeployKeyApplicationResponse>,
-  errors: [BadRequest, Conflict, UnknownCoolifyError],
+  input: __S(2488, __c311, 0) as any as S.Schema<CreatePrivateDeployKeyApplicationRequest>,
+  output: __S(704, __c88, 0) as any as S.Schema<CreatePrivateDeployKeyApplicationResponse>,
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreatePrivateDeployKeyApplication",
 }));
 
-export type CreatePrivateGithubAppApplicationError = BadRequest | Conflict | CoolifyOpError;
+export type CreatePrivateGiteaAppApplicationError =
+  | BadRequest
+  | Forbidden
+  | Conflict
+  | CoolifyOpError;
+/** Create (Private - Gitea App) Create new application based on a private repository through a Gitea App. */
+export const createPrivateGiteaAppApplication: API.OperationMethod<
+  CreatePrivateGiteaAppApplicationRequest,
+  CreatePrivateGiteaAppApplicationResponse,
+  CreatePrivateGiteaAppApplicationError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2504, __c313, 0) as any as S.Schema<CreatePrivateGiteaAppApplicationRequest>,
+  output: __S(704, __c88, 0) as any as S.Schema<CreatePrivateGiteaAppApplicationResponse>,
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePrivateGiteaAppApplication",
+}));
+
+export type CreatePrivateGithubAppApplicationError =
+  | BadRequest
+  | Forbidden
+  | Conflict
+  | CoolifyOpError;
 /** Create (Private - GH App) Create new application based on a private repository through a Github App. */
 export const createPrivateGithubAppApplication: API.OperationMethod<
   CreatePrivateGithubAppApplicationRequest,
@@ -6267,9 +7963,10 @@ export const createPrivateGithubAppApplication: API.OperationMethod<
   CreatePrivateGithubAppApplicationError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2088, __c261, 0) as any as S.Schema<CreatePrivateGithubAppApplicationRequest>,
-  output: __S(336, __c42, 0) as any as S.Schema<CreatePrivateGithubAppApplicationResponse>,
-  errors: [BadRequest, Conflict, UnknownCoolifyError],
+  input: __S(2512, __c314, 0) as any as S.Schema<CreatePrivateGithubAppApplicationRequest>,
+  output: __S(704, __c88, 0) as any as S.Schema<CreatePrivateGithubAppApplicationResponse>,
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6284,9 +7981,10 @@ export const createPrivateKey: API.OperationMethod<
   CreatePrivateKeyError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2096, __c262, 0) as any as S.Schema<CreatePrivateKeyRequest>,
-  output: __S(336, __c42, 0) as any as S.Schema<CreatePrivateKeyResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2520, __c315, 0) as any as S.Schema<CreatePrivateKeyRequest>,
+  output: __S(704, __c88, 0) as any as S.Schema<CreatePrivateKeyResponse>,
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6301,9 +7999,10 @@ export const createProject: API.OperationMethod<
   CreateProjectError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2120, __c265, 0) as any as S.Schema<CreateProjectRequest>,
-  output: __S(336, __c42, 0) as any as S.Schema<CreateProjectResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2528, __c316, 0) as any as S.Schema<CreateProjectRequest>,
+  output: __S(704, __c88, 0) as any as S.Schema<CreateProjectResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6322,16 +8021,17 @@ export const createProjectSharedEnv: API.OperationMethod<
   CreateProjectSharedEnvError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2128, __c266, 0) as any as S.Schema<CreateProjectSharedEnvRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<CreateProjectSharedEnvResponse>,
-  errors: [NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2536, __c317, 0) as any as S.Schema<CreateProjectSharedEnvRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<CreateProjectSharedEnvResponse>,
+  errors: [NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectSharedEnv",
 }));
 
-export type CreatePublicApplicationError = BadRequest | Conflict | CoolifyOpError;
+export type CreatePublicApplicationError = BadRequest | Forbidden | Conflict | CoolifyOpError;
 /** Create (Public) Create new application based on a public git repository. */
 export const createPublicApplication: API.OperationMethod<
   CreatePublicApplicationRequest,
@@ -6339,9 +8039,10 @@ export const createPublicApplication: API.OperationMethod<
   CreatePublicApplicationError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2136, __c267, 0) as any as S.Schema<CreatePublicApplicationRequest>,
-  output: __S(336, __c42, 0) as any as S.Schema<CreatePublicApplicationResponse>,
-  errors: [BadRequest, Conflict, UnknownCoolifyError],
+  input: __S(2544, __c318, 0) as any as S.Schema<CreatePublicApplicationRequest>,
+  output: __S(704, __c88, 0) as any as S.Schema<CreatePublicApplicationResponse>,
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6356,9 +8057,10 @@ export const createS3Storage: API.OperationMethod<
   CreateS3StorageError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c268, 0) as any as S.Schema<CreateS3StorageRequest>,
-  output: __S(336, __c42, 0) as any as S.Schema<CreateS3StorageResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2552, __c319, 0) as any as S.Schema<CreateS3StorageRequest>,
+  output: __S(704, __c88, 0) as any as S.Schema<CreateS3StorageResponse>,
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6377,9 +8079,10 @@ export const createScheduledTaskByApplicationUuid: API.OperationMethod<
   CreateScheduledTaskByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2152, __c269, 0) as any as S.Schema<CreateScheduledTaskByApplicationUuidRequest>,
-  output: __S(2160, __c270, 0) as any as S.Schema<ScheduledTask>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2560, __c320, 0) as any as S.Schema<CreateScheduledTaskByApplicationUuidRequest>,
+  output: __S(2568, __c321, 0) as any as S.Schema<ScheduledTask>,
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6398,9 +8101,10 @@ export const createScheduledTaskByServiceUuid: API.OperationMethod<
   CreateScheduledTaskByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2168, __c271, 0) as any as S.Schema<CreateScheduledTaskByServiceUuidRequest>,
-  output: __S(2160, __c270, 0) as any as S.Schema<ScheduledTask>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2592, __c324, 0) as any as S.Schema<CreateScheduledTaskByServiceUuidRequest>,
+  output: __S(2568, __c321, 0) as any as S.Schema<ScheduledTask>,
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6409,18 +8113,20 @@ export const createScheduledTaskByServiceUuid: API.OperationMethod<
 
 export type CreateSecretManagerIntegrationTokenError =
   | BadRequest
+  | Forbidden
   | UnprocessableEntity
   | CoolifyOpError;
-/** Create Secret Manager Token Create and validate a Doppler, Infisical, or Vault integration token. */
+/** Create Integration Token Create and validate a Cloudflare, Doppler, Infisical, or Vault integration token. A Cloudflare token also gets its DNS zones; it is not stored when the zones cannot be read. Requires admin or owner. */
 export const createSecretManagerIntegrationToken: API.OperationMethod<
   CreateSecretManagerIntegrationTokenRequest,
   CreateSecretManagerIntegrationTokenResponse,
   CreateSecretManagerIntegrationTokenError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c272, 0) as any as S.Schema<CreateSecretManagerIntegrationTokenRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<CreateSecretManagerIntegrationTokenResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2600, __c325, 0) as any as S.Schema<CreateSecretManagerIntegrationTokenRequest>,
+  output: __S(704, __c88, 0) as any as S.Schema<CreateSecretManagerIntegrationTokenResponse>,
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6435,9 +8141,10 @@ export const createServer: API.OperationMethod<
   CreateServerError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2184, __c273, 0) as any as S.Schema<CreateServerRequest>,
-  output: __S(336, __c42, 0) as any as S.Schema<CreateServerResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2616, __c327, 0) as any as S.Schema<CreateServerRequest>,
+  output: __S(704, __c88, 0) as any as S.Schema<CreateServerResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6449,16 +8156,17 @@ export type CreateServerDestinationError =
   | Conflict
   | UnprocessableEntity
   | CoolifyOpError;
-/** Create destination Create a Docker network destination on a server owned by the authenticated team. */
+/** Create destination Create a Docker network destination on a server owned by the authenticated team. The network must be new: Docker's built-in networks (bridge, host, none) and networks that already exist on a standalone server are rejected, because Coolify connects the proxy to the destination network. */
 export const createServerDestination: API.OperationMethod<
   CreateServerDestinationRequest,
   Destination,
   CreateServerDestinationError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2192, __c274, 0) as any as S.Schema<CreateServerDestinationRequest>,
-  output: __S(2200, __c275, 0) as any as S.Schema<Destination>,
-  errors: [NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2624, __c328, 0) as any as S.Schema<CreateServerDestinationRequest>,
+  output: __S(2632, __c329, 0) as any as S.Schema<Destination>,
+  errors: [NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6473,9 +8181,10 @@ export const createServerSharedEnv: API.OperationMethod<
   CreateServerSharedEnvError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c276, 0) as any as S.Schema<CreateServerSharedEnvRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<CreateServerSharedEnvResponse>,
-  errors: [NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2640, __c330, 0) as any as S.Schema<CreateServerSharedEnvRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<CreateServerSharedEnvResponse>,
+  errors: [NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6490,30 +8199,60 @@ export const createService: API.OperationMethod<
   CreateServiceError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2232, __c279, 0) as any as S.Schema<CreateServiceRequest>,
-  output: __S(2242, __c280, 2) as any as S.Schema<CreateServiceResponse>,
-  errors: [BadRequest, Conflict, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2648, __c331, 0) as any as S.Schema<CreateServiceRequest>,
+  output: __S(2658, __c332, 2) as any as S.Schema<CreateServiceResponse>,
+  errors: [BadRequest, Conflict, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateService",
 }));
 
-export type CreateServiceDatabaseImportError = Conflict | UnprocessableEntity | CoolifyOpError;
-/** Import service database backup */
+export type CreateServiceDatabaseImportError =
+  | Forbidden
+  | Conflict
+  | UnprocessableEntity
+  | CoolifyOpError;
+/** Import service database backup Restore a backup into the service database. Every import source requires the deploy ability. */
 export const createServiceDatabaseImport: API.OperationMethod<
   CreateServiceDatabaseImportRequest,
   CreateServiceDatabaseImportResponse,
   CreateServiceDatabaseImportError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2248, __c281, 0) as any as S.Schema<CreateServiceDatabaseImportRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<CreateServiceDatabaseImportResponse>,
-  errors: [Conflict, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2664, __c333, 0) as any as S.Schema<CreateServiceDatabaseImportRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<CreateServiceDatabaseImportResponse>,
+  errors: [Forbidden, Conflict, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateServiceDatabaseImport",
+}));
+
+export type CreateServiceDnsRecordError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | CoolifyOpError;
+/** Create Service DNS Record Create a DNS record at Cloudflare that points a domain of the service to its server. An existing record with the same address is adopted. */
+export const createServiceDnsRecord: API.OperationMethod<
+  CreateServiceDnsRecordRequest,
+  CreateServiceDnsRecordResponse,
+  CreateServiceDnsRecordError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2672, __c334, 0) as any as S.Schema<CreateServiceDnsRecordRequest>,
+  output: __S(472, __c59, 0) as any as S.Schema<CreateServiceDnsRecordResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServiceDnsRecord",
 }));
 
 export type CreateStorageByApplicationUuidError =
@@ -6529,9 +8268,10 @@ export const createStorageByApplicationUuid: API.OperationMethod<
   CreateStorageByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2256, __c282, 0) as any as S.Schema<CreateStorageByApplicationUuidRequest>,
-  output: __S(2264, __c283, 0) as any as S.Schema<CreateStorageByApplicationUuidResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2680, __c335, 0) as any as S.Schema<CreateStorageByApplicationUuidRequest>,
+  output: __S(2688, __c336, 0) as any as S.Schema<CreateStorageByApplicationUuidResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6551,9 +8291,10 @@ export const createStorageByDatabaseUuid: API.OperationMethod<
   CreateStorageByDatabaseUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c284, 0) as any as S.Schema<CreateStorageByDatabaseUuidRequest>,
-  output: __S(2264, __c283, 0) as any as S.Schema<CreateStorageByDatabaseUuidResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2696, __c337, 0) as any as S.Schema<CreateStorageByDatabaseUuidRequest>,
+  output: __S(2688, __c336, 0) as any as S.Schema<CreateStorageByDatabaseUuidResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6573,9 +8314,10 @@ export const createStorageByServiceUuid: API.OperationMethod<
   CreateStorageByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2280, __c285, 0) as any as S.Schema<CreateStorageByServiceUuidRequest>,
-  output: __S(2264, __c283, 0) as any as S.Schema<CreateStorageByServiceUuidResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2712, __c339, 0) as any as S.Schema<CreateStorageByServiceUuidRequest>,
+  output: __S(2688, __c336, 0) as any as S.Schema<CreateStorageByServiceUuidResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6590,9 +8332,10 @@ export const createTag: API.OperationMethod<
   CreateTagError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2288, __c286, 0) as any as S.Schema<CreateTagRequest>,
-  output: __S(2296, __c287, 0) as any as S.Schema<Tag>,
-  errors: [BadRequest, Conflict, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2720, __c340, 0) as any as S.Schema<CreateTagRequest>,
+  output: __S(2728, __c341, 0) as any as S.Schema<Tag>,
+  errors: [BadRequest, Conflict, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6611,9 +8354,10 @@ export const createTagByApplicationUuid: API.OperationMethod<
   CreateTagByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c288, 0) as any as S.Schema<CreateTagByApplicationUuidRequest>,
-  output: __S(2313, __c289, 1) as any as S.Schema<CreateTagByApplicationUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2736, __c342, 0) as any as S.Schema<CreateTagByApplicationUuidRequest>,
+  output: __S(2745, __c343, 1) as any as S.Schema<CreateTagByApplicationUuidResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6632,9 +8376,10 @@ export const createTagByDatabaseUuid: API.OperationMethod<
   CreateTagByDatabaseUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2320, __c290, 0) as any as S.Schema<CreateTagByDatabaseUuidRequest>,
-  output: __S(2313, __c289, 1) as any as S.Schema<CreateTagByDatabaseUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2752, __c344, 0) as any as S.Schema<CreateTagByDatabaseUuidRequest>,
+  output: __S(2745, __c343, 1) as any as S.Schema<CreateTagByDatabaseUuidResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6653,9 +8398,10 @@ export const createTagByServiceUuid: API.OperationMethod<
   CreateTagByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2328, __c291, 0) as any as S.Schema<CreateTagByServiceUuidRequest>,
-  output: __S(2313, __c289, 1) as any as S.Schema<CreateTagByServiceUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2760, __c345, 0) as any as S.Schema<CreateTagByServiceUuidRequest>,
+  output: __S(2745, __c343, 1) as any as S.Schema<CreateTagByServiceUuidResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6670,43 +8416,46 @@ export const createTeamSharedEnv: API.OperationMethod<
   CreateTeamSharedEnvError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c292, 0) as any as S.Schema<CreateTeamSharedEnvRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<CreateTeamSharedEnvResponse>,
-  errors: [Conflict, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2768, __c346, 0) as any as S.Schema<CreateTeamSharedEnvRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<CreateTeamSharedEnvResponse>,
+  errors: [Conflict, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateTeamSharedEnv",
 }));
 
-export type CreateVultrServerError = UnprocessableEntity | CoolifyOpError;
-/** Create Vultr Server Create a Vultr instance and link it as a Coolify server. */
+export type CreateVultrServerError = Forbidden | UnprocessableEntity | CoolifyOpError;
+/** Create Vultr Server Create a Vultr instance and link it as a Coolify server. A cloud-init script or extra SSH key IDs need a token with the deploy permission. */
 export const createVultrServer: API.OperationMethod<
   CreateVultrServerRequest,
   CreateVultrServerResponse,
   CreateVultrServerError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2352, __c294, 0) as any as S.Schema<CreateVultrServerRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<CreateVultrServerResponse>,
-  errors: [UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2776, __c347, 0) as any as S.Schema<CreateVultrServerRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<CreateVultrServerResponse>,
+  errors: [Forbidden, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateVultrServer",
 }));
 
-export type DeleteApplicationError = BadRequest | NotFound | CoolifyOpError;
-/** Delete Delete application by UUID. */
+export type DeleteApplicationError = BadRequest | Forbidden | NotFound | CoolifyOpError;
+/** Delete Delete application by UUID. Needs a token with the write and deploy permissions. */
 export const deleteApplication: API.OperationMethod<
   DeleteApplicationRequest,
   DeleteApplicationResponse,
   DeleteApplicationError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2360, __c295, 0) as any as S.Schema<DeleteApplicationRequest>,
+  input: __S(2784, __c348, 0) as any as S.Schema<DeleteApplicationRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteApplicationResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6725,9 +8474,10 @@ export const deleteApplicationStorageBackupSchedule: API.OperationMethod<
   DeleteApplicationStorageBackupScheduleError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c296, 0) as any as S.Schema<DeleteApplicationStorageBackupScheduleRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<DeleteApplicationStorageBackupScheduleResponse>,
-  errors: [Forbidden, NotFound, Conflict, UnknownCoolifyError],
+  input: __S(2792, __c349, 0) as any as S.Schema<DeleteApplicationStorageBackupScheduleRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<DeleteApplicationStorageBackupScheduleResponse>,
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6735,16 +8485,17 @@ export const deleteApplicationStorageBackupSchedule: API.OperationMethod<
 }));
 
 export type DeleteBackupConfigurationByUuidError = NotFound | CoolifyOpError;
-/** Delete backup configuration Deletes a backup configuration and all its executions. */
+/** Delete backup configuration Deletes a backup configuration and all its executions. When the server is not reachable, the local backup files stay on the server. */
 export const deleteBackupConfigurationByUuid: API.OperationMethod<
   DeleteBackupConfigurationByUuidRequest,
   DeleteBackupConfigurationByUuidResponse,
   DeleteBackupConfigurationByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2376, __c297, 0) as any as S.Schema<DeleteBackupConfigurationByUuidRequest>,
+  input: __S(2800, __c350, 0) as any as S.Schema<DeleteBackupConfigurationByUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteBackupConfigurationByUuidResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6752,16 +8503,17 @@ export const deleteBackupConfigurationByUuid: API.OperationMethod<
 }));
 
 export type DeleteBackupExecutionByUuidError = NotFound | CoolifyOpError;
-/** Delete backup execution Deletes a specific backup execution. */
+/** Delete backup execution Deletes a specific backup execution. When the server is not reachable, the local backup file stays on the server. */
 export const deleteBackupExecutionByUuid: API.OperationMethod<
   DeleteBackupExecutionByUuidRequest,
   DeleteBackupExecutionByUuidResponse,
   DeleteBackupExecutionByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2384, __c298, 0) as any as S.Schema<DeleteBackupExecutionByUuidRequest>,
+  input: __S(2816, __c352, 0) as any as S.Schema<DeleteBackupExecutionByUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteBackupExecutionByUuidResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6776,16 +8528,17 @@ export const deleteCloudInitScript: API.OperationMethod<
   DeleteCloudInitScriptError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2392, __c299, 0) as any as S.Schema<DeleteCloudInitScriptRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<DeleteCloudInitScriptResponse>,
-  errors: [Forbidden, NotFound, UnknownCoolifyError],
+  input: __S(2824, __c353, 0) as any as S.Schema<DeleteCloudInitScriptRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<DeleteCloudInitScriptResponse>,
+  errors: [Forbidden, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteCloudInitScript",
 }));
 
-export type DeleteCloudTokenError = BadRequest | NotFound | CoolifyOpError;
+export type DeleteCloudTokenError = BadRequest | Forbidden | NotFound | CoolifyOpError;
 /** Delete Cloud Provider Token Delete cloud provider token by UUID. Cannot delete if token is used by any servers. */
 export const deleteCloudToken: API.OperationMethod<
   DeleteCloudTokenRequest,
@@ -6793,26 +8546,28 @@ export const deleteCloudToken: API.OperationMethod<
   DeleteCloudTokenError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c300, 0) as any as S.Schema<DeleteCloudTokenRequest>,
+  input: __S(2832, __c354, 0) as any as S.Schema<DeleteCloudTokenRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteCloudTokenResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteCloudToken",
 }));
 
-export type DeleteDatabaseError = BadRequest | NotFound | CoolifyOpError;
-/** Delete Delete database by UUID. */
+export type DeleteDatabaseError = BadRequest | Forbidden | NotFound | CoolifyOpError;
+/** Delete Delete database by UUID. Needs a token with the write and deploy permissions. */
 export const deleteDatabase: API.OperationMethod<
   DeleteDatabaseRequest,
   DeleteDatabaseResponse,
   DeleteDatabaseError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2408, __c301, 0) as any as S.Schema<DeleteDatabaseRequest>,
+  input: __S(2840, __c355, 0) as any as S.Schema<DeleteDatabaseRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteDatabaseResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6831,9 +8586,10 @@ export const deleteDatabaseStorageBackupSchedule: API.OperationMethod<
   DeleteDatabaseStorageBackupScheduleError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2416, __c302, 0) as any as S.Schema<DeleteDatabaseStorageBackupScheduleRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<DeleteDatabaseStorageBackupScheduleResponse>,
-  errors: [Forbidden, NotFound, Conflict, UnknownCoolifyError],
+  input: __S(2848, __c356, 0) as any as S.Schema<DeleteDatabaseStorageBackupScheduleRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<DeleteDatabaseStorageBackupScheduleResponse>,
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6848,9 +8604,10 @@ export const deleteDestination: API.OperationMethod<
   DeleteDestinationError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2424, __c303, 0) as any as S.Schema<DeleteDestinationRequest>,
+  input: __S(2856, __c357, 0) as any as S.Schema<DeleteDestinationRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteDestinationResponse>,
-  errors: [NotFound, Conflict, UnknownCoolifyError],
+  errors: [NotFound, Conflict],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6865,9 +8622,10 @@ export const deleteEnvByApplicationUuid: API.OperationMethod<
   DeleteEnvByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2440, __c305, 0) as any as S.Schema<DeleteEnvByApplicationUuidRequest>,
+  input: __S(2864, __c358, 0) as any as S.Schema<DeleteEnvByApplicationUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteEnvByApplicationUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6882,9 +8640,10 @@ export const deleteEnvByDatabaseUuid: API.OperationMethod<
   DeleteEnvByDatabaseUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2448, __c306, 0) as any as S.Schema<DeleteEnvByDatabaseUuidRequest>,
+  input: __S(2872, __c359, 0) as any as S.Schema<DeleteEnvByDatabaseUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteEnvByDatabaseUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6899,9 +8658,10 @@ export const deleteEnvByServiceUuid: API.OperationMethod<
   DeleteEnvByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2456, __c307, 0) as any as S.Schema<DeleteEnvByServiceUuidRequest>,
+  input: __S(2880, __c360, 0) as any as S.Schema<DeleteEnvByServiceUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteEnvByServiceUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6916,9 +8676,10 @@ export const deleteEnvironment: API.OperationMethod<
   DeleteEnvironmentError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c308, 0) as any as S.Schema<DeleteEnvironmentRequest>,
+  input: __S(2888, __c361, 0) as any as S.Schema<DeleteEnvironmentRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteEnvironmentResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6933,9 +8694,10 @@ export const deleteEnvironmentSharedEnv: API.OperationMethod<
   DeleteEnvironmentSharedEnvError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2472, __c309, 0) as any as S.Schema<DeleteEnvironmentSharedEnvRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<DeleteEnvironmentSharedEnvResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(2904, __c363, 0) as any as S.Schema<DeleteEnvironmentSharedEnvRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<DeleteEnvironmentSharedEnvResponse>,
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6950,9 +8712,10 @@ export const deleteGithubApp: API.OperationMethod<
   DeleteGithubAppError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2480, __c310, 0) as any as S.Schema<DeleteGithubAppRequest>,
+  input: __S(2912, __c364, 0) as any as S.Schema<DeleteGithubAppRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteGithubAppResponse>,
-  errors: [NotFound, Conflict, UnknownCoolifyError],
+  errors: [NotFound, Conflict],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6967,30 +8730,51 @@ export const deleteGitlabApp: API.OperationMethod<
   DeleteGitlabAppError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2488, __c311, 0) as any as S.Schema<DeleteGitlabAppRequest>,
+  input: __S(2920, __c365, 0) as any as S.Schema<DeleteGitlabAppRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteGitlabAppResponse>,
-  errors: [NotFound, Conflict, UnknownCoolifyError],
+  errors: [NotFound, Conflict],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteGitlabApp",
 }));
 
+export type DeleteIntegrationTokenByUuidError = Forbidden | NotFound | Conflict | CoolifyOpError;
+/** Delete Integration Token Delete an integration token. A token that a resource uses as secret manager source, or that manages DNS records, cannot be deleted. Requires admin or owner. */
+export const deleteIntegrationTokenByUuid: API.OperationMethod<
+  DeleteIntegrationTokenByUuidRequest,
+  DeleteIntegrationTokenByUuidResponse,
+  DeleteIntegrationTokenByUuidError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2928, __c366, 0) as any as S.Schema<DeleteIntegrationTokenByUuidRequest>,
+  output: __S(0, __c0, 0) as any as S.Schema<DeleteIntegrationTokenByUuidResponse>,
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIntegrationTokenByUuid",
+}));
+
 export type DeletePreviewDeploymentByPullRequestIdError =
   | BadRequest
+  | Forbidden
   | NotFound
   | UnprocessableEntity
   | CoolifyOpError;
-/** Delete Preview Deployment Delete a preview deployment for a pull request. Cancels active deployments, stops containers, removes volumes/networks, and deletes the preview record. */
+/** Delete Preview Deployment Delete a preview deployment for a pull request. Cancels active deployments, stops containers, removes volumes/networks, and deletes the preview record. Needs a token with the write and deploy permissions. */
 export const deletePreviewDeploymentByPullRequestId: API.OperationMethod<
   DeletePreviewDeploymentByPullRequestIdRequest,
   DeletePreviewDeploymentByPullRequestIdResponse,
   DeletePreviewDeploymentByPullRequestIdError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c312, 0) as any as S.Schema<DeletePreviewDeploymentByPullRequestIdRequest>,
+  input: __S(2936, __c367, 0) as any as S.Schema<DeletePreviewDeploymentByPullRequestIdRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeletePreviewDeploymentByPullRequestIdResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7009,9 +8793,10 @@ export const deletePrivateKeyByUuid: API.OperationMethod<
   DeletePrivateKeyByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2504, __c313, 0) as any as S.Schema<DeletePrivateKeyByUuidRequest>,
+  input: __S(2944, __c368, 0) as any as S.Schema<DeletePrivateKeyByUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeletePrivateKeyByUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7026,9 +8811,10 @@ export const deleteProject: API.OperationMethod<
   DeleteProjectError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2512, __c314, 0) as any as S.Schema<DeleteProjectRequest>,
+  input: __S(2952, __c369, 0) as any as S.Schema<DeleteProjectRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteProjectResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7043,9 +8829,10 @@ export const deleteProjectSharedEnv: API.OperationMethod<
   DeleteProjectSharedEnvError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2536, __c317, 0) as any as S.Schema<DeleteProjectSharedEnvRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<DeleteProjectSharedEnvResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(2960, __c370, 0) as any as S.Schema<DeleteProjectSharedEnvRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<DeleteProjectSharedEnvResponse>,
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7060,9 +8847,10 @@ export const deleteS3Storage: API.OperationMethod<
   DeleteS3StorageError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2544, __c318, 0) as any as S.Schema<DeleteS3StorageRequest>,
+  input: __S(2968, __c371, 0) as any as S.Schema<DeleteS3StorageRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteS3StorageResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7077,9 +8865,10 @@ export const deleteScheduledTaskByApplicationUuid: API.OperationMethod<
   DeleteScheduledTaskByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2552, __c319, 0) as any as S.Schema<DeleteScheduledTaskByApplicationUuidRequest>,
+  input: __S(2976, __c372, 0) as any as S.Schema<DeleteScheduledTaskByApplicationUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteScheduledTaskByApplicationUuidResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7094,26 +8883,33 @@ export const deleteScheduledTaskByServiceUuid: API.OperationMethod<
   DeleteScheduledTaskByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c320, 0) as any as S.Schema<DeleteScheduledTaskByServiceUuidRequest>,
+  input: __S(3000, __c375, 0) as any as S.Schema<DeleteScheduledTaskByServiceUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteScheduledTaskByServiceUuidResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteScheduledTaskByServiceUuid",
 }));
 
-export type DeleteServerError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
-/** Delete Delete server by UUID. */
+export type DeleteServerError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | CoolifyOpError;
+/** Delete Delete server by UUID. With force or delete_from_provider, needs a token with the write and deploy permissions. */
 export const deleteServer: API.OperationMethod<
   DeleteServerRequest,
   DeleteServerResponse,
   DeleteServerError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2568, __c321, 0) as any as S.Schema<DeleteServerRequest>,
+  input: __S(3008, __c376, 0) as any as S.Schema<DeleteServerRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteServerResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7128,26 +8924,33 @@ export const deleteServerSharedEnv: API.OperationMethod<
   DeleteServerSharedEnvError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2576, __c322, 0) as any as S.Schema<DeleteServerSharedEnvRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<DeleteServerSharedEnvResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(3016, __c377, 0) as any as S.Schema<DeleteServerSharedEnvRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<DeleteServerSharedEnvResponse>,
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteServerSharedEnv",
 }));
 
-export type DeleteServiceError = BadRequest | NotFound | CoolifyOpError;
-/** Delete Delete service by UUID. */
+export type DeleteServiceError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | CoolifyOpError;
+/** Delete Delete service by UUID. Needs a token with the write and deploy permissions. */
 export const deleteService: API.OperationMethod<
   DeleteServiceRequest,
   DeleteServiceResponse,
   DeleteServiceError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2584, __c323, 0) as any as S.Schema<DeleteServiceRequest>,
+  input: __S(3024, __c378, 0) as any as S.Schema<DeleteServiceRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteServiceResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7166,9 +8969,10 @@ export const deleteServiceStorageBackupSchedule: API.OperationMethod<
   DeleteServiceStorageBackupScheduleError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c324, 0) as any as S.Schema<DeleteServiceStorageBackupScheduleRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<DeleteServiceStorageBackupScheduleResponse>,
-  errors: [Forbidden, NotFound, Conflict, UnknownCoolifyError],
+  input: __S(3032, __c379, 0) as any as S.Schema<DeleteServiceStorageBackupScheduleRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<DeleteServiceStorageBackupScheduleResponse>,
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7187,9 +8991,10 @@ export const deleteStorageByApplicationUuid: API.OperationMethod<
   DeleteStorageByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2600, __c325, 0) as any as S.Schema<DeleteStorageByApplicationUuidRequest>,
+  input: __S(3040, __c380, 0) as any as S.Schema<DeleteStorageByApplicationUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteStorageByApplicationUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7208,9 +9013,10 @@ export const deleteStorageByDatabaseUuid: API.OperationMethod<
   DeleteStorageByDatabaseUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2608, __c326, 0) as any as S.Schema<DeleteStorageByDatabaseUuidRequest>,
+  input: __S(3048, __c381, 0) as any as S.Schema<DeleteStorageByDatabaseUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteStorageByDatabaseUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7229,9 +9035,10 @@ export const deleteStorageByServiceUuid: API.OperationMethod<
   DeleteStorageByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c328, 0) as any as S.Schema<DeleteStorageByServiceUuidRequest>,
+  input: __S(3056, __c382, 0) as any as S.Schema<DeleteStorageByServiceUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteStorageByServiceUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7246,9 +9053,10 @@ export const deleteTag: API.OperationMethod<
   DeleteTagError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2632, __c329, 0) as any as S.Schema<DeleteTagRequest>,
+  input: __S(3064, __c383, 0) as any as S.Schema<DeleteTagRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DeleteTagResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7263,9 +9071,10 @@ export const deleteTagByApplicationUuid: API.OperationMethod<
   DeleteTagByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2640, __c330, 0) as any as S.Schema<DeleteTagByApplicationUuidRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<DeleteTagByApplicationUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(3072, __c384, 0) as any as S.Schema<DeleteTagByApplicationUuidRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<DeleteTagByApplicationUuidResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7280,9 +9089,10 @@ export const deleteTagByDatabaseUuid: API.OperationMethod<
   DeleteTagByDatabaseUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2648, __c331, 0) as any as S.Schema<DeleteTagByDatabaseUuidRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<DeleteTagByDatabaseUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(24, __c3, 0) as any as S.Schema<DeleteTagByDatabaseUuidRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<DeleteTagByDatabaseUuidResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7297,9 +9107,10 @@ export const deleteTagByServiceUuid: API.OperationMethod<
   DeleteTagByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c332, 0) as any as S.Schema<DeleteTagByServiceUuidRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<DeleteTagByServiceUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(32, __c4, 0) as any as S.Schema<DeleteTagByServiceUuidRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<DeleteTagByServiceUuidResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7314,9 +9125,10 @@ export const deleteTeamSharedEnv: API.OperationMethod<
   DeleteTeamSharedEnvError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2664, __c333, 0) as any as S.Schema<DeleteTeamSharedEnvRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<DeleteTeamSharedEnvResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(40, __c5, 0) as any as S.Schema<DeleteTeamSharedEnvRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<DeleteTeamSharedEnvResponse>,
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7331,9 +9143,10 @@ export const deployByTagOrUuid: API.OperationMethod<
   DeployByTagOrUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2672, __c334, 0) as any as S.Schema<DeployByTagOrUuidRequest>,
-  output: __S(2675, __c334, 3) as any as S.Schema<DeployByTagOrUuidResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(48, __c6, 0) as any as S.Schema<DeployByTagOrUuidRequest>,
+  output: __S(51, __c6, 3) as any as S.Schema<DeployByTagOrUuidResponse>,
+  errors: [BadRequest],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7348,9 +9161,10 @@ export const disableApi: API.OperationMethod<
   DisableApiError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2680, __c335, 0) as any as S.Schema<DisableApiRequest>,
+  input: __S(56, __c7, 0) as any as S.Schema<DisableApiRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DisableApiResponse>,
-  errors: [BadRequest, Forbidden, UnknownCoolifyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7365,9 +9179,10 @@ export const disableMcp: API.OperationMethod<
   DisableMcpError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c336, 0) as any as S.Schema<DisableMcpRequest>,
+  input: __S(64, __c8, 0) as any as S.Schema<DisableMcpRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<DisableMcpResponse>,
-  errors: [BadRequest, Forbidden, UnknownCoolifyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7386,30 +9201,14 @@ export const disableServerCloudflareTunnel: API.OperationMethod<
   DisableServerCloudflareTunnelError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2696, __c337, 0) as any as S.Schema<DisableServerCloudflareTunnelRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<DisableServerCloudflareTunnelResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(72, __c9, 0) as any as S.Schema<DisableServerCloudflareTunnelRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<DisableServerCloudflareTunnelResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DisableServerCloudflareTunnel",
-}));
-
-export type EnableApiError = BadRequest | Forbidden | CoolifyOpError;
-/** Enable API Enable API (only with root permissions). */
-export const enableApi: API.OperationMethod<
-  EnableApiRequest,
-  EnableApiResponse,
-  EnableApiError,
-  CoolifyOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<EnableApiRequest>,
-  output: __S(0, __c0, 0) as any as S.Schema<EnableApiResponse>,
-  errors: [BadRequest, Forbidden, UnknownCoolifyError],
-  protocol: CoolifyProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "EnableApi",
 }));
 
 export type EnableMcpError = BadRequest | Forbidden | CoolifyOpError;
@@ -7420,9 +9219,10 @@ export const enableMcp: API.OperationMethod<
   EnableMcpError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<EnableMcpRequest>,
+  input: __S(80, __c10, 0) as any as S.Schema<EnableMcpRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<EnableMcpResponse>,
-  errors: [BadRequest, Forbidden, UnknownCoolifyError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7441,9 +9241,10 @@ export const enableServerCloudflareTunnel: API.OperationMethod<
   EnableServerCloudflareTunnelError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<EnableServerCloudflareTunnelRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<EnableServerCloudflareTunnelResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(88, __c11, 0) as any as S.Schema<EnableServerCloudflareTunnelRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<EnableServerCloudflareTunnelResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7458,9 +9259,10 @@ export const executeScheduledTaskByApplicationUuid: API.OperationMethod<
   ExecuteScheduledTaskByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<ExecuteScheduledTaskByApplicationUuidRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<ExecuteScheduledTaskByApplicationUuidResponse>,
-  errors: [Forbidden, NotFound, UnknownCoolifyError],
+  input: __S(96, __c12, 0) as any as S.Schema<ExecuteScheduledTaskByApplicationUuidRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<ExecuteScheduledTaskByApplicationUuidResponse>,
+  errors: [Forbidden, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7475,9 +9277,10 @@ export const executeScheduledTaskByServiceUuid: API.OperationMethod<
   ExecuteScheduledTaskByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<ExecuteScheduledTaskByServiceUuidRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<ExecuteScheduledTaskByServiceUuidResponse>,
-  errors: [Forbidden, NotFound, UnknownCoolifyError],
+  input: __S(112, __c14, 0) as any as S.Schema<ExecuteScheduledTaskByServiceUuidRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<ExecuteScheduledTaskByServiceUuidResponse>,
+  errors: [Forbidden, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7492,13 +9295,32 @@ export const getApplication: API.OperationMethod<
   GetApplicationError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<GetApplicationRequest>,
-  output: __S(73, __c9, 1) as any as S.Schema<Application>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(120, __c15, 0) as any as S.Schema<GetApplicationRequest>,
+  output: __S(129, __c16, 1) as any as S.Schema<Application>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetApplication",
+}));
+
+export type GetApplicationDnsError = Forbidden | NotFound | CoolifyOpError;
+/** Get Application DNS DNS providers and managed DNS records for the domains of an application. */
+export const getApplicationDns: API.OperationMethod<
+  GetApplicationDnsRequest,
+  ResourceDnsStatus,
+  GetApplicationDnsError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(136, __c17, 0) as any as S.Schema<GetApplicationDnsRequest>,
+  output: __S(149, __c18, 5) as any as S.Schema<ResourceDnsStatus>,
+  errors: [Forbidden, NotFound],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplicationDns",
 }));
 
 export type GetApplicationLogsByUuidError = BadRequest | NotFound | CoolifyOpError;
@@ -7509,13 +9331,36 @@ export const getApplicationLogsByUuid: API.OperationMethod<
   GetApplicationLogsByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<GetApplicationLogsByUuidRequest>,
-  output: __S(88, __c11, 0) as any as S.Schema<GetApplicationLogsByUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(152, __c19, 0) as any as S.Schema<GetApplicationLogsByUuidRequest>,
+  output: __S(160, __c20, 0) as any as S.Schema<GetApplicationLogsByUuidResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetApplicationLogsByUuid",
+}));
+
+export type GetApplicationVulnerabilitiesError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | CoolifyOpError;
+/** Get application vulnerabilities Get the security status, the scanned images, and the vulnerabilities of an application. */
+export const getApplicationVulnerabilities: API.OperationMethod<
+  GetApplicationVulnerabilitiesRequest,
+  ResourceVulnerabilities,
+  GetApplicationVulnerabilitiesError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(168, __c21, 0) as any as S.Schema<GetApplicationVulnerabilitiesRequest>,
+  output: __S(181, __c22, 5) as any as S.Schema<ResourceVulnerabilities>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplicationVulnerabilities",
 }));
 
 export type GetCloudInitScriptError = Forbidden | NotFound | CoolifyOpError;
@@ -7526,16 +9371,17 @@ export const getCloudInitScript: API.OperationMethod<
   GetCloudInitScriptError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<GetCloudInitScriptRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<GetCloudInitScriptResponse>,
-  errors: [Forbidden, NotFound, UnknownCoolifyError],
+  input: __S(192, __c24, 0) as any as S.Schema<GetCloudInitScriptRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<GetCloudInitScriptResponse>,
+  errors: [Forbidden, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetCloudInitScript",
 }));
 
-export type GetCloudTokenError = NotFound | CoolifyOpError;
+export type GetCloudTokenError = Forbidden | NotFound | CoolifyOpError;
 /** Get Cloud Provider Token Get cloud provider token by UUID. */
 export const getCloudToken: API.OperationMethod<
   GetCloudTokenRequest,
@@ -7543,9 +9389,10 @@ export const getCloudToken: API.OperationMethod<
   GetCloudTokenError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<GetCloudTokenRequest>,
-  output: __S(105, __c13, 1) as any as S.Schema<GetCloudTokenResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(200, __c25, 0) as any as S.Schema<GetCloudTokenRequest>,
+  output: __S(201, __c25, 1) as any as S.Schema<GetCloudTokenResponse>,
+  errors: [Forbidden, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7560,9 +9407,10 @@ export const getCurrentTeamDiscordNotifications: API.OperationMethod<
   GetCurrentTeamDiscordNotificationsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<GetCurrentTeamDiscordNotificationsRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<GetCurrentTeamDiscordNotificationsResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(208, __c26, 0) as any as S.Schema<GetCurrentTeamDiscordNotificationsRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<GetCurrentTeamDiscordNotificationsResponse>,
+  errors: [BadRequest],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7577,9 +9425,10 @@ export const getCurrentTeamEmailNotifications: API.OperationMethod<
   GetCurrentTeamEmailNotificationsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<GetCurrentTeamEmailNotificationsRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<GetCurrentTeamEmailNotificationsResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(216, __c27, 0) as any as S.Schema<GetCurrentTeamEmailNotificationsRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<GetCurrentTeamEmailNotificationsResponse>,
+  errors: [BadRequest],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7594,9 +9443,10 @@ export const getCurrentTeamPushoverNotifications: API.OperationMethod<
   GetCurrentTeamPushoverNotificationsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<GetCurrentTeamPushoverNotificationsRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<GetCurrentTeamPushoverNotificationsResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(224, __c28, 0) as any as S.Schema<GetCurrentTeamPushoverNotificationsRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<GetCurrentTeamPushoverNotificationsResponse>,
+  errors: [BadRequest],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7611,9 +9461,10 @@ export const getCurrentTeamSlackNotifications: API.OperationMethod<
   GetCurrentTeamSlackNotificationsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<GetCurrentTeamSlackNotificationsRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<GetCurrentTeamSlackNotificationsResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(240, __c30, 0) as any as S.Schema<GetCurrentTeamSlackNotificationsRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<GetCurrentTeamSlackNotificationsResponse>,
+  errors: [BadRequest],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7628,9 +9479,10 @@ export const getCurrentTeamTelegramNotifications: API.OperationMethod<
   GetCurrentTeamTelegramNotificationsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<GetCurrentTeamTelegramNotificationsRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<GetCurrentTeamTelegramNotificationsResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(248, __c31, 0) as any as S.Schema<GetCurrentTeamTelegramNotificationsRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<GetCurrentTeamTelegramNotificationsResponse>,
+  errors: [BadRequest],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7645,9 +9497,10 @@ export const getCurrentTeamWebhookNotifications: API.OperationMethod<
   GetCurrentTeamWebhookNotificationsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<GetCurrentTeamWebhookNotificationsRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<GetCurrentTeamWebhookNotificationsResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(256, __c32, 0) as any as S.Schema<GetCurrentTeamWebhookNotificationsRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<GetCurrentTeamWebhookNotificationsResponse>,
+  errors: [BadRequest],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7658,13 +9511,14 @@ export type GetDatabaseError = BadRequest | NotFound | CoolifyOpError;
 /** Get Get database by UUID. */
 export const getDatabase: API.OperationMethod<
   GetDatabaseRequest,
-  GetDatabaseResponse,
+  Database,
   GetDatabaseError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<GetDatabaseRequest>,
-  output: __S(176, __c22, 0) as any as S.Schema<GetDatabaseResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(264, __c33, 0) as any as S.Schema<GetDatabaseRequest>,
+  output: __S(291, __c36, 3) as any as S.Schema<Database>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7679,9 +9533,10 @@ export const getDatabaseBackupsByUuid: API.OperationMethod<
   GetDatabaseBackupsByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<GetDatabaseBackupsByUuidRequest>,
-  output: __S(176, __c22, 0) as any as S.Schema<GetDatabaseBackupsByUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(304, __c38, 0) as any as S.Schema<GetDatabaseBackupsByUuidRequest>,
+  output: __S(305, __c38, 1) as any as S.Schema<GetDatabaseBackupsByUuidResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7696,9 +9551,10 @@ export const getDatabaseImport: API.OperationMethod<
   GetDatabaseImportError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<GetDatabaseImportRequest>,
-  output: __S(200, __c25, 0) as any as S.Schema<DatabaseImportStatus>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(312, __c39, 0) as any as S.Schema<GetDatabaseImportRequest>,
+  output: __S(320, __c40, 0) as any as S.Schema<DatabaseImportStatus>,
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7713,13 +9569,36 @@ export const getDatabaseLogsByUuid: API.OperationMethod<
   GetDatabaseLogsByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<GetDatabaseLogsByUuidRequest>,
-  output: __S(88, __c11, 0) as any as S.Schema<GetDatabaseLogsByUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(328, __c41, 0) as any as S.Schema<GetDatabaseLogsByUuidRequest>,
+  output: __S(160, __c20, 0) as any as S.Schema<GetDatabaseLogsByUuidResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDatabaseLogsByUuid",
+}));
+
+export type GetDatabaseVulnerabilitiesError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | CoolifyOpError;
+/** Get database vulnerabilities Get the security status, the scanned image, and the vulnerabilities of a standalone database. */
+export const getDatabaseVulnerabilities: API.OperationMethod<
+  GetDatabaseVulnerabilitiesRequest,
+  ResourceVulnerabilities,
+  GetDatabaseVulnerabilitiesError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(336, __c42, 0) as any as S.Schema<GetDatabaseVulnerabilitiesRequest>,
+  output: __S(181, __c22, 5) as any as S.Schema<ResourceVulnerabilities>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabaseVulnerabilities",
 }));
 
 export type GetDeploymentError = BadRequest | NotFound | CoolifyOpError;
@@ -7730,9 +9609,10 @@ export const getDeployment: API.OperationMethod<
   GetDeploymentError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<GetDeploymentRequest>,
-  output: __S(224, __c28, 0) as any as S.Schema<ApplicationDeploymentQueue>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(344, __c43, 0) as any as S.Schema<GetDeploymentRequest>,
+  output: __S(352, __c44, 0) as any as S.Schema<ApplicationDeploymentQueue>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7747,9 +9627,10 @@ export const getDestination: API.OperationMethod<
   GetDestinationError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<GetDestinationRequest>,
-  output: __S(2200, __c275, 0) as any as S.Schema<Destination>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(360, __c45, 0) as any as S.Schema<GetDestinationRequest>,
+  output: __S(2632, __c329, 0) as any as S.Schema<Destination>,
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7764,9 +9645,10 @@ export const getDigitaloceanImages: API.OperationMethod<
   GetDigitaloceanImagesError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<GetDigitaloceanImagesRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<GetDigitaloceanImagesResponse>,
-  errors: [UnprocessableEntity, UnknownCoolifyError],
+  input: __S(376, __c47, 0) as any as S.Schema<GetDigitaloceanImagesRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<GetDigitaloceanImagesResponse>,
+  errors: [UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7781,9 +9663,10 @@ export const getDigitaloceanRegions: API.OperationMethod<
   GetDigitaloceanRegionsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<GetDigitaloceanRegionsRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<GetDigitaloceanRegionsResponse>,
-  errors: [UnprocessableEntity, UnknownCoolifyError],
+  input: __S(384, __c48, 0) as any as S.Schema<GetDigitaloceanRegionsRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<GetDigitaloceanRegionsResponse>,
+  errors: [UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7798,9 +9681,10 @@ export const getDigitaloceanSizes: API.OperationMethod<
   GetDigitaloceanSizesError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<GetDigitaloceanSizesRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<GetDigitaloceanSizesResponse>,
-  errors: [UnprocessableEntity, UnknownCoolifyError],
+  input: __S(392, __c49, 0) as any as S.Schema<GetDigitaloceanSizesRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<GetDigitaloceanSizesResponse>,
+  errors: [UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7815,9 +9699,10 @@ export const getDigitaloceanSshKeys: API.OperationMethod<
   GetDigitaloceanSshKeysError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<GetDigitaloceanSshKeysRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<GetDigitaloceanSshKeysResponse>,
-  errors: [UnprocessableEntity, UnknownCoolifyError],
+  input: __S(400, __c50, 0) as any as S.Schema<GetDigitaloceanSshKeysRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<GetDigitaloceanSshKeysResponse>,
+  errors: [UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7832,9 +9717,10 @@ export const getDomainsByServerUuid: API.OperationMethod<
   GetDomainsByServerUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<GetDomainsByServerUuidRequest>,
-  output: __S(283, __c35, 3) as any as S.Schema<GetDomainsByServerUuidResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(408, __c51, 0) as any as S.Schema<GetDomainsByServerUuidRequest>,
+  output: __S(411, __c51, 3) as any as S.Schema<GetDomainsByServerUuidResponse>,
+  errors: [BadRequest],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7853,9 +9739,10 @@ export const getEnvironmentByNameOrUuid: API.OperationMethod<
   GetEnvironmentByNameOrUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<GetEnvironmentByNameOrUuidRequest>,
-  output: __S(296, __c37, 0) as any as S.Schema<Environment>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(416, __c52, 0) as any as S.Schema<GetEnvironmentByNameOrUuidRequest>,
+  output: __S(272, __c34, 0) as any as S.Schema<Environment>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7870,9 +9757,10 @@ export const getEnvironments: API.OperationMethod<
   GetEnvironmentsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c38, 0) as any as S.Schema<GetEnvironmentsRequest>,
-  output: __S(306, __c38, 2) as any as S.Schema<GetEnvironmentsResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(424, __c53, 0) as any as S.Schema<GetEnvironmentsRequest>,
+  output: __S(426, __c53, 2) as any as S.Schema<GetEnvironmentsResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7887,9 +9775,10 @@ export const getHetznerFirewalls: API.OperationMethod<
   GetHetznerFirewallsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<GetHetznerFirewallsRequest>,
-  output: __S(315, __c39, 3) as any as S.Schema<GetHetznerFirewallsResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(432, __c54, 0) as any as S.Schema<GetHetznerFirewallsRequest>,
+  output: __S(435, __c54, 3) as any as S.Schema<GetHetznerFirewallsResponse>,
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7904,9 +9793,10 @@ export const getHetznerImages: API.OperationMethod<
   GetHetznerImagesError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c40, 0) as any as S.Schema<GetHetznerImagesRequest>,
-  output: __S(323, __c40, 3) as any as S.Schema<GetHetznerImagesResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(440, __c55, 0) as any as S.Schema<GetHetznerImagesRequest>,
+  output: __S(443, __c55, 3) as any as S.Schema<GetHetznerImagesResponse>,
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7921,9 +9811,10 @@ export const getHetznerLocations: API.OperationMethod<
   GetHetznerLocationsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(344, __c43, 0) as any as S.Schema<GetHetznerLocationsRequest>,
-  output: __S(347, __c43, 3) as any as S.Schema<GetHetznerLocationsResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(448, __c56, 0) as any as S.Schema<GetHetznerLocationsRequest>,
+  output: __S(451, __c56, 3) as any as S.Schema<GetHetznerLocationsResponse>,
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7938,9 +9829,10 @@ export const getHetznerNetworks: API.OperationMethod<
   GetHetznerNetworksError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c44, 0) as any as S.Schema<GetHetznerNetworksRequest>,
-  output: __S(355, __c44, 3) as any as S.Schema<GetHetznerNetworksResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(480, __c60, 0) as any as S.Schema<GetHetznerNetworksRequest>,
+  output: __S(483, __c60, 3) as any as S.Schema<GetHetznerNetworksResponse>,
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7948,16 +9840,17 @@ export const getHetznerNetworks: API.OperationMethod<
 }));
 
 export type GetHetznerServerTypesError = NotFound | CoolifyOpError;
-/** Get Hetzner Server Types Get all available Hetzner server types (instance sizes). */
+/** Get Hetzner Server Types Get the Hetzner server types (instance sizes) that can be ordered now. Each type lists only the locations where it is in stock and not deprecated. */
 export const getHetznerServerTypes: API.OperationMethod<
   GetHetznerServerTypesRequest,
   GetHetznerServerTypesResponse,
   GetHetznerServerTypesError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(360, __c45, 0) as any as S.Schema<GetHetznerServerTypesRequest>,
-  output: __S(366, __c45, 6) as any as S.Schema<GetHetznerServerTypesResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(488, __c61, 0) as any as S.Schema<GetHetznerServerTypesRequest>,
+  output: __S(494, __c61, 6) as any as S.Schema<GetHetznerServerTypesResponse>,
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7972,13 +9865,104 @@ export const getHetznerSshKeys: API.OperationMethod<
   GetHetznerSshKeysError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c46, 0) as any as S.Schema<GetHetznerSshKeysRequest>,
-  output: __S(371, __c46, 3) as any as S.Schema<GetHetznerSshKeysResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(496, __c62, 0) as any as S.Schema<GetHetznerSshKeysRequest>,
+  output: __S(499, __c62, 3) as any as S.Schema<GetHetznerSshKeysResponse>,
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetHetznerSshKeys",
+}));
+
+export type GetHostingerCatalogError = Forbidden | UnprocessableEntity | CoolifyOpError;
+/** Get Hostinger VPS plans and prices */
+export const getHostingerCatalog: API.OperationMethod<
+  GetHostingerCatalogRequest,
+  GetHostingerCatalogResponse,
+  GetHostingerCatalogError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(504, __c63, 0) as any as S.Schema<GetHostingerCatalogRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<GetHostingerCatalogResponse>,
+  errors: [Forbidden, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingerCatalog",
+}));
+
+export type GetHostingerDataCentersError = Forbidden | UnprocessableEntity | CoolifyOpError;
+/** Get Hostinger VPS data centers */
+export const getHostingerDataCenters: API.OperationMethod<
+  GetHostingerDataCentersRequest,
+  GetHostingerDataCentersResponse,
+  GetHostingerDataCentersError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(512, __c64, 0) as any as S.Schema<GetHostingerDataCentersRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<GetHostingerDataCentersResponse>,
+  errors: [Forbidden, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingerDataCenters",
+}));
+
+export type GetHostingerPostInstallScriptsError = Forbidden | UnprocessableEntity | CoolifyOpError;
+/** Get Hostinger post-install scripts */
+export const getHostingerPostInstallScripts: API.OperationMethod<
+  GetHostingerPostInstallScriptsRequest,
+  GetHostingerPostInstallScriptsResponse,
+  GetHostingerPostInstallScriptsError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(520, __c65, 0) as any as S.Schema<GetHostingerPostInstallScriptsRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<GetHostingerPostInstallScriptsResponse>,
+  errors: [Forbidden, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingerPostInstallScripts",
+}));
+
+export type GetHostingerSshKeysError = Forbidden | UnprocessableEntity | CoolifyOpError;
+/** Get Hostinger account SSH keys */
+export const getHostingerSshKeys: API.OperationMethod<
+  GetHostingerSshKeysRequest,
+  GetHostingerSshKeysResponse,
+  GetHostingerSshKeysError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(528, __c66, 0) as any as S.Schema<GetHostingerSshKeysRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<GetHostingerSshKeysResponse>,
+  errors: [Forbidden, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingerSshKeys",
+}));
+
+export type GetHostingerTemplatesError = Forbidden | UnprocessableEntity | CoolifyOpError;
+/** Get Hostinger VPS operating system templates */
+export const getHostingerTemplates: API.OperationMethod<
+  GetHostingerTemplatesRequest,
+  GetHostingerTemplatesResponse,
+  GetHostingerTemplatesError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(536, __c67, 0) as any as S.Schema<GetHostingerTemplatesRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<GetHostingerTemplatesResponse>,
+  errors: [Forbidden, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingerTemplates",
 }));
 
 export type GetInstanceEmailSettingsError = Forbidden | CoolifyOpError;
@@ -7989,13 +9973,32 @@ export const getInstanceEmailSettings: API.OperationMethod<
   GetInstanceEmailSettingsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(376, __c47, 0) as any as S.Schema<GetInstanceEmailSettingsRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<GetInstanceEmailSettingsResponse>,
-  errors: [Forbidden, UnknownCoolifyError],
+  input: __S(544, __c68, 0) as any as S.Schema<GetInstanceEmailSettingsRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<GetInstanceEmailSettingsResponse>,
+  errors: [Forbidden],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetInstanceEmailSettings",
+}));
+
+export type GetIntegrationTokenByUuidError = Forbidden | NotFound | CoolifyOpError;
+/** Get Integration Token Get an integration token of the team by UUID. Requires admin or owner. */
+export const getIntegrationTokenByUuid: API.OperationMethod<
+  GetIntegrationTokenByUuidRequest,
+  IntegrationToken,
+  GetIntegrationTokenByUuidError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(552, __c69, 0) as any as S.Schema<GetIntegrationTokenByUuidRequest>,
+  output: __S(560, __c70, 0) as any as S.Schema<IntegrationToken>,
+  errors: [Forbidden, NotFound],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIntegrationTokenByUuid",
 }));
 
 export type GetMembersByTeamIdError = BadRequest | NotFound | CoolifyOpError;
@@ -8006,9 +10009,10 @@ export const getMembersByTeamId: API.OperationMethod<
   GetMembersByTeamIdError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c48, 0) as any as S.Schema<GetMembersByTeamIdRequest>,
-  output: __S(400, __c50, 0) as any as S.Schema<GetMembersByTeamIdResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(576, __c72, 0) as any as S.Schema<GetMembersByTeamIdRequest>,
+  output: __S(592, __c74, 0) as any as S.Schema<GetMembersByTeamIdResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8027,9 +10031,10 @@ export const getPreviewApplicationLogsByPullRequestId: API.OperationMethod<
   GetPreviewApplicationLogsByPullRequestIdError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(408, __c51, 0) as any as S.Schema<GetPreviewApplicationLogsByPullRequestIdRequest>,
-  output: __S(88, __c11, 0) as any as S.Schema<GetPreviewApplicationLogsByPullRequestIdResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(600, __c75, 0) as any as S.Schema<GetPreviewApplicationLogsByPullRequestIdRequest>,
+  output: __S(160, __c20, 0) as any as S.Schema<GetPreviewApplicationLogsByPullRequestIdResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8047,9 +10052,10 @@ export const getPreviewDeploymentByPullRequestId: API.OperationMethod<
   GetPreviewDeploymentByPullRequestIdError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c52, 0) as any as S.Schema<GetPreviewDeploymentByPullRequestIdRequest>,
-  output: __S(2066, __c258, 2) as any as S.Schema<ApplicationPreview>,
-  errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(608, __c76, 0) as any as S.Schema<GetPreviewDeploymentByPullRequestIdRequest>,
+  output: __S(2482, __c310, 2) as any as S.Schema<ApplicationPreview>,
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8064,9 +10070,10 @@ export const getPrivateKeyByUuid: API.OperationMethod<
   GetPrivateKeyByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(424, __c53, 0) as any as S.Schema<GetPrivateKeyByUuidRequest>,
-  output: __S(432, __c54, 0) as any as S.Schema<PrivateKey>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(616, __c77, 0) as any as S.Schema<GetPrivateKeyByUuidRequest>,
+  output: __S(624, __c78, 0) as any as S.Schema<PrivateKey>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8081,9 +10088,10 @@ export const getProject: API.OperationMethod<
   GetProjectError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(440, __c55, 0) as any as S.Schema<GetProjectRequest>,
-  output: __S(448, __c56, 0) as any as S.Schema<Project>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(632, __c79, 0) as any as S.Schema<GetProjectRequest>,
+  output: __S(640, __c80, 0) as any as S.Schema<Project>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8098,9 +10106,10 @@ export const getResourcesByServerUuid: API.OperationMethod<
   GetResourcesByServerUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c58, 0) as any as S.Schema<GetResourcesByServerUuidRequest>,
-  output: __S(467, __c58, 3) as any as S.Schema<GetResourcesByServerUuidResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(648, __c81, 0) as any as S.Schema<GetResourcesByServerUuidRequest>,
+  output: __S(651, __c81, 3) as any as S.Schema<GetResourcesByServerUuidResponse>,
+  errors: [BadRequest],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8115,13 +10124,32 @@ export const getS3Storage: API.OperationMethod<
   GetS3StorageError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(472, __c59, 0) as any as S.Schema<GetS3StorageRequest>,
-  output: __S(480, __c60, 0) as any as S.Schema<GetS3StorageResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(656, __c82, 0) as any as S.Schema<GetS3StorageRequest>,
+  output: __S(664, __c83, 0) as any as S.Schema<GetS3StorageResponse>,
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetS3Storage",
+}));
+
+export type GetSecretManagerSourceError = Forbidden | NotFound | CoolifyOpError;
+/** Get Secret Manager Source The secret manager source of an application, service, or database, and the secret manager tokens of its team that can be linked. */
+export const getSecretManagerSource: API.OperationMethod<
+  GetSecretManagerSourceRequest,
+  SecretManagerSource,
+  GetSecretManagerSourceError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(672, __c84, 0) as any as S.Schema<GetSecretManagerSourceRequest>,
+  output: __S(675, __c84, 3) as any as S.Schema<SecretManagerSource>,
+  errors: [Forbidden, NotFound],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecretManagerSource",
 }));
 
 export type GetServerError = BadRequest | NotFound | CoolifyOpError;
@@ -8132,9 +10160,10 @@ export const getServer: API.OperationMethod<
   GetServerError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(488, __c61, 0) as any as S.Schema<GetServerRequest>,
-  output: __S(497, __c62, 1) as any as S.Schema<Server>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(680, __c85, 0) as any as S.Schema<GetServerRequest>,
+  output: __S(281, __c35, 1) as any as S.Schema<Server>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8149,9 +10178,10 @@ export const getServerCloudflareTunnel: API.OperationMethod<
   GetServerCloudflareTunnelError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(504, __c63, 0) as any as S.Schema<GetServerCloudflareTunnelRequest>,
-  output: __S(505, __c63, 1) as any as S.Schema<GetServerCloudflareTunnelResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(688, __c86, 0) as any as S.Schema<GetServerCloudflareTunnelRequest>,
+  output: __S(689, __c86, 1) as any as S.Schema<GetServerCloudflareTunnelResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8166,13 +10196,32 @@ export const getServerDockerCleanup: API.OperationMethod<
   GetServerDockerCleanupError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c64, 0) as any as S.Schema<GetServerDockerCleanupRequest>,
-  output: __S(520, __c65, 0) as any as S.Schema<GetServerDockerCleanupResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(712, __c89, 0) as any as S.Schema<GetServerDockerCleanupRequest>,
+  output: __S(720, __c90, 0) as any as S.Schema<GetServerDockerCleanupResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetServerDockerCleanup",
+}));
+
+export type GetServerImageScanningError = BadRequest | Forbidden | NotFound | CoolifyOpError;
+/** Get image scanning settings Get the image vulnerability scanning settings of a server owned by the authenticated team, and the state of the scanner on the server. Needs a team admin or owner. */
+export const getServerImageScanning: API.OperationMethod<
+  GetServerImageScanningRequest,
+  GetServerImageScanningResponse,
+  GetServerImageScanningError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(728, __c91, 0) as any as S.Schema<GetServerImageScanningRequest>,
+  output: __S(729, __c91, 1) as any as S.Schema<GetServerImageScanningResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServerImageScanning",
 }));
 
 export type GetServerLogDrainsError = BadRequest | NotFound | CoolifyOpError;
@@ -8183,9 +10232,10 @@ export const getServerLogDrains: API.OperationMethod<
   GetServerLogDrainsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c66, 0) as any as S.Schema<GetServerLogDrainsRequest>,
-  output: __S(529, __c66, 1) as any as S.Schema<GetServerLogDrainsResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(736, __c92, 0) as any as S.Schema<GetServerLogDrainsRequest>,
+  output: __S(737, __c92, 1) as any as S.Schema<GetServerLogDrainsResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8200,9 +10250,10 @@ export const getServerProxy: API.OperationMethod<
   GetServerProxyError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(536, __c67, 0) as any as S.Schema<GetServerProxyRequest>,
-  output: __S(544, __c68, 0) as any as S.Schema<GetServerProxyResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(744, __c93, 0) as any as S.Schema<GetServerProxyRequest>,
+  output: __S(752, __c94, 0) as any as S.Schema<GetServerProxyResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8217,13 +10268,32 @@ export const getServerSentinel: API.OperationMethod<
   GetServerSentinelError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(552, __c69, 0) as any as S.Schema<GetServerSentinelRequest>,
-  output: __S(553, __c69, 1) as any as S.Schema<GetServerSentinelResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(760, __c95, 0) as any as S.Schema<GetServerSentinelRequest>,
+  output: __S(761, __c95, 1) as any as S.Schema<GetServerSentinelResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetServerSentinel",
+}));
+
+export type GetServerTransferStatusError = NotFound | CoolifyOpError;
+/** Get server transfer status Show the transfer state of a server on this instance: the import/claim state (transfer) and the state of a running or finished transfer to another instance (migration). */
+export const getServerTransferStatus: API.OperationMethod<
+  GetServerTransferStatusRequest,
+  GetServerTransferStatusResponse,
+  GetServerTransferStatusError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(768, __c96, 0) as any as S.Schema<GetServerTransferStatusRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<GetServerTransferStatusResponse>,
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServerTransferStatus",
 }));
 
 export type GetServiceError = BadRequest | NotFound | CoolifyOpError;
@@ -8234,9 +10304,10 @@ export const getService: API.OperationMethod<
   GetServiceError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c70, 0) as any as S.Schema<GetServiceRequest>,
-  output: __S(568, __c71, 0) as any as S.Schema<Service>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(776, __c97, 0) as any as S.Schema<GetServiceRequest>,
+  output: __S(784, __c98, 0) as any as S.Schema<Service>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8251,9 +10322,10 @@ export const getServiceApplicationByServiceAndAppUuid: API.OperationMethod<
   GetServiceApplicationByServiceAndAppUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c72, 0) as any as S.Schema<GetServiceApplicationByServiceAndAppUuidRequest>,
-  output: __S(2264, __c283, 0) as any as S.Schema<GetServiceApplicationByServiceAndAppUuidResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(792, __c99, 0) as any as S.Schema<GetServiceApplicationByServiceAndAppUuidRequest>,
+  output: __S(2688, __c336, 0) as any as S.Schema<GetServiceApplicationByServiceAndAppUuidResponse>,
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8271,13 +10343,18 @@ export const getServiceApplicationLogsByServiceAndAppUuid: API.OperationMethod<
   GetServiceApplicationLogsByServiceAndAppUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c74, 0) as any as S.Schema<GetServiceApplicationLogsByServiceAndAppUuidRequest>,
+  input: __S(
+    800,
+    __c100,
+    0,
+  ) as any as S.Schema<GetServiceApplicationLogsByServiceAndAppUuidRequest>,
   output: __S(
-    88,
-    __c11,
+    160,
+    __c20,
     0,
   ) as any as S.Schema<GetServiceApplicationLogsByServiceAndAppUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8292,13 +10369,14 @@ export const getServiceDatabaseByServiceAndDatabaseUuid: API.OperationMethod<
   GetServiceDatabaseByServiceAndDatabaseUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(600, __c75, 0) as any as S.Schema<GetServiceDatabaseByServiceAndDatabaseUuidRequest>,
+  input: __S(808, __c101, 0) as any as S.Schema<GetServiceDatabaseByServiceAndDatabaseUuidRequest>,
   output: __S(
-    2264,
-    __c283,
+    2688,
+    __c336,
     0,
   ) as any as S.Schema<GetServiceDatabaseByServiceAndDatabaseUuidResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8313,9 +10391,10 @@ export const getServiceDatabaseImport: API.OperationMethod<
   GetServiceDatabaseImportError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c76, 0) as any as S.Schema<GetServiceDatabaseImportRequest>,
-  output: __S(200, __c25, 0) as any as S.Schema<DatabaseImportStatus>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(824, __c103, 0) as any as S.Schema<GetServiceDatabaseImportRequest>,
+  output: __S(320, __c40, 0) as any as S.Schema<DatabaseImportStatus>,
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8334,20 +10413,39 @@ export const getServiceDatabaseLogsByServiceAndDatabaseUuid: API.OperationMethod
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    616,
-    __c77,
+    832,
+    __c104,
     0,
   ) as any as S.Schema<GetServiceDatabaseLogsByServiceAndDatabaseUuidRequest>,
   output: __S(
-    88,
-    __c11,
+    160,
+    __c20,
     0,
   ) as any as S.Schema<GetServiceDatabaseLogsByServiceAndDatabaseUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetServiceDatabaseLogsByServiceAndDatabaseUuid",
+}));
+
+export type GetServiceDnsError = Forbidden | NotFound | CoolifyOpError;
+/** Get Service DNS DNS providers and managed DNS records for the domains of a service. */
+export const getServiceDns: API.OperationMethod<
+  GetServiceDnsRequest,
+  ResourceDnsStatus,
+  GetServiceDnsError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(840, __c105, 0) as any as S.Schema<GetServiceDnsRequest>,
+  output: __S(149, __c18, 5) as any as S.Schema<ResourceDnsStatus>,
+  errors: [Forbidden, NotFound],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceDns",
 }));
 
 export type GetServiceLogsByUuidError = BadRequest | NotFound | CoolifyOpError;
@@ -8358,22 +10456,46 @@ export const getServiceLogsByUuid: API.OperationMethod<
   GetServiceLogsByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c78, 0) as any as S.Schema<GetServiceLogsByUuidRequest>,
-  output: __S(88, __c11, 0) as any as S.Schema<GetServiceLogsByUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(848, __c106, 0) as any as S.Schema<GetServiceLogsByUuidRequest>,
+  output: __S(160, __c20, 0) as any as S.Schema<GetServiceLogsByUuidResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetServiceLogsByUuid",
 }));
 
+export type GetServiceVulnerabilitiesError =
+  | BadRequest
+  | NotFound
+  | UnprocessableEntity
+  | CoolifyOpError;
+/** Get service vulnerabilities Get the security status, the scanned images, and the vulnerabilities of the applications and databases of a service. */
+export const getServiceVulnerabilities: API.OperationMethod<
+  GetServiceVulnerabilitiesRequest,
+  ResourceVulnerabilities,
+  GetServiceVulnerabilitiesError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(856, __c107, 0) as any as S.Schema<GetServiceVulnerabilitiesRequest>,
+  output: __S(181, __c22, 5) as any as S.Schema<ResourceVulnerabilities>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceVulnerabilities",
+}));
+
 export type GetTeamError = BadRequest | NotFound | CoolifyOpError;
 /** Get Get team by TeamId. */
 export const getTeam: API.OperationMethod<GetTeamRequest, Team, GetTeamError, CoolifyOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(632, __c79, 0) as any as S.Schema<GetTeamRequest>,
-    output: __S(640, __c80, 0) as any as S.Schema<Team>,
-    errors: [BadRequest, NotFound, UnknownCoolifyError],
+    input: __S(864, __c108, 0) as any as S.Schema<GetTeamRequest>,
+    output: __S(872, __c109, 0) as any as S.Schema<Team>,
+    errors: [BadRequest, NotFound],
+    serviceErrors: CoolifyServiceErrors,
     protocol: CoolifyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8388,9 +10510,10 @@ export const getTokenTeam: API.OperationMethod<
   GetTokenTeamError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(648, __c81, 0) as any as S.Schema<GetTokenTeamRequest>,
-  output: __S(640, __c80, 0) as any as S.Schema<Team>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(880, __c110, 0) as any as S.Schema<GetTokenTeamRequest>,
+  output: __S(872, __c109, 0) as any as S.Schema<Team>,
+  errors: [BadRequest],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8405,9 +10528,10 @@ export const getTokenTeamMembers: API.OperationMethod<
   GetTokenTeamMembersError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c82, 0) as any as S.Schema<GetTokenTeamMembersRequest>,
-  output: __S(400, __c50, 0) as any as S.Schema<GetTokenTeamMembersResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(888, __c111, 0) as any as S.Schema<GetTokenTeamMembersRequest>,
+  output: __S(592, __c74, 0) as any as S.Schema<GetTokenTeamMembersResponse>,
+  errors: [BadRequest],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8422,9 +10546,10 @@ export const getVultrOperatingSystems: API.OperationMethod<
   GetVultrOperatingSystemsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(664, __c83, 0) as any as S.Schema<GetVultrOperatingSystemsRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<GetVultrOperatingSystemsResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(896, __c112, 0) as any as S.Schema<GetVultrOperatingSystemsRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<GetVultrOperatingSystemsResponse>,
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8439,9 +10564,10 @@ export const getVultrPlans: API.OperationMethod<
   GetVultrPlansError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c84, 0) as any as S.Schema<GetVultrPlansRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<GetVultrPlansResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(904, __c113, 0) as any as S.Schema<GetVultrPlansRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<GetVultrPlansResponse>,
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8456,9 +10582,10 @@ export const getVultrRegions: API.OperationMethod<
   GetVultrRegionsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c86, 0) as any as S.Schema<GetVultrRegionsRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<GetVultrRegionsResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(920, __c115, 0) as any as S.Schema<GetVultrRegionsRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<GetVultrRegionsResponse>,
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8473,9 +10600,10 @@ export const getVultrSshKeys: API.OperationMethod<
   GetVultrSshKeysError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(696, __c87, 0) as any as S.Schema<GetVultrSshKeysRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<GetVultrSshKeysResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(928, __c116, 0) as any as S.Schema<GetVultrSshKeysRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<GetVultrSshKeysResponse>,
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8490,13 +10618,68 @@ export const healthcheck: API.OperationMethod<
   HealthcheckError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c88, 0) as any as S.Schema<HealthcheckRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<HealthcheckResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(936, __c117, 0) as any as S.Schema<HealthcheckRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<HealthcheckResponse>,
+  errors: [BadRequest],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "Healthcheck",
+}));
+
+export type ImportCheckServerError = UnprocessableEntity | CoolifyOpError;
+/** Check server import Check that this instance can import a server, before the source instance starts the transfer. It checks the token, the bundle version, the server limit, servers with the same UUID or IP, and that this instance can reach the SSH port of the server. */
+export const importCheckServer: API.OperationMethod<
+  ImportCheckServerRequest,
+  ImportCheckServerResponse,
+  ImportCheckServerError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(944, __c118, 0) as any as S.Schema<ImportCheckServerRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<ImportCheckServerResponse>,
+  errors: [UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportCheckServer",
+}));
+
+export type ImportSecretManagerReferencesError = BadRequest | Forbidden | NotFound | CoolifyOpError;
+/** Import Secret Manager References Add a {{vault.KEY}} environment variable for every key of the linked source that has no variable yet. Keys that are not valid variable names are skipped. */
+export const importSecretManagerReferences: API.OperationMethod<
+  ImportSecretManagerReferencesRequest,
+  ImportSecretManagerReferencesResponse,
+  ImportSecretManagerReferencesError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(952, __c119, 0) as any as S.Schema<ImportSecretManagerReferencesRequest>,
+  output: __S(953, __c119, 1) as any as S.Schema<ImportSecretManagerReferencesResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportSecretManagerReferences",
+}));
+
+export type ImportServerTransferBundleError = Forbidden | UnprocessableEntity | CoolifyOpError;
+/** Import server transfer bundle Import a server transfer bundle into this Coolify instance (adopt mode by default). This instance then manages the server, and Sentinel reports to it. Needs a token with the write and deploy permissions. */
+export const importServerTransferBundle: API.OperationMethod<
+  ImportServerTransferBundleRequest,
+  ImportServerTransferBundleResponse,
+  ImportServerTransferBundleError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(960, __c120, 0) as any as S.Schema<ImportServerTransferBundleRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<ImportServerTransferBundleResponse>,
+  errors: [Forbidden, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportServerTransferBundle",
 }));
 
 export type ListApplicationDestinationsError = NotFound | CoolifyOpError;
@@ -8507,9 +10690,10 @@ export const listApplicationDestinations: API.OperationMethod<
   ListApplicationDestinationsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(712, __c89, 0) as any as S.Schema<ListApplicationDestinationsRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<ListApplicationDestinationsResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(968, __c121, 0) as any as S.Schema<ListApplicationDestinationsRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<ListApplicationDestinationsResponse>,
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8517,16 +10701,17 @@ export const listApplicationDestinations: API.OperationMethod<
 }));
 
 export type ListApplicationRollbackImagesError = NotFound | CoolifyOpError;
-/** List Rollback Images List available Docker images for rolling back an application. Returns an empty list when the server is unavailable or remote inspection is not possible. */
+/** List Rollback Images List available Docker images for rolling back an application: images on the server (`local`) and, when a Docker registry image name is set, images of recent successful deployments in the registry (`registry`). Returns an empty list when the server is unavailable or remote inspection is not possible. */
 export const listApplicationRollbackImages: API.OperationMethod<
   ListApplicationRollbackImagesRequest,
   ListApplicationRollbackImagesResponse,
   ListApplicationRollbackImagesError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c90, 0) as any as S.Schema<ListApplicationRollbackImagesRequest>,
-  output: __S(723, __c90, 3) as any as S.Schema<ListApplicationRollbackImagesResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(976, __c122, 0) as any as S.Schema<ListApplicationRollbackImagesRequest>,
+  output: __S(979, __c122, 3) as any as S.Schema<ListApplicationRollbackImagesResponse>,
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8541,9 +10726,10 @@ export const listApplications: API.OperationMethod<
   ListApplicationsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(728, __c91, 0) as any as S.Schema<ListApplicationsRequest>,
-  output: __S(737, __c92, 1) as any as S.Schema<ListApplicationsResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(984, __c123, 0) as any as S.Schema<ListApplicationsRequest>,
+  output: __S(986, __c123, 2) as any as S.Schema<ListApplicationsResponse>,
+  errors: [BadRequest],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8558,9 +10744,10 @@ export const listAuditEvents: API.OperationMethod<
   ListAuditEventsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(744, __c93, 0) as any as S.Schema<ListAuditEventsRequest>,
-  output: __S(747, __c93, 3) as any as S.Schema<ListAuditEventsResponse>,
-  errors: [Forbidden, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(992, __c124, 0) as any as S.Schema<ListAuditEventsRequest>,
+  output: __S(995, __c124, 3) as any as S.Schema<ListAuditEventsResponse>,
+  errors: [Forbidden, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8568,16 +10755,17 @@ export const listAuditEvents: API.OperationMethod<
 }));
 
 export type ListBackupExecutionsError = NotFound | CoolifyOpError;
-/** List backup executions Get all executions for a specific backup configuration. */
+/** List backup executions Get all executions for a specific backup configuration. The execution `message` is only returned (redacted) to tokens with the `read:sensitive` or `root` ability; otherwise it is `null`. */
 export const listBackupExecutions: API.OperationMethod<
   ListBackupExecutionsRequest,
   ListBackupExecutionsResponse,
   ListBackupExecutionsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c94, 0) as any as S.Schema<ListBackupExecutionsRequest>,
-  output: __S(755, __c94, 3) as any as S.Schema<ListBackupExecutionsResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(1008, __c126, 0) as any as S.Schema<ListBackupExecutionsRequest>,
+  output: __S(1011, __c126, 3) as any as S.Schema<ListBackupExecutionsResponse>,
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8592,16 +10780,17 @@ export const listCloudInitScripts: API.OperationMethod<
   ListCloudInitScriptsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(760, __c95, 0) as any as S.Schema<ListCloudInitScriptsRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<ListCloudInitScriptsResponse>,
-  errors: [Forbidden, UnknownCoolifyError],
+  input: __S(1016, __c127, 0) as any as S.Schema<ListCloudInitScriptsRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<ListCloudInitScriptsResponse>,
+  errors: [Forbidden],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCloudInitScripts",
 }));
 
-export type ListCloudTokensError = BadRequest | CoolifyOpError;
+export type ListCloudTokensError = BadRequest | Forbidden | CoolifyOpError;
 /** List Cloud Provider Tokens List all cloud provider tokens for the authenticated team. */
 export const listCloudTokens: API.OperationMethod<
   ListCloudTokensRequest,
@@ -8609,9 +10798,10 @@ export const listCloudTokens: API.OperationMethod<
   ListCloudTokensError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c96, 0) as any as S.Schema<ListCloudTokensRequest>,
-  output: __S(771, __c96, 3) as any as S.Schema<ListCloudTokensResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(1024, __c128, 0) as any as S.Schema<ListCloudTokensRequest>,
+  output: __S(1027, __c128, 3) as any as S.Schema<ListCloudTokensResponse>,
+  errors: [BadRequest, Forbidden],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8626,9 +10816,10 @@ export const listDatabases: API.OperationMethod<
   ListDatabasesError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c98, 0) as any as S.Schema<ListDatabasesRequest>,
-  output: __S(176, __c22, 0) as any as S.Schema<ListDatabasesResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(1032, __c129, 0) as any as S.Schema<ListDatabasesRequest>,
+  output: __S(1034, __c129, 2) as any as S.Schema<ListDatabasesResponse>,
+  errors: [BadRequest],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8643,16 +10834,17 @@ export const listDeployments: API.OperationMethod<
   ListDeploymentsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(792, __c99, 0) as any as S.Schema<ListDeploymentsRequest>,
-  output: __S(794, __c99, 2) as any as S.Schema<ListDeploymentsResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(1040, __c130, 0) as any as S.Schema<ListDeploymentsRequest>,
+  output: __S(1041, __c130, 1) as any as S.Schema<ListDeploymentsResponse>,
+  errors: [BadRequest],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDeployments",
 }));
 
-export type ListDeploymentsByAppUuidError = BadRequest | CoolifyOpError;
+export type ListDeploymentsByAppUuidError = BadRequest | NotFound | CoolifyOpError;
 /** List application deployments List application deployments by using the app uuid */
 export const listDeploymentsByAppUuid: API.OperationMethod<
   ListDeploymentsByAppUuidRequest,
@@ -8660,9 +10852,10 @@ export const listDeploymentsByAppUuid: API.OperationMethod<
   ListDeploymentsByAppUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c100, 0) as any as S.Schema<ListDeploymentsByAppUuidRequest>,
-  output: __S(737, __c92, 1) as any as S.Schema<ListDeploymentsByAppUuidResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(1056, __c132, 0) as any as S.Schema<ListDeploymentsByAppUuidRequest>,
+  output: __S(1057, __c132, 1) as any as S.Schema<ListDeploymentsByAppUuidResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8677,13 +10870,32 @@ export const listDestinations: API.OperationMethod<
   ListDestinationsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(808, __c101, 0) as any as S.Schema<ListDestinationsRequest>,
-  output: __S(817, __c102, 1) as any as S.Schema<ListDestinationsResponse>,
-  errors: [UnknownCoolifyError],
+  input: __S(1064, __c133, 0) as any as S.Schema<ListDestinationsRequest>,
+  output: __S(1073, __c134, 1) as any as S.Schema<ListDestinationsResponse>,
+  errors: [],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDestinations",
+}));
+
+export type ListDnsZonesError = Forbidden | CoolifyOpError;
+/** List DNS Zones List the DNS zones that the Cloudflare tokens of the team can access. Requires admin or owner. */
+export const listDnsZones: API.OperationMethod<
+  ListDnsZonesRequest,
+  ListDnsZonesResponse,
+  ListDnsZonesError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1080, __c135, 0) as any as S.Schema<ListDnsZonesRequest>,
+  output: __S(1083, __c135, 3) as any as S.Schema<ListDnsZonesResponse>,
+  errors: [Forbidden],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDnsZones",
 }));
 
 export type ListEnvironmentSharedEnvsError = NotFound | CoolifyOpError;
@@ -8694,9 +10906,10 @@ export const listEnvironmentSharedEnvs: API.OperationMethod<
   ListEnvironmentSharedEnvsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(824, __c103, 0) as any as S.Schema<ListEnvironmentSharedEnvsRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<ListEnvironmentSharedEnvsResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(1088, __c136, 0) as any as S.Schema<ListEnvironmentSharedEnvsRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<ListEnvironmentSharedEnvsResponse>,
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8711,9 +10924,10 @@ export const listEnvsByApplicationUuid: API.OperationMethod<
   ListEnvsByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c104, 0) as any as S.Schema<ListEnvsByApplicationUuidRequest>,
-  output: __S(849, __c106, 1) as any as S.Schema<ListEnvsByApplicationUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(1096, __c137, 0) as any as S.Schema<ListEnvsByApplicationUuidRequest>,
+  output: __S(1113, __c139, 1) as any as S.Schema<ListEnvsByApplicationUuidResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8728,9 +10942,10 @@ export const listEnvsByDatabaseUuid: API.OperationMethod<
   ListEnvsByDatabaseUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(856, __c107, 0) as any as S.Schema<ListEnvsByDatabaseUuidRequest>,
-  output: __S(849, __c106, 1) as any as S.Schema<ListEnvsByDatabaseUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(1128, __c141, 0) as any as S.Schema<ListEnvsByDatabaseUuidRequest>,
+  output: __S(1113, __c139, 1) as any as S.Schema<ListEnvsByDatabaseUuidResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8745,13 +10960,32 @@ export const listEnvsByServiceUuid: API.OperationMethod<
   ListEnvsByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c108, 0) as any as S.Schema<ListEnvsByServiceUuidRequest>,
-  output: __S(849, __c106, 1) as any as S.Schema<ListEnvsByServiceUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(1136, __c142, 0) as any as S.Schema<ListEnvsByServiceUuidRequest>,
+  output: __S(1113, __c139, 1) as any as S.Schema<ListEnvsByServiceUuidResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEnvsByServiceUuid",
+}));
+
+export type ListGiteaAppsError = BadRequest | CoolifyOpError;
+/** List List all Gitea apps for the current team (and system-wide sources). */
+export const listGiteaApps: API.OperationMethod<
+  ListGiteaAppsRequest,
+  ListGiteaAppsResponse,
+  ListGiteaAppsError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1144, __c143, 0) as any as S.Schema<ListGiteaAppsRequest>,
+  output: __S(1147, __c143, 3) as any as S.Schema<ListGiteaAppsResponse>,
+  errors: [BadRequest],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGiteaApps",
 }));
 
 export type ListGithubAppsError = BadRequest | CoolifyOpError;
@@ -8762,9 +10996,10 @@ export const listGithubApps: API.OperationMethod<
   ListGithubAppsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(872, __c109, 0) as any as S.Schema<ListGithubAppsRequest>,
-  output: __S(875, __c109, 3) as any as S.Schema<ListGithubAppsResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(1152, __c144, 0) as any as S.Schema<ListGithubAppsRequest>,
+  output: __S(1155, __c144, 3) as any as S.Schema<ListGithubAppsResponse>,
+  errors: [BadRequest],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8779,13 +11014,32 @@ export const listGitlabApps: API.OperationMethod<
   ListGitlabAppsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c110, 0) as any as S.Schema<ListGitlabAppsRequest>,
-  output: __S(883, __c110, 3) as any as S.Schema<ListGitlabAppsResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(1160, __c145, 0) as any as S.Schema<ListGitlabAppsRequest>,
+  output: __S(1163, __c145, 3) as any as S.Schema<ListGitlabAppsResponse>,
+  errors: [BadRequest],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGitlabApps",
+}));
+
+export type ListIntegrationTokensError = Forbidden | CoolifyOpError;
+/** List Integration Tokens List the integration tokens (Cloudflare, Doppler, Infisical, Vault) of the team. Requires admin or owner. */
+export const listIntegrationTokens: API.OperationMethod<
+  ListIntegrationTokensRequest,
+  ListIntegrationTokensResponse,
+  ListIntegrationTokensError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1168, __c146, 0) as any as S.Schema<ListIntegrationTokensRequest>,
+  output: __S(1170, __c146, 2) as any as S.Schema<ListIntegrationTokensResponse>,
+  errors: [Forbidden],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIntegrationTokens",
 }));
 
 export type ListPreviewDeploymentsByApplicationUuidError = NotFound | CoolifyOpError;
@@ -8796,9 +11050,10 @@ export const listPreviewDeploymentsByApplicationUuid: API.OperationMethod<
   ListPreviewDeploymentsByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c112, 0) as any as S.Schema<ListPreviewDeploymentsByApplicationUuidRequest>,
-  output: __S(898, __c112, 2) as any as S.Schema<ListPreviewDeploymentsByApplicationUuidResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(1176, __c147, 0) as any as S.Schema<ListPreviewDeploymentsByApplicationUuidRequest>,
+  output: __S(1178, __c147, 2) as any as S.Schema<ListPreviewDeploymentsByApplicationUuidResponse>,
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8813,9 +11068,10 @@ export const listPrivateKeys: API.OperationMethod<
   ListPrivateKeysError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(904, __c113, 0) as any as S.Schema<ListPrivateKeysRequest>,
-  output: __S(906, __c113, 2) as any as S.Schema<ListPrivateKeysResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(1184, __c148, 0) as any as S.Schema<ListPrivateKeysRequest>,
+  output: __S(1186, __c148, 2) as any as S.Schema<ListPrivateKeysResponse>,
+  errors: [BadRequest],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8830,9 +11086,10 @@ export const listProjects: API.OperationMethod<
   ListProjectsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c114, 0) as any as S.Schema<ListProjectsRequest>,
-  output: __S(914, __c114, 2) as any as S.Schema<ListProjectsResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(1192, __c149, 0) as any as S.Schema<ListProjectsRequest>,
+  output: __S(1194, __c149, 2) as any as S.Schema<ListProjectsResponse>,
+  errors: [BadRequest],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8847,9 +11104,10 @@ export const listProjectSharedEnvs: API.OperationMethod<
   ListProjectSharedEnvsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(920, __c115, 0) as any as S.Schema<ListProjectSharedEnvsRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<ListProjectSharedEnvsResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(1200, __c150, 0) as any as S.Schema<ListProjectSharedEnvsRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<ListProjectSharedEnvsResponse>,
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8864,9 +11122,10 @@ export const listResources: API.OperationMethod<
   ListResourcesError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c116, 0) as any as S.Schema<ListResourcesRequest>,
-  output: __S(176, __c22, 0) as any as S.Schema<ListResourcesResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(1216, __c152, 0) as any as S.Schema<ListResourcesRequest>,
+  output: __S(1219, __c152, 3) as any as S.Schema<ListResourcesResponse>,
+  errors: [BadRequest],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8874,16 +11133,17 @@ export const listResources: API.OperationMethod<
 }));
 
 export type ListS3StoragesError = BadRequest | CoolifyOpError;
-/** List S3 Storages List all S3 storages for the authenticated team. */
+/** List S3 Storages List all backup storages (S3, SFTP, FTPS, and WebDAV) for the authenticated team. */
 export const listS3Storages: API.OperationMethod<
   ListS3StoragesRequest,
   ListS3StoragesResponse,
   ListS3StoragesError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(936, __c117, 0) as any as S.Schema<ListS3StoragesRequest>,
-  output: __S(938, __c117, 2) as any as S.Schema<ListS3StoragesResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(1224, __c153, 0) as any as S.Schema<ListS3StoragesRequest>,
+  output: __S(1226, __c153, 2) as any as S.Schema<ListS3StoragesResponse>,
+  errors: [BadRequest],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8899,16 +11159,17 @@ export const listScheduledTaskExecutionsByApplicationUuid: API.OperationMethod<
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    944,
-    __c118,
+    1232,
+    __c154,
     0,
   ) as any as S.Schema<ListScheduledTaskExecutionsByApplicationUuidRequest>,
   output: __S(
-    954,
-    __c119,
+    1242,
+    __c155,
     2,
   ) as any as S.Schema<ListScheduledTaskExecutionsByApplicationUuidResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8923,9 +11184,10 @@ export const listScheduledTaskExecutionsByServiceUuid: API.OperationMethod<
   ListScheduledTaskExecutionsByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c120, 0) as any as S.Schema<ListScheduledTaskExecutionsByServiceUuidRequest>,
-  output: __S(954, __c119, 2) as any as S.Schema<ListScheduledTaskExecutionsByServiceUuidResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(1248, __c156, 0) as any as S.Schema<ListScheduledTaskExecutionsByServiceUuidRequest>,
+  output: __S(1242, __c155, 2) as any as S.Schema<ListScheduledTaskExecutionsByServiceUuidResponse>,
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8940,9 +11202,10 @@ export const listScheduledTasksByApplicationUuid: API.OperationMethod<
   ListScheduledTasksByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(968, __c121, 0) as any as S.Schema<ListScheduledTasksByApplicationUuidRequest>,
-  output: __S(977, __c122, 1) as any as S.Schema<ListScheduledTasksByApplicationUuidResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(1256, __c157, 0) as any as S.Schema<ListScheduledTasksByApplicationUuidRequest>,
+  output: __S(1265, __c158, 1) as any as S.Schema<ListScheduledTasksByApplicationUuidResponse>,
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8957,13 +11220,32 @@ export const listScheduledTasksByServiceUuid: API.OperationMethod<
   ListScheduledTasksByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(984, __c123, 0) as any as S.Schema<ListScheduledTasksByServiceUuidRequest>,
-  output: __S(977, __c122, 1) as any as S.Schema<ListScheduledTasksByServiceUuidResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(1272, __c159, 0) as any as S.Schema<ListScheduledTasksByServiceUuidRequest>,
+  output: __S(1265, __c158, 1) as any as S.Schema<ListScheduledTasksByServiceUuidResponse>,
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListScheduledTasksByServiceUuid",
+}));
+
+export type ListSecretManagerKeysError = BadRequest | Forbidden | NotFound | CoolifyOpError;
+/** List Secret Manager Keys Key names of the secrets in the linked source. Values are never returned. Requires write access, like the resource page, because the stored secret is sent to the secret manager. */
+export const listSecretManagerKeys: API.OperationMethod<
+  ListSecretManagerKeysRequest,
+  ListSecretManagerKeysResponse,
+  ListSecretManagerKeysError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1280, __c160, 0) as any as S.Schema<ListSecretManagerKeysRequest>,
+  output: __S(1281, __c160, 1) as any as S.Schema<ListSecretManagerKeysResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecretManagerKeys",
 }));
 
 export type ListServerDestinationsError = NotFound | CoolifyOpError;
@@ -8974,9 +11256,10 @@ export const listServerDestinations: API.OperationMethod<
   ListServerDestinationsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1000, __c125, 0) as any as S.Schema<ListServerDestinationsRequest>,
-  output: __S(817, __c102, 1) as any as S.Schema<ListServerDestinationsResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(1288, __c161, 0) as any as S.Schema<ListServerDestinationsRequest>,
+  output: __S(1073, __c134, 1) as any as S.Schema<ListServerDestinationsResponse>,
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8991,9 +11274,10 @@ export const listServerDockerCleanupExecutions: API.OperationMethod<
   ListServerDockerCleanupExecutionsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c126, 0) as any as S.Schema<ListServerDockerCleanupExecutionsRequest>,
-  output: __S(1011, __c126, 3) as any as S.Schema<ListServerDockerCleanupExecutionsResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(1296, __c162, 0) as any as S.Schema<ListServerDockerCleanupExecutionsRequest>,
+  output: __S(1299, __c162, 3) as any as S.Schema<ListServerDockerCleanupExecutionsResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9008,9 +11292,10 @@ export const listServerRegistries: API.OperationMethod<
   ListServerRegistriesError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1016, __c127, 0) as any as S.Schema<ListServerRegistriesRequest>,
-  output: __S(1021, __c127, 5) as any as S.Schema<ListServerRegistriesResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(1304, __c163, 0) as any as S.Schema<ListServerRegistriesRequest>,
+  output: __S(1309, __c163, 5) as any as S.Schema<ListServerRegistriesResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9025,9 +11310,10 @@ export const listServers: API.OperationMethod<
   ListServersError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c128, 0) as any as S.Schema<ListServersRequest>,
-  output: __S(1026, __c128, 2) as any as S.Schema<ListServersResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(1320, __c165, 0) as any as S.Schema<ListServersRequest>,
+  output: __S(1322, __c165, 2) as any as S.Schema<ListServersResponse>,
+  errors: [BadRequest],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9042,9 +11328,10 @@ export const listServerSharedEnvs: API.OperationMethod<
   ListServerSharedEnvsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1032, __c129, 0) as any as S.Schema<ListServerSharedEnvsRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<ListServerSharedEnvsResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(1328, __c166, 0) as any as S.Schema<ListServerSharedEnvsRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<ListServerSharedEnvsResponse>,
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9059,9 +11346,10 @@ export const listServiceApplicationsByServiceUuid: API.OperationMethod<
   ListServiceApplicationsByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c130, 0) as any as S.Schema<ListServiceApplicationsByServiceUuidRequest>,
-  output: __S(1048, __c131, 0) as any as S.Schema<ListServiceApplicationsByServiceUuidResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(1336, __c167, 0) as any as S.Schema<ListServiceApplicationsByServiceUuidRequest>,
+  output: __S(1344, __c168, 0) as any as S.Schema<ListServiceApplicationsByServiceUuidResponse>,
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9076,9 +11364,10 @@ export const listServiceDatabasesByServiceUuid: API.OperationMethod<
   ListServiceDatabasesByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1064, __c133, 0) as any as S.Schema<ListServiceDatabasesByServiceUuidRequest>,
-  output: __S(1048, __c131, 0) as any as S.Schema<ListServiceDatabasesByServiceUuidResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(1352, __c169, 0) as any as S.Schema<ListServiceDatabasesByServiceUuidRequest>,
+  output: __S(1344, __c168, 0) as any as S.Schema<ListServiceDatabasesByServiceUuidResponse>,
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9093,9 +11382,10 @@ export const listServices: API.OperationMethod<
   ListServicesError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c134, 0) as any as S.Schema<ListServicesRequest>,
-  output: __S(1074, __c134, 2) as any as S.Schema<ListServicesResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(1360, __c170, 0) as any as S.Schema<ListServicesRequest>,
+  output: __S(1362, __c170, 2) as any as S.Schema<ListServicesResponse>,
+  errors: [BadRequest],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9110,9 +11400,10 @@ export const listStoragesByApplicationUuid: API.OperationMethod<
   ListStoragesByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1080, __c135, 0) as any as S.Schema<ListStoragesByApplicationUuidRequest>,
-  output: __S(1088, __c136, 0) as any as S.Schema<ListStoragesByApplicationUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(1368, __c171, 0) as any as S.Schema<ListStoragesByApplicationUuidRequest>,
+  output: __S(1376, __c172, 0) as any as S.Schema<ListStoragesByApplicationUuidResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9127,9 +11418,10 @@ export const listStoragesByDatabaseUuid: API.OperationMethod<
   ListStoragesByDatabaseUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1096, __c137, 0) as any as S.Schema<ListStoragesByDatabaseUuidRequest>,
-  output: __S(1088, __c136, 0) as any as S.Schema<ListStoragesByDatabaseUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(1384, __c173, 0) as any as S.Schema<ListStoragesByDatabaseUuidRequest>,
+  output: __S(1376, __c172, 0) as any as S.Schema<ListStoragesByDatabaseUuidResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9144,9 +11436,10 @@ export const listStoragesByServiceUuid: API.OperationMethod<
   ListStoragesByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1112, __c139, 0) as any as S.Schema<ListStoragesByServiceUuidRequest>,
-  output: __S(1088, __c136, 0) as any as S.Schema<ListStoragesByServiceUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(1392, __c174, 0) as any as S.Schema<ListStoragesByServiceUuidRequest>,
+  output: __S(1376, __c172, 0) as any as S.Schema<ListStoragesByServiceUuidResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9161,9 +11454,10 @@ export const listTags: API.OperationMethod<
   ListTagsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c140, 0) as any as S.Schema<ListTagsRequest>,
-  output: __S(2313, __c289, 1) as any as S.Schema<ListTagsResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(1400, __c175, 0) as any as S.Schema<ListTagsRequest>,
+  output: __S(2745, __c343, 1) as any as S.Schema<ListTagsResponse>,
+  errors: [BadRequest],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9178,9 +11472,10 @@ export const listTagsByApplicationUuid: API.OperationMethod<
   ListTagsByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1128, __c141, 0) as any as S.Schema<ListTagsByApplicationUuidRequest>,
-  output: __S(2313, __c289, 1) as any as S.Schema<ListTagsByApplicationUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(1408, __c176, 0) as any as S.Schema<ListTagsByApplicationUuidRequest>,
+  output: __S(2745, __c343, 1) as any as S.Schema<ListTagsByApplicationUuidResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9195,9 +11490,10 @@ export const listTagsByDatabaseUuid: API.OperationMethod<
   ListTagsByDatabaseUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c142, 0) as any as S.Schema<ListTagsByDatabaseUuidRequest>,
-  output: __S(2313, __c289, 1) as any as S.Schema<ListTagsByDatabaseUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(1424, __c178, 0) as any as S.Schema<ListTagsByDatabaseUuidRequest>,
+  output: __S(2745, __c343, 1) as any as S.Schema<ListTagsByDatabaseUuidResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9212,9 +11508,10 @@ export const listTagsByServiceUuid: API.OperationMethod<
   ListTagsByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1144, __c143, 0) as any as S.Schema<ListTagsByServiceUuidRequest>,
-  output: __S(2313, __c289, 1) as any as S.Schema<ListTagsByServiceUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(1432, __c179, 0) as any as S.Schema<ListTagsByServiceUuidRequest>,
+  output: __S(2745, __c343, 1) as any as S.Schema<ListTagsByServiceUuidResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9229,9 +11526,10 @@ export const listTeams: API.OperationMethod<
   ListTeamsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c144, 0) as any as S.Schema<ListTeamsRequest>,
-  output: __S(1154, __c144, 2) as any as S.Schema<ListTeamsResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(1440, __c180, 0) as any as S.Schema<ListTeamsRequest>,
+  output: __S(1442, __c180, 2) as any as S.Schema<ListTeamsResponse>,
+  errors: [BadRequest],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9246,13 +11544,32 @@ export const listTeamSharedEnvs: API.OperationMethod<
   ListTeamSharedEnvsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1160, __c145, 0) as any as S.Schema<ListTeamSharedEnvsRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<ListTeamSharedEnvsResponse>,
-  errors: [UnknownCoolifyError],
+  input: __S(1448, __c181, 0) as any as S.Schema<ListTeamSharedEnvsRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<ListTeamSharedEnvsResponse>,
+  errors: [],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTeamSharedEnvs",
+}));
+
+export type ListVulnerabilitiesError = BadRequest | CoolifyOpError;
+/** List vulnerabilities List the applications, services, and databases of the authenticated team with their stored security status from image scanning. */
+export const listVulnerabilities: API.OperationMethod<
+  ListVulnerabilitiesRequest,
+  ListVulnerabilitiesResponse,
+  ListVulnerabilitiesError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1456, __c182, 0) as any as S.Schema<ListVulnerabilitiesRequest>,
+  output: __S(1460, __c182, 4) as any as S.Schema<ListVulnerabilitiesResponse>,
+  errors: [BadRequest],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVulnerabilities",
 }));
 
 export type LoadBranchesError = BadRequest | NotFound | CoolifyOpError;
@@ -9263,9 +11580,10 @@ export const loadBranches: API.OperationMethod<
   LoadBranchesError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c146, 0) as any as S.Schema<LoadBranchesRequest>,
-  output: __S(1169, __c146, 1) as any as S.Schema<LoadBranchesResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(1464, __c183, 0) as any as S.Schema<LoadBranchesRequest>,
+  output: __S(1465, __c183, 1) as any as S.Schema<LoadBranchesResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9280,26 +11598,33 @@ export const loadRepositories: API.OperationMethod<
   LoadRepositoriesError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1176, __c147, 0) as any as S.Schema<LoadRepositoriesRequest>,
-  output: __S(1177, __c147, 1) as any as S.Schema<LoadRepositoriesResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(1472, __c184, 0) as any as S.Schema<LoadRepositoriesRequest>,
+  output: __S(1473, __c184, 1) as any as S.Schema<LoadRepositoriesResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LoadRepositories",
 }));
 
-export type LoginServerRegistryError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
-/** Log in to a registry on a server Run docker login on the server, writing to the Docker config that deployments use. Logging in again to the same registry replaces the saved login. */
+export type LoginServerRegistryError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | CoolifyOpError;
+/** Log in to a registry on a server Run docker login on the server, writing to the Docker config that deployments use. Logging in again to the same registry replaces the saved login. Needs a token with the write and deploy permissions. */
 export const loginServerRegistry: API.OperationMethod<
   LoginServerRegistryRequest,
   LoginServerRegistryResponse,
   LoginServerRegistryError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c148, 0) as any as S.Schema<LoginServerRegistryRequest>,
+  input: __S(1480, __c185, 0) as any as S.Schema<LoginServerRegistryRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<LoginServerRegistryResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9318,9 +11643,10 @@ export const logoutServerRegistry: API.OperationMethod<
   LogoutServerRegistryError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c150, 0) as any as S.Schema<LogoutServerRegistryRequest>,
+  input: __S(1488, __c186, 0) as any as S.Schema<LogoutServerRegistryRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<LogoutServerRegistryResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9339,9 +11665,10 @@ export const migrateApplicationByUuid: API.OperationMethod<
   MigrateApplicationByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1208, __c151, 0) as any as S.Schema<MigrateApplicationByUuidRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<MigrateApplicationByUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1496, __c187, 0) as any as S.Schema<MigrateApplicationByUuidRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<MigrateApplicationByUuidResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9360,13 +11687,36 @@ export const migrateDatabaseByUuid: API.OperationMethod<
   MigrateDatabaseByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c152, 0) as any as S.Schema<MigrateDatabaseByUuidRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<MigrateDatabaseByUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1512, __c189, 0) as any as S.Schema<MigrateDatabaseByUuidRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<MigrateDatabaseByUuidResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MigrateDatabaseByUuid",
+}));
+
+export type MigrateServerBetweenInstancesError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | CoolifyOpError;
+/** Migrate server to another Coolify instance Start a transfer in the background: export this server, import and claim it on the target instance (with the given token), then disable automations here. All secrets of the server, also locked environment variables, are sent to the target. Follow the progress with GET /servers/{uuid}/transfer. The target URL must use https. Requires read:sensitive and write, and the owner role of the server team. */
+export const migrateServerBetweenInstances: API.OperationMethod<
+  MigrateServerBetweenInstancesRequest,
+  MigrateServerBetweenInstancesResponse,
+  MigrateServerBetweenInstancesError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1520, __c190, 0) as any as S.Schema<MigrateServerBetweenInstancesRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<MigrateServerBetweenInstancesResponse>,
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateServerBetweenInstances",
 }));
 
 export type MigrateServiceByUuidError =
@@ -9381,9 +11731,10 @@ export const migrateServiceByUuid: API.OperationMethod<
   MigrateServiceByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1224, __c153, 0) as any as S.Schema<MigrateServiceByUuidRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<MigrateServiceByUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1528, __c191, 0) as any as S.Schema<MigrateServiceByUuidRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<MigrateServiceByUuidResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9402,9 +11753,10 @@ export const moveApplicationByUuid: API.OperationMethod<
   MoveApplicationByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c154, 0) as any as S.Schema<MoveApplicationByUuidRequest>,
-  output: __S(1240, __c155, 0) as any as S.Schema<MoveApplicationByUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1536, __c192, 0) as any as S.Schema<MoveApplicationByUuidRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<MoveApplicationByUuidResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9419,9 +11771,10 @@ export const moveDatabaseByUuid: API.OperationMethod<
   MoveDatabaseByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c156, 0) as any as S.Schema<MoveDatabaseByUuidRequest>,
-  output: __S(1240, __c155, 0) as any as S.Schema<MoveDatabaseByUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1552, __c194, 0) as any as S.Schema<MoveDatabaseByUuidRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<MoveDatabaseByUuidResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9436,9 +11789,10 @@ export const moveServiceByUuid: API.OperationMethod<
   MoveServiceByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1256, __c157, 0) as any as S.Schema<MoveServiceByUuidRequest>,
-  output: __S(1240, __c155, 0) as any as S.Schema<MoveServiceByUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1560, __c195, 0) as any as S.Schema<MoveServiceByUuidRequest>,
+  output: __S(1544, __c193, 0) as any as S.Schema<MoveServiceByUuidResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9457,13 +11811,14 @@ export const patchServiceApplicationByServiceAndAppUuid: API.OperationMethod<
   PatchServiceApplicationByServiceAndAppUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c158, 0) as any as S.Schema<PatchServiceApplicationByServiceAndAppUuidRequest>,
+  input: __S(1568, __c196, 0) as any as S.Schema<PatchServiceApplicationByServiceAndAppUuidRequest>,
   output: __S(
-    2264,
-    __c283,
+    2688,
+    __c336,
     0,
   ) as any as S.Schema<PatchServiceApplicationByServiceAndAppUuidResponse>,
-  errors: [NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
+  errors: [NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9472,6 +11827,7 @@ export const patchServiceApplicationByServiceAndAppUuid: API.OperationMethod<
 
 export type PatchServiceDatabaseByServiceAndDatabaseUuidError =
   | BadRequest
+  | Forbidden
   | NotFound
   | UnprocessableEntity
   | CoolifyOpError;
@@ -9483,16 +11839,17 @@ export const patchServiceDatabaseByServiceAndDatabaseUuid: API.OperationMethod<
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1272,
-    __c159,
+    1576,
+    __c197,
     0,
   ) as any as S.Schema<PatchServiceDatabaseByServiceAndDatabaseUuidRequest>,
   output: __S(
-    2264,
-    __c283,
+    2688,
+    __c336,
     0,
   ) as any as S.Schema<PatchServiceDatabaseByServiceAndDatabaseUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9511,8 +11868,8 @@ export const postRestartServiceApplicationByServiceAndAppUuid: API.OperationMeth
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1280,
-    __c160,
+    1584,
+    __c198,
     0,
   ) as any as S.Schema<PostRestartServiceApplicationByServiceAndAppUuidRequest>,
   output: __S(
@@ -9520,7 +11877,8 @@ export const postRestartServiceApplicationByServiceAndAppUuid: API.OperationMeth
     __c0,
     0,
   ) as any as S.Schema<PostRestartServiceApplicationByServiceAndAppUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9539,16 +11897,17 @@ export const postServiceApplicationLogsByServiceAndAppUuid: API.OperationMethod<
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1296,
-    __c162,
+    1592,
+    __c199,
     0,
   ) as any as S.Schema<PostServiceApplicationLogsByServiceAndAppUuidRequest>,
   output: __S(
-    88,
-    __c11,
+    160,
+    __c20,
     0,
   ) as any as S.Schema<PostServiceApplicationLogsByServiceAndAppUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9567,8 +11926,8 @@ export const postStartServiceApplicationByServiceAndAppUuid: API.OperationMethod
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1304,
-    __c163,
+    1608,
+    __c201,
     0,
   ) as any as S.Schema<PostStartServiceApplicationByServiceAndAppUuidRequest>,
   output: __S(
@@ -9576,7 +11935,8 @@ export const postStartServiceApplicationByServiceAndAppUuid: API.OperationMethod
     __c0,
     0,
   ) as any as S.Schema<PostStartServiceApplicationByServiceAndAppUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9595,16 +11955,61 @@ export const postStopServiceApplicationByServiceAndAppUuid: API.OperationMethod<
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1312,
-    __c164,
+    1616,
+    __c202,
     0,
   ) as any as S.Schema<PostStopServiceApplicationByServiceAndAppUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<PostStopServiceApplicationByServiceAndAppUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PostStopServiceApplicationByServiceAndAppUuid",
+}));
+
+export type ReleaseApplicationDnsRecordError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | CoolifyOpError;
+/** Release Application DNS Record Release the managed DNS record of a hostname that the application no longer uses. Coolify deletes the record at Cloudflare only when it created the record, the record did not change, and no other resource uses the hostname. Removing a domain through the API already queues this release; use this endpoint to retry it or to keep the record. */
+export const releaseApplicationDnsRecord: API.OperationMethod<
+  ReleaseApplicationDnsRecordRequest,
+  ReleaseApplicationDnsRecordResponse,
+  ReleaseApplicationDnsRecordError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1624, __c203, 0) as any as S.Schema<ReleaseApplicationDnsRecordRequest>,
+  output: __S(1632, __c204, 0) as any as S.Schema<ReleaseApplicationDnsRecordResponse>,
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReleaseApplicationDnsRecord",
+}));
+
+export type ReleaseServiceDnsRecordError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | CoolifyOpError;
+/** Release Service DNS Record Release the managed DNS record of a hostname that the service no longer uses. Coolify deletes the record at Cloudflare only when it created the record, the record did not change, and no other resource uses the hostname. Removing a domain through the API already queues this release; use this endpoint to retry it or to keep the record. */
+export const releaseServiceDnsRecord: API.OperationMethod<
+  ReleaseServiceDnsRecordRequest,
+  ReleaseServiceDnsRecordResponse,
+  ReleaseServiceDnsRecordError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1640, __c205, 0) as any as S.Schema<ReleaseServiceDnsRecordRequest>,
+  output: __S(1632, __c204, 0) as any as S.Schema<ReleaseServiceDnsRecordResponse>,
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReleaseServiceDnsRecord",
 }));
 
 export type RemoveApplicationDestinationError = NotFound | UnprocessableEntity | CoolifyOpError;
@@ -9615,13 +12020,101 @@ export const removeApplicationDestination: API.OperationMethod<
   RemoveApplicationDestinationError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1320, __c165, 0) as any as S.Schema<RemoveApplicationDestinationRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<RemoveApplicationDestinationResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1648, __c206, 0) as any as S.Schema<RemoveApplicationDestinationRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<RemoveApplicationDestinationResponse>,
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveApplicationDestination",
+}));
+
+export type RemoveSecretManagerSourceError = Forbidden | NotFound | CoolifyOpError;
+/** Remove Secret Manager Source Remove the secret manager source. Existing {{vault.*}} variables stay and fail the next deployment until they are removed. */
+export const removeSecretManagerSource: API.OperationMethod<
+  RemoveSecretManagerSourceRequest,
+  RemoveSecretManagerSourceResponse,
+  RemoveSecretManagerSourceError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1656, __c207, 0) as any as S.Schema<RemoveSecretManagerSourceRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<RemoveSecretManagerSourceResponse>,
+  errors: [Forbidden, NotFound],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveSecretManagerSource",
+}));
+
+export type ReplaceApplicationDnsRecordError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | CoolifyOpError;
+/** Replace Application DNS Record Point the conflicting record from a 409 create response to the server of the application. */
+export const replaceApplicationDnsRecord: API.OperationMethod<
+  ReplaceApplicationDnsRecordRequest,
+  ReplaceApplicationDnsRecordResponse,
+  ReplaceApplicationDnsRecordError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1664, __c208, 0) as any as S.Schema<ReplaceApplicationDnsRecordRequest>,
+  output: __S(472, __c59, 0) as any as S.Schema<ReplaceApplicationDnsRecordResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceApplicationDnsRecord",
+}));
+
+export type ReplaceServiceDnsRecordError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | CoolifyOpError;
+/** Replace Service DNS Record Point the conflicting record from a 409 create response to the server of the service. */
+export const replaceServiceDnsRecord: API.OperationMethod<
+  ReplaceServiceDnsRecordRequest,
+  ReplaceServiceDnsRecordResponse,
+  ReplaceServiceDnsRecordError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1672, __c209, 0) as any as S.Schema<ReplaceServiceDnsRecordRequest>,
+  output: __S(472, __c59, 0) as any as S.Schema<ReplaceServiceDnsRecordResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceServiceDnsRecord",
+}));
+
+export type ResetServerHostKeyByUuidError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | CoolifyOpError;
+/** Reset host key Remove the trusted SSH host key of the server, or trust the given key. Without ssh_host_key, Coolify trusts the key that the server sends on the next connection. */
+export const resetServerHostKeyByUuid: API.OperationMethod<
+  ResetServerHostKeyByUuidRequest,
+  ResetServerHostKeyByUuidResponse,
+  ResetServerHostKeyByUuidError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1680, __c210, 0) as any as S.Schema<ResetServerHostKeyByUuidRequest>,
+  output: __S(1681, __c210, 1) as any as S.Schema<ResetServerHostKeyByUuidResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetServerHostKeyByUuid",
 }));
 
 export type RestartApplicationByUuidError = BadRequest | NotFound | CoolifyOpError;
@@ -9632,9 +12125,10 @@ export const restartApplicationByUuid: API.OperationMethod<
   RestartApplicationByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c166, 0) as any as S.Schema<RestartApplicationByUuidRequest>,
-  output: __S(1336, __c167, 0) as any as S.Schema<RestartApplicationByUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(1688, __c211, 0) as any as S.Schema<RestartApplicationByUuidRequest>,
+  output: __S(1696, __c212, 0) as any as S.Schema<RestartApplicationByUuidResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9654,9 +12148,10 @@ export const restartDatabaseByUuid: API.OperationMethod<
   RestartDatabaseByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c168, 0) as any as S.Schema<RestartDatabaseByUuidRequest>,
+  input: __S(1712, __c214, 0) as any as S.Schema<RestartDatabaseByUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<RestartDatabaseByUuidResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9671,9 +12166,10 @@ export const restartServerProxy: API.OperationMethod<
   RestartServerProxyError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1352, __c169, 0) as any as S.Schema<RestartServerProxyRequest>,
+  input: __S(1720, __c215, 0) as any as S.Schema<RestartServerProxyRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<RestartServerProxyResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9688,9 +12184,10 @@ export const restartServiceByUuid: API.OperationMethod<
   RestartServiceByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c170, 0) as any as S.Schema<RestartServiceByUuidRequest>,
+  input: __S(1728, __c216, 0) as any as S.Schema<RestartServiceByUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<RestartServiceByUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9709,8 +12206,8 @@ export const restartServiceDatabaseByServiceAndDatabaseUuid: API.OperationMethod
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1368,
-    __c171,
+    1736,
+    __c217,
     0,
   ) as any as S.Schema<RestartServiceDatabaseByServiceAndDatabaseUuidRequest>,
   output: __S(
@@ -9718,7 +12215,8 @@ export const restartServiceDatabaseByServiceAndDatabaseUuid: API.OperationMethod
     __c0,
     0,
   ) as any as S.Schema<RestartServiceDatabaseByServiceAndDatabaseUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9737,43 +12235,46 @@ export const rollbackApplicationByUuid: API.OperationMethod<
   RollbackApplicationByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c172, 0) as any as S.Schema<RollbackApplicationByUuidRequest>,
-  output: __S(1336, __c167, 0) as any as S.Schema<RollbackApplicationByUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1744, __c218, 0) as any as S.Schema<RollbackApplicationByUuidRequest>,
+  output: __S(1696, __c212, 0) as any as S.Schema<RollbackApplicationByUuidResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RollbackApplicationByUuid",
 }));
 
-export type RunApplicationStorageBackupError = NotFound | CoolifyOpError;
-/** Run application storage backup Queue an immediate volume backup for an application storage that has a schedule. */
+export type RunApplicationStorageBackupError = Forbidden | NotFound | CoolifyOpError;
+/** Run application storage backup Queue an immediate volume backup for an application storage that has a schedule. Needs a token with the write and deploy permissions. */
 export const runApplicationStorageBackup: API.OperationMethod<
   RunApplicationStorageBackupRequest,
   RunApplicationStorageBackupResponse,
   RunApplicationStorageBackupError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c174, 0) as any as S.Schema<RunApplicationStorageBackupRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<RunApplicationStorageBackupResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(1752, __c219, 0) as any as S.Schema<RunApplicationStorageBackupRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<RunApplicationStorageBackupResponse>,
+  errors: [Forbidden, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RunApplicationStorageBackup",
 }));
 
-export type RunDatabaseStorageBackupError = NotFound | CoolifyOpError;
-/** Run database storage backup Queue an immediate volume backup for a database storage that has a schedule. */
+export type RunDatabaseStorageBackupError = Forbidden | NotFound | CoolifyOpError;
+/** Run database storage backup Queue an immediate volume backup for a database storage that has a schedule. Needs a token with the write and deploy permissions. */
 export const runDatabaseStorageBackup: API.OperationMethod<
   RunDatabaseStorageBackupRequest,
   RunDatabaseStorageBackupResponse,
   RunDatabaseStorageBackupError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1400, __c175, 0) as any as S.Schema<RunDatabaseStorageBackupRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<RunDatabaseStorageBackupResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(1760, __c220, 0) as any as S.Schema<RunDatabaseStorageBackupRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<RunDatabaseStorageBackupResponse>,
+  errors: [Forbidden, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9782,36 +12283,39 @@ export const runDatabaseStorageBackup: API.OperationMethod<
 
 export type RunServerDockerCleanupError =
   | BadRequest
+  | Forbidden
   | NotFound
   | UnprocessableEntity
   | CoolifyOpError;
-/** Run Docker cleanup Dispatch a manual Docker cleanup job for a server owned by the authenticated team. */
+/** Run Docker cleanup Dispatch a manual Docker cleanup job for a server owned by the authenticated team. Needs a token with the write and deploy permissions. */
 export const runServerDockerCleanup: API.OperationMethod<
   RunServerDockerCleanupRequest,
   RunServerDockerCleanupResponse,
   RunServerDockerCleanupError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c176, 0) as any as S.Schema<RunServerDockerCleanupRequest>,
+  input: __S(1768, __c221, 0) as any as S.Schema<RunServerDockerCleanupRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<RunServerDockerCleanupResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RunServerDockerCleanup",
 }));
 
-export type RunServiceStorageBackupError = NotFound | CoolifyOpError;
-/** Run service storage backup Queue an immediate volume backup for a service storage that has a schedule. */
+export type RunServiceStorageBackupError = Forbidden | NotFound | CoolifyOpError;
+/** Run service storage backup Queue an immediate volume backup for a service storage that has a schedule. Needs a token with the write and deploy permissions. */
 export const runServiceStorageBackup: API.OperationMethod<
   RunServiceStorageBackupRequest,
   RunServiceStorageBackupResponse,
   RunServiceStorageBackupError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1416, __c177, 0) as any as S.Schema<RunServiceStorageBackupRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<RunServiceStorageBackupResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(1776, __c222, 0) as any as S.Schema<RunServiceStorageBackupRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<RunServiceStorageBackupResponse>,
+  errors: [Forbidden, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9830,9 +12334,10 @@ export const saveServerProxyConfiguration: API.OperationMethod<
   SaveServerProxyConfigurationError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c178, 0) as any as S.Schema<SaveServerProxyConfigurationRequest>,
-  output: __S(1425, __c178, 1) as any as S.Schema<SaveServerProxyConfigurationResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1784, __c223, 0) as any as S.Schema<SaveServerProxyConfigurationRequest>,
+  output: __S(1785, __c223, 1) as any as S.Schema<SaveServerProxyConfigurationResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9845,16 +12350,17 @@ export type SetApplicationStorageBackupScheduleError =
   | NotFound
   | UnprocessableEntity
   | CoolifyOpError;
-/** Set application storage backup schedule Create or replace the backup schedule for an application persistent volume or directory storage. */
+/** Set application storage backup schedule Create or replace the backup schedule for an application persistent volume or directory storage. A schedule with stop_during_backup needs a token with the deploy permission. */
 export const setApplicationStorageBackupSchedule: API.OperationMethod<
   SetApplicationStorageBackupScheduleRequest,
   VolumeBackupScheduleResponse,
   SetApplicationStorageBackupScheduleError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1432, __c179, 0) as any as S.Schema<SetApplicationStorageBackupScheduleRequest>,
-  output: __S(1440, __c180, 0) as any as S.Schema<VolumeBackupScheduleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1800, __c225, 0) as any as S.Schema<SetApplicationStorageBackupScheduleRequest>,
+  output: __S(1808, __c226, 0) as any as S.Schema<VolumeBackupScheduleResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9867,20 +12373,43 @@ export type SetDatabaseStorageBackupScheduleError =
   | NotFound
   | UnprocessableEntity
   | CoolifyOpError;
-/** Set database storage backup schedule Create or replace the backup schedule for a database persistent volume or directory storage. */
+/** Set database storage backup schedule Create or replace the backup schedule for a database persistent volume or directory storage. A schedule with stop_during_backup needs a token with the deploy permission. */
 export const setDatabaseStorageBackupSchedule: API.OperationMethod<
   SetDatabaseStorageBackupScheduleRequest,
   VolumeBackupScheduleResponse,
   SetDatabaseStorageBackupScheduleError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1448, __c181, 0) as any as S.Schema<SetDatabaseStorageBackupScheduleRequest>,
-  output: __S(1440, __c180, 0) as any as S.Schema<VolumeBackupScheduleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1816, __c227, 0) as any as S.Schema<SetDatabaseStorageBackupScheduleRequest>,
+  output: __S(1808, __c226, 0) as any as S.Schema<VolumeBackupScheduleResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetDatabaseStorageBackupSchedule",
+}));
+
+export type SetSecretManagerSourceError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | CoolifyOpError;
+/** Set Secret Manager Source Link a secret manager token of the team to an application, service, or database, or change the token or settings of the link. References resolve at the next deployment. */
+export const setSecretManagerSource: API.OperationMethod<
+  SetSecretManagerSourceRequest,
+  SetSecretManagerSourceResponse,
+  SetSecretManagerSourceError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1824, __c228, 0) as any as S.Schema<SetSecretManagerSourceRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<SetSecretManagerSourceResponse>,
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetSecretManagerSource",
 }));
 
 export type SetServiceStorageBackupScheduleError =
@@ -9889,16 +12418,17 @@ export type SetServiceStorageBackupScheduleError =
   | NotFound
   | UnprocessableEntity
   | CoolifyOpError;
-/** Set service storage backup schedule Create or replace the backup schedule for a service persistent volume or directory storage. */
+/** Set service storage backup schedule Create or replace the backup schedule for a service persistent volume or directory storage. A schedule with stop_during_backup needs a token with the deploy permission. */
 export const setServiceStorageBackupSchedule: API.OperationMethod<
   SetServiceStorageBackupScheduleRequest,
   VolumeBackupScheduleResponse,
   SetServiceStorageBackupScheduleError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c182, 0) as any as S.Schema<SetServiceStorageBackupScheduleRequest>,
-  output: __S(1440, __c180, 0) as any as S.Schema<VolumeBackupScheduleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1832, __c229, 0) as any as S.Schema<SetServiceStorageBackupScheduleRequest>,
+  output: __S(1808, __c226, 0) as any as S.Schema<VolumeBackupScheduleResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9913,9 +12443,10 @@ export const startApplicationByUuid: API.OperationMethod<
   StartApplicationByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1464, __c183, 0) as any as S.Schema<StartApplicationByUuidRequest>,
-  output: __S(1336, __c167, 0) as any as S.Schema<StartApplicationByUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(1840, __c230, 0) as any as S.Schema<StartApplicationByUuidRequest>,
+  output: __S(1696, __c212, 0) as any as S.Schema<StartApplicationByUuidResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9935,9 +12466,10 @@ export const startDatabaseByUuid: API.OperationMethod<
   StartDatabaseByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c184, 0) as any as S.Schema<StartDatabaseByUuidRequest>,
+  input: __S(1848, __c231, 0) as any as S.Schema<StartDatabaseByUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<StartDatabaseByUuidResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9945,16 +12477,17 @@ export const startDatabaseByUuid: API.OperationMethod<
 }));
 
 export type StartServiceByUuidError = BadRequest | NotFound | CoolifyOpError;
-/** Start Start service. */
+/** Start Start service. Pulls the latest images first. */
 export const startServiceByUuid: API.OperationMethod<
   StartServiceByUuidRequest,
   StartServiceByUuidResponse,
   StartServiceByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c186, 0) as any as S.Schema<StartServiceByUuidRequest>,
+  input: __S(1856, __c232, 0) as any as S.Schema<StartServiceByUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<StartServiceByUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9973,12 +12506,13 @@ export const startServiceDatabaseByServiceAndDatabaseUuid: API.OperationMethod<
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1496,
-    __c187,
+    1864,
+    __c233,
     0,
   ) as any as S.Schema<StartServiceDatabaseByServiceAndDatabaseUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<StartServiceDatabaseByServiceAndDatabaseUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9993,9 +12527,10 @@ export const stopApplicationByUuid: API.OperationMethod<
   StopApplicationByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c188, 0) as any as S.Schema<StopApplicationByUuidRequest>,
+  input: __S(1872, __c234, 0) as any as S.Schema<StopApplicationByUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<StopApplicationByUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10010,9 +12545,10 @@ export const stopDatabaseByUuid: API.OperationMethod<
   StopDatabaseByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1512, __c189, 0) as any as S.Schema<StopDatabaseByUuidRequest>,
+  input: __S(1880, __c235, 0) as any as S.Schema<StopDatabaseByUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<StopDatabaseByUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10027,9 +12563,10 @@ export const stopServiceByUuid: API.OperationMethod<
   StopServiceByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c190, 0) as any as S.Schema<StopServiceByUuidRequest>,
+  input: __S(1896, __c237, 0) as any as S.Schema<StopServiceByUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<StopServiceByUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10048,19 +12585,48 @@ export const stopServiceDatabaseByServiceAndDatabaseUuid: API.OperationMethod<
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1528,
-    __c191,
+    1904,
+    __c238,
     0,
   ) as any as S.Schema<StopServiceDatabaseByServiceAndDatabaseUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<StopServiceDatabaseByServiceAndDatabaseUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopServiceDatabaseByServiceAndDatabaseUuid",
 }));
 
-export type UpdateApplicationByUuidError = BadRequest | NotFound | Conflict | CoolifyOpError;
+export type SyncIntegrationTokenZonesError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | CoolifyOpError;
+/** Sync Cloudflare Zones Read the DNS zones that a Cloudflare token can access again. Requires admin or owner. */
+export const syncIntegrationTokenZones: API.OperationMethod<
+  SyncIntegrationTokenZonesRequest,
+  SyncIntegrationTokenZonesResponse,
+  SyncIntegrationTokenZonesError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1912, __c239, 0) as any as S.Schema<SyncIntegrationTokenZonesRequest>,
+  output: __S(1913, __c239, 1) as any as S.Schema<SyncIntegrationTokenZonesResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncIntegrationTokenZones",
+}));
+
+export type UpdateApplicationByUuidError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | CoolifyOpError;
 /** Update Update application by UUID. */
 export const updateApplicationByUuid: API.OperationMethod<
   UpdateApplicationByUuidRequest,
@@ -10068,9 +12634,10 @@ export const updateApplicationByUuid: API.OperationMethod<
   UpdateApplicationByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c192, 0) as any as S.Schema<UpdateApplicationByUuidRequest>,
-  output: __S(336, __c42, 0) as any as S.Schema<UpdateApplicationByUuidResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownCoolifyError],
+  input: __S(1920, __c240, 0) as any as S.Schema<UpdateApplicationByUuidRequest>,
+  output: __S(704, __c88, 0) as any as S.Schema<UpdateApplicationByUuidResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10089,16 +12656,21 @@ export const updateCloudInitScriptByUuid: API.OperationMethod<
   UpdateCloudInitScriptByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1544, __c193, 0) as any as S.Schema<UpdateCloudInitScriptByUuidRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<UpdateCloudInitScriptByUuidResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1928, __c241, 0) as any as S.Schema<UpdateCloudInitScriptByUuidRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<UpdateCloudInitScriptByUuidResponse>,
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateCloudInitScriptByUuid",
 }));
 
-export type UpdateCloudTokenByUuidError = NotFound | UnprocessableEntity | CoolifyOpError;
+export type UpdateCloudTokenByUuidError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | CoolifyOpError;
 /** Update Cloud Provider Token Update cloud provider token name. */
 export const updateCloudTokenByUuid: API.OperationMethod<
   UpdateCloudTokenByUuidRequest,
@@ -10106,9 +12678,10 @@ export const updateCloudTokenByUuid: API.OperationMethod<
   UpdateCloudTokenByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c194, 0) as any as S.Schema<UpdateCloudTokenByUuidRequest>,
-  output: __S(336, __c42, 0) as any as S.Schema<UpdateCloudTokenByUuidResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1936, __c242, 0) as any as S.Schema<UpdateCloudTokenByUuidRequest>,
+  output: __S(704, __c88, 0) as any as S.Schema<UpdateCloudTokenByUuidResponse>,
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10127,9 +12700,10 @@ export const updateCurrentTeamDiscordNotifications: API.OperationMethod<
   UpdateCurrentTeamDiscordNotificationsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1560, __c195, 0) as any as S.Schema<UpdateCurrentTeamDiscordNotificationsRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<UpdateCurrentTeamDiscordNotificationsResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1944, __c243, 0) as any as S.Schema<UpdateCurrentTeamDiscordNotificationsRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<UpdateCurrentTeamDiscordNotificationsResponse>,
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10148,9 +12722,10 @@ export const updateCurrentTeamEmailNotifications: API.OperationMethod<
   UpdateCurrentTeamEmailNotificationsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1576, __c197, 0) as any as S.Schema<UpdateCurrentTeamEmailNotificationsRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<UpdateCurrentTeamEmailNotificationsResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1952, __c244, 0) as any as S.Schema<UpdateCurrentTeamEmailNotificationsRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<UpdateCurrentTeamEmailNotificationsResponse>,
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10169,9 +12744,10 @@ export const updateCurrentTeamPushoverNotifications: API.OperationMethod<
   UpdateCurrentTeamPushoverNotificationsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c198, 0) as any as S.Schema<UpdateCurrentTeamPushoverNotificationsRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<UpdateCurrentTeamPushoverNotificationsResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1960, __c245, 0) as any as S.Schema<UpdateCurrentTeamPushoverNotificationsRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<UpdateCurrentTeamPushoverNotificationsResponse>,
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10190,9 +12766,10 @@ export const updateCurrentTeamSlackNotifications: API.OperationMethod<
   UpdateCurrentTeamSlackNotificationsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1592, __c199, 0) as any as S.Schema<UpdateCurrentTeamSlackNotificationsRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<UpdateCurrentTeamSlackNotificationsResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1968, __c246, 0) as any as S.Schema<UpdateCurrentTeamSlackNotificationsRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<UpdateCurrentTeamSlackNotificationsResponse>,
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10211,9 +12788,10 @@ export const updateCurrentTeamTelegramNotifications: API.OperationMethod<
   UpdateCurrentTeamTelegramNotificationsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c200, 0) as any as S.Schema<UpdateCurrentTeamTelegramNotificationsRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<UpdateCurrentTeamTelegramNotificationsResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1984, __c248, 0) as any as S.Schema<UpdateCurrentTeamTelegramNotificationsRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<UpdateCurrentTeamTelegramNotificationsResponse>,
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10232,9 +12810,10 @@ export const updateCurrentTeamWebhookNotifications: API.OperationMethod<
   UpdateCurrentTeamWebhookNotificationsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1608, __c201, 0) as any as S.Schema<UpdateCurrentTeamWebhookNotificationsRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<UpdateCurrentTeamWebhookNotificationsResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(1992, __c249, 0) as any as S.Schema<UpdateCurrentTeamWebhookNotificationsRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<UpdateCurrentTeamWebhookNotificationsResponse>,
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10243,6 +12822,7 @@ export const updateCurrentTeamWebhookNotifications: API.OperationMethod<
 
 export type UpdateDatabaseBackupError =
   | BadRequest
+  | Forbidden
   | NotFound
   | UnprocessableEntity
   | CoolifyOpError;
@@ -10253,9 +12833,10 @@ export const updateDatabaseBackup: API.OperationMethod<
   UpdateDatabaseBackupError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c202, 0) as any as S.Schema<UpdateDatabaseBackupRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<UpdateDatabaseBackupResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2000, __c250, 0) as any as S.Schema<UpdateDatabaseBackupRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<UpdateDatabaseBackupResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10264,6 +12845,7 @@ export const updateDatabaseBackup: API.OperationMethod<
 
 export type UpdateDatabaseByUuidError =
   | BadRequest
+  | Forbidden
   | NotFound
   | UnprocessableEntity
   | CoolifyOpError;
@@ -10274,9 +12856,10 @@ export const updateDatabaseByUuid: API.OperationMethod<
   UpdateDatabaseByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1624, __c203, 0) as any as S.Schema<UpdateDatabaseByUuidRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<UpdateDatabaseByUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2008, __c251, 0) as any as S.Schema<UpdateDatabaseByUuidRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<UpdateDatabaseByUuidResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10291,9 +12874,10 @@ export const updateDestinationByUuid: API.OperationMethod<
   UpdateDestinationByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c204, 0) as any as S.Schema<UpdateDestinationByUuidRequest>,
-  output: __S(2200, __c275, 0) as any as S.Schema<Destination>,
-  errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2016, __c252, 0) as any as S.Schema<UpdateDestinationByUuidRequest>,
+  output: __S(2632, __c329, 0) as any as S.Schema<Destination>,
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10308,9 +12892,10 @@ export const updateEnvByApplicationUuid: API.OperationMethod<
   UpdateEnvByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1640, __c205, 0) as any as S.Schema<UpdateEnvByApplicationUuidRequest>,
-  output: __S(840, __c105, 0) as any as S.Schema<EnvironmentVariable>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(2024, __c253, 0) as any as S.Schema<UpdateEnvByApplicationUuidRequest>,
+  output: __S(1104, __c138, 0) as any as S.Schema<EnvironmentVariable>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10329,9 +12914,10 @@ export const updateEnvByDatabaseUuid: API.OperationMethod<
   UpdateEnvByDatabaseUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c206, 0) as any as S.Schema<UpdateEnvByDatabaseUuidRequest>,
-  output: __S(840, __c105, 0) as any as S.Schema<EnvironmentVariable>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2032, __c254, 0) as any as S.Schema<UpdateEnvByDatabaseUuidRequest>,
+  output: __S(1104, __c138, 0) as any as S.Schema<EnvironmentVariable>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10350,9 +12936,10 @@ export const updateEnvByServiceUuid: API.OperationMethod<
   UpdateEnvByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c208, 0) as any as S.Schema<UpdateEnvByServiceUuidRequest>,
-  output: __S(840, __c105, 0) as any as S.Schema<EnvironmentVariable>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2040, __c255, 0) as any as S.Schema<UpdateEnvByServiceUuidRequest>,
+  output: __S(1104, __c138, 0) as any as S.Schema<EnvironmentVariable>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10372,9 +12959,10 @@ export const updateEnvironment: API.OperationMethod<
   UpdateEnvironmentError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1672, __c209, 0) as any as S.Schema<UpdateEnvironmentRequest>,
-  output: __S(1680, __c210, 0) as any as S.Schema<UpdateEnvironmentResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2048, __c256, 0) as any as S.Schema<UpdateEnvironmentRequest>,
+  output: __S(2056, __c257, 0) as any as S.Schema<UpdateEnvironmentResponse>,
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10389,9 +12977,10 @@ export const updateEnvironmentSharedEnv: API.OperationMethod<
   UpdateEnvironmentSharedEnvError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1688, __c211, 0) as any as S.Schema<UpdateEnvironmentSharedEnvRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<UpdateEnvironmentSharedEnvResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2064, __c258, 0) as any as S.Schema<UpdateEnvironmentSharedEnvRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<UpdateEnvironmentSharedEnvResponse>,
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10406,9 +12995,10 @@ export const updateEnvsByApplicationUuid: API.OperationMethod<
   UpdateEnvsByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c212, 0) as any as S.Schema<UpdateEnvsByApplicationUuidRequest>,
-  output: __S(849, __c106, 1) as any as S.Schema<UpdateEnvsByApplicationUuidResponse>,
-  errors: [BadRequest, NotFound, UnknownCoolifyError],
+  input: __S(2082, __c260, 2) as any as S.Schema<UpdateEnvsByApplicationUuidRequest>,
+  output: __S(1113, __c139, 1) as any as S.Schema<UpdateEnvsByApplicationUuidResponse>,
+  errors: [BadRequest, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10427,9 +13017,10 @@ export const updateEnvsByDatabaseUuid: API.OperationMethod<
   UpdateEnvsByDatabaseUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1714, __c214, 2) as any as S.Schema<UpdateEnvsByDatabaseUuidRequest>,
-  output: __S(849, __c106, 1) as any as S.Schema<UpdateEnvsByDatabaseUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2088, __c261, 0) as any as S.Schema<UpdateEnvsByDatabaseUuidRequest>,
+  output: __S(1113, __c139, 1) as any as S.Schema<UpdateEnvsByDatabaseUuidResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10448,9 +13039,10 @@ export const updateEnvsByServiceUuid: API.OperationMethod<
   UpdateEnvsByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1720, __c215, 0) as any as S.Schema<UpdateEnvsByServiceUuidRequest>,
-  output: __S(849, __c106, 1) as any as S.Schema<UpdateEnvsByServiceUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2104, __c263, 0) as any as S.Schema<UpdateEnvsByServiceUuidRequest>,
+  output: __S(1113, __c139, 1) as any as S.Schema<UpdateEnvsByServiceUuidResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10465,9 +13057,10 @@ export const updateGithubApp: API.OperationMethod<
   UpdateGithubAppError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c216, 0) as any as S.Schema<UpdateGithubAppRequest>,
-  output: __S(1736, __c217, 0) as any as S.Schema<UpdateGithubAppResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2112, __c264, 0) as any as S.Schema<UpdateGithubAppRequest>,
+  output: __S(2120, __c265, 0) as any as S.Schema<UpdateGithubAppResponse>,
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10482,9 +13075,10 @@ export const updateGitlabApp: API.OperationMethod<
   UpdateGitlabAppError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c218, 0) as any as S.Schema<UpdateGitlabAppRequest>,
-  output: __S(1736, __c217, 0) as any as S.Schema<UpdateGitlabAppResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2128, __c266, 0) as any as S.Schema<UpdateGitlabAppRequest>,
+  output: __S(2120, __c265, 0) as any as S.Schema<UpdateGitlabAppResponse>,
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10499,13 +13093,37 @@ export const updateInstanceEmailSettings: API.OperationMethod<
   UpdateInstanceEmailSettingsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1752, __c219, 0) as any as S.Schema<UpdateInstanceEmailSettingsRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<UpdateInstanceEmailSettingsResponse>,
-  errors: [Forbidden, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2136, __c267, 0) as any as S.Schema<UpdateInstanceEmailSettingsRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<UpdateInstanceEmailSettingsResponse>,
+  errors: [Forbidden, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateInstanceEmailSettings",
+}));
+
+export type UpdateIntegrationTokenByUuidError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | CoolifyOpError;
+/** Update Integration Token Rename an integration token, rotate its secret, or change its capabilities and settings. Omitted fields keep their value. The provider checks the token again when the secret, the capabilities, or the settings change. Requires admin or owner. */
+export const updateIntegrationTokenByUuid: API.OperationMethod<
+  UpdateIntegrationTokenByUuidRequest,
+  IntegrationToken,
+  UpdateIntegrationTokenByUuidError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2144, __c268, 0) as any as S.Schema<UpdateIntegrationTokenByUuidRequest>,
+  output: __S(560, __c70, 0) as any as S.Schema<IntegrationToken>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIntegrationTokenByUuid",
 }));
 
 export type UpdatePreviewDomainsByPullRequestIdError =
@@ -10521,9 +13139,10 @@ export const updatePreviewDomainsByPullRequestId: API.OperationMethod<
   UpdatePreviewDomainsByPullRequestIdError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1762, __c220, 2) as any as S.Schema<UpdatePreviewDomainsByPullRequestIdRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<UpdatePreviewDomainsByPullRequestIdResponse>,
-  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2154, __c269, 2) as any as S.Schema<UpdatePreviewDomainsByPullRequestIdRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<UpdatePreviewDomainsByPullRequestIdResponse>,
+  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10538,9 +13157,10 @@ export const updatePrivateKey: API.OperationMethod<
   UpdatePrivateKeyError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c222, 0) as any as S.Schema<UpdatePrivateKeyRequest>,
-  output: __S(336, __c42, 0) as any as S.Schema<UpdatePrivateKeyResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2160, __c270, 0) as any as S.Schema<UpdatePrivateKeyRequest>,
+  output: __S(704, __c88, 0) as any as S.Schema<UpdatePrivateKeyResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10555,9 +13175,10 @@ export const updateProjectByUuid: API.OperationMethod<
   UpdateProjectByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1784, __c223, 0) as any as S.Schema<UpdateProjectByUuidRequest>,
-  output: __S(1680, __c210, 0) as any as S.Schema<UpdateProjectByUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2168, __c271, 0) as any as S.Schema<UpdateProjectByUuidRequest>,
+  output: __S(2056, __c257, 0) as any as S.Schema<UpdateProjectByUuidResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10572,9 +13193,10 @@ export const updateProjectSharedEnv: API.OperationMethod<
   UpdateProjectSharedEnvError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c224, 0) as any as S.Schema<UpdateProjectSharedEnvRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<UpdateProjectSharedEnvResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2184, __c273, 0) as any as S.Schema<UpdateProjectSharedEnvRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<UpdateProjectSharedEnvResponse>,
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10582,16 +13204,17 @@ export const updateProjectSharedEnv: API.OperationMethod<
 }));
 
 export type UpdateS3StorageByUuidError = NotFound | UnprocessableEntity | CoolifyOpError;
-/** Update S3 Storage Update S3 storage by UUID. */
+/** Update S3 Storage Update S3 storage by UUID. The type cannot change, and only the fields of the storage type are accepted. */
 export const updateS3StorageByUuid: API.OperationMethod<
   UpdateS3StorageByUuidRequest,
   UpdateS3StorageByUuidResponse,
   UpdateS3StorageByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1800, __c225, 0) as any as S.Schema<UpdateS3StorageByUuidRequest>,
-  output: __S(336, __c42, 0) as any as S.Schema<UpdateS3StorageByUuidResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2192, __c274, 0) as any as S.Schema<UpdateS3StorageByUuidRequest>,
+  output: __S(704, __c88, 0) as any as S.Schema<UpdateS3StorageByUuidResponse>,
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10610,9 +13233,10 @@ export const updateScheduledTaskByApplicationUuid: API.OperationMethod<
   UpdateScheduledTaskByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c226, 0) as any as S.Schema<UpdateScheduledTaskByApplicationUuidRequest>,
-  output: __S(2160, __c270, 0) as any as S.Schema<ScheduledTask>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2200, __c275, 0) as any as S.Schema<UpdateScheduledTaskByApplicationUuidRequest>,
+  output: __S(2568, __c321, 0) as any as S.Schema<ScheduledTask>,
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10631,26 +13255,33 @@ export const updateScheduledTaskByServiceUuid: API.OperationMethod<
   UpdateScheduledTaskByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1816, __c227, 0) as any as S.Schema<UpdateScheduledTaskByServiceUuidRequest>,
-  output: __S(2160, __c270, 0) as any as S.Schema<ScheduledTask>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2208, __c276, 0) as any as S.Schema<UpdateScheduledTaskByServiceUuidRequest>,
+  output: __S(2568, __c321, 0) as any as S.Schema<ScheduledTask>,
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateScheduledTaskByServiceUuid",
 }));
 
-export type UpdateServerByUuidError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
-/** Update Update Server. */
+export type UpdateServerByUuidError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | CoolifyOpError;
+/** Update Update Server. Changing proxy_type needs a token with the write and deploy permissions. */
 export const updateServerByUuid: API.OperationMethod<
   UpdateServerByUuidRequest,
   Server,
   UpdateServerByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c228, 0) as any as S.Schema<UpdateServerByUuidRequest>,
-  output: __S(497, __c62, 1) as any as S.Schema<Server>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2216, __c277, 0) as any as S.Schema<UpdateServerByUuidRequest>,
+  output: __S(281, __c35, 1) as any as S.Schema<Server>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10669,9 +13300,10 @@ export const updateServerCloudflareTunnel: API.OperationMethod<
   UpdateServerCloudflareTunnelError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1832, __c229, 0) as any as S.Schema<UpdateServerCloudflareTunnelRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<UpdateServerCloudflareTunnelResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2224, __c278, 0) as any as S.Schema<UpdateServerCloudflareTunnelRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<UpdateServerCloudflareTunnelResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10680,23 +13312,49 @@ export const updateServerCloudflareTunnel: API.OperationMethod<
 
 export type UpdateServerDockerCleanupError =
   | BadRequest
+  | Forbidden
   | NotFound
   | UnprocessableEntity
   | CoolifyOpError;
-/** Update Docker cleanup settings Update Docker cleanup settings for a server owned by the authenticated team. */
+/** Update Docker cleanup settings Update Docker cleanup settings for a server owned by the authenticated team. Turning on `delete_unused_volumes` needs a token with the `deploy` permission. */
 export const updateServerDockerCleanup: API.OperationMethod<
   UpdateServerDockerCleanupRequest,
   UpdateServerDockerCleanupResponse,
   UpdateServerDockerCleanupError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1840, __c230, 0) as any as S.Schema<UpdateServerDockerCleanupRequest>,
-  output: __S(520, __c65, 0) as any as S.Schema<UpdateServerDockerCleanupResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2232, __c279, 0) as any as S.Schema<UpdateServerDockerCleanupRequest>,
+  output: __S(720, __c90, 0) as any as S.Schema<UpdateServerDockerCleanupResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateServerDockerCleanup",
+}));
+
+export type UpdateServerImageScanningError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | CoolifyOpError;
+/** Update image scanning settings Turn image vulnerability scanning of a server owned by the authenticated team on or off, or change the limits of the scanner (memory, CPUs, and the Syft and Grype time limits). Send at least one field. Turning it on gets the scanner on the server in the background. A new limit applies to the next scan. */
+export const updateServerImageScanning: API.OperationMethod<
+  UpdateServerImageScanningRequest,
+  UpdateServerImageScanningResponse,
+  UpdateServerImageScanningError,
+  CoolifyOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2240, __c280, 0) as any as S.Schema<UpdateServerImageScanningRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<UpdateServerImageScanningResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
+  protocol: CoolifyProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateServerImageScanning",
 }));
 
 export type UpdateServerLogDrainsError =
@@ -10705,33 +13363,40 @@ export type UpdateServerLogDrainsError =
   | NotFound
   | UnprocessableEntity
   | CoolifyOpError;
-/** Update log drain settings Update New Relic, Axiom, or custom log drain settings for a server owned by the authenticated team. Changing `logdrain_custom_config` or `logdrain_custom_config_parser` needs a token with the `deploy` permission. Custom configs cannot use the lua, wasm, exec, exec_wasi, or file plugins, @INCLUDE, or plugins_file, and the parser file can only contain [PARSER] and [MULTILINE_PARSER] sections. */
+/** Update log drain settings Update New Relic, Axiom, or custom log drain settings for a server owned by the authenticated team. Needs a token with the write and deploy permissions. Custom configs cannot use the lua, wasm, exec, exec_wasi, or file plugins, @INCLUDE, or plugins_file, and the parser file can only contain [PARSER] and [MULTILINE_PARSER] sections. */
 export const updateServerLogDrains: API.OperationMethod<
   UpdateServerLogDrainsRequest,
   UpdateServerLogDrainsResponse,
   UpdateServerLogDrainsError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1848, __c231, 0) as any as S.Schema<UpdateServerLogDrainsRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<UpdateServerLogDrainsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2248, __c281, 0) as any as S.Schema<UpdateServerLogDrainsRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<UpdateServerLogDrainsResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateServerLogDrains",
 }));
 
-export type UpdateServerProxyError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
-/** Update server proxy Update proxy redirect settings, exact labels generation, the Traefik certificate resolver, and optionally the proxy type for a team-owned server. */
+export type UpdateServerProxyError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | CoolifyOpError;
+/** Update server proxy Update proxy redirect settings, exact labels generation, the Traefik certificate resolver, and optionally the proxy type for a team-owned server. Changing proxy_type needs a token with the `write` and `deploy` permissions. */
 export const updateServerProxy: API.OperationMethod<
   UpdateServerProxyRequest,
   UpdateServerProxyResponse,
   UpdateServerProxyError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1864, __c233, 0) as any as S.Schema<UpdateServerProxyRequest>,
-  output: __S(544, __c68, 0) as any as S.Schema<UpdateServerProxyResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2256, __c282, 0) as any as S.Schema<UpdateServerProxyRequest>,
+  output: __S(752, __c94, 0) as any as S.Schema<UpdateServerProxyResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10740,19 +13405,21 @@ export const updateServerProxy: API.OperationMethod<
 
 export type UpdateServerSentinelError =
   | BadRequest
+  | Forbidden
   | NotFound
   | UnprocessableEntity
   | CoolifyOpError;
-/** Update Sentinel settings Update Sentinel settings for a server owned by the authenticated team. Changing token/metrics timing fields may restart Sentinel. */
+/** Update Sentinel settings Update Sentinel settings for a server owned by the authenticated team. Changing token/metrics timing fields may restart Sentinel. Needs a token with the write and deploy permissions. */
 export const updateServerSentinel: API.OperationMethod<
   UpdateServerSentinelRequest,
   UpdateServerSentinelResponse,
   UpdateServerSentinelError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1872, __c234, 0) as any as S.Schema<UpdateServerSentinelRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<UpdateServerSentinelResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2272, __c284, 0) as any as S.Schema<UpdateServerSentinelRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<UpdateServerSentinelResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10767,9 +13434,10 @@ export const updateServerSharedEnv: API.OperationMethod<
   UpdateServerSharedEnvError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1880, __c235, 0) as any as S.Schema<UpdateServerSharedEnvRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<UpdateServerSharedEnvResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2280, __c285, 0) as any as S.Schema<UpdateServerSharedEnvRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<UpdateServerSharedEnvResponse>,
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10789,9 +13457,10 @@ export const updateServiceByUuid: API.OperationMethod<
   UpdateServiceByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c236, 0) as any as S.Schema<UpdateServiceByUuidRequest>,
-  output: __S(2242, __c280, 2) as any as S.Schema<UpdateServiceByUuidResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2288, __c286, 0) as any as S.Schema<UpdateServiceByUuidRequest>,
+  output: __S(2658, __c332, 2) as any as S.Schema<UpdateServiceByUuidResponse>,
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10804,16 +13473,17 @@ export type UpdateStorageByApplicationUuidError =
   | NotFound
   | UnprocessableEntity
   | CoolifyOpError;
-/** Update Storage Update a persistent storage or file storage by application UUID. */
+/** Update Storage Update a persistent storage or file storage by application UUID. Changed file content is saved right away and written to the server in the background, so a failed write does not change the response. */
 export const updateStorageByApplicationUuid: API.OperationMethod<
   UpdateStorageByApplicationUuidRequest,
   UpdateStorageByApplicationUuidResponse,
   UpdateStorageByApplicationUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1896, __c237, 0) as any as S.Schema<UpdateStorageByApplicationUuidRequest>,
-  output: __S(2264, __c283, 0) as any as S.Schema<UpdateStorageByApplicationUuidResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2296, __c287, 0) as any as S.Schema<UpdateStorageByApplicationUuidRequest>,
+  output: __S(2688, __c336, 0) as any as S.Schema<UpdateStorageByApplicationUuidResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10826,16 +13496,17 @@ export type UpdateStorageByDatabaseUuidError =
   | NotFound
   | UnprocessableEntity
   | CoolifyOpError;
-/** Update Storage Update a persistent storage or file storage by database UUID. */
+/** Update Storage Update a persistent storage or file storage by database UUID. Changed file content is saved right away and written to the server in the background, so a failed write does not change the response. */
 export const updateStorageByDatabaseUuid: API.OperationMethod<
   UpdateStorageByDatabaseUuidRequest,
   UpdateStorageByDatabaseUuidResponse,
   UpdateStorageByDatabaseUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1904, __c238, 0) as any as S.Schema<UpdateStorageByDatabaseUuidRequest>,
-  output: __S(2264, __c283, 0) as any as S.Schema<UpdateStorageByDatabaseUuidResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2304, __c288, 0) as any as S.Schema<UpdateStorageByDatabaseUuidRequest>,
+  output: __S(2688, __c336, 0) as any as S.Schema<UpdateStorageByDatabaseUuidResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10848,16 +13519,17 @@ export type UpdateStorageByServiceUuidError =
   | NotFound
   | UnprocessableEntity
   | CoolifyOpError;
-/** Update Storage Update a persistent storage or file storage by service UUID. */
+/** Update Storage Update a persistent storage or file storage by service UUID. Changed file content is saved right away and written to the server in the background, so a failed write does not change the response. */
 export const updateStorageByServiceUuid: API.OperationMethod<
   UpdateStorageByServiceUuidRequest,
   UpdateStorageByServiceUuidResponse,
   UpdateStorageByServiceUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1912, __c239, 0) as any as S.Schema<UpdateStorageByServiceUuidRequest>,
-  output: __S(2264, __c283, 0) as any as S.Schema<UpdateStorageByServiceUuidResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2312, __c289, 0) as any as S.Schema<UpdateStorageByServiceUuidRequest>,
+  output: __S(2688, __c336, 0) as any as S.Schema<UpdateStorageByServiceUuidResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10877,9 +13549,10 @@ export const updateTagByUuid: API.OperationMethod<
   UpdateTagByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c240, 0) as any as S.Schema<UpdateTagByUuidRequest>,
-  output: __S(2296, __c287, 0) as any as S.Schema<Tag>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2320, __c290, 0) as any as S.Schema<UpdateTagByUuidRequest>,
+  output: __S(2728, __c341, 0) as any as S.Schema<Tag>,
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10894,9 +13567,10 @@ export const updateTeamSharedEnv: API.OperationMethod<
   UpdateTeamSharedEnvError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1928, __c241, 0) as any as S.Schema<UpdateTeamSharedEnvRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<UpdateTeamSharedEnvResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2328, __c291, 0) as any as S.Schema<UpdateTeamSharedEnvRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<UpdateTeamSharedEnvResponse>,
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10911,9 +13585,10 @@ export const updateTokenTeam: API.OperationMethod<
   UpdateTokenTeamError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1936, __c242, 0) as any as S.Schema<UpdateTokenTeamRequest>,
-  output: __S(640, __c80, 0) as any as S.Schema<Team>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2336, __c292, 0) as any as S.Schema<UpdateTokenTeamRequest>,
+  output: __S(872, __c109, 0) as any as S.Schema<Team>,
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10928,9 +13603,10 @@ export const uploadDatabaseImport: API.OperationMethod<
   UploadDatabaseImportError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c244, 0) as any as S.Schema<UploadDatabaseImportRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<UploadDatabaseImportResponse>,
-  errors: [UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2344, __c293, 0) as any as S.Schema<UploadDatabaseImportRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<UploadDatabaseImportResponse>,
+  errors: [UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10945,16 +13621,17 @@ export const uploadServiceDatabaseImport: API.OperationMethod<
   UploadServiceDatabaseImportError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1960, __c245, 0) as any as S.Schema<UploadServiceDatabaseImportRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<UploadServiceDatabaseImportResponse>,
-  errors: [UnprocessableEntity, UnknownCoolifyError],
+  input: __S(2360, __c295, 0) as any as S.Schema<UploadServiceDatabaseImportRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<UploadServiceDatabaseImportResponse>,
+  errors: [UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UploadServiceDatabaseImport",
 }));
 
-export type ValidateCloudTokenByUuidError = NotFound | CoolifyOpError;
+export type ValidateCloudTokenByUuidError = Forbidden | NotFound | CoolifyOpError;
 /** Validate Cloud Provider Token Validate a cloud provider token against the provider API. */
 export const validateCloudTokenByUuid: API.OperationMethod<
   ValidateCloudTokenByUuidRequest,
@@ -10962,9 +13639,10 @@ export const validateCloudTokenByUuid: API.OperationMethod<
   ValidateCloudTokenByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c246, 0) as any as S.Schema<ValidateCloudTokenByUuidRequest>,
-  output: __S(1976, __c247, 0) as any as S.Schema<ValidateCloudTokenByUuidResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(2368, __c296, 0) as any as S.Schema<ValidateCloudTokenByUuidRequest>,
+  output: __S(2376, __c297, 0) as any as S.Schema<ValidateCloudTokenByUuidResponse>,
+  errors: [Forbidden, NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10972,16 +13650,17 @@ export const validateCloudTokenByUuid: API.OperationMethod<
 }));
 
 export type ValidateS3StorageByUuidError = NotFound | CoolifyOpError;
-/** Validate S3 Storage Validate an S3 storage connection using ListObjectsV2. */
+/** Validate S3 Storage Validate a storage connection. S3: lists the bucket (ListObjectsV2). SFTP, FTPS, and WebDAV: lists the backup directory; for SFTP, the first successful validation pins the host key of the server. */
 export const validateS3StorageByUuid: API.OperationMethod<
   ValidateS3StorageByUuidRequest,
   ValidateS3StorageByUuidResponse,
   ValidateS3StorageByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c248, 0) as any as S.Schema<ValidateS3StorageByUuidRequest>,
-  output: __S(1976, __c247, 0) as any as S.Schema<ValidateS3StorageByUuidResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  input: __S(2384, __c298, 0) as any as S.Schema<ValidateS3StorageByUuidRequest>,
+  output: __S(2376, __c297, 0) as any as S.Schema<ValidateS3StorageByUuidResponse>,
+  errors: [NotFound],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10990,19 +13669,21 @@ export const validateS3StorageByUuid: API.OperationMethod<
 
 export type ValidateServerByUuidError =
   | BadRequest
+  | Forbidden
   | NotFound
   | UnprocessableEntity
   | CoolifyOpError;
-/** Validate Validate server by UUID. */
+/** Validate Validate server by UUID. With install=true, needs a token with the write and deploy permissions. */
 export const validateServerByUuid: API.OperationMethod<
   ValidateServerByUuidRequest,
   ValidateServerByUuidResponse,
   ValidateServerByUuidError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1992, __c249, 0) as any as S.Schema<ValidateServerByUuidRequest>,
+  input: __S(2392, __c299, 0) as any as S.Schema<ValidateServerByUuidRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<ValidateServerByUuidResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11017,9 +13698,10 @@ export const version: API.OperationMethod<
   VersionError,
   CoolifyOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c250, 0) as any as S.Schema<VersionRequest>,
-  output: __S(2224, __c278, 0) as any as S.Schema<VersionResponse>,
-  errors: [BadRequest, UnknownCoolifyError],
+  input: __S(2400, __c300, 0) as any as S.Schema<VersionRequest>,
+  output: __S(2584, __c323, 0) as any as S.Schema<VersionResponse>,
+  errors: [BadRequest],
+  serviceErrors: CoolifyServiceErrors,
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11042,6 +13724,21 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          record_id: S.optional(S.String),
+          current: S.optional(S.String),
+          proposed: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DnsRecordConflictConflict" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.optional(S.String),
+          conflict: S.optional(__S(8, __c1, 0)),
+        }),
+      ).annotate({ identifier: "DnsRecordConflict" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           domain: S.optional(S.String),
           resource_name: S.optional(S.String),
           resource_uuid: S.optional(S.NullOr(S.String)),
@@ -11049,14 +13746,14 @@ function __c1(j: number): any {
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "Error409BodyConflictsItem" });
-    case 1:
-      return S.Array(__S(8, __c1, 0));
-    case 2:
+    case 3:
+      return S.Array(__S(10, __c1, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
           warning: S.optional(S.String),
-          conflicts: S.optional(__S(9, __c1, 1)),
+          conflicts: S.optional(__S(11, __c1, 3)),
         }),
       ).annotate({ identifier: "Error409Body" });
   }
@@ -11070,19 +13767,103 @@ function __c2(j: number): any {
           destination_uuid: S.String,
           name: S.optional(S.NullOr(S.String)),
           clone_volumes: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/services/{uuid}/clone", code: 200 })),
-      ).annotate({ identifier: "CloneServiceByUuidRequest" });
+        }).pipe(T.Http({ method: "POST", uri: "/databases/{uuid}/clone", code: 200 })),
+      ).annotate({ identifier: "CloneDatabaseByUuidRequest" });
   }
 }
 function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "POST", uri: "/enable", code: 200 })),
-      ).annotate({ identifier: "EnableApiRequest" });
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          tag_uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/databases/{uuid}/tags/{tag_uuid}", code: 200 })),
+      ).annotate({ identifier: "DeleteTagByDatabaseUuidRequest" });
   }
 }
 function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          tag_uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/services/{uuid}/tags/{tag_uuid}", code: 200 })),
+      ).annotate({ identifier: "DeleteTagByServiceUuidRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          env_id: S.Number.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/team/envs/{env_id}", code: 200 })),
+      ).annotate({ identifier: "DeleteTeamSharedEnvRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          tag: S.optional(S.String.pipe(T.Query())),
+          uuid: S.optional(S.String.pipe(T.Query())),
+          force: S.optional(S.Boolean.pipe(T.Query())),
+          pr: S.optional(S.Number.pipe(T.Query())),
+          pull_request_id: S.optional(S.Number.pipe(T.Query())),
+          docker_tag: S.optional(S.String.pipe(T.Query())),
+          cancel_previous: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "POST", uri: "/deploy", code: 200 })),
+      ).annotate({ identifier: "DeployByTagOrUuidRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.optional(S.String),
+          resource_uuid: S.optional(S.String),
+          deployment_uuid: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeployByTagOrUuidResponseDeploymentsItem" });
+    case 2:
+      return S.Array(__S(49, __c6, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          deployments: S.optional(__S(50, __c6, 2)),
+        }),
+      ).annotate({ identifier: "DeployByTagOrUuidResponse" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "POST", uri: "/disable", code: 200 })),
+      ).annotate({ identifier: "DisableApiRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "POST", uri: "/mcp/disable", code: 200 })),
+      ).annotate({ identifier: "DisableMcpRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/servers/{uuid}/cloudflare-tunnel/disable", code: 200 }),
+        ),
+      ).annotate({ identifier: "DisableServerCloudflareTunnelRequest" });
+  }
+}
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11090,7 +13871,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "EnableMcpRequest" });
   }
 }
-function __c5(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11102,7 +13883,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "EnableServerCloudflareTunnelRequest" });
   }
 }
-function __c6(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11119,7 +13900,20 @@ function __c6(j: number): any {
       ).annotate({ identifier: "ExecuteScheduledTaskByApplicationUuidRequest" });
   }
 }
-function __c7(j: number): any {
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          destination_uuid: S.String,
+          name: S.optional(S.NullOr(S.String)),
+          clone_volumes: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/services/{uuid}/clone", code: 200 })),
+      ).annotate({ identifier: "CloneServiceByUuidRequest" });
+  }
+}
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11136,7 +13930,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "ExecuteScheduledTaskByServiceUuidRequest" });
   }
 }
-function __c8(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11146,7 +13940,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetApplicationRequest" });
   }
 }
-function __c9(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11172,6 +13966,7 @@ function __c9(j: number): any {
           is_gzip_enabled: S.optional(S.Boolean),
           traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
           is_stripprefix_enabled: S.optional(S.Boolean),
+          is_permanent_redirect_enabled: S.optional(S.Boolean),
           connect_to_docker_network: S.optional(S.Boolean),
           custom_internal_name: S.optional(S.NullOr(S.String)),
           custom_container_name_prefix: S.optional(S.NullOr(S.String)),
@@ -11185,10 +13980,13 @@ function __c9(j: number): any {
           is_git_shallow_clone_enabled: S.optional(S.Boolean),
           is_pr_deployments_public_enabled: S.optional(S.Boolean),
           use_build_secrets: S.optional(S.Boolean),
+          redact_all_env_values_in_logs: S.optional(S.Boolean),
           inject_build_args_to_dockerfile: S.optional(S.Boolean),
           include_source_commit_in_build: S.optional(S.Boolean),
+          include_network_hosts_in_build: S.optional(S.Boolean),
           docker_images_to_keep: S.optional(S.Number),
           stop_grace_period: S.optional(S.NullOr(S.Number)),
+          rolling_update_drain_seconds: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ApplicationSetting" });
     case 1:
@@ -11200,12 +13998,14 @@ function __c9(j: number): any {
           uuid: S.optional(S.String),
           name: S.optional(S.String),
           fqdn: S.optional(S.NullOr(S.String)),
-          noindex_domains: S.optional(S.NullOr(__S(2104, __c263, 0))),
+          noindex_domains: S.optional(S.NullOr(__S(2456, __c307, 0))),
           config_hash: S.optional(S.String),
           git_repository: S.optional(S.String),
           git_branch: S.optional(S.String),
           git_commit_sha: S.optional(S.String),
           git_full_url: S.optional(S.NullOr(S.String)),
+          git_ssh_known_hosts: S.optional(S.NullOr(S.String)),
+          git_https_username: S.optional(S.NullOr(S.String)),
           docker_registry_image_name: S.optional(S.NullOr(S.String)),
           docker_registry_image_tag: S.optional(S.NullOr(S.String)),
           build_pack: S.optional(S.String),
@@ -11279,12 +14079,62 @@ function __c9(j: number): any {
           is_http_basic_auth_enabled: S.optional(S.Boolean),
           http_basic_auth_username: S.optional(S.NullOr(S.String)),
           http_basic_auth_password: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
-          settings: S.optional(__S(72, __c9, 0)),
+          http_basic_auth_hash_algorithm: S.optional(S.String),
+          http_basic_auth_bcrypt_cost: S.optional(S.Number),
+          http_basic_auth_argon2id_memory_cost: S.optional(S.Number),
+          http_basic_auth_argon2id_time_cost: S.optional(S.Number),
+          settings: S.optional(__S(128, __c16, 0)),
         }),
       ).annotate({ identifier: "Application" });
   }
 }
-function __c10(j: number): any {
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/applications/{uuid}/dns", code: 200 })),
+      ).annotate({ identifier: "GetApplicationDnsRequest" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          integration_token_uuid: S.optional(S.String),
+          integration_token_name: S.optional(S.String),
+          zone: S.optional(S.String),
+          automatic_dns: S.optional(S.Boolean),
+          proxied_dns: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ResourceDnsStatusHostnamesItemProvidersItem" });
+    case 1:
+      return S.Array(__S(144, __c18, 0));
+    case 2:
+      return S.Array(__S(464, __c58, 0));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          hostname: S.optional(S.String),
+          providers: S.optional(__S(145, __c18, 1)),
+          records: S.optional(__S(146, __c18, 2)),
+        }),
+      ).annotate({ identifier: "ResourceDnsStatusHostnamesItem" });
+    case 4:
+      return S.Array(__S(147, __c18, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          default_address: S.optional(S.NullOr(S.String)),
+          public_addresses: S.optional(__S(2456, __c307, 0)),
+          hostnames: S.optional(__S(148, __c18, 4)),
+        }),
+      ).annotate({ identifier: "ResourceDnsStatus" });
+  }
+}
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11297,7 +14147,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetApplicationLogsByUuidRequest" });
   }
 }
-function __c11(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11307,7 +14157,122 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetApplicationLogsByUuidResponse" });
   }
 }
-function __c12(j: number): any {
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          state: S.optional(S.String.pipe(T.Query())),
+          severity: S.optional(S.String.pipe(T.Query())),
+          image: S.optional(S.String.pipe(T.Query())),
+          search: S.optional(S.String.pipe(T.Query())),
+          page: S.optional(S.Number.pipe(T.Query())),
+          per_page: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/applications/{uuid}/vulnerabilities", code: 200 })),
+      ).annotate({ identifier: "GetApplicationVulnerabilitiesRequest" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          scan_uuid: S.optional(S.String),
+          owner_uuid: S.optional(S.String),
+          image_ref: S.optional(S.String),
+          scan_status: S.optional(S.String),
+          error_code: S.optional(S.NullOr(S.String)),
+          scanned_at: S.optional(S.NullOr(S.String)),
+          truncated: S.optional(S.Boolean),
+          security_status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ResourceVulnerabilitiesImagesItem" });
+    case 1:
+      return S.Array(__S(176, __c22, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          display_id: S.optional(S.String),
+          aliases: S.optional(__S(2456, __c307, 0)),
+          title: S.optional(S.String),
+          severity: S.optional(S.String),
+          package: S.optional(S.String),
+          version: S.optional(S.String),
+          package_type: S.optional(S.String),
+          fixed_in: S.optional(S.NullOr(S.String)),
+          state: S.optional(S.String),
+          ignore: S.optional(S.NullOr(S.Unknown)),
+          kev: S.optional(S.Boolean),
+          epss: S.optional(S.NullOr(S.Number)),
+          risk: S.optional(S.NullOr(S.Number)),
+          cvss_score: S.optional(S.NullOr(S.Number)),
+          advisory_url: S.optional(S.NullOr(S.String)),
+          image_ref: S.optional(S.String),
+          owner_uuid: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ResourceVulnerabilitiesFindingsItem" });
+    case 3:
+      return S.Array(__S(178, __c22, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          page: S.optional(S.Number),
+          per_page: S.optional(S.Number),
+          total: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ResourceVulnerabilitiesPagination" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.optional(S.String),
+          type: S.optional(S.String),
+          off_reason: S.optional(S.NullOr(S.String)),
+          security: S.optional(S.NullOr(__S(186, __c23, 2))),
+          images: S.optional(__S(177, __c22, 1)),
+          findings: S.optional(__S(179, __c22, 3)),
+          pagination: S.optional(__S(180, __c22, 4)),
+        }),
+      ).annotate({ identifier: "ResourceVulnerabilities" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          sentence: S.optional(S.String),
+          target: S.optional(S.NullOr(S.String)),
+          copy: S.optional(S.NullOr(S.String)),
+          image: S.optional(S.NullOr(S.String)),
+          ref: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "SecurityStatusActionsItem" });
+    case 1:
+      return S.Array(__S(184, __c23, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          label: S.optional(S.String),
+          action: S.optional(S.NullOr(S.String)),
+          check_reason: S.optional(S.NullOr(S.String)),
+          problem_count: S.optional(S.Number),
+          exploited_count: S.optional(S.Number),
+          any_exploited: S.optional(S.Boolean),
+          critical_count: S.optional(S.Number),
+          high_count: S.optional(S.Number),
+          medium_count: S.optional(S.Number),
+          eol: S.optional(S.NullOr(S.Unknown)),
+          checked_at: S.optional(S.NullOr(S.String)),
+          actions: S.optional(__S(185, __c23, 1)),
+        }),
+      ).annotate({ identifier: "SecurityStatus" });
+  }
+}
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11317,7 +14282,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetCloudInitScriptRequest" });
   }
 }
-function __c13(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11339,7 +14304,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetCloudTokenResponse" });
   }
 }
-function __c14(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11347,19 +14312,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetCurrentTeamDiscordNotificationsRequest" });
   }
 }
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          integration_token_uuid: S.String,
-          settings: S.optional(S.Unknown),
-        }).pipe(T.Http({ method: "PATCH", uri: "/applications/{uuid}/secret-manager", code: 200 })),
-      ).annotate({ identifier: "ConfigureApplicationSecretManagerRequest" });
-  }
-}
-function __c16(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11367,7 +14320,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetCurrentTeamEmailNotificationsRequest" });
   }
 }
-function __c17(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11375,7 +14328,19 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetCurrentTeamPushoverNotificationsRequest" });
   }
 }
-function __c18(j: number): any {
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          export_id: S.optional(S.NullOr(S.String)),
+          target_instance_url: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "POST", uri: "/servers/{uuid}/transfer/complete", code: 200 })),
+      ).annotate({ identifier: "CompleteServerTransferRequest" });
+  }
+}
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11383,7 +14348,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetCurrentTeamSlackNotificationsRequest" });
   }
 }
-function __c19(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11391,7 +14356,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetCurrentTeamTelegramNotificationsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11399,7 +14364,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetCurrentTeamWebhookNotificationsRequest" });
   }
 }
-function __c21(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11409,214 +14374,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetDatabaseRequest" });
   }
 }
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.String.pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetDatabaseResponse",
-      });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/databases/{uuid}/backups", code: 200 })),
-      ).annotate({ identifier: "GetDatabaseBackupsByUuidRequest" });
-  }
-}
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          activity_id: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/databases/{uuid}/imports/{activity_id}", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetDatabaseImportRequest" });
-  }
-}
-function __c25(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.Number),
-          status: S.optional(S.String),
-          exit_code: S.optional(S.NullOr(S.Number)),
-          output: S.optional(S.String),
-          created_at: S.optional(S.String),
-          updated_at: S.optional(S.String),
-          finished_at: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "DatabaseImportStatus" });
-  }
-}
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          lines: S.optional(S.Unknown.pipe(T.Query())),
-          show_timestamps: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/databases/{uuid}/logs", code: 200 })),
-      ).annotate({ identifier: "GetDatabaseLogsByUuidRequest" });
-  }
-}
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/deployments/{uuid}", code: 200 })),
-      ).annotate({ identifier: "GetDeploymentRequest" });
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.Number),
-          application_id: S.optional(S.String),
-          deployment_uuid: S.optional(S.String),
-          pull_request_id: S.optional(S.Number),
-          docker_registry_image_tag: S.optional(S.NullOr(S.String)),
-          configuration_hash: S.optional(S.NullOr(S.String)),
-          configuration_snapshot: S.optional(S.NullOr(S.Unknown)),
-          configuration_diff: S.optional(S.NullOr(S.Unknown)),
-          force_rebuild: S.optional(S.Boolean),
-          commit: S.optional(S.String),
-          status: S.optional(S.String),
-          is_webhook: S.optional(S.Boolean),
-          is_api: S.optional(S.Boolean),
-          created_at: S.optional(S.String),
-          updated_at: S.optional(S.String),
-          logs: S.optional(S.String),
-          current_process_id: S.optional(S.String),
-          restart_only: S.optional(S.Boolean),
-          git_type: S.optional(S.String),
-          server_id: S.optional(S.Number),
-          application_name: S.optional(S.String),
-          server_name: S.optional(S.String),
-          deployment_url: S.optional(S.String),
-          destination_id: S.optional(S.String),
-          only_this_server: S.optional(S.Boolean),
-          parent_deployment_uuid: S.optional(S.NullOr(S.String)),
-          rollback: S.optional(S.Boolean),
-          commit_message: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ApplicationDeploymentQueue" });
-  }
-}
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          script: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/cloud-init-scripts", code: 200 })),
-      ).annotate({ identifier: "CreateCloudInitScriptRequest" });
-  }
-}
-function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/destinations/{uuid}", code: 200 })),
-      ).annotate({ identifier: "GetDestinationRequest" });
-  }
-}
-function __c31(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cloud_provider_token_uuid: S.optional(S.String.pipe(T.Query())),
-          cloud_provider_token_id: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/digitalocean/images", code: 200 })),
-      ).annotate({ identifier: "GetDigitaloceanImagesRequest" });
-  }
-}
-function __c32(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cloud_provider_token_uuid: S.optional(S.String.pipe(T.Query())),
-          cloud_provider_token_id: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/digitalocean/regions", code: 200 })),
-      ).annotate({ identifier: "GetDigitaloceanRegionsRequest" });
-  }
-}
-function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cloud_provider_token_uuid: S.optional(S.String.pipe(T.Query())),
-          cloud_provider_token_id: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/digitalocean/sizes", code: 200 })),
-      ).annotate({ identifier: "GetDigitaloceanSizesRequest" });
-  }
-}
 function __c34(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cloud_provider_token_uuid: S.optional(S.String.pipe(T.Query())),
-          cloud_provider_token_id: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/digitalocean/ssh-keys", code: 200 })),
-      ).annotate({ identifier: "GetDigitaloceanSshKeysRequest" });
-  }
-}
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/servers/{uuid}/domains", code: 200 })),
-      ).annotate({ identifier: "GetDomainsByServerUuidRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ip: S.optional(S.String),
-          domains: S.optional(__S(2104, __c263, 0)),
-        }),
-      ).annotate({ identifier: "GetDomainsByServerUuidResponseBodyItem" });
-    case 2:
-      return S.Array(__S(281, __c35, 1));
-    case 3:
-      return S.suspend(() => __S(282, __c35, 2).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetDomainsByServerUuidResponse",
-      });
-  }
-}
-function __c36(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          environment_name_or_uuid: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/projects/{uuid}/{environment_name_or_uuid}", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetEnvironmentByNameOrUuidRequest" });
-  }
-}
-function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11631,452 +14389,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "Environment" });
   }
 }
-function __c38(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/projects/{uuid}/environments", code: 200 })),
-      ).annotate({ identifier: "GetEnvironmentsRequest" });
-    case 1:
-      return S.Array(__S(296, __c37, 0));
-    case 2:
-      return S.suspend(() => __S(305, __c38, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetEnvironmentsResponse",
-      });
-  }
-}
-function __c39(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cloud_provider_token_uuid: S.optional(S.String.pipe(T.Query())),
-          cloud_provider_token_id: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/hetzner/firewalls", code: 200 })),
-      ).annotate({ identifier: "GetHetznerFirewallsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.Number),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GetHetznerFirewallsResponseBodyItem" });
-    case 2:
-      return S.Array(__S(313, __c39, 1));
-    case 3:
-      return S.suspend(() => __S(314, __c39, 2).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetHetznerFirewallsResponse",
-      });
-  }
-}
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cloud_provider_token_uuid: S.optional(S.String.pipe(T.Query())),
-          cloud_provider_token_id: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/hetzner/images", code: 200 })),
-      ).annotate({ identifier: "GetHetznerImagesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.Number),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          type: S.optional(S.String),
-          os_flavor: S.optional(S.String),
-          os_version: S.optional(S.String),
-          architecture: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GetHetznerImagesResponseBodyItem" });
-    case 2:
-      return S.Array(__S(321, __c40, 1));
-    case 3:
-      return S.suspend(() => __S(322, __c40, 2).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetHetznerImagesResponse",
-      });
-  }
-}
-function __c41(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          provider: S.String,
-          token: S.String,
-          name: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/cloud-tokens", code: 200 })),
-      ).annotate({ identifier: "CreateCloudTokenRequest" });
-  }
-}
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateCloudTokenResponse" });
-  }
-}
-function __c43(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cloud_provider_token_uuid: S.optional(S.String.pipe(T.Query())),
-          cloud_provider_token_id: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/hetzner/locations", code: 200 })),
-      ).annotate({ identifier: "GetHetznerLocationsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.Number),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          country: S.optional(S.String),
-          city: S.optional(S.String),
-          latitude: S.optional(S.Number),
-          longitude: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GetHetznerLocationsResponseBodyItem" });
-    case 2:
-      return S.Array(__S(345, __c43, 1));
-    case 3:
-      return S.suspend(() => __S(346, __c43, 2).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetHetznerLocationsResponse",
-      });
-  }
-}
-function __c44(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cloud_provider_token_uuid: S.optional(S.String.pipe(T.Query())),
-          cloud_provider_token_id: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/hetzner/networks", code: 200 })),
-      ).annotate({ identifier: "GetHetznerNetworksRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.Number),
-          name: S.optional(S.String),
-          ip_range: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GetHetznerNetworksResponseBodyItem" });
-    case 2:
-      return S.Array(__S(353, __c44, 1));
-    case 3:
-      return S.suspend(() => __S(354, __c44, 2).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetHetznerNetworksResponse",
-      });
-  }
-}
-function __c45(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cloud_provider_token_uuid: S.optional(S.String.pipe(T.Query())),
-          cloud_provider_token_id: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/hetzner/server-types", code: 200 })),
-      ).annotate({ identifier: "GetHetznerServerTypesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          net: S.optional(S.String),
-          gross: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GetHetznerServerTypesResponseBodyItemPricesItemPriceHourly" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(S.String),
-          price_hourly: S.optional(__S(361, __c45, 1)),
-          price_monthly: S.optional(__S(361, __c45, 1)),
-        }),
-      ).annotate({ identifier: "GetHetznerServerTypesResponseBodyItemPricesItem" });
-    case 3:
-      return S.Array(__S(362, __c45, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.Number),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          cores: S.optional(S.Number),
-          memory: S.optional(S.Number),
-          disk: S.optional(S.Number),
-          prices: S.optional(__S(363, __c45, 3)),
-        }),
-      ).annotate({ identifier: "GetHetznerServerTypesResponseBodyItem" });
-    case 5:
-      return S.Array(__S(364, __c45, 4));
-    case 6:
-      return S.suspend(() => __S(365, __c45, 5).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetHetznerServerTypesResponse",
-      });
-  }
-}
-function __c46(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cloud_provider_token_uuid: S.optional(S.String.pipe(T.Query())),
-          cloud_provider_token_id: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/hetzner/ssh-keys", code: 200 })),
-      ).annotate({ identifier: "GetHetznerSshKeysRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.Number),
-          name: S.optional(S.String),
-          fingerprint: S.optional(S.String),
-          public_key: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GetHetznerSshKeysResponseBodyItem" });
-    case 2:
-      return S.Array(__S(369, __c46, 1));
-    case 3:
-      return S.suspend(() => __S(370, __c46, 2).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetHetznerSshKeysResponse",
-      });
-  }
-}
-function __c47(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/settings/email", code: 200 })),
-      ).annotate({ identifier: "GetInstanceEmailSettingsRequest" });
-  }
-}
-function __c48(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.Number.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/teams/{id}/members", code: 200 })),
-      ).annotate({ identifier: "GetMembersByTeamIdRequest" });
-  }
-}
-function __c49(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.Number),
-          name: S.optional(S.String),
-          email: S.optional(S.String),
-          email_verified_at: S.optional(S.String),
-          created_at: S.optional(S.String),
-          updated_at: S.optional(S.String),
-          two_factor_confirmed_at: S.optional(S.String),
-          force_password_reset: S.optional(S.Boolean),
-          marketing_emails: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "User" });
-    case 1:
-      return S.Array(__S(392, __c49, 0));
-  }
-}
-function __c50(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => __S(393, __c49, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetMembersByTeamIdResponse",
-      });
-  }
-}
-function __c51(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          pull_request_id: S.Number.pipe(T.Label()),
-          lines: S.optional(S.Unknown.pipe(T.Query())),
-          show_timestamps: S.optional(S.Boolean.pipe(T.Query())),
-          service_name: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/applications/{uuid}/previews/{pull_request_id}/logs",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetPreviewApplicationLogsByPullRequestIdRequest" });
-  }
-}
-function __c52(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          pull_request_id: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/applications/{uuid}/previews/{pull_request_id}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetPreviewDeploymentByPullRequestIdRequest" });
-  }
-}
-function __c53(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/security/keys/{uuid}", code: 200 })),
-      ).annotate({ identifier: "GetPrivateKeyByUuidRequest" });
-  }
-}
-function __c54(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.Number),
-          uuid: S.optional(S.String),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          private_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          public_key: S.optional(S.String),
-          fingerprint: S.optional(S.String),
-          is_git_related: S.optional(S.Boolean),
-          team_id: S.optional(S.Number),
-          created_at: S.optional(S.String),
-          updated_at: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PrivateKey" });
-  }
-}
-function __c55(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/projects/{uuid}", code: 200 })),
-      ).annotate({ identifier: "GetProjectRequest" });
-  }
-}
-function __c56(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.Number),
-          uuid: S.optional(S.String),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Project" });
-  }
-}
-function __c57(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          frequency: S.String,
-          enabled: S.optional(S.Boolean),
-          save_s3: S.optional(S.Boolean),
-          s3_storage_uuid: S.optional(S.String),
-          databases_to_backup: S.optional(S.String),
-          dump_all: S.optional(S.Boolean),
-          backup_now: S.optional(S.Boolean),
-          database_backup_retention_amount_locally: S.optional(S.Number),
-          database_backup_retention_days_locally: S.optional(S.Number),
-          database_backup_retention_max_storage_locally: S.optional(S.Number),
-          database_backup_retention_amount_s3: S.optional(S.Number),
-          database_backup_retention_days_s3: S.optional(S.Number),
-          database_backup_retention_max_storage_s3: S.optional(S.Number),
-          timeout: S.optional(S.Number),
-          missing_backup_notification_days: S.optional(S.Number),
-        }).pipe(T.Http({ method: "POST", uri: "/databases/{uuid}/backups", code: 200 })),
-      ).annotate({ identifier: "CreateDatabaseBackupRequest" });
-  }
-}
-function __c58(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/servers/{uuid}/resources", code: 200 })),
-      ).annotate({ identifier: "GetResourcesByServerUuidRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.Number),
-          uuid: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          created_at: S.optional(S.String),
-          updated_at: S.optional(S.String),
-          status: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GetResourcesByServerUuidResponseBodyItem" });
-    case 2:
-      return S.Array(__S(465, __c58, 1));
-    case 3:
-      return S.suspend(() => __S(466, __c58, 2).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetResourcesByServerUuidResponse",
-      });
-  }
-}
-function __c59(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/s3-storages/{uuid}", code: 200 })),
-      ).annotate({ identifier: "GetS3StorageRequest" });
-  }
-}
-function __c60(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.optional(S.String),
-          name: S.optional(S.String),
-          description: S.optional(S.NullOr(S.String)),
-          endpoint: S.optional(S.String),
-          bucket: S.optional(S.String),
-          region: S.optional(S.String),
-          is_usable: S.optional(S.Boolean),
-          team_id: S.optional(S.Number),
-          created_at: S.optional(S.String),
-          updated_at: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GetS3StorageResponse" });
-  }
-}
-function __c61(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/servers/{uuid}", code: 200 })),
-      ).annotate({ identifier: "GetServerRequest" });
-  }
-}
-function __c62(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12093,8 +14406,8 @@ function __c62(j: number): any {
           is_cloudflare_tunnel: S.optional(S.Boolean),
           is_jump_server: S.optional(S.Boolean),
           is_logdrain_axiom_enabled: S.optional(S.Boolean),
+          is_logdrain_cloudwatch_enabled: S.optional(S.Boolean),
           is_logdrain_custom_enabled: S.optional(S.Boolean),
-          is_logdrain_highlight_enabled: S.optional(S.Boolean),
           is_logdrain_newrelic_enabled: S.optional(S.Boolean),
           is_metrics_enabled: S.optional(S.Boolean),
           is_traffic_analytics_enabled: S.optional(S.Boolean),
@@ -12106,22 +14419,35 @@ function __c62(j: number): any {
           geoip_refresh_days: S.optional(S.Number),
           traffic_ip_mode: S.optional(S.String),
           traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
+          public_ipv4: S.optional(S.NullOr(S.String)),
+          public_ipv6: S.optional(S.NullOr(S.String)),
           is_reachable: S.optional(S.Boolean),
+          ssh_host_key: S.optional(S.NullOr(S.String)),
+          ssh_host_key_source: S.optional(S.NullOr(S.String)),
+          ssh_host_key_trusted_at: S.optional(S.NullOr(S.String)),
+          ssh_host_key_pending: S.optional(S.NullOr(S.String)),
+          is_ssh_host_key_check_disabled: S.optional(S.Boolean),
+          is_ssh_host_key_check_enforced: S.optional(S.Boolean),
+          ssh_host_key_fingerprints: S.optional(__S(2456, __c307, 0)),
+          ssh_host_key_pending_fingerprints: S.optional(__S(2456, __c307, 0)),
           is_sentinel_enabled: S.optional(S.Boolean),
           is_swarm_manager: S.optional(S.Boolean),
           is_swarm_worker: S.optional(S.Boolean),
           is_terminal_enabled: S.optional(S.Boolean),
           is_usable: S.optional(S.Boolean),
-          logdrain_axiom_api_key: S.optional(S.String),
+          logdrain_axiom_api_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
           logdrain_axiom_dataset_name: S.optional(S.String),
+          logdrain_axiom_domain: S.optional(S.String),
+          logdrain_cloudwatch_region: S.optional(S.String),
+          logdrain_cloudwatch_group: S.optional(S.String),
+          logdrain_cloudwatch_stream_prefix: S.optional(S.String),
           logdrain_custom_config: S.optional(S.String),
           logdrain_custom_config_parser: S.optional(S.String),
-          logdrain_highlight_project_id: S.optional(S.String),
           logdrain_newrelic_base_uri: S.optional(S.String),
-          logdrain_newrelic_license_key: S.optional(S.String),
+          logdrain_newrelic_license_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
           sentinel_metrics_history_days: S.optional(S.Number),
           sentinel_metrics_refresh_rate_seconds: S.optional(S.Number),
-          sentinel_token: S.optional(S.String),
+          sentinel_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           docker_cleanup_frequency: S.optional(S.String),
           docker_cleanup_threshold: S.optional(S.Number),
           server_id: S.optional(S.Number),
@@ -12155,12 +14481,904 @@ function __c62(j: number): any {
           validation_logs: S.optional(S.String),
           log_drain_notification_sent: S.optional(S.Boolean),
           swarm_cluster: S.optional(S.String),
-          settings: S.optional(__S(496, __c62, 0)),
+          settings: S.optional(__S(280, __c35, 0)),
         }),
       ).annotate({ identifier: "Server" });
   }
 }
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.optional(S.String),
+          name: S.optional(S.String),
+          network: S.optional(S.String),
+          server_id: S.optional(S.Number),
+          server: S.optional(__S(281, __c35, 1)),
+          created_at: S.optional(S.String),
+          updated_at: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DatabaseDestination" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          index: S.optional(S.Number),
+          filename: S.optional(S.String),
+          content: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DatabaseInitScriptsItem" });
+    case 2:
+      return S.Array(__S(289, __c36, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.NullOr(S.String)),
+          database_type: S.optional(S.String),
+          image: S.optional(S.String),
+          status: S.optional(S.String),
+          server_status: S.optional(S.Boolean),
+          environment_id: S.optional(S.Number),
+          environment: S.optional(__S(272, __c34, 0)),
+          destination_id: S.optional(S.Number),
+          destination_type: S.optional(S.String),
+          destination: S.optional(__S(288, __c36, 0)),
+          is_public: S.optional(S.Boolean),
+          public_port: S.optional(S.NullOr(S.Number)),
+          public_port_timeout: S.optional(S.NullOr(S.Number)),
+          ports_mappings: S.optional(S.NullOr(S.String)),
+          enable_ssl: S.optional(S.Boolean),
+          ssl_mode: S.optional(S.NullOr(S.String)),
+          internal_db_url: S.optional(S.NullOr(S.String)),
+          external_db_url: S.optional(S.NullOr(S.String)),
+          init_scripts: S.optional(S.NullOr(__S(290, __c36, 2))),
+          custom_docker_run_options: S.optional(S.NullOr(S.String)),
+          is_log_drain_enabled: S.optional(S.Boolean),
+          is_include_timestamps: S.optional(S.Boolean),
+          include_coolify_default_variables: S.optional(S.Boolean),
+          redact_all_env_values_in_logs: S.optional(S.Boolean),
+          health_check_enabled: S.optional(S.Boolean),
+          health_check_interval: S.optional(S.Number),
+          health_check_timeout: S.optional(S.Number),
+          health_check_retries: S.optional(S.Number),
+          health_check_start_period: S.optional(S.Number),
+          limits_memory: S.optional(S.String),
+          limits_memory_swap: S.optional(S.String),
+          limits_memory_swappiness: S.optional(S.Number),
+          limits_memory_reservation: S.optional(S.String),
+          limits_cpus: S.optional(S.String),
+          limits_cpuset: S.optional(S.NullOr(S.String)),
+          limits_cpu_shares: S.optional(S.Number),
+          config_hash: S.optional(S.NullOr(S.String)),
+          restart_count: S.optional(S.Number),
+          last_restart_at: S.optional(S.NullOr(S.String)),
+          last_restart_type: S.optional(S.NullOr(S.String)),
+          last_online_at: S.optional(S.NullOr(S.String)),
+          started_at: S.optional(S.NullOr(S.String)),
+          backup_configs: S.optional(__S(296, __c37, 0)),
+          postgres_user: S.optional(S.String),
+          postgres_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          postgres_db: S.optional(S.String),
+          postgres_initdb_args: S.optional(S.NullOr(S.String)),
+          postgres_host_auth_method: S.optional(S.NullOr(S.String)),
+          postgres_conf: S.optional(S.NullOr(S.String)),
+          redis_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          redis_conf: S.optional(S.NullOr(S.String)),
+          mongo_initdb_root_username: S.optional(S.String),
+          mongo_initdb_root_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          mongo_initdb_database: S.optional(S.String),
+          mongo_conf: S.optional(S.NullOr(S.String)),
+          mysql_user: S.optional(S.String),
+          mysql_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          mysql_root_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          mysql_database: S.optional(S.String),
+          mysql_conf: S.optional(S.NullOr(S.String)),
+          mariadb_user: S.optional(S.String),
+          mariadb_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          mariadb_root_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          mariadb_database: S.optional(S.String),
+          mariadb_conf: S.optional(S.NullOr(S.String)),
+          keydb_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          keydb_conf: S.optional(S.NullOr(S.String)),
+          dragonfly_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          clickhouse_admin_user: S.optional(S.String),
+          clickhouse_admin_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          clickhouse_db: S.optional(S.String),
+          sqlite_databases: S.optional(S.String),
+          created_at: S.optional(S.String),
+          updated_at: S.optional(S.String),
+          deleted_at: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "Database" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/databases/{uuid}/backups", code: 200 })),
+      ).annotate({ identifier: "GetDatabaseBackupsByUuidRequest" });
+    case 1:
+      return S.suspend(() => S.String.pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetDatabaseBackupsByUuidResponse",
+      });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          activity_id: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/databases/{uuid}/imports/{activity_id}", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetDatabaseImportRequest" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          status: S.optional(S.String),
+          exit_code: S.optional(S.NullOr(S.Number)),
+          output: S.optional(S.String),
+          created_at: S.optional(S.String),
+          updated_at: S.optional(S.String),
+          finished_at: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "DatabaseImportStatus" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          lines: S.optional(S.Unknown.pipe(T.Query())),
+          show_timestamps: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/databases/{uuid}/logs", code: 200 })),
+      ).annotate({ identifier: "GetDatabaseLogsByUuidRequest" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          state: S.optional(S.String.pipe(T.Query())),
+          severity: S.optional(S.String.pipe(T.Query())),
+          image: S.optional(S.String.pipe(T.Query())),
+          search: S.optional(S.String.pipe(T.Query())),
+          page: S.optional(S.Number.pipe(T.Query())),
+          per_page: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/databases/{uuid}/vulnerabilities", code: 200 })),
+      ).annotate({ identifier: "GetDatabaseVulnerabilitiesRequest" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/deployments/{uuid}", code: 200 })),
+      ).annotate({ identifier: "GetDeploymentRequest" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          application_id: S.optional(S.String),
+          deployment_uuid: S.optional(S.String),
+          pull_request_id: S.optional(S.Number),
+          docker_registry_image_tag: S.optional(S.NullOr(S.String)),
+          configuration_hash: S.optional(S.NullOr(S.String)),
+          configuration_snapshot: S.optional(S.NullOr(S.Unknown)),
+          configuration_diff: S.optional(S.NullOr(S.Unknown)),
+          force_rebuild: S.optional(S.Boolean),
+          commit: S.optional(S.String),
+          status: S.optional(S.String),
+          is_webhook: S.optional(S.Boolean),
+          is_api: S.optional(S.Boolean),
+          is_mcp: S.optional(S.Boolean),
+          created_at: S.optional(S.String),
+          updated_at: S.optional(S.String),
+          logs: S.optional(S.String),
+          current_process_id: S.optional(S.String),
+          restart_only: S.optional(S.Boolean),
+          git_type: S.optional(S.String),
+          server_id: S.optional(S.Number),
+          application_name: S.optional(S.String),
+          server_name: S.optional(S.String),
+          deployment_url: S.optional(S.String),
+          destination_id: S.optional(S.String),
+          only_this_server: S.optional(S.Boolean),
+          parent_deployment_uuid: S.optional(S.NullOr(S.String)),
+          rollback: S.optional(S.Boolean),
+          commit_message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ApplicationDeploymentQueue" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/destinations/{uuid}", code: 200 })),
+      ).annotate({ identifier: "GetDestinationRequest" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          integration_token_uuid: S.String,
+          settings: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "PATCH", uri: "/applications/{uuid}/secret-manager", code: 200 })),
+      ).annotate({ identifier: "ConfigureApplicationSecretManagerRequest" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cloud_provider_token_uuid: S.optional(S.String.pipe(T.Query())),
+          cloud_provider_token_id: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/digitalocean/images", code: 200 })),
+      ).annotate({ identifier: "GetDigitaloceanImagesRequest" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cloud_provider_token_uuid: S.optional(S.String.pipe(T.Query())),
+          cloud_provider_token_id: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/digitalocean/regions", code: 200 })),
+      ).annotate({ identifier: "GetDigitaloceanRegionsRequest" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cloud_provider_token_uuid: S.optional(S.String.pipe(T.Query())),
+          cloud_provider_token_id: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/digitalocean/sizes", code: 200 })),
+      ).annotate({ identifier: "GetDigitaloceanSizesRequest" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cloud_provider_token_uuid: S.optional(S.String.pipe(T.Query())),
+          cloud_provider_token_id: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/digitalocean/ssh-keys", code: 200 })),
+      ).annotate({ identifier: "GetDigitaloceanSshKeysRequest" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/servers/{uuid}/domains", code: 200 })),
+      ).annotate({ identifier: "GetDomainsByServerUuidRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ip: S.optional(S.String),
+          domains: S.optional(__S(2456, __c307, 0)),
+        }),
+      ).annotate({ identifier: "GetDomainsByServerUuidResponseBodyItem" });
+    case 2:
+      return S.Array(__S(409, __c51, 1));
+    case 3:
+      return S.suspend(() => __S(410, __c51, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetDomainsByServerUuidResponse",
+      });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          environment_name_or_uuid: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/projects/{uuid}/{environment_name_or_uuid}", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetEnvironmentByNameOrUuidRequest" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/projects/{uuid}/environments", code: 200 })),
+      ).annotate({ identifier: "GetEnvironmentsRequest" });
+    case 1:
+      return S.Array(__S(272, __c34, 0));
+    case 2:
+      return S.suspend(() => __S(425, __c53, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetEnvironmentsResponse",
+      });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cloud_provider_token_uuid: S.optional(S.String.pipe(T.Query())),
+          cloud_provider_token_id: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/hetzner/firewalls", code: 200 })),
+      ).annotate({ identifier: "GetHetznerFirewallsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetHetznerFirewallsResponseBodyItem" });
+    case 2:
+      return S.Array(__S(433, __c54, 1));
+    case 3:
+      return S.suspend(() => __S(434, __c54, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetHetznerFirewallsResponse",
+      });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cloud_provider_token_uuid: S.optional(S.String.pipe(T.Query())),
+          cloud_provider_token_id: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/hetzner/images", code: 200 })),
+      ).annotate({ identifier: "GetHetznerImagesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          type: S.optional(S.String),
+          os_flavor: S.optional(S.String),
+          os_version: S.optional(S.String),
+          architecture: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetHetznerImagesResponseBodyItem" });
+    case 2:
+      return S.Array(__S(441, __c55, 1));
+    case 3:
+      return S.suspend(() => __S(442, __c55, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetHetznerImagesResponse",
+      });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cloud_provider_token_uuid: S.optional(S.String.pipe(T.Query())),
+          cloud_provider_token_id: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/hetzner/locations", code: 200 })),
+      ).annotate({ identifier: "GetHetznerLocationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          country: S.optional(S.String),
+          city: S.optional(S.String),
+          latitude: S.optional(S.Number),
+          longitude: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GetHetznerLocationsResponseBodyItem" });
+    case 2:
+      return S.Array(__S(449, __c56, 1));
+    case 3:
+      return S.suspend(() => __S(450, __c56, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetHetznerLocationsResponse",
+      });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          hostname: S.String,
+          integration_token_uuid: S.optional(S.String),
+          address: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/applications/{uuid}/dns", code: 200 })),
+      ).annotate({ identifier: "CreateApplicationDnsRecordRequest" });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.optional(S.String),
+          hostname: S.optional(S.String),
+          type: S.optional(S.String),
+          address: S.optional(S.String),
+          owned: S.optional(S.Boolean),
+          integration_token_uuid: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ManagedDnsRecord" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          record: S.optional(__S(464, __c58, 0)),
+        }),
+      ).annotate({ identifier: "CreateApplicationDnsRecordResponse" });
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cloud_provider_token_uuid: S.optional(S.String.pipe(T.Query())),
+          cloud_provider_token_id: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/hetzner/networks", code: 200 })),
+      ).annotate({ identifier: "GetHetznerNetworksRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          name: S.optional(S.String),
+          ip_range: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetHetznerNetworksResponseBodyItem" });
+    case 2:
+      return S.Array(__S(481, __c60, 1));
+    case 3:
+      return S.suspend(() => __S(482, __c60, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetHetznerNetworksResponse",
+      });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(S.String.pipe(T.Query())),
+          cloud_provider_token_uuid: S.optional(S.String.pipe(T.Query())),
+          cloud_provider_token_id: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/hetzner/server-types", code: 200 })),
+      ).annotate({ identifier: "GetHetznerServerTypesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          net: S.optional(S.String),
+          gross: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetHetznerServerTypesResponseBodyItemPricesItemPriceHourly" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(S.String),
+          price_hourly: S.optional(__S(489, __c61, 1)),
+          price_monthly: S.optional(__S(489, __c61, 1)),
+        }),
+      ).annotate({ identifier: "GetHetznerServerTypesResponseBodyItemPricesItem" });
+    case 3:
+      return S.Array(__S(490, __c61, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          cores: S.optional(S.Number),
+          memory: S.optional(S.Number),
+          disk: S.optional(S.Number),
+          prices: S.optional(__S(491, __c61, 3)),
+        }),
+      ).annotate({ identifier: "GetHetznerServerTypesResponseBodyItem" });
+    case 5:
+      return S.Array(__S(492, __c61, 4));
+    case 6:
+      return S.suspend(() => __S(493, __c61, 5).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetHetznerServerTypesResponse",
+      });
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cloud_provider_token_uuid: S.optional(S.String.pipe(T.Query())),
+          cloud_provider_token_id: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/hetzner/ssh-keys", code: 200 })),
+      ).annotate({ identifier: "GetHetznerSshKeysRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          name: S.optional(S.String),
+          fingerprint: S.optional(S.String),
+          public_key: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetHetznerSshKeysResponseBodyItem" });
+    case 2:
+      return S.Array(__S(497, __c62, 1));
+    case 3:
+      return S.suspend(() => __S(498, __c62, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetHetznerSshKeysResponse",
+      });
+  }
+}
 function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/hostinger/catalog", code: 200 })),
+      ).annotate({ identifier: "GetHostingerCatalogRequest" });
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/hostinger/data-centers", code: 200 })),
+      ).annotate({ identifier: "GetHostingerDataCentersRequest" });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({ method: "GET", uri: "/hostinger/post-install-scripts", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetHostingerPostInstallScriptsRequest" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/hostinger/ssh-keys", code: 200 })),
+      ).annotate({ identifier: "GetHostingerSshKeysRequest" });
+  }
+}
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/hostinger/templates", code: 200 })),
+      ).annotate({ identifier: "GetHostingerTemplatesRequest" });
+  }
+}
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/settings/email", code: 200 })),
+      ).annotate({ identifier: "GetInstanceEmailSettingsRequest" });
+  }
+}
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/security/integration-tokens/{uuid}", code: 200 })),
+      ).annotate({ identifier: "GetIntegrationTokenByUuidRequest" });
+  }
+}
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.optional(S.String),
+          name: S.optional(S.String),
+          provider: S.optional(S.String),
+          capabilities: S.optional(__S(2608, __c326, 0)),
+          automatic_dns: S.optional(S.Boolean),
+          proxied_dns: S.optional(S.Boolean),
+          dns_zones_count: S.optional(S.Number),
+          zones_synced_at: S.optional(S.NullOr(S.String)),
+          created_at: S.optional(S.String),
+          updated_at: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IntegrationToken" });
+  }
+}
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          script: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/cloud-init-scripts", code: 200 })),
+      ).annotate({ identifier: "CreateCloudInitScriptRequest" });
+  }
+}
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/teams/{id}/members", code: 200 })),
+      ).annotate({ identifier: "GetMembersByTeamIdRequest" });
+  }
+}
+function __c73(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          name: S.optional(S.String),
+          email: S.optional(S.String),
+          email_verified_at: S.optional(S.String),
+          created_at: S.optional(S.String),
+          updated_at: S.optional(S.String),
+          two_factor_confirmed_at: S.optional(S.String),
+          force_password_reset: S.optional(S.Boolean),
+          marketing_emails: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "User" });
+    case 1:
+      return S.Array(__S(584, __c73, 0));
+  }
+}
+function __c74(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => __S(585, __c73, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetMembersByTeamIdResponse",
+      });
+  }
+}
+function __c75(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          pull_request_id: S.Number.pipe(T.Label()),
+          lines: S.optional(S.Unknown.pipe(T.Query())),
+          show_timestamps: S.optional(S.Boolean.pipe(T.Query())),
+          service_name: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/applications/{uuid}/previews/{pull_request_id}/logs",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetPreviewApplicationLogsByPullRequestIdRequest" });
+  }
+}
+function __c76(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          pull_request_id: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/applications/{uuid}/previews/{pull_request_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetPreviewDeploymentByPullRequestIdRequest" });
+  }
+}
+function __c77(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/security/keys/{uuid}", code: 200 })),
+      ).annotate({ identifier: "GetPrivateKeyByUuidRequest" });
+  }
+}
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          uuid: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          private_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          public_key: S.optional(S.String),
+          fingerprint: S.optional(S.String),
+          is_git_related: S.optional(S.Boolean),
+          team_id: S.optional(S.Number),
+          created_at: S.optional(S.String),
+          updated_at: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PrivateKey" });
+  }
+}
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/projects/{uuid}", code: 200 })),
+      ).annotate({ identifier: "GetProjectRequest" });
+  }
+}
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          uuid: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Project" });
+  }
+}
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/servers/{uuid}/resources", code: 200 })),
+      ).annotate({ identifier: "GetResourcesByServerUuidRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          uuid: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          created_at: S.optional(S.String),
+          updated_at: S.optional(S.String),
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetResourcesByServerUuidResponseBodyItem" });
+    case 2:
+      return S.Array(__S(649, __c81, 1));
+    case 3:
+      return S.suspend(() => __S(650, __c81, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetResourcesByServerUuidResponse",
+      });
+  }
+}
+function __c82(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/s3-storages/{uuid}", code: 200 })),
+      ).annotate({ identifier: "GetS3StorageRequest" });
+  }
+}
+function __c83(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.optional(S.String),
+          type: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.NullOr(S.String)),
+          endpoint: S.optional(S.String),
+          bucket: S.optional(S.NullOr(S.String)),
+          region: S.optional(S.String),
+          use_path_style_endpoint: S.optional(S.Boolean),
+          skip_tls_verification: S.optional(S.Boolean),
+          private_key_uuid: S.optional(S.NullOr(S.String)),
+          sftp_host_key: S.optional(S.NullOr(S.String)),
+          is_usable: S.optional(S.Boolean),
+          team_id: S.optional(S.Number),
+          created_at: S.optional(S.String),
+          updated_at: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetS3StorageResponse" });
+  }
+}
+function __c84(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resource_type: S.String.pipe(T.Label()),
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/{resource_type}/{uuid}/secret-manager", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetSecretManagerSourceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.optional(S.String),
+          name: S.optional(S.String),
+          provider: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SecretManagerSourceAvailableTokensItem" });
+    case 2:
+      return S.Array(__S(673, __c84, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          linked: S.optional(S.Boolean),
+          integration_token_uuid: S.optional(S.NullOr(S.String)),
+          provider: S.optional(S.NullOr(S.String)),
+          settings: S.optional(S.NullOr(S.Unknown)),
+          available_tokens: S.optional(__S(674, __c84, 2)),
+        }),
+      ).annotate({ identifier: "SecretManagerSource" });
+  }
+}
+function __c85(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/servers/{uuid}", code: 200 })),
+      ).annotate({ identifier: "GetServerRequest" });
+  }
+}
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12178,7 +15396,29 @@ function __c63(j: number): any {
       ).annotate({ identifier: "GetServerCloudflareTunnelResponse" });
   }
 }
-function __c64(j: number): any {
+function __c87(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          provider: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
+          name: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/cloud-tokens", code: 200 })),
+      ).annotate({ identifier: "CreateCloudTokenRequest" });
+  }
+}
+function __c88(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateCloudTokenResponse" });
+  }
+}
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12188,7 +15428,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "GetServerDockerCleanupRequest" });
   }
 }
-function __c65(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12203,7 +15443,31 @@ function __c65(j: number): any {
       ).annotate({ identifier: "GetServerDockerCleanupResponse" });
   }
 }
-function __c66(j: number): any {
+function __c91(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/servers/{uuid}/image-scanning", code: 200 })),
+      ).annotate({ identifier: "GetServerImageScanningRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          is_image_scan_enabled: S.optional(S.Boolean),
+          image_scan_memory_mb: S.optional(S.Number),
+          image_scan_syft_timeout: S.optional(S.Number),
+          image_scan_grype_timeout: S.optional(S.Number),
+          image_scan_cpus: S.optional(S.Number),
+          scanner_state: S.optional(S.NullOr(S.String)),
+          scanner_failed_step: S.optional(S.NullOr(S.String)),
+          scanner_built_at: S.optional(S.NullOr(S.String)),
+          scanner_disk_used_bytes: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "GetServerImageScanningResponse" });
+  }
+}
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12215,19 +15479,24 @@ function __c66(j: number): any {
       return S.suspend(() =>
         S.Struct({
           is_logdrain_newrelic_enabled: S.optional(S.Boolean),
-          logdrain_newrelic_license_key: S.optional(S.String),
+          logdrain_newrelic_license_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
           logdrain_newrelic_base_uri: S.optional(S.NullOr(S.String)),
           is_logdrain_axiom_enabled: S.optional(S.Boolean),
           logdrain_axiom_dataset_name: S.optional(S.NullOr(S.String)),
-          logdrain_axiom_api_key: S.optional(S.String),
+          logdrain_axiom_domain: S.optional(S.NullOr(S.String)),
+          logdrain_axiom_api_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
           is_logdrain_custom_enabled: S.optional(S.Boolean),
           logdrain_custom_config: S.optional(S.String),
           logdrain_custom_config_parser: S.optional(S.String),
+          is_logdrain_cloudwatch_enabled: S.optional(S.Boolean),
+          logdrain_cloudwatch_region: S.optional(S.NullOr(S.String)),
+          logdrain_cloudwatch_group: S.optional(S.NullOr(S.String)),
+          logdrain_cloudwatch_stream_prefix: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "GetServerLogDrainsResponse" });
   }
 }
-function __c67(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12237,7 +15506,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "GetServerProxyRequest" });
   }
 }
-function __c68(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12246,6 +15515,7 @@ function __c68(j: number): any {
           status: S.optional(S.NullOr(S.String)),
           redirect_enabled: S.optional(S.Boolean),
           redirect_url: S.optional(S.NullOr(S.String)),
+          proxy_error_page: S.optional(S.NullOr(S.String)),
           generate_exact_labels: S.optional(S.Boolean),
           traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
           configuration: S.optional(S.NullOr(S.String)),
@@ -12253,7 +15523,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "GetServerProxyResponse" });
   }
 }
-function __c69(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12267,7 +15537,7 @@ function __c69(j: number): any {
           is_sentinel_enabled: S.optional(S.Boolean),
           is_metrics_enabled: S.optional(S.Boolean),
           is_sentinel_debug_enabled: S.optional(S.Boolean),
-          sentinel_token: S.optional(S.String),
+          sentinel_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           sentinel_metrics_refresh_rate_seconds: S.optional(S.Number),
           sentinel_metrics_history_days: S.optional(S.Number),
           sentinel_push_interval_seconds: S.optional(S.Number),
@@ -12280,12 +15550,22 @@ function __c69(j: number): any {
           is_geoip_enabled: S.optional(S.Boolean),
           geoip_refresh_days: S.optional(S.Number),
           traffic_ip_mode: S.optional(S.String),
-          geoip_maxmind_license_key: S.optional(S.String),
+          geoip_maxmind_license_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "GetServerSentinelResponse" });
   }
 }
-function __c70(j: number): any {
+function __c96(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/servers/{uuid}/transfer", code: 200 })),
+      ).annotate({ identifier: "GetServerTransferStatusRequest" });
+  }
+}
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12295,7 +15575,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "GetServiceRequest" });
   }
 }
-function __c71(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12312,6 +15592,7 @@ function __c71(j: number): any {
           destination_id: S.optional(S.Number),
           connect_to_docker_network: S.optional(S.Boolean),
           is_container_label_escape_enabled: S.optional(S.Boolean),
+          redact_all_env_values_in_logs: S.optional(S.Boolean),
           is_container_label_readonly_enabled: S.optional(S.Boolean),
           config_hash: S.optional(S.String),
           service_type: S.optional(S.String),
@@ -12322,7 +15603,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "Service" });
   }
 }
-function __c72(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12335,38 +15616,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "GetServiceApplicationByServiceAndAppUuidRequest" });
   }
 }
-function __c73(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          server_uuid: S.String,
-          project_uuid: S.String,
-          environment_name: S.String,
-          environment_uuid: S.String,
-          destination_uuid: S.optional(S.String),
-          clickhouse_admin_user: S.optional(S.String),
-          clickhouse_admin_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          image: S.optional(S.String),
-          is_public: S.optional(S.Boolean),
-          public_port: S.optional(S.Number),
-          public_port_timeout: S.optional(S.Number),
-          limits_memory: S.optional(S.String),
-          limits_memory_swap: S.optional(S.String),
-          limits_memory_swappiness: S.optional(S.Number),
-          limits_memory_reservation: S.optional(S.String),
-          limits_cpus: S.optional(S.String),
-          limits_cpuset: S.optional(S.String),
-          limits_cpu_shares: S.optional(S.Number),
-          instant_deploy: S.optional(S.Boolean),
-          tags: S.optional(__S(2104, __c263, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/databases/clickhouse", code: 200 })),
-      ).annotate({ identifier: "CreateDatabaseClickhouseRequest" });
-  }
-}
-function __c74(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12384,7 +15634,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "GetServiceApplicationLogsByServiceAndAppUuidRequest" });
   }
 }
-function __c75(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12397,7 +15647,34 @@ function __c75(j: number): any {
       ).annotate({ identifier: "GetServiceDatabaseByServiceAndDatabaseUuidRequest" });
   }
 }
-function __c76(j: number): any {
+function __c102(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          frequency: S.String,
+          enabled: S.optional(S.Boolean),
+          save_s3: S.optional(S.Boolean),
+          disable_local_backup: S.optional(S.Boolean),
+          s3_storage_uuid: S.optional(S.String),
+          s3_storage_uuids: S.optional(__S(2456, __c307, 0)),
+          databases_to_backup: S.optional(S.String),
+          dump_all: S.optional(S.Boolean),
+          backup_now: S.optional(S.Boolean),
+          database_backup_retention_amount_locally: S.optional(S.Number),
+          database_backup_retention_days_locally: S.optional(S.Number),
+          database_backup_retention_max_storage_locally: S.optional(S.Number),
+          database_backup_retention_amount_s3: S.optional(S.Number),
+          database_backup_retention_days_s3: S.optional(S.Number),
+          database_backup_retention_max_storage_s3: S.optional(S.Number),
+          timeout: S.optional(S.Number),
+          missing_backup_notification_days: S.optional(S.Number),
+        }).pipe(T.Http({ method: "POST", uri: "/databases/{uuid}/backups", code: 200 })),
+      ).annotate({ identifier: "CreateDatabaseBackupRequest" });
+  }
+}
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12415,7 +15692,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "GetServiceDatabaseImportRequest" });
   }
 }
-function __c77(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12433,7 +15710,17 @@ function __c77(j: number): any {
       ).annotate({ identifier: "GetServiceDatabaseLogsByServiceAndDatabaseUuidRequest" });
   }
 }
-function __c78(j: number): any {
+function __c105(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/services/{uuid}/dns", code: 200 })),
+      ).annotate({ identifier: "GetServiceDnsRequest" });
+  }
+}
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12446,7 +15733,23 @@ function __c78(j: number): any {
       ).annotate({ identifier: "GetServiceLogsByUuidRequest" });
   }
 }
-function __c79(j: number): any {
+function __c107(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          state: S.optional(S.String.pipe(T.Query())),
+          severity: S.optional(S.String.pipe(T.Query())),
+          image: S.optional(S.String.pipe(T.Query())),
+          search: S.optional(S.String.pipe(T.Query())),
+          page: S.optional(S.Number.pipe(T.Query())),
+          per_page: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/services/{uuid}/vulnerabilities", code: 200 })),
+      ).annotate({ identifier: "GetServiceVulnerabilitiesRequest" });
+  }
+}
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12456,7 +15759,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "GetTeamRequest" });
   }
 }
-function __c80(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12470,12 +15773,13 @@ function __c80(j: number): any {
           show_boarding: S.optional(S.Boolean),
           custom_server_limit: S.optional(S.String),
           is_build_server_fallback_enabled: S.optional(S.Boolean),
-          members: S.optional(__S(393, __c49, 1)),
+          scan_images_on_new_servers: S.optional(S.Boolean),
+          members: S.optional(__S(585, __c73, 1)),
         }),
       ).annotate({ identifier: "Team" });
   }
 }
-function __c81(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12483,7 +15787,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "GetTokenTeamRequest" });
   }
 }
-function __c82(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12491,7 +15795,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "GetTokenTeamMembersRequest" });
   }
 }
-function __c83(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12499,7 +15803,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "GetVultrOperatingSystemsRequest" });
   }
 }
-function __c84(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12507,17 +15811,18 @@ function __c84(j: number): any {
       ).annotate({ identifier: "GetVultrPlansRequest" });
   }
 }
-function __c85(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           server_uuid: S.String,
           project_uuid: S.String,
-          environment_name: S.String,
-          environment_uuid: S.String,
+          environment_name: S.optional(S.String),
+          environment_uuid: S.optional(S.String),
           destination_uuid: S.optional(S.String),
-          dragonfly_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          clickhouse_admin_user: S.optional(S.String),
+          clickhouse_admin_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           name: S.optional(S.String),
           description: S.optional(S.String),
           image: S.optional(S.String),
@@ -12532,12 +15837,12 @@ function __c85(j: number): any {
           limits_cpuset: S.optional(S.String),
           limits_cpu_shares: S.optional(S.Number),
           instant_deploy: S.optional(S.Boolean),
-          tags: S.optional(__S(2104, __c263, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/databases/dragonfly", code: 200 })),
-      ).annotate({ identifier: "CreateDatabaseDragonflyRequest" });
+          tags: S.optional(__S(2456, __c307, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/databases/clickhouse", code: 200 })),
+      ).annotate({ identifier: "CreateDatabaseClickhouseRequest" });
   }
 }
-function __c86(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12545,7 +15850,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "GetVultrRegionsRequest" });
   }
 }
-function __c87(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12553,7 +15858,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "GetVultrSshKeysRequest" });
   }
 }
-function __c88(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12561,7 +15866,63 @@ function __c88(j: number): any {
       ).annotate({ identifier: "HealthcheckRequest" });
   }
 }
-function __c89(j: number): any {
+function __c118(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          server_uuid: S.String.pipe(T.Query()),
+          ip: S.String.pipe(T.Query()),
+          port: S.optional(S.Number.pipe(T.Query())),
+          schema_version: S.optional(S.Number.pipe(T.Query())),
+          system_github_apps__: S.optional(
+            __S(2456, __c307, 0).pipe(T.Query("system_github_apps[]")),
+          ),
+          system_gitlab_apps__: S.optional(
+            __S(2456, __c307, 0).pipe(T.Query("system_gitlab_apps[]")),
+          ),
+        }).pipe(T.Http({ method: "GET", uri: "/servers/import/check", code: 200 })),
+      ).annotate({ identifier: "ImportCheckServerRequest" });
+  }
+}
+function __c119(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resource_type: S.String.pipe(T.Label()),
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/{resource_type}/{uuid}/secret-manager/import",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ImportSecretManagerReferencesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          imported: S.optional(__S(2456, __c307, 0)),
+          skipped: S.optional(__S(2456, __c307, 0)),
+        }),
+      ).annotate({ identifier: "ImportSecretManagerReferencesResponse" });
+  }
+}
+function __c120(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          bundle: S.optional(S.Unknown),
+          dry_run: S.optional(S.Boolean),
+          preserve_uuids: S.optional(S.Boolean),
+          adopt_mode: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/servers/import", code: 200 })),
+      ).annotate({ identifier: "ImportServerTransferBundleRequest" });
+  }
+}
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12571,7 +15932,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "ListApplicationDestinationsRequest" });
   }
 }
-function __c90(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12585,20 +15946,21 @@ function __c90(j: number): any {
           tag: S.optional(S.String),
           created_at: S.optional(S.String),
           is_current: S.optional(S.Boolean),
+          source: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListApplicationRollbackImagesResponseImagesItem" });
     case 2:
-      return S.Array(__S(721, __c90, 1));
+      return S.Array(__S(977, __c122, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           current: S.optional(S.NullOr(S.String)),
-          images: S.optional(__S(722, __c90, 2)),
+          images: S.optional(__S(978, __c122, 2)),
         }),
       ).annotate({ identifier: "ListApplicationRollbackImagesResponse" });
   }
 }
-function __c91(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12606,19 +15968,15 @@ function __c91(j: number): any {
           tag: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/applications", code: 200 })),
       ).annotate({ identifier: "ListApplicationsRequest" });
-  }
-}
-function __c92(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(73, __c9, 1));
     case 1:
-      return S.suspend(() => __S(736, __c92, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.Array(__S(129, __c16, 1));
+    case 2:
+      return S.suspend(() => __S(985, __c123, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListApplicationsResponse",
       });
   }
 }
-function __c93(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12650,12 +16008,12 @@ function __c93(j: number): any {
         }),
       ).annotate({ identifier: "ListAuditEventsResponseDataItem" });
     case 2:
-      return S.Array(__S(745, __c93, 1));
+      return S.Array(__S(993, __c124, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           current_page: S.optional(S.Number),
-          data: S.optional(__S(746, __c93, 2)),
+          data: S.optional(__S(994, __c124, 2)),
           per_page: S.optional(S.Number),
           last_page: S.optional(S.Number),
           total: S.optional(S.Number),
@@ -12663,7 +16021,37 @@ function __c93(j: number): any {
       ).annotate({ identifier: "ListAuditEventsResponse" });
   }
 }
-function __c94(j: number): any {
+function __c125(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          server_uuid: S.String,
+          project_uuid: S.String,
+          environment_name: S.optional(S.String),
+          environment_uuid: S.optional(S.String),
+          destination_uuid: S.optional(S.String),
+          dragonfly_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          image: S.optional(S.String),
+          is_public: S.optional(S.Boolean),
+          public_port: S.optional(S.Number),
+          public_port_timeout: S.optional(S.Number),
+          limits_memory: S.optional(S.String),
+          limits_memory_swap: S.optional(S.String),
+          limits_memory_swappiness: S.optional(S.Number),
+          limits_memory_reservation: S.optional(S.String),
+          limits_cpus: S.optional(S.String),
+          limits_cpuset: S.optional(S.String),
+          limits_cpu_shares: S.optional(S.Number),
+          instant_deploy: S.optional(S.Boolean),
+          tags: S.optional(__S(2456, __c307, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/databases/dragonfly", code: 200 })),
+      ).annotate({ identifier: "CreateDatabaseDragonflyRequest" });
+  }
+}
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12685,21 +16073,21 @@ function __c94(j: number): any {
           filename: S.optional(S.String),
           size: S.optional(S.Number),
           created_at: S.optional(S.String),
-          message: S.optional(S.String),
+          message: S.optional(S.NullOr(S.String)),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListBackupExecutionsResponseExecutionsItem" });
     case 2:
-      return S.Array(__S(753, __c94, 1));
+      return S.Array(__S(1009, __c126, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          executions: S.optional(__S(754, __c94, 2)),
+          executions: S.optional(__S(1010, __c126, 2)),
         }),
       ).annotate({ identifier: "ListBackupExecutionsResponse" });
   }
 }
-function __c95(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12707,7 +16095,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "ListCloudInitScriptsRequest" });
   }
 }
-function __c96(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12726,47 +16114,46 @@ function __c96(j: number): any {
         }),
       ).annotate({ identifier: "ListCloudTokensResponseBodyItem" });
     case 2:
-      return S.Array(__S(769, __c96, 1));
+      return S.Array(__S(1025, __c128, 1));
     case 3:
-      return S.suspend(() => __S(770, __c96, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1026, __c128, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCloudTokensResponse",
       });
   }
 }
-function __c97(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          body: S.Unknown.pipe(T.HttpBody()),
-        }).pipe(T.Http({ method: "POST", uri: "/databases/{uuid}/imports", code: 200 })),
-      ).annotate({ identifier: "CreateDatabaseImportRequest" });
-  }
-}
-function __c98(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/databases", code: 200 })),
       ).annotate({ identifier: "ListDatabasesRequest" });
+    case 1:
+      return S.Array(__S(291, __c36, 3));
+    case 2:
+      return S.suspend(() => __S(1033, __c129, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListDatabasesResponse",
+      });
   }
 }
-function __c99(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/deployments", code: 200 })),
       ).annotate({ identifier: "ListDeploymentsRequest" });
     case 1:
-      return S.Array(__S(224, __c28, 0));
-    case 2:
-      return S.suspend(() => __S(793, __c99, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1048, __c131, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDeploymentsResponse",
       });
   }
 }
-function __c100(j: number): any {
+function __c131(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(352, __c44, 0));
+  }
+}
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12776,9 +16163,16 @@ function __c100(j: number): any {
           take: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/deployments/applications/{uuid}", code: 200 })),
       ).annotate({ identifier: "ListDeploymentsByAppUuidRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.optional(S.Number),
+          deployments: S.optional(__S(1048, __c131, 0)),
+        }),
+      ).annotate({ identifier: "ListDeploymentsByAppUuidResponse" });
   }
 }
-function __c101(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12786,17 +16180,41 @@ function __c101(j: number): any {
       ).annotate({ identifier: "ListDestinationsRequest" });
   }
 }
-function __c102(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2200, __c275, 0));
+      return S.Array(__S(2632, __c329, 0));
     case 1:
-      return S.suspend(() => __S(816, __c102, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1072, __c134, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDestinationsResponse",
       });
   }
 }
-function __c103(j: number): any {
+function __c135(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/dns/zones", code: 200 })),
+      ).annotate({ identifier: "ListDnsZonesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          zone: S.optional(S.String),
+          account_name: S.optional(S.NullOr(S.String)),
+          integration_token_uuid: S.optional(S.String),
+          integration_token_name: S.optional(S.String),
+          managed_records_count: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ListDnsZonesResponseBodyItem" });
+    case 2:
+      return S.Array(__S(1081, __c135, 1));
+    case 3:
+      return S.suspend(() => __S(1082, __c135, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListDnsZonesResponse",
+      });
+  }
+}
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12813,7 +16231,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "ListEnvironmentSharedEnvsRequest" });
   }
 }
-function __c104(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12823,7 +16241,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "ListEnvsByApplicationUuidRequest" });
   }
 }
-function __c105(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12850,17 +16268,28 @@ function __c105(j: number): any {
       ).annotate({ identifier: "EnvironmentVariable" });
   }
 }
-function __c106(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(840, __c105, 0));
+      return S.Array(__S(1104, __c138, 0));
     case 1:
-      return S.suspend(() => __S(848, __c106, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1112, __c139, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListEnvsByApplicationUuidResponse",
       });
   }
 }
-function __c107(j: number): any {
+function __c140(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          body: S.Unknown.pipe(T.HttpBody()),
+        }).pipe(T.Http({ method: "POST", uri: "/databases/{uuid}/imports", code: 200 })),
+      ).annotate({ identifier: "CreateDatabaseImportRequest" });
+  }
+}
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12870,7 +16299,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "ListEnvsByDatabaseUuidRequest" });
   }
 }
-function __c108(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12880,7 +16309,40 @@ function __c108(j: number): any {
       ).annotate({ identifier: "ListEnvsByServiceUuidRequest" });
   }
 }
-function __c109(j: number): any {
+function __c143(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/gitea-apps", code: 200 })),
+      ).annotate({ identifier: "ListGiteaAppsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          uuid: S.optional(S.String),
+          name: S.optional(S.String),
+          organization: S.optional(S.NullOr(S.String)),
+          api_url: S.optional(S.String),
+          html_url: S.optional(S.String),
+          custom_user: S.optional(S.String),
+          custom_port: S.optional(S.Number),
+          client_id: S.optional(S.NullOr(S.String)),
+          redirect_uri: S.optional(S.NullOr(S.String)),
+          is_system_wide: S.optional(S.Boolean),
+          is_public: S.optional(S.Boolean),
+          is_connected: S.optional(S.Boolean),
+          team_id: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ListGiteaAppsResponseBodyItem" });
+    case 2:
+      return S.Array(__S(1145, __c143, 1));
+    case 3:
+      return S.suspend(() => __S(1146, __c143, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListGiteaAppsResponse",
+      });
+  }
+}
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12908,14 +16370,14 @@ function __c109(j: number): any {
         }),
       ).annotate({ identifier: "ListGithubAppsResponseBodyItem" });
     case 2:
-      return S.Array(__S(873, __c109, 1));
+      return S.Array(__S(1153, __c144, 1));
     case 3:
-      return S.suspend(() => __S(874, __c109, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1154, __c144, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListGithubAppsResponse",
       });
   }
 }
-function __c110(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12940,22 +16402,92 @@ function __c110(j: number): any {
         }),
       ).annotate({ identifier: "ListGitlabAppsResponseBodyItem" });
     case 2:
-      return S.Array(__S(881, __c110, 1));
+      return S.Array(__S(1161, __c145, 1));
     case 3:
-      return S.suspend(() => __S(882, __c110, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1162, __c145, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListGitlabAppsResponse",
       });
   }
 }
-function __c111(j: number): any {
+function __c146(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({ method: "GET", uri: "/security/integration-tokens", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListIntegrationTokensRequest" });
+    case 1:
+      return S.Array(__S(560, __c70, 0));
+    case 2:
+      return S.suspend(() => __S(1169, __c146, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListIntegrationTokensResponse",
+      });
+  }
+}
+function __c147(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/applications/{uuid}/previews", code: 200 })),
+      ).annotate({ identifier: "ListPreviewDeploymentsByApplicationUuidRequest" });
+    case 1:
+      return S.Array(__S(2482, __c310, 2));
+    case 2:
+      return S.suspend(() => __S(1177, __c147, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListPreviewDeploymentsByApplicationUuidResponse",
+      });
+  }
+}
+function __c148(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/security/keys", code: 200 })),
+      ).annotate({ identifier: "ListPrivateKeysRequest" });
+    case 1:
+      return S.Array(__S(624, __c78, 0));
+    case 2:
+      return S.suspend(() => __S(1185, __c148, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListPrivateKeysResponse",
+      });
+  }
+}
+function __c149(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/projects", code: 200 })),
+      ).annotate({ identifier: "ListProjectsRequest" });
+    case 1:
+      return S.Array(__S(640, __c80, 0));
+    case 2:
+      return S.suspend(() => __S(1193, __c149, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListProjectsResponse",
+      });
+  }
+}
+function __c150(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/projects/{uuid}/envs", code: 200 })),
+      ).annotate({ identifier: "ListProjectSharedEnvsRequest" });
+  }
+}
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           server_uuid: S.String,
           project_uuid: S.String,
-          environment_name: S.String,
-          environment_uuid: S.String,
+          environment_name: S.optional(S.String),
+          environment_uuid: S.optional(S.String),
           destination_uuid: S.optional(S.String),
           keydb_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           keydb_conf: S.optional(S.String),
@@ -12973,88 +16505,56 @@ function __c111(j: number): any {
           limits_cpuset: S.optional(S.String),
           limits_cpu_shares: S.optional(S.Number),
           instant_deploy: S.optional(S.Boolean),
-          tags: S.optional(__S(2104, __c263, 0)),
+          tags: S.optional(__S(2456, __c307, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/databases/keydb", code: 200 })),
       ).annotate({ identifier: "CreateDatabaseKeydbRequest" });
   }
 }
-function __c112(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/applications/{uuid}/previews", code: 200 })),
-      ).annotate({ identifier: "ListPreviewDeploymentsByApplicationUuidRequest" });
-    case 1:
-      return S.Array(__S(2066, __c258, 2));
-    case 2:
-      return S.suspend(() => __S(897, __c112, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListPreviewDeploymentsByApplicationUuidResponse",
-      });
-  }
-}
-function __c113(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/security/keys", code: 200 })),
-      ).annotate({ identifier: "ListPrivateKeysRequest" });
-    case 1:
-      return S.Array(__S(432, __c54, 0));
-    case 2:
-      return S.suspend(() => __S(905, __c113, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListPrivateKeysResponse",
-      });
-  }
-}
-function __c114(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/projects", code: 200 })),
-      ).annotate({ identifier: "ListProjectsRequest" });
-    case 1:
-      return S.Array(__S(448, __c56, 0));
-    case 2:
-      return S.suspend(() => __S(913, __c114, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListProjectsResponse",
-      });
-  }
-}
-function __c115(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/projects/{uuid}/envs", code: 200 })),
-      ).annotate({ identifier: "ListProjectSharedEnvsRequest" });
-  }
-}
-function __c116(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/resources", code: 200 })),
       ).annotate({ identifier: "ListResourcesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            uuid: S.optional(S.String),
+            name: S.optional(S.String),
+            description: S.optional(S.NullOr(S.String)),
+            type: S.optional(S.String),
+            status: S.optional(S.String),
+            environment_id: S.optional(S.Number),
+            created_at: S.optional(S.String),
+            updated_at: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ListResourcesResponseBodyItem" });
+    case 2:
+      return S.Array(__S(1217, __c152, 1));
+    case 3:
+      return S.suspend(() => __S(1218, __c152, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListResourcesResponse",
+      });
   }
 }
-function __c117(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/s3-storages", code: 200 })),
       ).annotate({ identifier: "ListS3StoragesRequest" });
     case 1:
-      return S.Array(__S(480, __c60, 0));
+      return S.Array(__S(664, __c83, 0));
     case 2:
-      return S.suspend(() => __S(937, __c117, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1225, __c153, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListS3StoragesResponse",
       });
   }
 }
-function __c118(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13071,7 +16571,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "ListScheduledTaskExecutionsByApplicationUuidRequest" });
   }
 }
-function __c119(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13088,14 +16588,14 @@ function __c119(j: number): any {
         }),
       ).annotate({ identifier: "ScheduledTaskExecution" });
     case 1:
-      return S.Array(__S(952, __c119, 0));
+      return S.Array(__S(1240, __c155, 0));
     case 2:
-      return S.suspend(() => __S(953, __c119, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1241, __c155, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListScheduledTaskExecutionsByApplicationUuidResponse",
       });
   }
 }
-function __c120(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13112,7 +16612,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "ListScheduledTaskExecutionsByServiceUuidRequest" });
   }
 }
-function __c121(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13122,17 +16622,17 @@ function __c121(j: number): any {
       ).annotate({ identifier: "ListScheduledTasksByApplicationUuidRequest" });
   }
 }
-function __c122(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2160, __c270, 0));
+      return S.Array(__S(2568, __c321, 0));
     case 1:
-      return S.suspend(() => __S(976, __c122, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1264, __c158, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListScheduledTasksByApplicationUuidResponse",
       });
   }
 }
-function __c123(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13142,41 +16642,26 @@ function __c123(j: number): any {
       ).annotate({ identifier: "ListScheduledTasksByServiceUuidRequest" });
   }
 }
-function __c124(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          server_uuid: S.String,
-          project_uuid: S.String,
-          environment_name: S.String,
-          environment_uuid: S.String,
-          destination_uuid: S.optional(S.String),
-          mariadb_conf: S.optional(S.String),
-          mariadb_root_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          mariadb_user: S.optional(S.String),
-          mariadb_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          mariadb_database: S.optional(S.String),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          image: S.optional(S.String),
-          is_public: S.optional(S.Boolean),
-          public_port: S.optional(S.Number),
-          public_port_timeout: S.optional(S.Number),
-          limits_memory: S.optional(S.String),
-          limits_memory_swap: S.optional(S.String),
-          limits_memory_swappiness: S.optional(S.Number),
-          limits_memory_reservation: S.optional(S.String),
-          limits_cpus: S.optional(S.String),
-          limits_cpuset: S.optional(S.String),
-          limits_cpu_shares: S.optional(S.Number),
-          instant_deploy: S.optional(S.Boolean),
-          tags: S.optional(__S(2104, __c263, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/databases/mariadb", code: 200 })),
-      ).annotate({ identifier: "CreateDatabaseMariadbRequest" });
+          resource_type: S.String.pipe(T.Label()),
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/{resource_type}/{uuid}/secret-manager/keys", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListSecretManagerKeysRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          keys: S.optional(__S(2456, __c307, 0)),
+        }),
+      ).annotate({ identifier: "ListSecretManagerKeysResponse" });
   }
 }
-function __c125(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13186,7 +16671,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "ListServerDestinationsRequest" });
   }
 }
-function __c126(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13208,14 +16693,14 @@ function __c126(j: number): any {
         }),
       ).annotate({ identifier: "ListServerDockerCleanupExecutionsResponseBodyItem" });
     case 2:
-      return S.Array(__S(1009, __c126, 1));
+      return S.Array(__S(1297, __c162, 1));
     case 3:
-      return S.suspend(() => __S(1010, __c126, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1298, __c162, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListServerDockerCleanupExecutionsResponse",
       });
   }
 }
-function __c127(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13232,7 +16717,7 @@ function __c127(j: number): any {
         }),
       ).annotate({ identifier: "ListServerRegistriesResponseRegistriesItemUsedByItem" });
     case 2:
-      return S.Array(__S(1017, __c127, 1));
+      return S.Array(__S(1305, __c163, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -13240,35 +16725,69 @@ function __c127(j: number): any {
           logged_in: S.optional(S.Boolean),
           source: S.optional(S.NullOr(S.String)),
           username: S.optional(S.NullOr(S.String)),
-          used_by: S.optional(__S(1018, __c127, 2)),
+          used_by: S.optional(__S(1306, __c163, 2)),
         }),
       ).annotate({ identifier: "ListServerRegistriesResponseRegistriesItem" });
     case 4:
-      return S.Array(__S(1019, __c127, 3));
+      return S.Array(__S(1307, __c163, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          registries: S.optional(__S(1020, __c127, 4)),
+          registries: S.optional(__S(1308, __c163, 4)),
           error: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ListServerRegistriesResponse" });
   }
 }
-function __c128(j: number): any {
+function __c164(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          server_uuid: S.String,
+          project_uuid: S.String,
+          environment_name: S.optional(S.String),
+          environment_uuid: S.optional(S.String),
+          destination_uuid: S.optional(S.String),
+          mariadb_conf: S.optional(S.String),
+          mariadb_root_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          mariadb_user: S.optional(S.String),
+          mariadb_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          mariadb_database: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          image: S.optional(S.String),
+          is_public: S.optional(S.Boolean),
+          public_port: S.optional(S.Number),
+          public_port_timeout: S.optional(S.Number),
+          limits_memory: S.optional(S.String),
+          limits_memory_swap: S.optional(S.String),
+          limits_memory_swappiness: S.optional(S.Number),
+          limits_memory_reservation: S.optional(S.String),
+          limits_cpus: S.optional(S.String),
+          limits_cpuset: S.optional(S.String),
+          limits_cpu_shares: S.optional(S.Number),
+          instant_deploy: S.optional(S.Boolean),
+          tags: S.optional(__S(2456, __c307, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/databases/mariadb", code: 200 })),
+      ).annotate({ identifier: "CreateDatabaseMariadbRequest" });
+  }
+}
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/servers", code: 200 })),
       ).annotate({ identifier: "ListServersRequest" });
     case 1:
-      return S.Array(__S(497, __c62, 1));
+      return S.Array(__S(281, __c35, 1));
     case 2:
-      return S.suspend(() => __S(1025, __c128, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1321, __c165, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListServersResponse",
       });
   }
 }
-function __c129(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13278,7 +16797,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "ListServerSharedEnvsRequest" });
   }
 }
-function __c130(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13288,21 +16807,15 @@ function __c130(j: number): any {
       ).annotate({ identifier: "ListServiceApplicationsByServiceUuidRequest" });
   }
 }
-function __c131(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(1056, __c132, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(296, __c37, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListServiceApplicationsByServiceUuidResponse",
       });
   }
 }
-function __c132(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Unknown);
-  }
-}
-function __c133(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13312,21 +16825,21 @@ function __c133(j: number): any {
       ).annotate({ identifier: "ListServiceDatabasesByServiceUuidRequest" });
   }
 }
-function __c134(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/services", code: 200 })),
       ).annotate({ identifier: "ListServicesRequest" });
     case 1:
-      return S.Array(__S(568, __c71, 0));
+      return S.Array(__S(784, __c98, 0));
     case 2:
-      return S.suspend(() => __S(1073, __c134, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1361, __c170, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListServicesResponse",
       });
   }
 }
-function __c135(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13336,18 +16849,18 @@ function __c135(j: number): any {
       ).annotate({ identifier: "ListStoragesByApplicationUuidRequest" });
   }
 }
-function __c136(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          persistent_storages: S.optional(__S(1056, __c132, 0)),
-          file_storages: S.optional(__S(1056, __c132, 0)),
+          persistent_storages: S.optional(__S(296, __c37, 0)),
+          file_storages: S.optional(__S(296, __c37, 0)),
         }),
       ).annotate({ identifier: "ListStoragesByApplicationUuidResponse" });
   }
 }
-function __c137(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13357,15 +16870,43 @@ function __c137(j: number): any {
       ).annotate({ identifier: "ListStoragesByDatabaseUuidRequest" });
   }
 }
-function __c138(j: number): any {
+function __c174(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/services/{uuid}/storages", code: 200 })),
+      ).annotate({ identifier: "ListStoragesByServiceUuidRequest" });
+  }
+}
+function __c175(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/tags", code: 200 })),
+      ).annotate({ identifier: "ListTagsRequest" });
+  }
+}
+function __c176(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/applications/{uuid}/tags", code: 200 })),
+      ).annotate({ identifier: "ListTagsByApplicationUuidRequest" });
+  }
+}
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           server_uuid: S.String,
           project_uuid: S.String,
-          environment_name: S.String,
-          environment_uuid: S.String,
+          environment_name: S.optional(S.String),
+          environment_uuid: S.optional(S.String),
           destination_uuid: S.optional(S.String),
           mongo_conf: S.optional(S.String),
           mongo_initdb_root_username: S.optional(S.String),
@@ -13383,40 +16924,12 @@ function __c138(j: number): any {
           limits_cpuset: S.optional(S.String),
           limits_cpu_shares: S.optional(S.Number),
           instant_deploy: S.optional(S.Boolean),
-          tags: S.optional(__S(2104, __c263, 0)),
+          tags: S.optional(__S(2456, __c307, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/databases/mongodb", code: 200 })),
       ).annotate({ identifier: "CreateDatabaseMongodbRequest" });
   }
 }
-function __c139(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/services/{uuid}/storages", code: 200 })),
-      ).annotate({ identifier: "ListStoragesByServiceUuidRequest" });
-  }
-}
-function __c140(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/tags", code: 200 })),
-      ).annotate({ identifier: "ListTagsRequest" });
-  }
-}
-function __c141(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/applications/{uuid}/tags", code: 200 })),
-      ).annotate({ identifier: "ListTagsByApplicationUuidRequest" });
-  }
-}
-function __c142(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13426,7 +16939,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "ListTagsByDatabaseUuidRequest" });
   }
 }
-function __c143(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13436,21 +16949,21 @@ function __c143(j: number): any {
       ).annotate({ identifier: "ListTagsByServiceUuidRequest" });
   }
 }
-function __c144(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/teams", code: 200 })),
       ).annotate({ identifier: "ListTeamsRequest" });
     case 1:
-      return S.Array(__S(640, __c80, 0));
+      return S.Array(__S(872, __c109, 0));
     case 2:
-      return S.suspend(() => __S(1153, __c144, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1441, __c180, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListTeamsResponse",
       });
   }
 }
-function __c145(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13458,7 +16971,45 @@ function __c145(j: number): any {
       ).annotate({ identifier: "ListTeamSharedEnvsRequest" });
   }
 }
-function __c146(j: number): any {
+function __c182(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/vulnerabilities", code: 200 })),
+      ).annotate({ identifier: "ListVulnerabilitiesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          update: S.optional(S.Number),
+          total: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ListVulnerabilitiesResponseResourcesItemImages" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          project_uuid: S.optional(S.NullOr(S.String)),
+          environment_uuid: S.optional(S.NullOr(S.String)),
+          server_uuid: S.optional(S.NullOr(S.String)),
+          images: S.optional(__S(1457, __c182, 1)),
+          security: S.optional(__S(186, __c23, 2)),
+        }),
+      ).annotate({ identifier: "ListVulnerabilitiesResponseResourcesItem" });
+    case 3:
+      return S.Array(__S(1458, __c182, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          resources: S.optional(__S(1459, __c182, 3)),
+        }),
+      ).annotate({ identifier: "ListVulnerabilitiesResponse" });
+  }
+}
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13477,12 +17028,12 @@ function __c146(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          branches: S.optional(__S(1056, __c132, 0)),
+          branches: S.optional(__S(296, __c37, 0)),
         }),
       ).annotate({ identifier: "LoadBranchesResponse" });
   }
 }
-function __c147(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13495,12 +17046,12 @@ function __c147(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          repositories: S.optional(__S(1056, __c132, 0)),
+          repositories: S.optional(__S(296, __c37, 0)),
         }),
       ).annotate({ identifier: "LoadRepositoriesResponse" });
   }
 }
-function __c148(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13513,15 +17064,40 @@ function __c148(j: number): any {
       ).annotate({ identifier: "LoginServerRegistryRequest" });
   }
 }
-function __c149(j: number): any {
+function __c186(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          registry: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "/servers/{uuid}/registries/{registry}", code: 200 }),
+        ),
+      ).annotate({ identifier: "LogoutServerRegistryRequest" });
+  }
+}
+function __c187(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          destination_uuid: S.String,
+          migrate_volumes: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/applications/{uuid}/migrate", code: 200 })),
+      ).annotate({ identifier: "MigrateApplicationByUuidRequest" });
+  }
+}
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           server_uuid: S.String,
           project_uuid: S.String,
-          environment_name: S.String,
-          environment_uuid: S.String,
+          environment_name: S.optional(S.String),
+          environment_uuid: S.optional(S.String),
           destination_uuid: S.optional(S.String),
           mysql_root_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           mysql_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
@@ -13542,37 +17118,12 @@ function __c149(j: number): any {
           limits_cpuset: S.optional(S.String),
           limits_cpu_shares: S.optional(S.Number),
           instant_deploy: S.optional(S.Boolean),
-          tags: S.optional(__S(2104, __c263, 0)),
+          tags: S.optional(__S(2456, __c307, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/databases/mysql", code: 200 })),
       ).annotate({ identifier: "CreateDatabaseMysqlRequest" });
   }
 }
-function __c150(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          registry: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "/servers/{uuid}/registries/{registry}", code: 200 }),
-        ),
-      ).annotate({ identifier: "LogoutServerRegistryRequest" });
-  }
-}
-function __c151(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          destination_uuid: S.String,
-          migrate_volumes: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/applications/{uuid}/migrate", code: 200 })),
-      ).annotate({ identifier: "MigrateApplicationByUuidRequest" });
-  }
-}
-function __c152(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13584,7 +17135,19 @@ function __c152(j: number): any {
       ).annotate({ identifier: "MigrateDatabaseByUuidRequest" });
   }
 }
-function __c153(j: number): any {
+function __c190(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          target_url: S.String,
+          target_token: S.String.pipe(T.SensitiveValue({})),
+        }).pipe(T.Http({ method: "POST", uri: "/servers/{uuid}/migrate", code: 200 })),
+      ).annotate({ identifier: "MigrateServerBetweenInstancesRequest" });
+  }
+}
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13596,7 +17159,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "MigrateServiceByUuidRequest" });
   }
 }
-function __c154(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13607,7 +17170,7 @@ function __c154(j: number): any {
       ).annotate({ identifier: "MoveApplicationByUuidRequest" });
   }
 }
-function __c155(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13620,7 +17183,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "MoveApplicationByUuidResponse" });
   }
 }
-function __c156(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13631,7 +17194,7 @@ function __c156(j: number): any {
       ).annotate({ identifier: "MoveDatabaseByUuidRequest" });
   }
 }
-function __c157(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13642,7 +17205,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "MoveServiceByUuidRequest" });
   }
 }
-function __c158(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13651,7 +17214,7 @@ function __c158(j: number): any {
           app_uuid: S.String.pipe(T.Label()),
           force_domain_override: S.optional(S.Boolean.pipe(T.Query())),
           url: S.optional(S.NullOr(S.String)),
-          noindex_domains: S.optional(S.NullOr(__S(2104, __c263, 0))),
+          noindex_domains: S.optional(S.NullOr(__S(2456, __c307, 0))),
           human_name: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
           image: S.optional(S.NullOr(S.String)),
@@ -13661,6 +17224,8 @@ function __c158(j: number): any {
           traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
           is_stripprefix_enabled: S.optional(S.NullOr(S.Boolean)),
           is_force_https_enabled: S.optional(S.NullOr(S.Boolean)),
+          is_permanent_redirect_enabled: S.optional(S.NullOr(S.Boolean)),
+          redirect: S.optional(S.String),
           max_restart_count: S.optional(S.NullOr(S.Number)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/services/{uuid}/applications/{app_uuid}", code: 200 }),
@@ -13668,7 +17233,7 @@ function __c158(j: number): any {
       ).annotate({ identifier: "PatchServiceApplicationByServiceAndAppUuidRequest" });
   }
 }
-function __c159(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13689,7 +17254,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "PatchServiceDatabaseByServiceAndDatabaseUuidRequest" });
   }
 }
-function __c160(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13706,15 +17271,33 @@ function __c160(j: number): any {
       ).annotate({ identifier: "PostRestartServiceApplicationByServiceAndAppUuidRequest" });
   }
 }
-function __c161(j: number): any {
+function __c199(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          app_uuid: S.String.pipe(T.Label()),
+          lines: S.optional(S.Unknown.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/services/{uuid}/applications/{app_uuid}/logs",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "PostServiceApplicationLogsByServiceAndAppUuidRequest" });
+  }
+}
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           server_uuid: S.String,
           project_uuid: S.String,
-          environment_name: S.String,
-          environment_uuid: S.String,
+          environment_name: S.optional(S.String),
+          environment_uuid: S.optional(S.String),
           postgres_user: S.optional(S.String),
           postgres_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           postgres_db: S.optional(S.String),
@@ -13736,30 +17319,12 @@ function __c161(j: number): any {
           limits_cpuset: S.optional(S.String),
           limits_cpu_shares: S.optional(S.Number),
           instant_deploy: S.optional(S.Boolean),
-          tags: S.optional(__S(2104, __c263, 0)),
+          tags: S.optional(__S(2456, __c307, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/databases/postgresql", code: 200 })),
       ).annotate({ identifier: "CreateDatabasePostgresqlRequest" });
   }
 }
-function __c162(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          app_uuid: S.String.pipe(T.Label()),
-          lines: S.optional(S.Unknown.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/services/{uuid}/applications/{app_uuid}/logs",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PostServiceApplicationLogsByServiceAndAppUuidRequest" });
-  }
-}
-function __c163(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13778,7 +17343,7 @@ function __c163(j: number): any {
       ).annotate({ identifier: "PostStartServiceApplicationByServiceAndAppUuidRequest" });
   }
 }
-function __c164(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13795,7 +17360,44 @@ function __c164(j: number): any {
       ).annotate({ identifier: "PostStopServiceApplicationByServiceAndAppUuidRequest" });
   }
 }
-function __c165(j: number): any {
+function __c203(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          hostname: S.String.pipe(T.Label()),
+          delete_record: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "/applications/{uuid}/dns/{hostname}", code: 200 }),
+        ),
+      ).annotate({ identifier: "ReleaseApplicationDnsRecordRequest" });
+  }
+}
+function __c204(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          result: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ReleaseApplicationDnsRecordResponse" });
+  }
+}
+function __c205(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          hostname: S.String.pipe(T.Label()),
+          delete_record: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(T.Http({ method: "DELETE", uri: "/services/{uuid}/dns/{hostname}", code: 200 })),
+      ).annotate({ identifier: "ReleaseServiceDnsRecordRequest" });
+  }
+}
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13812,7 +17414,68 @@ function __c165(j: number): any {
       ).annotate({ identifier: "RemoveApplicationDestinationRequest" });
   }
 }
-function __c166(j: number): any {
+function __c207(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resource_type: S.String.pipe(T.Label()),
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "/{resource_type}/{uuid}/secret-manager", code: 200 }),
+        ),
+      ).annotate({ identifier: "RemoveSecretManagerSourceRequest" });
+  }
+}
+function __c208(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          hostname: S.String,
+          integration_token_uuid: S.optional(S.String),
+          record_id: S.String,
+          current: S.String,
+          address: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/applications/{uuid}/dns/replace", code: 200 })),
+      ).annotate({ identifier: "ReplaceApplicationDnsRecordRequest" });
+  }
+}
+function __c209(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          hostname: S.String,
+          integration_token_uuid: S.optional(S.String),
+          record_id: S.String,
+          current: S.String,
+          address: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/services/{uuid}/dns/replace", code: 200 })),
+      ).annotate({ identifier: "ReplaceServiceDnsRecordRequest" });
+  }
+}
+function __c210(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          ssh_host_key: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/servers/{uuid}/host-key/reset", code: 200 })),
+      ).annotate({ identifier: "ResetServerHostKeyByUuidRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.optional(S.String),
+          ssh_host_key_fingerprints: S.optional(__S(2456, __c307, 0)),
+        }),
+      ).annotate({ identifier: "ResetServerHostKeyByUuidResponse" });
+  }
+}
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13822,7 +17485,7 @@ function __c166(j: number): any {
       ).annotate({ identifier: "RestartApplicationByUuidRequest" });
   }
 }
-function __c167(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13833,74 +17496,15 @@ function __c167(j: number): any {
       ).annotate({ identifier: "RestartApplicationByUuidResponse" });
   }
 }
-function __c168(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/databases/{uuid}/restart", code: 200 })),
-      ).annotate({ identifier: "RestartDatabaseByUuidRequest" });
-  }
-}
-function __c169(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/servers/{uuid}/proxy/restart", code: 200 })),
-      ).annotate({ identifier: "RestartServerProxyRequest" });
-  }
-}
-function __c170(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          latest: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(T.Http({ method: "POST", uri: "/services/{uuid}/restart", code: 200 })),
-      ).annotate({ identifier: "RestartServiceByUuidRequest" });
-  }
-}
-function __c171(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          database_uuid: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/services/{uuid}/databases/{database_uuid}/restart",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RestartServiceDatabaseByServiceAndDatabaseUuidRequest" });
-  }
-}
-function __c172(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          commit: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/applications/{uuid}/rollback", code: 200 })),
-      ).annotate({ identifier: "RollbackApplicationByUuidRequest" });
-  }
-}
-function __c173(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           server_uuid: S.String,
           project_uuid: S.String,
-          environment_name: S.String,
-          environment_uuid: S.String,
+          environment_name: S.optional(S.String),
+          environment_uuid: S.optional(S.String),
           destination_uuid: S.optional(S.String),
           redis_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           redis_conf: S.optional(S.String),
@@ -13918,12 +17522,71 @@ function __c173(j: number): any {
           limits_cpuset: S.optional(S.String),
           limits_cpu_shares: S.optional(S.Number),
           instant_deploy: S.optional(S.Boolean),
-          tags: S.optional(__S(2104, __c263, 0)),
+          tags: S.optional(__S(2456, __c307, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/databases/redis", code: 200 })),
       ).annotate({ identifier: "CreateDatabaseRedisRequest" });
   }
 }
-function __c174(j: number): any {
+function __c214(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/databases/{uuid}/restart", code: 200 })),
+      ).annotate({ identifier: "RestartDatabaseByUuidRequest" });
+  }
+}
+function __c215(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/servers/{uuid}/proxy/restart", code: 200 })),
+      ).annotate({ identifier: "RestartServerProxyRequest" });
+  }
+}
+function __c216(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          latest: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(T.Http({ method: "POST", uri: "/services/{uuid}/restart", code: 200 })),
+      ).annotate({ identifier: "RestartServiceByUuidRequest" });
+  }
+}
+function __c217(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          database_uuid: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/services/{uuid}/databases/{database_uuid}/restart",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RestartServiceDatabaseByServiceAndDatabaseUuidRequest" });
+  }
+}
+function __c218(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          commit: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/applications/{uuid}/rollback", code: 200 })),
+      ).annotate({ identifier: "RollbackApplicationByUuidRequest" });
+  }
+}
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13940,7 +17603,7 @@ function __c174(j: number): any {
       ).annotate({ identifier: "RunApplicationStorageBackupRequest" });
   }
 }
-function __c175(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13957,7 +17620,7 @@ function __c175(j: number): any {
       ).annotate({ identifier: "RunDatabaseStorageBackupRequest" });
   }
 }
-function __c176(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13969,7 +17632,7 @@ function __c176(j: number): any {
       ).annotate({ identifier: "RunServerDockerCleanupRequest" });
   }
 }
-function __c177(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13986,7 +17649,7 @@ function __c177(j: number): any {
       ).annotate({ identifier: "RunServiceStorageBackupRequest" });
   }
 }
-function __c178(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14003,13 +17666,41 @@ function __c178(j: number): any {
           status: S.optional(S.NullOr(S.String)),
           redirect_enabled: S.optional(S.Boolean),
           redirect_url: S.optional(S.NullOr(S.String)),
+          proxy_error_page: S.optional(S.NullOr(S.String)),
           generate_exact_labels: S.optional(S.Boolean),
           configuration: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "SaveServerProxyConfigurationResponse" });
   }
 }
-function __c179(j: number): any {
+function __c224(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          server_uuid: S.String,
+          project_uuid: S.String,
+          environment_name: S.optional(S.String),
+          environment_uuid: S.optional(S.String),
+          destination_uuid: S.optional(S.String),
+          sqlite_databases: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          image: S.optional(S.String),
+          limits_memory: S.optional(S.String),
+          limits_memory_swap: S.optional(S.String),
+          limits_memory_swappiness: S.optional(S.Number),
+          limits_memory_reservation: S.optional(S.String),
+          limits_cpus: S.optional(S.String),
+          limits_cpuset: S.optional(S.String),
+          limits_cpu_shares: S.optional(S.Number),
+          instant_deploy: S.optional(S.Boolean),
+          tags: S.optional(__S(2456, __c307, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/databases/sqlite", code: 200 })),
+      ).annotate({ identifier: "CreateDatabaseSqliteRequest" });
+  }
+}
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14022,6 +17713,7 @@ function __c179(j: number): any {
           disable_local_backup: S.optional(S.Boolean),
           stop_during_backup: S.optional(S.Boolean),
           s3_storage_uuid: S.optional(S.NullOr(S.String)),
+          s3_storage_uuids: S.optional(__S(2456, __c307, 0)),
           retention_amount_locally: S.optional(S.Number),
           retention_days_locally: S.optional(S.Number),
           retention_max_storage_locally: S.optional(S.Number),
@@ -14040,7 +17732,7 @@ function __c179(j: number): any {
       ).annotate({ identifier: "SetApplicationStorageBackupScheduleRequest" });
   }
 }
-function __c180(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14055,6 +17747,7 @@ function __c180(j: number): any {
           disable_local_backup: S.Boolean,
           stop_during_backup: S.Boolean,
           s3_storage_uuid: S.optional(S.NullOr(S.String)),
+          s3_storage_uuids: S.optional(__S(2456, __c307, 0)),
           retention_amount_locally: S.Number,
           retention_days_locally: S.Number,
           retention_max_storage_locally: S.Number,
@@ -14067,7 +17760,7 @@ function __c180(j: number): any {
       ).annotate({ identifier: "VolumeBackupScheduleResponse" });
   }
 }
-function __c181(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14080,6 +17773,7 @@ function __c181(j: number): any {
           disable_local_backup: S.optional(S.Boolean),
           stop_during_backup: S.optional(S.Boolean),
           s3_storage_uuid: S.optional(S.NullOr(S.String)),
+          s3_storage_uuids: S.optional(__S(2456, __c307, 0)),
           retention_amount_locally: S.optional(S.Number),
           retention_days_locally: S.optional(S.Number),
           retention_max_storage_locally: S.optional(S.Number),
@@ -14098,7 +17792,22 @@ function __c181(j: number): any {
       ).annotate({ identifier: "SetDatabaseStorageBackupScheduleRequest" });
   }
 }
-function __c182(j: number): any {
+function __c228(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resource_type: S.String.pipe(T.Label()),
+          uuid: S.String.pipe(T.Label()),
+          integration_token_uuid: S.String,
+          settings: S.optional(S.Unknown),
+        }).pipe(
+          T.Http({ method: "PATCH", uri: "/{resource_type}/{uuid}/secret-manager", code: 200 }),
+        ),
+      ).annotate({ identifier: "SetSecretManagerSourceRequest" });
+  }
+}
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14111,6 +17820,7 @@ function __c182(j: number): any {
           disable_local_backup: S.optional(S.Boolean),
           stop_during_backup: S.optional(S.Boolean),
           s3_storage_uuid: S.optional(S.NullOr(S.String)),
+          s3_storage_uuids: S.optional(__S(2456, __c307, 0)),
           retention_amount_locally: S.optional(S.Number),
           retention_days_locally: S.optional(S.Number),
           retention_max_storage_locally: S.optional(S.Number),
@@ -14129,7 +17839,7 @@ function __c182(j: number): any {
       ).annotate({ identifier: "SetServiceStorageBackupScheduleRequest" });
   }
 }
-function __c183(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14141,7 +17851,7 @@ function __c183(j: number): any {
       ).annotate({ identifier: "StartApplicationByUuidRequest" });
   }
 }
-function __c184(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14151,34 +17861,7 @@ function __c184(j: number): any {
       ).annotate({ identifier: "StartDatabaseByUuidRequest" });
   }
 }
-function __c185(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          server_uuid: S.String,
-          project_uuid: S.String,
-          environment_name: S.String,
-          environment_uuid: S.String,
-          destination_uuid: S.optional(S.String),
-          sqlite_databases: S.optional(S.String),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          image: S.optional(S.String),
-          limits_memory: S.optional(S.String),
-          limits_memory_swap: S.optional(S.String),
-          limits_memory_swappiness: S.optional(S.Number),
-          limits_memory_reservation: S.optional(S.String),
-          limits_cpus: S.optional(S.String),
-          limits_cpuset: S.optional(S.String),
-          limits_cpu_shares: S.optional(S.Number),
-          instant_deploy: S.optional(S.Boolean),
-          tags: S.optional(__S(2104, __c263, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/databases/sqlite", code: 200 })),
-      ).annotate({ identifier: "CreateDatabaseSqliteRequest" });
-  }
-}
-function __c186(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14188,7 +17871,7 @@ function __c186(j: number): any {
       ).annotate({ identifier: "StartServiceByUuidRequest" });
   }
 }
-function __c187(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14207,7 +17890,7 @@ function __c187(j: number): any {
       ).annotate({ identifier: "StartServiceDatabaseByServiceAndDatabaseUuidRequest" });
   }
 }
-function __c188(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14218,7 +17901,7 @@ function __c188(j: number): any {
       ).annotate({ identifier: "StopApplicationByUuidRequest" });
   }
 }
-function __c189(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14229,7 +17912,15 @@ function __c189(j: number): any {
       ).annotate({ identifier: "StopDatabaseByUuidRequest" });
   }
 }
-function __c190(j: number): any {
+function __c236(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "POST", uri: "/servers/digitalocean", code: 200 })),
+      ).annotate({ identifier: "CreateDigitaloceanServerRequest" });
+  }
+}
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14240,7 +17931,7 @@ function __c190(j: number): any {
       ).annotate({ identifier: "StopServiceByUuidRequest" });
   }
 }
-function __c191(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14257,21 +17948,46 @@ function __c191(j: number): any {
       ).annotate({ identifier: "StopServiceDatabaseByServiceAndDatabaseUuidRequest" });
   }
 }
-function __c192(j: number): any {
+function __c239(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/security/integration-tokens/{uuid}/sync-zones",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SyncIntegrationTokenZonesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          zones_count: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SyncIntegrationTokenZonesResponse" });
+  }
+}
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
           github_app_uuid: S.optional(S.String),
+          gitea_app_uuid: S.optional(S.String),
           git_repository: S.optional(S.String),
           git_branch: S.optional(S.String),
+          git_https_username: S.optional(S.NullOr(S.String)),
+          git_https_password: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           ports_exposes: S.optional(S.String),
           build_pack: S.optional(S.String),
           name: S.optional(S.String),
           description: S.optional(S.String),
           domains: S.optional(S.String),
-          noindex_domains: S.optional(__S(2104, __c263, 0)),
+          noindex_domains: S.optional(__S(2456, __c307, 0)),
           git_commit_sha: S.optional(S.String),
           docker_registry_image_name: S.optional(S.String),
           docker_registry_image_tag: S.optional(S.String),
@@ -14319,26 +18035,39 @@ function __c192(j: number): any {
           instant_deploy: S.optional(S.Boolean),
           dockerfile: S.optional(S.String),
           dockerfile_location: S.optional(S.String),
+          dockerfile_target_build: S.optional(S.NullOr(S.String)),
           docker_compose_location: S.optional(S.String),
           docker_compose_custom_start_command: S.optional(S.String),
           docker_compose_custom_build_command: S.optional(S.String),
-          docker_compose_domains: S.optional(__S(2081, __c260, 1)),
+          docker_compose_domains: S.optional(__S(2497, __c312, 1)),
           watch_paths: S.optional(S.String),
           use_build_server: S.optional(S.NullOr(S.Boolean)),
           use_build_secrets: S.optional(S.Boolean),
+          http_basic_auth_hash_algorithm: S.optional(S.String),
+          http_basic_auth_bcrypt_cost: S.optional(S.Number),
+          http_basic_auth_argon2id_memory_cost: S.optional(S.Number),
+          http_basic_auth_argon2id_time_cost: S.optional(S.Number),
           is_git_submodules_enabled: S.optional(S.Boolean),
           is_git_lfs_enabled: S.optional(S.Boolean),
           is_git_shallow_clone_enabled: S.optional(S.Boolean),
+          is_auto_cancel_queued_deployments_enabled: S.optional(S.Boolean),
+          is_auto_cancel_building_deployments_enabled: S.optional(S.Boolean),
           disable_build_cache: S.optional(S.Boolean),
           inject_build_args_to_dockerfile: S.optional(S.Boolean),
           include_source_commit_in_build: S.optional(S.Boolean),
+          include_network_hosts_in_build: S.optional(S.Boolean),
           is_env_sorting_enabled: S.optional(S.Boolean),
+          redact_all_env_values_in_logs: S.optional(S.Boolean),
+          include_coolify_default_variables: S.optional(S.Boolean),
           is_pr_deployments_public_enabled: S.optional(S.Boolean),
           stop_grace_period: S.optional(S.NullOr(S.Number)),
+          rolling_update_drain_seconds: S.optional(S.Number),
           docker_images_to_keep: S.optional(S.Number),
           is_gzip_enabled: S.optional(S.Boolean),
           is_stripprefix_enabled: S.optional(S.Boolean),
+          is_permanent_redirect_enabled: S.optional(S.Boolean),
           traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
+          is_container_label_readonly_enabled: S.optional(S.Boolean),
           is_raw_compose_deployment_enabled: S.optional(S.Boolean),
           is_log_drain_enabled: S.optional(S.Boolean),
           is_gpu_enabled: S.optional(S.Boolean),
@@ -14347,6 +18076,7 @@ function __c192(j: number): any {
           gpu_device_ids: S.optional(S.NullOr(S.String)),
           gpu_options: S.optional(S.NullOr(S.String)),
           is_consistent_container_name_enabled: S.optional(S.Boolean),
+          is_image_scan_enabled: S.optional(S.Boolean),
           custom_internal_name: S.optional(S.NullOr(S.String)),
           custom_container_name_prefix: S.optional(S.NullOr(S.String)),
           preview_url_template: S.optional(S.String),
@@ -14359,7 +18089,7 @@ function __c192(j: number): any {
       ).annotate({ identifier: "UpdateApplicationByUuidRequest" });
   }
 }
-function __c193(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14371,7 +18101,7 @@ function __c193(j: number): any {
       ).annotate({ identifier: "UpdateCloudInitScriptByUuidRequest" });
   }
 }
-function __c194(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14382,7 +18112,7 @@ function __c194(j: number): any {
       ).annotate({ identifier: "UpdateCloudTokenByUuidRequest" });
   }
 }
-function __c195(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14390,15 +18120,7 @@ function __c195(j: number): any {
       ).annotate({ identifier: "UpdateCurrentTeamDiscordNotificationsRequest" });
   }
 }
-function __c196(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "POST", uri: "/servers/digitalocean", code: 200 })),
-      ).annotate({ identifier: "CreateDigitaloceanServerRequest" });
-  }
-}
-function __c197(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14406,7 +18128,7 @@ function __c197(j: number): any {
       ).annotate({ identifier: "UpdateCurrentTeamEmailNotificationsRequest" });
   }
 }
-function __c198(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14414,7 +18136,7 @@ function __c198(j: number): any {
       ).annotate({ identifier: "UpdateCurrentTeamPushoverNotificationsRequest" });
   }
 }
-function __c199(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14422,7 +18144,113 @@ function __c199(j: number): any {
       ).annotate({ identifier: "UpdateCurrentTeamSlackNotificationsRequest" });
   }
 }
-function __c200(j: number): any {
+function __c247(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_uuid: S.String,
+          server_uuid: S.String,
+          environment_name: S.optional(S.String),
+          environment_uuid: S.optional(S.String),
+          dockerfile: S.String,
+          build_pack: S.optional(S.String),
+          ports_exposes: S.optional(S.String),
+          destination_uuid: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          domains: S.optional(S.String),
+          noindex_domains: S.optional(__S(2456, __c307, 0)),
+          docker_registry_image_name: S.optional(S.String),
+          docker_registry_image_tag: S.optional(S.String),
+          ports_mappings: S.optional(S.String),
+          base_directory: S.optional(S.String),
+          health_check_enabled: S.optional(S.Boolean),
+          health_check_path: S.optional(S.String),
+          health_check_port: S.optional(S.NullOr(S.String)),
+          health_check_host: S.optional(S.NullOr(S.String)),
+          health_check_method: S.optional(S.String),
+          health_check_return_code: S.optional(S.Number),
+          health_check_scheme: S.optional(S.String),
+          health_check_response_text: S.optional(S.NullOr(S.String)),
+          health_check_interval: S.optional(S.Number),
+          health_check_timeout: S.optional(S.Number),
+          health_check_retries: S.optional(S.Number),
+          health_check_start_period: S.optional(S.Number),
+          limits_memory: S.optional(S.String),
+          limits_memory_swap: S.optional(S.String),
+          limits_memory_swappiness: S.optional(S.Number),
+          limits_memory_reservation: S.optional(S.String),
+          limits_cpus: S.optional(S.String),
+          limits_cpuset: S.optional(S.NullOr(S.String)),
+          limits_cpu_shares: S.optional(S.Number),
+          custom_labels: S.optional(S.String),
+          custom_docker_run_options: S.optional(S.String),
+          post_deployment_command: S.optional(S.String),
+          post_deployment_command_container: S.optional(S.String),
+          pre_deployment_command: S.optional(S.String),
+          pre_deployment_command_container: S.optional(S.String),
+          manual_webhook_secret_github: S.optional(S.String),
+          manual_webhook_secret_gitlab: S.optional(S.String),
+          manual_webhook_secret_bitbucket: S.optional(S.String),
+          manual_webhook_secret_gitea: S.optional(S.String),
+          redirect: S.optional(S.NullOr(S.String)),
+          instant_deploy: S.optional(S.Boolean),
+          is_force_https_enabled: S.optional(S.Boolean),
+          is_preview_deployments_enabled: S.optional(S.Boolean),
+          use_build_server: S.optional(S.NullOr(S.Boolean)),
+          use_build_secrets: S.optional(S.Boolean),
+          is_git_submodules_enabled: S.optional(S.Boolean),
+          is_git_lfs_enabled: S.optional(S.Boolean),
+          is_git_shallow_clone_enabled: S.optional(S.Boolean),
+          is_auto_cancel_queued_deployments_enabled: S.optional(S.Boolean),
+          is_auto_cancel_building_deployments_enabled: S.optional(S.Boolean),
+          disable_build_cache: S.optional(S.Boolean),
+          inject_build_args_to_dockerfile: S.optional(S.Boolean),
+          include_source_commit_in_build: S.optional(S.Boolean),
+          include_network_hosts_in_build: S.optional(S.Boolean),
+          is_env_sorting_enabled: S.optional(S.Boolean),
+          redact_all_env_values_in_logs: S.optional(S.Boolean),
+          include_coolify_default_variables: S.optional(S.Boolean),
+          is_pr_deployments_public_enabled: S.optional(S.Boolean),
+          stop_grace_period: S.optional(S.NullOr(S.Number)),
+          rolling_update_drain_seconds: S.optional(S.Number),
+          docker_images_to_keep: S.optional(S.Number),
+          is_gzip_enabled: S.optional(S.Boolean),
+          is_stripprefix_enabled: S.optional(S.Boolean),
+          is_permanent_redirect_enabled: S.optional(S.Boolean),
+          traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
+          is_container_label_readonly_enabled: S.optional(S.Boolean),
+          is_raw_compose_deployment_enabled: S.optional(S.Boolean),
+          is_log_drain_enabled: S.optional(S.Boolean),
+          is_gpu_enabled: S.optional(S.Boolean),
+          gpu_driver: S.optional(S.NullOr(S.String)),
+          gpu_count: S.optional(S.NullOr(S.String)),
+          gpu_device_ids: S.optional(S.NullOr(S.String)),
+          gpu_options: S.optional(S.NullOr(S.String)),
+          is_consistent_container_name_enabled: S.optional(S.Boolean),
+          is_image_scan_enabled: S.optional(S.Boolean),
+          custom_internal_name: S.optional(S.NullOr(S.String)),
+          custom_container_name_prefix: S.optional(S.NullOr(S.String)),
+          preview_url_template: S.optional(S.String),
+          max_restart_count: S.optional(S.Number),
+          is_http_basic_auth_enabled: S.optional(S.Boolean),
+          http_basic_auth_username: S.optional(S.NullOr(S.String)),
+          http_basic_auth_password: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
+          http_basic_auth_hash_algorithm: S.optional(S.String),
+          http_basic_auth_bcrypt_cost: S.optional(S.Number),
+          http_basic_auth_argon2id_memory_cost: S.optional(S.Number),
+          http_basic_auth_argon2id_time_cost: S.optional(S.Number),
+          connect_to_docker_network: S.optional(S.Boolean),
+          force_domain_override: S.optional(S.Boolean),
+          autogenerate_domain: S.optional(S.Boolean),
+          is_container_label_escape_enabled: S.optional(S.Boolean),
+          tags: S.optional(__S(2456, __c307, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/applications/dockerfile", code: 200 })),
+      ).annotate({ identifier: "CreateDockerfileApplicationRequest" });
+  }
+}
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14430,7 +18258,7 @@ function __c200(j: number): any {
       ).annotate({ identifier: "UpdateCurrentTeamTelegramNotificationsRequest" });
   }
 }
-function __c201(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14438,7 +18266,7 @@ function __c201(j: number): any {
       ).annotate({ identifier: "UpdateCurrentTeamWebhookNotificationsRequest" });
   }
 }
-function __c202(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14446,7 +18274,9 @@ function __c202(j: number): any {
           uuid: S.String.pipe(T.Label()),
           scheduled_backup_uuid: S.String.pipe(T.Label()),
           save_s3: S.optional(S.Boolean),
+          disable_local_backup: S.optional(S.Boolean),
           s3_storage_uuid: S.optional(S.String),
+          s3_storage_uuids: S.optional(__S(2456, __c307, 0)),
           backup_now: S.optional(S.Boolean),
           enabled: S.optional(S.Boolean),
           databases_to_backup: S.optional(S.String),
@@ -14470,7 +18300,7 @@ function __c202(j: number): any {
       ).annotate({ identifier: "UpdateDatabaseBackupRequest" });
   }
 }
-function __c203(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14523,11 +18353,14 @@ function __c203(j: number): any {
           health_check_timeout: S.optional(S.Number),
           health_check_retries: S.optional(S.Number),
           health_check_start_period: S.optional(S.Number),
+          redact_all_env_values_in_logs: S.optional(S.Boolean),
+          include_coolify_default_variables: S.optional(S.Boolean),
+          is_log_drain_enabled: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "PATCH", uri: "/databases/{uuid}", code: 200 })),
       ).annotate({ identifier: "UpdateDatabaseByUuidRequest" });
   }
 }
-function __c204(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14538,7 +18371,7 @@ function __c204(j: number): any {
       ).annotate({ identifier: "UpdateDestinationByUuidRequest" });
   }
 }
-function __c205(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14554,7 +18387,7 @@ function __c205(j: number): any {
       ).annotate({ identifier: "UpdateEnvByApplicationUuidRequest" });
   }
 }
-function __c206(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14569,27 +18402,94 @@ function __c206(j: number): any {
       ).annotate({ identifier: "UpdateEnvByDatabaseUuidRequest" });
   }
 }
-function __c207(j: number): any {
+function __c255(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          key: S.String,
+          value: S.String,
+          is_literal: S.optional(S.Boolean),
+          is_multiline: S.optional(S.Boolean),
+          is_shown_once: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "PATCH", uri: "/services/{uuid}/envs", code: 200 })),
+      ).annotate({ identifier: "UpdateEnvByServiceUuidRequest" });
+  }
+}
+function __c256(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          environment_name_or_uuid: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/projects/{uuid}/environments/{environment_name_or_uuid}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateEnvironmentRequest" });
+  }
+}
+function __c257(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UpdateEnvironmentResponse" });
+  }
+}
+function __c258(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          environment_name_or_uuid: S.String.pipe(T.Label()),
+          env_id: S.Number.pipe(T.Label()),
+          key: S.optional(S.String),
+          value: S.optional(S.NullOr(S.String)),
+          is_literal: S.optional(S.Boolean),
+          is_multiline: S.optional(S.Boolean),
+          is_shown_once: S.optional(S.Boolean),
+          comment: S.optional(S.NullOr(S.String)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/projects/{uuid}/environments/{environment_name_or_uuid}/envs/{env_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateEnvironmentSharedEnvRequest" });
+  }
+}
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_uuid: S.String,
           server_uuid: S.String,
-          environment_name: S.String,
-          environment_uuid: S.String,
-          dockerfile: S.String,
-          build_pack: S.optional(S.String),
+          environment_name: S.optional(S.String),
+          environment_uuid: S.optional(S.String),
+          docker_registry_image_name: S.String,
+          docker_registry_image_tag: S.optional(S.String),
           ports_exposes: S.optional(S.String),
           destination_uuid: S.optional(S.String),
           name: S.optional(S.String),
           description: S.optional(S.String),
           domains: S.optional(S.String),
-          noindex_domains: S.optional(__S(2104, __c263, 0)),
-          docker_registry_image_name: S.optional(S.String),
-          docker_registry_image_tag: S.optional(S.String),
+          noindex_domains: S.optional(__S(2456, __c307, 0)),
           ports_mappings: S.optional(S.String),
-          base_directory: S.optional(S.String),
           health_check_enabled: S.optional(S.Boolean),
           health_check_path: S.optional(S.String),
           health_check_port: S.optional(S.NullOr(S.String)),
@@ -14628,16 +18528,24 @@ function __c207(j: number): any {
           is_git_submodules_enabled: S.optional(S.Boolean),
           is_git_lfs_enabled: S.optional(S.Boolean),
           is_git_shallow_clone_enabled: S.optional(S.Boolean),
+          is_auto_cancel_queued_deployments_enabled: S.optional(S.Boolean),
+          is_auto_cancel_building_deployments_enabled: S.optional(S.Boolean),
           disable_build_cache: S.optional(S.Boolean),
           inject_build_args_to_dockerfile: S.optional(S.Boolean),
           include_source_commit_in_build: S.optional(S.Boolean),
+          include_network_hosts_in_build: S.optional(S.Boolean),
           is_env_sorting_enabled: S.optional(S.Boolean),
+          redact_all_env_values_in_logs: S.optional(S.Boolean),
+          include_coolify_default_variables: S.optional(S.Boolean),
           is_pr_deployments_public_enabled: S.optional(S.Boolean),
           stop_grace_period: S.optional(S.NullOr(S.Number)),
+          rolling_update_drain_seconds: S.optional(S.Number),
           docker_images_to_keep: S.optional(S.Number),
           is_gzip_enabled: S.optional(S.Boolean),
           is_stripprefix_enabled: S.optional(S.Boolean),
+          is_permanent_redirect_enabled: S.optional(S.Boolean),
           traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
+          is_container_label_readonly_enabled: S.optional(S.Boolean),
           is_raw_compose_deployment_enabled: S.optional(S.Boolean),
           is_log_drain_enabled: S.optional(S.Boolean),
           is_gpu_enabled: S.optional(S.Boolean),
@@ -14646,6 +18554,7 @@ function __c207(j: number): any {
           gpu_device_ids: S.optional(S.NullOr(S.String)),
           gpu_options: S.optional(S.NullOr(S.String)),
           is_consistent_container_name_enabled: S.optional(S.Boolean),
+          is_image_scan_enabled: S.optional(S.Boolean),
           custom_internal_name: S.optional(S.NullOr(S.String)),
           custom_container_name_prefix: S.optional(S.NullOr(S.String)),
           preview_url_template: S.optional(S.String),
@@ -14653,92 +18562,20 @@ function __c207(j: number): any {
           is_http_basic_auth_enabled: S.optional(S.Boolean),
           http_basic_auth_username: S.optional(S.NullOr(S.String)),
           http_basic_auth_password: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
+          http_basic_auth_hash_algorithm: S.optional(S.String),
+          http_basic_auth_bcrypt_cost: S.optional(S.Number),
+          http_basic_auth_argon2id_memory_cost: S.optional(S.Number),
+          http_basic_auth_argon2id_time_cost: S.optional(S.Number),
           connect_to_docker_network: S.optional(S.Boolean),
           force_domain_override: S.optional(S.Boolean),
           autogenerate_domain: S.optional(S.Boolean),
           is_container_label_escape_enabled: S.optional(S.Boolean),
-          tags: S.optional(__S(2104, __c263, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/applications/dockerfile", code: 200 })),
-      ).annotate({ identifier: "CreateDockerfileApplicationRequest" });
+          tags: S.optional(__S(2456, __c307, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/applications/dockerimage", code: 200 })),
+      ).annotate({ identifier: "CreateDockerimageApplicationRequest" });
   }
 }
-function __c208(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          key: S.String,
-          value: S.String,
-          is_preview: S.optional(S.Boolean),
-          is_literal: S.optional(S.Boolean),
-          is_multiline: S.optional(S.Boolean),
-          is_shown_once: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "PATCH", uri: "/services/{uuid}/envs", code: 200 })),
-      ).annotate({ identifier: "UpdateEnvByServiceUuidRequest" });
-  }
-}
-function __c209(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          environment_name_or_uuid: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/projects/{uuid}/environments/{environment_name_or_uuid}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateEnvironmentRequest" });
-  }
-}
-function __c210(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.optional(S.String),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UpdateEnvironmentResponse" });
-  }
-}
-function __c211(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          environment_name_or_uuid: S.String.pipe(T.Label()),
-          env_id: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/projects/{uuid}/environments/{environment_name_or_uuid}/envs/{env_id}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateEnvironmentSharedEnvRequest" });
-  }
-}
-function __c212(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          data: __S(1705, __c213, 1),
-        }).pipe(T.Http({ method: "PATCH", uri: "/applications/{uuid}/envs/bulk", code: 200 })),
-      ).annotate({ identifier: "UpdateEnvsByApplicationUuidRequest" });
-  }
-}
-function __c213(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14752,10 +18589,28 @@ function __c213(j: number): any {
         }),
       ).annotate({ identifier: "UpdateEnvsByApplicationUuidRequestDataItem" });
     case 1:
-      return S.Array(__S(1704, __c213, 0));
+      return S.Array(__S(2080, __c260, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          data: __S(2081, __c260, 1),
+        }).pipe(T.Http({ method: "PATCH", uri: "/applications/{uuid}/envs/bulk", code: 200 })),
+      ).annotate({ identifier: "UpdateEnvsByApplicationUuidRequest" });
   }
 }
-function __c214(j: number): any {
+function __c261(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          data: __S(2097, __c262, 1),
+        }).pipe(T.Http({ method: "PATCH", uri: "/databases/{uuid}/envs/bulk", code: 200 })),
+      ).annotate({ identifier: "UpdateEnvsByDatabaseUuidRequest" });
+  }
+}
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14768,28 +18623,21 @@ function __c214(j: number): any {
         }),
       ).annotate({ identifier: "UpdateEnvsByDatabaseUuidRequestDataItem" });
     case 1:
-      return S.Array(__S(1712, __c214, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          data: __S(1713, __c214, 1),
-        }).pipe(T.Http({ method: "PATCH", uri: "/databases/{uuid}/envs/bulk", code: 200 })),
-      ).annotate({ identifier: "UpdateEnvsByDatabaseUuidRequest" });
+      return S.Array(__S(2096, __c262, 0));
   }
 }
-function __c215(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
-          data: __S(1705, __c213, 1),
+          data: __S(2097, __c262, 1),
         }).pipe(T.Http({ method: "PATCH", uri: "/services/{uuid}/envs/bulk", code: 200 })),
       ).annotate({ identifier: "UpdateEnvsByServiceUuidRequest" });
   }
 }
-function __c216(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14812,7 +18660,7 @@ function __c216(j: number): any {
       ).annotate({ identifier: "UpdateGithubAppRequest" });
   }
 }
-function __c217(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14823,7 +18671,7 @@ function __c217(j: number): any {
       ).annotate({ identifier: "UpdateGithubAppResponse" });
   }
 }
-function __c218(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14837,14 +18685,14 @@ function __c218(j: number): any {
           group_name: S.optional(S.NullOr(S.String)),
           client_id: S.optional(S.NullOr(S.String)),
           client_secret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
-          webhook_token: S.optional(S.NullOr(S.String)),
+          webhook_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           redirect_uri: S.optional(S.NullOr(S.String)),
           is_system_wide: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "PATCH", uri: "/gitlab-apps/{gitlab_app_id}", code: 200 })),
       ).annotate({ identifier: "UpdateGitlabAppRequest" });
   }
 }
-function __c219(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14852,7 +18700,23 @@ function __c219(j: number): any {
       ).annotate({ identifier: "UpdateInstanceEmailSettingsRequest" });
   }
 }
-function __c220(j: number): any {
+function __c268(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          capabilities: S.optional(__S(2608, __c326, 0)),
+          automatic_dns: S.optional(S.Boolean),
+          proxied_dns: S.optional(S.Boolean),
+          metadata: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "PATCH", uri: "/security/integration-tokens/{uuid}", code: 200 })),
+      ).annotate({ identifier: "UpdateIntegrationTokenByUuidRequest" });
+  }
+}
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14865,14 +18729,14 @@ function __c220(j: number): any {
         identifier: "UpdatePreviewDomainsByPullRequestIdRequestDockerComposeDomainsItem",
       });
     case 1:
-      return S.Array(__S(1760, __c220, 0));
+      return S.Array(__S(2152, __c269, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
           pull_request_id: S.Number.pipe(T.Label()),
           domains: S.optional(S.NullOr(S.String)),
-          docker_compose_domains: S.optional(S.NullOr(__S(1761, __c220, 1))),
+          docker_compose_domains: S.optional(S.NullOr(__S(2153, __c269, 1))),
           force_domain_override: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -14884,97 +18748,7 @@ function __c220(j: number): any {
       ).annotate({ identifier: "UpdatePreviewDomainsByPullRequestIdRequest" });
   }
 }
-function __c221(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_uuid: S.String,
-          server_uuid: S.String,
-          environment_name: S.String,
-          environment_uuid: S.String,
-          docker_registry_image_name: S.String,
-          docker_registry_image_tag: S.optional(S.String),
-          ports_exposes: S.optional(S.String),
-          destination_uuid: S.optional(S.String),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          domains: S.optional(S.String),
-          noindex_domains: S.optional(__S(2104, __c263, 0)),
-          ports_mappings: S.optional(S.String),
-          health_check_enabled: S.optional(S.Boolean),
-          health_check_path: S.optional(S.String),
-          health_check_port: S.optional(S.NullOr(S.String)),
-          health_check_host: S.optional(S.NullOr(S.String)),
-          health_check_method: S.optional(S.String),
-          health_check_return_code: S.optional(S.Number),
-          health_check_scheme: S.optional(S.String),
-          health_check_response_text: S.optional(S.NullOr(S.String)),
-          health_check_interval: S.optional(S.Number),
-          health_check_timeout: S.optional(S.Number),
-          health_check_retries: S.optional(S.Number),
-          health_check_start_period: S.optional(S.Number),
-          limits_memory: S.optional(S.String),
-          limits_memory_swap: S.optional(S.String),
-          limits_memory_swappiness: S.optional(S.Number),
-          limits_memory_reservation: S.optional(S.String),
-          limits_cpus: S.optional(S.String),
-          limits_cpuset: S.optional(S.NullOr(S.String)),
-          limits_cpu_shares: S.optional(S.Number),
-          custom_labels: S.optional(S.String),
-          custom_docker_run_options: S.optional(S.String),
-          post_deployment_command: S.optional(S.String),
-          post_deployment_command_container: S.optional(S.String),
-          pre_deployment_command: S.optional(S.String),
-          pre_deployment_command_container: S.optional(S.String),
-          manual_webhook_secret_github: S.optional(S.String),
-          manual_webhook_secret_gitlab: S.optional(S.String),
-          manual_webhook_secret_bitbucket: S.optional(S.String),
-          manual_webhook_secret_gitea: S.optional(S.String),
-          redirect: S.optional(S.NullOr(S.String)),
-          instant_deploy: S.optional(S.Boolean),
-          is_force_https_enabled: S.optional(S.Boolean),
-          is_preview_deployments_enabled: S.optional(S.Boolean),
-          use_build_server: S.optional(S.NullOr(S.Boolean)),
-          use_build_secrets: S.optional(S.Boolean),
-          is_git_submodules_enabled: S.optional(S.Boolean),
-          is_git_lfs_enabled: S.optional(S.Boolean),
-          is_git_shallow_clone_enabled: S.optional(S.Boolean),
-          disable_build_cache: S.optional(S.Boolean),
-          inject_build_args_to_dockerfile: S.optional(S.Boolean),
-          include_source_commit_in_build: S.optional(S.Boolean),
-          is_env_sorting_enabled: S.optional(S.Boolean),
-          is_pr_deployments_public_enabled: S.optional(S.Boolean),
-          stop_grace_period: S.optional(S.NullOr(S.Number)),
-          docker_images_to_keep: S.optional(S.Number),
-          is_gzip_enabled: S.optional(S.Boolean),
-          is_stripprefix_enabled: S.optional(S.Boolean),
-          traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
-          is_raw_compose_deployment_enabled: S.optional(S.Boolean),
-          is_log_drain_enabled: S.optional(S.Boolean),
-          is_gpu_enabled: S.optional(S.Boolean),
-          gpu_driver: S.optional(S.NullOr(S.String)),
-          gpu_count: S.optional(S.NullOr(S.String)),
-          gpu_device_ids: S.optional(S.NullOr(S.String)),
-          gpu_options: S.optional(S.NullOr(S.String)),
-          is_consistent_container_name_enabled: S.optional(S.Boolean),
-          custom_internal_name: S.optional(S.NullOr(S.String)),
-          custom_container_name_prefix: S.optional(S.NullOr(S.String)),
-          preview_url_template: S.optional(S.String),
-          max_restart_count: S.optional(S.Number),
-          is_http_basic_auth_enabled: S.optional(S.Boolean),
-          http_basic_auth_username: S.optional(S.NullOr(S.String)),
-          http_basic_auth_password: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
-          connect_to_docker_network: S.optional(S.Boolean),
-          force_domain_override: S.optional(S.Boolean),
-          autogenerate_domain: S.optional(S.Boolean),
-          is_container_label_escape_enabled: S.optional(S.Boolean),
-          tags: S.optional(__S(2104, __c263, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/applications/dockerimage", code: 200 })),
-      ).annotate({ identifier: "CreateDockerimageApplicationRequest" });
-  }
-}
-function __c222(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14982,12 +18756,12 @@ function __c222(j: number): any {
           uuid: S.String.pipe(T.Label()),
           name: S.optional(S.String),
           description: S.optional(S.String),
-          private_key: S.String.pipe(T.SensitiveValue({})),
+          private_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "PATCH", uri: "/security/keys/{uuid}", code: 200 })),
       ).annotate({ identifier: "UpdatePrivateKeyRequest" });
   }
 }
-function __c223(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14999,18 +18773,40 @@ function __c223(j: number): any {
       ).annotate({ identifier: "UpdateProjectByUuidRequest" });
   }
 }
-function __c224(j: number): any {
+function __c272(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          key: S.optional(S.String),
+          value: S.optional(S.String),
+          is_preview: S.optional(S.Boolean),
+          is_literal: S.optional(S.Boolean),
+          is_multiline: S.optional(S.Boolean),
+          is_shown_once: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/applications/{uuid}/envs", code: 200 })),
+      ).annotate({ identifier: "CreateEnvByApplicationUuidRequest" });
+  }
+}
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
           env_id: S.Number.pipe(T.Label()),
+          key: S.optional(S.String),
+          value: S.optional(S.NullOr(S.String)),
+          is_literal: S.optional(S.Boolean),
+          is_multiline: S.optional(S.Boolean),
+          is_shown_once: S.optional(S.Boolean),
+          comment: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "PATCH", uri: "/projects/{uuid}/envs/{env_id}", code: 200 })),
       ).annotate({ identifier: "UpdateProjectSharedEnvRequest" });
   }
 }
-function __c225(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15021,14 +18817,17 @@ function __c225(j: number): any {
           endpoint: S.optional(S.String),
           bucket: S.optional(S.String),
           region: S.optional(S.String),
+          use_path_style_endpoint: S.optional(S.Boolean),
+          skip_tls_verification: S.optional(S.Boolean),
           key: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          private_key_uuid: S.optional(S.NullOr(S.String)),
           is_usable: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "PATCH", uri: "/s3-storages/{uuid}", code: 200 })),
       ).annotate({ identifier: "UpdateS3StorageByUuidRequest" });
   }
 }
-function __c226(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15040,6 +18839,7 @@ function __c226(j: number): any {
           frequency: S.optional(S.String),
           container: S.optional(S.NullOr(S.String)),
           timeout: S.optional(S.Number),
+          use_shell: S.optional(S.Boolean),
           enabled: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -15051,7 +18851,7 @@ function __c226(j: number): any {
       ).annotate({ identifier: "UpdateScheduledTaskByApplicationUuidRequest" });
   }
 }
-function __c227(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15063,6 +18863,7 @@ function __c227(j: number): any {
           frequency: S.optional(S.String),
           container: S.optional(S.NullOr(S.String)),
           timeout: S.optional(S.Number),
+          use_shell: S.optional(S.Boolean),
           enabled: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -15074,7 +18875,7 @@ function __c227(j: number): any {
       ).annotate({ identifier: "UpdateScheduledTaskByServiceUuidRequest" });
   }
 }
-function __c228(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15097,11 +18898,16 @@ function __c228(j: number): any {
           server_disk_usage_check_frequency: S.optional(S.String),
           server_disk_usage_notification_interval_hours: S.optional(S.Number),
           connection_timeout: S.optional(S.Number),
+          wildcard_domain: S.optional(S.NullOr(S.String)),
+          public_ipv4: S.optional(S.NullOr(S.String)),
+          public_ipv6: S.optional(S.NullOr(S.String)),
+          server_timezone: S.optional(S.String),
+          backup_compression_cpu_percentage: S.optional(S.Number),
         }).pipe(T.Http({ method: "PATCH", uri: "/servers/{uuid}", code: 200 })),
       ).annotate({ identifier: "UpdateServerByUuidRequest" });
   }
 }
-function __c229(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15112,7 +18918,7 @@ function __c229(j: number): any {
       ).annotate({ identifier: "UpdateServerCloudflareTunnelRequest" });
   }
 }
-function __c230(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15128,42 +18934,46 @@ function __c230(j: number): any {
       ).annotate({ identifier: "UpdateServerDockerCleanupRequest" });
   }
 }
-function __c231(j: number): any {
+function __c280(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          is_image_scan_enabled: S.optional(S.Boolean),
+          image_scan_memory_mb: S.optional(S.Number),
+          image_scan_syft_timeout: S.optional(S.Number),
+          image_scan_grype_timeout: S.optional(S.Number),
+          image_scan_cpus: S.optional(S.Number),
+        }).pipe(T.Http({ method: "PATCH", uri: "/servers/{uuid}/image-scanning", code: 200 })),
+      ).annotate({ identifier: "UpdateServerImageScanningRequest" });
+  }
+}
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
           is_logdrain_newrelic_enabled: S.optional(S.Boolean),
-          logdrain_newrelic_license_key: S.optional(S.String),
+          logdrain_newrelic_license_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
           logdrain_newrelic_base_uri: S.optional(S.String),
           is_logdrain_axiom_enabled: S.optional(S.Boolean),
           logdrain_axiom_dataset_name: S.optional(S.String),
-          logdrain_axiom_api_key: S.optional(S.String),
+          logdrain_axiom_domain: S.optional(S.String),
+          logdrain_axiom_api_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
           is_logdrain_custom_enabled: S.optional(S.Boolean),
           logdrain_custom_config: S.optional(S.String),
           logdrain_custom_config_parser: S.optional(S.String),
+          is_logdrain_cloudwatch_enabled: S.optional(S.Boolean),
+          logdrain_cloudwatch_region: S.optional(S.NullOr(S.String)),
+          logdrain_cloudwatch_group: S.optional(S.NullOr(S.String)),
+          logdrain_cloudwatch_stream_prefix: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "PATCH", uri: "/servers/{uuid}/log-drains", code: 200 })),
       ).annotate({ identifier: "UpdateServerLogDrainsRequest" });
   }
 }
-function __c232(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          key: S.optional(S.String),
-          value: S.optional(S.String),
-          is_preview: S.optional(S.Boolean),
-          is_literal: S.optional(S.Boolean),
-          is_multiline: S.optional(S.Boolean),
-          is_shown_once: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/applications/{uuid}/envs", code: 200 })),
-      ).annotate({ identifier: "CreateEnvByApplicationUuidRequest" });
-  }
-}
-function __c233(j: number): any {
+function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15171,6 +18981,7 @@ function __c233(j: number): any {
           uuid: S.String.pipe(T.Label()),
           redirect_enabled: S.optional(S.Boolean),
           redirect_url: S.optional(S.NullOr(S.String)),
+          proxy_error_page: S.optional(S.NullOr(S.String)),
           generate_exact_labels: S.optional(S.Boolean),
           traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
           proxy_type: S.optional(S.String),
@@ -15178,7 +18989,22 @@ function __c233(j: number): any {
       ).annotate({ identifier: "UpdateServerProxyRequest" });
   }
 }
-function __c234(j: number): any {
+function __c283(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          key: S.optional(S.String),
+          value: S.optional(S.String),
+          is_literal: S.optional(S.Boolean),
+          is_multiline: S.optional(S.Boolean),
+          is_shown_once: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/databases/{uuid}/envs", code: 200 })),
+      ).annotate({ identifier: "CreateEnvByDatabaseUuidRequest" });
+  }
+}
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15186,7 +19012,7 @@ function __c234(j: number): any {
           uuid: S.String.pipe(T.Label()),
           is_metrics_enabled: S.optional(S.Boolean),
           is_sentinel_debug_enabled: S.optional(S.Boolean),
-          sentinel_token: S.optional(S.String),
+          sentinel_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           sentinel_metrics_refresh_rate_seconds: S.optional(S.Number),
           sentinel_metrics_history_days: S.optional(S.Number),
           sentinel_push_interval_seconds: S.optional(S.Number),
@@ -15197,24 +19023,30 @@ function __c234(j: number): any {
           traffic_retention_1d_days: S.optional(S.Number),
           is_geoip_enabled: S.optional(S.Boolean),
           geoip_refresh_days: S.optional(S.Number),
-          geoip_maxmind_license_key: S.optional(S.NullOr(S.String)),
+          geoip_maxmind_license_key: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           traffic_ip_mode: S.optional(S.String),
         }).pipe(T.Http({ method: "PATCH", uri: "/servers/{uuid}/sentinel", code: 200 })),
       ).annotate({ identifier: "UpdateServerSentinelRequest" });
   }
 }
-function __c235(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
           env_id: S.Number.pipe(T.Label()),
+          key: S.optional(S.String),
+          value: S.optional(S.NullOr(S.String)),
+          is_literal: S.optional(S.Boolean),
+          is_multiline: S.optional(S.Boolean),
+          is_shown_once: S.optional(S.Boolean),
+          comment: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "PATCH", uri: "/servers/{uuid}/envs/{env_id}", code: 200 })),
       ).annotate({ identifier: "UpdateServerSharedEnvRequest" });
   }
 }
-function __c236(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15225,14 +19057,16 @@ function __c236(j: number): any {
           instant_deploy: S.optional(S.Boolean),
           connect_to_docker_network: S.optional(S.Boolean),
           docker_compose_raw: S.optional(S.String),
-          urls: S.optional(__S(2241, __c280, 1)),
+          urls: S.optional(__S(2657, __c332, 1)),
           force_domain_override: S.optional(S.Boolean),
           is_container_label_escape_enabled: S.optional(S.Boolean),
+          redact_all_env_values_in_logs: S.optional(S.Boolean),
+          include_coolify_default_variables: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "PATCH", uri: "/services/{uuid}", code: 200 })),
       ).annotate({ identifier: "UpdateServiceByUuidRequest" });
   }
 }
-function __c237(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15248,7 +19082,7 @@ function __c237(j: number): any {
       ).annotate({ identifier: "UpdateStorageByApplicationUuidRequest" });
   }
 }
-function __c238(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15264,7 +19098,7 @@ function __c238(j: number): any {
       ).annotate({ identifier: "UpdateStorageByDatabaseUuidRequest" });
   }
 }
-function __c239(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15280,7 +19114,7 @@ function __c239(j: number): any {
       ).annotate({ identifier: "UpdateStorageByServiceUuidRequest" });
   }
 }
-function __c240(j: number): any {
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15291,27 +19125,44 @@ function __c240(j: number): any {
       ).annotate({ identifier: "UpdateTagByUuidRequest" });
   }
 }
-function __c241(j: number): any {
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           env_id: S.Number.pipe(T.Label()),
+          key: S.optional(S.String),
+          value: S.optional(S.NullOr(S.String)),
+          is_literal: S.optional(S.Boolean),
+          is_multiline: S.optional(S.Boolean),
+          is_shown_once: S.optional(S.Boolean),
+          comment: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "PATCH", uri: "/team/envs/{env_id}", code: 200 })),
       ).annotate({ identifier: "UpdateTeamSharedEnvRequest" });
   }
 }
-function __c242(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          is_build_server_fallback_enabled: S.Boolean,
+          is_build_server_fallback_enabled: S.optional(S.Boolean),
+          scan_images_on_new_servers: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "PATCH", uri: "/team", code: 200 })),
       ).annotate({ identifier: "UpdateTokenTeamRequest" });
   }
 }
-function __c243(j: number): any {
+function __c293(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/databases/{uuid}/imports/uploads", code: 200 })),
+      ).annotate({ identifier: "UploadDatabaseImportRequest" });
+  }
+}
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15322,21 +19173,11 @@ function __c243(j: number): any {
           is_literal: S.optional(S.Boolean),
           is_multiline: S.optional(S.Boolean),
           is_shown_once: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/databases/{uuid}/envs", code: 200 })),
-      ).annotate({ identifier: "CreateEnvByDatabaseUuidRequest" });
+        }).pipe(T.Http({ method: "POST", uri: "/services/{uuid}/envs", code: 200 })),
+      ).annotate({ identifier: "CreateEnvByServiceUuidRequest" });
   }
 }
-function __c244(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/databases/{uuid}/imports/uploads", code: 200 })),
-      ).annotate({ identifier: "UploadDatabaseImportRequest" });
-  }
-}
-function __c245(j: number): any {
+function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15353,7 +19194,7 @@ function __c245(j: number): any {
       ).annotate({ identifier: "UploadServiceDatabaseImportRequest" });
   }
 }
-function __c246(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15363,7 +19204,7 @@ function __c246(j: number): any {
       ).annotate({ identifier: "ValidateCloudTokenByUuidRequest" });
   }
 }
-function __c247(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15374,7 +19215,7 @@ function __c247(j: number): any {
       ).annotate({ identifier: "ValidateCloudTokenByUuidResponse" });
   }
 }
-function __c248(j: number): any {
+function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15384,7 +19225,7 @@ function __c248(j: number): any {
       ).annotate({ identifier: "ValidateS3StorageByUuidRequest" });
   }
 }
-function __c249(j: number): any {
+function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15395,7 +19236,7 @@ function __c249(j: number): any {
       ).annotate({ identifier: "ValidateServerByUuidRequest" });
   }
 }
-function __c250(j: number): any {
+function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15403,23 +19244,7 @@ function __c250(j: number): any {
       ).annotate({ identifier: "VersionRequest" });
   }
 }
-function __c251(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          key: S.optional(S.String),
-          value: S.optional(S.String),
-          is_preview: S.optional(S.Boolean),
-          is_literal: S.optional(S.Boolean),
-          is_multiline: S.optional(S.Boolean),
-          is_shown_once: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/services/{uuid}/envs", code: 200 })),
-      ).annotate({ identifier: "CreateEnvByServiceUuidRequest" });
-  }
-}
-function __c252(j: number): any {
+function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15430,13 +19255,19 @@ function __c252(j: number): any {
       ).annotate({ identifier: "CreateEnvironmentRequest" });
   }
 }
-function __c253(j: number): any {
+function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
           environment_name_or_uuid: S.String.pipe(T.Label()),
+          key: S.String,
+          value: S.optional(S.NullOr(S.String)),
+          is_literal: S.optional(S.Boolean),
+          is_multiline: S.optional(S.Boolean),
+          is_shown_once: S.optional(S.Boolean),
+          comment: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -15447,7 +19278,7 @@ function __c253(j: number): any {
       ).annotate({ identifier: "CreateEnvironmentSharedEnvRequest" });
   }
 }
-function __c254(j: number): any {
+function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15488,7 +19319,7 @@ function __c254(j: number): any {
       ).annotate({ identifier: "CreateGithubAppResponse" });
   }
 }
-function __c255(j: number): any {
+function __c304(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15501,7 +19332,7 @@ function __c255(j: number): any {
           group_name: S.optional(S.NullOr(S.String)),
           client_id: S.optional(S.NullOr(S.String)),
           client_secret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
-          webhook_token: S.optional(S.NullOr(S.String)),
+          webhook_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           redirect_uri: S.optional(S.NullOr(S.String)),
           is_system_wide: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/gitlab-apps", code: 200 })),
@@ -15525,7 +19356,7 @@ function __c255(j: number): any {
       ).annotate({ identifier: "CreateGitlabAppResponse" });
   }
 }
-function __c256(j: number): any {
+function __c305(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
@@ -15542,9 +19373,9 @@ function __c256(j: number): any {
           enable_ipv4: S.optional(S.Boolean),
           enable_ipv6: S.optional(S.Boolean),
           enable_backups: S.optional(S.Boolean),
-          hetzner_ssh_key_ids: S.optional(__S(2048, __c256, 0)),
-          hetzner_firewall_ids: S.optional(__S(2048, __c256, 0)),
-          hetzner_network_ids: S.optional(__S(2048, __c256, 0)),
+          hetzner_ssh_key_ids: S.optional(__S(2440, __c305, 0)),
+          hetzner_firewall_ids: S.optional(__S(2440, __c305, 0)),
+          hetzner_network_ids: S.optional(__S(2440, __c305, 0)),
           cloud_init_script: S.optional(S.String),
           instant_validate: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/servers/hetzner", code: 200 })),
@@ -15559,7 +19390,34 @@ function __c256(j: number): any {
       ).annotate({ identifier: "CreateHetznerServerResponse" });
   }
 }
-function __c257(j: number): any {
+function __c306(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "POST", uri: "/servers/hostinger", code: 200 })),
+      ).annotate({ identifier: "CreateHostingerServerRequest" });
+  }
+}
+function __c307(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c308(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, __S(2456, __c307, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.optional(S.String),
+          errors: S.optional(__S(2464, __c308, 0)),
+        }),
+      ).annotate({ identifier: "Error422Body" });
+  }
+}
+function __c309(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15579,12 +19437,12 @@ function __c257(j: number): any {
         S.Struct({
           message: S.optional(S.String),
           deployment_uuid: S.optional(S.NullOr(S.String)),
-          preview: S.optional(__S(2066, __c258, 2)),
+          preview: S.optional(__S(2482, __c310, 2)),
         }),
       ).annotate({ identifier: "ApplicationPreviewDeployment" });
   }
 }
-function __c258(j: number): any {
+function __c310(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15595,7 +19453,7 @@ function __c258(j: number): any {
         }),
       ).annotate({ identifier: "ApplicationPreviewDockerComposeDomainsItem" });
     case 1:
-      return S.Array(__S(2064, __c258, 0));
+      return S.Array(__S(2480, __c310, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -15605,7 +19463,7 @@ function __c258(j: number): any {
           git_type: S.optional(S.NullOr(S.String)),
           status: S.optional(S.String),
           domains: S.optional(S.NullOr(S.String)),
-          docker_compose_domains: S.optional(S.NullOr(__S(2065, __c258, 1))),
+          docker_compose_domains: S.optional(S.NullOr(__S(2481, __c310, 1))),
           domain_port_overrides: S.optional(S.NullOr(S.Unknown)),
           docker_registry_image_tag: S.optional(S.NullOr(S.String)),
           last_online_at: S.optional(S.NullOr(S.String)),
@@ -15615,15 +19473,15 @@ function __c258(j: number): any {
       ).annotate({ identifier: "ApplicationPreview" });
   }
 }
-function __c259(j: number): any {
+function __c311(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_uuid: S.String,
           server_uuid: S.String,
-          environment_name: S.String,
-          environment_uuid: S.String,
+          environment_name: S.optional(S.String),
+          environment_uuid: S.optional(S.String),
           private_key_uuid: S.String,
           git_repository: S.String,
           git_branch: S.String,
@@ -15633,7 +19491,7 @@ function __c259(j: number): any {
           name: S.optional(S.String),
           description: S.optional(S.String),
           domains: S.optional(S.String),
-          noindex_domains: S.optional(__S(2104, __c263, 0)),
+          noindex_domains: S.optional(__S(2456, __c307, 0)),
           git_commit_sha: S.optional(S.String),
           docker_registry_image_name: S.optional(S.String),
           docker_registry_image_tag: S.optional(S.String),
@@ -15682,26 +19540,35 @@ function __c259(j: number): any {
           instant_deploy: S.optional(S.Boolean),
           dockerfile: S.optional(S.String),
           dockerfile_location: S.optional(S.String),
+          dockerfile_target_build: S.optional(S.NullOr(S.String)),
           docker_compose_location: S.optional(S.String),
           docker_compose_custom_start_command: S.optional(S.String),
           docker_compose_custom_build_command: S.optional(S.String),
-          docker_compose_domains: S.optional(__S(2081, __c260, 1)),
+          docker_compose_domains: S.optional(__S(2497, __c312, 1)),
           watch_paths: S.optional(S.String),
           use_build_server: S.optional(S.NullOr(S.Boolean)),
           use_build_secrets: S.optional(S.Boolean),
           is_git_submodules_enabled: S.optional(S.Boolean),
           is_git_lfs_enabled: S.optional(S.Boolean),
           is_git_shallow_clone_enabled: S.optional(S.Boolean),
+          is_auto_cancel_queued_deployments_enabled: S.optional(S.Boolean),
+          is_auto_cancel_building_deployments_enabled: S.optional(S.Boolean),
           disable_build_cache: S.optional(S.Boolean),
           inject_build_args_to_dockerfile: S.optional(S.Boolean),
           include_source_commit_in_build: S.optional(S.Boolean),
+          include_network_hosts_in_build: S.optional(S.Boolean),
           is_env_sorting_enabled: S.optional(S.Boolean),
+          redact_all_env_values_in_logs: S.optional(S.Boolean),
+          include_coolify_default_variables: S.optional(S.Boolean),
           is_pr_deployments_public_enabled: S.optional(S.Boolean),
           stop_grace_period: S.optional(S.NullOr(S.Number)),
+          rolling_update_drain_seconds: S.optional(S.Number),
           docker_images_to_keep: S.optional(S.Number),
           is_gzip_enabled: S.optional(S.Boolean),
           is_stripprefix_enabled: S.optional(S.Boolean),
+          is_permanent_redirect_enabled: S.optional(S.Boolean),
           traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
+          is_container_label_readonly_enabled: S.optional(S.Boolean),
           is_raw_compose_deployment_enabled: S.optional(S.Boolean),
           is_log_drain_enabled: S.optional(S.Boolean),
           is_gpu_enabled: S.optional(S.Boolean),
@@ -15710,6 +19577,7 @@ function __c259(j: number): any {
           gpu_device_ids: S.optional(S.NullOr(S.String)),
           gpu_options: S.optional(S.NullOr(S.String)),
           is_consistent_container_name_enabled: S.optional(S.Boolean),
+          is_image_scan_enabled: S.optional(S.Boolean),
           custom_internal_name: S.optional(S.NullOr(S.String)),
           custom_container_name_prefix: S.optional(S.NullOr(S.String)),
           preview_url_template: S.optional(S.String),
@@ -15717,17 +19585,21 @@ function __c259(j: number): any {
           is_http_basic_auth_enabled: S.optional(S.Boolean),
           http_basic_auth_username: S.optional(S.NullOr(S.String)),
           http_basic_auth_password: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
+          http_basic_auth_hash_algorithm: S.optional(S.String),
+          http_basic_auth_bcrypt_cost: S.optional(S.Number),
+          http_basic_auth_argon2id_memory_cost: S.optional(S.Number),
+          http_basic_auth_argon2id_time_cost: S.optional(S.Number),
           connect_to_docker_network: S.optional(S.Boolean),
           force_domain_override: S.optional(S.Boolean),
           autogenerate_domain: S.optional(S.Boolean),
           is_container_label_escape_enabled: S.optional(S.Boolean),
-          tags: S.optional(__S(2104, __c263, 0)),
+          tags: S.optional(__S(2456, __c307, 0)),
           is_preserve_repository_enabled: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/applications/private-deploy-key", code: 200 })),
       ).annotate({ identifier: "CreatePrivateDeployKeyApplicationRequest" });
   }
 }
-function __c260(j: number): any {
+function __c312(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15740,19 +19612,19 @@ function __c260(j: number): any {
         identifier: "CreatePrivateDeployKeyApplicationRequestDockerComposeDomainsItem",
       });
     case 1:
-      return S.Array(__S(2080, __c260, 0));
+      return S.Array(__S(2496, __c312, 0));
   }
 }
-function __c261(j: number): any {
+function __c313(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_uuid: S.String,
           server_uuid: S.String,
-          environment_name: S.String,
-          environment_uuid: S.String,
-          github_app_uuid: S.String,
+          environment_name: S.optional(S.String),
+          environment_uuid: S.optional(S.String),
+          gitea_app_uuid: S.String,
           git_repository: S.String,
           git_branch: S.String,
           ports_exposes: S.optional(S.String),
@@ -15761,7 +19633,7 @@ function __c261(j: number): any {
           name: S.optional(S.String),
           description: S.optional(S.String),
           domains: S.optional(S.String),
-          noindex_domains: S.optional(__S(2104, __c263, 0)),
+          noindex_domains: S.optional(__S(2456, __c307, 0)),
           git_commit_sha: S.optional(S.String),
           docker_registry_image_name: S.optional(S.String),
           docker_registry_image_tag: S.optional(S.String),
@@ -15810,26 +19682,35 @@ function __c261(j: number): any {
           instant_deploy: S.optional(S.Boolean),
           dockerfile: S.optional(S.String),
           dockerfile_location: S.optional(S.String),
+          dockerfile_target_build: S.optional(S.NullOr(S.String)),
           docker_compose_location: S.optional(S.String),
           docker_compose_custom_start_command: S.optional(S.String),
           docker_compose_custom_build_command: S.optional(S.String),
-          docker_compose_domains: S.optional(__S(2081, __c260, 1)),
+          docker_compose_domains: S.optional(__S(2497, __c312, 1)),
           watch_paths: S.optional(S.String),
           use_build_server: S.optional(S.NullOr(S.Boolean)),
           use_build_secrets: S.optional(S.Boolean),
           is_git_submodules_enabled: S.optional(S.Boolean),
           is_git_lfs_enabled: S.optional(S.Boolean),
           is_git_shallow_clone_enabled: S.optional(S.Boolean),
+          is_auto_cancel_queued_deployments_enabled: S.optional(S.Boolean),
+          is_auto_cancel_building_deployments_enabled: S.optional(S.Boolean),
           disable_build_cache: S.optional(S.Boolean),
           inject_build_args_to_dockerfile: S.optional(S.Boolean),
           include_source_commit_in_build: S.optional(S.Boolean),
+          include_network_hosts_in_build: S.optional(S.Boolean),
           is_env_sorting_enabled: S.optional(S.Boolean),
+          redact_all_env_values_in_logs: S.optional(S.Boolean),
+          include_coolify_default_variables: S.optional(S.Boolean),
           is_pr_deployments_public_enabled: S.optional(S.Boolean),
           stop_grace_period: S.optional(S.NullOr(S.Number)),
+          rolling_update_drain_seconds: S.optional(S.Number),
           docker_images_to_keep: S.optional(S.Number),
           is_gzip_enabled: S.optional(S.Boolean),
           is_stripprefix_enabled: S.optional(S.Boolean),
+          is_permanent_redirect_enabled: S.optional(S.Boolean),
           traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
+          is_container_label_readonly_enabled: S.optional(S.Boolean),
           is_raw_compose_deployment_enabled: S.optional(S.Boolean),
           is_log_drain_enabled: S.optional(S.Boolean),
           is_gpu_enabled: S.optional(S.Boolean),
@@ -15838,6 +19719,7 @@ function __c261(j: number): any {
           gpu_device_ids: S.optional(S.NullOr(S.String)),
           gpu_options: S.optional(S.NullOr(S.String)),
           is_consistent_container_name_enabled: S.optional(S.Boolean),
+          is_image_scan_enabled: S.optional(S.Boolean),
           custom_internal_name: S.optional(S.NullOr(S.String)),
           custom_container_name_prefix: S.optional(S.NullOr(S.String)),
           preview_url_template: S.optional(S.String),
@@ -15845,17 +19727,147 @@ function __c261(j: number): any {
           is_http_basic_auth_enabled: S.optional(S.Boolean),
           http_basic_auth_username: S.optional(S.NullOr(S.String)),
           http_basic_auth_password: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
+          http_basic_auth_hash_algorithm: S.optional(S.String),
+          http_basic_auth_bcrypt_cost: S.optional(S.Number),
+          http_basic_auth_argon2id_memory_cost: S.optional(S.Number),
+          http_basic_auth_argon2id_time_cost: S.optional(S.Number),
           connect_to_docker_network: S.optional(S.Boolean),
           force_domain_override: S.optional(S.Boolean),
           autogenerate_domain: S.optional(S.Boolean),
           is_container_label_escape_enabled: S.optional(S.Boolean),
-          tags: S.optional(__S(2104, __c263, 0)),
+          tags: S.optional(__S(2456, __c307, 0)),
+          is_preserve_repository_enabled: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/applications/private-gitea-app", code: 200 })),
+      ).annotate({ identifier: "CreatePrivateGiteaAppApplicationRequest" });
+  }
+}
+function __c314(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_uuid: S.String,
+          server_uuid: S.String,
+          environment_name: S.optional(S.String),
+          environment_uuid: S.optional(S.String),
+          github_app_uuid: S.String,
+          git_repository: S.String,
+          git_branch: S.String,
+          ports_exposes: S.optional(S.String),
+          destination_uuid: S.optional(S.String),
+          build_pack: S.String,
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          domains: S.optional(S.String),
+          noindex_domains: S.optional(__S(2456, __c307, 0)),
+          git_commit_sha: S.optional(S.String),
+          docker_registry_image_name: S.optional(S.String),
+          docker_registry_image_tag: S.optional(S.String),
+          is_static: S.optional(S.Boolean),
+          is_spa: S.optional(S.Boolean),
+          is_auto_deploy_enabled: S.optional(S.Boolean),
+          is_force_https_enabled: S.optional(S.Boolean),
+          is_preview_deployments_enabled: S.optional(S.Boolean),
+          static_image: S.optional(S.String),
+          install_command: S.optional(S.String),
+          build_command: S.optional(S.String),
+          start_command: S.optional(S.String),
+          ports_mappings: S.optional(S.String),
+          base_directory: S.optional(S.String),
+          publish_directory: S.optional(S.String),
+          health_check_enabled: S.optional(S.Boolean),
+          health_check_path: S.optional(S.String),
+          health_check_port: S.optional(S.NullOr(S.String)),
+          health_check_host: S.optional(S.NullOr(S.String)),
+          health_check_method: S.optional(S.String),
+          health_check_return_code: S.optional(S.Number),
+          health_check_scheme: S.optional(S.String),
+          health_check_response_text: S.optional(S.NullOr(S.String)),
+          health_check_interval: S.optional(S.Number),
+          health_check_timeout: S.optional(S.Number),
+          health_check_retries: S.optional(S.Number),
+          health_check_start_period: S.optional(S.Number),
+          limits_memory: S.optional(S.String),
+          limits_memory_swap: S.optional(S.String),
+          limits_memory_swappiness: S.optional(S.Number),
+          limits_memory_reservation: S.optional(S.String),
+          limits_cpus: S.optional(S.String),
+          limits_cpuset: S.optional(S.NullOr(S.String)),
+          limits_cpu_shares: S.optional(S.Number),
+          custom_labels: S.optional(S.String),
+          custom_docker_run_options: S.optional(S.String),
+          post_deployment_command: S.optional(S.String),
+          post_deployment_command_container: S.optional(S.String),
+          pre_deployment_command: S.optional(S.String),
+          pre_deployment_command_container: S.optional(S.String),
+          manual_webhook_secret_github: S.optional(S.String),
+          manual_webhook_secret_gitlab: S.optional(S.String),
+          manual_webhook_secret_bitbucket: S.optional(S.String),
+          manual_webhook_secret_gitea: S.optional(S.String),
+          redirect: S.optional(S.NullOr(S.String)),
+          instant_deploy: S.optional(S.Boolean),
+          dockerfile: S.optional(S.String),
+          dockerfile_location: S.optional(S.String),
+          dockerfile_target_build: S.optional(S.NullOr(S.String)),
+          docker_compose_location: S.optional(S.String),
+          docker_compose_custom_start_command: S.optional(S.String),
+          docker_compose_custom_build_command: S.optional(S.String),
+          docker_compose_domains: S.optional(__S(2497, __c312, 1)),
+          watch_paths: S.optional(S.String),
+          use_build_server: S.optional(S.NullOr(S.Boolean)),
+          use_build_secrets: S.optional(S.Boolean),
+          is_git_submodules_enabled: S.optional(S.Boolean),
+          is_git_lfs_enabled: S.optional(S.Boolean),
+          is_git_shallow_clone_enabled: S.optional(S.Boolean),
+          is_auto_cancel_queued_deployments_enabled: S.optional(S.Boolean),
+          is_auto_cancel_building_deployments_enabled: S.optional(S.Boolean),
+          disable_build_cache: S.optional(S.Boolean),
+          inject_build_args_to_dockerfile: S.optional(S.Boolean),
+          include_source_commit_in_build: S.optional(S.Boolean),
+          include_network_hosts_in_build: S.optional(S.Boolean),
+          is_env_sorting_enabled: S.optional(S.Boolean),
+          redact_all_env_values_in_logs: S.optional(S.Boolean),
+          include_coolify_default_variables: S.optional(S.Boolean),
+          is_pr_deployments_public_enabled: S.optional(S.Boolean),
+          stop_grace_period: S.optional(S.NullOr(S.Number)),
+          rolling_update_drain_seconds: S.optional(S.Number),
+          docker_images_to_keep: S.optional(S.Number),
+          is_gzip_enabled: S.optional(S.Boolean),
+          is_stripprefix_enabled: S.optional(S.Boolean),
+          is_permanent_redirect_enabled: S.optional(S.Boolean),
+          traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
+          is_container_label_readonly_enabled: S.optional(S.Boolean),
+          is_raw_compose_deployment_enabled: S.optional(S.Boolean),
+          is_log_drain_enabled: S.optional(S.Boolean),
+          is_gpu_enabled: S.optional(S.Boolean),
+          gpu_driver: S.optional(S.NullOr(S.String)),
+          gpu_count: S.optional(S.NullOr(S.String)),
+          gpu_device_ids: S.optional(S.NullOr(S.String)),
+          gpu_options: S.optional(S.NullOr(S.String)),
+          is_consistent_container_name_enabled: S.optional(S.Boolean),
+          is_image_scan_enabled: S.optional(S.Boolean),
+          custom_internal_name: S.optional(S.NullOr(S.String)),
+          custom_container_name_prefix: S.optional(S.NullOr(S.String)),
+          preview_url_template: S.optional(S.String),
+          max_restart_count: S.optional(S.Number),
+          is_http_basic_auth_enabled: S.optional(S.Boolean),
+          http_basic_auth_username: S.optional(S.NullOr(S.String)),
+          http_basic_auth_password: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
+          http_basic_auth_hash_algorithm: S.optional(S.String),
+          http_basic_auth_bcrypt_cost: S.optional(S.Number),
+          http_basic_auth_argon2id_memory_cost: S.optional(S.Number),
+          http_basic_auth_argon2id_time_cost: S.optional(S.Number),
+          connect_to_docker_network: S.optional(S.Boolean),
+          force_domain_override: S.optional(S.Boolean),
+          autogenerate_domain: S.optional(S.Boolean),
+          is_container_label_escape_enabled: S.optional(S.Boolean),
+          tags: S.optional(__S(2456, __c307, 0)),
           is_preserve_repository_enabled: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/applications/private-github-app", code: 200 })),
       ).annotate({ identifier: "CreatePrivateGithubAppApplicationRequest" });
   }
 }
-function __c262(j: number): any {
+function __c315(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15867,26 +19879,7 @@ function __c262(j: number): any {
       ).annotate({ identifier: "CreatePrivateKeyRequest" });
   }
 }
-function __c263(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c264(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, __S(2104, __c263, 0));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          message: S.optional(S.String),
-          errors: S.optional(__S(2112, __c264, 0)),
-        }),
-      ).annotate({ identifier: "Error422Body" });
-  }
-}
-function __c265(j: number): any {
+function __c316(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15897,34 +19890,42 @@ function __c265(j: number): any {
       ).annotate({ identifier: "CreateProjectRequest" });
   }
 }
-function __c266(j: number): any {
+function __c317(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
+          key: S.String,
+          value: S.optional(S.NullOr(S.String)),
+          is_literal: S.optional(S.Boolean),
+          is_multiline: S.optional(S.Boolean),
+          is_shown_once: S.optional(S.Boolean),
+          comment: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/projects/{uuid}/envs", code: 200 })),
       ).annotate({ identifier: "CreateProjectSharedEnvRequest" });
   }
 }
-function __c267(j: number): any {
+function __c318(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_uuid: S.String,
           server_uuid: S.String,
-          environment_name: S.String,
-          environment_uuid: S.String,
+          environment_name: S.optional(S.String),
+          environment_uuid: S.optional(S.String),
           git_repository: S.String,
           git_branch: S.String,
+          git_https_username: S.optional(S.NullOr(S.String)),
+          git_https_password: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           build_pack: S.String,
           ports_exposes: S.optional(S.String),
           destination_uuid: S.optional(S.String),
           name: S.optional(S.String),
           description: S.optional(S.String),
           domains: S.optional(S.String),
-          noindex_domains: S.optional(__S(2104, __c263, 0)),
+          noindex_domains: S.optional(__S(2456, __c307, 0)),
           git_commit_sha: S.optional(S.String),
           docker_registry_image_name: S.optional(S.String),
           docker_registry_image_tag: S.optional(S.String),
@@ -15973,26 +19974,35 @@ function __c267(j: number): any {
           instant_deploy: S.optional(S.Boolean),
           dockerfile: S.optional(S.String),
           dockerfile_location: S.optional(S.String),
+          dockerfile_target_build: S.optional(S.NullOr(S.String)),
           docker_compose_location: S.optional(S.String),
           docker_compose_custom_start_command: S.optional(S.String),
           docker_compose_custom_build_command: S.optional(S.String),
-          docker_compose_domains: S.optional(__S(2081, __c260, 1)),
+          docker_compose_domains: S.optional(__S(2497, __c312, 1)),
           watch_paths: S.optional(S.String),
           use_build_server: S.optional(S.NullOr(S.Boolean)),
           use_build_secrets: S.optional(S.Boolean),
           is_git_submodules_enabled: S.optional(S.Boolean),
           is_git_lfs_enabled: S.optional(S.Boolean),
           is_git_shallow_clone_enabled: S.optional(S.Boolean),
+          is_auto_cancel_queued_deployments_enabled: S.optional(S.Boolean),
+          is_auto_cancel_building_deployments_enabled: S.optional(S.Boolean),
           disable_build_cache: S.optional(S.Boolean),
           inject_build_args_to_dockerfile: S.optional(S.Boolean),
           include_source_commit_in_build: S.optional(S.Boolean),
+          include_network_hosts_in_build: S.optional(S.Boolean),
           is_env_sorting_enabled: S.optional(S.Boolean),
+          redact_all_env_values_in_logs: S.optional(S.Boolean),
+          include_coolify_default_variables: S.optional(S.Boolean),
           is_pr_deployments_public_enabled: S.optional(S.Boolean),
           stop_grace_period: S.optional(S.NullOr(S.Number)),
+          rolling_update_drain_seconds: S.optional(S.Number),
           docker_images_to_keep: S.optional(S.Number),
           is_gzip_enabled: S.optional(S.Boolean),
           is_stripprefix_enabled: S.optional(S.Boolean),
+          is_permanent_redirect_enabled: S.optional(S.Boolean),
           traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
+          is_container_label_readonly_enabled: S.optional(S.Boolean),
           is_raw_compose_deployment_enabled: S.optional(S.Boolean),
           is_log_drain_enabled: S.optional(S.Boolean),
           is_gpu_enabled: S.optional(S.Boolean),
@@ -16001,6 +20011,7 @@ function __c267(j: number): any {
           gpu_device_ids: S.optional(S.NullOr(S.String)),
           gpu_options: S.optional(S.NullOr(S.String)),
           is_consistent_container_name_enabled: S.optional(S.Boolean),
+          is_image_scan_enabled: S.optional(S.Boolean),
           custom_internal_name: S.optional(S.NullOr(S.String)),
           custom_container_name_prefix: S.optional(S.NullOr(S.String)),
           preview_url_template: S.optional(S.String),
@@ -16008,34 +20019,42 @@ function __c267(j: number): any {
           is_http_basic_auth_enabled: S.optional(S.Boolean),
           http_basic_auth_username: S.optional(S.NullOr(S.String)),
           http_basic_auth_password: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
+          http_basic_auth_hash_algorithm: S.optional(S.String),
+          http_basic_auth_bcrypt_cost: S.optional(S.Number),
+          http_basic_auth_argon2id_memory_cost: S.optional(S.Number),
+          http_basic_auth_argon2id_time_cost: S.optional(S.Number),
           connect_to_docker_network: S.optional(S.Boolean),
           force_domain_override: S.optional(S.Boolean),
           autogenerate_domain: S.optional(S.Boolean),
           is_container_label_escape_enabled: S.optional(S.Boolean),
-          tags: S.optional(__S(2104, __c263, 0)),
+          tags: S.optional(__S(2456, __c307, 0)),
           is_preserve_repository_enabled: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/applications/public", code: 200 })),
       ).annotate({ identifier: "CreatePublicApplicationRequest" });
   }
 }
-function __c268(j: number): any {
+function __c319(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          type: S.optional(S.String),
           name: S.String,
           description: S.optional(S.NullOr(S.String)),
           endpoint: S.String,
-          bucket: S.String,
-          region: S.String,
+          bucket: S.optional(S.String),
+          region: S.optional(S.String),
+          use_path_style_endpoint: S.optional(S.Boolean),
+          skip_tls_verification: S.optional(S.Boolean),
           key: S.String,
-          secret: S.String.pipe(T.SensitiveValue({})),
+          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          private_key_uuid: S.optional(S.NullOr(S.String)),
           is_usable: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/s3-storages", code: 200 })),
       ).annotate({ identifier: "CreateS3StorageRequest" });
   }
 }
-function __c269(j: number): any {
+function __c320(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16046,12 +20065,13 @@ function __c269(j: number): any {
           frequency: S.String,
           container: S.optional(S.NullOr(S.String)),
           timeout: S.optional(S.Number),
+          use_shell: S.optional(S.Boolean),
           enabled: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/applications/{uuid}/scheduled-tasks", code: 200 })),
       ).annotate({ identifier: "CreateScheduledTaskByApplicationUuidRequest" });
   }
 }
-function __c270(j: number): any {
+function __c321(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16064,13 +20084,36 @@ function __c270(j: number): any {
           frequency: S.optional(S.String),
           container: S.optional(S.NullOr(S.String)),
           timeout: S.optional(S.Number),
+          use_shell: S.optional(S.Boolean),
+          consecutive_failures: S.optional(S.Number),
+          failing_since: S.optional(S.NullOr(S.String)),
+          disabled_reason: S.optional(S.NullOr(S.String)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "ScheduledTask" });
   }
 }
-function __c271(j: number): any {
+function __c322(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          destination_uuid: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/applications/{uuid}/destinations", code: 200 })),
+      ).annotate({ identifier: "AddApplicationDestinationRequest" });
+  }
+}
+function __c323(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "AddApplicationDestinationResponse",
+      });
+  }
+}
+function __c324(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16081,25 +20124,35 @@ function __c271(j: number): any {
           frequency: S.String,
           container: S.optional(S.NullOr(S.String)),
           timeout: S.optional(S.Number),
+          use_shell: S.optional(S.Boolean),
           enabled: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/services/{uuid}/scheduled-tasks", code: 200 })),
       ).annotate({ identifier: "CreateScheduledTaskByServiceUuidRequest" });
   }
 }
-function __c272(j: number): any {
+function __c325(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           provider: S.String,
           name: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
+          capabilities: S.optional(__S(2608, __c326, 0)),
+          automatic_dns: S.optional(S.Boolean),
+          proxied_dns: S.optional(S.Boolean),
           metadata: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "POST", uri: "/security/integration-tokens", code: 200 })),
       ).annotate({ identifier: "CreateSecretManagerIntegrationTokenRequest" });
   }
 }
-function __c273(j: number): any {
+function __c326(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c327(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16114,11 +20167,12 @@ function __c273(j: number): any {
           is_build_server: S.optional(S.Boolean),
           instant_validate: S.optional(S.Boolean),
           proxy_type: S.optional(S.String),
+          ssh_host_key: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/servers", code: 200 })),
       ).annotate({ identifier: "CreateServerRequest" });
   }
 }
-function __c274(j: number): any {
+function __c328(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16131,7 +20185,7 @@ function __c274(j: number): any {
       ).annotate({ identifier: "CreateServerDestinationRequest" });
   }
 }
-function __c275(j: number): any {
+function __c329(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16147,36 +20201,23 @@ function __c275(j: number): any {
       ).annotate({ identifier: "Destination" });
   }
 }
-function __c276(j: number): any {
+function __c330(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
+          key: S.String,
+          value: S.optional(S.NullOr(S.String)),
+          is_literal: S.optional(S.Boolean),
+          is_multiline: S.optional(S.Boolean),
+          is_shown_once: S.optional(S.Boolean),
+          comment: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/servers/{uuid}/envs", code: 200 })),
       ).annotate({ identifier: "CreateServerSharedEnvRequest" });
   }
 }
-function __c277(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          destination_uuid: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/applications/{uuid}/destinations", code: 200 })),
-      ).annotate({ identifier: "AddApplicationDestinationRequest" });
-  }
-}
-function __c278(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({
-        identifier: "AddApplicationDestinationResponse",
-      });
-  }
-}
-function __c279(j: number): any {
+function __c331(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16185,22 +20226,23 @@ function __c279(j: number): any {
           name: S.optional(S.String),
           description: S.optional(S.NullOr(S.String)),
           project_uuid: S.String,
-          environment_name: S.String,
-          environment_uuid: S.String,
+          environment_name: S.optional(S.String),
+          environment_uuid: S.optional(S.String),
           server_uuid: S.String,
           destination_uuid: S.optional(S.String),
           instant_deploy: S.optional(S.Boolean),
           docker_compose_raw: S.optional(S.String),
           connect_to_docker_network: S.optional(S.Boolean),
-          urls: S.optional(__S(2241, __c280, 1)),
+          urls: S.optional(__S(2657, __c332, 1)),
           force_domain_override: S.optional(S.Boolean),
           is_container_label_escape_enabled: S.optional(S.Boolean),
-          tags: S.optional(__S(2104, __c263, 0)),
+          redact_all_env_values_in_logs: S.optional(S.Boolean),
+          tags: S.optional(__S(2456, __c307, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/services", code: 200 })),
       ).annotate({ identifier: "CreateServiceRequest" });
   }
 }
-function __c280(j: number): any {
+function __c332(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16210,17 +20252,17 @@ function __c280(j: number): any {
         }),
       ).annotate({ identifier: "CreateServiceRequestUrlsItem" });
     case 1:
-      return S.Array(__S(2240, __c280, 0));
+      return S.Array(__S(2656, __c332, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           uuid: S.optional(S.String),
-          domains: S.optional(__S(2104, __c263, 0)),
+          domains: S.optional(__S(2456, __c307, 0)),
         }),
       ).annotate({ identifier: "CreateServiceResponse" });
   }
 }
-function __c281(j: number): any {
+function __c333(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16238,7 +20280,20 @@ function __c281(j: number): any {
       ).annotate({ identifier: "CreateServiceDatabaseImportRequest" });
   }
 }
-function __c282(j: number): any {
+function __c334(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          hostname: S.String,
+          integration_token_uuid: S.optional(S.String),
+          address: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/services/{uuid}/dns", code: 200 })),
+      ).annotate({ identifier: "CreateServiceDnsRecordRequest" });
+  }
+}
+function __c335(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16254,7 +20309,7 @@ function __c282(j: number): any {
       ).annotate({ identifier: "CreateStorageByApplicationUuidRequest" });
   }
 }
-function __c283(j: number): any {
+function __c336(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -16262,7 +20317,7 @@ function __c283(j: number): any {
       });
   }
 }
-function __c284(j: number): any {
+function __c337(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16278,7 +20333,25 @@ function __c284(j: number): any {
       ).annotate({ identifier: "CreateStorageByDatabaseUuidRequest" });
   }
 }
-function __c285(j: number): any {
+function __c338(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resource_type: S.String.pipe(T.Label()),
+          uuid: S.String.pipe(T.Label()),
+          key: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/{resource_type}/{uuid}/secret-manager/references",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AddSecretManagerReferenceRequest" });
+  }
+}
+function __c339(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16295,7 +20368,7 @@ function __c285(j: number): any {
       ).annotate({ identifier: "CreateStorageByServiceUuidRequest" });
   }
 }
-function __c286(j: number): any {
+function __c340(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16305,7 +20378,7 @@ function __c286(j: number): any {
       ).annotate({ identifier: "CreateTagRequest" });
   }
 }
-function __c287(j: number): any {
+function __c341(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16318,53 +20391,53 @@ function __c287(j: number): any {
       ).annotate({ identifier: "Tag" });
   }
 }
-function __c288(j: number): any {
+function __c342(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
           tag_name: S.optional(S.String),
-          tag_names: S.optional(__S(2104, __c263, 0)),
+          tag_names: S.optional(__S(2456, __c307, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/applications/{uuid}/tags", code: 200 })),
       ).annotate({ identifier: "CreateTagByApplicationUuidRequest" });
   }
 }
-function __c289(j: number): any {
+function __c343(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2296, __c287, 0));
+      return S.Array(__S(2728, __c341, 0));
     case 1:
-      return S.suspend(() => __S(2312, __c289, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2744, __c343, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "CreateTagByApplicationUuidResponse",
       });
   }
 }
-function __c290(j: number): any {
+function __c344(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
           tag_name: S.optional(S.String),
-          tag_names: S.optional(__S(2104, __c263, 0)),
+          tag_names: S.optional(__S(2456, __c307, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/databases/{uuid}/tags", code: 200 })),
       ).annotate({ identifier: "CreateTagByDatabaseUuidRequest" });
   }
 }
-function __c291(j: number): any {
+function __c345(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
           tag_name: S.optional(S.String),
-          tag_names: S.optional(__S(2104, __c263, 0)),
+          tag_names: S.optional(__S(2456, __c307, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/services/{uuid}/tags", code: 200 })),
       ).annotate({ identifier: "CreateTagByServiceUuidRequest" });
   }
 }
-function __c292(j: number): any {
+function __c346(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16379,25 +20452,7 @@ function __c292(j: number): any {
       ).annotate({ identifier: "CreateTeamSharedEnvRequest" });
   }
 }
-function __c293(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/deployments/{uuid}/cancel", code: 200 })),
-      ).annotate({ identifier: "CancelDeploymentByUuidRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          message: S.optional(S.String),
-          deployment_uuid: S.optional(S.String),
-          status: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CancelDeploymentByUuidResponse" });
-  }
-}
-function __c294(j: number): any {
+function __c347(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16405,7 +20460,7 @@ function __c294(j: number): any {
       ).annotate({ identifier: "CreateVultrServerRequest" });
   }
 }
-function __c295(j: number): any {
+function __c348(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16415,11 +20470,12 @@ function __c295(j: number): any {
           delete_volumes: S.optional(S.Boolean.pipe(T.Query())),
           docker_cleanup: S.optional(S.Boolean.pipe(T.Query())),
           delete_connected_networks: S.optional(S.Boolean.pipe(T.Query())),
+          delete_backups: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(T.Http({ method: "DELETE", uri: "/applications/{uuid}", code: 200 })),
       ).annotate({ identifier: "DeleteApplicationRequest" });
   }
 }
-function __c296(j: number): any {
+function __c349(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16436,7 +20492,7 @@ function __c296(j: number): any {
       ).annotate({ identifier: "DeleteApplicationStorageBackupScheduleRequest" });
   }
 }
-function __c297(j: number): any {
+function __c350(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16454,7 +20510,25 @@ function __c297(j: number): any {
       ).annotate({ identifier: "DeleteBackupConfigurationByUuidRequest" });
   }
 }
-function __c298(j: number): any {
+function __c351(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/deployments/{uuid}/cancel", code: 200 })),
+      ).annotate({ identifier: "CancelDeploymentByUuidRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.optional(S.String),
+          deployment_uuid: S.optional(S.String),
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CancelDeploymentByUuidResponse" });
+  }
+}
+function __c352(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16473,7 +20547,7 @@ function __c298(j: number): any {
       ).annotate({ identifier: "DeleteBackupExecutionByUuidRequest" });
   }
 }
-function __c299(j: number): any {
+function __c353(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16483,7 +20557,7 @@ function __c299(j: number): any {
       ).annotate({ identifier: "DeleteCloudInitScriptRequest" });
   }
 }
-function __c300(j: number): any {
+function __c354(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16493,7 +20567,7 @@ function __c300(j: number): any {
       ).annotate({ identifier: "DeleteCloudTokenRequest" });
   }
 }
-function __c301(j: number): any {
+function __c355(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16503,11 +20577,12 @@ function __c301(j: number): any {
           delete_volumes: S.optional(S.Boolean.pipe(T.Query())),
           docker_cleanup: S.optional(S.Boolean.pipe(T.Query())),
           delete_connected_networks: S.optional(S.Boolean.pipe(T.Query())),
+          delete_backups: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(T.Http({ method: "DELETE", uri: "/databases/{uuid}", code: 200 })),
       ).annotate({ identifier: "DeleteDatabaseRequest" });
   }
 }
-function __c302(j: number): any {
+function __c356(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16524,7 +20599,7 @@ function __c302(j: number): any {
       ).annotate({ identifier: "DeleteDatabaseStorageBackupScheduleRequest" });
   }
 }
-function __c303(j: number): any {
+function __c357(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16534,20 +20609,7 @@ function __c303(j: number): any {
       ).annotate({ identifier: "DeleteDestinationRequest" });
   }
 }
-function __c304(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          registry: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/servers/{uuid}/registries/{registry}/check", code: 200 }),
-        ),
-      ).annotate({ identifier: "CheckServerRegistryLoginRequest" });
-  }
-}
-function __c305(j: number): any {
+function __c358(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16560,7 +20622,7 @@ function __c305(j: number): any {
       ).annotate({ identifier: "DeleteEnvByApplicationUuidRequest" });
   }
 }
-function __c306(j: number): any {
+function __c359(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16571,7 +20633,7 @@ function __c306(j: number): any {
       ).annotate({ identifier: "DeleteEnvByDatabaseUuidRequest" });
   }
 }
-function __c307(j: number): any {
+function __c360(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16582,7 +20644,7 @@ function __c307(j: number): any {
       ).annotate({ identifier: "DeleteEnvByServiceUuidRequest" });
   }
 }
-function __c308(j: number): any {
+function __c361(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16599,7 +20661,20 @@ function __c308(j: number): any {
       ).annotate({ identifier: "DeleteEnvironmentRequest" });
   }
 }
-function __c309(j: number): any {
+function __c362(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          registry: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/servers/{uuid}/registries/{registry}/check", code: 200 }),
+        ),
+      ).annotate({ identifier: "CheckServerRegistryLoginRequest" });
+  }
+}
+function __c363(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16617,7 +20692,7 @@ function __c309(j: number): any {
       ).annotate({ identifier: "DeleteEnvironmentSharedEnvRequest" });
   }
 }
-function __c310(j: number): any {
+function __c364(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16627,7 +20702,7 @@ function __c310(j: number): any {
       ).annotate({ identifier: "DeleteGithubAppRequest" });
   }
 }
-function __c311(j: number): any {
+function __c365(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16637,7 +20712,19 @@ function __c311(j: number): any {
       ).annotate({ identifier: "DeleteGitlabAppRequest" });
   }
 }
-function __c312(j: number): any {
+function __c366(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "/security/integration-tokens/{uuid}", code: 200 }),
+        ),
+      ).annotate({ identifier: "DeleteIntegrationTokenByUuidRequest" });
+  }
+}
+function __c367(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16654,7 +20741,7 @@ function __c312(j: number): any {
       ).annotate({ identifier: "DeletePreviewDeploymentByPullRequestIdRequest" });
   }
 }
-function __c313(j: number): any {
+function __c368(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16664,7 +20751,7 @@ function __c313(j: number): any {
       ).annotate({ identifier: "DeletePrivateKeyByUuidRequest" });
   }
 }
-function __c314(j: number): any {
+function __c369(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16674,31 +20761,7 @@ function __c314(j: number): any {
       ).annotate({ identifier: "DeleteProjectRequest" });
   }
 }
-function __c315(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          destination_uuid: S.String,
-          name: S.optional(S.NullOr(S.String)),
-          clone_volumes: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/applications/{uuid}/clone", code: 200 })),
-      ).annotate({ identifier: "CloneApplicationByUuidRequest" });
-  }
-}
-function __c316(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.optional(S.String),
-          message: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CloneApplicationByUuidResponse" });
-  }
-}
-function __c317(j: number): any {
+function __c370(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16709,7 +20772,7 @@ function __c317(j: number): any {
       ).annotate({ identifier: "DeleteProjectSharedEnvRequest" });
   }
 }
-function __c318(j: number): any {
+function __c371(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16719,7 +20782,7 @@ function __c318(j: number): any {
       ).annotate({ identifier: "DeleteS3StorageRequest" });
   }
 }
-function __c319(j: number): any {
+function __c372(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16736,7 +20799,31 @@ function __c319(j: number): any {
       ).annotate({ identifier: "DeleteScheduledTaskByApplicationUuidRequest" });
   }
 }
-function __c320(j: number): any {
+function __c373(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String.pipe(T.Label()),
+          destination_uuid: S.String,
+          name: S.optional(S.NullOr(S.String)),
+          clone_volumes: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/applications/{uuid}/clone", code: 200 })),
+      ).annotate({ identifier: "CloneApplicationByUuidRequest" });
+  }
+}
+function __c374(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CloneApplicationByUuidResponse" });
+  }
+}
+function __c375(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16753,7 +20840,7 @@ function __c320(j: number): any {
       ).annotate({ identifier: "DeleteScheduledTaskByServiceUuidRequest" });
   }
 }
-function __c321(j: number): any {
+function __c376(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16761,11 +20848,13 @@ function __c321(j: number): any {
           uuid: S.String.pipe(T.Label()),
           force: S.optional(S.Boolean.pipe(T.Query())),
           delete_from_provider: S.optional(S.Boolean.pipe(T.Query())),
+          remove_ssh_key: S.optional(S.Boolean.pipe(T.Query())),
+          remove_resources_from_server: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(T.Http({ method: "DELETE", uri: "/servers/{uuid}", code: 200 })),
       ).annotate({ identifier: "DeleteServerRequest" });
   }
 }
-function __c322(j: number): any {
+function __c377(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16776,7 +20865,7 @@ function __c322(j: number): any {
       ).annotate({ identifier: "DeleteServerSharedEnvRequest" });
   }
 }
-function __c323(j: number): any {
+function __c378(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16786,12 +20875,12 @@ function __c323(j: number): any {
           delete_volumes: S.optional(S.Boolean.pipe(T.Query())),
           docker_cleanup: S.optional(S.Boolean.pipe(T.Query())),
           delete_connected_networks: S.optional(S.Boolean.pipe(T.Query())),
-          delete_from_coolify_only: S.optional(S.Boolean.pipe(T.Query())),
+          delete_backups: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(T.Http({ method: "DELETE", uri: "/services/{uuid}", code: 200 })),
       ).annotate({ identifier: "DeleteServiceRequest" });
   }
 }
-function __c324(j: number): any {
+function __c379(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16808,7 +20897,7 @@ function __c324(j: number): any {
       ).annotate({ identifier: "DeleteServiceStorageBackupScheduleRequest" });
   }
 }
-function __c325(j: number): any {
+function __c380(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16825,7 +20914,7 @@ function __c325(j: number): any {
       ).annotate({ identifier: "DeleteStorageByApplicationUuidRequest" });
   }
 }
-function __c326(j: number): any {
+function __c381(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16838,20 +20927,7 @@ function __c326(j: number): any {
       ).annotate({ identifier: "DeleteStorageByDatabaseUuidRequest" });
   }
 }
-function __c327(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          destination_uuid: S.String,
-          name: S.optional(S.NullOr(S.String)),
-          clone_volumes: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/databases/{uuid}/clone", code: 200 })),
-      ).annotate({ identifier: "CloneDatabaseByUuidRequest" });
-  }
-}
-function __c328(j: number): any {
+function __c382(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16864,7 +20940,7 @@ function __c328(j: number): any {
       ).annotate({ identifier: "DeleteStorageByServiceUuidRequest" });
   }
 }
-function __c329(j: number): any {
+function __c383(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16874,7 +20950,7 @@ function __c329(j: number): any {
       ).annotate({ identifier: "DeleteTagRequest" });
   }
 }
-function __c330(j: number): any {
+function __c384(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16885,97 +20961,6 @@ function __c330(j: number): any {
           T.Http({ method: "DELETE", uri: "/applications/{uuid}/tags/{tag_uuid}", code: 200 }),
         ),
       ).annotate({ identifier: "DeleteTagByApplicationUuidRequest" });
-  }
-}
-function __c331(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          tag_uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/databases/{uuid}/tags/{tag_uuid}", code: 200 })),
-      ).annotate({ identifier: "DeleteTagByDatabaseUuidRequest" });
-  }
-}
-function __c332(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-          tag_uuid: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/services/{uuid}/tags/{tag_uuid}", code: 200 })),
-      ).annotate({ identifier: "DeleteTagByServiceUuidRequest" });
-  }
-}
-function __c333(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          env_id: S.Number.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/team/envs/{env_id}", code: 200 })),
-      ).annotate({ identifier: "DeleteTeamSharedEnvRequest" });
-  }
-}
-function __c334(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          tag: S.optional(S.String.pipe(T.Query())),
-          uuid: S.optional(S.String.pipe(T.Query())),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          pr: S.optional(S.Number.pipe(T.Query())),
-          pull_request_id: S.optional(S.Number.pipe(T.Query())),
-          docker_tag: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "POST", uri: "/deploy", code: 200 })),
-      ).annotate({ identifier: "DeployByTagOrUuidRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          message: S.optional(S.String),
-          resource_uuid: S.optional(S.String),
-          deployment_uuid: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DeployByTagOrUuidResponseDeploymentsItem" });
-    case 2:
-      return S.Array(__S(2673, __c334, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          deployments: S.optional(__S(2674, __c334, 2)),
-        }),
-      ).annotate({ identifier: "DeployByTagOrUuidResponse" });
-  }
-}
-function __c335(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "POST", uri: "/disable", code: 200 })),
-      ).annotate({ identifier: "DisableApiRequest" });
-  }
-}
-function __c336(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "POST", uri: "/mcp/disable", code: 200 })),
-      ).annotate({ identifier: "DisableMcpRequest" });
-  }
-}
-function __c337(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          uuid: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/servers/{uuid}/cloudflare-tunnel/disable", code: 200 }),
-        ),
-      ).annotate({ identifier: "DisableServerCloudflareTunnelRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

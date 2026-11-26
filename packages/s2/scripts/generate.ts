@@ -93,10 +93,7 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "S2OpContext",
     commonErrorType: "S2OpError",
-    // No per-operation error classes: the spec types every failure as the
-    // shared ErrorInfo envelope, so every status rides S2OpError and the
-    // protocol picks the class (see src/errors.ts).
-    commonErrorClasses: ["UnknownS2Error"],
+    serviceErrors: "S2ServiceErrors",
     protocol: "S2Protocol",
     retry: "Retry.Retry",
   },

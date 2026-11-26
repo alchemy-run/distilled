@@ -57,18 +57,6 @@ const spec: SdkSpec = {
       ? `string | Redacted.Redacted<string>${m.nullable ? " | null" : ""}`
       : undefined,
 
-  // A download's whole response is its bytes.
-  shapeOverride: ({ name, def }) =>
-    def.type === "structure" &&
-    Object.keys(def.members ?? {}).length === 1 &&
-    def.members.body?.target === "smithy.api#Blob" &&
-    RAW_RESPONSE_TRAIT in (def.members.body.traits ?? {})
-      ? [
-          `export type ${name} = Uint8Array;`,
-          `export const ${name} = S.instanceOf(Uint8Array).pipe(T.BinaryResponse()) as S.Codec<${name}>;`,
-        ]
-      : undefined,
-
   // A `oneOf` in the spec is a plain value alternative — the TS type is the
   // case union, the schema stays opaque.
   union: ({ name, caseTargets, tsRef }) => [
@@ -97,7 +85,7 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "BrowserbaseOpContext",
     commonErrorType: "BrowserbaseOpError",
-    commonErrorClasses: ["UnknownBrowserbaseError"],
+    serviceErrors: "BrowserbaseServiceErrors",
     protocol: "BrowserbaseProtocol",
     retry: "Retry.Retry",
   },

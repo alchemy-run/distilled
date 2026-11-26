@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { VercelServiceErrors } from "../errors.ts";
 import { VercelProtocol, type VercelOpError, type VercelOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -247,7 +248,7 @@ export interface CreateProjectRequestEnvironmentVariablesItem {
   /** Type of the ENV variable */
   type?: CreateProjectRequestEnvironmentVariablesItemType | (string & {}) | undefined;
   /** Value for the ENV variable */
-  value: string;
+  value: string | Redacted.Redacted<string>;
 }
 /** Collection of ENV Variables the Project will use */
 export type CreateProjectRequestEnvironmentVariablesList =
@@ -1273,7 +1274,7 @@ export interface CreateProjectResponseEnvItem {
   type: CreateProjectResponseEnvItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: CreateProjectResponseEnvItemVisibility | undefined;
   vsmValue?: string | undefined;
@@ -4296,7 +4297,7 @@ export interface CreateProjectEnvResponseCreatedCase0 {
   type: CreateProjectEnvResponseCreatedCase0Type;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: CreateProjectEnvResponseCreatedCase0Visibility | undefined;
   vsmValue?: string | undefined;
@@ -4465,7 +4466,7 @@ export interface CreateProjectEnvResponseCreatedCase1Item {
   type: CreateProjectEnvResponseCreatedCase1ItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: CreateProjectEnvResponseCreatedCase1ItemVisibility | undefined;
   vsmValue?: string | undefined;
@@ -4531,7 +4532,7 @@ export interface CreateProjectTransferRequestRequest {
   /** The URL to send a webhook to when the transfer is accepted. */
   callbackUrl?: string | undefined;
   /** The secret to use to sign the webhook payload with HMAC-SHA256. */
-  callbackSecret?: string | undefined;
+  callbackSecret?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateProjectTransferRequestResponse {
   code: string;
@@ -4547,7 +4548,7 @@ export interface CreateTraceSessionRequest {
   hostname: string;
 }
 export interface CreateTraceSessionResponse {
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface DeleteProjectRequest {
   /** The unique project identifier or the project name */
@@ -5282,7 +5283,7 @@ export interface DeleteProjectAvatarResponseEnvItem {
   type: DeleteProjectAvatarResponseEnvItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: DeleteProjectAvatarResponseEnvItemVisibility | undefined;
   vsmValue?: string | undefined;
@@ -8219,7 +8220,7 @@ export interface EditProjectEnvRequest {
   /** The type of environment variable */
   type?: EditProjectEnvRequestType | (string & {}) | undefined;
   /** The value of the environment variable */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
   /** The custom environments that the environment variable should be synced to */
   customEnvironmentIds?: EditProjectEnvRequestCustomEnvironmentIdsList | undefined;
   /** A comment to add context on what this env var is for */
@@ -8381,7 +8382,7 @@ export interface EditProjectEnvResponse {
   type: EditProjectEnvResponseType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: EditProjectEnvResponseVisibility | undefined;
 }
@@ -8562,7 +8563,7 @@ export interface FilterProjectEnvsResponseBodyCase0 {
   type: FilterProjectEnvsResponseBodyCase0Type;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: FilterProjectEnvsResponseBodyCase0Visibility | undefined;
 }
@@ -8732,7 +8733,7 @@ export interface FilterProjectEnvsResponseBodyCase1EnvsItem {
   type: FilterProjectEnvsResponseBodyCase1EnvsItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: FilterProjectEnvsResponseBodyCase1EnvsItemVisibility | undefined;
 }
@@ -8917,7 +8918,7 @@ export interface FilterProjectEnvsResponseBodyCase2EnvsItem {
   type: FilterProjectEnvsResponseBodyCase2EnvsItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: FilterProjectEnvsResponseBodyCase2EnvsItemVisibility | undefined;
 }
@@ -9610,7 +9611,7 @@ export interface GetProjectResponseEnvItem {
   type: GetProjectResponseEnvItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: GetProjectResponseEnvItemVisibility | undefined;
   vsmValue?: string | undefined;
@@ -12798,7 +12799,7 @@ export interface GetProjectEnvResponseBodyCase1 {
   type: GetProjectEnvResponseBodyCase1Type;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: GetProjectEnvResponseBodyCase1Visibility | undefined;
 }
@@ -12952,7 +12953,7 @@ export interface GetProjectEnvResponseBodyCase2 {
   type: GetProjectEnvResponseBodyCase2Type;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: GetProjectEnvResponseBodyCase2Visibility | undefined;
 }
@@ -13388,7 +13389,7 @@ export interface GetProjectsResponseBodyCase0ItemEnvItem {
   type: GetProjectsResponseBodyCase0ItemEnvItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: GetProjectsResponseBodyCase0ItemEnvItemVisibility | undefined;
   vsmValue?: string | undefined;
@@ -15139,7 +15140,7 @@ export interface GetProjectsResponseBodyCase1ProjectsItemEnvItem {
   type: GetProjectsResponseBodyCase1ProjectsItemEnvItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: GetProjectsResponseBodyCase1ProjectsItemEnvItemVisibility | undefined;
   vsmValue?: string | undefined;
@@ -17352,7 +17353,7 @@ export interface GetProjectsResponseBodyCase2ProjectsItemEnvItem {
   type: GetProjectsResponseBodyCase2ProjectsItemEnvItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: GetProjectsResponseBodyCase2ProjectsItemEnvItemVisibility | undefined;
   vsmValue?: string | undefined;
@@ -20782,7 +20783,7 @@ export interface GetProjectTokenRequest {
   source?: string | undefined;
 }
 export interface GetProjectTokenResponse {
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface GetProjectTraceRequest {
   /** The project ID */
@@ -21128,7 +21129,7 @@ export interface RemoveProjectEnvResponseBodyCase0Item {
   type: RemoveProjectEnvResponseBodyCase0ItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: RemoveProjectEnvResponseBodyCase0ItemVisibility | undefined;
 }
@@ -21293,7 +21294,7 @@ export interface RemoveProjectEnvResponseBodyCase1 {
   type: RemoveProjectEnvResponseBodyCase1Type;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: RemoveProjectEnvResponseBodyCase1Visibility | undefined;
 }
@@ -21455,7 +21456,7 @@ export interface RemoveProjectEnvResponseBodyCase2 {
   type: RemoveProjectEnvResponseBodyCase2Type;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: RemoveProjectEnvResponseBodyCase2Visibility | undefined;
 }
@@ -22233,7 +22234,7 @@ export interface UpdateMicrofrontendsResponseEnvItem {
   type: UpdateMicrofrontendsResponseEnvItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: UpdateMicrofrontendsResponseEnvItemVisibility | undefined;
   vsmValue?: string | undefined;
@@ -26470,7 +26471,7 @@ export interface UpdateProjectResponseEnvItem {
   type: UpdateProjectResponseEnvItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: UpdateProjectResponseEnvItemVisibility | undefined;
   vsmValue?: string | undefined;
@@ -30093,7 +30094,7 @@ export interface UploadProjectAvatarResponseEnvItem {
   type: UploadProjectAvatarResponseEnvItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: UploadProjectAvatarResponseEnvItemVisibility | undefined;
   vsmValue?: string | undefined;
@@ -33043,6 +33044,7 @@ export const acceptProjectTransferRequest: API.OperationMethod<
   input: __S(1155, __c36, 3) as any as S.Schema<AcceptProjectTransferRequestRequest>,
   output: __S(1159, __c36, 7) as any as S.Schema<AcceptProjectTransferRequestResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33066,6 +33068,7 @@ export const addProjectDomain: API.OperationMethod<
   input: __S(1248, __c39, 0) as any as S.Schema<AddProjectDomainRequest>,
   output: __S(1282, __c40, 2) as any as S.Schema<AddProjectDomainResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33088,6 +33091,7 @@ export const batchRemoveProjectEnv: API.OperationMethod<
   input: __S(1312, __c41, 0) as any as S.Schema<BatchRemoveProjectEnvRequest>,
   output: __S(1313, __c41, 1) as any as S.Schema<BatchRemoveProjectEnvResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33111,6 +33115,7 @@ export const createProject: API.OperationMethod<
   input: __S(1349, __c42, 5) as any as S.Schema<CreateProjectRequest>,
   output: __S(1387, __c43, 11) as any as S.Schema<CreateProjectResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33134,6 +33139,7 @@ export const createProjectEnv: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<CreateProjectEnvRequest>,
   output: __S(4, __c0, 4) as any as S.Schema<CreateProjectEnvResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33156,6 +33162,7 @@ export const createProjectTransferRequest: API.OperationMethod<
   input: __S(32, __c1, 0) as any as S.Schema<CreateProjectTransferRequestRequest>,
   output: __S(33, __c1, 1) as any as S.Schema<CreateProjectTransferRequestResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33178,6 +33185,7 @@ export const createTraceSession: API.OperationMethod<
   input: __S(64, __c2, 0) as any as S.Schema<CreateTraceSessionRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<CreateTraceSessionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33195,6 +33203,7 @@ export const deleteProject: API.OperationMethod<
   input: __S(128, __c4, 0) as any as S.Schema<DeleteProjectRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteProjectResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33212,6 +33221,7 @@ export const deleteProjectAvatar: API.OperationMethod<
   input: __S(192, __c6, 0) as any as S.Schema<DeleteProjectAvatarRequest>,
   output: __S(230, __c7, 6) as any as S.Schema<DeleteProjectAvatarResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33229,6 +33239,7 @@ export const editProjectEnv: API.OperationMethod<
   input: __S(256, __c8, 0) as any as S.Schema<EditProjectEnvRequest>,
   output: __S(257, __c8, 1) as any as S.Schema<EditProjectEnvResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33246,6 +33257,7 @@ export const filterProjectEnvs: API.OperationMethod<
   input: __S(288, __c9, 0) as any as S.Schema<FilterProjectEnvsRequest>,
   output: __S(289, __c9, 1) as any as S.Schema<FilterProjectEnvsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33263,6 +33275,7 @@ export const getProject: API.OperationMethod<
   input: __S(320, __c10, 0) as any as S.Schema<GetProjectRequest>,
   output: __S(362, __c11, 10) as any as S.Schema<GetProjectResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33280,6 +33293,7 @@ export const getProjectDomain: API.OperationMethod<
   input: __S(384, __c12, 0) as any as S.Schema<GetProjectDomainRequest>,
   output: __S(1282, __c40, 2) as any as S.Schema<GetProjectDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33297,6 +33311,7 @@ export const getProjectDomains: API.OperationMethod<
   input: __S(416, __c13, 0) as any as S.Schema<GetProjectDomainsRequest>,
   output: __S(417, __c13, 1) as any as S.Schema<GetProjectDomainsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33314,6 +33329,7 @@ export const getProjectEnv: API.OperationMethod<
   input: __S(448, __c14, 0) as any as S.Schema<GetProjectEnvRequest>,
   output: __S(449, __c14, 1) as any as S.Schema<GetProjectEnvResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33331,6 +33347,7 @@ export const getProjects: API.OperationMethod<
   input: __S(480, __c15, 0) as any as S.Schema<GetProjectsRequest>,
   output: __S(481, __c15, 1) as any as S.Schema<GetProjectsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33348,6 +33365,7 @@ export const getProjectToken: API.OperationMethod<
   input: __S(512, __c16, 0) as any as S.Schema<GetProjectTokenRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<GetProjectTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33365,6 +33383,7 @@ export const getProjectTrace: API.OperationMethod<
   input: __S(544, __c17, 0) as any as S.Schema<GetProjectTraceRequest>,
   output: __S(556, __c17, 12) as any as S.Schema<GetProjectTraceResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33382,6 +33401,7 @@ export const listPromoteAliases: API.OperationMethod<
   input: __S(576, __c18, 0) as any as S.Schema<ListPromoteAliasesRequest>,
   output: __S(577, __c18, 1) as any as S.Schema<ListPromoteAliasesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33399,6 +33419,7 @@ export const moveProjectDomain: API.OperationMethod<
   input: __S(608, __c19, 0) as any as S.Schema<MoveProjectDomainRequest>,
   output: __S(1282, __c40, 2) as any as S.Schema<MoveProjectDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33416,6 +33437,7 @@ export const pauseProject: API.OperationMethod<
   input: __S(640, __c20, 0) as any as S.Schema<PauseProjectRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<PauseProjectResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33433,6 +33455,7 @@ export const removeProjectDomain: API.OperationMethod<
   input: __S(672, __c21, 0) as any as S.Schema<RemoveProjectDomainRequest>,
   output: __S(673, __c21, 1) as any as S.Schema<RemoveProjectDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33450,6 +33473,7 @@ export const removeProjectEnv: API.OperationMethod<
   input: __S(704, __c22, 0) as any as S.Schema<RemoveProjectEnvRequest>,
   output: __S(705, __c22, 1) as any as S.Schema<RemoveProjectEnvResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33473,6 +33497,7 @@ export const requestPromote: API.OperationMethod<
   input: __S(736, __c23, 0) as any as S.Schema<RequestPromoteRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<RequestPromoteResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33497,6 +33522,7 @@ export const requestRollback: API.OperationMethod<
   input: __S(768, __c24, 0) as any as S.Schema<RequestRollbackRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<RequestRollbackResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33514,6 +33540,7 @@ export const unpauseProject: API.OperationMethod<
   input: __S(800, __c25, 0) as any as S.Schema<UnpauseProjectRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<UnpauseProjectResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33536,6 +33563,7 @@ export const updateMicrofrontends: API.OperationMethod<
   input: __S(832, __c26, 0) as any as S.Schema<UpdateMicrofrontendsRequest>,
   output: __S(870, __c27, 6) as any as S.Schema<UpdateMicrofrontendsResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33559,6 +33587,7 @@ export const updateProject: API.OperationMethod<
   input: __S(918, __c28, 22) as any as S.Schema<UpdateProjectRequest>,
   output: __S(956, __c29, 28) as any as S.Schema<UpdateProjectResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33576,6 +33605,7 @@ export const updateProjectDomain: API.OperationMethod<
   input: __S(960, __c30, 0) as any as S.Schema<UpdateProjectDomainRequest>,
   output: __S(1282, __c40, 2) as any as S.Schema<UpdateProjectDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33598,6 +33628,7 @@ export const updateProjectProtectionBypass: API.OperationMethod<
   input: __S(995, __c31, 3) as any as S.Schema<UpdateProjectProtectionBypassRequest>,
   output: __S(997, __c31, 5) as any as S.Schema<UpdateProjectProtectionBypassResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33629,6 +33660,7 @@ export const updateProjectsByProjectIdRollbackByDeploymentIdUpdateDescription: A
     0,
   ) as any as S.Schema<UpdateProjectsByProjectIdRollbackByDeploymentIdUpdateDescriptionResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33646,6 +33678,7 @@ export const uploadProjectAvatar: API.OperationMethod<
   input: __S(1056, __c33, 0) as any as S.Schema<UploadProjectAvatarRequest>,
   output: __S(1094, __c34, 6) as any as S.Schema<UploadProjectAvatarResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33663,6 +33696,7 @@ export const verifyProjectDomain: API.OperationMethod<
   input: __S(1120, __c35, 0) as any as S.Schema<VerifyProjectDomainRequest>,
   output: __S(1121, __c35, 1) as any as S.Schema<VerifyProjectDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: VercelServiceErrors,
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33724,7 +33758,7 @@ function __c1(j: number): any {
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
           callbackUrl: S.optional(S.String),
-          callbackSecret: S.optional(S.String),
+          callbackSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({ method: "POST", uri: "/projects/{idOrName}/transfer-request", code: 200 }),
         ),
@@ -33755,7 +33789,7 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CreateTraceSessionResponse" });
   }
@@ -33949,7 +33983,7 @@ function __c6(j: number): any {
           type: S.String,
           updatedAt: S.optional(S.Number),
           updatedBy: S.optional(S.NullOr(S.String)),
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
           visibility: S.optional(S.String),
           vsmValue: S.optional(S.String),
         }),
@@ -34271,7 +34305,7 @@ function __c8(j: number): any {
           target: S.optional(__S(1408, __c44, 0)),
           gitBranch: S.optional(S.NullOr(S.String)),
           type: S.optional(S.String),
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
           customEnvironmentIds: S.optional(__S(1216, __c38, 0)),
           comment: S.optional(S.String),
         }).pipe(T.Http({ method: "PATCH", uri: "/v9/projects/{idOrName}/env/{id}", code: 200 })),
@@ -34298,7 +34332,7 @@ function __c8(j: number): any {
           type: S.String,
           updatedAt: S.optional(S.Number),
           updatedBy: S.optional(S.NullOr(S.String)),
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
           visibility: S.optional(S.String),
         }),
       ).annotate({ identifier: "EditProjectEnvResponse" });
@@ -34494,7 +34528,7 @@ function __c10(j: number): any {
           type: S.String,
           updatedAt: S.optional(S.Number),
           updatedBy: S.optional(S.NullOr(S.String)),
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
           visibility: S.optional(S.String),
           vsmValue: S.optional(S.String),
         }),
@@ -35335,7 +35369,7 @@ function __c26(j: number): any {
           type: S.String,
           updatedAt: S.optional(S.Number),
           updatedBy: S.optional(S.NullOr(S.String)),
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
           visibility: S.optional(S.String),
           vsmValue: S.optional(S.String),
         }),
@@ -36005,7 +36039,7 @@ function __c29(j: number): any {
           type: S.String,
           updatedAt: S.optional(S.Number),
           updatedBy: S.optional(S.NullOr(S.String)),
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
           visibility: S.optional(S.String),
           vsmValue: S.optional(S.String),
         }),
@@ -36564,7 +36598,7 @@ function __c33(j: number): any {
           type: S.String,
           updatedAt: S.optional(S.Number),
           updatedBy: S.optional(S.NullOr(S.String)),
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
           visibility: S.optional(S.String),
           vsmValue: S.optional(S.String),
         }),
@@ -37064,7 +37098,7 @@ function __c42(j: number): any {
           target: S.Unknown,
           gitBranch: S.optional(S.String),
           type: S.optional(S.String),
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CreateProjectRequestEnvironmentVariablesItem" });
     case 2:
@@ -37285,7 +37319,7 @@ function __c42(j: number): any {
           type: S.String,
           updatedAt: S.optional(S.Number),
           updatedBy: S.optional(S.NullOr(S.String)),
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
           visibility: S.optional(S.String),
           vsmValue: S.optional(S.String),
         }),

@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownXataError } from "../errors.ts";
+import { XataServiceErrors } from "../errors.ts";
 import { XataProtocol, type XataOpError, type XataOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -489,7 +489,7 @@ export interface FullAPIKey {
   /** Timestamp of the last time the key was used (null if never) */
   last_used: string | null;
   /** The actual API key token */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** ID of the user that created this API key */
   created_by?: string | null | undefined;
   /** ID of the API key that created this API key */
@@ -1522,7 +1522,7 @@ export interface Secret {
   /** Environment variable name. */
   name: string;
   /** Default value, used when no per-environment override applies. */
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** Per-environment values that override value for that Vercel environment. */
   environmentOverrides?: SecretEnvironmentOverrides | undefined;
 }
@@ -1987,7 +1987,8 @@ export const branchLogs2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(706, __c44, 2) as any as S.Schema<BranchLogsRequest>,
   output: __S(709, __c44, 5) as any as S.Schema<BranchLogs>,
-  errors: [BadRequest, NotFound, UnknownXataError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2004,7 +2005,8 @@ export const branchMetrics2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(913, __c57, 1) as any as S.Schema<BranchMetricsRequest>,
   output: __S(920, __c57, 8) as any as S.Schema<BranchMetrics>,
-  errors: [BadRequest, NotFound, UnknownXataError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2021,7 +2023,8 @@ export const claimOrganizationSSODomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1104, __c69, 0) as any as S.Schema<ClaimOrganizationSSODomainRequest>,
   output: __S(1121, __c70, 1) as any as S.Schema<OrganizationSSODomain>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownXataError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2038,7 +2041,8 @@ export const createBillingCheckoutSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1296, __c81, 0) as any as S.Schema<CreateBillingCheckoutSessionRequest>,
   output: __S(1312, __c82, 0) as any as S.Schema<BillingCheckoutSessionResponse>,
-  errors: [BadRequest, Forbidden, UnknownXataError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2055,7 +2059,8 @@ export const createBillingPaymentMethodSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1488, __c93, 0) as any as S.Schema<CreateBillingPaymentMethodSessionRequest>,
   output: __S(1312, __c82, 0) as any as S.Schema<BillingPaymentMethodSessionResponse>,
-  errors: [BadRequest, Forbidden, UnknownXataError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2072,7 +2077,8 @@ export const createBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c98, 0) as any as S.Schema<CreateBranchRequest>,
   output: __S(1616, __c101, 0) as any as S.Schema<BranchShortMetadata>,
-  errors: [BadRequest, NotFound, UnknownXataError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2089,7 +2095,8 @@ export const createGithubAppInstallation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<CreateGithubAppInstallationRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<GithubInstallation>,
-  errors: [BadRequest, Conflict, UnknownXataError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2106,7 +2113,8 @@ export const createGithubRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<CreateGithubRepositoryRequest>,
   output: __S(64, __c4, 0) as any as S.Schema<GithubRepository>,
-  errors: [BadRequest, Conflict, UnknownXataError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2123,7 +2131,8 @@ export const createOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<CreateOrganizationRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<Organization>,
-  errors: [BadRequest, NotFound, UnknownXataError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2140,7 +2149,8 @@ export const createOrganizationAPIKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<CreateOrganizationAPIKeyRequest>,
   output: __S(145, __c9, 1) as any as S.Schema<CreateOrganizationAPIKeyResponse>,
-  errors: [BadRequest, UnknownXataError],
+  errors: [BadRequest],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2162,7 +2172,8 @@ export const createOrganizationInvitation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<CreateOrganizationInvitationRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<CreateOrganizationInvitationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownXataError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2179,7 +2190,8 @@ export const createOrganizationSSOProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<CreateOrganizationSSOProviderRequest>,
   output: __S(208, __c13, 0) as any as S.Schema<OrganizationSSOProvider>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownXataError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2196,7 +2208,8 @@ export const createProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<CreateProjectRequest>,
   output: __S(245, __c15, 5) as any as S.Schema<Project>,
-  errors: [BadRequest, UnknownXataError],
+  errors: [BadRequest],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2213,7 +2226,8 @@ export const createUserAPIKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<CreateUserAPIKeyRequest>,
   output: __S(145, __c9, 1) as any as S.Schema<CreateUserAPIKeyResponse>,
-  errors: [BadRequest, UnknownXataError],
+  errors: [BadRequest],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2230,7 +2244,8 @@ export const deleteBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<DeleteBranchRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<DeleteBranchResponse>,
-  errors: [BadRequest, NotFound, UnknownXataError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2247,7 +2262,8 @@ export const deleteGithubRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<DeleteGithubRepositoryRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<DeleteGithubRepositoryResponse>,
-  errors: [BadRequest, NotFound, UnknownXataError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2264,7 +2280,8 @@ export const deleteInstallation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<DeleteInstallationRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<DeleteInstallationResponse>,
-  errors: [Forbidden, Conflict, UnknownXataError],
+  errors: [Forbidden, Conflict],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2281,7 +2298,8 @@ export const deleteOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<DeleteOrganizationRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<DeleteOrganizationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownXataError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2298,7 +2316,8 @@ export const deleteOrganizationAPIKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<DeleteOrganizationAPIKeysRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<DeleteOrganizationAPIKeysResponse>,
-  errors: [BadRequest, NotFound, UnknownXataError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2315,7 +2334,8 @@ export const deleteOrganizationInvitation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<DeleteOrganizationInvitationRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<DeleteOrganizationInvitationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownXataError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2332,7 +2352,8 @@ export const deleteOrganizationSSODomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<DeleteOrganizationSSODomainRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<DeleteOrganizationSSODomainResponse>,
-  errors: [Forbidden, Conflict, UnknownXataError],
+  errors: [Forbidden, Conflict],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2349,7 +2370,8 @@ export const deleteOrganizationSSOProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<DeleteOrganizationSSOProviderRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<DeleteOrganizationSSOProviderResponse>,
-  errors: [Forbidden, UnknownXataError],
+  errors: [Forbidden],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2366,7 +2388,8 @@ export const deleteProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<DeleteProjectRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<DeleteProjectResponse>,
-  errors: [BadRequest, NotFound, UnknownXataError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2383,7 +2406,8 @@ export const deleteResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<DeleteResourceRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<DeleteResourceResponse>,
-  errors: [Forbidden, NotFound, UnknownXataError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2400,7 +2424,8 @@ export const deleteUserAPIKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<DeleteUserAPIKeysRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<DeleteUserAPIKeysResponse>,
-  errors: [BadRequest, NotFound, UnknownXataError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2417,7 +2442,8 @@ export const describeBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<DescribeBranchRequest>,
   output: __S(453, __c28, 5) as any as S.Schema<BranchMetadata>,
-  errors: [BadRequest, NotFound, UnknownXataError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2434,7 +2460,8 @@ export const getBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<GetBackupRequest>,
   output: __S(512, __c32, 0) as any as S.Schema<BackupMetadata>,
-  errors: [BadRequest, NotFound, UnknownXataError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2451,7 +2478,8 @@ export const getBillingCustomer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<GetBillingCustomerRequest>,
   output: __S(549, __c34, 5) as any as S.Schema<BillingCustomerResponse>,
-  errors: [Forbidden, NotFound, UnknownXataError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2468,7 +2496,8 @@ export const getBillingInvoices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<GetBillingInvoicesRequest>,
   output: __S(564, __c35, 4) as any as S.Schema<BillingInvoicesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownXataError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2485,7 +2514,8 @@ export const getBillingUpcomingInvoice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<GetBillingUpcomingInvoiceRequest>,
   output: __S(577, __c36, 1) as any as S.Schema<BillingUpcomingInvoiceResponse>,
-  errors: [Forbidden, NotFound, UnknownXataError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2502,7 +2532,8 @@ export const getBranchCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<GetBranchCredentialsRequest>,
   output: __S(593, __c37, 1) as any as S.Schema<BranchCredentials>,
-  errors: [BadRequest, NotFound, UnknownXataError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2519,7 +2550,8 @@ export const getBranchPostgresConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<GetBranchPostgresConfigRequest>,
   output: __S(612, __c38, 4) as any as S.Schema<PostgresConfigDetails>,
-  errors: [BadRequest, NotFound, UnknownXataError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2536,7 +2568,8 @@ export const getGithubRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<GetGithubRepositoryRequest>,
   output: __S(625, __c39, 1) as any as S.Schema<GetGithubRepositoryResponse>,
-  errors: [BadRequest, UnknownXataError],
+  errors: [BadRequest],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2553,7 +2586,8 @@ export const getOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<GetOrganizationRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<Organization>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownXataError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2570,7 +2604,8 @@ export const getOrganizationInvitation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<GetOrganizationInvitationRequest>,
   output: __S(672, __c42, 0) as any as S.Schema<OrganizationInvitation>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownXataError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2587,7 +2622,8 @@ export const getOrganizationLimits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<GetOrganizationLimitsRequest>,
   output: __S(689, __c43, 1) as any as S.Schema<GetOrganizationLimitsResponse>,
-  errors: [Forbidden, UnknownXataError],
+  errors: [Forbidden],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2604,7 +2640,8 @@ export const getOrganizationMembershipLimits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<GetOrganizationMembershipLimitsRequest>,
   output: __S(737, __c46, 1) as any as S.Schema<OrganizationMembershipLimits>,
-  errors: [Forbidden, UnknownXataError],
+  errors: [Forbidden],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2621,7 +2658,8 @@ export const getOrganizationsList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c47, 0) as any as S.Schema<GetOrganizationsListRequest>,
   output: __S(755, __c47, 3) as any as S.Schema<GetOrganizationsListResponse>,
-  errors: [BadRequest, NotFound, UnknownXataError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2638,7 +2676,8 @@ export const getOrganizationSSO: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<GetOrganizationSSORequest>,
   output: __S(771, __c48, 3) as any as S.Schema<OrganizationSSO>,
-  errors: [Forbidden, UnknownXataError],
+  errors: [Forbidden],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2655,7 +2694,8 @@ export const getProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<GetProjectRequest>,
   output: __S(245, __c15, 5) as any as S.Schema<Project>,
-  errors: [BadRequest, NotFound, UnknownXataError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2672,7 +2712,8 @@ export const getProjectLimits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c50, 0) as any as S.Schema<GetProjectLimitsRequest>,
   output: __S(801, __c50, 1) as any as S.Schema<EffectiveProjectLimits>,
-  errors: [UnknownXataError],
+  errors: [],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2689,7 +2730,8 @@ export const getResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(816, __c51, 0) as any as S.Schema<GetResourceRequest>,
   output: __S(817, __c51, 1) as any as S.Schema<Resource>,
-  errors: [Forbidden, NotFound, UnknownXataError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2706,7 +2748,8 @@ export const githubWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<GithubWebhookRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<GithubWebhookResponse>,
-  errors: [BadRequest, UnknownXataError],
+  errors: [BadRequest],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2723,7 +2766,8 @@ export const listBackups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<ListBackupsRequest>,
   output: __S(866, __c54, 2) as any as S.Schema<ListBackupsResponse>,
-  errors: [BadRequest, NotFound, UnknownXataError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2740,7 +2784,8 @@ export const listBillingPlansForProduct: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(880, __c55, 0) as any as S.Schema<ListBillingPlansForProductRequest>,
   output: __S(887, __c55, 7) as any as S.Schema<ListBillingPlansResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownXataError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2757,7 +2802,8 @@ export const listBranches: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c56, 0) as any as S.Schema<ListBranchesRequest>,
   output: __S(899, __c56, 3) as any as S.Schema<ListBranchesResponse>,
-  errors: [BadRequest, NotFound, UnknownXataError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2774,7 +2820,8 @@ export const listExtensions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<ListExtensionsRequest>,
   output: __S(931, __c58, 3) as any as S.Schema<ListExtensionsResponse>,
-  errors: [BadRequest, UnknownXataError],
+  errors: [BadRequest],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2791,7 +2838,8 @@ export const listGithubAppInstallations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<ListGithubAppInstallationsRequest>,
   output: __S(946, __c59, 2) as any as S.Schema<ListGithubAppInstallationsResponse>,
-  errors: [BadRequest, UnknownXataError],
+  errors: [BadRequest],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2808,7 +2856,8 @@ export const listImages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<ListImagesRequest>,
   output: __S(963, __c60, 3) as any as S.Schema<ListImagesResponse>,
-  errors: [BadRequest, UnknownXataError],
+  errors: [BadRequest],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2825,7 +2874,8 @@ export const listInstanceTypes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<ListInstanceTypesRequest>,
   output: __S(979, __c61, 3) as any as S.Schema<ListInstanceTypesResponse>,
-  errors: [BadRequest, UnknownXataError],
+  errors: [BadRequest],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2842,7 +2892,8 @@ export const listOrganizationAPIKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c62, 0) as any as S.Schema<ListOrganizationAPIKeysRequest>,
   output: __S(1010, __c63, 2) as any as S.Schema<ListOrganizationAPIKeysResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownXataError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2859,7 +2910,8 @@ export const listOrganizationInvitations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c64, 0) as any as S.Schema<ListOrganizationInvitationsRequest>,
   output: __S(1026, __c64, 2) as any as S.Schema<ListOrganizationInvitationsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownXataError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2876,7 +2928,8 @@ export const listOrganizationMembers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1040, __c65, 0) as any as S.Schema<ListOrganizationMembersRequest>,
   output: __S(1043, __c65, 3) as any as S.Schema<ListOrganizationMembersResponse>,
-  errors: [UnknownXataError],
+  errors: [],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2893,7 +2946,8 @@ export const listOrganizationRoles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c66, 0) as any as S.Schema<ListOrganizationRolesRequest>,
   output: __S(1059, __c66, 3) as any as S.Schema<ListOrganizationRolesResponse>,
-  errors: [Forbidden, NotFound, UnknownXataError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2910,7 +2964,8 @@ export const listProjects: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1072, __c67, 0) as any as S.Schema<ListProjectsRequest>,
   output: __S(1074, __c67, 2) as any as S.Schema<ListProjectsResponse>,
-  errors: [BadRequest, UnknownXataError],
+  errors: [BadRequest],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2927,7 +2982,8 @@ export const listRegions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c68, 0) as any as S.Schema<ListRegionsRequest>,
   output: __S(1091, __c68, 3) as any as S.Schema<ListRegionsResponse>,
-  errors: [BadRequest, UnknownXataError],
+  errors: [BadRequest],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2944,7 +3000,8 @@ export const listUserAPIKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1136, __c71, 0) as any as S.Schema<ListUserAPIKeysRequest>,
   output: __S(1010, __c63, 2) as any as S.Schema<ListUserAPIKeysResponse>,
-  errors: [BadRequest, UnknownXataError],
+  errors: [BadRequest],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2961,7 +3018,8 @@ export const orbWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c72, 0) as any as S.Schema<OrbWebhookRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<OrbWebhookResponse>,
-  errors: [BadRequest, UnknownXataError],
+  errors: [BadRequest],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2978,7 +3036,8 @@ export const provisionResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1168, __c73, 0) as any as S.Schema<ProvisionResourceRequest>,
   output: __S(1172, __c73, 4) as any as S.Schema<ProvisionedResource>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownXataError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2991,7 +3050,8 @@ export const query: API.OperationMethod<QueryRequest, QueryResponse, QueryError,
   /*@__PURE__*/ API.make(() => ({
     input: __S(1187, __c74, 3) as any as S.Schema<QueryRequest>,
     output: __S(1188, __c74, 4) as any as S.Schema<QueryResponse>,
-    errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownXataError],
+    errors: [BadRequest, Forbidden, NotFound, Conflict],
+    serviceErrors: XataServiceErrors,
     protocol: XataProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3008,7 +3068,8 @@ export const registerMarketplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1201, __c75, 1) as any as S.Schema<RegisterMarketplaceRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<RegisterMarketplaceResponse>,
-  errors: [BadRequest, Conflict, UnknownXataError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3025,7 +3086,8 @@ export const removeOrganizationMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<RemoveOrganizationMemberRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<RemoveOrganizationMemberResponse>,
-  errors: [BadRequest, Conflict, UnknownXataError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3042,7 +3104,8 @@ export const requestOrganizationDeletion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1232, __c77, 0) as any as S.Schema<RequestOrganizationDeletionRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<RequestOrganizationDeletionResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownXataError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3059,7 +3122,8 @@ export const resendOrganizationInvitation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c78, 0) as any as S.Schema<ResendOrganizationInvitationRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<ResendOrganizationInvitationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownXataError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3076,7 +3140,8 @@ export const restoreFromBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1264, __c79, 0) as any as S.Schema<RestoreFromBackupRequest>,
   output: __S(1616, __c101, 0) as any as S.Schema<BranchShortMetadata>,
-  errors: [BadRequest, NotFound, UnknownXataError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3093,7 +3158,8 @@ export const rotateBranchCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c80, 0) as any as S.Schema<RotateBranchCredentialsRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<RotateBranchCredentialsResponse>,
-  errors: [BadRequest, NotFound, UnknownXataError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3110,7 +3176,8 @@ export const sendMcpRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1328, __c83, 0) as any as S.Schema<SendMcpRequestRequest>,
   output: __S(1330, __c83, 2) as any as S.Schema<JSONRPCResponse>,
-  errors: [BadRequest, UnknownXataError],
+  errors: [BadRequest],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3132,7 +3199,8 @@ export const setOrganizationMemberRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c84, 0) as any as S.Schema<SetOrganizationMemberRoleRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<SetOrganizationMemberRoleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownXataError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3153,7 +3221,8 @@ export const setOrganizationSSOProviderEnforcement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1360, __c85, 0) as any as S.Schema<SetOrganizationSSOProviderEnforcementRequest>,
   output: __S(208, __c13, 0) as any as S.Schema<OrganizationSSOProvider>,
-  errors: [Forbidden, NotFound, Conflict, UnknownXataError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3170,7 +3239,8 @@ export const stripeWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c86, 0) as any as S.Schema<StripeWebhookRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<StripeWebhookResponse>,
-  errors: [BadRequest, UnknownXataError],
+  errors: [BadRequest],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3187,7 +3257,8 @@ export const updateBillingCustomer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1392, __c87, 0) as any as S.Schema<UpdateBillingCustomerRequest>,
   output: __S(549, __c34, 5) as any as S.Schema<BillingCustomerResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownXataError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3204,7 +3275,8 @@ export const updateBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c88, 0) as any as S.Schema<UpdateBranchRequest>,
   output: __S(1616, __c101, 0) as any as S.Schema<BranchShortMetadata>,
-  errors: [BadRequest, NotFound, UnknownXataError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3221,7 +3293,8 @@ export const updateGithubAppInstallation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1424, __c89, 0) as any as S.Schema<UpdateGithubAppInstallationRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<GithubInstallation>,
-  errors: [BadRequest, NotFound, Conflict, UnknownXataError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3238,7 +3311,8 @@ export const updateGithubRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c90, 0) as any as S.Schema<UpdateGithubRepositoryRequest>,
   output: __S(64, __c4, 0) as any as S.Schema<GithubRepository>,
-  errors: [BadRequest, NotFound, UnknownXataError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3255,7 +3329,8 @@ export const updateOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1456, __c91, 0) as any as S.Schema<UpdateOrganizationRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<Organization>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownXataError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3277,7 +3352,8 @@ export const updateOrganizationSSOProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c92, 0) as any as S.Schema<UpdateOrganizationSSOProviderRequest>,
   output: __S(208, __c13, 0) as any as S.Schema<OrganizationSSOProvider>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownXataError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3294,7 +3370,8 @@ export const updateProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1505, __c94, 1) as any as S.Schema<UpdateProjectRequest>,
   output: __S(245, __c15, 5) as any as S.Schema<Project>,
-  errors: [BadRequest, NotFound, UnknownXataError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3311,7 +3388,8 @@ export const upsertInstallation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1523, __c95, 3) as any as S.Schema<UpsertInstallationRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<UpsertInstallationResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownXataError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3328,7 +3406,8 @@ export const verifyOrganizationSSODomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c96, 0) as any as S.Schema<VerifyOrganizationSSODomainRequest>,
   output: __S(1121, __c70, 1) as any as S.Schema<OrganizationSSODomain>,
-  errors: [Forbidden, NotFound, Conflict, UnknownXataError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3345,7 +3424,8 @@ export const websocket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1552, __c97, 0) as any as S.Schema<WebsocketRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<WebsocketResponse>,
-  errors: [BadRequest, UnknownXataError],
+  errors: [BadRequest],
+  serviceErrors: XataServiceErrors,
   protocol: XataProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3553,7 +3633,7 @@ function __c9(j: number): any {
           created_at: S.String,
           expiry: S.NullOr(S.String),
           last_used: S.NullOr(S.String),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           created_by: S.optional(S.NullOr(S.String)),
           created_by_key: S.optional(S.NullOr(S.String)),
         }),
@@ -5089,7 +5169,7 @@ function __c73(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
           environmentOverrides: S.optional(__S(1169, __c73, 1)),
         }),
       ).annotate({ identifier: "Secret" });

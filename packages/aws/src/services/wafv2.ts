@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -1200,6 +1201,10 @@ export type ApplicationAttributes = ApplicationAttribute[];
 export interface ApplicationConfig {
   Attributes?: ApplicationAttribute[] | undefined;
 }
+export type AnalyticsMode = "CROSS_REGION" | "DISABLED" | (string & {});
+export interface AnalyticsConfig {
+  Mode: AnalyticsMode;
+}
 export interface CreateWebACLRequest {
   Name: string;
   Scope: Scope;
@@ -1217,6 +1222,7 @@ export interface CreateWebACLRequest {
   OnSourceDDoSProtectionConfig?: OnSourceDDoSProtectionConfig | undefined;
   ApplicationConfig?: ApplicationConfig | undefined;
   MonetizationConfig?: MonetizationConfig | undefined;
+  AnalyticsConfig?: AnalyticsConfig | undefined;
 }
 export interface WebACLSummary {
   Name?: string | undefined;
@@ -1793,6 +1799,7 @@ export interface WebACL {
   OnSourceDDoSProtectionConfig?: OnSourceDDoSProtectionConfig | undefined;
   ApplicationConfig?: ApplicationConfig | undefined;
   MonetizationConfig?: MonetizationConfig | undefined;
+  AnalyticsConfig?: AnalyticsConfig | undefined;
 }
 export type OutputUrl = string;
 export interface GetWebACLResponse {
@@ -2123,6 +2130,7 @@ export interface UpdateWebACLRequest {
   OnSourceDDoSProtectionConfig?: OnSourceDDoSProtectionConfig | undefined;
   ApplicationConfig?: ApplicationConfig | undefined;
   MonetizationConfig?: MonetizationConfig | undefined;
+  AnalyticsConfig?: AnalyticsConfig | undefined;
 }
 export interface UpdateWebACLResponse {
   NextLockToken?: string | undefined;
@@ -2268,6 +2276,7 @@ export const associateWebACL: API.OperationMethod<
     WAFNonexistentItemException,
     WAFUnavailableEntityException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateWebACL",
@@ -2319,6 +2328,7 @@ export const checkCapacity: API.OperationMethod<
     WAFSubscriptionNotFoundException,
     WAFUnavailableEntityException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckCapacity",
@@ -2356,6 +2366,7 @@ export const createAPIKey: API.OperationMethod<
     WAFInvalidParameterException,
     WAFLimitsExceededException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAPIKey",
@@ -2397,6 +2408,7 @@ export const createIPSet: API.OperationMethod<
     WAFTagOperationException,
     WAFTagOperationInternalErrorException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIPSet",
@@ -2436,6 +2448,7 @@ export const createRegexPatternSet: API.OperationMethod<
     WAFTagOperationException,
     WAFTagOperationInternalErrorException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRegexPatternSet",
@@ -2482,6 +2495,7 @@ export const createRuleGroup: API.OperationMethod<
     WAFTagOperationInternalErrorException,
     WAFUnavailableEntityException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRuleGroup",
@@ -2534,6 +2548,7 @@ export const createWebACL: API.OperationMethod<
     WAFTagOperationInternalErrorException,
     WAFUnavailableEntityException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWebACL",
@@ -2568,6 +2583,7 @@ export const deleteAPIKey: API.OperationMethod<
     WAFNonexistentItemException,
     WAFOptimisticLockException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAPIKey",
@@ -2602,6 +2618,7 @@ export const deleteFirewallManagerRuleGroups: API.OperationMethod<
     WAFNonexistentItemException,
     WAFOptimisticLockException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFirewallManagerRuleGroups",
@@ -2640,6 +2657,7 @@ export const deleteIPSet: API.OperationMethod<
     WAFTagOperationException,
     WAFTagOperationInternalErrorException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIPSet",
@@ -2672,6 +2690,7 @@ export const deleteLoggingConfiguration: API.OperationMethod<
     WAFNonexistentItemException,
     WAFOptimisticLockException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLoggingConfiguration",
@@ -2698,6 +2717,7 @@ export const deletePermissionPolicy: API.OperationMethod<
   input: __S(800, __c25, 0) as any as S.Schema<DeletePermissionPolicyRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeletePermissionPolicyResponse>,
   errors: [WAFInternalErrorException, WAFInvalidParameterException, WAFNonexistentItemException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePermissionPolicy",
@@ -2736,6 +2756,7 @@ export const deleteRegexPatternSet: API.OperationMethod<
     WAFTagOperationException,
     WAFTagOperationInternalErrorException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRegexPatternSet",
@@ -2774,6 +2795,7 @@ export const deleteRuleGroup: API.OperationMethod<
     WAFTagOperationException,
     WAFTagOperationInternalErrorException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRuleGroup",
@@ -2833,6 +2855,7 @@ export const deleteWebACL: API.OperationMethod<
     WAFTagOperationException,
     WAFTagOperationInternalErrorException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWebACL",
@@ -2857,6 +2880,7 @@ export const describeAllManagedProducts: API.OperationMethod<
   input: __S(928, __c29, 0) as any as S.Schema<DescribeAllManagedProductsRequest>,
   output: __S(962, __c30, 2) as any as S.Schema<DescribeAllManagedProductsResponse>,
   errors: [WAFInternalErrorException, WAFInvalidOperationException, WAFInvalidParameterException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAllManagedProducts",
@@ -2881,6 +2905,7 @@ export const describeManagedProductsByVendor: API.OperationMethod<
   input: __S(992, __c31, 0) as any as S.Schema<DescribeManagedProductsByVendorRequest>,
   output: __S(962, __c30, 2) as any as S.Schema<DescribeManagedProductsByVendorResponse>,
   errors: [WAFInternalErrorException, WAFInvalidOperationException, WAFInvalidParameterException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeManagedProductsByVendor",
@@ -2915,6 +2940,7 @@ export const describeManagedRuleGroup: API.OperationMethod<
     WAFInvalidResourceException,
     WAFNonexistentItemException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeManagedRuleGroup",
@@ -2955,6 +2981,7 @@ export const disassociateWebACL: API.OperationMethod<
     WAFNonexistentItemException,
     WAFUnavailableEntityException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateWebACL",
@@ -2988,6 +3015,7 @@ export const generateMobileSdkReleaseUrl: API.OperationMethod<
     WAFInvalidParameterException,
     WAFNonexistentItemException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateMobileSdkReleaseUrl",
@@ -3024,6 +3052,7 @@ export const getDecryptedAPIKey: API.OperationMethod<
     WAFInvalidResourceException,
     WAFNonexistentItemException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDecryptedAPIKey",
@@ -3054,6 +3083,7 @@ export const getIPSet: API.OperationMethod<
     WAFInvalidParameterException,
     WAFNonexistentItemException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIPSet",
@@ -3084,6 +3114,7 @@ export const getLoggingConfiguration: API.OperationMethod<
     WAFInvalidParameterException,
     WAFNonexistentItemException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoggingConfiguration",
@@ -3118,6 +3149,7 @@ export const getManagedRuleSet: API.OperationMethod<
     WAFInvalidParameterException,
     WAFNonexistentItemException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedRuleSet",
@@ -3152,6 +3184,7 @@ export const getMobileSdkRelease: API.OperationMethod<
     WAFInvalidParameterException,
     WAFNonexistentItemException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMobileSdkRelease",
@@ -3178,6 +3211,7 @@ export const getPermissionPolicy: API.OperationMethod<
   input: __S(1408, __c44, 0) as any as S.Schema<GetPermissionPolicyRequest>,
   output: __S(1409, __c44, 1) as any as S.Schema<GetPermissionPolicyResponse>,
   errors: [WAFInternalErrorException, WAFInvalidParameterException, WAFNonexistentItemException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPermissionPolicy",
@@ -3229,6 +3263,7 @@ export const getRateBasedStatementManagedKeys: API.OperationMethod<
     WAFNonexistentItemException,
     WAFUnsupportedAggregateKeyTypeException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRateBasedStatementManagedKeys",
@@ -3259,6 +3294,7 @@ export const getRegexPatternSet: API.OperationMethod<
     WAFInvalidParameterException,
     WAFNonexistentItemException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegexPatternSet",
@@ -3289,6 +3325,7 @@ export const getRevenueStatistics: API.OperationMethod<
     WAFInvalidParameterException,
     WAFNonexistentItemException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRevenueStatistics",
@@ -3319,6 +3356,7 @@ export const getRevenueStatisticsSummary: API.OperationMethod<
     WAFInvalidParameterException,
     WAFNonexistentItemException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRevenueStatisticsSummary",
@@ -3349,6 +3387,7 @@ export const getRevenueStatisticsTimeSeries: API.OperationMethod<
     WAFInvalidParameterException,
     WAFNonexistentItemException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRevenueStatisticsTimeSeries",
@@ -3379,6 +3418,7 @@ export const getRuleGroup: API.OperationMethod<
     WAFInvalidParameterException,
     WAFNonexistentItemException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRuleGroup",
@@ -3412,6 +3452,7 @@ export const getSampledRequests: API.OperationMethod<
   input: __S(1696, __c53, 0) as any as S.Schema<GetSampledRequestsRequest>,
   output: __S(1703, __c53, 7) as any as S.Schema<GetSampledRequestsResponse>,
   errors: [WAFInternalErrorException, WAFInvalidParameterException, WAFNonexistentItemException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSampledRequests",
@@ -3446,6 +3487,7 @@ export const getTopPathStatisticsByTraffic: API.OperationMethod<
     WAFInvalidParameterException,
     WAFNonexistentItemException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTopPathStatisticsByTraffic",
@@ -3476,6 +3518,7 @@ export const getWebACL: API.OperationMethod<
     WAFInvalidParameterException,
     WAFNonexistentItemException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWebACL",
@@ -3520,6 +3563,7 @@ export const getWebACLForResource: API.OperationMethod<
     WAFNonexistentItemException,
     WAFUnavailableEntityException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWebACLForResource",
@@ -3554,6 +3598,7 @@ export const listAPIKeys: API.OperationMethod<
     WAFInvalidParameterException,
     WAFInvalidResourceException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAPIKeys",
@@ -3580,6 +3625,7 @@ export const listAvailableManagedRuleGroups: API.OperationMethod<
   input: __S(1888, __c59, 0) as any as S.Schema<ListAvailableManagedRuleGroupsRequest>,
   output: __S(1891, __c59, 3) as any as S.Schema<ListAvailableManagedRuleGroupsResponse>,
   errors: [WAFInternalErrorException, WAFInvalidOperationException, WAFInvalidParameterException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAvailableManagedRuleGroups",
@@ -3610,6 +3656,7 @@ export const listAvailableManagedRuleGroupVersions: API.OperationMethod<
     WAFInvalidParameterException,
     WAFNonexistentItemException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAvailableManagedRuleGroupVersions",
@@ -3635,6 +3682,7 @@ export const listIPSets: API.OperationMethod<
   input: __S(1952, __c61, 0) as any as S.Schema<ListIPSetsRequest>,
   output: __S(1953, __c61, 1) as any as S.Schema<ListIPSetsResponse>,
   errors: [WAFInternalErrorException, WAFInvalidOperationException, WAFInvalidParameterException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIPSets",
@@ -3659,6 +3707,7 @@ export const listLoggingConfigurations: API.OperationMethod<
   input: __S(2016, __c63, 0) as any as S.Schema<ListLoggingConfigurationsRequest>,
   output: __S(2018, __c63, 2) as any as S.Schema<ListLoggingConfigurationsResponse>,
   errors: [WAFInternalErrorException, WAFInvalidOperationException, WAFInvalidParameterException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLoggingConfigurations",
@@ -3687,6 +3736,7 @@ export const listManagedRuleSets: API.OperationMethod<
   input: __S(2048, __c64, 0) as any as S.Schema<ListManagedRuleSetsRequest>,
   output: __S(2051, __c64, 3) as any as S.Schema<ListManagedRuleSetsResponse>,
   errors: [WAFInternalErrorException, WAFInvalidOperationException, WAFInvalidParameterException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListManagedRuleSets",
@@ -3715,6 +3765,7 @@ export const listMobileSdkReleases: API.OperationMethod<
   input: __S(2080, __c65, 0) as any as S.Schema<ListMobileSdkReleasesRequest>,
   output: __S(2083, __c65, 3) as any as S.Schema<ListMobileSdkReleasesResponse>,
   errors: [WAFInternalErrorException, WAFInvalidOperationException, WAFInvalidParameterException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMobileSdkReleases",
@@ -3740,6 +3791,7 @@ export const listRegexPatternSets: API.OperationMethod<
   input: __S(2112, __c66, 0) as any as S.Schema<ListRegexPatternSetsRequest>,
   output: __S(2113, __c66, 1) as any as S.Schema<ListRegexPatternSetsResponse>,
   errors: [WAFInternalErrorException, WAFInvalidOperationException, WAFInvalidParameterException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRegexPatternSets",
@@ -3780,6 +3832,7 @@ export const listResourcesForWebACL: API.OperationMethod<
     WAFInvalidParameterException,
     WAFNonexistentItemException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResourcesForWebACL",
@@ -3805,6 +3858,7 @@ export const listRuleGroups: API.OperationMethod<
   input: __S(2176, __c68, 0) as any as S.Schema<ListRuleGroupsRequest>,
   output: __S(2177, __c68, 1) as any as S.Schema<ListRuleGroupsResponse>,
   errors: [WAFInternalErrorException, WAFInvalidOperationException, WAFInvalidParameterException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRuleGroups",
@@ -3835,6 +3889,7 @@ export const listSettlementRecords: API.OperationMethod<
     WAFInvalidParameterException,
     WAFNonexistentItemException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSettlementRecords",
@@ -3877,6 +3932,7 @@ export const listTagsForResource: API.OperationMethod<
     WAFTagOperationException,
     WAFTagOperationInternalErrorException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -3902,6 +3958,7 @@ export const listWebACLs: API.OperationMethod<
   input: __S(2272, __c71, 0) as any as S.Schema<ListWebACLsRequest>,
   output: __S(2273, __c71, 1) as any as S.Schema<ListWebACLsResponse>,
   errors: [WAFInternalErrorException, WAFInvalidOperationException, WAFInvalidParameterException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWebACLs",
@@ -3980,6 +4037,7 @@ export const putLoggingConfiguration: API.OperationMethod<
     WAFOptimisticLockException,
     WAFServiceLinkedRoleErrorException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLoggingConfiguration",
@@ -4025,6 +4083,7 @@ export const putManagedRuleSetVersions: API.OperationMethod<
     WAFNonexistentItemException,
     WAFOptimisticLockException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutManagedRuleSetVersions",
@@ -4071,6 +4130,7 @@ export const putPermissionPolicy: API.OperationMethod<
     WAFInvalidPermissionPolicyException,
     WAFNonexistentItemException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPermissionPolicy",
@@ -4115,6 +4175,7 @@ export const tagResource: API.OperationMethod<
     WAFTagOperationException,
     WAFTagOperationInternalErrorException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -4152,6 +4213,7 @@ export const untagResource: API.OperationMethod<
     WAFTagOperationException,
     WAFTagOperationInternalErrorException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -4212,6 +4274,7 @@ export const updateIPSet: API.OperationMethod<
     WAFNonexistentItemException,
     WAFOptimisticLockException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIPSet",
@@ -4250,6 +4313,7 @@ export const updateManagedRuleSetVersionExpiryDate: API.OperationMethod<
     WAFNonexistentItemException,
     WAFOptimisticLockException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateManagedRuleSetVersionExpiryDate",
@@ -4310,6 +4374,7 @@ export const updateRegexPatternSet: API.OperationMethod<
     WAFNonexistentItemException,
     WAFOptimisticLockException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRegexPatternSet",
@@ -4378,6 +4443,7 @@ export const updateRuleGroup: API.OperationMethod<
     WAFSubscriptionNotFoundException,
     WAFUnavailableEntityException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRuleGroup",
@@ -4453,6 +4519,7 @@ export const updateWebACL: API.OperationMethod<
     WAFSubscriptionNotFoundException,
     WAFUnavailableEntityException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWebACL",
@@ -5203,6 +5270,7 @@ function __c19(j: number): any {
           OnSourceDDoSProtectionConfig: S.optional(__S(649, __c20, 9)),
           ApplicationConfig: S.optional(__S(652, __c20, 12)),
           MonetizationConfig: S.optional(__S(587, __c18, 11)),
+          AnalyticsConfig: S.optional(__S(653, __c20, 13)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateWebACLRequest" });
   }
@@ -5260,6 +5328,10 @@ function __c20(j: number): any {
     case 12:
       return S.suspend(() => S.Struct({ Attributes: S.optional(__S(651, __c20, 11)) })).annotate({
         identifier: "ApplicationConfig",
+      });
+    case 13:
+      return S.suspend(() => S.Struct({ Mode: S.String })).annotate({
+        identifier: "AnalyticsConfig",
       });
   }
 }
@@ -6076,6 +6148,7 @@ function __c56(j: number): any {
           OnSourceDDoSProtectionConfig: S.optional(__S(649, __c20, 9)),
           ApplicationConfig: S.optional(__S(652, __c20, 12)),
           MonetizationConfig: S.optional(__S(587, __c18, 11)),
+          AnalyticsConfig: S.optional(__S(653, __c20, 13)),
         }),
       ).annotate({ identifier: "WebACL" });
   }
@@ -6600,6 +6673,7 @@ function __c82(j: number): any {
           OnSourceDDoSProtectionConfig: S.optional(__S(649, __c20, 9)),
           ApplicationConfig: S.optional(__S(652, __c20, 12)),
           MonetizationConfig: S.optional(__S(587, __c18, 11)),
+          AnalyticsConfig: S.optional(__S(653, __c20, 13)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateWebACLRequest" });
   }

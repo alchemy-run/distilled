@@ -1,0 +1,89 @@
+{
+  "description": "The upstream spec lets the send operations take `text/plain`, `application/json` or `application/octet-stream`, but the converted model drops the Content-Type, so the generated client JSON-encoded the string body (`\"hello\"` arrived as a JSON string). Send the body verbatim as `text/plain` by default, and add a `contentType` header member so callers can send JSON or binary.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#SendToAll/traits/smithy.api#http/bodyMediaType",
+      "value": "text/plain"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#SendToAllRequest/members/contentType",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Content-Type",
+          "smithy.api#documentation": "Media type of `body`: `text/plain` (the default, clients receive `dataType: \"text\"`), `application/json` (`dataType: \"json\"`), or `application/octet-stream` (`dataType: \"binary\"`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#SendToAllRequest/members/body/traits/smithy.api#documentation",
+      "value": "The message payload, sent as-is under `contentType`."
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#SendToConnection/traits/smithy.api#http/bodyMediaType",
+      "value": "text/plain"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#SendToConnectionRequest/members/contentType",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Content-Type",
+          "smithy.api#documentation": "Media type of `body`: `text/plain` (the default, clients receive `dataType: \"text\"`), `application/json` (`dataType: \"json\"`), or `application/octet-stream` (`dataType: \"binary\"`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#SendToConnectionRequest/members/body/traits/smithy.api#documentation",
+      "value": "The message payload, sent as-is under `contentType`."
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#SendToGroup/traits/smithy.api#http/bodyMediaType",
+      "value": "text/plain"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#SendToGroupRequest/members/contentType",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Content-Type",
+          "smithy.api#documentation": "Media type of `body`: `text/plain` (the default, clients receive `dataType: \"text\"`), `application/json` (`dataType: \"json\"`), or `application/octet-stream` (`dataType: \"binary\"`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#SendToGroupRequest/members/body/traits/smithy.api#documentation",
+      "value": "The message payload, sent as-is under `contentType`."
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#SendToUser/traits/smithy.api#http/bodyMediaType",
+      "value": "text/plain"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#SendToUserRequest/members/contentType",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Content-Type",
+          "smithy.api#documentation": "Media type of `body`: `text/plain` (the default, clients receive `dataType: \"text\"`), `application/json` (`dataType: \"json\"`), or `application/octet-stream` (`dataType: \"binary\"`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#SendToUserRequest/members/body/traits/smithy.api#documentation",
+      "value": "The message payload, sent as-is under `contentType`."
+    }
+  ]
+}

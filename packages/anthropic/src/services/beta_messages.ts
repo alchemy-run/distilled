@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAnthropicError } from "../errors.ts";
+import { AnthropicServiceErrors } from "../errors.ts";
 import { paginateRelay } from "../pagination.ts";
 import { AnthropicProtocol, type AnthropicOpError, type AnthropicOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -1969,7 +1969,7 @@ export interface BetaFallbackCreditTokenParam {
   /** How a failing token affects the retry. `strict` (the default, and the bare-string behavior): a failing redemption is a 400 and the retry is not served. `best_effort`: the retry is served either way -- a token-layer failure no longer rejects the request; the retry proceeds at normal price and the outcome is reported on the response's `usage.fallback_credit`. Two failures stay hard in both modes: a malformed token, and combining `fallback_credit_token` with `fallbacks`. */
   mode?: BetaFallbackCreditTokenParamMode | (string & {}) | undefined;
   /** The opaque `fallback_credit_token` from a prior refusal's `stop_details` -- the same string the bare-string form carries. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 /** The `fallback_credit_token` from a prior refusal's `stop_details`. When a preceding request was refused and returned a `fallback_credit_token`, pass that code here on the retry to have the retry's cache-creation tokens for the prefix that was warm on the refused model billed at the cache-read rate. Must be redeemed by the same organization and workspace, with the same request body (optionally extended by one appended `assistant` message whose content is the partial text -- with any trailing whitespace stripped from the final text block -- and paired server-tool blocks streamed before the refusal; the appended-assistant form is not available for requests with `output_format` set or forced `tool_choice`), on an eligible fallback model, on the same platform, and within 5 minutes of the refusal; a mismatch is a 400. A token minted mid-server-tool-loop whose partial content was continuable may only be redeemed with the appended-assistant form -- if an exact-body retry is rejected with a 400 saying the token must be redeemed by continuing the partial response, retry with the appended-assistant form instead. When the appended-assistant form is used on a model that otherwise disallows assistant-turn prefill, this token also authorizes that one prefill. */
 export type CreateMessageRequestFallbackCreditToken = string | BetaFallbackCreditTokenParam;
@@ -2566,7 +2566,7 @@ export interface BetaRefusalStopDetails {
   /** Human-readable explanation of the refusal. This text is not guaranteed to be stable. `null` when no explanation is available for the category. */
   explanation: string | null;
   /** Opaque code that refunds the cache-miss cost when retrying this refused request on the fallback model. Pass it as `fallback_credit_token` on the retry request. Expires 5 minutes after the refusal. The retry is sent either with the same request body (`system`, `messages`, `tools`, and other render-shaping fields), or with the same body plus one appended `assistant` message whose content is the partial text (with any trailing whitespace stripped from the final text block) and paired server-tool blocks from this refusal -- which also authorizes that appended turn as an assistant-prefill continuation on models that otherwise disallow prefill. A token minted mid-server-tool-loop whose partial content was continuable may only be redeemed the second way -- if a same-body retry is rejected with a 400 saying the token must be redeemed by continuing the partial response, retry the second way instead. Either way: same workspace, same platform; a mismatch is a 400. Resending a token for an already-warm prefix is permitted but yields no additional credit. `null` when the refused model isn't eligible for a fallback credit. */
-  fallback_credit_token: string | null;
+  fallback_credit_token: string | Redacted.Redacted<string> | null;
   /** Whether the accompanying `fallback_credit_token` may be redeemed with the appended-assistant retry form. Only set when `fallback_credit_token` is present. `true`: retry by resending the same request body plus one appended `assistant` message whose content is this response's `content` with any trailing whitespace stripped from the final text block and unpaired `tool_use` blocks omitted (the same appended-turn shape described on `fallback_credit_token`), with the token attached. `false`: retry by resending the original request body unchanged, with the token attached -- the appended-assistant form is not available for this refusal (no continuable partial content, or the request uses `output_format` or a `tool_choice` that forces tool use). One exception: when the request used `output_format` or a forced `tool_choice` and the refusal arrived after server tools (including MCP connector tools) had already executed, the token may not be redeemable by either retry form; if the exact-body retry is then rejected with a 400 saying the token must be redeemed by continuing the partial response, discard the token and retry without it. Advisory: if an appended-assistant retry is rejected with a 400 despite `true`, fall back to resending the original request body with the token. */
   fallback_has_prefill_claim: boolean | null;
   /** The server's suggested retry target for this refusal. Populated when a fallback attempt could not be made (the fallback model's rate limit was exhausted, or it was overloaded); names the fallback model the caller can retry directly. Null otherwise. */
@@ -2984,7 +2984,11 @@ export interface GetMessageBatchResultsRequest {
   /** Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`). Only needed for credentials that can act on more than one Workspace. A credential that belongs to a specific Workspace may omit it; if sent, it must match that Workspace. */
   anthropicWorkspaceId?: string | undefined;
 }
-export type GetMessageBatchResultsResponse = Uint8Array;
+export interface GetMessageBatchResultsResponse {
+  body: Uint8Array;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 /** Optional header to specify the beta version(s) you want to use. */
 export type ListMessageBatchesRequestAnthropicBetaList = Array<AnthropicBeta>;
 export interface ListMessageBatchesRequest {
@@ -3021,7 +3025,8 @@ export const cancelMessageBatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CancelMessageBatchRequest>,
   output: __S(65, __c2, 1) as any as S.Schema<BetaMessageBatch>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3038,7 +3043,8 @@ export const countMessageTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(97, __c3, 1) as any as S.Schema<CountMessageTokensRequest>,
   output: __S(99, __c3, 3) as any as S.Schema<BetaCountMessageTokensResponse>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3055,7 +3061,8 @@ export const createMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<CreateMessageRequest>,
   output: __S(176, __c5, 16) as any as S.Schema<BetaMessage>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3072,7 +3079,8 @@ export const createMessageBatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(227, __c7, 3) as any as S.Schema<CreateMessageBatchRequest>,
   output: __S(65, __c2, 1) as any as S.Schema<BetaMessageBatch>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3089,7 +3097,8 @@ export const deleteMessageBatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<DeleteMessageBatchRequest>,
   output: __S(257, __c8, 1) as any as S.Schema<BetaDeleteMessageBatchResponse>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3106,7 +3115,8 @@ export const getMessageBatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<GetMessageBatchRequest>,
   output: __S(65, __c2, 1) as any as S.Schema<BetaMessageBatch>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3123,7 +3133,8 @@ export const getMessageBatchResults: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<GetMessageBatchResultsRequest>,
   output: __S(321, __c10, 1) as any as S.Schema<GetMessageBatchResultsResponse>,
-  errors: [UnknownAnthropicError],
+  errors: [],
+  serviceErrors: AnthropicServiceErrors,
   protocol: AnthropicProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3142,7 +3153,8 @@ export const listMessageBatches: API.PaginatedOperationMethod<
   () => ({
     input: __S(352, __c11, 0) as any as S.Schema<ListMessageBatchesRequest>,
     output: __S(354, __c11, 2) as any as S.Schema<BetaListResponseMessageBatch>,
-    errors: [UnknownAnthropicError],
+    errors: [],
+    serviceErrors: AnthropicServiceErrors,
     protocol: AnthropicProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3371,7 +3383,7 @@ function __c5(j: number): any {
         S.Struct({
           category: S.NullOr(S.String),
           explanation: S.NullOr(S.String),
-          fallback_credit_token: S.NullOr(S.String),
+          fallback_credit_token: S.NullOr(S.String).pipe(T.SensitiveValue({})),
           fallback_has_prefill_claim: S.NullOr(S.Boolean),
           recommended_model: S.NullOr(S.String),
           type: S.String,
@@ -3601,7 +3613,12 @@ function __c10(j: number): any {
         ),
       ).annotate({ identifier: "GetMessageBatchResultsRequest" });
     case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
+      return S.suspend(() =>
+        S.Struct({
+          body: S.instanceOf(Uint8Array).pipe(T.RawResponse(), T.BinaryResponse()),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+        }),
+      ).annotate({ identifier: "GetMessageBatchResultsResponse" });
   }
 }
 function __c11(j: number): any {

@@ -137,6 +137,7 @@ const RESERVED_SCHEMA_NAMES = new Set([
   "Retry",
   "GoogleWorkspaceProtocol",
   "GoogleWorkspaceOpError",
+  "GoogleWorkspaceServiceErrors",
   "GoogleWorkspaceOpContext",
   "UnknownGoogleWorkspaceError",
   "KEY_DICTIONARY",

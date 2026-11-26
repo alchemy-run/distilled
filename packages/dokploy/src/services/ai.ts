@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownDokployError } from "../errors.ts";
+import { DokployServiceErrors } from "../errors.ts";
 import { DokployProtocol, type DokployOpError, type DokployOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -125,7 +125,7 @@ export interface GetAiEnabledProvidersRequest {}
 export type GetAiEnabledProvidersResponse = unknown;
 export interface GetAiModelsRequest {
   apiUrl: string;
-  apiKey: string;
+  apiKey: string | Redacted.Redacted<string>;
   aiId?: string | undefined;
 }
 export type GetAiModelsResponse = unknown;
@@ -211,7 +211,8 @@ export const analyzeAiLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<AnalyzeAiLogsRequest>,
   output: __S(64, __c8, 0) as any as S.Schema<AnalyzeAiLogsResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -227,7 +228,8 @@ export const createAi: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<CreateAiRequest>,
   output: __S(64, __c8, 0) as any as S.Schema<CreateAiResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -243,7 +245,8 @@ export const deleteAi: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<DeleteAiRequest>,
   output: __S(64, __c8, 0) as any as S.Schema<DeleteAiResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -259,7 +262,8 @@ export const deployAi: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(92, __c11, 4) as any as S.Schema<DeployAiRequest>,
   output: __S(64, __c8, 0) as any as S.Schema<DeployAiResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -271,7 +275,8 @@ export const getAi: API.OperationMethod<GetAiRequest, GetAiResponse, GetAiError,
   /*@__PURE__*/ API.make(() => ({
     input: __S(96, __c12, 0) as any as S.Schema<GetAiRequest>,
     output: __S(64, __c8, 0) as any as S.Schema<GetAiResponse>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: DokployServiceErrors,
     protocol: DokployProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -287,7 +292,8 @@ export const getAiCustomProviders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<GetAiCustomProvidersRequest>,
   output: __S(64, __c8, 0) as any as S.Schema<GetAiCustomProvidersResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -303,7 +309,8 @@ export const getAiEnabledProviders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<GetAiEnabledProvidersRequest>,
   output: __S(64, __c8, 0) as any as S.Schema<GetAiEnabledProvidersResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -319,7 +326,8 @@ export const getAiModels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<GetAiModelsRequest>,
   output: __S(64, __c8, 0) as any as S.Schema<GetAiModelsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -335,7 +343,8 @@ export const listAis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<ListAisRequest>,
   output: __S(64, __c8, 0) as any as S.Schema<ListAisResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -351,7 +360,8 @@ export const saveAiCustomProviders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26, __c3, 2) as any as S.Schema<SaveAiCustomProvidersRequest>,
   output: __S(64, __c8, 0) as any as S.Schema<SaveAiCustomProvidersResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -367,7 +377,8 @@ export const suggestAi: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<SuggestAiRequest>,
   output: __S(64, __c8, 0) as any as S.Schema<SuggestAiResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -383,7 +394,8 @@ export const testAiConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<TestAiConnectionRequest>,
   output: __S(64, __c8, 0) as any as S.Schema<TestAiConnectionResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -399,7 +411,8 @@ export const updateAi: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<UpdateAiRequest>,
   output: __S(64, __c8, 0) as any as S.Schema<UpdateAiResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -433,7 +446,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           apiUrl: S.String.pipe(T.Query()),
-          apiKey: S.String.pipe(T.Query()),
+          apiKey: S.String.pipe(T.Query(), T.SensitiveValue({})),
           aiId: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/ai.getModels", code: 200 })),
       ).annotate({ identifier: "GetAiModelsRequest" });
