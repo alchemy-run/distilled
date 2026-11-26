@@ -13,7 +13,6 @@ export * as core from "./core.ts";
 export * as discovery from "./discovery.ts";
 export * as events from "./events.ts";
 export * as flowcontrol_apiserver from "./flowcontrol_apiserver.ts";
-export * as internal_apiserver from "./internal_apiserver.ts";
 export * as networking from "./networking.ts";
 export * as node from "./node.ts";
 export * as policy from "./policy.ts";
