@@ -23,7 +23,7 @@ The source is the [Neon API OpenAPI document](https://neon.com/api_spec/release/
 
 ## Authentication
 
-`CredentialsFromEnv` reads `NEON_API_KEY` and the optional `NEON_API_BASE_URL`. `fromApiKey({ apiKey })` supplies an explicit deployment credential. Keep account API keys on trusted deployment infrastructure: they are not end-user authentication and must not be exposed to a browser.
+`CredentialsFromEnv` reads `NEON_API_KEY` and the optional `NEON_API_BASE_URL` once, when the layer is built; a missing key fails the layer with `ConfigError`. `fromApiKey({ apiKey })` supplies an explicit deployment credential. Keep account API keys on trusted deployment infrastructure: they are not end-user authentication and must not be exposed to a browser.
 
 Branch credentials are separate managed API objects. Issue/reveal/rotate responses redact API tokens and S3 secrets. Reveal recovers an existing active credential; rotation changes it and is not a substitute for recovery. Revoked credentials can remain in list responses with `revoked_at` set.
 
