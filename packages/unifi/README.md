@@ -106,27 +106,39 @@ cloud-only APIs), so provide the `ApiKey` that matches the way in.
 
 Every Network, Protect and InnerSpace operation also takes an optional `console`, which wins
 over the layer for that call and is not sent. Build it with `Unifi.ConsoleLocation`; the same
-value makes a layer with `Unifi.consoleLayer`. Like AWS's `Region`, `Console` is an optional
-layer that operations do not list in their types: a call with neither fails with `ConfigError`,
-and a malformed `console` fails it with `InvalidInput`:
+value is `fromApiKey`'s `console`. Like AWS's `Region`, the console is optional in the
+operations' types: a call with neither fails with `ConfigError`, and a malformed `console`
+fails it with `InvalidInput`:
 
 ```ts
 const office = Unifi.ConsoleLocation.remote("<consoleId>");
 const home = Unifi.ConsoleLocation.local("192.168.0.1");
 
 const sites = yield* Unifi.getSiteOverviewPage({ console: office }); // one call
-program.pipe(Effect.provide(Unifi.consoleLayer(home))); // every call in a scope
+program.pipe(Effect.provide(Unifi.fromApiKey({ apiKey, console: home }))); // every call in a scope
 ```
 
-A console layer checks its location when it is built: a host that is more than a host, or a
+`fromApiKey` checks its console when the layer is built: a host that is more than a host, or a
 console ID that can't be a URL path segment, fails the layer with `ConfigError`.
+
+### Another cloud origin
+
+Every cloud call, Site Manager, Mobility, Carrier Fabric and the connector, goes to
+`https://api.ui.com` (`Unifi.DEFAULT_CLOUD_BASE_URL`). `fromApiKey`'s optional `apiBaseUrl`
+replaces it for all of them, for example to go through a proxy or reach a mock server. It must be
+a host or origin; anything else fails the layer with `ConfigError`:
+
+```ts
+const viaProxy = Unifi.fromApiKey({ apiKey, apiBaseUrl: "https://unifi-proxy.example" });
+```
 
 From the environment, `Unifi.CredentialsFromEnv` provides both layers. Each reads the
 environment once, when the layer is built:
 
-- `ApiKeyFromEnv`: `UNIFI_API_KEY`. Without it the layer fails with `ConfigError`.
+- `ApiKeyFromEnv`: `UNIFI_API_KEY`, and optionally `UNIFI_CLOUD_API_BASE_URL` (the cloud
+  origin, `https://api.ui.com` by default). Without the key the layer fails with `ConfigError`.
 - `ConsoleFromEnv`: `UNIFI_CONSOLE_HOST` (local, a host or origin) or else `UNIFI_CONSOLE_ID`
-  (cloud connector, on `UNIFI_CLOUD_API_BASE_URL` when set). A console ID that can't be a URL
+  (cloud connector). A console ID that can't be a URL
   path segment fails the layer with `ConfigError`. With neither variable set the layer still
   builds, and only a Network, Protect or InnerSpace call fails with `ConfigError`.
 

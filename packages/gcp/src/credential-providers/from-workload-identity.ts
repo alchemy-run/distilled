@@ -4,7 +4,6 @@
  * Google's Security Token Service, optionally for a service account's
  * token, and exchanged again before it expires.
  */
-import { encodeLabel, InvalidInput } from "@distilled.cloud/core/protocol-http";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
@@ -17,7 +16,7 @@ import {
   type TokenSource,
 } from "../credentials-service.ts";
 import { GCPCredentialsError } from "../errors.ts";
-import { CLOUD_PLATFORM_SCOPE, oauthToken, requestJson } from "./oauth.ts";
+import { CLOUD_PLATFORM_SCOPE, iamCredentialsUrl, oauthToken, requestJson } from "./oauth.ts";
 
 const STS_TOKEN_URL = "https://sts.googleapis.com/v1/token";
 const JWT_TOKEN_TYPE = "urn:ietf:params:oauth:token-type:jwt";
@@ -88,7 +87,7 @@ const exchangeSubjectToken = (
  */
 export const impersonateServiceAccount = (
   serviceAccountEmail: string,
-  source: Token,
+  source: { readonly accessToken: Redacted.Redacted<string> },
   options: {
     readonly scopes: ReadonlyArray<string>;
     readonly lifetimeSeconds?: number;
@@ -97,17 +96,10 @@ export const impersonateServiceAccount = (
 ): Effect.Effect<Token, GCPCredentialsError, HttpClient.HttpClient> =>
   Effect.gen(function* () {
     const step = `Impersonating ${serviceAccountEmail}`;
-    const account = encodeLabel("serviceAccountEmail", serviceAccountEmail);
-    if (account instanceof InvalidInput) {
-      return yield* new GCPCredentialsError({
-        message: `The service account ${JSON.stringify(serviceAccountEmail)} cannot be a URL path segment.`,
-      });
-    }
+    const url = yield* iamCredentialsUrl(serviceAccountEmail, "generateAccessToken");
     const body = yield* requestJson(
       step,
-      HttpClientRequest.post(
-        `https://iamcredentials.googleapis.com/v1/projects/-/serviceAccounts/${account}:generateAccessToken`,
-      ).pipe(
+      HttpClientRequest.post(url).pipe(
         HttpClientRequest.bearerToken(Redacted.value(source.accessToken)),
         HttpClientRequest.bodyJsonUnsafe({
           scope: options.scopes,

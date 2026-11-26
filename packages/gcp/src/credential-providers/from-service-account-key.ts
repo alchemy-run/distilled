@@ -5,7 +5,6 @@
  * Node, Bun, workers and browsers.
  */
 import * as Effect from "effect/Effect";
-import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import {
@@ -15,7 +14,7 @@ import {
   type TokenSource,
 } from "../credentials-service.ts";
 import { GCPCredentialsError } from "../errors.ts";
-import { CLOUD_PLATFORM_SCOPE, OAUTH_TOKEN_URL, oauthToken, requestJson } from "./oauth.ts";
+import { exchangeJwtBearer, jwtBearerClaims, OAUTH_TOKEN_URL } from "./oauth.ts";
 
 export interface ServiceAccountKeyConfig extends ProviderOverrides {
   /** The key file's `client_email`. */
@@ -28,6 +27,13 @@ export interface ServiceAccountKeyConfig extends ProviderOverrides {
   readonly scopes?: ReadonlyArray<string>;
   /** The key file's `token_uri`; defaults to `https://oauth2.googleapis.com/token`. */
   readonly tokenUrl?: string;
+  /**
+   * Email of a Google Workspace user to act as (domain-wide delegation),
+   * sent as the JWT `sub`. A Workspace admin must allow the service
+   * account's client ID for `scopes`. Use one layer per user: each layer
+   * caches its own token.
+   */
+  readonly subject?: string;
 }
 
 const base64url = (bytes: Uint8Array | string): string => {
@@ -60,13 +66,7 @@ const signAssertion = (
         typ: "JWT",
         ...(config.privateKeyId && { kid: config.privateKeyId }),
       };
-      const claims = {
-        iss: config.clientEmail,
-        scope: (config.scopes ?? [CLOUD_PLATFORM_SCOPE]).join(" "),
-        aud: tokenUrl,
-        iat: issuedAtSeconds,
-        exp: issuedAtSeconds + 3600,
-      };
+      const claims = jwtBearerClaims({ ...config, tokenUrl }, issuedAtSeconds);
       const signingInput = `${base64url(JSON.stringify(header))}.${base64url(JSON.stringify(claims))}`;
       const signature = await crypto.subtle.sign(
         "RSASSA-PKCS1-v1_5",
@@ -89,22 +89,14 @@ export const serviceAccountKeySource = (config: ServiceAccountKeyConfig): TokenS
     const tokenUrl = config.tokenUrl ?? OAUTH_TOKEN_URL;
     const issuedAt = Date.now();
     const assertion = yield* signAssertion(config, tokenUrl, Math.floor(issuedAt / 1000));
-    const body = yield* requestJson(
-      step,
-      HttpClientRequest.post(tokenUrl).pipe(
-        HttpClientRequest.bodyUrlParams({
-          grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
-          assertion,
-        }),
-      ),
-    );
-    return yield* oauthToken(step, body, issuedAt);
+    return yield* exchangeJwtBearer(step, tokenUrl, assertion, issuedAt);
   });
 
 /**
  * Credentials from a service account key, minted again five minutes
- * before each access token expires. Prefer `fromApplicationDefault` or
- * `fromWorkloadIdentity` where you can: they need no long-lived key.
+ * before each access token expires. Prefer `fromApplicationDefault`,
+ * `fromWorkloadIdentity` or `fromImpersonatedServiceAccount` where you
+ * can: they need no long-lived key.
  */
 export const fromServiceAccountKey = (config: ServiceAccountKeyConfig): Layer.Layer<Credentials> =>
   createRefreshingProvider(serviceAccountKeySource(config), config);

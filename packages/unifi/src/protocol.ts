@@ -36,7 +36,6 @@ import * as Stream from "effect/Stream";
 import {
   ApiKey,
   Console,
-  DEFAULT_CLOUD_BASE_URL,
   checkConsoleLocation,
   consoleBaseUrl,
   type ConsoleApp,
@@ -99,22 +98,22 @@ const consoleProtocol = (app: ConsoleApp) => {
     // Each service holds an effect -- resolving them here (per request, on the
     // calling fiber) picks up context-provided layers.
     credentials: Effect.gen(function* () {
-      const apiKey = yield* yield* ApiKey;
+      const { apiKey, apiBaseUrl } = yield* yield* ApiKey;
       // An optional service, like AWS's `Region`: a call's own `console`
       // provides it, and without either the call fails.
       const fromLayer = yield* Effect.serviceOption(Console);
       if (Option.isNone(fromLayer)) {
         return yield* new ConfigError({
           message:
-            "No UniFi console: set the call's `console` or provide a Console layer (consoleLayer, localConsole, remoteConsole or ConsoleFromEnv)",
+            "No UniFi console: set the call's `console` or provide one in the credentials layer (fromApiKey's `console` or CredentialsFromEnv)",
         });
       }
       const location = yield* fromLayer.value;
-      return { apiKey, location };
+      return { apiKey, apiBaseUrl, location };
     }),
     // A console ID that can't be a path segment is refused earlier, when the
     // `Console` layer is built (`check` in ./credentials.ts).
-    baseUrl: (creds) => consoleBaseUrl(creds.location, app),
+    baseUrl: (creds) => consoleBaseUrl(creds.location, app, creds.apiBaseUrl),
     // JSON first. The camera snapshot and the floor-plan assets answer
     // `image/jpeg` or `image/png`, so the header accepts images too.
     headers: (creds) => ({
@@ -185,14 +184,11 @@ export const UniFiInnerSpaceProtocol = /*@__PURE__*/ consoleProtocol("innerspace
 
 // A const of its own: written inside the options, its callback would leave
 // the credentials typed `unknown`.
-const cloudCredentials = /*@__PURE__*/ Effect.map(
-  /*@__PURE__*/ Effect.flatten(ApiKey),
-  (apiKey) => ({ apiKey }),
-);
+const cloudCredentials = /*@__PURE__*/ Effect.flatten(ApiKey);
 
 export const UniFiCloudProtocol = /*@__PURE__*/ restProtocol({
   credentials: cloudCredentials,
-  baseUrl: () => DEFAULT_CLOUD_BASE_URL,
+  baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => ({ "X-API-KEY": Redacted.value(creds.apiKey), Accept: "application/json" }),
   unknownError: (info) => new UnknownUniFiError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new UniFiParseError({ body, cause }),

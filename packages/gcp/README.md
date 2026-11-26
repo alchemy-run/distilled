@@ -116,3 +116,38 @@ const Live = Layer.mergeAll(FetchHttpClient.layer, Credentials);
   Pass `urn:ietf:params:oauth:token-type:saml2` for SAML.
 - `scopes` default to `cloud-platform`, and `tokenLifetimeSeconds` to 3600.
 - A failed exchange fails the operation with `GCPCredentialsError`.
+
+### Acting as a Google Workspace user
+
+Some Workspace calls, such as Gmail's send-as settings or creating a shared
+drive, only work when a service account acts as a user of the domain
+(domain-wide delegation). A Workspace admin first allows the service
+account's client ID for the scopes you request. Then pass the user's email as
+`subject`:
+
+- with a key file: `fromServiceAccountKey({ clientEmail, privateKey, scopes, subject })`;
+- without one: `fromImpersonatedServiceAccount`, which asks IAM Credentials
+  to sign the token with the credentials you already have. `source` needs
+  `roles/iam.serviceAccountTokenCreator` on the service account.
+
+```ts
+import { Effect } from "effect";
+import { fromImpersonatedServiceAccount, fromMetadataServer } from "@distilled.cloud/gcp";
+import { createUsersSettingsSendAs } from "@distilled.cloud/gcp/gmail_v1";
+
+const asAna = fromImpersonatedServiceAccount({
+  source: fromMetadataServer(), // e.g. Cloud Run's own service account
+  serviceAccountEmail: "workspace-bot@acme.iam.gserviceaccount.com",
+  subject: "ana@example.com",
+  scopes: ["https://www.googleapis.com/auth/gmail.settings.sharing"],
+});
+
+const program = createUsersSettingsSendAs({
+  userId: "ana@example.com",
+  sendAsEmail: "sales@example.com",
+}).pipe(Effect.provide(asAna));
+```
+
+Each layer caches its own token, so keep one layer per user. Without
+`subject`, `fromImpersonatedServiceAccount` returns the service account's own
+token.
