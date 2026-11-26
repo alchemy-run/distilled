@@ -38,8 +38,6 @@ const camel = (slug: string): string =>
 
 /** Daytona's provider spec for the shared smithy→SDK compiler. */
 const spec: SdkSpec = {
-  // Binary uploads are core `RawBody` (bytes, text, a Blob or a stream).
-  rawBodies: true,
   // Wire names ARE the TS surface — no renaming.
   nullableTrait: NULLABLE_TRAIT,
   errorMatchersTrait: ERROR_MATCHERS_TRAIT,

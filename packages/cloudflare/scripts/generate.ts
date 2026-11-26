@@ -34,8 +34,6 @@ const makeCfSpec = (
   keyDictionary?: Record<string, string | ReadonlyArray<string>>,
   opAliases?: Array<{ alias: string; target: string }>,
 ): SdkSpec => ({
-  // Binary uploads are core `RawBody` (bytes, text, a Blob or a stream).
-  rawBodies: true,
   // Docs wire names are snake_case; the TS surface is camelCase.
   // Verbatim (emitted quoted) when camelizing would mangle the v0 surface:
   // dashed keys ("cve-2021-44228"), digit segments ("lan_1", "tls_1_3"),

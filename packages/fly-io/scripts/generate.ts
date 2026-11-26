@@ -65,8 +65,6 @@ const restSpec = (opts: {
   /** Surface sensitive strings as `string | Redacted`. */
   sensitiveTs?: boolean;
 }): SdkSpec => ({
-  // Binary uploads are core `RawBody` (bytes, text, a Blob or a stream).
-  rawBodies: true,
   unionStyle: "primitive",
   nullableTrait: NULLABLE_TRAIT,
   sourceNote: opts.sourceNote,

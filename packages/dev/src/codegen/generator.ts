@@ -436,12 +436,6 @@ export interface SdkSpec {
   readonly memberPipes?: (m: EmittedMember) => string[];
   /** Override the value schema before nullability, bindings and optionality. */
   readonly memberSchema?: (m: EmittedMember, ref: (target: string) => string) => string | undefined;
-  /**
-   * The SDK builds requests with core `buildRequest`, so a binary upload's
-   * body (a non-multipart `Blob` payload) is core `RawBody`: bytes, text, a
-   * Blob or a stream. See {@link rawUploadBody}.
-   */
-  readonly rawBodies?: boolean;
   /** Function override for member TS types beyond the binding table. */
   readonly memberTsType?: (
     m: EmittedMember,
@@ -878,7 +872,6 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
           (DEFAULT_TRAIT in traits && ownerId !== undefined && !requestReachable.has(ownerId)),
         binding,
         rawUpload:
-          spec.rawBodies === true &&
           binding === "rawBody" &&
           base.target === "smithy.api#Blob" &&
           ownerId !== undefined &&

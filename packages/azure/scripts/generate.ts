@@ -49,8 +49,6 @@ const JSON_HEADER_TRAIT = "com.azure.protocols#jsonHeader";
 
 /** Azure's provider spec for the shared smithy→SDK compiler. */
 const azureSpec: SdkSpec = {
-  // Binary uploads are core `RawBody` (bytes, text, a Blob or a stream).
-  rawBodies: true,
   // v0 kept `toCamelCase(operationId)` (leading capital preserved for ARM's
   // `Group_Operation` ids) as the exported const name.
   opExportName: (n) => n,
