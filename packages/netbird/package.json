@@ -51,6 +51,13 @@
       "worker": "./src/retry.ts",
       "default": "./lib/retry.js"
     },
+    "./unstable/*": {
+      "types": "./lib/unstable-services/*.d.ts",
+      "bun": "./src/unstable-services/*.ts",
+      "worker": "./src/unstable-services/*.ts",
+      "distilled-lazy": "./lib/unstable-services.lazy/*.js",
+      "default": "./lib/unstable-services/*.js"
+    },
     "./*": {
       "types": "./lib/services/*.d.ts",
       "bun": "./src/services/*.ts",
@@ -79,7 +86,7 @@
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-11-16",
+    "generatedAt": "2026-11-26",
     "specUpdatedAt": "2026-11-11"
   }
 }
