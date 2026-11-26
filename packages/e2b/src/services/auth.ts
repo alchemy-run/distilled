@@ -25,40 +25,6 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
-export interface GetTeamLimitsRequest {
-  /** Identifier of the team, as its UUID or its public project ID (prj_) */
-  teamID: string;
-}
-/** The team's effective resource limits */
-export interface TeamLimits {
-  /** Maximum sandbox lifetime, in hours */
-  maxLengthHours: number;
-  /** Maximum number of sandboxes running at once */
-  concurrentSandboxes: number;
-  /** Maximum number of template builds running at once */
-  concurrentTemplateBuilds: number;
-  /** Maximum vCPUs per sandbox */
-  maxVcpu: number;
-  /** Maximum memory per sandbox, in MiB */
-  maxRamMb: number;
-  /** Disk size per sandbox, in MiB */
-  diskMb: number;
-  /** Number of days sandbox events are kept */
-  eventsTtlDays: number;
-  /** Free disk space a template build gets when it requests none, in MiB */
-  defaultFreeDiskSizeMb: number;
-  /** Maximum free disk space a template build may request, in MiB */
-  maxFreeDiskSizeMb: number;
-  /** Requests per second the team may make to list endpoints */
-  apiTeamRpsList: number;
-  /** Requests per second the team may make to delete endpoints */
-  apiTeamRpsDelete: number;
-  /** Maximum number of secrets the team may store */
-  maxSecrets: number;
-}
-export interface TeamLimitsResponse {
-  limits: TeamLimits;
-}
 export type GetTeamMetricsMaxRequestMetric = "concurrent_sandboxes" | "sandbox_start_rate";
 export interface GetTeamMetricsMaxRequest {
   /** Identifier of the team, as its UUID or its public project ID (prj_) */
@@ -77,18 +43,6 @@ export interface MaxTeamMetric {
   timestampUnix: number;
   /** The maximum value of the requested metric in the given interval */
   value: number;
-}
-export interface GetTeamStatusRequest {
-  /** Identifier of the team, as its UUID or its public project ID (prj_) */
-  teamID: string;
-}
-export interface TeamStatusResponse {
-  /** Whether the team is banned */
-  isBanned: boolean;
-  /** Whether the team is blocked */
-  isBlocked: boolean;
-  /** Why the team is blocked, if a reason was recorded */
-  blockedReason: string | null;
 }
 export interface ListTeamMetricsRequest {
   /** Identifier of the team, as its UUID or its public project ID (prj_) */
@@ -123,24 +77,6 @@ export interface Team {
 }
 export type ListTeamsResponseBodyList = Array<Team>;
 export type ListTeamsResponse = ListTeamsResponseBodyList;
-export type GetTeamLimitsError = E2BOpError;
-/** Team limits Returns the team's effective resource limits. A team-authenticated request may read only its own team. */
-export const getTeamLimits: API.OperationMethod<
-  GetTeamLimitsRequest,
-  TeamLimitsResponse,
-  GetTeamLimitsError,
-  E2BOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetTeamLimitsRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<TeamLimitsResponse>,
-  errors: [],
-  serviceErrors: E2BServiceErrors,
-  protocol: E2BProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetTeamLimits",
-}));
-
 export type GetTeamMetricsMaxError = E2BOpError;
 /** Maximum team metrics Get the maximum metrics for the team in the given interval */
 export const getTeamMetricsMax: API.OperationMethod<
@@ -149,32 +85,14 @@ export const getTeamMetricsMax: API.OperationMethod<
   GetTeamMetricsMaxError,
   E2BOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<GetTeamMetricsMaxRequest>,
-  output: __S(5, __c1, 1) as any as S.Schema<MaxTeamMetric>,
+  input: __S(0, __c0, 0) as any as S.Schema<GetTeamMetricsMaxRequest>,
+  output: __S(1, __c0, 1) as any as S.Schema<MaxTeamMetric>,
   errors: [],
   serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetTeamMetricsMax",
-}));
-
-export type GetTeamStatusError = E2BOpError;
-/** Team access status Returns whether the team is banned or blocked, and why it is blocked. A team-authenticated request may read only its own team. */
-export const getTeamStatus: API.OperationMethod<
-  GetTeamStatusRequest,
-  TeamStatusResponse,
-  GetTeamStatusError,
-  E2BOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<GetTeamStatusRequest>,
-  output: __S(9, __c2, 1) as any as S.Schema<TeamStatusResponse>,
-  errors: [],
-  serviceErrors: E2BServiceErrors,
-  protocol: E2BProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetTeamStatus",
 }));
 
 export type ListTeamMetricsError = E2BOpError;
@@ -185,8 +103,8 @@ export const listTeamMetrics: API.OperationMethod<
   ListTeamMetricsError,
   E2BOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<ListTeamMetricsRequest>,
-  output: __S(15, __c3, 3) as any as S.Schema<ListTeamMetricsResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<ListTeamMetricsRequest>,
+  output: __S(7, __c1, 3) as any as S.Schema<ListTeamMetricsResponse>,
   errors: [],
   serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
@@ -203,8 +121,8 @@ export const listTeams: API.OperationMethod<
   ListTeamsError,
   E2BOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<ListTeamsRequest>,
-  output: __S(19, __c4, 3) as any as S.Schema<ListTeamsResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<ListTeamsRequest>,
+  output: __S(11, __c2, 3) as any as S.Schema<ListTeamsResponse>,
   errors: [],
   serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
@@ -215,39 +133,6 @@ export const listTeams: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          teamID: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/unstable/teams/{teamID}/limits", code: 200 })),
-      ).annotate({ identifier: "GetTeamLimitsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          maxLengthHours: S.Number,
-          concurrentSandboxes: S.Number,
-          concurrentTemplateBuilds: S.Number,
-          maxVcpu: S.Number,
-          maxRamMb: S.Number,
-          diskMb: S.Number,
-          eventsTtlDays: S.Number,
-          defaultFreeDiskSizeMb: S.Number,
-          maxFreeDiskSizeMb: S.Number,
-          apiTeamRpsList: S.Number,
-          apiTeamRpsDelete: S.Number,
-          maxSecrets: S.Number,
-        }),
-      ).annotate({ identifier: "TeamLimits" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          limits: __S(1, __c0, 1),
-        }),
-      ).annotate({ identifier: "TeamLimitsResponse" });
-  }
-}
-function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -268,25 +153,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "MaxTeamMetric" });
   }
 }
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          teamID: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/unstable/teams/{teamID}/status", code: 200 })),
-      ).annotate({ identifier: "GetTeamStatusRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          isBanned: S.Boolean,
-          isBlocked: S.Boolean,
-          blockedReason: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "TeamStatusResponse" });
-  }
-}
-function __c3(j: number): any {
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -306,14 +173,14 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "TeamMetric" });
     case 2:
-      return S.Array(__S(13, __c3, 1));
+      return S.Array(__S(5, __c1, 1));
     case 3:
-      return S.suspend(() => __S(14, __c3, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6, __c1, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListTeamMetricsResponse",
       });
   }
 }
-function __c4(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -329,9 +196,9 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "Team" });
     case 2:
-      return S.Array(__S(17, __c4, 1));
+      return S.Array(__S(9, __c2, 1));
     case 3:
-      return S.suspend(() => __S(18, __c4, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(10, __c2, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListTeamsResponse",
       });
   }
