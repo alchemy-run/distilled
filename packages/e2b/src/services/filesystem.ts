@@ -93,6 +93,8 @@ export interface GetWatcherEventsResponse {
 export interface ListDirRequest {
   path?: string | undefined;
   depth?: number | undefined;
+  /** The Linux user to run the call as; else the `RunAsUser` layer's, else the template's default user. */
+  username?: string | undefined;
 }
 export type EntryInfoList = Array<EntryInfo>;
 export interface ListDirResponse {
@@ -100,6 +102,8 @@ export interface ListDirResponse {
 }
 export interface MakeDirRequest {
   path?: string | undefined;
+  /** The Linux user to run the call as; else the `RunAsUser` layer's, else the template's default user. */
+  username?: string | undefined;
 }
 export interface MakeDirResponse {
   entry?: EntryInfo | undefined;
@@ -107,12 +111,16 @@ export interface MakeDirResponse {
 export interface MoveRequest {
   source?: string | undefined;
   destination?: string | undefined;
+  /** The Linux user to run the call as; else the `RunAsUser` layer's, else the template's default user. */
+  username?: string | undefined;
 }
 export interface MoveResponse {
   entry?: EntryInfo | undefined;
 }
 export interface RemoveRequest {
   path?: string | undefined;
+  /** The Linux user to run the call as; else the `RunAsUser` layer's, else the template's default user. */
+  username?: string | undefined;
 }
 export interface RemoveResponse {}
 export interface RemoveWatcherRequest {
@@ -121,6 +129,8 @@ export interface RemoveWatcherRequest {
 export interface RemoveWatcherResponse {}
 export interface StatRequest {
   path?: string | undefined;
+  /** The Linux user to run the call as; else the `RunAsUser` layer's, else the template's default user. */
+  username?: string | undefined;
 }
 export interface StatResponse {
   entry?: EntryInfo | undefined;
@@ -348,6 +358,7 @@ function __c3(j: number): any {
         S.Struct({
           path: S.optional(S.String),
           depth: S.optional(S.Number),
+          username: S.optional(S.String.pipe(T.Header("Authorization"))),
         }).pipe(T.Http({ method: "POST", uri: "/filesystem.Filesystem/ListDir", code: 200 })),
       ).annotate({ identifier: "ListDirRequest" });
     case 1:
@@ -366,6 +377,7 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           path: S.optional(S.String),
+          username: S.optional(S.String.pipe(T.Header("Authorization"))),
         }).pipe(T.Http({ method: "POST", uri: "/filesystem.Filesystem/MakeDir", code: 200 })),
       ).annotate({ identifier: "MakeDirRequest" });
   }
@@ -387,6 +399,7 @@ function __c6(j: number): any {
         S.Struct({
           source: S.optional(S.String),
           destination: S.optional(S.String),
+          username: S.optional(S.String.pipe(T.Header("Authorization"))),
         }).pipe(T.Http({ method: "POST", uri: "/filesystem.Filesystem/Move", code: 200 })),
       ).annotate({ identifier: "MoveRequest" });
   }
@@ -397,6 +410,7 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           path: S.optional(S.String),
+          username: S.optional(S.String.pipe(T.Header("Authorization"))),
         }).pipe(T.Http({ method: "POST", uri: "/filesystem.Filesystem/Remove", code: 200 })),
       ).annotate({ identifier: "RemoveRequest" });
   }
@@ -423,6 +437,7 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           path: S.optional(S.String),
+          username: S.optional(S.String.pipe(T.Header("Authorization"))),
         }).pipe(T.Http({ method: "POST", uri: "/filesystem.Filesystem/Stat", code: 200 })),
       ).annotate({ identifier: "StatRequest" });
   }
