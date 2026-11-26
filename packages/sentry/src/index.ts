@@ -5,6 +5,11 @@
  * `scripts/convert.ts` converts from the OpenAPI spec. Everything else in this
  * folder is hand-written.
  *
+ * Endpoints the spec marks `x-sentry-experimental` are generated to
+ * `./unstable-services` and imported as
+ * `@distilled.cloud/sentry/unstable/sentry`; they are not re-exported from
+ * the package root.
+ *
  * @example
  * ```ts
  * import * as Sentry from "@distilled.cloud/sentry";
