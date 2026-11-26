@@ -6,19 +6,20 @@ import { invalidLabel, originFromConfig } from "@distilled.cloud/core/protocol-h
  *
  * A call is described by two independent layers:
  *
- *   - {@link ApiKey}: who you are. Every UniFi API takes a key in `X-API-KEY`.
- *     A key created in a console's application (Settings > Control Plane >
- *     Integrations) works on that console only; a Site Manager key
- *     (unifi.ui.com/settings/api-keys) works against `api.ui.com`, including
+ *   - {@link ApiKey}: who you are, and the cloud origin (`api.ui.com` unless
+ *     `apiBaseUrl` says otherwise). Every UniFi API takes a key in
+ *     `X-API-KEY`. A key created in a console's application (Settings >
+ *     Control Plane > Integrations) works on that console only; a Site Manager
+ *     key (unifi.ui.com/settings/api-keys) works against the cloud, including
  *     the cloud connector, which also needs console firmware >= 5.0.3.
  *   - {@link Console}: where the console is. Only the console-hosted apps
  *     (Network, Protect, InnerSpace) need it; they run on the console and are
  *     reached either directly on the local network
  *     (`https://<host>/proxy/<app>/integration`) or relayed through the cloud
- *     connector on `api.ui.com`
+ *     connector on the cloud origin
  *     (`/v1/connector/consoles/<consoleId>/proxy/<app>/integration`).
- *     Site Manager, Mobility and Carrier Fabric are served by `api.ui.com`
- *     alone, so they need the key and no console.
+ *     Site Manager, Mobility and Carrier Fabric are served by the cloud
+ *     origin alone, so they need the key and no console.
  *
  * Each service holds an *effect* that resolves its value on every request
  * (the protocol resolves it per request on the calling fiber). Swap the
@@ -26,8 +27,8 @@ import { invalidLabel, originFromConfig } from "@distilled.cloud/core/protocol-h
  * local and remote.
  *
  * A layer here reads and checks what it is given when it is built: a missing
- * key, a local host that is more than a host, or a console ID that can't be
- * a URL path segment ({@link check}) is a `ConfigError` at setup, and no
+ * key, a cloud origin or local host that is more than a host, or a console ID
+ * that can't be a URL path segment ({@link check}) is a `ConfigError` at setup, and no
  * call fails for it. An environment without
  * a console is fine until a console-hosted call needs one: only that call
  * fails.
@@ -37,7 +38,10 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 
-/** Origin of the UniFi cloud: Site Manager, Mobility, Carrier Fabric and the connector. */
+/**
+ * Default origin of the UniFi cloud: Site Manager, Mobility, Carrier Fabric
+ * and the connector. `apiBaseUrl` on the credentials replaces it.
+ */
 export const DEFAULT_CLOUD_BASE_URL = "https://api.ui.com";
 
 /** The console-hosted applications, as they appear in `/proxy/<app>/integration`. */
@@ -52,7 +56,7 @@ export type ConsoleLocation =
    */
   | { readonly _tag: "Local"; readonly host: string }
   /** Through the cloud connector, by the console's ID (Site Manager `listHosts`). */
-  | { readonly _tag: "Remote"; readonly consoleId: string; readonly apiBaseUrl?: string };
+  | { readonly _tag: "Remote"; readonly consoleId: string };
 
 /**
  * Builds a {@link ConsoleLocation}, for one call's `console` member or for
@@ -71,15 +75,16 @@ export const ConsoleLocation = {
   remote: (consoleId: string): ConsoleLocation => ({ _tag: "Remote", consoleId }),
 };
 
-/** What a console-hosted call needs: the key and where the console is. */
-export interface ConsoleConfig {
-  readonly apiKey: Redacted.Redacted<string>;
+/** What a console-hosted call needs: the key, the cloud origin and where the console is. */
+export interface ConsoleConfig extends CloudConfig {
   readonly location: ConsoleLocation;
 }
 
-/** What a cloud-only call needs: the key. */
+/** What a cloud-only call needs: the key and the cloud origin. */
 export interface CloudConfig {
   readonly apiKey: Redacted.Redacted<string>;
+  /** Origin of the UniFi cloud, with no trailing slash ({@link DEFAULT_CLOUD_BASE_URL}). */
+  readonly apiBaseUrl: string;
 }
 
 /**
@@ -115,16 +120,20 @@ export const check = (
 };
 
 /**
- * Base URL (everything before `/v1/...`) of one application on a console.
- * {@link check} made the local host an origin, and made sure the console ID
- * can be a path segment.
+ * Base URL (everything before `/v1/...`) of one application on a console. A
+ * remote console is reached through the connector on `cloudBaseUrl`, the
+ * credentials' cloud origin. {@link check} made the local host an origin, and
+ * made sure the console ID can be a path segment.
  */
-export const consoleBaseUrl = (location: Checked<ConsoleLocation>, app: ConsoleApp): string => {
+export const consoleBaseUrl = (
+  location: Checked<ConsoleLocation>,
+  app: ConsoleApp,
+  cloudBaseUrl: string,
+): string => {
   if (location._tag === "Local") return `${location.host}/proxy/${app}/integration`;
-  const origin = (location.apiBaseUrl ?? DEFAULT_CLOUD_BASE_URL).replace(/\/+$/, "");
   // `:` is legal in a path segment, and console IDs are `<hex>:<number>`.
   const id = encodeURIComponent(location.consoleId).replace(/%3A/gi, ":");
-  return `${origin}/v1/connector/consoles/${id}/proxy/${app}/integration`;
+  return `${cloudBaseUrl}/v1/connector/consoles/${id}/proxy/${app}/integration`;
 };
 
 /**
@@ -154,26 +163,37 @@ export const checkConsoleLocation = (value: unknown): Checked<ConsoleLocation> |
   if (typeof location.consoleId !== "string" || location.consoleId.trim() === "") {
     return invalid("has no consoleId");
   }
-  if (location.apiBaseUrl !== undefined && typeof location.apiBaseUrl !== "string") {
-    return invalid("has an apiBaseUrl that is not a string");
-  }
   const refused = invalidLabel("console", location.consoleId);
   if (refused !== undefined) return refused;
-  const remote = checked(
-    location.apiBaseUrl === undefined
-      ? { _tag: "Remote", consoleId: location.consoleId }
-      : { _tag: "Remote", consoleId: location.consoleId, apiBaseUrl: location.apiBaseUrl },
-  );
+  const remote = checked({ _tag: "Remote", consoleId: location.consoleId });
   return remote instanceof ConfigError
     ? invalid("has a consoleId that is not a path segment")
     : remote;
 };
 
-/** The API key, redacted. */
+/** The API key, redacted, and the cloud origin every cloud and connector call goes to. */
 export class ApiKey
-  extends /*@__PURE__*/ Context.Service<ApiKey, Effect.Effect<Redacted.Redacted<string>>>()(
-    "UniFiApiKey",
-  ) {}
+  extends /*@__PURE__*/ Context.Service<ApiKey, Effect.Effect<CloudConfig>>()("UniFiApiKey") {}
+
+/**
+ * The cloud origin, checked: a host or origin (core `originFromConfig`), or
+ * {@link DEFAULT_CLOUD_BASE_URL} when none is given.
+ */
+const cloudBaseUrl = (apiBaseUrl: string | undefined): Effect.Effect<string, ConfigError> => {
+  if (apiBaseUrl === undefined) return Effect.succeed(DEFAULT_CLOUD_BASE_URL);
+  const origin = originFromConfig("UniFi cloud apiBaseUrl", apiBaseUrl);
+  return origin instanceof ConfigError ? Effect.fail(origin) : Effect.succeed(origin);
+};
+
+/** The {@link ApiKey} layer, with the cloud origin checked once when it is built. */
+const keyLayer = (
+  apiKey: Redacted.Redacted<string>,
+  apiBaseUrl: string | undefined,
+): Layer.Layer<ApiKey, ConfigError> =>
+  Layer.effect(
+    ApiKey,
+    Effect.map(cloudBaseUrl(apiBaseUrl), (apiBaseUrl) => Effect.succeed({ apiKey, apiBaseUrl })),
+  );
 
 /**
  * Where the console is, for Network, Protect and InnerSpace: a
@@ -189,29 +209,35 @@ export class Console
   >()("UniFiConsole") {}
 
 /**
- * Layer from a redacted API key and, for Network, Protect and InnerSpace, the
- * console every call in its scope goes to. Site Manager, Mobility and Carrier
- * Fabric need no console. A console that fails {@link check} fails the
- * layer with {@link ConfigError}.
+ * Layer from a redacted API key, an optional cloud origin (`apiBaseUrl`,
+ * {@link DEFAULT_CLOUD_BASE_URL} by default) and, for Network, Protect and
+ * InnerSpace, the console every call in its scope goes to. Site Manager,
+ * Mobility and Carrier Fabric need no console. An `apiBaseUrl` that is not a
+ * host or origin, or a console that fails {@link check}, fails the layer with
+ * {@link ConfigError}.
  *
  * @example
  * ```ts
  * Unifi.fromApiKey({ apiKey, console: Unifi.ConsoleLocation.local("192.168.0.1") });
+ * Unifi.fromApiKey({ apiKey, apiBaseUrl: "https://unifi-proxy.example" });
  * ```
  */
 export function fromApiKey(config: {
   readonly apiKey: Redacted.Redacted<string>;
+  readonly apiBaseUrl?: string | undefined;
   readonly console: ConsoleLocation;
 }): Layer.Layer<ApiKey | Console, ConfigError>;
 export function fromApiKey(config: {
   readonly apiKey: Redacted.Redacted<string>;
+  readonly apiBaseUrl?: string | undefined;
   readonly console?: undefined;
-}): Layer.Layer<ApiKey>;
+}): Layer.Layer<ApiKey, ConfigError>;
 export function fromApiKey(config: {
   readonly apiKey: Redacted.Redacted<string>;
+  readonly apiBaseUrl?: string | undefined;
   readonly console?: ConsoleLocation | undefined;
-}): Layer.Layer<ApiKey> | Layer.Layer<ApiKey | Console, ConfigError> {
-  const key = Layer.succeed(ApiKey, Effect.succeed(config.apiKey));
+}): Layer.Layer<ApiKey, ConfigError> | Layer.Layer<ApiKey | Console, ConfigError> {
+  const key = keyLayer(config.apiKey, config.apiBaseUrl);
   return config.console === undefined ? key : Layer.mergeAll(key, consoleLayer(config.console));
 }
 
@@ -223,8 +249,10 @@ const consoleLayer = (location: ConsoleLocation): Layer.Layer<Console, ConfigErr
   );
 
 /**
- * Reads `UNIFI_API_KEY`, once: when the layer is built. Every call needs
- * the key, so a missing one fails the layer with `ConfigError`.
+ * Reads `UNIFI_API_KEY` and, optionally, `UNIFI_CLOUD_API_BASE_URL` (the cloud
+ * origin, {@link DEFAULT_CLOUD_BASE_URL} by default), once: when the layer is
+ * built. Every call needs the key, so a missing one fails the layer with
+ * `ConfigError`, and so does an origin that is not a host or origin.
  */
 export const ApiKeyFromEnv: Layer.Layer<ApiKey, ConfigError> = /*@__PURE__*/ Layer.effect(
   ApiKey,
@@ -233,13 +261,14 @@ export const ApiKeyFromEnv: Layer.Layer<ApiKey, ConfigError> = /*@__PURE__*/ Lay
     if (!key) {
       return yield* new ConfigError({ message: "UNIFI_API_KEY environment variable is required" });
     }
-    return Effect.succeed(Redacted.make(key));
+    const apiBaseUrl = yield* cloudBaseUrl(process.env.UNIFI_CLOUD_API_BASE_URL);
+    return Effect.succeed({ apiKey: Redacted.make(key), apiBaseUrl });
   }),
 );
 
 /**
  * Reads where the console is: `UNIFI_CONSOLE_HOST` (local) or, failing that,
- * `UNIFI_CONSOLE_ID` (cloud connector, on `UNIFI_CLOUD_API_BASE_URL` when set).
+ * `UNIFI_CONSOLE_ID` (cloud connector).
  * The environment is read, and the console ID checked, once: when the layer
  * is built. With neither variable set the layer still builds, because the
  * cloud-only APIs need no console; a console-hosted call then fails with
@@ -259,14 +288,7 @@ export const ConsoleFromEnv: Layer.Layer<Console, ConfigError> = /*@__PURE__*/ L
         }),
       );
     }
-    const apiBaseUrl = process.env.UNIFI_CLOUD_API_BASE_URL;
-    return Effect.succeed(
-      yield* check({
-        _tag: "Remote",
-        consoleId,
-        ...(apiBaseUrl === undefined ? {} : { apiBaseUrl }),
-      }),
-    );
+    return Effect.succeed(yield* check({ _tag: "Remote", consoleId }));
   }),
 );
 

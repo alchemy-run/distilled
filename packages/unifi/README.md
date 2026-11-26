@@ -121,12 +121,24 @@ program.pipe(Effect.provide(Unifi.fromApiKey({ apiKey, console: home }))); // ev
 `fromApiKey` checks its console when the layer is built: a host that is more than a host, or a
 console ID that can't be a URL path segment, fails the layer with `ConfigError`.
 
+### Another cloud origin
+
+Every cloud call, Site Manager, Mobility, Carrier Fabric and the connector, goes to
+`https://api.ui.com` (`Unifi.DEFAULT_CLOUD_BASE_URL`). `fromApiKey`'s optional `apiBaseUrl`
+replaces it for all of them, for example to go through a proxy or reach a mock server. It must be
+a host or origin; anything else fails the layer with `ConfigError`:
+
+```ts
+const viaProxy = Unifi.fromApiKey({ apiKey, apiBaseUrl: "https://unifi-proxy.example" });
+```
+
 From the environment, `Unifi.CredentialsFromEnv` provides both layers. Each reads the
 environment once, when the layer is built:
 
-- `ApiKeyFromEnv`: `UNIFI_API_KEY`. Without it the layer fails with `ConfigError`.
+- `ApiKeyFromEnv`: `UNIFI_API_KEY`, and optionally `UNIFI_CLOUD_API_BASE_URL` (the cloud
+  origin, `https://api.ui.com` by default). Without the key the layer fails with `ConfigError`.
 - `ConsoleFromEnv`: `UNIFI_CONSOLE_HOST` (local, a host or origin) or else `UNIFI_CONSOLE_ID`
-  (cloud connector, on `UNIFI_CLOUD_API_BASE_URL` when set). A console ID that can't be a URL
+  (cloud connector). A console ID that can't be a URL
   path segment fails the layer with `ConfigError`. With neither variable set the layer still
   builds, and only a Network, Protect or InnerSpace call fails with `ConfigError`.
 
