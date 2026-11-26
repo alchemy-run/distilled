@@ -4,8 +4,10 @@
  *
  * Input:  specs/spec-mirror-google-workspace/specs/_manifest.json (drives the run)
  *         specs/spec-mirror-google-workspace/specs/{filename}     (one discovery doc per entry)
- * Output: .generated-specs/stable/<name>_<version>.json   (manifest `preferred: true`)
- *         .generated-specs/unstable/<name>_<version>.json (everything else)
+ * Output: .generated-specs/<name>_<version>.json. A version Google labels
+ *         alpha, beta or preview (AIP-185: `v1beta1`, `v1alpha`,
+ *         `2025-03-01-preview`) is marked `smithy.api#unstable`, so generate
+ *         writes its module to src/unstable-services/.
  *
  * This is the v1 port of the distilled repo's bespoke discovery→TS driver
  * (packages/gcp/scripts/generate.ts, 1439 lines): the discovery-specific
@@ -49,6 +51,7 @@ import * as path from "node:path";
 import { clearModels, writeModel } from "@distilled.cloud/dev/codegen/models";
 import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
 import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
+import { markUnstable } from "@distilled.cloud/dev/codegen/stability";
 
 // =============================================================================
 // Discovery document types (the subset the converter reads)
@@ -629,7 +632,7 @@ const convertDoc = (doc: DiscoveryDoc): object => {
     };
   }
 
-  return {
+  const model = {
     smithy: "2.0",
     metadata: {
       service: doc.name,
@@ -639,6 +642,12 @@ const convertDoc = (doc: DiscoveryDoc): object => {
     },
     shapes,
   };
+  // AIP-185: a stable version never carries a stability label; alpha and
+  // beta versions append theirs (`v1beta1`), and preview versions end in
+  // `-preview`. Discovery's `preferred` flag only names one version per API
+  // name, so it says nothing about stability.
+  if (/alpha|beta|preview/i.test(doc.version)) markUnstable(model);
+  return model;
 };
 
 // =============================================================================
@@ -680,13 +689,11 @@ if (serviceFilter) {
   }
 }
 
-const STABLE_DIR = path.join(root, ".generated-specs", "stable");
-const UNSTABLE_DIR = path.join(root, ".generated-specs", "unstable");
+const OUT_DIR = path.join(root, ".generated-specs");
 // Full (unfiltered) runs rebuild the output dirs from scratch so removed
 // upstream services don't leave stale models behind.
 if (!serviceFilter) {
-  clearModels(STABLE_DIR);
-  clearModels(UNSTABLE_DIR);
+  clearModels(OUT_DIR);
 }
 
 let converted = 0;
@@ -698,8 +705,7 @@ for (const entry of entries) {
     );
     const model = convertDoc(doc);
     const outName = `${ident(entry.name)}_${ident(entry.version)}.json`;
-    const outDir = entry.preferred ? STABLE_DIR : UNSTABLE_DIR;
-    writeModel(path.join(outDir, outName), model);
+    writeModel(path.join(OUT_DIR, outName), model);
     converted++;
   } catch (err) {
     failed++;
@@ -710,6 +716,5 @@ console.log(
   `✅ Converted ${converted} discovery documents to Smithy models` +
     (failed ? ` (${failed} failed)` : ""),
 );
-await finalizeConvert({ root, outDir: ".generated-specs/stable" });
-await finalizeConvert({ root, outDir: ".generated-specs/unstable" });
+await finalizeConvert({ root });
 if (failed) process.exit(1);

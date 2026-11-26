@@ -357,8 +357,8 @@ const auditConvertStage = async (
         },
       );
       if (!result.ok) baselineError ??= result.error;
-      // A key is complete once its convert has exited: GCP judges one
-      // patch dir against both its stable and unstable model.
+      // A key is complete once its convert has exited: one patch dir can
+      // apply to several models.
       for (const key of keys) {
         const vs = verdicts.get(key);
         if (vs) report({ file: byKey.get(key)!, ...mergeVerdicts(vs) });

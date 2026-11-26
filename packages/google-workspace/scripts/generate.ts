@@ -3,9 +3,9 @@
  * generate — run scripts/convert.ts in memory and compile its Smithy models
  * into an Effect SDK.
  *
- * Input:  the stable and unstable models convert.ts converts (in memory)
+ * Input:  the models convert.ts converts (in memory)
  * Output: src/services/<service>.ts + index.ts            (stable)
- *         src/unstable-services/<service>.ts + index.ts   (unstable)
+ *         src/unstable-services/<service>.ts + index.ts   (marked smithy.api#unstable)
  *
  * The smithy→SDK compiler and CLI pipeline live in
  * `@distilled.cloud/dev/codegen`; this script is Google Workspace's provider spec: the
@@ -13,10 +13,6 @@
  * envelope fields on the standard 4xx error classes, simple-shape aliases
  * (discovery primitive/any schemas), the token pagination profile, and the
  * protocol/retry names.
- *
- * One run converts once and compiles both trees. `--smithy`/`--out` compile
- * a single tree instead:
- *   node --conditions=bun scripts/generate.ts --smithy .generated-specs/unstable --out src/unstable-services
  */
 
 import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
@@ -128,9 +124,6 @@ runGeneratorCli({
   // A request body schema becomes top-level input fields, as in every other
   // SDK, after convert has applied the patches to it.
   transformModel: (model) => flattenStructurePayloads(model),
-  targets: [
-    { smithyDir: ".generated-specs/stable", outDir: "src/services" },
-    { smithyDir: ".generated-specs/unstable", outDir: "src/unstable-services" },
-  ],
+  unstableOutDir: "src/unstable-services",
   spec: (model) => makeGoogleWorkspaceSpec(model.metadata ?? {}),
 });
