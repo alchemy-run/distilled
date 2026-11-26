@@ -28,6 +28,13 @@ export interface ServiceAccountKeyConfig extends ProviderOverrides {
   readonly scopes?: ReadonlyArray<string>;
   /** The key file's `token_uri`; defaults to `https://oauth2.googleapis.com/token`. */
   readonly tokenUrl?: string;
+  /**
+   * Email of a Google Workspace user to act as (domain-wide delegation),
+   * sent as the JWT `sub`. A Workspace admin must allow the service
+   * account's client ID for `scopes`. Use one layer per user: each layer
+   * caches its own token.
+   */
+  readonly subject?: string;
 }
 
 const base64url = (bytes: Uint8Array | string): string => {
@@ -66,6 +73,7 @@ const signAssertion = (
         aud: tokenUrl,
         iat: issuedAtSeconds,
         exp: issuedAtSeconds + 3600,
+        ...(config.subject && { sub: config.subject }),
       };
       const signingInput = `${base64url(JSON.stringify(header))}.${base64url(JSON.stringify(claims))}`;
       const signature = await crypto.subtle.sign(
