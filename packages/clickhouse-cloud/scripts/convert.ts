@@ -28,8 +28,10 @@
  * names of union arms the spec leaves anonymous, are patches in
  * `patches/<model>/`.
  *
- * Operations tagged Beta upstream (ClickStack, Postgres, BYOC, UDFs, …) are
- * kept: they are part of the published API.
+ * Operations badged Beta upstream (`x-badges: [{ name: "Beta" }]`) are kept:
+ * they are part of the published API. A module whose every operation is
+ * Beta is marked `smithy.api#unstable`, so it is generated under
+ * `unstable/`; a module with some Beta operations stays where it is.
  *
  * `scripts/generate.ts` (runGeneratorCli with `patchesDir: false`) then
  * compiles the already-patched models.
@@ -40,6 +42,7 @@ import { clearModels, writeModel } from "@distilled.cloud/dev/codegen/models";
 import { convertOpenApiToSmithy } from "@distilled.cloud/dev/codegen/openapi";
 import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
 import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
+import { markUnstable } from "@distilled.cloud/dev/codegen/stability";
 
 const rootDir = path.resolve(import.meta.dirname, "..");
 const specPath = resolveSpecPath(rootDir, "specs/spec-mirror-clickhouse-cloud/specs/openapi.json");
@@ -339,7 +342,13 @@ if (missing.length) {
 console.log(`🔧 ${unwrapped} response envelope(s) unwrapped to their \`result\``);
 
 // ---- 4. Bucket paths by tag ------------------------------------------------
+/** The docs' Beta badge on an operation. */
+const isBeta = (op: Record<string, any>): boolean =>
+  Array.isArray(op["x-badges"]) && op["x-badges"].some((badge: any) => badge?.name === "Beta");
+
 const buckets = new Map<string, Record<string, Record<string, unknown>>>();
+/** Modules with at least one generated operation that is not Beta. */
+const stableModules = new Set<string>();
 for (const [pathTemplate, pathItem] of Object.entries<Record<string, any>>(fullSpec.paths)) {
   for (const method of HTTP_METHODS) {
     const op = pathItem[method];
@@ -349,6 +358,7 @@ for (const [pathTemplate, pathItem] of Object.entries<Record<string, any>>(fullS
       throw new Error(`${method.toUpperCase()} ${pathTemplate} has no tag to place it in a module`);
     }
     const slug = toSlug(tag);
+    if (op.deprecated !== true && !isBeta(op)) stableModules.add(slug);
     if (!buckets.has(slug)) buckets.set(slug, {});
     const bucketPaths = buckets.get(slug)!;
     if (!bucketPaths[pathTemplate]) {
@@ -399,6 +409,7 @@ for (const slug of [...buckets.keys()].sort()) {
     throw new Error(`${slug}: no operations converted`);
   }
 
+  if (!stableModules.has(slug)) markUnstable(model);
   writeModel(path.join(outDir, `${slug}.json`), model);
   written++;
   totalOps += operations.length;
