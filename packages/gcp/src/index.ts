@@ -2,8 +2,8 @@
  * GCP SDK for Effect.
  *
  * Per-service modules live under `@distilled.cloud/gcp/<name>_<version>`
- * (preferred versions) and `@distilled.cloud/gcp/unstable/<name>_<version>`
- * (non-preferred versions); this root module exports the shared runtime
+ * (stable versions) and `@distilled.cloud/gcp/unstable/<name>_<version>`
+ * (alpha, beta and preview versions); this root module exports the shared runtime
  * surface only -- importing every generated service from one barrel would
  * defeat tree-shaking across ~500 services.
  */
