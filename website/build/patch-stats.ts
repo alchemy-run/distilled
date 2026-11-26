@@ -1,6 +1,6 @@
 /**
  * Per-package spec-patch statistics for the /shame page and the homepage
- * award. Read-only over `packages/<dir>/{patches,src/services}`.
+ * award. Read-only over `packages/<dir>/{patches,src/services,src/unstable-services}`.
  *
  * "Fixes" are counted from the committed patch files, not by running the
  * generator: one fix per RFC-6902 operation in a file's `patches`.
@@ -64,11 +64,13 @@ const listFiles = async (dir: string): Promise<string[]> => {
 
 /**
  * REST packages declare one `API.OperationMethod` per call under
- * `src/services`; a GraphQL package has no services directory and binds its
- * operations in the module beside it (`railway/src/graphql.ts`).
+ * `src/services` and `src/unstable-services` (patches apply to both); a
+ * GraphQL package has no services directory and binds its operations in the
+ * module beside it (`railway/src/graphql.ts`).
  */
 const countOperations = async (srcDir: string): Promise<number> =>
   (await countMatches(await walk(join(srcDir, "services")), REST_OPERATION)) +
+  (await countMatches(await walk(join(srcDir, "unstable-services")), REST_OPERATION)) +
   (await countMatches(await listFiles(srcDir), GRAPHQL_OPERATION));
 
 export const readPatchStats = async (packagesDir: string, dir: string): Promise<PatchStats> => {
