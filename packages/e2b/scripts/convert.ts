@@ -162,24 +162,20 @@ const renameOperations = (model: Record<string, any>, names: Record<string, stri
  * File bodies the OpenAPI converter cannot express. It flattens JSON, form
  * and multipart bodies only, so `application/octet-stream` downloads come out
  * as empty outputs and uploads with no body member. These are stamped onto
- * the converted model: downloads get a raw `Blob` body (decoded as bytes),
- * uploads a `Blob` `httpPayload` sent as `application/octet-stream`, and a
- * multipart upload a binary `file` part.
+ * the converted model: downloads get a raw `Blob` body (decoded as a
+ * stream), uploads a `Blob` `httpPayload` sent as `application/octet-stream`.
  */
-const BINARY_BODIES: Record<
-  string,
-  { readonly download?: true; readonly upload?: true; readonly multipartFile?: true }
-> = {
+const BINARY_BODIES: Record<string, { readonly download?: true; readonly upload?: true }> = {
   "GET /files": { download: true },
-  // envd takes octet-stream only from 0.5.7; multipart works on every
-  // version (and is what E2B's SDK sends for buffers).
-  "POST /files": { multipartFile: true },
+  // envd also takes multipart, but only octet-stream can carry a stream
+  // (envd 0.5.7 and later, as for E2B's SDK's stream uploads).
+  "POST /files": { upload: true },
   "GET /volumecontent/{volumeID}/file": { download: true },
   "PUT /volumecontent/{volumeID}/file": { upload: true },
 };
 
-/** A multipart file part; generate binds it with `T.FormDataFile()`. */
-const FORM_DATA_FILE_TRAIT = "com.e2b#formDataFile";
+/** Traits that bind a member outside the request body. */
+const HTTP_BINDINGS = ["smithy.api#httpQuery", "smithy.api#httpHeader", "smithy.api#httpLabel"];
 
 const stampBinaryBodies = (model: Record<string, any>) => {
   const shapes: Record<string, any> = model.shapes;
@@ -206,27 +202,23 @@ const stampBinaryBodies = (model: Record<string, any>) => {
         shape.output = { target: outputId };
       }
     }
-    if (kind.multipartFile) {
-      const input = shapes[shape.input?.target];
-      if (input?.type !== "structure" || input.members?.file === undefined) {
-        throw new Error(`${http.uri}: no multipart file member to stamp`);
-      }
-      input.members.file = {
-        target: "smithy.api#Document",
-        traits: { [FORM_DATA_FILE_TRAIT]: {}, "smithy.api#required": {} },
-      };
-    }
     if (kind.upload) {
       const input = shapes[shape.input?.target];
       if (input?.type !== "structure") throw new Error(`${http.uri}: no input structure to stamp`);
+      // The raw body replaces any body member the converter read from
+      // another media type (envd's multipart `file` part).
+      const bound = Object.entries<any>(input.members ?? {}).filter(([, member]) =>
+        HTTP_BINDINGS.some((trait) => trait in (member.traits ?? {})),
+      );
       input.members = {
-        ...input.members,
+        ...Object.fromEntries(bound),
         body: {
           target: "smithy.api#Blob",
           traits: { "smithy.api#httpPayload": {}, "smithy.api#required": {} },
         },
       };
       http.bodyMediaType = "application/octet-stream";
+      delete http.contentType;
     }
   }
 };

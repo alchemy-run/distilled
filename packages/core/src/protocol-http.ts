@@ -13,10 +13,11 @@ import * as HttpClientRequest from "effect/http/HttpClientRequest";
  * {@link matchTypedError}).
  */
 import type * as AST from "effect/SchemaAST";
+import type * as Stream from "effect/Stream";
 import { getAnn, getProps, resolveNode } from "./annotations.ts";
 import * as Category from "./category.ts";
 import { ConfigError } from "./config.ts";
-import { isOpaqueValue } from "./plain-values.ts";
+import { isEffectStream, isOpaqueValue } from "./plain-values.ts";
 import { parseServerRetryHint } from "./retry-after.ts";
 import * as Schema from "./schema-lite-typed.ts";
 import { SdkError } from "./sdk-error.ts";
@@ -1092,6 +1093,19 @@ const requestOrInvalid = ({
     // modeled Content-Type member when the caller set one, else the declared
     // bodyMediaType (e.g. application/x-ndjson for Vectorize insert/upsert).
     const mediaType = memberContentType ?? http.bodyMediaType;
+    if (isEffectStream(rawBody)) {
+      // Sent as it is pulled, chunked unless a modeled `Content-Length`
+      // member gave its size. The REST protocol never retries it.
+      const length = headers["content-length"];
+      return HttpClientRequest.setBody(
+        request,
+        HttpBody.stream(
+          rawBody as Stream.Stream<Uint8Array, unknown>,
+          mediaType,
+          length === undefined ? undefined : Number(length),
+        ),
+      );
+    }
     if (rawBody instanceof Blob || rawBody instanceof ArrayBuffer) {
       // With no media type at all, fetch falls back to the Blob's own type.
       return HttpClientRequest.setBody(request, HttpBody.raw(rawBody, { contentType: mediaType }));

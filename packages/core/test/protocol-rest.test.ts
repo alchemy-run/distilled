@@ -727,7 +727,7 @@ describe("restProtocol success decoding", () => {
     expect(out).toEqual([{ id: "a" }, { id: "b" }]);
   });
 
-  test("BinaryResponse outputs return the body bytes untouched", async () => {
+  test("BinaryResponse outputs stream the body bytes untouched", async () => {
     const bytes = new Uint8Array([0, 255, 1, 128, 10]);
     const BinaryOutput = S.Unknown.pipe(BinaryResponse());
     const binaryOp = API.make(() => ({
@@ -736,15 +736,14 @@ describe("restProtocol success decoding", () => {
       protocol: DefaultProtocol,
     })) as unknown as (input: Record<string, unknown>) => Effect.Effect<any, any, any>;
     const out = await succeed(
-      binaryOp({ id: "t1" }),
+      Effect.flatMap(binaryOp({ id: "t1" }), Stream.mkUint8Array),
       fakeClient(() => new Response(bytes, { status: 200 })),
       creds(),
     );
-    expect(out).toBeInstanceOf(Uint8Array);
     expect(Array.from(out)).toEqual(Array.from(bytes));
   });
 
-  test("a BinaryResponse body member gets the bytes and its output the headers", async () => {
+  test("a BinaryResponse body member gets the byte stream and its output the headers", async () => {
     const bytes = new Uint8Array([0xff, 0xd8, 0xff, 0x00]);
     const binaryOp = API.make(() => ({
       input: ThingInput,
@@ -762,8 +761,8 @@ describe("restProtocol success decoding", () => {
       creds(),
     );
     expect(out.contentType).toBe("image/jpeg");
-    expect(out.body).toBeInstanceOf(Uint8Array);
-    expect(Array.from(out.body)).toEqual(Array.from(bytes));
+    const body = await Effect.runPromise(Stream.mkUint8Array(out.body));
+    expect(Array.from(body)).toEqual(Array.from(bytes));
   });
 });
 
@@ -783,13 +782,17 @@ describe("restProtocol body read failures", () => {
     expect(error.reason._tag).toBe("DecodeError");
   });
 
-  test("a BinaryResponse body read failure fails with HttpClientError", async () => {
+  test("a BinaryResponse body read failure fails its stream with HttpClientError", async () => {
     const binaryOp = API.make(() => ({
       input: ThingInput,
       output: S.Unknown.pipe(BinaryResponse()),
       protocol: DefaultProtocol,
     })) as unknown as (input: Record<string, unknown>) => Effect.Effect<any, any, any>;
-    const error = await failOn(() => brokenBody(200), binaryOp);
+    const error = await failWith(
+      Effect.flatMap(binaryOp({ id: "t1" }), Stream.mkUint8Array),
+      fakeClient(() => brokenBody(200)),
+      creds(),
+    );
     expect(error._tag).toBe("HttpClientError");
     expect(error.reason._tag).toBe("DecodeError");
   });

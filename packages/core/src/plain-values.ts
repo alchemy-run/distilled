@@ -5,13 +5,24 @@
  */
 import * as Redacted from "effect/Redacted";
 
+/**
+ * Whether `v` is an Effect `Stream` (an upload body). Read from the
+ * prototype's type id, so this module does not load `effect/Stream`.
+ */
+export const isEffectStream = (v: unknown): boolean =>
+  v !== null &&
+  typeof v === "object" &&
+  Object.getPrototypeOf(v) !== null &&
+  "~effect/Stream" in Object.getPrototypeOf(v);
+
 /** Binary/opaque values that must never be treated as key-value objects. */
 export const isOpaqueValue = (v: unknown): boolean =>
   v instanceof Blob ||
   v instanceof File ||
   v instanceof ArrayBuffer ||
   v instanceof Uint8Array ||
-  v instanceof Date;
+  v instanceof Date ||
+  isEffectStream(v);
 
 const isPlainObject = (v: unknown): v is Record<string, unknown> =>
   v !== null &&

@@ -1,7 +1,7 @@
 /**
  * Binary downloads carry their media type. A response the model gives as a
  * sole raw `Blob` body (an image, a PDF, a CSV export) decodes as
- * `{ body: Uint8Array, contentType?: string }`: the bytes, and the
+ * `{ body: BinaryStream, contentType?: string }`: the bytes as they arrive, and the
  * response's `Content-Type` header, so a caller can tell a JPEG from a PNG
  * or pick a file extension. Run by `finalizeConvert` after the package's
  * patches, so outputs a patch makes binary get the header too.

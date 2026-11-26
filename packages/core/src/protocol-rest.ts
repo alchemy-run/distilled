@@ -110,12 +110,28 @@ export const binaryResponseSymbol = /*@__PURE__*/ Symbol.for(
 );
 
 /**
- * Decode a successful raw binary response as bytes, without text conversion.
- * On a whole output, the output is the bytes. On the `RawResponse()` member
- * of a structure output, that member gets the bytes and the structure's
- * `Header` members get their response headers (a download's `Content-Type`).
+ * Decode a successful raw binary response as a {@link BinaryStream} of the
+ * body, never read as text or into one buffer. On a whole output, the
+ * output is the stream. On the `RawResponse()` member of a structure
+ * output, that member gets the stream and the structure's `Header` members
+ * get their response headers (a download's `Content-Type`).
  */
 export const BinaryResponse = () => makeAnnotation(binaryResponseSymbol, true);
+
+/**
+ * A binary download's body, read as it arrives. It fails with the
+ * `HttpClientError` of a read that breaks off (a connection reset).
+ * `Stream.mkUint8Array` collects it into one buffer.
+ */
+export type BinaryStream = Stream.Stream<Uint8Array, HttpClientError.HttpClientError>;
+
+/**
+ * A binary upload's body from a stream: a `T.HttpBody()` member may take
+ * one, and the protocol sends it as it is pulled, without buffering it.
+ * A stream can be sent once, so a call with one is never retried. With no
+ * modeled `Content-Length` member set, the body goes out chunked.
+ */
+export type UploadStream = Stream.Stream<Uint8Array, unknown>;
 
 // =============================================================================
 // Value helpers
@@ -441,25 +457,27 @@ const decodePlanFor = (outputAst: AST.AST): DecodePlan => {
 };
 
 /**
- * Read a 2xx response of a binary output ({@link BinaryResponse}) as bytes:
- * the bytes themselves for a binary whole output, or the structure with the
- * bytes in its body member and its header members filled. `undefined` when
- * the output is not binary. A body read that fails (reset or abort
- * mid-body) fails with its `HttpClientError`. For hand-written protocols
- * too, so every SDK decodes a download the same way.
+ * Read a 2xx response of a binary output ({@link BinaryResponse}) as a
+ * {@link BinaryStream}: the stream itself for a binary whole output, or the
+ * structure with the stream in its body member and its header members
+ * filled. `undefined` when the output is not binary. The call returns once
+ * the headers arrive; a body read that fails later (reset or abort
+ * mid-body) fails the stream with its `HttpClientError`. For hand-written
+ * protocols too, so every SDK decodes a download the same way.
  */
 export const readBinaryResponse = (
   response: HttpClientResponse.HttpClientResponse,
   outputAst: AST.AST,
-): Effect.Effect<unknown, HttpClientError.HttpClientError> | undefined => {
+): Effect.Effect<unknown> | undefined => {
   const plan = decodePlanFor(outputAst);
-  if (plan.binary) return Effect.map(response.arrayBuffer, (bytes) => new Uint8Array(bytes));
+  const body: BinaryStream = response.stream;
+  if (plan.binary) return Effect.succeed(body);
   const member = plan.binaryMember;
   if (member === undefined) return undefined;
-  return Effect.map(response.arrayBuffer, (bytes) =>
+  return Effect.succeed(
     withResponseHeaders(
       plan.headers,
-      { [member]: new Uint8Array(bytes) },
+      { [member]: body },
       response.headers as Record<string, string | undefined>,
     ),
   );
@@ -756,8 +774,10 @@ export const restProtocolMethods = <
       return withCredentials(context, (creds) => {
         const client = Context.get(context, HttpClient.HttpClient);
         return Effect.flatMap(requestFor(creds, input, op.inputAst), (request) =>
-          Effect.flatMap(Send.send(context, client, request), (response) =>
-            receive(context, response),
+          Effect.flatMap(
+            // A stream body goes out once: the retry layer must not resend it.
+            Send.send(context, client, request, request.body._tag === "Stream"),
+            (response) => receive(context, response),
           ),
         );
       });
