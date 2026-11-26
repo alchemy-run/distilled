@@ -408,7 +408,7 @@ const finalizeModel = (
  * operation names, then an optional model transform, then a reference
  * check. Reads and writes the models through `./models.ts` — in memory
  * under generate, on disk under a bare `convert` — so the result is what
- * generate compiles. `outDir` may be nested (GCP `stable/` / `unstable/`).
+ * generate compiles.
  *
  * Input must be FRESHLY converted models. Smithy patches are `move`/`add`
  * ops that are not idempotent, and a `transform` may not be either, so
