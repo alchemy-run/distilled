@@ -36,13 +36,13 @@ Backend calls require `CLERK_SECRET_KEY`, sent as `Authorization: Bearer`. Optio
 
 The Platform API manages workspace applications, instances, configuration, users, organizations, domains, and related resources. It is currently **private beta** and requires [Platform API access](https://github.com/clerk/openapi-specs/blob/main/platform/beta.yml).
 
-Platform operations are imported from `@distilled.cloud/clerk/platform` to avoid collisions with Backend types and operations. They require a separate Platform bearer access token; Backend credentials do not satisfy Platform calls. API keys, OAuth access tokens, and exchanged access tokens are accepted without a token-prefix restriction. Token acquisition and refresh are managed by the caller.
+Platform operations are imported from `@distilled.cloud/clerk/unstable/platform`: the spec marks the API `BETA`, and a separate module avoids collisions with Backend types and operations. They require a separate Platform bearer access token; Backend credentials do not satisfy Platform calls. API keys, OAuth access tokens, and exchanged access tokens are accepted without a token-prefix restriction. Token acquisition and refresh are managed by the caller.
 
 ```ts
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import { PlatformCredentialsFromEnv } from "@distilled.cloud/clerk/Credentials";
-import * as Platform from "@distilled.cloud/clerk/platform";
+import * as Platform from "@distilled.cloud/clerk/unstable/platform";
 
 const program = Platform.getMe({});
 const Live = Layer.mergeAll(FetchHttpClient.layer, PlatformCredentialsFromEnv);

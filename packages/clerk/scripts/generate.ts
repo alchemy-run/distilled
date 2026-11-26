@@ -102,6 +102,7 @@ runGeneratorCli({
   root: `${import.meta.dirname}/..`,
   // Convert finalizes the Smithy patches; generation only compiles the models.
   patchesDir: false,
+  unstableOutDir: "src/unstable-services",
   spec: (model) =>
     model.shapes?.[PLATFORM_SERVICE]?.type === "service" ? platformSpec : clerkSpec,
 });
