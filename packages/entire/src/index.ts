@@ -12,6 +12,11 @@
  * `trailReviews`, `sessions`, `checkpoints`, `repositories` (git),
  * `environments`, `agents`, `runs`, `search`, `brainstore`, ...
  *
+ * A module whose every operation Entire marks experimental (the cell's
+ * `experimental` tag: "Shapes may change without notice") is generated to
+ * `./unstable-services` instead, and imported as
+ * `@distilled.cloud/entire/unstable/<module>` (`unstable/experimental`).
+ *
  * @example
  * ```ts
  * import { Effect, Layer } from "effect";
