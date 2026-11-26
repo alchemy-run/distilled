@@ -57,6 +57,7 @@ runGeneratorCli({
   description: "Generate the Namespace Effect SDK from the Smithy models",
   convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
+  unstableOutDir: "src/unstable-services",
   barrelExportName: camel,
   spec: () => spec,
 });
