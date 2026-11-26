@@ -28,7 +28,7 @@ import { collectModels } from "./models.ts";
 import { inheritServiceErrors } from "./operations.ts";
 import { privatizeSchemas, typeOnlyNamespaceImports } from "./privatize.ts";
 import { annotateNestedCalls } from "./pure.ts";
-import { isUnstable } from "./stability.ts";
+import { splitByStability } from "./stability.ts";
 import { tableSchemas } from "./table.ts";
 
 export interface GeneratorCliOptions {
@@ -51,10 +51,12 @@ export interface GeneratorCliOptions {
   /** Output directory (relative to root). Default `src/services`. */
   readonly outDir?: string;
   /**
-   * Output directory (relative to root) for the modules of models marked
+   * Output directory (relative to root) for the operations marked
    * `smithy.api#unstable` (see `./stability.ts`), which the package exports
-   * as `./unstable/*`. Usually `src/unstable-services`. Without it, a
-   * marked model fails the run: its module would have no import path.
+   * as `./unstable/*`. Usually `src/unstable-services`. A model with marked
+   * and unmarked operations becomes two modules of the same name, one here
+   * and one in `outDir`. Without it, a marked operation fails the run: its
+   * module would have no import path.
    */
   readonly unstableOutDir?: string;
   /** Model files to skip (e.g. a shared protocols model). */
@@ -235,88 +237,100 @@ export const runGeneratorCli = (options: GeneratorCliOptions): void => {
           const resource = options.resourceName?.({ model, file }) ?? file.replace(/\.json$/, "");
           if (config.resource && resource !== config.resource) continue;
 
-          // A model marked unstable goes to the unstable directory, after
-          // the patches convert applied, so a patch can move a module.
-          const unstable = isUnstable(model);
-          if (unstable && !unstableOutDir) {
-            return yield* Effect.die(
-              new Error(
-                `${resource} is marked smithy.api#unstable, but this package sets no unstableOutDir — set it and export ./unstable/*`,
-              ),
-            );
-          }
-          const outDir = unstable ? unstableOutDir! : stableOutDir;
-
           if (options.transformModel) {
             const note = options.transformModel(model, resource);
             if (note) yield* Console.log(`   ${note}`);
           }
 
-          // `generateService` and the provider spec are synchronous and
-          // throw; with continueOnModelError the throw is recorded and the
-          // run moves on, so one broken model doesn't hide the state of
-          // every model after it. The run still fails at the end.
-          // Before the provider spec, which reads operation errors too.
-          inheritServiceErrors(model.shapes ?? {});
-          let compiled;
-          try {
-            compiled = generateService(model, options.spec(model));
-          } catch (e) {
-            if (!options.continueOnModelError) throw e;
-            failedModels.push(`${resource}: ${e instanceof Error ? e.message : String(e)}`);
-            yield* Console.error(`❌ ${resource}`);
-            continue;
+          // Split by the unstable marks after the patches convert applied,
+          // so a patch can move an operation or the whole module. Each half
+          // is its own module of the same name, in its own directory.
+          const halves = splitByStability(model);
+          if (halves.unstable && !unstableOutDir) {
+            return yield* Effect.die(
+              new Error(
+                `${resource} has operations marked smithy.api#unstable, but this package sets no unstableOutDir — set it and export ./unstable/*`,
+              ),
+            );
           }
-          const { operations } = compiled;
-          if (compiled.code === "") continue;
-          // Every nested call in a top-level initializer gets a PURE marker,
-          // so one unused schema cannot pin others in a consumer's bundle.
-          // Latin-1-only source halves the heap V8 keeps for the module text.
-          // Structurally identical schemas become aliases of one schema, and
-          // schema consts become module-private (types stay exported).
-          const resourceFile = `${resource}.ts`;
-          const marked = annotateNestedCalls(compiled.code, resourceFile);
-          let code = toLatin1(
-            typeOnlyNamespaceImports(
-              tableSchemas(
-                chunkSchemas(
-                  privatizeSchemas(dedupeSchemas(marked, resourceFile).code, resourceFile).code,
+          // The stable half, else the unstable one, takes the resource's
+          // hand-written lines (`append`) and its relocation.
+          const primary = halves.stable ?? halves.unstable;
+
+          for (const [half, outDir] of [
+            [halves.stable, stableOutDir],
+            [halves.unstable, unstableOutDir],
+          ] as const) {
+            if (!half || !outDir) continue;
+            // `generateService` and the provider spec are synchronous and
+            // throw; with continueOnModelError the throw is recorded and the
+            // run moves on, so one broken model doesn't hide the state of
+            // every model after it. The run still fails at the end.
+            // Before the provider spec, which reads operation errors too.
+            inheritServiceErrors(half.shapes ?? {});
+            let compiled;
+            try {
+              compiled = generateService(half, options.spec(half));
+            } catch (e) {
+              if (!options.continueOnModelError) throw e;
+              failedModels.push(`${resource}: ${e instanceof Error ? e.message : String(e)}`);
+              yield* Console.error(`❌ ${resource}`);
+              continue;
+            }
+            const { operations } = compiled;
+            if (compiled.code === "") continue;
+            // Every nested call in a top-level initializer gets a PURE marker,
+            // so one unused schema cannot pin others in a consumer's bundle.
+            // Latin-1-only source halves the heap V8 keeps for the module text.
+            // Structurally identical schemas become aliases of one schema, and
+            // schema consts become module-private (types stay exported).
+            const resourceFile = `${resource}.ts`;
+            const marked = annotateNestedCalls(compiled.code, resourceFile);
+            let code = toLatin1(
+              typeOnlyNamespaceImports(
+                tableSchemas(
+                  chunkSchemas(
+                    privatizeSchemas(dedupeSchemas(marked, resourceFile).code, resourceFile).code,
+                    resourceFile,
+                  ).code,
                   resourceFile,
                 ).code,
                 resourceFile,
-              ).code,
+              ),
               resourceFile,
-            ),
-            resourceFile,
-          );
-
-          const extra = options.append?.(resource);
-          if (extra) code = `${code}\n${extra}\n`;
-          const moved = options.relocate?.(resource);
-          if (moved) {
-            const dir = path.resolve(root, moved.dir);
-            yield* fs.makeDirectory(dir, { recursive: true });
-            yield* fs.writeFileString(path.join(dir, `${resource}.ts`), code);
-            relocatedDirs.add(dir);
-            yield* fs.writeFileString(
-              path.join(outDir, `${resource}.ts`),
-              `// AUTO-GENERATED by scripts/generate.ts. Do not edit.\nexport * from "${moved.reexport}";\n`,
             );
-          } else {
-            yield* fs.writeFileString(path.join(outDir, `${resource}.ts`), code);
+
+            const extra = half === primary ? options.append?.(resource) : undefined;
+            if (extra) code = `${code}\n${extra}\n`;
+            const moved = half === primary ? options.relocate?.(resource) : undefined;
+            if (moved) {
+              const dir = path.resolve(root, moved.dir);
+              yield* fs.makeDirectory(dir, { recursive: true });
+              yield* fs.writeFileString(path.join(dir, `${resource}.ts`), code);
+              relocatedDirs.add(dir);
+              yield* fs.writeFileString(
+                path.join(outDir, `${resource}.ts`),
+                `// AUTO-GENERATED by scripts/generate.ts. Do not edit.\nexport * from "${moved.reexport}";\n`,
+              );
+            } else {
+              yield* fs.writeFileString(path.join(outDir, `${resource}.ts`), code);
+            }
+            written.get(outDir)!.push(resource);
+            totalOps += operations;
           }
-          written.get(outDir)!.push(resource);
-          totalOps += operations;
         }
 
         const filtered = config.resource !== "";
         for (const outDir of outDirs) {
           const own = written.get(outDir)!;
-          // Resources this run wrote to ANOTHER output directory: a module
-          // whose stability changed must leave this one, even on a
+          // Resources this run wrote ONLY to another output directory: a
+          // module whose stability changed must leave this one, even on a
           // `--resource` run, which keeps everything else.
           const elsewhere = new Set(
-            [...written].filter(([d]) => d !== outDir).flatMap(([, rs]) => rs),
+            [...written]
+              .filter(([d]) => d !== outDir)
+              .flatMap(([, rs]) => rs)
+              .filter((r) => !own.includes(r)),
           );
 
           // Barrel — namespace per resource to avoid op-name collisions.

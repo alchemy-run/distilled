@@ -124,39 +124,6 @@ export interface Member {
   /** Custom roles and System roles assigned to this member */
   assignedRoles?: MemberAssignedRolesList | undefined;
 }
-export interface GetWhoamiRequest {}
-export interface WhoamiOrganization {
-  /** ID of the organization the user belongs to. */
-  organizationId: string;
-  /** Name of the organization. */
-  organizationName: string;
-}
-/** Organizations the user belongs to. */
-export type WhoamiUserOrganizationsList = Array<WhoamiOrganization>;
-export interface WhoamiUser {
-  /** Discriminator identifying the caller as a user (JWT or clickhousectl token). */
-  actorType: string;
-  /** Unique ID of the user. */
-  userId: string;
-  /** Email address of the user. */
-  email: string;
-  /** Full name of the user. */
-  name: string;
-  /** Organizations the user belongs to. */
-  organizations: WhoamiUserOrganizationsList;
-}
-export interface WhoamiApiKey {
-  /** Discriminator identifying the caller as an organization API key. */
-  actorType: string;
-  /** Unique ID of the API key. */
-  keyId: string;
-  /** Name of the API key. */
-  name: string;
-  /** ID of the organization that owns the API key. */
-  organizationId: string;
-}
-export type Whoami = WhoamiUser | WhoamiApiKey;
-export type GetWhoamiResponse = Whoami;
 export interface ListInvitationsRequest {
   /** ID of the requested organization. */
   organizationId: string;
@@ -192,7 +159,7 @@ export const createInvitation: API.OperationMethod<
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateInvitationRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<Invitation>,
+  output: __S(8, __c2, 0) as any as S.Schema<Invitation>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -209,8 +176,8 @@ export const deleteInvitation: API.OperationMethod<
   DeleteInvitationError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<DeleteInvitationRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<DeleteInvitationResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<DeleteInvitationRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<DeleteInvitationResponse>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -227,8 +194,8 @@ export const deleteMember: API.OperationMethod<
   DeleteMemberError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<DeleteMemberRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<DeleteMemberResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<DeleteMemberRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<DeleteMemberResponse>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -245,8 +212,8 @@ export const getInvitation: API.OperationMethod<
   GetInvitationError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<GetInvitationRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<Invitation>,
+  input: __S(28, __c7, 0) as any as S.Schema<GetInvitationRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<Invitation>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -263,32 +230,14 @@ export const getMember: API.OperationMethod<
   GetMemberError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<GetMemberRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<Member>,
+  input: __S(32, __c8, 0) as any as S.Schema<GetMemberRequest>,
+  output: __S(36, __c9, 0) as any as S.Schema<Member>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetMember",
-}));
-
-export type GetWhoamiError = ClickHouseCloudOpError;
-/** Resolve the caller identity **Disclaimer:** This beta endpoint is evolving; the API contract may change. <br /><br /> Returns the identity of the authenticated caller. For a user (JWT or clickhousectl token) the result carries the user fields; for an organization API key it carries the key fields instead. Use `actorType` to tell the two apart. */
-export const getWhoami: API.OperationMethod<
-  GetWhoamiRequest,
-  GetWhoamiResponse,
-  GetWhoamiError,
-  ClickHouseCloudOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<GetWhoamiRequest>,
-  output: __S(86, __c10, 6) as any as S.Schema<GetWhoamiResponse>,
-  errors: [],
-  serviceErrors: ClickHouseCloudServiceErrors,
-  protocol: ClickHouseCloudProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetWhoami",
 }));
 
 export type ListInvitationsError = ClickHouseCloudOpError;
@@ -299,8 +248,8 @@ export const listInvitations: API.OperationMethod<
   ListInvitationsError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<ListInvitationsRequest>,
-  output: __S(90, __c11, 2) as any as S.Schema<ListInvitationsResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<ListInvitationsRequest>,
+  output: __S(42, __c10, 2) as any as S.Schema<ListInvitationsResponse>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -317,8 +266,8 @@ export const listMembers: API.OperationMethod<
   ListMembersError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<ListMembersRequest>,
-  output: __S(98, __c12, 2) as any as S.Schema<ListMembersResponse>,
+  input: __S(44, __c11, 0) as any as S.Schema<ListMembersRequest>,
+  output: __S(46, __c11, 2) as any as S.Schema<ListMembersResponse>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -335,8 +284,8 @@ export const updateMember: API.OperationMethod<
   UpdateMemberError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<UpdateMemberRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<Member>,
+  input: __S(48, __c12, 0) as any as S.Schema<UpdateMemberRequest>,
+  output: __S(36, __c9, 0) as any as S.Schema<Member>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -354,7 +303,7 @@ function __c0(j: number): any {
           organizationId: S.String.pipe(T.Label()),
           email: S.String,
           role: S.optional(S.String),
-          assignedRoleIds: S.optional(__S(24, __c3, 0)),
+          assignedRoleIds: S.optional(__S(12, __c3, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -376,7 +325,7 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "AssignedRole" });
     case 1:
-      return S.Array(__S(8, __c1, 0));
+      return S.Array(__S(4, __c1, 0));
   }
 }
 function __c2(j: number): any {
@@ -389,7 +338,7 @@ function __c2(j: number): any {
           email: S.optional(S.String),
           createdAt: S.optional(S.String),
           expireAt: S.optional(S.String),
-          assignedRoles: S.optional(__S(9, __c1, 1)),
+          assignedRoles: S.optional(__S(5, __c1, 1)),
         }),
       ).annotate({ identifier: "Invitation" });
   }
@@ -489,54 +438,12 @@ function __c9(j: number): any {
           email: S.optional(S.String),
           role: S.optional(S.String),
           joinedAt: S.optional(S.String),
-          assignedRoles: S.optional(__S(9, __c1, 1)),
+          assignedRoles: S.optional(__S(5, __c1, 1)),
         }),
       ).annotate({ identifier: "Member" });
   }
 }
 function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/whoami", code: 200 })),
-      ).annotate({ identifier: "GetWhoamiRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String,
-          organizationName: S.String,
-        }),
-      ).annotate({ identifier: "WhoamiOrganization" });
-    case 2:
-      return S.Array(__S(81, __c10, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          actorType: S.String,
-          userId: S.String,
-          email: S.String,
-          name: S.String,
-          organizations: __S(82, __c10, 2),
-        }),
-      ).annotate({ identifier: "WhoamiUser" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          actorType: S.String,
-          keyId: S.String,
-          name: S.String,
-          organizationId: S.String,
-        }),
-      ).annotate({ identifier: "WhoamiApiKey" });
-    case 5:
-      return S.Union([__S(83, __c10, 3), __S(84, __c10, 4)]);
-    case 6:
-      return S.suspend(() => __S(85, __c10, 5).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetWhoamiResponse",
-      });
-  }
-}
-function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -551,14 +458,14 @@ function __c11(j: number): any {
         ),
       ).annotate({ identifier: "ListInvitationsRequest" });
     case 1:
-      return S.Array(__S(16, __c2, 0));
+      return S.Array(__S(8, __c2, 0));
     case 2:
-      return S.suspend(() => __S(89, __c11, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(41, __c10, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListInvitationsResponse",
       });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -569,14 +476,14 @@ function __c12(j: number): any {
         ),
       ).annotate({ identifier: "ListMembersRequest" });
     case 1:
-      return S.Array(__S(72, __c9, 0));
+      return S.Array(__S(36, __c9, 0));
     case 2:
-      return S.suspend(() => __S(97, __c12, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(45, __c11, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListMembersResponse",
       });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -584,7 +491,7 @@ function __c13(j: number): any {
           organizationId: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
           role: S.optional(S.String),
-          assignedRoleIds: S.optional(__S(24, __c3, 0)),
+          assignedRoleIds: S.optional(__S(12, __c3, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",

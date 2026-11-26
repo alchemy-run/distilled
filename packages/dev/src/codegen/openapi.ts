@@ -59,6 +59,7 @@ import {
   toVerbNoun,
   type OperationIdRewrite,
 } from "./rewrite-operation-ids.ts";
+import { UNSTABLE_TRAIT } from "./stability.ts";
 
 // ============================================================================
 // Trait ids (the `com.distilled.openapi` vocabulary)
@@ -367,6 +368,17 @@ export interface OpenApiConvertOptions {
   readonly defaultErrorStatuses?: Iterable<string>;
   /** Skip operations marked `deprecated: true`. Default true. */
   readonly skipDeprecated?: boolean;
+  /**
+   * Whether the provider's spec calls this operation not generally
+   * available (a beta badge, an `x-stability` extension, a `/beta/` path).
+   * A `true` marks the operation `smithy.api#unstable` (see
+   * `./stability.ts`), so generate writes it to the package's `unstable/`
+   * module. Read the provider's own field; never name an operation here.
+   */
+  readonly unstableOperation?: (
+    op: Record<string, any>,
+    ctx: { readonly path: string; readonly method: string },
+  ) => boolean;
   /**
    * HTTP methods to convert IN ADDITION to get/post/put/patch/delete —
    * currently `"head"` and `"options"`. Opt-in, so a provider that models
@@ -2333,6 +2345,9 @@ const convertOnce = (spec: unknown, options: OpenApiConvertOptions): SmithyModel
       if (contentType) traits[CONTENT_TYPE_TRAIT] = contentType;
       if (options.apiVersion !== undefined) {
         traits[API_VERSION_TRAIT] = options.apiVersion;
+      }
+      if (options.unstableOperation?.(op, { path: rawPath, method })) {
+        traits[UNSTABLE_TRAIT] = {};
       }
 
       const opId = addShape(ctx, opName, {

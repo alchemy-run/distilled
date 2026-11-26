@@ -73,7 +73,7 @@ export class ServiceNotIdle
     /*@__PURE__*/ S.TaggedError<ServiceNotIdle>()("ServiceNotIdle", {
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(200, __c25, 0)), S.String]),
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(136, __c17, 0)), S.String]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
@@ -94,34 +94,6 @@ export class ServiceNotTerminable
     [{ status: 409, message: { includes: "can be terminated" } }],
   ) {}
 
-export interface CreateJwtProviderRequest {
-  /** ID of the organization that owns the service. */
-  organizationId: string;
-  /** ID of the service. */
-  serviceId: string;
-  /** Name of the JWT provider, unique within the service. Lowercase letters, digits and hyphens, at most 59 characters. Cannot be one of, or start with one of followed by a hyphen: `cloud`, `clickhouse`, `ch`, `internal`, `system`, `default`. */
-  name: string;
-  /** Expected `iss` claim of the tokens. Printable ASCII without whitespace, at most 256 characters. */
-  issuer: string;
-  /** Expected `aud` claim of the tokens. Printable ASCII without whitespace, at most 256 characters. */
-  audience: string;
-  /** Public `https://` URL of the JSON Web Key Set used to verify token signatures, at most 256 characters. The key set must contain at least one RS256 (RSA) key; it is fetched and validated when the provider is created or updated. */
-  jwksUrl: string;
-  /** Name of the token claim that lists the ClickHouse roles to grant the user. Printable ASCII without whitespace, at most 256 characters, and not a registered JWT claim (`iss`, `sub`, `aud`, `exp`, `nbf`, `iat`, `jti`). Omit to configure no roles claim. */
-  rolesClaim?: string | undefined;
-}
-export interface JwtProvider {
-  /** Name of the JWT provider, unique within the service. Lowercase letters, digits and hyphens, at most 59 characters. Cannot be one of, or start with one of followed by a hyphen: `cloud`, `clickhouse`, `ch`, `internal`, `system`, `default`. */
-  name: string;
-  /** Expected `iss` claim of the tokens. Printable ASCII without whitespace, at most 256 characters. */
-  issuer: string;
-  /** Expected `aud` claim of the tokens. Printable ASCII without whitespace, at most 256 characters. */
-  audience: string;
-  /** Public `https://` URL of the JSON Web Key Set used to verify token signatures, at most 256 characters. The key set must contain at least one RS256 (RSA) key; it is fetched and validated when the provider is created or updated. */
-  jwksUrl: string;
-  /** Name of the token claim that lists the ClickHouse roles to grant the user. Printable ASCII without whitespace, at most 256 characters, and not a registered JWT claim (`iss`, `sub`, `aud`, `exp`, `nbf`, `iat`, `jti`). Absent when no roles claim is configured. */
-  rolesClaim?: string | undefined;
-}
 /** Cloud provider */
 export type CreateServiceRequestProvider = "aws" | "gcp" | "azure";
 /** Service region. */
@@ -550,20 +522,6 @@ export interface InstancePrivateEndpoint {
   /** Region in which the private endpoint is located */
   region?: InstancePrivateEndpointRegion | undefined;
 }
-export interface DeleteJwtProviderRequest {
-  /** ID of the organization that owns the service. */
-  organizationId: string;
-  /** ID of the service. */
-  serviceId: string;
-  /** Name of the JWT authentication provider. */
-  jwtProviderName: string;
-}
-export interface DeleteJwtProviderResponse {
-  /** HTTP status code. */
-  status?: number | undefined;
-  /** Unique id assigned to every request. UUIDv4 */
-  requestId?: string | undefined;
-}
 export interface DeleteScalingScheduleRequest {
   /** ID of the organization that owns the service. */
   organizationId: string;
@@ -583,20 +541,6 @@ export interface DeleteServiceRequest {
   serviceId: string;
 }
 export interface DeleteServiceResponse {
-  /** HTTP status code. */
-  status?: number | undefined;
-  /** Unique id assigned to every request. UUIDv4 */
-  requestId?: string | undefined;
-}
-export interface DeleteServiceClickHouseSettingRequest {
-  /** ID of the organization that owns the service. */
-  organizationId: string;
-  /** ID of the service. */
-  serviceId: string;
-  /** Name of the setting to reset. */
-  settingName: string;
-}
-export interface DeleteServiceClickHouseSettingResponse {
   /** HTTP status code. */
   status?: number | undefined;
   /** Unique id assigned to every request. UUIDv4 */
@@ -626,26 +570,6 @@ export interface DeleteUpgradeWindowResponse {
   /** Unique id assigned to every request. UUIDv4 */
   requestId?: string | undefined;
 }
-export interface GetJwtProviderRequest {
-  /** ID of the organization that owns the service. */
-  organizationId: string;
-  /** ID of the service. */
-  serviceId: string;
-  /** Name of the JWT authentication provider. */
-  jwtProviderName: string;
-}
-export interface GetReplicaAwareRoutingRequest {
-  /** ID of the organization that owns the service. */
-  organizationId: string;
-  /** ID of the service. */
-  serviceId: string;
-}
-export interface ReplicaAwareRouting {
-  /** Whether replica aware routing is enabled for HTTP connections. When enabled, clients must send the X-ClickHouse-Replica-Tag header. Enabling this changes HTTP connection behavior for the service. */
-  httpEnabled: boolean;
-  /** Whether replica aware routing is enabled for native protocol connections. */
-  nativeEnabled: boolean;
-}
 export interface GetScalingScheduleRequest {
   /** ID of the organization that owns the service. */
   organizationId: string;
@@ -657,52 +581,6 @@ export interface GetServiceRequest {
   organizationId: string;
   /** ID of the requested service. */
   serviceId: string;
-}
-export interface GetServiceClickHouseSettingRequest {
-  /** ID of the organization that owns the service. */
-  organizationId: string;
-  /** ID of the service. */
-  serviceId: string;
-  /** Name of the setting to retrieve. */
-  settingName: string;
-}
-/** Setting value in its native JSON type. Use the settings schema endpoint for per-setting constraints. */
-export type ServiceClickhouseSettingValue = string | number;
-export interface ServiceClickhouseSetting {
-  /** Name of the setting. */
-  name?: string | undefined;
-  value?: ServiceClickhouseSettingValue | undefined;
-}
-export interface GetServiceClickHouseSettingsSchemaRequest {
-  /** ID of the organization that owns the service. */
-  organizationId: string;
-  /** ID of the service. */
-  serviceId: string;
-}
-/** List of allowed values, if the setting is an enum. */
-export type ServiceClickhouseSettingSchemaEntryEnumList = Array<number>;
-export interface ServiceClickhouseSettingSchemaEntry {
-  /** Name of the setting. */
-  name?: string | undefined;
-  /** Data type of the setting value. */
-  type?: string | undefined;
-  /** Description of the setting. */
-  description?: string | undefined;
-  /** List of allowed values, if the setting is an enum. */
-  enum?: ServiceClickhouseSettingSchemaEntryEnumList | undefined;
-  /** Warning message about potential disruptive effects of changing this setting. */
-  warning?: string | undefined;
-  /** Deprecation notice, if applicable. */
-  deprecationNotice?: string | undefined;
-  /** Example value for the setting. */
-  example?: string | undefined;
-}
-/** List of all configurable ClickHouse settings with their types, descriptions, and constraints. */
-export type ServiceClickhouseSettingsSchemaSettingsList =
-  Array<ServiceClickhouseSettingSchemaEntry>;
-export interface ServiceClickhouseSettingsSchema {
-  /** List of all configurable ClickHouse settings with their types, descriptions, and constraints. */
-  settings?: ServiceClickhouseSettingsSchemaSettingsList | undefined;
 }
 export interface GetServicePrivateEndpointConfigRequest {
   /** ID of the requested organization. */
@@ -755,26 +633,6 @@ export interface UpgradeWindow {
   /** Length of the upgrade window in hours. Currently only a 6-hour window is supported. */
   duration: UpgradeWindowDuration;
 }
-export interface ListJwtProvidersRequest {
-  /** ID of the organization that owns the service. */
-  organizationId: string;
-  /** ID of the service. */
-  serviceId: string;
-}
-export type ListJwtProvidersResponseBodyList = Array<JwtProvider>;
-export type ListJwtProvidersResponse = ListJwtProvidersResponseBodyList;
-export interface ListServiceClickHouseSettingsRequest {
-  /** ID of the organization that owns the service. */
-  organizationId: string;
-  /** ID of the service. */
-  serviceId: string;
-}
-/** List of ClickHouse settings with their current values. */
-export type ServiceClickhouseSettingsListSettingsList = Array<ServiceClickhouseSetting>;
-export interface ServiceClickhouseSettingsList {
-  /** List of ClickHouse settings with their current values. */
-  settings?: ServiceClickhouseSettingsListSettingsList | undefined;
-}
 export interface ListServiceProfilesRequest {
   /** ID of the organization to list available profiles for. */
   organizationId: string;
@@ -802,32 +660,6 @@ export interface ListServicesRequest {
 }
 export type ListServicesResponseBodyList = Array<Service>;
 export type ListServicesResponse = ListServicesResponseBodyList;
-export interface UpdateJwtProviderRequest {
-  /** ID of the organization that owns the service. */
-  organizationId: string;
-  /** ID of the service. */
-  serviceId: string;
-  /** Name of the JWT authentication provider. */
-  jwtProviderName: string;
-  /** Expected `iss` claim of the tokens. Printable ASCII without whitespace, at most 256 characters. */
-  issuer: string;
-  /** Expected `aud` claim of the tokens. Printable ASCII without whitespace, at most 256 characters. */
-  audience: string;
-  /** Public `https://` URL of the JSON Web Key Set used to verify token signatures, at most 256 characters. The key set must contain at least one RS256 (RSA) key; it is fetched and validated when the provider is created or updated. */
-  jwksUrl: string;
-  /** Name of the token claim that lists the ClickHouse roles to grant the user. Printable ASCII without whitespace, at most 256 characters, and not a registered JWT claim (`iss`, `sub`, `aud`, `exp`, `nbf`, `iat`, `jti`). The request replaces the whole provider configuration, so omitting this field removes an existing roles claim. */
-  rolesClaim?: string | undefined;
-}
-export interface UpdateReplicaAwareRoutingRequest {
-  /** ID of the organization that owns the service. */
-  organizationId: string;
-  /** ID of the service. */
-  serviceId: string;
-  /** Whether replica aware routing is enabled for HTTP connections. Omit to leave unchanged. */
-  httpEnabled?: boolean | undefined;
-  /** Whether replica aware routing is enabled for native protocol connections. Omit to leave unchanged. */
-  nativeEnabled?: boolean | undefined;
-}
 /** Elements to add. Executed after "remove" part is processed. */
 export type IpAccessListPatchAddList = Array<IpAccessListEntry>;
 /** Elements to remove. Executed before "add" part is processed. */
@@ -882,31 +714,6 @@ export interface UpdateServiceRequest {
   enableCoreDumps?: boolean | undefined;
   /** When true, the service cannot be deleted: the delete endpoint returns 409 until deletion protection is turned off. Changing it in either direction requires the `control-plane:service:delete` permission on the service, in addition to `control-plane:service:manage`; sending the current value changes nothing and needs no extra permission. ClickStack services can't be updated through the API; manage their deletion protection in the console. */
   deletionProtection?: boolean | undefined;
-}
-/** Nonempty object mapping configurable setting names to their values. Use DELETE to reset a setting. */
-export type ServiceClickhouseSettingsMap = {
-  [key: string]: ServiceClickhouseSettingValue | undefined;
-};
-export interface UpdateServiceClickHouseSettingsRequest {
-  /** ID of the organization that owns the service. */
-  organizationId: string;
-  /** ID of the service. */
-  serviceId: string;
-  settings: ServiceClickhouseSettingsMap;
-}
-export interface ServiceClickhouseSettingWarning {
-  /** Name of the setting the warning applies to. */
-  name?: string | undefined;
-  /** Warning message. */
-  message?: string | undefined;
-}
-/** Warnings for settings that may have disruptive effects. */
-export type ServiceClickhouseSettingsPatchResponseWarningsList =
-  Array<ServiceClickhouseSettingWarning>;
-export interface ServiceClickhouseSettingsPatchResponse {
-  settings?: ServiceClickhouseSettingsMap | undefined;
-  /** Warnings for settings that may have disruptive effects. */
-  warnings?: ServiceClickhouseSettingsPatchResponseWarningsList | undefined;
 }
 export interface UpdateServicePasswordRequest {
   /** ID of the organization that owns the service. */
@@ -1196,24 +1003,6 @@ export interface Error400Body {
   /** Unique id assigned to every request. UUIDv4 */
   requestId?: string | undefined;
 }
-export type CreateJwtProviderError = FeatureUnavailable | ClickHouseCloudOpError;
-/** Create service JWT provider **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Adds a JWT authentication provider to the service. Users can then connect to the service with a JWT issued by the provider; they are signed in as the `default` user and receive the roles listed in the roles claim. The JWKS URL is fetched and validated before the provider is saved. If the service already has a provider with this name and the same configuration, the request succeeds without changing it, so it is safe to retry. Errors: - 400: invalid field values, the JWKS URL is unreachable or does not return a valid RS256 key set, or the service already has 5 providers. - 401: missing, invalid, or disabled API key. - 403: caller lacks `control-plane:service:manage` on the service, or the organization does not have the JWT authentication providers feature (Enterprise tier). - 404: service does not exist or is not visible to the caller. - 409: the service already has a provider with this name and a different configuration. */
-export const createJwtProvider: API.OperationMethod<
-  CreateJwtProviderRequest,
-  JwtProvider,
-  CreateJwtProviderError,
-  ClickHouseCloudOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<CreateJwtProviderRequest>,
-  output: __S(272, __c34, 0) as any as S.Schema<JwtProvider>,
-  errors: [FeatureUnavailable],
-  serviceErrors: ClickHouseCloudServiceErrors,
-  protocol: ClickHouseCloudProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateJwtProvider",
-}));
-
 export type CreateServiceError = InstanceLimitReached | ClickHouseCloudOpError;
 /** Create new service Creates a new service in the organization, and returns the current service state and a password to access the service. The service is started asynchronously. */
 export const createService: API.OperationMethod<
@@ -1222,8 +1011,8 @@ export const createService: API.OperationMethod<
   CreateServiceError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(281, __c35, 1) as any as S.Schema<CreateServiceRequest>,
-  output: __S(282, __c35, 2) as any as S.Schema<ServicePostResponse>,
+  input: __S(145, __c18, 1) as any as S.Schema<CreateServiceRequest>,
+  output: __S(146, __c18, 2) as any as S.Schema<ServicePostResponse>,
   errors: [InstanceLimitReached],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -1240,32 +1029,14 @@ export const createServicePrivateEndpoint: API.OperationMethod<
   CreateServicePrivateEndpointError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c42, 0) as any as S.Schema<CreateServicePrivateEndpointRequest>,
-  output: __S(337, __c42, 1) as any as S.Schema<InstancePrivateEndpoint>,
+  input: __S(192, __c24, 0) as any as S.Schema<CreateServicePrivateEndpointRequest>,
+  output: __S(193, __c24, 1) as any as S.Schema<InstancePrivateEndpoint>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateServicePrivateEndpoint",
-}));
-
-export type DeleteJwtProviderError = FeatureUnavailable | ClickHouseCloudOpError;
-/** Delete service JWT provider **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Removes a JWT authentication provider from the service. Tokens issued by the provider are no longer accepted. Errors: - 400: invalid provider name. - 401: missing, invalid, or disabled API key. - 403: caller lacks `control-plane:service:manage` on the service, or the organization does not have the JWT authentication providers feature (Enterprise tier). - 404: service does not exist, is not visible to the caller, or has no provider with this name. */
-export const deleteJwtProvider: API.OperationMethod<
-  DeleteJwtProviderRequest,
-  DeleteJwtProviderResponse,
-  DeleteJwtProviderError,
-  ClickHouseCloudOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(344, __c43, 0) as any as S.Schema<DeleteJwtProviderRequest>,
-  output: __S(352, __c44, 0) as any as S.Schema<DeleteJwtProviderResponse>,
-  errors: [FeatureUnavailable],
-  serviceErrors: ClickHouseCloudServiceErrors,
-  protocol: ClickHouseCloudProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteJwtProvider",
 }));
 
 export type DeleteScalingScheduleError = ClickHouseCloudOpError;
@@ -1276,8 +1047,8 @@ export const deleteScalingSchedule: API.OperationMethod<
   DeleteScalingScheduleError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(360, __c45, 0) as any as S.Schema<DeleteScalingScheduleRequest>,
-  output: __S(352, __c44, 0) as any as S.Schema<DeleteScalingScheduleResponse>,
+  input: __S(200, __c25, 0) as any as S.Schema<DeleteScalingScheduleRequest>,
+  output: __S(208, __c26, 0) as any as S.Schema<DeleteScalingScheduleResponse>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -1297,32 +1068,14 @@ export const deleteService: API.OperationMethod<
   DeleteServiceError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DeleteServiceRequest>,
-  output: __S(352, __c44, 0) as any as S.Schema<DeleteServiceResponse>,
+  input: __S(216, __c27, 0) as any as S.Schema<DeleteServiceRequest>,
+  output: __S(208, __c26, 0) as any as S.Schema<DeleteServiceResponse>,
   errors: [DeletionProtectionEnabled, ServiceNotTerminable],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteService",
-}));
-
-export type DeleteServiceClickHouseSettingError = FeatureUnavailable | ClickHouseCloudOpError;
-/** Reset ClickHouse setting to default **Disclaimer:** This beta endpoint is evolving; the API contract may change. <br /><br /> Removes a previously-configured ClickHouse setting, reverting its effective value to the platform default. Settings under `spec.extraConfig.server.*` (e.g. `keep_alive_timeout`, `shared_merge_tree_disable_merges_and_mutations_assignment`) trigger a ClickHouse server rollout restart; other settings propagate to all replicas after a short delay. Deleting a setting that was never configured is a no-op (200 OK). */
-export const deleteServiceClickHouseSetting: API.OperationMethod<
-  DeleteServiceClickHouseSettingRequest,
-  DeleteServiceClickHouseSettingResponse,
-  DeleteServiceClickHouseSettingError,
-  ClickHouseCloudOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<DeleteServiceClickHouseSettingRequest>,
-  output: __S(352, __c44, 0) as any as S.Schema<DeleteServiceClickHouseSettingResponse>,
-  errors: [FeatureUnavailable],
-  serviceErrors: ClickHouseCloudServiceErrors,
-  protocol: ClickHouseCloudProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteServiceClickHouseSetting",
 }));
 
 export type DeleteServiceQueryEndpointError = ClickHouseCloudOpError;
@@ -1333,8 +1086,8 @@ export const deleteServiceQueryEndpoint: API.OperationMethod<
   DeleteServiceQueryEndpointError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<DeleteServiceQueryEndpointRequest>,
-  output: __S(352, __c44, 0) as any as S.Schema<DeleteServiceQueryEndpointResponse>,
+  input: __S(224, __c28, 0) as any as S.Schema<DeleteServiceQueryEndpointRequest>,
+  output: __S(208, __c26, 0) as any as S.Schema<DeleteServiceQueryEndpointResponse>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -1351,50 +1104,14 @@ export const deleteUpgradeWindow: API.OperationMethod<
   DeleteUpgradeWindowError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<DeleteUpgradeWindowRequest>,
-  output: __S(352, __c44, 0) as any as S.Schema<DeleteUpgradeWindowResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<DeleteUpgradeWindowRequest>,
+  output: __S(208, __c26, 0) as any as S.Schema<DeleteUpgradeWindowResponse>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteUpgradeWindow",
-}));
-
-export type GetJwtProviderError = FeatureUnavailable | ClickHouseCloudOpError;
-/** Get service JWT provider **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Returns a single JWT authentication provider of the service. Errors: - 400: invalid provider name. - 401: missing, invalid, or disabled API key. - 403: caller lacks `control-plane:service:manage` on the service, or the organization does not have the JWT authentication providers feature (Enterprise tier). - 404: service does not exist, is not visible to the caller, or has no provider with this name. */
-export const getJwtProvider: API.OperationMethod<
-  GetJwtProviderRequest,
-  JwtProvider,
-  GetJwtProviderError,
-  ClickHouseCloudOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<GetJwtProviderRequest>,
-  output: __S(272, __c34, 0) as any as S.Schema<JwtProvider>,
-  errors: [FeatureUnavailable],
-  serviceErrors: ClickHouseCloudServiceErrors,
-  protocol: ClickHouseCloudProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetJwtProvider",
-}));
-
-export type GetReplicaAwareRoutingError = FeatureUnavailable | ClickHouseCloudOpError;
-/** Get replica aware routing **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Returns whether replica aware routing (sticky routing) is enabled for HTTP and native connections on the service. */
-export const getReplicaAwareRouting: API.OperationMethod<
-  GetReplicaAwareRoutingRequest,
-  ReplicaAwareRouting,
-  GetReplicaAwareRoutingError,
-  ClickHouseCloudOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<GetReplicaAwareRoutingRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<ReplicaAwareRouting>,
-  errors: [FeatureUnavailable],
-  serviceErrors: ClickHouseCloudServiceErrors,
-  protocol: ClickHouseCloudProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetReplicaAwareRouting",
 }));
 
 export type GetScalingScheduleError = ClickHouseCloudOpError;
@@ -1405,8 +1122,8 @@ export const getScalingSchedule: API.OperationMethod<
   GetScalingScheduleError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<GetScalingScheduleRequest>,
-  output: __S(299, __c37, 3) as any as S.Schema<ScalingSchedule>,
+  input: __S(8, __c1, 0) as any as S.Schema<GetScalingScheduleRequest>,
+  output: __S(156, __c19, 4) as any as S.Schema<ScalingSchedule>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -1423,50 +1140,14 @@ export const getService: API.OperationMethod<
   GetServiceError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<GetServiceRequest>,
-  output: __S(320, __c40, 0) as any as S.Schema<Service>,
+  input: __S(16, __c2, 0) as any as S.Schema<GetServiceRequest>,
+  output: __S(176, __c22, 0) as any as S.Schema<Service>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetService",
-}));
-
-export type GetServiceClickHouseSettingError = FeatureUnavailable | ClickHouseCloudOpError;
-/** Get ClickHouse setting **Disclaimer:** This beta endpoint is evolving; the API contract may change. <br /><br /> Returns the current value of a ClickHouse setting for the service. Use the [schema endpoint](#tag/Service/operation/serviceClickhouseSettingsSchemaGet) to discover which settings are configurable. */
-export const getServiceClickHouseSetting: API.OperationMethod<
-  GetServiceClickHouseSettingRequest,
-  ServiceClickhouseSetting,
-  GetServiceClickHouseSettingError,
-  ClickHouseCloudOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<GetServiceClickHouseSettingRequest>,
-  output: __S(80, __c10, 0) as any as S.Schema<ServiceClickhouseSetting>,
-  errors: [FeatureUnavailable],
-  serviceErrors: ClickHouseCloudServiceErrors,
-  protocol: ClickHouseCloudProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetServiceClickHouseSetting",
-}));
-
-export type GetServiceClickHouseSettingsSchemaError = FeatureUnavailable | ClickHouseCloudOpError;
-/** Get ClickHouse settings schema **Disclaimer:** This beta endpoint is evolving; the API contract may change. <br /><br /> Returns the schema of all configurable ClickHouse settings, including types, valid values, descriptions, and warnings. */
-export const getServiceClickHouseSettingsSchema: API.OperationMethod<
-  GetServiceClickHouseSettingsSchemaRequest,
-  ServiceClickhouseSettingsSchema,
-  GetServiceClickHouseSettingsSchemaError,
-  ClickHouseCloudOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<GetServiceClickHouseSettingsSchemaRequest>,
-  output: __S(99, __c12, 3) as any as S.Schema<ServiceClickhouseSettingsSchema>,
-  errors: [FeatureUnavailable],
-  serviceErrors: ClickHouseCloudServiceErrors,
-  protocol: ClickHouseCloudProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetServiceClickHouseSettingsSchema",
 }));
 
 export type GetServicePrivateEndpointConfigError = ClickHouseCloudOpError;
@@ -1477,8 +1158,8 @@ export const getServicePrivateEndpointConfig: API.OperationMethod<
   GetServicePrivateEndpointConfigError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<GetServicePrivateEndpointConfigRequest>,
-  output: __S(105, __c13, 1) as any as S.Schema<PrivateEndpointConfig>,
+  input: __S(24, __c3, 0) as any as S.Schema<GetServicePrivateEndpointConfigRequest>,
+  output: __S(25, __c3, 1) as any as S.Schema<PrivateEndpointConfig>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -1495,8 +1176,8 @@ export const getServiceQueryEndpoint: API.OperationMethod<
   GetServiceQueryEndpointError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<GetServiceQueryEndpointRequest>,
-  output: __S(121, __c15, 1) as any as S.Schema<ServiceQueryAPIEndpoint>,
+  input: __S(32, __c4, 0) as any as S.Schema<GetServiceQueryEndpointRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<ServiceQueryAPIEndpoint>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -1513,50 +1194,14 @@ export const getUpgradeWindow: API.OperationMethod<
   GetUpgradeWindowError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<GetUpgradeWindowRequest>,
-  output: __S(136, __c17, 0) as any as S.Schema<UpgradeWindow>,
+  input: __S(48, __c6, 0) as any as S.Schema<GetUpgradeWindowRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<UpgradeWindow>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetUpgradeWindow",
-}));
-
-export type ListJwtProvidersError = FeatureUnavailable | ClickHouseCloudOpError;
-/** List service JWT providers **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Returns the JWT authentication providers configured on the service. A service has at most 5 providers. Errors: - 401: missing, invalid, or disabled API key. - 403: caller lacks `control-plane:service:manage` on the service, or the organization does not have the JWT authentication providers feature (Enterprise tier). - 404: service does not exist or is not visible to the caller. */
-export const listJwtProviders: API.OperationMethod<
-  ListJwtProvidersRequest,
-  ListJwtProvidersResponse,
-  ListJwtProvidersError,
-  ClickHouseCloudOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<ListJwtProvidersRequest>,
-  output: __S(146, __c18, 2) as any as S.Schema<ListJwtProvidersResponse>,
-  errors: [FeatureUnavailable],
-  serviceErrors: ClickHouseCloudServiceErrors,
-  protocol: ClickHouseCloudProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListJwtProviders",
-}));
-
-export type ListServiceClickHouseSettingsError = FeatureUnavailable | ClickHouseCloudOpError;
-/** List ClickHouse settings **Disclaimer:** This beta endpoint is evolving; the API contract may change. <br /><br /> Returns the configured ClickHouse settings for the service. Only settings that have been explicitly set are included. */
-export const listServiceClickHouseSettings: API.OperationMethod<
-  ListServiceClickHouseSettingsRequest,
-  ServiceClickhouseSettingsList,
-  ListServiceClickHouseSettingsError,
-  ClickHouseCloudOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<ListServiceClickHouseSettingsRequest>,
-  output: __S(154, __c19, 2) as any as S.Schema<ServiceClickhouseSettingsList>,
-  errors: [FeatureUnavailable],
-  serviceErrors: ClickHouseCloudServiceErrors,
-  protocol: ClickHouseCloudProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListServiceClickHouseSettings",
 }));
 
 export type ListServiceProfilesError = ClickHouseCloudOpError;
@@ -1567,8 +1212,8 @@ export const listServiceProfiles: API.OperationMethod<
   ListServiceProfilesError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<ListServiceProfilesRequest>,
-  output: __S(163, __c20, 3) as any as S.Schema<ListServiceProfilesResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<ListServiceProfilesRequest>,
+  output: __S(67, __c8, 3) as any as S.Schema<ListServiceProfilesResponse>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -1585,50 +1230,14 @@ export const listServices: API.OperationMethod<
   ListServicesError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<ListServicesRequest>,
-  output: __S(170, __c21, 2) as any as S.Schema<ListServicesResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<ListServicesRequest>,
+  output: __S(74, __c9, 2) as any as S.Schema<ListServicesResponse>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServices",
-}));
-
-export type UpdateJwtProviderError = FeatureUnavailable | ClickHouseCloudOpError;
-/** Update service JWT provider **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Replaces the configuration of a JWT authentication provider. The JWKS URL is fetched and validated before the change is saved. Errors: - 400: invalid provider name or field values, or the JWKS URL is unreachable or does not return a valid RS256 key set. - 401: missing, invalid, or disabled API key. - 403: caller lacks `control-plane:service:manage` on the service, or the organization does not have the JWT authentication providers feature (Enterprise tier). - 404: service does not exist, is not visible to the caller, or has no provider with this name. */
-export const updateJwtProvider: API.OperationMethod<
-  UpdateJwtProviderRequest,
-  JwtProvider,
-  UpdateJwtProviderError,
-  ClickHouseCloudOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<UpdateJwtProviderRequest>,
-  output: __S(272, __c34, 0) as any as S.Schema<JwtProvider>,
-  errors: [FeatureUnavailable],
-  serviceErrors: ClickHouseCloudServiceErrors,
-  protocol: ClickHouseCloudProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateJwtProvider",
-}));
-
-export type UpdateReplicaAwareRoutingError = FeatureUnavailable | ClickHouseCloudOpError;
-/** Update replica aware routing **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Updates replica aware routing (sticky routing) for the service. Requires the organization feature to be enabled. Provide at least one of httpEnabled, nativeEnabled; omit a field to leave it unchanged. */
-export const updateReplicaAwareRouting: API.OperationMethod<
-  UpdateReplicaAwareRoutingRequest,
-  ReplicaAwareRouting,
-  UpdateReplicaAwareRoutingError,
-  ClickHouseCloudOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<UpdateReplicaAwareRoutingRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<ReplicaAwareRouting>,
-  errors: [FeatureUnavailable],
-  serviceErrors: ClickHouseCloudServiceErrors,
-  protocol: ClickHouseCloudProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateReplicaAwareRouting",
 }));
 
 export type UpdateServiceError = ClickHouseCloudOpError;
@@ -1639,32 +1248,14 @@ export const updateService: API.OperationMethod<
   UpdateServiceError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(195, __c24, 3) as any as S.Schema<UpdateServiceRequest>,
-  output: __S(320, __c40, 0) as any as S.Schema<Service>,
+  input: __S(83, __c10, 3) as any as S.Schema<UpdateServiceRequest>,
+  output: __S(176, __c22, 0) as any as S.Schema<Service>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateService",
-}));
-
-export type UpdateServiceClickHouseSettingsError = FeatureUnavailable | ClickHouseCloudOpError;
-/** Update ClickHouse settings **Disclaimer:** This beta endpoint is evolving; the API contract may change. <br /><br /> Updates one or more ClickHouse settings for the service. To reset a setting to its platform default, use the [DELETE single setting](#tag/Service/operation/serviceClickhouseSettingDelete) endpoint. Use the [schema endpoint](#tag/Service/operation/serviceClickhouseSettingsSchemaGet) to discover which settings are configurable. */
-export const updateServiceClickHouseSettings: API.OperationMethod<
-  UpdateServiceClickHouseSettingsRequest,
-  ServiceClickhouseSettingsPatchResponse,
-  UpdateServiceClickHouseSettingsError,
-  ClickHouseCloudOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(209, __c26, 1) as any as S.Schema<UpdateServiceClickHouseSettingsRequest>,
-  output: __S(212, __c26, 4) as any as S.Schema<ServiceClickhouseSettingsPatchResponse>,
-  errors: [FeatureUnavailable],
-  serviceErrors: ClickHouseCloudServiceErrors,
-  protocol: ClickHouseCloudProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateServiceClickHouseSettings",
 }));
 
 export type UpdateServicePasswordError = ClickHouseCloudOpError;
@@ -1675,8 +1266,8 @@ export const updateServicePassword: API.OperationMethod<
   UpdateServicePasswordError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<UpdateServicePasswordRequest>,
-  output: __S(217, __c27, 1) as any as S.Schema<ServicePasswordPatchResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<UpdateServicePasswordRequest>,
+  output: __S(89, __c11, 1) as any as S.Schema<ServicePasswordPatchResponse>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -1693,8 +1284,8 @@ export const updateServiceReplicaScaling: API.OperationMethod<
   UpdateServiceReplicaScalingError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<UpdateServiceReplicaScalingRequest>,
-  output: __S(225, __c28, 1) as any as S.Schema<ServiceScalingPatchResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<UpdateServiceReplicaScalingRequest>,
+  output: __S(97, __c12, 1) as any as S.Schema<ServiceScalingPatchResponse>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -1711,8 +1302,8 @@ export const updateServiceState: API.OperationMethod<
   UpdateServiceStateError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<UpdateServiceStateRequest>,
-  output: __S(320, __c40, 0) as any as S.Schema<Service>,
+  input: __S(104, __c13, 0) as any as S.Schema<UpdateServiceStateRequest>,
+  output: __S(176, __c22, 0) as any as S.Schema<Service>,
   errors: [ServiceNotIdle],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -1729,8 +1320,8 @@ export const updateUpgradeWindow: API.OperationMethod<
   UpdateUpgradeWindowError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<UpdateUpgradeWindowRequest>,
-  output: __S(136, __c17, 0) as any as S.Schema<UpgradeWindow>,
+  input: __S(112, __c14, 0) as any as S.Schema<UpdateUpgradeWindowRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<UpgradeWindow>,
   errors: [FeatureUnavailable],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -1747,8 +1338,8 @@ export const upsertScalingSchedule: API.OperationMethod<
   UpsertScalingScheduleError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(250, __c31, 2) as any as S.Schema<UpsertScalingScheduleRequest>,
-  output: __S(299, __c37, 3) as any as S.Schema<ScalingSchedule>,
+  input: __S(122, __c15, 2) as any as S.Schema<UpsertScalingScheduleRequest>,
+  output: __S(156, __c19, 4) as any as S.Schema<ScalingSchedule>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -1765,8 +1356,8 @@ export const upsertServiceQueryEndpoint: API.OperationMethod<
   UpsertServiceQueryEndpointError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<UpsertServiceQueryEndpointRequest>,
-  output: __S(121, __c15, 1) as any as S.Schema<ServiceQueryAPIEndpoint>,
+  input: __S(128, __c16, 0) as any as S.Schema<UpsertServiceQueryEndpointRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<ServiceQueryAPIEndpoint>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -1786,58 +1377,6 @@ function __c0(j: number): any {
         }).pipe(
           T.Http({
             method: "DELETE",
-            uri: "/v1/organizations/{organizationId}/services/{serviceId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteServiceRequest" });
-  }
-}
-function __c1(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          serviceId: S.String.pipe(T.Label()),
-          settingName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickhouseSettings/{settingName}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteServiceClickHouseSettingRequest" });
-  }
-}
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          serviceId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/v1/organizations/{organizationId}/services/{serviceId}/serviceQueryEndpoint",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteServiceQueryEndpointRequest" });
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          serviceId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
             uri: "/v1/organizations/{organizationId}/services/{serviceId}/upgradeWindow",
             code: 200,
           }),
@@ -1845,53 +1384,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "DeleteUpgradeWindowRequest" });
   }
 }
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          serviceId: S.String.pipe(T.Label()),
-          jwtProviderName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/organizations/{organizationId}/services/{serviceId}/jwtProviders/{jwtProviderName}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetJwtProviderRequest" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          serviceId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/organizations/{organizationId}/services/{serviceId}/replicaAwareRouting",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetReplicaAwareRoutingRequest" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          httpEnabled: S.Boolean,
-          nativeEnabled: S.Boolean,
-        }),
-      ).annotate({ identifier: "ReplicaAwareRouting" });
-  }
-}
-function __c7(j: number): any {
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1908,7 +1401,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetScalingScheduleRequest" });
   }
 }
-function __c8(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1925,79 +1418,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetServiceRequest" });
   }
 }
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          serviceId: S.String.pipe(T.Label()),
-          settingName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickhouseSettings/{settingName}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetServiceClickHouseSettingRequest" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          value: S.optional(__S(88, __c11, 0)),
-        }),
-      ).annotate({ identifier: "ServiceClickhouseSetting" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Union([S.String, S.Number]);
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          serviceId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickhouseSettings/schema",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetServiceClickHouseSettingsSchemaRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          description: S.optional(S.String),
-          enum: S.optional(__S(288, __c36, 0)),
-          warning: S.optional(S.String),
-          deprecationNotice: S.optional(S.String),
-          example: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ServiceClickhouseSettingSchemaEntry" });
-    case 2:
-      return S.Array(__S(97, __c12, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          settings: S.optional(__S(98, __c12, 2)),
-        }),
-      ).annotate({ identifier: "ServiceClickhouseSettingsSchema" });
-  }
-}
-function __c13(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2021,7 +1442,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "PrivateEndpointConfig" });
   }
 }
-function __c14(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2038,7 +1459,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetServiceQueryEndpointRequest" });
   }
 }
-function __c15(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -2046,14 +1467,14 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          openApiKeys: S.optional(__S(304, __c38, 0)),
-          roles: S.optional(__S(120, __c15, 0)),
+          openApiKeys: S.optional(__S(160, __c20, 0)),
+          roles: S.optional(__S(40, __c5, 0)),
           allowedOrigins: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServiceQueryAPIEndpoint" });
   }
 }
-function __c16(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2070,7 +1491,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetUpgradeWindowRequest" });
   }
 }
-function __c17(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2082,55 +1503,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "UpgradeWindow" });
   }
 }
-function __c18(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          serviceId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/organizations/{organizationId}/services/{serviceId}/jwtProviders",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListJwtProvidersRequest" });
-    case 1:
-      return S.Array(__S(272, __c34, 0));
-    case 2:
-      return S.suspend(() => __S(145, __c18, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListJwtProvidersResponse",
-      });
-  }
-}
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          serviceId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickhouseSettings",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListServiceClickHouseSettingsRequest" });
-    case 1:
-      return S.Array(__S(80, __c10, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          settings: S.optional(__S(153, __c19, 1)),
-        }),
-      ).annotate({ identifier: "ServiceClickhouseSettingsList" });
-  }
-}
-function __c20(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2155,94 +1528,53 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "ServiceProfile" });
     case 2:
-      return S.Array(__S(161, __c20, 1));
+      return S.Array(__S(65, __c8, 1));
     case 3:
-      return S.suspend(() => __S(162, __c20, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(66, __c8, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListServiceProfilesResponse",
       });
   }
 }
-function __c21(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organizationId: S.String.pipe(T.Label()),
-          filter: S.optional(__S(304, __c38, 0).pipe(T.Query())),
+          filter: S.optional(__S(160, __c20, 0).pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "/v1/organizations/{organizationId}/services", code: 200 }),
         ),
       ).annotate({ identifier: "ListServicesRequest" });
     case 1:
-      return S.Array(__S(320, __c40, 0));
+      return S.Array(__S(176, __c22, 0));
     case 2:
-      return S.suspend(() => __S(169, __c21, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(73, __c9, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListServicesResponse",
       });
   }
 }
-function __c22(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          serviceId: S.String.pipe(T.Label()),
-          jwtProviderName: S.String.pipe(T.Label()),
-          issuer: S.String,
-          audience: S.String,
-          jwksUrl: S.String,
-          rolesClaim: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/v1/organizations/{organizationId}/services/{serviceId}/jwtProviders/{jwtProviderName}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateJwtProviderRequest" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          serviceId: S.String.pipe(T.Label()),
-          httpEnabled: S.optional(S.Boolean),
-          nativeEnabled: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/v1/organizations/{organizationId}/services/{serviceId}/replicaAwareRouting",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateReplicaAwareRoutingRequest" });
-  }
-}
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          add: S.optional(__S(313, __c39, 1)),
-          remove: S.optional(__S(313, __c39, 1)),
+          add: S.optional(__S(169, __c21, 1)),
+          remove: S.optional(__S(169, __c21, 1)),
         }),
       ).annotate({ identifier: "IpAccessListPatch" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          add: S.optional(__S(304, __c38, 0)),
-          remove: S.optional(__S(304, __c38, 0)),
+          add: S.optional(__S(160, __c20, 0)),
+          remove: S.optional(__S(160, __c20, 0)),
         }),
       ).annotate({ identifier: "InstancePrivateEndpointsPatch" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          add: S.optional(__S(315, __c39, 3)),
-          remove: S.optional(__S(315, __c39, 3)),
+          add: S.optional(__S(171, __c21, 3)),
+          remove: S.optional(__S(171, __c21, 3)),
         }),
       ).annotate({ identifier: "InstanceTagsPatch" });
     case 3:
@@ -2251,12 +1583,12 @@ function __c24(j: number): any {
           organizationId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          ipAccessList: S.optional(__S(192, __c24, 0)),
-          privateEndpointIds: S.optional(__S(193, __c24, 1)),
+          ipAccessList: S.optional(__S(80, __c10, 0)),
+          privateEndpointIds: S.optional(__S(81, __c10, 1)),
           releaseChannel: S.optional(S.String),
-          endpoints: S.optional(__S(329, __c41, 1)),
+          endpoints: S.optional(__S(185, __c23, 1)),
           transparentDataEncryptionKeyId: S.optional(S.String),
-          tags: S.optional(__S(194, __c24, 2)),
+          tags: S.optional(__S(82, __c10, 2)),
           enableCoreDumps: S.optional(S.Boolean),
           deletionProtection: S.optional(S.Boolean),
         }).pipe(
@@ -2269,55 +1601,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "UpdateServiceRequest" });
   }
 }
-function __c25(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.Number),
-          error: S.optional(S.String),
-          requestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Error400Body" });
-  }
-}
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, __S(88, __c11, 0));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          serviceId: S.String.pipe(T.Label()),
-          settings: __S(208, __c26, 0),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/v1/organizations/{organizationId}/services/{serviceId}/clickhouseSettings",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateServiceClickHouseSettingsRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          message: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ServiceClickhouseSettingWarning" });
-    case 3:
-      return S.Array(__S(210, __c26, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          settings: S.optional(__S(208, __c26, 0)),
-          warnings: S.optional(__S(211, __c26, 3)),
-        }),
-      ).annotate({ identifier: "ServiceClickhouseSettingsPatchResponse" });
-  }
-}
-function __c27(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2342,7 +1626,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "ServicePasswordPatchResponse" });
   }
 }
-function __c28(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2375,7 +1659,7 @@ function __c28(j: number): any {
           region: S.optional(S.String),
           state: S.optional(S.String),
           clickhouseVersion: S.optional(S.String),
-          endpoints: S.optional(__S(317, __c39, 5)),
+          endpoints: S.optional(__S(173, __c21, 5)),
           tier: S.optional(S.String),
           minTotalMemoryGb: S.optional(S.Number),
           maxTotalMemoryGb: S.optional(S.Number),
@@ -2388,13 +1672,13 @@ function __c28(j: number): any {
           replicaMemoryGb: S.optional(S.Number),
           idleScaling: S.optional(S.Boolean),
           idleTimeoutMinutes: S.optional(S.Number),
-          ipAccessList: S.optional(__S(313, __c39, 1)),
+          ipAccessList: S.optional(__S(169, __c21, 1)),
           createdAt: S.optional(S.String),
           encryptionKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           encryptionAssumedRoleIdentifier: S.optional(S.String),
           iamRole: S.optional(S.String),
-          privateEndpointIds: S.optional(__S(304, __c38, 0)),
-          availablePrivateEndpointIds: S.optional(__S(304, __c38, 0)),
+          privateEndpointIds: S.optional(__S(160, __c20, 0)),
+          availablePrivateEndpointIds: S.optional(__S(160, __c20, 0)),
           dataWarehouseId: S.optional(S.String),
           isPrimary: S.optional(S.Boolean),
           isReadonly: S.optional(S.Boolean),
@@ -2405,16 +1689,16 @@ function __c28(j: number): any {
           transparentDataEncryptionKeyId: S.optional(S.String),
           encryptionRoleId: S.optional(S.String),
           complianceType: S.optional(S.String),
-          tags: S.optional(__S(315, __c39, 3)),
+          tags: S.optional(__S(171, __c21, 3)),
           enableCoreDumps: S.optional(S.Boolean),
           deletionProtection: S.optional(S.Boolean),
-          scalingSchedule: S.optional(__S(299, __c37, 3)),
-          currentScaling: __S(318, __c39, 6),
+          scalingSchedule: S.optional(__S(156, __c19, 4)),
+          currentScaling: __S(174, __c21, 6),
         }),
       ).annotate({ identifier: "ServiceScalingPatchResponse" });
   }
 }
-function __c29(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2432,7 +1716,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "UpdateServiceStateRequest" });
   }
 }
-function __c30(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2451,13 +1735,13 @@ function __c30(j: number): any {
       ).annotate({ identifier: "UpdateUpgradeWindowRequest" });
   }
 }
-function __c31(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          weekdays: __S(288, __c36, 0),
+          weekdays: __S(152, __c19, 0),
           startHourUtc: S.Number,
           endHourUtc: S.Number,
           autoscalingMode: S.optional(S.String),
@@ -2471,13 +1755,13 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "ScalingScheduleEntryRequest" });
     case 1:
-      return S.Array(__S(248, __c31, 0));
+      return S.Array(__S(120, __c15, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           organizationId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
-          entries: __S(249, __c31, 1),
+          entries: __S(121, __c15, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2488,15 +1772,15 @@ function __c31(j: number): any {
       ).annotate({ identifier: "UpsertScalingScheduleRequest" });
   }
 }
-function __c32(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organizationId: S.String.pipe(T.Label()),
           serviceId: S.String.pipe(T.Label()),
-          roles: __S(120, __c15, 0),
-          openApiKeys: __S(304, __c38, 0),
+          roles: __S(40, __c5, 0),
+          openApiKeys: __S(160, __c20, 0),
           allowedOrigins: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -2508,43 +1792,19 @@ function __c32(j: number): any {
       ).annotate({ identifier: "UpsertServiceQueryEndpointRequest" });
   }
 }
-function __c33(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          serviceId: S.String.pipe(T.Label()),
-          name: S.String,
-          issuer: S.String,
-          audience: S.String,
-          jwksUrl: S.String,
-          rolesClaim: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v1/organizations/{organizationId}/services/{serviceId}/jwtProviders",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateJwtProviderRequest" });
-  }
-}
-function __c34(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          issuer: S.String,
-          audience: S.String,
-          jwksUrl: S.String,
-          rolesClaim: S.optional(S.String),
+          status: S.optional(S.Number),
+          error: S.optional(S.String),
+          requestId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "JwtProvider" });
+      ).annotate({ identifier: "Error400Body" });
   }
 }
-function __c35(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -2556,7 +1816,7 @@ function __c35(j: number): any {
           provider: S.String,
           region: S.String,
           tier: S.optional(S.String),
-          ipAccessList: __S(313, __c39, 1),
+          ipAccessList: __S(169, __c21, 1),
           minTotalMemoryGb: S.optional(S.Number),
           maxTotalMemoryGb: S.optional(S.Number),
           autoscalingMode: S.optional(S.String),
@@ -2570,16 +1830,16 @@ function __c35(j: number): any {
           isReadonly: S.optional(S.Boolean),
           dataWarehouseId: S.optional(S.String),
           backupId: S.optional(S.String),
-          backupEncryptionConfig: S.optional(__S(280, __c35, 0)),
-          privateEndpointIds: S.optional(__S(304, __c38, 0)),
+          backupEncryptionConfig: S.optional(__S(144, __c18, 0)),
+          privateEndpointIds: S.optional(__S(160, __c20, 0)),
           privatePreviewTermsChecked: S.optional(S.Boolean),
           releaseChannel: S.optional(S.String),
           byocId: S.optional(S.String),
           hasTransparentDataEncryption: S.optional(S.Boolean),
-          endpoints: S.optional(__S(329, __c41, 1)),
+          endpoints: S.optional(__S(185, __c23, 1)),
           profile: S.optional(S.String),
           complianceType: S.optional(S.String),
-          tags: S.optional(__S(315, __c39, 3)),
+          tags: S.optional(__S(171, __c21, 3)),
           enableCoreDumps: S.optional(S.Boolean),
           deletionProtection: S.optional(S.Boolean),
         }).pipe(
@@ -2589,26 +1849,22 @@ function __c35(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          service: __S(320, __c40, 0),
+          service: __S(176, __c22, 0),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ServicePostResponse" });
   }
 }
-function __c36(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
-  }
-}
-function __c37(j: number): any {
-  switch (j) {
-    case 0:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           name: S.String,
-          weekdays: __S(288, __c36, 0),
+          weekdays: __S(152, __c19, 0),
           startHourUtc: S.Number,
           endHourUtc: S.Number,
           autoscalingMode: S.String,
@@ -2621,9 +1877,9 @@ function __c37(j: number): any {
           isActiveNow: S.Boolean,
         }),
       ).annotate({ identifier: "ScalingScheduleEntry" });
-    case 1:
-      return S.Array(__S(296, __c37, 0));
     case 2:
+      return S.Array(__S(153, __c19, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           autoscalingMode: S.optional(S.String),
@@ -2635,23 +1891,23 @@ function __c37(j: number): any {
           idleTimeoutMinutes: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ScalingScheduleBaseConfig" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          entries: __S(297, __c37, 1),
-          baseConfig: __S(298, __c37, 2),
+          entries: __S(154, __c19, 2),
+          baseConfig: __S(155, __c19, 3),
           activeEntryId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ScalingSchedule" });
   }
 }
-function __c38(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c39(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2661,7 +1917,7 @@ function __c39(j: number): any {
         }),
       ).annotate({ identifier: "IpAccessListEntry" });
     case 1:
-      return S.Array(__S(312, __c39, 0));
+      return S.Array(__S(168, __c21, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2670,7 +1926,7 @@ function __c39(j: number): any {
         }),
       ).annotate({ identifier: "ResourceTagsV1" });
     case 3:
-      return S.Array(__S(314, __c39, 2));
+      return S.Array(__S(170, __c21, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -2681,7 +1937,7 @@ function __c39(j: number): any {
         }),
       ).annotate({ identifier: "ServiceEndpoint" });
     case 5:
-      return S.Array(__S(316, __c39, 4));
+      return S.Array(__S(172, __c21, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -2697,7 +1953,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "CurrentScaling" });
   }
 }
-function __c40(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2708,7 +1964,7 @@ function __c40(j: number): any {
           region: S.optional(S.String),
           state: S.optional(S.String),
           clickhouseVersion: S.optional(S.String),
-          endpoints: S.optional(__S(317, __c39, 5)),
+          endpoints: S.optional(__S(173, __c21, 5)),
           tier: S.optional(S.String),
           minTotalMemoryGb: S.optional(S.Number),
           maxTotalMemoryGb: S.optional(S.Number),
@@ -2721,13 +1977,13 @@ function __c40(j: number): any {
           replicaMemoryGb: S.optional(S.Number),
           idleScaling: S.optional(S.Boolean),
           idleTimeoutMinutes: S.optional(S.Number),
-          ipAccessList: S.optional(__S(313, __c39, 1)),
+          ipAccessList: S.optional(__S(169, __c21, 1)),
           createdAt: S.optional(S.String),
           encryptionKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           encryptionAssumedRoleIdentifier: S.optional(S.String),
           iamRole: S.optional(S.String),
-          privateEndpointIds: S.optional(__S(304, __c38, 0)),
-          availablePrivateEndpointIds: S.optional(__S(304, __c38, 0)),
+          privateEndpointIds: S.optional(__S(160, __c20, 0)),
+          availablePrivateEndpointIds: S.optional(__S(160, __c20, 0)),
           dataWarehouseId: S.optional(S.String),
           isPrimary: S.optional(S.Boolean),
           isReadonly: S.optional(S.Boolean),
@@ -2738,16 +1994,16 @@ function __c40(j: number): any {
           transparentDataEncryptionKeyId: S.optional(S.String),
           encryptionRoleId: S.optional(S.String),
           complianceType: S.optional(S.String),
-          tags: S.optional(__S(315, __c39, 3)),
+          tags: S.optional(__S(171, __c21, 3)),
           enableCoreDumps: S.optional(S.Boolean),
           deletionProtection: S.optional(S.Boolean),
-          scalingSchedule: S.optional(__S(299, __c37, 3)),
-          currentScaling: __S(318, __c39, 6),
+          scalingSchedule: S.optional(__S(156, __c19, 4)),
+          currentScaling: __S(174, __c21, 6),
         }),
       ).annotate({ identifier: "Service" });
   }
 }
-function __c41(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2757,10 +2013,10 @@ function __c41(j: number): any {
         }),
       ).annotate({ identifier: "ServiceEndpointChange" });
     case 1:
-      return S.Array(__S(328, __c41, 0));
+      return S.Array(__S(184, __c23, 0));
   }
 }
-function __c42(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2788,36 +2044,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "InstancePrivateEndpoint" });
   }
 }
-function __c43(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          serviceId: S.String.pipe(T.Label()),
-          jwtProviderName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/v1/organizations/{organizationId}/services/{serviceId}/jwtProviders/{jwtProviderName}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteJwtProviderRequest" });
-  }
-}
-function __c44(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.Number),
-          requestId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DeleteJwtProviderResponse" });
-  }
-}
-function __c45(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2832,6 +2059,51 @@ function __c45(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DeleteScalingScheduleRequest" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.Number),
+          requestId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeleteScalingScheduleResponse" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label()),
+          serviceId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/v1/organizations/{organizationId}/services/{serviceId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteServiceRequest" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label()),
+          serviceId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/v1/organizations/{organizationId}/services/{serviceId}/serviceQueryEndpoint",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteServiceQueryEndpointRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

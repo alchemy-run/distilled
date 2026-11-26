@@ -246,177 +246,6 @@ export interface Activity {
   /** For 'role_resources_delete' activities: IDs of the deleted resources the roles referenced. */
   targetResourceIds?: ActivityTargetResourceIdsList | undefined;
 }
-export interface GetByocInfrastructureRequest {
-  /** ID of the requested organization. */
-  organizationId: string;
-  /** ID of the requested BYOC Infrastructure */
-  byocInfrastructureId: string;
-}
-/** State of the infrastructure */
-export type ByocInfrastructureDetailsState =
-  | "infra-provisioning"
-  | "infra-terminated"
-  | "infra-terminating"
-  | "infra-ready"
-  | "infra-degraded"
-  | "infra-upgrading";
-/** Region the BYOC infrastructure is located in */
-export type ByocInfrastructureDetailsRegionId =
-  | "ap-northeast-1"
-  | "ap-northeast-2"
-  | "ap-south-1"
-  | "ap-southeast-1"
-  | "ap-southeast-2"
-  | "ca-central-1"
-  | "eu-central-1"
-  | "eu-west-1"
-  | "eu-west-2"
-  | "il-central-1"
-  | "us-east-1"
-  | "us-east-2"
-  | "us-west-2"
-  | "us-east1"
-  | "us-central1"
-  | "europe-west2"
-  | "europe-west4"
-  | "asia-southeast1"
-  | "asia-northeast1"
-  | "eastus"
-  | "eastus2"
-  | "westus3"
-  | "germanywestcentral"
-  | "centralus";
-/** Cloud provider of the region */
-export type ByocInfrastructureDetailsCloudProvider = "gcp" | "aws" | "azure";
-/** Availability zones the infrastructure spans */
-export type ByocInfrastructureDetailsVpcAvailabilityZoneListList = Array<string>;
-/** Customer private subnet IDs or names (BYO-VPC only; exactly one entry on GCP) */
-export type ByocInfrastructureDetailsByoVpcPrivateSubnetIdsList = Array<string>;
-/** Secondary IP range names pinned for pod IPs (GCP BYO-VPC only). Absent when all secondary ranges are used */
-export type ByocInfrastructureDetailsByoVpcPodCidrRangeNamesList = Array<string>;
-export interface ByocInfrastructureDetails {
-  /** Unique identifier of the BYOC infrastructure */
-  id?: string | undefined;
-  /** State of the infrastructure */
-  state?: ByocInfrastructureDetailsState | undefined;
-  /** Cloud account ID the BYOC infrastructure is bound to: AWS account ID, GCP project ID, or Azure subscription ID */
-  accountId?: string | undefined;
-  /** Region the BYOC infrastructure is located in */
-  regionId?: ByocInfrastructureDetailsRegionId | undefined;
-  /** Cloud provider of the region */
-  cloudProvider?: ByocInfrastructureDetailsCloudProvider | undefined;
-  /** Human readable name for infrastructure */
-  displayName?: string | undefined;
-  /** Whether private link connectivity is enabled on the infrastructure */
-  enablePrivateLink?: boolean | undefined;
-  /** Whether the private load balancer is enabled on the infrastructure */
-  enablePrivateLoadBalancer?: boolean | undefined;
-  /** Whether the public load balancer is enabled on the infrastructure */
-  enablePublicLoadBalancer?: boolean | undefined;
-  /** CIDR range of the ClickHouse-managed VPC. Absent for BYO-VPC infrastructures */
-  vpcCidrRange?: string | undefined;
-  /** Availability zones the infrastructure spans */
-  vpcAvailabilityZoneList?: ByocInfrastructureDetailsVpcAvailabilityZoneListList | undefined;
-  /** True when the infrastructure runs in a customer-provided VPC (BYO-VPC) instead of a ClickHouse-managed one */
-  isByoVpc?: boolean | undefined;
-  /** Customer VPC ID or network name (BYO-VPC only) */
-  byoVpcId?: string | undefined;
-  /** Customer private subnet IDs or names (BYO-VPC only; exactly one entry on GCP) */
-  byoVpcPrivateSubnetIds?: ByocInfrastructureDetailsByoVpcPrivateSubnetIdsList | undefined;
-  /** Secondary IP range names pinned for pod IPs (GCP BYO-VPC only). Absent when all secondary ranges are used */
-  byoVpcPodCidrRangeNames?: ByocInfrastructureDetailsByoVpcPodCidrRangeNamesList | undefined;
-  /** Shared VPC host project owning the VPC and subnet (GCP BYO-VPC only). Absent when the VPC lives in the service project */
-  byoVpcSharedVpcHostProjectId?: string | undefined;
-  /** Customer-provided Private Service Connect NAT subnet name configured for private link (GCP BYO-VPC only) */
-  gcpPscSubnetId?: string | undefined;
-}
-export interface GetByocInfrastructureCustomerAuthorizedAccessRequest {
-  /** ID of the organization that owns the BYOC infrastructure. */
-  organizationId: string;
-  /** ID of the BYOC infrastructure. */
-  byocInfrastructureId: string;
-}
-export interface ByocCustomerAuthorizedAccess {
-  /** When ClickHouse personnel may access the infrastructure. Current values: always, never, window. New values may be added over time. When the setting has never been configured this is `always`, the data plane default */
-  mode: string;
-  /** Start of the access window. ISO-8601. Present only when `mode` is `window` */
-  startTimestamp?: string | undefined;
-  /** Length of the access window in seconds, counted from `startTimestamp`. Present only when `mode` is `window` */
-  durationSeconds?: number | undefined;
-  /** Whether the data plane currently allows ClickHouse personnel access, evaluated at the time of the request */
-  allowed: boolean;
-  /** End of the current access window. ISO-8601. Present only while access is allowed until a deadline */
-  windowEndTimestamp?: string | undefined;
-}
-export interface GetByocInfrastructurePrivateEndpointConfigRequest {
-  /** ID of the requested organization. */
-  organizationId: string;
-  /** ID of the requested BYOC Infrastructure */
-  byocInfrastructureId: string;
-}
-export interface ByocInfrastructurePrivateEndpointConfig {
-  /** Cloud-provider identifier of the private link endpoint service of the infrastructure: VPC endpoint service name on AWS, Private Service Connect service attachment on GCP, or Private Link service on Azure */
-  endpointName: string;
-  /** Private DNS hostname under which services of the infrastructure are reachable over private link */
-  privateDnsHostname: string;
-}
-export interface GetByocInfrastructureProgressRequest {
-  /** ID of the requested organization. */
-  organizationId: string;
-  /** ID of the requested BYOC Infrastructure */
-  byocInfrastructureId: string;
-}
-/** Overall provisioning status of the infrastructure */
-export type ByocInfrastructureProgressStatus =
-  | "not_started"
-  | "pending"
-  | "waiting"
-  | "in_progress"
-  | "ready"
-  | "failed";
-/** Status of this stage */
-export type ByocInfrastructureProgressStageStatus =
-  | "not_started"
-  | "pending"
-  | "waiting"
-  | "in_progress"
-  | "ready"
-  | "failed";
-/** Nested stages; leaf entries are individual cloud resources */
-export type ByocInfrastructureProgressStageSubStagesList = Array<ByocInfrastructureProgressStage>;
-export interface ByocInfrastructureProgressStage {
-  /** Name of the provisioning stage or resource */
-  name?: string | undefined;
-  /** Status of this stage */
-  status?: ByocInfrastructureProgressStageStatus | undefined;
-  /** Timestamp the stage status last changed. ISO-8601 */
-  updatedAt?: string | undefined;
-  /** Human readable detail for the current status, e.g. an error message */
-  message?: string | undefined;
-  /** Nested stages; leaf entries are individual cloud resources */
-  subStages?: ByocInfrastructureProgressStageSubStagesList | undefined;
-}
-/** Top-level provisioning stages with their nested resources */
-export type ByocInfrastructureProgressStagesList = Array<ByocInfrastructureProgressStage>;
-export interface ByocInfrastructureProgress {
-  /** Unique identifier of the BYOC infrastructure */
-  id?: string | undefined;
-  /** Overall provisioning status of the infrastructure */
-  status?: ByocInfrastructureProgressStatus | undefined;
-  /** Timestamp the overall status last changed. ISO-8601 */
-  updatedAt?: string | undefined;
-  /** Top-level provisioning stages with their nested resources */
-  stages?: ByocInfrastructureProgressStagesList | undefined;
-}
-export interface GetByocInfrastructureTagsRequest {
-  /** ID of the requested organization. */
-  organizationId: string;
-  /** ID of the requested BYOC Infrastructure */
-  byocInfrastructureId: string;
-}
-export interface ByocInfrastructureTagsResponse {
-  tags: ByocInfrastructureTags;
-}
 export interface GetOrganizationRequest {
   /** ID of the requested organization. */
   organizationId: string;
@@ -482,36 +311,6 @@ export interface Organization {
   enableCoreDumps?: boolean | undefined;
   capabilities?: OrganizationCapabilities | undefined;
 }
-export interface GetOrganizationQuotaRequest {
-  /** ID of the requested organization. */
-  organizationId: string;
-  /** Code of the requested quota. */
-  quotaCode: string;
-}
-/** Stable identifier of the quota. Use it to request a single quota by code. */
-export type OrganizationQuotaQuotaCode =
-  | "services-per-organization"
-  | "postgres-services-per-organization"
-  | "replicas-per-warehouse"
-  | "api-keys-per-organization";
-/** Granularity at which the limit is applied. For example, `replicas-per-warehouse` is an organization-wide setting that limits each warehouse individually. */
-export type OrganizationQuotaScope = "organization" | "warehouse";
-export interface OrganizationQuota {
-  /** Stable identifier of the quota. Use it to request a single quota by code. */
-  quotaCode: OrganizationQuotaQuotaCode;
-  /** Human-readable name of the quota. */
-  name: string;
-  /** Explanation of the resource the quota limits and how the limit is applied. */
-  description: string;
-  /** Granularity at which the limit is applied. For example, `replicas-per-warehouse` is an organization-wide setting that limits each warehouse individually. */
-  scope: OrganizationQuotaScope;
-  /** Limit currently applied to the organization, including any adjustments made for the organization. The value can change when the billing status of the organization changes. */
-  value: number;
-  /** Current consumption of the quota. Omitted for quotas that do not report usage. Usage can exceed `value` when a limit was lowered after resources were created; existing resources are not affected. */
-  usage?: number | undefined;
-  /** Whether the limit can be raised for the organization by contacting ClickHouse support. */
-  adjustable: boolean;
-}
 export interface ListActivitiesRequest {
   /** ID of the requested organization. */
   organizationId: string;
@@ -522,32 +321,6 @@ export interface ListActivitiesRequest {
 }
 export type ListActivitiesResponseBodyList = Array<Activity>;
 export type ListActivitiesResponse = ListActivitiesResponseBodyList;
-export interface ListOrganizationPublicPreviewsRequest {
-  /** ID of the requested organization. */
-  organizationId: string;
-}
-export interface PublicPreview {
-  /** Stable identifier of the preview feature. */
-  id: string;
-  /** Name of the preview feature. */
-  name: string;
-  /** What the preview feature does. */
-  description: string;
-  /** Link to the documentation of the preview feature. */
-  docsUrl: string;
-  /** Whether the preview feature is on for the organization. */
-  enabled: boolean;
-  /** Whether the caller may switch the preview feature on or off. */
-  canToggle: boolean;
-}
-export type ListOrganizationPublicPreviewsResponseBodyList = Array<PublicPreview>;
-export type ListOrganizationPublicPreviewsResponse = ListOrganizationPublicPreviewsResponseBodyList;
-export interface ListOrganizationQuotasRequest {
-  /** ID of the requested organization. */
-  organizationId: string;
-}
-export type ListOrganizationQuotasResponseBodyList = Array<OrganizationQuota>;
-export type ListOrganizationQuotasResponse = ListOrganizationQuotasResponseBodyList;
 export interface ListOrganizationsRequest {
   /** Maximum number of results to return. */
   limit?: number | undefined;
@@ -582,18 +355,6 @@ export interface UpdateByocInfrastructureRequest {
   /** Enable or disable the public (internet-facing) load balancer of the infrastructure */
   enablePublicLoadBalancer?: boolean | undefined;
   tags?: ByocInfrastructureTags | undefined;
-}
-export interface UpdateByocInfrastructureCustomerAuthorizedAccessRequest {
-  /** ID of the organization that owns the BYOC infrastructure. */
-  organizationId: string;
-  /** ID of the BYOC infrastructure. */
-  byocInfrastructureId: string;
-  /** When ClickHouse personnel may access the infrastructure. Current values: always, never, window. New values may be added over time. `always` allows access, `never` denies it, and `window` allows it during a single time window described by `startTimestamp` and `durationSeconds` */
-  mode: string;
-  /** Start of the access window. ISO-8601. Required when `mode` is `window`, not allowed otherwise */
-  startTimestamp?: string | undefined;
-  /** Length of the access window in seconds, from 1 to 172800 (48 hours). Required when `mode` is `window`, not allowed otherwise */
-  durationSeconds?: number | undefined;
 }
 /** Cloud provider in which the private endpoint is lcoated */
 export type OrganizationPatchPrivateEndpointCloudProvider = "gcp" | "aws" | "azure";
@@ -652,116 +413,6 @@ export interface UpdateOrganizationRequest {
   /** Whether crash reports (core dumps) collection is enabled for services in the organization. When disabled at the organization level, individual services cannot enable crash reports. */
   enableCoreDumps?: boolean | undefined;
 }
-export interface UpdateOrganizationPublicPreviewRequest {
-  /** ID of the requested organization. */
-  organizationId: string;
-  /** ID of the requested preview feature. */
-  previewId: string;
-  /** Whether the preview feature should be on. */
-  enabled: boolean;
-}
-/** Region in which the BYOC infrastructure will be located */
-export type ValidateByocInfrastructureRequestRegionId =
-  | "ap-northeast-1"
-  | "ap-northeast-2"
-  | "ap-south-1"
-  | "ap-southeast-1"
-  | "ap-southeast-2"
-  | "ca-central-1"
-  | "eu-central-1"
-  | "eu-west-1"
-  | "eu-west-2"
-  | "il-central-1"
-  | "us-east-1"
-  | "us-east-2"
-  | "us-west-2"
-  | "us-east1"
-  | "us-central1"
-  | "europe-west2"
-  | "europe-west4"
-  | "asia-southeast1"
-  | "asia-northeast1"
-  | "eastus"
-  | "eastus2"
-  | "westus3"
-  | "germanywestcentral"
-  | "centralus";
-export type ValidateByocInfrastructureRequestAvailabilityZoneSuffixesItem =
-  | "a"
-  | "b"
-  | "c"
-  | "d"
-  | "e"
-  | "f";
-/** List of availability zone suffixes */
-export type ValidateByocInfrastructureRequestAvailabilityZoneSuffixesList = Array<
-  ValidateByocInfrastructureRequestAvailabilityZoneSuffixesItem | (string & {})
->;
-/** BYO-VPC only: private subnet IDs or names (1-6 entries on AWS, exactly one on GCP) */
-export type ValidateByocInfrastructureRequestPrivateSubnetIdsList = Array<string>;
-/** AWS BYO-VPC only: public subnet IDs (at most 6 entries) */
-export type ValidateByocInfrastructureRequestPublicSubnetIdsList = Array<string>;
-/** GCP BYO-VPC only: secondary IP range names on the subnet to use for pod IPs. Omitted: all secondary ranges are used */
-export type ValidateByocInfrastructureRequestGcpPodCidrRangeNamesList = Array<string>;
-export interface ValidateByocInfrastructureRequest {
-  /** ID of the requested organization. */
-  organizationId: string;
-  /** Region in which the BYOC infrastructure will be located */
-  regionId: ValidateByocInfrastructureRequestRegionId | (string & {});
-  /** Cloud account ID the BYOC infrastructure is configured for: AWS account ID, GCP project ID, or Azure subscription ID */
-  accountId: string;
-  /** List of availability zone suffixes */
-  availabilityZoneSuffixes?:
-    | ValidateByocInfrastructureRequestAvailabilityZoneSuffixesList
-    | undefined;
-  /** CIDR range for the ClickHouse-managed VPC. Mutually exclusive with the BYO-VPC fields (`vpcId`, `privateSubnetIds`, `publicSubnetIds`) */
-  vpcCidrRange?: string | undefined;
-  /** AWS only: ExternalID baked into the ClickHouse management role trust policy in your account */
-  externalId?: string | undefined;
-  /** Azure only (required for Azure regions): Entra tenant ID of the subscription */
-  tenantId?: string | undefined;
-  /** Azure only (required for Azure regions): client ID of the service principal ClickHouse uses to manage the infrastructure */
-  servicePrincipalClientId?: string | undefined;
-  /** BYO-VPC only (AWS and GCP): ID or network name of the customer-provided VPC to deploy into. Requires `privateSubnetIds` */
-  vpcId?: string | undefined;
-  /** BYO-VPC only: private subnet IDs or names (1-6 entries on AWS, exactly one on GCP) */
-  privateSubnetIds?: ValidateByocInfrastructureRequestPrivateSubnetIdsList | undefined;
-  /** AWS BYO-VPC only: public subnet IDs (at most 6 entries) */
-  publicSubnetIds?: ValidateByocInfrastructureRequestPublicSubnetIdsList | undefined;
-  /** GCP BYO-VPC only: secondary IP range names on the subnet to use for pod IPs. Omitted: all secondary ranges are used */
-  gcpPodCidrRangeNames?: ValidateByocInfrastructureRequestGcpPodCidrRangeNamesList | undefined;
-  /** GCP BYO-VPC only: Shared VPC host project owning the VPC and subnet, when different from `accountId` */
-  gcpSharedVpcHostProjectId?: string | undefined;
-  tags?: ByocInfrastructureTags | undefined;
-}
-/** Cloud provider of the requested region */
-export type ByocInfrastructureValidationCloudProvider = "gcp" | "aws" | "azure";
-export interface ByocInfrastructureValidationCheck {
-  /** Human readable name of the check */
-  name?: string | undefined;
-  /** Cloud permission or action the check simulated */
-  action?: string | undefined;
-  /** Whether the account allowed the simulated action */
-  allowed?: boolean | undefined;
-  /** Cloud-provider detail for a denied check, e.g. an IAM decision reason */
-  reason?: string | undefined;
-  /** Free-form grouping of related checks, e.g. base or vpc-write. Groupings may change as validations evolve */
-  group?: string | undefined;
-}
-/** Individual permission checks with their outcomes */
-export type ByocInfrastructureValidationChecksList = Array<ByocInfrastructureValidationCheck>;
-export interface ByocInfrastructureValidation {
-  /** Cloud provider of the requested region */
-  cloudProvider?: ByocInfrastructureValidationCloudProvider | undefined;
-  /** True when every check passed */
-  allPassed?: boolean | undefined;
-  /** True when at least one check passed */
-  anyPassed?: boolean | undefined;
-  /** Whether preflight validation is implemented for the requested cloud and configuration. When false, an empty check list means nothing was verified rather than everything passed */
-  supported?: boolean | undefined;
-  /** Individual permission checks with their outcomes */
-  checks?: ByocInfrastructureValidationChecksList | undefined;
-}
 export type CreateByocInfrastructureError = FeatureUnavailable | ClickHouseCloudOpError;
 /** Create BYOC Infrastructure Create a new BYOC Infrastructure in the organization. Returns the configuration of the newly created infrastructure */
 export const createByocInfrastructure: API.OperationMethod<
@@ -770,8 +421,8 @@ export const createByocInfrastructure: API.OperationMethod<
   CreateByocInfrastructureError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateByocInfrastructureRequest>,
-  output: __S(32, __c4, 0) as any as S.Schema<ByocConfig>,
+  input: __S(1, __c0, 1) as any as S.Schema<CreateByocInfrastructureRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<ByocConfig>,
   errors: [FeatureUnavailable],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -788,8 +439,8 @@ export const deleteByocInfrastructure: API.OperationMethod<
   DeleteByocInfrastructureError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<DeleteByocInfrastructureRequest>,
-  output: __S(137, __c17, 1) as any as S.Schema<DeleteByocInfrastructureResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<DeleteByocInfrastructureRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<DeleteByocInfrastructureResponse>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -806,108 +457,14 @@ export const getActivity: API.OperationMethod<
   GetActivityError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<GetActivityRequest>,
-  output: __S(152, __c19, 0) as any as S.Schema<Activity>,
+  input: __S(40, __c5, 0) as any as S.Schema<GetActivityRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<Activity>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetActivity",
-}));
-
-export type GetByocInfrastructureError = ClickHouseCloudOpError;
-/** Get BYOC infrastructure details **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Returns the full configuration of a BYOC infrastructure, including private link and load balancer state, network layout, and BYO-VPC settings read from the data plane. */
-export const getByocInfrastructure: API.OperationMethod<
-  GetByocInfrastructureRequest,
-  ByocInfrastructureDetails,
-  GetByocInfrastructureError,
-  ClickHouseCloudOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<GetByocInfrastructureRequest>,
-  output: __S(161, __c20, 1) as any as S.Schema<ByocInfrastructureDetails>,
-  errors: [],
-  serviceErrors: ClickHouseCloudServiceErrors,
-  protocol: ClickHouseCloudProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetByocInfrastructure",
-}));
-
-export type GetByocInfrastructureCustomerAuthorizedAccessError = ClickHouseCloudOpError;
-/** Get BYOC infrastructure customer-authorized access **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Returns the customer setting that controls when ClickHouse personnel may access the BYOC infrastructure, together with the data plane verdict at the time of the request. */
-export const getByocInfrastructureCustomerAuthorizedAccess: API.OperationMethod<
-  GetByocInfrastructureCustomerAuthorizedAccessRequest,
-  ByocCustomerAuthorizedAccess,
-  GetByocInfrastructureCustomerAuthorizedAccessError,
-  ClickHouseCloudOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    168,
-    __c21,
-    0,
-  ) as any as S.Schema<GetByocInfrastructureCustomerAuthorizedAccessRequest>,
-  output: __S(176, __c22, 0) as any as S.Schema<ByocCustomerAuthorizedAccess>,
-  errors: [],
-  serviceErrors: ClickHouseCloudServiceErrors,
-  protocol: ClickHouseCloudProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetByocInfrastructureCustomerAuthorizedAccess",
-}));
-
-export type GetByocInfrastructurePrivateEndpointConfigError = ClickHouseCloudOpError;
-/** Get BYOC infrastructure private endpoint configuration **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Returns the private link endpoint service details of a BYOC infrastructure. For BYOC organizations this replaces the deprecated organization-level `privateEndpointConfig` endpoint. */
-export const getByocInfrastructurePrivateEndpointConfig: API.OperationMethod<
-  GetByocInfrastructurePrivateEndpointConfigRequest,
-  ByocInfrastructurePrivateEndpointConfig,
-  GetByocInfrastructurePrivateEndpointConfigError,
-  ClickHouseCloudOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<GetByocInfrastructurePrivateEndpointConfigRequest>,
-  output: __S(185, __c23, 1) as any as S.Schema<ByocInfrastructurePrivateEndpointConfig>,
-  errors: [],
-  serviceErrors: ClickHouseCloudServiceErrors,
-  protocol: ClickHouseCloudProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetByocInfrastructurePrivateEndpointConfig",
-}));
-
-export type GetByocInfrastructureProgressError = ClickHouseCloudOpError;
-/** Get BYOC infrastructure provisioning progress **Disclaimer:** This beta endpoint is evolving; the API contract may change. <br /><br /> Returns the stage-by-stage provisioning progress of a BYOC infrastructure, more granular than the `state` field: overall status plus a tree of provisioning stages down to individual cloud resources. */
-export const getByocInfrastructureProgress: API.OperationMethod<
-  GetByocInfrastructureProgressRequest,
-  ByocInfrastructureProgress,
-  GetByocInfrastructureProgressError,
-  ClickHouseCloudOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<GetByocInfrastructureProgressRequest>,
-  output: __S(196, __c24, 4) as any as S.Schema<ByocInfrastructureProgress>,
-  errors: [],
-  serviceErrors: ClickHouseCloudServiceErrors,
-  protocol: ClickHouseCloudProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetByocInfrastructureProgress",
-}));
-
-export type GetByocInfrastructureTagsError = ClickHouseCloudOpError;
-/** Get BYOC infrastructure tags **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Returns the additional tags currently applied to the cloud resources of the BYOC infrastructure. Tags are replaced as a whole through the infrastructure update endpoint. */
-export const getByocInfrastructureTags: API.OperationMethod<
-  GetByocInfrastructureTagsRequest,
-  ByocInfrastructureTagsResponse,
-  GetByocInfrastructureTagsError,
-  ClickHouseCloudOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<GetByocInfrastructureTagsRequest>,
-  output: __S(201, __c25, 1) as any as S.Schema<ByocInfrastructureTagsResponse>,
-  errors: [],
-  serviceErrors: ClickHouseCloudServiceErrors,
-  protocol: ClickHouseCloudProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetByocInfrastructureTags",
 }));
 
 export type GetOrganizationError = ClickHouseCloudOpError;
@@ -918,32 +475,14 @@ export const getOrganization: API.OperationMethod<
   GetOrganizationError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<GetOrganizationRequest>,
-  output: __S(220, __c27, 4) as any as S.Schema<Organization>,
+  input: __S(56, __c7, 0) as any as S.Schema<GetOrganizationRequest>,
+  output: __S(68, __c8, 4) as any as S.Schema<Organization>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganization",
-}));
-
-export type GetOrganizationQuotaError = ClickHouseCloudOpError;
-/** Get organization quota details **Disclaimer:** This beta endpoint is evolving; the API contract may change. <br /><br /> Returns a single organization quota identified by its quota code. Responds with a not found error when the quota code is unknown or the quota does not apply to the organization. */
-export const getOrganizationQuota: API.OperationMethod<
-  GetOrganizationQuotaRequest,
-  OrganizationQuota,
-  GetOrganizationQuotaError,
-  ClickHouseCloudOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<GetOrganizationQuotaRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<OrganizationQuota>,
-  errors: [],
-  serviceErrors: ClickHouseCloudServiceErrors,
-  protocol: ClickHouseCloudProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetOrganizationQuota",
 }));
 
 export type ListActivitiesError = ClickHouseCloudOpError;
@@ -954,50 +493,14 @@ export const listActivities: API.OperationMethod<
   ListActivitiesError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<ListActivitiesRequest>,
-  output: __S(58, __c7, 2) as any as S.Schema<ListActivitiesResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<ListActivitiesRequest>,
+  output: __S(74, __c9, 2) as any as S.Schema<ListActivitiesResponse>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListActivities",
-}));
-
-export type ListOrganizationPublicPreviewsError = ClickHouseCloudOpError;
-/** Get list of organization preview features **Disclaimer:** This beta endpoint is evolving; the API contract may change. <br /><br /> Returns the preview features offered to the organization, with whether each one is on and whether the caller can switch it. */
-export const listOrganizationPublicPreviews: API.OperationMethod<
-  ListOrganizationPublicPreviewsRequest,
-  ListOrganizationPublicPreviewsResponse,
-  ListOrganizationPublicPreviewsError,
-  ClickHouseCloudOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<ListOrganizationPublicPreviewsRequest>,
-  output: __S(66, __c8, 2) as any as S.Schema<ListOrganizationPublicPreviewsResponse>,
-  errors: [],
-  serviceErrors: ClickHouseCloudServiceErrors,
-  protocol: ClickHouseCloudProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListOrganizationPublicPreviews",
-}));
-
-export type ListOrganizationQuotasError = ClickHouseCloudOpError;
-/** Get organization quotas **Disclaimer:** This beta endpoint is evolving; the API contract may change. <br /><br /> Returns the resource quotas enforced for the organization together with their current usage where available. Quotas that do not apply to the organization are omitted. Quota values reflect the limits currently enforced, so they can be polled to detect changes, for example after a billing status change. The response contains one entry per quota code; quotas enforced per resource may additionally appear under resource-scoped endpoints in the future. */
-export const listOrganizationQuotas: API.OperationMethod<
-  ListOrganizationQuotasRequest,
-  ListOrganizationQuotasResponse,
-  ListOrganizationQuotasError,
-  ClickHouseCloudOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<ListOrganizationQuotasRequest>,
-  output: __S(82, __c10, 2) as any as S.Schema<ListOrganizationQuotasResponse>,
-  errors: [],
-  serviceErrors: ClickHouseCloudServiceErrors,
-  protocol: ClickHouseCloudProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListOrganizationQuotas",
 }));
 
 export type ListOrganizationsError = ClickHouseCloudOpError;
@@ -1010,8 +513,8 @@ export const listOrganizations: API.PaginatedOperationMethod<
   Organization
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(88, __c11, 0) as any as S.Schema<ListOrganizationsRequest>,
-    output: __S(90, __c11, 2) as any as S.Schema<ListOrganizationsResponse>,
+    input: __S(80, __c10, 0) as any as S.Schema<ListOrganizationsRequest>,
+    output: __S(82, __c10, 2) as any as S.Schema<ListOrganizationsResponse>,
     errors: [],
     serviceErrors: ClickHouseCloudServiceErrors,
     protocol: ClickHouseCloudPaginatedProtocol,
@@ -1037,36 +540,14 @@ export const updateByocInfrastructure: API.OperationMethod<
   UpdateByocInfrastructureError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<UpdateByocInfrastructureRequest>,
-  output: __S(32, __c4, 0) as any as S.Schema<ByocConfig>,
+  input: __S(88, __c11, 0) as any as S.Schema<UpdateByocInfrastructureRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<ByocConfig>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateByocInfrastructure",
-}));
-
-export type UpdateByocInfrastructureCustomerAuthorizedAccessError = ClickHouseCloudOpError;
-/** Update BYOC infrastructure customer-authorized access **This endpoint is in beta.** API contract is stable, and no breaking changes are expected in the future. <br /><br /> Replaces the customer setting that controls when ClickHouse personnel may access the BYOC infrastructure. Allow access with `mode: always`, deny it with `mode: never`, or allow it for a single window with `mode: window`, `startTimestamp` and `durationSeconds`. Returns the stored setting together with the data plane verdict. */
-export const updateByocInfrastructureCustomerAuthorizedAccess: API.OperationMethod<
-  UpdateByocInfrastructureCustomerAuthorizedAccessRequest,
-  ByocCustomerAuthorizedAccess,
-  UpdateByocInfrastructureCustomerAuthorizedAccessError,
-  ClickHouseCloudOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    104,
-    __c13,
-    0,
-  ) as any as S.Schema<UpdateByocInfrastructureCustomerAuthorizedAccessRequest>,
-  output: __S(176, __c22, 0) as any as S.Schema<ByocCustomerAuthorizedAccess>,
-  errors: [],
-  serviceErrors: ClickHouseCloudServiceErrors,
-  protocol: ClickHouseCloudProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateByocInfrastructureCustomerAuthorizedAccess",
 }));
 
 export type UpdateOrganizationError = ClickHouseCloudOpError;
@@ -1077,8 +558,8 @@ export const updateOrganization: API.OperationMethod<
   UpdateOrganizationError,
   ClickHouseCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(113, __c14, 1) as any as S.Schema<UpdateOrganizationRequest>,
-  output: __S(220, __c27, 4) as any as S.Schema<Organization>,
+  input: __S(97, __c12, 1) as any as S.Schema<UpdateOrganizationRequest>,
+  output: __S(68, __c8, 4) as any as S.Schema<Organization>,
   errors: [],
   serviceErrors: ClickHouseCloudServiceErrors,
   protocol: ClickHouseCloudProtocol,
@@ -1087,60 +568,26 @@ export const updateOrganization: API.OperationMethod<
   span: "UpdateOrganization",
 }));
 
-export type UpdateOrganizationPublicPreviewError = ClickHouseCloudOpError;
-/** Update organization preview feature **Disclaimer:** This beta endpoint is evolving; the API contract may change. <br /><br /> Switches a preview feature on or off for the organization. Use an ID returned by the list endpoint; an unknown ID returns 404. Only previews offered to the organization can be switched on, otherwise the request returns 403; switching off is always allowed. */
-export const updateOrganizationPublicPreview: API.OperationMethod<
-  UpdateOrganizationPublicPreviewRequest,
-  PublicPreview,
-  UpdateOrganizationPublicPreviewError,
-  ClickHouseCloudOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<UpdateOrganizationPublicPreviewRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<PublicPreview>,
-  errors: [],
-  serviceErrors: ClickHouseCloudServiceErrors,
-  protocol: ClickHouseCloudProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateOrganizationPublicPreview",
-}));
-
-export type ValidateByocInfrastructureError = FeatureUnavailable | ClickHouseCloudOpError;
-/** Validate BYOC infrastructure prerequisites **Disclaimer:** This beta endpoint is evolving; the API contract may change. <br /><br /> Preflight-validates that a cloud account is ready for BYOC infrastructure creation: simulates the cloud permissions ClickHouse needs (and, for BYO-VPC, checks the provided network resources) without creating anything. Takes the same parameters as infrastructure creation, so a payload that passes validation will not be rejected by create for the same inputs. */
-export const validateByocInfrastructure: API.OperationMethod<
-  ValidateByocInfrastructureRequest,
-  ByocInfrastructureValidation,
-  ValidateByocInfrastructureError,
-  ClickHouseCloudOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<ValidateByocInfrastructureRequest>,
-  output: __S(131, __c16, 3) as any as S.Schema<ByocInfrastructureValidation>,
-  errors: [FeatureUnavailable],
-  serviceErrors: ClickHouseCloudServiceErrors,
-  protocol: ClickHouseCloudProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ValidateByocInfrastructure",
-}));
-
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+    case 1:
       return S.suspend(() =>
         S.Struct({
           organizationId: S.String.pipe(T.Label()),
           regionId: S.String,
           accountId: S.String,
-          availabilityZoneSuffixes: S.optional(__S(8, __c1, 0)),
+          availabilityZoneSuffixes: S.optional(__S(0, __c0, 0)),
           vpcCidrRange: S.optional(S.String),
           externalId: S.optional(S.String),
           tenantId: S.optional(S.String),
           servicePrincipalClientId: S.optional(S.String),
           vpcId: S.optional(S.String),
-          privateSubnetIds: S.optional(__S(16, __c2, 0)),
-          publicSubnetIds: S.optional(__S(16, __c2, 0)),
-          gcpPodCidrRangeNames: S.optional(__S(16, __c2, 0)),
+          privateSubnetIds: S.optional(__S(8, __c1, 0)),
+          publicSubnetIds: S.optional(__S(8, __c1, 0)),
+          gcpPodCidrRangeNames: S.optional(__S(8, __c1, 0)),
           gcpSharedVpcHostProjectId: S.optional(S.String),
           tags: S.optional(__S(24, __c3, 0)),
           displayName: S.optional(S.String),
@@ -1163,18 +610,6 @@ function __c1(j: number): any {
 function __c2(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -1188,270 +623,13 @@ function __c4(j: number): any {
       ).annotate({ identifier: "ByocConfig" });
   }
 }
-function __c5(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          quotaCode: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/organizations/{organizationId}/quotas/{quotaCode}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetOrganizationQuotaRequest" });
+      return S.Record(S.String, S.String);
   }
 }
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          quotaCode: S.String,
-          name: S.String,
-          description: S.String,
-          scope: S.String,
-          value: S.Number,
-          usage: S.optional(S.Number),
-          adjustable: S.Boolean,
-        }),
-      ).annotate({ identifier: "OrganizationQuota" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          from_date: S.optional(S.String.pipe(T.Query())),
-          to_date: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/organizations/{organizationId}/activities",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListActivitiesRequest" });
-    case 1:
-      return S.Array(__S(152, __c19, 0));
-    case 2:
-      return S.suspend(() => __S(57, __c7, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListActivitiesResponse",
-      });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/v1/organizations/{organizationId}/previews", code: 200 }),
-        ),
-      ).annotate({ identifier: "ListOrganizationPublicPreviewsRequest" });
-    case 1:
-      return S.Array(__S(72, __c9, 0));
-    case 2:
-      return S.suspend(() => __S(65, __c8, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListOrganizationPublicPreviewsResponse",
-      });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          description: S.String,
-          docsUrl: S.String,
-          enabled: S.Boolean,
-          canToggle: S.Boolean,
-        }),
-      ).annotate({ identifier: "PublicPreview" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/v1/organizations/{organizationId}/quotas", code: 200 }),
-        ),
-      ).annotate({ identifier: "ListOrganizationQuotasRequest" });
-    case 1:
-      return S.Array(__S(48, __c6, 0));
-    case 2:
-      return S.suspend(() => __S(81, __c10, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListOrganizationQuotasResponse",
-      });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          limit: S.optional(S.Number.pipe(T.Query())),
-          cursor: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/organizations", code: 200 })),
-      ).annotate({ identifier: "ListOrganizationsRequest" });
-    case 1:
-      return S.Array(__S(220, __c27, 4));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.Number),
-          requestId: S.optional(S.String),
-          result: __S(89, __c11, 1),
-          limit: S.optional(S.Number),
-          nextCursor: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "ListOrganizationsResponse" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          byocInfrastructureId: S.String.pipe(T.Label()),
-          displayName: S.optional(S.String),
-          enablePrivateLink: S.optional(S.Boolean),
-          gcpPscSubnetId: S.optional(S.String),
-          enablePrivateLoadBalancer: S.optional(S.Boolean),
-          enablePublicLoadBalancer: S.optional(S.Boolean),
-          tags: S.optional(__S(24, __c3, 0)),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/v1/organizations/{organizationId}/byocInfrastructure/{byocInfrastructureId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateByocInfrastructureRequest" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          byocInfrastructureId: S.String.pipe(T.Label()),
-          mode: S.String,
-          startTimestamp: S.optional(S.String),
-          durationSeconds: S.optional(S.Number),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/v1/organizations/{organizationId}/byocInfrastructure/{byocInfrastructureId}/customerAuthorizedAccess",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateByocInfrastructureCustomerAuthorizedAccessRequest" });
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          add: S.optional(__S(217, __c27, 1)),
-          remove: S.optional(__S(217, __c27, 1)),
-        }),
-      ).annotate({ identifier: "OrganizationPrivateEndpointsPatch" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          privateEndpoints: S.optional(__S(112, __c14, 0)),
-          enableCoreDumps: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "PATCH", uri: "/v1/organizations/{organizationId}", code: 200 })),
-      ).annotate({ identifier: "UpdateOrganizationRequest" });
-  }
-}
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          previewId: S.String.pipe(T.Label()),
-          enabled: S.Boolean,
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/v1/organizations/{organizationId}/previews/{previewId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateOrganizationPublicPreviewRequest" });
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          regionId: S.String,
-          accountId: S.String,
-          availabilityZoneSuffixes: S.optional(__S(8, __c1, 0)),
-          vpcCidrRange: S.optional(S.String),
-          externalId: S.optional(S.String),
-          tenantId: S.optional(S.String),
-          servicePrincipalClientId: S.optional(S.String),
-          vpcId: S.optional(S.String),
-          privateSubnetIds: S.optional(__S(16, __c2, 0)),
-          publicSubnetIds: S.optional(__S(16, __c2, 0)),
-          gcpPodCidrRangeNames: S.optional(__S(16, __c2, 0)),
-          gcpSharedVpcHostProjectId: S.optional(S.String),
-          tags: S.optional(__S(24, __c3, 0)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v1/organizations/{organizationId}/byocInfrastructure/validate",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ValidateByocInfrastructureRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          action: S.optional(S.String),
-          allowed: S.optional(S.Boolean),
-          reason: S.optional(S.String),
-          group: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ByocInfrastructureValidationCheck" });
-    case 2:
-      return S.Array(__S(129, __c16, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          cloudProvider: S.optional(S.String),
-          allPassed: S.optional(S.Boolean),
-          anyPassed: S.optional(S.Boolean),
-          supported: S.optional(S.Boolean),
-          checks: S.optional(__S(130, __c16, 2)),
-        }),
-      ).annotate({ identifier: "ByocInfrastructureValidation" });
-  }
-}
-function __c17(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1475,7 +653,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "DeleteByocInfrastructureResponse" });
   }
 }
-function __c18(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1492,7 +670,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetActivityRequest" });
   }
 }
-function __c19(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1509,172 +687,15 @@ function __c19(j: number): any {
           userAgent: S.optional(S.String),
           targetKeyId: S.optional(S.String),
           keyUpdateType: S.optional(S.String),
-          targetRoleIds: S.optional(__S(16, __c2, 0)),
-          targetRoleNames: S.optional(__S(16, __c2, 0)),
-          targetActorIds: S.optional(__S(16, __c2, 0)),
-          targetResourceIds: S.optional(__S(16, __c2, 0)),
+          targetRoleIds: S.optional(__S(8, __c1, 0)),
+          targetRoleNames: S.optional(__S(8, __c1, 0)),
+          targetActorIds: S.optional(__S(8, __c1, 0)),
+          targetResourceIds: S.optional(__S(8, __c1, 0)),
         }),
       ).annotate({ identifier: "Activity" });
   }
 }
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          byocInfrastructureId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/organizations/{organizationId}/byocInfrastructure/{byocInfrastructureId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetByocInfrastructureRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          state: S.optional(S.String),
-          accountId: S.optional(S.String),
-          regionId: S.optional(S.String),
-          cloudProvider: S.optional(S.String),
-          displayName: S.optional(S.String),
-          enablePrivateLink: S.optional(S.Boolean),
-          enablePrivateLoadBalancer: S.optional(S.Boolean),
-          enablePublicLoadBalancer: S.optional(S.Boolean),
-          vpcCidrRange: S.optional(S.String),
-          vpcAvailabilityZoneList: S.optional(__S(16, __c2, 0)),
-          isByoVpc: S.optional(S.Boolean),
-          byoVpcId: S.optional(S.String),
-          byoVpcPrivateSubnetIds: S.optional(__S(16, __c2, 0)),
-          byoVpcPodCidrRangeNames: S.optional(__S(16, __c2, 0)),
-          byoVpcSharedVpcHostProjectId: S.optional(S.String),
-          gcpPscSubnetId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ByocInfrastructureDetails" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          byocInfrastructureId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/organizations/{organizationId}/byocInfrastructure/{byocInfrastructureId}/customerAuthorizedAccess",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetByocInfrastructureCustomerAuthorizedAccessRequest" });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          mode: S.String,
-          startTimestamp: S.optional(S.String),
-          durationSeconds: S.optional(S.Number),
-          allowed: S.Boolean,
-          windowEndTimestamp: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ByocCustomerAuthorizedAccess" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          byocInfrastructureId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/organizations/{organizationId}/byocInfrastructure/{byocInfrastructureId}/privateEndpointConfig",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetByocInfrastructurePrivateEndpointConfigRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          endpointName: S.String,
-          privateDnsHostname: S.String,
-        }),
-      ).annotate({ identifier: "ByocInfrastructurePrivateEndpointConfig" });
-  }
-}
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          byocInfrastructureId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/organizations/{organizationId}/byocInfrastructure/{byocInfrastructureId}/progress",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetByocInfrastructureProgressRequest" });
-    case 1:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(194, __c24, 2)));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          status: S.optional(S.String),
-          updatedAt: S.optional(S.String),
-          message: S.optional(S.String),
-          subStages: S.optional(__S(193, __c24, 1)),
-        }),
-      ).annotate({ identifier: "ByocInfrastructureProgressStage" });
-    case 3:
-      return S.Array(__S(194, __c24, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          status: S.optional(S.String),
-          updatedAt: S.optional(S.String),
-          stages: S.optional(__S(195, __c24, 3)),
-        }),
-      ).annotate({ identifier: "ByocInfrastructureProgress" });
-  }
-}
-function __c25(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationId: S.String.pipe(T.Label()),
-          byocInfrastructureId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/organizations/{organizationId}/byocInfrastructure/{byocInfrastructureId}/tags",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetByocInfrastructureTagsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          tags: __S(24, __c3, 0),
-        }),
-      ).annotate({ identifier: "ByocInfrastructureTagsResponse" });
-  }
-}
-function __c26(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1684,7 +705,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "GetOrganizationRequest" });
   }
 }
-function __c27(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1696,9 +717,9 @@ function __c27(j: number): any {
         }),
       ).annotate({ identifier: "OrganizationPrivateEndpoint" });
     case 1:
-      return S.Array(__S(216, __c27, 0));
+      return S.Array(__S(64, __c8, 0));
     case 2:
-      return S.Array(__S(32, __c4, 0));
+      return S.Array(__S(16, __c2, 0));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1711,12 +732,102 @@ function __c27(j: number): any {
           id: S.optional(S.String),
           createdAt: S.optional(S.String),
           name: S.optional(S.String),
-          privateEndpoints: S.optional(__S(217, __c27, 1)),
-          byocConfig: S.optional(__S(218, __c27, 2)),
+          privateEndpoints: S.optional(__S(65, __c8, 1)),
+          byocConfig: S.optional(__S(66, __c8, 2)),
           enableCoreDumps: S.optional(S.Boolean),
-          capabilities: S.optional(__S(219, __c27, 3)),
+          capabilities: S.optional(__S(67, __c8, 3)),
         }),
       ).annotate({ identifier: "Organization" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label()),
+          from_date: S.optional(S.String.pipe(T.Query())),
+          to_date: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/organizations/{organizationId}/activities",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListActivitiesRequest" });
+    case 1:
+      return S.Array(__S(48, __c6, 0));
+    case 2:
+      return S.suspend(() => __S(73, __c9, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListActivitiesResponse",
+      });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          cursor: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/organizations", code: 200 })),
+      ).annotate({ identifier: "ListOrganizationsRequest" });
+    case 1:
+      return S.Array(__S(68, __c8, 4));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.Number),
+          requestId: S.optional(S.String),
+          result: __S(81, __c10, 1),
+          limit: S.optional(S.Number),
+          nextCursor: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "ListOrganizationsResponse" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label()),
+          byocInfrastructureId: S.String.pipe(T.Label()),
+          displayName: S.optional(S.String),
+          enablePrivateLink: S.optional(S.Boolean),
+          gcpPscSubnetId: S.optional(S.String),
+          enablePrivateLoadBalancer: S.optional(S.Boolean),
+          enablePublicLoadBalancer: S.optional(S.Boolean),
+          tags: S.optional(__S(24, __c3, 0)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/v1/organizations/{organizationId}/byocInfrastructure/{byocInfrastructureId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateByocInfrastructureRequest" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          add: S.optional(__S(65, __c8, 1)),
+          remove: S.optional(__S(65, __c8, 1)),
+        }),
+      ).annotate({ identifier: "OrganizationPrivateEndpointsPatch" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          organizationId: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          privateEndpoints: S.optional(__S(96, __c12, 0)),
+          enableCoreDumps: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "PATCH", uri: "/v1/organizations/{organizationId}", code: 200 })),
+      ).annotate({ identifier: "UpdateOrganizationRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.
