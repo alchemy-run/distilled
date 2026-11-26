@@ -55,6 +55,15 @@ are envd's server-streaming RPCs, returned as `Stream`s. Every other envd RPC
 is a generated unary operation (`process.sendProcessInput`,
 `filesystem.listDir`, …). The data-plane protocols never send the team API key.
 
+File reads (`envd.readFile`, `volumeContent.readVolumeFile`) return
+`{ body, contentType }`: the bytes as a `Stream<Uint8Array>` read as they
+arrive (`Stream.mkUint8Array` collects them). File writes
+(`envd.writeFiles`, `volumeContent.writeVolumeFile`) take `body` as bytes,
+text, a `Blob` or a `Stream<Uint8Array>`, sent as it is pulled and never
+retried. `envd.writeFiles` sends `application/octet-stream`, which envd
+accepts from 0.5.7 (the sandbox's `envdVersion`); rebuild an older template
+to upload to its sandboxes.
+
 ## Auth
 
 `E2B_API_KEY` as `X-API-Key`. Optional: `E2B_ACCESS_TOKEN` (`Authorization: Bearer`) and `E2B_TEAM_ID` (`X-Team-ID`) for `apiKeys` and `auth`, `E2B_DOMAIN` (default `e2b.app`), `E2B_API_URL` (default `https://api.<domain>`).

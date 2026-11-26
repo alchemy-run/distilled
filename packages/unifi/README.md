@@ -145,7 +145,7 @@ environment once, when the layer is built:
 ## Images
 
 Protect's `getCameraSnapshot` and InnerSpace's `getAsset` (a floor-plan image) return
-`{ body, contentType }`: the image as a `Uint8Array` and its `Content-Type` (`image/jpeg` or
+`{ body, contentType }`: the image as a `Stream<Uint8Array>` (`Stream.mkUint8Array` collects it) and its `Content-Type` (`image/jpeg` or
 `image/png`).
 
 ```ts

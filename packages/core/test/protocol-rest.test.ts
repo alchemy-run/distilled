@@ -454,6 +454,34 @@ describe("restProtocol raw request bodies", () => {
     expect(request.headers.get("content-type")).toBe("text/html");
   });
 
+  test("a stream body is sent as a stream, chunked unless a Content-Length member is set", async () => {
+    const parts = ["a", "bc", "def"].map((part) => new TextEncoder().encode(part));
+    const recorded: Recorded = { requests: [] };
+    await succeed(
+      upload({ key: "a.bin", body: Stream.fromIterable(parts) }),
+      fakeClient(() => json({}), recorded),
+      creds(),
+    );
+    const body = recorded.requests[0]!.body;
+    expect(body._tag).toBe("Stream");
+    expect(body.contentType).toBe("application/octet-stream");
+    expect(body.contentLength).toBeUndefined();
+    const sent = await Effect.runPromise(Stream.mkUint8Array((body as any).stream));
+    expect(new TextDecoder().decode(sent)).toBe("abcdef");
+
+    const Sized = S.Struct({
+      body: S.optional(S.Unknown.pipe(T.HttpBody())),
+      contentLength: S.optional(S.Number.pipe(T.Header("Content-Length"))),
+    }).pipe(T.Http({ method: "PUT", uri: "/blob", bodyMediaType: "application/octet-stream" }));
+    const sized: Recorded = { requests: [] };
+    await succeed(
+      op(Sized)({ body: Stream.fromIterable(parts), contentLength: 6 }),
+      fakeClient(() => json({}), sized),
+      creds(),
+    );
+    expect(sized.requests[0]!.body.contentLength).toBe(6);
+  });
+
   test("a JSON body is sent under the Content-Type member, else as application/json", async () => {
     // Shaped like a Kubernetes patch: the patch type is the Content-Type.
     const patch = op(

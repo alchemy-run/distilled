@@ -39,8 +39,8 @@ One module per document npm publishes: `access`, `audit`, `oidc`, `org`,
 Pass package names as they are (`@npmcli/arborist`). The SDK URL-encodes path parameters, so a
 name that is already escaped (`@npmcli%2Farborist`) is encoded twice.
 
-`stage.getStagePackageTarball` returns `{ body, contentType }`: the tarball as a `Uint8Array` and
-the response's `Content-Type`.
+`stage.getStagePackageTarball` returns `{ body, contentType }`: the tarball as a `Stream<Uint8Array>`
+read as it arrives (`Stream.mkUint8Array` collects it) and the response's `Content-Type`.
 
 ## Auth
 

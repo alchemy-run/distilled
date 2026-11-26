@@ -11,6 +11,7 @@ import * as Layer from "effect/Layer";
 import * as Ref from "effect/Ref";
 import * as Schedule from "effect/Schedule";
 import * as Schema from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as TestClock from "effect/testing/TestClock";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import * as API from "../src/api.ts";
@@ -344,6 +345,32 @@ describe("distilled.retry#policy override", () => {
     const http = scripted(() => status(503));
     await runVirtual(getTuned({}).pipe(withPolicy(none)), http.layer);
     expect(http.attempts).toHaveLength(1);
+  });
+});
+
+describe("stream request bodies", () => {
+  const putBlob = API.make(() => ({
+    input: S.Struct({ body: S.Unknown.pipe(T.HttpBody()) }).pipe(
+      T.Http({ method: "PUT", uri: "/blob", bodyMediaType: "application/octet-stream" }),
+    ),
+    output: Output,
+    serviceErrors: API_ERRORS,
+    protocol: TestProtocol,
+    retry: TestRetry,
+  })) as unknown as Call;
+
+  test("a call with a stream body is sent once: a stream cannot be sent again", async () => {
+    const { attempts, layer } = scripted(failTimes(2, () => status(503)));
+    const result = await runVirtual(putBlob({ body: Stream.make(new Uint8Array([1])) }), layer);
+    expect(result._tag).toBe("Failure");
+    expect(attempts).toHaveLength(1);
+  });
+
+  test("the same call with a bytes body is retried", async () => {
+    const { attempts, layer } = scripted(failTimes(2, () => status(503)));
+    const result = await runVirtual(putBlob({ body: new Uint8Array([1]) }), layer);
+    expect(result._tag).toBe("Success");
+    expect(attempts).toHaveLength(3);
   });
 });
 
