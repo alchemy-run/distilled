@@ -18,7 +18,7 @@ import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Entire from "@distilled.cloud/entire";
 import * as Identity from "@distilled.cloud/entire/identity";
 import * as Projects from "@distilled.cloud/entire/projects";
-import * as Repos from "@distilled.cloud/entire/repos";
+import * as Repos from "@distilled.cloud/entire/unstable/repos";
 import * as Trails from "@distilled.cloud/entire/trails";
 
 const program = Effect.gen(function* () {
@@ -46,7 +46,7 @@ program.pipe(Effect.provide(Live), Effect.runPromise);
 | `trails`, `trailReviews`, `trailDiscussions`, `sessions`, `checkpoints`, `repositories`, `code`, `environments`, `agents`, `runs`, `search`, `brainstore`, … | regional cell | `apiBaseUrl` |
 
 Every operation binds the protocol for its API (`EntireCoreProtocol` or `EntireCellProtocol`), so a
-program only provides `Credentials` and an `HttpClient`. `listClusters` (`@distilled.cloud/entire/clusters`) returns
+program only provides `Credentials` and an `HttpClient`. `listClusters` (`@distilled.cloud/entire/unstable/clusters`) returns
 each cell's `apiUrl` for repos homed outside the US.
 
 The cell's two collisions with Core module names are renamed: its `projects` tag is
@@ -54,6 +54,15 @@ The cell's two collisions with Core module names are renamed: its `projects` tag
 repo id (`listTrails`) and by `{host}/{owner}/{repo}` (`listTrailsBySlug`). Entire is renaming
 trails to changes, so each repo-id trail route also has a `changes` twin (`listChanges`,
 `getChange`, `startChangeReview`).
+
+## Experimental operations
+
+Operations Entire marks experimental (`x-entire-experimental: true`, or the cell's `experimental`
+tag) import from `unstable/`, under their module's name: `createRepo` from
+`@distilled.cloud/entire/unstable/repos`, `listClusters` from
+`@distilled.cloud/entire/unstable/clusters`, and the `experimental` module from
+`@distilled.cloud/entire/unstable/experimental`. The rest of `repos` and `clusters` stays on the
+stable path.
 
 ## Auth
 

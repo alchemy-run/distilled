@@ -12,10 +12,12 @@
  * `trailReviews`, `sessions`, `checkpoints`, `repositories` (git),
  * `environments`, `agents`, `runs`, `search`, `brainstore`, ...
  *
- * A module whose every operation Entire marks experimental (the cell's
- * `experimental` tag: "Shapes may change without notice") is generated to
- * `./unstable-services` instead, and imported as
- * `@distilled.cloud/entire/unstable/<module>` (`unstable/experimental`).
+ * An operation Entire marks experimental (`x-entire-experimental: true`, or
+ * the cell's `experimental` tag: "Shapes may change without notice") is
+ * generated to `./unstable-services` instead, and imported as
+ * `@distilled.cloud/entire/unstable/<module>` (`unstable/experimental`,
+ * `unstable/repos` for `createRepo`, `unstable/clusters` for
+ * `listClusters`).
  *
  * @example
  * ```ts
@@ -24,7 +26,7 @@
  * import * as Entire from "@distilled.cloud/entire";
  * import * as Identity from "@distilled.cloud/entire/identity";
  * import * as Projects from "@distilled.cloud/entire/projects";
- * import * as Repos from "@distilled.cloud/entire/repos";
+ * import * as Repos from "@distilled.cloud/entire/unstable/repos";
  * import * as Trails from "@distilled.cloud/entire/trails";
  *
  * const program = Effect.gen(function* () {

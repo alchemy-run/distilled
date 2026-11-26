@@ -26,8 +26,8 @@
  *      write `.generated-specs/<module>.json`.
  *   5. Stamp `smithy.api#paginated` on the cursor-paged operations — see
  *      {@link paginationFor}.
- *   6. Mark a model `smithy.api#unstable` when every operation in it is
- *      experimental — see {@link isExperimental}.
+ *   6. Mark each experimental operation `smithy.api#unstable` — see
+ *      {@link isExperimental}. Generate puts it in `unstable/<module>`.
  *
  * Failures share one RFC 9457 problem document and are dispatched at
  * runtime from the status (`statusToErrorClass: {}`).
@@ -38,7 +38,6 @@ import { clearModels, writeModel } from "@distilled.cloud/dev/codegen/models";
 import { convertOpenApiToSmithy } from "@distilled.cloud/dev/codegen/openapi";
 import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
 import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
-import { markUnstable } from "@distilled.cloud/dev/codegen/stability";
 import { OPERATION_NAMES } from "./operation-names.ts";
 
 const rootDir = path.resolve(import.meta.dirname, "..");
@@ -210,8 +209,6 @@ for (const api of APIS) {
 
   // ---- Bucket paths by primary tag --------------------------------------
   const tagBuckets = new Map<string, Record<string, Record<string, unknown>>>();
-  /** Modules with at least one operation that is not experimental. */
-  const stableModules = new Set<string>();
   for (const [pathTemplate, pathItem] of Object.entries<Record<string, any>>(fullSpec.paths)) {
     for (const method of HTTP_METHODS) {
       const op = pathItem[method];
@@ -237,7 +234,6 @@ for (const api of APIS) {
         );
       }
       usedModules.set(module, api.plane);
-      if (!isExperimental(op)) stableModules.add(module);
       if (!tagBuckets.has(module)) tagBuckets.set(module, {});
       const bucketPaths = tagBuckets.get(module)!;
       const rooted = `${API_ROOT}${pathTemplate}`;
@@ -266,6 +262,7 @@ for (const api of APIS) {
         // replaces require `If-Match`; both are modeled header members.
         headerParams: true,
         operationNames: OPERATION_NAMES,
+        unstableOperation: isExperimental,
       },
     );
 
@@ -302,7 +299,6 @@ for (const api of APIS) {
       );
     }
 
-    if (!stableModules.has(module)) markUnstable(model);
     writeModel(path.join(outDir, `${module}.json`), model);
     written++;
     totalOps += operations.length;

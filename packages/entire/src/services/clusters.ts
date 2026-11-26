@@ -57,22 +57,6 @@ export interface GetTopologyOutputBody {
   jurisdictions: GetTopologyOutputBodyJurisdictionsList;
   [key: string]: unknown;
 }
-export interface ListClustersRequest {}
-export interface Cluster {
-  apiUrl?: string | undefined;
-  isDefault: boolean;
-  jurisdiction: string;
-  publicUrl: string;
-  slug: string;
-  [key: string]: unknown;
-}
-export type ListClustersOutputBodyClustersList = Array<Cluster>;
-export interface ListClustersOutputBody {
-  /** A URL to the JSON Schema for this object. */
-  _schema?: string | undefined;
-  clusters: ListClustersOutputBodyClustersList;
-  [key: string]: unknown;
-}
 export type GetTopologyError = EntireOpError;
 /** Get the cluster topology as a jurisdiction -> region -> cluster tree */
 export const getTopology: API.OperationMethod<
@@ -89,24 +73,6 @@ export const getTopology: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetTopology",
-}));
-
-export type ListClustersError = EntireOpError;
-/** List data-plane clusters attached to this control plane **Accepted credentials:** User token. */
-export const listClusters: API.OperationMethod<
-  ListClustersRequest,
-  ListClustersOutputBody,
-  ListClustersError,
-  EntireOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<ListClustersRequest>,
-  output: __S(11, __c1, 3) as any as S.Schema<ListClustersOutputBody>,
-  errors: [],
-  serviceErrors: EntireServiceErrors,
-  protocol: EntireCoreProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListClusters",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -167,39 +133,6 @@ function __c0(j: number): any {
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "GetTopologyOutputBody" });
-  }
-}
-function __c1(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/clusters", code: 200 })),
-      ).annotate({ identifier: "ListClustersRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            apiUrl: S.optional(S.String),
-            isDefault: S.Boolean,
-            jurisdiction: S.String,
-            publicUrl: S.String,
-            slug: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "Cluster" });
-    case 2:
-      return S.Array(__S(9, __c1, 1));
-    case 3:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-            clusters: __S(10, __c1, 2),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ListClustersOutputBody" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.
