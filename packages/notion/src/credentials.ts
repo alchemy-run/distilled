@@ -29,7 +29,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
     "NotionCredentials",
   ) {}
 
@@ -43,16 +43,24 @@ const envConfig = /*@__PURE__*/ EffectConfig.all({
   ),
 });
 
-/** Reads NOTION_TOKEN, and optionally NOTION_API_BASE_URL and NOTION_VERSION. */
-export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
+/**
+ * Reads NOTION_TOKEN, and optionally NOTION_API_BASE_URL and NOTION_VERSION.
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
+ */
+export const CredentialsFromEnv = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ envConfig.pipe(
-    /*@__PURE__*/ Effect.mapError(
-      () =>
-        new ConfigError({
-          message: "NOTION_TOKEN environment variable is required",
-        }),
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ envConfig.pipe(
+      /*@__PURE__*/ Effect.mapError(
+        () =>
+          new ConfigError({
+            message: "NOTION_TOKEN environment variable is required",
+          }),
+      ),
     ),
+    (config) => Effect.succeed(config),
   ),
 );
 

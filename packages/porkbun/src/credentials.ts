@@ -22,7 +22,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
     "PorkbunCredentials",
   ) {}
 
@@ -50,23 +50,29 @@ export const fromApiKey = (config: {
 /**
  * Reads PORKBUN_API_KEY and PORKBUN_SECRET_API_KEY (required) and
  * PORKBUN_API_BASE_URL (optional).
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ Effect.gen(function* () {
-    const apiKey = process.env.PORKBUN_API_KEY;
-    const secretApiKey = process.env.PORKBUN_SECRET_API_KEY;
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ Effect.gen(function* () {
+      const apiKey = process.env.PORKBUN_API_KEY;
+      const secretApiKey = process.env.PORKBUN_SECRET_API_KEY;
 
-    if (!apiKey || !secretApiKey) {
-      return yield* new ConfigError({
-        message: "PORKBUN_API_KEY and PORKBUN_SECRET_API_KEY environment variables are required",
-      });
-    }
+      if (!apiKey || !secretApiKey) {
+        return yield* new ConfigError({
+          message: "PORKBUN_API_KEY and PORKBUN_SECRET_API_KEY environment variables are required",
+        });
+      }
 
-    return {
-      apiKey: Redacted.make(apiKey),
-      secretApiKey: Redacted.make(secretApiKey),
-      apiBaseUrl: process.env.PORKBUN_API_BASE_URL ?? DEFAULT_API_BASE_URL,
-    };
-  }),
+      return {
+        apiKey: Redacted.make(apiKey),
+        secretApiKey: Redacted.make(secretApiKey),
+        apiBaseUrl: process.env.PORKBUN_API_BASE_URL ?? DEFAULT_API_BASE_URL,
+      };
+    }),
+    (config) => Effect.succeed(config),
+  ),
 );

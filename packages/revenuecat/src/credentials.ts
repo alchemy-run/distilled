@@ -13,7 +13,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
     "RevenueCatCredentials",
   ) {}
 
@@ -24,16 +24,24 @@ const envConfig = /*@__PURE__*/ EffectConfig.all({
   ),
 });
 
-/** Reads REVENUECAT_API_KEY (a v2 secret key) and optionally REVENUECAT_API_BASE_URL. */
-export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
+/**
+ * Reads REVENUECAT_API_KEY (a v2 secret key) and optionally REVENUECAT_API_BASE_URL.
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
+ */
+export const CredentialsFromEnv = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ envConfig.pipe(
-    /*@__PURE__*/ Effect.mapError(
-      () =>
-        new ConfigError({
-          message: "REVENUECAT_API_KEY environment variable is required",
-        }),
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ envConfig.pipe(
+      /*@__PURE__*/ Effect.mapError(
+        () =>
+          new ConfigError({
+            message: "REVENUECAT_API_KEY environment variable is required",
+          }),
+      ),
     ),
+    (config) => Effect.succeed(config),
   ),
 );
 

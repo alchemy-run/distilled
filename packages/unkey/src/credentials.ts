@@ -20,9 +20,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
-    "UnkeyCredentials",
-  ) {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("UnkeyCredentials") {}
 
 /** Layer from a redacted root key + optional base URL. */
 export const fromApiKey = (config: {
@@ -37,21 +35,29 @@ export const fromApiKey = (config: {
     }),
   );
 
-/** Reads UNKEY_ROOT_KEY (required) and UNKEY_API_BASE_URL (optional). */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
+/**
+ * Reads UNKEY_ROOT_KEY (required) and UNKEY_API_BASE_URL (optional).
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
+ */
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ Effect.gen(function* () {
-    const apiKey = process.env.UNKEY_ROOT_KEY;
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ Effect.gen(function* () {
+      const apiKey = process.env.UNKEY_ROOT_KEY;
 
-    if (!apiKey) {
-      return yield* new ConfigError({
-        message: "UNKEY_ROOT_KEY environment variable is required",
-      });
-    }
+      if (!apiKey) {
+        return yield* new ConfigError({
+          message: "UNKEY_ROOT_KEY environment variable is required",
+        });
+      }
 
-    return {
-      apiKey: Redacted.make(apiKey),
-      apiBaseUrl: process.env.UNKEY_API_BASE_URL ?? DEFAULT_API_BASE_URL,
-    };
-  }),
+      return {
+        apiKey: Redacted.make(apiKey),
+        apiBaseUrl: process.env.UNKEY_API_BASE_URL ?? DEFAULT_API_BASE_URL,
+      };
+    }),
+    (config) => Effect.succeed(config),
+  ),
 );

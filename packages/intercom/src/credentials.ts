@@ -24,7 +24,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
     "IntercomCredentials",
   ) {}
 
@@ -46,22 +46,28 @@ export const fromApiKey = (config: {
 /**
  * Reads INTERCOM_ACCESS_TOKEN (or INTERCOM_API_KEY), INTERCOM_API_BASE_URL,
  * and INTERCOM_API_VERSION.
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ Effect.gen(function* () {
-    const apiKey = process.env.INTERCOM_ACCESS_TOKEN ?? process.env.INTERCOM_API_KEY;
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ Effect.gen(function* () {
+      const apiKey = process.env.INTERCOM_ACCESS_TOKEN ?? process.env.INTERCOM_API_KEY;
 
-    if (!apiKey) {
-      return yield* new ConfigError({
-        message: "INTERCOM_ACCESS_TOKEN (or INTERCOM_API_KEY) environment variable is required",
-      });
-    }
+      if (!apiKey) {
+        return yield* new ConfigError({
+          message: "INTERCOM_ACCESS_TOKEN (or INTERCOM_API_KEY) environment variable is required",
+        });
+      }
 
-    return {
-      apiKey: Redacted.make(apiKey),
-      apiBaseUrl: process.env.INTERCOM_API_BASE_URL ?? DEFAULT_API_BASE_URL,
-      apiVersion: process.env.INTERCOM_API_VERSION ?? DEFAULT_API_VERSION,
-    };
-  }),
+      return {
+        apiKey: Redacted.make(apiKey),
+        apiBaseUrl: process.env.INTERCOM_API_BASE_URL ?? DEFAULT_API_BASE_URL,
+        apiVersion: process.env.INTERCOM_API_VERSION ?? DEFAULT_API_VERSION,
+      };
+    }),
+    (config) => Effect.succeed(config),
+  ),
 );

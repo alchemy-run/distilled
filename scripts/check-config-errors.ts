@@ -5,9 +5,9 @@
 // For every SDK it asks the compiler one question: can an operation fail with
 // core `ConfigError`? The answer comes from the SDK's shared operation error
 // type (`<Sdk>OpError`), which holds what the protocol and the credentials
-// service fail with. Two lists below name the SDKs where the answer may be
-// yes. Anything else fails this check, and so does a list entry that is no
-// longer needed.
+// service fail with. The list below names the SDKs where the answer may be
+// yes, each with its reason. Anything else fails this check, and so does a
+// list entry that is no longer needed.
 //
 // Fix: make the layer a `Layer.effect` that reads and checks when it is
 // built (see packages/neon/src/credentials.ts), and take `ConfigError` out of
@@ -29,8 +29,11 @@ class ConfigErrorOnCall extends Data.TaggedError("ConfigErrorOnCall")<{
 }> {}
 
 /**
- * SDKs whose operations may fail with `ConfigError`, each with the reason:
- * a value that only some operations need, which the configuration may lack.
+ * SDKs whose operations may fail with `ConfigError`, each with the reason: a
+ * value that only some operations need, which the configuration may lack.
+ * Do not add an SDK here for a value its layer could check when it is built,
+ * or for a request its credentials make at run time (that fails with the
+ * SDK's own class, such as `TokenRequestFailed`).
  */
 const ON_CALL: Record<string, string> = {
   azure: "an operation that needs a subscription, when the credentials have none",
@@ -40,105 +43,6 @@ const ON_CALL: Record<string, string> = {
   s2: "a stream operation, when the credentials have no basin",
   unifi: "a console-hosted call with no console, from the call or a Console layer",
 };
-
-/**
- * SDKs that still fail a call with `ConfigError` for a value a layer could
- * check when it is built, or for a request made at run time. Do not add to
- * this list: fix the SDK. Remove an entry when its SDK is fixed.
- */
-const TO_FIX: ReadonlyArray<string> = [
-  "acme",
-  "adyen",
-  "anthropic",
-  "apache-superset",
-  "argocd",
-  "axiom",
-  "boat-dev",
-  "boxd",
-  "browserbase",
-  "clerk",
-  "clickhouse-cloud",
-  "cloudflare",
-  "coolify",
-  "customerio",
-  "digitalocean",
-  "discord",
-  "dokploy",
-  "doppler",
-  "elasticsearch",
-  "entire",
-  "exa",
-  "expo-eas",
-  "fly-io",
-  "forgejo",
-  "github",
-  "google-workspace",
-  "grafana",
-  "growthbook",
-  "gusto",
-  "hetzner",
-  "hostinger",
-  "huggingface",
-  "hydradb",
-  "infisical",
-  "inngest",
-  "intercom",
-  "kubernetes",
-  "launchdarkly",
-  "linear",
-  "meilisearch",
-  "mercury",
-  "metabase",
-  "modal",
-  "mollie",
-  "mongodb-atlas",
-  "mux",
-  "namespacelabs",
-  "notion",
-  "npm",
-  "okta",
-  "onepassword",
-  "opensearch",
-  "ovh",
-  "paypal",
-  "plaid",
-  "planetscale",
-  "polar",
-  "porkbun",
-  "posthog",
-  "prisma",
-  "questrade",
-  "railway",
-  "redis-cloud",
-  "remote",
-  "render",
-  "resend",
-  "revenuecat",
-  "scaleway",
-  "sentry",
-  "slack",
-  "spacetimedb",
-  "sproutboat",
-  "squarespace",
-  "steel",
-  "stripe",
-  "supabase",
-  "surrealdb",
-  "temporal",
-  "tinybird",
-  "trigger-dev",
-  "turbopuffer",
-  "turso",
-  "twitch",
-  "typesense",
-  "unkey",
-  "vanta",
-  "vercel",
-  "whop",
-  "workos",
-  "xata",
-  "zerossl",
-];
 
 /**
  * The type to ask about, for an SDK with no `<Sdk>OpError`: an error union,
@@ -206,8 +110,8 @@ const command = Command.make(
       }
     }
 
-    const allowed = (pkg: string) => pkg in ON_CALL || TO_FIX.includes(pkg);
-    for (const pkg of [...Object.keys(ON_CALL), ...TO_FIX]) {
+    const allowed = (pkg: string) => pkg in ON_CALL;
+    for (const pkg of Object.keys(ON_CALL)) {
       if (!probes.some((probe) => probe.pkg === pkg)) {
         problems.push(`scripts/check-config-errors.ts lists ${pkg}, which is not an SDK package`);
       }
@@ -272,18 +176,28 @@ const command = Command.make(
       });
     }
 
-    for (const [index, answer] of [...failed].sort(([a], [b]) => a - b)) {
-      const probe = probes[index]!;
-      const where = `packages/${probe.pkg}/src/${probe.file} ${probe.name}`;
-      if (answer === "any") {
-        problems.push(`${where}: its error type is any or unknown, so the check can't read it`);
-      } else if (answer === "yes") {
+    // An SDK can have several error types (fly-io has two). It is on the
+    // list while any of them holds ConfigError.
+    const answers = new Map<string, Array<{ probe: Probe; answer: "yes" | "no" | "any" }>>();
+    probes.forEach((probe, index) => {
+      const expected = allowed(probe.pkg) ? "yes" : "no";
+      const answer = (failed.get(index) ?? expected) as "yes" | "no" | "any";
+      answers.set(probe.pkg, [...(answers.get(probe.pkg) ?? []), { probe, answer }]);
+    });
+    for (const [pkg, results] of answers) {
+      for (const { probe, answer } of results) {
+        const where = `packages/${pkg}/src/${probe.file} ${probe.name}`;
+        if (answer === "any") {
+          problems.push(`${where}: its error type is any or unknown, so the check can't read it`);
+        } else if (answer === "yes" && !allowed(pkg)) {
+          problems.push(
+            `${where}: an operation can fail with ConfigError. Read and check the configuration when the layer is built (AGENTS.md rule 18)`,
+          );
+        }
+      }
+      if (allowed(pkg) && results.every(({ answer }) => answer === "no")) {
         problems.push(
-          `${where}: an operation can fail with ConfigError. Read and check the configuration when the layer is built (AGENTS.md rule 18)`,
-        );
-      } else {
-        problems.push(
-          `${where}: no operation fails with ConfigError any more. Remove ${probe.pkg} from the lists in scripts/check-config-errors.ts`,
+          `packages/${pkg}: no operation fails with ConfigError any more. Remove ${pkg} from ON_CALL in scripts/check-config-errors.ts`,
         );
       }
     }
@@ -295,7 +209,7 @@ const command = Command.make(
       });
     }
     yield* Console.log(
-      `Checked ${probes.length} SDK error types: ${Object.keys(ON_CALL).length} may fail a call with ConfigError for a value one operation needs, ${TO_FIX.length} are still to fix`,
+      `Checked ${probes.length} error types of ${answers.size} SDKs: ${Object.keys(ON_CALL).length} SDKs may fail a call with ConfigError, each for a listed reason`,
     );
   }),
 ).pipe(Command.withDescription("Check that no operation fails with ConfigError for its setup"));

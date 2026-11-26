@@ -35,7 +35,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
     "EntireCredentials",
   ) {}
 
@@ -52,16 +52,22 @@ const envConfig = /*@__PURE__*/ EffectConfig.all({
 /**
  * Reads `ENTIRE_TOKEN` (the bearer `entire auth token` prints), and
  * optionally `ENTIRE_CORE_BASE_URL` and `ENTIRE_API_BASE_URL`.
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
  */
-export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
+export const CredentialsFromEnv = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ envConfig.pipe(
-    /*@__PURE__*/ Effect.mapError(
-      () =>
-        new ConfigError({
-          message: "ENTIRE_TOKEN environment variable is required",
-        }),
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ envConfig.pipe(
+      /*@__PURE__*/ Effect.mapError(
+        () =>
+          new ConfigError({
+            message: "ENTIRE_TOKEN environment variable is required",
+          }),
+      ),
     ),
+    (config) => Effect.succeed(config),
   ),
 );
 

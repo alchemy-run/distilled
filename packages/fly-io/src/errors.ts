@@ -65,6 +65,17 @@ applyErrorMatchers(SpritesNotEnabled, [
 ]);
 
 /**
+ * The Sprites bearer could not be minted from the Fly token: no Fly
+ * organization could be found for the token, the organization it names can't
+ * go in a URL, or the mint did not answer in time. It is a failure of
+ * requests made at run time, so it is not a `ConfigError`.
+ */
+export class TokenRequestFailed
+  extends /*@__PURE__*/ Schema.TaggedError<TokenRequestFailed>()("TokenRequestFailed", {
+    message: Schema.String,
+  }).pipe(Category.withAuthError) {}
+
+/**
  * Errors any Fly.io operation may surface in addition to the status-mapped
  * per-operation errors.
  */

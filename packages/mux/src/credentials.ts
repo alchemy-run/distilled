@@ -47,9 +47,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
-    "MuxCredentials",
-  ) {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("MuxCredentials") {}
 
 const trimSlash = (url: string): string => url.replace(/\/+$/, "");
 
@@ -98,34 +96,42 @@ const MISSING =
  * Reads `MUX_TOKEN_ID` + `MUX_TOKEN_SECRET`, or `MUX_AUTHORIZATION_TOKEN`,
  * and the optional `MUX_BASE_URL`, through Effect `Config` -- so it follows
  * whatever `ConfigProvider` is installed (in a Worker, one built from `env`).
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ envConfig.pipe(
-    /*@__PURE__*/ Effect.mapError((e) => new ConfigError({ message: `${MISSING}: ${e.message}` })),
-    /*@__PURE__*/ Effect.flatMap(
-      ({
-        tokenId,
-        tokenSecret,
-        authorizationToken,
-        apiBaseUrl,
-      }): Effect.Effect<Config, ConfigError> => {
-        const base = trimSlash(apiBaseUrl);
-        if (Option.isSome(authorizationToken)) {
-          return Effect.succeed({
-            auth: { _tag: "AuthorizationToken", authorizationToken: authorizationToken.value },
-            apiBaseUrl: base,
-          });
-        }
-        if (Option.isSome(tokenId) && Option.isSome(tokenSecret)) {
-          return Effect.succeed({
-            auth: { _tag: "AccessToken", tokenId: tokenId.value, tokenSecret: tokenSecret.value },
-            apiBaseUrl: base,
-          });
-        }
-        return Effect.fail(new ConfigError({ message: MISSING }));
-      },
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ envConfig.pipe(
+      /*@__PURE__*/ Effect.mapError(
+        (e) => new ConfigError({ message: `${MISSING}: ${e.message}` }),
+      ),
+      /*@__PURE__*/ Effect.flatMap(
+        ({
+          tokenId,
+          tokenSecret,
+          authorizationToken,
+          apiBaseUrl,
+        }): Effect.Effect<Config, ConfigError> => {
+          const base = trimSlash(apiBaseUrl);
+          if (Option.isSome(authorizationToken)) {
+            return Effect.succeed({
+              auth: { _tag: "AuthorizationToken", authorizationToken: authorizationToken.value },
+              apiBaseUrl: base,
+            });
+          }
+          if (Option.isSome(tokenId) && Option.isSome(tokenSecret)) {
+            return Effect.succeed({
+              auth: { _tag: "AccessToken", tokenId: tokenId.value, tokenSecret: tokenSecret.value },
+              apiBaseUrl: base,
+            });
+          }
+          return Effect.fail(new ConfigError({ message: MISSING }));
+        },
+      ),
     ),
+    (config) => Effect.succeed(config),
   ),
 );
 

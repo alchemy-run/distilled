@@ -98,7 +98,7 @@ export class OAuthRefreshError
 export class Credentials
   extends /*@__PURE__*/ Context.Service<
     Credentials,
-    Effect.Effect<ResolvedCredentials, ConfigError | OAuthRefreshError>
+    Effect.Effect<ResolvedCredentials, OAuthRefreshError>
   >()("CloudflareCredentials") {}
 
 /** What resolving the credentials can fail with: declared on {@link Credentials}. */
@@ -269,7 +269,16 @@ export const resolveFromEnv: Effect.Effect<ResolvedCredentials, ConfigError> =
     });
   });
 
-export const fromEnv = (): Layer.Layer<Credentials> => Layer.succeed(Credentials, resolveFromEnv);
+/**
+ * Credentials from the environment ({@link resolveFromEnv}), read once: when
+ * the layer is built. A missing or incomplete set of variables fails the
+ * layer with `ConfigError`.
+ */
+export const fromEnv = (): Layer.Layer<Credentials, ConfigError> =>
+  Layer.effect(
+    Credentials,
+    /*@__PURE__*/ Effect.map(resolveFromEnv, (config) => Effect.succeed(config)),
+  );
 
 export const CredentialsFromEnv = /*@__PURE__*/ fromEnv();
 

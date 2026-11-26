@@ -26,7 +26,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
     "MollieCredentials",
   ) {}
 
@@ -37,17 +37,25 @@ const envConfig = /*@__PURE__*/ EffectConfig.all({
   ),
 });
 
-/** Reads `MOLLIE_API_KEY` (required) and `MOLLIE_BASE_URL` (optional). */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
+/**
+ * Reads `MOLLIE_API_KEY` (required) and `MOLLIE_BASE_URL` (optional).
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
+ */
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ envConfig.pipe(
-    /*@__PURE__*/ Effect.map(({ apiKey, baseUrl }) => ({
-      apiKey,
-      baseUrl: baseUrl.replace(/\/+$/, ""),
-    })),
-    /*@__PURE__*/ Effect.mapError(
-      () => new ConfigError({ message: "MOLLIE_API_KEY environment variable is required" }),
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ envConfig.pipe(
+      /*@__PURE__*/ Effect.map(({ apiKey, baseUrl }) => ({
+        apiKey,
+        baseUrl: baseUrl.replace(/\/+$/, ""),
+      })),
+      /*@__PURE__*/ Effect.mapError(
+        () => new ConfigError({ message: "MOLLIE_API_KEY environment variable is required" }),
+      ),
     ),
+    (config) => Effect.succeed(config),
   ),
 );
 

@@ -30,7 +30,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
     "TwitchCredentials",
   ) {}
 
@@ -42,16 +42,24 @@ const envConfig = /*@__PURE__*/ EffectConfig.all({
   ),
 });
 
-/** Reads `TWITCH_ACCESS_TOKEN`, `TWITCH_CLIENT_ID` and, optionally, `TWITCH_API_BASE_URL`. */
-export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
+/**
+ * Reads `TWITCH_ACCESS_TOKEN`, `TWITCH_CLIENT_ID` and, optionally, `TWITCH_API_BASE_URL`.
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
+ */
+export const CredentialsFromEnv = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ envConfig.pipe(
-    /*@__PURE__*/ Effect.mapError(
-      () =>
-        new ConfigError({
-          message: "TWITCH_ACCESS_TOKEN and TWITCH_CLIENT_ID environment variables are required",
-        }),
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ envConfig.pipe(
+      /*@__PURE__*/ Effect.mapError(
+        () =>
+          new ConfigError({
+            message: "TWITCH_ACCESS_TOKEN and TWITCH_CLIENT_ID environment variables are required",
+          }),
+      ),
     ),
+    (config) => Effect.succeed(config),
   ),
 );
 

@@ -131,8 +131,9 @@ number.
     stream operation without a basin fails on the call; a Tailscale token
     exchange that gets a 503 fails the call with `TokenRequestFailed`.
     `pnpm config-errors:check` enforces this in CI: it fails when an SDK's
-    operations can fail with `ConfigError` and the SDK is not on the lists
-    in `scripts/check-config-errors.ts`.
+    operations can fail with `ConfigError` and the SDK is not on the list
+    in `scripts/check-config-errors.ts`, which gives the reason for each
+    entry.
 
 ## Getting the repo
 

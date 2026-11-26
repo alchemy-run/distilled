@@ -21,7 +21,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
     "SpacetimeDBCredentials",
   ) {}
 
@@ -47,26 +47,32 @@ export const fromAnonymous = (config?: {
 /**
  * Reads SPACETIMEDB_TOKEN or SPACETIME_TOKEN (optional -- empty is anonymous)
  * and SPACETIMEDB_API_BASE_URL or SPACETIMEDB_HOST (optional).
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ Effect.gen(function* () {
-    const apiKey = process.env.SPACETIMEDB_TOKEN ?? process.env.SPACETIME_TOKEN ?? "";
-    const apiBaseUrl =
-      process.env.SPACETIMEDB_API_BASE_URL ??
-      process.env.SPACETIMEDB_HOST ??
-      process.env.SPACETIME_HOST ??
-      DEFAULT_API_BASE_URL;
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ Effect.gen(function* () {
+      const apiKey = process.env.SPACETIMEDB_TOKEN ?? process.env.SPACETIME_TOKEN ?? "";
+      const apiBaseUrl =
+        process.env.SPACETIMEDB_API_BASE_URL ??
+        process.env.SPACETIMEDB_HOST ??
+        process.env.SPACETIME_HOST ??
+        DEFAULT_API_BASE_URL;
 
-    if (!apiBaseUrl) {
-      return yield* new ConfigError({
-        message: "SPACETIMEDB_API_BASE_URL environment variable is required",
-      });
-    }
+      if (!apiBaseUrl) {
+        return yield* new ConfigError({
+          message: "SPACETIMEDB_API_BASE_URL environment variable is required",
+        });
+      }
 
-    return {
-      apiKey: Redacted.make(apiKey),
-      apiBaseUrl,
-    };
-  }),
+      return {
+        apiKey: Redacted.make(apiKey),
+        apiBaseUrl,
+      };
+    }),
+    (config) => Effect.succeed(config),
+  ),
 );

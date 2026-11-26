@@ -30,9 +30,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
-    "NpmCredentials",
-  ) {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("NpmCredentials") {}
 
 const trimSlash = (url: string): string => url.replace(/\/+$/, "");
 
@@ -46,18 +44,24 @@ const envConfig = /*@__PURE__*/ EffectConfig.all({
 /**
  * Reads `NPM_TOKEN` (optional) and `NPM_API_BASE_URL` (optional, default
  * {@link DEFAULT_REGISTRY_URL}).
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ envConfig.pipe(
-    /*@__PURE__*/ Effect.mapError(
-      (error) =>
-        new ConfigError({ message: `npm credentials could not be read: ${error.message}` }),
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ envConfig.pipe(
+      /*@__PURE__*/ Effect.mapError(
+        (error) =>
+          new ConfigError({ message: `npm credentials could not be read: ${error.message}` }),
+      ),
+      /*@__PURE__*/ Effect.map(({ token, registryUrl }) => ({
+        token: Option.getOrUndefined(token),
+        registryUrl: trimSlash(registryUrl),
+      })),
     ),
-    /*@__PURE__*/ Effect.map(({ token, registryUrl }) => ({
-      token: Option.getOrUndefined(token),
-      registryUrl: trimSlash(registryUrl),
-    })),
+    (config) => Effect.succeed(config),
   ),
 );
 

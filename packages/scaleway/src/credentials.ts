@@ -43,7 +43,7 @@ export interface Config {
   readonly apiUrl?: string;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
   "ScalewayCredentials",
 ) {}
 
@@ -58,23 +58,30 @@ const envConfig = EffectConfig.all({
   apiUrl: optional("SCW_API_URL"),
 });
 
-export const CredentialsFromEnv = Layer.succeed(
+/**
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
+ */
+export const CredentialsFromEnv = Layer.effect(
   Credentials,
-  envConfig.pipe(
-    Effect.mapError(
-      () =>
-        new ConfigError({
-          message: "SCW_SECRET_KEY environment variable is required",
-        }),
+  /*@__PURE__*/ Effect.map(
+    envConfig.pipe(
+      Effect.mapError(
+        () =>
+          new ConfigError({
+            message: "SCW_SECRET_KEY environment variable is required",
+          }),
+      ),
+      Effect.map((env): Config => ({
+        secretKey: env.secretKey,
+        region: env.region,
+        zone: env.zone,
+        organizationId: Option.getOrUndefined(env.organizationId),
+        projectId: Option.getOrUndefined(env.projectId),
+        apiUrl: Option.getOrUndefined(env.apiUrl),
+      })),
     ),
-    Effect.map((env): Config => ({
-      secretKey: env.secretKey,
-      region: env.region,
-      zone: env.zone,
-      organizationId: Option.getOrUndefined(env.organizationId),
-      projectId: Option.getOrUndefined(env.projectId),
-      apiUrl: Option.getOrUndefined(env.apiUrl),
-    })),
+    (config) => Effect.succeed(config),
   ),
 );
 

@@ -45,7 +45,7 @@ export const toConfig = (config: {
 });
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
     "LinearCredentials",
   ) {}
 
@@ -79,27 +79,33 @@ const MISSING_TOKEN = "LINEAR_API_KEY (or LINEAR_ACCESS_TOKEN) environment varia
  *   `https://api.linear.app`.
  *
  * The API key wins when both are set.
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ Effect.gen(function* () {
-    const config = yield* envConfig.pipe(
-      Effect.mapError(() => new ConfigError({ message: MISSING_TOKEN })),
-    );
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ Effect.gen(function* () {
+      const config = yield* envConfig.pipe(
+        Effect.mapError(() => new ConfigError({ message: MISSING_TOKEN })),
+      );
 
-    const set = (value: Option.Option<string>) =>
-      Option.getOrUndefined(Option.filter(value, (s) => s.length > 0));
-    const apiKey = set(config.apiKey);
-    const token = apiKey ?? set(config.accessToken);
+      const set = (value: Option.Option<string>) =>
+        Option.getOrUndefined(Option.filter(value, (s) => s.length > 0));
+      const apiKey = set(config.apiKey);
+      const token = apiKey ?? set(config.accessToken);
 
-    if (!token) {
-      return yield* new ConfigError({ message: MISSING_TOKEN });
-    }
+      if (!token) {
+        return yield* new ConfigError({ message: MISSING_TOKEN });
+      }
 
-    return {
-      token: Redacted.make(token),
-      tokenKind: apiKey !== undefined ? "apiKey" : "oauth",
-      apiBaseUrl: config.apiBaseUrl,
-    } satisfies Config;
-  }),
+      return {
+        token: Redacted.make(token),
+        tokenKind: apiKey !== undefined ? "apiKey" : "oauth",
+        apiBaseUrl: config.apiBaseUrl,
+      } satisfies Config;
+    }),
+    (config) => Effect.succeed(config),
+  ),
 );
