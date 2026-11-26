@@ -5,6 +5,12 @@
  * `scripts/convert.ts` converts from the OpenAPI spec. Everything else in this
  * folder is hand-written.
  *
+ * Operations in a tag DigitalOcean labels `[Public Preview]` (MicroVMs, VPC
+ * Subnets, VPC Routes, Harness Runtime Workspaces) are generated to
+ * `./unstable-services` and imported as
+ * `@distilled.cloud/digitalocean/unstable/digitalocean`; they are not
+ * re-exported from the package root.
+ *
  * @example
  * ```ts
  * import * as DigitalOcean from "@distilled.cloud/digitalocean";

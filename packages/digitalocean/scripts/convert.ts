@@ -9,11 +9,23 @@
  * The OpenAPI→Smithy converter lives in
  * `@distilled.cloud/dev/codegen/openapi`; this script is DigitalOcean's
  * pipeline config. `scripts/generate.ts` compiles the model into src/services.
+ *
+ * DigitalOcean labels the tags of its preview products in the tag name
+ * (`VPC Subnets [Public Preview]`). An operation with such a tag is marked
+ * `smithy.api#unstable`, so generate writes it to `unstable/digitalocean`
+ * and the other operations to the stable `digitalocean` module.
  */
 import * as path from "node:path";
 import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
 
 const root = path.resolve(import.meta.dirname, "..");
+
+/** A tag label for a product that is not generally available. */
+const PRE_GA_TAG = /\[(?:public |private )?(?:preview|beta|alpha)\]/i;
+
+/** An operation in a tag DigitalOcean labels preview, beta or alpha. */
+const isPreview = (op: Record<string, any>): boolean =>
+  Array.isArray(op.tags) && op.tags.some((tag: unknown) => PRE_GA_TAG.test(String(tag)));
 
 await runOpenApiConvert({
   root,
@@ -30,6 +42,7 @@ await runOpenApiConvert({
     namespace: "com.digitalocean.api",
     serviceName: "DigitalOcean",
     skipDeprecated: true,
+    unstableOperation: isPreview,
     // Async-accept endpoints (droplet create, firewall create, droplet and
     // firewall actions) answer 202 with the created resource in the body.
     // Without it the converter finds no success schema and emits an empty
