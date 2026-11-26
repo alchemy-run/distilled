@@ -73,6 +73,7 @@ const Website = Cloudflare.Website.StaticSite(
           "../packages/*/package.json",
           "../packages/*/patches/**",
           "../packages/*/src/services/**",
+          "../packages/*/src/unstable-services/**",
           "../benches/*/results/latest.json",
         ],
       },
