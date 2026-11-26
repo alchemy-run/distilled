@@ -17,6 +17,19 @@ const result = await Effect.runPromise(projects);
 console.log(result.projects.map(({ id, name }) => ({ id, name })));
 ```
 
+## Beta and alpha operations
+
+Neon marks some operations `x-stability-level: beta` or `alpha` in its spec: Functions, triggers, storage buckets, Neon Auth, branch credentials, logs and realtime, among others. They are not on the package root. Import them from `unstable/neon`:
+
+```ts
+import * as NeonUnstable from "@distilled.cloud/neon/unstable/neon";
+
+const functions = NeonUnstable.listProjectBranchFunctions({
+  project_id: "your-project-id",
+  branch_id: "your-branch-id",
+});
+```
+
 ## Spec source
 
 The source is the [Neon API OpenAPI document](https://neon.com/api_spec/release/v2.json), pinned through `specs/spec-mirror-neon`. Corrections live in `patches/`; generated models and TypeScript are committed. From the Distilled repository root, run `pnpm generate neon` to convert, generate, and format the SDK. Refresh only the Neon spec mirror when updating its source.
@@ -32,7 +45,7 @@ Branch credentials are separate managed API objects. Issue/reveal/rotate respons
 Functions use a Node.js 24 Fetch entrypoint in an `index.mjs` ZIP. The deployment operation accepts `Blob`, `Uint8Array`, or `ArrayBuffer` ZIP data without converting binary bytes to text:
 
 ```ts
-const deploy = Neon.createProjectBranchFunctionDeployment({
+const deploy = NeonUnstable.createProjectBranchFunctionDeployment({
   project_id: "your-project-id",
   branch_id: "your-branch-id",
   slug: "api",
@@ -51,7 +64,7 @@ A successful deployment API response is not proof that invocation serves the req
 Trigger creation and updates use a discriminated `body`, matching the API's schedule and object-created variants:
 
 ```ts
-const trigger = Neon.createProjectBranchTrigger({
+const trigger = NeonUnstable.createProjectBranchTrigger({
   project_id: "your-project-id",
   branch_id: "your-branch-id",
   body: {

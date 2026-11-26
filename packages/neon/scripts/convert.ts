@@ -11,9 +11,17 @@
  * The OpenAPI→Smithy converter lives in
  * `@distilled.cloud/dev/codegen/openapi`; this script is Neon's pipeline
  * config. `scripts/generate.ts` compiles the model into src/services.
+ *
+ * Operations the spec marks `x-stability-level: beta` or `alpha` are marked
+ * `smithy.api#unstable`, so generate writes them to src/unstable-services
+ * (`@distilled.cloud/neon/unstable/neon`) and the rest to src/services. A
+ * patch can remove the mark from one operation.
  */
 import * as path from "node:path";
 import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
+
+/** Neon's pre-GA stability levels; an operation without the field is GA. */
+const UNSTABLE_LEVELS = new Set(["alpha", "beta"]);
 
 await runOpenApiConvert({
   root: path.resolve(import.meta.dirname, ".."),
@@ -33,5 +41,6 @@ await runOpenApiConvert({
     // v0 parity: includeOperationErrors=true with the default status→class
     // map and default error statuses (401/429/500/503 covered globally).
     skipDeprecated: true,
+    unstableOperation: (op) => UNSTABLE_LEVELS.has(op["x-stability-level"]),
   },
 });
