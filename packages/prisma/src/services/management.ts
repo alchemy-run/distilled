@@ -33,8 +33,8 @@ export class BadRequest
       message: S.String,
       body: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.suspend(() => __S(17, __c1, 1)),
-          /*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)),
+          /*@__PURE__*/ S.suspend(() => __S(33, __c2, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
           S.String,
         ]),
       ),
@@ -53,8 +53,9 @@ export class Conflict
       message: S.String,
       body: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)),
-          /*@__PURE__*/ S.suspend(() => __S(33, __c2, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(49, __c3, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(65, __c4, 1)),
           S.String,
         ]),
       ),
@@ -63,7 +64,7 @@ export class Conflict
     [{ status: 409 }],
   )
 {
-  declare readonly body?: Error404Body | Error409Body | string;
+  declare readonly body?: Error404Body | Error409Body | Error409Body2 | string;
 }
 
 /** The hostname's CNAME to the app's switchboard does not resolve yet. Publish it (or wait for it to propagate) and retry. */
@@ -72,7 +73,7 @@ export class DomainDnsNotConfigured
     /*@__PURE__*/ S.TaggedError<DomainDnsNotConfigured>()("DomainDnsNotConfigured", {
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
@@ -102,7 +103,7 @@ export class Forbidden
       code: S.Number,
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
@@ -118,7 +119,7 @@ export class NotFound
       code: S.Number,
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
@@ -128,20 +129,112 @@ export class NotFound
   declare readonly body?: Error404Body | string;
 }
 
+/** The hostname is not one a RoutingUrl can serve. */
+export class RoutingUrlInvalidHostname
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<RoutingUrlInvalidHostname>()("RoutingUrlInvalidHostname", {
+      message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(65, __c4, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(65, __c4, 1)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }).pipe(C.withBadRequestError),
+    [{ status: 422, body: { "/error/code": "invalid-hostname" } }],
+  )
+{
+  declare readonly body?: Error422Body | Error422Body2 | string;
+}
+
+/** Another live RoutingUrl on the Branch already has this `logicalId`. */
+export class RoutingUrlLogicalIdTaken
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<RoutingUrlLogicalIdTaken>()("RoutingUrlLogicalIdTaken", {
+      message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(65, __c4, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }).pipe(C.withConflictError, C.withAlreadyExistsError),
+    [{ status: 409, body: { "/error/code": "logical-id-taken" } }],
+  )
+{
+  declare readonly body?: Error409Body2 | string;
+}
+
+/** The service has reached its hostname quota. Remove a RoutingUrl from it, or use another service. */
+export class RoutingUrlQuotaExceeded
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<RoutingUrlQuotaExceeded>()("RoutingUrlQuotaExceeded", {
+      message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(65, __c4, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }).pipe(C.withConflictError, C.withQuotaError),
+    [{ status: 409, body: { "/error/code": "quota-exceeded" } }],
+  )
+{
+  declare readonly body?: Error409Body2 | string;
+}
+
+/** The service is not on a Branch, so it cannot have a RoutingUrl. */
+export class RoutingUrlServiceNotOnABranch
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<RoutingUrlServiceNotOnABranch>()("RoutingUrlServiceNotOnABranch", {
+      message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(65, __c4, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }).pipe(C.withBadRequestError),
+    [{ status: 422, body: { "/error/code": "service-not-on-a-branch" } }],
+  )
+{
+  declare readonly body?: Error422Body | string;
+}
+
+/** The new service is on another Branch than the RoutingUrl. */
+export class RoutingUrlServiceOnAnotherBranch
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<RoutingUrlServiceOnAnotherBranch>()(
+      "RoutingUrlServiceOnAnotherBranch",
+      {
+        message: S.String,
+        body: /*@__PURE__*/ S.optional(
+          /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(65, __c4, 1)), S.String]),
+        ),
+        headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      },
+    ).pipe(C.withBadRequestError),
+    [{ status: 422, body: { "/error/code": "service-on-another-branch" } }],
+  )
+{
+  declare readonly body?: Error422Body2 | string;
+}
+
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(65, __c4, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(65, __c4, 1)),
+          S.String,
+        ]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
   )
 {
-  declare readonly body?: Error404Body | string;
+  declare readonly body?: Error404Body | Error422Body | Error422Body2 | string;
 }
 
 export interface CreateAuthGithubActionsTokenRequest {
@@ -1144,8 +1237,20 @@ export interface CreateServiceUrlRequest {
   /** Whether to create a domain ownership for the exact hostname when no verified one covers it. Set it to `false` to create or change only the RoutingUrl, and create the domain ownership with `POST /v1/workspaces/{workspaceId}/domain-ownerships`. */
   createDomainOwnership?: boolean | undefined;
 }
-/** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. */
+/** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. It records that the hostname went live; `state` says what it does now. */
 export type CreateServiceUrlResponseDataStatus = "pending" | "active";
+/** What the hostname is doing now, in one value, worked out on read from what is stored. No part of the platform acts on it: it is for choosing what to show and what to wait for. It can differ from `status`, which records that the hostname once went live. To wait for the hostname to serve, wait for `active`. The first that applies is the state: - `not_verified`: the hostname's ownership is not met. Publish the TXT record in `records`, then call `POST /v1/urls/{id}/check`. When the workspace has no domain ownership that covers the hostname, create one first with `POST /v1/workspaces/{workspaceId}/domain-ownerships`: check creates none. - `no_service`: the hostname's service is deleted. - `no_live_deployment`: the service has no live deployment. Deploy the service, or promote one of its deployments. - `update_failed`: the last attempt to bring the hostname up to date failed. `customDomainSyncError` says why, and it is retried. - `in_use_elsewhere`: another RoutingUrl, which can be on the same service, holds this hostname. `heldBy` names its service when you can access its workspace, and says "held by another workspace" otherwise. This RoutingUrl takes the hostname over with no action once the other one gives it up. - `waiting_for_dns`: the hostname's DNS does not point where it should. Publish the CNAME record in `records`, then call `POST /v1/urls/{id}/check`. - `provisioning_certificate`: the hostname's certificate is being issued. - `certificate_failed`: the certificate could not be issued. `customDomain.failureReason` says why; `POST /v1/urls/{id}/check` retries it. - `updating`: the hostname is being brought up to date, for example onto the service's new live deployment. - `active`: the hostname serves the service's live deployment with an active certificate. */
+export type CreateServiceUrlResponseDataState =
+  | "not_verified"
+  | "no_service"
+  | "no_live_deployment"
+  | "update_failed"
+  | "in_use_elsewhere"
+  | "waiting_for_dns"
+  | "provisioning_certificate"
+  | "certificate_failed"
+  | "updating"
+  | "active";
 export type CreateServiceUrlResponseDataConditionsOwnershipVerified = "met" | "unmet" | "unknown";
 export type CreateServiceUrlResponseDataConditionsServicePresent = "met" | "unmet" | "unknown";
 export type CreateServiceUrlResponseDataConditionsLiveDeployment = "met" | "unmet" | "unknown";
@@ -1186,7 +1291,7 @@ export interface CreateServiceUrlResponseDataRecordsItem {
   value: string;
   ttl: number;
 }
-/** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. */
+/** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. While ownership is not met it is the record of the domain ownership for the exact hostname, otherwise that of a wildcard domain ownership that covers it, otherwise the exact hostname's. */
 export type CreateServiceUrlResponseDataRecordsList =
   Array<CreateServiceUrlResponseDataRecordsItem>;
 /** Set when another RoutingUrl holds the hostname. Its ids are shown only to a caller with access to its workspace; otherwise `message` is "held by another workspace". */
@@ -1228,14 +1333,16 @@ export interface CreateServiceUrlResponseData {
   serviceId: string | null;
   hostname: string;
   logicalId: string | null;
-  /** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. */
+  /** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. It records that the hostname went live; `state` says what it does now. */
   status: CreateServiceUrlResponseDataStatus;
+  /** What the hostname is doing now, in one value, worked out on read from what is stored. No part of the platform acts on it: it is for choosing what to show and what to wait for. It can differ from `status`, which records that the hostname once went live. To wait for the hostname to serve, wait for `active`. The first that applies is the state: - `not_verified`: the hostname's ownership is not met. Publish the TXT record in `records`, then call `POST /v1/urls/{id}/check`. When the workspace has no domain ownership that covers the hostname, create one first with `POST /v1/workspaces/{workspaceId}/domain-ownerships`: check creates none. - `no_service`: the hostname's service is deleted. - `no_live_deployment`: the service has no live deployment. Deploy the service, or promote one of its deployments. - `update_failed`: the last attempt to bring the hostname up to date failed. `customDomainSyncError` says why, and it is retried. - `in_use_elsewhere`: another RoutingUrl, which can be on the same service, holds this hostname. `heldBy` names its service when you can access its workspace, and says "held by another workspace" otherwise. This RoutingUrl takes the hostname over with no action once the other one gives it up. - `waiting_for_dns`: the hostname's DNS does not point where it should. Publish the CNAME record in `records`, then call `POST /v1/urls/{id}/check`. - `provisioning_certificate`: the hostname's certificate is being issued. - `certificate_failed`: the certificate could not be issued. `customDomain.failureReason` says why; `POST /v1/urls/{id}/check` retries it. - `updating`: the hostname is being brought up to date, for example onto the service's new live deployment. - `active`: the hostname serves the service's live deployment with an active certificate. */
+  state: CreateServiceUrlResponseDataState;
   /** What the hostname needs to serve, in the order a user meets them. `unknown` means DNS or Foundry has not answered yet. */
   conditions: CreateServiceUrlResponseDataConditions;
   firstUnmetCondition: CreateServiceUrlResponseDataFirstUnmetCondition | null;
   /** Set while only an `expiring` domain ownership keeps this active RoutingUrl serving. The hostname stops serving after `expiresAt` unless the TXT record in `records` is published. */
   ownershipExpiry: CreateServiceUrlResponseDataOwnershipExpiry | null;
-  /** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. */
+  /** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. While ownership is not met it is the record of the domain ownership for the exact hostname, otherwise that of a wildcard domain ownership that covers it, otherwise the exact hostname's. */
   records: CreateServiceUrlResponseDataRecordsList;
   /** Set when another RoutingUrl holds the hostname. Its ids are shown only to a caller with access to its workspace; otherwise `message` is "held by another workspace". */
   heldBy: CreateServiceUrlResponseDataHeldBy | null;
@@ -1284,8 +1391,20 @@ export interface CreateSourceRepositoryResponse {
 export interface CreateUrlCheckRequest {
   id: string;
 }
-/** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. */
+/** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. It records that the hostname went live; `state` says what it does now. */
 export type CreateUrlCheckResponseDataStatus = "pending" | "active";
+/** What the hostname is doing now, in one value, worked out on read from what is stored. No part of the platform acts on it: it is for choosing what to show and what to wait for. It can differ from `status`, which records that the hostname once went live. To wait for the hostname to serve, wait for `active`. The first that applies is the state: - `not_verified`: the hostname's ownership is not met. Publish the TXT record in `records`, then call `POST /v1/urls/{id}/check`. When the workspace has no domain ownership that covers the hostname, create one first with `POST /v1/workspaces/{workspaceId}/domain-ownerships`: check creates none. - `no_service`: the hostname's service is deleted. - `no_live_deployment`: the service has no live deployment. Deploy the service, or promote one of its deployments. - `update_failed`: the last attempt to bring the hostname up to date failed. `customDomainSyncError` says why, and it is retried. - `in_use_elsewhere`: another RoutingUrl, which can be on the same service, holds this hostname. `heldBy` names its service when you can access its workspace, and says "held by another workspace" otherwise. This RoutingUrl takes the hostname over with no action once the other one gives it up. - `waiting_for_dns`: the hostname's DNS does not point where it should. Publish the CNAME record in `records`, then call `POST /v1/urls/{id}/check`. - `provisioning_certificate`: the hostname's certificate is being issued. - `certificate_failed`: the certificate could not be issued. `customDomain.failureReason` says why; `POST /v1/urls/{id}/check` retries it. - `updating`: the hostname is being brought up to date, for example onto the service's new live deployment. - `active`: the hostname serves the service's live deployment with an active certificate. */
+export type CreateUrlCheckResponseDataState =
+  | "not_verified"
+  | "no_service"
+  | "no_live_deployment"
+  | "update_failed"
+  | "in_use_elsewhere"
+  | "waiting_for_dns"
+  | "provisioning_certificate"
+  | "certificate_failed"
+  | "updating"
+  | "active";
 export type CreateUrlCheckResponseDataConditionsOwnershipVerified = "met" | "unmet" | "unknown";
 export type CreateUrlCheckResponseDataConditionsServicePresent = "met" | "unmet" | "unknown";
 export type CreateUrlCheckResponseDataConditionsLiveDeployment = "met" | "unmet" | "unknown";
@@ -1324,7 +1443,7 @@ export interface CreateUrlCheckResponseDataRecordsItem {
   value: string;
   ttl: number;
 }
-/** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. */
+/** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. While ownership is not met it is the record of the domain ownership for the exact hostname, otherwise that of a wildcard domain ownership that covers it, otherwise the exact hostname's. */
 export type CreateUrlCheckResponseDataRecordsList = Array<CreateUrlCheckResponseDataRecordsItem>;
 /** Set when another RoutingUrl holds the hostname. Its ids are shown only to a caller with access to its workspace; otherwise `message` is "held by another workspace". */
 export type CreateUrlCheckResponseDataHeldBy = CreateServiceUrlResponseDataHeldBy;
@@ -1356,14 +1475,16 @@ export interface CreateUrlCheckResponseData {
   serviceId: string | null;
   hostname: string;
   logicalId: string | null;
-  /** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. */
+  /** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. It records that the hostname went live; `state` says what it does now. */
   status: CreateUrlCheckResponseDataStatus;
+  /** What the hostname is doing now, in one value, worked out on read from what is stored. No part of the platform acts on it: it is for choosing what to show and what to wait for. It can differ from `status`, which records that the hostname once went live. To wait for the hostname to serve, wait for `active`. The first that applies is the state: - `not_verified`: the hostname's ownership is not met. Publish the TXT record in `records`, then call `POST /v1/urls/{id}/check`. When the workspace has no domain ownership that covers the hostname, create one first with `POST /v1/workspaces/{workspaceId}/domain-ownerships`: check creates none. - `no_service`: the hostname's service is deleted. - `no_live_deployment`: the service has no live deployment. Deploy the service, or promote one of its deployments. - `update_failed`: the last attempt to bring the hostname up to date failed. `customDomainSyncError` says why, and it is retried. - `in_use_elsewhere`: another RoutingUrl, which can be on the same service, holds this hostname. `heldBy` names its service when you can access its workspace, and says "held by another workspace" otherwise. This RoutingUrl takes the hostname over with no action once the other one gives it up. - `waiting_for_dns`: the hostname's DNS does not point where it should. Publish the CNAME record in `records`, then call `POST /v1/urls/{id}/check`. - `provisioning_certificate`: the hostname's certificate is being issued. - `certificate_failed`: the certificate could not be issued. `customDomain.failureReason` says why; `POST /v1/urls/{id}/check` retries it. - `updating`: the hostname is being brought up to date, for example onto the service's new live deployment. - `active`: the hostname serves the service's live deployment with an active certificate. */
+  state: CreateUrlCheckResponseDataState;
   /** What the hostname needs to serve, in the order a user meets them. `unknown` means DNS or Foundry has not answered yet. */
   conditions: CreateUrlCheckResponseDataConditions;
   firstUnmetCondition: CreateUrlCheckResponseDataFirstUnmetCondition | null;
   /** Set while only an `expiring` domain ownership keeps this active RoutingUrl serving. The hostname stops serving after `expiresAt` unless the TXT record in `records` is published. */
   ownershipExpiry: CreateServiceUrlResponseDataOwnershipExpiry | null;
-  /** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. */
+  /** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. While ownership is not met it is the record of the domain ownership for the exact hostname, otherwise that of a wildcard domain ownership that covers it, otherwise the exact hostname's. */
   records: CreateUrlCheckResponseDataRecordsList;
   /** Set when another RoutingUrl holds the hostname. Its ids are shown only to a caller with access to its workspace; otherwise `message` is "held by another workspace". */
   heldBy: CreateServiceUrlResponseDataHeldBy | null;
@@ -2422,8 +2543,20 @@ export interface GetProjectBranchUrlsRequest {
   /** Declared identity of the resource, unique within its branch. Set by the tool that declares the resource. */
   logicalId?: string | undefined;
 }
-/** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. */
+/** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. It records that the hostname went live; `state` says what it does now. */
 export type GetProjectBranchUrlsResponseDataItemStatus = "pending" | "active";
+/** What the hostname is doing now, in one value, worked out on read from what is stored. No part of the platform acts on it: it is for choosing what to show and what to wait for. It can differ from `status`, which records that the hostname once went live. To wait for the hostname to serve, wait for `active`. The first that applies is the state: - `not_verified`: the hostname's ownership is not met. Publish the TXT record in `records`, then call `POST /v1/urls/{id}/check`. When the workspace has no domain ownership that covers the hostname, create one first with `POST /v1/workspaces/{workspaceId}/domain-ownerships`: check creates none. - `no_service`: the hostname's service is deleted. - `no_live_deployment`: the service has no live deployment. Deploy the service, or promote one of its deployments. - `update_failed`: the last attempt to bring the hostname up to date failed. `customDomainSyncError` says why, and it is retried. - `in_use_elsewhere`: another RoutingUrl, which can be on the same service, holds this hostname. `heldBy` names its service when you can access its workspace, and says "held by another workspace" otherwise. This RoutingUrl takes the hostname over with no action once the other one gives it up. - `waiting_for_dns`: the hostname's DNS does not point where it should. Publish the CNAME record in `records`, then call `POST /v1/urls/{id}/check`. - `provisioning_certificate`: the hostname's certificate is being issued. - `certificate_failed`: the certificate could not be issued. `customDomain.failureReason` says why; `POST /v1/urls/{id}/check` retries it. - `updating`: the hostname is being brought up to date, for example onto the service's new live deployment. - `active`: the hostname serves the service's live deployment with an active certificate. */
+export type GetProjectBranchUrlsResponseDataItemState =
+  | "not_verified"
+  | "no_service"
+  | "no_live_deployment"
+  | "update_failed"
+  | "in_use_elsewhere"
+  | "waiting_for_dns"
+  | "provisioning_certificate"
+  | "certificate_failed"
+  | "updating"
+  | "active";
 export type GetProjectBranchUrlsResponseDataItemConditionsOwnershipVerified =
   | "met"
   | "unmet"
@@ -2478,7 +2611,7 @@ export interface GetProjectBranchUrlsResponseDataItemRecordsItem {
   value: string;
   ttl: number;
 }
-/** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. */
+/** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. While ownership is not met it is the record of the domain ownership for the exact hostname, otherwise that of a wildcard domain ownership that covers it, otherwise the exact hostname's. */
 export type GetProjectBranchUrlsResponseDataItemRecordsList =
   Array<GetProjectBranchUrlsResponseDataItemRecordsItem>;
 /** Set when another RoutingUrl holds the hostname. Its ids are shown only to a caller with access to its workspace; otherwise `message` is "held by another workspace". */
@@ -2512,14 +2645,16 @@ export interface GetProjectBranchUrlsResponseDataItem {
   serviceId: string | null;
   hostname: string;
   logicalId: string | null;
-  /** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. */
+  /** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. It records that the hostname went live; `state` says what it does now. */
   status: GetProjectBranchUrlsResponseDataItemStatus;
+  /** What the hostname is doing now, in one value, worked out on read from what is stored. No part of the platform acts on it: it is for choosing what to show and what to wait for. It can differ from `status`, which records that the hostname once went live. To wait for the hostname to serve, wait for `active`. The first that applies is the state: - `not_verified`: the hostname's ownership is not met. Publish the TXT record in `records`, then call `POST /v1/urls/{id}/check`. When the workspace has no domain ownership that covers the hostname, create one first with `POST /v1/workspaces/{workspaceId}/domain-ownerships`: check creates none. - `no_service`: the hostname's service is deleted. - `no_live_deployment`: the service has no live deployment. Deploy the service, or promote one of its deployments. - `update_failed`: the last attempt to bring the hostname up to date failed. `customDomainSyncError` says why, and it is retried. - `in_use_elsewhere`: another RoutingUrl, which can be on the same service, holds this hostname. `heldBy` names its service when you can access its workspace, and says "held by another workspace" otherwise. This RoutingUrl takes the hostname over with no action once the other one gives it up. - `waiting_for_dns`: the hostname's DNS does not point where it should. Publish the CNAME record in `records`, then call `POST /v1/urls/{id}/check`. - `provisioning_certificate`: the hostname's certificate is being issued. - `certificate_failed`: the certificate could not be issued. `customDomain.failureReason` says why; `POST /v1/urls/{id}/check` retries it. - `updating`: the hostname is being brought up to date, for example onto the service's new live deployment. - `active`: the hostname serves the service's live deployment with an active certificate. */
+  state: GetProjectBranchUrlsResponseDataItemState;
   /** What the hostname needs to serve, in the order a user meets them. `unknown` means DNS or Foundry has not answered yet. */
   conditions: GetProjectBranchUrlsResponseDataItemConditions;
   firstUnmetCondition: GetProjectBranchUrlsResponseDataItemFirstUnmetCondition | null;
   /** Set while only an `expiring` domain ownership keeps this active RoutingUrl serving. The hostname stops serving after `expiresAt` unless the TXT record in `records` is published. */
   ownershipExpiry: CreateServiceUrlResponseDataOwnershipExpiry | null;
-  /** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. */
+  /** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. While ownership is not met it is the record of the domain ownership for the exact hostname, otherwise that of a wildcard domain ownership that covers it, otherwise the exact hostname's. */
   records: GetProjectBranchUrlsResponseDataItemRecordsList;
   /** Set when another RoutingUrl holds the hostname. Its ids are shown only to a caller with access to its workspace; otherwise `message` is "held by another workspace". */
   heldBy: CreateServiceUrlResponseDataHeldBy | null;
@@ -2817,8 +2952,20 @@ export interface GetServicesResponse {
 export interface GetServiceUrlsRequest {
   serviceId: string;
 }
-/** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. */
+/** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. It records that the hostname went live; `state` says what it does now. */
 export type GetServiceUrlsResponseDataItemStatus = "pending" | "active";
+/** What the hostname is doing now, in one value, worked out on read from what is stored. No part of the platform acts on it: it is for choosing what to show and what to wait for. It can differ from `status`, which records that the hostname once went live. To wait for the hostname to serve, wait for `active`. The first that applies is the state: - `not_verified`: the hostname's ownership is not met. Publish the TXT record in `records`, then call `POST /v1/urls/{id}/check`. When the workspace has no domain ownership that covers the hostname, create one first with `POST /v1/workspaces/{workspaceId}/domain-ownerships`: check creates none. - `no_service`: the hostname's service is deleted. - `no_live_deployment`: the service has no live deployment. Deploy the service, or promote one of its deployments. - `update_failed`: the last attempt to bring the hostname up to date failed. `customDomainSyncError` says why, and it is retried. - `in_use_elsewhere`: another RoutingUrl, which can be on the same service, holds this hostname. `heldBy` names its service when you can access its workspace, and says "held by another workspace" otherwise. This RoutingUrl takes the hostname over with no action once the other one gives it up. - `waiting_for_dns`: the hostname's DNS does not point where it should. Publish the CNAME record in `records`, then call `POST /v1/urls/{id}/check`. - `provisioning_certificate`: the hostname's certificate is being issued. - `certificate_failed`: the certificate could not be issued. `customDomain.failureReason` says why; `POST /v1/urls/{id}/check` retries it. - `updating`: the hostname is being brought up to date, for example onto the service's new live deployment. - `active`: the hostname serves the service's live deployment with an active certificate. */
+export type GetServiceUrlsResponseDataItemState =
+  | "not_verified"
+  | "no_service"
+  | "no_live_deployment"
+  | "update_failed"
+  | "in_use_elsewhere"
+  | "waiting_for_dns"
+  | "provisioning_certificate"
+  | "certificate_failed"
+  | "updating"
+  | "active";
 export type GetServiceUrlsResponseDataItemConditionsOwnershipVerified = "met" | "unmet" | "unknown";
 export type GetServiceUrlsResponseDataItemConditionsServicePresent = "met" | "unmet" | "unknown";
 export type GetServiceUrlsResponseDataItemConditionsLiveDeployment = "met" | "unmet" | "unknown";
@@ -2858,7 +3005,7 @@ export interface GetServiceUrlsResponseDataItemRecordsItem {
   value: string;
   ttl: number;
 }
-/** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. */
+/** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. While ownership is not met it is the record of the domain ownership for the exact hostname, otherwise that of a wildcard domain ownership that covers it, otherwise the exact hostname's. */
 export type GetServiceUrlsResponseDataItemRecordsList =
   Array<GetServiceUrlsResponseDataItemRecordsItem>;
 /** Set when another RoutingUrl holds the hostname. Its ids are shown only to a caller with access to its workspace; otherwise `message` is "held by another workspace". */
@@ -2892,14 +3039,16 @@ export interface GetServiceUrlsResponseDataItem {
   serviceId: string | null;
   hostname: string;
   logicalId: string | null;
-  /** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. */
+  /** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. It records that the hostname went live; `state` says what it does now. */
   status: GetServiceUrlsResponseDataItemStatus;
+  /** What the hostname is doing now, in one value, worked out on read from what is stored. No part of the platform acts on it: it is for choosing what to show and what to wait for. It can differ from `status`, which records that the hostname once went live. To wait for the hostname to serve, wait for `active`. The first that applies is the state: - `not_verified`: the hostname's ownership is not met. Publish the TXT record in `records`, then call `POST /v1/urls/{id}/check`. When the workspace has no domain ownership that covers the hostname, create one first with `POST /v1/workspaces/{workspaceId}/domain-ownerships`: check creates none. - `no_service`: the hostname's service is deleted. - `no_live_deployment`: the service has no live deployment. Deploy the service, or promote one of its deployments. - `update_failed`: the last attempt to bring the hostname up to date failed. `customDomainSyncError` says why, and it is retried. - `in_use_elsewhere`: another RoutingUrl, which can be on the same service, holds this hostname. `heldBy` names its service when you can access its workspace, and says "held by another workspace" otherwise. This RoutingUrl takes the hostname over with no action once the other one gives it up. - `waiting_for_dns`: the hostname's DNS does not point where it should. Publish the CNAME record in `records`, then call `POST /v1/urls/{id}/check`. - `provisioning_certificate`: the hostname's certificate is being issued. - `certificate_failed`: the certificate could not be issued. `customDomain.failureReason` says why; `POST /v1/urls/{id}/check` retries it. - `updating`: the hostname is being brought up to date, for example onto the service's new live deployment. - `active`: the hostname serves the service's live deployment with an active certificate. */
+  state: GetServiceUrlsResponseDataItemState;
   /** What the hostname needs to serve, in the order a user meets them. `unknown` means DNS or Foundry has not answered yet. */
   conditions: GetServiceUrlsResponseDataItemConditions;
   firstUnmetCondition: GetServiceUrlsResponseDataItemFirstUnmetCondition | null;
   /** Set while only an `expiring` domain ownership keeps this active RoutingUrl serving. The hostname stops serving after `expiresAt` unless the TXT record in `records` is published. */
   ownershipExpiry: CreateServiceUrlResponseDataOwnershipExpiry | null;
-  /** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. */
+  /** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. While ownership is not met it is the record of the domain ownership for the exact hostname, otherwise that of a wildcard domain ownership that covers it, otherwise the exact hostname's. */
   records: GetServiceUrlsResponseDataItemRecordsList;
   /** Set when another RoutingUrl holds the hostname. Its ids are shown only to a caller with access to its workspace; otherwise `message` is "held by another workspace". */
   heldBy: CreateServiceUrlResponseDataHeldBy | null;
@@ -2977,8 +3126,20 @@ export interface GetSourceRepositoryResponse {
 export interface GetUrlRequest {
   id: string;
 }
-/** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. */
+/** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. It records that the hostname went live; `state` says what it does now. */
 export type GetUrlResponseDataStatus = "pending" | "active";
+/** What the hostname is doing now, in one value, worked out on read from what is stored. No part of the platform acts on it: it is for choosing what to show and what to wait for. It can differ from `status`, which records that the hostname once went live. To wait for the hostname to serve, wait for `active`. The first that applies is the state: - `not_verified`: the hostname's ownership is not met. Publish the TXT record in `records`, then call `POST /v1/urls/{id}/check`. When the workspace has no domain ownership that covers the hostname, create one first with `POST /v1/workspaces/{workspaceId}/domain-ownerships`: check creates none. - `no_service`: the hostname's service is deleted. - `no_live_deployment`: the service has no live deployment. Deploy the service, or promote one of its deployments. - `update_failed`: the last attempt to bring the hostname up to date failed. `customDomainSyncError` says why, and it is retried. - `in_use_elsewhere`: another RoutingUrl, which can be on the same service, holds this hostname. `heldBy` names its service when you can access its workspace, and says "held by another workspace" otherwise. This RoutingUrl takes the hostname over with no action once the other one gives it up. - `waiting_for_dns`: the hostname's DNS does not point where it should. Publish the CNAME record in `records`, then call `POST /v1/urls/{id}/check`. - `provisioning_certificate`: the hostname's certificate is being issued. - `certificate_failed`: the certificate could not be issued. `customDomain.failureReason` says why; `POST /v1/urls/{id}/check` retries it. - `updating`: the hostname is being brought up to date, for example onto the service's new live deployment. - `active`: the hostname serves the service's live deployment with an active certificate. */
+export type GetUrlResponseDataState =
+  | "not_verified"
+  | "no_service"
+  | "no_live_deployment"
+  | "update_failed"
+  | "in_use_elsewhere"
+  | "waiting_for_dns"
+  | "provisioning_certificate"
+  | "certificate_failed"
+  | "updating"
+  | "active";
 export type GetUrlResponseDataConditionsOwnershipVerified = "met" | "unmet" | "unknown";
 export type GetUrlResponseDataConditionsServicePresent = "met" | "unmet" | "unknown";
 export type GetUrlResponseDataConditionsLiveDeployment = "met" | "unmet" | "unknown";
@@ -3012,7 +3173,7 @@ export interface GetUrlResponseDataRecordsItem {
   value: string;
   ttl: number;
 }
-/** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. */
+/** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. While ownership is not met it is the record of the domain ownership for the exact hostname, otherwise that of a wildcard domain ownership that covers it, otherwise the exact hostname's. */
 export type GetUrlResponseDataRecordsList = Array<GetUrlResponseDataRecordsItem>;
 /** Set when another RoutingUrl holds the hostname. Its ids are shown only to a caller with access to its workspace; otherwise `message` is "held by another workspace". */
 export type GetUrlResponseDataHeldBy = CreateServiceUrlResponseDataHeldBy;
@@ -3040,14 +3201,16 @@ export interface GetUrlResponseData {
   serviceId: string | null;
   hostname: string;
   logicalId: string | null;
-  /** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. */
+  /** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. It records that the hostname went live; `state` says what it does now. */
   status: GetUrlResponseDataStatus;
+  /** What the hostname is doing now, in one value, worked out on read from what is stored. No part of the platform acts on it: it is for choosing what to show and what to wait for. It can differ from `status`, which records that the hostname once went live. To wait for the hostname to serve, wait for `active`. The first that applies is the state: - `not_verified`: the hostname's ownership is not met. Publish the TXT record in `records`, then call `POST /v1/urls/{id}/check`. When the workspace has no domain ownership that covers the hostname, create one first with `POST /v1/workspaces/{workspaceId}/domain-ownerships`: check creates none. - `no_service`: the hostname's service is deleted. - `no_live_deployment`: the service has no live deployment. Deploy the service, or promote one of its deployments. - `update_failed`: the last attempt to bring the hostname up to date failed. `customDomainSyncError` says why, and it is retried. - `in_use_elsewhere`: another RoutingUrl, which can be on the same service, holds this hostname. `heldBy` names its service when you can access its workspace, and says "held by another workspace" otherwise. This RoutingUrl takes the hostname over with no action once the other one gives it up. - `waiting_for_dns`: the hostname's DNS does not point where it should. Publish the CNAME record in `records`, then call `POST /v1/urls/{id}/check`. - `provisioning_certificate`: the hostname's certificate is being issued. - `certificate_failed`: the certificate could not be issued. `customDomain.failureReason` says why; `POST /v1/urls/{id}/check` retries it. - `updating`: the hostname is being brought up to date, for example onto the service's new live deployment. - `active`: the hostname serves the service's live deployment with an active certificate. */
+  state: GetUrlResponseDataState;
   /** What the hostname needs to serve, in the order a user meets them. `unknown` means DNS or Foundry has not answered yet. */
   conditions: GetUrlResponseDataConditions;
   firstUnmetCondition: GetUrlResponseDataFirstUnmetCondition | null;
   /** Set while only an `expiring` domain ownership keeps this active RoutingUrl serving. The hostname stops serving after `expiresAt` unless the TXT record in `records` is published. */
   ownershipExpiry: CreateServiceUrlResponseDataOwnershipExpiry | null;
-  /** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. */
+  /** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. While ownership is not met it is the record of the domain ownership for the exact hostname, otherwise that of a wildcard domain ownership that covers it, otherwise the exact hostname's. */
   records: GetUrlResponseDataRecordsList;
   /** Set when another RoutingUrl holds the hostname. Its ids are shown only to a caller with access to its workspace; otherwise `message` is "held by another workspace". */
   heldBy: CreateServiceUrlResponseDataHeldBy | null;
@@ -3565,8 +3728,20 @@ export interface UpdateUrlRequest {
   /** Whether to create a domain ownership for the exact hostname when no verified one covers it. Set it to `false` to create or change only the RoutingUrl, and create the domain ownership with `POST /v1/workspaces/{workspaceId}/domain-ownerships`. */
   createDomainOwnership?: boolean | undefined;
 }
-/** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. */
+/** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. It records that the hostname went live; `state` says what it does now. */
 export type UpdateUrlResponseDataStatus = "pending" | "active";
+/** What the hostname is doing now, in one value, worked out on read from what is stored. No part of the platform acts on it: it is for choosing what to show and what to wait for. It can differ from `status`, which records that the hostname once went live. To wait for the hostname to serve, wait for `active`. The first that applies is the state: - `not_verified`: the hostname's ownership is not met. Publish the TXT record in `records`, then call `POST /v1/urls/{id}/check`. When the workspace has no domain ownership that covers the hostname, create one first with `POST /v1/workspaces/{workspaceId}/domain-ownerships`: check creates none. - `no_service`: the hostname's service is deleted. - `no_live_deployment`: the service has no live deployment. Deploy the service, or promote one of its deployments. - `update_failed`: the last attempt to bring the hostname up to date failed. `customDomainSyncError` says why, and it is retried. - `in_use_elsewhere`: another RoutingUrl, which can be on the same service, holds this hostname. `heldBy` names its service when you can access its workspace, and says "held by another workspace" otherwise. This RoutingUrl takes the hostname over with no action once the other one gives it up. - `waiting_for_dns`: the hostname's DNS does not point where it should. Publish the CNAME record in `records`, then call `POST /v1/urls/{id}/check`. - `provisioning_certificate`: the hostname's certificate is being issued. - `certificate_failed`: the certificate could not be issued. `customDomain.failureReason` says why; `POST /v1/urls/{id}/check` retries it. - `updating`: the hostname is being brought up to date, for example onto the service's new live deployment. - `active`: the hostname serves the service's live deployment with an active certificate. */
+export type UpdateUrlResponseDataState =
+  | "not_verified"
+  | "no_service"
+  | "no_live_deployment"
+  | "update_failed"
+  | "in_use_elsewhere"
+  | "waiting_for_dns"
+  | "provisioning_certificate"
+  | "certificate_failed"
+  | "updating"
+  | "active";
 export type UpdateUrlResponseDataConditionsOwnershipVerified = "met" | "unmet" | "unknown";
 export type UpdateUrlResponseDataConditionsServicePresent = "met" | "unmet" | "unknown";
 export type UpdateUrlResponseDataConditionsLiveDeployment = "met" | "unmet" | "unknown";
@@ -3602,7 +3777,7 @@ export interface UpdateUrlResponseDataRecordsItem {
   value: string;
   ttl: number;
 }
-/** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. */
+/** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. While ownership is not met it is the record of the domain ownership for the exact hostname, otherwise that of a wildcard domain ownership that covers it, otherwise the exact hostname's. */
 export type UpdateUrlResponseDataRecordsList = Array<UpdateUrlResponseDataRecordsItem>;
 /** Set when another RoutingUrl holds the hostname. Its ids are shown only to a caller with access to its workspace; otherwise `message` is "held by another workspace". */
 export type UpdateUrlResponseDataHeldBy = CreateServiceUrlResponseDataHeldBy;
@@ -3634,14 +3809,16 @@ export interface UpdateUrlResponseData {
   serviceId: string | null;
   hostname: string;
   logicalId: string | null;
-  /** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. */
+  /** `pending` until every condition is met, then `active`. An active RoutingUrl stays active when its service's live deployment changes. It goes back to `pending` when its hostname changes, its service is deleted, or no covering domain ownership keeps its ownership met. It records that the hostname went live; `state` says what it does now. */
   status: UpdateUrlResponseDataStatus;
+  /** What the hostname is doing now, in one value, worked out on read from what is stored. No part of the platform acts on it: it is for choosing what to show and what to wait for. It can differ from `status`, which records that the hostname once went live. To wait for the hostname to serve, wait for `active`. The first that applies is the state: - `not_verified`: the hostname's ownership is not met. Publish the TXT record in `records`, then call `POST /v1/urls/{id}/check`. When the workspace has no domain ownership that covers the hostname, create one first with `POST /v1/workspaces/{workspaceId}/domain-ownerships`: check creates none. - `no_service`: the hostname's service is deleted. - `no_live_deployment`: the service has no live deployment. Deploy the service, or promote one of its deployments. - `update_failed`: the last attempt to bring the hostname up to date failed. `customDomainSyncError` says why, and it is retried. - `in_use_elsewhere`: another RoutingUrl, which can be on the same service, holds this hostname. `heldBy` names its service when you can access its workspace, and says "held by another workspace" otherwise. This RoutingUrl takes the hostname over with no action once the other one gives it up. - `waiting_for_dns`: the hostname's DNS does not point where it should. Publish the CNAME record in `records`, then call `POST /v1/urls/{id}/check`. - `provisioning_certificate`: the hostname's certificate is being issued. - `certificate_failed`: the certificate could not be issued. `customDomain.failureReason` says why; `POST /v1/urls/{id}/check` retries it. - `updating`: the hostname is being brought up to date, for example onto the service's new live deployment. - `active`: the hostname serves the service's live deployment with an active certificate. */
+  state: UpdateUrlResponseDataState;
   /** What the hostname needs to serve, in the order a user meets them. `unknown` means DNS or Foundry has not answered yet. */
   conditions: UpdateUrlResponseDataConditions;
   firstUnmetCondition: UpdateUrlResponseDataFirstUnmetCondition | null;
   /** Set while only an `expiring` domain ownership keeps this active RoutingUrl serving. The hostname stops serving after `expiresAt` unless the TXT record in `records` is published. */
   ownershipExpiry: CreateServiceUrlResponseDataOwnershipExpiry | null;
-  /** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. */
+  /** The DNS records still to publish. The TXT record is listed while ownership is not met, and while only an `expiring` domain ownership keeps it met. While ownership is not met it is the record of the domain ownership for the exact hostname, otherwise that of a wildcard domain ownership that covers it, otherwise the exact hostname's. */
   records: UpdateUrlResponseDataRecordsList;
   /** Set when another RoutingUrl holds the hostname. Its ids are shown only to a caller with access to its workspace; otherwise `message` is "held by another workspace". */
   heldBy: CreateServiceUrlResponseDataHeldBy | null;
@@ -3693,6 +3870,51 @@ export interface Error409BodyError {
 export interface Error409Body {
   error: Error409BodyError;
 }
+export type Error409BodyErrorCode = "quota-exceeded" | "logical-id-taken";
+/** DNS record the caller must publish before retrying. Present on `domain-ownership-required` errors. */
+export type Error409BodyErrorVerification = CreateDomainOwnershipVerifyResponseDataVerification;
+export interface Error409BodyError2 {
+  code: Error409BodyErrorCode;
+  message: string;
+  hint?: string | undefined;
+  /** DNS record the caller must publish before retrying. Present on `domain-ownership-required` errors. */
+  verification?: CreateDomainOwnershipVerifyResponseDataVerification | undefined;
+}
+export interface Error409Body2 {
+  error: Error409BodyError2;
+}
+export type Error422BodyErrorCode =
+  | "validation-error"
+  | "invalid-hostname"
+  | "service-not-on-a-branch";
+/** DNS record the caller must publish before retrying. Present on `domain-ownership-required` errors. */
+export type Error422BodyErrorVerification = CreateDomainOwnershipVerifyResponseDataVerification;
+export interface Error422BodyError {
+  code: Error422BodyErrorCode;
+  message: string;
+  hint?: string | undefined;
+  /** DNS record the caller must publish before retrying. Present on `domain-ownership-required` errors. */
+  verification?: CreateDomainOwnershipVerifyResponseDataVerification | undefined;
+}
+export interface Error422Body {
+  error: Error422BodyError;
+}
+export type Error422BodyErrorCode2 =
+  | "validation-error"
+  | "invalid-hostname"
+  | "service-on-another-branch";
+/** DNS record the caller must publish before retrying. Present on `domain-ownership-required` errors. */
+export type Error422BodyErrorVerification2 = CreateDomainOwnershipVerifyResponseDataVerification;
+export interface Error422BodyError2 {
+  code: Error422BodyErrorCode2;
+  message: string;
+  hint?: string | undefined;
+  /** DNS record the caller must publish before retrying. Present on `domain-ownership-required` errors. */
+  verification?: CreateDomainOwnershipVerifyResponseDataVerification | undefined;
+}
+export interface Error422Body2 {
+  error: Error422BodyError2;
+}
 export type CreateAuthGithubActionsTokenError = BadRequest | PrismaOpError;
 /** Exchange a GitHub Actions OIDC token for a project-scoped service token U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Verifies the GitHub Actions OIDC token and mints a short-lived project-scoped service token. The caller must request the token with audience `prisma-cloud`. Any verification failure returns a generic 401 -- the response never reveals whether a repository is connected. */
 export const createAuthGithubActionsToken: API.OperationMethod<
@@ -3701,8 +3923,8 @@ export const createAuthGithubActionsToken: API.OperationMethod<
   CreateAuthGithubActionsTokenError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c122, 0) as any as S.Schema<CreateAuthGithubActionsTokenRequest>,
-  output: __S(1954, __c122, 2) as any as S.Schema<CreateAuthGithubActionsTokenResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<CreateAuthGithubActionsTokenRequest>,
+  output: __S(402, __c25, 2) as any as S.Schema<CreateAuthGithubActionsTokenResponse>,
   errors: [BadRequest],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -3719,8 +3941,8 @@ export const createBucket: API.OperationMethod<
   CreateBucketError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c136, 0) as any as S.Schema<CreateBucketRequest>,
-  output: __S(2208, __c138, 0) as any as S.Schema<CreateBucketResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<CreateBucketRequest>,
+  output: __S(608, __c38, 0) as any as S.Schema<CreateBucketResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -3737,8 +3959,8 @@ export const createBucketKey: API.OperationMethod<
   CreateBucketKeyError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2480, __c155, 0) as any as S.Schema<CreateBucketKeyRequest>,
-  output: __S(2482, __c155, 2) as any as S.Schema<CreateBucketKeyResponse>,
+  input: __S(656, __c41, 0) as any as S.Schema<CreateBucketKeyRequest>,
+  output: __S(658, __c41, 2) as any as S.Schema<CreateBucketKeyResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -3755,8 +3977,8 @@ export const createBuild: API.OperationMethod<
   CreateBuildError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(49, __c3, 1) as any as S.Schema<CreateBuildRequest>,
-  output: __S(64, __c4, 0) as any as S.Schema<CreateBuildResponse>,
+  input: __S(673, __c42, 1) as any as S.Schema<CreateBuildRequest>,
+  output: __S(688, __c43, 0) as any as S.Schema<CreateBuildResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -3778,8 +4000,8 @@ export const createConnection: API.OperationMethod<
   CreateConnectionError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<CreateConnectionRequest>,
-  output: __S(291, __c18, 3) as any as S.Schema<CreateConnectionResponse>,
+  input: __S(720, __c45, 0) as any as S.Schema<CreateConnectionRequest>,
+  output: __S(755, __c47, 3) as any as S.Schema<CreateConnectionResponse>,
   errors: [BadRequest, Conflict, NotFound, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -3796,8 +4018,8 @@ export const createConnectionRotate: API.OperationMethod<
   CreateConnectionRotateError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<CreateConnectionRotateRequest>,
-  output: __S(291, __c18, 3) as any as S.Schema<CreateConnectionRotateResponse>,
+  input: __S(768, __c48, 0) as any as S.Schema<CreateConnectionRotateRequest>,
+  output: __S(755, __c47, 3) as any as S.Schema<CreateConnectionRotateResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -3820,8 +4042,8 @@ export const createDatabase: API.OperationMethod<
   CreateDatabaseError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(577, __c36, 1) as any as S.Schema<CreateDatabaseRequest>,
-  output: __S(580, __c36, 4) as any as S.Schema<CreateDatabaseResponse>,
+  input: __S(785, __c49, 1) as any as S.Schema<CreateDatabaseRequest>,
+  output: __S(788, __c49, 4) as any as S.Schema<CreateDatabaseResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -3842,8 +4064,8 @@ export const createDatabaseConnection: API.OperationMethod<
   CreateDatabaseConnectionError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<CreateDatabaseConnectionRequest>,
-  output: __S(291, __c18, 3) as any as S.Schema<CreateDatabaseConnectionResponse>,
+  input: __S(864, __c54, 0) as any as S.Schema<CreateDatabaseConnectionRequest>,
+  output: __S(755, __c47, 3) as any as S.Schema<CreateDatabaseConnectionResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -3865,8 +4087,8 @@ export const createDatabaseRestore: API.OperationMethod<
   CreateDatabaseRestoreError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<CreateDatabaseRestoreRequest>,
-  output: __S(674, __c42, 2) as any as S.Schema<CreateDatabaseRestoreResponse>,
+  input: __S(880, __c55, 0) as any as S.Schema<CreateDatabaseRestoreRequest>,
+  output: __S(882, __c55, 2) as any as S.Schema<CreateDatabaseRestoreResponse>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -3888,8 +4110,8 @@ export const createDeploymentStart: API.OperationMethod<
   CreateDeploymentStartError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<CreateDeploymentStartRequest>,
-  output: __S(738, __c46, 2) as any as S.Schema<CreateDeploymentStartResponse>,
+  input: __S(944, __c59, 0) as any as S.Schema<CreateDeploymentStartRequest>,
+  output: __S(946, __c59, 2) as any as S.Schema<CreateDeploymentStartResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -3911,8 +4133,8 @@ export const createDeploymentStop: API.OperationMethod<
   CreateDeploymentStopError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<CreateDeploymentStopRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<CreateDeploymentStopResponse>,
+  input: __S(960, __c60, 0) as any as S.Schema<CreateDeploymentStopRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<CreateDeploymentStopResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -3929,8 +4151,8 @@ export const createDomainOwnershipVerify: API.OperationMethod<
   CreateDomainOwnershipVerifyError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<CreateDomainOwnershipVerifyRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<CreateDomainOwnershipVerifyResponse>,
+  input: __S(992, __c62, 0) as any as S.Schema<CreateDomainOwnershipVerifyRequest>,
+  output: __S(1008, __c63, 0) as any as S.Schema<CreateDomainOwnershipVerifyResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -3947,8 +4169,8 @@ export const createDomainRetry: API.OperationMethod<
   CreateDomainRetryError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<CreateDomainRetryRequest>,
-  output: __S(848, __c53, 0) as any as S.Schema<CreateDomainRetryResponse>,
+  input: __S(1040, __c65, 0) as any as S.Schema<CreateDomainRetryRequest>,
+  output: __S(1056, __c66, 0) as any as S.Schema<CreateDomainRetryResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -3970,8 +4192,8 @@ export const createEnvironmentVariable: API.OperationMethod<
   CreateEnvironmentVariableError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<CreateEnvironmentVariableRequest>,
-  output: __S(896, __c56, 0) as any as S.Schema<CreateEnvironmentVariableResponse>,
+  input: __S(1088, __c68, 0) as any as S.Schema<CreateEnvironmentVariableRequest>,
+  output: __S(1104, __c69, 0) as any as S.Schema<CreateEnvironmentVariableResponse>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -3988,8 +4210,8 @@ export const createProject: API.OperationMethod<
   CreateProjectError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<CreateProjectRequest>,
-  output: __S(932, __c58, 4) as any as S.Schema<CreateProjectResponse>,
+  input: __S(1136, __c71, 0) as any as S.Schema<CreateProjectRequest>,
+  output: __S(1140, __c71, 4) as any as S.Schema<CreateProjectResponse>,
   errors: [BadRequest, Conflict, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4011,8 +4233,8 @@ export const createProjectBranch: API.OperationMethod<
   CreateProjectBranchError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<CreateProjectBranchRequest>,
-  output: __S(976, __c61, 0) as any as S.Schema<CreateProjectBranchResponse>,
+  input: __S(1168, __c73, 0) as any as S.Schema<CreateProjectBranchRequest>,
+  output: __S(1184, __c74, 0) as any as S.Schema<CreateProjectBranchResponse>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4033,8 +4255,8 @@ export const createProjectBranchAlchemyStateLease: API.OperationMethod<
   CreateProjectBranchAlchemyStateLeaseError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<CreateProjectBranchAlchemyStateLeaseRequest>,
-  output: __S(1025, __c64, 1) as any as S.Schema<CreateProjectBranchAlchemyStateLeaseResponse>,
+  input: __S(1216, __c76, 0) as any as S.Schema<CreateProjectBranchAlchemyStateLeaseRequest>,
+  output: __S(1233, __c77, 1) as any as S.Schema<CreateProjectBranchAlchemyStateLeaseResponse>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4057,8 +4279,8 @@ export const createProjectDatabase: API.OperationMethod<
   CreateProjectDatabaseError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1042, __c65, 2) as any as S.Schema<CreateProjectDatabaseRequest>,
-  output: __S(1045, __c65, 5) as any as S.Schema<CreateProjectDatabaseResponse>,
+  input: __S(1250, __c78, 2) as any as S.Schema<CreateProjectDatabaseRequest>,
+  output: __S(1253, __c78, 5) as any as S.Schema<CreateProjectDatabaseResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4080,8 +4302,8 @@ export const createProjectTransfer: API.OperationMethod<
   CreateProjectTransferError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<CreateProjectTransferRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<CreateProjectTransferResponse>,
+  input: __S(1264, __c79, 0) as any as S.Schema<CreateProjectTransferRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<CreateProjectTransferResponse>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4103,8 +4325,8 @@ export const createScmInstallationsInstallIntent: API.OperationMethod<
   CreateScmInstallationsInstallIntentError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<CreateScmInstallationsInstallIntentRequest>,
-  output: __S(1074, __c67, 2) as any as S.Schema<CreateScmInstallationsInstallIntentResponse>,
+  input: __S(1280, __c80, 0) as any as S.Schema<CreateScmInstallationsInstallIntentRequest>,
+  output: __S(1282, __c80, 2) as any as S.Schema<CreateScmInstallationsInstallIntentResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4127,8 +4349,8 @@ export const createService: API.OperationMethod<
   CreateServiceError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<CreateServiceRequest>,
-  output: __S(1120, __c70, 0) as any as S.Schema<CreateServiceResponse>,
+  input: __S(1296, __c81, 0) as any as S.Schema<CreateServiceRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<CreateServiceResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4150,8 +4372,8 @@ export const createServiceDeployment: API.OperationMethod<
   CreateServiceDeploymentError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1137, __c71, 1) as any as S.Schema<CreateServiceDeploymentRequest>,
-  output: __S(1139, __c71, 3) as any as S.Schema<CreateServiceDeploymentResponse>,
+  input: __S(1345, __c84, 1) as any as S.Schema<CreateServiceDeploymentRequest>,
+  output: __S(1347, __c84, 3) as any as S.Schema<CreateServiceDeploymentResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4176,8 +4398,8 @@ export const createServiceDomain: API.OperationMethod<
   CreateServiceDomainError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<CreateServiceDomainRequest>,
-  output: __S(848, __c53, 0) as any as S.Schema<CreateServiceDomainResponse>,
+  input: __S(1360, __c85, 0) as any as S.Schema<CreateServiceDomainRequest>,
+  output: __S(1056, __c66, 0) as any as S.Schema<CreateServiceDomainResponse>,
   errors: [
     BadRequest,
     Forbidden,
@@ -4208,8 +4430,8 @@ export const createServicePromote: API.OperationMethod<
   CreateServicePromoteError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<CreateServicePromoteRequest>,
-  output: __S(1185, __c74, 1) as any as S.Schema<CreateServicePromoteResponse>,
+  input: __S(1376, __c86, 0) as any as S.Schema<CreateServicePromoteRequest>,
+  output: __S(1393, __c87, 1) as any as S.Schema<CreateServicePromoteResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4232,8 +4454,8 @@ export const createServiceRollback: API.OperationMethod<
   CreateServiceRollbackError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<CreateServiceRollbackRequest>,
-  output: __S(1185, __c74, 1) as any as S.Schema<CreateServiceRollbackResponse>,
+  input: __S(1408, __c88, 0) as any as S.Schema<CreateServiceRollbackRequest>,
+  output: __S(1393, __c87, 1) as any as S.Schema<CreateServiceRollbackResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4247,6 +4469,10 @@ export type CreateServiceUrlError =
   | NotFound
   | Conflict
   | UnprocessableEntity
+  | RoutingUrlQuotaExceeded
+  | RoutingUrlLogicalIdTaken
+  | RoutingUrlInvalidHostname
+  | RoutingUrlServiceNotOnABranch
   | PrismaOpError;
 /** Create a RoutingUrl U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Saves a hostname for the service, before its DNS exists, and answers with what is still missing. The RoutingUrl is `pending` until every condition is met, then `active`, and goes live on its own once the DNS records are published and a covering domain ownership is verified. Unless `createDomainOwnership` is `false`, a domain ownership for the exact hostname is created when no verified one covers it. A custom domain is registered with Foundry only once ownership is verified, and each registration counts against the workspace's hourly limit of new certificates. When the limit is reached, the RoutingUrl waits, `customDomainSyncError` says when the limit resets, and it registers then on its own. */
 export const createServiceUrl: API.OperationMethod<
@@ -4255,9 +4481,18 @@ export const createServiceUrl: API.OperationMethod<
   CreateServiceUrlError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<CreateServiceUrlRequest>,
-  output: __S(1232, __c77, 0) as any as S.Schema<CreateServiceUrlResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  input: __S(1424, __c89, 0) as any as S.Schema<CreateServiceUrlRequest>,
+  output: __S(1440, __c90, 0) as any as S.Schema<CreateServiceUrlResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    Conflict,
+    UnprocessableEntity,
+    RoutingUrlQuotaExceeded,
+    RoutingUrlLogicalIdTaken,
+    RoutingUrlInvalidHostname,
+    RoutingUrlServiceNotOnABranch,
+  ],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4279,8 +4514,8 @@ export const createSourceRepository: API.OperationMethod<
   CreateSourceRepositoryError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<CreateSourceRepositoryRequest>,
-  output: __S(1296, __c81, 0) as any as S.Schema<CreateSourceRepositoryResponse>,
+  input: __S(1472, __c92, 0) as any as S.Schema<CreateSourceRepositoryRequest>,
+  output: __S(1504, __c94, 0) as any as S.Schema<CreateSourceRepositoryResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4297,8 +4532,8 @@ export const createUrlCheck: API.OperationMethod<
   CreateUrlCheckError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<CreateUrlCheckRequest>,
-  output: __S(1232, __c77, 0) as any as S.Schema<CreateUrlCheckResponse>,
+  input: __S(1520, __c95, 0) as any as S.Schema<CreateUrlCheckRequest>,
+  output: __S(1440, __c90, 0) as any as S.Schema<CreateUrlCheckResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4307,7 +4542,7 @@ export const createUrlCheck: API.OperationMethod<
   span: "CreateUrlCheck",
 }));
 
-export type CreateWorkspaceError = BadRequest | Forbidden | PrismaOpError;
+export type CreateWorkspaceError = BadRequest | Forbidden | Conflict | PrismaOpError;
 /** Create a workspace U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Creates a new free-plan workspace owned by the authenticated user. For agent tokens the workspace is created for the agent's sponsor, and the agent's permission policy treats this as an admin action -- under the default policy the sponsor approves it first. */
 export const createWorkspace: API.OperationMethod<
   CreateWorkspaceRequest,
@@ -4315,9 +4550,9 @@ export const createWorkspace: API.OperationMethod<
   CreateWorkspaceError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<CreateWorkspaceRequest>,
-  output: __S(1344, __c84, 0) as any as S.Schema<CreateWorkspaceResponse>,
-  errors: [BadRequest, Forbidden],
+  input: __S(1536, __c96, 0) as any as S.Schema<CreateWorkspaceRequest>,
+  output: __S(1552, __c97, 0) as any as S.Schema<CreateWorkspaceResponse>,
+  errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4329,7 +4564,6 @@ export type CreateWorkspaceDomainOwnershipError =
   | BadRequest
   | NotFound
   | UnprocessableEntity
-  | DomainOwnershipRequired
   | PrismaOpError;
 /** Create a domain ownership U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Records that the workspace intends to own the domain, looks up its verification record, and returns the domain ownership, verified when the record carries the workspace's value and unverified otherwise. Publish the record in `verification`, then verify the domain ownership to complete it. When DNS gives no answer, the domain ownership is unverified, its DNS fields are empty, and the platform checks again later. The lookup also updates the other domain ownerships whose verification record has the same name, in every workspace. A domain the workspace already holds is checked again and returned. */
 export const createWorkspaceDomainOwnership: API.OperationMethod<
@@ -4338,9 +4572,9 @@ export const createWorkspaceDomainOwnership: API.OperationMethod<
   CreateWorkspaceDomainOwnershipError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<CreateWorkspaceDomainOwnershipRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<CreateWorkspaceDomainOwnershipResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, DomainOwnershipRequired],
+  input: __S(1584, __c99, 0) as any as S.Schema<CreateWorkspaceDomainOwnershipRequest>,
+  output: __S(1008, __c63, 0) as any as S.Schema<CreateWorkspaceDomainOwnershipResponse>,
+  errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -4360,8 +4594,8 @@ export const createWorkspaceServiceToken: API.OperationMethod<
   CreateWorkspaceServiceTokenError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<CreateWorkspaceServiceTokenRequest>,
-  output: __S(1394, __c87, 2) as any as S.Schema<CreateWorkspaceServiceTokenResponse>,
+  input: __S(1600, __c100, 0) as any as S.Schema<CreateWorkspaceServiceTokenRequest>,
+  output: __S(1602, __c100, 2) as any as S.Schema<CreateWorkspaceServiceTokenResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4383,8 +4617,8 @@ export const deleteBranch: API.OperationMethod<
   DeleteBranchError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<DeleteBranchRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteBranchResponse>,
+  input: __S(1616, __c101, 0) as any as S.Schema<DeleteBranchRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<DeleteBranchResponse>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4401,8 +4635,8 @@ export const deleteBucket: API.OperationMethod<
   DeleteBucketError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<DeleteBucketRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteBucketResponse>,
+  input: __S(1632, __c102, 0) as any as S.Schema<DeleteBucketRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<DeleteBucketResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4419,8 +4653,8 @@ export const deleteBucketKey: API.OperationMethod<
   DeleteBucketKeyError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<DeleteBucketKeyRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteBucketKeyResponse>,
+  input: __S(1648, __c103, 0) as any as S.Schema<DeleteBucketKeyRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<DeleteBucketKeyResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4437,8 +4671,8 @@ export const deleteConnection: API.OperationMethod<
   DeleteConnectionError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<DeleteConnectionRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteConnectionResponse>,
+  input: __S(1664, __c104, 0) as any as S.Schema<DeleteConnectionRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<DeleteConnectionResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4460,8 +4694,8 @@ export const deleteDatabase: API.OperationMethod<
   DeleteDatabaseError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<DeleteDatabaseRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteDatabaseResponse>,
+  input: __S(1680, __c105, 0) as any as S.Schema<DeleteDatabaseRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<DeleteDatabaseResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4478,8 +4712,8 @@ export const deleteDeployment: API.OperationMethod<
   DeleteDeploymentError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<DeleteDeploymentRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteDeploymentResponse>,
+  input: __S(1696, __c106, 0) as any as S.Schema<DeleteDeploymentRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<DeleteDeploymentResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4496,8 +4730,8 @@ export const deleteDomain: API.OperationMethod<
   DeleteDomainError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<DeleteDomainRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteDomainResponse>,
+  input: __S(1712, __c107, 0) as any as S.Schema<DeleteDomainRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<DeleteDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4514,8 +4748,8 @@ export const deleteDomainOwnership: API.OperationMethod<
   DeleteDomainOwnershipError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<DeleteDomainOwnershipRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteDomainOwnershipResponse>,
+  input: __S(1728, __c108, 0) as any as S.Schema<DeleteDomainOwnershipRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<DeleteDomainOwnershipResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4536,8 +4770,8 @@ export const deleteEnvironmentVariable: API.OperationMethod<
   DeleteEnvironmentVariableError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<DeleteEnvironmentVariableRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteEnvironmentVariableResponse>,
+  input: __S(1744, __c109, 0) as any as S.Schema<DeleteEnvironmentVariableRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<DeleteEnvironmentVariableResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4554,8 +4788,8 @@ export const deleteIntegration: API.OperationMethod<
   DeleteIntegrationError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<DeleteIntegrationRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteIntegrationResponse>,
+  input: __S(1760, __c110, 0) as any as S.Schema<DeleteIntegrationRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<DeleteIntegrationResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4577,8 +4811,8 @@ export const deleteProject: API.OperationMethod<
   DeleteProjectError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<DeleteProjectRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteProjectResponse>,
+  input: __S(1776, __c111, 0) as any as S.Schema<DeleteProjectRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<DeleteProjectResponse>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4595,8 +4829,8 @@ export const deleteProjectBranchAlchemyStateLease: API.OperationMethod<
   DeleteProjectBranchAlchemyStateLeaseError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<DeleteProjectBranchAlchemyStateLeaseRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteProjectBranchAlchemyStateLeaseResponse>,
+  input: __S(1792, __c112, 0) as any as S.Schema<DeleteProjectBranchAlchemyStateLeaseRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<DeleteProjectBranchAlchemyStateLeaseResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4617,8 +4851,8 @@ export const deleteProjectBranchAlchemyStateStateStack: API.OperationMethod<
   DeleteProjectBranchAlchemyStateStateStackError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<DeleteProjectBranchAlchemyStateStateStackRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteProjectBranchAlchemyStateStateStackResponse>,
+  input: __S(1808, __c113, 0) as any as S.Schema<DeleteProjectBranchAlchemyStateStateStackRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<DeleteProjectBranchAlchemyStateStateStackResponse>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4640,13 +4874,13 @@ export const deleteProjectBranchAlchemyStateStateStackStageResource: API.Operati
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1616,
-    __c101,
+    1824,
+    __c114,
     0,
   ) as any as S.Schema<DeleteProjectBranchAlchemyStateStateStackStageResourceRequest>,
   output: __S(
-    768,
-    __c48,
+    976,
+    __c61,
     0,
   ) as any as S.Schema<DeleteProjectBranchAlchemyStateStateStackStageResourceResponse>,
   errors: [BadRequest, NotFound, Conflict],
@@ -4665,8 +4899,8 @@ export const deleteService: API.OperationMethod<
   DeleteServiceError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c102, 0) as any as S.Schema<DeleteServiceRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteServiceResponse>,
+  input: __S(1840, __c115, 0) as any as S.Schema<DeleteServiceRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<DeleteServiceResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4683,8 +4917,8 @@ export const deleteSourceRepository: API.OperationMethod<
   DeleteSourceRepositoryError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<DeleteSourceRepositoryRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteSourceRepositoryResponse>,
+  input: __S(1856, __c116, 0) as any as S.Schema<DeleteSourceRepositoryRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<DeleteSourceRepositoryResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4701,8 +4935,8 @@ export const deleteUrl: API.OperationMethod<
   DeleteUrlError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<DeleteUrlRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteUrlResponse>,
+  input: __S(1872, __c117, 0) as any as S.Schema<DeleteUrlRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<DeleteUrlResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4723,8 +4957,8 @@ export const deleteWorkspaceIntegration: API.OperationMethod<
   DeleteWorkspaceIntegrationError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<DeleteWorkspaceIntegrationRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteWorkspaceIntegrationResponse>,
+  input: __S(1888, __c118, 0) as any as S.Schema<DeleteWorkspaceIntegrationRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<DeleteWorkspaceIntegrationResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4741,8 +4975,8 @@ export const deleteWorkspaceServiceToken: API.OperationMethod<
   DeleteWorkspaceServiceTokenError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<DeleteWorkspaceServiceTokenRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<DeleteWorkspaceServiceTokenResponse>,
+  input: __S(1904, __c119, 0) as any as S.Schema<DeleteWorkspaceServiceTokenRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<DeleteWorkspaceServiceTokenResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4759,8 +4993,8 @@ export const getAgentApproval: API.OperationMethod<
   GetAgentApprovalError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1712, __c107, 0) as any as S.Schema<GetAgentApprovalRequest>,
-  output: __S(1713, __c107, 1) as any as S.Schema<GetAgentApprovalResponse>,
+  input: __S(1920, __c120, 0) as any as S.Schema<GetAgentApprovalRequest>,
+  output: __S(1921, __c120, 1) as any as S.Schema<GetAgentApprovalResponse>,
   errors: [NotFound],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4777,8 +5011,8 @@ export const getBranch: API.OperationMethod<
   GetBranchError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<GetBranchRequest>,
-  output: __S(976, __c61, 0) as any as S.Schema<GetBranchResponse>,
+  input: __S(1936, __c121, 0) as any as S.Schema<GetBranchRequest>,
+  output: __S(1184, __c74, 0) as any as S.Schema<GetBranchResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4795,8 +5029,8 @@ export const getBucket: API.OperationMethod<
   GetBucketError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<GetBucketRequest>,
-  output: __S(2208, __c138, 0) as any as S.Schema<GetBucketResponse>,
+  input: __S(1952, __c122, 0) as any as S.Schema<GetBucketRequest>,
+  output: __S(608, __c38, 0) as any as S.Schema<GetBucketResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4813,8 +5047,8 @@ export const getBucketKeys: API.OperationMethod<
   GetBucketKeysError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c110, 0) as any as S.Schema<GetBucketKeysRequest>,
-  output: __S(1763, __c110, 3) as any as S.Schema<GetBucketKeysResponse>,
+  input: __S(1968, __c123, 0) as any as S.Schema<GetBucketKeysRequest>,
+  output: __S(1971, __c123, 3) as any as S.Schema<GetBucketKeysResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4831,8 +5065,8 @@ export const getBuckets: API.OperationMethod<
   GetBucketsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c112, 0) as any as S.Schema<GetBucketsRequest>,
-  output: __S(1794, __c112, 2) as any as S.Schema<GetBucketsResponse>,
+  input: __S(2000, __c125, 0) as any as S.Schema<GetBucketsRequest>,
+  output: __S(2002, __c125, 2) as any as S.Schema<GetBucketsResponse>,
   errors: [BadRequest],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4849,8 +5083,8 @@ export const getBuild: API.OperationMethod<
   GetBuildError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<GetBuildRequest>,
-  output: __S(1812, __c113, 4) as any as S.Schema<GetBuildResponse>,
+  input: __S(2016, __c126, 0) as any as S.Schema<GetBuildRequest>,
+  output: __S(2020, __c126, 4) as any as S.Schema<GetBuildResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4867,8 +5101,8 @@ export const getBuilds: API.OperationMethod<
   GetBuildsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c114, 0) as any as S.Schema<GetBuildsRequest>,
-  output: __S(1826, __c114, 2) as any as S.Schema<GetBuildsResponse>,
+  input: __S(2032, __c127, 0) as any as S.Schema<GetBuildsRequest>,
+  output: __S(2034, __c127, 2) as any as S.Schema<GetBuildsResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4885,8 +5119,8 @@ export const getConnection: API.OperationMethod<
   GetConnectionError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1840, __c115, 0) as any as S.Schema<GetConnectionRequest>,
-  output: __S(1841, __c115, 1) as any as S.Schema<GetConnectionResponse>,
+  input: __S(2048, __c128, 0) as any as S.Schema<GetConnectionRequest>,
+  output: __S(2049, __c128, 1) as any as S.Schema<GetConnectionResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4903,8 +5137,8 @@ export const getConnections: API.OperationMethod<
   GetConnectionsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c116, 0) as any as S.Schema<GetConnectionsRequest>,
-  output: __S(1872, __c117, 0) as any as S.Schema<GetConnectionsResponse>,
+  input: __S(2064, __c129, 0) as any as S.Schema<GetConnectionsRequest>,
+  output: __S(2080, __c130, 0) as any as S.Schema<GetConnectionsResponse>,
   errors: [BadRequest],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4926,8 +5160,8 @@ export const getDatabase: API.OperationMethod<
   GetDatabaseError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c118, 0) as any as S.Schema<GetDatabaseRequest>,
-  output: __S(1891, __c118, 3) as any as S.Schema<GetDatabaseResponse>,
+  input: __S(2096, __c131, 0) as any as S.Schema<GetDatabaseRequest>,
+  output: __S(2099, __c131, 3) as any as S.Schema<GetDatabaseResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4944,8 +5178,8 @@ export const getDatabaseBackups: API.OperationMethod<
   GetDatabaseBackupsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1904, __c119, 0) as any as S.Schema<GetDatabaseBackupsRequest>,
-  output: __S(1909, __c119, 5) as any as S.Schema<GetDatabaseBackupsResponse>,
+  input: __S(2112, __c132, 0) as any as S.Schema<GetDatabaseBackupsRequest>,
+  output: __S(2117, __c132, 5) as any as S.Schema<GetDatabaseBackupsResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4962,8 +5196,8 @@ export const getDatabaseConnections: API.OperationMethod<
   GetDatabaseConnectionsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c120, 0) as any as S.Schema<GetDatabaseConnectionsRequest>,
-  output: __S(1872, __c117, 0) as any as S.Schema<GetDatabaseConnectionsResponse>,
+  input: __S(2128, __c133, 0) as any as S.Schema<GetDatabaseConnectionsRequest>,
+  output: __S(2080, __c130, 0) as any as S.Schema<GetDatabaseConnectionsResponse>,
   errors: [UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4980,8 +5214,8 @@ export const getDatabases: API.OperationMethod<
   GetDatabasesError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1936, __c121, 0) as any as S.Schema<GetDatabasesRequest>,
-  output: __S(1940, __c121, 4) as any as S.Schema<GetDatabasesResponse>,
+  input: __S(2144, __c134, 0) as any as S.Schema<GetDatabasesRequest>,
+  output: __S(2148, __c134, 4) as any as S.Schema<GetDatabasesResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -4998,8 +5232,8 @@ export const getDatabaseUsage: API.OperationMethod<
   GetDatabaseUsageError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c123, 0) as any as S.Schema<GetDatabaseUsageRequest>,
-  output: __S(1972, __c123, 4) as any as S.Schema<GetDatabaseUsageResponse>,
+  input: __S(2160, __c135, 0) as any as S.Schema<GetDatabaseUsageRequest>,
+  output: __S(2164, __c135, 4) as any as S.Schema<GetDatabaseUsageResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5016,8 +5250,8 @@ export const getDeployment: API.OperationMethod<
   GetDeploymentError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c124, 0) as any as S.Schema<GetDeploymentRequest>,
-  output: __S(1988, __c124, 4) as any as S.Schema<GetDeploymentResponse>,
+  input: __S(2176, __c136, 0) as any as S.Schema<GetDeploymentRequest>,
+  output: __S(2180, __c136, 4) as any as S.Schema<GetDeploymentResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5034,8 +5268,8 @@ export const getDeploymentLogs: API.OperationMethod<
   GetDeploymentLogsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c125, 0) as any as S.Schema<GetDeploymentLogsRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<GetDeploymentLogsResponse>,
+  input: __S(2192, __c137, 0) as any as S.Schema<GetDeploymentLogsRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<GetDeploymentLogsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5052,8 +5286,8 @@ export const getDomain: API.OperationMethod<
   GetDomainError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c126, 0) as any as S.Schema<GetDomainRequest>,
-  output: __S(848, __c53, 0) as any as S.Schema<GetDomainResponse>,
+  input: __S(2208, __c138, 0) as any as S.Schema<GetDomainRequest>,
+  output: __S(1056, __c66, 0) as any as S.Schema<GetDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5070,8 +5304,8 @@ export const getDomainOwnership: API.OperationMethod<
   GetDomainOwnershipError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c127, 0) as any as S.Schema<GetDomainOwnershipRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<GetDomainOwnershipResponse>,
+  input: __S(2224, __c139, 0) as any as S.Schema<GetDomainOwnershipRequest>,
+  output: __S(1008, __c63, 0) as any as S.Schema<GetDomainOwnershipResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5092,8 +5326,8 @@ export const getEnvironmentVariable: API.OperationMethod<
   GetEnvironmentVariableError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c128, 0) as any as S.Schema<GetEnvironmentVariableRequest>,
-  output: __S(896, __c56, 0) as any as S.Schema<GetEnvironmentVariableResponse>,
+  input: __S(2240, __c140, 0) as any as S.Schema<GetEnvironmentVariableRequest>,
+  output: __S(1104, __c69, 0) as any as S.Schema<GetEnvironmentVariableResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5114,8 +5348,8 @@ export const getEnvironmentVariables: API.OperationMethod<
   GetEnvironmentVariablesError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2064, __c129, 0) as any as S.Schema<GetEnvironmentVariablesRequest>,
-  output: __S(2066, __c129, 2) as any as S.Schema<GetEnvironmentVariablesResponse>,
+  input: __S(2256, __c141, 0) as any as S.Schema<GetEnvironmentVariablesRequest>,
+  output: __S(2258, __c141, 2) as any as S.Schema<GetEnvironmentVariablesResponse>,
   errors: [NotFound, BadRequest, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5132,8 +5366,8 @@ export const getIntegration: API.OperationMethod<
   GetIntegrationError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c130, 0) as any as S.Schema<GetIntegrationRequest>,
-  output: __S(2081, __c130, 1) as any as S.Schema<GetIntegrationResponse>,
+  input: __S(2272, __c142, 0) as any as S.Schema<GetIntegrationRequest>,
+  output: __S(2273, __c142, 1) as any as S.Schema<GetIntegrationResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5150,8 +5384,8 @@ export const getIntegrations: API.OperationMethod<
   GetIntegrationsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2128, __c133, 0) as any as S.Schema<GetIntegrationsRequest>,
-  output: __S(2145, __c134, 1) as any as S.Schema<GetIntegrationsResponse>,
+  input: __S(2320, __c145, 0) as any as S.Schema<GetIntegrationsRequest>,
+  output: __S(2337, __c146, 1) as any as S.Schema<GetIntegrationsResponse>,
   errors: [BadRequest],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5164,8 +5398,8 @@ export type GetMeError = PrismaOpError;
 /** Get current authenticated principal Returns the user, workspace, and credential represented by the current token. */
 export const getMe: API.OperationMethod<GetMeRequest, GetMeResponse, GetMeError, PrismaOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(2160, __c135, 0) as any as S.Schema<GetMeRequest>,
-    output: __S(2164, __c135, 4) as any as S.Schema<GetMeResponse>,
+    input: __S(2352, __c147, 0) as any as S.Schema<GetMeRequest>,
+    output: __S(2356, __c147, 4) as any as S.Schema<GetMeResponse>,
     errors: [],
     serviceErrors: PrismaServiceErrors,
     protocol: PrismaProtocol,
@@ -5182,8 +5416,8 @@ export const getProject: API.OperationMethod<
   GetProjectError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c140, 0) as any as S.Schema<GetProjectRequest>,
-  output: __S(2256, __c141, 0) as any as S.Schema<GetProjectResponse>,
+  input: __S(2368, __c148, 0) as any as S.Schema<GetProjectRequest>,
+  output: __S(2384, __c149, 0) as any as S.Schema<GetProjectResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5204,8 +5438,8 @@ export const getProjectBranchAlchemyStateStateStacks: API.OperationMethod<
   GetProjectBranchAlchemyStateStateStacksError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2288, __c143, 0) as any as S.Schema<GetProjectBranchAlchemyStateStateStacksRequest>,
-  output: __S(2304, __c144, 0) as any as S.Schema<GetProjectBranchAlchemyStateStateStacksResponse>,
+  input: __S(2416, __c151, 0) as any as S.Schema<GetProjectBranchAlchemyStateStateStacksRequest>,
+  output: __S(2432, __c152, 0) as any as S.Schema<GetProjectBranchAlchemyStateStateStacksResponse>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5227,13 +5461,13 @@ export const getProjectBranchAlchemyStateStateStackStageOutput: API.OperationMet
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2320,
-    __c145,
+    2448,
+    __c153,
     0,
   ) as any as S.Schema<GetProjectBranchAlchemyStateStateStackStageOutputRequest>,
   output: __S(
-    2336,
-    __c146,
+    2464,
+    __c154,
     0,
   ) as any as S.Schema<GetProjectBranchAlchemyStateStateStackStageOutputResponse>,
   errors: [BadRequest, NotFound, Conflict],
@@ -5257,13 +5491,13 @@ export const getProjectBranchAlchemyStateStateStackStageReplacedResources: API.O
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2352,
-    __c147,
+    2480,
+    __c155,
     0,
   ) as any as S.Schema<GetProjectBranchAlchemyStateStateStackStageReplacedResourcesRequest>,
   output: __S(
-    2353,
-    __c147,
+    2481,
+    __c155,
     1,
   ) as any as S.Schema<GetProjectBranchAlchemyStateStateStackStageReplacedResourcesResponse>,
   errors: [BadRequest, NotFound, Conflict],
@@ -5287,13 +5521,13 @@ export const getProjectBranchAlchemyStateStateStackStageResource: API.OperationM
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2368,
-    __c148,
+    2496,
+    __c156,
     0,
   ) as any as S.Schema<GetProjectBranchAlchemyStateStateStackStageResourceRequest>,
   output: __S(
-    2336,
-    __c146,
+    2464,
+    __c154,
     0,
   ) as any as S.Schema<GetProjectBranchAlchemyStateStateStackStageResourceResponse>,
   errors: [BadRequest, NotFound, Conflict],
@@ -5317,13 +5551,13 @@ export const getProjectBranchAlchemyStateStateStackStageResources: API.Operation
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2384,
-    __c149,
+    2512,
+    __c157,
     0,
   ) as any as S.Schema<GetProjectBranchAlchemyStateStateStackStageResourcesRequest>,
   output: __S(
-    2304,
-    __c144,
+    2432,
+    __c152,
     0,
   ) as any as S.Schema<GetProjectBranchAlchemyStateStateStackStageResourcesResponse>,
   errors: [BadRequest, NotFound, Conflict],
@@ -5347,13 +5581,13 @@ export const getProjectBranchAlchemyStateStateStackStages: API.OperationMethod<
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2400,
-    __c150,
+    2528,
+    __c158,
     0,
   ) as any as S.Schema<GetProjectBranchAlchemyStateStateStackStagesRequest>,
   output: __S(
-    2304,
-    __c144,
+    2432,
+    __c152,
     0,
   ) as any as S.Schema<GetProjectBranchAlchemyStateStateStackStagesResponse>,
   errors: [BadRequest, NotFound, Conflict],
@@ -5372,8 +5606,8 @@ export const getProjectBranchAlchemyStateVersion: API.OperationMethod<
   GetProjectBranchAlchemyStateVersionError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2416, __c151, 0) as any as S.Schema<GetProjectBranchAlchemyStateVersionRequest>,
-  output: __S(2417, __c151, 1) as any as S.Schema<GetProjectBranchAlchemyStateVersionResponse>,
+  input: __S(2544, __c159, 0) as any as S.Schema<GetProjectBranchAlchemyStateVersionRequest>,
+  output: __S(2545, __c159, 1) as any as S.Schema<GetProjectBranchAlchemyStateVersionResponse>,
   errors: [],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5390,8 +5624,8 @@ export const getProjectBranchApplicationTopology: API.OperationMethod<
   GetProjectBranchApplicationTopologyError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c152, 0) as any as S.Schema<GetProjectBranchApplicationTopologyRequest>,
-  output: __S(2456, __c153, 8) as any as S.Schema<GetProjectBranchApplicationTopologyResponse>,
+  input: __S(2560, __c160, 0) as any as S.Schema<GetProjectBranchApplicationTopologyRequest>,
+  output: __S(2584, __c161, 8) as any as S.Schema<GetProjectBranchApplicationTopologyResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5408,8 +5642,8 @@ export const getProjectBranches: API.OperationMethod<
   GetProjectBranchesError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c154, 0) as any as S.Schema<GetProjectBranchesRequest>,
-  output: __S(2466, __c154, 2) as any as S.Schema<GetProjectBranchesResponse>,
+  input: __S(2592, __c162, 0) as any as S.Schema<GetProjectBranchesRequest>,
+  output: __S(2594, __c162, 2) as any as S.Schema<GetProjectBranchesResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5426,8 +5660,8 @@ export const getProjectBranchUrls: API.OperationMethod<
   GetProjectBranchUrlsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c156, 0) as any as S.Schema<GetProjectBranchUrlsRequest>,
-  output: __S(2529, __c158, 1) as any as S.Schema<GetProjectBranchUrlsResponse>,
+  input: __S(2608, __c163, 0) as any as S.Schema<GetProjectBranchUrlsRequest>,
+  output: __S(2641, __c165, 1) as any as S.Schema<GetProjectBranchUrlsResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5444,8 +5678,8 @@ export const getProjectDatabases: API.OperationMethod<
   GetProjectDatabasesError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2544, __c159, 0) as any as S.Schema<GetProjectDatabasesRequest>,
-  output: __S(2548, __c159, 4) as any as S.Schema<GetProjectDatabasesResponse>,
+  input: __S(2656, __c166, 0) as any as S.Schema<GetProjectDatabasesRequest>,
+  output: __S(2660, __c166, 4) as any as S.Schema<GetProjectDatabasesResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5462,8 +5696,8 @@ export const getProjects: API.OperationMethod<
   GetProjectsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c160, 0) as any as S.Schema<GetProjectsRequest>,
-  output: __S(2562, __c160, 2) as any as S.Schema<GetProjectsResponse>,
+  input: __S(2672, __c167, 0) as any as S.Schema<GetProjectsRequest>,
+  output: __S(2674, __c167, 2) as any as S.Schema<GetProjectsResponse>,
   errors: [BadRequest],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5480,8 +5714,8 @@ export const getRegions: API.OperationMethod<
   GetRegionsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2576, __c161, 0) as any as S.Schema<GetRegionsRequest>,
-  output: __S(2579, __c161, 3) as any as S.Schema<GetRegionsResponse>,
+  input: __S(2688, __c168, 0) as any as S.Schema<GetRegionsRequest>,
+  output: __S(2691, __c168, 3) as any as S.Schema<GetRegionsResponse>,
   errors: [BadRequest],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5498,8 +5732,8 @@ export const getRegionsAccelerate: API.OperationMethod<
   GetRegionsAccelerateError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c162, 0) as any as S.Schema<GetRegionsAccelerateRequest>,
-  output: __S(2595, __c162, 3) as any as S.Schema<GetRegionsAccelerateResponse>,
+  input: __S(2704, __c169, 0) as any as S.Schema<GetRegionsAccelerateRequest>,
+  output: __S(2707, __c169, 3) as any as S.Schema<GetRegionsAccelerateResponse>,
   errors: [],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5516,8 +5750,8 @@ export const getRegionsPostgres: API.OperationMethod<
   GetRegionsPostgresError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2608, __c163, 0) as any as S.Schema<GetRegionsPostgresRequest>,
-  output: __S(2611, __c163, 3) as any as S.Schema<GetRegionsPostgresResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<GetRegionsPostgresRequest>,
+  output: __S(83, __c5, 3) as any as S.Schema<GetRegionsPostgresResponse>,
   errors: [],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5538,8 +5772,8 @@ export const getScmInstallationRepositories: API.OperationMethod<
   GetScmInstallationRepositoriesError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c164, 0) as any as S.Schema<GetScmInstallationRepositoriesRequest>,
-  output: __S(2627, __c164, 3) as any as S.Schema<GetScmInstallationRepositoriesResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<GetScmInstallationRepositoriesRequest>,
+  output: __S(99, __c6, 3) as any as S.Schema<GetScmInstallationRepositoriesResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5556,8 +5790,8 @@ export const getScmInstallations: API.OperationMethod<
   GetScmInstallationsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2640, __c165, 0) as any as S.Schema<GetScmInstallationsRequest>,
-  output: __S(2643, __c165, 3) as any as S.Schema<GetScmInstallationsResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<GetScmInstallationsRequest>,
+  output: __S(115, __c7, 3) as any as S.Schema<GetScmInstallationsResponse>,
   errors: [BadRequest],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5574,8 +5808,8 @@ export const getService: API.OperationMethod<
   GetServiceError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c166, 0) as any as S.Schema<GetServiceRequest>,
-  output: __S(1120, __c70, 0) as any as S.Schema<GetServiceResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<GetServiceRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<GetServiceResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5592,8 +5826,8 @@ export const getServiceDeployments: API.OperationMethod<
   GetServiceDeploymentsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2672, __c167, 0) as any as S.Schema<GetServiceDeploymentsRequest>,
-  output: __S(2675, __c167, 3) as any as S.Schema<GetServiceDeploymentsResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<GetServiceDeploymentsRequest>,
+  output: __S(147, __c9, 3) as any as S.Schema<GetServiceDeploymentsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5610,8 +5844,8 @@ export const getServiceDomains: API.OperationMethod<
   GetServiceDomainsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<GetServiceDomainsRequest>,
-  output: __S(98, __c6, 2) as any as S.Schema<GetServiceDomainsResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<GetServiceDomainsRequest>,
+  output: __S(162, __c10, 2) as any as S.Schema<GetServiceDomainsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5633,8 +5867,8 @@ export const getServices: API.OperationMethod<
   GetServicesError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<GetServicesRequest>,
-  output: __S(114, __c7, 2) as any as S.Schema<GetServicesResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<GetServicesRequest>,
+  output: __S(178, __c11, 2) as any as S.Schema<GetServicesResponse>,
   errors: [BadRequest, NotFound, Forbidden, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5651,8 +5885,8 @@ export const getServiceUrls: API.OperationMethod<
   GetServiceUrlsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<GetServiceUrlsRequest>,
-  output: __S(2529, __c158, 1) as any as S.Schema<GetServiceUrlsResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<GetServiceUrlsRequest>,
+  output: __S(2641, __c165, 1) as any as S.Schema<GetServiceUrlsResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5669,8 +5903,8 @@ export const getSourceRepositories: API.OperationMethod<
   GetSourceRepositoriesError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<GetSourceRepositoriesRequest>,
-  output: __S(146, __c9, 2) as any as S.Schema<GetSourceRepositoriesResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<GetSourceRepositoriesRequest>,
+  output: __S(210, __c13, 2) as any as S.Schema<GetSourceRepositoriesResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5687,8 +5921,8 @@ export const getSourceRepository: API.OperationMethod<
   GetSourceRepositoryError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<GetSourceRepositoryRequest>,
-  output: __S(1296, __c81, 0) as any as S.Schema<GetSourceRepositoryResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<GetSourceRepositoryRequest>,
+  output: __S(1504, __c94, 0) as any as S.Schema<GetSourceRepositoryResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5705,8 +5939,8 @@ export const getUrl: API.OperationMethod<
   GetUrlError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<GetUrlRequest>,
-  output: __S(1232, __c77, 0) as any as S.Schema<GetUrlResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<GetUrlRequest>,
+  output: __S(1440, __c90, 0) as any as S.Schema<GetUrlResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5723,8 +5957,8 @@ export const getWorkspace: API.OperationMethod<
   GetWorkspaceError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<GetWorkspaceRequest>,
-  output: __S(1344, __c84, 0) as any as S.Schema<GetWorkspaceResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<GetWorkspaceRequest>,
+  output: __S(1552, __c97, 0) as any as S.Schema<GetWorkspaceResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5745,8 +5979,8 @@ export const getWorkspaceDomainOwnerships: API.OperationMethod<
   GetWorkspaceDomainOwnershipsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<GetWorkspaceDomainOwnershipsRequest>,
-  output: __S(210, __c13, 2) as any as S.Schema<GetWorkspaceDomainOwnershipsResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<GetWorkspaceDomainOwnershipsRequest>,
+  output: __S(274, __c17, 2) as any as S.Schema<GetWorkspaceDomainOwnershipsResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5767,8 +6001,8 @@ export const getWorkspaceDomainOwnershipsVerification: API.OperationMethod<
   GetWorkspaceDomainOwnershipsVerificationError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<GetWorkspaceDomainOwnershipsVerificationRequest>,
-  output: __S(225, __c14, 1) as any as S.Schema<GetWorkspaceDomainOwnershipsVerificationResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<GetWorkspaceDomainOwnershipsVerificationRequest>,
+  output: __S(289, __c18, 1) as any as S.Schema<GetWorkspaceDomainOwnershipsVerificationResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5789,8 +6023,8 @@ export const getWorkspaceIntegrations: API.OperationMethod<
   GetWorkspaceIntegrationsError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<GetWorkspaceIntegrationsRequest>,
-  output: __S(2145, __c134, 1) as any as S.Schema<GetWorkspaceIntegrationsResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<GetWorkspaceIntegrationsRequest>,
+  output: __S(2337, __c146, 1) as any as S.Schema<GetWorkspaceIntegrationsResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5807,8 +6041,8 @@ export const getWorkspaces: API.OperationMethod<
   GetWorkspacesError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<GetWorkspacesRequest>,
-  output: __S(306, __c19, 2) as any as S.Schema<GetWorkspacesResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<GetWorkspacesRequest>,
+  output: __S(322, __c20, 2) as any as S.Schema<GetWorkspacesResponse>,
   errors: [BadRequest],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5825,8 +6059,8 @@ export const getWorkspaceServiceTokens: API.OperationMethod<
   GetWorkspaceServiceTokensError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<GetWorkspaceServiceTokensRequest>,
-  output: __S(323, __c20, 3) as any as S.Schema<GetWorkspaceServiceTokensResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<GetWorkspaceServiceTokensRequest>,
+  output: __S(339, __c21, 3) as any as S.Schema<GetWorkspaceServiceTokensResponse>,
   errors: [BadRequest],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5843,8 +6077,8 @@ export const getWorkspaceSubscription: API.OperationMethod<
   GetWorkspaceSubscriptionError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<GetWorkspaceSubscriptionRequest>,
-  output: __S(338, __c21, 2) as any as S.Schema<GetWorkspaceSubscriptionResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<GetWorkspaceSubscriptionRequest>,
+  output: __S(354, __c22, 2) as any as S.Schema<GetWorkspaceSubscriptionResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5861,8 +6095,8 @@ export const putBuildResource: API.OperationMethod<
   PutBuildResourceError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<PutBuildResourceRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<PutBuildResourceResponse>,
+  input: __S(368, __c23, 0) as any as S.Schema<PutBuildResourceRequest>,
+  output: __S(976, __c61, 0) as any as S.Schema<PutBuildResourceResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5884,13 +6118,13 @@ export const putProjectBranchAlchemyStateStateStackStageOutput: API.OperationMet
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    368,
-    __c23,
+    384,
+    __c24,
     0,
   ) as any as S.Schema<PutProjectBranchAlchemyStateStateStackStageOutputRequest>,
   output: __S(
-    2336,
-    __c146,
+    2464,
+    __c154,
     0,
   ) as any as S.Schema<PutProjectBranchAlchemyStateStateStackStageOutputResponse>,
   errors: [BadRequest, NotFound, Conflict],
@@ -5914,13 +6148,13 @@ export const putProjectBranchAlchemyStateStateStackStageResource: API.OperationM
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    384,
-    __c24,
+    416,
+    __c26,
     0,
   ) as any as S.Schema<PutProjectBranchAlchemyStateStateStackStageResourceRequest>,
   output: __S(
-    2336,
-    __c146,
+    2464,
+    __c154,
     0,
   ) as any as S.Schema<PutProjectBranchAlchemyStateStateStackStageResourceResponse>,
   errors: [BadRequest, NotFound, Conflict],
@@ -5943,8 +6177,8 @@ export const putProjectBranchApplicationTopology: API.OperationMethod<
   PutProjectBranchApplicationTopologyError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<PutProjectBranchApplicationTopologyRequest>,
-  output: __S(2456, __c153, 8) as any as S.Schema<PutProjectBranchApplicationTopologyResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<PutProjectBranchApplicationTopologyRequest>,
+  output: __S(2584, __c161, 8) as any as S.Schema<PutProjectBranchApplicationTopologyResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5961,8 +6195,8 @@ export const updateBranch: API.OperationMethod<
   UpdateBranchError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<UpdateBranchRequest>,
-  output: __S(976, __c61, 0) as any as S.Schema<UpdateBranchResponse>,
+  input: __S(448, __c28, 0) as any as S.Schema<UpdateBranchRequest>,
+  output: __S(1184, __c74, 0) as any as S.Schema<UpdateBranchResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -5984,8 +6218,8 @@ export const updateBucket: API.OperationMethod<
   UpdateBucketError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<UpdateBucketRequest>,
-  output: __S(2208, __c138, 0) as any as S.Schema<UpdateBucketResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<UpdateBucketRequest>,
+  output: __S(608, __c38, 0) as any as S.Schema<UpdateBucketResponse>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -6002,8 +6236,8 @@ export const updateBuild: API.OperationMethod<
   UpdateBuildError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<UpdateBuildRequest>,
-  output: __S(64, __c4, 0) as any as S.Schema<UpdateBuildResponse>,
+  input: __S(480, __c30, 0) as any as S.Schema<UpdateBuildRequest>,
+  output: __S(688, __c43, 0) as any as S.Schema<UpdateBuildResponse>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -6026,8 +6260,8 @@ export const updateDatabase: API.OperationMethod<
   UpdateDatabaseError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<UpdateDatabaseRequest>,
-  output: __S(483, __c30, 3) as any as S.Schema<UpdateDatabaseResponse>,
+  input: __S(496, __c31, 0) as any as S.Schema<UpdateDatabaseRequest>,
+  output: __S(499, __c31, 3) as any as S.Schema<UpdateDatabaseResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -6048,8 +6282,8 @@ export const updateEnvironmentVariable: API.OperationMethod<
   UpdateEnvironmentVariableError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<UpdateEnvironmentVariableRequest>,
-  output: __S(896, __c56, 0) as any as S.Schema<UpdateEnvironmentVariableResponse>,
+  input: __S(512, __c32, 0) as any as S.Schema<UpdateEnvironmentVariableRequest>,
+  output: __S(1104, __c69, 0) as any as S.Schema<UpdateEnvironmentVariableResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -6071,8 +6305,8 @@ export const updateProject: API.OperationMethod<
   UpdateProjectError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(513, __c32, 1) as any as S.Schema<UpdateProjectRequest>,
-  output: __S(2256, __c141, 0) as any as S.Schema<UpdateProjectResponse>,
+  input: __S(529, __c33, 1) as any as S.Schema<UpdateProjectRequest>,
+  output: __S(2384, __c149, 0) as any as S.Schema<UpdateProjectResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -6089,8 +6323,8 @@ export const updateProjectBranchAlchemyStateLease: API.OperationMethod<
   UpdateProjectBranchAlchemyStateLeaseError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<UpdateProjectBranchAlchemyStateLeaseRequest>,
-  output: __S(1025, __c64, 1) as any as S.Schema<UpdateProjectBranchAlchemyStateLeaseResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<UpdateProjectBranchAlchemyStateLeaseRequest>,
+  output: __S(1233, __c77, 1) as any as S.Schema<UpdateProjectBranchAlchemyStateLeaseResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -6113,8 +6347,8 @@ export const updateService: API.OperationMethod<
   UpdateServiceError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<UpdateServiceRequest>,
-  output: __S(1120, __c70, 0) as any as S.Schema<UpdateServiceResponse>,
+  input: __S(560, __c35, 0) as any as S.Schema<UpdateServiceRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<UpdateServiceResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
@@ -6123,7 +6357,16 @@ export const updateService: API.OperationMethod<
   span: "UpdateService",
 }));
 
-export type UpdateUrlError = BadRequest | NotFound | Conflict | UnprocessableEntity | PrismaOpError;
+export type UpdateUrlError =
+  | BadRequest
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | RoutingUrlQuotaExceeded
+  | RoutingUrlLogicalIdTaken
+  | RoutingUrlInvalidHostname
+  | RoutingUrlServiceOnAnotherBranch
+  | PrismaOpError;
 /** Update a RoutingUrl U+26A0 Experimental endpoint: this API is in active development and may change at any time without notice. U+26A0 Changes the hostname, the service or the `logicalId`. Nothing is refused for want of a verified domain ownership. A request that changes none of them changes nothing. A hostname change removes the old hostname's custom domain and makes the RoutingUrl `pending`. A service change keeps its status, and the hostname moves to the new service. A new hostname, or a service in another region, is registered with Foundry as for a create, and that registration counts against the workspace's hourly limit of new certificates. */
 export const updateUrl: API.OperationMethod<
   UpdateUrlRequest,
@@ -6131,9 +6374,18 @@ export const updateUrl: API.OperationMethod<
   UpdateUrlError,
   PrismaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<UpdateUrlRequest>,
-  output: __S(1232, __c77, 0) as any as S.Schema<UpdateUrlResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  input: __S(640, __c40, 0) as any as S.Schema<UpdateUrlRequest>,
+  output: __S(1440, __c90, 0) as any as S.Schema<UpdateUrlResponse>,
+  errors: [
+    BadRequest,
+    NotFound,
+    Conflict,
+    UnprocessableEntity,
+    RoutingUrlQuotaExceeded,
+    RoutingUrlLogicalIdTaken,
+    RoutingUrlInvalidHostname,
+    RoutingUrlServiceOnAnotherBranch,
+  ],
   serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
@@ -6147,25 +6399,16 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          type: S.String,
-          name: S.String,
-          value: S.String,
-          ttl: S.Number,
-        }),
-      ).annotate({ identifier: "CreateDomainOwnershipVerifyResponseDataVerification" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           code: S.String,
           message: S.String,
           hint: S.optional(S.String),
-          verification: S.optional(__S(0, __c0, 0)),
+          verification: S.optional(__S(16, __c1, 0)),
         }),
       ).annotate({ identifier: "Error404BodyError" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          error: __S(1, __c0, 1),
+          error: __S(0, __c0, 0),
         }),
       ).annotate({ identifier: "Error404Body" });
   }
@@ -6173,18 +6416,31 @@ function __c0(j: number): any {
 function __c1(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.String,
+          value: S.String,
+          ttl: S.Number,
+        }),
+      ).annotate({ identifier: "CreateDomainOwnershipVerifyResponseDataVerification" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
       return S.Array(S.Unknown);
     case 1:
       return S.suspend(() =>
         S.Struct({
           success: S.Boolean,
-          error: __S(16, __c1, 0),
+          error: __S(32, __c2, 0),
           data: S.Unknown,
         }),
       ).annotate({ identifier: "Error400Body" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6201,35 +6457,9 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          error: __S(32, __c2, 0),
+          error: __S(48, __c3, 0),
         }),
       ).annotate({ identifier: "Error409Body" });
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          provider: S.String,
-          repositoryId: S.String,
-          runId: S.String,
-          runAttempt: S.Number,
-        }),
-      ).annotate({ identifier: "CreateBuildRequestRunIdentity" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          source: S.String,
-          commitSha: S.String,
-          branchName: S.String,
-          runIdentity: S.optional(__S(48, __c3, 0)),
-          externalLogUrl: S.optional(S.String),
-          projectId: S.optional(S.String),
-          branchId: S.optional(S.String),
-          applicationTopologyContentHash: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/builds", code: 200 })),
-      ).annotate({ identifier: "CreateBuildRequest" });
   }
 }
 function __c4(j: number): any {
@@ -6237,38 +6467,164 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(80, __c5, 0),
+          code: S.String,
+          message: S.String,
+          hint: S.optional(S.String),
+          verification: S.optional(__S(16, __c1, 0)),
         }),
-      ).annotate({ identifier: "CreateBuildResponse" });
+      ).annotate({ identifier: "Error409BodyError2" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(64, __c4, 0),
+        }),
+      ).annotate({ identifier: "Error409Body2" });
   }
 }
 function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/regions/postgres", code: 200 })),
+      ).annotate({ identifier: "GetRegionsPostgresRequest" });
+    case 1:
+      return S.suspend(() =>
         S.Struct({
           id: S.String,
-          source: S.String,
-          state: S.String,
-          phase: S.NullOr(S.String),
-          commitSha: S.String,
-          branchName: S.String,
-          gitRepoId: S.NullOr(S.String),
-          projectId: S.NullOr(S.String),
-          branchId: S.NullOr(S.String),
-          externalLogUrl: S.NullOr(S.String),
-          deployedUrl: S.NullOr(S.String),
-          applicationTopologyContentHash: S.NullOr(S.String),
-          errorMessage: S.NullOr(S.String),
-          failingStep: S.NullOr(S.String),
-          createdAt: S.String,
-          startedAt: S.NullOr(S.String),
-          finishedAt: S.NullOr(S.String),
+          type: S.String,
+          name: S.String,
+          status: S.String,
         }),
-      ).annotate({ identifier: "CreateBuildResponseData" });
+      ).annotate({ identifier: "GetRegionsPostgresResponseDataItem" });
+    case 2:
+      return S.Array(__S(81, __c5, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(82, __c5, 2),
+        }),
+      ).annotate({ identifier: "GetRegionsPostgresResponse" });
   }
 }
 function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          installationId: S.String.pipe(T.Label()),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/scm-installations/{installationId}/repositories",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetScmInstallationRepositoriesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
+          type: S.String,
+          fullName: S.String,
+          defaultBranch: S.String,
+          isPrivate: S.Boolean,
+        }),
+      ).annotate({ identifier: "GetScmInstallationRepositoriesResponseDataItem" });
+    case 2:
+      return S.Array(__S(97, __c6, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(98, __c6, 2),
+          pagination: __S(1984, __c124, 0),
+        }),
+      ).annotate({ identifier: "GetScmInstallationRepositoriesResponse" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cursor: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          workspaceId: S.String.pipe(T.Query()),
+          repository: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/scm-installations", code: 200 })),
+      ).annotate({ identifier: "GetScmInstallationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+          url: S.String,
+          provider: S.String,
+          installationId: S.Number,
+          accountId: S.Number,
+          accountLogin: S.String,
+          accountType: S.String,
+          suspended: S.Boolean,
+          createdAt: S.String,
+          updatedAt: S.String,
+        }),
+      ).annotate({ identifier: "GetScmInstallationsResponseDataItem" });
+    case 2:
+      return S.Array(__S(113, __c7, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(114, __c7, 2),
+          pagination: __S(1984, __c124, 0),
+          hint: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetScmInstallationsResponse" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          serviceId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/services/{serviceId}", code: 200 })),
+      ).annotate({ identifier: "GetServiceRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          serviceId: S.String.pipe(T.Label()),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/services/{serviceId}/deployments", code: 200 })),
+      ).annotate({ identifier: "GetServiceDeploymentsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+          url: S.String,
+          serviceId: S.String,
+          foundryVersionId: S.String,
+          createdAt: S.String,
+        }),
+      ).annotate({ identifier: "GetServiceDeploymentsResponseDataItem" });
+    case 2:
+      return S.Array(__S(145, __c9, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(146, __c9, 2),
+          pagination: __S(1984, __c124, 0),
+        }),
+      ).annotate({ identifier: "GetServiceDeploymentsResponse" });
+  }
+}
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6277,17 +6633,17 @@ function __c6(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/services/{serviceId}/domains", code: 200 })),
       ).annotate({ identifier: "GetServiceDomainsRequest" });
     case 1:
-      return S.Array(__S(866, __c54, 2));
+      return S.Array(__S(1074, __c67, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(97, __c6, 1),
-          pagination: __S(2512, __c157, 0),
+          data: __S(161, __c10, 1),
+          pagination: __S(2624, __c164, 0),
         }),
       ).annotate({ identifier: "GetServiceDomainsResponse" });
   }
 }
-function __c7(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6301,17 +6657,17 @@ function __c7(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/services", code: 200 })),
       ).annotate({ identifier: "GetServicesRequest" });
     case 1:
-      return S.Array(__S(1104, __c69, 0));
+      return S.Array(__S(1312, __c82, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(113, __c7, 1),
-          pagination: __S(1776, __c111, 0),
+          data: __S(177, __c11, 1),
+          pagination: __S(1984, __c124, 0),
         }),
       ).annotate({ identifier: "GetServicesResponse" });
   }
 }
-function __c8(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6321,7 +6677,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetServiceUrlsRequest" });
   }
 }
-function __c9(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6332,17 +6688,17 @@ function __c9(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/source-repositories", code: 200 })),
       ).annotate({ identifier: "GetSourceRepositoriesRequest" });
     case 1:
-      return S.Array(__S(1280, __c80, 0));
+      return S.Array(__S(1488, __c93, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(145, __c9, 1),
-          pagination: __S(1776, __c111, 0),
+          data: __S(209, __c13, 1),
+          pagination: __S(1984, __c124, 0),
         }),
       ).annotate({ identifier: "GetSourceRepositoriesResponse" });
   }
 }
-function __c10(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6352,7 +6708,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetSourceRepositoryRequest" });
   }
 }
-function __c11(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6362,7 +6718,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetUrlRequest" });
   }
 }
-function __c12(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6372,7 +6728,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetWorkspaceRequest" });
   }
 }
-function __c13(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6390,17 +6746,17 @@ function __c13(j: number): any {
         ),
       ).annotate({ identifier: "GetWorkspaceDomainOwnershipsRequest" });
     case 1:
-      return S.Array(__S(816, __c51, 0));
+      return S.Array(__S(1024, __c64, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(209, __c13, 1),
-          pagination: __S(1776, __c111, 0),
+          data: __S(273, __c17, 1),
+          pagination: __S(1984, __c124, 0),
         }),
       ).annotate({ identifier: "GetWorkspaceDomainOwnershipsResponse" });
   }
 }
-function __c14(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6418,12 +6774,12 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(0, __c0, 0),
+          data: __S(16, __c1, 0),
         }),
       ).annotate({ identifier: "GetWorkspaceDomainOwnershipsVerificationResponse" });
   }
 }
-function __c15(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6437,74 +6793,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetWorkspaceIntegrationsRequest" });
   }
 }
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          databaseId: S.String,
-          name: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/v1/connections", code: 200 })),
-      ).annotate({ identifier: "CreateConnectionRequest" });
-  }
-}
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          host: S.String,
-          pass: S.String,
-          user: S.String,
-        }),
-      ).annotate({ identifier: "CreateConnectionResponseDataDirectConnection" });
-  }
-}
-function __c18(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          host: S.String,
-          port: S.Number,
-          connectionString: S.String.pipe(T.SensitiveValue({})),
-        }),
-      ).annotate({ identifier: "CreateConnectionResponseDataEndpointsDirect" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          direct: S.optional(__S(288, __c18, 0)),
-          pooled: S.optional(__S(288, __c18, 0)),
-          accelerate: S.optional(__S(288, __c18, 0)),
-        }),
-      ).annotate({ identifier: "CreateConnectionResponseDataEndpoints" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          url: S.String,
-          name: S.String,
-          createdAt: S.String,
-          kind: S.String,
-          endpoints: __S(289, __c18, 1),
-          connectionString: S.String.pipe(T.SensitiveValue({})),
-          directConnection: S.optional(S.NullOr(__S(272, __c17, 0))),
-          database: __S(2192, __c137, 0),
-          host: S.NullOr(S.String),
-          pass: S.NullOr(S.String),
-          user: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "CreateConnectionResponseData" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(290, __c18, 2),
-        }),
-      ).annotate({ identifier: "CreateConnectionResponse" });
-  }
-}
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6514,17 +6803,17 @@ function __c19(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/workspaces", code: 200 })),
       ).annotate({ identifier: "GetWorkspacesRequest" });
     case 1:
-      return S.Array(__S(1360, __c85, 0));
+      return S.Array(__S(1568, __c98, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(305, __c19, 1),
-          pagination: __S(1776, __c111, 0),
+          data: __S(321, __c20, 1),
+          pagination: __S(1984, __c124, 0),
         }),
       ).annotate({ identifier: "GetWorkspacesResponse" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6550,17 +6839,17 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "GetWorkspaceServiceTokensResponseDataItem" });
     case 2:
-      return S.Array(__S(321, __c20, 1));
+      return S.Array(__S(337, __c21, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(322, __c20, 2),
-          pagination: __S(1776, __c111, 0),
+          data: __S(338, __c21, 2),
+          pagination: __S(1984, __c124, 0),
         }),
       ).annotate({ identifier: "GetWorkspaceServiceTokensResponse" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6579,12 +6868,12 @@ function __c21(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(337, __c21, 1),
+          data: __S(353, __c22, 1),
         }),
       ).annotate({ identifier: "GetWorkspaceSubscriptionResponse" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6603,7 +6892,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "PutBuildResourceRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6622,7 +6911,34 @@ function __c23(j: number): any {
       ).annotate({ identifier: "PutProjectBranchAlchemyStateStateStackStageOutputRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          token: S.String.pipe(T.SensitiveValue({})),
+          expiresInSeconds: S.optional(S.Number),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/auth/github-actions/token", code: 200 })),
+      ).annotate({ identifier: "CreateAuthGithubActionsTokenRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
+          expiresAt: S.String,
+          workspaceId: S.String,
+        }),
+      ).annotate({ identifier: "CreateAuthGithubActionsTokenResponseData" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(401, __c25, 1),
+        }),
+      ).annotate({ identifier: "CreateAuthGithubActionsTokenResponse" });
+  }
+}
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6642,7 +6958,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "PutProjectBranchAlchemyStateStateStackStageResourceRequest" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6650,9 +6966,9 @@ function __c25(j: number): any {
           projectId: S.String.pipe(T.Label()),
           branchId: S.String.pipe(T.Label()),
           contentHash: S.optional(S.String),
-          nodes: __S(2449, __c153, 1),
-          ports: __S(2451, __c153, 3),
-          edges: __S(2454, __c153, 6),
+          nodes: __S(2577, __c161, 1),
+          ports: __S(2579, __c161, 3),
+          edges: __S(2582, __c161, 6),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -6663,7 +6979,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "PutProjectBranchApplicationTopologyRequest" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6674,7 +6990,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "UpdateBranchRequest" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6688,7 +7004,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "UpdateBucketRequest" });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6707,17 +7023,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "UpdateBuildRequest" });
   }
 }
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/connections/{id}/rotate", code: 200 })),
-      ).annotate({ identifier: "CreateConnectionRotateRequest" });
-  }
-}
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6730,7 +7036,7 @@ function __c30(j: number): any {
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/databases/{databaseId}", code: 200 })),
       ).annotate({ identifier: "UpdateDatabaseRequest" });
     case 1:
-      return S.suspend(() => S.Union([__S(640, __c40, 0), __S(608, __c38, 0), __S(641, __c40, 1)]));
+      return S.suspend(() => S.Union([__S(848, __c53, 0), __S(816, __c51, 0), __S(849, __c53, 1)]));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6742,10 +7048,10 @@ function __c30(j: number): any {
           createdAt: S.String,
           isDefault: S.Boolean,
           defaultConnectionId: S.NullOr(S.String),
-          connections: __S(720, __c45, 0),
-          project: __S(2192, __c137, 0),
-          region: S.NullOr(__S(592, __c37, 0)),
-          source: S.NullOr(__S(481, __c30, 1)),
+          connections: __S(928, __c58, 0),
+          project: __S(592, __c37, 0),
+          region: S.NullOr(__S(800, __c50, 0)),
+          source: S.NullOr(__S(497, __c31, 1)),
           branchId: S.NullOr(S.String),
           logicalId: S.NullOr(S.String),
         }),
@@ -6753,12 +7059,12 @@ function __c30(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(482, __c30, 2),
+          data: __S(498, __c31, 2),
         }),
       ).annotate({ identifier: "UpdateDatabaseResponse" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6771,7 +7077,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "UpdateEnvironmentVariableRequest" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -6780,12 +7086,12 @@ function __c32(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          settings: S.optional(__S(512, __c32, 0)),
+          settings: S.optional(__S(528, __c33, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/projects/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateProjectRequest" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6803,7 +7109,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "UpdateProjectBranchAlchemyStateLeaseRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6817,7 +7123,62 @@ function __c34(j: number): any {
       ).annotate({ identifier: "UpdateServiceRequest" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String,
+          name: S.optional(S.String),
+          branchId: S.optional(S.String),
+          branchGitName: S.optional(S.String),
+          logicalId: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/buckets", code: 200 })),
+      ).annotate({ identifier: "CreateBucketRequest" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          url: S.String,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "CreateBucketResponseDataProject" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(624, __c39, 0),
+        }),
+      ).annotate({ identifier: "CreateBucketResponse" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+          url: S.String,
+          name: S.String,
+          providerName: S.String,
+          status: S.String,
+          createdAt: S.String,
+          project: __S(592, __c37, 0),
+          branchId: S.NullOr(S.String),
+          logicalId: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "CreateBucketResponseData" });
+  }
+}
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6831,10 +7192,182 @@ function __c35(j: number): any {
       ).annotate({ identifier: "UpdateUrlRequest" });
   }
 }
-function __c36(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Union([__S(640, __c40, 0), __S(608, __c38, 0), __S(641, __c40, 1)]));
+      return S.suspend(() =>
+        S.Struct({
+          bucketId: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          role: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/v1/buckets/{bucketId}/keys", code: 200 })),
+      ).annotate({ identifier: "CreateBucketKeyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+          name: S.String,
+          valueHint: S.String,
+          role: S.String,
+          createdAt: S.String,
+          secretAccessKey: S.String.pipe(T.SensitiveValue({})),
+          accessKeyId: S.String.pipe(T.SensitiveValue({})),
+          endpoint: S.String,
+          bucketName: S.String,
+        }),
+      ).annotate({ identifier: "CreateBucketKeyResponseData" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(657, __c41, 1),
+        }),
+      ).annotate({ identifier: "CreateBucketKeyResponse" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          provider: S.String,
+          repositoryId: S.String,
+          runId: S.String,
+          runAttempt: S.Number,
+        }),
+      ).annotate({ identifier: "CreateBuildRequestRunIdentity" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          source: S.String,
+          commitSha: S.String,
+          branchName: S.String,
+          runIdentity: S.optional(__S(672, __c42, 0)),
+          externalLogUrl: S.optional(S.String),
+          projectId: S.optional(S.String),
+          branchId: S.optional(S.String),
+          applicationTopologyContentHash: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/builds", code: 200 })),
+      ).annotate({ identifier: "CreateBuildRequest" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(704, __c44, 0),
+        }),
+      ).annotate({ identifier: "CreateBuildResponse" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          source: S.String,
+          state: S.String,
+          phase: S.NullOr(S.String),
+          commitSha: S.String,
+          branchName: S.String,
+          gitRepoId: S.NullOr(S.String),
+          projectId: S.NullOr(S.String),
+          branchId: S.NullOr(S.String),
+          externalLogUrl: S.NullOr(S.String),
+          deployedUrl: S.NullOr(S.String),
+          applicationTopologyContentHash: S.NullOr(S.String),
+          errorMessage: S.NullOr(S.String),
+          failingStep: S.NullOr(S.String),
+          createdAt: S.String,
+          startedAt: S.NullOr(S.String),
+          finishedAt: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "CreateBuildResponseData" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          databaseId: S.String,
+          name: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/v1/connections", code: 200 })),
+      ).annotate({ identifier: "CreateConnectionRequest" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          host: S.String,
+          pass: S.String,
+          user: S.String,
+        }),
+      ).annotate({ identifier: "CreateConnectionResponseDataDirectConnection" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          host: S.String,
+          port: S.Number,
+          connectionString: S.String.pipe(T.SensitiveValue({})),
+        }),
+      ).annotate({ identifier: "CreateConnectionResponseDataEndpointsDirect" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          direct: S.optional(__S(752, __c47, 0)),
+          pooled: S.optional(__S(752, __c47, 0)),
+          accelerate: S.optional(__S(752, __c47, 0)),
+        }),
+      ).annotate({ identifier: "CreateConnectionResponseDataEndpoints" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          type: S.String,
+          url: S.String,
+          name: S.String,
+          createdAt: S.String,
+          kind: S.String,
+          endpoints: __S(753, __c47, 1),
+          connectionString: S.String.pipe(T.SensitiveValue({})),
+          directConnection: S.optional(S.NullOr(__S(736, __c46, 0))),
+          database: __S(592, __c37, 0),
+          host: S.NullOr(S.String),
+          pass: S.NullOr(S.String),
+          user: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "CreateConnectionResponseData" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(754, __c47, 2),
+        }),
+      ).annotate({ identifier: "CreateConnectionResponse" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/connections/{id}/rotate", code: 200 })),
+      ).annotate({ identifier: "CreateConnectionRotateRequest" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Union([__S(848, __c53, 0), __S(816, __c51, 0), __S(849, __c53, 1)]));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -6842,14 +7375,14 @@ function __c36(j: number): any {
           region: S.optional(S.String),
           name: S.optional(S.String),
           isDefault: S.optional(S.Boolean),
-          source: S.optional(__S(576, __c36, 0)),
+          source: S.optional(__S(784, __c49, 0)),
           branchId: S.optional(S.NullOr(S.String)),
           branchGitName: S.optional(S.NullOr(S.String)),
           logicalId: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/v1/databases", code: 200 })),
       ).annotate({ identifier: "CreateDatabaseRequest" });
     case 2:
-      return S.suspend(() => S.Union([__S(640, __c40, 0), __S(608, __c38, 0), __S(641, __c40, 1)]));
+      return S.suspend(() => S.Union([__S(848, __c53, 0), __S(816, __c51, 0), __S(849, __c53, 1)]));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6861,10 +7394,10 @@ function __c36(j: number): any {
           createdAt: S.String,
           isDefault: S.Boolean,
           defaultConnectionId: S.NullOr(S.String),
-          connections: __S(627, __c39, 3),
-          project: __S(2192, __c137, 0),
-          region: S.NullOr(__S(592, __c37, 0)),
-          source: S.NullOr(__S(578, __c36, 2)),
+          connections: __S(835, __c52, 3),
+          project: __S(592, __c37, 0),
+          region: S.NullOr(__S(800, __c50, 0)),
+          source: S.NullOr(__S(786, __c49, 2)),
           branchId: S.NullOr(S.String),
           logicalId: S.NullOr(S.String),
         }),
@@ -6872,12 +7405,12 @@ function __c36(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(579, __c36, 3),
+          data: __S(787, __c49, 3),
         }),
       ).annotate({ identifier: "CreateDatabaseResponse" });
   }
 }
-function __c37(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6888,7 +7421,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "CreateDatabaseResponseDataRegion" });
   }
 }
-function __c38(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6900,7 +7433,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "CreateDatabaseRequestSourceCase1" });
   }
 }
-function __c39(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6913,9 +7446,9 @@ function __c39(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          direct: S.optional(__S(624, __c39, 0)),
-          pooled: S.optional(__S(624, __c39, 0)),
-          accelerate: S.optional(__S(624, __c39, 0)),
+          direct: S.optional(__S(832, __c52, 0)),
+          pooled: S.optional(__S(832, __c52, 0)),
+          accelerate: S.optional(__S(832, __c52, 0)),
         }),
       ).annotate({ identifier: "CreateDatabaseResponseDataConnectionsItemEndpoints" });
     case 2:
@@ -6927,16 +7460,16 @@ function __c39(j: number): any {
           name: S.String,
           createdAt: S.String,
           kind: S.String,
-          endpoints: __S(625, __c39, 1),
-          directConnection: S.optional(S.NullOr(__S(272, __c17, 0))),
-          database: __S(2192, __c137, 0),
+          endpoints: __S(833, __c52, 1),
+          directConnection: S.optional(S.NullOr(__S(736, __c46, 0))),
+          database: __S(592, __c37, 0),
         }),
       ).annotate({ identifier: "CreateDatabaseResponseDataConnectionsItem" });
     case 3:
-      return S.Array(__S(626, __c39, 2));
+      return S.Array(__S(834, __c52, 2));
   }
 }
-function __c40(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6953,7 +7486,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "CreateDatabaseRequestSourceCase2" });
   }
 }
-function __c41(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6966,13 +7499,13 @@ function __c41(j: number): any {
       ).annotate({ identifier: "CreateDatabaseConnectionRequest" });
   }
 }
-function __c42(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           targetDatabaseId: S.String.pipe(T.Label()),
-          source: __S(608, __c38, 0),
+          source: __S(816, __c51, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/databases/{targetDatabaseId}/restore", code: 200 }),
         ),
@@ -6988,10 +7521,10 @@ function __c42(j: number): any {
           createdAt: S.String,
           isDefault: S.Boolean,
           defaultConnectionId: S.NullOr(S.String),
-          connections: __S(720, __c45, 0),
-          project: __S(2192, __c137, 0),
-          region: S.NullOr(__S(592, __c37, 0)),
-          source: __S(608, __c38, 0),
+          connections: __S(928, __c58, 0),
+          project: __S(592, __c37, 0),
+          region: S.NullOr(__S(800, __c50, 0)),
+          source: __S(816, __c51, 0),
           branchId: S.NullOr(S.String),
           logicalId: S.NullOr(S.String),
         }),
@@ -6999,12 +7532,12 @@ function __c42(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(673, __c42, 1),
+          data: __S(881, __c55, 1),
         }),
       ).annotate({ identifier: "CreateDatabaseRestoreResponse" });
   }
 }
-function __c43(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7016,14 +7549,14 @@ function __c43(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          direct: S.optional(__S(688, __c43, 0)),
-          pooled: S.optional(__S(688, __c43, 0)),
-          accelerate: S.optional(__S(688, __c43, 0)),
+          direct: S.optional(__S(896, __c56, 0)),
+          pooled: S.optional(__S(896, __c56, 0)),
+          accelerate: S.optional(__S(896, __c56, 0)),
         }),
       ).annotate({ identifier: "CreateDatabaseRestoreResponseDataConnectionsItemEndpoints" });
   }
 }
-function __c44(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7034,20 +7567,20 @@ function __c44(j: number): any {
           name: S.String,
           createdAt: S.String,
           kind: S.String,
-          endpoints: __S(689, __c43, 1),
-          directConnection: S.optional(S.NullOr(__S(272, __c17, 0))),
-          database: __S(2192, __c137, 0),
+          endpoints: __S(897, __c56, 1),
+          directConnection: S.optional(S.NullOr(__S(736, __c46, 0))),
+          database: __S(592, __c37, 0),
         }),
       ).annotate({ identifier: "CreateDatabaseRestoreResponseDataConnectionsItem" });
   }
 }
-function __c45(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(704, __c44, 0));
+      return S.Array(__S(912, __c57, 0));
   }
 }
-function __c46(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7064,12 +7597,12 @@ function __c46(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(737, __c46, 1),
+          data: __S(945, __c59, 1),
         }),
       ).annotate({ identifier: "CreateDeploymentStartResponse" });
   }
 }
-function __c47(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7079,13 +7612,13 @@ function __c47(j: number): any {
       ).annotate({ identifier: "CreateDeploymentStopRequest" });
   }
 }
-function __c48(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CreateDeploymentStopResponse" });
   }
 }
-function __c49(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7101,17 +7634,17 @@ function __c49(j: number): any {
       ).annotate({ identifier: "CreateDomainOwnershipVerifyRequest" });
   }
 }
-function __c50(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(816, __c51, 0),
+          data: __S(1024, __c64, 0),
         }),
       ).annotate({ identifier: "CreateDomainOwnershipVerifyResponse" });
   }
 }
-function __c51(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7120,7 +7653,7 @@ function __c51(j: number): any {
           type: S.String,
           workspaceId: S.String,
           domain: S.String,
-          verification: __S(0, __c0, 0),
+          verification: __S(16, __c1, 0),
           status: S.String,
           expiresAt: S.NullOr(S.String),
           verificationRecordLastSeenAt: S.NullOr(S.String),
@@ -7131,7 +7664,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "CreateDomainOwnershipVerifyResponseData" });
   }
 }
-function __c52(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7141,17 +7674,17 @@ function __c52(j: number): any {
       ).annotate({ identifier: "CreateDomainRetryRequest" });
   }
 }
-function __c53(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(866, __c54, 2),
+          data: __S(1074, __c67, 2),
         }),
       ).annotate({ identifier: "CreateDomainRetryResponse" });
   }
 }
-function __c54(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7163,7 +7696,7 @@ function __c54(j: number): any {
         }),
       ).annotate({ identifier: "CreateDomainRetryResponseDataDnsRecordsItem" });
     case 1:
-      return S.Array(__S(864, __c54, 0));
+      return S.Array(__S(1072, __c67, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7180,12 +7713,12 @@ function __c54(j: number): any {
           certExpiresAt: S.NullOr(S.String),
           createdAt: S.String,
           updatedAt: S.String,
-          dnsRecords: __S(865, __c54, 1),
+          dnsRecords: __S(1073, __c67, 1),
         }),
       ).annotate({ identifier: "CreateDomainRetryResponseData" });
   }
 }
-function __c55(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7199,17 +7732,17 @@ function __c55(j: number): any {
       ).annotate({ identifier: "CreateEnvironmentVariableRequest" });
   }
 }
-function __c56(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(912, __c57, 0),
+          data: __S(1120, __c70, 0),
         }),
       ).annotate({ identifier: "CreateEnvironmentVariableResponse" });
   }
 }
-function __c57(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7229,7 +7762,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "CreateEnvironmentVariableResponseData" });
   }
 }
-function __c58(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7242,7 +7775,7 @@ function __c58(j: number): any {
         }).pipe(T.Http({ method: "POST", uri: "/v1/projects", code: 200 })),
       ).annotate({ identifier: "CreateProjectRequest" });
     case 1:
-      return S.suspend(() => S.Union([__S(640, __c40, 0), __S(608, __c38, 0), __S(641, __c40, 1)]));
+      return S.suspend(() => S.Union([__S(848, __c53, 0), __S(816, __c51, 0), __S(849, __c53, 1)]));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7254,14 +7787,14 @@ function __c58(j: number): any {
           createdAt: S.String,
           isDefault: S.Boolean,
           defaultConnectionId: S.NullOr(S.String),
-          connections: __S(627, __c39, 3),
-          region: __S(592, __c37, 0),
-          source: S.NullOr(__S(929, __c58, 1)),
+          connections: __S(835, __c52, 3),
+          region: __S(800, __c50, 0),
+          source: S.NullOr(__S(1137, __c71, 1)),
           branchId: S.NullOr(S.String),
           logicalId: S.NullOr(S.String),
-          apiKeys: __S(945, __c59, 1),
+          apiKeys: __S(1153, __c72, 1),
           connectionString: S.NullOr(S.String).pipe(T.SensitiveValue({})),
-          directConnection: S.NullOr(__S(272, __c17, 0)),
+          directConnection: S.NullOr(__S(736, __c46, 0)),
         }),
       ).annotate({ identifier: "CreateProjectResponseDataDatabase" });
     case 3:
@@ -7274,19 +7807,19 @@ function __c58(j: number): any {
           logicalId: S.NullOr(S.String),
           createdAt: S.String,
           defaultRegion: S.NullOr(S.String),
-          workspace: __S(2192, __c137, 0),
-          database: S.NullOr(__S(930, __c58, 2)),
+          workspace: __S(592, __c37, 0),
+          database: S.NullOr(__S(1138, __c71, 2)),
         }),
       ).annotate({ identifier: "CreateProjectResponseData" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(931, __c58, 3),
+          data: __S(1139, __c71, 3),
         }),
       ).annotate({ identifier: "CreateProjectResponse" });
   }
 }
-function __c59(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7297,16 +7830,16 @@ function __c59(j: number): any {
           name: S.String,
           createdAt: S.String,
           kind: S.String,
-          endpoints: __S(689, __c43, 1),
+          endpoints: __S(897, __c56, 1),
           connectionString: S.String.pipe(T.SensitiveValue({})),
-          directConnection: S.optional(S.NullOr(__S(272, __c17, 0))),
+          directConnection: S.optional(S.NullOr(__S(736, __c46, 0))),
         }),
       ).annotate({ identifier: "CreateProjectResponseDataDatabaseApiKeysItem" });
     case 1:
-      return S.Array(__S(944, __c59, 0));
+      return S.Array(__S(1152, __c72, 0));
   }
 }
-function __c60(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7318,17 +7851,17 @@ function __c60(j: number): any {
       ).annotate({ identifier: "CreateProjectBranchRequest" });
   }
 }
-function __c61(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(992, __c62, 0),
+          data: __S(1200, __c75, 0),
         }),
       ).annotate({ identifier: "CreateProjectBranchResponse" });
   }
 }
-function __c62(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7341,12 +7874,12 @@ function __c62(j: number): any {
           role: S.String,
           createdAt: S.String,
           updatedAt: S.String,
-          project: __S(2192, __c137, 0),
+          project: __S(592, __c37, 0),
         }),
       ).annotate({ identifier: "CreateProjectBranchResponseData" });
   }
 }
-function __c63(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7367,7 +7900,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "CreateProjectBranchAlchemyStateLeaseRequest" });
   }
 }
-function __c64(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7379,12 +7912,12 @@ function __c64(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1024, __c64, 0),
+          data: __S(1232, __c77, 0),
         }),
       ).annotate({ identifier: "CreateProjectBranchAlchemyStateLeaseResponse" });
   }
 }
-function __c65(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7394,7 +7927,7 @@ function __c65(j: number): any {
         }),
       ).annotate({ identifier: "CreateProjectDatabaseRequestFromDatabase" });
     case 1:
-      return S.suspend(() => S.Union([__S(640, __c40, 0), __S(608, __c38, 0), __S(641, __c40, 1)]));
+      return S.suspend(() => S.Union([__S(848, __c53, 0), __S(816, __c51, 0), __S(849, __c53, 1)]));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7402,12 +7935,12 @@ function __c65(j: number): any {
           region: S.optional(S.String),
           name: S.optional(S.String),
           isDefault: S.optional(S.Boolean),
-          fromDatabase: S.optional(__S(1040, __c65, 0)),
-          source: S.optional(__S(1041, __c65, 1)),
+          fromDatabase: S.optional(__S(1248, __c78, 0)),
+          source: S.optional(__S(1249, __c78, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/projects/{projectId}/databases", code: 200 })),
       ).annotate({ identifier: "CreateProjectDatabaseRequest" });
     case 3:
-      return S.suspend(() => S.Union([__S(640, __c40, 0), __S(608, __c38, 0), __S(641, __c40, 1)]));
+      return S.suspend(() => S.Union([__S(848, __c53, 0), __S(816, __c51, 0), __S(849, __c53, 1)]));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -7419,26 +7952,26 @@ function __c65(j: number): any {
           createdAt: S.String,
           isDefault: S.Boolean,
           defaultConnectionId: S.NullOr(S.String),
-          connections: __S(627, __c39, 3),
-          project: __S(2192, __c137, 0),
-          region: __S(592, __c37, 0),
-          source: S.NullOr(__S(1043, __c65, 3)),
+          connections: __S(835, __c52, 3),
+          project: __S(592, __c37, 0),
+          region: __S(800, __c50, 0),
+          source: S.NullOr(__S(1251, __c78, 3)),
           branchId: S.NullOr(S.String),
           logicalId: S.NullOr(S.String),
-          apiKeys: __S(945, __c59, 1),
+          apiKeys: __S(1153, __c72, 1),
           connectionString: S.NullOr(S.String).pipe(T.SensitiveValue({})),
-          directConnection: S.NullOr(__S(272, __c17, 0)),
+          directConnection: S.NullOr(__S(736, __c46, 0)),
         }),
       ).annotate({ identifier: "CreateProjectDatabaseResponseData" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1044, __c65, 4),
+          data: __S(1252, __c78, 4),
         }),
       ).annotate({ identifier: "CreateProjectDatabaseResponse" });
   }
 }
-function __c66(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7449,7 +7982,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "CreateProjectTransferRequest" });
   }
 }
-function __c67(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7476,12 +8009,12 @@ function __c67(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1073, __c67, 1),
+          data: __S(1281, __c80, 1),
         }),
       ).annotate({ identifier: "CreateScmInstallationsInstallIntentResponse" });
   }
 }
-function __c68(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7496,7 +8029,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "CreateServiceRequest" });
   }
 }
-function __c69(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7505,7 +8038,7 @@ function __c69(j: number): any {
           type: S.String,
           url: S.String,
           name: S.String,
-          region: __S(592, __c37, 0),
+          region: __S(800, __c50, 0),
           projectId: S.String,
           branchId: S.NullOr(S.String),
           latestDeploymentId: S.NullOr(S.String),
@@ -7516,17 +8049,17 @@ function __c69(j: number): any {
       ).annotate({ identifier: "CreateServiceResponseData" });
   }
 }
-function __c70(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1104, __c69, 0),
+          data: __S(1312, __c82, 0),
         }),
       ).annotate({ identifier: "CreateServiceResponse" });
   }
 }
-function __c71(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7538,7 +8071,7 @@ function __c71(j: number): any {
       return S.suspend(() =>
         S.Struct({
           serviceId: S.String.pipe(T.Label()),
-          portMapping: S.optional(__S(1136, __c71, 0)),
+          portMapping: S.optional(__S(1344, __c84, 0)),
           skipCodeUpload: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/v1/services/{serviceId}/deployments", code: 200 })),
       ).annotate({ identifier: "CreateServiceDeploymentRequest" });
@@ -7555,12 +8088,12 @@ function __c71(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1138, __c71, 2),
+          data: __S(1346, __c84, 2),
         }),
       ).annotate({ identifier: "CreateServiceDeploymentResponse" });
   }
 }
-function __c72(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7571,7 +8104,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "CreateServiceDomainRequest" });
   }
 }
-function __c73(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7583,7 +8116,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "CreateServicePromoteRequest" });
   }
 }
-function __c74(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7595,12 +8128,12 @@ function __c74(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1184, __c74, 0),
+          data: __S(1392, __c87, 0),
         }),
       ).annotate({ identifier: "CreateServicePromoteResponse" });
   }
 }
-function __c75(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7612,7 +8145,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "CreateServiceRollbackRequest" });
   }
 }
-function __c76(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7625,17 +8158,17 @@ function __c76(j: number): any {
       ).annotate({ identifier: "CreateServiceUrlRequest" });
   }
 }
-function __c77(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1255, __c78, 7),
+          data: __S(1463, __c91, 7),
         }),
       ).annotate({ identifier: "CreateServiceUrlResponse" });
   }
 }
-function __c78(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7665,7 +8198,7 @@ function __c78(j: number): any {
         }),
       ).annotate({ identifier: "CreateServiceUrlResponseDataRecordsItem" });
     case 3:
-      return S.Array(__S(1250, __c78, 2));
+      return S.Array(__S(1458, __c91, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -7705,14 +8238,15 @@ function __c78(j: number): any {
           hostname: S.String,
           logicalId: S.NullOr(S.String),
           status: S.String,
-          conditions: __S(1248, __c78, 0),
+          state: S.String,
+          conditions: __S(1456, __c91, 0),
           firstUnmetCondition: S.NullOr(S.String),
-          ownershipExpiry: S.NullOr(__S(1249, __c78, 1)),
-          records: __S(1251, __c78, 3),
-          heldBy: S.NullOr(__S(1252, __c78, 4)),
-          customDomain: S.NullOr(__S(1253, __c78, 5)),
+          ownershipExpiry: S.NullOr(__S(1457, __c91, 1)),
+          records: __S(1459, __c91, 3),
+          heldBy: S.NullOr(__S(1460, __c91, 4)),
+          customDomain: S.NullOr(__S(1461, __c91, 5)),
           customDomainSyncError: S.NullOr(S.String),
-          switchboardDns: S.NullOr(__S(1254, __c78, 6)),
+          switchboardDns: S.NullOr(__S(1462, __c91, 6)),
           setupUrl: S.NullOr(S.String),
           createdAt: S.String,
           updatedAt: S.String,
@@ -7720,7 +8254,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "CreateServiceUrlResponseData" });
   }
 }
-function __c79(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7733,7 +8267,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "CreateSourceRepositoryRequest" });
   }
 }
-function __c80(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7755,18 +8289,18 @@ function __c80(j: number): any {
       ).annotate({ identifier: "CreateSourceRepositoryResponseData" });
   }
 }
-function __c81(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1280, __c80, 0),
+          data: __S(1488, __c93, 0),
           hint: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateSourceRepositoryResponse" });
   }
 }
-function __c82(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7776,7 +8310,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "CreateUrlCheckRequest" });
   }
 }
-function __c83(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7786,17 +8320,17 @@ function __c83(j: number): any {
       ).annotate({ identifier: "CreateWorkspaceRequest" });
   }
 }
-function __c84(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1360, __c85, 0),
+          data: __S(1568, __c98, 0),
         }),
       ).annotate({ identifier: "CreateWorkspaceResponse" });
   }
 }
-function __c85(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7810,7 +8344,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "CreateWorkspaceResponseData" });
   }
 }
-function __c86(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7827,7 +8361,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "CreateWorkspaceDomainOwnershipRequest" });
   }
 }
-function __c87(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7857,12 +8391,12 @@ function __c87(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1393, __c87, 1),
+          data: __S(1601, __c100, 1),
         }),
       ).annotate({ identifier: "CreateWorkspaceServiceTokenResponse" });
   }
 }
-function __c88(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7872,7 +8406,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "DeleteBranchRequest" });
   }
 }
-function __c89(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7882,7 +8416,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "DeleteBucketRequest" });
   }
 }
-function __c90(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7895,7 +8429,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "DeleteBucketKeyRequest" });
   }
 }
-function __c91(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7905,7 +8439,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "DeleteConnectionRequest" });
   }
 }
-function __c92(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7915,7 +8449,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "DeleteDatabaseRequest" });
   }
 }
-function __c93(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7925,7 +8459,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "DeleteDeploymentRequest" });
   }
 }
-function __c94(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7935,7 +8469,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "DeleteDomainRequest" });
   }
 }
-function __c95(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7947,7 +8481,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "DeleteDomainOwnershipRequest" });
   }
 }
-function __c96(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7959,7 +8493,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "DeleteEnvironmentVariableRequest" });
   }
 }
-function __c97(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7969,7 +8503,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "DeleteIntegrationRequest" });
   }
 }
-function __c98(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7979,7 +8513,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "DeleteProjectRequest" });
   }
 }
-function __c99(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7996,7 +8530,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "DeleteProjectBranchAlchemyStateLeaseRequest" });
   }
 }
-function __c100(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8015,7 +8549,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "DeleteProjectBranchAlchemyStateStateStackRequest" });
   }
 }
-function __c101(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8035,7 +8569,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "DeleteProjectBranchAlchemyStateStateStackStageResourceRequest" });
   }
 }
-function __c102(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8045,7 +8579,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "DeleteServiceRequest" });
   }
 }
-function __c103(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8055,7 +8589,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "DeleteSourceRepositoryRequest" });
   }
 }
-function __c104(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8065,7 +8599,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "DeleteUrlRequest" });
   }
 }
-function __c105(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8082,7 +8616,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "DeleteWorkspaceIntegrationRequest" });
   }
 }
-function __c106(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8099,7 +8633,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "DeleteWorkspaceServiceTokenRequest" });
   }
 }
-function __c107(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8120,7 +8654,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "GetAgentApprovalResponse" });
   }
 }
-function __c108(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8130,7 +8664,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "GetBranchRequest" });
   }
 }
-function __c109(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8140,7 +8674,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "GetBucketRequest" });
   }
 }
-function __c110(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8162,17 +8696,17 @@ function __c110(j: number): any {
         }),
       ).annotate({ identifier: "GetBucketKeysResponseDataItem" });
     case 2:
-      return S.Array(__S(1761, __c110, 1));
+      return S.Array(__S(1969, __c123, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1762, __c110, 2),
-          pagination: __S(1776, __c111, 0),
+          data: __S(1970, __c123, 2),
+          pagination: __S(1984, __c124, 0),
         }),
       ).annotate({ identifier: "GetBucketKeysResponse" });
   }
 }
-function __c111(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8183,7 +8717,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "GetBucketKeysResponsePagination" });
   }
 }
-function __c112(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8197,17 +8731,17 @@ function __c112(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/buckets", code: 200 })),
       ).annotate({ identifier: "GetBucketsRequest" });
     case 1:
-      return S.Array(__S(2224, __c139, 0));
+      return S.Array(__S(624, __c39, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1793, __c112, 1),
-          pagination: __S(1776, __c111, 0),
+          data: __S(2001, __c125, 1),
+          pagination: __S(1984, __c124, 0),
         }),
       ).annotate({ identifier: "GetBucketsResponse" });
   }
 }
-function __c113(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8225,7 +8759,7 @@ function __c113(j: number): any {
         }),
       ).annotate({ identifier: "GetBuildResponseDataResourcesItem" });
     case 2:
-      return S.Array(__S(1809, __c113, 1));
+      return S.Array(__S(2017, __c126, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -8246,18 +8780,18 @@ function __c113(j: number): any {
           createdAt: S.String,
           startedAt: S.NullOr(S.String),
           finishedAt: S.NullOr(S.String),
-          resources: __S(1810, __c113, 2),
+          resources: __S(2018, __c126, 2),
         }),
       ).annotate({ identifier: "GetBuildResponseData" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1811, __c113, 3),
+          data: __S(2019, __c126, 3),
         }),
       ).annotate({ identifier: "GetBuildResponse" });
   }
 }
-function __c114(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8270,17 +8804,17 @@ function __c114(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/builds", code: 200 })),
       ).annotate({ identifier: "GetBuildsRequest" });
     case 1:
-      return S.Array(__S(80, __c5, 0));
+      return S.Array(__S(704, __c44, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1825, __c114, 1),
-          pagination: __S(1776, __c111, 0),
+          data: __S(2033, __c127, 1),
+          pagination: __S(1984, __c124, 0),
         }),
       ).annotate({ identifier: "GetBuildsResponse" });
   }
 }
-function __c115(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8291,12 +8825,12 @@ function __c115(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(704, __c44, 0),
+          data: __S(912, __c57, 0),
         }),
       ).annotate({ identifier: "GetConnectionResponse" });
   }
 }
-function __c116(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8308,18 +8842,18 @@ function __c116(j: number): any {
       ).annotate({ identifier: "GetConnectionsRequest" });
   }
 }
-function __c117(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(720, __c45, 0),
-          pagination: __S(1776, __c111, 0),
+          data: __S(928, __c58, 0),
+          pagination: __S(1984, __c124, 0),
         }),
       ).annotate({ identifier: "GetConnectionsResponse" });
   }
 }
-function __c118(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8328,7 +8862,7 @@ function __c118(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/databases/{databaseId}", code: 200 })),
       ).annotate({ identifier: "GetDatabaseRequest" });
     case 1:
-      return S.suspend(() => S.Union([__S(640, __c40, 0), __S(608, __c38, 0), __S(641, __c40, 1)]));
+      return S.suspend(() => S.Union([__S(848, __c53, 0), __S(816, __c51, 0), __S(849, __c53, 1)]));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8340,10 +8874,10 @@ function __c118(j: number): any {
           createdAt: S.String,
           isDefault: S.Boolean,
           defaultConnectionId: S.NullOr(S.String),
-          connections: __S(720, __c45, 0),
-          project: __S(2192, __c137, 0),
-          region: S.NullOr(__S(592, __c37, 0)),
-          source: S.NullOr(__S(1889, __c118, 1)),
+          connections: __S(928, __c58, 0),
+          project: __S(592, __c37, 0),
+          region: S.NullOr(__S(800, __c50, 0)),
+          source: S.NullOr(__S(2097, __c131, 1)),
           branchId: S.NullOr(S.String),
           logicalId: S.NullOr(S.String),
         }),
@@ -8351,12 +8885,12 @@ function __c118(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1890, __c118, 2),
+          data: __S(2098, __c131, 2),
         }),
       ).annotate({ identifier: "GetDatabaseResponse" });
   }
 }
-function __c119(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8377,7 +8911,7 @@ function __c119(j: number): any {
         }),
       ).annotate({ identifier: "GetDatabaseBackupsResponseDataItem" });
     case 2:
-      return S.Array(__S(1905, __c119, 1));
+      return S.Array(__S(2113, __c132, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -8394,14 +8928,14 @@ function __c119(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1906, __c119, 2),
-          meta: __S(1907, __c119, 3),
-          pagination: __S(1908, __c119, 4),
+          data: __S(2114, __c132, 2),
+          meta: __S(2115, __c132, 3),
+          pagination: __S(2116, __c132, 4),
         }),
       ).annotate({ identifier: "GetDatabaseBackupsResponse" });
   }
 }
-function __c120(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8415,7 +8949,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "GetDatabaseConnectionsRequest" });
   }
 }
-function __c121(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8429,7 +8963,7 @@ function __c121(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/databases", code: 200 })),
       ).annotate({ identifier: "GetDatabasesRequest" });
     case 1:
-      return S.suspend(() => S.Union([__S(640, __c40, 0), __S(608, __c38, 0), __S(641, __c40, 1)]));
+      return S.suspend(() => S.Union([__S(848, __c53, 0), __S(816, __c51, 0), __S(849, __c53, 1)]));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8441,53 +8975,26 @@ function __c121(j: number): any {
           createdAt: S.String,
           isDefault: S.Boolean,
           defaultConnectionId: S.NullOr(S.String),
-          connections: __S(720, __c45, 0),
-          project: __S(2192, __c137, 0),
-          region: S.NullOr(__S(592, __c37, 0)),
-          source: S.NullOr(__S(1937, __c121, 1)),
+          connections: __S(928, __c58, 0),
+          project: __S(592, __c37, 0),
+          region: S.NullOr(__S(800, __c50, 0)),
+          source: S.NullOr(__S(2145, __c134, 1)),
           branchId: S.NullOr(S.String),
           logicalId: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "GetDatabasesResponseDataItem" });
     case 3:
-      return S.Array(__S(1938, __c121, 2));
+      return S.Array(__S(2146, __c134, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1939, __c121, 3),
-          pagination: __S(1776, __c111, 0),
+          data: __S(2147, __c134, 3),
+          pagination: __S(1984, __c124, 0),
         }),
       ).annotate({ identifier: "GetDatabasesResponse" });
   }
 }
-function __c122(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          token: S.String.pipe(T.SensitiveValue({})),
-          expiresInSeconds: S.optional(S.Number),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/auth/github-actions/token", code: 200 })),
-      ).annotate({ identifier: "CreateAuthGithubActionsTokenRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          value: S.String.pipe(T.SensitiveValue({})),
-          expiresAt: S.String,
-          workspaceId: S.String,
-        }),
-      ).annotate({ identifier: "CreateAuthGithubActionsTokenResponseData" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(1953, __c122, 1),
-        }),
-      ).annotate({ identifier: "CreateAuthGithubActionsTokenResponse" });
-  }
-}
-function __c123(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8514,21 +9021,21 @@ function __c123(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          operations: __S(1970, __c123, 2),
-          storage: __S(1970, __c123, 2),
+          operations: __S(2162, __c135, 2),
+          storage: __S(2162, __c135, 2),
         }),
       ).annotate({ identifier: "GetDatabaseUsageResponseMetrics" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          period: __S(1969, __c123, 1),
-          metrics: __S(1971, __c123, 3),
+          period: __S(2161, __c135, 1),
+          metrics: __S(2163, __c135, 3),
           generatedAt: S.String,
         }),
       ).annotate({ identifier: "GetDatabaseUsageResponse" });
   }
 }
-function __c124(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8554,20 +9061,20 @@ function __c124(j: number): any {
           foundryVersionId: S.String,
           status: S.String,
           previewDomain: S.NullOr(S.String),
-          envVars: S.optional(__S(1985, __c124, 1)),
-          portMapping: S.optional(__S(1986, __c124, 2)),
+          envVars: S.optional(__S(2177, __c136, 1)),
+          portMapping: S.optional(__S(2178, __c136, 2)),
           createdAt: S.String,
         }),
       ).annotate({ identifier: "GetDeploymentResponseData" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1987, __c124, 3),
+          data: __S(2179, __c136, 3),
         }),
       ).annotate({ identifier: "GetDeploymentResponse" });
   }
 }
-function __c125(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8580,7 +9087,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "GetDeploymentLogsRequest" });
   }
 }
-function __c126(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8590,7 +9097,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "GetDomainRequest" });
   }
 }
-function __c127(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8602,7 +9109,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "GetDomainOwnershipRequest" });
   }
 }
-function __c128(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8612,7 +9119,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "GetEnvironmentVariableRequest" });
   }
 }
-function __c129(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8626,17 +9133,17 @@ function __c129(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/environment-variables", code: 200 })),
       ).annotate({ identifier: "GetEnvironmentVariablesRequest" });
     case 1:
-      return S.Array(__S(912, __c57, 0));
+      return S.Array(__S(1120, __c70, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2065, __c129, 1),
-          pagination: __S(1776, __c111, 0),
+          data: __S(2257, __c141, 1),
+          pagination: __S(1984, __c124, 0),
         }),
       ).annotate({ identifier: "GetEnvironmentVariablesResponse" });
   }
 }
-function __c130(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8647,12 +9154,12 @@ function __c130(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2098, __c131, 2),
+          data: __S(2290, __c143, 2),
         }),
       ).annotate({ identifier: "GetIntegrationResponse" });
   }
 }
-function __c131(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8676,20 +9183,20 @@ function __c131(j: number): any {
           id: S.String,
           url: S.String,
           createdAt: S.String,
-          scopes: __S(2112, __c132, 0),
-          client: __S(2096, __c131, 0),
-          createdByUser: __S(2097, __c131, 1),
+          scopes: __S(2304, __c144, 0),
+          client: __S(2288, __c143, 0),
+          createdByUser: __S(2289, __c143, 1),
         }),
       ).annotate({ identifier: "GetIntegrationResponseData" });
   }
 }
-function __c132(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c133(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8701,20 +9208,20 @@ function __c133(j: number): any {
       ).annotate({ identifier: "GetIntegrationsRequest" });
   }
 }
-function __c134(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2098, __c131, 2));
+      return S.Array(__S(2290, __c143, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2144, __c134, 0),
-          pagination: __S(1776, __c111, 0),
+          data: __S(2336, __c146, 0),
+          pagination: __S(1984, __c124, 0),
         }),
       ).annotate({ identifier: "GetIntegrationsResponse" });
   }
 }
-function __c135(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8739,75 +9246,20 @@ function __c135(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          user: S.NullOr(__S(2161, __c135, 1)),
-          workspace: S.NullOr(__S(592, __c37, 0)),
-          credential: __S(2162, __c135, 2),
+          user: S.NullOr(__S(2353, __c147, 1)),
+          workspace: S.NullOr(__S(800, __c50, 0)),
+          credential: __S(2354, __c147, 2),
         }),
       ).annotate({ identifier: "GetMeResponseData" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2163, __c135, 3),
+          data: __S(2355, __c147, 3),
         }),
       ).annotate({ identifier: "GetMeResponse" });
   }
 }
-function __c136(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String,
-          name: S.optional(S.String),
-          branchId: S.optional(S.String),
-          branchGitName: S.optional(S.String),
-          logicalId: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/buckets", code: 200 })),
-      ).annotate({ identifier: "CreateBucketRequest" });
-  }
-}
-function __c137(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          url: S.String,
-          name: S.String,
-        }),
-      ).annotate({ identifier: "CreateBucketResponseDataProject" });
-  }
-}
-function __c138(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2224, __c139, 0),
-        }),
-      ).annotate({ identifier: "CreateBucketResponse" });
-  }
-}
-function __c139(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          url: S.String,
-          name: S.String,
-          providerName: S.String,
-          status: S.String,
-          createdAt: S.String,
-          project: __S(2192, __c137, 0),
-          branchId: S.NullOr(S.String),
-          logicalId: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "CreateBucketResponseData" });
-  }
-}
-function __c140(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8817,17 +9269,17 @@ function __c140(j: number): any {
       ).annotate({ identifier: "GetProjectRequest" });
   }
 }
-function __c141(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2272, __c142, 0),
+          data: __S(2400, __c150, 0),
         }),
       ).annotate({ identifier: "GetProjectResponse" });
   }
 }
-function __c142(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8839,12 +9291,12 @@ function __c142(j: number): any {
           logicalId: S.NullOr(S.String),
           createdAt: S.String,
           defaultRegion: S.NullOr(S.String),
-          workspace: __S(2192, __c137, 0),
+          workspace: __S(592, __c37, 0),
         }),
       ).annotate({ identifier: "GetProjectResponseData" });
   }
 }
-function __c143(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8861,15 +9313,15 @@ function __c143(j: number): any {
       ).annotate({ identifier: "GetProjectBranchAlchemyStateStateStacksRequest" });
   }
 }
-function __c144(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(2112, __c132, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2304, __c144, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetProjectBranchAlchemyStateStateStacksResponse",
       });
   }
 }
-function __c145(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8888,7 +9340,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "GetProjectBranchAlchemyStateStateStackStageOutputRequest" });
   }
 }
-function __c146(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -8896,7 +9348,7 @@ function __c146(j: number): any {
       });
   }
 }
-function __c147(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8916,12 +9368,12 @@ function __c147(j: number): any {
         identifier: "GetProjectBranchAlchemyStateStateStackStageReplacedResourcesRequest",
       });
     case 1:
-      return S.suspend(() => __S(16, __c1, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(32, __c2, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetProjectBranchAlchemyStateStateStackStageReplacedResourcesResponse",
       });
   }
 }
-function __c148(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8941,7 +9393,7 @@ function __c148(j: number): any {
       ).annotate({ identifier: "GetProjectBranchAlchemyStateStateStackStageResourceRequest" });
   }
 }
-function __c149(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8960,7 +9412,7 @@ function __c149(j: number): any {
       ).annotate({ identifier: "GetProjectBranchAlchemyStateStateStackStageResourcesRequest" });
   }
 }
-function __c150(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8978,7 +9430,7 @@ function __c150(j: number): any {
       ).annotate({ identifier: "GetProjectBranchAlchemyStateStateStackStagesRequest" });
   }
 }
-function __c151(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9001,7 +9453,7 @@ function __c151(j: number): any {
       ).annotate({ identifier: "GetProjectBranchAlchemyStateVersionResponse" });
   }
 }
-function __c152(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9018,7 +9470,7 @@ function __c152(j: number): any {
       ).annotate({ identifier: "GetProjectBranchApplicationTopologyRequest" });
   }
 }
-function __c153(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9030,7 +9482,7 @@ function __c153(j: number): any {
         }),
       ).annotate({ identifier: "GetProjectBranchApplicationTopologyResponseDataNodesItem" });
     case 1:
-      return S.Array(__S(2448, __c153, 0));
+      return S.Array(__S(2576, __c161, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -9042,7 +9494,7 @@ function __c153(j: number): any {
         }),
       ).annotate({ identifier: "GetProjectBranchApplicationTopologyResponseDataPortsItem" });
     case 3:
-      return S.Array(__S(2450, __c153, 2));
+      return S.Array(__S(2578, __c161, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -9054,20 +9506,20 @@ function __c153(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          from: __S(2452, __c153, 4),
-          to: __S(2452, __c153, 4),
+          from: __S(2580, __c161, 4),
+          to: __S(2580, __c161, 4),
           family: S.String,
           style: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetProjectBranchApplicationTopologyResponseDataEdgesItem" });
     case 6:
-      return S.Array(__S(2453, __c153, 5));
+      return S.Array(__S(2581, __c161, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          nodes: __S(2449, __c153, 1),
-          ports: __S(2451, __c153, 3),
-          edges: __S(2454, __c153, 6),
+          nodes: __S(2577, __c161, 1),
+          ports: __S(2579, __c161, 3),
+          edges: __S(2582, __c161, 6),
           contentHash: S.optional(S.String),
           writtenAt: S.optional(S.String),
         }),
@@ -9075,12 +9527,12 @@ function __c153(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2455, __c153, 7),
+          data: __S(2583, __c161, 7),
         }),
       ).annotate({ identifier: "GetProjectBranchApplicationTopologyResponse" });
   }
 }
-function __c154(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9093,50 +9545,17 @@ function __c154(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/projects/{projectId}/branches", code: 200 })),
       ).annotate({ identifier: "GetProjectBranchesRequest" });
     case 1:
-      return S.Array(__S(992, __c62, 0));
+      return S.Array(__S(1200, __c75, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2465, __c154, 1),
-          pagination: __S(1776, __c111, 0),
+          data: __S(2593, __c162, 1),
+          pagination: __S(1984, __c124, 0),
         }),
       ).annotate({ identifier: "GetProjectBranchesResponse" });
   }
 }
-function __c155(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          bucketId: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          role: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/v1/buckets/{bucketId}/keys", code: 200 })),
-      ).annotate({ identifier: "CreateBucketKeyRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          name: S.String,
-          valueHint: S.String,
-          role: S.String,
-          createdAt: S.String,
-          secretAccessKey: S.String.pipe(T.SensitiveValue({})),
-          accessKeyId: S.String.pipe(T.SensitiveValue({})),
-          endpoint: S.String,
-          bucketName: S.String,
-        }),
-      ).annotate({ identifier: "CreateBucketKeyResponseData" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2481, __c155, 1),
-        }),
-      ).annotate({ identifier: "CreateBucketKeyResponse" });
-  }
-}
-function __c156(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9154,7 +9573,7 @@ function __c156(j: number): any {
       ).annotate({ identifier: "GetProjectBranchUrlsRequest" });
   }
 }
-function __c157(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9165,20 +9584,20 @@ function __c157(j: number): any {
       ).annotate({ identifier: "GetProjectBranchUrlsResponsePagination" });
   }
 }
-function __c158(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1255, __c78, 7));
+      return S.Array(__S(1463, __c91, 7));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2528, __c158, 0),
-          pagination: __S(2512, __c157, 0),
+          data: __S(2640, __c165, 0),
+          pagination: __S(2624, __c164, 0),
         }),
       ).annotate({ identifier: "GetProjectBranchUrlsResponse" });
   }
 }
-function __c159(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9189,7 +9608,7 @@ function __c159(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/projects/{projectId}/databases", code: 200 })),
       ).annotate({ identifier: "GetProjectDatabasesRequest" });
     case 1:
-      return S.suspend(() => S.Union([__S(640, __c40, 0), __S(608, __c38, 0), __S(641, __c40, 1)]));
+      return S.suspend(() => S.Union([__S(848, __c53, 0), __S(816, __c51, 0), __S(849, __c53, 1)]));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -9201,26 +9620,26 @@ function __c159(j: number): any {
           createdAt: S.String,
           isDefault: S.Boolean,
           defaultConnectionId: S.NullOr(S.String),
-          connections: __S(720, __c45, 0),
-          project: __S(2192, __c137, 0),
-          region: S.NullOr(__S(592, __c37, 0)),
-          source: S.NullOr(__S(2545, __c159, 1)),
+          connections: __S(928, __c58, 0),
+          project: __S(592, __c37, 0),
+          region: S.NullOr(__S(800, __c50, 0)),
+          source: S.NullOr(__S(2657, __c166, 1)),
           branchId: S.NullOr(S.String),
           logicalId: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "GetProjectDatabasesResponseDataItem" });
     case 3:
-      return S.Array(__S(2546, __c159, 2));
+      return S.Array(__S(2658, __c166, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2547, __c159, 3),
-          pagination: __S(1776, __c111, 0),
+          data: __S(2659, __c166, 3),
+          pagination: __S(1984, __c124, 0),
         }),
       ).annotate({ identifier: "GetProjectDatabasesResponse" });
   }
 }
-function __c160(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9231,17 +9650,17 @@ function __c160(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/projects", code: 200 })),
       ).annotate({ identifier: "GetProjectsRequest" });
     case 1:
-      return S.Array(__S(2272, __c142, 0));
+      return S.Array(__S(2400, __c150, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2561, __c160, 1),
-          pagination: __S(1776, __c111, 0),
+          data: __S(2673, __c167, 1),
+          pagination: __S(1984, __c124, 0),
         }),
       ).annotate({ identifier: "GetProjectsResponse" });
   }
 }
-function __c161(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9260,16 +9679,16 @@ function __c161(j: number): any {
         }),
       ).annotate({ identifier: "GetRegionsResponseDataItem" });
     case 2:
-      return S.Array(__S(2577, __c161, 1));
+      return S.Array(__S(2689, __c168, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2578, __c161, 2),
+          data: __S(2690, __c168, 2),
         }),
       ).annotate({ identifier: "GetRegionsResponse" });
   }
 }
-function __c162(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9284,156 +9703,13 @@ function __c162(j: number): any {
         }),
       ).annotate({ identifier: "GetRegionsAccelerateResponseDataItem" });
     case 2:
-      return S.Array(__S(2593, __c162, 1));
+      return S.Array(__S(2705, __c169, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2594, __c162, 2),
+          data: __S(2706, __c169, 2),
         }),
       ).annotate({ identifier: "GetRegionsAccelerateResponse" });
-  }
-}
-function __c163(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/regions/postgres", code: 200 })),
-      ).annotate({ identifier: "GetRegionsPostgresRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          name: S.String,
-          status: S.String,
-        }),
-      ).annotate({ identifier: "GetRegionsPostgresResponseDataItem" });
-    case 2:
-      return S.Array(__S(2609, __c163, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2610, __c163, 2),
-        }),
-      ).annotate({ identifier: "GetRegionsPostgresResponse" });
-  }
-}
-function __c164(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          installationId: S.String.pipe(T.Label()),
-          cursor: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/scm-installations/{installationId}/repositories",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetScmInstallationRepositoriesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.Number,
-          type: S.String,
-          fullName: S.String,
-          defaultBranch: S.String,
-          isPrivate: S.Boolean,
-        }),
-      ).annotate({ identifier: "GetScmInstallationRepositoriesResponseDataItem" });
-    case 2:
-      return S.Array(__S(2625, __c164, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2626, __c164, 2),
-          pagination: __S(1776, __c111, 0),
-        }),
-      ).annotate({ identifier: "GetScmInstallationRepositoriesResponse" });
-  }
-}
-function __c165(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cursor: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          workspaceId: S.String.pipe(T.Query()),
-          repository: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/scm-installations", code: 200 })),
-      ).annotate({ identifier: "GetScmInstallationsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          url: S.String,
-          provider: S.String,
-          installationId: S.Number,
-          accountId: S.Number,
-          accountLogin: S.String,
-          accountType: S.String,
-          suspended: S.Boolean,
-          createdAt: S.String,
-          updatedAt: S.String,
-        }),
-      ).annotate({ identifier: "GetScmInstallationsResponseDataItem" });
-    case 2:
-      return S.Array(__S(2641, __c165, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2642, __c165, 2),
-          pagination: __S(1776, __c111, 0),
-          hint: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GetScmInstallationsResponse" });
-  }
-}
-function __c166(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          serviceId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/services/{serviceId}", code: 200 })),
-      ).annotate({ identifier: "GetServiceRequest" });
-  }
-}
-function __c167(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          serviceId: S.String.pipe(T.Label()),
-          cursor: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/services/{serviceId}/deployments", code: 200 })),
-      ).annotate({ identifier: "GetServiceDeploymentsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          type: S.String,
-          url: S.String,
-          serviceId: S.String,
-          foundryVersionId: S.String,
-          createdAt: S.String,
-        }),
-      ).annotate({ identifier: "GetServiceDeploymentsResponseDataItem" });
-    case 2:
-      return S.Array(__S(2673, __c167, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2674, __c167, 2),
-          pagination: __S(1776, __c111, 0),
-        }),
-      ).annotate({ identifier: "GetServiceDeploymentsResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.
