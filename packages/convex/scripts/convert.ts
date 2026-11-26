@@ -14,8 +14,15 @@
  *
  * Management operation ids contain spaces (`create project`), so names come
  * from `operationNames`, looked up by `"METHOD path"`.
+ *
+ * An operation tagged `beta` is marked `smithy.api#unstable`, so generate
+ * writes it to the model's module under `unstable/`.
  */
 import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
+
+/** Convex's `beta` tag on an operation. */
+const isBeta = (op: Record<string, any>): boolean =>
+  Array.isArray(op.tags) && op.tags.includes("beta");
 
 await runOpenApiConvert({
   root: `${import.meta.dirname}/..`,
@@ -82,5 +89,6 @@ await runOpenApiConvert({
     statusToErrorClass: {},
     defaultErrorStatuses: ["401", "429", "500", "502", "503", "504"],
     skipDeprecated: true,
+    unstableOperation: isBeta,
   },
 });
