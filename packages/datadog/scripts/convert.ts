@@ -12,9 +12,21 @@
  * and https://docs.datadoghq.com/api/latest/ are generated from. Each file
  * becomes one service module. `scripts/generate.ts` compiles the models
  * into src/services.
+ *
+ * Datadog's clients gate every operation that carries `x-unstable` (a note
+ * such as "This endpoint is in Preview") behind an opt-in. Those operations,
+ * and every path under `/api/unstable/`, are marked `smithy.api#unstable`, so
+ * generate writes them to `src/unstable-services/<module>.ts`
+ * (`@distilled.cloud/datadog/unstable/v2`). A note that says the operation is
+ * deprecated, or planned for deprecation, is not a preview: it stays stable.
  */
 import * as path from "node:path";
 import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
+
+/** Not generally available: an `x-unstable` preview note, or an `/api/unstable/` path. */
+const isUnstable = (op: Record<string, any>, { path }: { readonly path: string }): boolean =>
+  path.startsWith("/api/unstable/") ||
+  (op["x-unstable"] !== undefined && !/deprecat/i.test(String(op["x-unstable"])));
 
 await runOpenApiConvert({
   root: path.resolve(import.meta.dirname, ".."),
@@ -43,5 +55,6 @@ await runOpenApiConvert({
     namespace: "com.datadog.api",
     serviceName: "Datadog",
     skipDeprecated: true,
+    unstableOperation: isUnstable,
   },
 });
