@@ -1,0 +1,357 @@
+{
+  "description": "The POST /databases/<engine> creates are documented with no body, but they return 201 with {uuid, internal_db_url?, external_db_url?} (DatabasesController::createdDatabasePayload). The Database model documents internal_db_url and external_db_url as containing the password but does not mark them sensitive. Connection URLs are marked sensitive in both. Evidence: coollabsio/coolify main @ 5c987814 (2026-11-24).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.coolify.api#Database/members/internal_db_url/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.coolify.api#Database/members/external_db_url/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.coolify.api#CreateDatabasePostgresqlResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "uuid": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The database UUID.",
+              "smithy.api#required": {}
+            }
+          },
+          "internal_db_url": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Connection URL inside the server's Docker network. Present for tokens with read:sensitive.",
+              "smithy.api#sensitive": {}
+            }
+          },
+          "external_db_url": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Public connection URL. Present when the database is public and the token has read:sensitive.",
+              "smithy.api#sensitive": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#output": {}
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.coolify.api#CreateDatabasePostgresql/output/target",
+      "value": "com.coolify.api#CreateDatabasePostgresqlResponse"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.coolify.api#CreateDatabaseClickhouseResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "uuid": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The database UUID.",
+              "smithy.api#required": {}
+            }
+          },
+          "internal_db_url": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Connection URL inside the server's Docker network. Present for tokens with read:sensitive.",
+              "smithy.api#sensitive": {}
+            }
+          },
+          "external_db_url": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Public connection URL. Present when the database is public and the token has read:sensitive.",
+              "smithy.api#sensitive": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#output": {}
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.coolify.api#CreateDatabaseClickhouse/output/target",
+      "value": "com.coolify.api#CreateDatabaseClickhouseResponse"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.coolify.api#CreateDatabaseDragonflyResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "uuid": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The database UUID.",
+              "smithy.api#required": {}
+            }
+          },
+          "internal_db_url": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Connection URL inside the server's Docker network. Present for tokens with read:sensitive.",
+              "smithy.api#sensitive": {}
+            }
+          },
+          "external_db_url": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Public connection URL. Present when the database is public and the token has read:sensitive.",
+              "smithy.api#sensitive": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#output": {}
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.coolify.api#CreateDatabaseDragonfly/output/target",
+      "value": "com.coolify.api#CreateDatabaseDragonflyResponse"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.coolify.api#CreateDatabaseRedisResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "uuid": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The database UUID.",
+              "smithy.api#required": {}
+            }
+          },
+          "internal_db_url": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Connection URL inside the server's Docker network. Present for tokens with read:sensitive.",
+              "smithy.api#sensitive": {}
+            }
+          },
+          "external_db_url": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Public connection URL. Present when the database is public and the token has read:sensitive.",
+              "smithy.api#sensitive": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#output": {}
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.coolify.api#CreateDatabaseRedis/output/target",
+      "value": "com.coolify.api#CreateDatabaseRedisResponse"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.coolify.api#CreateDatabaseKeydbResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "uuid": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The database UUID.",
+              "smithy.api#required": {}
+            }
+          },
+          "internal_db_url": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Connection URL inside the server's Docker network. Present for tokens with read:sensitive.",
+              "smithy.api#sensitive": {}
+            }
+          },
+          "external_db_url": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Public connection URL. Present when the database is public and the token has read:sensitive.",
+              "smithy.api#sensitive": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#output": {}
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.coolify.api#CreateDatabaseKeydb/output/target",
+      "value": "com.coolify.api#CreateDatabaseKeydbResponse"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.coolify.api#CreateDatabaseMariadbResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "uuid": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The database UUID.",
+              "smithy.api#required": {}
+            }
+          },
+          "internal_db_url": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Connection URL inside the server's Docker network. Present for tokens with read:sensitive.",
+              "smithy.api#sensitive": {}
+            }
+          },
+          "external_db_url": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Public connection URL. Present when the database is public and the token has read:sensitive.",
+              "smithy.api#sensitive": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#output": {}
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.coolify.api#CreateDatabaseMariadb/output/target",
+      "value": "com.coolify.api#CreateDatabaseMariadbResponse"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.coolify.api#CreateDatabaseMysqlResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "uuid": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The database UUID.",
+              "smithy.api#required": {}
+            }
+          },
+          "internal_db_url": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Connection URL inside the server's Docker network. Present for tokens with read:sensitive.",
+              "smithy.api#sensitive": {}
+            }
+          },
+          "external_db_url": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Public connection URL. Present when the database is public and the token has read:sensitive.",
+              "smithy.api#sensitive": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#output": {}
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.coolify.api#CreateDatabaseMysql/output/target",
+      "value": "com.coolify.api#CreateDatabaseMysqlResponse"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.coolify.api#CreateDatabaseMongodbResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "uuid": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The database UUID.",
+              "smithy.api#required": {}
+            }
+          },
+          "internal_db_url": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Connection URL inside the server's Docker network. Present for tokens with read:sensitive.",
+              "smithy.api#sensitive": {}
+            }
+          },
+          "external_db_url": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Public connection URL. Present when the database is public and the token has read:sensitive.",
+              "smithy.api#sensitive": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#output": {}
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.coolify.api#CreateDatabaseMongodb/output/target",
+      "value": "com.coolify.api#CreateDatabaseMongodbResponse"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.coolify.api#CreateDatabaseSqliteResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "uuid": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The database UUID.",
+              "smithy.api#required": {}
+            }
+          },
+          "internal_db_url": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Connection URL inside the server's Docker network. Present for tokens with read:sensitive.",
+              "smithy.api#sensitive": {}
+            }
+          },
+          "external_db_url": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Public connection URL. Present when the database is public and the token has read:sensitive.",
+              "smithy.api#sensitive": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#output": {}
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.coolify.api#CreateDatabaseSqlite/output/target",
+      "value": "com.coolify.api#CreateDatabaseSqliteResponse"
+    }
+  ]
+}

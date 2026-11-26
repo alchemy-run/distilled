@@ -1,0 +1,16 @@
+{
+  "description": "The Environment model omits `uuid`. Coolify's Environment model has a uuid (app/Models/Environment.php $fillable), the API returns it from GET /projects/{uuid}/{environment} and GET /projects/{uuid}/environments (ProjectController::environment_details, get_environments serialize the model), and create/update return it. Evidence: coollabsio/coolify main @ 5c987814 (2026-11-24).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.coolify.api#Environment/members/uuid",
+      "before": "name",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The environment UUID."
+        }
+      }
+    }
+  ]
+}
