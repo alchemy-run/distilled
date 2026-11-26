@@ -409,7 +409,7 @@ export type AssetMasterStatus = "ready" | "preparing" | "errored";
 export interface AssetMaster {
   status?: AssetMasterStatus | undefined;
   /** The temporary URL to the master version of the video, as an MP4 file. This URL will expire after 24 hours. */
-  url?: string | undefined;
+  url?: string | Redacted.Redacted<string> | undefined;
 }
 export type AssetMasterAccess = "temporary" | "none";
 /** Deprecated. The level of MP4 support requested through the legacy `mp4_support` option, or `none` if it was not used. Renditions created this way appear in the `static_renditions` object alongside renditions created with the [Static Renditions API](https://www.mux.com/docs/guides/enable-static-mp4-renditions); see that object for how the two differ. An asset cannot use both mechanisms at the same time. */
@@ -3057,7 +3057,7 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          url: S.optional(S.String),
+          url: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AssetMaster" });
     case 1:

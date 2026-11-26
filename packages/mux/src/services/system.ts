@@ -99,6 +99,21 @@ export class PreconditionFailed
   declare readonly body?: UnauthorizedResponse | string;
 }
 
+export class WebhookAddressInUse
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<WebhookAddressInUse>()("WebhookAddressInUse", {
+      message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(9, __c1, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }).pipe(C.withBadRequestError, C.withAlreadyExistsError),
+    [{ status: 400, message: { includes: "webhook with this address already exists" } }],
+  )
+{
+  declare readonly body?: SystemErrorResponse | string;
+}
+
 export interface CreateSigningKeyRequest {}
 export interface SigningKey {
   /** Unique identifier for the Signing Key. */
@@ -128,7 +143,7 @@ export interface Webhook {
   signing_secret?: string | Redacted.Redacted<string> | undefined;
 }
 export interface WebhookResponse {
-  data?: Webhook | undefined;
+  data: Webhook;
 }
 export interface DeleteSigningKeyRequest {
   /** The ID of the signing key. */
@@ -263,8 +278,8 @@ export const createSigningKey: API.OperationMethod<
   CreateSigningKeyError,
   MuxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<CreateSigningKeyRequest>,
-  output: __S(64, __c8, 0) as any as S.Schema<SigningKeyResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<CreateSigningKeyRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<SigningKeyResponse>,
   errors: [],
   serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
@@ -273,7 +288,7 @@ export const createSigningKey: API.OperationMethod<
   span: "CreateSigningKey",
 }));
 
-export type CreateWebhookError = BadRequest | MuxOpError;
+export type CreateWebhookError = BadRequest | WebhookAddressInUse | MuxOpError;
 /** Create a webhook Creates a new webhook for the current environment. New webhooks start out enabled. The `address` must be unique among the environment's webhooks. **The `signing_secret` is only returned in this response and cannot be retrieved again.** Store it securely and use it to verify that webhook payloads were sent by Mux. */
 export const createWebhook: API.OperationMethod<
   CreateWebhookRequest,
@@ -281,9 +296,9 @@ export const createWebhook: API.OperationMethod<
   CreateWebhookError,
   MuxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<CreateWebhookRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<WebhookResponse>,
-  errors: [BadRequest],
+  input: __S(88, __c11, 0) as any as S.Schema<CreateWebhookRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<WebhookResponse>,
+  errors: [BadRequest, WebhookAddressInUse],
   serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
@@ -299,8 +314,8 @@ export const deleteSigningKey: API.OperationMethod<
   DeleteSigningKeyError,
   MuxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<DeleteSigningKeyRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<DeleteSigningKeyResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<DeleteSigningKeyRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<DeleteSigningKeyResponse>,
   errors: [],
   serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
@@ -317,8 +332,8 @@ export const deleteWebhook: API.OperationMethod<
   DeleteWebhookError,
   MuxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<DeleteWebhookRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<DeleteWebhookResponse>,
+  input: __S(128, __c16, 0) as any as S.Schema<DeleteWebhookRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<DeleteWebhookResponse>,
   errors: [NotFound],
   serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
@@ -335,8 +350,8 @@ export const getSigningKey: API.OperationMethod<
   GetSigningKeyError,
   MuxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<GetSigningKeyRequest>,
-  output: __S(64, __c8, 0) as any as S.Schema<SigningKeyResponse>,
+  input: __S(136, __c17, 0) as any as S.Schema<GetSigningKeyRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<SigningKeyResponse>,
   errors: [],
   serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
@@ -353,8 +368,8 @@ export const getWebhook: API.OperationMethod<
   GetWebhookError,
   MuxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<GetWebhookRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<WebhookResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<GetWebhookRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<WebhookResponse>,
   errors: [NotFound],
   serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
@@ -371,8 +386,8 @@ export const getWhoami: API.OperationMethod<
   GetWhoamiError,
   MuxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<GetWhoamiRequest>,
-  output: __S(18, __c2, 2) as any as S.Schema<WhoAmIResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<GetWhoamiRequest>,
+  output: __S(26, __c3, 2) as any as S.Schema<WhoAmIResponse>,
   errors: [],
   serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
@@ -391,8 +406,8 @@ export const listSigningKeys: API.PaginatedOperationMethod<
   SigningKey
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(24, __c3, 0) as any as S.Schema<ListSigningKeysRequest>,
-    output: __S(26, __c3, 2) as any as S.Schema<ListSigningKeysResponse>,
+    input: __S(32, __c4, 0) as any as S.Schema<ListSigningKeysRequest>,
+    output: __S(34, __c4, 2) as any as S.Schema<ListSigningKeysResponse>,
     errors: [],
     serviceErrors: MuxServiceErrors,
     protocol: MuxProtocol,
@@ -419,8 +434,8 @@ export const listUsageExports: API.PaginatedOperationMethod<
   UsageExport
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(32, __c4, 0) as any as S.Schema<ListUsageExportsRequest>,
-    output: __S(36, __c4, 4) as any as S.Schema<ListUsageExportsResponse>,
+    input: __S(40, __c5, 0) as any as S.Schema<ListUsageExportsRequest>,
+    output: __S(44, __c5, 4) as any as S.Schema<ListUsageExportsResponse>,
     errors: [BadRequest, Forbidden, NotFound, PreconditionFailed],
     serviceErrors: MuxServiceErrors,
     protocol: MuxProtocol,
@@ -442,8 +457,8 @@ export const listWebhooks: API.PaginatedOperationMethod<
   Webhook
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(40, __c5, 0) as any as S.Schema<ListWebhooksRequest>,
-    output: __S(42, __c5, 2) as any as S.Schema<ListWebhooksResponse>,
+    input: __S(48, __c6, 0) as any as S.Schema<ListWebhooksRequest>,
+    output: __S(50, __c6, 2) as any as S.Schema<ListWebhooksResponse>,
     errors: [BadRequest],
     serviceErrors: MuxServiceErrors,
     protocol: MuxProtocol,
@@ -455,7 +470,7 @@ export const listWebhooks: API.PaginatedOperationMethod<
   paginatePage,
 ) as any;
 
-export type UpdateWebhookError = BadRequest | NotFound | MuxOpError;
+export type UpdateWebhookError = BadRequest | NotFound | WebhookAddressInUse | MuxOpError;
 /** Update a webhook Updates the address and/or enabled status of an existing webhook. Omitted fields are left unchanged; at least one of `address` or `enabled` must be provided. The new `address` must be unique among the environment's webhooks. */
 export const updateWebhook: API.OperationMethod<
   UpdateWebhookRequest,
@@ -463,9 +478,9 @@ export const updateWebhook: API.OperationMethod<
   UpdateWebhookError,
   MuxOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<UpdateWebhookRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<WebhookResponse>,
-  errors: [BadRequest, NotFound],
+  input: __S(56, __c7, 0) as any as S.Schema<UpdateWebhookRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<WebhookResponse>,
+  errors: [BadRequest, NotFound, WebhookAddressInUse],
   serviceErrors: MuxServiceErrors,
   protocol: MuxProtocol,
   retry: Retry.Retry,
@@ -501,6 +516,16 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          WEBHOOK_ID: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/system/v1/webhooks/{WEBHOOK_ID}", code: 200 })),
+      ).annotate({ identifier: "GetWebhookRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/system/v1/whoami", code: 200 })),
       ).annotate({ identifier: "GetWhoamiRequest" });
     case 1:
@@ -518,13 +543,13 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(17, __c2, 1),
+          data: __S(25, __c3, 1),
           total_row_count: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "WhoAmIResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -534,16 +559,16 @@ function __c3(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/system/v1/signing-keys", code: 200 })),
       ).annotate({ identifier: "ListSigningKeysRequest" });
     case 1:
-      return S.Array(__S(72, __c9, 0));
+      return S.Array(__S(80, __c10, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(25, __c3, 1),
+          data: __S(33, __c4, 1),
         }),
       ).annotate({ identifier: "ListSigningKeysResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -564,7 +589,7 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "UsageExport" });
     case 2:
-      return S.Array(__S(33, __c4, 1));
+      return S.Array(__S(41, __c5, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -577,13 +602,13 @@ function __c4(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(34, __c4, 2),
-          meta: __S(35, __c4, 3),
+          data: __S(42, __c5, 2),
+          meta: __S(43, __c5, 3),
         }),
       ).annotate({ identifier: "ListUsageExportsResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -593,11 +618,11 @@ function __c5(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/system/v1/webhooks", code: 200 })),
       ).annotate({ identifier: "ListWebhooksRequest" });
     case 1:
-      return S.Array(__S(88, __c11, 0));
+      return S.Array(__S(96, __c12, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(41, __c5, 1),
+          data: __S(49, __c6, 1),
           total_row_count: S.optional(S.Number),
           page: S.optional(S.Number),
           limit: S.optional(S.Number),
@@ -605,7 +630,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "ListWebhooksResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -617,7 +642,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "UpdateWebhookRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -625,17 +650,17 @@ function __c7(j: number): any {
       ).annotate({ identifier: "CreateSigningKeyRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(72, __c9, 0),
+          data: __S(80, __c10, 0),
         }),
       ).annotate({ identifier: "SigningKeyResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -647,7 +672,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "SigningKey" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -657,7 +682,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "CreateWebhookRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -671,17 +696,17 @@ function __c11(j: number): any {
       ).annotate({ identifier: "Webhook" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(88, __c11, 0)),
+          data: __S(96, __c12, 0),
         }),
       ).annotate({ identifier: "WebhookResponse" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -693,13 +718,13 @@ function __c13(j: number): any {
       ).annotate({ identifier: "DeleteSigningKeyRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteSigningKeyResponse" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -709,7 +734,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "DeleteWebhookRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -719,16 +744,6 @@ function __c16(j: number): any {
           T.Http({ method: "GET", uri: "/system/v1/signing-keys/{SIGNING_KEY_ID}", code: 200 }),
         ),
       ).annotate({ identifier: "GetSigningKeyRequest" });
-  }
-}
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          WEBHOOK_ID: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/system/v1/webhooks/{WEBHOOK_ID}", code: 200 })),
-      ).annotate({ identifier: "GetWebhookRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

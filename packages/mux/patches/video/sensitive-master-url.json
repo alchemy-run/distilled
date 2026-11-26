@@ -1,0 +1,10 @@
+{
+  "description": "An asset's master URL is unmarked in the spec, which only says it is \"the temporary URL to the master version of the video\" that \"will expire after 24 hours\" (https://www.mux.com/api-spec.json, component Asset.master). It is a signed download link: anyone holding it can download the full-quality master MP4 until it expires. A live `getAsset` on a test asset with `master_access: \"temporary\"` on 2026-11-25 returned `master.url` as `https://mezzanine.mux.com/{id}/master.mp4?skid=...&signature=...`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.mux.video#AssetMaster/members/url/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}
