@@ -9,10 +9,18 @@
  * The OpenAPI→Smithy converter lives in
  * `@distilled.cloud/dev/codegen/openapi`; this script is Plaid's pipeline
  * config. `scripts/generate.ts` compiles the model into src/services.
+ *
+ * Plaid serves its beta endpoints under the `/beta/` path prefix. Each one
+ * is marked `smithy.api#unstable`, so generate writes it to `unstable/plaid`
+ * and the other operations to the stable `plaid` module.
  */
 import * as path from "node:path";
 import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
 import { parse as parseYaml } from "yaml";
+
+/** An endpoint Plaid serves under `/beta/`. */
+const isBeta = (_op: Record<string, any>, { path }: { readonly path: string }): boolean =>
+  path.startsWith("/beta/");
 
 await runOpenApiConvert({
   root: path.resolve(import.meta.dirname, ".."),
@@ -30,5 +38,6 @@ await runOpenApiConvert({
     namespace: "com.plaid.api",
     serviceName: "Plaid",
     skipDeprecated: true,
+    unstableOperation: isBeta,
   },
 });

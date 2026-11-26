@@ -28,6 +28,17 @@ const Live = Layer.mergeAll(
 program.pipe(Effect.provide(Live), Effect.runPromise);
 ```
 
+## Beta endpoints
+
+Plaid serves its beta endpoints under `/beta/` (transaction rules, issues,
+partner customers and others). Those operations import from `unstable/`:
+
+```ts
+import * as PlaidUnstable from "@distilled.cloud/plaid/unstable/plaid";
+
+const rules = yield* PlaidUnstable.listTransactionsRules({ client_user_id: "user-1" });
+```
+
 ## Auth
 
 Required: `PLAID_CLIENT_ID`, `PLAID_ENV`, `PLAID_SECRET`, `PLAID_VERSION`. Optional: `PLAID_API_BASE_URL`.
