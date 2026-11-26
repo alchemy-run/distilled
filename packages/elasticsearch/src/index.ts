@@ -26,6 +26,7 @@ export * as Services from "./services/index.ts";
 // Operations (and their request/response types) are importable straight off
 // the package root. The service-local typed error classes shadow the
 // same-named shared ones from ./errors.ts -- the ops actually raise the
-// service-local classes.
+// service-local classes. Only unstable operations return 409, so the root
+// `Conflict` is the shared class; theirs is in `unstable/elasticsearch`.
 export * from "./services/elasticsearch.ts";
-export { BadRequest, Conflict, NotFound } from "./services/elasticsearch.ts";
+export { BadRequest, NotFound } from "./services/elasticsearch.ts";
