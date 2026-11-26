@@ -106,19 +106,19 @@ cloud-only APIs), so provide the `ApiKey` that matches the way in.
 
 Every Network, Protect and InnerSpace operation also takes an optional `console`, which wins
 over the layer for that call and is not sent. Build it with `Unifi.ConsoleLocation`; the same
-value makes a layer with `Unifi.consoleLayer`. Like AWS's `Region`, `Console` is an optional
-layer that operations do not list in their types: a call with neither fails with `ConfigError`,
-and a malformed `console` fails it with `InvalidInput`:
+value is `fromApiKey`'s `console`. Like AWS's `Region`, the console is optional in the
+operations' types: a call with neither fails with `ConfigError`, and a malformed `console`
+fails it with `InvalidInput`:
 
 ```ts
 const office = Unifi.ConsoleLocation.remote("<consoleId>");
 const home = Unifi.ConsoleLocation.local("192.168.0.1");
 
 const sites = yield* Unifi.getSiteOverviewPage({ console: office }); // one call
-program.pipe(Effect.provide(Unifi.consoleLayer(home))); // every call in a scope
+program.pipe(Effect.provide(Unifi.fromApiKey({ apiKey, console: home }))); // every call in a scope
 ```
 
-A console layer checks its location when it is built: a host that is more than a host, or a
+`fromApiKey` checks its console when the layer is built: a host that is more than a host, or a
 console ID that can't be a URL path segment, fails the layer with `ConfigError`.
 
 From the environment, `Unifi.CredentialsFromEnv` provides both layers. Each reads the
