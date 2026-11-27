@@ -349,8 +349,10 @@ describe("restProtocol request encoding", () => {
       fakeClient(() => json({}), recorded),
       creds(),
     );
+    // The defect boundary (core/api) types it, as anything thrown under a call.
     expect(error).toBeInstanceOf(SdkError);
-    expect(error.message).toBe(`baseUrl threw: ${String(refusal)}`);
+    expect(error.message).toBe(`distilled.operation threw: ${String(refusal)}`);
+    expect(error.cause).toBe(refusal);
     expect(recorded.requests).toHaveLength(0);
   });
 

@@ -634,29 +634,26 @@ const runWith = (
 };
 
 const callUntraced = (
-  state: OperationState,
+  p: Prepared,
   input: unknown,
   debug: Telemetry.DebugHooks | undefined,
 ): Effect.Effect<any, any, any> => {
-  // Warm path: the operation is prepared and has its protocol, so the call
-  // is whatever the protocol returns, with no wrapper effects around it.
-  const p = state.prepared;
-  if (p?.service !== undefined) {
+  // Warm path: the operation has its protocol, so the call is whatever the
+  // protocol returns, with no wrapper effects around it.
+  if (p.service !== undefined) {
     return applyRetry(runWith(p, p.service, withIdempotencyTokens(p, input)), p.cfg, debug);
   }
   return Effect.suspend(() => {
-    const prepared = prepareOr(state);
-    if (prepared instanceof SdkError) return Effect.fail(prepared);
-    const callInput = withIdempotencyTokens(prepared, input);
+    const callInput = withIdempotencyTokens(p, input);
     // The retry wraps only `runWith`, as on the warm path, so a protocol's
     // `call` runs once per call.
     return Effect.flatMap(
       debug === undefined
-        ? protocolOf(prepared)
-        : debug.phase("distilled.setup", protocolOf(prepared), {
+        ? protocolOf(p)
+        : debug.phase("distilled.setup", protocolOf(p), {
             "distilled.setup.first_call": true,
           }),
-      (service) => applyRetry(runWith(prepared, service, callInput), prepared.cfg, debug),
+      (service) => applyRetry(runWith(p, service, callInput), p.cfg, debug),
     );
   });
 };
@@ -687,7 +684,7 @@ const callOperation = (
         prepared.info,
         callSite,
         input,
-        (sent) => callUntraced(state, sent, debug),
+        (sent) => callUntraced(prepared, sent, debug),
         debug === undefined ? undefined : { input: prepared.inputAst, output: prepared.outputAst },
       );
     }),
