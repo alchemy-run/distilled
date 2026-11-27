@@ -62,9 +62,9 @@ import {
   type Config,
 } from "./credentials.ts";
 import {
-  ConfigError as FlyConfigError,
   FlyIoParseError,
   SpritesNotEnabled,
+  TokenRequestFailed,
   UnknownFlyIoError,
   type FlyIoServiceError,
 } from "./errors.ts";
@@ -392,7 +392,7 @@ const discoverOrgSlug = (fly: Config) =>
       if (slug !== undefined) return slug;
     }
 
-    return yield* new FlyConfigError({
+    return yield* new TokenRequestFailed({
       message: "Could not discover a Fly organization slug from /tokens/current or GraphQL",
     });
   });
@@ -403,7 +403,7 @@ const mintOnce = (fly: Config) =>
     const orgSlug = yield* discoverOrgSlug(fly);
     const orgLabel = encodeLabel("orgSlug", orgSlug);
     if (orgLabel instanceof InvalidInput) {
-      return yield* new FlyConfigError({
+      return yield* new TokenRequestFailed({
         message: `The discovered Fly organization slug ${JSON.stringify(orgSlug)} cannot be a URL path segment`,
       });
     }
@@ -486,7 +486,7 @@ const mintSpritesToken = (credentials: Credentials["Service"], fly: Config) =>
         () => Number.POSITIVE_INFINITY,
         {
           onTimeout: (timeoutMs) =>
-            new FlyConfigError({
+            new TokenRequestFailed({
               message: `Sprites token mint timed out after ${timeoutMs / 1000} s`,
             }),
         },

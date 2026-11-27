@@ -30,6 +30,7 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import type * as Redacted from "effect/Redacted";
+import { SigV4CredentialsFailed } from "./errors.ts";
 
 /** The default endpoint of a local cluster. */
 export const DEFAULT_ENDPOINT = "http://localhost:9200";
@@ -65,11 +66,12 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
-    "OpenSearchCredentials",
-  ) {}
+  extends /*@__PURE__*/ Context.Service<
+    Credentials,
+    Effect.Effect<Config, SigV4CredentialsFailed>
+  >()("OpenSearchCredentials") {}
 
-const layerOf = (config: Effect.Effect<Config, ConfigError>): Layer.Layer<Credentials> =>
+const layerOf = (config: Effect.Effect<Config, SigV4CredentialsFailed>): Layer.Layer<Credentials> =>
   Layer.succeed(Credentials, config);
 
 /** A cluster without authentication (no security plugin). */
@@ -107,15 +109,24 @@ export const fromBearerToken = (config: {
  * AWS SigV4 for Amazon OpenSearch Service (`service: "es"`, the default) or
  * OpenSearch Serverless (`service: "aoss"`). `credentials` can be an effect;
  * it runs on every request, so it can return refreshed temporary credentials.
+ * When it fails, the call fails with {@link SigV4CredentialsFailed}, which
+ * holds its error as `cause`.
  */
 export const fromSigV4 = (config: {
   readonly endpoint: string;
   readonly region: string;
   readonly service?: "es" | "aoss";
-  readonly credentials: AwsCredentials | Effect.Effect<AwsCredentials, ConfigError>;
+  readonly credentials: AwsCredentials | Effect.Effect<AwsCredentials, unknown>;
 }): Layer.Layer<Credentials> => {
   const credentials = Effect.isEffect(config.credentials)
-    ? config.credentials
+    ? Effect.mapError(
+        config.credentials,
+        (cause) =>
+          new SigV4CredentialsFailed({
+            message: "The credentials effect given to OpenSearch.fromSigV4 failed",
+            cause,
+          }),
+      )
     : Effect.succeed(config.credentials);
   return layerOf(
     Effect.map(credentials, (keys) => ({

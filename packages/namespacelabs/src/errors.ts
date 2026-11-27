@@ -43,6 +43,19 @@ export class NamespaceLabsParseError
     cause: Schema.Unknown,
   }).pipe(Category.withParseError) {}
 
+/**
+ * The token file the credentials read on every request could not be used:
+ * it could not be read, is not JSON, or holds no `bearer_token`. It is a
+ * failure at run time (Namespace rewrites the file), so it is not a
+ * `ConfigError`.
+ */
+export class TokenFileUnreadable
+  extends /*@__PURE__*/ Schema.TaggedError<TokenFileUnreadable>()("TokenFileUnreadable", {
+    message: Schema.String,
+    /** The path of the token file. */
+    path: Schema.String,
+  }).pipe(Category.withAuthError) {}
+
 export type ClientErrors = UnknownNamespaceLabsError | NamespaceLabsParseError;
 
 export type DefaultErrors = CoreDefaultErrors | ClientErrors;

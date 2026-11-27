@@ -23,7 +23,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError, never>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
     "PrismaCredentials",
   ) {}
 
@@ -50,20 +50,26 @@ const envConfig = /*@__PURE__*/ EffectConfig.all({
  * Layer resolving credentials from `PRISMA_API_TOKEN`, with
  * `PRISMA_POSTGRES_API_TOKEN` as a backwards-compatible fallback.
  * The base URL is fixed to {@link DEFAULT_API_BASE_URL}.
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ envConfig.pipe(
-    /*@__PURE__*/ Effect.mapError(
-      () =>
-        new ConfigError({
-          message:
-            "PRISMA_API_TOKEN (or PRISMA_POSTGRES_API_TOKEN) environment variable is required",
-        }),
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ envConfig.pipe(
+      /*@__PURE__*/ Effect.mapError(
+        () =>
+          new ConfigError({
+            message:
+              "PRISMA_API_TOKEN (or PRISMA_POSTGRES_API_TOKEN) environment variable is required",
+          }),
+      ),
+      /*@__PURE__*/ Effect.map(({ apiToken }) => ({
+        apiToken,
+        apiBaseUrl: DEFAULT_API_BASE_URL,
+      })),
     ),
-    /*@__PURE__*/ Effect.map(({ apiToken }) => ({
-      apiToken,
-      apiBaseUrl: DEFAULT_API_BASE_URL,
-    })),
+    (config) => Effect.succeed(config),
   ),
 );

@@ -16,9 +16,13 @@ import { refreshing } from "@distilled.cloud/core/token-cache";
  * long-running programs keep working past the ~1h token lifetime. A failed
  * exchange is a failed request at run time: it fails the call with
  * {@link TokenRequestFailed}.
+ *
+ * A layer reads its configuration when it is built: a missing environment
+ * variable is a `ConfigError` at setup, and no call fails for it.
  */
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
+import * as Equal from "effect/Equal";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
@@ -40,10 +44,9 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<
-    Credentials,
-    Effect.Effect<Config, ConfigError | TokenRequestFailed>
-  >()("Mongodb-atlasCredentials") {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, TokenRequestFailed>>()(
+    "Mongodb-atlasCredentials",
+  ) {}
 
 export interface ClientCredentialsConfig {
   readonly clientId: string;
@@ -120,13 +123,12 @@ const exchangeToken = (
  * the `HttpClient` to exchange with.
  */
 const cachedTokenEffect = (
-  load: Effect.Effect<ResolvedClientCredentials, ConfigError>,
-): ((client: HttpClient.HttpClient) => Effect.Effect<Config, ConfigError | TokenRequestFailed>) => {
+  config: ResolvedClientCredentials,
+): ((client: HttpClient.HttpClient) => Effect.Effect<Config, TokenRequestFailed>) => {
   // Concurrent calls on a cold or stale cache share one exchange.
   const cached = refreshing(
     Effect.gen(function* () {
       const client = yield* HttpClient.HttpClient;
-      const config = yield* load;
       const token = yield* exchangeToken(client, config);
       return {
         config: { accessToken: token.accessToken, apiBaseUrl: config.apiBaseUrl } satisfies Config,
@@ -151,14 +153,36 @@ const cachedTokenEffect = (
 };
 
 /**
- * A layer whose token cache exchanges `load`'s credentials through the
- * `HttpClient` it is built with.
+ * A layer that loads the client credentials when it is built, and whose
+ * token cache exchanges them through the `HttpClient` it is built with. The
+ * cache belongs to the layer value: every build that loads the same
+ * credentials shares it.
  */
 const cachedTokenLayer = (
   load: Effect.Effect<ResolvedClientCredentials, ConfigError>,
-): Layer.Layer<Credentials, never, HttpClient.HttpClient> => {
-  const resolveWith = cachedTokenEffect(load);
-  return Layer.effect(Credentials, Effect.map(HttpClient.HttpClient, resolveWith));
+): Layer.Layer<Credentials, ConfigError, HttpClient.HttpClient> => {
+  let kept:
+    | {
+        readonly config: ResolvedClientCredentials;
+        readonly resolveWith: ReturnType<typeof cachedTokenEffect>;
+      }
+    | undefined;
+  return Layer.effect(
+    Credentials,
+    Effect.gen(function* () {
+      const client = yield* HttpClient.HttpClient;
+      const config = yield* load;
+      if (
+        kept === undefined ||
+        kept.config.clientId !== config.clientId ||
+        kept.config.apiBaseUrl !== config.apiBaseUrl ||
+        !Equal.equals(kept.config.clientSecret, config.clientSecret)
+      ) {
+        kept = { config, resolveWith: cachedTokenEffect(config) };
+      }
+      return kept.resolveWith(client);
+    }),
+  );
 };
 
 /**
@@ -167,14 +191,14 @@ const cachedTokenLayer = (
  */
 export const fromClientCredentials = (
   config: ClientCredentialsConfig,
-): Layer.Layer<Credentials, never, HttpClient.HttpClient> =>
-  cachedTokenLayer(
-    Effect.succeed({
-      clientId: config.clientId,
-      clientSecret: config.clientSecret,
-      apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
-    }),
-  );
+): Layer.Layer<Credentials, never, HttpClient.HttpClient> => {
+  const resolveWith = cachedTokenEffect({
+    clientId: config.clientId,
+    clientSecret: config.clientSecret,
+    apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
+  });
+  return Layer.effect(Credentials, Effect.map(HttpClient.HttpClient, resolveWith));
+};
 
 /** Layer from an already-obtained bearer access token. */
 export const fromAccessToken = (config: {
@@ -192,9 +216,10 @@ export const fromAccessToken = (config: {
 /**
  * Reads MONGODB_ATLAS_CLIENT_ID + MONGODB_ATLAS_CLIENT_SECRET (required) and
  * MONGODB_ATLAS_API_BASE_URL (optional), exchanging them for a cached OAuth2
- * access token on first use.
+ * access token on first use. The environment is read once, when the layer is
+ * built: a missing variable fails the layer with `ConfigError`.
  */
-export const fromEnv = (): Layer.Layer<Credentials, never, HttpClient.HttpClient> =>
+export const fromEnv = (): Layer.Layer<Credentials, ConfigError, HttpClient.HttpClient> =>
   cachedTokenLayer(
     Effect.suspend(() => {
       const clientId = process.env.MONGODB_ATLAS_CLIENT_ID;
@@ -215,5 +240,5 @@ export const fromEnv = (): Layer.Layer<Credentials, never, HttpClient.HttpClient
     }),
   );
 
-export const CredentialsFromEnv: Layer.Layer<Credentials, never, HttpClient.HttpClient> =
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError, HttpClient.HttpClient> =
   /*@__PURE__*/ fromEnv();

@@ -10,8 +10,9 @@ const credentials = (env: Record<string, string>) =>
     const resolve = yield* Prisma.Credentials;
     return yield* resolve;
   }).pipe(
+    // The layer reads the environment when it is built, so it gets the provider.
     Effect.provide(
-      Layer.mergeAll(
+      Layer.provide(
         Prisma.CredentialsFromEnv,
         Layer.succeed(ConfigProvider.ConfigProvider, ConfigProvider.fromUnknown(env)),
       ),

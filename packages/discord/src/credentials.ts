@@ -36,7 +36,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
     "DiscordCredentials",
   ) {}
 
@@ -54,22 +54,29 @@ const envConfig = /*@__PURE__*/ EffectConfig.all({
   ),
 });
 
-export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
+/**
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
+ */
+export const CredentialsFromEnv = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ envConfig.pipe(
-    /*@__PURE__*/ Effect.mapError(
-      () =>
-        new ConfigError({
-          message: "DISCORD_BOT_TOKEN (or DISCORD_TOKEN) environment variable is required",
-        }),
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ envConfig.pipe(
+      /*@__PURE__*/ Effect.mapError(
+        () =>
+          new ConfigError({
+            message: "DISCORD_BOT_TOKEN (or DISCORD_TOKEN) environment variable is required",
+          }),
+      ),
+      /*@__PURE__*/ Effect.map(({ token, tokenType, apiBaseUrl }) => ({
+        token,
+        // Anything but an explicit `Bearer` means a bot token -- the OAuth2
+        // flavor is the opt-in.
+        tokenType: (tokenType.toLowerCase() === "bearer" ? "Bearer" : "Bot") as TokenType,
+        apiBaseUrl,
+      })),
     ),
-    /*@__PURE__*/ Effect.map(({ token, tokenType, apiBaseUrl }) => ({
-      token,
-      // Anything but an explicit `Bearer` means a bot token -- the OAuth2
-      // flavor is the opt-in.
-      tokenType: (tokenType.toLowerCase() === "bearer" ? "Bearer" : "Bot") as TokenType,
-      apiBaseUrl,
-    })),
+    (config) => Effect.succeed(config),
   ),
 );
 

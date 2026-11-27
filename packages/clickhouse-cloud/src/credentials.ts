@@ -32,7 +32,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
     "ClickHouseCloudCredentials",
   ) {}
 
@@ -47,22 +47,28 @@ const envConfig = /*@__PURE__*/ EffectConfig.all({
 /**
  * Reads `CLICKHOUSE_CLOUD_API_KEY_ID` and `CLICKHOUSE_CLOUD_API_KEY_SECRET`
  * (both required) and `CLICKHOUSE_CLOUD_API_URL` (optional).
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ envConfig.pipe(
-    /*@__PURE__*/ Effect.map(({ keyId, keySecret, apiBaseUrl }) => ({
-      keyId,
-      keySecret,
-      apiBaseUrl: apiBaseUrl.replace(/\/+$/, ""),
-    })),
-    /*@__PURE__*/ Effect.mapError(
-      () =>
-        new ConfigError({
-          message:
-            "CLICKHOUSE_CLOUD_API_KEY_ID and CLICKHOUSE_CLOUD_API_KEY_SECRET environment variables are required",
-        }),
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ envConfig.pipe(
+      /*@__PURE__*/ Effect.map(({ keyId, keySecret, apiBaseUrl }) => ({
+        keyId,
+        keySecret,
+        apiBaseUrl: apiBaseUrl.replace(/\/+$/, ""),
+      })),
+      /*@__PURE__*/ Effect.mapError(
+        () =>
+          new ConfigError({
+            message:
+              "CLICKHOUSE_CLOUD_API_KEY_ID and CLICKHOUSE_CLOUD_API_KEY_SECRET environment variables are required",
+          }),
+      ),
     ),
+    (config) => Effect.succeed(config),
   ),
 );
 

@@ -30,9 +30,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
-    "OvhCredentials",
-  ) {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("OvhCredentials") {}
 
 const baseUrlFromEnv = (): string => {
   const explicit = process.env.OVH_API_BASE_URL;
@@ -57,21 +55,29 @@ export const fromApiKey = (config: {
     }),
   );
 
-/** Reads OVH_ACCESS_TOKEN (required) and OVH_API_BASE_URL / OVH_ENDPOINT. */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
+/**
+ * Reads OVH_ACCESS_TOKEN (required) and OVH_API_BASE_URL / OVH_ENDPOINT.
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
+ */
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ Effect.gen(function* () {
-    const apiKey = process.env.OVH_ACCESS_TOKEN;
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ Effect.gen(function* () {
+      const apiKey = process.env.OVH_ACCESS_TOKEN;
 
-    if (!apiKey) {
-      return yield* new ConfigError({
-        message: "OVH_ACCESS_TOKEN environment variable is required",
-      });
-    }
+      if (!apiKey) {
+        return yield* new ConfigError({
+          message: "OVH_ACCESS_TOKEN environment variable is required",
+        });
+      }
 
-    return {
-      apiKey: Redacted.make(apiKey),
-      apiBaseUrl: baseUrlFromEnv(),
-    };
-  }),
+      return {
+        apiKey: Redacted.make(apiKey),
+        apiBaseUrl: baseUrlFromEnv(),
+      };
+    }),
+    (config) => Effect.succeed(config),
+  ),
 );

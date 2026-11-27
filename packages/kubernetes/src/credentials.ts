@@ -32,7 +32,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
     "KubernetesCredentials",
   ) {}
 
@@ -56,26 +56,32 @@ export const fromToken = (config: {
  * |---|---|---|
  * | `KUBERNETES_TOKEN` | yes | Bearer token for authentication |
  * | `KUBERNETES_API_URL` | yes | API server URL (e.g. from `kubectl cluster-info`) |
+ *
+ * Its configuration is read and checked once, when the layer is built: a
+ * problem there fails the layer with `ConfigError`.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.effect(
   Credentials,
-  /*@__PURE__*/ Effect.gen(function* () {
-    const token = process.env.KUBERNETES_TOKEN;
-    const apiBaseUrl = process.env.KUBERNETES_API_URL;
+  /*@__PURE__*/ Effect.map(
+    /*@__PURE__*/ Effect.gen(function* () {
+      const token = process.env.KUBERNETES_TOKEN;
+      const apiBaseUrl = process.env.KUBERNETES_API_URL;
 
-    if (!token || !apiBaseUrl) {
-      return yield* new ConfigError({
-        message:
-          "KUBERNETES_TOKEN and KUBERNETES_API_URL environment variables are required. " +
-          "Set KUBERNETES_TOKEN to a bearer token for your Kubernetes cluster, " +
-          "and KUBERNETES_API_URL to the API server URL (e.g. from `kubectl cluster-info` " +
-          "or the EKS cluster endpoint).",
-      });
-    }
+      if (!token || !apiBaseUrl) {
+        return yield* new ConfigError({
+          message:
+            "KUBERNETES_TOKEN and KUBERNETES_API_URL environment variables are required. " +
+            "Set KUBERNETES_TOKEN to a bearer token for your Kubernetes cluster, " +
+            "and KUBERNETES_API_URL to the API server URL (e.g. from `kubectl cluster-info` " +
+            "or the EKS cluster endpoint).",
+        });
+      }
 
-    return {
-      token: Redacted.make(token),
-      apiBaseUrl,
-    };
-  }),
+      return {
+        token: Redacted.make(token),
+        apiBaseUrl,
+      };
+    }),
+    (config) => Effect.succeed(config),
+  ),
 );

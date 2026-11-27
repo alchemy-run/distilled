@@ -113,5 +113,6 @@ OpenSearch.fromSigV4({
 });
 ```
 
-`fromSigV4` also accepts an `Effect` that returns the keys. It runs on every
+`fromSigV4` also accepts an `Effect` that returns the keys. When it fails, the call fails with
+`SigV4CredentialsFailed`, which holds its error as `cause`. It runs on every
 request, so it can return refreshed temporary credentials.

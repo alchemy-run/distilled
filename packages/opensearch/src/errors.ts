@@ -55,6 +55,17 @@ export class OpenSearchParseError
   }).pipe(Category.withParseError) {}
 
 /**
+ * The effect given to `fromSigV4` as `credentials` failed. It runs on every
+ * request, so this is a failure at run time and not a `ConfigError`. `cause`
+ * is what the effect failed with.
+ */
+export class SigV4CredentialsFailed
+  extends /*@__PURE__*/ Schema.TaggedError<SigV4CredentialsFailed>()("SigV4CredentialsFailed", {
+    message: Schema.String,
+    cause: Schema.Unknown,
+  }).pipe(Category.withAuthError) {}
+
+/**
  * The errors declared on the OpenSearch service: any operation can return
  * them, and every generated operation lists them as its `serviceErrors`.
  * Each of core's status classes: the protocol builds the one for a failed

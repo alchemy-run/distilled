@@ -7,6 +7,7 @@ import * as FileSystem from "effect/FileSystem";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
+import { TokenFileUnreadable } from "./errors.ts";
 
 export const DEFAULT_REGION = "us";
 export const DEFAULT_GLOBAL_BASE_URL = "https://global.namespaceapis.com";
@@ -72,11 +73,11 @@ const checkHosts = <H extends Hosts>(hosts: H): Effect.Effect<H, ConfigError> =>
 /**
  * Resolves the current credentials on every request. A layer here reads and
  * checks the region and host settings when it is built, so the effect fails
- * with `ConfigError` only for what it does at run time: the token-file
- * layers read the file again on every resolution.
+ * only for what it does at run time: the token-file layers read the file
+ * again on every resolution, and fail with {@link TokenFileUnreadable}.
  */
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, TokenFileUnreadable>>()(
     "NamespaceLabsCredentials",
   ) {}
 
@@ -125,25 +126,27 @@ export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PU
 const readTokenFile = (
   fs: FileSystem.FileSystem,
   path: string,
-): Effect.Effect<Redacted.Redacted<string>, ConfigError> =>
-  fs.readFileString(path).pipe(
-    Effect.mapError(configError(`Namespace token file ${path} could not be read`)),
+): Effect.Effect<Redacted.Redacted<string>, TokenFileUnreadable> => {
+  const unreadable = (message: string) => () => new TokenFileUnreadable({ message, path });
+  return fs.readFileString(path).pipe(
+    Effect.mapError(unreadable(`Namespace token file ${path} could not be read`)),
     Effect.flatMap((text) => {
       const parsed = Effect.try({
         try: () => JSON.parse(text) as { readonly bearer_token?: unknown },
-        catch: configError(`Namespace token file ${path} is not JSON`),
+        catch: unreadable(`Namespace token file ${path} is not JSON`),
       });
       return Effect.flatMap(parsed, ({ bearer_token }) =>
         typeof bearer_token === "string" && bearer_token.length > 0
           ? Effect.succeed(Redacted.make(bearer_token))
           : Effect.fail(
-              new ConfigError({
-                message: `Namespace token file ${path} has no bearer_token; exchange a session token with privateUserSessions.issueTenantTokenFromSession`,
-              }),
+              unreadable(
+                `Namespace token file ${path} has no bearer_token; exchange a session token with privateUserSessions.issueTenantTokenFromSession`,
+              )(),
             ),
       );
     }),
   );
+};
 
 /** A layer for checked `hosts` that reads `bearer_token` from `path` on every resolution. */
 const tokenFileLayer = (

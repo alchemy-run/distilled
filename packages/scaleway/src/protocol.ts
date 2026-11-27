@@ -1,7 +1,6 @@
 import {
   InternalServerError,
   TooManyRequests,
-  type ConfigError,
   type InvalidInput,
 } from "@distilled.cloud/core/errors";
 import { setOwnKey } from "@distilled.cloud/core/plain-values";
@@ -359,11 +358,7 @@ export const encodeRequest = (
   input: unknown,
   inputAst: AST.AST,
   extraHeaders: Record<string, string> = {},
-): Effect.Effect<
-  HttpClientRequest.HttpClientRequest,
-  ConfigError | InvalidInput | SdkError,
-  Credentials
-> =>
+): Effect.Effect<HttpClientRequest.HttpClientRequest, InvalidInput | SdkError, Credentials> =>
   Effect.gen(function* () {
     const resolve = yield* Credentials;
     const creds = yield* resolve;
