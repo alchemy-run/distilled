@@ -6,19 +6,11 @@
  * `lambdaClientContext`. See `packages/dev/src/codegen/telemetry-traits.md`.
  */
 import type * as Tracer from "effect/Tracer";
+import { fromBase64, toBase64 } from "./base64.ts";
 import { traceparent } from "./telemetry-message-context.ts";
 
 /** Lambda caps `ClientContext` at 3583 bytes of base64. */
 const MAX_CLIENT_CONTEXT = 3583;
-
-const toBase64 = (text: string): string => {
-  let binary = "";
-  for (const byte of new TextEncoder().encode(text)) binary += String.fromCharCode(byte);
-  return btoa(binary);
-};
-
-const fromBase64 = (text: string): string =>
-  new TextDecoder().decode(Uint8Array.from(atob(text), (c) => c.charCodeAt(0)));
 
 /**
  * Add `custom.traceparent` to the input's `member` (a base64 JSON client
@@ -32,8 +24,11 @@ export const injectLambdaClientContext =
     const record = input as Record<string, unknown>;
     const current = record[place.member];
     try {
+      // A value that is not base64 decodes to no text, which is not JSON.
       const parsed =
-        typeof current === "string" && current.length > 0 ? JSON.parse(fromBase64(current)) : {};
+        typeof current === "string" && current.length > 0
+          ? JSON.parse(new TextDecoder().decode(fromBase64(current)))
+          : {};
       if (parsed === null || typeof parsed !== "object") return input;
       if (parsed.custom?.traceparent !== undefined) return input;
       const encoded = toBase64(

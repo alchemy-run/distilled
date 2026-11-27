@@ -16,11 +16,11 @@
  * A layer here reads and checks its configuration when it is built: a
  * missing token is a `ConfigError` at setup, and no call fails for it.
  */
+import { toBase64 } from "@distilled.cloud/core/base64";
 import * as EffectConfig from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as Base64 from "effect/encoding/Base64";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
@@ -43,7 +43,7 @@ export class Credentials
 const stripTrailingSlash = (url: string): string => url.replace(/\/+$/, "");
 
 const basic = (email: string, apiToken: Redacted.Redacted<string>): Redacted.Redacted<string> =>
-  Redacted.make(`Basic ${Base64.encode(`${email}:${Redacted.value(apiToken)}`)}`);
+  Redacted.make(`Basic ${toBase64(`${email}:${Redacted.value(apiToken)}`)}`);
 
 const bearer = (accessToken: Redacted.Redacted<string>): Redacted.Redacted<string> =>
   Redacted.make(`Bearer ${Redacted.value(accessToken)}`);

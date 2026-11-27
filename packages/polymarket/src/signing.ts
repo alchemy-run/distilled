@@ -14,12 +14,10 @@
  * (./credentials.ts): a secret that is not base64 is a setup error
  * (`ConfigError`) there, so a call never meets one.
  */
+import { fromBase64, toBase64 } from "@distilled.cloud/core/base64";
 import * as Crypto from "@distilled.cloud/core/crypto";
 import { ConfigError } from "@distilled.cloud/core/errors";
 import * as Effect from "effect/Effect";
-import * as Base64 from "effect/encoding/Base64";
-import * as Base64Url from "effect/encoding/Base64Url";
-import * as Result from "effect/Result";
 
 /**
  * Decode an API secret the way the official client does: base64url is
@@ -31,10 +29,10 @@ export const decodeSecret = (secret: string): Effect.Effect<Uint8Array, ConfigEr
     .replace(/-/g, "+")
     .replace(/_/g, "/")
     .replace(/[^A-Za-z0-9+/]/g, "");
-  const padded = stripped + "=".repeat((4 - (stripped.length % 4)) % 4);
-  const decoded = Base64.decode(padded);
-  return Result.isSuccess(decoded)
-    ? Effect.succeed(decoded.success)
+  // `fromBase64` reads text without its padding.
+  const decoded = fromBase64(stripped);
+  return decoded
+    ? Effect.succeed(decoded)
     : Effect.fail(new ConfigError({ message: "The Polymarket CLOB secret is not base64" }));
 };
 
@@ -56,7 +54,8 @@ export const signL2WithKey = (
     const hmacKey = yield* crypto.importHmacKey(key);
     const message = `${request.timestamp}${request.method}${request.requestPath}${request.body ?? ""}`;
     const digest = yield* crypto.hmacSha256(hmacKey, message);
-    return Base64Url.encodePadded(digest);
+    // The URL alphabet, with its padding kept.
+    return toBase64(digest).replace(/\+/g, "-").replace(/\//g, "_");
   });
 
 /** `POLY_SIGNATURE` for one request, from the API secret as Polymarket gives it. */

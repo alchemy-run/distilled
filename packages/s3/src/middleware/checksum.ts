@@ -1,3 +1,4 @@
+import { toBase64 } from "@distilled.cloud/core/base64";
 import { InvalidInput } from "@distilled.cloud/core/protocol-http";
 import * as Effect from "effect/Effect";
 import type * as S from "effect/Schema";
@@ -9,7 +10,6 @@ import { toUint8Array } from "#utf8";
 import type { Request as ProtocolRequest } from "../client/request.ts";
 import type { Checksum } from "../hash/checksum.ts";
 import { getAwsProtocolsHttpChecksum } from "../traits.ts";
-import { toBase64 } from "../util/base64.ts";
 import { bodyStream, isStreamBody, minChunkSize, type StreamBody } from "../util/stream.ts";
 
 export type SourceData = string | ArrayBuffer | ArrayBufferView;

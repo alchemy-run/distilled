@@ -1,3 +1,4 @@
+import { toBase64 } from "@distilled.cloud/core/base64";
 import { ConfigError } from "@distilled.cloud/core/errors";
 import { originFromConfig } from "@distilled.cloud/core/protocol-http";
 /**
@@ -20,7 +21,6 @@ import { originFromConfig } from "@distilled.cloud/core/protocol-http";
  */
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as Base64 from "effect/encoding/Base64";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 
@@ -50,7 +50,7 @@ const basicToken = (
   email: string,
   apiToken: Redacted.Redacted<string>,
 ): Redacted.Redacted<string> =>
-  Redacted.make(`Basic ${Base64.encode(`${email}/token:${Redacted.value(apiToken)}`)}`);
+  Redacted.make(`Basic ${toBase64(`${email}/token:${Redacted.value(apiToken)}`)}`);
 
 const bearerToken = (accessToken: Redacted.Redacted<string>): Redacted.Redacted<string> =>
   Redacted.make(`Bearer ${Redacted.value(accessToken)}`);

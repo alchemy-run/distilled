@@ -7,6 +7,7 @@
  * lifetime has passed; {@link withAuthToken} does the same for any
  * `Credentials`.
  */
+import { fromBase64Url } from "@distilled.cloud/core/base64";
 import { refreshing } from "@distilled.cloud/core/token-cache";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
@@ -31,7 +32,8 @@ const expiryOf = (jwt: string): number | undefined => {
   try {
     const payload = jwt.split(".")[1];
     if (payload === undefined) return undefined;
-    const claims = JSON.parse(Buffer.from(payload, "base64url").toString("utf8")) as {
+    // A payload that is not base64url decodes to no text, which is not JSON.
+    const claims = JSON.parse(new TextDecoder().decode(fromBase64Url(payload))) as {
       exp?: unknown;
     };
     return typeof claims.exp === "number" ? claims.exp : undefined;

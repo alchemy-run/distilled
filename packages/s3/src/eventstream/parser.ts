@@ -5,6 +5,7 @@
  * Handles message framing, CRC validation, and event parsing.
  */
 
+import { toBase64 } from "@distilled.cloud/core/base64";
 import { ResponseValidation } from "@distilled.cloud/core/response-validation";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
@@ -156,16 +157,6 @@ export const rawPayloadParser: PayloadParser = (payload: Uint8Array) => {
   return text ? { payload: text } : {};
 };
 
-/** Encode raw event payload bytes to the base64 wire form blob schemas decode from. */
-const uint8ToBase64 = (bytes: Uint8Array): string => {
-  let binary = "";
-  const chunkSize = 0x8000;
-  for (let i = 0; i < bytes.length; i += chunkSize) {
-    binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
-  }
-  return btoa(binary);
-};
-
 /**
  * Default JSON payload parser
  */
@@ -209,7 +200,8 @@ export const transformEventStreamToUnion = (
         if (payloadMember !== undefined) {
           return {
             [eventType]: {
-              [payloadMember]: uint8ToBase64(streamEvent.payload),
+              // The base64 wire form that blob schemas decode from.
+              [payloadMember]: toBase64(streamEvent.payload),
             },
           };
         }

@@ -4,6 +4,7 @@
  * https://smithy.io/2.0/aws/protocols/aws-restxml-protocol.html
  */
 
+import { fromBase64, toBase64 } from "@distilled.cloud/core/base64";
 import { InvalidInput } from "@distilled.cloud/core/protocol-http";
 import * as Effect from "effect/Effect";
 import type * as S from "effect/Schema";
@@ -56,7 +57,6 @@ import {
   isStringAST,
   unwrapUnion,
 } from "../util/ast.ts";
-import { fromBase64, toBase64 } from "../util/base64.ts";
 import { errorBody, inputEncoderSync } from "../util/codec.ts";
 import { sanitizeErrorCode } from "../util/error.ts";
 import { headerReader, notBase64 } from "../util/headers.ts";

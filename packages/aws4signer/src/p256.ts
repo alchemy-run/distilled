@@ -305,15 +305,6 @@ export const publicPoint = (d: bigint): { x: bigint; y: bigint } => {
 
 //#endregion
 
-export const base64Url = (bytes: Uint8Array): string => {
-  let binary = "";
-  for (const b of bytes) binary += String.fromCharCode(b);
-  return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
-};
-
-export const fromBase64Url = (s: string): Uint8Array =>
-  Uint8Array.from(atob(s.replace(/-/g, "+").replace(/_/g, "/")), (c) => c.charCodeAt(0));
-
 /** DER INTEGER of an unsigned big-endian value. */
 const derInteger = (bytes: Uint8Array): number[] => {
   let i = 0;

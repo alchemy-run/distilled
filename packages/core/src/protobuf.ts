@@ -16,6 +16,7 @@
  * `optional`, message fields and `oneof` members) are omitted when absent.
  * Enum numbers map back to names, and unknown fields are skipped.
  */
+import { fromBase64Url, toBase64 } from "./base64.ts";
 import { setOwnKey } from "./plain-values.ts";
 
 /** A scalar or composite field kind. */
@@ -416,26 +417,12 @@ const toNumber = (value: unknown, field: string, kind: "float" | "double"): numb
   return n;
 };
 
-const base64ToBytes = (value: string): Uint8Array => {
-  const normal = value.replace(/-/g, "+").replace(/_/g, "/");
-  const bin = atob(normal);
-  const out = new Uint8Array(bin.length);
-  for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
-  return out;
-};
-
-const bytesToBase64 = (bytes: Uint8Array): string => {
-  let bin = "";
-  for (let i = 0; i < bytes.length; i += 0x8000) {
-    bin += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
-  }
-  return btoa(bin);
-};
-
 const toBytes = (value: unknown, field: string): Uint8Array => {
   if (value instanceof Uint8Array) return value;
   if (value instanceof ArrayBuffer) return new Uint8Array(value);
-  if (typeof value === "string") return base64ToBytes(value);
+  // proto3 JSON takes base64 in either alphabet.
+  const bytes = typeof value === "string" ? fromBase64Url(value) : undefined;
+  if (bytes !== undefined) return bytes;
   throw new ProtobufEncodeError(`${field}: expected bytes (base64 string or Uint8Array)`);
 };
 
@@ -901,7 +888,7 @@ const readValue = (
     case "string":
       return textDecoder.decode(r.delimited());
     case "bytes":
-      return bytesToBase64(r.delimited());
+      return toBase64(r.delimited());
     case "message":
       return decodeMessage(d, ref as string, r.delimited());
     default:
@@ -1104,8 +1091,7 @@ const readWellKnown = (
       if (typeUrl === "") return { value: {} };
       const type = typeNameOf(typeUrl);
       // A type the descriptors don't know stays opaque: its bytes, base64.
-      if (!isKnownMessage(d, type))
-        return { value: { "@type": typeUrl, value: bytesToBase64(inner) } };
+      if (!isKnownMessage(d, type)) return { value: { "@type": typeUrl, value: toBase64(inner) } };
       const message = decodeMessage(d, type, inner);
       return {
         value: CUSTOM_JSON.has(type)

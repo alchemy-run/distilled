@@ -1,3 +1,4 @@
+import { fromBase64, toBase64Url } from "@distilled.cloud/core/base64";
 import { refreshing } from "@distilled.cloud/core/token-cache";
 /**
  * GitHub App authentication -- hand-written.
@@ -34,13 +35,11 @@ import { refreshing } from "@distilled.cloud/core/token-cache";
  * ```
  */
 import * as Effect from "effect/Effect";
-import * as Base64 from "effect/encoding/Base64";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as HttpClient from "effect/http/HttpClient";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
-import * as Result from "effect/Result";
 import {
   type Config,
   Credentials,
@@ -91,12 +90,6 @@ const JWT_LIFETIME_SECONDS = 9 * 60;
 
 const encoder = /*@__PURE__*/ new TextEncoder();
 
-const base64url = (bytes: Uint8Array): string => {
-  let binary = "";
-  for (const byte of bytes) binary += String.fromCharCode(byte);
-  return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
-};
-
 /** A DER length: short form below 128, else long form. */
 const derLength = (length: number): number[] => {
   if (length < 0x80) return [length];
@@ -130,9 +123,8 @@ const pkcs8Der = (pem: string): Uint8Array | undefined => {
     pem,
   );
   if (!match) return undefined;
-  const decoded = Base64.decode(match[2]!.replace(/\s+/g, ""));
-  if (Result.isFailure(decoded)) return undefined;
-  const body = decoded.success;
+  const body = fromBase64(match[2]!.replace(/\s+/g, ""));
+  if (body === undefined) return undefined;
   if (!match[1]) return body;
   return Uint8Array.from(der(0x30, [...PKCS8_VERSION, ...RSA_ALGORITHM, ...der(0x04, body)]));
 };
@@ -162,15 +154,13 @@ const signJwt = (
       }),
     );
   }
-  const header = base64url(encoder.encode(JSON.stringify({ alg: "RS256", typ: "JWT" })));
-  const claims = base64url(
-    encoder.encode(
-      JSON.stringify({
-        iss: String(config.appId),
-        iat: issuedAt,
-        exp: issuedAt + JWT_BACKDATE_SECONDS + JWT_LIFETIME_SECONDS,
-      }),
-    ),
+  const header = toBase64Url(JSON.stringify({ alg: "RS256", typ: "JWT" }));
+  const claims = toBase64Url(
+    JSON.stringify({
+      iss: String(config.appId),
+      iat: issuedAt,
+      exp: issuedAt + JWT_BACKDATE_SECONDS + JWT_LIFETIME_SECONDS,
+    }),
   );
   const signingInput = `${header}.${claims}`;
   return Effect.tryPromise({
@@ -187,7 +177,7 @@ const signJwt = (
         cryptoKey,
         encoder.encode(signingInput),
       );
-      return Redacted.make(`${signingInput}.${base64url(new Uint8Array(signature))}`);
+      return Redacted.make(`${signingInput}.${toBase64Url(new Uint8Array(signature))}`);
     },
     // The cause can quote key material, so it is not attached.
     catch: () =>

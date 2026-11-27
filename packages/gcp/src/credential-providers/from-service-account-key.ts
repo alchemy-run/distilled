@@ -4,6 +4,7 @@
  * (the OAuth 2.0 JWT bearer grant). Signs with WebCrypto, so it runs in
  * Node, Bun, workers and browsers.
  */
+import { fromBase64, toBase64Url } from "@distilled.cloud/core/base64";
 import * as Effect from "effect/Effect";
 import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
@@ -36,13 +37,6 @@ export interface ServiceAccountKeyConfig extends ProviderOverrides {
   readonly subject?: string;
 }
 
-const base64url = (bytes: Uint8Array | string): string => {
-  const raw = typeof bytes === "string" ? new TextEncoder().encode(bytes) : bytes;
-  let binary = "";
-  for (const byte of raw) binary += String.fromCharCode(byte);
-  return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
-};
-
 const signAssertion = (
   config: ServiceAccountKeyConfig,
   tokenUrl: string,
@@ -53,7 +47,9 @@ const signAssertion = (
       const pem = Redacted.value(config.privateKey)
         .replace(/-----(BEGIN|END) PRIVATE KEY-----/g, "")
         .replace(/\s+/g, "");
-      const der = Uint8Array.from(atob(pem), (c) => c.charCodeAt(0));
+      // `undefined` for a key that is not base64: `importKey` rejects it,
+      // and the catch below reports it.
+      const der = fromBase64(pem) as Uint8Array<ArrayBuffer>;
       const key = await crypto.subtle.importKey(
         "pkcs8",
         der,
@@ -67,13 +63,13 @@ const signAssertion = (
         ...(config.privateKeyId && { kid: config.privateKeyId }),
       };
       const claims = jwtBearerClaims({ ...config, tokenUrl }, issuedAtSeconds);
-      const signingInput = `${base64url(JSON.stringify(header))}.${base64url(JSON.stringify(claims))}`;
+      const signingInput = `${toBase64Url(JSON.stringify(header))}.${toBase64Url(JSON.stringify(claims))}`;
       const signature = await crypto.subtle.sign(
         "RSASSA-PKCS1-v1_5",
         key,
         new TextEncoder().encode(signingInput),
       );
-      return `${signingInput}.${base64url(new Uint8Array(signature))}`;
+      return `${signingInput}.${toBase64Url(new Uint8Array(signature))}`;
     },
     // The cause can quote key material, so it is not attached.
     catch: () =>

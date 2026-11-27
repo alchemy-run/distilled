@@ -25,13 +25,13 @@
  * and no call fails for it. A refresh-token exchange that fails at run time
  * fails the call with {@link TokenRequestFailed}.
  */
+import { toBase64 } from "@distilled.cloud/core/base64";
 import * as EffectConfig from "@distilled.cloud/core/config";
 import type { Checked } from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
 import { refreshing } from "@distilled.cloud/core/token-cache";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as Base64 from "effect/encoding/Base64";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
@@ -110,7 +110,7 @@ export const siteBaseUrl = (site: Site): Effect.Effect<string, ConfigError> => {
 };
 
 const basic = (email: string, apiToken: Redacted.Redacted<string>): Redacted.Redacted<string> =>
-  Redacted.make(`Basic ${Base64.encode(`${email}:${Redacted.value(apiToken)}`)}`);
+  Redacted.make(`Basic ${toBase64(`${email}:${Redacted.value(apiToken)}`)}`);
 
 const bearer = (accessToken: Redacted.Redacted<string>): Redacted.Redacted<string> =>
   Redacted.make(`Bearer ${Redacted.value(accessToken)}`);

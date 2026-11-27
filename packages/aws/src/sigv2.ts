@@ -1,6 +1,6 @@
+import { toBase64 } from "@distilled.cloud/core/base64";
 import type { Request } from "@distilled.cloud/s3/client/request";
 import { CryptoError } from "@distilled.cloud/s3/SigV4";
-import { toBase64 } from "@distilled.cloud/s3/util/base64";
 /**
  * Legacy Signature Version 2 request signing, used by SimpleDB only. It is
  * reached through the `AwsAuthSigv2` trait, so programs that do not use

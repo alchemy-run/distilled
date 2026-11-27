@@ -5,6 +5,7 @@
  * them).
  */
 
+import { fromBase64, toBase64 } from "@distilled.cloud/core/base64";
 import type * as AST from "effect/SchemaAST";
 import { codecSymbol } from "../lite.ts";
 import {
@@ -15,10 +16,9 @@ import {
   isStringAST,
   unwrapUnion,
 } from "./ast.ts";
-import { fromBase64, toBase64 } from "./base64.ts";
 
 /** The header value of a `@mediaType` string: its UTF-8 bytes in base64. */
-export const toBase64Header = (value: string): string => toBase64(new TextEncoder().encode(value));
+export const toBase64Header = (value: string): string => toBase64(value);
 
 /** What a header reader returns for a `@mediaType` value that is not base64. */
 export const notBase64: unique symbol = Symbol.for("distilled-aws/not-base64-header");
@@ -26,8 +26,10 @@ export const notBase64: unique symbol = Symbol.for("distilled-aws/not-base64-hea
 const BASE64 = /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/;
 
 /** The text of a `@mediaType` header, or {@link notBase64}. */
-const fromBase64Header = (value: string): string | typeof notBase64 =>
-  BASE64.test(value) ? new TextDecoder().decode(fromBase64(value)) : notBase64;
+const fromBase64Header = (value: string): string | typeof notBase64 => {
+  const bytes = BASE64.test(value) ? fromBase64(value) : undefined;
+  return bytes === undefined ? notBase64 : new TextDecoder().decode(bytes);
+};
 
 /**
  * The header value of a list: its elements joined with ", ". With `quote`,

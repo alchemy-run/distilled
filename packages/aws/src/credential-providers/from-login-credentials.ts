@@ -1,5 +1,6 @@
 import { createHash, createPrivateKey, createPublicKey, randomUUID, sign } from "node:crypto";
 import { dirname, join } from "node:path";
+import { toBase64Url } from "@distilled.cloud/core/base64";
 import { loadModule } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
@@ -150,8 +151,6 @@ const expiresAt = (token: LoginToken): number => new Date(token.accessToken.expi
 // DPoP
 // ---------------------------------------------------------------------------
 
-const base64url = (value: string): string => Buffer.from(value).toString("base64url");
-
 /** ES256 signatures are DER from `node:crypto` but raw `r || s` in a JWT. */
 const derToRaw = (der: Buffer): Buffer => {
   if (der[0] !== 0x30 || der[2] !== 0x02) {
@@ -189,20 +188,20 @@ const dpopProof = (dpopKey: string): Effect.Effect<DpopProof, CredentialSourceEr
       });
       // The uncompressed EC point (0x04 || x || y) at the end of the SPKI.
       const point = publicKey.indexOf(0x04, publicKey.length - 66);
-      const header = base64url(
+      const header = toBase64Url(
         JSON.stringify({
           alg: "ES256",
           typ: "dpop+jwt",
           jwk: {
             kty: "EC",
             crv: "P-256",
-            x: publicKey.subarray(point + 1, point + 33).toString("base64url"),
-            y: publicKey.subarray(point + 33, point + 65).toString("base64url"),
+            x: toBase64Url(publicKey.subarray(point + 1, point + 33)),
+            y: toBase64Url(publicKey.subarray(point + 33, point + 65)),
           },
         }),
       );
       return (method: string, endpoint: string) => {
-        const payload = base64url(
+        const payload = toBase64Url(
           JSON.stringify({
             jti: randomUUID(),
             htm: method,
@@ -212,7 +211,7 @@ const dpopProof = (dpopKey: string): Effect.Effect<DpopProof, CredentialSourceEr
         );
         const message = `${header}.${payload}`;
         const signature = derToRaw(sign("sha256", Buffer.from(message), privateKey));
-        return `${message}.${signature.toString("base64url")}`;
+        return `${message}.${toBase64Url(signature)}`;
       };
     },
     catch: (cause) => invalidToken("Failed to generate a DPoP proof from the login token.", cause),
