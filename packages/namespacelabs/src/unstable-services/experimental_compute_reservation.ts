@@ -190,8 +190,8 @@ export interface CreateInstanceRequestFeatureConfiguration {
   /** Overrides the kubelet --max-pods value. Must be <= 250. */
   kubernetesMaxPods?: number | undefined;
 }
-export type StringList = Array<string>;
 export type StringMap = { [key: string]: string | undefined };
+export type StringList = Array<string>;
 export interface EnvironmentVariable {
   /** Required: Name under which the environment variable will be available, e.g. "FOOBAR_VAR_NAME". */
   name?: string | undefined;
@@ -643,6 +643,8 @@ export interface CreateInstanceRequest {
   documentedPurpose?: string | undefined;
   /** A set of labels that are attached to the new instance. Instances can be queried based on labels, see also ListInstancesRequest. */
   labels?: LabelList | undefined;
+  /** Descriptive user metadata, separate from labels and attachments. Returned in instance metadata and searchable using ListInstances.annotation_filter. Uses the same name, value, and total-size limits as AnnotationOperation. */
+  annotations?: StringMap | undefined;
   /** Timestamp of when this instance should be released (in UTC). Requested deadlines can be modified by policy. For example, if a workspace is configured with a maximum deadline of 24h, and a instance is created with a requested deadline of 48h, the resulting instance will have a deadline of 24h. When a instance hits its deadline, processes within will receive a `SIGTERM` and have a maximum time to shutdown gracefully before the instance is destroyed. Note: In JSON format, the Timestamp type is encoded as a string in the [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. */
   deadline?: string | undefined;
   /** Deprecated and ignored; it used to allow creation queueing. */
@@ -896,9 +898,9 @@ function __c0(j: number): any {
         }),
       ).annotate({ identifier: "CreateInstanceRequestFeatureConfiguration" });
     case 5:
-      return S.Array(S.String);
-    case 6:
       return S.Record(S.String, S.String);
+    case 6:
+      return S.Array(S.String);
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -912,7 +914,7 @@ function __c0(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          method: S.optional(__S(5, __c0, 5)),
+          method: S.optional(__S(6, __c0, 6)),
           path: S.optional(S.String),
         }),
       ).annotate({ identifier: "HttpMatchRuleHttpMatch" });
@@ -978,15 +980,15 @@ function __c0(j: number): any {
     case 21:
       return S.suspend(() =>
         S.Struct({
-          includeLogs: S.optional(__S(5, __c0, 5)),
+          includeLogs: S.optional(__S(6, __c0, 6)),
           hostMount: S.optional(__S(15, __c0, 15)),
           privileged: S.optional(S.Boolean),
-          exportedUnixSockets: S.optional(__S(6, __c0, 6)),
+          exportedUnixSockets: S.optional(__S(5, __c0, 5)),
           imagePullCredentials: S.optional(__S(17, __c0, 17)),
           pushEphemeralDiskAsImage: S.optional(__S(18, __c0, 18)),
-          capAdd: S.optional(__S(5, __c0, 5)),
-          capDrop: S.optional(__S(5, __c0, 5)),
-          devices: S.optional(__S(5, __c0, 5)),
+          capAdd: S.optional(__S(6, __c0, 6)),
+          capDrop: S.optional(__S(6, __c0, 6)),
+          devices: S.optional(__S(6, __c0, 6)),
           sidecarVolumes: S.optional(__S(20, __c0, 20)),
           incrementalLoading: S.optional(S.Boolean),
           sandboxLike: S.optional(S.Boolean),
@@ -1013,9 +1015,9 @@ function __c0(j: number): any {
           imageRef: S.optional(S.String),
           knownImageId: S.optional(S.String),
           rootFilesystem: S.optional(S.String),
-          args: S.optional(__S(5, __c0, 5)),
-          entrypoint: S.optional(__S(5, __c0, 5)),
-          environment: S.optional(__S(6, __c0, 6)),
+          args: S.optional(__S(6, __c0, 6)),
+          entrypoint: S.optional(__S(6, __c0, 6)),
+          environment: S.optional(__S(5, __c0, 5)),
           envVars: S.optional(__S(8, __c0, 8)),
           dockerSockPath: S.optional(S.String),
           nscStatePath: S.optional(S.String),
@@ -1048,7 +1050,7 @@ function __c0(j: number): any {
     case 28:
       return S.suspend(() =>
         S.Struct({
-          includeLogs: S.optional(__S(5, __c0, 5)),
+          includeLogs: S.optional(__S(6, __c0, 6)),
         }),
       ).annotate({ identifier: "ApplicationRequestExperimentalFeatures" });
     case 29:
@@ -1057,8 +1059,8 @@ function __c0(j: number): any {
           name: S.optional(S.String),
           imageRef: S.optional(S.String),
           command: S.optional(S.String),
-          args: S.optional(__S(5, __c0, 5)),
-          environment: S.optional(__S(6, __c0, 6)),
+          args: S.optional(__S(6, __c0, 6)),
+          environment: S.optional(__S(5, __c0, 5)),
           envVars: S.optional(__S(8, __c0, 8)),
           workloadType: S.optional(S.String),
           experimental: S.optional(__S(28, __c0, 28)),
@@ -1084,7 +1086,7 @@ function __c1(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           runtimeType: S.optional(S.String),
-          addToPath: S.optional(__S(5, __c0, 5)),
+          addToPath: S.optional(__S(6, __c0, 6)),
           binaryName: S.optional(S.String),
           root: S.optional(S.String),
         }),
@@ -1132,8 +1134,8 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           command: S.optional(S.String),
-          args: S.optional(__S(5, __c0, 5)),
-          environment: S.optional(__S(6, __c0, 6)),
+          args: S.optional(__S(6, __c0, 6)),
+          environment: S.optional(__S(5, __c0, 5)),
         }),
       ).annotate({ identifier: "CreateInstanceRequestExperimentalFeaturesHookCommand" });
     case 11:
@@ -1156,7 +1158,7 @@ function __c1(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          privateFeature: S.optional(__S(5, __c0, 5)),
+          privateFeature: S.optional(__S(6, __c0, 6)),
           disks: S.optional(__S(32, __c1, 0)),
           containerdShims: S.optional(__S(34, __c1, 2)),
           tlsBackedPorts: S.optional(__S(36, __c1, 4)),
@@ -1165,13 +1167,13 @@ function __c1(j: number): any {
           volumes: S.optional(__S(23, __c0, 23)),
           ensureDirectory: S.optional(__S(40, __c1, 8)),
           uniqueTag: S.optional(S.String),
-          exportedUnixSockets: S.optional(__S(6, __c0, 6)),
+          exportedUnixSockets: S.optional(__S(5, __c0, 5)),
           containerCache: S.optional(__S(41, __c1, 9)),
           preStartHook: S.optional(__S(44, __c1, 12)),
           preShutdownHook: S.optional(__S(44, __c1, 12)),
-          authorizedSshKeys: S.optional(__S(5, __c0, 5)),
+          authorizedSshKeys: S.optional(__S(6, __c0, 6)),
           macosBaseImageId: S.optional(S.String),
-          internal: S.optional(__S(6, __c0, 6)),
+          internal: S.optional(__S(5, __c0, 5)),
           nestedVirtualization: S.optional(S.Boolean),
           prometheusMetricsSink: S.optional(__S(45, __c1, 13)),
           withConfiguration: S.optional(S.String),
@@ -1252,7 +1254,7 @@ function __c1(j: number): any {
         S.Struct({
           resourceType: S.optional(S.String),
           resourceId: S.optional(S.String),
-          actions: S.optional(__S(5, __c0, 5)),
+          actions: S.optional(__S(6, __c0, 6)),
         }),
       ).annotate({ identifier: "Permission" });
     case 27:
@@ -1260,7 +1262,7 @@ function __c1(j: number): any {
     case 28:
       return S.suspend(() =>
         S.Struct({
-          matchDomains: S.optional(__S(5, __c0, 5)),
+          matchDomains: S.optional(__S(6, __c0, 6)),
         }),
       ).annotate({ identifier: "EgressPolicySpecMatcher" });
     case 29:
@@ -1310,8 +1312,8 @@ function __c2(j: number): any {
           mode: S.optional(S.String),
           deepPacketInspection: S.optional(S.Boolean),
           rules: S.optional(__S(66, __c2, 2)),
-          additionalRulesets: S.optional(__S(5, __c0, 5)),
-          allowedEgressDomains: S.optional(__S(5, __c0, 5)),
+          additionalRulesets: S.optional(__S(6, __c0, 6)),
+          allowedEgressDomains: S.optional(__S(6, __c0, 6)),
         }),
       ).annotate({ identifier: "EgressPolicySpec" });
     case 4:
@@ -1329,10 +1331,11 @@ function __c2(j: number): any {
           featureConfiguration: S.optional(__S(4, __c0, 4)),
           documentedPurpose: S.optional(S.String),
           labels: S.optional(__S(1, __c0, 1)),
+          annotations: S.optional(__S(5, __c0, 5)),
           deadline: S.optional(S.String),
           interactive: S.optional(S.Boolean),
           region: S.optional(S.String),
-          placement: S.optional(__S(5, __c0, 5)),
+          placement: S.optional(__S(6, __c0, 6)),
           containers: S.optional(__S(25, __c0, 25)),
           ingresses: S.optional(__S(27, __c0, 27)),
           ingressBaseDomain: S.optional(S.String),
