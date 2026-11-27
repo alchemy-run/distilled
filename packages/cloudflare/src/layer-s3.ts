@@ -14,7 +14,8 @@
  *   reach, and the `Jurisdiction` layer (default: Cloudflare's default
  *   jurisdiction).
  *
- * Both are looked up on the first S3 call and kept.
+ * Both are looked up on the first S3 call and kept. Calls that start
+ * before the lookup ends wait for that one lookup.
  *
  * @example
  * ```ts
@@ -28,6 +29,7 @@
  */
 import * as CoreCrypto from "@distilled.cloud/core/crypto";
 import { loadModule, type SdkError } from "@distilled.cloud/core/sdk-error";
+import { refreshing } from "@distilled.cloud/core/token-cache";
 import type * as S3Credentials from "@distilled.cloud/s3/Credentials";
 import type * as S3Endpoint from "@distilled.cloud/s3/Endpoint";
 import * as Context from "effect/Context";
@@ -139,13 +141,14 @@ export const layerS3 = (): Layer.Layer<
               }),
         ),
       );
-      // Successes only: a failed lookup is tried again on the next call.
-      let resolved: Resolved | undefined;
-      const cached = Effect.suspend(() =>
-        resolved
-          ? Effect.succeed(resolved)
-          : Effect.tap(resolve, (r) => Effect.sync(() => (resolved = r))),
-      );
+      // Concurrent calls on a cold cache share one lookup (core `refreshing`,
+      // AGENTS.md rule 16); a failed lookup is tried again on the next call.
+      const cached = refreshing(resolve, () => Number.POSITIVE_INFINITY, {
+        onTimeout: (timeoutMs) =>
+          new S3CredentialsError({
+            message: `Looking up the Cloudflare API token's id or account timed out after ${timeoutMs / 1000} s.`,
+          }),
+      });
       return Layer.mergeAll(
         Layer.succeed(
           S3Keys,
