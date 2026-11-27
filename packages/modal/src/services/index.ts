@@ -29,6 +29,7 @@ export * as secret from "./secret.ts";
 export * as server from "./server.ts";
 export * as service from "./service.ts";
 export * as shared from "./shared.ts";
+export * as sx from "./sx.ts";
 export * as taskCommandRouter from "./task_command_router.ts";
 export * as task from "./task.ts";
 export * as template from "./template.ts";
