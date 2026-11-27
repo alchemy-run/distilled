@@ -10,9 +10,12 @@ import * as EffectConfig from "@distilled.cloud/core/config";
  * fallback for older distilled consumers. Optional `FLY_API_HOSTNAME`
  * overrides the Machines API host (default `https://api.machines.dev`).
  *
- * Managed REST (MPG), GraphQL add-ons (Tigris, Redis), and Sprites all
- * reuse this token. Sprites never reads a separate env var: the protocol
- * mints a Sprites bearer from `FLY_API_TOKEN` (see `SpritesProtocol`).
+ * Managed REST (MPG) and GraphQL add-ons (Tigris, Redis) reuse this token.
+ *
+ * Sprites has its own service, {@link SpritesCredentials}: the Sprites API
+ * rejects a Fly token, and the SDK never mints a Sprites token from one.
+ * Create a Sprites token at sprites.dev/account or with `sprite login`,
+ * and pass it as `SPRITES_TOKEN` or to {@link spritesCredentials}.
  */
 import { ConfigError } from "@distilled.cloud/core/errors";
 import * as Context from "effect/Context";
@@ -30,7 +33,7 @@ export const DEFAULT_API_BASE_URL = "https://api.machines.dev";
 /** UI-EX REST + GraphQL host (MPG, Tigris, Redis). Not overridable via an invented env var. */
 export const DEFAULT_FLY_API_BASE_URL = "https://api.fly.io";
 
-/** Sprites REST root. Auth is a bearer minted from `FLY_API_TOKEN` -- never `SPRITES_TOKEN`. */
+/** Sprites REST root. Auth is the {@link SpritesCredentials} token as a bearer. */
 export const DEFAULT_SPRITES_API_BASE_URL = "https://api.sprites.dev/v1";
 
 /**
@@ -101,4 +104,56 @@ export const credentials = (config: {
       apiKey: config.apiKey,
       apiBaseUrl: normalizeApiBaseUrl(config.apiBaseUrl),
     }),
+  );
+
+export interface SpritesConfig {
+  /** Sprites token (`org-slug/org-id/token-id/secret`), sent as `Authorization: Bearer`. */
+  readonly token: Redacted.Redacted<string>;
+}
+
+/**
+ * Credentials for the Sprites operations (`@distilled.cloud/fly-io/sprites`).
+ * Like {@link Credentials}, it holds an effect that the protocol resolves on
+ * every request.
+ */
+export class SpritesCredentials
+  extends /*@__PURE__*/ Context.Service<SpritesCredentials, Effect.Effect<SpritesConfig>>()(
+    "Fly-ioSpritesCredentials",
+  ) {}
+
+const checkSpritesToken = (
+  token: Redacted.Redacted<string>,
+  source: string,
+): Effect.Effect<SpritesConfig, ConfigError> =>
+  Redacted.value(token).trim().length === 0
+    ? Effect.fail(new ConfigError({ message: `${source} is empty` }))
+    : Effect.succeed({ token });
+
+/**
+ * Reads `SPRITES_TOKEN` once, when the layer is built: a missing or empty
+ * token fails the layer with `ConfigError`.
+ */
+export const SpritesCredentialsFromEnv: Layer.Layer<SpritesCredentials, ConfigError> =
+  /*@__PURE__*/ Layer.effect(
+    SpritesCredentials,
+    /*@__PURE__*/ EffectConfig.String("SPRITES_TOKEN").pipe(
+      /*@__PURE__*/ Effect.mapError(
+        () => new ConfigError({ message: "SPRITES_TOKEN environment variable is required" }),
+      ),
+      /*@__PURE__*/ Effect.flatMap((token) =>
+        checkSpritesToken(Redacted.make(token), "SPRITES_TOKEN"),
+      ),
+      /*@__PURE__*/ Effect.map((config) => Effect.succeed(config)),
+    ),
+  );
+
+/** Layer from a Sprites token. An empty token fails the layer with `ConfigError`. */
+export const spritesCredentials = (config: {
+  readonly token: Redacted.Redacted<string>;
+}): Layer.Layer<SpritesCredentials, ConfigError> =>
+  Layer.effect(
+    SpritesCredentials,
+    Effect.map(checkSpritesToken(config.token, "The Sprites token"), (checked) =>
+      Effect.succeed(checked),
+    ),
   );

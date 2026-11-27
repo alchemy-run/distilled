@@ -4,7 +4,7 @@ import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
  * generate — turn Smithy JSON models in .generated-specs into Effect SDKs.
  *
  *   machines.json  → src/services/machines.ts   FlyIoProtocol (Machines REST)
- *   sprites.json   → src/services/sprites.ts    SpritesProtocol (mint from FLY_API_TOKEN)
+ *   sprites.json   → src/services/sprites.ts    SpritesProtocol (SpritesCredentials token)
  *   mpg.json       → src/services/mpg.ts        FlyApiProtocol (api.fly.io REST)
  *
  * Patches and model stamps apply in scripts/convert.ts. Generate only

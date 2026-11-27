@@ -49,11 +49,8 @@ export class FlyIoParseError
   }).pipe(Category.withParseError) {}
 
 /**
- * Sprites is not enabled for the Fly organization that owns `FLY_API_TOKEN`.
- *
- * Returned by `POST /v1/organizations/{org}/tokens` as HTTP 401 with a
- * message matching `sprites not enabled`. Sprite CRUD never sees a
- * `SPRITES_TOKEN` -- this is the mint-time entitlement signal.
+ * Sprites is not enabled for the Fly organization: HTTP 401 with a message
+ * matching `sprites not enabled`.
  */
 export class SpritesNotEnabled
   extends /*@__PURE__*/ Schema.TaggedError<SpritesNotEnabled>()("SpritesNotEnabled", {
@@ -63,17 +60,6 @@ export class SpritesNotEnabled
 applyErrorMatchers(SpritesNotEnabled, [
   { status: 401, message: { matches: "[Ss]prites not enabled" } },
 ]);
-
-/**
- * The Sprites bearer could not be minted from the Fly token: no Fly
- * organization could be found for the token, the organization it names can't
- * go in a URL, or the mint did not answer in time. It is a failure of
- * requests made at run time, so it is not a `ConfigError`.
- */
-export class TokenRequestFailed
-  extends /*@__PURE__*/ Schema.TaggedError<TokenRequestFailed>()("TokenRequestFailed", {
-    message: Schema.String,
-  }).pipe(Category.withAuthError) {}
 
 /**
  * Errors any Fly.io operation may surface in addition to the status-mapped
