@@ -25,8 +25,8 @@ import YAML from "yaml";
 
 /** Upstream repository, as `<owner>/<repo>`. */
 const REPO = "turbopuffer/turbopuffer-openapi";
-/** Branch (or tag/commit) to mirror. Linked from turbopuffer.com docs. */
-const REF = "next";
+/** Branch to mirror: the default branch, which the upstream README links. */
+const REF = "main";
 /** Path of the OpenAPI document within {@link REPO}. */
 const SPEC_PATH = "openapi.yml";
 
