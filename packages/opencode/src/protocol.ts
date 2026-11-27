@@ -1,3 +1,4 @@
+import { toBase64 } from "@distilled.cloud/core/base64";
 import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
@@ -16,7 +17,6 @@ import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-
  *             HTTP-status classes, then {@link UnknownOpencodeError}.
  */
 import * as Effect from "effect/Effect";
-import * as Base64 from "effect/encoding/Base64";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as Redacted from "effect/Redacted";
 import { Credentials } from "./credentials.ts";
@@ -42,7 +42,7 @@ export const OpencodeProtocol = /*@__PURE__*/ restProtocol({
   headers: (creds): Record<string, string> => {
     const headers: Record<string, string> = {};
     if (creds.password !== undefined) {
-      headers.Authorization = `Basic ${Base64.encode(`${creds.username}:${Redacted.value(creds.password)}`)}`;
+      headers.Authorization = `Basic ${toBase64(`${creds.username}:${Redacted.value(creds.password)}`)}`;
     }
     return headers;
   },

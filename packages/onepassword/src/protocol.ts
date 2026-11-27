@@ -1,3 +1,4 @@
+import { toBase64 } from "@distilled.cloud/core/base64";
 import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
   restProtocol,
@@ -27,7 +28,6 @@ import {
  *             operation's typed error classes by status, then the shared
  *             HTTP-status classes, then {@link UnknownOnepasswordError}.
  */
-import * as Base64 from "effect/encoding/Base64";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as Redacted from "effect/Redacted";
 import {
@@ -128,7 +128,7 @@ export const OAuthProtocol = /*@__PURE__*/ restProtocol({
   credentials: OAuthCredentials,
   baseUrl: (creds) => trimBase(creds.apiBaseUrl),
   headers: (creds) => ({
-    Authorization: `Basic ${Base64.encode(`${creds.clientId}:${Redacted.value(creds.clientSecret)}`)}`,
+    Authorization: `Basic ${toBase64(`${creds.clientId}:${Redacted.value(creds.clientSecret)}`)}`,
   }),
   // RFC 6749 §5.2: `{ error, error_description }`
   errorEnvelope: (body) => {

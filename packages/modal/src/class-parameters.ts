@@ -6,6 +6,7 @@
  * identify the bound function, so they must match what Modal's clients
  * send). This encodes them with the package's descriptors.
  */
+import { toBase64 } from "@distilled.cloud/core/base64";
 import { encodeMessage } from "@distilled.cloud/core/protobuf";
 import { descriptors } from "./descriptors.ts";
 
@@ -26,6 +27,4 @@ export interface ClassParameterValue {
  * in the class's schema order (`classParameterInfo.schema`).
  */
 export const serializeClassParameters = (parameters: ReadonlyArray<ClassParameterValue>): string =>
-  Buffer.from(
-    encodeMessage(descriptors, "modal.client.ClassParameterSet", { parameters }),
-  ).toString("base64");
+  toBase64(encodeMessage(descriptors, "modal.client.ClassParameterSet", { parameters }));

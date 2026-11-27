@@ -7,6 +7,7 @@
  * duplicate-query-key handling, the derived-key cache, and service/region
  * guessing from the host when they are not given.
  */
+import { fromBase64Url, toBase64Url } from "@distilled.cloud/core/base64";
 import * as CoreCrypto from "@distilled.cloud/core/crypto";
 import * as Context from "effect/Context";
 import * as Data from "effect/Data";
@@ -641,9 +642,9 @@ const jwkOf = (d: bigint): JsonWebKey => {
   return {
     kty: "EC",
     crv: "P-256",
-    d: P256.base64Url(P256.toBytes32(d)),
-    x: P256.base64Url(P256.toBytes32(x)),
-    y: P256.base64Url(P256.toBytes32(y)),
+    d: toBase64Url(P256.toBytes32(d)),
+    x: toBase64Url(P256.toBytes32(x)),
+    y: toBase64Url(P256.toBytes32(y)),
   };
 };
 
@@ -735,8 +736,8 @@ export const signingPublicKeyV4a = (
 ): Effect.Effect<{ readonly x: string; readonly y: string }, CryptoError> =>
   Effect.flatMap(deriveSigningKeyV4a(accessKeyId, secretAccessKey), (key) => {
     const hexOf = (jwk: JsonWebKey) => ({
-      x: CoreCrypto.hex(P256.fromBase64Url(jwk.x!)),
-      y: CoreCrypto.hex(P256.fromBase64Url(jwk.y!)),
+      x: CoreCrypto.hex(fromBase64Url(jwk.x!)!),
+      y: CoreCrypto.hex(fromBase64Url(jwk.y!)!),
     });
     const node = via === "auto" ? nodeEcdsa() : undefined;
     if (via === "javascript") return Effect.sync(() => hexOf(jwkOf(key.d)));

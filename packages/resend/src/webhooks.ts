@@ -21,6 +21,7 @@
  * if (event.type === "email.bounced") event.data.bounce.type;
  * ```
  */
+import { fromBase64 } from "@distilled.cloud/core/base64";
 import * as CoreCrypto from "@distilled.cloud/core/crypto";
 import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
@@ -98,20 +99,9 @@ const readHeaders = (source: WebhookHeaderSource): WebhookHeaders => {
   };
 };
 
-const base64ToBytes = (base64: string): Uint8Array<ArrayBuffer> | undefined => {
-  try {
-    const binary = atob(base64);
-    const bytes = new Uint8Array(binary.length);
-    for (let index = 0; index < binary.length; index += 1) bytes[index] = binary.charCodeAt(index);
-    return bytes;
-  } catch {
-    return undefined;
-  }
-};
-
 const secretKeyBytes = (secret: WebhookSecret): Uint8Array<ArrayBuffer> | undefined => {
   const value = Redacted.isRedacted(secret) ? Redacted.value(secret) : secret;
-  const key = base64ToBytes(value.startsWith("whsec_") ? value.slice("whsec_".length) : value);
+  const key = fromBase64(value.startsWith("whsec_") ? value.slice("whsec_".length) : value);
   return key === undefined || key.byteLength === 0 ? undefined : key;
 };
 
@@ -158,7 +148,7 @@ const v1Signatures = (header: string): ReadonlyArray<Uint8Array> =>
     .split(" ")
     .map((entry) => entry.trim())
     .filter((entry) => entry.startsWith("v1,"))
-    .map((entry) => base64ToBytes(entry.slice("v1,".length)) ?? new Uint8Array(0));
+    .map((entry) => fromBase64(entry.slice("v1,".length)) ?? new Uint8Array(0));
 
 /** Fails with {@link ResendWebhookSignatureError} unless the delivery is signed with `secret`. */
 export const verifySignature = ({

@@ -23,6 +23,7 @@
  * from the services they belong to: `process.startProcess`,
  * `process.connectProcess` and `filesystem.watchDir`.
  */
+import { fromBase64 } from "@distilled.cloud/core/base64";
 import { ConfigError } from "@distilled.cloud/core/errors";
 import * as MaxMessageBytes from "@distilled.cloud/core/max-message-bytes";
 import * as Effect from "effect/Effect";
@@ -403,10 +404,12 @@ export const serverStream = (
 // Process
 // =============================================================================
 
-const fromBase64 = (value: unknown): Uint8Array =>
-  typeof value === "string"
-    ? Uint8Array.from(atob(value), (c) => c.charCodeAt(0))
-    : new Uint8Array(0);
+/**
+ * The bytes of a `bytes` member (base64 in proto3 JSON): none when it is
+ * unset, and `undefined` when it is not base64.
+ */
+const bytesOf = (value: unknown): Uint8Array | undefined =>
+  typeof value === "string" ? fromBase64(value) : new Uint8Array(0);
 
 const isRecord = (value: unknown): value is Record<string, any> =>
   value !== null && typeof value === "object";
@@ -418,9 +421,15 @@ export const decodeProcessEvent = (message: unknown): ProcessEvent | E2BParseErr
   if (isRecord(event.start)) return { _tag: "Start", pid: Number(event.start.pid ?? 0) };
   if (isRecord(event.data)) {
     const data = event.data;
-    if (data.stdout !== undefined) return { _tag: "Stdout", data: fromBase64(data.stdout) };
-    if (data.stderr !== undefined) return { _tag: "Stderr", data: fromBase64(data.stderr) };
-    if (data.pty !== undefined) return { _tag: "Pty", data: fromBase64(data.pty) };
+    const output = (_tag: "Stdout" | "Stderr" | "Pty", value: unknown) => {
+      const bytes = bytesOf(value);
+      return bytes === undefined
+        ? new E2BParseError({ body: message, cause: "output is not base64" })
+        : { _tag, data: bytes };
+    };
+    if (data.stdout !== undefined) return output("Stdout", data.stdout);
+    if (data.stderr !== undefined) return output("Stderr", data.stderr);
+    if (data.pty !== undefined) return output("Pty", data.pty);
     return { _tag: "Stdout", data: new Uint8Array(0) };
   }
   if (isRecord(event.end)) {

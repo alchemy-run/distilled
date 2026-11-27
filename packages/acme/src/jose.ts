@@ -6,6 +6,7 @@
  *   (RFC 8555 §6.2), including the HS256 External Account Binding
  * - RFC 7638 JWK thumbprints, key authorizations and the DNS-01 TXT value
  */
+import { fromBase64Url, toBase64Url } from "@distilled.cloud/core/base64";
 import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
 import { JoseError } from "./errors.ts";
@@ -25,22 +26,11 @@ export interface Jwk {
 
 const encoder = /*@__PURE__*/ new TextEncoder();
 
-export const base64url = (bytes: Uint8Array | ArrayBuffer): string => {
-  const view = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes);
-  let binary = "";
-  for (const byte of view) binary += String.fromCharCode(byte);
-  return btoa(binary).replaceAll("+", "-").replaceAll("/", "_").replace(/=+$/, "");
-};
+/** Bytes in base64url, as a JWS carries them. */
+export const base64url = (bytes: Uint8Array | ArrayBuffer): string =>
+  toBase64Url(bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes));
 
-export const base64urlDecode = (text: string): Uint8Array => {
-  const padded = text.replaceAll("-", "+").replaceAll("_", "/");
-  const binary = atob(padded + "=".repeat((4 - (padded.length % 4)) % 4));
-  const out = new Uint8Array(binary.length);
-  for (let i = 0; i < binary.length; i++) out[i] = binary.charCodeAt(i);
-  return out;
-};
-
-const base64urlJson = (value: unknown): string => base64url(encoder.encode(JSON.stringify(value)));
+const base64urlJson = (value: unknown): string => toBase64Url(JSON.stringify(value));
 
 const sha256 = (data: Uint8Array | string): Effect.Effect<Uint8Array, JoseError> =>
   Effect.tryPromise({
@@ -185,7 +175,9 @@ export const signExternalAccountBinding = (options: {
         : options.hmacKey;
       const key = await crypto.subtle.importKey(
         "raw",
-        base64urlDecode(raw) as Uint8Array<ArrayBuffer>,
+        // `undefined` for a key that is not base64url: `importKey` rejects
+        // it, and the catch below reports it.
+        fromBase64Url(raw) as Uint8Array<ArrayBuffer>,
         { name: "HMAC", hash: "SHA-256" },
         false,
         ["sign"],

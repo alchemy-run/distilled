@@ -50,6 +50,7 @@ import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Stream from "effect/Stream";
+import { fromBase64Url } from "./base64.ts";
 import { GrpcTransport, hasTrailers, trailersOf } from "./grpc-transport.ts";
 import * as MaxMessageBytes from "./max-message-bytes.ts";
 import {
@@ -225,11 +226,9 @@ const STATUS_DESCRIPTORS: ProtoDescriptors = {
 
 /** The details of `grpc-status-details-bin` (base64, padding optional). */
 const detailsOf = (raw: string | undefined): ReadonlyArray<unknown> => {
-  if (!raw) return [];
+  const bytes = raw ? fromBase64Url(raw) : undefined;
+  if (bytes === undefined) return [];
   try {
-    const padded = raw.padEnd(raw.length + ((4 - (raw.length % 4)) % 4), "=");
-    const bin = atob(padded.replace(/-/g, "+").replace(/_/g, "/"));
-    const bytes = Uint8Array.from(bin, (c) => c.charCodeAt(0));
     const status = decodeMessage(STATUS_DESCRIPTORS, "google.rpc.Status", bytes) as {
       readonly details: ReadonlyArray<unknown>;
     };

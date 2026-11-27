@@ -20,6 +20,7 @@
  * Which types hold a secret, and how logs and error messages show them, is
  * core's rule (`@distilled.cloud/core/sensitive`).
  */
+import { fromBase64, toBase64 } from "@distilled.cloud/core/base64";
 import { setOwnKey } from "@distilled.cloud/core/plain-values";
 import { encodeKeysKey, type Node } from "@distilled.cloud/core/schema-lite-impl";
 import {
@@ -33,7 +34,6 @@ import type * as AST from "effect/SchemaAST";
 import type { Operation } from "../client/operation.ts";
 import { ParseError } from "../errors.ts";
 import { codecSymbol, isValidDate, type CodecKind } from "../lite.ts";
-import { fromBase64, toBase64 } from "./base64.ts";
 import { formatDateTime } from "./timestamp.ts";
 
 /** A value that does not fit its schema. */
@@ -580,13 +580,11 @@ const codecDecoder = (codec: CodecKind, n: Node, exact: Exactness): Decoder => {
     return (v) => {
       // A binary wire (CBOR) reads bytes as bytes.
       if (v instanceof Uint8Array) return v;
-      if (typeof v !== "string") return exact ? fail("a base64 string", v) : v;
-      try {
-        return fromBase64(v);
-      } catch {
-        // Not base64: the same failure as a non-string.
-        return exact ? fail("a base64 string", v) : v;
-      }
+      // Not base64: the same failure as a non-string.
+      return (
+        (typeof v === "string" ? fromBase64(v) : undefined) ??
+        (exact ? fail("a base64 string", v) : v)
+      );
     };
   const epoch = codec === "epoch-seconds";
   const what = epoch ? "epoch seconds" : "a date string";

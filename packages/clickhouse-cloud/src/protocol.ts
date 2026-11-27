@@ -1,3 +1,4 @@
+import { toBase64 } from "@distilled.cloud/core/base64";
 import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
@@ -25,7 +26,6 @@ import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-
  *           {@link UnknownClickHouseCloudError}).
  */
 import * as Effect from "effect/Effect";
-import * as Base64 from "effect/encoding/Base64";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as Redacted from "effect/Redacted";
 import { Credentials } from "./credentials.ts";
@@ -63,7 +63,7 @@ const makeProtocol = (unwrap: boolean) =>
     credentials: /*@__PURE__*/ Effect.flatten(Credentials),
     baseUrl: (creds) => creds.apiBaseUrl,
     headers: (creds) => ({
-      Authorization: `Basic ${Base64.encode(`${creds.keyId}:${Redacted.value(creds.keySecret)}`)}`,
+      Authorization: `Basic ${toBase64(`${creds.keyId}:${Redacted.value(creds.keySecret)}`)}`,
     }),
     ...(unwrap ? { transformResponse: unwrapResult } : {}),
     unknownError: (info) => new UnknownClickHouseCloudError(unknownErrorProps(info)),

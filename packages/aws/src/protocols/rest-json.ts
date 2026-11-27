@@ -9,6 +9,7 @@
  * - Default timestamp format is epoch-seconds
  */
 
+import { fromBase64, toBase64 } from "@distilled.cloud/core/base64";
 import { InvalidInput } from "@distilled.cloud/core/protocol-http";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import type { Operation } from "@distilled.cloud/s3/client/operation";
@@ -23,7 +24,6 @@ import type { Request } from "@distilled.cloud/s3/client/request";
 import type { Response } from "@distilled.cloud/s3/client/response";
 import type { InputEvent } from "@distilled.cloud/s3/eventstream/serializer";
 import { getEncodedPropertySignatures, getIdentifier } from "@distilled.cloud/s3/util/ast";
-import { fromBase64 } from "@distilled.cloud/s3/util/base64";
 import { inputEncoderSync, outputBody } from "@distilled.cloud/s3/util/codec";
 import {
   extractJsonErrorCode,
@@ -366,7 +366,7 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
       // The body is binary, not a JSON document, so JSON parsing is skipped.
       return Effect.map(readStreamAsBytes(response.body), (bytes) => {
         if (bytes.byteLength > 0) {
-          result[outputPayloadProp.name] = bytesToBase64(bytes);
+          result[outputPayloadProp.name] = toBase64(bytes);
         }
         return result;
       });
@@ -492,14 +492,4 @@ function isRawPayload(ast: AST.AST): boolean {
 function isBlobPayload(ast: AST.AST): boolean {
   if (ast._tag === "Union") return ast.types.some(isBlobPayload);
   return getIdentifier(ast) === "Blob";
-}
-
-/** Base64-encode bytes without blowing the stack on large payloads. */
-function bytesToBase64(bytes: Uint8Array): string {
-  let binary = "";
-  const chunkSize = 0x2000;
-  for (let i = 0; i < bytes.length; i += chunkSize) {
-    binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
-  }
-  return btoa(binary);
 }

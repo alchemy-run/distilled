@@ -1,4 +1,5 @@
 import * as API from "@distilled.cloud/core/api";
+import { toBase64 } from "@distilled.cloud/core/base64";
 import * as CoreCrypto from "@distilled.cloud/core/crypto";
 import {
   type InvalidInput,
@@ -21,7 +22,6 @@ import type { EndpointError, ParseError } from "./errors.ts";
 import * as Region from "./region.ts";
 import { dnsSuffix } from "./rules-engine/aws-functions.ts";
 import * as SigV4 from "./sigv4.ts";
-import { toBase64 } from "./util/base64.ts";
 import { encodeGreedyLabel, encodeLabel, invalidRegion } from "./util/serialize-input.ts";
 import { isStreamBody } from "./util/stream.ts";
 
@@ -570,7 +570,7 @@ export const presignPost: (
           : { key: options.key },
       ],
     });
-    const encodedPolicy = toBase64(new TextEncoder().encode(policy));
+    const encodedPolicy = toBase64(policy);
 
     const signingKey = yield* SigV4.deriveSigningKey({
       secretAccessKey: credentials.secretAccessKey,

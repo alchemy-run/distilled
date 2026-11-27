@@ -1,3 +1,4 @@
+import { toBase64 } from "@distilled.cloud/core/base64";
 import * as EffectConfig from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
 /**
@@ -21,7 +22,6 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  */
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as Base64 from "effect/encoding/Base64";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
@@ -139,4 +139,4 @@ export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PU
 export const authorizationHeader = (auth: Auth): string =>
   auth._tag === "AuthorizationToken"
     ? `Bearer ${Redacted.value(auth.authorizationToken)}`
-    : `Basic ${Base64.encode(`${auth.tokenId}:${Redacted.value(auth.tokenSecret)}`)}`;
+    : `Basic ${toBase64(`${auth.tokenId}:${Redacted.value(auth.tokenSecret)}`)}`;

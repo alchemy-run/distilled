@@ -47,7 +47,8 @@ number.
    merged PRs before you add a helper, trait, error class or schema walker.
    Example: secrets use `core/src/sensitive.ts`, response headers use
    `T.Header`, debug logs use `TelemetryDebug`, HMAC uses
-   `@distilled.cloud/core/crypto`.
+   `@distilled.cloud/core/crypto`, base64 uses
+   `@distilled.cloud/core/base64`.
 6. **Fix it where the problem lives.** A problem every SDK has goes in core. A
    rule of one provider stays in that provider. Example: an Azure path rule in
    core `invalidLabel` would refuse valid S3 keys such as `a//b`.

@@ -1,3 +1,4 @@
+import { fromBase64Url } from "@distilled.cloud/core/base64";
 import { InternalServerError, NotFound } from "@distilled.cloud/core/errors";
 import * as ResponseValidation from "@distilled.cloud/core/response-validation";
 import * as Duration from "effect/Duration";
@@ -10,7 +11,7 @@ import * as Redacted from "effect/Redacted";
 import { beforeEach, describe, expect, test } from "vitest";
 import { layer as credentialsLayer, type Config } from "../src/credentials.ts";
 import { AcmeParseError, UnknownAcmeError } from "../src/errors.ts";
-import { base64url, base64urlDecode, generateAccountKey, type Jwk } from "../src/jose.ts";
+import { base64url, generateAccountKey, type Jwk } from "../src/jose.ts";
 import { resetProtocolCaches, type AcmeOpContext } from "../src/protocol.ts";
 import * as Retry from "../src/retry.ts";
 import {
@@ -153,19 +154,19 @@ const parseJws = (request: Recorded) => {
   expect(request.contentType).toBe("application/jose+json");
   const jws = JSON.parse(request.body!) as Jws;
   expect(Object.keys(jws).sort()).toEqual(["payload", "protected", "signature"]);
-  const header = JSON.parse(decoder.decode(base64urlDecode(jws.protected))) as ProtectedHeader;
+  const header = JSON.parse(decoder.decode(fromBase64Url(jws.protected)!)) as ProtectedHeader;
   const payload =
-    jws.payload === "" ? undefined : JSON.parse(decoder.decode(base64urlDecode(jws.payload)));
+    jws.payload === "" ? undefined : JSON.parse(decoder.decode(fromBase64Url(jws.payload)!));
   return { jws, header, payload };
 };
 
 const verify = async (jws: Jws, publicKey: JsonWebKey, alg: "ES256" | "RS256" | "HS256") => {
   const data = new TextEncoder().encode(`${jws.protected}.${jws.payload}`);
-  const signature = base64urlDecode(jws.signature) as Uint8Array<ArrayBuffer>;
+  const signature = fromBase64Url(jws.signature)!;
   if (alg === "HS256") {
     const key = await crypto.subtle.importKey(
       "raw",
-      base64urlDecode(publicKey.k!) as Uint8Array<ArrayBuffer>,
+      fromBase64Url(publicKey.k!)!,
       { name: "HMAC", hash: "SHA-256" },
       false,
       ["verify"],
@@ -379,9 +380,9 @@ describe("JWS request signing", () => {
     const { jws, payload } = parseJws(posts(ca)[0]!);
     expect(await verify(jws, publicOf(ecJwk), "ES256")).toBe(true);
     const eab = payload.externalAccountBinding as Jws;
-    const eabHeader = JSON.parse(decoder.decode(base64urlDecode(eab.protected)));
+    const eabHeader = JSON.parse(decoder.decode(fromBase64Url(eab.protected)!));
     expect(eabHeader).toEqual({ alg: "HS256", kid: "eab-kid", url: ca.urls.newAccount });
-    expect(JSON.parse(decoder.decode(base64urlDecode(eab.payload)))).toEqual({
+    expect(JSON.parse(decoder.decode(fromBase64Url(eab.payload)!))).toEqual({
       crv: "P-256",
       kty: "EC",
       x: ecJwk.x,
