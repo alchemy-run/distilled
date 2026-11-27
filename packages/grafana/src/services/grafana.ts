@@ -2380,6 +2380,17 @@ export interface Field {
 }
 /** Fields are the columns of a frame. All Fields must be of the same the length when marshalling the Frame for transmission. There should be no `nil` entries in the Fields slice (making them pointers was a mistake). */
 export type FrameFieldsList = Array<Field>;
+/** Fields has one entry for each field of the frame that continues. The entry is the index of the same field in the earlier frame, or -1 for a new field. Each field of the earlier frame must have exactly one entry. */
+export type FrameContinuationFieldsList = Array<number>;
+/** A later chunk of a frame in a chunked response has only data, so a producer cannot add fields to a frame that it already sent. When a wide time series gets a new series after its first chunk, the producer starts a new frame with all the fields, and sets FrameMeta.Continues on its first chunk. A receiver that builds the full response joins the two frames with JoinContinuation, so that the response has the frame that one conversion of all rows gives. A frame can be continued only once, and its frame ID takes no more chunks after that. */
+export interface FrameContinuation {
+  /** Fields has one entry for each field of the frame that continues. The entry is the index of the same field in the earlier frame, or -1 for a new field. Each field of the earlier frame must have exactly one entry. */
+  fields?: FrameContinuationFieldsList | undefined;
+  /** FillValue is the value of the new fields in the rows of the earlier frame. When it is nil, these rows keep the zero value of the field type, which is null for a nullable field. LongToWide gives the same values to the earlier rows of a series that starts late. */
+  fillValue?: number | undefined;
+  /** FrameID is the frame ID of the earlier frame, in the same refId. */
+  frameId?: string | undefined;
+}
 export interface Notice {
   inspect?: number | undefined;
   /** Link is an optional link for display in the user interface and can be an absolute URL or a path relative to Grafana's root url. */
@@ -2439,6 +2450,7 @@ export type FrameMetaUniqueRowIdFieldsList = Array<number>;
 export interface FrameMeta {
   /** Channel is the path to a stream in grafana live that has real-time updates for this data. */
   channel?: string | undefined;
+  continues?: FrameContinuation | undefined;
   /** Custom datasource specific values. */
   custom?: unknown | undefined;
   dataTopic?: string | undefined;
@@ -6445,7 +6457,7 @@ export const queryMetricsWithExpressions: API.OperationMethod<
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<QueryMetricsWithExpressionsRequest>,
-  output: __S(2999, __c93, 23) as any as S.Schema<QueryDataResponse>,
+  output: __S(3000, __c93, 24) as any as S.Schema<QueryDataResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -6463,7 +6475,7 @@ export const queryPublicDashboard: API.OperationMethod<
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<QueryPublicDashboardRequest>,
-  output: __S(2999, __c93, 23) as any as S.Schema<QueryDataResponse>,
+  output: __S(3000, __c93, 24) as any as S.Schema<QueryDataResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
@@ -9811,15 +9823,23 @@ function __c93(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
+          fields: S.optional(__S(9504, __c297, 0)),
+          fillValue: S.optional(S.Number),
+          frameId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FrameContinuation" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
           inspect: S.optional(S.Number),
           link: S.optional(S.String),
           severity: S.optional(S.Number),
           text: S.optional(S.String),
         }),
       ).annotate({ identifier: "Notice" });
-    case 15:
-      return S.Array(__S(2990, __c93, 14));
     case 16:
+      return S.Array(__S(2991, __c93, 15));
+    case 17:
       return S.suspend(() =>
         S.Struct({
           color: S.optional(__S(32, __c1, 0)),
@@ -9843,52 +9863,53 @@ function __c93(j: number): any {
           writeable: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "QueryStat" });
-    case 17:
-      return S.Array(__S(2992, __c93, 16));
     case 18:
+      return S.Array(__S(2993, __c93, 17));
+    case 19:
       return S.suspend(() =>
         S.Struct({
           channel: S.optional(S.String),
+          continues: S.optional(__S(2990, __c93, 14)),
           custom: S.optional(S.Unknown),
           dataTopic: S.optional(S.String),
           executedQueryString: S.optional(S.String),
-          notices: S.optional(__S(2991, __c93, 15)),
+          notices: S.optional(__S(2992, __c93, 16)),
           path: S.optional(S.String),
           pathSeparator: S.optional(S.String),
           preferredVisualisationPluginId: S.optional(S.String),
           preferredVisualisationType: S.optional(S.String),
-          stats: S.optional(__S(2993, __c93, 17)),
+          stats: S.optional(__S(2994, __c93, 18)),
           type: S.optional(S.String),
           typeVersion: S.optional(__S(9504, __c297, 0)),
           uniqueRowIdFields: S.optional(__S(9504, __c297, 0)),
         }),
       ).annotate({ identifier: "FrameMeta" });
-    case 19:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           Fields: S.optional(__S(2989, __c93, 13)),
-          Meta: S.optional(__S(2994, __c93, 18)),
+          Meta: S.optional(__S(2995, __c93, 19)),
           Name: S.optional(S.String),
           RefID: S.optional(S.String),
         }),
       ).annotate({ identifier: "Frame" });
-    case 20:
-      return S.Array(__S(2995, __c93, 19));
     case 21:
+      return S.Array(__S(2996, __c93, 20));
+    case 22:
       return S.suspend(() =>
         S.Struct({
           Error: S.optional(S.String),
           ErrorSource: S.optional(S.String),
-          Frames: S.optional(__S(2996, __c93, 20)),
+          Frames: S.optional(__S(2997, __c93, 21)),
           Status: S.optional(S.Number),
         }),
       ).annotate({ identifier: "DataResponse" });
-    case 22:
-      return S.Record(S.String, __S(2997, __c93, 21));
     case 23:
+      return S.Record(S.String, __S(2998, __c93, 22));
+    case 24:
       return S.suspend(() =>
         S.Struct({
-          results: S.optional(__S(2998, __c93, 22)),
+          results: S.optional(__S(2999, __c93, 23)),
         }),
       ).annotate({ identifier: "QueryDataResponse" });
   }
