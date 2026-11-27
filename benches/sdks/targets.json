@@ -1987,7 +1987,7 @@
       "pkg": "prisma",
       "imports": {
         "Credentials": "pkg:credentials",
-        "Op": "pkg:services/management"
+        "Op": "pkg:unstable-services/management"
       },
       "auth": "Credentials.CredentialsFromEnv",
       "call": "Op.getBuilds({})",

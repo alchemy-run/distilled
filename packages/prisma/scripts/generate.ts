@@ -4,7 +4,8 @@ import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
  * generate — turn the Smithy JSON model in .generated-specs into an Effect SDK.
  *
  * Input:  .generated-specs/management.json  (from scripts/convert.ts)
- * Output: src/services/management.ts  +  services/index.ts
+ * Output: src/services/management.ts  +  services/index.ts, and the
+ *         operations convert marks unstable in src/unstable-services/
  *
  * The smithy→SDK compiler and CLI pipeline live in
  * `@distilled.cloud/dev/codegen`; this script is Prisma's provider
@@ -101,6 +102,7 @@ runGeneratorCli({
   // The RFC-6902 patch chain applies to the OpenAPI document in
   // scripts/convert.ts, not to the Smithy model.
   patchesDir: false,
+  unstableOutDir: "src/unstable-services",
   spec: () => spec,
   // A bucket's S3 API, under the management import path; the layer is
   // hand-written.

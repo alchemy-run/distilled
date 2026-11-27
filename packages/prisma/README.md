@@ -14,9 +14,10 @@ npm install @distilled.cloud/prisma effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Prisma from "@distilled.cloud/prisma";
+import * as Management from "@distilled.cloud/prisma/management";
 
 const program = Effect.gen(function* () {
-  const result = yield* Prisma.getBranch({});
+  const result = yield* Management.getProjects({});
   return result;
 });
 
@@ -26,6 +27,16 @@ const Live = Layer.mergeAll(
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
+```
+
+## Experimental operations
+
+Prisma marks some operations `x-prisma-stability: experimental` and tags them `[Experimental]` in its spec: branches, compute services and deployments, environment variables, domains and source repositories, among others. They are not in `management`. Import them from `unstable/management`:
+
+```ts
+import * as ManagementUnstable from "@distilled.cloud/prisma/unstable/management";
+
+const branch = ManagementUnstable.getBranch({ branchId: "your-branch-id" });
 ```
 
 ## Auth
