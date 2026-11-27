@@ -10,10 +10,16 @@ on:
 
 permissions:
   contents: write
+  # report-issues.ts reads this run's jobs to link the step that failed.
+  actions: read
 
 jobs:
   fetch-and-commit:
     runs-on: ubuntu-latest
+    env:
+      # Written into every mirror by stacks/distilled-monorepo. A mirror
+      # without them skips the issue steps below and warns.
+      HAS_ISSUE_APP: ${{ secrets.SPEC_MIRROR_APP_CLIENT_ID != '' && secrets.SPEC_MIRROR_APP_PRIVATE_KEY != '' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -44,6 +50,7 @@ jobs:
         run: pnpm run fetch-specs
 
       - name: Commit and push if changed
+        id: push
         run: |
           git add -A
           if git diff --cached --quiet; then
@@ -53,4 +60,47 @@ jobs:
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git commit -m "feat: update specs $(date -u +%Y-%m-%d)"
             git push
+            echo "pushed=true" >> "$GITHUB_OUTPUT"
+            echo "commit=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
           fi
+
+      # The issues live in alchemy-run/distilled, which this run's
+      # GITHUB_TOKEN cannot write. The spec-mirror GitHub App is installed
+      # there with Issues: write and nothing else.
+      - name: Warn that issue reporting is off
+        if: ${{ !cancelled() && env.HAS_ISSUE_APP != 'true' }}
+        run: echo "::warning::SPEC_MIRROR_APP_CLIENT_ID or SPEC_MIRROR_APP_PRIVATE_KEY is not set, so this run reports nothing to alchemy-run/distilled. stacks/distilled-monorepo writes both."
+
+      - name: Mint an issue token for alchemy-run/distilled
+        id: issue-token
+        if: ${{ !cancelled() && env.HAS_ISSUE_APP == 'true' }}
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ secrets.SPEC_MIRROR_APP_CLIENT_ID }}
+          private-key: ${{ secrets.SPEC_MIRROR_APP_PRIVATE_KEY }}
+          owner: alchemy-run
+          repositories: distilled
+          permission-issues: write
+
+      - name: Close a fixed fetch issue
+        if: ${{ success() && steps.issue-token.outcome == 'success' }}
+        env:
+          ISSUES_TOKEN: ${{ steps.issue-token.outputs.token }}
+          ISSUES_REPO: alchemy-run/distilled
+        run: node .meta/report-issues.ts passed
+
+      - name: Report a spec update
+        if: ${{ success() && steps.push.outputs.pushed == 'true' && steps.issue-token.outcome == 'success' }}
+        env:
+          ISSUES_TOKEN: ${{ steps.issue-token.outputs.token }}
+          ISSUES_REPO: alchemy-run/distilled
+          COMMIT: ${{ steps.push.outputs.commit }}
+        run: node .meta/report-issues.ts updated
+
+      - name: Report a failed fetch
+        if: ${{ failure() && steps.issue-token.outcome == 'success' }}
+        env:
+          ISSUES_TOKEN: ${{ steps.issue-token.outputs.token }}
+          ISSUES_REPO: alchemy-run/distilled
+          RUN_TOKEN: ${{ github.token }}
+        run: node .meta/report-issues.ts failed

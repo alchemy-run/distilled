@@ -4,7 +4,8 @@
 #
 # Runs on every push to main. Usually a no-op: GitHub.Repository converges
 # settings against the live repositories, and the SyncScaffold action skips
-# when the scaffold digest is unchanged.
+# when the scaffold digest is unchanged. A second job turns back on any
+# mirror schedule GitHub disabled for inactivity.
 #
 # Every credential below is provisioned as code by stacks/distilled-monorepo,
 # which is deployed by hand with an admin profile and never from CI.
@@ -67,3 +68,33 @@ jobs:
         # --yes auto-accepts prompts (e.g. a state-store version upgrade),
         # which would otherwise hang a non-interactive CI run.
         run: pnpm exec alchemy deploy --stage prod --yes
+
+  # GitHub turns off a mirror's nightly schedule after 60 days without a
+  # commit, and a disabled workflow can't file its own issue. Turn those back
+  # on. Its own job, so a failure here never blocks the deploy above.
+  enable-schedules:
+    name: Re-enable disabled spec-mirror schedules
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          sparse-checkout: |
+            scripts/spec-mirrors
+            package.json
+            .node-version
+
+      - name: Setup Node.js
+        uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
+        with:
+          install: false
+
+      # Enabling a workflow needs Actions: Read and write on the mirrors,
+      # which the org PAT carries next to Administration, Contents and
+      # Workflows.
+      - name: Enable the schedules GitHub disabled for inactivity
+        env:
+          GH_TOKEN: ${{ secrets.ALCHEMY_GITHUB_TOKEN }}
+          DISTILLED_REPOS_OWNER: ${{ vars.DISTILLED_REPOS_OWNER }}
+        run: node scripts/spec-mirrors/enable-schedules.ts

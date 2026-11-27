@@ -52,12 +52,24 @@ it ever reaching a terminal or a CI log.
 | `DISCORD_WEBHOOK_URL` | secret | `DISCORD_WEBHOOK_URL` | release |
 | `DISTILLED_REPOS_OWNER` | variable | `DISTILLED_REPOS_OWNER`, default `distilled-mirror` | submodules stack |
 
-One credential goes to a mirror, not to this repository:
+Two credentials go to the mirrors, not to this repository:
 
 | name | kind | repository | source | read by |
 |---|---|---|---|---|
 | `AWS_ACCESS_KEY_ID` | secret | `distilled-mirror/spec-mirror-aws` | minted here | `update-specs.yml` |
 | `AWS_SECRET_ACCESS_KEY` | secret | `distilled-mirror/spec-mirror-aws` | minted here | `update-specs.yml` |
+| `SPEC_MIRROR_APP_CLIENT_ID` | secret | every mirror in `SPEC_REPOS` | `SPEC_MIRROR_APP_CLIENT_ID`, else left as it is | `update-specs.yml` |
+| `SPEC_MIRROR_APP_PRIVATE_KEY` | secret | every mirror in `SPEC_REPOS` | `SPEC_MIRROR_APP_PRIVATE_KEY`, else left as it is | `update-specs.yml` |
+
+Every mirror files its own issues in this repository: a failed nightly fetch
+(`Nightly spec fetch failed: spec-mirror-<pkg>`) and a pushed spec update
+(`Spec updated: spec-mirror-<pkg>`). A mirror's `GITHUB_TOKEN` cannot write
+here, so each run mints a token from the spec-mirror GitHub App: owned by
+alchemy-run, installed on `alchemy-run/distilled` only, with **Issues: Read
+and write** and nothing else. The stack reads the mirror list from
+`stacks/distilled-submodules/SpecRepos.ts` and writes the App's client id and
+private key into each mirror, so a new mirror gets them on the next deploy.
+Set both values or neither.
 
 The AWS mirror also mirrors the EventBridge `aws.events` schema registry: the
 schemas of the events AWS services send, such as an SES bounce or complaint.
@@ -127,6 +139,8 @@ cd stacks/distilled-monorepo
 DISCORD_WEBHOOK_URL=<#releases webhook> \
 ALCHEMY_VERSION_BOT_PRIVATE_KEY="$(cat alchemy-version-bot.pem)" \
 DISTILLED_REPOS_PAT=<org fine-grained PAT> \
+SPEC_MIRROR_APP_CLIENT_ID=<client id> \
+SPEC_MIRROR_APP_PRIVATE_KEY="$(cat spec-mirror-app.pem)" \
   pnpm exec alchemy deploy --stage prod --profile <admin profile>
 ```
 
@@ -157,6 +171,6 @@ The admin profile needs Cloudflare permission to *create API tokens* — the
 Global API Key, or a token with `User > API Tokens > Write` and
 `Account > API Tokens > Write`. A standard "Edit Cloudflare Workers" token
 cannot mint other tokens. It also needs admin on `alchemy-run/distilled`, to
-converge the repository settings, and on `distilled-mirror/spec-mirror-aws`,
-to write its secrets. Its AWS credentials need IAM permission to create a user,
+converge the repository settings, and on the `distilled-mirror` repositories,
+to write their secrets. Its AWS credentials need IAM permission to create a user,
 its inline policy and an access key.

@@ -192,6 +192,7 @@ type ScaffoldEntry = readonly [source: string, target: string];
 export const SHARED: readonly ScaffoldEntry[] = [
   ["gitignore", ".gitignore"],
   ["tsconfig.json", ".meta/tsconfig.json"],
+  ["report-issues.ts", ".meta/report-issues.ts"],
   ["update-specs.yml", ".github/workflows/update-specs.yml"],
 ];
 
