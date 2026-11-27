@@ -34,11 +34,13 @@ import { refreshing } from "@distilled.cloud/core/token-cache";
  * ```
  */
 import * as Effect from "effect/Effect";
+import * as Base64 from "effect/encoding/Base64";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as HttpClient from "effect/http/HttpClient";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
+import * as Result from "effect/Result";
 import {
   type Config,
   Credentials,
@@ -128,7 +130,9 @@ const pkcs8Der = (pem: string): Uint8Array | undefined => {
     pem,
   );
   if (!match) return undefined;
-  const body = Uint8Array.from(atob(match[2]!.replace(/\s+/g, "")), (c) => c.charCodeAt(0));
+  const decoded = Base64.decode(match[2]!.replace(/\s+/g, ""));
+  if (Result.isFailure(decoded)) return undefined;
+  const body = decoded.success;
   if (!match[1]) return body;
   return Uint8Array.from(der(0x30, [...PKCS8_VERSION, ...RSA_ALGORITHM, ...der(0x04, body)]));
 };
