@@ -9911,7 +9911,7 @@ export const listPagesBuilds: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListPlanningStatusesError = GithubOpError;
-/** List planning statuses for a repository Lists the selectable planning statuses available. Planning statuses are returned in deterministic display order: Backlog, Todo, In progress, In review, Done, Not planned, and Duplicate. Clients should expect new keys to be added. Returns `404 Not Found` when issue statuses aren't available in the repository. > [!NOTE] > Issue statuses are in public preview and subject to change. They're rolling out gradually, so they might not be available in your repositories yet. You need read access to the repository's issues to use this endpoint. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository. Fine-grained access tokens require the "Issues" repository permission (read). */
+/** List planning statuses for a repository Lists the selectable planning statuses available. Planning statuses are returned in deterministic display order: Backlog, Todo, In progress, In review, Done, Not planned, and Duplicate. Clients should expect new keys to be added. Returns `404 Not Found` when issue statuses aren't available in the repository. > [!NOTE] > Issue statuses are in public preview and subject to change. You need read access to the repository's issues to use this endpoint. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository. Fine-grained access tokens require the "Issues" repository permission (read). */
 export const listPlanningStatuses: API.OperationMethod<
   ListPlanningStatusesRequest,
   ListPlanningStatusesResponse,
