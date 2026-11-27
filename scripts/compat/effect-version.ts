@@ -4,9 +4,10 @@
  *
  *   node scripts/compat/effect-version.ts lowest|latest [--write]
  *
- * `lowest` is the range's floor (`^4.1.2` -> 4.1.2). `latest` is the newest
- * stable release in the range that is older than the workspace's minimum
- * release age (1 day), so `pnpm install` accepts it. `--write` adds
+ * `lowest` is the range's floor (`~4.1.7` -> 4.1.7). `latest` is the newest
+ * stable release in the range (same minor for `~`, same major for `^`) that
+ * is older than the workspace's minimum release age (1 day), so `pnpm
+ * install` accepts it. `--write` adds
  * `overrides` for `effect` and `@effect/platform-node` (released in step
  * with it) to pnpm-workspace.yaml; then run `pnpm install
  * --no-frozen-lockfile`. Prints the version.
@@ -28,12 +29,13 @@ if (which !== "lowest" && which !== "latest") {
 }
 
 const yaml = fs.readFileSync(WORKSPACE, "utf8");
-const range = /^ {2}effect: "\^(\d+)\.(\d+)\.(\d+)"$/m.exec(yaml);
+const range = /^ {2}effect: "([~^])(\d+)\.(\d+)\.(\d+)"$/m.exec(yaml);
 if (!range) {
-  console.error('pnpm-workspace.yaml: no catalog entry `effect: "^x.y.z"`');
+  console.error('pnpm-workspace.yaml: no catalog entry `effect: "~x.y.z"` or `"^x.y.z"`');
   process.exit(1);
 }
-const floor = range.slice(1, 4).map(Number) as [number, number, number];
+const sameMinor = range[1] === "~";
+const floor = range.slice(2, 5).map(Number) as [number, number, number];
 
 const parse = (v: string) => {
   const m = /^(\d+)\.(\d+)\.(\d+)$/.exec(v);
@@ -58,7 +60,11 @@ if (which === "latest") {
   const candidates = Object.entries(effect)
     .flatMap(([v, at]) => {
       const p = parse(v);
-      return p && p[0] === floor[0] && compare(p, floor) >= 0 && Date.parse(at) < cutoff
+      return p &&
+        p[0] === floor[0] &&
+        (!sameMinor || p[1] === floor[1]) &&
+        compare(p, floor) >= 0 &&
+        Date.parse(at) < cutoff
         ? [{ v, p }]
         : [];
     })

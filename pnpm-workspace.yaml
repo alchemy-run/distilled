@@ -24,7 +24,7 @@ allowBuilds:
 blockExoticSubdeps: false
 
 catalog:
-  "@effect/platform-node": "^4.1.4"
+  "@effect/platform-node": "~4.1.7"
   "@oxc-project/types": "^0.153.0"
   "@types/node": "26.6.5"
   "@alchemy.run/aws": "https://pkg.alchemy.run/@alchemy.run/aws/branch:main"
@@ -32,7 +32,7 @@ catalog:
   "@alchemy.run/github": "https://pkg.alchemy.run/@alchemy.run/github/branch:main"
   alchemy: "https://pkg.alchemy.run/alchemy/branch:main"
   changelogithub: "^13.16.1"
-  effect: "^4.1.4"
+  effect: "~4.1.7"
   # Only benches/bundlers: the bundlers it checks the published SDKs against.
   esbuild: "^0.28.2"
   graphql: "^16.11.0"
@@ -50,6 +50,12 @@ catalog:
   # Only benches/bundlers: the runtime the workerd bundle runs in (nightly).
   workerd: "1.20261026.1"
   yaml: "^2.9.1"
+
+# Effect releases newer than the minimum release age.
+minimumReleaseAgeExclude:
+  - "@effect/platform-node-shared@4.1.7"
+  - "@effect/platform-node@4.1.7"
+  - effect@4.1.7
 
 # Benchmark-only (benches/sdks official SDK suite): AWS SDK v3 internals pinned
 # to releases older than the minimum release age.
