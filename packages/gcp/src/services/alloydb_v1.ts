@@ -299,7 +299,7 @@ export interface UserPassword {
   /** The database username. */
   user?: string | undefined;
   /** The initial password for the user. */
-  password?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
 }
 /** MaintenanceSchedule stores the maintenance schedule generated from the MaintenanceUpdatePolicy, once a maintenance rollout is triggered, if MaintenanceWindow is set, and if there is no conflicting DenyPeriod. The schedule is cleared once the update takes place. This field cannot be manually changed; modify the MaintenanceUpdatePolicy instead. */
 export interface MaintenanceSchedule {
@@ -998,7 +998,7 @@ export interface User {
   /** Input only. If the user already exists and it has additional roles, keep them granted. */
   keepExtraRoles?: boolean | undefined;
   /** Input only. Password for the user. */
-  password?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Optional. Type of this user. */
   userType?: UserUserTypeEnum | (string & {}) | undefined;
   /** Optional. List of database roles this user has. The database role strings are subject to the PostgreSQL naming conventions. */
@@ -3812,7 +3812,7 @@ function __c49(j: number): any {
       return S.suspend(() =>
         S.Struct({
           user: S.optional(S.String),
-          password: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "UserPassword" });
     case 8:
@@ -4318,7 +4318,7 @@ function __c54(j: number): any {
       return S.suspend(() =>
         S.Struct({
           keepExtraRoles: S.optional(S.Boolean),
-          password: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           userType: S.optional(S.String),
           databaseRoles: S.optional(__S(1472, __c46, 0)),
           name: S.optional(S.String),

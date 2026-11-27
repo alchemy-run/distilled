@@ -797,7 +797,7 @@ export interface GoogleChromeManagementVersionsV1MipLabelConfig {
 /** Splunk connector config. */
 export interface GoogleChromeManagementVersionsV1SplunkConfig {
   /** Required. Input only. The data input's HTTP Event Collector token to use as an Authorization header. Must be at most 50 characters. */
-  hecToken?: string | undefined;
+  hecToken?: string | Redacted.Redacted<string> | undefined;
   /** Required. Host to identify the customer specific server to receive the events. Must be at most 256 characters. */
   host?: string | undefined;
   /** Optional. Optional source name to override the default one set in the Splunk admin console. Must be at most 100 characters. */
@@ -940,7 +940,7 @@ export interface GoogleChromeManagementVersionsV1EnrollmentToken {
   /** Output only. Unique identifier of the enrollment token used to access information on tokens. */
   tokenPermanentId?: string | undefined;
   /** Output only. The value of the token stored on the device and used to identify it to the management service handling the enrollment request. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** Optional. Obfuscated ID of the organization unit this token is associated with. If not set, the token is created for the root organization unit. */
   orgUnitId?: string | undefined;
 }
@@ -6242,7 +6242,7 @@ function __c18(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          hecToken: S.optional(S.String),
+          hecToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           host: S.optional(S.String),
           source: S.optional(S.String),
           reportingSettings: S.optional(__S(576, __c18, 0)),
@@ -6344,7 +6344,7 @@ function __c20(j: number): any {
           revokerId: S.optional(S.String),
           tokenType: S.optional(S.String),
           tokenPermanentId: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           orgUnitId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleChromeManagementVersionsV1EnrollmentToken" });
