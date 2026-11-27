@@ -200,6 +200,13 @@ export type BillingStatus =
 
 /** Possible certificate validation error codes */
 export type CertificateValidationErrorCodeEnum =
+  | "DNS_NOT_CONFIGURED"
+  | "DNS_RECORD_MISMATCH"
+  | "DNS_RECORD_PARTIAL_MATCH"
+  | "NO_ALLOCATED_IPS"
+  | "IPV6_NOT_ALLOCATED"
+  | "CAA_RECORD_INVALID"
+  | "CAA_RECORD_MISSING_FLY"
   | "HTTP_IPV6_REQUIRED"
   | "OWNERSHIP_VERIFICATION_REQUIRED"
   | "HTTP_HOSTNAME_MISMATCH"
@@ -211,14 +218,7 @@ export type CertificateValidationErrorCodeEnum =
   | "TLS_HANDLER_MISSING"
   | "CONFLICTING_PORT_443_SERVICES"
   | "RATE_LIMITED"
-  | "OWNERSHIP_TXT_MISMATCH"
-  | "DNS_NOT_CONFIGURED"
-  | "DNS_RECORD_MISMATCH"
-  | "DNS_RECORD_PARTIAL_MATCH"
-  | "NO_ALLOCATED_IPS"
-  | "IPV6_NOT_ALLOCATED"
-  | "CAA_RECORD_INVALID"
-  | "CAA_RECORD_MISSING_FLY";
+  | "OWNERSHIP_TXT_MISMATCH";
 
 /** All available http checks verbs */
 export type CheckHTTPVerb = "GET" | "HEAD";
@@ -1138,6 +1138,13 @@ export interface AppCertificateEdge {
 
 export interface AppCertificateValidationError {
   readonly errorCode:
+    | "DNS_NOT_CONFIGURED"
+    | "DNS_RECORD_MISMATCH"
+    | "DNS_RECORD_PARTIAL_MATCH"
+    | "NO_ALLOCATED_IPS"
+    | "IPV6_NOT_ALLOCATED"
+    | "CAA_RECORD_INVALID"
+    | "CAA_RECORD_MISSING_FLY"
     | "HTTP_IPV6_REQUIRED"
     | "OWNERSHIP_VERIFICATION_REQUIRED"
     | "HTTP_HOSTNAME_MISMATCH"
@@ -1150,13 +1157,6 @@ export interface AppCertificateValidationError {
     | "CONFLICTING_PORT_443_SERVICES"
     | "RATE_LIMITED"
     | "OWNERSHIP_TXT_MISMATCH"
-    | "DNS_NOT_CONFIGURED"
-    | "DNS_RECORD_MISMATCH"
-    | "DNS_RECORD_PARTIAL_MATCH"
-    | "NO_ALLOCATED_IPS"
-    | "IPV6_NOT_ALLOCATED"
-    | "CAA_RECORD_INVALID"
-    | "CAA_RECORD_MISSING_FLY"
     | null;
   readonly message: string;
   readonly remediation: string | null;
