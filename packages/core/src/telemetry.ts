@@ -27,7 +27,6 @@
  *
  * No span is recorded unless the app installs a tracer (an exporter).
  */
-import * as Cause from "effect/Cause";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import type * as Exit from "effect/Exit";
@@ -37,7 +36,6 @@ import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Redacted from "effect/Redacted";
-import * as References from "effect/References";
 import type * as AST from "effect/SchemaAST";
 import type * as Stream from "effect/Stream";
 import * as Tracer from "effect/Tracer";
@@ -689,36 +687,6 @@ const exporting = (fiber: Fiber.Fiber<unknown, unknown>): boolean => {
 };
 
 /**
- * On failure only, add the operation as a stack frame at the caller's line,
- * so `Cause.pretty` prints `at S3.GetObject (user.ts:12:5)`. Success pays
- * one `catchCause`; no stack-frame context is provided per call.
- */
-const withFailureFrame = <A, E, R>(
-  body: Effect.Effect<A, E, R>,
-  name: string,
-  callSite: (() => string | undefined) | undefined,
-): Effect.Effect<A, E, R> =>
-  callSite === undefined
-    ? body
-    : Effect.catchCause(body, (cause) =>
-        Effect.withFiber((fiber) =>
-          Effect.failCause(
-            Cause.annotate(
-              cause,
-              Context.make(Cause.StackTrace, {
-                name,
-                stack: callSite,
-                parent:
-                  Context.getOrUndefined(Cause.annotations(cause), Cause.StackTrace) ??
-                  fiber.getRef(References.CurrentStackFrame),
-              }),
-              { overwrite: true },
-            ),
-          ),
-        ),
-      );
-
-/**
  * One operation call (every attempt), with or without debug hooks.
  *
  *   no exporter: no span. Effect's HTTP span is switched off too (nobody
@@ -769,7 +737,7 @@ const traceCall = <A, E, R>(
       const span = Context.getOrUndefined(fiber.context, Tracer.ParentSpan);
       if (span !== undefined) body = Effect.provideService(body, Forward, { span, propagate });
     }
-    return withFailureFrame(body, info.name, callSite);
+    return body;
   }
   const attributes: Record<string, unknown> =
     debug !== undefined
@@ -826,7 +794,7 @@ const traceCall = <A, E, R>(
     info.hold === undefined
       ? Effect.useSpan(name, options, inSpan)
       : info.hold(fiber, name, options, debug, inSpan);
-  return withFailureFrame(traced, info.name, callSite);
+  return traced;
 };
 
 //#endregion

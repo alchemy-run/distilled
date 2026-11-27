@@ -7,6 +7,10 @@
  * would. It is typed, so it fails the call instead of crashing the fiber,
  * and it is never retried.
  *
+ * It is also what a call fails with when something under it threw (the
+ * defect boundary, `failed` in `./api.ts`): the message names the operation
+ * and what was thrown, and `cause` is the thrown value.
+ *
  * Defined on its own, in core's `base` bundle group, so pagination and
  * the protocols fail with it without importing the REST modules.
  */
