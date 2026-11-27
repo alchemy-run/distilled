@@ -1,0 +1,15 @@
+{
+  "description": "A vault item field's `value` holds the item's secret: for a `CONCEALED` field or one with purpose `PASSWORD` it is the password itself. The Connect API reference shows it in the clear in the item examples (a `CONCEALED` field with `\"value\": \"mjXehR*uCj!aoe!iktt9KMtWb\"`), but the generic name `value` is not one the shared secret-name rule reads, so Field.value (the output of getVaultItemById, createVaultItem, updateVaultItem and updateVaultItemByItemUuid) and FieldInput.value (their input) were plain strings. The spec has one `value` member for every field type, so a username or URL is wrapped too; that errs on the safe side. Source: the 1Password Connect OpenAPI document and API reference in spec-mirror-onepassword (2026-11-12).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.onepassword.connect#Field/members/value/traits",
+      "value": { "smithy.api#sensitive": {} }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.onepassword.connect#FieldInput/members/value/traits",
+      "value": { "smithy.api#sensitive": {} }
+    }
+  ]
+}
