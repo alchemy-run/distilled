@@ -1,0 +1,15 @@
+{
+  "description": "`db_pass` is the Postgres password of a project or branch, but the shared secret-name rule can't read the abbreviated name, so it stays a plain string. The spec describes V1CreateAProjectRequest.db_pass (v1CreateAProject input) as 'Database password', and BranchDetailResponseOutput (v1GetABranchConfig output) returns it beside db_host, db_port and db_user, the connection details of the branch database; its sibling jwt_secret is already sensitive. Mark both sensitive. Source: the OpenAPI document in spec-mirror-supabase (2026-11-20).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#V1CreateAProjectRequest/members/db_pass/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.supabase.api#BranchDetailResponseOutput/members/db_pass/traits",
+      "value": { "smithy.api#sensitive": {} }
+    }
+  ]
+}
