@@ -1,52 +1,29 @@
 #!/usr/bin/env -S node --conditions=bun
 /**
- * convert — Whop's two OpenAPI descriptions → Smithy JSON models in
+ * convert — Whop's OpenAPI description → Smithy JSON models in
  * .generated-specs.
  *
- * Whop documents ONE HTTP API through TWO reference surfaces, each with its
- * own OpenAPI 3.1 document (both snapshotted daily by the spec mirror,
- * `specs/spec-mirror-whop`):
+ * Input: `specs/openapi.json` in the spec mirror (`specs/spec-mirror-whop`),
+ * the document Whop serves at https://api.whop.com/api/v1/openapi.json and
+ * generates its own SDKs from.
  *
- *   • VERSIONED — `specs/api-v1-native.json`, the `/api-reference/beta`
- *     reference. Whop calls it "the default reference for new integrations".
- *   • LEGACY — `specs/api-v1-stable.json`, the reference the `developer/api`
- *     guides point at. "Fully supported", but superseded resource by
- *     resource as the versioned surface grows.
- *
- * They share everything that matters to a client: base URL
- * (`https://api.whop.com/api/v1`), bearer auth, `Api-Version-Date` pinning,
- * the `{ error: { … } }` failure envelope, and `data` + `page_info` relay
- * pagination. So this SDK ships ONE merged surface rather than two clients,
- * and the merge rule is: **versioned wins**.
- *
- *   1. Read both documents.
- *   2. Patches are Smithy ops on the converted models, under the names the
- *      spec gives; the finalizeConvert at the end applies them, then the
- *      deferred verbNoun names (see `@distilled.cloud/dev/codegen/patches`).
- *   3. Rename every LEGACY schema whose name the versioned document also
- *      defines ({@link LEGACY_SCHEMA_PREFIX}) and rewrite the legacy half's
- *      `$ref`s. All 17 such names describe genuinely different shapes; left
- *      alone the converter's `uniqueName` pass would silently emit
- *      `Dispute2`, and which document it came from would be a guess.
- *   4. Merge into one document: versioned `paths` in full, plus every legacy
- *      route (`METHOD path`) the versioned document does NOT define. A route
- *      described by both is taken from the versioned document, and the
- *      legacy twin is dropped.
- *   5. Drop `Api-Version-Date` parameters — WhopProtocol sends the pin on
+ *   1. Read the document and its `info.x-api-version-date` pin.
+ *   2. Drop `Api-Version-Date` parameters — WhopProtocol sends the pin on
  *      every request (see {@link API_VERSION_FILE}), so it is not a per-call
  *      input. `Idempotency-Key` is left in place and DOES become one.
- *   6. Bucket operations by PRIMARY (first) tag, case-normalized so the two
- *      documents' spellings of the same resource land together
+ *   3. Bucket operations by PRIMARY (first) tag, case-normalized
  *      (`Promo Codes` + `Promo codes` → `promo_codes`).
- *   7. Convert each bucket through the shared `convertOpenApiToSmithy` and
+ *   4. Convert each bucket through the shared `convertOpenApiToSmithy` and
  *      write `.generated-specs/<tag_slug>.json`.
- *   8. Stamp `smithy.api#paginated` on the list operations — see
+ *   5. Stamp `smithy.api#paginated` on the list operations — see
  *      {@link paginationFor}.
+ *   6. finalizeConvert applies patches/<model>/*.json (Smithy ops, under the
+ *      names the spec gives), then the deferred verbNoun names.
  *
- * Operation ids are used VERBATIM — both documents give every operation one,
- * and across the merged buckets they are already unique (the compiler
- * lowerCamels them for export: `listPlans`, `uploadDisputeEvidence`). A
- * collision would otherwise be silently renamed, so it fails the run instead.
+ * Operation ids are used VERBATIM — the document gives every operation one,
+ * and across the buckets they are unique (the compiler lowerCamels them for
+ * export: `listPlans`, `uploadDisputeEvidence`). A collision would otherwise
+ * be silently renamed, so it fails the run instead.
  *
  * `scripts/generate.ts` (runGeneratorCli with `patchesDir: false`) then
  * compiles the already-patched models.
@@ -59,7 +36,7 @@ import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
 import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 
 const rootDir = path.resolve(import.meta.dirname, "..");
-const specDir = resolveSpecPath(rootDir, "specs/spec-mirror-whop/specs");
+const specPath = resolveSpecPath(rootDir, "specs/spec-mirror-whop/specs/openapi.json");
 const outDir = path.join(rootDir, ".generated-specs");
 
 /** Generated: the version pin `src/credentials.ts` defaults to. */
@@ -68,18 +45,9 @@ const API_VERSION_FILE = path.join(rootDir, "src/api-version.ts");
 const HTTP_METHODS = ["get", "post", "put", "patch", "delete"] as const;
 
 /**
- * Prefix for a legacy schema whose name the versioned document also uses.
- * Only three (`Dispute`, `Membership`, `PromoCode`) are reachable from the
- * legacy routes this merge keeps today, but every collision is renamed so a
- * new upstream legacy-only operation can't quietly start resolving a
- * versioned shape.
- */
-const LEGACY_SCHEMA_PREFIX = "Legacy";
-
-/**
  * The header the API versions by. Whop pins request/response SHAPES to a
  * date and defaults an unpinned caller to the original `2025-01-01` ones —
- * which are not the shapes these specs describe. WhopProtocol therefore
+ * which are not the shapes this spec describes. WhopProtocol therefore
  * sends the pin on every request, and it is stripped from operation inputs
  * here so it can't be overridden per call into disagreeing with the
  * generated schemas.
@@ -98,16 +66,6 @@ const API_VERSION_HEADER = "Api-Version-Date";
  */
 const IDEMPOTENCY_MEMBER = "idempotencyKey";
 const IDEMPOTENCY_MEMBER_RENAMED = "idempotency_key";
-
-interface Surface {
-  readonly id: "versioned" | "legacy";
-  readonly file: string;
-}
-
-const SURFACES: readonly Surface[] = [
-  { id: "versioned", file: "api-v1-native.json" },
-  { id: "legacy", file: "api-v1-stable.json" },
-];
 
 // ============================================================================
 // String helpers
@@ -128,174 +86,38 @@ const toPascal = (slug: string): string =>
     .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
     .join("");
 
-/** `GET /plans` — the identity a route is merged and deduped on. */
+/** `GET /plans` — the identity a route is reported and matched on. */
 const routeKey = (method: string, pathTemplate: string): string =>
   `${method.toUpperCase()} ${pathTemplate}`;
 
 // ============================================================================
-// 1. Read both documents
+// 1. Read the document and its version pin
 // ============================================================================
 
-const documents = new Map<Surface["id"], any>();
-for (const surface of SURFACES) {
-  const specPath = path.join(specDir, surface.file);
-  if (!fs.existsSync(specPath)) {
-    throw new Error(
-      `${specPath} not found — run \`pnpm --filter @distilled.cloud/whop run specs:fetch\``,
-    );
-  }
-  documents.set(surface.id, JSON.parse(fs.readFileSync(specPath, "utf-8")));
+if (!fs.existsSync(specPath)) {
+  throw new Error(
+    `${specPath} not found — run \`pnpm --filter @distilled.cloud/whop run specs:fetch\``,
+  );
 }
+const merged = JSON.parse(fs.readFileSync(specPath, "utf-8"));
 
-const versioned = documents.get("versioned");
-const legacy = documents.get("legacy");
-
-// ============================================================================
-// The version pin
-// ============================================================================
-
-const versionDate = versioned.info?.["x-api-version-date"];
+const versionDate = merged.info?.["x-api-version-date"];
 if (typeof versionDate !== "string") {
   throw new Error(
-    "specs/api-v1-native.json has no `info.x-api-version-date` — nothing to pin the SDK to",
-  );
-}
-const legacyVersionDate = legacy.info?.["x-api-version-date"];
-if (legacyVersionDate !== versionDate) {
-  // One merged client sends ONE pin. Upstream has always stamped both
-  // documents with the same date; if that changes, the surfaces version
-  // independently and the split has to be modeled rather than merged away.
-  throw new Error(
-    `api-version-date differs between the surfaces (versioned ${versionDate}, ` +
-      `legacy ${legacyVersionDate}) — one merged client cannot pin both`,
+    "specs/openapi.json has no `info.x-api-version-date` — nothing to pin the SDK to",
   );
 }
 
 // ============================================================================
-// 3. Rename colliding legacy schemas
-// ============================================================================
-
-const collidingSchemas = Object.keys(legacy.components?.schemas ?? {}).filter(
-  (name) => name in (versioned.components?.schemas ?? {}),
-);
-const renames = new Map<string, string>(
-  collidingSchemas.map((name) => [name, `${LEGACY_SCHEMA_PREFIX}${name}`]),
-);
-for (const [from, to] of renames) {
-  if (to in legacy.components.schemas || to in versioned.components.schemas) {
-    throw new Error(`renaming legacy schema ${from} → ${to} would collide with an existing shape`);
-  }
-}
-
-/** Rewrite every `#/components/schemas/<renamed>` pointer in a subtree. */
-const rewriteRefs = (node: any): void => {
-  if (node === null || typeof node !== "object") return;
-  if (Array.isArray(node)) {
-    for (const child of node) rewriteRefs(child);
-    return;
-  }
-  for (const [key, value] of Object.entries(node)) {
-    if (key === "$ref" && typeof value === "string") {
-      const match = /^#\/components\/schemas\/(.+)$/.exec(value);
-      const renamed = match ? renames.get(match[1]) : undefined;
-      if (renamed) node.$ref = `#/components/schemas/${renamed}`;
-    } else {
-      rewriteRefs(value);
-    }
-  }
-};
-
-rewriteRefs(legacy);
-for (const [from, to] of renames) {
-  legacy.components.schemas[to] = legacy.components.schemas[from];
-  delete legacy.components.schemas[from];
-}
-if (renames.size) {
-  console.log(
-    `🔀 ${renames.size} legacy schema(s) renamed to avoid versioned collisions: ` +
-      [...renames.values()].sort().join(", "),
-  );
-}
-
-// ============================================================================
-// 4. Merge — versioned wins every shared route
-// ============================================================================
-
-/** Every route the versioned document defines. */
-const versionedRoutes = new Set<string>();
-for (const [pathTemplate, item] of Object.entries<any>(versioned.paths)) {
-  for (const method of HTTP_METHODS) {
-    if (item?.[method]) versionedRoutes.add(routeKey(method, pathTemplate));
-  }
-}
-
-const merged = {
-  ...versioned,
-  components: {
-    ...versioned.components,
-    schemas: {
-      ...versioned.components.schemas,
-      ...legacy.components.schemas,
-    },
-  },
-  paths: {} as Record<string, any>,
-};
-
-/** Route → which document it came from (for reporting + doc annotations). */
-const routeSurface = new Map<string, Surface["id"]>();
-let supersededRoutes = 0;
-
-const addRoute = (
-  surface: Surface,
-  pathTemplate: string,
-  pathItem: any,
-  method: string,
-  op: any,
-): void => {
-  if (!merged.paths[pathTemplate]) {
-    // Carry any path-level params into the merged item.
-    merged.paths[pathTemplate] = pathItem.parameters ? { parameters: pathItem.parameters } : {};
-  }
-  merged.paths[pathTemplate][method] = op;
-  routeSurface.set(routeKey(method, pathTemplate), surface.id);
-};
-
-for (const [pathTemplate, item] of Object.entries<any>(versioned.paths)) {
-  for (const method of HTTP_METHODS) {
-    if (item?.[method]) {
-      addRoute(SURFACES[0], pathTemplate, item, method, item[method]);
-    }
-  }
-}
-for (const [pathTemplate, item] of Object.entries<any>(legacy.paths)) {
-  for (const method of HTTP_METHODS) {
-    const op = item?.[method];
-    if (!op) continue;
-    if (versionedRoutes.has(routeKey(method, pathTemplate))) {
-      supersededRoutes++;
-      continue; // the versioned document describes this route — prefer it
-    }
-    addRoute(SURFACES[1], pathTemplate, item, method, op);
-  }
-}
-
-console.log(
-  `🧬 merged ${versionedRoutes.size} versioned + ` +
-    `${routeSurface.size - versionedRoutes.size} legacy-only route(s) ` +
-    `(${supersededRoutes} legacy route(s) superseded by a versioned twin)`,
-);
-
-// ============================================================================
-// 5–6. Strip the version header, annotate legacy ops, bucket by tag
+// 2–3. Strip the version header, bucket by tag
 // ============================================================================
 
 let versionHeadersDropped = 0;
 
 /**
  * Drop `Api-Version-Date` from a parameter list, resolving `$ref`s to find
- * it — the versioned document declares it once under
- * `components/parameters` and `$ref`s it from every operation, most of them
- * at the PATH level rather than the operation level.
+ * it — the document may declare it once under `components/parameters` and
+ * `$ref` it from every operation, at the path or the operation level.
  */
 const withoutVersionHeader = (params: any): any => {
   if (!Array.isArray(params)) return params;
@@ -323,22 +145,10 @@ for (const [pathTemplate, pathItem] of Object.entries<any>(merged.paths)) {
     if (!op) continue;
 
     const key = routeKey(method, pathTemplate);
-    const surface = routeSurface.get(key)!;
-
     op.parameters = withoutVersionHeader(op.parameters);
 
     if (typeof op.operationId !== "string" || op.operationId === "") {
       throw new Error(`${key} has no operationId`);
-    }
-
-    // Say which reference documents an operation, right in its doc comment.
-    // In a bucket holding both (payments, memberships, disputes, …) the two
-    // generations of an endpoint sit side by side, and only this
-    // distinguishes them.
-    if (surface === "legacy") {
-      op.description =
-        `[Legacy API — https://docs.whop.com/api-reference]` +
-        (typeof op.description === "string" && op.description ? `\n\n${op.description}` : "");
     }
 
     const rawTag: string | undefined =
@@ -348,7 +158,7 @@ for (const [pathTemplate, pathItem] of Object.entries<any>(merged.paths)) {
     if (!nameClaims.has(slug)) nameClaims.set(slug, new Map());
     const claims = nameClaims.get(slug)!;
     if (!claims.has(op.operationId)) claims.set(op.operationId, []);
-    claims.get(op.operationId)!.push(`${key} (${surface})`);
+    claims.get(op.operationId)!.push(key);
 
     if (!tagBuckets.has(slug)) tagBuckets.set(slug, {});
     const bucketPaths = tagBuckets.get(slug)!;
@@ -364,9 +174,9 @@ console.log(
     `— WhopProtocol pins ${versionDate} on every request`,
 );
 
-// A collision the two documents produce within one bucket would otherwise be
-// silently renamed by the converter's uniqueName pass (`retrieveApp2`) —
-// fail instead, naming both claimants so the fix is a one-line patch.
+// A collision within one bucket would otherwise be silently renamed by the
+// converter's uniqueName pass (`retrieveApp2`) — fail instead, naming both
+// claimants.
 const collisions: string[] = [];
 for (const [slug, claims] of nameClaims) {
   for (const [name, keys] of claims) {
@@ -376,10 +186,7 @@ for (const [slug, claims] of nameClaims) {
   }
 }
 if (collisions.length) {
-  throw new Error(
-    `operation-id collision(s) in the merged buckets — patch one of the ` +
-      `operationIds under patches/<surface>/:\n${collisions.join("\n")}`,
-  );
+  throw new Error(`operation-id collision(s) in the tag buckets:\n${collisions.join("\n")}`);
 }
 
 // ============================================================================
@@ -388,13 +195,13 @@ if (collisions.length) {
 
 /**
  * Response statuses the output shape is read from, most preferred first.
- * Beyond the converter's `200`/`201`/`204` default, five versioned endpoints
+ * Beyond the converter's `200`/`201`/`204` default, some endpoints
  * answer asynchronous work with `202 Accepted` AND a payload (exports,
  * media generation) that would otherwise generate as a `void` output.
  */
 const SUCCESS_STATUSES = ["200", "201", "202", "204"] as const;
 
-/** Resolve a local `$ref` against the merged document. */
+/** Resolve a local `$ref` against the document. */
 const deref = (node: any): any =>
   node?.$ref
     ? node.$ref
@@ -407,7 +214,7 @@ const deref = (node: any): any =>
  * The `smithy.api#paginated` trait for one operation, or undefined when it
  * doesn't page.
  *
- * Every paginated Whop list — both surfaces, identically — is a RELAY
+ * Every paginated Whop list is a RELAY
  * connection: `?first=N&after=<cursor>` in, and `{ data: [...], page_info: {
  * end_cursor, has_next_page, has_previous_page, start_cursor } }` back. The
  * last page still carries an `end_cursor`, so `has_next_page` is the only
@@ -468,7 +275,6 @@ let written = 0;
 let totalOps = 0;
 let totalPaginated = 0;
 let idempotencyRenames = 0;
-const mixedBuckets: string[] = [];
 
 for (const slug of [...tagBuckets.keys()].sort()) {
   const paths = tagBuckets.get(slug)!;
@@ -477,10 +283,9 @@ for (const slug of [...tagBuckets.keys()].sort()) {
     deferNaming: true,
     namespace: `com.whop.${slug}`,
     serviceName: toPascal(slug),
-    // Neither document deprecates anything today; the flag keeps a future
-    // upstream deprecation out of the SDK rather than silently shipping it.
+    // Deprecated operations (`searchAccounts`, …) stay out of the SDK.
     skipDeprecated: true,
-    // `Idempotency-Key` is a real per-call input on every versioned mutation
+    // `Idempotency-Key` is a real per-call input on every mutation
     // (see https://docs.whop.com/developer/api/idempotency). It is the only
     // header parameter left after the version pin is stripped above, so
     // turning this on adds exactly that member and nothing else.
@@ -521,7 +326,8 @@ for (const slug of [...tagBuckets.keys()].sort()) {
   for (const [pathTemplate, pathItem] of Object.entries<any>(paths)) {
     for (const method of HTTP_METHODS) {
       const op = pathItem[method];
-      if (!op) continue;
+      // skipDeprecated leaves deprecated operations out of the model.
+      if (!op || op.deprecated === true) continue;
       const trait = paginationFor(op);
       if (trait) byRoute.set(routeKey(method, pathTemplate), trait);
     }
@@ -545,23 +351,10 @@ for (const slug of [...tagBuckets.keys()].sort()) {
     );
   }
 
-  const surfaces = new Set(
-    Object.entries<any>(paths).flatMap(([pathTemplate, pathItem]) =>
-      HTTP_METHODS.filter((m) => pathItem[m]).map((m) =>
-        routeSurface.get(routeKey(m, pathTemplate))!,
-      ),
-    ),
-  );
-  if (surfaces.size > 1) mixedBuckets.push(slug);
-
   writeModel(path.join(outDir, `${slug}.json`), model);
   written++;
   totalOps += operations.length;
   totalPaginated += paginated;
-}
-
-if (mixedBuckets.length) {
-  console.log(`🔗 ${mixedBuckets.length} module(s) hold both surfaces: ${mixedBuckets.join(", ")}`);
 }
 
 // ============================================================================
@@ -570,7 +363,7 @@ if (mixedBuckets.length) {
 
 fs.writeFileSync(
   API_VERSION_FILE,
-  `// AUTO-GENERATED by scripts/convert.ts from specs/api-v1-native.json. Do not edit.
+  `// AUTO-GENERATED by scripts/convert.ts from specs/openapi.json. Do not edit.
 /**
  * The dated API version these services were generated from.
  *
