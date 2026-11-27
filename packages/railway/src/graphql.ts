@@ -332,11 +332,11 @@ export type ActiveFeatureFlag =
   | "CLOUD_AGENTS"
   | "CLOUD_AGENT_BUILDER"
   | "CLOUD_AGENT_CHAT"
+  | "CLOUD_AGENT_ROOTFS_SIZE"
   | "CONNECTOR_TUNNELS"
   | "CS_MCP_EXPRESS"
   | "DATABASE_AGENT_TOOLS"
   | "HA_FOR_MONGO"
-  | "IN_DASHBOARD_SUPPORT"
   | "MAGIC_CONFIG"
   | "MANAGED_DATABASE_EDIT_WARNING"
   | "MANAGED_DATABASE_SETUP"
@@ -381,7 +381,6 @@ export type ActivePlatformFlag =
   | "ENVIRONMENT_PATCH_ARCHIVE_PRODUCE"
   | "ENVIRONMENT_PATCH_ARCHIVE_READ"
   | "ENVIRONMENT_PATCH_ARCHIVE_READ_SIMULATE"
-  | "IN_DASHBOARD_SUPPORT"
   | "KAFKA_EPHEMERAL_ENVIRONMENT_UPDATES"
   | "LOGS_LONG_WINDOW_CHUNKING"
   | "MCP_OAUTH_AUDIENCE_ENFORCE"
@@ -764,7 +763,6 @@ export type PlatformFeatureFlag =
   | "ENVIRONMENT_PATCH_ARCHIVE_PRODUCE"
   | "ENVIRONMENT_PATCH_ARCHIVE_READ"
   | "ENVIRONMENT_PATCH_ARCHIVE_READ_SIMULATE"
-  | "IN_DASHBOARD_SUPPORT"
   | "KAFKA_EPHEMERAL_ENVIRONMENT_UPDATES"
   | "LOGS_LONG_WINDOW_CHUNKING"
   | "MCP_OAUTH_AUDIENCE_ENFORCE"
@@ -1167,6 +1165,7 @@ export interface CloudAgentTaskDispatchInput {
   readonly cloudAgentId?: string | null | undefined;
   readonly context?: unknown | null | undefined;
   readonly conversationKey?: string | null | undefined;
+  readonly dashboardHandoff?: boolean | null | undefined;
   readonly environmentId: string;
   readonly externalRef?: string | null | undefined;
   readonly idempotencyKey?: string | null | undefined;
@@ -1413,11 +1412,11 @@ export interface FeatureFlagToggleInput {
     | "CLOUD_AGENTS"
     | "CLOUD_AGENT_BUILDER"
     | "CLOUD_AGENT_CHAT"
+    | "CLOUD_AGENT_ROOTFS_SIZE"
     | "CONNECTOR_TUNNELS"
     | "CS_MCP_EXPRESS"
     | "DATABASE_AGENT_TOOLS"
     | "HA_FOR_MONGO"
-    | "IN_DASHBOARD_SUPPORT"
     | "MAGIC_CONFIG"
     | "MANAGED_DATABASE_EDIT_WARNING"
     | "MANAGED_DATABASE_SETUP"
@@ -1797,6 +1796,7 @@ export interface ServiceCreateInput {
   readonly branch?: string | null | undefined;
   readonly environmentId?: string | null | undefined;
   readonly icon?: string | null | undefined;
+  readonly kind?: "WEBSITE" | null | undefined;
   readonly name?: string | null | undefined;
   readonly projectId: string;
   readonly registryCredentials?: RegistryCredentialsInput | null | undefined;
@@ -1860,6 +1860,7 @@ export interface ServiceInstanceUpdateInput {
   readonly drainingSeconds?: number | null | undefined;
   readonly healthcheckPath?: string | null | undefined;
   readonly healthcheckTimeout?: number | null | undefined;
+  readonly hideUnhealthyReplicas?: boolean | null | undefined;
   readonly ipv6EgressEnabled?: boolean | null | undefined;
   readonly multiRegionConfig?: unknown | null | undefined;
   readonly nixpacksPlan?: unknown | null | undefined;
@@ -1878,6 +1879,11 @@ export interface ServiceInstanceUpdateInput {
   readonly startCommand?: string | null | undefined;
   readonly tracingEnabled?: boolean | null | undefined;
   readonly watchPatterns?: ReadonlyArray<string> | null | undefined;
+}
+
+export interface ServiceKindUpdateInput {
+  readonly kind?: "WEBSITE" | null | undefined;
+  readonly serviceId: string;
 }
 
 export interface ServiceSourceInput {
@@ -2650,6 +2656,7 @@ export interface CloudAgentTaskCancelResult {
 
 export interface CloudAgentTaskHandle {
   readonly cloudAgentId: string;
+  readonly dashboardRunUrl: string | null;
   readonly deliveredAsReply: boolean;
   readonly replayed: boolean;
   readonly sessionId: string;
@@ -4052,7 +4059,6 @@ export interface PlatformFeatureFlagStatus {
     | "ENVIRONMENT_PATCH_ARCHIVE_PRODUCE"
     | "ENVIRONMENT_PATCH_ARCHIVE_READ"
     | "ENVIRONMENT_PATCH_ARCHIVE_READ_SIMULATE"
-    | "IN_DASHBOARD_SUPPORT"
     | "KAFKA_EPHEMERAL_ENVIRONMENT_UPDATES"
     | "LOGS_LONG_WINDOW_CHUNKING"
     | "MCP_OAUTH_AUDIENCE_ENFORCE"
@@ -5114,6 +5120,7 @@ export interface ServiceInstance {
   readonly hasEverDeployed: boolean;
   readonly healthcheckPath: string | null;
   readonly healthcheckTimeout: number | null;
+  readonly hideUnhealthyReplicas: boolean;
   readonly id: string;
   readonly ipv6EgressEnabled: boolean | null;
   readonly isUpdatable: boolean;
@@ -5337,11 +5344,11 @@ export interface TeamMember {
     | "CLOUD_AGENTS"
     | "CLOUD_AGENT_BUILDER"
     | "CLOUD_AGENT_CHAT"
+    | "CLOUD_AGENT_ROOTFS_SIZE"
     | "CONNECTOR_TUNNELS"
     | "CS_MCP_EXPRESS"
     | "DATABASE_AGENT_TOOLS"
     | "HA_FOR_MONGO"
-    | "IN_DASHBOARD_SUPPORT"
     | "MAGIC_CONFIG"
     | "MANAGED_DATABASE_EDIT_WARNING"
     | "MANAGED_DATABASE_SETUP"
@@ -5594,11 +5601,11 @@ export interface User {
     | "CLOUD_AGENTS"
     | "CLOUD_AGENT_BUILDER"
     | "CLOUD_AGENT_CHAT"
+    | "CLOUD_AGENT_ROOTFS_SIZE"
     | "CONNECTOR_TUNNELS"
     | "CS_MCP_EXPRESS"
     | "DATABASE_AGENT_TOOLS"
     | "HA_FOR_MONGO"
-    | "IN_DASHBOARD_SUPPORT"
     | "MAGIC_CONFIG"
     | "MANAGED_DATABASE_EDIT_WARNING"
     | "MANAGED_DATABASE_SETUP"
@@ -5654,7 +5661,6 @@ export interface User {
     | "ENVIRONMENT_PATCH_ARCHIVE_PRODUCE"
     | "ENVIRONMENT_PATCH_ARCHIVE_READ"
     | "ENVIRONMENT_PATCH_ARCHIVE_READ_SIMULATE"
-    | "IN_DASHBOARD_SUPPORT"
     | "KAFKA_EPHEMERAL_ENVIRONMENT_UPDATES"
     | "LOGS_LONG_WINDOW_CHUNKING"
     | "MCP_OAUTH_AUDIENCE_ENFORCE"
@@ -6006,11 +6012,11 @@ export interface WorkspaceMember {
     | "CLOUD_AGENTS"
     | "CLOUD_AGENT_BUILDER"
     | "CLOUD_AGENT_CHAT"
+    | "CLOUD_AGENT_ROOTFS_SIZE"
     | "CONNECTOR_TUNNELS"
     | "CS_MCP_EXPRESS"
     | "DATABASE_AGENT_TOOLS"
     | "HA_FOR_MONGO"
-    | "IN_DASHBOARD_SUPPORT"
     | "MAGIC_CONFIG"
     | "MANAGED_DATABASE_EDIT_WARNING"
     | "MANAGED_DATABASE_SETUP"
@@ -8844,6 +8850,7 @@ const CloudAgentTaskCancelResultFields: TypeMeta["fields"] = {
 
 const CloudAgentTaskHandleFields: TypeMeta["fields"] = {
   cloudAgentId: scalarField("cloudAgentId"),
+  dashboardRunUrl: scalarField("dashboardRunUrl"),
   deliveredAsReply: scalarField("deliveredAsReply"),
   replayed: scalarField("replayed"),
   sessionId: scalarField("sessionId"),
@@ -11046,6 +11053,7 @@ const ServiceInstanceFields: TypeMeta["fields"] = {
   hasEverDeployed: scalarField("hasEverDeployed"),
   healthcheckPath: scalarField("healthcheckPath"),
   healthcheckTimeout: scalarField("healthcheckTimeout"),
+  hideUnhealthyReplicas: scalarField("hideUnhealthyReplicas"),
   id: scalarField("id"),
   ipv6EgressEnabled: scalarField("ipv6EgressEnabled"),
   isUpdatable: scalarField("isUpdatable"),
@@ -15986,6 +15994,17 @@ export const Railway = {
       false,
       args,
       { environmentId: "String!", serviceId: "String!" },
+      globalErrors,
+    ),
+  serviceKindUpdate: (args: {
+    readonly input: ServiceKindUpdateInput;
+  }): Query<boolean, RailwayGlobalError> =>
+    rootLeaf(
+      "mutation",
+      "serviceKindUpdate",
+      false,
+      args,
+      { input: "ServiceKindUpdateInput!" },
       globalErrors,
     ),
   serviceRemoveUpstreamUrl: (args: { readonly id: string }): Query<Service, RailwayGlobalError> =>
