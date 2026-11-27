@@ -4442,6 +4442,23 @@ export interface ExperimentBreakdownResult {
   variants?: ExperimentBreakdownResultVariants | undefined;
 }
 export type ExperimentQueryResponseBreakdownResultsList = Array<ExperimentBreakdownResult>;
+export type ExperimentWarehouseNativeRowsLeftOutExposedWithoutRowsMap = {
+  [key: string]: number | undefined;
+};
+export type ExperimentWarehouseNativeRowsLeftOutUnknownVariantsMap = {
+  [key: string]: number | undefined;
+};
+export interface ExperimentWarehouseNativeRowsLeftOut {
+  /** Exposure rows with an empty entity_id. */
+  empty_id?: number | null | undefined;
+  /** Exposed entities with no row of the metric query that counted, by variant. */
+  exposed_without_rows?:
+    | ExperimentWarehouseNativeRowsLeftOutExposedWithoutRowsMap
+    | null
+    | undefined;
+  /** Exposure rows whose variant is not one the flag serves, counted by the value seen. */
+  unknown_variants?: ExperimentWarehouseNativeRowsLeftOutUnknownVariantsMap | null | undefined;
+}
 export type ExperimentQueryResponseVariantResultsCase0List =
   Array<ExperimentVariantResultFrequentist>;
 export type ExperimentQueryResponseVariantResultsCase1List = Array<ExperimentVariantResultBayesian>;
@@ -4458,6 +4475,8 @@ export interface ExperimentQueryResponse {
   /** Whether exposures were served from the precomputation system */
   is_precomputed?: boolean | null | undefined;
   kind?: string | undefined;
+  /** Rows of the warehouse-native metric query that the run left out, by reason. Set by a warehouse-native run only. */
+  rows_left_out?: ExperimentWarehouseNativeRowsLeftOut | null | undefined;
   variant_results?: ExperimentQueryResponseVariantResults | null | undefined;
   /** Data warehouse sync warnings -- see AnalyticsQueryResponseBase.warnings for semantics. */
   warnings?: ExperimentQueryResponseWarningsList | null | undefined;
@@ -6199,7 +6218,8 @@ export type MarketingAnalyticsRecommendationsDataGapKind =
   | "posthog_conversions_not_ready"
   | "posthog_conversion_goals_unusable"
   | "posthog_campaigns_unmatched"
-  | "posthog_conversions_failed";
+  | "posthog_conversions_failed"
+  | "hidden_search_spend";
 export interface MarketingAnalyticsRecommendationsDataGap {
   /** Google Ads campaign table of the ad account the gap applies to. */
   campaignTable?: string | null | undefined;
@@ -7498,7 +7518,18 @@ export type ErrorTrackingIssueStatus =
   | "resolved"
   | "pending_release"
   | "suppressed";
+export type ErrorTrackingIssueTagColor =
+  | "blue"
+  | "teal"
+  | "green"
+  | "yellow"
+  | "orange"
+  | "red"
+  | "pink"
+  | "purple";
 export interface ErrorTrackingIssueTag {
+  /** Named color of the tag, or null for a color picked from the label. */
+  color?: ErrorTrackingIssueTagColor | (string & {}) | null | undefined;
   /** What the tag means, for a tooltip. */
   description: string;
   /** Key of the tag definition. */
@@ -11487,7 +11518,22 @@ export type MCPToolQualityRowsQueryPropertiesItem =
   | PersonPropertyFilter
   | SessionPropertyFilter;
 export type MCPToolQualityRowsQueryPropertiesList = Array<MCPToolQualityRowsQueryPropertiesItem>;
+export interface MCPToolQualityRowBucket {
+  /** Bucket start as a project-timezone wall clock ("YYYY-MM-DD HH:mm:ss"). */
+  bucket: string;
+  calls: number;
+  errors: number;
+  /** 0 when no call in the bucket carried a duration. */
+  p95_duration_ms: number;
+}
+export type MCPToolQualityRowItemBucketsList = Array<MCPToolQualityRowBucket>;
 export interface MCPToolQualityRowItem {
+  /** Calls, errors and p95 per interval in the current window, for the row's volume chart. */
+  buckets?: MCPToolQualityRowItemBucketsList | null | undefined;
+  /** The $mcp_tool_category from the tool's latest call that sent one. */
+  category?: string | null | undefined;
+  /** The description from the tool's latest call that sent one. */
+  description?: string | null | undefined;
   error_rate_pct: number;
   errors: number;
   first_seen: string;
@@ -11573,6 +11619,10 @@ export interface MCPToolQualityRowsQuery {
   categories?: MCPToolQualityRowsQueryCategoriesList | null | undefined;
   dateRange?: DateRange | null | undefined;
   filterTestAccounts?: boolean | null | undefined;
+  /** Also return each row's volume chart buckets, which costs one more query. */
+  includeBuckets?: boolean | null | undefined;
+  /** Bucket granularity of each row's volume chart. Defaults to day. */
+  interval?: IntervalType | (string & {}) | null | undefined;
   kind?: string | undefined;
   /** Page size. The server defaults to 50 and caps this at 100. */
   limit?: number | null | undefined;
@@ -11615,6 +11665,17 @@ export interface MCPToolQualityDailyStatItem {
 }
 export type MCPToolQualityDailyStatsQueryResponseResultsList = Array<MCPToolQualityDailyStatItem>;
 export type MCPToolQualityDailyStatsQueryResponseTimingsList = Array<QueryTiming>;
+export interface MCPToolQualityTotals {
+  calls: number;
+  errors: number;
+  p50: number;
+  p95: number;
+  previous_calls: number;
+  previous_errors: number;
+  /** null when no call in the previous period carried a duration. */
+  previous_p50: number | null;
+  previous_p95?: number | null | undefined;
+}
 export type MCPToolQualityDailyStatsQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export type MCPToolQualityDailyStatsQueryResponseWarehouseSuggestionsList =
@@ -11641,6 +11702,8 @@ export interface MCPToolQualityDailyStatsQueryResponse {
   results: MCPToolQualityDailyStatsQueryResponseResultsList;
   /** Measured timings for different parts of the query generation process */
   timings?: MCPToolQualityDailyStatsQueryResponseTimingsList | null | undefined;
+  /** Window totals and the previous period's, set only when the query asks for them. */
+  totals?: MCPToolQualityTotals | null | undefined;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?:
     | MCPToolQualityDailyStatsQueryResponseUsedDataWarehouseSourcesList
@@ -11659,6 +11722,8 @@ export interface MCPToolQualityDailyStatsQuery {
   categories?: MCPToolQualityDailyStatsQueryCategoriesList | null | undefined;
   dateRange?: DateRange | null | undefined;
   filterTestAccounts?: boolean | null | undefined;
+  /** Also return window totals and the previous period's, for the Tool quality tiles. */
+  includeTotals?: boolean | null | undefined;
   /** Bucket granularity; the frontend passes getDefaultInterval. Defaults to day. */
   interval?: IntervalType | (string & {}) | null | undefined;
   kind?: string | undefined;
@@ -11666,6 +11731,8 @@ export interface MCPToolQualityDailyStatsQuery {
   modifiers?: HogQLQueryModifiers | null | undefined;
   properties?: MCPToolQualityDailyStatsQueryPropertiesList | null | undefined;
   response?: MCPToolQualityDailyStatsQueryResponse | null | undefined;
+  /** Case-insensitive substring search on the effective tool name, so the tiles match the searched table. */
+  search?: string | null | undefined;
   tags?: QueryLogTags | null | undefined;
   /** Restrict to a single $mcp_tool_name; omitted means the aggregate across all tools. */
   toolName?: string | null | undefined;
@@ -12043,16 +12110,29 @@ export interface MCPToolNeighborsQuery {
   /** version of the node, used for schema migrations */
   version?: number | null | undefined;
 }
+export type MCPMissingCapabilitiesQueryOutcomesList = Array<string>;
+export type MCPMissingCapabilitiesQueryPropertiesItem =
+  | EventPropertyFilter
+  | PersonPropertyFilter
+  | SessionPropertyFilter;
+export type MCPMissingCapabilitiesQueryPropertiesList =
+  Array<MCPMissingCapabilitiesQueryPropertiesItem>;
 export interface MCPMissingCapabilitiesItem {
   distinct_id: string;
   /** Resolved client label, the client's own self-reported name when unrecognized, or "Unidentified client" when the report carried no client identity at all. */
   harness: string;
   /** The agent's own words for the capability it wanted, from $mcp_intent. */
   intent: string;
+  /** The model the agent self-reported, from $mcp_llm_model; empty when the report did not say. */
+  model: string;
+  /** Whether the agent says it still finished the user's task, from $mcp_feedback_task_completed (or an in-app report's blocked flag): "blocked", "completed", or "not_reported" when the report did not say. */
+  outcome: string;
   /** JSON-encoded person email/name for display; "{}" when neither resolved. */
   person_properties: string;
   /** Conversation id: $mcp_session_id, falling back to $session_id; empty when neither is set. */
   session_id: string;
+  /** The change the agent suggested, from $mcp_feedback_suggested_improvement; empty when it gave none. */
+  suggested_improvement: string;
   timestamp: string;
 }
 export type MCPMissingCapabilitiesQueryResponseResultsList = Array<MCPMissingCapabilitiesItem>;
@@ -12109,6 +12189,10 @@ export interface MCPMissingCapabilitiesQuery {
   modifiers?: HogQLQueryModifiers | null | undefined;
   /** Reports to skip before returning results. Combine with limit to page through them; the response's has_next flag indicates whether more remain. */
   offset?: number | null | undefined;
+  /** Only reports with one of these outcomes: "blocked", "completed" or "not_reported". */
+  outcomes?: MCPMissingCapabilitiesQueryOutcomesList | null | undefined;
+  /** Property filters applied to the report events, such as the shared harness and model filters. */
+  properties?: MCPMissingCapabilitiesQueryPropertiesList | null | undefined;
   response?: MCPMissingCapabilitiesQueryResponse | null | undefined;
   /** Case-insensitive substring match over the report text. */
   search?: string | null | undefined;
@@ -12184,6 +12268,10 @@ export type MCPDashboardSection =
   | "protocolVersion"
   | "tool"
   | "errorType"
+  | "toolShare"
+  | "harness"
+  | "errorTypeShare"
+  | "user"
   | "labUsers"
   | "namedModelUsers"
   | "reliability";
@@ -12708,6 +12796,8 @@ export interface ExperimentExposureQueryResponse {
   /** Health check diagnostics that read the exposures: zero exposures, a sample ratio mismatch, and bias. Empty when every check passed. */
   health_findings?: ExperimentExposureQueryResponseHealthFindingsList | null | undefined;
   kind?: string | undefined;
+  /** Rows of the warehouse-native exposure query that the run left out, by reason. Set by a warehouse-native run only. */
+  rows_left_out?: ExperimentWarehouseNativeRowsLeftOut | null | undefined;
   sample_ratio_mismatch?: SampleRatioMismatch | null | undefined;
   timeseries?: ExperimentExposureQueryResponseTimeseriesList | undefined;
   total_exposures?: ExperimentExposureQueryResponseTotalExposuresMap | undefined;
@@ -15764,6 +15854,8 @@ export interface QueryResponseAlternative19 {
   /** Whether exposures were served from the precomputation system */
   is_precomputed?: boolean | null | undefined;
   kind?: string | undefined;
+  /** Rows of the warehouse-native metric query that the run left out, by reason. Set by a warehouse-native run only. */
+  rows_left_out?: ExperimentWarehouseNativeRowsLeftOut | null | undefined;
   variant_results?: QueryResponseAlternative19VariantResults | null | undefined;
   /** Data warehouse sync warnings -- see AnalyticsQueryResponseBase.warnings for semantics. */
   warnings?: QueryResponseAlternative19WarningsList | null | undefined;
@@ -15784,6 +15876,8 @@ export interface QueryResponseAlternative20 {
   /** Health check diagnostics that read the exposures: zero exposures, a sample ratio mismatch, and bias. Empty when every check passed. */
   health_findings?: QueryResponseAlternative20HealthFindingsList | null | undefined;
   kind?: string | undefined;
+  /** Rows of the warehouse-native exposure query that the run left out, by reason. Set by a warehouse-native run only. */
+  rows_left_out?: ExperimentWarehouseNativeRowsLeftOut | null | undefined;
   sample_ratio_mismatch?: SampleRatioMismatch | null | undefined;
   timeseries: QueryResponseAlternative20TimeseriesList;
   total_exposures: QueryResponseAlternative20TotalExposuresMap;
@@ -19230,6 +19324,8 @@ export interface QueryResponseAlternative109 {
   results: QueryResponseAlternative109ResultsList;
   /** Measured timings for different parts of the query generation process */
   timings?: QueryResponseAlternative109TimingsList | null | undefined;
+  /** Window totals and the previous period's, set only when the query asks for them. */
+  totals?: MCPToolQualityTotals | null | undefined;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
   used_data_warehouse_sources?:
     | QueryResponseAlternative109UsedDataWarehouseSourcesList

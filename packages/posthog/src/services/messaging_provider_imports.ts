@@ -127,6 +127,8 @@ export interface ImportStepProgress {
   warnings_omitted: number;
   /** How many more objects there were than `items` holds. In the list of runs, this counts every object. */
   items_omitted: number;
+  /** True when the step completed without reading anything, because the key can't read it. `warnings` says why. */
+  skipped: boolean;
 }
 /** Progress of each selected step, in run order. */
 export type ProviderImportRunStepsList = Array<ImportStepProgress>;
@@ -362,6 +364,7 @@ function __c1(j: number): any {
           items: __S(20, __c1, 4),
           warnings_omitted: S.Number,
           items_omitted: S.Number,
+          skipped: S.Boolean,
         }),
       ).annotate({ identifier: "ImportStepProgress" });
     case 6:

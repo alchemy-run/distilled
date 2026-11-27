@@ -226,6 +226,8 @@ export interface FeatureFlagConditionGroupSchema {
   variant?: string | null | undefined;
   /** Group type index for this condition set. None means person-level aggregation. */
   aggregation_group_type_index?: number | null | undefined;
+  /** Display-only name for this release condition group. It does not affect evaluation. */
+  description?: string | null | undefined;
 }
 /** Non-empty list of release-condition groups defining the held-out population, using the same shape as feature-flag release conditions. Each element's `rollout_percentage` (0-100, may be fractional) is the **exclusion** percentage -- the share of users held back from all experiments that reference this holdout. `properties` optionally narrows the group by person/group properties. Do not set `variant`: the server normalizes it to `holdout-{id}`. Note that only the first element's `rollout_percentage` is embedded into each linked experiment's feature flag, and this population is shared across every experiment using the holdout. */
 export type CreateExperimentHoldoutRequestFiltersList = Array<FeatureFlagConditionGroupSchema>;
@@ -481,6 +483,7 @@ function __c1(j: number): any {
           rollout_percentage: S.optional(S.Number),
           variant: S.optional(S.NullOr(S.String)),
           aggregation_group_type_index: S.optional(S.NullOr(S.Number)),
+          description: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "FeatureFlagConditionGroupSchema" });
     case 2:

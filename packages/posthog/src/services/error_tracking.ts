@@ -1430,6 +1430,16 @@ export interface ErrorTrackingSuppressionRule {
   created_at?: string | undefined;
   updated_at?: string | undefined;
 }
+/** * `blue` - Blue * `teal` - Teal * `green` - Green * `yellow` - Yellow * `orange` - Orange * `red` - Red * `pink` - Pink * `purple` - Purple */
+export type IssueTagColorEnum =
+  | "blue"
+  | "teal"
+  | "green"
+  | "yellow"
+  | "orange"
+  | "red"
+  | "pink"
+  | "purple";
 export type ErrorTrackingIssueTagRuleFilterGroupValuesList = Array<EventPropertyFilter>;
 export interface ErrorTrackingIssueTagRuleFilterGroup {
   type: FilterLogicalOperator | (string & {});
@@ -1451,6 +1461,8 @@ export interface CreateErrorTrackingTagRuleRequest {
   label: string;
   /** What the tag means. Shown with the tag. Defaults to empty. */
   description?: string | undefined;
+  /** Color of the tag, from a fixed set of named colors. Null shows the tag in a color picked from its label. Defaults to null. * `blue` - Blue * `teal` - Teal * `green` - Green * `yellow` - Yellow * `orange` - Orange * `red` - Red * `pink` - Pink * `purple` - Purple */
+  color?: IssueTagColorEnum | (string & {}) | null | undefined;
   /** Property-group filters on event properties. They are checked against the first event of each new issue, and once a day against the events of the past day. A rule that filters on `$exception_list` is checked against the first event only. At least one filter is required. Person, cohort, HogQL and other filter types are rejected. */
   filters: ErrorTrackingIssueTagRuleFilters;
   /** Position in the list of tag rules. Lower values come first. Defaults to 0. */
@@ -1475,6 +1487,8 @@ export interface ErrorTrackingIssueTagRule {
   label: string;
   /** What the tag means. Shown with the tag. */
   description: string;
+  /** Color of the tag, from a fixed set of named colors. Null shows the tag in a color picked from its label. * `blue` - Blue * `teal` - Teal * `green` - Green * `yellow` - Yellow * `orange` - Orange * `red` - Red * `pink` - Pink * `purple` - Purple */
+  color: IssueTagColorEnum | null;
   /** Property-group filters on event properties. They are checked against the first event of each new issue, and once a day against the events of the past day. A rule that filters on `$exception_list` is checked against the first event only. At least one filter is required. Person, cohort, HogQL and other filter types are rejected. */
   filters: ErrorTrackingIssueTagRuleFilters;
   /** Starts at 1, and goes up by one each time the filters change. */
@@ -2099,6 +2113,8 @@ export interface ErrorTrackingIssueTagRead {
   label: string;
   /** What the tag means, for a tooltip. */
   description: string;
+  /** Color of the tag, from a fixed set of named colors. Null shows the tag in a color picked from its label. * `blue` - Blue * `teal` - Teal * `green` - Green * `yellow` - Yellow * `orange` - Orange * `red` - Red * `pink` - Pink * `purple` - Purple */
+  color: IssueTagColorEnum | null;
   /** The tagger that applied the tag: `jev` for AI, `manual` for a person. */
   source: string;
 }
@@ -2154,6 +2170,8 @@ export interface ErrorTrackingIssueTagDefinition {
   label: string;
   /** What the tag means, for a tooltip. */
   description: string;
+  /** Color of the tag, from a fixed set of named colors. Null shows the tag in a color picked from its label. * `blue` - Blue * `teal` - Teal * `green` - Green * `yellow` - Yellow * `orange` - Orange * `red` - Red * `pink` - Pink * `purple` - Purple */
+  color: IssueTagColorEnum | null;
 }
 /** The tags enabled for the project. Empty while issue tags are off for the project. */
 export type ErrorTrackingIssueTagDefinitionsResponseResultsList =
@@ -2791,6 +2809,8 @@ export interface ErrorTrackingIssueTagCorrection {
   label: string;
   /** What the tag means, for a tooltip. */
   description: string;
+  /** Color of the tag, from a fixed set of named colors. Null shows the tag in a color picked from its label. * `blue` - Blue * `teal` - Teal * `green` - Green * `yellow` - Yellow * `orange` - Orange * `red` - Red * `pink` - Pink * `purple` - Purple */
+  color: IssueTagColorEnum | null;
   /** The tagger that applied the tag: `jev` for AI, `manual` for a person. */
   source: string;
   /** Whether the tag is applied to the issue after the change. */
@@ -2900,6 +2920,8 @@ export interface UpdateErrorTrackingTagRuleRequest {
   label?: string | undefined;
   /** Replacement description. Omit to keep the existing description. */
   description?: string | undefined;
+  /** Replacement color. Null switches to a color picked from the label. Omit to keep the existing color. * `blue` - Blue * `teal` - Teal * `green` - Green * `yellow` - Yellow * `orange` - Orange * `red` - Red * `pink` - Pink * `purple` - Purple */
+  color?: IssueTagColorEnum | (string & {}) | null | undefined;
   /** Replacement event property filters, with at least one filter. Omit to keep the existing filters. New filters apply to new issues, and once a day to other issues that had a matching event in the past day. Existing tags stay when the new filters read the same properties. When they read different properties, the rule gets a new key and loses its tags. */
   filters?: ErrorTrackingIssueTagRuleFilters | undefined;
 }
@@ -2912,6 +2934,8 @@ export interface UpdateErrorTrackingTagRulesPartialRequest {
   label?: string | undefined;
   /** Replacement description. Omit to keep the existing description. */
   description?: string | undefined;
+  /** Replacement color. Null switches to a color picked from the label. Omit to keep the existing color. * `blue` - Blue * `teal` - Teal * `green` - Green * `yellow` - Yellow * `orange` - Orange * `red` - Red * `pink` - Pink * `purple` - Purple */
+  color?: IssueTagColorEnum | (string & {}) | null | undefined;
   /** Replacement event property filters, with at least one filter. Omit to keep the existing filters. New filters apply to new issues, and once a day to other issues that had a matching event in the past day. Existing tags stay when the new filters read the same properties. When they read different properties, the rule gets a new key and loses its tags. */
   filters?: ErrorTrackingIssueTagRuleFilters | undefined;
 }
@@ -5305,6 +5329,7 @@ function __c12(j: number): any {
           key: S.String,
           label: S.String,
           description: S.String,
+          color: S.NullOr(S.String),
           source: S.String,
           applied: S.Boolean,
         }),
@@ -5502,6 +5527,7 @@ function __c23(j: number): any {
           id: S.String.pipe(T.Label()),
           label: S.optional(S.String),
           description: S.optional(S.String),
+          color: S.optional(S.NullOr(S.String)),
           filters: S.optional(__S(769, __c48, 1)),
         }).pipe(
           T.Http({
@@ -5522,6 +5548,7 @@ function __c24(j: number): any {
           id: S.String.pipe(T.Label()),
           label: S.optional(S.String),
           description: S.optional(S.String),
+          color: S.optional(S.NullOr(S.String)),
           filters: S.optional(__S(769, __c48, 1)),
         }).pipe(
           T.Http({
@@ -6129,6 +6156,7 @@ function __c46(j: number): any {
           project_id: S.String.pipe(T.Label()),
           label: S.String,
           description: S.optional(S.String),
+          color: S.optional(S.NullOr(S.String)),
           filters: __S(769, __c48, 1),
           order_key: S.optional(S.Number),
         }).pipe(
@@ -6150,6 +6178,7 @@ function __c47(j: number): any {
           key: S.String,
           label: S.String,
           description: S.String,
+          color: S.NullOr(S.String),
           filters: __S(769, __c48, 1),
           version: S.Number,
           order_key: S.Number,
@@ -7330,6 +7359,7 @@ function __c108(j: number): any {
           key: S.String,
           label: S.String,
           description: S.String,
+          color: S.NullOr(S.String),
           source: S.String,
         }),
       ).annotate({ identifier: "ErrorTrackingIssueTagRead" });
@@ -7444,6 +7474,7 @@ function __c113(j: number): any {
           key: S.String,
           label: S.String,
           description: S.String,
+          color: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ErrorTrackingIssueTagDefinition" });
     case 2:

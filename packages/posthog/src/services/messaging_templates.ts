@@ -161,8 +161,6 @@ export interface MessageTemplateContent {
 export interface CreateMessagingTemplateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** Project folder for the new email template. */
-  _create_in_folder?: string | undefined;
   /** Human-readable template name shown in the library. */
   name: string;
   /** What the template is for and when to use it. */
@@ -177,13 +175,15 @@ export interface CreateMessagingTemplateRequest {
   message_category?: string | null | undefined;
   /** Soft-delete flag. Set true to remove the template from the library. */
   deleted?: boolean | undefined;
-  /** For emails that carry login codes, reset links or other secrets. PostHog keeps no copy of each sent email's body or filled-in subject, and clicked links keep only the site address. Can change at any time. */
+  /** For emails that carry login codes, reset links or other secrets. PostHog keeps no copy of each sent email's body or filled-in subject, turns click tracking off by default, and records only the site address when click tracking is on. Can change at any time. */
   sensitive?: boolean | undefined;
+  /** Whether links in emails sent from this template are rewritten to count clicks. Null uses the default: off when `sensitive` is true, on when `sensitive` is false. Set true to opt a sensitive template into click tracking, or false to turn click tracking off. Changing `sensitive` resets this to null unless `click_tracking_enabled` is sent in the same request. */
+  click_tracking_enabled?: boolean | null | undefined;
   /** Unpublished edits to a transactional template's content. Sends keep using `content`. Saving `content` publishes it and clears the draft. Set null to discard the draft. */
   draft_content?: MessageTemplateContent | null | undefined;
 }
 /** Tags for organizing templates, for example by team or use case. Tags are shared with the rest of the project. Omit to keep the current tags, send an empty list to remove them all. */
-export type MessageTemplateOutputTagsList = Array<string>;
+export type MessageTemplateTagsList = Array<string>;
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
 export type RoleAtOrganizationEnum =
@@ -209,14 +209,14 @@ export interface UserBasic {
   hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
   role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
-export interface MessageTemplateOutput {
+export interface MessageTemplate {
   id: string;
   /** Human-readable template name shown in the library. */
   name: string;
   /** What the template is for and when to use it. */
   description?: string | undefined;
   /** Tags for organizing templates, for example by team or use case. Tags are shared with the rest of the project. Omit to keep the current tags, send an empty list to remove them all. */
-  tags?: MessageTemplateOutputTagsList | undefined;
+  tags?: MessageTemplateTagsList | undefined;
   created_at: string;
   updated_at: string;
   /** Template content keyed by channel. Replaced as a whole on update, not merged. */
@@ -228,8 +228,10 @@ export interface MessageTemplateOutput {
   message_category?: string | null | undefined;
   /** Soft-delete flag. Set true to remove the template from the library. */
   deleted?: boolean | undefined;
-  /** For emails that carry login codes, reset links or other secrets. PostHog keeps no copy of each sent email's body or filled-in subject, and clicked links keep only the site address. Can change at any time. */
+  /** For emails that carry login codes, reset links or other secrets. PostHog keeps no copy of each sent email's body or filled-in subject, turns click tracking off by default, and records only the site address when click tracking is on. Can change at any time. */
   sensitive?: boolean | undefined;
+  /** Whether links in emails sent from this template are rewritten to count clicks. Null uses the default: off when `sensitive` is true, on when `sensitive` is false. Set true to opt a sensitive template into click tracking, or false to turn click tracking off. Changing `sensitive` resets this to null unless `click_tracking_enabled` is sent in the same request. */
+  click_tracking_enabled?: boolean | null | undefined;
   /** The workflow that sends this template over the transactional email or push API. Null until the template is made transactional. Each content save writes a new version of it. */
   transactional_hog_flow_id: string | null;
   /** Unpublished edits to a transactional template's content. Sends keep using `content`. Saving `content` publishes it and clears the draft. Set null to discard the draft. */
@@ -255,33 +257,31 @@ export interface GetMessagingTemplateRequest {
   /** A UUID string identifying this message template. */
   id: string;
 }
-export interface GetMessagingTemplatesPlacementRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  id: string;
-}
-export interface MessageTemplatePlacement {
-  /** Project tree path of the template's own file, such as 'Campaigns/Welcome'. Null when the template has no file. */
-  path: string | null;
-}
+export type ListMessagingTemplatesRequestTagsList = Array<string>;
 export interface ListMessagingTemplatesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** With true, leave out `content` and `draft_content` from each template, for lists that show names and metadata only. `has_draft` still says whether a draft exists. */
   basic?: boolean | undefined;
+  /** List only templates created by the user with this ID. */
+  created_by?: number | undefined;
   /** Number of results to return per page. */
   limit?: number | undefined;
   /** The initial index from which to return the results. */
   offset?: number | undefined;
+  /** List only templates whose name, description or a tag contains this text, ignoring case. */
+  search?: string | undefined;
+  /** List only templates that carry at least one of these tags. Repeat the parameter for each tag. */
+  tags?: ListMessagingTemplatesRequestTagsList | undefined;
   /** With true, list only templates sent over the transactional email API. With false, only the others. Leave out to list all templates. */
   transactional?: boolean | undefined;
 }
-export type PaginatedMessageTemplateListOutputResultsList = Array<MessageTemplateOutput>;
-export interface PaginatedMessageTemplateListOutput {
+export type PaginatedMessageTemplateListResultsList = Array<MessageTemplate>;
+export interface PaginatedMessageTemplateList {
   count: number;
   next?: string | null | undefined;
   previous?: string | null | undefined;
-  results: PaginatedMessageTemplateListOutputResultsList;
+  results: PaginatedMessageTemplateListResultsList;
 }
 export interface MessagingTemplatesDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -318,8 +318,6 @@ export interface UpdateMessagingTemplateRequest {
   project_id: string;
   /** A UUID string identifying this message template. */
   id: string;
-  /** Project folder for the new email template. */
-  _create_in_folder?: string | undefined;
   /** Human-readable template name shown in the library. */
   name: string;
   /** What the template is for and when to use it. */
@@ -334,8 +332,10 @@ export interface UpdateMessagingTemplateRequest {
   message_category?: string | null | undefined;
   /** Soft-delete flag. Set true to remove the template from the library. */
   deleted?: boolean | undefined;
-  /** For emails that carry login codes, reset links or other secrets. PostHog keeps no copy of each sent email's body or filled-in subject, and clicked links keep only the site address. Can change at any time. */
+  /** For emails that carry login codes, reset links or other secrets. PostHog keeps no copy of each sent email's body or filled-in subject, turns click tracking off by default, and records only the site address when click tracking is on. Can change at any time. */
   sensitive?: boolean | undefined;
+  /** Whether links in emails sent from this template are rewritten to count clicks. Null uses the default: off when `sensitive` is true, on when `sensitive` is false. Set true to opt a sensitive template into click tracking, or false to turn click tracking off. Changing `sensitive` resets this to null unless `click_tracking_enabled` is sent in the same request. */
+  click_tracking_enabled?: boolean | null | undefined;
   /** Unpublished edits to a transactional template's content. Sends keep using `content`. Saving `content` publishes it and clears the draft. Set null to discard the draft. */
   draft_content?: MessageTemplateContent | null | undefined;
 }
@@ -383,8 +383,6 @@ export interface UpdateMessagingTemplatesPartialRequest {
   project_id: string;
   /** A UUID string identifying this message template. */
   id: string;
-  /** Project folder for the new email template. */
-  _create_in_folder?: string | undefined;
   /** Human-readable template name shown in the library. */
   name?: string | undefined;
   /** What the template is for and when to use it. */
@@ -399,20 +397,22 @@ export interface UpdateMessagingTemplatesPartialRequest {
   message_category?: string | null | undefined;
   /** Soft-delete flag. Set true to remove the template from the library. */
   deleted?: boolean | undefined;
-  /** For emails that carry login codes, reset links or other secrets. PostHog keeps no copy of each sent email's body or filled-in subject, and clicked links keep only the site address. Can change at any time. */
+  /** For emails that carry login codes, reset links or other secrets. PostHog keeps no copy of each sent email's body or filled-in subject, turns click tracking off by default, and records only the site address when click tracking is on. Can change at any time. */
   sensitive?: boolean | undefined;
+  /** Whether links in emails sent from this template are rewritten to count clicks. Null uses the default: off when `sensitive` is true, on when `sensitive` is false. Set true to opt a sensitive template into click tracking, or false to turn click tracking off. Changing `sensitive` resets this to null unless `click_tracking_enabled` is sent in the same request. */
+  click_tracking_enabled?: boolean | null | undefined;
   /** Unpublished edits to a transactional template's content. Sends keep using `content`. Saving `content` publishes it and clears the draft. Set null to discard the draft. */
   draft_content?: MessageTemplateContent | null | undefined;
 }
 export type CreateMessagingTemplateError = PosthogOpError;
 export const createMessagingTemplate: API.OperationMethod<
   CreateMessagingTemplateRequest,
-  MessageTemplateOutput,
+  MessageTemplate,
   CreateMessagingTemplateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<CreateMessagingTemplateRequest>,
-  output: __S(139, __c8, 11) as any as S.Schema<MessageTemplateOutput>,
+  input: __S(64, __c4, 0) as any as S.Schema<CreateMessagingTemplateRequest>,
+  output: __S(107, __c6, 11) as any as S.Schema<MessageTemplate>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -425,12 +425,12 @@ export type CreateMessagingTemplatesMakeTransactionalError = BadRequest | NotFou
 /** Make a template transactional Make this template sendable over the transactional email API, or the transactional push API for a push template. This creates the workflow that sends it, with its own metrics, run history and versions. This can't be undone: the template stays transactional. Transactional sends ignore marketing opt-outs. Calling it again on a transactional template changes nothing. Needs the `transactional_email:write` scope, the same scope as sending. A key with `hog_flow:write` also works, but that scope reaches the rest of Workflows too. Without `hog_flow:read`, the response leaves out `content` and `draft_content`. */
 export const createMessagingTemplatesMakeTransactional: API.OperationMethod<
   CreateMessagingTemplatesMakeTransactionalRequest,
-  MessageTemplateOutput,
+  MessageTemplate,
   CreateMessagingTemplatesMakeTransactionalError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<CreateMessagingTemplatesMakeTransactionalRequest>,
-  output: __S(139, __c8, 11) as any as S.Schema<MessageTemplateOutput>,
+  input: __S(112, __c7, 0) as any as S.Schema<CreateMessagingTemplatesMakeTransactionalRequest>,
+  output: __S(107, __c6, 11) as any as S.Schema<MessageTemplate>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -442,12 +442,12 @@ export const createMessagingTemplatesMakeTransactional: API.OperationMethod<
 export type GetMessagingTemplateError = PosthogOpError;
 export const getMessagingTemplate: API.OperationMethod<
   GetMessagingTemplateRequest,
-  MessageTemplateOutput,
+  MessageTemplate,
   GetMessagingTemplateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<GetMessagingTemplateRequest>,
-  output: __S(139, __c8, 11) as any as S.Schema<MessageTemplateOutput>,
+  input: __S(128, __c8, 0) as any as S.Schema<GetMessagingTemplateRequest>,
+  output: __S(107, __c6, 11) as any as S.Schema<MessageTemplate>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -456,33 +456,15 @@ export const getMessagingTemplate: API.OperationMethod<
   span: "GetMessagingTemplate",
 }));
 
-export type GetMessagingTemplatesPlacementError = PosthogOpError;
-/** Read where the template sits in the project tree, so an undo of its delete can put it back. */
-export const getMessagingTemplatesPlacement: API.OperationMethod<
-  GetMessagingTemplatesPlacementRequest,
-  MessageTemplatePlacement,
-  GetMessagingTemplatesPlacementError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<GetMessagingTemplatesPlacementRequest>,
-  output: __S(177, __c11, 1) as any as S.Schema<MessageTemplatePlacement>,
-  errors: [],
-  serviceErrors: PosthogServiceErrors,
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetMessagingTemplatesPlacement",
-}));
-
 export type ListMessagingTemplatesError = PosthogOpError;
 export const listMessagingTemplates: API.OperationMethod<
   ListMessagingTemplatesRequest,
-  PaginatedMessageTemplateListOutput,
+  PaginatedMessageTemplateList,
   ListMessagingTemplatesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<ListMessagingTemplatesRequest>,
-  output: __S(194, __c12, 2) as any as S.Schema<PaginatedMessageTemplateListOutput>,
+  input: __S(144, __c9, 0) as any as S.Schema<ListMessagingTemplatesRequest>,
+  output: __S(146, __c9, 2) as any as S.Schema<PaginatedMessageTemplateList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -499,8 +481,8 @@ export const messagingTemplatesDestroy: API.OperationMethod<
   MessagingTemplatesDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<MessagingTemplatesDestroyRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<MessagingTemplatesDestroyResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<MessagingTemplatesDestroyRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<MessagingTemplatesDestroyResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -523,8 +505,8 @@ export const messagingTemplatesSendCreate: API.OperationMethod<
   MessagingTemplatesSendCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33, __c2, 1) as any as S.Schema<MessagingTemplatesSendCreateRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<MessagingTemplatesSendCreateResponse>,
+  input: __S(1, __c0, 1) as any as S.Schema<MessagingTemplatesSendCreateRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<MessagingTemplatesSendCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -536,12 +518,12 @@ export const messagingTemplatesSendCreate: API.OperationMethod<
 export type UpdateMessagingTemplateError = PosthogOpError;
 export const updateMessagingTemplate: API.OperationMethod<
   UpdateMessagingTemplateRequest,
-  MessageTemplateOutput,
+  MessageTemplate,
   UpdateMessagingTemplateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<UpdateMessagingTemplateRequest>,
-  output: __S(139, __c8, 11) as any as S.Schema<MessageTemplateOutput>,
+  input: __S(16, __c1, 0) as any as S.Schema<UpdateMessagingTemplateRequest>,
+  output: __S(107, __c6, 11) as any as S.Schema<MessageTemplate>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -553,12 +535,12 @@ export const updateMessagingTemplate: API.OperationMethod<
 export type UpdateMessagingTemplatesDesignPartialError = PosthogOpError;
 export const updateMessagingTemplatesDesignPartial: API.OperationMethod<
   UpdateMessagingTemplatesDesignPartialRequest,
-  MessageTemplateOutput,
+  MessageTemplate,
   UpdateMessagingTemplatesDesignPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(66, __c4, 2) as any as S.Schema<UpdateMessagingTemplatesDesignPartialRequest>,
-  output: __S(139, __c8, 11) as any as S.Schema<MessageTemplateOutput>,
+  input: __S(34, __c2, 2) as any as S.Schema<UpdateMessagingTemplatesDesignPartialRequest>,
+  output: __S(107, __c6, 11) as any as S.Schema<MessageTemplate>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -570,12 +552,12 @@ export const updateMessagingTemplatesDesignPartial: API.OperationMethod<
 export type UpdateMessagingTemplatesPartialError = PosthogOpError;
 export const updateMessagingTemplatesPartial: API.OperationMethod<
   UpdateMessagingTemplatesPartialRequest,
-  MessageTemplateOutput,
+  MessageTemplate,
   UpdateMessagingTemplatesPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<UpdateMessagingTemplatesPartialRequest>,
-  output: __S(139, __c8, 11) as any as S.Schema<MessageTemplateOutput>,
+  input: __S(48, __c3, 0) as any as S.Schema<UpdateMessagingTemplatesPartialRequest>,
+  output: __S(107, __c6, 11) as any as S.Schema<MessageTemplate>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -590,31 +572,6 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/api/projects/{project_id}/messaging_templates/{id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "MessagingTemplatesDestroyRequest" });
-  }
-}
-function __c1(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({
-        identifier: "MessagingTemplatesDestroyResponse",
-      });
-  }
-}
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           distinct_id: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "TransactionalEmailIdentifiers" });
@@ -624,8 +581,8 @@ function __c2(j: number): any {
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           to: S.String,
-          message_data: S.optional(__S(112, __c7, 0)),
-          identifiers: S.optional(__S(32, __c2, 0)),
+          message_data: S.optional(__S(80, __c5, 0)),
+          identifiers: S.optional(__S(0, __c0, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -636,23 +593,23 @@ function __c2(j: number): any {
       ).annotate({ identifier: "MessagingTemplatesSendCreateRequest" });
   }
 }
-function __c3(j: number): any {
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          _create_in_folder: S.optional(S.String),
           name: S.String,
           description: S.optional(S.String),
-          tags: S.optional(__S(128, __c8, 0)),
-          content: S.optional(__S(137, __c8, 9)),
+          tags: S.optional(__S(96, __c6, 0)),
+          content: S.optional(__S(105, __c6, 9)),
           type: S.optional(S.String),
           message_category: S.optional(S.NullOr(S.String)),
           deleted: S.optional(S.Boolean),
           sensitive: S.optional(S.Boolean),
-          draft_content: S.optional(S.NullOr(__S(137, __c8, 9))),
+          click_tracking_enabled: S.optional(S.NullOr(S.Boolean)),
+          draft_content: S.optional(S.NullOr(__S(105, __c6, 9))),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -663,7 +620,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "UpdateMessagingTemplateRequest" });
   }
 }
-function __c4(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -678,13 +635,13 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "DesignOperation" });
     case 1:
-      return S.Array(__S(64, __c4, 0));
+      return S.Array(__S(32, __c2, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          operations: S.optional(__S(65, __c4, 1)),
+          operations: S.optional(__S(33, __c2, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -695,23 +652,23 @@ function __c4(j: number): any {
       ).annotate({ identifier: "UpdateMessagingTemplatesDesignPartialRequest" });
   }
 }
-function __c5(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          _create_in_folder: S.optional(S.String),
           name: S.optional(S.String),
           description: S.optional(S.String),
-          tags: S.optional(__S(128, __c8, 0)),
-          content: S.optional(__S(137, __c8, 9)),
+          tags: S.optional(__S(96, __c6, 0)),
+          content: S.optional(__S(105, __c6, 9)),
           type: S.optional(S.String),
           message_category: S.optional(S.NullOr(S.String)),
           deleted: S.optional(S.Boolean),
           sensitive: S.optional(S.Boolean),
-          draft_content: S.optional(S.NullOr(__S(137, __c8, 9))),
+          click_tracking_enabled: S.optional(S.NullOr(S.Boolean)),
+          draft_content: S.optional(S.NullOr(__S(105, __c6, 9))),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -722,22 +679,22 @@ function __c5(j: number): any {
       ).annotate({ identifier: "UpdateMessagingTemplatesPartialRequest" });
   }
 }
-function __c6(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          _create_in_folder: S.optional(S.String),
           name: S.String,
           description: S.optional(S.String),
-          tags: S.optional(__S(128, __c8, 0)),
-          content: S.optional(__S(137, __c8, 9)),
+          tags: S.optional(__S(96, __c6, 0)),
+          content: S.optional(__S(105, __c6, 9)),
           type: S.optional(S.String),
           message_category: S.optional(S.NullOr(S.String)),
           deleted: S.optional(S.Boolean),
           sensitive: S.optional(S.Boolean),
-          draft_content: S.optional(S.NullOr(__S(137, __c8, 9))),
+          click_tracking_enabled: S.optional(S.NullOr(S.Boolean)),
+          draft_content: S.optional(S.NullOr(__S(105, __c6, 9))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -748,13 +705,13 @@ function __c6(j: number): any {
       ).annotate({ identifier: "CreateMessagingTemplateRequest" });
   }
 }
-function __c7(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c8(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -765,9 +722,9 @@ function __c8(j: number): any {
         S.StructWithRest(
           S.Struct({
             id: S.optional(S.String),
-            rows: __S(129, __c8, 1),
-            headers: S.optional(__S(129, __c8, 1)),
-            footers: S.optional(__S(129, __c8, 1)),
+            rows: __S(97, __c6, 1),
+            headers: S.optional(__S(97, __c6, 1)),
+            footers: S.optional(__S(97, __c6, 1)),
             values: S.optional(S.Unknown),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -779,7 +736,7 @@ function __c8(j: number): any {
           S.Struct({
             counters: S.optional(S.Unknown),
             schemaVersion: S.Number,
-            body: __S(130, __c8, 2),
+            body: __S(98, __c6, 2),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -799,8 +756,8 @@ function __c8(j: number): any {
           text: S.optional(S.String),
           preheader: S.optional(S.String),
           html: S.optional(S.String),
-          design: S.optional(__S(131, __c8, 3)),
-          from: S.optional(__S(132, __c8, 4)),
+          design: S.optional(__S(99, __c6, 3)),
+          from: S.optional(__S(100, __c6, 4)),
           replyTo: S.optional(S.String),
         }),
       ).annotate({ identifier: "EmailTemplate" });
@@ -815,16 +772,16 @@ function __c8(j: number): any {
           body: S.optional(S.String),
           image: S.optional(S.String),
           link: S.optional(S.String),
-          channels: S.optional(__S(134, __c8, 6)),
-          data: S.optional(__S(135, __c8, 7)),
+          channels: S.optional(__S(102, __c6, 6)),
+          data: S.optional(__S(103, __c6, 7)),
         }),
       ).annotate({ identifier: "PushTemplate" });
     case 9:
       return S.suspend(() =>
         S.Struct({
           templating: S.optional(S.String),
-          email: S.optional(S.NullOr(__S(133, __c8, 5))),
-          push: S.optional(S.NullOr(__S(136, __c8, 8))),
+          email: S.optional(S.NullOr(__S(101, __c6, 5))),
+          push: S.optional(S.NullOr(__S(104, __c6, 8))),
         }),
       ).annotate({ identifier: "MessageTemplateContent" });
     case 10:
@@ -837,7 +794,7 @@ function __c8(j: number): any {
           last_name: S.optional(S.String),
           email: S.optional(S.String),
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(112, __c7, 0))),
+          hedgehog_config: S.optional(S.NullOr(__S(80, __c5, 0))),
           role_at_organization: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "UserBasic" });
@@ -847,23 +804,24 @@ function __c8(j: number): any {
           id: S.String,
           name: S.String,
           description: S.optional(S.String),
-          tags: S.optional(__S(128, __c8, 0)),
+          tags: S.optional(__S(96, __c6, 0)),
           created_at: S.String,
           updated_at: S.String,
-          content: S.optional(__S(137, __c8, 9)),
-          created_by: __S(138, __c8, 10),
+          content: S.optional(__S(105, __c6, 9)),
+          created_by: __S(106, __c6, 10),
           type: S.optional(S.String),
           message_category: S.optional(S.NullOr(S.String)),
           deleted: S.optional(S.Boolean),
           sensitive: S.optional(S.Boolean),
+          click_tracking_enabled: S.optional(S.NullOr(S.Boolean)),
           transactional_hog_flow_id: S.NullOr(S.String),
-          draft_content: S.optional(S.NullOr(__S(137, __c8, 9))),
+          draft_content: S.optional(S.NullOr(__S(105, __c6, 9))),
           has_draft: S.Boolean,
         }),
-      ).annotate({ identifier: "MessageTemplateOutput" });
+      ).annotate({ identifier: "MessageTemplate" });
   }
 }
-function __c9(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -882,7 +840,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "CreateMessagingTemplatesMakeTransactionalRequest" });
   }
 }
-function __c10(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -899,38 +857,18 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetMessagingTemplateRequest" });
   }
 }
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/messaging_templates/{id}/placement/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetMessagingTemplatesPlacementRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          path: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "MessageTemplatePlacement" });
-  }
-}
-function __c12(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           basic: S.optional(S.Boolean.pipe(T.Query())),
+          created_by: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
+          search: S.optional(S.String.pipe(T.Query())),
+          tags: S.optional(__S(96, __c6, 0).pipe(T.Query())),
           transactional: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -941,16 +879,41 @@ function __c12(j: number): any {
         ),
       ).annotate({ identifier: "ListMessagingTemplatesRequest" });
     case 1:
-      return S.Array(__S(139, __c8, 11));
+      return S.Array(__S(107, __c6, 11));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(193, __c12, 1),
+          results: __S(145, __c9, 1),
         }),
-      ).annotate({ identifier: "PaginatedMessageTemplateListOutput" });
+      ).annotate({ identifier: "PaginatedMessageTemplateList" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/projects/{project_id}/messaging_templates/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "MessagingTemplatesDestroyRequest" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "MessagingTemplatesDestroyResponse",
+      });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

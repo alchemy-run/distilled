@@ -385,20 +385,31 @@ export interface ReviewQueueItem {
 }
 /** Tag names. Replaces existing tags; send [] to remove all tags. Names are trimmed and lowercased. */
 export type CreateLlmAnalyticsScoreDefinitionRequestTagsList = Array<string>;
+/** Apply this version to these suites for future runs. Omit to preserve existing assignments. */
+export type CreateLlmAnalyticsScoreDefinitionRequestApplyToSuiteKeysList = Array<string>;
+/** * `item` - Item * `experiment` - Experiment */
+export type ScoreDefinitionScopeEnum = "item" | "experiment";
 /** * `reported` - Reported * `composite` - Composite */
 export type ScoreDefinitionCalculationEnum = "reported" | "composite";
+/** * `pass_rate` - pass_rate * `mean` - mean * `true_rate` - true_rate * `category_rate` - category_rate */
+export type ExperimentScoreStatisticEnum = "pass_rate" | "mean" | "true_rate" | "category_rate";
+/** * `run` - run * `exact` - exact * `combine` - combine */
+export type ExperimentScoreVersionPolicyEnum = "run" | "exact" | "combine";
 export interface CompositeInput {
   /** Input name used in the formula. Start with a lowercase letter; use letters, digits, and underscores. */
   alias: string;
-  /** Exact immutable version of an ordinary input scorer. */
+  /** Version of the input item scorer. Experiment formulas use its definition to find the run's results unless the version policy is exact. */
   scorer_version_id: string;
+  statistic?: ExperimentScoreStatisticEnum | (string & {}) | undefined;
+  version_policy?: ExperimentScoreVersionPolicyEnum | (string & {}) | undefined;
+  category?: string | undefined;
 }
-/** Named, version-pinned input scorers for the same item. Nested composites are not supported. */
+/** Named inputs. Item formulas use reported results from exact versions. Experiment formulas use statistics from item scorers. */
 export type CompositeConfigInputsList = Array<CompositeInput>;
 export interface CompositeConfig {
   /** Formula using the declared input aliases. Supports +, -, *, /, comparisons, and/or/not, conditional expressions, and number(), min(), max(), abs(). Boolean inputs are raw values: number(True) is 1 and number(False) is 0, regardless of passing rules. Categorical inputs are lists of keys: use "good" in relevance. Examples: (2 * precision + recall) / 3; safe and correct; "good" if correct else "bad". Every input alias must appear. Line breaks are allowed. Arithmetic results use 12 significant digits. Up to 1,024 characters and 16 input scorers. */
   expression: string;
-  /** Named, version-pinned input scorers for the same item. Nested composites are not supported. */
+  /** Named inputs. Item formulas use reported results from exact versions. Experiment formulas use statistics from item scorers. */
   inputs: CompositeConfigInputsList;
 }
 /** * `categorical` - categorical * `numeric` - numeric * `boolean` - boolean */
@@ -466,6 +477,9 @@ export interface CreateLlmAnalyticsScoreDefinitionRequest {
   project_id: string;
   /** Tag names. Replaces existing tags; send [] to remove all tags. Names are trimmed and lowercased. */
   tags?: CreateLlmAnalyticsScoreDefinitionRequestTagsList | undefined;
+  /** Apply this version to these suites for future runs. Omit to preserve existing assignments. */
+  apply_to_suite_keys?: CreateLlmAnalyticsScoreDefinitionRequestApplyToSuiteKeysList | undefined;
+  scope?: ScoreDefinitionScopeEnum | (string & {}) | undefined;
   /** Reported or composite. This cannot be changed after creation. * `reported` - Reported * `composite` - Composite */
   calculation?: ScoreDefinitionCalculationEnum | (string & {}) | undefined;
   /** Required for composite scorers: expression and exact input versions. */
@@ -485,6 +499,10 @@ export interface CreateLlmAnalyticsScoreDefinitionRequest {
 }
 /** Project tag names assigned to this resource. */
 export type ScoreDefinitionTagsList = Array<string>;
+/** Suites that currently use this exact version for new experiments. */
+export type ScoreDefinitionSuiteKeysList = Array<string>;
+/** Suite defaults across all visible versions. Included on retrieve. */
+export type ScoreDefinitionAssignedSuiteKeysList = Array<string>;
 export interface CompositeInputRead {
   /** Input name in the formula. */
   alias: string;
@@ -516,9 +534,14 @@ export interface ScoreDefinition {
   /** Project tag names assigned to this resource. */
   tags: ScoreDefinitionTagsList;
   kind?: ScoreDefinitionKindEnum | undefined;
-  /** Whether results are reported by the caller or calculated from other item scores. * `reported` - Reported * `composite` - Composite */
+  scope: ScoreDefinitionScopeEnum;
+  /** Suites that currently use this exact version for new experiments. */
+  suite_keys: ScoreDefinitionSuiteKeysList;
+  /** Suite defaults across all visible versions. Included on retrieve. */
+  assigned_suite_keys?: ScoreDefinitionAssignedSuiteKeysList | undefined;
+  /** Whether results are reported by the caller or calculated with a formula. * `reported` - Reported * `composite` - Composite */
   calculation: ScoreDefinitionCalculationEnum;
-  /** Formula and exact input versions for a composite scorer. */
+  /** Formula and input selections for an item or experiment scorer. */
   composition: CompositeConfig | null;
   /** Pinned inputs and their latest versions. Empty for reported scorers. */
   input_scorers: ScoreDefinitionInputScorersList;
@@ -541,11 +564,17 @@ export interface ScoreDefinition {
   updated_by_project_key_id: string | null;
   team?: number | undefined;
 }
+/** Apply this version to these suites for future runs. Omit to preserve existing assignments. */
+export type CreateLlmAnalyticsScoreDefinitionsNewVersionRequestApplyToSuiteKeysList = Array<string>;
 export interface CreateLlmAnalyticsScoreDefinitionsNewVersionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this score definition. */
   id: string;
+  /** Apply this version to these suites for future runs. Omit to preserve existing assignments. */
+  apply_to_suite_keys?:
+    | CreateLlmAnalyticsScoreDefinitionsNewVersionRequestApplyToSuiteKeysList
+    | undefined;
   /** Required for a composite scorer. Creates a new immutable formula and input selection. */
   composition?: CompositeConfig | null | undefined;
   /** Updated compact label, saved with this version. */
@@ -781,6 +810,8 @@ export interface GetLlmAnalyticsScoreDefinitionsVersionRequest {
   /** Immutable version UUID. */
   version_id: string;
 }
+/** Suites currently assigned to this exact version. */
+export type ScoreDefinitionVersionSuiteKeysList = Array<string>;
 export interface ScoreDefinitionVersion {
   /** UUID identifying this exact immutable version. */
   id: string;
@@ -788,8 +819,11 @@ export interface ScoreDefinitionVersion {
   definition_id: string;
   /** Immutable version number within this scorer. */
   version: number;
+  /** Suites currently assigned to this exact version. */
+  suite_keys: ScoreDefinitionVersionSuiteKeysList;
   /** Scorer value kind. * `categorical` - categorical * `numeric` - numeric * `boolean` - boolean */
   kind: ScoreDefinitionKindEnum;
+  scope: ScoreDefinitionScopeEnum;
   /** How this scorer's results are produced. * `reported` - Reported * `composite` - Composite */
   calculation: ScoreDefinitionCalculationEnum;
   /** Immutable formula and input versions, or null for reported scores. */
@@ -1129,6 +1163,7 @@ export interface PaginatedReviewQueueList {
   results?: PaginatedReviewQueueListResultsList | undefined;
 }
 export type ListLlmAnalyticsScoreDefinitionsRequestCalculation = "composite" | "reported";
+export type ListLlmAnalyticsScoreDefinitionsRequestScope = "experiment" | "item";
 export type ListLlmAnalyticsScoreDefinitionsRequestTagMatch = "any" | "all";
 export interface ListLlmAnalyticsScoreDefinitionsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1149,6 +1184,8 @@ export interface ListLlmAnalyticsScoreDefinitionsRequest {
   offset?: number | undefined;
   /** Sort by name, kind, created_at, updated_at, or current_version. */
   order_by?: string | undefined;
+  /** * `item` - Item * `experiment` - Experiment */
+  scope?: ListLlmAnalyticsScoreDefinitionsRequestScope | (string & {}) | undefined;
   /** Search scorers by name, short name, or description. */
   search?: string | undefined;
   /** Match any selected tag (OR) or all selected tags (AND). Additional tags are allowed. * `any` - Any * `all` - All */
@@ -1271,6 +1308,7 @@ export interface LlmAnalyticsProviderKeysValidateCreateRequest {
 export interface LlmAnalyticsScoreDefinitionsValidateCompositionCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  scope?: ScoreDefinitionScopeEnum | (string & {}) | undefined;
   /** Expected formula output kind. * `categorical` - categorical * `numeric` - numeric * `boolean` - boolean */
   kind: ScoreDefinitionKindEnum | (string & {});
   /** Formula and pinned input versions to validate without saving. */
@@ -1486,6 +1524,8 @@ export interface UpdateLlmAnalyticsReviewQueuePartialRequest {
 }
 /** Tag names. Replaces existing tags; send [] to remove all tags. Names are trimmed and lowercased. */
 export type UpdateLlmAnalyticsScoreDefinitionsPartialRequestTagsList = Array<string>;
+/** Apply this version to these suites for future runs. Omit to preserve existing assignments. */
+export type UpdateLlmAnalyticsScoreDefinitionsPartialRequestApplyToSuiteKeysList = Array<string>;
 export interface UpdateLlmAnalyticsScoreDefinitionsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -1493,6 +1533,12 @@ export interface UpdateLlmAnalyticsScoreDefinitionsPartialRequest {
   id: string;
   /** Tag names. Replaces existing tags; send [] to remove all tags. Names are trimmed and lowercased. */
   tags?: UpdateLlmAnalyticsScoreDefinitionsPartialRequestTagsList | undefined;
+  /** Apply this version to these suites for future runs. Omit to preserve existing assignments. */
+  apply_to_suite_keys?:
+    | UpdateLlmAnalyticsScoreDefinitionsPartialRequestApplyToSuiteKeysList
+    | undefined;
+  /** Exact version to assign to the selected suites. Defaults to the current version. */
+  suite_version_id?: string | undefined;
   /** Updated scorer name. */
   name?: string | undefined;
   /** Updated compact label. Blank uses the full name. */
@@ -2681,6 +2727,8 @@ function __c7(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           tags: S.optional(__S(128, __c8, 0)),
+          apply_to_suite_keys: S.optional(__S(128, __c8, 0)),
+          scope: S.optional(S.String),
           calculation: S.optional(S.String),
           composition: S.optional(S.NullOr(__S(146, __c9, 2))),
           name: S.optional(S.String),
@@ -2712,6 +2760,9 @@ function __c9(j: number): any {
         S.Struct({
           alias: S.String,
           scorer_version_id: S.String,
+          statistic: S.optional(S.String),
+          version_policy: S.optional(S.String),
+          category: S.optional(S.String),
         }),
       ).annotate({ identifier: "CompositeInput" });
     case 1:
@@ -2752,6 +2803,9 @@ function __c10(j: number): any {
           description: S.optional(S.String),
           tags: __S(128, __c8, 0),
           kind: S.optional(S.String),
+          scope: S.String,
+          suite_keys: __S(128, __c8, 0),
+          assigned_suite_keys: S.optional(__S(128, __c8, 0)),
           calculation: S.String,
           composition: S.NullOr(__S(146, __c9, 2)),
           input_scorers: __S(161, __c10, 1),
@@ -2778,6 +2832,7 @@ function __c11(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
+          apply_to_suite_keys: S.optional(__S(128, __c8, 0)),
           composition: S.optional(S.NullOr(__S(146, __c9, 2))),
           short_name: S.optional(S.String),
           name: S.optional(S.String),
@@ -3176,7 +3231,9 @@ function __c29(j: number): any {
           id: S.String,
           definition_id: S.String,
           version: S.Number,
+          suite_keys: __S(128, __c8, 0),
           kind: S.String,
+          scope: S.String,
           calculation: S.String,
           composition: S.NullOr(__S(146, __c9, 2)),
           config: S.Unknown,
@@ -3629,6 +3686,7 @@ function __c41(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
           order_by: S.optional(S.String.pipe(T.Query())),
+          scope: S.optional(S.String.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
           tag_match: S.optional(S.String.pipe(T.Query())),
           tags: S.optional(S.String.pipe(T.Query())),
@@ -3912,6 +3970,7 @@ function __c55(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          scope: S.optional(S.String),
           kind: S.String,
           composition: __S(146, __c9, 2),
           config: S.optional(S.Unknown),
@@ -4273,6 +4332,8 @@ function __c71(j: number): any {
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           tags: S.optional(__S(128, __c8, 0)),
+          apply_to_suite_keys: S.optional(__S(128, __c8, 0)),
+          suite_version_id: S.optional(S.String),
           name: S.optional(S.String),
           short_name: S.optional(S.String),
           description: S.optional(S.NullOr(S.String)),

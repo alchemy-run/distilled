@@ -224,6 +224,10 @@ export interface TransactionalEmailImpact {
   after_click: TransactionalEmailConversions | null;
   /** Delivered sends nobody clicked and how many converted. Null without an event. */
   without_click: TransactionalEmailConversions | null;
+  /** Sessions with a pageview from a link in this email: the pageview URL carries the ph_workflow_run tag of one of its clicked sends, up to window_days after the period. Reads the newest 10,000 clicked sends at most. Sends that went out while link tagging was off carry no tag. Null when link_tagging_enabled is false, when the user has no access to querying events, or when the count could not be computed. */
+  sessions: number | null;
+  /** Whether the project setting that tags tracked links on the sender's own domain with ph_workflow_run is on now. The tag connects a click to its session. When false, sessions is null. Set it with workflows_config.email_workflow_run_link_tag_enabled in the project settings. */
+  link_tagging_enabled: boolean;
 }
 export interface GetTransactionalEmailLogResultRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -432,7 +436,7 @@ export const getTransactionalEmailLogActivity: API.OperationMethod<
 }));
 
 export type GetTransactionalEmailLogImpactError = Forbidden | NotFound | PosthogOpError;
-/** Get how far a transactional email's sends got Count one email's sends that were sent, delivered, opened and clicked. With an event, also count the clicked sends whose person did it within a week of the click, against delivered sends nobody clicked. */
+/** Get how far a transactional email's sends got Count one email's sends that were sent, delivered, opened and clicked, and the sessions with a pageview from its links. With an event, also count the clicked sends whose person did it within a week of the click, against delivered sends nobody clicked. */
 export const getTransactionalEmailLogImpact: API.OperationMethod<
   GetTransactionalEmailLogImpactRequest,
   TransactionalEmailImpact,
@@ -674,6 +678,8 @@ function __c2(j: number): any {
           window_days: S.Number,
           after_click: S.NullOr(__S(17, __c2, 1)),
           without_click: S.NullOr(__S(17, __c2, 1)),
+          sessions: S.NullOr(S.Number),
+          link_tagging_enabled: S.Boolean,
         }),
       ).annotate({ identifier: "TransactionalEmailImpact" });
   }

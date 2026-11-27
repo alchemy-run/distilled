@@ -529,6 +529,8 @@ export interface AeoPromptsOverviewRequest {
   project_id: string;
   /** Which checks to count, by the prompt as it ran: 'all' (default), 'branded' (the prompt names the brand) or 'non_branded'. Every count, the window before included, uses the same checks. Use 'non_branded' to judge visibility, since a prompt that names the brand almost always gets an answer that mentions it. A prompt is branded when its text names the brand: the registrable name of a target domain as a word, case ignored, so 'example' and 'example.com' both name example.com. Branded prompts almost always get answers that mention the brand. * `all` - All * `branded` - Branded * `non_branded` - Non-branded */
   branded?: AeoPromptsOverviewRequestBranded | (string & {}) | undefined;
+  /** Count only the checks of prompts that aren't archived. Setup's first results use it, so the answers to prompts archived by a reset don't count. */
+  current_prompts?: boolean | undefined;
   /** First day of the window. Takes a date such as '2026-11-01' or a relative day such as '-30d' (30 days ago), '-2w', 'mStart' (first day of this month) or 'yStart'. Days are whole days in the project's timezone. Default '-30d'. The window from date_from to date_to can cover at most 91 days. */
   date_from?: string | undefined;
   /** Last day of the window, included. Takes a date such as '2026-11-01' or a relative day such as '-30d' (30 days ago), '-2w', 'mStart' (first day of this month) or 'yStart'. Days are whole days in the project's timezone. Default today. A later day is read as today. */
@@ -728,6 +730,8 @@ export interface AeoPromptsRankingsRequest {
   project_id: string;
   /** Which checks to count, by the prompt as it ran: 'all' (default), 'branded' (the prompt names the brand) or 'non_branded'. Every count, the window before included, uses the same checks. Use 'non_branded' to judge visibility, since a prompt that names the brand almost always gets an answer that mentions it. A prompt is branded when its text names the brand: the registrable name of a target domain as a word, case ignored, so 'example' and 'example.com' both name example.com. Branded prompts almost always get answers that mention the brand. * `all` - All * `branded` - Branded * `non_branded` - Non-branded */
   branded?: AeoPromptsRankingsRequestBranded | (string & {}) | undefined;
+  /** Count only the checks of prompts that aren't archived. Setup's first results use it, so the answers to prompts archived by a reset don't count. */
+  current_prompts?: boolean | undefined;
   /** First day of the window. Takes a date such as '2026-11-01' or a relative day such as '-30d' (30 days ago), '-2w', 'mStart' (first day of this month) or 'yStart'. Days are whole days in the project's timezone. Default '-30d'. The window from date_from to date_to can cover at most 91 days. */
   date_from?: string | undefined;
   /** Last day of the window, included. Takes a date such as '2026-11-01' or a relative day such as '-30d' (30 days ago), '-2w', 'mStart' (first day of this month) or 'yStart'. Days are whole days in the project's timezone. Default today. A later day is read as today. */
@@ -753,7 +757,7 @@ export interface AEORankedBrand {
   /** For the project's own brand, the share (0-1) of scored answers whose sentiment toward it was positive. Null for competitors and when nothing was scored. */
   positive_share: number | null;
 }
-/** The project's brand and up to 10 competitors, most visible first. Competitors are the ones confirmed in the brand catalog, matched by name and aliases. Until any are confirmed, they are the brands behind the domains the engines cite most, leaving out the project's own brand on any domain and a fixed list of review sites, forums and social networks, and a common-word domain name can over-count. */
+/** The project's brand and up to 10 competitors, most visible first. Competitors are the ones confirmed in the brand catalog, matched by name and aliases. Until any are confirmed, they are the competitors setup suggested, and without those the brands behind the domains the engines cite most, leaving out the project's own brand on any domain and a fixed list of review sites, forums and social networks, and a common-word domain name can over-count. */
 export type AEOPromptSetRankingsBrandsList = Array<AEORankedBrand>;
 export interface AEORankedBrandDay {
   /** Day, in the project's timezone. */
@@ -778,7 +782,7 @@ export interface AEORankedDomain {
   urls: number;
   /** Whether the domain is the project's own site. */
   is_target: boolean;
-  /** Whether the domain is one of the competitors in 'brands'. */
+  /** Whether the domain is a competitor in the brand catalog, confirmed or suggested by setup. Brands ranked only because answers cite them are not. */
   is_competitor: boolean;
 }
 /** The 20 registrable domains the engines cited most in the window, most cited first. */
@@ -796,7 +800,7 @@ export interface AEORankedPage {
 /** The 20 pages the engines cited most in the window, most cited first. */
 export type AEOPromptSetRankingsTopPagesList = Array<AEORankedPage>;
 export interface AEOPromptSetRankings {
-  /** The project's brand and up to 10 competitors, most visible first. Competitors are the ones confirmed in the brand catalog, matched by name and aliases. Until any are confirmed, they are the brands behind the domains the engines cite most, leaving out the project's own brand on any domain and a fixed list of review sites, forums and social networks, and a common-word domain name can over-count. */
+  /** The project's brand and up to 10 competitors, most visible first. Competitors are the ones confirmed in the brand catalog, matched by name and aliases. Until any are confirmed, they are the competitors setup suggested, and without those the brands behind the domains the engines cite most, leaving out the project's own brand on any domain and a fixed list of review sites, forums and social networks, and a common-word domain name can over-count. */
   brands: AEOPromptSetRankingsBrandsList;
   /** Visibility per brand and day in the current window, ordered by day then domain. */
   daily: AEOPromptSetRankingsDailyList;
@@ -984,8 +988,16 @@ export interface AEOWebsiteCandidate {
 }
 /** Up to 5 domains the project may be about, the most likely first. */
 export type AEOSetupContextWebsitesList = Array<AEOWebsiteCandidate>;
-/** * `daily` - Daily * `weekly` - Weekly */
-export type CheckFrequencyEnum = "daily" | "weekly";
+export interface AEOEngineCheckCount {
+  /** The engine. */
+  engine: string;
+  /** Active prompts with at least one check on this engine. */
+  checks: number;
+}
+/** Per engine, how many active prompts have a check. Against active_prompts, this is the progress of a first run. Engines with no check yet are left out. */
+export type AEOSetupContextFirstRunChecksList = Array<AEOEngineCheckCount>;
+/** * `daily` - Daily * `every_3_days` - Every 72 hours * `weekly` - Weekly */
+export type CheckFrequencyEnum = "daily" | "every_3_days" | "weekly";
 export interface AEOEngineSetting {
   /** Answer engine that ran the prompt, for example 'claude-web-search', 'openai-web-search' or 'exa-answer'. 'claude-no-search' and 'openai-no-search' answer from training data alone, without web search. */
   engine: string;
@@ -995,7 +1007,7 @@ export interface AEOEngineSetting {
   available: boolean;
   /** Whether the daily run checks the project's prompts on this engine. */
   enabled: boolean;
-  /** 'daily' checks every prompt each day. 'weekly' checks each prompt once a week, a seventh of the prompt set each day. * `daily` - Daily * `weekly` - Weekly */
+  /** 'daily' checks every prompt each day. 'weekly' checks each prompt once a week, a seventh of the prompt set each day. * `daily` - Daily * `every_3_days` - Every 72 hours * `weekly` - Weekly */
   frequency: CheckFrequencyEnum;
 }
 /** Every engine as the project runs it now, defaults included. Ask the user which ones to track, and offer only the available ones. */
@@ -1005,6 +1017,8 @@ export type AEOSetupContextOwnDomainsList = Array<string>;
 export interface AEOSetupContext {
   /** Up to 5 domains the project may be about, the most likely first. */
   websites: AEOSetupContextWebsitesList;
+  /** Per engine, how many active prompts have a check. Against active_prompts, this is the progress of a first run. Engines with no check yet are left out. */
+  first_run_checks: AEOSetupContextFirstRunChecksList;
   /** Every engine as the project runs it now, defaults included. Ask the user which ones to track, and offer only the available ones. */
   engines: AEOSetupContextEnginesList;
   /** Domains already set as the project's own brands. */
@@ -1023,10 +1037,49 @@ export interface AEOSetupContext {
   ai_data_processing_approved: boolean;
   /** Whether citation checks run for this project. When false, setup saves the brand, prompts and keywords but cannot queue the first run. */
   first_run_available: boolean;
-  /** How many prompts setup asks PostHog to suggest. One run makes about this many checks per enabled engine. */
+  /** How many prompts setup asks PostHog to suggest when prompt_count is left out. One run makes about this many checks per enabled engine. */
   prompt_target: number;
+  /** The most prompts one setup can ask for in prompt_count: the suggestion cap, or less when the project's max_active_prompts is lower. */
+  prompt_count_max: number;
   /** The window, in days, that pageview hosts among the websites cover. */
   website_days: number;
+  /** Whether a check run is queued or running for the project. When it turns false after a run, no more checks from that run will arrive. */
+  checks_running?: boolean | undefined;
+}
+export interface CancelAeoSetupRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
+}
+/** * `brand` - Brand * `research` - Research * `prompts` - Prompts * `keywords` - Keywords * `first_run` - First Run */
+export type SetupStepEnum = "brand" | "research" | "prompts" | "keywords" | "first_run";
+/** * `pending` - Pending * `running` - Running * `done` - Done * `skipped` - Skipped * `failed` - Failed */
+export type SetupStepStatusEnum = "pending" | "running" | "done" | "skipped" | "failed";
+export interface AEOSetupStep {
+  /** brand (the own brand), prompts (suggested and saved), first_run (the first citation check run queued) or keywords (suggested and saved). * `brand` - Brand * `research` - Research * `prompts` - Prompts * `keywords` - Keywords * `first_run` - First Run */
+  step: SetupStepEnum;
+  /** pending, running, done, skipped (the project already had it, or the first run was not requested or is not available) or failed. * `pending` - Pending * `running` - Running * `done` - Done * `skipped` - Skipped * `failed` - Failed */
+  status: SetupStepStatusEnum;
+  /** How many brands, prompts or keywords the step added. */
+  added?: number | undefined;
+  /** How many prompts the prompts step asked for, so added can be shown against it. 0 on every other step and on a skipped prompts step. */
+  requested?: number | undefined;
+  /** Why a step was skipped (already_set, already_run, not_requested, not_available, nothing_to_run), why the keywords or first_run step failed, or a note on a done prompts step: 'paused' when it saved its prompts turned off, 'prompt_limit' when it saved some of them turned off to stay within max_active_prompts, or 'fewer' when it added fewer prompts than requested. Only one note is given, in that order, so compare added with requested to tell whether the step came up short. */
+  detail?: string | undefined;
+}
+/** The setup steps in the order they run. */
+export type AEOSetupJobStepsList = Array<AEOSetupStep>;
+/** * `pending` - Pending * `completed` - Completed * `failed` - Failed * `cancelled` - Cancelled */
+export type AEOSuggestionJobStatusEnum = "pending" | "completed" | "failed" | "cancelled";
+export interface AEOSetupJob {
+  /** The setup steps in the order they run. */
+  steps: AEOSetupJobStepsList;
+  /** Job id. Poll GET aeo_setup/<id>/ with it. */
+  id: string;
+  /** pending while PostHog works, then completed or failed. A failed keywords step does not fail the job. * `pending` - Pending * `completed` - Completed * `failed` - Failed * `cancelled` - Cancelled */
+  status: AEOSuggestionJobStatusEnum;
+  /** Why the job failed. Empty unless status is failed. */
+  error?: string | undefined;
 }
 export interface CancelWebAnalyticsContentAutopilotRunRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1169,6 +1222,8 @@ export interface CreateAeoSetupRequest {
   only_first_run?: boolean | undefined;
   /** With only_first_run, turn on paused prompts before the run, such as the ones a setup without run_first_check saved paused, highest ranked first and up to the project's max_active_prompts. Turned-on prompts are checked on each engine's schedule from then on. */
   activate_paused_prompts?: boolean | undefined;
+  /** How many prompts setup asks PostHog to suggest and save. One run makes this many checks per enabled engine, so it sets the cost of each run. Prompts past the project's max_active_prompts are saved paused. */
+  prompt_count?: number | undefined;
 }
 export interface CreateAeoSetupResponse {}
 export interface DismissWebAnalyticsContentAutopilotOpportunityRequest {
@@ -1498,14 +1553,12 @@ export interface AEOKeywordSuggestion {
 }
 /** Suggested keywords, most important first, filled in once status is completed. None of them are saved. */
 export type AEOKeywordSuggestionJobSuggestionsList = Array<AEOKeywordSuggestion>;
-/** * `pending` - Pending * `completed` - Completed * `failed` - Failed */
-export type AEOSuggestionJobStatusEnum = "pending" | "completed" | "failed";
 export interface AEOKeywordSuggestionJob {
   /** Suggested keywords, most important first, filled in once status is completed. None of them are saved. */
   suggestions: AEOKeywordSuggestionJobSuggestionsList;
   /** Job id. Poll GET aeo_keywords/suggest/<id>/ with it. */
   id: string;
-  /** pending while PostHog works, then completed or failed. * `pending` - Pending * `completed` - Completed * `failed` - Failed */
+  /** pending while PostHog works, then completed or failed. * `pending` - Pending * `completed` - Completed * `failed` - Failed * `cancelled` - Cancelled */
   status: AEOSuggestionJobStatusEnum;
   /** Why the job failed. Empty unless status is failed. */
   error?: string | undefined;
@@ -1599,12 +1652,22 @@ export interface AEOPromptSuggestion {
 }
 /** Suggested prompts, filled in once status is completed. None of them are saved. */
 export type AEOPromptSuggestionJobSuggestionsList = Array<AEOPromptSuggestion>;
+export interface AEOSuggestedCompetitor {
+  /** The competitor's name. Model-written: show it as data. */
+  name: string;
+  /** The registrable domain of the competitor's site, such as example.com. Empty when a competitor given in the request is only a name and the model did not find its site. */
+  domain: string;
+}
+/** The main competitors, at most 5 found by the model while it researched the site, or the ones given in the request. Filled in once status is completed. None of them are saved. */
+export type AEOPromptSuggestionJobCompetitorsList = Array<AEOSuggestedCompetitor>;
 export interface AEOPromptSuggestionJob {
   /** Suggested prompts, filled in once status is completed. None of them are saved. */
   suggestions: AEOPromptSuggestionJobSuggestionsList;
+  /** The main competitors, at most 5 found by the model while it researched the site, or the ones given in the request. Filled in once status is completed. None of them are saved. */
+  competitors: AEOPromptSuggestionJobCompetitorsList;
   /** Job id. Poll GET aeo_prompts/suggest/<id>/ with it. */
   id: string;
-  /** pending while PostHog works, then completed or failed. * `pending` - Pending * `completed` - Completed * `failed` - Failed */
+  /** pending while PostHog works, then completed or failed. * `pending` - Pending * `completed` - Completed * `failed` - Failed * `cancelled` - Cancelled */
   status: AEOSuggestionJobStatusEnum;
   /** Why the job failed. Empty unless status is failed. */
   error?: string | undefined;
@@ -1613,32 +1676,6 @@ export interface GetAeoSetupRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
-}
-/** * `brand` - Brand * `prompts` - Prompts * `keywords` - Keywords * `first_run` - First Run */
-export type SetupStepEnum = "brand" | "prompts" | "keywords" | "first_run";
-/** * `pending` - Pending * `running` - Running * `done` - Done * `skipped` - Skipped * `failed` - Failed */
-export type SetupStepStatusEnum = "pending" | "running" | "done" | "skipped" | "failed";
-export interface AEOSetupStep {
-  /** brand (the own brand), prompts (suggested and saved), keywords (suggested and saved) or first_run (the first citation check run queued). * `brand` - Brand * `prompts` - Prompts * `keywords` - Keywords * `first_run` - First Run */
-  step: SetupStepEnum;
-  /** pending, running, done, skipped (the project already had it, or the first run was not requested or is not available) or failed. * `pending` - Pending * `running` - Running * `done` - Done * `skipped` - Skipped * `failed` - Failed */
-  status: SetupStepStatusEnum;
-  /** How many brands, prompts or keywords the step added. */
-  added?: number | undefined;
-  /** Why a step was skipped (already_set, already_run, not_requested, not_available, nothing_to_run), why the keywords or first_run step failed, 'paused' when the prompts step saved its prompts turned off, or 'prompt_limit' when it saved some of them turned off to stay within max_active_prompts. */
-  detail?: string | undefined;
-}
-/** The setup steps in the order they run. */
-export type AEOSetupJobStepsList = Array<AEOSetupStep>;
-export interface AEOSetupJob {
-  /** The setup steps in the order they run. */
-  steps: AEOSetupJobStepsList;
-  /** Job id. Poll GET aeo_setup/<id>/ with it. */
-  id: string;
-  /** pending while PostHog works, then completed or failed. A failed keywords step does not fail the job. * `pending` - Pending * `completed` - Completed * `failed` - Failed */
-  status: AEOSuggestionJobStatusEnum;
-  /** Why the job failed. Empty unless status is failed. */
-  error?: string | undefined;
 }
 export type ListAeoBrandsRequestKind = "own" | "competitor" | "publisher" | "unknown";
 export type ListAeoBrandsRequestStatus = "suggested" | "confirmed" | "ignored";
@@ -1729,6 +1766,11 @@ export interface RejectWebAnalyticsContentAutopilotProposalRequest {
   /** A UUID string identifying this content autopilot proposal. */
   id: string;
 }
+export interface ResetAeoSetupRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+export interface ResetAeoSetupResponse {}
 export interface StartWebAnalyticsContentAutopilotRunRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -1736,6 +1778,11 @@ export interface StartWebAnalyticsContentAutopilotRunRequest {
   profile_id: string;
 }
 export interface StartWebAnalyticsContentAutopilotRunResponse {}
+export interface StopAeoSetupChecksRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+export interface StopAeoSetupChecksResponse {}
 /** Replaces the brand's other names. Names are trimmed, and repeated names are dropped. */
 export type UpdateAeoBrandsPartialRequestAliasesList = Array<string>;
 export interface UpdateAeoBrandsPartialRequest {
@@ -1757,7 +1804,7 @@ export interface UpdateAeoEnginesPartialRequest {
   id: string;
   /** Whether the daily run checks the project's prompts on this engine. */
   enabled?: boolean | undefined;
-  /** 'daily' or 'weekly'. Weekly checks each prompt once a week and costs a seventh as much. * `daily` - Daily * `weekly` - Weekly */
+  /** 'daily' or 'weekly'. Weekly checks each prompt once a week and costs a seventh as much. * `daily` - Daily * `every_3_days` - Every 72 hours * `weekly` - Weekly */
   frequency?: CheckFrequencyEnum | (string & {}) | undefined;
 }
 export interface UpdateAeoPromptsPartialRequest {
@@ -2007,15 +2054,15 @@ export interface AEOSetupConflict {
   job_id: string;
 }
 export type AeoBrandsCompetitorCandidatesError = PosthogOpError;
-/** List likely AEO competitors Lists suggested brands that are likely competitors, from the answers of the last 7 days. A brand is a candidate when answers to non-branded prompts both name it and cite its domain. Brands that are the project's own, confirmed or ignored are left out. The list is ordered by the smaller of the two counts, highest first. Nothing is saved: confirm a candidate as a competitor or ignore it with aeo_brands_partial_update. */
+/** List likely AEO competitors Lists suggested brands that are likely competitors, from the answers of the last 7 days. A brand is a candidate when answers to non-branded prompts both name it and cite its domain. Brands that are the project's own, confirmed or ignored are left out. Brands already labeled competitors, such as the ones setup found, come first; within each group the list is ordered by the smaller of the two counts, highest first. Nothing is saved: confirm a candidate as a competitor or ignore it with aeo_brands_partial_update. */
 export const aeoBrandsCompetitorCandidates: API.OperationMethod<
   AeoBrandsCompetitorCandidatesRequest,
   AeoBrandsCompetitorCandidatesResponse,
   AeoBrandsCompetitorCandidatesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<AeoBrandsCompetitorCandidatesRequest>,
-  output: __S(227, __c14, 3) as any as S.Schema<AeoBrandsCompetitorCandidatesResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<AeoBrandsCompetitorCandidatesRequest>,
+  output: __S(243, __c15, 3) as any as S.Schema<AeoBrandsCompetitorCandidatesResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2050,8 +2097,8 @@ export const aeoKeywordsModifiers: API.OperationMethod<
   AeoKeywordsModifiersError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<AeoKeywordsModifiersRequest>,
-  output: __S(709, __c44, 5) as any as S.Schema<AEOKeywordModifierReport>,
+  input: __S(720, __c45, 0) as any as S.Schema<AeoKeywordsModifiersRequest>,
+  output: __S(725, __c45, 5) as any as S.Schema<AEOKeywordModifierReport>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2068,8 +2115,8 @@ export const aeoKeywordsReport: API.OperationMethod<
   AeoKeywordsReportError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<AeoKeywordsReportRequest>,
-  output: __S(899, __c56, 3) as any as S.Schema<AEOKeywordReport>,
+  input: __S(912, __c57, 0) as any as S.Schema<AeoKeywordsReportRequest>,
+  output: __S(915, __c57, 3) as any as S.Schema<AEOKeywordReport>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2086,7 +2133,7 @@ export const aeoKeywordsSuggest: API.OperationMethod<
   AeoKeywordsSuggestError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<AeoKeywordsSuggestRequest>,
+  input: __S(976, __c61, 0) as any as S.Schema<AeoKeywordsSuggestRequest>,
   output: __S(512, __c32, 0) as any as S.Schema<AeoKeywordsSuggestResponse>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
@@ -2104,8 +2151,8 @@ export const aeoPromptsBulkImport: API.OperationMethod<
   AeoPromptsBulkImportError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(930, __c58, 2) as any as S.Schema<AeoPromptsBulkImportRequest>,
-  output: __S(931, __c58, 3) as any as S.Schema<AEOPromptImportResult>,
+  input: __S(994, __c62, 2) as any as S.Schema<AeoPromptsBulkImportRequest>,
+  output: __S(995, __c62, 3) as any as S.Schema<AEOPromptImportResult>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2122,8 +2169,8 @@ export const aeoPromptsChecks: API.OperationMethod<
   AeoPromptsChecksError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<AeoPromptsChecksRequest>,
-  output: __S(947, __c59, 3) as any as S.Schema<PaginatedAEOPromptCheckList>,
+  input: __S(1008, __c63, 0) as any as S.Schema<AeoPromptsChecksRequest>,
+  output: __S(1011, __c63, 3) as any as S.Schema<PaginatedAEOPromptCheckList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2140,8 +2187,8 @@ export const aeoPromptsCitations: API.OperationMethod<
   AeoPromptsCitationsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<AeoPromptsCitationsRequest>,
-  output: __S(979, __c61, 3) as any as S.Schema<PaginatedAEOPromptCitationList>,
+  input: __S(1040, __c65, 0) as any as S.Schema<AeoPromptsCitationsRequest>,
+  output: __S(1043, __c65, 3) as any as S.Schema<PaginatedAEOPromptCitationList>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2303,13 +2350,31 @@ export const aeoSetupContext: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<AeoSetupContextRequest>,
-  output: __S(163, __c10, 3) as any as S.Schema<AEOSetupContext>,
+  output: __S(165, __c10, 5) as any as S.Schema<AEOSetupContext>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AeoSetupContext",
+}));
+
+export type CancelAeoSetupError = PosthogOpError;
+/** Cancel AEO setup Cancels a pending setup job. It saves nothing more, and its first run is stopped, or skipped if it hasn't started. What the job already saved stays; POST aeo_setup/reset/ removes it. A finished job is returned unchanged. */
+export const cancelAeoSetup: API.OperationMethod<
+  CancelAeoSetupRequest,
+  AEOSetupJob,
+  CancelAeoSetupError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(208, __c13, 0) as any as S.Schema<CancelAeoSetupRequest>,
+  output: __S(226, __c14, 2) as any as S.Schema<AEOSetupJob>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelAeoSetup",
 }));
 
 export type CancelWebAnalyticsContentAutopilotRunError = PosthogOpError;
@@ -2320,8 +2385,8 @@ export const cancelWebAnalyticsContentAutopilotRun: API.OperationMethod<
   CancelWebAnalyticsContentAutopilotRunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<CancelWebAnalyticsContentAutopilotRunRequest>,
-  output: __S(212, __c13, 4) as any as S.Schema<ContentAutopilotRun>,
+  input: __S(256, __c16, 0) as any as S.Schema<CancelWebAnalyticsContentAutopilotRunRequest>,
+  output: __S(260, __c16, 4) as any as S.Schema<ContentAutopilotRun>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2338,8 +2403,8 @@ export const createAeoBrand: API.OperationMethod<
   CreateAeoBrandError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<CreateAeoBrandRequest>,
-  output: __S(256, __c16, 0) as any as S.Schema<AEOBrand>,
+  input: __S(272, __c17, 0) as any as S.Schema<CreateAeoBrandRequest>,
+  output: __S(288, __c18, 0) as any as S.Schema<AEOBrand>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2356,8 +2421,8 @@ export const createAeoKeyword: API.OperationMethod<
   CreateAeoKeywordError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<CreateAeoKeywordRequest>,
-  output: __S(273, __c17, 1) as any as S.Schema<AEOKeywordCreateResult>,
+  input: __S(304, __c19, 0) as any as S.Schema<CreateAeoKeywordRequest>,
+  output: __S(305, __c19, 1) as any as S.Schema<AEOKeywordCreateResult>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2374,8 +2439,8 @@ export const createAeoPromptDashboard: API.OperationMethod<
   CreateAeoPromptDashboardError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<CreateAeoPromptDashboardRequest>,
-  output: __S(289, __c18, 1) as any as S.Schema<AEOVisibilityDashboard>,
+  input: __S(320, __c20, 0) as any as S.Schema<CreateAeoPromptDashboardRequest>,
+  output: __S(321, __c20, 1) as any as S.Schema<AEOVisibilityDashboard>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2385,14 +2450,14 @@ export const createAeoPromptDashboard: API.OperationMethod<
 }));
 
 export type CreateAeoSetupError = BadRequest | Conflict | PosthogOpError;
-/** Set up AI visibility Sets up AI visibility tracking for the project in one job. Requires AI data processing approved for the organization. In order, it adds the site as the project's own brand, has PostHog suggest 20 prompts and saves them, and has PostHog suggest 20 keywords and saves them. With run_first_check the prompts are saved active and a first citation check run is queued with the enabled engines; each check is a paid call to every enabled engine, and each engine keeps checking active prompts on its schedule. Prompts that would pass the project's max_active_prompts are saved paused. Without run_first_check, new prompts are saved paused, so nothing is checked or spent until they are turned on. A step the project already covers is skipped: an own brand exists, 10 or more unarchived prompts, 10 or more keywords, or any check already recorded. With engines, the chosen engines are turned on and every other one off before the job starts. Returns a pending job right away; poll GET aeo_setup/<id>/ until it completes, which takes a few minutes. Running it again only fills the gaps. */
+/** Set up AI visibility Sets up AI visibility tracking for the project in one job. Requires AI data processing approved for the organization. In order, it adds the site as the project's own brand; has PostHog suggest 20 prompts and saves them, with the competitors the model found saved as suggested competitors for a person to confirm; queues the first citation check run when run_first_check is set; and has PostHog suggest 20 keywords and saves them. With run_first_check the prompts are saved active and the first run uses the enabled engines; each check is a paid call to every enabled engine, and each engine keeps checking active prompts on its schedule. Prompts that would pass the project's max_active_prompts are saved paused. Without run_first_check, new prompts are saved paused, so nothing is checked or spent until they are turned on. A step the project already covers is skipped: an own brand exists, 10 or more unarchived prompts, 10 or more keywords, or any check already recorded. With engines, the chosen engines are turned on and every other one off before the job starts. Returns a pending job right away; poll GET aeo_setup/<id>/ until it completes, which takes a few minutes. Running it again only fills the gaps. */
 export const createAeoSetup: API.OperationMethod<
   CreateAeoSetupRequest,
   CreateAeoSetupResponse,
   CreateAeoSetupError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<CreateAeoSetupRequest>,
+  input: __S(336, __c21, 0) as any as S.Schema<CreateAeoSetupRequest>,
   output: __S(512, __c32, 0) as any as S.Schema<CreateAeoSetupResponse>,
   errors: [BadRequest, Conflict],
   serviceErrors: PosthogServiceErrors,
@@ -2411,11 +2476,11 @@ export const dismissWebAnalyticsContentAutopilotOpportunity: API.OperationMethod
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    320,
-    __c20,
+    352,
+    __c22,
     0,
   ) as any as S.Schema<DismissWebAnalyticsContentAutopilotOpportunityRequest>,
-  output: __S(355, __c22, 3) as any as S.Schema<ContentAutopilotOpportunity>,
+  output: __S(387, __c24, 3) as any as S.Schema<ContentAutopilotOpportunity>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2432,8 +2497,8 @@ export const editWebAnalyticsContentAutopilotProposal: API.OperationMethod<
   EditWebAnalyticsContentAutopilotProposalError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<EditWebAnalyticsContentAutopilotProposalRequest>,
-  output: __S(408, __c25, 8) as any as S.Schema<ContentAutopilotProposal>,
+  input: __S(400, __c25, 0) as any as S.Schema<EditWebAnalyticsContentAutopilotProposalRequest>,
+  output: __S(440, __c27, 8) as any as S.Schema<ContentAutopilotProposal>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2450,8 +2515,8 @@ export const exportWebAnalyticsContentAutopilotProposal: API.OperationMethod<
   ExportWebAnalyticsContentAutopilotProposalError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<ExportWebAnalyticsContentAutopilotProposalRequest>,
-  output: __S(417, __c26, 1) as any as S.Schema<ContentAutopilotExportResponse>,
+  input: __S(448, __c28, 0) as any as S.Schema<ExportWebAnalyticsContentAutopilotProposalRequest>,
+  output: __S(449, __c28, 1) as any as S.Schema<ContentAutopilotExportResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2468,8 +2533,8 @@ export const fetchWebAnalyticsLlmsTxt: API.OperationMethod<
   FetchWebAnalyticsLlmsTxtError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<FetchWebAnalyticsLlmsTxtRequest>,
-  output: __S(433, __c27, 1) as any as S.Schema<LlmsTxtFetchResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<FetchWebAnalyticsLlmsTxtRequest>,
+  output: __S(465, __c29, 1) as any as S.Schema<LlmsTxtFetchResponse>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2486,8 +2551,8 @@ export const getAeoBrand: API.OperationMethod<
   GetAeoBrandError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<GetAeoBrandRequest>,
-  output: __S(256, __c16, 0) as any as S.Schema<AEOBrand>,
+  input: __S(480, __c30, 0) as any as S.Schema<GetAeoBrandRequest>,
+  output: __S(288, __c18, 0) as any as S.Schema<AEOBrand>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2504,8 +2569,8 @@ export const getAeoKeyword: API.OperationMethod<
   GetAeoKeywordError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<GetAeoKeywordRequest>,
-  output: __S(480, __c30, 0) as any as S.Schema<AEOKeyword>,
+  input: __S(528, __c33, 0) as any as S.Schema<GetAeoKeywordRequest>,
+  output: __S(544, __c34, 0) as any as S.Schema<AEOKeyword>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2522,8 +2587,8 @@ export const getAeoKeywordsSuggestion: API.OperationMethod<
   GetAeoKeywordsSuggestionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<GetAeoKeywordsSuggestionRequest>,
-  output: __S(531, __c33, 3) as any as S.Schema<AEOKeywordSuggestionJob>,
+  input: __S(560, __c35, 0) as any as S.Schema<GetAeoKeywordsSuggestionRequest>,
+  output: __S(563, __c35, 3) as any as S.Schema<AEOKeywordSuggestionJob>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2540,8 +2605,8 @@ export const getAeoPrompt: API.OperationMethod<
   GetAeoPromptError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<GetAeoPromptRequest>,
-  output: __S(562, __c35, 2) as any as S.Schema<AEOPrompt>,
+  input: __S(576, __c36, 0) as any as S.Schema<GetAeoPromptRequest>,
+  output: __S(594, __c37, 2) as any as S.Schema<AEOPrompt>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2558,8 +2623,8 @@ export const getAeoPromptsSuggestion: API.OperationMethod<
   GetAeoPromptsSuggestionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<GetAeoPromptsSuggestionRequest>,
-  output: __S(579, __c36, 3) as any as S.Schema<AEOPromptSuggestionJob>,
+  input: __S(608, __c38, 0) as any as S.Schema<GetAeoPromptsSuggestionRequest>,
+  output: __S(613, __c38, 5) as any as S.Schema<AEOPromptSuggestionJob>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2576,8 +2641,8 @@ export const getAeoSetup: API.OperationMethod<
   GetAeoSetupError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<GetAeoSetupRequest>,
-  output: __S(595, __c37, 3) as any as S.Schema<AEOSetupJob>,
+  input: __S(624, __c39, 0) as any as S.Schema<GetAeoSetupRequest>,
+  output: __S(226, __c14, 2) as any as S.Schema<AEOSetupJob>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2594,8 +2659,8 @@ export const listAeoBrands: API.OperationMethod<
   ListAeoBrandsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<ListAeoBrandsRequest>,
-  output: __S(610, __c38, 2) as any as S.Schema<PaginatedAEOBrandList>,
+  input: __S(640, __c40, 0) as any as S.Schema<ListAeoBrandsRequest>,
+  output: __S(642, __c40, 2) as any as S.Schema<PaginatedAEOBrandList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2612,8 +2677,8 @@ export const listAeoEngines: API.OperationMethod<
   ListAeoEnginesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<ListAeoEnginesRequest>,
-  output: __S(625, __c39, 1) as any as S.Schema<ListAeoEnginesResponse>,
+  input: __S(656, __c41, 0) as any as S.Schema<ListAeoEnginesRequest>,
+  output: __S(657, __c41, 1) as any as S.Schema<ListAeoEnginesResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2630,8 +2695,8 @@ export const listAeoKeywords: API.OperationMethod<
   ListAeoKeywordsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<ListAeoKeywordsRequest>,
-  output: __S(642, __c40, 2) as any as S.Schema<ListAeoKeywordsResponse>,
+  input: __S(672, __c42, 0) as any as S.Schema<ListAeoKeywordsRequest>,
+  output: __S(674, __c42, 2) as any as S.Schema<ListAeoKeywordsResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2648,8 +2713,8 @@ export const listAeoPrompts: API.OperationMethod<
   ListAeoPromptsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<ListAeoPromptsRequest>,
-  output: __S(658, __c41, 2) as any as S.Schema<PaginatedAEOPromptList>,
+  input: __S(688, __c43, 0) as any as S.Schema<ListAeoPromptsRequest>,
+  output: __S(690, __c43, 2) as any as S.Schema<PaginatedAEOPromptList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2667,13 +2732,13 @@ export const refreshWebAnalyticsContentAutopilotOpportunity: API.OperationMethod
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    672,
-    __c42,
+    704,
+    __c44,
     0,
   ) as any as S.Schema<RefreshWebAnalyticsContentAutopilotOpportunityRequest>,
   output: __S(
-    674,
-    __c42,
+    706,
+    __c44,
     2,
   ) as any as S.Schema<RefreshWebAnalyticsContentAutopilotOpportunityResponse>,
   errors: [],
@@ -2693,8 +2758,8 @@ export const regenerateWebAnalyticsContentAutopilotProposal: API.OperationMethod
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    688,
-    __c43,
+    752,
+    __c47,
     0,
   ) as any as S.Schema<RegenerateWebAnalyticsContentAutopilotProposalRequest>,
   output: __S(
@@ -2718,14 +2783,32 @@ export const rejectWebAnalyticsContentAutopilotProposal: API.OperationMethod<
   RejectWebAnalyticsContentAutopilotProposalError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<RejectWebAnalyticsContentAutopilotProposalRequest>,
-  output: __S(408, __c25, 8) as any as S.Schema<ContentAutopilotProposal>,
+  input: __S(768, __c48, 0) as any as S.Schema<RejectWebAnalyticsContentAutopilotProposalRequest>,
+  output: __S(440, __c27, 8) as any as S.Schema<ContentAutopilotProposal>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RejectWebAnalyticsContentAutopilotProposal",
+}));
+
+export type ResetAeoSetupError = Conflict | PosthogOpError;
+/** Reset AEO setup Undoes what setup saved so the project can be set up again, such as for another site: archives the prompts that have answers, deletes the rest, removes every keyword, and turns the own site and the competitors suggested for it back into cited domains. Checks already collected, confirmed competitors and engine settings stay. Run POST aeo_setup/ afterwards to set up again. */
+export const resetAeoSetup: API.OperationMethod<
+  ResetAeoSetupRequest,
+  ResetAeoSetupResponse,
+  ResetAeoSetupError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(784, __c49, 0) as any as S.Schema<ResetAeoSetupRequest>,
+  output: __S(512, __c32, 0) as any as S.Schema<ResetAeoSetupResponse>,
+  errors: [Conflict],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetAeoSetup",
 }));
 
 export type StartWebAnalyticsContentAutopilotRunError = PosthogOpError;
@@ -2736,7 +2819,7 @@ export const startWebAnalyticsContentAutopilotRun: API.OperationMethod<
   StartWebAnalyticsContentAutopilotRunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<StartWebAnalyticsContentAutopilotRunRequest>,
+  input: __S(800, __c50, 0) as any as S.Schema<StartWebAnalyticsContentAutopilotRunRequest>,
   output: __S(512, __c32, 0) as any as S.Schema<StartWebAnalyticsContentAutopilotRunResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -2744,6 +2827,24 @@ export const startWebAnalyticsContentAutopilotRun: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartWebAnalyticsContentAutopilotRun",
+}));
+
+export type StopAeoSetupChecksError = PosthogOpError;
+/** Stop the AEO check run Stops the project's check run, such as the first run that setup queued. Checks already in flight finish and are kept; the rest are dropped, so they cost nothing. If setup has yet to queue its run, that run is skipped. Prompts and engines stay on, so the next scheduled run checks them as usual. */
+export const stopAeoSetupChecks: API.OperationMethod<
+  StopAeoSetupChecksRequest,
+  StopAeoSetupChecksResponse,
+  StopAeoSetupChecksError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(816, __c51, 0) as any as S.Schema<StopAeoSetupChecksRequest>,
+  output: __S(512, __c32, 0) as any as S.Schema<StopAeoSetupChecksResponse>,
+  errors: [],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopAeoSetupChecks",
 }));
 
 export type UpdateAeoBrandsPartialError = PosthogOpError;
@@ -2754,8 +2855,8 @@ export const updateAeoBrandsPartial: API.OperationMethod<
   UpdateAeoBrandsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<UpdateAeoBrandsPartialRequest>,
-  output: __S(256, __c16, 0) as any as S.Schema<AEOBrand>,
+  input: __S(832, __c52, 0) as any as S.Schema<UpdateAeoBrandsPartialRequest>,
+  output: __S(288, __c18, 0) as any as S.Schema<AEOBrand>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2772,7 +2873,7 @@ export const updateAeoEnginesPartial: API.OperationMethod<
   UpdateAeoEnginesPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<UpdateAeoEnginesPartialRequest>,
+  input: __S(848, __c53, 0) as any as S.Schema<UpdateAeoEnginesPartialRequest>,
   output: __S(192, __c12, 0) as any as S.Schema<AEOEngineSetting>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -2790,8 +2891,8 @@ export const updateAeoPromptsPartial: API.OperationMethod<
   UpdateAeoPromptsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<UpdateAeoPromptsPartialRequest>,
-  output: __S(562, __c35, 2) as any as S.Schema<AEOPrompt>,
+  input: __S(864, __c54, 0) as any as S.Schema<UpdateAeoPromptsPartialRequest>,
+  output: __S(594, __c37, 2) as any as S.Schema<AEOPrompt>,
   errors: [BadRequest, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2809,8 +2910,8 @@ export const webAnalyticsContentAutopilotOpportunitiesDraft: API.OperationMethod
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    816,
-    __c51,
+    880,
+    __c55,
     0,
   ) as any as S.Schema<WebAnalyticsContentAutopilotOpportunitiesDraftRequest>,
   output: __S(
@@ -2834,8 +2935,8 @@ export const webAnalyticsContentAutopilotProfilesDiscover: API.OperationMethod<
   WebAnalyticsContentAutopilotProfilesDiscoverError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<WebAnalyticsContentAutopilotProfilesDiscoverRequest>,
-  output: __S(833, __c52, 1) as any as S.Schema<ContentAutopilotSiteDiscoveryResponse>,
+  input: __S(896, __c56, 0) as any as S.Schema<WebAnalyticsContentAutopilotProfilesDiscoverRequest>,
+  output: __S(897, __c56, 1) as any as S.Schema<ContentAutopilotSiteDiscoveryResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2852,8 +2953,8 @@ export const webAnalyticsRecap: API.OperationMethod<
   WebAnalyticsRecapError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<WebAnalyticsRecapRequest>,
-  output: __S(852, __c53, 4) as any as S.Schema<WebAnalyticsRecapResponse>,
+  input: __S(928, __c58, 0) as any as S.Schema<WebAnalyticsRecapRequest>,
+  output: __S(932, __c58, 4) as any as S.Schema<WebAnalyticsRecapResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2870,8 +2971,8 @@ export const webAnalyticsWeeklyDigest: API.OperationMethod<
   WebAnalyticsWeeklyDigestError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<WebAnalyticsWeeklyDigestRequest>,
-  output: __S(881, __c55, 1) as any as S.Schema<WeeklyDigestResponse>,
+  input: __S(960, __c60, 0) as any as S.Schema<WebAnalyticsWeeklyDigestRequest>,
+  output: __S(961, __c60, 1) as any as S.Schema<WeeklyDigestResponse>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -2985,6 +3086,7 @@ function __c3(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           branded: S.optional(S.String.pipe(T.Query())),
+          current_prompts: S.optional(S.Boolean.pipe(T.Query())),
           date_from: S.optional(S.String.pipe(T.Query())),
           date_to: S.optional(S.String.pipe(T.Query())),
           engine: S.optional(S.String.pipe(T.Query())),
@@ -3086,7 +3188,7 @@ function __c3(j: number): any {
           prompts: S.Number,
           answers: S.Number,
           cited: S.Number,
-          engines: __S(720, __c45, 0),
+          engines: __S(736, __c46, 0),
         }),
       ).annotate({ identifier: "AEOPromptSetSearch" });
     case 13:
@@ -3106,8 +3208,8 @@ function __c3(j: number): any {
           window_from: S.String,
           window_to: S.String,
           prompts_tracked: S.Number,
-          target_domains: __S(720, __c45, 0),
-          brand_names: __S(720, __c45, 0),
+          target_domains: __S(736, __c46, 0),
+          brand_names: __S(736, __c46, 0),
           branded: S.String,
           engine: S.NullOr(S.String),
           topic: S.NullOr(S.String),
@@ -3142,6 +3244,7 @@ function __c5(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           branded: S.optional(S.String.pipe(T.Query())),
+          current_prompts: S.optional(S.Boolean.pipe(T.Query())),
           date_from: S.optional(S.String.pipe(T.Query())),
           date_to: S.optional(S.String.pipe(T.Query())),
           engine: S.optional(S.String.pipe(T.Query())),
@@ -3295,7 +3398,7 @@ function __c6(j: number): any {
           sentiment: __S(102, __c6, 6),
           top_words: __S(104, __c6, 8),
           total_checks: S.Number,
-          brand_names: __S(720, __c45, 0),
+          brand_names: __S(736, __c46, 0),
           daily_from: S.String,
           daily_to: S.String,
         }),
@@ -3311,8 +3414,8 @@ function __c7(j: number): any {
           domain: S.String,
           brand: S.optional(S.String),
           description: S.optional(S.String),
-          competitors: S.optional(__S(720, __c45, 0)),
-          topics: S.optional(__S(720, __c45, 0)),
+          competitors: S.optional(__S(736, __c46, 0)),
+          topics: S.optional(__S(736, __c46, 0)),
           count: S.optional(S.Number),
         }).pipe(
           T.Http({
@@ -3421,9 +3524,19 @@ function __c10(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          engine: S.String,
+          checks: S.Number,
+        }),
+      ).annotate({ identifier: "AEOEngineCheckCount" });
+    case 4:
+      return S.Array(__S(163, __c10, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
           websites: __S(162, __c10, 2),
+          first_run_checks: __S(164, __c10, 4),
           engines: __S(176, __c11, 0),
-          own_domains: __S(720, __c45, 0),
+          own_domains: __S(736, __c46, 0),
           active_prompts: S.Number,
           max_active_prompts: S.Number,
           paused_prompts: S.Number,
@@ -3432,7 +3545,9 @@ function __c10(j: number): any {
           ai_data_processing_approved: S.Boolean,
           first_run_available: S.Boolean,
           prompt_target: S.Number,
+          prompt_count_max: S.Number,
           website_days: S.Number,
+          checks_running: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AEOSetupContext" });
   }
@@ -3467,46 +3582,39 @@ function __c13(j: number): any {
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/api/projects/{project_id}/web_analytics_content_autopilot_runs/{id}/cancel/",
+            uri: "/api/projects/{project_id}/aeo_setup/{id}/cancel/",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "CancelWebAnalyticsContentAutopilotRunRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          domain: S.optional(S.String),
-          confidence: S.optional(S.String),
-          source_urls: S.optional(__S(720, __c45, 0)),
-          content_boundaries: S.optional(__S(720, __c45, 0)),
-          brand_rules: S.optional(__S(720, __c45, 0)),
-        }),
-      ).annotate({ identifier: "ContentAutopilotSnapshot" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          error_code: S.String,
-          message: S.String,
-        }),
-      ).annotate({ identifier: "ContentAutopilotError" });
-    case 3:
-      return S.Array(__S(210, __c13, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          profile_id: S.String,
-          run_status: S.String,
-          input_snapshot: __S(209, __c13, 1),
-          errors: __S(211, __c13, 3),
-          created_at: S.String,
-          updated_at: S.String,
-          completed_at: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "ContentAutopilotRun" });
+      ).annotate({ identifier: "CancelAeoSetupRequest" });
   }
 }
 function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          step: S.String,
+          status: S.String,
+          added: S.optional(S.Number),
+          requested: S.optional(S.Number),
+          detail: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AEOSetupStep" });
+    case 1:
+      return S.Array(__S(224, __c14, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          steps: __S(225, __c14, 1),
+          id: S.String,
+          status: S.String,
+          error: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AEOSetupJob" });
+  }
+}
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3532,14 +3640,63 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "AEOCompetitorCandidate" });
     case 2:
-      return S.Array(__S(225, __c14, 1));
+      return S.Array(__S(241, __c15, 1));
     case 3:
-      return S.suspend(() => __S(226, __c14, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(242, __c15, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "AeoBrandsCompetitorCandidatesResponse",
       });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/web_analytics_content_autopilot_runs/{id}/cancel/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CancelWebAnalyticsContentAutopilotRunRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.optional(S.String),
+          confidence: S.optional(S.String),
+          source_urls: S.optional(__S(736, __c46, 0)),
+          content_boundaries: S.optional(__S(736, __c46, 0)),
+          brand_rules: S.optional(__S(736, __c46, 0)),
+        }),
+      ).annotate({ identifier: "ContentAutopilotSnapshot" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          error_code: S.String,
+          message: S.String,
+        }),
+      ).annotate({ identifier: "ContentAutopilotError" });
+    case 3:
+      return S.Array(__S(258, __c16, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          profile_id: S.String,
+          run_status: S.String,
+          input_snapshot: __S(257, __c16, 1),
+          errors: __S(259, __c16, 3),
+          created_at: S.String,
+          updated_at: S.String,
+          completed_at: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "ContentAutopilotRun" });
+  }
+}
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3548,14 +3705,14 @@ function __c15(j: number): any {
           domain: S.String,
           name: S.optional(S.String),
           kind: S.String,
-          aliases: S.optional(__S(720, __c45, 0)),
+          aliases: S.optional(__S(736, __c46, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/aeo_brands/", code: 200 }),
         ),
       ).annotate({ identifier: "CreateAeoBrandRequest" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3566,20 +3723,20 @@ function __c16(j: number): any {
           kind: S.String,
           status: S.String,
           source: S.String,
-          aliases: __S(720, __c45, 0),
+          aliases: __S(736, __c46, 0),
           created_at: S.String,
           updated_at: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "AEOBrand" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          keywords: __S(720, __c45, 0),
+          keywords: __S(736, __c46, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/aeo_keywords/", code: 200 }),
         ),
@@ -3593,7 +3750,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "AEOKeywordCreateResult" });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3616,7 +3773,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "AEOVisibilityDashboard" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3625,17 +3782,18 @@ function __c19(j: number): any {
           domain: S.optional(S.String),
           brand: S.optional(S.String),
           description: S.optional(S.String),
-          engines: S.optional(__S(720, __c45, 0)),
+          engines: S.optional(__S(736, __c46, 0)),
           run_first_check: S.optional(S.Boolean),
           only_first_run: S.optional(S.Boolean),
           activate_paused_prompts: S.optional(S.Boolean),
+          prompt_count: S.optional(S.Number),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/projects/{project_id}/aeo_setup/", code: 200 }),
         ),
       ).annotate({ identifier: "CreateAeoSetupRequest" });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3652,7 +3810,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "DismissWebAnalyticsContentAutopilotOpportunityRequest" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3664,10 +3822,10 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "ContentAutopilotEvidence" });
     case 1:
-      return S.Array(__S(336, __c21, 0));
+      return S.Array(__S(368, __c23, 0));
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3678,7 +3836,7 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "ContentAutopilotEngineAnswer" });
     case 1:
-      return S.Array(__S(352, __c22, 0));
+      return S.Array(__S(384, __c24, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3686,13 +3844,13 @@ function __c22(j: number): any {
           cited_checks: S.Number,
           mentioned_checks: S.optional(S.Number),
           citation_rate: S.Number,
-          engines: __S(720, __c45, 0),
-          engines_not_citing: __S(720, __c45, 0),
-          competitor_urls: __S(720, __c45, 0),
-          competitor_domains: __S(720, __c45, 0),
-          engine_search_queries: __S(720, __c45, 0),
-          our_cited_urls: __S(720, __c45, 0),
-          latest_answers: __S(353, __c22, 1),
+          engines: __S(736, __c46, 0),
+          engines_not_citing: __S(736, __c46, 0),
+          competitor_urls: __S(736, __c46, 0),
+          competitor_domains: __S(736, __c46, 0),
+          engine_search_queries: __S(736, __c46, 0),
+          our_cited_urls: __S(736, __c46, 0),
+          latest_answers: __S(385, __c24, 1),
           last_checked_at: S.String,
         }),
       ).annotate({ identifier: "ContentAutopilotCitationGap" });
@@ -3709,8 +3867,8 @@ function __c22(j: number): any {
           score: S.Number,
           recommended_type: S.String,
           target_url: S.String,
-          evidence: __S(337, __c21, 1),
-          gap: __S(354, __c22, 2),
+          evidence: __S(369, __c23, 1),
+          gap: __S(386, __c24, 2),
           status: S.String,
           last_refreshed_at: S.String,
           created_at: S.String,
@@ -3719,7 +3877,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "ContentAutopilotOpportunity" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3727,7 +3885,7 @@ function __c23(j: number): any {
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           proposed_markdown: S.String,
-          content_package: __S(386, __c24, 2),
+          content_package: __S(418, __c26, 2),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3738,7 +3896,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "EditWebAnalyticsContentAutopilotProposalRequest" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3748,7 +3906,7 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "ContentAutopilotFrontmatterEntry" });
     case 1:
-      return S.Array(__S(384, __c24, 0));
+      return S.Array(__S(416, __c26, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3756,16 +3914,16 @@ function __c24(j: number): any {
           title: S.String,
           description: S.String,
           slug: S.String,
-          frontmatter: __S(385, __c24, 1),
-          internal_links: __S(720, __c45, 0),
-          source_notes: __S(720, __c45, 0),
+          frontmatter: __S(417, __c26, 1),
+          internal_links: __S(736, __c46, 0),
+          source_notes: __S(736, __c46, 0),
           json_ld: S.optional(S.String),
           llms_txt_line: S.optional(S.String),
         }),
       ).annotate({ identifier: "ContentAutopilotPackage" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3778,12 +3936,12 @@ function __c25(j: number): any {
         }),
       ).annotate({ identifier: "ContentAutopilotValidationCheck" });
     case 1:
-      return S.Array(__S(400, __c25, 0));
+      return S.Array(__S(432, __c27, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           passed: S.Boolean,
-          checks: __S(401, __c25, 1),
+          checks: __S(433, __c27, 1),
         }),
       ).annotate({ identifier: "ContentAutopilotValidationReport" });
     case 3:
@@ -3794,7 +3952,7 @@ function __c25(j: number): any {
         }),
       ).annotate({ identifier: "ContentAutopilotBriefCompetitor" });
     case 4:
-      return S.Array(__S(403, __c25, 3));
+      return S.Array(__S(435, __c27, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -3802,12 +3960,12 @@ function __c25(j: number): any {
           audience: S.optional(S.String),
           recommended_type: S.optional(S.String),
           target_page: S.optional(S.String),
-          site_pages_to_read: S.optional(__S(720, __c45, 0)),
-          competitors_to_research: S.optional(__S(404, __c25, 4)),
+          site_pages_to_read: S.optional(__S(736, __c46, 0)),
+          competitors_to_research: S.optional(__S(436, __c27, 4)),
           working_title: S.optional(S.String),
-          outline: S.optional(__S(720, __c45, 0)),
-          questions_to_answer: S.optional(__S(720, __c45, 0)),
-          competitor_coverage: S.optional(__S(720, __c45, 0)),
+          outline: S.optional(__S(736, __c46, 0)),
+          questions_to_answer: S.optional(__S(736, __c46, 0)),
+          competitor_coverage: S.optional(__S(736, __c46, 0)),
           engine_answer_summary: S.optional(S.String),
           disambiguation: S.optional(S.String),
         }),
@@ -3822,7 +3980,7 @@ function __c25(j: number): any {
         }),
       ).annotate({ identifier: "ContentAutopilotSourceLedgerEntry" });
     case 7:
-      return S.Array(__S(406, __c25, 6));
+      return S.Array(__S(438, __c27, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -3833,20 +3991,20 @@ function __c25(j: number): any {
           title: S.String,
           target_query: S.String,
           target_url: S.String,
-          evidence: __S(337, __c21, 1),
-          validation_report: __S(402, __c25, 2),
-          content_package: __S(386, __c24, 2),
+          evidence: __S(369, __c23, 1),
+          validation_report: __S(434, __c27, 2),
+          content_package: __S(418, __c26, 2),
           original_markdown: S.String,
           proposed_markdown: S.String,
-          brief: __S(405, __c25, 5),
-          source_ledger: __S(407, __c25, 7),
+          brief: __S(437, __c27, 5),
+          source_ledger: __S(439, __c27, 7),
           created_at: S.String,
           updated_at: S.String,
         }),
       ).annotate({ identifier: "ContentAutopilotProposal" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3866,12 +4024,12 @@ function __c26(j: number): any {
         S.Struct({
           filename: S.String,
           markdown: S.String,
-          content_package: __S(386, __c24, 2),
+          content_package: __S(418, __c26, 2),
         }),
       ).annotate({ identifier: "ContentAutopilotExportResponse" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3895,7 +4053,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "LlmsTxtFetchResponse" });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3906,35 +4064,6 @@ function __c28(j: number): any {
           T.Http({ method: "GET", uri: "/api/projects/{project_id}/aeo_brands/{id}/", code: 200 }),
         ),
       ).annotate({ identifier: "GetAeoBrandRequest" });
-  }
-}
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/aeo_keywords/{id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetAeoKeywordRequest" });
-  }
-}
-function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          keyword: S.String,
-          created_at: S.String,
-        }),
-      ).annotate({ identifier: "AEOKeyword" });
   }
 }
 function __c31(j: number): any {
@@ -3966,6 +4095,35 @@ function __c33(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/aeo_keywords/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetAeoKeywordRequest" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          keyword: S.String,
+          created_at: S.String,
+        }),
+      ).annotate({ identifier: "AEOKeyword" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
           job_id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -3984,11 +4142,11 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "AEOKeywordSuggestion" });
     case 2:
-      return S.Array(__S(529, __c33, 1));
+      return S.Array(__S(561, __c35, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          suggestions: __S(530, __c33, 2),
+          suggestions: __S(562, __c35, 2),
           id: S.String,
           status: S.String,
           error: S.optional(S.String),
@@ -3996,7 +4154,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "AEOKeywordSuggestionJob" });
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4009,7 +4167,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "GetAeoPromptRequest" });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4020,16 +4178,16 @@ function __c35(j: number): any {
           mentioned: S.Boolean,
           check_failed: S.Boolean,
           target_best_position: S.NullOr(S.Number),
-          search_queries: __S(720, __c45, 0),
+          search_queries: __S(736, __c46, 0),
           checked_at: S.String,
         }),
       ).annotate({ identifier: "AEOPromptEngineCheck" });
     case 1:
-      return S.Array(__S(560, __c35, 0));
+      return S.Array(__S(592, __c37, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          latest_checks: __S(561, __c35, 1),
+          latest_checks: __S(593, __c37, 1),
           id: S.String,
           prompt: S.String,
           topic: S.String,
@@ -4048,7 +4206,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "AEOPrompt" });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4075,11 +4233,21 @@ function __c36(j: number): any {
         }),
       ).annotate({ identifier: "AEOPromptSuggestion" });
     case 2:
-      return S.Array(__S(577, __c36, 1));
+      return S.Array(__S(609, __c38, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          suggestions: __S(578, __c36, 2),
+          name: S.String,
+          domain: S.String,
+        }),
+      ).annotate({ identifier: "AEOSuggestedCompetitor" });
+    case 4:
+      return S.Array(__S(611, __c38, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          suggestions: __S(610, __c38, 2),
+          competitors: __S(612, __c38, 4),
           id: S.String,
           status: S.String,
           error: S.optional(S.String),
@@ -4087,7 +4255,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "AEOPromptSuggestionJob" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4098,29 +4266,9 @@ function __c37(j: number): any {
           T.Http({ method: "GET", uri: "/api/projects/{project_id}/aeo_setup/{id}/", code: 200 }),
         ),
       ).annotate({ identifier: "GetAeoSetupRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          step: S.String,
-          status: S.String,
-          added: S.optional(S.Number),
-          detail: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AEOSetupStep" });
-    case 2:
-      return S.Array(__S(593, __c37, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          steps: __S(594, __c37, 2),
-          id: S.String,
-          status: S.String,
-          error: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AEOSetupJob" });
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4136,19 +4284,19 @@ function __c38(j: number): any {
         ),
       ).annotate({ identifier: "ListAeoBrandsRequest" });
     case 1:
-      return S.Array(__S(256, __c16, 0));
+      return S.Array(__S(288, __c18, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(609, __c38, 1),
+          results: __S(641, __c40, 1),
         }),
       ).annotate({ identifier: "PaginatedAEOBrandList" });
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4164,7 +4312,7 @@ function __c39(j: number): any {
       });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4175,14 +4323,14 @@ function __c40(j: number): any {
         ),
       ).annotate({ identifier: "ListAeoKeywordsRequest" });
     case 1:
-      return S.Array(__S(480, __c30, 0));
+      return S.Array(__S(544, __c34, 0));
     case 2:
-      return S.suspend(() => __S(641, __c40, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(673, __c42, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAeoKeywordsResponse",
       });
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4203,19 +4351,19 @@ function __c41(j: number): any {
         ),
       ).annotate({ identifier: "ListAeoPromptsRequest" });
     case 1:
-      return S.Array(__S(562, __c35, 2));
+      return S.Array(__S(594, __c37, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(657, __c41, 1),
+          results: __S(689, __c43, 1),
         }),
       ).annotate({ identifier: "PaginatedAEOPromptList" });
   }
 }
-function __c42(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4231,31 +4379,14 @@ function __c42(j: number): any {
         ),
       ).annotate({ identifier: "RefreshWebAnalyticsContentAutopilotOpportunityRequest" });
     case 1:
-      return S.Array(__S(355, __c22, 3));
+      return S.Array(__S(387, __c24, 3));
     case 2:
-      return S.suspend(() => __S(673, __c42, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(705, __c44, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "RefreshWebAnalyticsContentAutopilotOpportunityResponse",
       });
   }
 }
-function __c43(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/web_analytics_content_autopilot_proposals/{id}/regenerate/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RegenerateWebAnalyticsContentAutopilotProposalRequest" });
-  }
-}
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4283,25 +4414,25 @@ function __c44(j: number): any {
         }),
       ).annotate({ identifier: "AEOModifierEngineCount" });
     case 2:
-      return S.Array(__S(705, __c44, 1));
+      return S.Array(__S(721, __c45, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          engines: __S(706, __c44, 2),
+          engines: __S(722, __c45, 2),
           term: S.String,
           kind: S.String,
           answers: S.Number,
           share: S.Number,
           cited_rate: S.NullOr(S.Number),
-          example_searches: __S(720, __c45, 0),
+          example_searches: __S(736, __c46, 0),
         }),
       ).annotate({ identifier: "AEOKeywordModifier" });
     case 4:
-      return S.Array(__S(707, __c44, 3));
+      return S.Array(__S(723, __c45, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          modifiers: __S(708, __c44, 4),
+          modifiers: __S(724, __c45, 4),
           days: S.Number,
           window_from: S.String,
           window_to: S.String,
@@ -4312,13 +4443,30 @@ function __c44(j: number): any {
       ).annotate({ identifier: "AEOKeywordModifierReport" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/web_analytics_content_autopilot_proposals/{id}/regenerate/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RegenerateWebAnalyticsContentAutopilotProposalRequest" });
+  }
+}
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4335,7 +4483,19 @@ function __c46(j: number): any {
       ).annotate({ identifier: "RejectWebAnalyticsContentAutopilotProposalRequest" });
   }
 }
-function __c47(j: number): any {
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/api/projects/{project_id}/aeo_setup/reset/", code: 200 }),
+        ),
+      ).annotate({ identifier: "ResetAeoSetupRequest" });
+  }
+}
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4352,7 +4512,23 @@ function __c47(j: number): any {
       ).annotate({ identifier: "StartWebAnalyticsContentAutopilotRunRequest" });
   }
 }
-function __c48(j: number): any {
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/aeo_setup/stop_checks/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "StopAeoSetupChecksRequest" });
+  }
+}
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4362,7 +4538,7 @@ function __c48(j: number): any {
           name: S.optional(S.String),
           kind: S.optional(S.String),
           status: S.optional(S.String),
-          aliases: S.optional(__S(720, __c45, 0)),
+          aliases: S.optional(__S(736, __c46, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4373,7 +4549,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "UpdateAeoBrandsPartialRequest" });
   }
 }
-function __c49(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4392,7 +4568,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "UpdateAeoEnginesPartialRequest" });
   }
 }
-function __c50(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4415,14 +4591,14 @@ function __c50(j: number): any {
       ).annotate({ identifier: "UpdateAeoPromptsPartialRequest" });
   }
 }
-function __c51(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           profile_id: S.String,
-          opportunity_ids: __S(720, __c45, 0),
+          opportunity_ids: __S(736, __c46, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4433,7 +4609,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "WebAnalyticsContentAutopilotOpportunitiesDraftRequest" });
   }
 }
-function __c52(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4453,182 +4629,15 @@ function __c52(j: number): any {
         S.Struct({
           name: S.String,
           domain: S.String,
-          source_urls: __S(720, __c45, 0),
-          content_boundaries: __S(720, __c45, 0),
+          source_urls: __S(736, __c46, 0),
+          content_boundaries: __S(736, __c46, 0),
           sitemap_detected: S.Boolean,
-          warnings: __S(720, __c45, 0),
+          warnings: __S(736, __c46, 0),
         }),
       ).annotate({ identifier: "ContentAutopilotSiteDiscoveryResponse" });
   }
 }
-function __c53(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          compare: S.optional(S.Boolean.pipe(T.Query())),
-          days: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/web_analytics/recap/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "WebAnalyticsRecapRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          emoji: S.String,
-          blurb: S.String,
-          color: S.String,
-        }),
-      ).annotate({ identifier: "RecapPersona" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          emoji: S.String,
-          title: S.String,
-          value: S.String,
-          detail: S.String,
-        }),
-      ).annotate({ identifier: "RecapHighlight" });
-    case 3:
-      return S.Array(__S(850, __c53, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          visitors: __S(865, __c54, 1),
-          pageviews: __S(865, __c54, 1),
-          sessions: __S(865, __c54, 1),
-          bounce_rate: __S(865, __c54, 1),
-          avg_session_duration: __S(866, __c54, 2),
-          top_pages: __S(868, __c54, 4),
-          top_sources: __S(870, __c54, 6),
-          goals: __S(872, __c54, 8),
-          metadata: __S(873, __c54, 9),
-          dashboard_url: S.String,
-          persona: __S(849, __c53, 1),
-          highlights: __S(851, __c53, 3),
-          period_label: S.String,
-          period_start: S.String,
-          period_end: S.String,
-          project_name: S.String,
-          recap_url: S.String,
-        }),
-      ).annotate({ identifier: "WebAnalyticsRecapResponse" });
-  }
-}
-function __c54(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          percent: S.optional(S.Number),
-          direction: S.optional(S.String),
-          color: S.optional(S.String),
-          text: S.optional(S.String),
-          long_text: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "WoWChange" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          current: S.optional(S.Number),
-          previous: S.optional(S.NullOr(S.Number)),
-          change: S.optional(S.NullOr(__S(864, __c54, 0))),
-        }),
-      ).annotate({ identifier: "NumericMetric" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          current: S.optional(S.String),
-          previous: S.optional(S.NullOr(S.String)),
-          change: S.optional(S.NullOr(__S(864, __c54, 0))),
-        }),
-      ).annotate({ identifier: "DurationMetric" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          host: S.optional(S.String),
-          path: S.optional(S.String),
-          visitors: S.optional(S.Number),
-          change: S.optional(S.NullOr(__S(864, __c54, 0))),
-        }),
-      ).annotate({ identifier: "TopPage" });
-    case 4:
-      return S.Array(__S(867, __c54, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          visitors: S.optional(S.Number),
-          change: S.optional(S.NullOr(__S(864, __c54, 0))),
-        }),
-      ).annotate({ identifier: "TopSource" });
-    case 6:
-      return S.Array(__S(869, __c54, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          conversions: S.optional(S.Number),
-          change: S.optional(S.NullOr(__S(864, __c54, 0))),
-        }),
-      ).annotate({ identifier: "Goal" });
-    case 8:
-      return S.Array(__S(871, __c54, 7));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          data_status: S.String,
-          date_from: S.String,
-          date_to: S.String,
-          timezone: S.String,
-          filter_test_accounts: S.Boolean,
-          notes: __S(720, __c45, 0),
-        }),
-      ).annotate({ identifier: "DigestMetadata" });
-  }
-}
-function __c55(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          compare: S.optional(S.Boolean.pipe(T.Query())),
-          days: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/web_analytics/weekly_digest/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "WebAnalyticsWeeklyDigestRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          visitors: S.optional(__S(865, __c54, 1)),
-          pageviews: S.optional(__S(865, __c54, 1)),
-          sessions: S.optional(__S(865, __c54, 1)),
-          bounce_rate: S.optional(__S(865, __c54, 1)),
-          avg_session_duration: S.optional(__S(866, __c54, 2)),
-          top_pages: S.optional(__S(868, __c54, 4)),
-          top_sources: S.optional(__S(870, __c54, 6)),
-          goals: S.optional(__S(872, __c54, 8)),
-          metadata: S.optional(__S(873, __c54, 9)),
-          dashboard_url: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "WeeklyDigestResponse" });
-  }
-}
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4667,21 +4676,188 @@ function __c56(j: number): any {
         }),
       ).annotate({ identifier: "AEOKeywordReportRow" });
     case 2:
-      return S.Array(__S(897, __c56, 1));
+      return S.Array(__S(913, __c57, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          keywords: __S(898, __c56, 2),
+          keywords: __S(914, __c57, 2),
           days: S.Number,
           window_from: S.String,
           window_to: S.String,
           answers: S.Number,
-          brand_names: __S(720, __c45, 0),
+          brand_names: __S(736, __c46, 0),
         }),
       ).annotate({ identifier: "AEOKeywordReport" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          compare: S.optional(S.Boolean.pipe(T.Query())),
+          days: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/web_analytics/recap/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "WebAnalyticsRecapRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          emoji: S.String,
+          blurb: S.String,
+          color: S.String,
+        }),
+      ).annotate({ identifier: "RecapPersona" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          emoji: S.String,
+          title: S.String,
+          value: S.String,
+          detail: S.String,
+        }),
+      ).annotate({ identifier: "RecapHighlight" });
+    case 3:
+      return S.Array(__S(930, __c58, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          visitors: __S(945, __c59, 1),
+          pageviews: __S(945, __c59, 1),
+          sessions: __S(945, __c59, 1),
+          bounce_rate: __S(945, __c59, 1),
+          avg_session_duration: __S(946, __c59, 2),
+          top_pages: __S(948, __c59, 4),
+          top_sources: __S(950, __c59, 6),
+          goals: __S(952, __c59, 8),
+          metadata: __S(953, __c59, 9),
+          dashboard_url: S.String,
+          persona: __S(929, __c58, 1),
+          highlights: __S(931, __c58, 3),
+          period_label: S.String,
+          period_start: S.String,
+          period_end: S.String,
+          project_name: S.String,
+          recap_url: S.String,
+        }),
+      ).annotate({ identifier: "WebAnalyticsRecapResponse" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          percent: S.optional(S.Number),
+          direction: S.optional(S.String),
+          color: S.optional(S.String),
+          text: S.optional(S.String),
+          long_text: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WoWChange" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          current: S.optional(S.Number),
+          previous: S.optional(S.NullOr(S.Number)),
+          change: S.optional(S.NullOr(__S(944, __c59, 0))),
+        }),
+      ).annotate({ identifier: "NumericMetric" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          current: S.optional(S.String),
+          previous: S.optional(S.NullOr(S.String)),
+          change: S.optional(S.NullOr(__S(944, __c59, 0))),
+        }),
+      ).annotate({ identifier: "DurationMetric" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          host: S.optional(S.String),
+          path: S.optional(S.String),
+          visitors: S.optional(S.Number),
+          change: S.optional(S.NullOr(__S(944, __c59, 0))),
+        }),
+      ).annotate({ identifier: "TopPage" });
+    case 4:
+      return S.Array(__S(947, __c59, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          visitors: S.optional(S.Number),
+          change: S.optional(S.NullOr(__S(944, __c59, 0))),
+        }),
+      ).annotate({ identifier: "TopSource" });
+    case 6:
+      return S.Array(__S(949, __c59, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          conversions: S.optional(S.Number),
+          change: S.optional(S.NullOr(__S(944, __c59, 0))),
+        }),
+      ).annotate({ identifier: "Goal" });
+    case 8:
+      return S.Array(__S(951, __c59, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          data_status: S.String,
+          date_from: S.String,
+          date_to: S.String,
+          timezone: S.String,
+          filter_test_accounts: S.Boolean,
+          notes: __S(736, __c46, 0),
+        }),
+      ).annotate({ identifier: "DigestMetadata" });
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          compare: S.optional(S.Boolean.pipe(T.Query())),
+          days: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/web_analytics/weekly_digest/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "WebAnalyticsWeeklyDigestRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          visitors: S.optional(__S(945, __c59, 1)),
+          pageviews: S.optional(__S(945, __c59, 1)),
+          sessions: S.optional(__S(945, __c59, 1)),
+          bounce_rate: S.optional(__S(945, __c59, 1)),
+          avg_session_duration: S.optional(__S(946, __c59, 2)),
+          top_pages: S.optional(__S(948, __c59, 4)),
+          top_sources: S.optional(__S(950, __c59, 6)),
+          goals: S.optional(__S(952, __c59, 8)),
+          metadata: S.optional(__S(953, __c59, 9)),
+          dashboard_url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WeeklyDigestResponse" });
+  }
+}
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4701,7 +4877,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "AeoKeywordsSuggestRequest" });
   }
 }
-function __c58(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4713,12 +4889,12 @@ function __c58(j: number): any {
         }),
       ).annotate({ identifier: "AEOPromptImport" });
     case 1:
-      return S.Array(__S(928, __c58, 0));
+      return S.Array(__S(992, __c62, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          prompts: __S(929, __c58, 1),
+          prompts: __S(993, __c62, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4737,7 +4913,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "AEOPromptImportResult" });
   }
 }
-function __c59(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4761,7 +4937,7 @@ function __c59(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          brand_sentiment_sentences: __S(961, __c60, 1),
+          brand_sentiment_sentences: __S(1025, __c64, 1),
           id: S.String,
           run_id: S.String,
           engine: S.String,
@@ -4771,11 +4947,11 @@ function __c59(j: number): any {
           cited: S.Boolean,
           check_failed: S.Boolean,
           error: S.NullOr(S.String),
-          cited_urls: __S(720, __c45, 0),
-          target_urls: __S(720, __c45, 0),
+          cited_urls: __S(736, __c46, 0),
+          target_urls: __S(736, __c46, 0),
           target_best_position: S.NullOr(S.Number),
-          top_cited_domains: __S(720, __c45, 0),
-          search_queries: __S(720, __c45, 0),
+          top_cited_domains: __S(736, __c46, 0),
+          search_queries: __S(736, __c46, 0),
           answer_text: S.NullOr(S.String),
           prompt_version: S.NullOr(S.Number),
           brand_sentiment: S.optional(S.NullOr(S.String)),
@@ -4783,19 +4959,19 @@ function __c59(j: number): any {
         }),
       ).annotate({ identifier: "AEOPromptCheck" });
     case 2:
-      return S.Array(__S(945, __c59, 1));
+      return S.Array(__S(1009, __c63, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(946, __c59, 2),
+          results: __S(1010, __c63, 2),
         }),
       ).annotate({ identifier: "PaginatedAEOPromptCheckList" });
   }
 }
-function __c60(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4807,10 +4983,10 @@ function __c60(j: number): any {
         }),
       ).annotate({ identifier: "AEOBrandSentimentSentence" });
     case 1:
-      return S.Array(__S(960, __c60, 0));
+      return S.Array(__S(1024, __c64, 0));
   }
 }
-function __c61(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4837,7 +5013,7 @@ function __c61(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          brand_sentiment_sentences: __S(961, __c60, 1),
+          brand_sentiment_sentences: __S(1025, __c64, 1),
           id: S.String,
           run_id: S.String,
           engine: S.String,
@@ -4847,11 +5023,11 @@ function __c61(j: number): any {
           cited: S.Boolean,
           check_failed: S.Boolean,
           error: S.NullOr(S.String),
-          cited_urls: __S(720, __c45, 0),
-          target_urls: __S(720, __c45, 0),
+          cited_urls: __S(736, __c46, 0),
+          target_urls: __S(736, __c46, 0),
           target_best_position: S.NullOr(S.Number),
-          top_cited_domains: __S(720, __c45, 0),
-          search_queries: __S(720, __c45, 0),
+          top_cited_domains: __S(736, __c46, 0),
+          search_queries: __S(736, __c46, 0),
           answer_text: S.NullOr(S.String),
           prompt_version: S.NullOr(S.Number),
           brand_sentiment: S.optional(S.NullOr(S.String)),
@@ -4863,14 +5039,14 @@ function __c61(j: number): any {
         }),
       ).annotate({ identifier: "AEOPromptCitation" });
     case 2:
-      return S.Array(__S(977, __c61, 1));
+      return S.Array(__S(1041, __c65, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(978, __c61, 2),
+          results: __S(1042, __c65, 2),
         }),
       ).annotate({ identifier: "PaginatedAEOPromptCitationList" });
   }
