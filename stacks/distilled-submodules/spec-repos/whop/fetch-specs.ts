@@ -2,20 +2,21 @@
 /**
  * Fetches everything `packages/whop` reads out of `specs/` to ../specs/.
  *
- * Whop has no spec repo and no release tag — every artefact is served off the
- * docs host — so this mirror snapshots two things:
+ * Whop has no spec repo and no release tag, so this mirror snapshots two
+ * things off Whop's own hosts:
  *
- * 1. THE OPENAPI DOCUMENTS. Whop describes ONE HTTP API
- *    (`https://api.whop.com/api/v1`, one bearer key, one error envelope)
- *    through TWO reference surfaces, each with its own OpenAPI 3.1 document:
+ * 1. THE OPENAPI DOCUMENT. Whop describes its HTTP API
+ *    (`https://api.whop.com/api/v1`, one bearer key, one error envelope) in
+ *    ONE OpenAPI 3.1 document, served by the API itself and named as "OpenAPI
+ *    spec" in https://docs.whop.com/llms.txt:
  *
- *      • VERSIONED — https://docs.whop.com/api-reference/beta/overview
- *        served from `/openapi/api-v1-native.json`
- *      • LEGACY — https://docs.whop.com/developer/api/getting-started
- *        served from `/openapi/api-v1-stable.json`
+ *      https://api.whop.com/api/v1/openapi.json
  *
- *    Neither is a superset of the other, so the generator merges them
- *    (versioned wins every route both describe) and BOTH are mirrored.
+ *    It holds both reference surfaces: every Current API path carries
+ *    `x-whop-surface: native`, and the Legacy-only paths carry no marker.
+ *    The two per-surface documents the docs host used to serve
+ *    (`/openapi/api-v1-native.json`, `/openapi/api-v1-stable.json`) now
+ *    redirect to a login page, so they are no longer mirrored.
  *
  * 2. THE DOCS PAGES AS MARKDOWN. docs.whop.com serves a Markdown twin of
  *    every page — the "Copy as Markdown" button just appends `.md` to the
@@ -31,9 +32,10 @@
  * one alone silently loses documentation.
  *
  * EMBEDDED OPENAPI IS STRIPPED. Every `/api-reference/**` page inlines the
- * whole of `/openapi/api-v1-native.json` or `/openapi/api-v1-stable.json`
- * into a fence — 58 KB of spec per page, ~37 MB across the reference, all of
- * it a duplicate of the documents fetched in step 1. Each fence is replaced
+ * whole of the docs host's `/openapi/api-v1-native.json` or
+ * `/openapi/api-v1-stable.json` into a fence — 58 KB of spec per page, ~37 MB
+ * across the reference, all of it a copy of what the document fetched in
+ * step 1 describes. Each fence is replaced
  * with a one-line pointer at the file it came from; the page's own prose is
  * kept verbatim. Guide pages, which carry no such fence, are saved
  * byte-for-byte.
@@ -42,8 +44,7 @@
  *   node fetch-specs.ts
  *
  * The specs are saved to:
- *   ../specs/api-v1-native.json
- *   ../specs/api-v1-stable.json
+ *   ../specs/openapi.json
  *   ../specs/docs/**\/*.md
  *   ../specs/docs/_manifest.json
  */
@@ -63,18 +64,15 @@ const CONCURRENCY = 12;
  */
 const MAX_FAILURE_RATE_FOR_PRUNE = 0.05;
 
-const DOCUMENTS = [
-  {
-    surface: "versioned",
-    remote: "/openapi/api-v1-native.json",
-    file: "api-v1-native.json",
-  },
-  {
-    surface: "legacy",
-    remote: "/openapi/api-v1-stable.json",
-    file: "api-v1-stable.json",
-  },
-] as const;
+const OPENAPI_URL = "https://api.whop.com/api/v1/openapi.json";
+const OPENAPI_FILE = `${SPECS_DIR}/openapi.json`;
+
+/**
+ * The per-surface documents earlier runs mirrored. Upstream no longer serves
+ * them, so they are deleted: a stale copy would keep regenerating the SDK
+ * from a frozen spec without anyone noticing.
+ */
+const RETIRED_FILES = [`${SPECS_DIR}/api-v1-native.json`, `${SPECS_DIR}/api-v1-stable.json`];
 
 // ============================================================================
 // HTTP
@@ -152,59 +150,50 @@ function census(spec: Record<string, any>) {
   };
 }
 
-async function fetchOpenApiDocuments() {
-  /** Surface → the `x-api-version-date` its document declares. */
-  const versionDates: Record<string, string> = {};
+async function fetchOpenApiDocument() {
+  console.log(`Fetching the OpenAPI document from ${OPENAPI_URL}...`);
 
-  for (const doc of DOCUMENTS) {
-    const url = `${ORIGIN}${doc.remote}`;
-    console.log(`Fetching ${doc.surface} spec from ${url}...`);
-
-    const spec = JSON.parse(await fetchText(url)) as Record<string, any>;
-
-    // Fail here rather than three steps later in the generator: a login page
-    // or a gutted response is still valid JSON, but it is not an OpenAPI
-    // document.
-    if (typeof spec.openapi !== "string" || spec.paths === undefined) {
-      throw new Error(
-        `${url} returned JSON without \`openapi\`/\`paths\` — not an OpenAPI document`,
-      );
-    }
-
-    // The version pin the generated SDK sends on every request is read off
-    // this field — a document without one would ship an SDK pinned to nothing.
-    const date = spec.info?.["x-api-version-date"];
-    if (typeof date !== "string") {
-      throw new Error(`${url} has no \`info.x-api-version-date\` — nothing to pin the SDK to`);
-    }
-    versionDates[doc.surface] = date;
-
-    const outputPath = `${SPECS_DIR}/${doc.file}`;
-    // 2-space indent + trailing newline, matching the package's own
-    // downloader, so a whitespace-only change upstream produces no diff.
-    await writeFile(outputPath, JSON.stringify(spec, null, 2) + "\n");
-
-    const c = census(spec);
-    console.log(
-      `  ${outputPath} — OpenAPI ${spec.openapi}, api-version-date ${date}, ` +
-        `${c.paths} paths, ${c.operations} operations, ${c.tags} tags, ` +
-        `${c.schemas} schemas, ${c.webhooks} webhook events`,
-    );
+  const body = await fetchText(OPENAPI_URL);
+  let spec: Record<string, any>;
+  try {
+    spec = JSON.parse(body);
+  } catch (cause) {
+    // A moved document tends to come back as an HTML page with status 200
+    // (the docs host's old URLs now redirect to a login page). Name the URL
+    // instead of failing on `Unexpected token '<'`.
+    throw new Error(`${OPENAPI_URL} did not return JSON: ${JSON.stringify(body.slice(0, 80))}`, {
+      cause,
+    });
   }
 
-  // The merged SDK sends ONE `Api-Version-Date` header for every call,
-  // versioned and legacy alike. Upstream has always stamped both documents
-  // with the same date; if that stops being true the merge no longer has one
-  // pin to send, and the split has to be modeled rather than assumed. Fail
-  // the nightly run so it is caught here and not in a mis-decoded response.
-  const distinct = new Set(Object.values(versionDates));
-  if (distinct.size > 1) {
+  // Fail here rather than three steps later in the generator: a gutted
+  // response is still valid JSON, but it is not an OpenAPI document.
+  if (typeof spec.openapi !== "string" || spec.paths === undefined) {
     throw new Error(
-      `The two surfaces no longer share one \`x-api-version-date\`: ` +
-        `${JSON.stringify(versionDates)}. A merged client can send only one pin.`,
+      `${OPENAPI_URL} returned JSON without \`openapi\`/\`paths\` — not an OpenAPI document`,
     );
   }
-  console.log(`  Both surfaces at api-version-date ${[...distinct][0]}`);
+
+  // The version pin the generated SDK sends on every request is read off
+  // this field — a document without one would ship an SDK pinned to nothing.
+  const date = spec.info?.["x-api-version-date"];
+  if (typeof date !== "string") {
+    throw new Error(
+      `${OPENAPI_URL} has no \`info.x-api-version-date\` — nothing to pin the SDK to`,
+    );
+  }
+
+  // 2-space indent + trailing newline, matching the package's own
+  // downloader, so a whitespace-only change upstream produces no diff.
+  await writeFile(OPENAPI_FILE, JSON.stringify(spec, null, 2) + "\n");
+  await Promise.all(RETIRED_FILES.map((file) => rm(file, { force: true })));
+
+  const c = census(spec);
+  console.log(
+    `  ${OPENAPI_FILE} — OpenAPI ${spec.openapi}, api-version-date ${date}, ` +
+      `${c.paths} paths, ${c.operations} operations, ${c.tags} tags, ` +
+      `${c.schemas} schemas, ${c.webhooks} webhook events`,
+  );
 }
 
 // ============================================================================
@@ -247,6 +236,17 @@ function extractFromLlmsTxt(text: string): string[] {
   return out;
 }
 
+/**
+ * The sitemap also lists translated copies of the docs under a two-letter
+ * language prefix (`/es/payments/...` next to `/payments/...`), six times
+ * the English corpus. A page is a translation when its first segment is two
+ * letters and the rest of its path is listed too (or empty: `/es` itself).
+ */
+function isTranslation(path: string, listed: ReadonlySet<string>): boolean {
+  const match = /^\/[a-z]{2}(\/.*)?$/.exec(path);
+  return match !== null && (match[1] === undefined || listed.has(match[1]));
+}
+
 /** Every docs page the sitemap lists. */
 function extractFromSitemap(xml: string): string[] {
   const out: string[] = [];
@@ -265,14 +265,16 @@ function extractFromSitemap(xml: string): string[] {
  * information the prose doesn't otherwise carry.
  *
  * The fence uses FOUR backticks (its payload contains three-backtick
- * examples), and is always the last block on the page.
+ * examples), and is always the last block on the page. The file it names is
+ * a docs-host path that is no longer public; the route is in
+ * specs/openapi.json.
  */
-const OPENAPI_FENCE = /^````yaml (\/openapi\/(\S+))((?: \S+)*)\n[\s\S]*?^````[ \t]*$/gm;
+const OPENAPI_FENCE = /^````yaml (\/openapi\/\S+)((?: \S+)*)\n[\s\S]*?^````[ \t]*$/gm;
 
 function stripOpenApiFence(markdown: string): string {
-  return markdown.replace(OPENAPI_FENCE, (_all, _ref: string, file: string, route: string) => {
-    const where = route.trim() ? `\`${route.trim()}\` in ` : "";
-    return `<!-- OpenAPI source: ${where}specs/${file} (inlined by docs.whop.com; stripped on download) -->`;
+  return markdown.replace(OPENAPI_FENCE, (_all, ref: string, route: string) => {
+    const where = route.trim() ? `\`${route.trim()}\`, ` : "";
+    return `<!-- OpenAPI source: ${where}docs.whop.com${ref} (inlined by docs.whop.com; stripped on download; see specs/openapi.json) -->`;
   });
 }
 
@@ -337,13 +339,15 @@ async function fetchDocs() {
 
   const fromLlms = new Set(extractFromLlmsTxt(llmsTxt));
   const fromSitemap = new Set(extractFromSitemap(sitemapXml));
-  const pagePaths = [...new Set([...fromLlms, ...fromSitemap])].sort();
+  const listed = new Set([...fromLlms, ...fromSitemap]);
+  const pagePaths = [...listed].filter((path) => !isTranslation(path, listed)).sort();
 
   const onlyLlms = [...fromLlms].filter((p) => !fromSitemap.has(p)).length;
   const onlySitemap = [...fromSitemap].filter((p) => !fromLlms.has(p)).length;
   console.log(
     `  llms.txt ${fromLlms.size}, sitemap ${fromSitemap.size} → ` +
-      `${pagePaths.length} unique (${onlyLlms} only in llms.txt, ${onlySitemap} only in the sitemap)`,
+      `${listed.size} unique (${onlyLlms} only in llms.txt, ${onlySitemap} only in the sitemap), ` +
+      `${listed.size - pagePaths.length} translations skipped`,
   );
 
   // An empty index means upstream is broken or has moved, not that the docs
@@ -427,7 +431,7 @@ if (!existsSync(SPECS_DIR)) {
 }
 
 async function main() {
-  await fetchOpenApiDocuments();
+  await fetchOpenApiDocument();
   await fetchDocs();
   console.log("\nDone!");
 }
