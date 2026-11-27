@@ -83,24 +83,202 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export type BuildSignatureKeyTypeEnum = "KEY_TYPE_UNSPECIFIED" | "PGP_ASCII_ARMORED" | "PKIX_PEM";
-/** Message encapsulating the signature of the verified build. */
-export interface BuildSignature {
-  /** An ID for the key used to sign. This could be either an ID for the key stored in `public_key` (such as the ID or fingerprint for a PGP key, or the CN for a cert), or a reference to an external key (such as a reference to a key in Cloud Key Management Service). */
-  keyId?: string | undefined;
-  /** Required. Signature of the related `BuildProvenance`. In JSON, this is base-64 encoded. */
-  signature?: string | undefined;
-  /** Public key of the builder which can be used to verify that the related findings are valid and unchanged. If `key_type` is empty, this defaults to PEM encoded public keys. This field may be empty if `key_id` references an external key. For Cloud Build based signatures, this is a PEM encoded public key. To verify the Cloud Build signature, place the contents of this field into a file (public.pem). The signature field is base64-decoded into its binary representation in signature.bin, and the provenance bytes from `BuildDetails` are base64-decoded into a binary representation in signed.bin. OpenSSL can then verify the signature: `openssl sha256 -verify public.pem -signature signature.bin signed.bin` */
-  publicKey?: string | undefined;
-  /** The type of the key, either stored in `public_key` or referenced in `key_id`. */
-  keyType?: BuildSignatureKeyTypeEnum | (string & {}) | undefined;
+/** The note representing an SBOM reference. */
+export interface SBOMReferenceNote {
+  /** The version of the format that the SBOM takes. E.g. if the format is spdx, the version may be 2.3. */
+  version?: string | undefined;
+  /** The format that SBOM takes. E.g. may be spdx, cyclonedx, etc... */
+  format?: string | undefined;
 }
-/** Note holding the version of the provider's builder and the signature of the provenance message in the build details occurrence. */
-export interface Build {
-  /** Required. Immutable. Version of the builder which produced this build. */
-  builderVersion?: string | undefined;
-  /** Signature of the build in occurrences pointing to this build note containing build details. */
-  signature?: BuildSignature | undefined;
+export type ExternalRefCategoryEnum =
+  | "CATEGORY_UNSPECIFIED"
+  | "SECURITY"
+  | "PACKAGE_MANAGER"
+  | "PERSISTENT_ID"
+  | "OTHER";
+/** An External Reference allows a Package to reference an external source of additional information, metadata, enumerations, asset identifiers, or downloadable content believed to be relevant to the Package */
+export interface ExternalRef {
+  /** Human-readable information about the purpose and target of the reference */
+  comment?: string | undefined;
+  /** The unique string with no spaces necessary to access the package-specific information, metadata, or content within the target location */
+  locator?: string | undefined;
+  /** An External Reference allows a Package to reference an external source of additional information, metadata, enumerations, asset identifiers, or downloadable content believed to be relevant to the Package */
+  category?: ExternalRefCategoryEnum | (string & {}) | undefined;
+  /** Type of category (e.g. 'npm' for the PACKAGE_MANAGER category) */
+  type?: string | undefined;
+}
+export type ExternalRefList = Array<ExternalRef>;
+/** License information. */
+export interface License {
+  /** Often a single license can be used to represent the licensing terms. Sometimes it is necessary to include a choice of one or more licenses or some combination of license identifiers. Examples: "LGPL-2.1-only OR MIT", "LGPL-2.1-only AND MIT", "GPL-2.0-or-later WITH Bison-exception-2.2". */
+  expression?: string | undefined;
+  /** Comments */
+  comments?: string | undefined;
+}
+export type StringList = Array<string>;
+/** PackageInfoNote represents an SPDX Package Information section: https://spdx.github.io/spdx-spec/3-package-information/ */
+export interface PackageInfoNote {
+  /** If the package identified in the SPDX file originated from a different person or organization than identified as Package Supplier, this field identifies from where or whom the package originally came */
+  originator?: string | undefined;
+  /** Indicates whether the file content of this package has been available for or subjected to analysis when creating the SPDX document */
+  analyzed?: boolean | undefined;
+  /** ExternalRef */
+  externalRefs?: ExternalRefList | undefined;
+  /** A short description of the package */
+  summaryDescription?: string | undefined;
+  /** Identify the version of the package */
+  version?: string | undefined;
+  /** Provide an independently reproducible mechanism that permits unique identification of a specific package that correlates to the data in this SPDX file */
+  checksum?: string | undefined;
+  /** Identify the actual distribution source for the package/directory identified in the SPDX file */
+  supplier?: string | undefined;
+  /** List the licenses that have been declared by the authors of the package */
+  licenseDeclared?: License | undefined;
+  /** This field provides an independently reproducible mechanism identifying specific contents of a package based on the actual files (except the SPDX file itself, if it is included in the package) that make up each package and that correlates to the data in this SPDX file */
+  verificationCode?: string | undefined;
+  /** A place for the SPDX data creator to record, at the package level, acknowledgements that may be needed to be communicated in some contexts */
+  attribution?: string | undefined;
+  /** This section identifies the download Universal Resource Locator (URL), or a specific location within a version control system (VCS) for the package at the time that the SPDX file was created */
+  downloadLocation?: string | undefined;
+  /** A more detailed description of the package */
+  detailedDescription?: string | undefined;
+  /** The type of package: OS, MAVEN, GO, GO_STDLIB, etc. */
+  packageType?: string | undefined;
+  /** Contain the license the SPDX file creator has concluded as governing the This field is to contain a list of all licenses found in the package. The relationship between licenses (i.e., conjunctive, disjunctive) is not specified in this field - it is simply a listing of all licenses found */
+  filesLicenseInfo?: StringList | undefined;
+  /** Identify the copyright holders of the package, as well as any dates present */
+  copyright?: string | undefined;
+  /** Identify the full name of the package as given by the Package Originator */
+  title?: string | undefined;
+  /** Provide a place for the SPDX file creator to record a web site that serves as the package's home page */
+  homePage?: string | undefined;
+}
+/** Publisher contains information about the publisher of this Note. */
+export interface Publisher {
+  /** Provides information about the authority of the issuing party to release the document, in particular, the party's constituency and responsibilities or other obligations. */
+  issuingAuthority?: string | undefined;
+  /** Name of the publisher. Examples: 'Google', 'Google Cloud Platform'. */
+  name?: string | undefined;
+  /** The context or namespace. Contains a URL which is under control of the issuing party and can be used as a globally unique identifier for that issuing party. Example: https://csaf.io */
+  publisherNamespace?: string | undefined;
+}
+/** Product contains information about a product and how to uniquely identify it. */
+export interface Product {
+  /** Contains a URI which is vendor-specific. Example: The artifact repository URL of an image. */
+  genericUri?: string | undefined;
+  /** Name of the product. */
+  name?: string | undefined;
+  /** Token that identifies a product so that it can be referred to from other parts in the document. There is no predefined format as long as it uniquely identifies a group in the context of the current document. */
+  id?: string | undefined;
+}
+export type AssessmentStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "AFFECTED"
+  | "NOT_AFFECTED"
+  | "FIXED"
+  | "UNDER_INVESTIGATION";
+export type JustificationJustificationTypeEnum =
+  | "JUSTIFICATION_TYPE_UNSPECIFIED"
+  | "COMPONENT_NOT_PRESENT"
+  | "VULNERABLE_CODE_NOT_PRESENT"
+  | "VULNERABLE_CODE_NOT_IN_EXECUTE_PATH"
+  | "VULNERABLE_CODE_CANNOT_BE_CONTROLLED_BY_ADVERSARY"
+  | "INLINE_MITIGATIONS_ALREADY_EXIST";
+/** Justification provides the justification when the state of the assessment if NOT_AFFECTED. */
+export interface Justification {
+  /** The justification type for this vulnerability. */
+  justificationType?: JustificationJustificationTypeEnum | (string & {}) | undefined;
+  /** Additional details on why this justification was chosen. */
+  details?: string | undefined;
+}
+export type RemediationRemediationTypeEnum =
+  | "REMEDIATION_TYPE_UNSPECIFIED"
+  | "MITIGATION"
+  | "NO_FIX_PLANNED"
+  | "NONE_AVAILABLE"
+  | "VENDOR_FIX"
+  | "WORKAROUND";
+/** Metadata for any related URL information. */
+export interface RelatedUrl {
+  /** Specific URL associated with the resource. */
+  url?: string | undefined;
+  /** Label to describe usage of the URL. */
+  label?: string | undefined;
+}
+/** Specifies details on how to handle (and presumably, fix) a vulnerability. */
+export interface Remediation {
+  /** The type of remediation that can be applied. */
+  remediationType?: RemediationRemediationTypeEnum | (string & {}) | undefined;
+  /** Contains the URL where to obtain the remediation. */
+  remediationUri?: RelatedUrl | undefined;
+  /** Contains a comprehensive human-readable discussion of the remediation. */
+  details?: string | undefined;
+}
+export type RemediationList = Array<Remediation>;
+export type RelatedUrlList = Array<RelatedUrl>;
+/** Assessment provides all information that is related to a single vulnerability for this product. */
+export interface Assessment {
+  /** The vulnerability identifier for this Assessment. Will hold one of common identifiers e.g. CVE, GHSA etc. */
+  vulnerabilityId?: string | undefined;
+  /** Holds the MITRE standard Common Vulnerabilities and Exposures (CVE) tracking number for the vulnerability. Deprecated: Use vulnerability_id instead to denote CVEs. */
+  cve?: string | undefined;
+  /** Provides the state of this Vulnerability assessment. */
+  state?: AssessmentStateEnum | (string & {}) | undefined;
+  /** Justification provides the justification when the state of the assessment if NOT_AFFECTED. */
+  justification?: Justification | undefined;
+  /** A detailed description of this Vex. */
+  longDescription?: string | undefined;
+  /** A one sentence description of this Vex. */
+  shortDescription?: string | undefined;
+  /** Specifies details on how to handle (and presumably, fix) a vulnerability. */
+  remediations?: RemediationList | undefined;
+  /** Contains information about the impact of this vulnerability, this will change with time. */
+  impacts?: StringList | undefined;
+  /** Holds a list of references associated with this vulnerability item and assessment. These uris have additional information about the vulnerability and the assessment itself. E.g. Link to a document which details how this assessment concluded the state of this vulnerability. */
+  relatedUris?: RelatedUrlList | undefined;
+}
+/** A single VulnerabilityAssessmentNote represents one particular product's vulnerability assessment for one CVE. */
+export interface VulnerabilityAssessmentNote {
+  /** Publisher details of this Note. */
+  publisher?: Publisher | undefined;
+  /** The title of the note. E.g. `Vex-Debian-11.4` */
+  title?: string | undefined;
+  /** A detailed description of this Vex. */
+  longDescription?: string | undefined;
+  /** The product affected by this vex. */
+  product?: Product | undefined;
+  /** A one sentence description of this Vex. */
+  shortDescription?: string | undefined;
+  /** Represents a vulnerability assessment for the product. */
+  assessment?: Assessment | undefined;
+  /** Identifies the language used by this document, corresponding to IETF BCP 47 / RFC 5646. */
+  languageCode?: string | undefined;
+}
+/** The note representing a secret. */
+export interface SecretNote {}
+/** This submessage provides human-readable hints about the purpose of the authority. Because the name of a note acts as its resource reference, it is important to disambiguate the canonical name of the Note (which might be a UUID for security purposes) from "readable" names more suitable for debug output. Note that these hints should not be used to look up authorities in security sensitive contexts, such as when looking up attestations to verify. */
+export interface Hint {
+  /** Required. The human readable name of this attestation authority, for example "qa". */
+  humanReadableName?: string | undefined;
+}
+/** Note kind that represents a logical attestation "role" or "authority". For example, an organization might have one `Authority` for "QA" and one for "build". This note is intended to act strictly as a grouping mechanism for the attached occurrences (Attestations). This grouping mechanism also provides a security boundary, since IAM ACLs gate the ability for a principle to attach an occurrence to a given note. It also provides a single point of lookup to find all attached attestation occurrences, even if they don't all live in the same project. */
+export interface Authority {
+  /** Hint hints at the purpose of the attestation authority. */
+  hint?: Hint | undefined;
+}
+/** AISkillAnalysisNote provides the metadata of an AI-based skill analysis. */
+export type AISkillAnalysisNote = SecretNote;
+/** DocumentNote represents an SPDX Document Creation Information section: https://spdx.github.io/spdx-spec/2-document-creation-information/ */
+export interface DocumentNote {
+  /** Provide a reference number that can be used to understand how to parse and interpret the rest of the file */
+  spdxVersion?: string | undefined;
+  /** Compliance with the SPDX specification includes populating the SPDX fields therein with data related to such fields ("SPDX-Metadata") */
+  dataLicence?: string | undefined;
+}
+/** An artifact that can be deployed in some runtime. */
+export interface Deployable {
+  /** Required. Resource URI for the artifact being deployed. */
+  resourceUri?: StringList | undefined;
 }
 /** Digest information. */
 export interface Digest {
@@ -110,92 +288,81 @@ export interface Digest {
   digestBytes?: string | undefined;
 }
 export type DigestList = Array<Digest>;
+export type PackageArchitectureEnum = "ARCHITECTURE_UNSPECIFIED" | "X86" | "X64";
 export type VersionKindEnum = "VERSION_KIND_UNSPECIFIED" | "NORMAL" | "MINIMUM" | "MAXIMUM";
 /** Version contains structured information about the version of a package. */
 export interface Version {
-  /** Required only when version kind is NORMAL. The main part of the version name. */
-  name?: string | undefined;
   /** Required. Distinguishes between sentinel MIN/MAX versions and normal versions. */
   kind?: VersionKindEnum | (string & {}) | undefined;
-  /** The iteration of the package build from the above version. */
-  revision?: string | undefined;
-  /** Whether this version is specifying part of an inclusive range. Grafeas does not have the capability to specify version ranges; instead we have fields that specify start version and end versions. At times this is insufficient - we also need to specify whether the version is included in the range or is excluded from the range. This boolean is expected to be set to true when the version is included in a range. */
-  inclusive?: boolean | undefined;
   /** Used to correct mistakes in the version numbering scheme. */
   epoch?: number | undefined;
+  /** The iteration of the package build from the above version. */
+  revision?: string | undefined;
+  /** Required only when version kind is NORMAL. The main part of the version name. */
+  name?: string | undefined;
+  /** Whether this version is specifying part of an inclusive range. Grafeas does not have the capability to specify version ranges; instead we have fields that specify start version and end versions. At times this is insufficient - we also need to specify whether the version is included in the range or is excluded from the range. This boolean is expected to be set to true when the version is included in a range. */
+  inclusive?: boolean | undefined;
 }
 export type DistributionArchitectureEnum = "ARCHITECTURE_UNSPECIFIED" | "X86" | "X64";
 /** This represents a particular channel of distribution for a given package. E.g., Debian's jessie-backports dpkg mirror. */
 export interface Distribution {
+  /** The latest available version of this package in this distribution channel. */
+  latestVersion?: Version | undefined;
   /** Required. The cpe_uri in [CPE format](https://cpe.mitre.org/specification/) denoting the package manager version distributing a package. */
   cpeUri?: string | undefined;
   /** A freeform string denoting the maintainer of this package. */
   maintainer?: string | undefined;
-  /** The latest available version of this package in this distribution channel. */
-  latestVersion?: Version | undefined;
   /** The distribution channel-specific description of this package. */
   description?: string | undefined;
-  /** The CPU architecture for which packages in this distribution channel were built. */
-  architecture?: DistributionArchitectureEnum | (string & {}) | undefined;
   /** The distribution channel-specific homepage for this package. */
   url?: string | undefined;
+  /** The CPU architecture for which packages in this distribution channel were built. */
+  architecture?: DistributionArchitectureEnum | (string & {}) | undefined;
 }
 export type DistributionList = Array<Distribution>;
-/** License information. */
-export interface License {
-  /** Comments */
-  comments?: string | undefined;
-  /** Often a single license can be used to represent the licensing terms. Sometimes it is necessary to include a choice of one or more licenses or some combination of license identifiers. Examples: "LGPL-2.1-only OR MIT", "LGPL-2.1-only AND MIT", "GPL-2.0-or-later WITH Bison-exception-2.2". */
-  expression?: string | undefined;
-}
-export type PackageArchitectureEnum = "ARCHITECTURE_UNSPECIFIED" | "X86" | "X64";
 /** Package represents a particular package version. */
 export interface Package {
-  /** The description of this package. */
-  description?: string | undefined;
+  /** Licenses that have been declared by the authors of the package. */
+  license?: License | undefined;
   /** Hash value, typically a file digest, that allows unique identification a specific package. */
   digest?: DigestList | undefined;
-  /** Required. Immutable. The name of the package. */
-  name?: string | undefined;
-  /** The version of the package. */
-  version?: Version | undefined;
+  /** The CPU architecture for which packages in this distribution channel were built. Architecture will be blank for language packages. */
+  architecture?: PackageArchitectureEnum | (string & {}) | undefined;
+  /** The type of package; whether native or non native (e.g., ruby gems, node.js packages, etc.). */
+  packageType?: string | undefined;
+  /** The homepage for this package. */
+  url?: string | undefined;
   /** The various channels by which a package is distributed. */
   distribution?: DistributionList | undefined;
   /** The cpe_uri in [CPE format](https://cpe.mitre.org/specification/) denoting the package manager version distributing a package. The cpe_uri will be blank for language packages. */
   cpeUri?: string | undefined;
+  /** The version of the package. */
+  version?: Version | undefined;
+  /** The description of this package. */
+  description?: string | undefined;
   /** A freeform text denoting the maintainer of this package. */
   maintainer?: string | undefined;
-  /** The homepage for this package. */
-  url?: string | undefined;
-  /** Licenses that have been declared by the authors of the package. */
-  license?: License | undefined;
-  /** The type of package; whether native or non native (e.g., ruby gems, node.js packages, etc.). */
-  packageType?: string | undefined;
-  /** The CPU architecture for which packages in this distribution channel were built. Architecture will be blank for language packages. */
-  architecture?: PackageArchitectureEnum | (string & {}) | undefined;
+  /** Required. Immutable. The name of the package. */
+  name?: string | undefined;
 }
-export type FileNoteFileTypeEnum =
-  | "FILE_TYPE_UNSPECIFIED"
-  | "SOURCE"
-  | "BINARY"
-  | "ARCHIVE"
-  | "APPLICATION"
-  | "AUDIO"
-  | "IMAGE"
-  | "TEXT"
-  | "VIDEO"
-  | "DOCUMENTATION"
-  | "SPDX"
-  | "OTHER";
-export type StringList = Array<string>;
-/** FileNote represents an SPDX File Information section: https://spdx.github.io/spdx-spec/4-file-information/ */
-export interface FileNote {
-  /** Identify the full path and filename that corresponds to the file information in this section */
-  title?: string | undefined;
-  /** This field provides information about the type of file identified */
-  fileType?: FileNoteFileTypeEnum | (string & {}) | undefined;
-  /** Provide a unique identifier to match analysis information on each specific file in a package */
-  checksum?: StringList | undefined;
+export type BuildSignatureKeyTypeEnum = "KEY_TYPE_UNSPECIFIED" | "PGP_ASCII_ARMORED" | "PKIX_PEM";
+/** Message encapsulating the signature of the verified build. */
+export interface BuildSignature {
+  /** Required. Signature of the related `BuildProvenance`. In JSON, this is base-64 encoded. */
+  signature?: string | undefined;
+  /** An ID for the key used to sign. This could be either an ID for the key stored in `public_key` (such as the ID or fingerprint for a PGP key, or the CN for a cert), or a reference to an external key (such as a reference to a key in Cloud Key Management Service). */
+  keyId?: string | undefined;
+  /** Public key of the builder which can be used to verify that the related findings are valid and unchanged. If `key_type` is empty, this defaults to PEM encoded public keys. This field may be empty if `key_id` references an external key. For Cloud Build based signatures, this is a PEM encoded public key. To verify the Cloud Build signature, place the contents of this field into a file (public.pem). The signature field is base64-decoded into its binary representation in signature.bin, and the provenance bytes from `BuildDetails` are base64-decoded into a binary representation in signed.bin. OpenSSL can then verify the signature: `openssl sha256 -verify public.pem -signature signature.bin signed.bin` */
+  publicKey?: string | undefined;
+  /** The type of the key, either stored in `public_key` or referenced in `key_id`. */
+  keyType?: BuildSignatureKeyTypeEnum | (string & {}) | undefined;
+}
+/** Note holding the version of the provider's builder and the signature of the provenance message in the build details occurrence. */
+export interface Build {
+  /** Signature of the build in occurrences pointing to this build note containing build details. */
+  signature?: BuildSignature | undefined;
+  /** Required. Immutable. Version of the builder which produced this build. */
+  builderVersion?: string | undefined;
 }
 export type DiscoveryAnalysisKindEnum =
   | "NOTE_KIND_UNSPECIFIED"
@@ -220,22 +387,28 @@ export interface Discovery {
   /** Required. Immutable. The kind of analysis that is handled by this discovery. */
   analysisKind?: DiscoveryAnalysisKindEnum | (string & {}) | undefined;
 }
-/** An artifact that can be deployed in some runtime. */
-export interface Deployable {
-  /** Required. Resource URI for the artifact being deployed. */
-  resourceUri?: StringList | undefined;
+export type FileNoteFileTypeEnum =
+  | "FILE_TYPE_UNSPECIFIED"
+  | "SOURCE"
+  | "BINARY"
+  | "ARCHIVE"
+  | "APPLICATION"
+  | "AUDIO"
+  | "IMAGE"
+  | "TEXT"
+  | "VIDEO"
+  | "DOCUMENTATION"
+  | "SPDX"
+  | "OTHER";
+/** FileNote represents an SPDX File Information section: https://spdx.github.io/spdx-spec/4-file-information/ */
+export interface FileNote {
+  /** Identify the full path and filename that corresponds to the file information in this section */
+  title?: string | undefined;
+  /** This field provides information about the type of file identified */
+  fileType?: FileNoteFileTypeEnum | (string & {}) | undefined;
+  /** Provide a unique identifier to match analysis information on each specific file in a package */
+  checksum?: StringList | undefined;
 }
-/** The note representing an SBOM reference. */
-export interface SBOMReferenceNote {
-  /** The version of the format that the SBOM takes. E.g. if the format is spdx, the version may be 2.3. */
-  version?: string | undefined;
-  /** The format that SBOM takes. E.g. may be spdx, cyclonedx, etc... */
-  format?: string | undefined;
-}
-/** The note representing a secret. */
-export interface SecretNote {}
-/** AISkillAnalysisNote provides the metadata of an AI-based skill analysis. */
-export type AISkillAnalysisNote = SecretNote;
 /** A set of properties that uniquely identify a given Docker image. */
 export interface Fingerprint {
   /** Required. The ordered list of v2 blobs that represent a given image. */
@@ -251,531 +424,6 @@ export interface Basis {
   resourceUrl?: string | undefined;
   /** Required. Immutable. The fingerprint of the base image. */
   fingerprint?: Fingerprint | undefined;
-}
-/** This defines the format used to record keys used in the software supply chain. An in-toto link is attested using one or more keys defined in the in-toto layout. An example of this is: { "key_id": "776a00e29f3559e0141b3b096f696abc6cfb0c657ab40f441132b345b0...", "key_type": "rsa", "public_key_value": "-----BEGIN PUBLIC KEY-----\nMIIBojANBgkqhkiG9w0B...", "key_scheme": "rsassa-pss-sha256" } The format for in-toto's key definition can be found in section 4.2 of the in-toto specification. */
-export interface SigningKey {
-  /** key_id is an identifier for the signing key. */
-  keyId?: string | undefined;
-  /** This field contains the corresponding signature scheme. Eg: "rsassa-pss-sha256". */
-  keyScheme?: string | undefined;
-  /** This field contains the actual public key. */
-  publicKeyValue?: string | undefined;
-  /** This field identifies the specific signing method. Eg: "rsa", "ed25519", and "ecdsa". */
-  keyType?: string | undefined;
-}
-export type SigningKeyList = Array<SigningKey>;
-/** Defines an object to declare an in-toto artifact rule */
-export interface ArtifactRule {
-  artifactRule?: StringList | undefined;
-}
-export type ArtifactRuleList = Array<ArtifactRule>;
-/** This contains the fields corresponding to the definition of a software supply chain step in an in-toto layout. This information goes into a Grafeas note. */
-export interface InToto {
-  /** This field identifies the name of the step in the supply chain. */
-  stepName?: string | undefined;
-  /** This field contains the public keys that can be used to verify the signatures on the step metadata. */
-  signingKeys?: SigningKeyList | undefined;
-  /** This field contains a value that indicates the minimum number of keys that need to be used to sign the step's in-toto link. */
-  threshold?: string | undefined;
-  /** This field contains the expected command used to perform the step. */
-  expectedCommand?: StringList | undefined;
-  /** The following fields contain in-toto artifact rules identifying the artifacts that enter this supply chain step, and exit the supply chain step, i.e. materials and products of the step. */
-  expectedMaterials?: ArtifactRuleList | undefined;
-  expectedProducts?: ArtifactRuleList | undefined;
-}
-export type CVSSSubsequentSystemIntegrityImpactEnum =
-  | "IMPACT_UNSPECIFIED"
-  | "IMPACT_HIGH"
-  | "IMPACT_LOW"
-  | "IMPACT_NONE"
-  | "IMPACT_PARTIAL"
-  | "IMPACT_COMPLETE";
-export type CVSSExploitMaturityEnum =
-  | "EXPLOIT_MATURITY_UNSPECIFIED"
-  | "EXPLOIT_MATURITY_NOT_DEFINED"
-  | "EXPLOIT_MATURITY_ATTACKED"
-  | "EXPLOIT_MATURITY_POC"
-  | "EXPLOIT_MATURITY_UNREPORTED";
-export type CVSSIntegrityImpactEnum =
-  | "IMPACT_UNSPECIFIED"
-  | "IMPACT_HIGH"
-  | "IMPACT_LOW"
-  | "IMPACT_NONE"
-  | "IMPACT_PARTIAL"
-  | "IMPACT_COMPLETE";
-export type CVSSAvailabilityImpactEnum =
-  | "IMPACT_UNSPECIFIED"
-  | "IMPACT_HIGH"
-  | "IMPACT_LOW"
-  | "IMPACT_NONE"
-  | "IMPACT_PARTIAL"
-  | "IMPACT_COMPLETE";
-export type CVSSAttackVectorEnum =
-  | "ATTACK_VECTOR_UNSPECIFIED"
-  | "ATTACK_VECTOR_NETWORK"
-  | "ATTACK_VECTOR_ADJACENT"
-  | "ATTACK_VECTOR_LOCAL"
-  | "ATTACK_VECTOR_PHYSICAL";
-export type CVSSConfidentialityImpactEnum =
-  | "IMPACT_UNSPECIFIED"
-  | "IMPACT_HIGH"
-  | "IMPACT_LOW"
-  | "IMPACT_NONE"
-  | "IMPACT_PARTIAL"
-  | "IMPACT_COMPLETE";
-export type CVSSAttackRequirementsEnum =
-  | "ATTACK_REQUIREMENTS_UNSPECIFIED"
-  | "ATTACK_REQUIREMENTS_NONE"
-  | "ATTACK_REQUIREMENTS_PRESENT";
-export type CVSSVulnerableSystemConfidentialityImpactEnum =
-  | "IMPACT_UNSPECIFIED"
-  | "IMPACT_HIGH"
-  | "IMPACT_LOW"
-  | "IMPACT_NONE"
-  | "IMPACT_PARTIAL"
-  | "IMPACT_COMPLETE";
-export type CVSSScopeEnum = "SCOPE_UNSPECIFIED" | "SCOPE_UNCHANGED" | "SCOPE_CHANGED";
-export type CVSSUserInteractionEnum =
-  | "USER_INTERACTION_UNSPECIFIED"
-  | "USER_INTERACTION_NONE"
-  | "USER_INTERACTION_REQUIRED"
-  | "USER_INTERACTION_PASSIVE"
-  | "USER_INTERACTION_ACTIVE";
-export type CVSSPrivilegesRequiredEnum =
-  | "PRIVILEGES_REQUIRED_UNSPECIFIED"
-  | "PRIVILEGES_REQUIRED_NONE"
-  | "PRIVILEGES_REQUIRED_LOW"
-  | "PRIVILEGES_REQUIRED_HIGH";
-export type CVSSAttackComplexityEnum =
-  | "ATTACK_COMPLEXITY_UNSPECIFIED"
-  | "ATTACK_COMPLEXITY_LOW"
-  | "ATTACK_COMPLEXITY_HIGH"
-  | "ATTACK_COMPLEXITY_MEDIUM";
-export type CVSSSubsequentSystemAvailabilityImpactEnum =
-  | "IMPACT_UNSPECIFIED"
-  | "IMPACT_HIGH"
-  | "IMPACT_LOW"
-  | "IMPACT_NONE"
-  | "IMPACT_PARTIAL"
-  | "IMPACT_COMPLETE";
-export type CVSSAuthenticationEnum =
-  | "AUTHENTICATION_UNSPECIFIED"
-  | "AUTHENTICATION_MULTIPLE"
-  | "AUTHENTICATION_SINGLE"
-  | "AUTHENTICATION_NONE";
-export type CVSSVulnerableSystemAvailabilityImpactEnum =
-  | "IMPACT_UNSPECIFIED"
-  | "IMPACT_HIGH"
-  | "IMPACT_LOW"
-  | "IMPACT_NONE"
-  | "IMPACT_PARTIAL"
-  | "IMPACT_COMPLETE";
-export type CVSSSubsequentSystemConfidentialityImpactEnum =
-  | "IMPACT_UNSPECIFIED"
-  | "IMPACT_HIGH"
-  | "IMPACT_LOW"
-  | "IMPACT_NONE"
-  | "IMPACT_PARTIAL"
-  | "IMPACT_COMPLETE";
-export type CVSSVulnerableSystemIntegrityImpactEnum =
-  | "IMPACT_UNSPECIFIED"
-  | "IMPACT_HIGH"
-  | "IMPACT_LOW"
-  | "IMPACT_NONE"
-  | "IMPACT_PARTIAL"
-  | "IMPACT_COMPLETE";
-/** Common Vulnerability Scoring System. This message is compatible with CVSS v2, v3, and v4. For CVSS v2 details, see https://www.first.org/cvss/v2/guide CVSS v2 calculator: https://nvd.nist.gov/vuln-metrics/cvss/v2-calculator For CVSS v3 details, see https://www.first.org/cvss/specification-document CVSS v3 calculator: https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator For CVSS v4 details, see https://www.first.org/cvss/v4.0/user-guide CVSS v4 calculator: https://nvd.nist.gov/vuln-metrics/cvss/v4-calculator */
-export interface CVSS {
-  /** Subsequent System Integrity Impact (SI). Defined in CVSS v4. */
-  subsequentSystemIntegrityImpact?:
-    | CVSSSubsequentSystemIntegrityImpactEnum
-    | (string & {})
-    | undefined;
-  impactScore?: number | undefined;
-  /** Exploit Maturity (E). Defined in CVSS v4. */
-  exploitMaturity?: CVSSExploitMaturityEnum | (string & {}) | undefined;
-  /** Integrity Impact (I). Defined in CVSS v2, v3. */
-  integrityImpact?: CVSSIntegrityImpactEnum | (string & {}) | undefined;
-  /** Availability Impact (A). Defined in CVSS v2, v3. */
-  availabilityImpact?: CVSSAvailabilityImpactEnum | (string & {}) | undefined;
-  /** Attack Vector (AV). Defined in CVSS v2, v3, v4. */
-  attackVector?: CVSSAttackVectorEnum | (string & {}) | undefined;
-  exploitabilityScore?: number | undefined;
-  /** Confidentiality Impact (C). Defined in CVSS v2, v3. */
-  confidentialityImpact?: CVSSConfidentialityImpactEnum | (string & {}) | undefined;
-  /** Attack Requirements (AT). Defined in CVSS v4. */
-  attackRequirements?: CVSSAttackRequirementsEnum | (string & {}) | undefined;
-  /** Vulnerable System Confidentiality Impact (VC). Defined in CVSS v4. */
-  vulnerableSystemConfidentialityImpact?:
-    | CVSSVulnerableSystemConfidentialityImpactEnum
-    | (string & {})
-    | undefined;
-  /** Scope (S). Defined in CVSS v3. */
-  scope?: CVSSScopeEnum | (string & {}) | undefined;
-  /** User Interaction (UI). Defined in CVSS v3, v4. */
-  userInteraction?: CVSSUserInteractionEnum | (string & {}) | undefined;
-  /** Privileges Required (PR). Defined in CVSS v3, v4. */
-  privilegesRequired?: CVSSPrivilegesRequiredEnum | (string & {}) | undefined;
-  /** Attack Complexity (AC). Defined in CVSS v2, v3, v4. */
-  attackComplexity?: CVSSAttackComplexityEnum | (string & {}) | undefined;
-  /** Subsequent System Availability Impact (SA). Defined in CVSS v4. */
-  subsequentSystemAvailabilityImpact?:
-    | CVSSSubsequentSystemAvailabilityImpactEnum
-    | (string & {})
-    | undefined;
-  /** Authentication (Au). Defined in CVSS v2. */
-  authentication?: CVSSAuthenticationEnum | (string & {}) | undefined;
-  /** Vulnerable System Availability Impact (VA). Defined in CVSS v4. */
-  vulnerableSystemAvailabilityImpact?:
-    | CVSSVulnerableSystemAvailabilityImpactEnum
-    | (string & {})
-    | undefined;
-  /** Subsequent System Confidentiality Impact (SC). Defined in CVSS v4. */
-  subsequentSystemConfidentialityImpact?:
-    | CVSSSubsequentSystemConfidentialityImpactEnum
-    | (string & {})
-    | undefined;
-  /** The base score is a function of the base metric scores. */
-  baseScore?: number | undefined;
-  /** Vulnerable System Integrity Impact (VI). Defined in CVSS v4. */
-  vulnerableSystemIntegrityImpact?:
-    | CVSSVulnerableSystemIntegrityImpactEnum
-    | (string & {})
-    | undefined;
-}
-/** The location of the vulnerability. */
-export interface VulnerabilityLocation {
-  /** Required. The CPE URI in [cpe format](https://cpe.mitre.org/specification/) format. Examples include distro or storage location for vulnerable jar. */
-  cpeUri?: string | undefined;
-  /** Required. The version of the package being described. */
-  version?: Version | undefined;
-  /** Required. The package being described. */
-  package?: string | undefined;
-}
-/** Identifies all appearances of this vulnerability in the package for a specific distro/location. For example: glibc in cpe:/o:debian:debian_linux:8 for versions 2.1 - 2.2 */
-export interface Detail {
-  /** The type of package; whether native or non native(ruby gems, node.js packages etc). */
-  packageType?: string | undefined;
-  /** The severity (eg: distro assigned severity) for this vulnerability. */
-  severityName?: string | undefined;
-  /** The fix for this specific package version. */
-  fixedLocation?: VulnerabilityLocation | undefined;
-  /** The min version of the package in which the vulnerability exists. */
-  minAffectedVersion?: Version | undefined;
-  /** The source from which the information in this Detail was obtained. */
-  source?: string | undefined;
-  /** The time this information was last changed at the source. This is an upstream timestamp from the underlying information source - e.g. Ubuntu security tracker. */
-  sourceUpdateTime?: string | undefined;
-  /** Required. The CPE URI in [cpe format](https://cpe.mitre.org/specification/) in which the vulnerability manifests. Examples include distro or storage location for vulnerable jar. */
-  cpeUri?: string | undefined;
-  /** The name of the vendor of the product. */
-  vendor?: string | undefined;
-  /** Whether this detail is obsolete. Occurrences are expected not to point to obsolete details. */
-  isObsolete?: boolean | undefined;
-  /** A vendor-specific description of this note. */
-  description?: string | undefined;
-  /** Required. The name of the package where the vulnerability was found. */
-  package?: string | undefined;
-  /** The max version of the package in which the vulnerability exists. */
-  maxAffectedVersion?: Version | undefined;
-}
-export type DetailList = Array<Detail>;
-export interface KnowledgeBase {
-  /** A link to the KB in the Windows update catalog - https://www.catalog.update.microsoft.com/ */
-  url?: string | undefined;
-  /** The KB name (generally of the form KB[0-9]+ i.e. KB123456). */
-  name?: string | undefined;
-}
-export type KnowledgeBaseList = Array<KnowledgeBase>;
-export interface WindowsDetail {
-  /** Required. The names of the KBs which have hotfixes to mitigate this vulnerability. Note that there may be multiple hotfixes (and thus multiple KBs) that mitigate a given vulnerability. Currently any listed kb's presence is considered a fix. */
-  fixingKbs?: KnowledgeBaseList | undefined;
-  /** Required. The CPE URI in [cpe format](https://cpe.mitre.org/specification/) in which the vulnerability manifests. Examples include distro or storage location for vulnerable jar. */
-  cpeUri?: string | undefined;
-  /** The description of the vulnerability. */
-  description?: string | undefined;
-  /** Required. The name of the vulnerability. */
-  name?: string | undefined;
-}
-export type WindowsDetailList = Array<WindowsDetail>;
-export type VulnerabilityCvssVersionEnum =
-  | "CVSS_VERSION_UNSPECIFIED"
-  | "CVSS_VERSION_2"
-  | "CVSS_VERSION_3"
-  | "CVSS_VERSION_4";
-export type VulnerabilitySeverityEnum =
-  | "SEVERITY_UNSPECIFIED"
-  | "MINIMAL"
-  | "LOW"
-  | "MEDIUM"
-  | "HIGH"
-  | "CRITICAL";
-export type CVSSv3PrivilegesRequiredEnum =
-  | "PRIVILEGES_REQUIRED_UNSPECIFIED"
-  | "PRIVILEGES_REQUIRED_NONE"
-  | "PRIVILEGES_REQUIRED_LOW"
-  | "PRIVILEGES_REQUIRED_HIGH";
-export type CVSSv3AttackVectorEnum =
-  | "ATTACK_VECTOR_UNSPECIFIED"
-  | "ATTACK_VECTOR_NETWORK"
-  | "ATTACK_VECTOR_ADJACENT"
-  | "ATTACK_VECTOR_LOCAL"
-  | "ATTACK_VECTOR_PHYSICAL";
-export type CVSSv3UserInteractionEnum =
-  | "USER_INTERACTION_UNSPECIFIED"
-  | "USER_INTERACTION_NONE"
-  | "USER_INTERACTION_REQUIRED";
-export type CVSSv3AvailabilityImpactEnum =
-  | "IMPACT_UNSPECIFIED"
-  | "IMPACT_HIGH"
-  | "IMPACT_LOW"
-  | "IMPACT_NONE";
-export type CVSSv3ConfidentialityImpactEnum =
-  | "IMPACT_UNSPECIFIED"
-  | "IMPACT_HIGH"
-  | "IMPACT_LOW"
-  | "IMPACT_NONE";
-export type CVSSv3ScopeEnum = "SCOPE_UNSPECIFIED" | "SCOPE_UNCHANGED" | "SCOPE_CHANGED";
-export type CVSSv3AttackComplexityEnum =
-  | "ATTACK_COMPLEXITY_UNSPECIFIED"
-  | "ATTACK_COMPLEXITY_LOW"
-  | "ATTACK_COMPLEXITY_HIGH";
-export type CVSSv3IntegrityImpactEnum =
-  | "IMPACT_UNSPECIFIED"
-  | "IMPACT_HIGH"
-  | "IMPACT_LOW"
-  | "IMPACT_NONE";
-/** Deprecated. Common Vulnerability Scoring System version 3. For details, see https://www.first.org/cvss/specification-document */
-export interface CVSSv3 {
-  privilegesRequired?: CVSSv3PrivilegesRequiredEnum | (string & {}) | undefined;
-  /** The base score is a function of the base metric scores. */
-  baseScore?: number | undefined;
-  /** Base Metrics Represents the intrinsic characteristics of a vulnerability that are constant over time and across user environments. */
-  attackVector?: CVSSv3AttackVectorEnum | (string & {}) | undefined;
-  userInteraction?: CVSSv3UserInteractionEnum | (string & {}) | undefined;
-  availabilityImpact?: CVSSv3AvailabilityImpactEnum | (string & {}) | undefined;
-  impactScore?: number | undefined;
-  confidentialityImpact?: CVSSv3ConfidentialityImpactEnum | (string & {}) | undefined;
-  scope?: CVSSv3ScopeEnum | (string & {}) | undefined;
-  exploitabilityScore?: number | undefined;
-  attackComplexity?: CVSSv3AttackComplexityEnum | (string & {}) | undefined;
-  integrityImpact?: CVSSv3IntegrityImpactEnum | (string & {}) | undefined;
-}
-/** Vulnerability provides metadata about a security vulnerability in a Note. */
-export interface Vulnerability {
-  /** A list of CWE for this vulnerability. For details, see: https://cwe.mitre.org/index.html */
-  cwe?: StringList | undefined;
-  /** The full description of the CVSS for version 2. */
-  cvssV2?: CVSS | undefined;
-  /** The time this advisory was published by the source. */
-  advisoryPublishTime?: string | undefined;
-  /** The full description of the CVSS for version 4. */
-  cvssV4?: CVSS | undefined;
-  /** All information about the package to specifically identify this vulnerability. One entry per (version range and cpe_uri) the package vulnerability has manifested in. */
-  details?: DetailList | undefined;
-  /** Windows details get their own format because the information format and model don't match a normal detail. Specifically Windows updates are done as patches, thus Windows vulnerabilities really are a missing package, rather than a package being at an incorrect version. */
-  windowsDetails?: WindowsDetailList | undefined;
-  /** The CVSS score for this vulnerability. */
-  cvssScore?: number | undefined;
-  /** CVSS version used to populate cvss_score and severity. */
-  cvssVersion?: VulnerabilityCvssVersionEnum | (string & {}) | undefined;
-  /** Note provider assigned impact of the vulnerability. */
-  severity?: VulnerabilitySeverityEnum | (string & {}) | undefined;
-  /** The full description of the CVSS for version 3. */
-  cvssV3?: CVSSv3 | undefined;
-  /** The time this information was last changed at the source. This is an upstream timestamp from the underlying information source - e.g. Ubuntu security tracker. */
-  sourceUpdateTime?: string | undefined;
-}
-export type ExternalRefCategoryEnum =
-  | "CATEGORY_UNSPECIFIED"
-  | "SECURITY"
-  | "PACKAGE_MANAGER"
-  | "PERSISTENT_ID"
-  | "OTHER";
-/** An External Reference allows a Package to reference an external source of additional information, metadata, enumerations, asset identifiers, or downloadable content believed to be relevant to the Package */
-export interface ExternalRef {
-  /** An External Reference allows a Package to reference an external source of additional information, metadata, enumerations, asset identifiers, or downloadable content believed to be relevant to the Package */
-  category?: ExternalRefCategoryEnum | (string & {}) | undefined;
-  /** The unique string with no spaces necessary to access the package-specific information, metadata, or content within the target location */
-  locator?: string | undefined;
-  /** Type of category (e.g. 'npm' for the PACKAGE_MANAGER category) */
-  type?: string | undefined;
-  /** Human-readable information about the purpose and target of the reference */
-  comment?: string | undefined;
-}
-export type ExternalRefList = Array<ExternalRef>;
-/** PackageInfoNote represents an SPDX Package Information section: https://spdx.github.io/spdx-spec/3-package-information/ */
-export interface PackageInfoNote {
-  /** ExternalRef */
-  externalRefs?: ExternalRefList | undefined;
-  /** Contain the license the SPDX file creator has concluded as governing the This field is to contain a list of all licenses found in the package. The relationship between licenses (i.e., conjunctive, disjunctive) is not specified in this field - it is simply a listing of all licenses found */
-  filesLicenseInfo?: StringList | undefined;
-  /** Indicates whether the file content of this package has been available for or subjected to analysis when creating the SPDX document */
-  analyzed?: boolean | undefined;
-  /** This section identifies the download Universal Resource Locator (URL), or a specific location within a version control system (VCS) for the package at the time that the SPDX file was created */
-  downloadLocation?: string | undefined;
-  /** A short description of the package */
-  summaryDescription?: string | undefined;
-  /** Identify the version of the package */
-  version?: string | undefined;
-  /** List the licenses that have been declared by the authors of the package */
-  licenseDeclared?: License | undefined;
-  /** Identify the actual distribution source for the package/directory identified in the SPDX file */
-  supplier?: string | undefined;
-  /** Provide an independently reproducible mechanism that permits unique identification of a specific package that correlates to the data in this SPDX file */
-  checksum?: string | undefined;
-  /** A more detailed description of the package */
-  detailedDescription?: string | undefined;
-  /** If the package identified in the SPDX file originated from a different person or organization than identified as Package Supplier, this field identifies from where or whom the package originally came */
-  originator?: string | undefined;
-  /** Identify the copyright holders of the package, as well as any dates present */
-  copyright?: string | undefined;
-  /** The type of package: OS, MAVEN, GO, GO_STDLIB, etc. */
-  packageType?: string | undefined;
-  /** Identify the full name of the package as given by the Package Originator */
-  title?: string | undefined;
-  /** Provide a place for the SPDX file creator to record a web site that serves as the package's home page */
-  homePage?: string | undefined;
-  /** This field provides an independently reproducible mechanism identifying specific contents of a package based on the actual files (except the SPDX file itself, if it is included in the package) that make up each package and that correlates to the data in this SPDX file */
-  verificationCode?: string | undefined;
-  /** A place for the SPDX data creator to record, at the package level, acknowledgements that may be needed to be communicated in some contexts */
-  attribution?: string | undefined;
-}
-/** This submessage provides human-readable hints about the purpose of the authority. Because the name of a note acts as its resource reference, it is important to disambiguate the canonical name of the Note (which might be a UUID for security purposes) from "readable" names more suitable for debug output. Note that these hints should not be used to look up authorities in security sensitive contexts, such as when looking up attestations to verify. */
-export interface Hint {
-  /** Required. The human readable name of this attestation authority, for example "qa". */
-  humanReadableName?: string | undefined;
-}
-/** Note kind that represents a logical attestation "role" or "authority". For example, an organization might have one `Authority` for "QA" and one for "build". This note is intended to act strictly as a grouping mechanism for the attached occurrences (Attestations). This grouping mechanism also provides a security boundary, since IAM ACLs gate the ability for a principle to attach an occurrence to a given note. It also provides a single point of lookup to find all attached attestation occurrences, even if they don't all live in the same project. */
-export interface Authority {
-  /** Hint hints at the purpose of the attestation authority. */
-  hint?: Hint | undefined;
-}
-/** Publisher contains information about the publisher of this Note. */
-export interface Publisher {
-  /** The context or namespace. Contains a URL which is under control of the issuing party and can be used as a globally unique identifier for that issuing party. Example: https://csaf.io */
-  publisherNamespace?: string | undefined;
-  /** Provides information about the authority of the issuing party to release the document, in particular, the party's constituency and responsibilities or other obligations. */
-  issuingAuthority?: string | undefined;
-  /** Name of the publisher. Examples: 'Google', 'Google Cloud Platform'. */
-  name?: string | undefined;
-}
-/** Product contains information about a product and how to uniquely identify it. */
-export interface Product {
-  /** Name of the product. */
-  name?: string | undefined;
-  /** Contains a URI which is vendor-specific. Example: The artifact repository URL of an image. */
-  genericUri?: string | undefined;
-  /** Token that identifies a product so that it can be referred to from other parts in the document. There is no predefined format as long as it uniquely identifies a group in the context of the current document. */
-  id?: string | undefined;
-}
-export type JustificationJustificationTypeEnum =
-  | "JUSTIFICATION_TYPE_UNSPECIFIED"
-  | "COMPONENT_NOT_PRESENT"
-  | "VULNERABLE_CODE_NOT_PRESENT"
-  | "VULNERABLE_CODE_NOT_IN_EXECUTE_PATH"
-  | "VULNERABLE_CODE_CANNOT_BE_CONTROLLED_BY_ADVERSARY"
-  | "INLINE_MITIGATIONS_ALREADY_EXIST";
-/** Justification provides the justification when the state of the assessment if NOT_AFFECTED. */
-export interface Justification {
-  /** Additional details on why this justification was chosen. */
-  details?: string | undefined;
-  /** The justification type for this vulnerability. */
-  justificationType?: JustificationJustificationTypeEnum | (string & {}) | undefined;
-}
-export type AssessmentStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "AFFECTED"
-  | "NOT_AFFECTED"
-  | "FIXED"
-  | "UNDER_INVESTIGATION";
-/** Metadata for any related URL information. */
-export interface RelatedUrl {
-  /** Specific URL associated with the resource. */
-  url?: string | undefined;
-  /** Label to describe usage of the URL. */
-  label?: string | undefined;
-}
-export type RelatedUrlList = Array<RelatedUrl>;
-export type RemediationRemediationTypeEnum =
-  | "REMEDIATION_TYPE_UNSPECIFIED"
-  | "MITIGATION"
-  | "NO_FIX_PLANNED"
-  | "NONE_AVAILABLE"
-  | "VENDOR_FIX"
-  | "WORKAROUND";
-/** Specifies details on how to handle (and presumably, fix) a vulnerability. */
-export interface Remediation {
-  /** The type of remediation that can be applied. */
-  remediationType?: RemediationRemediationTypeEnum | (string & {}) | undefined;
-  /** Contains a comprehensive human-readable discussion of the remediation. */
-  details?: string | undefined;
-  /** Contains the URL where to obtain the remediation. */
-  remediationUri?: RelatedUrl | undefined;
-}
-export type RemediationList = Array<Remediation>;
-/** Assessment provides all information that is related to a single vulnerability for this product. */
-export interface Assessment {
-  /** Justification provides the justification when the state of the assessment if NOT_AFFECTED. */
-  justification?: Justification | undefined;
-  /** Provides the state of this Vulnerability assessment. */
-  state?: AssessmentStateEnum | (string & {}) | undefined;
-  /** Holds a list of references associated with this vulnerability item and assessment. These uris have additional information about the vulnerability and the assessment itself. E.g. Link to a document which details how this assessment concluded the state of this vulnerability. */
-  relatedUris?: RelatedUrlList | undefined;
-  /** Specifies details on how to handle (and presumably, fix) a vulnerability. */
-  remediations?: RemediationList | undefined;
-  /** Contains information about the impact of this vulnerability, this will change with time. */
-  impacts?: StringList | undefined;
-  /** The vulnerability identifier for this Assessment. Will hold one of common identifiers e.g. CVE, GHSA etc. */
-  vulnerabilityId?: string | undefined;
-  /** Holds the MITRE standard Common Vulnerabilities and Exposures (CVE) tracking number for the vulnerability. Deprecated: Use vulnerability_id instead to denote CVEs. */
-  cve?: string | undefined;
-  /** A one sentence description of this Vex. */
-  shortDescription?: string | undefined;
-  /** A detailed description of this Vex. */
-  longDescription?: string | undefined;
-}
-/** A single VulnerabilityAssessmentNote represents one particular product's vulnerability assessment for one CVE. */
-export interface VulnerabilityAssessmentNote {
-  /** The title of the note. E.g. `Vex-Debian-11.4` */
-  title?: string | undefined;
-  /** Publisher details of this Note. */
-  publisher?: Publisher | undefined;
-  /** A detailed description of this Vex. */
-  longDescription?: string | undefined;
-  /** A one sentence description of this Vex. */
-  shortDescription?: string | undefined;
-  /** The product affected by this vex. */
-  product?: Product | undefined;
-  /** Identifies the language used by this document, corresponding to IETF BCP 47 / RFC 5646. */
-  languageCode?: string | undefined;
-  /** Represents a vulnerability assessment for the product. */
-  assessment?: Assessment | undefined;
-}
-export type NoteKindEnum =
-  | "NOTE_KIND_UNSPECIFIED"
-  | "VULNERABILITY"
-  | "BUILD"
-  | "IMAGE"
-  | "PACKAGE"
-  | "DEPLOYMENT"
-  | "DISCOVERY"
-  | "ATTESTATION"
-  | "INTOTO"
-  | "SBOM"
-  | "SPDX_PACKAGE"
-  | "SPDX_FILE"
-  | "SPDX_RELATIONSHIP"
-  | "VULNERABILITY_ASSESSMENT"
-  | "SBOM_REFERENCE"
-  | "SECRET"
-  | "AI_SKILL_ANALYSIS";
-/** DocumentNote represents an SPDX Document Creation Information section: https://spdx.github.io/spdx-spec/2-document-creation-information/ */
-export interface DocumentNote {
-  /** Compliance with the SPDX specification includes populating the SPDX fields therein with data related to such fields ("SPDX-Metadata") */
-  dataLicence?: string | undefined;
-  /** Provide a reference number that can be used to understand how to parse and interpret the rest of the file */
-  spdxVersion?: string | undefined;
 }
 export type RelationshipNoteTypeEnum =
   | "RELATIONSHIP_TYPE_UNSPECIFIED"
@@ -827,58 +475,410 @@ export interface RelationshipNote {
   /** The type of relationship between the source and target SPDX elements */
   type?: RelationshipNoteTypeEnum | (string & {}) | undefined;
 }
+/** Defines an object to declare an in-toto artifact rule */
+export interface ArtifactRule {
+  artifactRule?: StringList | undefined;
+}
+export type ArtifactRuleList = Array<ArtifactRule>;
+/** This defines the format used to record keys used in the software supply chain. An in-toto link is attested using one or more keys defined in the in-toto layout. An example of this is: { "key_id": "776a00e29f3559e0141b3b096f696abc6cfb0c657ab40f441132b345b0...", "key_type": "rsa", "public_key_value": "-----BEGIN PUBLIC KEY-----\nMIIBojANBgkqhkiG9w0B...", "key_scheme": "rsassa-pss-sha256" } The format for in-toto's key definition can be found in section 4.2 of the in-toto specification. */
+export interface SigningKey {
+  /** This field contains the actual public key. */
+  publicKeyValue?: string | undefined;
+  /** key_id is an identifier for the signing key. */
+  keyId?: string | undefined;
+  /** This field contains the corresponding signature scheme. Eg: "rsassa-pss-sha256". */
+  keyScheme?: string | undefined;
+  /** This field identifies the specific signing method. Eg: "rsa", "ed25519", and "ecdsa". */
+  keyType?: string | undefined;
+}
+export type SigningKeyList = Array<SigningKey>;
+/** This contains the fields corresponding to the definition of a software supply chain step in an in-toto layout. This information goes into a Grafeas note. */
+export interface InToto {
+  /** The following fields contain in-toto artifact rules identifying the artifacts that enter this supply chain step, and exit the supply chain step, i.e. materials and products of the step. */
+  expectedMaterials?: ArtifactRuleList | undefined;
+  /** This field contains a value that indicates the minimum number of keys that need to be used to sign the step's in-toto link. */
+  threshold?: string | undefined;
+  /** This field contains the expected command used to perform the step. */
+  expectedCommand?: StringList | undefined;
+  /** This field identifies the name of the step in the supply chain. */
+  stepName?: string | undefined;
+  expectedProducts?: ArtifactRuleList | undefined;
+  /** This field contains the public keys that can be used to verify the signatures on the step metadata. */
+  signingKeys?: SigningKeyList | undefined;
+}
+export type CVSSv3IntegrityImpactEnum =
+  | "IMPACT_UNSPECIFIED"
+  | "IMPACT_HIGH"
+  | "IMPACT_LOW"
+  | "IMPACT_NONE";
+export type CVSSv3ConfidentialityImpactEnum =
+  | "IMPACT_UNSPECIFIED"
+  | "IMPACT_HIGH"
+  | "IMPACT_LOW"
+  | "IMPACT_NONE";
+export type CVSSv3AttackComplexityEnum =
+  | "ATTACK_COMPLEXITY_UNSPECIFIED"
+  | "ATTACK_COMPLEXITY_LOW"
+  | "ATTACK_COMPLEXITY_HIGH";
+export type CVSSv3ScopeEnum = "SCOPE_UNSPECIFIED" | "SCOPE_UNCHANGED" | "SCOPE_CHANGED";
+export type CVSSv3AvailabilityImpactEnum =
+  | "IMPACT_UNSPECIFIED"
+  | "IMPACT_HIGH"
+  | "IMPACT_LOW"
+  | "IMPACT_NONE";
+export type CVSSv3AttackVectorEnum =
+  | "ATTACK_VECTOR_UNSPECIFIED"
+  | "ATTACK_VECTOR_NETWORK"
+  | "ATTACK_VECTOR_ADJACENT"
+  | "ATTACK_VECTOR_LOCAL"
+  | "ATTACK_VECTOR_PHYSICAL";
+export type CVSSv3PrivilegesRequiredEnum =
+  | "PRIVILEGES_REQUIRED_UNSPECIFIED"
+  | "PRIVILEGES_REQUIRED_NONE"
+  | "PRIVILEGES_REQUIRED_LOW"
+  | "PRIVILEGES_REQUIRED_HIGH";
+export type CVSSv3UserInteractionEnum =
+  | "USER_INTERACTION_UNSPECIFIED"
+  | "USER_INTERACTION_NONE"
+  | "USER_INTERACTION_REQUIRED";
+/** Deprecated. Common Vulnerability Scoring System version 3. For details, see https://www.first.org/cvss/specification-document */
+export interface CVSSv3 {
+  exploitabilityScore?: number | undefined;
+  /** The base score is a function of the base metric scores. */
+  baseScore?: number | undefined;
+  impactScore?: number | undefined;
+  integrityImpact?: CVSSv3IntegrityImpactEnum | (string & {}) | undefined;
+  confidentialityImpact?: CVSSv3ConfidentialityImpactEnum | (string & {}) | undefined;
+  attackComplexity?: CVSSv3AttackComplexityEnum | (string & {}) | undefined;
+  scope?: CVSSv3ScopeEnum | (string & {}) | undefined;
+  availabilityImpact?: CVSSv3AvailabilityImpactEnum | (string & {}) | undefined;
+  /** Base Metrics Represents the intrinsic characteristics of a vulnerability that are constant over time and across user environments. */
+  attackVector?: CVSSv3AttackVectorEnum | (string & {}) | undefined;
+  privilegesRequired?: CVSSv3PrivilegesRequiredEnum | (string & {}) | undefined;
+  userInteraction?: CVSSv3UserInteractionEnum | (string & {}) | undefined;
+}
+export type VulnerabilitySeverityEnum =
+  | "SEVERITY_UNSPECIFIED"
+  | "MINIMAL"
+  | "LOW"
+  | "MEDIUM"
+  | "HIGH"
+  | "CRITICAL";
+export type VulnerabilityCvssVersionEnum =
+  | "CVSS_VERSION_UNSPECIFIED"
+  | "CVSS_VERSION_2"
+  | "CVSS_VERSION_3"
+  | "CVSS_VERSION_4";
+export type CVSSAttackComplexityEnum =
+  | "ATTACK_COMPLEXITY_UNSPECIFIED"
+  | "ATTACK_COMPLEXITY_LOW"
+  | "ATTACK_COMPLEXITY_HIGH"
+  | "ATTACK_COMPLEXITY_MEDIUM";
+export type CVSSExploitMaturityEnum =
+  | "EXPLOIT_MATURITY_UNSPECIFIED"
+  | "EXPLOIT_MATURITY_NOT_DEFINED"
+  | "EXPLOIT_MATURITY_ATTACKED"
+  | "EXPLOIT_MATURITY_POC"
+  | "EXPLOIT_MATURITY_UNREPORTED";
+export type CVSSUserInteractionEnum =
+  | "USER_INTERACTION_UNSPECIFIED"
+  | "USER_INTERACTION_NONE"
+  | "USER_INTERACTION_REQUIRED"
+  | "USER_INTERACTION_PASSIVE"
+  | "USER_INTERACTION_ACTIVE";
+export type CVSSPrivilegesRequiredEnum =
+  | "PRIVILEGES_REQUIRED_UNSPECIFIED"
+  | "PRIVILEGES_REQUIRED_NONE"
+  | "PRIVILEGES_REQUIRED_LOW"
+  | "PRIVILEGES_REQUIRED_HIGH";
+export type CVSSIntegrityImpactEnum =
+  | "IMPACT_UNSPECIFIED"
+  | "IMPACT_HIGH"
+  | "IMPACT_LOW"
+  | "IMPACT_NONE"
+  | "IMPACT_PARTIAL"
+  | "IMPACT_COMPLETE";
+export type CVSSScopeEnum = "SCOPE_UNSPECIFIED" | "SCOPE_UNCHANGED" | "SCOPE_CHANGED";
+export type CVSSSubsequentSystemAvailabilityImpactEnum =
+  | "IMPACT_UNSPECIFIED"
+  | "IMPACT_HIGH"
+  | "IMPACT_LOW"
+  | "IMPACT_NONE"
+  | "IMPACT_PARTIAL"
+  | "IMPACT_COMPLETE";
+export type CVSSAvailabilityImpactEnum =
+  | "IMPACT_UNSPECIFIED"
+  | "IMPACT_HIGH"
+  | "IMPACT_LOW"
+  | "IMPACT_NONE"
+  | "IMPACT_PARTIAL"
+  | "IMPACT_COMPLETE";
+export type CVSSVulnerableSystemConfidentialityImpactEnum =
+  | "IMPACT_UNSPECIFIED"
+  | "IMPACT_HIGH"
+  | "IMPACT_LOW"
+  | "IMPACT_NONE"
+  | "IMPACT_PARTIAL"
+  | "IMPACT_COMPLETE";
+export type CVSSAuthenticationEnum =
+  | "AUTHENTICATION_UNSPECIFIED"
+  | "AUTHENTICATION_MULTIPLE"
+  | "AUTHENTICATION_SINGLE"
+  | "AUTHENTICATION_NONE";
+export type CVSSSubsequentSystemIntegrityImpactEnum =
+  | "IMPACT_UNSPECIFIED"
+  | "IMPACT_HIGH"
+  | "IMPACT_LOW"
+  | "IMPACT_NONE"
+  | "IMPACT_PARTIAL"
+  | "IMPACT_COMPLETE";
+export type CVSSAttackVectorEnum =
+  | "ATTACK_VECTOR_UNSPECIFIED"
+  | "ATTACK_VECTOR_NETWORK"
+  | "ATTACK_VECTOR_ADJACENT"
+  | "ATTACK_VECTOR_LOCAL"
+  | "ATTACK_VECTOR_PHYSICAL";
+export type CVSSVulnerableSystemIntegrityImpactEnum =
+  | "IMPACT_UNSPECIFIED"
+  | "IMPACT_HIGH"
+  | "IMPACT_LOW"
+  | "IMPACT_NONE"
+  | "IMPACT_PARTIAL"
+  | "IMPACT_COMPLETE";
+export type CVSSVulnerableSystemAvailabilityImpactEnum =
+  | "IMPACT_UNSPECIFIED"
+  | "IMPACT_HIGH"
+  | "IMPACT_LOW"
+  | "IMPACT_NONE"
+  | "IMPACT_PARTIAL"
+  | "IMPACT_COMPLETE";
+export type CVSSAttackRequirementsEnum =
+  | "ATTACK_REQUIREMENTS_UNSPECIFIED"
+  | "ATTACK_REQUIREMENTS_NONE"
+  | "ATTACK_REQUIREMENTS_PRESENT";
+export type CVSSSubsequentSystemConfidentialityImpactEnum =
+  | "IMPACT_UNSPECIFIED"
+  | "IMPACT_HIGH"
+  | "IMPACT_LOW"
+  | "IMPACT_NONE"
+  | "IMPACT_PARTIAL"
+  | "IMPACT_COMPLETE";
+export type CVSSConfidentialityImpactEnum =
+  | "IMPACT_UNSPECIFIED"
+  | "IMPACT_HIGH"
+  | "IMPACT_LOW"
+  | "IMPACT_NONE"
+  | "IMPACT_PARTIAL"
+  | "IMPACT_COMPLETE";
+/** Common Vulnerability Scoring System. This message is compatible with CVSS v2, v3, and v4. For CVSS v2 details, see https://www.first.org/cvss/v2/guide CVSS v2 calculator: https://nvd.nist.gov/vuln-metrics/cvss/v2-calculator For CVSS v3 details, see https://www.first.org/cvss/specification-document CVSS v3 calculator: https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator For CVSS v4 details, see https://www.first.org/cvss/v4.0/user-guide CVSS v4 calculator: https://nvd.nist.gov/vuln-metrics/cvss/v4-calculator */
+export interface CVSS {
+  /** Attack Complexity (AC). Defined in CVSS v2, v3, v4. */
+  attackComplexity?: CVSSAttackComplexityEnum | (string & {}) | undefined;
+  exploitabilityScore?: number | undefined;
+  /** Exploit Maturity (E). Defined in CVSS v4. */
+  exploitMaturity?: CVSSExploitMaturityEnum | (string & {}) | undefined;
+  /** User Interaction (UI). Defined in CVSS v3, v4. */
+  userInteraction?: CVSSUserInteractionEnum | (string & {}) | undefined;
+  /** Privileges Required (PR). Defined in CVSS v3, v4. */
+  privilegesRequired?: CVSSPrivilegesRequiredEnum | (string & {}) | undefined;
+  /** Integrity Impact (I). Defined in CVSS v2, v3. */
+  integrityImpact?: CVSSIntegrityImpactEnum | (string & {}) | undefined;
+  /** Scope (S). Defined in CVSS v3. */
+  scope?: CVSSScopeEnum | (string & {}) | undefined;
+  /** Subsequent System Availability Impact (SA). Defined in CVSS v4. */
+  subsequentSystemAvailabilityImpact?:
+    | CVSSSubsequentSystemAvailabilityImpactEnum
+    | (string & {})
+    | undefined;
+  /** Availability Impact (A). Defined in CVSS v2, v3. */
+  availabilityImpact?: CVSSAvailabilityImpactEnum | (string & {}) | undefined;
+  /** Vulnerable System Confidentiality Impact (VC). Defined in CVSS v4. */
+  vulnerableSystemConfidentialityImpact?:
+    | CVSSVulnerableSystemConfidentialityImpactEnum
+    | (string & {})
+    | undefined;
+  /** Authentication (Au). Defined in CVSS v2. */
+  authentication?: CVSSAuthenticationEnum | (string & {}) | undefined;
+  /** Subsequent System Integrity Impact (SI). Defined in CVSS v4. */
+  subsequentSystemIntegrityImpact?:
+    | CVSSSubsequentSystemIntegrityImpactEnum
+    | (string & {})
+    | undefined;
+  /** Attack Vector (AV). Defined in CVSS v2, v3, v4. */
+  attackVector?: CVSSAttackVectorEnum | (string & {}) | undefined;
+  /** The base score is a function of the base metric scores. */
+  baseScore?: number | undefined;
+  /** Vulnerable System Integrity Impact (VI). Defined in CVSS v4. */
+  vulnerableSystemIntegrityImpact?:
+    | CVSSVulnerableSystemIntegrityImpactEnum
+    | (string & {})
+    | undefined;
+  /** Vulnerable System Availability Impact (VA). Defined in CVSS v4. */
+  vulnerableSystemAvailabilityImpact?:
+    | CVSSVulnerableSystemAvailabilityImpactEnum
+    | (string & {})
+    | undefined;
+  /** Attack Requirements (AT). Defined in CVSS v4. */
+  attackRequirements?: CVSSAttackRequirementsEnum | (string & {}) | undefined;
+  /** Subsequent System Confidentiality Impact (SC). Defined in CVSS v4. */
+  subsequentSystemConfidentialityImpact?:
+    | CVSSSubsequentSystemConfidentialityImpactEnum
+    | (string & {})
+    | undefined;
+  impactScore?: number | undefined;
+  /** Confidentiality Impact (C). Defined in CVSS v2, v3. */
+  confidentialityImpact?: CVSSConfidentialityImpactEnum | (string & {}) | undefined;
+}
+/** The location of the vulnerability. */
+export interface VulnerabilityLocation {
+  /** Required. The version of the package being described. */
+  version?: Version | undefined;
+  /** Required. The CPE URI in [cpe format](https://cpe.mitre.org/specification/) format. Examples include distro or storage location for vulnerable jar. */
+  cpeUri?: string | undefined;
+  /** Required. The package being described. */
+  package?: string | undefined;
+}
+/** Identifies all appearances of this vulnerability in the package for a specific distro/location. For example: glibc in cpe:/o:debian:debian_linux:8 for versions 2.1 - 2.2 */
+export interface Detail {
+  /** The max version of the package in which the vulnerability exists. */
+  maxAffectedVersion?: Version | undefined;
+  /** A vendor-specific description of this note. */
+  description?: string | undefined;
+  /** Required. The CPE URI in [cpe format](https://cpe.mitre.org/specification/) in which the vulnerability manifests. Examples include distro or storage location for vulnerable jar. */
+  cpeUri?: string | undefined;
+  /** The time this information was last changed at the source. This is an upstream timestamp from the underlying information source - e.g. Ubuntu security tracker. */
+  sourceUpdateTime?: string | undefined;
+  /** The severity (eg: distro assigned severity) for this vulnerability. */
+  severityName?: string | undefined;
+  /** The type of package; whether native or non native(ruby gems, node.js packages etc). */
+  packageType?: string | undefined;
+  /** Required. The name of the package where the vulnerability was found. */
+  package?: string | undefined;
+  /** The min version of the package in which the vulnerability exists. */
+  minAffectedVersion?: Version | undefined;
+  /** The fix for this specific package version. */
+  fixedLocation?: VulnerabilityLocation | undefined;
+  /** Whether this detail is obsolete. Occurrences are expected not to point to obsolete details. */
+  isObsolete?: boolean | undefined;
+  /** The source from which the information in this Detail was obtained. */
+  source?: string | undefined;
+  /** The name of the vendor of the product. */
+  vendor?: string | undefined;
+}
+export type DetailList = Array<Detail>;
+export interface KnowledgeBase {
+  /** A link to the KB in the Windows update catalog - https://www.catalog.update.microsoft.com/ */
+  url?: string | undefined;
+  /** The KB name (generally of the form KB[0-9]+ i.e. KB123456). */
+  name?: string | undefined;
+}
+export type KnowledgeBaseList = Array<KnowledgeBase>;
+export interface WindowsDetail {
+  /** Required. The CPE URI in [cpe format](https://cpe.mitre.org/specification/) in which the vulnerability manifests. Examples include distro or storage location for vulnerable jar. */
+  cpeUri?: string | undefined;
+  /** The description of the vulnerability. */
+  description?: string | undefined;
+  /** Required. The names of the KBs which have hotfixes to mitigate this vulnerability. Note that there may be multiple hotfixes (and thus multiple KBs) that mitigate a given vulnerability. Currently any listed kb's presence is considered a fix. */
+  fixingKbs?: KnowledgeBaseList | undefined;
+  /** Required. The name of the vulnerability. */
+  name?: string | undefined;
+}
+export type WindowsDetailList = Array<WindowsDetail>;
+/** Vulnerability provides metadata about a security vulnerability in a Note. */
+export interface Vulnerability {
+  /** The full description of the CVSS for version 3. */
+  cvssV3?: CVSSv3 | undefined;
+  /** Note provider assigned impact of the vulnerability. */
+  severity?: VulnerabilitySeverityEnum | (string & {}) | undefined;
+  /** CVSS version used to populate cvss_score and severity. */
+  cvssVersion?: VulnerabilityCvssVersionEnum | (string & {}) | undefined;
+  /** The full description of the CVSS for version 4. */
+  cvssV4?: CVSS | undefined;
+  /** The CVSS score for this vulnerability. */
+  cvssScore?: number | undefined;
+  /** The time this advisory was published by the source. */
+  advisoryPublishTime?: string | undefined;
+  /** All information about the package to specifically identify this vulnerability. One entry per (version range and cpe_uri) the package vulnerability has manifested in. */
+  details?: DetailList | undefined;
+  /** The time this information was last changed at the source. This is an upstream timestamp from the underlying information source - e.g. Ubuntu security tracker. */
+  sourceUpdateTime?: string | undefined;
+  /** The full description of the CVSS for version 2. */
+  cvssV2?: CVSS | undefined;
+  /** Windows details get their own format because the information format and model don't match a normal detail. Specifically Windows updates are done as patches, thus Windows vulnerabilities really are a missing package, rather than a package being at an incorrect version. */
+  windowsDetails?: WindowsDetailList | undefined;
+  /** A list of CWE for this vulnerability. For details, see: https://cwe.mitre.org/index.html */
+  cwe?: StringList | undefined;
+}
+export type NoteKindEnum =
+  | "NOTE_KIND_UNSPECIFIED"
+  | "VULNERABILITY"
+  | "BUILD"
+  | "IMAGE"
+  | "PACKAGE"
+  | "DEPLOYMENT"
+  | "DISCOVERY"
+  | "ATTESTATION"
+  | "INTOTO"
+  | "SBOM"
+  | "SPDX_PACKAGE"
+  | "SPDX_FILE"
+  | "SPDX_RELATIONSHIP"
+  | "VULNERABILITY_ASSESSMENT"
+  | "SBOM_REFERENCE"
+  | "SECRET"
+  | "AI_SKILL_ANALYSIS";
 /** A type of analysis that can be done for a resource. */
 export interface Note {
-  /** Output only. The time this note was last updated. This field can be used as a filter in list requests. */
-  updateTime?: string | undefined;
-  /** Output only. The time this note was created. This field can be used as a filter in list requests. */
-  createTime?: string | undefined;
-  /** A note describing build provenance for a verifiable build. */
-  build?: Build | undefined;
-  /** A note describing a package hosted by various package managers. */
-  package?: Package | undefined;
-  /** A note describing an SPDX File. */
-  spdxFile?: FileNote | undefined;
-  /** Time of expiration for this note. Empty if note does not expire. */
-  expirationTime?: string | undefined;
-  /** A note describing the initial analysis of a resource. */
-  discovery?: Discovery | undefined;
-  /** A note describing something that can be deployed. */
-  deployable?: Deployable | undefined;
   /** A note describing an SBOM reference. */
   sbomReference?: SBOMReferenceNote | undefined;
-  /** Output only. The name of the note in the form of `projects/[PROVIDER_ID]/notes/[NOTE_ID]`. */
-  name?: string | undefined;
-  /** A note describing a secret. */
-  secret?: SecretNote | undefined;
-  /** A note describing an AI Skill analysis. */
-  aiSkillAnalysis?: SecretNote | undefined;
-  /** A note describing a base image. */
-  baseImage?: Basis | undefined;
-  /** A note describing an in-toto link. */
-  intoto?: InToto | undefined;
-  /** A note describing a package vulnerability. */
-  vulnerability?: Vulnerability | undefined;
-  /** A detailed description of this note. */
-  longDescription?: string | undefined;
   /** A note describing an SPDX Package. */
   spdxPackage?: PackageInfoNote | undefined;
-  /** A note describing an attestation role. */
-  attestationAuthority?: Authority | undefined;
+  /** Time of expiration for this note. Empty if note does not expire. */
+  expirationTime?: string | undefined;
+  /** Output only. The time this note was last updated. This field can be used as a filter in list requests. */
+  updateTime?: string | undefined;
   /** A note describing a vulnerability assessment. */
   vulnerabilityAssessment?: VulnerabilityAssessmentNote | undefined;
-  /** Output only. The type of analysis. This field can be used as a filter in list requests. */
-  kind?: NoteKindEnum | (string & {}) | undefined;
-  /** Other notes related to this note. */
-  relatedNoteNames?: StringList | undefined;
+  /** A one sentence description of this note. */
+  shortDescription?: string | undefined;
+  /** Output only. The time this note was created. This field can be used as a filter in list requests. */
+  createTime?: string | undefined;
+  /** A note describing a secret. */
+  secret?: SecretNote | undefined;
+  /** A note describing an attestation role. */
+  attestationAuthority?: Authority | undefined;
+  /** A note describing an AI Skill analysis. */
+  aiSkillAnalysis?: SecretNote | undefined;
+  /** Output only. The name of the note in the form of `projects/[PROVIDER_ID]/notes/[NOTE_ID]`. */
+  name?: string | undefined;
+  /** A detailed description of this note. */
+  longDescription?: string | undefined;
   /** A note describing a software bill of materials. */
   sbom?: DocumentNote | undefined;
   /** URLs associated with this note. */
   relatedUrl?: RelatedUrlList | undefined;
-  /** A one sentence description of this note. */
-  shortDescription?: string | undefined;
+  /** A note describing something that can be deployed. */
+  deployable?: Deployable | undefined;
+  /** A note describing a package hosted by various package managers. */
+  package?: Package | undefined;
+  /** A note describing build provenance for a verifiable build. */
+  build?: Build | undefined;
+  /** A note describing the initial analysis of a resource. */
+  discovery?: Discovery | undefined;
+  /** Other notes related to this note. */
+  relatedNoteNames?: StringList | undefined;
+  /** A note describing an SPDX File. */
+  spdxFile?: FileNote | undefined;
+  /** A note describing a base image. */
+  baseImage?: Basis | undefined;
   /** A note describing an SPDX File. */
   spdxRelationship?: RelationshipNote | undefined;
+  /** A note describing an in-toto link. */
+  intoto?: InToto | undefined;
+  /** A note describing a package vulnerability. */
+  vulnerability?: Vulnerability | undefined;
+  /** Output only. The type of analysis. This field can be used as a filter in list requests. */
+  kind?: NoteKindEnum | (string & {}) | undefined;
 }
 export type NoteMap = { [key: string]: Note | undefined };
 /** Request to create notes in batch. */
@@ -896,83 +896,410 @@ export interface BatchCreateNotesResponse {
   /** The notes that were created. */
   notes?: NoteList | undefined;
 }
-/** PackageInfoOccurrence represents an SPDX Package Information section: https://spdx.github.io/spdx-spec/3-package-information/ */
-export interface PackageInfoOccurrence {
-  /** Provide a place for the SPDX file creator to record any relevant background information or additional comments about the origin of the package */
-  sourceInfo?: string | undefined;
-  /** Provide the actual file name of the package, or path of the directory being treated as a package */
-  filename?: string | undefined;
-  /** Output only. Identify the version of the package */
-  version?: string | undefined;
-  /** Uniquely identify any element in an SPDX document which may be referenced by other elements */
-  id?: string | undefined;
-  /** Output only. A short description of the package */
-  summaryDescription?: string | undefined;
-  /** Output only. Identify the full name of the package as given by the Package Originator */
-  title?: string | undefined;
-  /** Output only. The type of package: OS, MAVEN, GO, GO_STDLIB, etc. */
-  packageType?: string | undefined;
-  /** Output only. Provide a place for the SPDX file creator to record a web site that serves as the package's home page */
-  homePage?: string | undefined;
-  /** A place for the SPDX file creator to record any general comments about the package being described */
-  comment?: string | undefined;
-  /** package or alternative values, if the governing license cannot be determined */
-  licenseConcluded?: License | undefined;
+export type StringMap = { [key: string]: string | undefined };
+/** A predicate which describes the SBOM being referenced. */
+export interface SbomReferenceIntotoPredicate {
+  /** A map of algorithm to digest of the contents of the SBOM. */
+  digest?: StringMap | undefined;
+  /** The person or system referring this predicate to the consumer. */
+  referrerId?: string | undefined;
+  /** The mime type of the SBOM. */
+  mimeType?: string | undefined;
+  /** The location of the SBOM. */
+  location?: string | undefined;
 }
-export type LayerDirectiveEnum =
-  | "DIRECTIVE_UNSPECIFIED"
-  | "MAINTAINER"
-  | "RUN"
-  | "CMD"
-  | "LABEL"
-  | "EXPOSE"
-  | "ENV"
-  | "ADD"
-  | "COPY"
-  | "ENTRYPOINT"
-  | "VOLUME"
-  | "USER"
-  | "WORKDIR"
-  | "ARG"
-  | "ONBUILD"
-  | "STOPSIGNAL"
-  | "HEALTHCHECK"
-  | "SHELL";
-/** Layer holds metadata specific to a layer of a Docker image. */
-export interface Layer {
-  /** Required. The recovered Dockerfile directive used to construct this layer. */
-  directive?: LayerDirectiveEnum | (string & {}) | undefined;
-  /** The recovered arguments to the Dockerfile directive. */
-  arguments?: string | undefined;
+/** Set of software artifacts that the attestation applies to. Each element represents a single software artifact. */
+export interface Subject {
+  /** `"": ""` Algorithms can be e.g. sha256, sha512 See https://github.com/in-toto/attestation/blob/main/spec/field_types.md#DigestSet */
+  digest?: StringMap | undefined;
+  /** Identifier to distinguish this artifact from others within the subject. */
+  name?: string | undefined;
 }
-export type LayerList = Array<Layer>;
-/** Derived describes the derived image portion (Occurrence) of the DockerImage relationship. This image would be produced from a Dockerfile with FROM . */
-export interface Derived {
-  /** This contains layer-specific metadata, if populated it has length "distance" and is ordered with [distance] being the layer immediately following the base image and [1] being the final layer. */
-  layerInfo?: LayerList | undefined;
-  /** Output only. This contains the base image URL for the derived image occurrence. */
-  baseResourceUrl?: string | undefined;
-  /** Output only. The number of layers by which this image differs from the associated image basis. */
-  distance?: number | undefined;
-  /** Required. The fingerprint of the derived image. */
-  fingerprint?: Fingerprint | undefined;
-}
-/** Details of an image occurrence. */
-export interface GrafeasV1beta1ImageDetails {
-  /** Required. Immutable. The child image derived from the base image. */
-  derivedImage?: Derived | undefined;
+export type SubjectList = Array<Subject>;
+/** The actual payload that contains the SBOM Reference data. The payload follows the intoto statement specification. See https://github.com/in-toto/attestation/blob/main/spec/v1.0/statement.md for more details. */
+export interface SbomReferenceIntotoPayload {
+  /** URI identifying the type of the Predicate. */
+  predicateType?: string | undefined;
+  /** Additional parameters of the Predicate. Includes the actual data about the SBOM. */
+  predicate?: SbomReferenceIntotoPredicate | undefined;
+  /** Set of software artifacts that the attestation applies to. Each element represents a single software artifact. */
+  subject?: SubjectList | undefined;
+  /** Identifier for the schema of the Statement. */
+  _type?: string | undefined;
 }
 export interface EnvelopeSignature {
+  keyid?: string | undefined;
+  sig?: string | undefined;
+}
+export type EnvelopeSignatureList = Array<EnvelopeSignature>;
+/** The occurrence representing an SBOM reference as applied to a specific resource. The occurrence follows the DSSE specification. See https://github.com/secure-systems-lab/dsse/blob/master/envelope.md for more details. */
+export interface SBOMReferenceOccurrence {
+  /** The actual payload that contains the SBOM reference data. */
+  payload?: SbomReferenceIntotoPayload | undefined;
+  /** The kind of payload that SbomReferenceIntotoPayload takes. Since it's in the intoto format, this value is expected to be 'application/vnd.in-toto+json'. */
+  payloadType?: string | undefined;
+  /** The signatures over the payload. */
+  signatures?: EnvelopeSignatureList | undefined;
+}
+/** FileOccurrence represents an SPDX File Information section: https://spdx.github.io/spdx-spec/4-file-information/ */
+export interface FileOccurrence {
+  /** This field provides a place for the SPDX data creator to record, at the file level, acknowledgements that may be needed to be communicated in some contexts */
+  attributions?: StringList | undefined;
+  /** This field contains the license the SPDX file creator has concluded as governing the file or alternative values if the governing license cannot be determined */
+  licenseConcluded?: License | undefined;
+  /** This field contains the license information actually found in the file, if any */
+  filesLicenseInfo?: StringList | undefined;
+  /** Uniquely identify any element in an SPDX document which may be referenced by other elements */
+  id?: string | undefined;
+  /** This field provides a place for the SPDX file creator to record any general comments about the file */
+  comment?: string | undefined;
+  /** This field provides a place for the SPDX file creator to record license notices or other such related notices found in the file */
+  notice?: string | undefined;
+  /** This field provides a place for the SPDX file creator to record file contributors */
+  contributors?: StringList | undefined;
+  /** Identify the copyright holder of the file, as well as any dates present */
+  copyright?: string | undefined;
+}
+/** An occurrence of a particular package installation found within a system's filesystem. E.g., glibc was found in `/var/lib/dpkg/status`. */
+export interface Location {
+  /** Deprecated. The version installed at this location. */
+  version?: Version | undefined;
+  /** Deprecated. The CPE URI in [CPE format](https://cpe.mitre.org/specification/) denoting the package manager version distributing a package. */
+  cpeUri?: string | undefined;
+  /** The path from which we gathered that this package/version is installed. */
+  path?: string | undefined;
+}
+export type LocationList = Array<Location>;
+export type InstallationArchitectureEnum = "ARCHITECTURE_UNSPECIFIED" | "X86" | "X64";
+/** This represents how a particular software package may be installed on a system. */
+export interface Installation {
+  /** All of the places within the filesystem versions of this package have been found. */
+  location?: LocationList | undefined;
+  /** Required. Output only. The name of the installed package. */
+  name?: string | undefined;
+  /** Output only. The cpe_uri in [CPE format](https://cpe.mitre.org/specification/) denoting the package manager version distributing a package. The cpe_uri will be blank for language packages. */
+  cpeUri?: string | undefined;
+  /** Output only. The type of package; whether native or non native (e.g., ruby gems, node.js packages, etc.). */
+  packageType?: string | undefined;
+  /** Licenses that have been declared by the authors of the package. */
+  license?: License | undefined;
+  /** Output only. The CPU architecture for which packages in this distribution channel were built. Architecture will be blank for language packages. */
+  architecture?: InstallationArchitectureEnum | (string & {}) | undefined;
+  /** Output only. The version of the package. */
+  version?: Version | undefined;
+}
+/** Details of a package occurrence. */
+export interface GrafeasV1beta1PackageDetails {
+  /** Required. Where the package was installed. */
+  installation?: Installation | undefined;
+}
+/** Defines an object for the byproducts field in in-toto links. The suggested fields are "stderr", "stdout", and "return-value". */
+export interface ByProducts {
+  customValues?: StringMap | undefined;
+}
+/** Defines an object for the environment field in in-toto links. The suggested fields are "variables", "filesystem", and "workdir". */
+export type Environment = ByProducts;
+/** Defines a hash object for use in Materials and Products. */
+export interface ArtifactHashes {
+  sha256?: string | undefined;
+}
+export interface GrafeasV1beta1IntotoArtifact {
+  resourceUri?: string | undefined;
+  hashes?: ArtifactHashes | undefined;
+}
+export type GrafeasV1beta1IntotoArtifactList = Array<GrafeasV1beta1IntotoArtifact>;
+/** This corresponds to an in-toto link. */
+export interface Link {
+  /** ByProducts are data generated as part of a software supply chain step, but are not the actual result of the step. */
+  byproducts?: ByProducts | undefined;
+  /** This is a field that can be used to capture information about the environment. It is suggested for this field to contain information that details environment variables, filesystem information, and the present working directory. The recommended structure of this field is: "environment": { "custom_values": { "variables": "", "filesystem": "", "workdir": "", "": "..." } } */
+  environment?: ByProducts | undefined;
+  /** Products are the supply chain artifacts generated as a result of the step. The structure is identical to that of materials. */
+  products?: GrafeasV1beta1IntotoArtifactList | undefined;
+  /** This field contains the full command executed for the step. This can also be empty if links are generated for operations that aren't directly mapped to a specific command. Each term in the command is an independent string in the list. An example of a command in the in-toto metadata field is: "command": ["git", "clone", "https://github.com/in-toto/demo-project.git"] */
+  command?: StringList | undefined;
+  /** Materials are the supply chain artifacts that go into the step and are used for the operation performed. The key of the map is the path of the artifact and the structure contains the recorded hash information. An example is: "materials": [ { "resource_uri": "foo/bar", "hashes": { "sha256": "ebebf...", : } } ] */
+  materials?: GrafeasV1beta1IntotoArtifactList | undefined;
+}
+/** A signature object consists of the KeyID used and the signature itself. */
+export interface GrafeasV1beta1IntotoSignature {
   sig?: string | undefined;
   keyid?: string | undefined;
 }
-export type EnvelopeSignatureList = Array<EnvelopeSignature>;
-/** MUST match https://github.com/secure-systems-lab/dsse/blob/master/envelope.proto. An authenticated message of arbitrary type. */
-export interface Envelope {
-  payload?: string | undefined;
-  signatures?: EnvelopeSignatureList | undefined;
-  payloadType?: string | undefined;
+export type GrafeasV1beta1IntotoSignatureList = Array<GrafeasV1beta1IntotoSignature>;
+/** This corresponds to a signed in-toto link - it is made up of one or more signatures and the in-toto link itself. This is used for occurrences of a Grafeas in-toto note. */
+export interface GrafeasV1beta1IntotoDetails {
+  signed?: Link | undefined;
+  signatures?: GrafeasV1beta1IntotoSignatureList | undefined;
 }
+/** DocumentOccurrence represents an SPDX Document Creation Information section: https://spdx.github.io/spdx-spec/2-document-creation-information/ */
+export interface DocumentOccurrence {
+  /** Identify any external SPDX documents referenced within this SPDX document */
+  externalDocumentRefs?: StringList | undefined;
+  /** A field for creators of the SPDX file content to provide comments to the consumers of the SPDX document */
+  documentComment?: string | undefined;
+  /** Identify the current SPDX document which may be referenced in relationships by other files, packages internally and documents externally */
+  id?: string | undefined;
+  /** Identify name of this document as designated by creator */
+  title?: string | undefined;
+  /** A field for creators of the SPDX file to provide the version of the SPDX License List used when the SPDX file was created */
+  licenseListVersion?: string | undefined;
+  /** Provide an SPDX document specific namespace as a unique absolute Uniform Resource Identifier (URI) as specified in RFC-3986, with the exception of the '#' delimiter */
+  namespace?: string | undefined;
+  /** Identify who (or what, in the case of a tool) created the SPDX file. If the SPDX file was created by an individual, indicate the person's name */
+  creators?: StringList | undefined;
+  /** Identify when the SPDX file was originally created. The date is to be specified according to combined date and time in UTC format as specified in ISO 8601 standard */
+  createTime?: string | undefined;
+  /** A field for creators of the SPDX file to provide general comments about the creation of the SPDX file or any other relevant comment not included in the other fields */
+  creatorComment?: string | undefined;
+}
+export type DeploymentPlatformEnum = "PLATFORM_UNSPECIFIED" | "GKE" | "FLEX" | "CUSTOM";
+/** The period during which some deployable was active in a runtime. */
+export interface Deployment {
+  /** Platform hosting this deployment. */
+  platform?: DeploymentPlatformEnum | (string & {}) | undefined;
+  /** End of the lifetime of this deployment. */
+  undeployTime?: string | undefined;
+  /** Identity of the user that triggered this deployment. */
+  userEmail?: string | undefined;
+  /** Required. Beginning of the lifetime of this deployment. */
+  deployTime?: string | undefined;
+  /** Output only. Resource URI for the artifact being deployed taken from the deployable field with the same name. */
+  resourceUri?: StringList | undefined;
+  /** Address of the runtime element hosting this deployment. */
+  address?: string | undefined;
+  /** Configuration used to create this deployment. */
+  config?: string | undefined;
+}
+/** Details of a deployment occurrence. */
+export interface GrafeasV1beta1DeploymentDetails {
+  /** Required. Deployment history for the resource. */
+  deployment?: Deployment | undefined;
+}
+export type MalwareScanResultVerdictEnum = "VERDICT_UNSPECIFIED" | "PASSED" | "FAILED";
+export type MalwareScanResultScanStatusEnum =
+  | "SCAN_STATUS_UNSPECIFIED"
+  | "PERFORMED"
+  | "NOT_PERFORMED";
+/** Result of Malware scan. */
+export interface MalwareScanResult {
+  /** Verdict of the scan. */
+  verdict?: MalwareScanResultVerdictEnum | (string & {}) | undefined;
+  /** Status of the scan. */
+  scanStatus?: MalwareScanResultScanStatusEnum | (string & {}) | undefined;
+}
+export type MaliciousContentLLMResultMaxSeverityEnum = "SEVERITY_UNSPECIFIED" | "CRITICAL" | "HIGH";
+/** Token usage associated with an AI scan. */
+export interface TokenUsage {
+  /** Cache matched tokens for implicit cache. */
+  cacheCount?: string | undefined;
+  /** Prompt tokens for using tools. */
+  toolUsePromptCount?: string | undefined;
+  /** Tokens in the user request. */
+  promptCount?: string | undefined;
+  /** Tokens in the model response. */
+  candidateCount?: string | undefined;
+  /** Tokens in the thinking output. */
+  thinkingCount?: string | undefined;
+}
+export type MaliciousContentLLMResultScanStatusEnum =
+  | "SCAN_STATUS_UNSPECIFIED"
+  | "PERFORMED"
+  | "NOT_PERFORMED";
+/** Result of Malicious Content LLM scan. */
+export interface MaliciousContentLLMResult {
+  /** Tracks max severity found. */
+  maxSeverity?: MaliciousContentLLMResultMaxSeverityEnum | (string & {}) | undefined;
+  /** Telemetry metrics tracking token usage for the AI scan. */
+  tokenUsage?: TokenUsage | undefined;
+  /** The base name of the model that performed the scan. */
+  modelId?: string | undefined;
+  /** Status of the scan. */
+  scanStatus?: MaliciousContentLLMResultScanStatusEnum | (string & {}) | undefined;
+}
+export type WorkspacePolicyResultScanStatusEnum =
+  | "SCAN_STATUS_UNSPECIFIED"
+  | "PERFORMED"
+  | "NOT_PERFORMED";
+export type WorkspacePolicyResultVerdictEnum = "VERDICT_UNSPECIFIED" | "PASSED" | "FAILED";
+/** Result of Workspace Policy scan. */
+export interface WorkspacePolicyResult {
+  /** Status of the scan. */
+  scanStatus?: WorkspacePolicyResultScanStatusEnum | (string & {}) | undefined;
+  /** Verdict of the scan. */
+  verdict?: WorkspacePolicyResultVerdictEnum | (string & {}) | undefined;
+}
+export type MaliciousContentStaticResultMaxSeverityEnum =
+  | "SEVERITY_UNSPECIFIED"
+  | "CRITICAL"
+  | "HIGH";
+export type MaliciousContentStaticResultScanStatusEnum =
+  | "SCAN_STATUS_UNSPECIFIED"
+  | "PERFORMED"
+  | "NOT_PERFORMED";
+/** Result of Malicious Content Static scan. */
+export interface MaliciousContentStaticResult {
+  /** Tracks max severity found. */
+  maxSeverity?: MaliciousContentStaticResultMaxSeverityEnum | (string & {}) | undefined;
+  /** Status of the scan. */
+  scanStatus?: MaliciousContentStaticResultScanStatusEnum | (string & {}) | undefined;
+}
+/** Per scanner verdict details. */
+export interface PerScannerVerdict {
+  /** Malware scan result. */
+  malwareScan?: MalwareScanResult | undefined;
+  /** Malicious Content LLM scan result. */
+  maliciousContentLlmResult?: MaliciousContentLLMResult | undefined;
+  /** Workspace Policy scan result. */
+  workspacePolicy?: WorkspacePolicyResult | undefined;
+  /** Malicious Content Static scan result. */
+  maliciousContentStaticResult?: MaliciousContentStaticResult | undefined;
+}
+export type FindingScannerEnum =
+  | "SCANNER_UNSPECIFIED"
+  | "STATIC"
+  | "LLM"
+  | "WS_POLICY"
+  | "GOOGLE_ANTIVIRUS";
+export type FindingSeverityEnum = "SEVERITY_UNSPECIFIED" | "CRITICAL" | "HIGH";
+/** Location details with file path and line number. */
+export interface FindingLocation {
+  /** Relative path of the file containing the finding. */
+  filePath?: string | undefined;
+  /** Line number (1-based), or 0 if whole File / unknown. */
+  lineNumber?: string | undefined;
+}
+/** Finding provides details for a single finding within an AISkillAnalysisOccurrence. */
+export interface Finding {
+  /** Scanner determines which engine (e.g. static, llm) emitted the finding. */
+  scanner?: FindingScannerEnum | (string & {}) | undefined;
+  /** Severity of the finding. */
+  severity?: FindingSeverityEnum | (string & {}) | undefined;
+  /** Category of the finding. */
+  category?: string | undefined;
+  /** Location (path and line) where the finding was detected. */
+  location?: FindingLocation | undefined;
+  /** Description of the finding category. */
+  details?: string | undefined;
+}
+export type FindingList = Array<Finding>;
+export type AISkillAnalysisOccurrenceMaxSeverityEnum = "SEVERITY_UNSPECIFIED" | "CRITICAL" | "HIGH";
+/** AISkillAnalysisOccurrence provides the results of an AI-based skill analysis. */
+export interface AISkillAnalysisOccurrence {
+  /** Name of the skill that produced this analysis. */
+  skillName?: string | undefined;
+  /** Per scanner verdict. */
+  perScannerVerdict?: PerScannerVerdict | undefined;
+  /** Findings produced by the analysis. */
+  findings?: FindingList | undefined;
+  /** Maximum severity found among findings. */
+  maxSeverity?: AISkillAnalysisOccurrenceMaxSeverityEnum | (string & {}) | undefined;
+}
+export type DocumentMap = { [key: string]: unknown | undefined };
+export interface ResourceDescriptor {
+  annotations?: DocumentMap | undefined;
+  name?: string | undefined;
+  mediaType?: string | undefined;
+  downloadLocation?: string | undefined;
+  uri?: string | undefined;
+  content?: string | undefined;
+  digest?: StringMap | undefined;
+}
+export type ResourceDescriptorList = Array<ResourceDescriptor>;
+export interface BuildMetadata {
+  finishedOn?: string | undefined;
+  startedOn?: string | undefined;
+  invocationId?: string | undefined;
+}
+export interface ProvenanceBuilder {
+  version?: StringMap | undefined;
+  builderDependencies?: ResourceDescriptorList | undefined;
+  id?: string | undefined;
+}
+export interface RunDetails {
+  byproducts?: ResourceDescriptorList | undefined;
+  metadata?: BuildMetadata | undefined;
+  builder?: ProvenanceBuilder | undefined;
+}
+export interface BuildDefinition {
+  buildType?: string | undefined;
+  resolvedDependencies?: ResourceDescriptorList | undefined;
+  externalParameters?: DocumentMap | undefined;
+  internalParameters?: DocumentMap | undefined;
+}
+/** Keep in sync with schema at https://github.com/slsa-framework/slsa/blob/main/docs/provenance/schema/v1/provenance.proto Builder renamed to ProvenanceBuilder because of Java conflicts. */
+export interface SlsaProvenanceV1 {
+  runDetails?: RunDetails | undefined;
+  buildDefinition?: BuildDefinition | undefined;
+}
+export interface InTotoSlsaProvenanceV1 {
+  predicateType?: string | undefined;
+  /** InToto spec defined at https://github.com/in-toto/attestation/tree/main/spec#statement */
+  _type?: string | undefined;
+  subject?: SubjectList | undefined;
+  predicate?: SlsaProvenanceV1 | undefined;
+}
+/** A GitSourceContext denotes a particular revision in a third party Git repository (e.g., GitHub). */
+export interface GitSourceContext {
+  /** Git commit hash. */
+  revisionId?: string | undefined;
+  /** Git repository URL. */
+  url?: string | undefined;
+}
+export type AliasContextKindEnum = "KIND_UNSPECIFIED" | "FIXED" | "MOVABLE" | "OTHER";
+/** An alias to a repo revision. */
+export interface AliasContext {
+  /** The alias name. */
+  name?: string | undefined;
+  /** The alias kind. */
+  kind?: AliasContextKindEnum | (string & {}) | undefined;
+}
+/** Selects a repo using a Google Cloud Platform project ID (e.g., winged-cargo-31) and a repo name within that project. */
+export interface ProjectRepoId {
+  /** The ID of the project. */
+  projectId?: string | undefined;
+  /** The name of the repo. Leave empty for the default repo. */
+  repoName?: string | undefined;
+}
+/** A unique identifier for a Cloud Repo. */
+export interface RepoId {
+  /** A server-assigned, globally unique identifier. */
+  uid?: string | undefined;
+  /** A combination of a project ID and a repo name. */
+  projectRepoId?: ProjectRepoId | undefined;
+}
+/** A CloudRepoSourceContext denotes a particular revision in a Google Cloud Source Repo. */
+export interface CloudRepoSourceContext {
+  /** An alias, which may be a branch or tag. */
+  aliasContext?: AliasContext | undefined;
+  /** The ID of the repo. */
+  repoId?: RepoId | undefined;
+  /** A revision ID. */
+  revisionId?: string | undefined;
+}
+/** A SourceContext referring to a Gerrit project. */
+export interface GerritSourceContext {
+  /** An alias, which may be a branch or tag. */
+  aliasContext?: AliasContext | undefined;
+  /** The URI of a running Gerrit instance. */
+  hostUri?: string | undefined;
+  /** A revision (commit) ID. */
+  revisionId?: string | undefined;
+  /** The full project name within the host. Projects may be nested, so "project/subproject" is a valid project name. The "repo name" is the hostURI/project. */
+  gerritProject?: string | undefined;
+}
+/** A SourceContext is a reference to a tree of files. A SourceContext together with a path point to a unique revision of a single file or directory. */
+export interface SourceContext {
+  /** A SourceContext referring to any third party Git repo (e.g., GitHub). */
+  git?: GitSourceContext | undefined;
+  /** A SourceContext referring to a revision in a Google Cloud Source Repo. */
+  cloudRepo?: CloudRepoSourceContext | undefined;
+  /** A SourceContext referring to a Gerrit project. */
+  gerrit?: GerritSourceContext | undefined;
+  /** Labels with user defined metadata. */
+  labels?: StringMap | undefined;
+}
+export type SourceContextList = Array<SourceContext>;
 export type HashTypeEnum =
   | "HASH_TYPE_UNSPECIFIED"
   | "SHA256"
@@ -986,338 +1313,6 @@ export interface Hash {
   /** Required. The hash value. */
   value?: string | undefined;
 }
-/** An entity that can have metadata. For example, a Docker image. */
-export interface Resource {
-  /** Deprecated, do not use. Use uri instead. The hash of the resource content. For example, the Docker digest. */
-  contentHash?: Hash | undefined;
-  /** Deprecated, do not use. Use uri instead. The name of the resource. For example, the name of a Docker image - "Debian". */
-  name?: string | undefined;
-  /** Required. The unique URI of the resource. For example, `https://gcr.io/project/image@sha256:foo` for a Docker image. */
-  uri?: string | undefined;
-}
-export type StringMap = { [key: string]: string | undefined };
-/** Defines an object for the byproducts field in in-toto links. The suggested fields are "stderr", "stdout", and "return-value". */
-export interface ByProducts {
-  customValues?: StringMap | undefined;
-}
-/** Defines a hash object for use in Materials and Products. */
-export interface ArtifactHashes {
-  sha256?: string | undefined;
-}
-export interface GrafeasV1beta1IntotoArtifact {
-  resourceUri?: string | undefined;
-  hashes?: ArtifactHashes | undefined;
-}
-export type GrafeasV1beta1IntotoArtifactList = Array<GrafeasV1beta1IntotoArtifact>;
-/** Defines an object for the environment field in in-toto links. The suggested fields are "variables", "filesystem", and "workdir". */
-export type Environment = ByProducts;
-/** This corresponds to an in-toto link. */
-export interface Link {
-  /** This field contains the full command executed for the step. This can also be empty if links are generated for operations that aren't directly mapped to a specific command. Each term in the command is an independent string in the list. An example of a command in the in-toto metadata field is: "command": ["git", "clone", "https://github.com/in-toto/demo-project.git"] */
-  command?: StringList | undefined;
-  /** ByProducts are data generated as part of a software supply chain step, but are not the actual result of the step. */
-  byproducts?: ByProducts | undefined;
-  /** Materials are the supply chain artifacts that go into the step and are used for the operation performed. The key of the map is the path of the artifact and the structure contains the recorded hash information. An example is: "materials": [ { "resource_uri": "foo/bar", "hashes": { "sha256": "ebebf...", : } } ] */
-  materials?: GrafeasV1beta1IntotoArtifactList | undefined;
-  /** This is a field that can be used to capture information about the environment. It is suggested for this field to contain information that details environment variables, filesystem information, and the present working directory. The recommended structure of this field is: "environment": { "custom_values": { "variables": "", "filesystem": "", "workdir": "", "": "..." } } */
-  environment?: ByProducts | undefined;
-  /** Products are the supply chain artifacts generated as a result of the step. The structure is identical to that of materials. */
-  products?: GrafeasV1beta1IntotoArtifactList | undefined;
-}
-/** A signature object consists of the KeyID used and the signature itself. */
-export interface GrafeasV1beta1IntotoSignature {
-  keyid?: string | undefined;
-  sig?: string | undefined;
-}
-export type GrafeasV1beta1IntotoSignatureList = Array<GrafeasV1beta1IntotoSignature>;
-/** This corresponds to a signed in-toto link - it is made up of one or more signatures and the in-toto link itself. This is used for occurrences of a Grafeas in-toto note. */
-export interface GrafeasV1beta1IntotoDetails {
-  signed?: Link | undefined;
-  signatures?: GrafeasV1beta1IntotoSignatureList | undefined;
-}
-/** Verifiers (e.g. Kritis implementations) MUST verify signatures with respect to the trust anchors defined in policy (e.g. a Kritis policy). Typically this means that the verifier has been configured with a map from `public_key_id` to public key material (and any required parameters, e.g. signing algorithm). In particular, verification implementations MUST NOT treat the signature `public_key_id` as anything more than a key lookup hint. The `public_key_id` DOES NOT validate or authenticate a public key; it only provides a mechanism for quickly selecting a public key ALREADY CONFIGURED on the verifier through a trusted channel. Verification implementations MUST reject signatures in any of the following circumstances: * The `public_key_id` is not recognized by the verifier. * The public key that `public_key_id` refers to does not verify the signature with respect to the payload. The `signature` contents SHOULD NOT be "attached" (where the payload is included with the serialized `signature` bytes). Verifiers MUST ignore any "attached" payload and only verify signatures with respect to explicitly provided payload (e.g. a `payload` field on the proto message that holds this Signature, or the canonical serialization of the proto message that holds this signature). */
-export interface Signature {
-  /** The identifier for the public key that verifies this signature. * The `public_key_id` is required. * The `public_key_id` SHOULD be an RFC3986 conformant URI. * When possible, the `public_key_id` SHOULD be an immutable reference, such as a cryptographic digest. Examples of valid `public_key_id`s: OpenPGP V4 public key fingerprint: * "openpgp4fpr:74FAF3B861BDA0870C7B6DEF607E48D2A663AEEA" See https://www.iana.org/assignments/uri-schemes/prov/openpgp4fpr for more details on this scheme. RFC6920 digest-named SubjectPublicKeyInfo (digest of the DER serialization): * "ni:///sha-256;cD9o9Cq6LG3jD0iKXqEi_vdjJGecm_iXkbqVoScViaU" * "nih:///sha-256;703f68f42aba2c6de30f488a5ea122fef76324679c9bf89791ba95a1271589a5" */
-  publicKeyId?: string | undefined;
-  /** The content of the signature, an opaque bytestring. The payload that this signature verifies MUST be unambiguously provided with the Signature during verification. A wrapper message might provide the payload explicitly. Alternatively, a message might have a canonical serialization that can always be unambiguously computed to derive the payload. */
-  signature?: string | undefined;
-}
-export type SignatureList = Array<Signature>;
-export type GenericSignedAttestationContentTypeEnum =
-  | "CONTENT_TYPE_UNSPECIFIED"
-  | "SIMPLE_SIGNING_JSON";
-/** An attestation wrapper that uses the Grafeas `Signature` message. This attestation must define the `serialized_payload` that the `signatures` verify and any metadata necessary to interpret that plaintext. The signatures should always be over the `serialized_payload` bytestring. */
-export interface GenericSignedAttestation {
-  /** One or more signatures over `serialized_payload`. Verifier implementations should consider this attestation message verified if at least one `signature` verifies `serialized_payload`. See `Signature` in common.proto for more details on signature structure and verification. */
-  signatures?: SignatureList | undefined;
-  /** Type (for example schema) of the attestation payload that was signed. The verifier must ensure that the provided type is one that the verifier supports, and that the attestation payload is a valid instantiation of that type (for example by validating a JSON schema). */
-  contentType?: GenericSignedAttestationContentTypeEnum | (string & {}) | undefined;
-  /** The serialized payload that is verified by one or more `signatures`. The encoding and semantic meaning of this payload must match what is set in `content_type`. */
-  serializedPayload?: string | undefined;
-}
-export type PgpSignedAttestationContentTypeEnum =
-  | "CONTENT_TYPE_UNSPECIFIED"
-  | "SIMPLE_SIGNING_JSON";
-/** An attestation wrapper with a PGP-compatible signature. This message only supports `ATTACHED` signatures, where the payload that is signed is included alongside the signature itself in the same file. */
-export interface PgpSignedAttestation {
-  /** The cryptographic fingerprint of the key used to generate the signature, as output by, e.g. `gpg --list-keys`. This should be the version 4, full 160-bit fingerprint, expressed as a 40 character hexadecimal string. See https://tools.ietf.org/html/rfc4880#section-12.2 for details. Implementations may choose to acknowledge "LONG", "SHORT", or other abbreviated key IDs, but only the full fingerprint is guaranteed to work. In gpg, the full fingerprint can be retrieved from the `fpr` field returned when calling --list-keys with --with-colons. For example: ``` gpg --with-colons --with-fingerprint --force-v4-certs \ --list-keys attester@example.com tru::1:1513631572:0:3:1:5 pub:...... fpr:::::::::24FF6481B76AC91E66A00AC657A93A81EF3AE6FB: ``` Above, the fingerprint is `24FF6481B76AC91E66A00AC657A93A81EF3AE6FB`. */
-  pgpKeyId?: string | undefined;
-  /** Type (for example schema) of the attestation payload that was signed. The verifier must ensure that the provided type is one that the verifier supports, and that the attestation payload is a valid instantiation of that type (for example by validating a JSON schema). */
-  contentType?: PgpSignedAttestationContentTypeEnum | (string & {}) | undefined;
-  /** Required. The raw content of the signature, as output by GNU Privacy Guard (GPG) or equivalent. Since this message only supports attached signatures, the payload that was signed must be attached. While the signature format supported is dependent on the verification implementation, currently only ASCII-armored (`--armor` to gpg), non-clearsigned (`--sign` rather than `--clearsign` to gpg) are supported. Concretely, `gpg --sign --armor --output=signature.gpg payload.json` will create the signature content expected in this field in `signature.gpg` for the `payload.json` attestation payload. */
-  signature?: string | undefined;
-}
-/** Occurrence that represents a single "attestation". The authenticity of an attestation can be verified using the attached signature. If the verifier trusts the public key of the signer, then verifying the signature is sufficient to establish trust. In this circumstance, the authority to which this attestation is attached is primarily useful for look-up (how to find this attestation if you already know the authority and artifact to be verified) and intent (which authority was this attestation intended to sign for). */
-export interface Attestation {
-  genericSignedAttestation?: GenericSignedAttestation | undefined;
-  /** A PGP signed attestation. */
-  pgpSignedAttestation?: PgpSignedAttestation | undefined;
-}
-/** Details of an attestation occurrence. */
-export interface Details {
-  /** Required. Attestation for the resource. */
-  attestation?: Attestation | undefined;
-}
-export type PackageIssueEffectiveSeverityEnum =
-  | "SEVERITY_UNSPECIFIED"
-  | "MINIMAL"
-  | "LOW"
-  | "MEDIUM"
-  | "HIGH"
-  | "CRITICAL";
-/** This message wraps a location affected by a vulnerability and its associated fix (if one is available). */
-export interface PackageIssue {
-  /** Deprecated, use Details.effective_severity instead The severity (e.g., distro assigned severity) for this vulnerability. */
-  severityName?: string | undefined;
-  /** Required. The location of the vulnerability. */
-  affectedLocation?: VulnerabilityLocation | undefined;
-  /** The location of the available fix for vulnerability. */
-  fixedLocation?: VulnerabilityLocation | undefined;
-  /** Output only. The distro or language system assigned severity for this vulnerability when that is available and note provider assigned severity when it is not available. */
-  effectiveSeverity?: PackageIssueEffectiveSeverityEnum | (string & {}) | undefined;
-  /** The type of package (e.g. OS, MAVEN, GO). */
-  packageType?: string | undefined;
-}
-export type PackageIssueList = Array<PackageIssue>;
-export type GrafeasV1beta1VulnerabilityDetailsSeverityEnum =
-  | "SEVERITY_UNSPECIFIED"
-  | "MINIMAL"
-  | "LOW"
-  | "MEDIUM"
-  | "HIGH"
-  | "CRITICAL";
-export type VexAssessmentStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "AFFECTED"
-  | "NOT_AFFECTED"
-  | "FIXED"
-  | "UNDER_INVESTIGATION";
-/** VexAssessment provides all publisher provided Vex information that is related to this vulnerability. */
-export interface VexAssessment {
-  /** Holds the MITRE standard Common Vulnerabilities and Exposures (CVE) tracking number for the vulnerability. Deprecated: Use vulnerability_id instead to denote CVEs. */
-  cve?: string | undefined;
-  /** Justification provides the justification when the state of the assessment if NOT_AFFECTED. */
-  justification?: Justification | undefined;
-  /** Specifies details on how to handle (and presumably, fix) a vulnerability. */
-  remediations?: RemediationList | undefined;
-  /** Holds a list of references associated with this vulnerability item and assessment. */
-  relatedUris?: RelatedUrlList | undefined;
-  /** The VulnerabilityAssessment note from which this VexAssessment was generated. This will be of the form: `projects/[PROJECT_ID]/notes/[NOTE_ID]`. */
-  noteName?: string | undefined;
-  /** Contains information about the impact of this vulnerability, this will change with time. */
-  impacts?: StringList | undefined;
-  /** Provides the state of this Vulnerability assessment. */
-  state?: VexAssessmentStateEnum | (string & {}) | undefined;
-  /** The vulnerability identifier for this Assessment. Will hold one of common identifiers e.g. CVE, GHSA etc. */
-  vulnerabilityId?: string | undefined;
-}
-export type GrafeasV1beta1VulnerabilityDetailsEffectiveSeverityEnum =
-  | "SEVERITY_UNSPECIFIED"
-  | "MINIMAL"
-  | "LOW"
-  | "MEDIUM"
-  | "HIGH"
-  | "CRITICAL";
-export type GrafeasV1beta1VulnerabilityDetailsCvssVersionEnum =
-  | "CVSS_VERSION_UNSPECIFIED"
-  | "CVSS_VERSION_2"
-  | "CVSS_VERSION_3"
-  | "CVSS_VERSION_4";
-/** Details of a vulnerability Occurrence. */
-export interface GrafeasV1beta1VulnerabilityDetails {
-  /** The cvss v4 score of this vulnerability. */
-  cvssV4?: CVSS | undefined;
-  /** Required. The set of affected locations and their fixes (if available) within the associated resource. */
-  packageIssue?: PackageIssueList | undefined;
-  /** Output only. The note provider assigned Severity of the vulnerability. */
-  severity?: GrafeasV1beta1VulnerabilityDetailsSeverityEnum | (string & {}) | undefined;
-  vexAssessment?: VexAssessment | undefined;
-  /** Output only. A one sentence description of this vulnerability. */
-  shortDescription?: string | undefined;
-  /** The distro assigned severity for this vulnerability when it is available, and note provider assigned severity when distro has not yet assigned a severity for this vulnerability. When there are multiple PackageIssues for this vulnerability, they can have different effective severities because some might be provided by the distro while others are provided by the language ecosystem for a language pack. For this reason, it is advised to use the effective severity on the PackageIssue level. In the case where multiple PackageIssues have differing effective severities, this field should be the highest severity for any of the PackageIssues. */
-  effectiveSeverity?:
-    | GrafeasV1beta1VulnerabilityDetailsEffectiveSeverityEnum
-    | (string & {})
-    | undefined;
-  /** Output only. The CVSS score of this vulnerability. CVSS score is on a scale of 0-10 where 0 indicates low severity and 10 indicates high severity. */
-  cvssScore?: number | undefined;
-  /** Occurrence-specific extra details about the vulnerability. */
-  extraDetails?: string | undefined;
-  /** The cvss v3 score for the vulnerability. */
-  cvssV3?: CVSS | undefined;
-  /** Output only. A detailed description of this vulnerability. */
-  longDescription?: string | undefined;
-  /** Output only. URLs related to this vulnerability. */
-  relatedUrls?: RelatedUrlList | undefined;
-  /** Output only. CVSS version used to populate cvss_score and severity. */
-  cvssVersion?: GrafeasV1beta1VulnerabilityDetailsCvssVersionEnum | (string & {}) | undefined;
-  /** The cvss v2 score for the vulnerability. */
-  cvssV2?: CVSS | undefined;
-  /** The type of package; whether native or non native(ruby gems, node.js packages etc) */
-  type?: string | undefined;
-}
-/** FileOccurrence represents an SPDX File Information section: https://spdx.github.io/spdx-spec/4-file-information/ */
-export interface FileOccurrence {
-  /** This field provides a place for the SPDX file creator to record license notices or other such related notices found in the file */
-  notice?: string | undefined;
-  /** Identify the copyright holder of the file, as well as any dates present */
-  copyright?: string | undefined;
-  /** This field provides a place for the SPDX file creator to record file contributors */
-  contributors?: StringList | undefined;
-  /** Uniquely identify any element in an SPDX document which may be referenced by other elements */
-  id?: string | undefined;
-  /** This field provides a place for the SPDX file creator to record any general comments about the file */
-  comment?: string | undefined;
-  /** This field contains the license the SPDX file creator has concluded as governing the file or alternative values if the governing license cannot be determined */
-  licenseConcluded?: License | undefined;
-  /** This field contains the license information actually found in the file, if any */
-  filesLicenseInfo?: StringList | undefined;
-  /** This field provides a place for the SPDX data creator to record, at the file level, acknowledgements that may be needed to be communicated in some contexts */
-  attributions?: StringList | undefined;
-}
-/** Set of software artifacts that the attestation applies to. Each element represents a single software artifact. */
-export interface Subject {
-  /** `"": ""` Algorithms can be e.g. sha256, sha512 See https://github.com/in-toto/attestation/blob/main/spec/field_types.md#DigestSet */
-  digest?: StringMap | undefined;
-  /** Identifier to distinguish this artifact from others within the subject. */
-  name?: string | undefined;
-}
-export type SubjectList = Array<Subject>;
-export type DocumentMap = { [key: string]: unknown | undefined };
-export interface ResourceDescriptor {
-  name?: string | undefined;
-  content?: string | undefined;
-  downloadLocation?: string | undefined;
-  digest?: StringMap | undefined;
-  annotations?: DocumentMap | undefined;
-  uri?: string | undefined;
-  mediaType?: string | undefined;
-}
-export type ResourceDescriptorList = Array<ResourceDescriptor>;
-export interface BuildDefinition {
-  internalParameters?: DocumentMap | undefined;
-  resolvedDependencies?: ResourceDescriptorList | undefined;
-  buildType?: string | undefined;
-  externalParameters?: DocumentMap | undefined;
-}
-export interface BuildMetadata {
-  startedOn?: string | undefined;
-  finishedOn?: string | undefined;
-  invocationId?: string | undefined;
-}
-export interface ProvenanceBuilder {
-  builderDependencies?: ResourceDescriptorList | undefined;
-  version?: StringMap | undefined;
-  id?: string | undefined;
-}
-export interface RunDetails {
-  byproducts?: ResourceDescriptorList | undefined;
-  metadata?: BuildMetadata | undefined;
-  builder?: ProvenanceBuilder | undefined;
-}
-/** Keep in sync with schema at https://github.com/slsa-framework/slsa/blob/main/docs/provenance/schema/v1/provenance.proto Builder renamed to ProvenanceBuilder because of Java conflicts. */
-export interface SlsaProvenanceV1 {
-  buildDefinition?: BuildDefinition | undefined;
-  runDetails?: RunDetails | undefined;
-}
-export interface InTotoSlsaProvenanceV1 {
-  /** InToto spec defined at https://github.com/in-toto/attestation/tree/main/spec#statement */
-  _type?: string | undefined;
-  subject?: SubjectList | undefined;
-  predicateType?: string | undefined;
-  predicate?: SlsaProvenanceV1 | undefined;
-}
-/** Artifact describes a build product. */
-export interface Artifact {
-  /** Related artifact names. This may be the path to a binary or jar file, or in the case of a container build, the name used to push the container image to Google Container Registry, as presented to `docker push`. Note that a single Artifact ID can have multiple names, for example if two tags are applied to one image. */
-  names?: StringList | undefined;
-  /** Artifact ID, if any; for container images, this will be a URL by digest like `gcr.io/projectID/imagename@sha256:123456`. */
-  id?: string | undefined;
-  /** Hash or checksum value of a binary, or Docker Registry 2.0 digest of a container. */
-  checksum?: string | undefined;
-}
-export type ArtifactList = Array<Artifact>;
-export type AliasContextKindEnum = "KIND_UNSPECIFIED" | "FIXED" | "MOVABLE" | "OTHER";
-/** An alias to a repo revision. */
-export interface AliasContext {
-  /** The alias kind. */
-  kind?: AliasContextKindEnum | (string & {}) | undefined;
-  /** The alias name. */
-  name?: string | undefined;
-}
-/** Selects a repo using a Google Cloud Platform project ID (e.g., winged-cargo-31) and a repo name within that project. */
-export interface ProjectRepoId {
-  /** The ID of the project. */
-  projectId?: string | undefined;
-  /** The name of the repo. Leave empty for the default repo. */
-  repoName?: string | undefined;
-}
-/** A unique identifier for a Cloud Repo. */
-export interface RepoId {
-  /** A combination of a project ID and a repo name. */
-  projectRepoId?: ProjectRepoId | undefined;
-  /** A server-assigned, globally unique identifier. */
-  uid?: string | undefined;
-}
-/** A CloudRepoSourceContext denotes a particular revision in a Google Cloud Source Repo. */
-export interface CloudRepoSourceContext {
-  /** A revision ID. */
-  revisionId?: string | undefined;
-  /** An alias, which may be a branch or tag. */
-  aliasContext?: AliasContext | undefined;
-  /** The ID of the repo. */
-  repoId?: RepoId | undefined;
-}
-/** A GitSourceContext denotes a particular revision in a third party Git repository (e.g., GitHub). */
-export interface GitSourceContext {
-  /** Git repository URL. */
-  url?: string | undefined;
-  /** Git commit hash. */
-  revisionId?: string | undefined;
-}
-/** A SourceContext referring to a Gerrit project. */
-export interface GerritSourceContext {
-  /** The full project name within the host. Projects may be nested, so "project/subproject" is a valid project name. The "repo name" is the hostURI/project. */
-  gerritProject?: string | undefined;
-  /** The URI of a running Gerrit instance. */
-  hostUri?: string | undefined;
-  /** A revision (commit) ID. */
-  revisionId?: string | undefined;
-  /** An alias, which may be a branch or tag. */
-  aliasContext?: AliasContext | undefined;
-}
-/** A SourceContext is a reference to a tree of files. A SourceContext together with a path point to a unique revision of a single file or directory. */
-export interface SourceContext {
-  /** A SourceContext referring to a revision in a Google Cloud Source Repo. */
-  cloudRepo?: CloudRepoSourceContext | undefined;
-  /** A SourceContext referring to any third party Git repo (e.g., GitHub). */
-  git?: GitSourceContext | undefined;
-  /** A SourceContext referring to a Gerrit project. */
-  gerrit?: GerritSourceContext | undefined;
-  /** Labels with user defined metadata. */
-  labels?: StringMap | undefined;
-}
-export type SourceContextList = Array<SourceContext>;
 export type HashList = Array<Hash>;
 /** Container message for hashes of byte content of files, used in source messages to verify integrity of source input to the build. */
 export interface FileHashes {
@@ -1338,48 +1333,58 @@ export interface Source {
 }
 /** Command describes a step performed as part of the build pipeline. */
 export interface Command {
-  /** The ID(s) of the command(s) that this command depends on. */
-  waitFor?: StringList | undefined;
-  /** Optional unique identifier for this command, used in wait_for to reference this command as a dependency. */
-  id?: string | undefined;
   /** Command-line arguments used when executing this command. */
   args?: StringList | undefined;
-  /** Working directory (relative to project source root) used when running this command. */
-  dir?: string | undefined;
+  /** The ID(s) of the command(s) that this command depends on. */
+  waitFor?: StringList | undefined;
   /** Required. Name of the command, as presented on the command line, or if the command is packaged as a Docker container, as presented to `docker pull`. */
   name?: string | undefined;
   /** Environment variables set before running this command. */
   env?: StringList | undefined;
+  /** Working directory (relative to project source root) used when running this command. */
+  dir?: string | undefined;
+  /** Optional unique identifier for this command, used in wait_for to reference this command as a dependency. */
+  id?: string | undefined;
 }
 export type CommandList = Array<Command>;
+/** Artifact describes a build product. */
+export interface Artifact {
+  /** Related artifact names. This may be the path to a binary or jar file, or in the case of a container build, the name used to push the container image to Google Container Registry, as presented to `docker push`. Note that a single Artifact ID can have multiple names, for example if two tags are applied to one image. */
+  names?: StringList | undefined;
+  /** Hash or checksum value of a binary, or Docker Registry 2.0 digest of a container. */
+  checksum?: string | undefined;
+  /** Artifact ID, if any; for container images, this will be a URL by digest like `gcr.io/projectID/imagename@sha256:123456`. */
+  id?: string | undefined;
+}
+export type ArtifactList = Array<Artifact>;
 /** Provenance of a build. Contains all information needed to verify the full details about the build from source to completion. */
 export interface BuildProvenance {
-  /** Time at which execution of the build was finished. */
-  endTime?: string | undefined;
-  /** URI where any logs for this provenance were written. */
-  logsUri?: string | undefined;
-  /** E-mail address of the user who initiated this build. Note that this was the user's e-mail address at the time the build was initiated; this address may not represent the same end-user for all time. */
-  creator?: string | undefined;
-  /** Output of the build. */
-  builtArtifacts?: ArtifactList | undefined;
-  /** Required. Unique identifier of the build. */
-  id?: string | undefined;
-  /** Time at which execution of the build was started. */
-  startTime?: string | undefined;
-  /** Version string of the builder at the time this build was executed. */
-  builderVersion?: string | undefined;
   /** Time at which the build was created. */
   createTime?: string | undefined;
-  /** Special options applied to this build. This is a catch-all field where build providers can enter any desired additional details. */
-  buildOptions?: StringMap | undefined;
-  /** Details of the Source input to the build. */
-  sourceProvenance?: Source | undefined;
   /** ID of the project. */
   projectId?: string | undefined;
+  /** Time at which execution of the build was started. */
+  startTime?: string | undefined;
+  /** URI where any logs for this provenance were written. */
+  logsUri?: string | undefined;
+  /** Details of the Source input to the build. */
+  sourceProvenance?: Source | undefined;
+  /** Special options applied to this build. This is a catch-all field where build providers can enter any desired additional details. */
+  buildOptions?: StringMap | undefined;
+  /** Required. Unique identifier of the build. */
+  id?: string | undefined;
   /** Commands requested by the build. */
   commands?: CommandList | undefined;
+  /** Output of the build. */
+  builtArtifacts?: ArtifactList | undefined;
   /** Trigger identifier if the build was triggered automatically; empty if not. */
   triggerId?: string | undefined;
+  /** E-mail address of the user who initiated this build. Note that this was the user's e-mail address at the time the build was initiated; this address may not represent the same end-user for all time. */
+  creator?: string | undefined;
+  /** Version string of the builder at the time this build was executed. */
+  builderVersion?: string | undefined;
+  /** Time at which execution of the build was finished. */
+  endTime?: string | undefined;
 }
 /** Details of a build occurrence. */
 export interface GrafeasV1beta1BuildDetails {
@@ -1388,96 +1393,6 @@ export interface GrafeasV1beta1BuildDetails {
   inTotoSlsaProvenanceV1?: InTotoSlsaProvenanceV1 | undefined;
   /** Required. The actual provenance for the build. */
   provenance?: BuildProvenance | undefined;
-}
-export type DiscoveredAnalysisStatusEnum =
-  | "ANALYSIS_STATUS_UNSPECIFIED"
-  | "PENDING"
-  | "SCANNING"
-  | "FINISHED_SUCCESS"
-  | "COMPLETE"
-  | "FINISHED_FAILED"
-  | "FINISHED_UNSUPPORTED";
-export type DocumentMapList = Array<DocumentMap>;
-/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
-export interface Status {
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string | undefined;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList | undefined;
-}
-export type SBOMStatusSbomStateEnum = "SBOM_STATE_UNSPECIFIED" | "PENDING" | "COMPLETE";
-/** The status of an SBOM generation. */
-export interface SBOMStatus {
-  /** If there was an error generating an SBOM, this will indicate what that error was. */
-  error?: string | undefined;
-  /** The progress of the SBOM generation. */
-  sbomState?: SBOMStatusSbomStateEnum | (string & {}) | undefined;
-}
-export type StatusList = Array<Status>;
-/** Indicates which analysis completed successfully. Multiple types of analysis can be performed on a single resource. */
-export interface AnalysisCompleted {
-  analysisType?: StringList | undefined;
-}
-export type DiscoveredContinuousAnalysisEnum =
-  | "CONTINUOUS_ANALYSIS_UNSPECIFIED"
-  | "ACTIVE"
-  | "INACTIVE";
-export interface File {
-  digest?: StringMap | undefined;
-  name?: string | undefined;
-}
-export type FileList = Array<File>;
-/** Provides information about the analysis status of a discovered resource. */
-export interface Discovered {
-  /** The status of discovery for the resource. */
-  analysisStatus?: DiscoveredAnalysisStatusEnum | (string & {}) | undefined;
-  /** When an error is encountered this will contain a LocalizedMessage under details to show to the user. The LocalizedMessage is output only and populated by the API. */
-  analysisStatusError?: Status | undefined;
-  /** The last time vulnerability scan results changed. */
-  lastVulnerabilityUpdateTime?: string | undefined;
-  /** The status of an SBOM generation. */
-  sbomStatus?: SBOMStatus | undefined;
-  /** The last time continuous analysis was done for this resource. Deprecated, do not use. */
-  lastAnalysisTime?: string | undefined;
-  /** Indicates any errors encountered during analysis of a resource. There could be 0 or more of these errors. */
-  analysisError?: StatusList | undefined;
-  /** The last time this resource was scanned. */
-  lastScanTime?: string | undefined;
-  analysisCompleted?: AnalysisCompleted | undefined;
-  /** Whether the resource is continuously analyzed. */
-  continuousAnalysis?: DiscoveredContinuousAnalysisEnum | (string & {}) | undefined;
-  /** Files that make up the resource described by the occurrence. */
-  files?: FileList | undefined;
-}
-/** Details of a discovery occurrence. */
-export interface GrafeasV1beta1DiscoveryDetails {
-  /** Required. Analysis status for the discovered resource. */
-  discovered?: Discovered | undefined;
-}
-export type DeploymentPlatformEnum = "PLATFORM_UNSPECIFIED" | "GKE" | "FLEX" | "CUSTOM";
-/** The period during which some deployable was active in a runtime. */
-export interface Deployment {
-  /** Address of the runtime element hosting this deployment. */
-  address?: string | undefined;
-  /** Configuration used to create this deployment. */
-  config?: string | undefined;
-  /** Output only. Resource URI for the artifact being deployed taken from the deployable field with the same name. */
-  resourceUri?: StringList | undefined;
-  /** Platform hosting this deployment. */
-  platform?: DeploymentPlatformEnum | (string & {}) | undefined;
-  /** End of the lifetime of this deployment. */
-  undeployTime?: string | undefined;
-  /** Identity of the user that triggered this deployment. */
-  userEmail?: string | undefined;
-  /** Required. Beginning of the lifetime of this deployment. */
-  deployTime?: string | undefined;
-}
-/** Details of a deployment occurrence. */
-export interface GrafeasV1beta1DeploymentDetails {
-  /** Required. Deployment history for the resource. */
-  deployment?: Deployment | undefined;
 }
 export type RelationshipOccurrenceTypeEnum =
   | "RELATIONSHIP_TYPE_UNSPECIFIED"
@@ -1528,235 +1443,24 @@ export type RelationshipOccurrenceTypeEnum =
 export interface RelationshipOccurrence {
   /** Output only. The type of relationship between the source and target SPDX elements */
   type?: RelationshipOccurrenceTypeEnum | (string & {}) | undefined;
-  /** Also referred to as SPDXRef-B The target SPDC element (file, package, etc) In cases where there are "known unknowns", the use of the keyword NOASSERTION can be used The keywords NONE can be used to indicate that an SPDX element (package/file/snippet) has no other elements connected by some relationship to it */
-  target?: string | undefined;
   /** A place for the SPDX file creator to record any general comments about the relationship */
   comment?: string | undefined;
+  /** Also referred to as SPDXRef-B The target SPDC element (file, package, etc) In cases where there are "known unknowns", the use of the keyword NOASSERTION can be used The keywords NONE can be used to indicate that an SPDX element (package/file/snippet) has no other elements connected by some relationship to it */
+  target?: string | undefined;
   /** Also referred to as SPDXRef-A The source SPDX element (file, package, etc) */
   source?: string | undefined;
 }
-/** DocumentOccurrence represents an SPDX Document Creation Information section: https://spdx.github.io/spdx-spec/2-document-creation-information/ */
-export interface DocumentOccurrence {
-  /** A field for creators of the SPDX file to provide the version of the SPDX License List used when the SPDX file was created */
-  licenseListVersion?: string | undefined;
-  /** Identify the current SPDX document which may be referenced in relationships by other files, packages internally and documents externally */
-  id?: string | undefined;
-  /** Identify name of this document as designated by creator */
-  title?: string | undefined;
-  /** A field for creators of the SPDX file content to provide comments to the consumers of the SPDX document */
-  documentComment?: string | undefined;
-  /** A field for creators of the SPDX file to provide general comments about the creation of the SPDX file or any other relevant comment not included in the other fields */
-  creatorComment?: string | undefined;
-  /** Identify when the SPDX file was originally created. The date is to be specified according to combined date and time in UTC format as specified in ISO 8601 standard */
-  createTime?: string | undefined;
-  /** Identify who (or what, in the case of a tool) created the SPDX file. If the SPDX file was created by an individual, indicate the person's name */
-  creators?: StringList | undefined;
-  /** Provide an SPDX document specific namespace as a unique absolute Uniform Resource Identifier (URI) as specified in RFC-3986, with the exception of the '#' delimiter */
-  namespace?: string | undefined;
-  /** Identify any external SPDX documents referenced within this SPDX document */
-  externalDocumentRefs?: StringList | undefined;
+export type SecretStatusStatusEnum = "STATUS_UNSPECIFIED" | "UNKNOWN" | "VALID" | "INVALID";
+/** The status of the secret with a timestamp. */
+export interface SecretStatus {
+  /** Optional. Optional message about the status code. */
+  message?: string | undefined;
+  /** Optional. The status of the secret. */
+  status?: SecretStatusStatusEnum | (string & {}) | undefined;
+  /** Optional. The time the secret status was last updated. */
+  updateTime?: string | undefined;
 }
-export type AISkillAnalysisOccurrenceMaxSeverityEnum = "SEVERITY_UNSPECIFIED" | "CRITICAL" | "HIGH";
-export type WorkspacePolicyResultScanStatusEnum =
-  | "SCAN_STATUS_UNSPECIFIED"
-  | "PERFORMED"
-  | "NOT_PERFORMED";
-export type WorkspacePolicyResultVerdictEnum = "VERDICT_UNSPECIFIED" | "PASSED" | "FAILED";
-/** Result of Workspace Policy scan. */
-export interface WorkspacePolicyResult {
-  /** Status of the scan. */
-  scanStatus?: WorkspacePolicyResultScanStatusEnum | (string & {}) | undefined;
-  /** Verdict of the scan. */
-  verdict?: WorkspacePolicyResultVerdictEnum | (string & {}) | undefined;
-}
-export type MalwareScanResultVerdictEnum = "VERDICT_UNSPECIFIED" | "PASSED" | "FAILED";
-export type MalwareScanResultScanStatusEnum =
-  | "SCAN_STATUS_UNSPECIFIED"
-  | "PERFORMED"
-  | "NOT_PERFORMED";
-/** Result of Malware scan. */
-export interface MalwareScanResult {
-  /** Verdict of the scan. */
-  verdict?: MalwareScanResultVerdictEnum | (string & {}) | undefined;
-  /** Status of the scan. */
-  scanStatus?: MalwareScanResultScanStatusEnum | (string & {}) | undefined;
-}
-export type MaliciousContentStaticResultMaxSeverityEnum =
-  | "SEVERITY_UNSPECIFIED"
-  | "CRITICAL"
-  | "HIGH";
-export type MaliciousContentStaticResultScanStatusEnum =
-  | "SCAN_STATUS_UNSPECIFIED"
-  | "PERFORMED"
-  | "NOT_PERFORMED";
-/** Result of Malicious Content Static scan. */
-export interface MaliciousContentStaticResult {
-  /** Tracks max severity found. */
-  maxSeverity?: MaliciousContentStaticResultMaxSeverityEnum | (string & {}) | undefined;
-  /** Status of the scan. */
-  scanStatus?: MaliciousContentStaticResultScanStatusEnum | (string & {}) | undefined;
-}
-export type MaliciousContentLLMResultScanStatusEnum =
-  | "SCAN_STATUS_UNSPECIFIED"
-  | "PERFORMED"
-  | "NOT_PERFORMED";
-export type MaliciousContentLLMResultMaxSeverityEnum = "SEVERITY_UNSPECIFIED" | "CRITICAL" | "HIGH";
-/** Token usage associated with an AI scan. */
-export interface TokenUsage {
-  /** Tokens in the user request. */
-  promptCount?: string | undefined;
-  /** Tokens in the model response. */
-  candidateCount?: string | undefined;
-  /** Cache matched tokens for implicit cache. */
-  cacheCount?: string | undefined;
-  /** Tokens in the thinking output. */
-  thinkingCount?: string | undefined;
-  /** Prompt tokens for using tools. */
-  toolUsePromptCount?: string | undefined;
-}
-/** Result of Malicious Content LLM scan. */
-export interface MaliciousContentLLMResult {
-  /** Status of the scan. */
-  scanStatus?: MaliciousContentLLMResultScanStatusEnum | (string & {}) | undefined;
-  /** The base name of the model that performed the scan. */
-  modelId?: string | undefined;
-  /** Tracks max severity found. */
-  maxSeverity?: MaliciousContentLLMResultMaxSeverityEnum | (string & {}) | undefined;
-  /** Telemetry metrics tracking token usage for the AI scan. */
-  tokenUsage?: TokenUsage | undefined;
-}
-/** Per scanner verdict details. */
-export interface PerScannerVerdict {
-  /** Workspace Policy scan result. */
-  workspacePolicy?: WorkspacePolicyResult | undefined;
-  /** Malware scan result. */
-  malwareScan?: MalwareScanResult | undefined;
-  /** Malicious Content Static scan result. */
-  maliciousContentStaticResult?: MaliciousContentStaticResult | undefined;
-  /** Malicious Content LLM scan result. */
-  maliciousContentLlmResult?: MaliciousContentLLMResult | undefined;
-}
-export type FindingScannerEnum =
-  | "SCANNER_UNSPECIFIED"
-  | "STATIC"
-  | "LLM"
-  | "WS_POLICY"
-  | "GOOGLE_ANTIVIRUS";
-/** Location details with file path and line number. */
-export interface FindingLocation {
-  /** Relative path of the file containing the finding. */
-  filePath?: string | undefined;
-  /** Line number (1-based), or 0 if whole File / unknown. */
-  lineNumber?: string | undefined;
-}
-export type FindingSeverityEnum = "SEVERITY_UNSPECIFIED" | "CRITICAL" | "HIGH";
-/** Finding provides details for a single finding within an AISkillAnalysisOccurrence. */
-export interface Finding {
-  /** Category of the finding. */
-  category?: string | undefined;
-  /** Scanner determines which engine (e.g. static, llm) emitted the finding. */
-  scanner?: FindingScannerEnum | (string & {}) | undefined;
-  /** Location (path and line) where the finding was detected. */
-  location?: FindingLocation | undefined;
-  /** Severity of the finding. */
-  severity?: FindingSeverityEnum | (string & {}) | undefined;
-  /** Description of the finding category. */
-  details?: string | undefined;
-}
-export type FindingList = Array<Finding>;
-/** AISkillAnalysisOccurrence provides the results of an AI-based skill analysis. */
-export interface AISkillAnalysisOccurrence {
-  /** Maximum severity found among findings. */
-  maxSeverity?: AISkillAnalysisOccurrenceMaxSeverityEnum | (string & {}) | undefined;
-  /** Per scanner verdict. */
-  perScannerVerdict?: PerScannerVerdict | undefined;
-  /** Name of the skill that produced this analysis. */
-  skillName?: string | undefined;
-  /** Findings produced by the analysis. */
-  findings?: FindingList | undefined;
-}
-export type OccurrenceKindEnum =
-  | "NOTE_KIND_UNSPECIFIED"
-  | "VULNERABILITY"
-  | "BUILD"
-  | "IMAGE"
-  | "PACKAGE"
-  | "DEPLOYMENT"
-  | "DISCOVERY"
-  | "ATTESTATION"
-  | "INTOTO"
-  | "SBOM"
-  | "SPDX_PACKAGE"
-  | "SPDX_FILE"
-  | "SPDX_RELATIONSHIP"
-  | "VULNERABILITY_ASSESSMENT"
-  | "SBOM_REFERENCE"
-  | "SECRET"
-  | "AI_SKILL_ANALYSIS";
-/** A predicate which describes the SBOM being referenced. */
-export interface SbomReferenceIntotoPredicate {
-  /** A map of algorithm to digest of the contents of the SBOM. */
-  digest?: StringMap | undefined;
-  /** The location of the SBOM. */
-  location?: string | undefined;
-  /** The person or system referring this predicate to the consumer. */
-  referrerId?: string | undefined;
-  /** The mime type of the SBOM. */
-  mimeType?: string | undefined;
-}
-/** The actual payload that contains the SBOM Reference data. The payload follows the intoto statement specification. See https://github.com/in-toto/attestation/blob/main/spec/v1.0/statement.md for more details. */
-export interface SbomReferenceIntotoPayload {
-  /** Additional parameters of the Predicate. Includes the actual data about the SBOM. */
-  predicate?: SbomReferenceIntotoPredicate | undefined;
-  /** Identifier for the schema of the Statement. */
-  _type?: string | undefined;
-  /** Set of software artifacts that the attestation applies to. Each element represents a single software artifact. */
-  subject?: SubjectList | undefined;
-  /** URI identifying the type of the Predicate. */
-  predicateType?: string | undefined;
-}
-/** The occurrence representing an SBOM reference as applied to a specific resource. The occurrence follows the DSSE specification. See https://github.com/secure-systems-lab/dsse/blob/master/envelope.md for more details. */
-export interface SBOMReferenceOccurrence {
-  /** The actual payload that contains the SBOM reference data. */
-  payload?: SbomReferenceIntotoPayload | undefined;
-  /** The kind of payload that SbomReferenceIntotoPayload takes. Since it's in the intoto format, this value is expected to be 'application/vnd.in-toto+json'. */
-  payloadType?: string | undefined;
-  /** The signatures over the payload. */
-  signatures?: EnvelopeSignatureList | undefined;
-}
-export type InstallationArchitectureEnum = "ARCHITECTURE_UNSPECIFIED" | "X86" | "X64";
-/** An occurrence of a particular package installation found within a system's filesystem. E.g., glibc was found in `/var/lib/dpkg/status`. */
-export interface Location {
-  /** The path from which we gathered that this package/version is installed. */
-  path?: string | undefined;
-  /** Deprecated. The version installed at this location. */
-  version?: Version | undefined;
-  /** Deprecated. The CPE URI in [CPE format](https://cpe.mitre.org/specification/) denoting the package manager version distributing a package. */
-  cpeUri?: string | undefined;
-}
-export type LocationList = Array<Location>;
-/** This represents how a particular software package may be installed on a system. */
-export interface Installation {
-  /** Required. Output only. The name of the installed package. */
-  name?: string | undefined;
-  /** Output only. The CPU architecture for which packages in this distribution channel were built. Architecture will be blank for language packages. */
-  architecture?: InstallationArchitectureEnum | (string & {}) | undefined;
-  /** Output only. The cpe_uri in [CPE format](https://cpe.mitre.org/specification/) denoting the package manager version distributing a package. The cpe_uri will be blank for language packages. */
-  cpeUri?: string | undefined;
-  /** Output only. The type of package; whether native or non native (e.g., ruby gems, node.js packages, etc.). */
-  packageType?: string | undefined;
-  /** Licenses that have been declared by the authors of the package. */
-  license?: License | undefined;
-  /** Output only. The version of the package. */
-  version?: Version | undefined;
-  /** All of the places within the filesystem versions of this package have been found. */
-  location?: LocationList | undefined;
-}
-/** Details of a package occurrence. */
-export interface GrafeasV1beta1PackageDetails {
-  /** Required. Where the package was installed. */
-  installation?: Installation | undefined;
-}
+export type SecretStatusList = Array<SecretStatus>;
 /** Indicates the location at which a package was found. */
 export interface FileLocation {
   /** For jars that are contained inside .war files, this filepath can indicate the path to war file combined with the path to jar file. */
@@ -1768,17 +1472,6 @@ export interface SecretLocation {
   fileLocation?: FileLocation | undefined;
 }
 export type SecretLocationList = Array<SecretLocation>;
-export type SecretStatusStatusEnum = "STATUS_UNSPECIFIED" | "UNKNOWN" | "VALID" | "INVALID";
-/** The status of the secret with a timestamp. */
-export interface SecretStatus {
-  /** Optional. The status of the secret. */
-  status?: SecretStatusStatusEnum | (string & {}) | undefined;
-  /** Optional. The time the secret status was last updated. */
-  updateTime?: string | undefined;
-  /** Optional. Optional message about the status code. */
-  message?: string | undefined;
-}
-export type SecretStatusList = Array<SecretStatus>;
 export type SecretOccurrenceKindEnum =
   | "SECRET_KIND_UNSPECIFIED"
   | "SECRET_KIND_UNKNOWN"
@@ -1805,61 +1498,368 @@ export type SecretOccurrenceKindEnum =
   | "SECRET_KIND_STRIPE_WEBHOOK_SECRET";
 /** The occurrence provides details of a secret. */
 export interface SecretOccurrence {
-  /** Optional. Locations where the secret is detected. */
-  locations?: SecretLocationList | undefined;
   /** Optional. Status of the secret. */
   statuses?: SecretStatusList | undefined;
+  /** Optional. Locations where the secret is detected. */
+  locations?: SecretLocationList | undefined;
   /** Required. Type of secret. */
   kind?: SecretOccurrenceKindEnum | (string & {}) | undefined;
 }
+/** PackageInfoOccurrence represents an SPDX Package Information section: https://spdx.github.io/spdx-spec/3-package-information/ */
+export interface PackageInfoOccurrence {
+  /** Output only. A short description of the package */
+  summaryDescription?: string | undefined;
+  /** Output only. Identify the version of the package */
+  version?: string | undefined;
+  /** Provide a place for the SPDX file creator to record any relevant background information or additional comments about the origin of the package */
+  sourceInfo?: string | undefined;
+  /** package or alternative values, if the governing license cannot be determined */
+  licenseConcluded?: License | undefined;
+  /** A place for the SPDX file creator to record any general comments about the package being described */
+  comment?: string | undefined;
+  /** Uniquely identify any element in an SPDX document which may be referenced by other elements */
+  id?: string | undefined;
+  /** Output only. The type of package: OS, MAVEN, GO, GO_STDLIB, etc. */
+  packageType?: string | undefined;
+  /** Output only. Identify the full name of the package as given by the Package Originator */
+  title?: string | undefined;
+  /** Provide the actual file name of the package, or path of the directory being treated as a package */
+  filename?: string | undefined;
+  /** Output only. Provide a place for the SPDX file creator to record a web site that serves as the package's home page */
+  homePage?: string | undefined;
+}
+export type GenericSignedAttestationContentTypeEnum =
+  | "CONTENT_TYPE_UNSPECIFIED"
+  | "SIMPLE_SIGNING_JSON";
+/** Verifiers (e.g. Kritis implementations) MUST verify signatures with respect to the trust anchors defined in policy (e.g. a Kritis policy). Typically this means that the verifier has been configured with a map from `public_key_id` to public key material (and any required parameters, e.g. signing algorithm). In particular, verification implementations MUST NOT treat the signature `public_key_id` as anything more than a key lookup hint. The `public_key_id` DOES NOT validate or authenticate a public key; it only provides a mechanism for quickly selecting a public key ALREADY CONFIGURED on the verifier through a trusted channel. Verification implementations MUST reject signatures in any of the following circumstances: * The `public_key_id` is not recognized by the verifier. * The public key that `public_key_id` refers to does not verify the signature with respect to the payload. The `signature` contents SHOULD NOT be "attached" (where the payload is included with the serialized `signature` bytes). Verifiers MUST ignore any "attached" payload and only verify signatures with respect to explicitly provided payload (e.g. a `payload` field on the proto message that holds this Signature, or the canonical serialization of the proto message that holds this signature). */
+export interface Signature {
+  /** The identifier for the public key that verifies this signature. * The `public_key_id` is required. * The `public_key_id` SHOULD be an RFC3986 conformant URI. * When possible, the `public_key_id` SHOULD be an immutable reference, such as a cryptographic digest. Examples of valid `public_key_id`s: OpenPGP V4 public key fingerprint: * "openpgp4fpr:74FAF3B861BDA0870C7B6DEF607E48D2A663AEEA" See https://www.iana.org/assignments/uri-schemes/prov/openpgp4fpr for more details on this scheme. RFC6920 digest-named SubjectPublicKeyInfo (digest of the DER serialization): * "ni:///sha-256;cD9o9Cq6LG3jD0iKXqEi_vdjJGecm_iXkbqVoScViaU" * "nih:///sha-256;703f68f42aba2c6de30f488a5ea122fef76324679c9bf89791ba95a1271589a5" */
+  publicKeyId?: string | undefined;
+  /** The content of the signature, an opaque bytestring. The payload that this signature verifies MUST be unambiguously provided with the Signature during verification. A wrapper message might provide the payload explicitly. Alternatively, a message might have a canonical serialization that can always be unambiguously computed to derive the payload. */
+  signature?: string | undefined;
+}
+export type SignatureList = Array<Signature>;
+/** An attestation wrapper that uses the Grafeas `Signature` message. This attestation must define the `serialized_payload` that the `signatures` verify and any metadata necessary to interpret that plaintext. The signatures should always be over the `serialized_payload` bytestring. */
+export interface GenericSignedAttestation {
+  /** Type (for example schema) of the attestation payload that was signed. The verifier must ensure that the provided type is one that the verifier supports, and that the attestation payload is a valid instantiation of that type (for example by validating a JSON schema). */
+  contentType?: GenericSignedAttestationContentTypeEnum | (string & {}) | undefined;
+  /** The serialized payload that is verified by one or more `signatures`. The encoding and semantic meaning of this payload must match what is set in `content_type`. */
+  serializedPayload?: string | undefined;
+  /** One or more signatures over `serialized_payload`. Verifier implementations should consider this attestation message verified if at least one `signature` verifies `serialized_payload`. See `Signature` in common.proto for more details on signature structure and verification. */
+  signatures?: SignatureList | undefined;
+}
+export type PgpSignedAttestationContentTypeEnum =
+  | "CONTENT_TYPE_UNSPECIFIED"
+  | "SIMPLE_SIGNING_JSON";
+/** An attestation wrapper with a PGP-compatible signature. This message only supports `ATTACHED` signatures, where the payload that is signed is included alongside the signature itself in the same file. */
+export interface PgpSignedAttestation {
+  /** Required. The raw content of the signature, as output by GNU Privacy Guard (GPG) or equivalent. Since this message only supports attached signatures, the payload that was signed must be attached. While the signature format supported is dependent on the verification implementation, currently only ASCII-armored (`--armor` to gpg), non-clearsigned (`--sign` rather than `--clearsign` to gpg) are supported. Concretely, `gpg --sign --armor --output=signature.gpg payload.json` will create the signature content expected in this field in `signature.gpg` for the `payload.json` attestation payload. */
+  signature?: string | undefined;
+  /** Type (for example schema) of the attestation payload that was signed. The verifier must ensure that the provided type is one that the verifier supports, and that the attestation payload is a valid instantiation of that type (for example by validating a JSON schema). */
+  contentType?: PgpSignedAttestationContentTypeEnum | (string & {}) | undefined;
+  /** The cryptographic fingerprint of the key used to generate the signature, as output by, e.g. `gpg --list-keys`. This should be the version 4, full 160-bit fingerprint, expressed as a 40 character hexadecimal string. See https://tools.ietf.org/html/rfc4880#section-12.2 for details. Implementations may choose to acknowledge "LONG", "SHORT", or other abbreviated key IDs, but only the full fingerprint is guaranteed to work. In gpg, the full fingerprint can be retrieved from the `fpr` field returned when calling --list-keys with --with-colons. For example: ``` gpg --with-colons --with-fingerprint --force-v4-certs \ --list-keys attester@example.com tru::1:1513631572:0:3:1:5 pub:...... fpr:::::::::24FF6481B76AC91E66A00AC657A93A81EF3AE6FB: ``` Above, the fingerprint is `24FF6481B76AC91E66A00AC657A93A81EF3AE6FB`. */
+  pgpKeyId?: string | undefined;
+}
+/** Occurrence that represents a single "attestation". The authenticity of an attestation can be verified using the attached signature. If the verifier trusts the public key of the signer, then verifying the signature is sufficient to establish trust. In this circumstance, the authority to which this attestation is attached is primarily useful for look-up (how to find this attestation if you already know the authority and artifact to be verified) and intent (which authority was this attestation intended to sign for). */
+export interface Attestation {
+  genericSignedAttestation?: GenericSignedAttestation | undefined;
+  /** A PGP signed attestation. */
+  pgpSignedAttestation?: PgpSignedAttestation | undefined;
+}
+/** Details of an attestation occurrence. */
+export interface Details {
+  /** Required. Attestation for the resource. */
+  attestation?: Attestation | undefined;
+}
+/** MUST match https://github.com/secure-systems-lab/dsse/blob/master/envelope.proto. An authenticated message of arbitrary type. */
+export interface Envelope {
+  signatures?: EnvelopeSignatureList | undefined;
+  payloadType?: string | undefined;
+  payload?: string | undefined;
+}
+export type LayerDirectiveEnum =
+  | "DIRECTIVE_UNSPECIFIED"
+  | "MAINTAINER"
+  | "RUN"
+  | "CMD"
+  | "LABEL"
+  | "EXPOSE"
+  | "ENV"
+  | "ADD"
+  | "COPY"
+  | "ENTRYPOINT"
+  | "VOLUME"
+  | "USER"
+  | "WORKDIR"
+  | "ARG"
+  | "ONBUILD"
+  | "STOPSIGNAL"
+  | "HEALTHCHECK"
+  | "SHELL";
+/** Layer holds metadata specific to a layer of a Docker image. */
+export interface Layer {
+  /** Required. The recovered Dockerfile directive used to construct this layer. */
+  directive?: LayerDirectiveEnum | (string & {}) | undefined;
+  /** The recovered arguments to the Dockerfile directive. */
+  arguments?: string | undefined;
+}
+export type LayerList = Array<Layer>;
+/** Derived describes the derived image portion (Occurrence) of the DockerImage relationship. This image would be produced from a Dockerfile with FROM . */
+export interface Derived {
+  /** Required. The fingerprint of the derived image. */
+  fingerprint?: Fingerprint | undefined;
+  /** This contains layer-specific metadata, if populated it has length "distance" and is ordered with [distance] being the layer immediately following the base image and [1] being the final layer. */
+  layerInfo?: LayerList | undefined;
+  /** Output only. The number of layers by which this image differs from the associated image basis. */
+  distance?: number | undefined;
+  /** Output only. This contains the base image URL for the derived image occurrence. */
+  baseResourceUrl?: string | undefined;
+}
+/** Details of an image occurrence. */
+export interface GrafeasV1beta1ImageDetails {
+  /** Required. Immutable. The child image derived from the base image. */
+  derivedImage?: Derived | undefined;
+}
+/** Indicates which analysis completed successfully. Multiple types of analysis can be performed on a single resource. */
+export interface AnalysisCompleted {
+  analysisType?: StringList | undefined;
+}
+export type DiscoveredAnalysisStatusEnum =
+  | "ANALYSIS_STATUS_UNSPECIFIED"
+  | "PENDING"
+  | "SCANNING"
+  | "FINISHED_SUCCESS"
+  | "COMPLETE"
+  | "FINISHED_FAILED"
+  | "FINISHED_UNSUPPORTED";
+export type DiscoveredContinuousAnalysisEnum =
+  | "CONTINUOUS_ANALYSIS_UNSPECIFIED"
+  | "ACTIVE"
+  | "INACTIVE";
+export interface File {
+  digest?: StringMap | undefined;
+  name?: string | undefined;
+}
+export type FileList = Array<File>;
+export type DocumentMapList = Array<DocumentMap>;
+/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
+export interface Status {
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string | undefined;
+}
+export type SBOMStatusSbomStateEnum = "SBOM_STATE_UNSPECIFIED" | "PENDING" | "COMPLETE";
+/** The status of an SBOM generation. */
+export interface SBOMStatus {
+  /** If there was an error generating an SBOM, this will indicate what that error was. */
+  error?: string | undefined;
+  /** The progress of the SBOM generation. */
+  sbomState?: SBOMStatusSbomStateEnum | (string & {}) | undefined;
+}
+export type StatusList = Array<Status>;
+/** Provides information about the analysis status of a discovered resource. */
+export interface Discovered {
+  analysisCompleted?: AnalysisCompleted | undefined;
+  /** The status of discovery for the resource. */
+  analysisStatus?: DiscoveredAnalysisStatusEnum | (string & {}) | undefined;
+  /** Whether the resource is continuously analyzed. */
+  continuousAnalysis?: DiscoveredContinuousAnalysisEnum | (string & {}) | undefined;
+  /** Files that make up the resource described by the occurrence. */
+  files?: FileList | undefined;
+  /** When an error is encountered this will contain a LocalizedMessage under details to show to the user. The LocalizedMessage is output only and populated by the API. */
+  analysisStatusError?: Status | undefined;
+  /** The status of an SBOM generation. */
+  sbomStatus?: SBOMStatus | undefined;
+  /** The last time this resource was scanned. */
+  lastScanTime?: string | undefined;
+  /** Indicates any errors encountered during analysis of a resource. There could be 0 or more of these errors. */
+  analysisError?: StatusList | undefined;
+  /** The last time continuous analysis was done for this resource. Deprecated, do not use. */
+  lastAnalysisTime?: string | undefined;
+  /** The last time vulnerability scan results changed. */
+  lastVulnerabilityUpdateTime?: string | undefined;
+}
+/** Details of a discovery occurrence. */
+export interface GrafeasV1beta1DiscoveryDetails {
+  /** Required. Analysis status for the discovered resource. */
+  discovered?: Discovered | undefined;
+}
+export type OccurrenceKindEnum =
+  | "NOTE_KIND_UNSPECIFIED"
+  | "VULNERABILITY"
+  | "BUILD"
+  | "IMAGE"
+  | "PACKAGE"
+  | "DEPLOYMENT"
+  | "DISCOVERY"
+  | "ATTESTATION"
+  | "INTOTO"
+  | "SBOM"
+  | "SPDX_PACKAGE"
+  | "SPDX_FILE"
+  | "SPDX_RELATIONSHIP"
+  | "VULNERABILITY_ASSESSMENT"
+  | "SBOM_REFERENCE"
+  | "SECRET"
+  | "AI_SKILL_ANALYSIS";
+/** An entity that can have metadata. For example, a Docker image. */
+export interface Resource {
+  /** Deprecated, do not use. Use uri instead. The hash of the resource content. For example, the Docker digest. */
+  contentHash?: Hash | undefined;
+  /** Deprecated, do not use. Use uri instead. The name of the resource. For example, the name of a Docker image - "Debian". */
+  name?: string | undefined;
+  /** Required. The unique URI of the resource. For example, `https://gcr.io/project/image@sha256:foo` for a Docker image. */
+  uri?: string | undefined;
+}
+export type PackageIssueEffectiveSeverityEnum =
+  | "SEVERITY_UNSPECIFIED"
+  | "MINIMAL"
+  | "LOW"
+  | "MEDIUM"
+  | "HIGH"
+  | "CRITICAL";
+/** This message wraps a location affected by a vulnerability and its associated fix (if one is available). */
+export interface PackageIssue {
+  /** Required. The location of the vulnerability. */
+  affectedLocation?: VulnerabilityLocation | undefined;
+  /** The type of package (e.g. OS, MAVEN, GO). */
+  packageType?: string | undefined;
+  /** Deprecated, use Details.effective_severity instead The severity (e.g., distro assigned severity) for this vulnerability. */
+  severityName?: string | undefined;
+  /** The location of the available fix for vulnerability. */
+  fixedLocation?: VulnerabilityLocation | undefined;
+  /** Output only. The distro or language system assigned severity for this vulnerability when that is available and note provider assigned severity when it is not available. */
+  effectiveSeverity?: PackageIssueEffectiveSeverityEnum | (string & {}) | undefined;
+}
+export type PackageIssueList = Array<PackageIssue>;
+export type GrafeasV1beta1VulnerabilityDetailsSeverityEnum =
+  | "SEVERITY_UNSPECIFIED"
+  | "MINIMAL"
+  | "LOW"
+  | "MEDIUM"
+  | "HIGH"
+  | "CRITICAL";
+export type GrafeasV1beta1VulnerabilityDetailsCvssVersionEnum =
+  | "CVSS_VERSION_UNSPECIFIED"
+  | "CVSS_VERSION_2"
+  | "CVSS_VERSION_3"
+  | "CVSS_VERSION_4";
+export type VexAssessmentStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "AFFECTED"
+  | "NOT_AFFECTED"
+  | "FIXED"
+  | "UNDER_INVESTIGATION";
+/** VexAssessment provides all publisher provided Vex information that is related to this vulnerability. */
+export interface VexAssessment {
+  /** Holds the MITRE standard Common Vulnerabilities and Exposures (CVE) tracking number for the vulnerability. Deprecated: Use vulnerability_id instead to denote CVEs. */
+  cve?: string | undefined;
+  /** Provides the state of this Vulnerability assessment. */
+  state?: VexAssessmentStateEnum | (string & {}) | undefined;
+  /** Contains information about the impact of this vulnerability, this will change with time. */
+  impacts?: StringList | undefined;
+  /** Justification provides the justification when the state of the assessment if NOT_AFFECTED. */
+  justification?: Justification | undefined;
+  /** Specifies details on how to handle (and presumably, fix) a vulnerability. */
+  remediations?: RemediationList | undefined;
+  /** The VulnerabilityAssessment note from which this VexAssessment was generated. This will be of the form: `projects/[PROJECT_ID]/notes/[NOTE_ID]`. */
+  noteName?: string | undefined;
+  /** The vulnerability identifier for this Assessment. Will hold one of common identifiers e.g. CVE, GHSA etc. */
+  vulnerabilityId?: string | undefined;
+  /** Holds a list of references associated with this vulnerability item and assessment. */
+  relatedUris?: RelatedUrlList | undefined;
+}
+export type GrafeasV1beta1VulnerabilityDetailsEffectiveSeverityEnum =
+  | "SEVERITY_UNSPECIFIED"
+  | "MINIMAL"
+  | "LOW"
+  | "MEDIUM"
+  | "HIGH"
+  | "CRITICAL";
+/** Details of a vulnerability Occurrence. */
+export interface GrafeasV1beta1VulnerabilityDetails {
+  /** Required. The set of affected locations and their fixes (if available) within the associated resource. */
+  packageIssue?: PackageIssueList | undefined;
+  /** Output only. The note provider assigned Severity of the vulnerability. */
+  severity?: GrafeasV1beta1VulnerabilityDetailsSeverityEnum | (string & {}) | undefined;
+  /** Output only. The CVSS score of this vulnerability. CVSS score is on a scale of 0-10 where 0 indicates low severity and 10 indicates high severity. */
+  cvssScore?: number | undefined;
+  /** Output only. CVSS version used to populate cvss_score and severity. */
+  cvssVersion?: GrafeasV1beta1VulnerabilityDetailsCvssVersionEnum | (string & {}) | undefined;
+  /** Output only. A one sentence description of this vulnerability. */
+  shortDescription?: string | undefined;
+  /** The type of package; whether native or non native(ruby gems, node.js packages etc) */
+  type?: string | undefined;
+  /** The cvss v2 score for the vulnerability. */
+  cvssV2?: CVSS | undefined;
+  /** Occurrence-specific extra details about the vulnerability. */
+  extraDetails?: string | undefined;
+  vexAssessment?: VexAssessment | undefined;
+  /** The cvss v4 score of this vulnerability. */
+  cvssV4?: CVSS | undefined;
+  /** Output only. URLs related to this vulnerability. */
+  relatedUrls?: RelatedUrlList | undefined;
+  /** The cvss v3 score for the vulnerability. */
+  cvssV3?: CVSS | undefined;
+  /** Output only. A detailed description of this vulnerability. */
+  longDescription?: string | undefined;
+  /** The distro assigned severity for this vulnerability when it is available, and note provider assigned severity when distro has not yet assigned a severity for this vulnerability. When there are multiple PackageIssues for this vulnerability, they can have different effective severities because some might be provided by the distro while others are provided by the language ecosystem for a language pack. For this reason, it is advised to use the effective severity on the PackageIssue level. In the case where multiple PackageIssues have differing effective severities, this field should be the highest severity for any of the PackageIssues. */
+  effectiveSeverity?:
+    | GrafeasV1beta1VulnerabilityDetailsEffectiveSeverityEnum
+    | (string & {})
+    | undefined;
+}
 /** An instance of an analysis type that has been found on a resource. */
 export interface Occurrence {
-  /** Describes a specific SPDX Package. */
-  spdxPackage?: PackageInfoOccurrence | undefined;
-  /** Describes how this resource derives from the basis in the associated note. */
-  derivedImage?: GrafeasV1beta1ImageDetails | undefined;
-  /** https://github.com/secure-systems-lab/dsse */
-  envelope?: Envelope | undefined;
-  /** Output only. The name of the occurrence in the form of `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]`. */
-  name?: string | undefined;
-  /** Required. Immutable. The resource for which the occurrence applies. */
-  resource?: Resource | undefined;
-  /** Describes a specific in-toto link. */
-  intoto?: GrafeasV1beta1IntotoDetails | undefined;
-  /** Describes an attestation of an artifact. */
-  attestation?: Details | undefined;
-  /** Describes a security vulnerability. */
-  vulnerability?: GrafeasV1beta1VulnerabilityDetails | undefined;
-  /** Output only. The time this occurrence was created. */
-  createTime?: string | undefined;
-  /** Required. Immutable. The analysis note associated with this occurrence, in the form of `projects/[PROVIDER_ID]/notes/[NOTE_ID]`. This field can be used as a filter in list requests. */
-  noteName?: string | undefined;
-  /** Output only. The time this occurrence was last updated. */
-  updateTime?: string | undefined;
-  /** Describes a specific SPDX File. */
-  spdxFile?: FileOccurrence | undefined;
-  /** Describes a verifiable build. */
-  build?: GrafeasV1beta1BuildDetails | undefined;
-  /** Describes when a resource was discovered. */
-  discovered?: GrafeasV1beta1DiscoveryDetails | undefined;
-  /** Describes the deployment of an artifact on a runtime. */
-  deployment?: GrafeasV1beta1DeploymentDetails | undefined;
-  /** Describes a specific SPDX Relationship. */
-  spdxRelationship?: RelationshipOccurrence | undefined;
-  /** Describes a specific software bill of materials document. */
-  sbom?: DocumentOccurrence | undefined;
-  /** Describes a specific AI Skill Analysis occurrence. */
-  aiSkillAnalysis?: AISkillAnalysisOccurrence | undefined;
-  /** Output only. This explicitly denotes which of the occurrence details are specified. This field can be used as a filter in list requests. */
-  kind?: OccurrenceKindEnum | (string & {}) | undefined;
   /** Describes a specific SBOM reference occurrences. */
   sbomReference?: SBOMReferenceOccurrence | undefined;
+  /** Describes a specific SPDX File. */
+  spdxFile?: FileOccurrence | undefined;
   /** Describes the installation of a package on the linked resource. */
   installation?: GrafeasV1beta1PackageDetails | undefined;
-  /** Describes a secret. */
-  secret?: SecretOccurrence | undefined;
+  /** Describes a specific in-toto link. */
+  intoto?: GrafeasV1beta1IntotoDetails | undefined;
   /** A description of actions that can be taken to remedy the note. */
   remediation?: string | undefined;
+  /** Describes a specific software bill of materials document. */
+  sbom?: DocumentOccurrence | undefined;
+  /** Output only. The time this occurrence was last updated. */
+  updateTime?: string | undefined;
+  /** Describes the deployment of an artifact on a runtime. */
+  deployment?: GrafeasV1beta1DeploymentDetails | undefined;
+  /** Describes a specific AI Skill Analysis occurrence. */
+  aiSkillAnalysis?: AISkillAnalysisOccurrence | undefined;
+  /** Describes a verifiable build. */
+  build?: GrafeasV1beta1BuildDetails | undefined;
+  /** Describes a specific SPDX Relationship. */
+  spdxRelationship?: RelationshipOccurrence | undefined;
+  /** Describes a secret. */
+  secret?: SecretOccurrence | undefined;
+  /** Describes a specific SPDX Package. */
+  spdxPackage?: PackageInfoOccurrence | undefined;
+  /** Describes an attestation of an artifact. */
+  attestation?: Details | undefined;
+  /** https://github.com/secure-systems-lab/dsse */
+  envelope?: Envelope | undefined;
+  /** Describes how this resource derives from the basis in the associated note. */
+  derivedImage?: GrafeasV1beta1ImageDetails | undefined;
+  /** Describes when a resource was discovered. */
+  discovered?: GrafeasV1beta1DiscoveryDetails | undefined;
+  /** Output only. This explicitly denotes which of the occurrence details are specified. This field can be used as a filter in list requests. */
+  kind?: OccurrenceKindEnum | (string & {}) | undefined;
+  /** Output only. The time this occurrence was created. */
+  createTime?: string | undefined;
+  /** Output only. The name of the occurrence in the form of `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]`. */
+  name?: string | undefined;
+  /** Required. Immutable. The analysis note associated with this occurrence, in the form of `projects/[PROVIDER_ID]/notes/[NOTE_ID]`. This field can be used as a filter in list requests. */
+  noteName?: string | undefined;
+  /** Required. Immutable. The resource for which the occurrence applies. */
+  resource?: Resource | undefined;
+  /** Describes a security vulnerability. */
+  vulnerability?: GrafeasV1beta1VulnerabilityDetails | undefined;
 }
 export type OccurrenceList = Array<Occurrence>;
 /** Request to create occurrences in batch. */
@@ -1959,10 +1959,10 @@ export interface LicensesSummary {
 export type LicensesSummaryList = Array<LicensesSummary>;
 /** A summary of the packages found within the given resource. */
 export interface PackagesSummaryResponse {
-  /** A listing by license name of each of the licenses and their counts. */
-  licensesSummary?: LicensesSummaryList | undefined;
   /** The unique URL of the image or the container for which this summary applies. */
   resourceUrl?: string | undefined;
+  /** A listing by license name of each of the licenses and their counts. */
+  licensesSummary?: LicensesSummaryList | undefined;
 }
 export interface GeneratePackagesSummaryProjectsResourcesRequest {
   /** Required. The name of the resource to get a packages summary for in the form of `projects/[PROJECT_ID]/resources/[RESOURCE_URL]`. */
@@ -1986,14 +1986,14 @@ export interface GetIamPolicyProjectsLocationsNotesRequest extends GetIamPolicyR
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string | undefined;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string | undefined;
   /** Textual representation of an expression in Common Expression Language syntax. */
   expression?: string | undefined;
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
   location?: string | undefined;
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string | undefined;
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string | undefined;
 }
 /** Associates `members`, or principals, with a `role`. */
 export interface Binding {
@@ -2051,12 +2051,12 @@ export interface GetProjectsOccurrencesRequest {
   name: string;
 }
 export interface GetVulnerabilitySummaryProjectsLocationsOccurrencesRequest {
+  /** Required. The name of the project to get a vulnerability summary for in the form of `projects/[PROJECT_ID]`. */
+  parent: string;
   /** The filter expression. */
   filter?: string | undefined;
   /** If set, the request will return all reachable occurrence summaries and report all unreachable regions in the `unreachable` field in the response. Only applicable for requests in the global region. */
   returnPartialSuccess?: boolean | undefined;
-  /** Required. The name of the project to get a vulnerability summary for in the form of `projects/[PROJECT_ID]`. */
-  parent: string;
 }
 export type FixableTotalByDigestSeverityEnum =
   | "SEVERITY_UNSPECIFIED"
@@ -2067,10 +2067,10 @@ export type FixableTotalByDigestSeverityEnum =
   | "CRITICAL";
 /** Per resource and severity counts of fixable and total vulnerabilities. */
 export interface FixableTotalByDigest {
-  /** The number of fixable vulnerabilities associated with this resource. */
-  fixableCount?: string | undefined;
   /** The affected resource. */
   resource?: Resource | undefined;
+  /** The number of fixable vulnerabilities associated with this resource. */
+  fixableCount?: string | undefined;
   /** The severity for this count. SEVERITY_UNSPECIFIED indicates total across all severities. */
   severity?: FixableTotalByDigestSeverityEnum | undefined;
   /** The total number of vulnerabilities associated with this resource. */
@@ -2085,31 +2085,31 @@ export interface VulnerabilityOccurrencesSummary {
   unreachable?: StringList | undefined;
 }
 export interface GetVulnerabilitySummaryProjectsOccurrencesRequest {
-  /** The filter expression. */
-  filter?: string | undefined;
   /** Required. The name of the project to get a vulnerability summary for in the form of `projects/[PROJECT_ID]`. */
   parent: string;
+  /** The filter expression. */
+  filter?: string | undefined;
   /** If set, the request will return all reachable occurrence summaries and report all unreachable regions in the `unreachable` field in the response. Only applicable for requests in the global region. */
   returnPartialSuccess?: boolean | undefined;
 }
 export interface ListProjectsLocationsNotesRequest {
+  /** Number of notes to return in the list. Must be positive. Max allowed page size is 1000. If not specified, page size defaults to 20. */
+  pageSize?: number | undefined;
+  /** Required. The name of the project to list notes for in the form of `projects/[PROJECT_ID]`. */
+  parent: string;
+  /** Token to provide to skip to a particular spot in the list. */
+  pageToken?: string | undefined;
   /** If set, the request will return all reachable Notes and report all unreachable regions in the `unreachable` field in the response. Only applicable for requests in the global region. */
   returnPartialSuccess?: boolean | undefined;
   /** The filter expression. */
   filter?: string | undefined;
-  /** Required. The name of the project to list notes for in the form of `projects/[PROJECT_ID]`. */
-  parent: string;
-  /** Number of notes to return in the list. Must be positive. Max allowed page size is 1000. If not specified, page size defaults to 20. */
-  pageSize?: number | undefined;
-  /** Token to provide to skip to a particular spot in the list. */
-  pageToken?: string | undefined;
 }
 /** Response for listing notes. */
 export interface ListNotesResponse {
-  /** Unordered list. Unreachable regions. Populated for requests from the global region when `return_partial_success` is set. Format: `projects/[PROJECT_ID]/locations/[LOCATION]` */
-  unreachable?: StringList | undefined;
   /** The notes requested. */
   notes?: NoteList | undefined;
+  /** Unordered list. Unreachable regions. Populated for requests from the global region when `return_partial_success` is set. Format: `projects/[PROJECT_ID]/locations/[LOCATION]` */
+  unreachable?: StringList | undefined;
   /** The next pagination token in the list response. It should be used as `page_token` for the following request. An empty value means no more results. */
   nextPageToken?: string | undefined;
 }
@@ -2125,20 +2125,20 @@ export interface ListProjectsLocationsNotesOccurrencesRequest {
 }
 /** Response for listing occurrences for a note. */
 export interface ListNoteOccurrencesResponse {
-  /** The occurrences attached to the specified note. */
-  occurrences?: OccurrenceList | undefined;
   /** Token to provide to skip to a particular spot in the list. */
   nextPageToken?: string | undefined;
+  /** The occurrences attached to the specified note. */
+  occurrences?: OccurrenceList | undefined;
 }
 export interface ListProjectsLocationsOccurrencesRequest {
   /** Number of occurrences to return in the list. Must be positive. Max allowed page size is 1000. If not specified, page size defaults to 20. */
   pageSize?: number | undefined;
   /** The filter expression. */
   filter?: string | undefined;
-  /** If set, the request will return all reachable Occurrences and report all unreachable regions in the `unreachable` field in the response. Only applicable for requests in the global region. */
-  returnPartialSuccess?: boolean | undefined;
   /** Token to provide to skip to a particular spot in the list. */
   pageToken?: string | undefined;
+  /** If set, the request will return all reachable Occurrences and report all unreachable regions in the `unreachable` field in the response. Only applicable for requests in the global region. */
+  returnPartialSuccess?: boolean | undefined;
   /** Required. The name of the project to list occurrences for in the form of `projects/[PROJECT_ID]`. */
   parent: string;
 }
@@ -2146,50 +2146,50 @@ export interface ListProjectsLocationsOccurrencesRequest {
 export interface ListOccurrencesResponse {
   /** The occurrences requested. */
   occurrences?: OccurrenceList | undefined;
-  /** The next pagination token in the list response. It should be used as `page_token` for the following request. An empty value means no more results. */
-  nextPageToken?: string | undefined;
   /** Unordered list. Unreachable regions. Populated for requests from the global region when `return_partial_success` is set. Format: `projects/[PROJECT_ID]/locations/[LOCATION]` */
   unreachable?: StringList | undefined;
+  /** The next pagination token in the list response. It should be used as `page_token` for the following request. An empty value means no more results. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsNotesRequest {
   /** Number of notes to return in the list. Must be positive. Max allowed page size is 1000. If not specified, page size defaults to 20. */
   pageSize?: number | undefined;
   /** If set, the request will return all reachable Notes and report all unreachable regions in the `unreachable` field in the response. Only applicable for requests in the global region. */
   returnPartialSuccess?: boolean | undefined;
-  /** The filter expression. */
-  filter?: string | undefined;
-  /** Token to provide to skip to a particular spot in the list. */
-  pageToken?: string | undefined;
   /** Required. The name of the project to list notes for in the form of `projects/[PROJECT_ID]`. */
   parent: string;
+  /** Token to provide to skip to a particular spot in the list. */
+  pageToken?: string | undefined;
+  /** The filter expression. */
+  filter?: string | undefined;
 }
 export interface ListProjectsNotesOccurrencesRequest {
-  /** Number of occurrences to return in the list. */
-  pageSize?: number | undefined;
+  /** The filter expression. */
+  filter?: string | undefined;
   /** Required. The name of the note to list occurrences for in the form of `projects/[PROVIDER_ID]/notes/[NOTE_ID]`. */
   name: string;
   /** Token to provide to skip to a particular spot in the list. */
   pageToken?: string | undefined;
-  /** The filter expression. */
-  filter?: string | undefined;
+  /** Number of occurrences to return in the list. */
+  pageSize?: number | undefined;
 }
 export interface ListProjectsOccurrencesRequest {
-  /** Token to provide to skip to a particular spot in the list. */
-  pageToken?: string | undefined;
+  /** Number of occurrences to return in the list. Must be positive. Max allowed page size is 1000. If not specified, page size defaults to 20. */
+  pageSize?: number | undefined;
   /** The filter expression. */
   filter?: string | undefined;
+  /** Token to provide to skip to a particular spot in the list. */
+  pageToken?: string | undefined;
   /** Required. The name of the project to list occurrences for in the form of `projects/[PROJECT_ID]`. */
   parent: string;
   /** If set, the request will return all reachable Occurrences and report all unreachable regions in the `unreachable` field in the response. Only applicable for requests in the global region. */
   returnPartialSuccess?: boolean | undefined;
-  /** Number of occurrences to return in the list. Must be positive. Max allowed page size is 1000. If not specified, page size defaults to 20. */
-  pageSize?: number | undefined;
 }
 export interface PatchProjectsLocationsNotesRequest extends Omit<Note, "name"> {
-  /** Required. The name of the note in the form of `projects/[PROVIDER_ID]/notes/[NOTE_ID]`. */
-  name: string;
   /** The fields to update. */
   updateMask?: string | undefined;
+  /** Required. The name of the note in the form of `projects/[PROVIDER_ID]/notes/[NOTE_ID]`. */
+  name: string;
 }
 export interface PatchProjectsLocationsOccurrencesRequest extends Omit<Occurrence, "name"> {
   /** Required. The name of the occurrence in the form of `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]`. */
@@ -2198,10 +2198,10 @@ export interface PatchProjectsLocationsOccurrencesRequest extends Omit<Occurrenc
   updateMask?: string | undefined;
 }
 export interface PatchProjectsNotesRequest extends Omit<Note, "name"> {
-  /** Required. The name of the note in the form of `projects/[PROVIDER_ID]/notes/[NOTE_ID]`. */
-  name: string;
   /** The fields to update. */
   updateMask?: string | undefined;
+  /** Required. The name of the note in the form of `projects/[PROVIDER_ID]/notes/[NOTE_ID]`. */
+  name: string;
 }
 export interface PatchProjectsOccurrencesRequest extends Omit<Occurrence, "name"> {
   /** The fields to update. */
@@ -3447,8 +3447,8 @@ function __c10(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          licensesSummary: S.optional(__S(321, __c10, 1)),
           resourceUrl: S.optional(S.String),
+          licensesSummary: S.optional(__S(321, __c10, 1)),
         }),
       ).annotate({ identifier: "PackagesSummaryResponse" });
   }
@@ -3510,10 +3510,10 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          description: S.optional(S.String),
+          title: S.optional(S.String),
           expression: S.optional(S.String),
           location: S.optional(S.String),
-          title: S.optional(S.String),
-          description: S.optional(S.String),
         }),
       ).annotate({ identifier: "Expr" });
     case 1:
@@ -3694,9 +3694,9 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3712,8 +3712,8 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          fixableCount: S.optional(S.String),
           resource: S.optional(__S(1953, __c61, 1)),
+          fixableCount: S.optional(S.String),
           severity: S.optional(S.String),
           totalCount: S.optional(S.String),
         }),
@@ -3734,8 +3734,8 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -3752,11 +3752,11 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3772,8 +3772,8 @@ function __c28(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(1248, __c39, 0)),
           notes: S.optional(__S(1344, __c42, 0)),
+          unreachable: S.optional(__S(1248, __c39, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListNotesResponse" });
@@ -3803,8 +3803,8 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          occurrences: S.optional(__S(1920, __c60, 0)),
           nextPageToken: S.optional(S.String),
+          occurrences: S.optional(__S(1920, __c60, 0)),
         }),
       ).annotate({ identifier: "ListNoteOccurrencesResponse" });
   }
@@ -3816,8 +3816,8 @@ function __c31(j: number): any {
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -3835,8 +3835,8 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           occurrences: S.optional(__S(1920, __c60, 0)),
-          nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(1248, __c39, 0)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOccurrencesResponse" });
   }
@@ -3848,9 +3848,9 @@ function __c33(j: number): any {
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3866,10 +3866,10 @@ function __c34(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3885,11 +3885,11 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3907,8 +3907,8 @@ function __c36(j: number): any {
         S.Extend(
           __S(1444, __c45, 4),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -3970,21 +3970,47 @@ function __c40(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          kind: S.optional(S.String),
-          revision: S.optional(S.String),
-          inclusive: S.optional(S.Boolean),
-          epoch: S.optional(S.Number),
+          expression: S.optional(S.String),
+          comments: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Version" });
+      ).annotate({ identifier: "License" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          comments: S.optional(S.String),
-          expression: S.optional(S.String),
+          justificationType: S.optional(S.String),
+          details: S.optional(S.String),
         }),
-      ).annotate({ identifier: "License" });
+      ).annotate({ identifier: "Justification" });
     case 2:
+      return S.suspend(() =>
+        S.Struct({
+          url: S.optional(S.String),
+          label: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RelatedUrl" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          remediationType: S.optional(S.String),
+          remediationUri: S.optional(__S(1282, __c40, 2)),
+          details: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Remediation" });
+    case 4:
+      return S.Array(__S(1283, __c40, 3));
+    case 5:
+      return S.Array(__S(1282, __c40, 2));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.optional(S.String),
+          epoch: S.optional(S.Number),
+          revision: S.optional(S.String),
+          name: S.optional(S.String),
+          inclusive: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Version" });
+    case 7:
       return S.suspend(() =>
         S.Struct({
           v2Blob: S.optional(__S(1248, __c39, 0)),
@@ -3992,65 +4018,39 @@ function __c40(j: number): any {
           v2Name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Fingerprint" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          subsequentSystemIntegrityImpact: S.optional(S.String),
-          impactScore: S.optional(S.Number),
-          exploitMaturity: S.optional(S.String),
-          integrityImpact: S.optional(S.String),
-          availabilityImpact: S.optional(S.String),
-          attackVector: S.optional(S.String),
-          exploitabilityScore: S.optional(S.Number),
-          confidentialityImpact: S.optional(S.String),
-          attackRequirements: S.optional(S.String),
-          vulnerableSystemConfidentialityImpact: S.optional(S.String),
-          scope: S.optional(S.String),
-          userInteraction: S.optional(S.String),
-          privilegesRequired: S.optional(S.String),
-          attackComplexity: S.optional(S.String),
-          subsequentSystemAvailabilityImpact: S.optional(S.String),
-          authentication: S.optional(S.String),
-          vulnerableSystemAvailabilityImpact: S.optional(S.String),
-          subsequentSystemConfidentialityImpact: S.optional(S.String),
-          baseScore: S.optional(S.Number),
-          vulnerableSystemIntegrityImpact: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CVSS" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          cpeUri: S.optional(S.String),
-          version: S.optional(__S(1280, __c40, 0)),
-          package: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "VulnerabilityLocation" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          details: S.optional(S.String),
-          justificationType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Justification" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          url: S.optional(S.String),
-          label: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RelatedUrl" });
-    case 7:
-      return S.Array(__S(1286, __c40, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          remediationType: S.optional(S.String),
-          details: S.optional(S.String),
-          remediationUri: S.optional(__S(1286, __c40, 6)),
+          attackComplexity: S.optional(S.String),
+          exploitabilityScore: S.optional(S.Number),
+          exploitMaturity: S.optional(S.String),
+          userInteraction: S.optional(S.String),
+          privilegesRequired: S.optional(S.String),
+          integrityImpact: S.optional(S.String),
+          scope: S.optional(S.String),
+          subsequentSystemAvailabilityImpact: S.optional(S.String),
+          availabilityImpact: S.optional(S.String),
+          vulnerableSystemConfidentialityImpact: S.optional(S.String),
+          authentication: S.optional(S.String),
+          subsequentSystemIntegrityImpact: S.optional(S.String),
+          attackVector: S.optional(S.String),
+          baseScore: S.optional(S.Number),
+          vulnerableSystemIntegrityImpact: S.optional(S.String),
+          vulnerableSystemAvailabilityImpact: S.optional(S.String),
+          attackRequirements: S.optional(S.String),
+          subsequentSystemConfidentialityImpact: S.optional(S.String),
+          impactScore: S.optional(S.Number),
+          confidentialityImpact: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Remediation" });
+      ).annotate({ identifier: "CVSS" });
     case 9:
-      return S.Array(__S(1288, __c40, 8));
+      return S.suspend(() =>
+        S.Struct({
+          version: S.optional(__S(1286, __c40, 6)),
+          cpeUri: S.optional(S.String),
+          package: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VulnerabilityLocation" });
   }
 }
 function __c41(j: number): any {
@@ -4088,58 +4088,171 @@ function __c44(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          keyId: S.optional(S.String),
-          signature: S.optional(S.String),
-          publicKey: S.optional(S.String),
-          keyType: S.optional(S.String),
+          version: S.optional(S.String),
+          format: S.optional(S.String),
         }),
-      ).annotate({ identifier: "BuildSignature" });
+      ).annotate({ identifier: "SBOMReferenceNote" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          builderVersion: S.optional(S.String),
-          signature: S.optional(__S(1408, __c44, 0)),
+          comment: S.optional(S.String),
+          locator: S.optional(S.String),
+          category: S.optional(S.String),
+          type: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Build" });
+      ).annotate({ identifier: "ExternalRef" });
     case 2:
+      return S.Array(__S(1409, __c44, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          originator: S.optional(S.String),
+          analyzed: S.optional(S.Boolean),
+          externalRefs: S.optional(__S(1410, __c44, 2)),
+          summaryDescription: S.optional(S.String),
+          version: S.optional(S.String),
+          checksum: S.optional(S.String),
+          supplier: S.optional(S.String),
+          licenseDeclared: S.optional(__S(1280, __c40, 0)),
+          verificationCode: S.optional(S.String),
+          attribution: S.optional(S.String),
+          downloadLocation: S.optional(S.String),
+          detailedDescription: S.optional(S.String),
+          packageType: S.optional(S.String),
+          filesLicenseInfo: S.optional(__S(1248, __c39, 0)),
+          copyright: S.optional(S.String),
+          title: S.optional(S.String),
+          homePage: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PackageInfoNote" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          issuingAuthority: S.optional(S.String),
+          name: S.optional(S.String),
+          publisherNamespace: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Publisher" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          genericUri: S.optional(S.String),
+          name: S.optional(S.String),
+          id: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Product" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          vulnerabilityId: S.optional(S.String),
+          cve: S.optional(S.String),
+          state: S.optional(S.String),
+          justification: S.optional(__S(1281, __c40, 1)),
+          longDescription: S.optional(S.String),
+          shortDescription: S.optional(S.String),
+          remediations: S.optional(__S(1284, __c40, 4)),
+          impacts: S.optional(__S(1248, __c39, 0)),
+          relatedUris: S.optional(__S(1285, __c40, 5)),
+        }),
+      ).annotate({ identifier: "Assessment" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          publisher: S.optional(__S(1412, __c44, 4)),
+          title: S.optional(S.String),
+          longDescription: S.optional(S.String),
+          product: S.optional(__S(1413, __c44, 5)),
+          shortDescription: S.optional(S.String),
+          assessment: S.optional(__S(1414, __c44, 6)),
+          languageCode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VulnerabilityAssessmentNote" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          humanReadableName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Hint" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          hint: S.optional(__S(1416, __c44, 8)),
+        }),
+      ).annotate({ identifier: "Authority" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          spdxVersion: S.optional(S.String),
+          dataLicence: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DocumentNote" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          resourceUri: S.optional(__S(1248, __c39, 0)),
+        }),
+      ).annotate({ identifier: "Deployable" });
+    case 12:
       return S.suspend(() =>
         S.Struct({
           algo: S.optional(S.String),
           digestBytes: S.optional(S.String),
         }),
       ).annotate({ identifier: "Digest" });
-    case 3:
-      return S.Array(__S(1410, __c44, 2));
-    case 4:
+    case 13:
+      return S.Array(__S(1420, __c44, 12));
+    case 14:
       return S.suspend(() =>
         S.Struct({
+          latestVersion: S.optional(__S(1286, __c40, 6)),
           cpeUri: S.optional(S.String),
           maintainer: S.optional(S.String),
-          latestVersion: S.optional(__S(1280, __c40, 0)),
           description: S.optional(S.String),
-          architecture: S.optional(S.String),
           url: S.optional(S.String),
+          architecture: S.optional(S.String),
         }),
       ).annotate({ identifier: "Distribution" });
-    case 5:
-      return S.Array(__S(1412, __c44, 4));
-    case 6:
+    case 15:
+      return S.Array(__S(1422, __c44, 14));
+    case 16:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
-          digest: S.optional(__S(1411, __c44, 3)),
-          name: S.optional(S.String),
-          version: S.optional(__S(1280, __c40, 0)),
-          distribution: S.optional(__S(1413, __c44, 5)),
-          cpeUri: S.optional(S.String),
-          maintainer: S.optional(S.String),
-          url: S.optional(S.String),
-          license: S.optional(__S(1281, __c40, 1)),
-          packageType: S.optional(S.String),
+          license: S.optional(__S(1280, __c40, 0)),
+          digest: S.optional(__S(1421, __c44, 13)),
           architecture: S.optional(S.String),
+          packageType: S.optional(S.String),
+          url: S.optional(S.String),
+          distribution: S.optional(__S(1423, __c44, 15)),
+          cpeUri: S.optional(S.String),
+          version: S.optional(__S(1286, __c40, 6)),
+          description: S.optional(S.String),
+          maintainer: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Package" });
-    case 7:
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          signature: S.optional(S.String),
+          keyId: S.optional(S.String),
+          publicKey: S.optional(S.String),
+          keyType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BuildSignature" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          signature: S.optional(__S(1425, __c44, 17)),
+          builderVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Build" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          analysisKind: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Discovery" });
+    case 20:
       return S.suspend(() =>
         S.Struct({
           title: S.optional(S.String),
@@ -4147,265 +4260,152 @@ function __c44(j: number): any {
           checksum: S.optional(__S(1248, __c39, 0)),
         }),
       ).annotate({ identifier: "FileNote" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          analysisKind: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Discovery" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          resourceUri: S.optional(__S(1248, __c39, 0)),
-        }),
-      ).annotate({ identifier: "Deployable" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          version: S.optional(S.String),
-          format: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SBOMReferenceNote" });
-    case 11:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           resourceUrl: S.optional(S.String),
-          fingerprint: S.optional(__S(1282, __c40, 2)),
+          fingerprint: S.optional(__S(1287, __c40, 7)),
         }),
       ).annotate({ identifier: "Basis" });
-    case 12:
+    case 22:
       return S.suspend(() =>
         S.Struct({
-          keyId: S.optional(S.String),
-          keyScheme: S.optional(S.String),
-          publicKeyValue: S.optional(S.String),
-          keyType: S.optional(S.String),
+          type: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SigningKey" });
-    case 13:
-      return S.Array(__S(1420, __c44, 12));
-    case 14:
+      ).annotate({ identifier: "RelationshipNote" });
+    case 23:
       return S.suspend(() =>
         S.Struct({
           artifactRule: S.optional(__S(1248, __c39, 0)),
         }),
       ).annotate({ identifier: "ArtifactRule" });
-    case 15:
-      return S.Array(__S(1422, __c44, 14));
-    case 16:
+    case 24:
+      return S.Array(__S(1431, __c44, 23));
+    case 25:
       return S.suspend(() =>
         S.Struct({
-          stepName: S.optional(S.String),
-          signingKeys: S.optional(__S(1421, __c44, 13)),
+          publicKeyValue: S.optional(S.String),
+          keyId: S.optional(S.String),
+          keyScheme: S.optional(S.String),
+          keyType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SigningKey" });
+    case 26:
+      return S.Array(__S(1433, __c44, 25));
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          expectedMaterials: S.optional(__S(1432, __c44, 24)),
           threshold: S.optional(S.String),
           expectedCommand: S.optional(__S(1248, __c39, 0)),
-          expectedMaterials: S.optional(__S(1423, __c44, 15)),
-          expectedProducts: S.optional(__S(1423, __c44, 15)),
+          stepName: S.optional(S.String),
+          expectedProducts: S.optional(__S(1432, __c44, 24)),
+          signingKeys: S.optional(__S(1434, __c44, 26)),
         }),
       ).annotate({ identifier: "InToto" });
-    case 17:
+    case 28:
       return S.suspend(() =>
         S.Struct({
-          packageType: S.optional(S.String),
-          severityName: S.optional(S.String),
-          fixedLocation: S.optional(__S(1284, __c40, 4)),
-          minAffectedVersion: S.optional(__S(1280, __c40, 0)),
-          source: S.optional(S.String),
-          sourceUpdateTime: S.optional(S.String),
-          cpeUri: S.optional(S.String),
-          vendor: S.optional(S.String),
-          isObsolete: S.optional(S.Boolean),
+          exploitabilityScore: S.optional(S.Number),
+          baseScore: S.optional(S.Number),
+          impactScore: S.optional(S.Number),
+          integrityImpact: S.optional(S.String),
+          confidentialityImpact: S.optional(S.String),
+          attackComplexity: S.optional(S.String),
+          scope: S.optional(S.String),
+          availabilityImpact: S.optional(S.String),
+          attackVector: S.optional(S.String),
+          privilegesRequired: S.optional(S.String),
+          userInteraction: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CVSSv3" });
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          maxAffectedVersion: S.optional(__S(1286, __c40, 6)),
           description: S.optional(S.String),
+          cpeUri: S.optional(S.String),
+          sourceUpdateTime: S.optional(S.String),
+          severityName: S.optional(S.String),
+          packageType: S.optional(S.String),
           package: S.optional(S.String),
-          maxAffectedVersion: S.optional(__S(1280, __c40, 0)),
+          minAffectedVersion: S.optional(__S(1286, __c40, 6)),
+          fixedLocation: S.optional(__S(1289, __c40, 9)),
+          isObsolete: S.optional(S.Boolean),
+          source: S.optional(S.String),
+          vendor: S.optional(S.String),
         }),
       ).annotate({ identifier: "Detail" });
-    case 18:
-      return S.Array(__S(1425, __c44, 17));
-    case 19:
+    case 30:
+      return S.Array(__S(1437, __c44, 29));
+    case 31:
       return S.suspend(() =>
         S.Struct({
           url: S.optional(S.String),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "KnowledgeBase" });
-    case 20:
-      return S.Array(__S(1427, __c44, 19));
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          fixingKbs: S.optional(__S(1428, __c44, 20)),
-          cpeUri: S.optional(S.String),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "WindowsDetail" });
-    case 22:
-      return S.Array(__S(1429, __c44, 21));
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          privilegesRequired: S.optional(S.String),
-          baseScore: S.optional(S.Number),
-          attackVector: S.optional(S.String),
-          userInteraction: S.optional(S.String),
-          availabilityImpact: S.optional(S.String),
-          impactScore: S.optional(S.Number),
-          confidentialityImpact: S.optional(S.String),
-          scope: S.optional(S.String),
-          exploitabilityScore: S.optional(S.Number),
-          attackComplexity: S.optional(S.String),
-          integrityImpact: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CVSSv3" });
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          cwe: S.optional(__S(1248, __c39, 0)),
-          cvssV2: S.optional(__S(1283, __c40, 3)),
-          advisoryPublishTime: S.optional(S.String),
-          cvssV4: S.optional(__S(1283, __c40, 3)),
-          details: S.optional(__S(1426, __c44, 18)),
-          windowsDetails: S.optional(__S(1430, __c44, 22)),
-          cvssScore: S.optional(S.Number),
-          cvssVersion: S.optional(S.String),
-          severity: S.optional(S.String),
-          cvssV3: S.optional(__S(1431, __c44, 23)),
-          sourceUpdateTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Vulnerability" });
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
-          category: S.optional(S.String),
-          locator: S.optional(S.String),
-          type: S.optional(S.String),
-          comment: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ExternalRef" });
-    case 26:
-      return S.Array(__S(1433, __c44, 25));
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          externalRefs: S.optional(__S(1434, __c44, 26)),
-          filesLicenseInfo: S.optional(__S(1248, __c39, 0)),
-          analyzed: S.optional(S.Boolean),
-          downloadLocation: S.optional(S.String),
-          summaryDescription: S.optional(S.String),
-          version: S.optional(S.String),
-          licenseDeclared: S.optional(__S(1281, __c40, 1)),
-          supplier: S.optional(S.String),
-          checksum: S.optional(S.String),
-          detailedDescription: S.optional(S.String),
-          originator: S.optional(S.String),
-          copyright: S.optional(S.String),
-          packageType: S.optional(S.String),
-          title: S.optional(S.String),
-          homePage: S.optional(S.String),
-          verificationCode: S.optional(S.String),
-          attribution: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PackageInfoNote" });
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          humanReadableName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Hint" });
-    case 29:
-      return S.suspend(() =>
-        S.Struct({
-          hint: S.optional(__S(1436, __c44, 28)),
-        }),
-      ).annotate({ identifier: "Authority" });
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
-          publisherNamespace: S.optional(S.String),
-          issuingAuthority: S.optional(S.String),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Publisher" });
-    case 31:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          genericUri: S.optional(S.String),
-          id: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Product" });
   }
 }
 function __c45(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          justification: S.optional(__S(1285, __c40, 5)),
-          state: S.optional(S.String),
-          relatedUris: S.optional(__S(1287, __c40, 7)),
-          remediations: S.optional(__S(1289, __c40, 9)),
-          impacts: S.optional(__S(1248, __c39, 0)),
-          vulnerabilityId: S.optional(S.String),
-          cve: S.optional(S.String),
-          shortDescription: S.optional(S.String),
-          longDescription: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Assessment" });
+      return S.Array(__S(1439, __c44, 31));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          title: S.optional(S.String),
-          publisher: S.optional(__S(1438, __c44, 30)),
-          longDescription: S.optional(S.String),
-          shortDescription: S.optional(S.String),
-          product: S.optional(__S(1439, __c44, 31)),
-          languageCode: S.optional(S.String),
-          assessment: S.optional(__S(1440, __c45, 0)),
+          cpeUri: S.optional(S.String),
+          description: S.optional(S.String),
+          fixingKbs: S.optional(__S(1440, __c45, 0)),
+          name: S.optional(S.String),
         }),
-      ).annotate({ identifier: "VulnerabilityAssessmentNote" });
+      ).annotate({ identifier: "WindowsDetail" });
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          dataLicence: S.optional(S.String),
-          spdxVersion: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DocumentNote" });
+      return S.Array(__S(1441, __c45, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
+          cvssV3: S.optional(__S(1436, __c44, 28)),
+          severity: S.optional(S.String),
+          cvssVersion: S.optional(S.String),
+          cvssV4: S.optional(__S(1288, __c40, 8)),
+          cvssScore: S.optional(S.Number),
+          advisoryPublishTime: S.optional(S.String),
+          details: S.optional(__S(1438, __c44, 30)),
+          sourceUpdateTime: S.optional(S.String),
+          cvssV2: S.optional(__S(1288, __c40, 8)),
+          windowsDetails: S.optional(__S(1442, __c45, 2)),
+          cwe: S.optional(__S(1248, __c39, 0)),
         }),
-      ).annotate({ identifier: "RelationshipNote" });
+      ).annotate({ identifier: "Vulnerability" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          build: S.optional(__S(1409, __c44, 1)),
-          package: S.optional(__S(1414, __c44, 6)),
-          spdxFile: S.optional(__S(1415, __c44, 7)),
+          sbomReference: S.optional(__S(1408, __c44, 0)),
+          spdxPackage: S.optional(__S(1411, __c44, 3)),
           expirationTime: S.optional(S.String),
-          discovery: S.optional(__S(1416, __c44, 8)),
-          deployable: S.optional(__S(1417, __c44, 9)),
-          sbomReference: S.optional(__S(1418, __c44, 10)),
-          name: S.optional(S.String),
-          secret: S.optional(__S(1376, __c43, 0)),
-          aiSkillAnalysis: S.optional(__S(1376, __c43, 0)),
-          baseImage: S.optional(__S(1419, __c44, 11)),
-          intoto: S.optional(__S(1424, __c44, 16)),
-          vulnerability: S.optional(__S(1432, __c44, 24)),
-          longDescription: S.optional(S.String),
-          spdxPackage: S.optional(__S(1435, __c44, 27)),
-          attestationAuthority: S.optional(__S(1437, __c44, 29)),
-          vulnerabilityAssessment: S.optional(__S(1441, __c45, 1)),
-          kind: S.optional(S.String),
-          relatedNoteNames: S.optional(__S(1248, __c39, 0)),
-          sbom: S.optional(__S(1442, __c45, 2)),
-          relatedUrl: S.optional(__S(1287, __c40, 7)),
+          updateTime: S.optional(S.String),
+          vulnerabilityAssessment: S.optional(__S(1415, __c44, 7)),
           shortDescription: S.optional(S.String),
-          spdxRelationship: S.optional(__S(1443, __c45, 3)),
+          createTime: S.optional(S.String),
+          secret: S.optional(__S(1376, __c43, 0)),
+          attestationAuthority: S.optional(__S(1417, __c44, 9)),
+          aiSkillAnalysis: S.optional(__S(1376, __c43, 0)),
+          name: S.optional(S.String),
+          longDescription: S.optional(S.String),
+          sbom: S.optional(__S(1418, __c44, 10)),
+          relatedUrl: S.optional(__S(1285, __c40, 5)),
+          deployable: S.optional(__S(1419, __c44, 11)),
+          package: S.optional(__S(1424, __c44, 16)),
+          build: S.optional(__S(1426, __c44, 18)),
+          discovery: S.optional(__S(1427, __c44, 19)),
+          relatedNoteNames: S.optional(__S(1248, __c39, 0)),
+          spdxFile: S.optional(__S(1428, __c44, 20)),
+          baseImage: S.optional(__S(1429, __c44, 21)),
+          spdxRelationship: S.optional(__S(1430, __c44, 22)),
+          intoto: S.optional(__S(1435, __c44, 27)),
+          vulnerability: S.optional(__S(1443, __c45, 3)),
+          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "Note" });
   }
@@ -4417,8 +4417,8 @@ function __c46(j: number): any {
         S.Extend(
           __S(1444, __c45, 4),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -4679,49 +4679,39 @@ function __c61(j: number): any {
 function __c62(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sourceInfo: S.optional(S.String),
-          filename: S.optional(S.String),
-          version: S.optional(S.String),
-          id: S.optional(S.String),
-          summaryDescription: S.optional(S.String),
-          title: S.optional(S.String),
-          packageType: S.optional(S.String),
-          homePage: S.optional(S.String),
-          comment: S.optional(S.String),
-          licenseConcluded: S.optional(__S(1281, __c40, 1)),
-        }),
-      ).annotate({ identifier: "PackageInfoOccurrence" });
+      return S.Record(S.String, S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          directive: S.optional(S.String),
-          arguments: S.optional(S.String),
+          digest: S.optional(__S(1984, __c62, 0)),
+          referrerId: S.optional(S.String),
+          mimeType: S.optional(S.String),
+          location: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Layer" });
+      ).annotate({ identifier: "SbomReferenceIntotoPredicate" });
     case 2:
-      return S.Array(__S(1985, __c62, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
-          layerInfo: S.optional(__S(1986, __c62, 2)),
-          baseResourceUrl: S.optional(S.String),
-          distance: S.optional(S.Number),
-          fingerprint: S.optional(__S(1282, __c40, 2)),
+          digest: S.optional(__S(1984, __c62, 0)),
+          name: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Derived" });
+      ).annotate({ identifier: "Subject" });
+    case 3:
+      return S.Array(__S(1986, __c62, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          derivedImage: S.optional(__S(1987, __c62, 3)),
+          predicateType: S.optional(S.String),
+          predicate: S.optional(__S(1985, __c62, 1)),
+          subject: S.optional(__S(1987, __c62, 3)),
+          _type: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GrafeasV1beta1ImageDetails" });
+      ).annotate({ identifier: "SbomReferenceIntotoPayload" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          sig: S.optional(S.String),
           keyid: S.optional(S.String),
+          sig: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnvelopeSignature" });
     case 6:
@@ -4729,178 +4719,197 @@ function __c62(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          payload: S.optional(S.String),
-          signatures: S.optional(__S(1990, __c62, 6)),
+          payload: S.optional(__S(1988, __c62, 4)),
           payloadType: S.optional(S.String),
+          signatures: S.optional(__S(1990, __c62, 6)),
         }),
-      ).annotate({ identifier: "Envelope" });
+      ).annotate({ identifier: "SBOMReferenceOccurrence" });
     case 8:
-      return S.Record(S.String, S.String);
+      return S.suspend(() =>
+        S.Struct({
+          attributions: S.optional(__S(1248, __c39, 0)),
+          licenseConcluded: S.optional(__S(1280, __c40, 0)),
+          filesLicenseInfo: S.optional(__S(1248, __c39, 0)),
+          id: S.optional(S.String),
+          comment: S.optional(S.String),
+          notice: S.optional(S.String),
+          contributors: S.optional(__S(1248, __c39, 0)),
+          copyright: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FileOccurrence" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          customValues: S.optional(__S(1992, __c62, 8)),
+          version: S.optional(__S(1286, __c40, 6)),
+          cpeUri: S.optional(S.String),
+          path: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Location" });
+    case 10:
+      return S.Array(__S(1993, __c62, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(1994, __c62, 10)),
+          name: S.optional(S.String),
+          cpeUri: S.optional(S.String),
+          packageType: S.optional(S.String),
+          license: S.optional(__S(1280, __c40, 0)),
+          architecture: S.optional(S.String),
+          version: S.optional(__S(1286, __c40, 6)),
+        }),
+      ).annotate({ identifier: "Installation" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          installation: S.optional(__S(1995, __c62, 11)),
+        }),
+      ).annotate({ identifier: "GrafeasV1beta1PackageDetails" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          customValues: S.optional(__S(1984, __c62, 0)),
         }),
       ).annotate({ identifier: "ByProducts" });
-    case 10:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           sha256: S.optional(S.String),
         }),
       ).annotate({ identifier: "ArtifactHashes" });
-    case 11:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.optional(S.String),
-          hashes: S.optional(__S(1994, __c62, 10)),
+          hashes: S.optional(__S(1998, __c62, 14)),
         }),
       ).annotate({ identifier: "GrafeasV1beta1IntotoArtifact" });
-    case 12:
-      return S.Array(__S(1995, __c62, 11));
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          command: S.optional(__S(1248, __c39, 0)),
-          byproducts: S.optional(__S(1993, __c62, 9)),
-          materials: S.optional(__S(1996, __c62, 12)),
-          environment: S.optional(__S(1993, __c62, 9)),
-          products: S.optional(__S(1996, __c62, 12)),
-        }),
-      ).annotate({ identifier: "Link" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          keyid: S.optional(S.String),
-          sig: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GrafeasV1beta1IntotoSignature" });
-    case 15:
-      return S.Array(__S(1998, __c62, 14));
     case 16:
-      return S.suspend(() =>
-        S.Struct({
-          signed: S.optional(__S(1997, __c62, 13)),
-          signatures: S.optional(__S(1999, __c62, 15)),
-        }),
-      ).annotate({ identifier: "GrafeasV1beta1IntotoDetails" });
+      return S.Array(__S(1999, __c62, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
-          publicKeyId: S.optional(S.String),
-          signature: S.optional(S.String),
+          byproducts: S.optional(__S(1997, __c62, 13)),
+          environment: S.optional(__S(1997, __c62, 13)),
+          products: S.optional(__S(2000, __c62, 16)),
+          command: S.optional(__S(1248, __c39, 0)),
+          materials: S.optional(__S(2000, __c62, 16)),
         }),
-      ).annotate({ identifier: "Signature" });
+      ).annotate({ identifier: "Link" });
     case 18:
-      return S.Array(__S(2001, __c62, 17));
-    case 19:
       return S.suspend(() =>
         S.Struct({
-          signatures: S.optional(__S(2002, __c62, 18)),
-          contentType: S.optional(S.String),
-          serializedPayload: S.optional(S.String),
+          sig: S.optional(S.String),
+          keyid: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GenericSignedAttestation" });
+      ).annotate({ identifier: "GrafeasV1beta1IntotoSignature" });
+    case 19:
+      return S.Array(__S(2002, __c62, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
-          pgpKeyId: S.optional(S.String),
-          contentType: S.optional(S.String),
-          signature: S.optional(S.String),
+          signed: S.optional(__S(2001, __c62, 17)),
+          signatures: S.optional(__S(2003, __c62, 19)),
         }),
-      ).annotate({ identifier: "PgpSignedAttestation" });
+      ).annotate({ identifier: "GrafeasV1beta1IntotoDetails" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          genericSignedAttestation: S.optional(__S(2003, __c62, 19)),
-          pgpSignedAttestation: S.optional(__S(2004, __c62, 20)),
+          externalDocumentRefs: S.optional(__S(1248, __c39, 0)),
+          documentComment: S.optional(S.String),
+          id: S.optional(S.String),
+          title: S.optional(S.String),
+          licenseListVersion: S.optional(S.String),
+          namespace: S.optional(S.String),
+          creators: S.optional(__S(1248, __c39, 0)),
+          createTime: S.optional(S.String),
+          creatorComment: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Attestation" });
+      ).annotate({ identifier: "DocumentOccurrence" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          attestation: S.optional(__S(2005, __c62, 21)),
+          platform: S.optional(S.String),
+          undeployTime: S.optional(S.String),
+          userEmail: S.optional(S.String),
+          deployTime: S.optional(S.String),
+          resourceUri: S.optional(__S(1248, __c39, 0)),
+          address: S.optional(S.String),
+          config: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Details" });
+      ).annotate({ identifier: "Deployment" });
     case 23:
       return S.suspend(() =>
         S.Struct({
-          severityName: S.optional(S.String),
-          affectedLocation: S.optional(__S(1284, __c40, 4)),
-          fixedLocation: S.optional(__S(1284, __c40, 4)),
-          effectiveSeverity: S.optional(S.String),
-          packageType: S.optional(S.String),
+          deployment: S.optional(__S(2006, __c62, 22)),
         }),
-      ).annotate({ identifier: "PackageIssue" });
+      ).annotate({ identifier: "GrafeasV1beta1DeploymentDetails" });
     case 24:
-      return S.Array(__S(2007, __c62, 23));
+      return S.suspend(() =>
+        S.Struct({
+          verdict: S.optional(S.String),
+          scanStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MalwareScanResult" });
     case 25:
       return S.suspend(() =>
         S.Struct({
-          cve: S.optional(S.String),
-          justification: S.optional(__S(1285, __c40, 5)),
-          remediations: S.optional(__S(1289, __c40, 9)),
-          relatedUris: S.optional(__S(1287, __c40, 7)),
-          noteName: S.optional(S.String),
-          impacts: S.optional(__S(1248, __c39, 0)),
-          state: S.optional(S.String),
-          vulnerabilityId: S.optional(S.String),
+          cacheCount: S.optional(S.String),
+          toolUsePromptCount: S.optional(S.String),
+          promptCount: S.optional(S.String),
+          candidateCount: S.optional(S.String),
+          thinkingCount: S.optional(S.String),
         }),
-      ).annotate({ identifier: "VexAssessment" });
+      ).annotate({ identifier: "TokenUsage" });
     case 26:
       return S.suspend(() =>
         S.Struct({
-          cvssV4: S.optional(__S(1283, __c40, 3)),
-          packageIssue: S.optional(__S(2008, __c62, 24)),
-          severity: S.optional(S.String),
-          vexAssessment: S.optional(__S(2009, __c62, 25)),
-          shortDescription: S.optional(S.String),
-          effectiveSeverity: S.optional(S.String),
-          cvssScore: S.optional(S.Number),
-          extraDetails: S.optional(S.String),
-          cvssV3: S.optional(__S(1283, __c40, 3)),
-          longDescription: S.optional(S.String),
-          relatedUrls: S.optional(__S(1287, __c40, 7)),
-          cvssVersion: S.optional(S.String),
-          cvssV2: S.optional(__S(1283, __c40, 3)),
-          type: S.optional(S.String),
+          maxSeverity: S.optional(S.String),
+          tokenUsage: S.optional(__S(2009, __c62, 25)),
+          modelId: S.optional(S.String),
+          scanStatus: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GrafeasV1beta1VulnerabilityDetails" });
+      ).annotate({ identifier: "MaliciousContentLLMResult" });
     case 27:
       return S.suspend(() =>
         S.Struct({
-          notice: S.optional(S.String),
-          copyright: S.optional(S.String),
-          contributors: S.optional(__S(1248, __c39, 0)),
-          id: S.optional(S.String),
-          comment: S.optional(S.String),
-          licenseConcluded: S.optional(__S(1281, __c40, 1)),
-          filesLicenseInfo: S.optional(__S(1248, __c39, 0)),
-          attributions: S.optional(__S(1248, __c39, 0)),
+          scanStatus: S.optional(S.String),
+          verdict: S.optional(S.String),
         }),
-      ).annotate({ identifier: "FileOccurrence" });
+      ).annotate({ identifier: "WorkspacePolicyResult" });
     case 28:
       return S.suspend(() =>
         S.Struct({
-          digest: S.optional(__S(1992, __c62, 8)),
-          name: S.optional(S.String),
+          maxSeverity: S.optional(S.String),
+          scanStatus: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Subject" });
+      ).annotate({ identifier: "MaliciousContentStaticResult" });
     case 29:
-      return S.Array(__S(2012, __c62, 28));
+      return S.suspend(() =>
+        S.Struct({
+          malwareScan: S.optional(__S(2008, __c62, 24)),
+          maliciousContentLlmResult: S.optional(__S(2010, __c62, 26)),
+          workspacePolicy: S.optional(__S(2011, __c62, 27)),
+          maliciousContentStaticResult: S.optional(__S(2012, __c62, 28)),
+        }),
+      ).annotate({ identifier: "PerScannerVerdict" });
     case 30:
-      return S.Record(S.String, S.Unknown);
+      return S.suspend(() =>
+        S.Struct({
+          filePath: S.optional(S.String),
+          lineNumber: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FindingLocation" });
     case 31:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          content: S.optional(S.String),
-          downloadLocation: S.optional(S.String),
-          digest: S.optional(__S(1992, __c62, 8)),
-          annotations: S.optional(__S(2014, __c62, 30)),
-          uri: S.optional(S.String),
-          mediaType: S.optional(S.String),
+          scanner: S.optional(S.String),
+          severity: S.optional(S.String),
+          category: S.optional(S.String),
+          location: S.optional(__S(2014, __c62, 30)),
+          details: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ResourceDescriptor" });
+      ).annotate({ identifier: "Finding" });
   }
 }
 function __c63(j: number): any {
@@ -4910,222 +4919,220 @@ function __c63(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          internalParameters: S.optional(__S(2014, __c62, 30)),
-          resolvedDependencies: S.optional(__S(2016, __c63, 0)),
-          buildType: S.optional(S.String),
-          externalParameters: S.optional(__S(2014, __c62, 30)),
+          skillName: S.optional(S.String),
+          perScannerVerdict: S.optional(__S(2013, __c62, 29)),
+          findings: S.optional(__S(2016, __c63, 0)),
+          maxSeverity: S.optional(S.String),
         }),
-      ).annotate({ identifier: "BuildDefinition" });
+      ).annotate({ identifier: "AISkillAnalysisOccurrence" });
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          startedOn: S.optional(S.String),
-          finishedOn: S.optional(S.String),
-          invocationId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BuildMetadata" });
+      return S.Record(S.String, S.Unknown);
     case 3:
       return S.suspend(() =>
         S.Struct({
-          builderDependencies: S.optional(__S(2016, __c63, 0)),
-          version: S.optional(__S(1992, __c62, 8)),
-          id: S.optional(S.String),
+          annotations: S.optional(__S(2018, __c63, 2)),
+          name: S.optional(S.String),
+          mediaType: S.optional(S.String),
+          downloadLocation: S.optional(S.String),
+          uri: S.optional(S.String),
+          content: S.optional(S.String),
+          digest: S.optional(__S(1984, __c62, 0)),
         }),
-      ).annotate({ identifier: "ProvenanceBuilder" });
+      ).annotate({ identifier: "ResourceDescriptor" });
     case 4:
-      return S.suspend(() =>
-        S.Struct({
-          byproducts: S.optional(__S(2016, __c63, 0)),
-          metadata: S.optional(__S(2018, __c63, 2)),
-          builder: S.optional(__S(2019, __c63, 3)),
-        }),
-      ).annotate({ identifier: "RunDetails" });
+      return S.Array(__S(2019, __c63, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          buildDefinition: S.optional(__S(2017, __c63, 1)),
-          runDetails: S.optional(__S(2020, __c63, 4)),
+          finishedOn: S.optional(S.String),
+          startedOn: S.optional(S.String),
+          invocationId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SlsaProvenanceV1" });
+      ).annotate({ identifier: "BuildMetadata" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          _type: S.optional(S.String),
-          subject: S.optional(__S(2013, __c62, 29)),
-          predicateType: S.optional(S.String),
-          predicate: S.optional(__S(2021, __c63, 5)),
+          version: S.optional(__S(1984, __c62, 0)),
+          builderDependencies: S.optional(__S(2020, __c63, 4)),
+          id: S.optional(S.String),
         }),
-      ).annotate({ identifier: "InTotoSlsaProvenanceV1" });
+      ).annotate({ identifier: "ProvenanceBuilder" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          names: S.optional(__S(1248, __c39, 0)),
-          id: S.optional(S.String),
-          checksum: S.optional(S.String),
+          byproducts: S.optional(__S(2020, __c63, 4)),
+          metadata: S.optional(__S(2021, __c63, 5)),
+          builder: S.optional(__S(2022, __c63, 6)),
         }),
-      ).annotate({ identifier: "Artifact" });
+      ).annotate({ identifier: "RunDetails" });
     case 8:
-      return S.Array(__S(2023, __c63, 7));
+      return S.suspend(() =>
+        S.Struct({
+          buildType: S.optional(S.String),
+          resolvedDependencies: S.optional(__S(2020, __c63, 4)),
+          externalParameters: S.optional(__S(2018, __c63, 2)),
+          internalParameters: S.optional(__S(2018, __c63, 2)),
+        }),
+      ).annotate({ identifier: "BuildDefinition" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          kind: S.optional(S.String),
+          runDetails: S.optional(__S(2023, __c63, 7)),
+          buildDefinition: S.optional(__S(2024, __c63, 8)),
+        }),
+      ).annotate({ identifier: "SlsaProvenanceV1" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          predicateType: S.optional(S.String),
+          _type: S.optional(S.String),
+          subject: S.optional(__S(1987, __c62, 3)),
+          predicate: S.optional(__S(2025, __c63, 9)),
+        }),
+      ).annotate({ identifier: "InTotoSlsaProvenanceV1" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          revisionId: S.optional(S.String),
+          url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GitSourceContext" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
           name: S.optional(S.String),
+          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "AliasContext" });
-    case 10:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           projectId: S.optional(S.String),
           repoName: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProjectRepoId" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          projectRepoId: S.optional(__S(2026, __c63, 10)),
-          uid: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RepoId" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          revisionId: S.optional(S.String),
-          aliasContext: S.optional(__S(2025, __c63, 9)),
-          repoId: S.optional(__S(2027, __c63, 11)),
-        }),
-      ).annotate({ identifier: "CloudRepoSourceContext" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          url: S.optional(S.String),
-          revisionId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GitSourceContext" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          gerritProject: S.optional(S.String),
-          hostUri: S.optional(S.String),
-          revisionId: S.optional(S.String),
-          aliasContext: S.optional(__S(2025, __c63, 9)),
+          uid: S.optional(S.String),
+          projectRepoId: S.optional(__S(2029, __c63, 13)),
         }),
-      ).annotate({ identifier: "GerritSourceContext" });
+      ).annotate({ identifier: "RepoId" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          cloudRepo: S.optional(__S(2028, __c63, 12)),
-          git: S.optional(__S(2029, __c63, 13)),
-          gerrit: S.optional(__S(2030, __c63, 14)),
-          labels: S.optional(__S(1992, __c62, 8)),
+          aliasContext: S.optional(__S(2028, __c63, 12)),
+          repoId: S.optional(__S(2030, __c63, 14)),
+          revisionId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SourceContext" });
+      ).annotate({ identifier: "CloudRepoSourceContext" });
     case 16:
-      return S.Array(__S(2031, __c63, 15));
-    case 17:
-      return S.Array(__S(1952, __c61, 0));
-    case 18:
       return S.suspend(() =>
         S.Struct({
-          fileHash: S.optional(__S(2033, __c63, 17)),
+          aliasContext: S.optional(__S(2028, __c63, 12)),
+          hostUri: S.optional(S.String),
+          revisionId: S.optional(S.String),
+          gerritProject: S.optional(S.String),
         }),
-      ).annotate({ identifier: "FileHashes" });
+      ).annotate({ identifier: "GerritSourceContext" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          git: S.optional(__S(2027, __c63, 11)),
+          cloudRepo: S.optional(__S(2031, __c63, 15)),
+          gerrit: S.optional(__S(2032, __c63, 16)),
+          labels: S.optional(__S(1984, __c62, 0)),
+        }),
+      ).annotate({ identifier: "SourceContext" });
+    case 18:
+      return S.Array(__S(2033, __c63, 17));
     case 19:
-      return S.Record(S.String, __S(2034, __c63, 18));
+      return S.Array(__S(1952, __c61, 0));
     case 20:
       return S.suspend(() =>
         S.Struct({
-          artifactStorageSourceUri: S.optional(S.String),
-          context: S.optional(__S(2031, __c63, 15)),
-          additionalContexts: S.optional(__S(2032, __c63, 16)),
-          fileHashes: S.optional(__S(2035, __c63, 19)),
+          fileHash: S.optional(__S(2035, __c63, 19)),
         }),
-      ).annotate({ identifier: "Source" });
+      ).annotate({ identifier: "FileHashes" });
     case 21:
+      return S.Record(S.String, __S(2036, __c63, 20));
+    case 22:
       return S.suspend(() =>
         S.Struct({
-          waitFor: S.optional(__S(1248, __c39, 0)),
-          id: S.optional(S.String),
-          args: S.optional(__S(1248, __c39, 0)),
-          dir: S.optional(S.String),
-          name: S.optional(S.String),
-          env: S.optional(__S(1248, __c39, 0)),
+          artifactStorageSourceUri: S.optional(S.String),
+          context: S.optional(__S(2033, __c63, 17)),
+          additionalContexts: S.optional(__S(2034, __c63, 18)),
+          fileHashes: S.optional(__S(2037, __c63, 21)),
         }),
-      ).annotate({ identifier: "Command" });
-    case 22:
-      return S.Array(__S(2037, __c63, 21));
+      ).annotate({ identifier: "Source" });
     case 23:
       return S.suspend(() =>
         S.Struct({
-          endTime: S.optional(S.String),
-          logsUri: S.optional(S.String),
-          creator: S.optional(S.String),
-          builtArtifacts: S.optional(__S(2024, __c63, 8)),
+          args: S.optional(__S(1248, __c39, 0)),
+          waitFor: S.optional(__S(1248, __c39, 0)),
+          name: S.optional(S.String),
+          env: S.optional(__S(1248, __c39, 0)),
+          dir: S.optional(S.String),
           id: S.optional(S.String),
-          startTime: S.optional(S.String),
-          builderVersion: S.optional(S.String),
-          createTime: S.optional(S.String),
-          buildOptions: S.optional(__S(1992, __c62, 8)),
-          sourceProvenance: S.optional(__S(2036, __c63, 20)),
-          projectId: S.optional(S.String),
-          commands: S.optional(__S(2038, __c63, 22)),
-          triggerId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "BuildProvenance" });
+      ).annotate({ identifier: "Command" });
     case 24:
-      return S.suspend(() =>
-        S.Struct({
-          provenanceBytes: S.optional(S.String),
-          inTotoSlsaProvenanceV1: S.optional(__S(2022, __c63, 6)),
-          provenance: S.optional(__S(2039, __c63, 23)),
-        }),
-      ).annotate({ identifier: "GrafeasV1beta1BuildDetails" });
+      return S.Array(__S(2039, __c63, 23));
     case 25:
-      return S.Array(__S(2014, __c62, 30));
-    case 26:
       return S.suspend(() =>
         S.Struct({
-          message: S.optional(S.String),
-          code: S.optional(S.Number),
-          details: S.optional(__S(2041, __c63, 25)),
+          names: S.optional(__S(1248, __c39, 0)),
+          checksum: S.optional(S.String),
+          id: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Status" });
+      ).annotate({ identifier: "Artifact" });
+    case 26:
+      return S.Array(__S(2041, __c63, 25));
     case 27:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(S.String),
-          sbomState: S.optional(S.String),
+          createTime: S.optional(S.String),
+          projectId: S.optional(S.String),
+          startTime: S.optional(S.String),
+          logsUri: S.optional(S.String),
+          sourceProvenance: S.optional(__S(2038, __c63, 22)),
+          buildOptions: S.optional(__S(1984, __c62, 0)),
+          id: S.optional(S.String),
+          commands: S.optional(__S(2040, __c63, 24)),
+          builtArtifacts: S.optional(__S(2042, __c63, 26)),
+          triggerId: S.optional(S.String),
+          creator: S.optional(S.String),
+          builderVersion: S.optional(S.String),
+          endTime: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SBOMStatus" });
+      ).annotate({ identifier: "BuildProvenance" });
     case 28:
-      return S.Array(__S(2042, __c63, 26));
+      return S.suspend(() =>
+        S.Struct({
+          provenanceBytes: S.optional(S.String),
+          inTotoSlsaProvenanceV1: S.optional(__S(2026, __c63, 10)),
+          provenance: S.optional(__S(2043, __c63, 27)),
+        }),
+      ).annotate({ identifier: "GrafeasV1beta1BuildDetails" });
     case 29:
       return S.suspend(() =>
         S.Struct({
-          analysisType: S.optional(__S(1248, __c39, 0)),
+          type: S.optional(S.String),
+          comment: S.optional(S.String),
+          target: S.optional(S.String),
+          source: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AnalysisCompleted" });
+      ).annotate({ identifier: "RelationshipOccurrence" });
     case 30:
       return S.suspend(() =>
         S.Struct({
-          analysisStatus: S.optional(S.String),
-          analysisStatusError: S.optional(__S(2042, __c63, 26)),
-          lastVulnerabilityUpdateTime: S.optional(S.String),
-          sbomStatus: S.optional(__S(2043, __c63, 27)),
-          lastAnalysisTime: S.optional(S.String),
-          analysisError: S.optional(__S(2044, __c63, 28)),
-          lastScanTime: S.optional(S.String),
-          analysisCompleted: S.optional(__S(2045, __c63, 29)),
-          continuousAnalysis: S.optional(S.String),
-          files: S.optional(__S(2013, __c62, 29)),
+          message: S.optional(S.String),
+          status: S.optional(S.String),
+          updateTime: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Discovered" });
+      ).annotate({ identifier: "SecretStatus" });
     case 31:
-      return S.suspend(() =>
-        S.Struct({
-          discovered: S.optional(__S(2046, __c63, 30)),
-        }),
-      ).annotate({ identifier: "GrafeasV1beta1DiscoveryDetails" });
+      return S.Array(__S(2046, __c63, 30));
   }
 }
 function __c64(j: number): any {
@@ -5133,233 +5140,226 @@ function __c64(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          address: S.optional(S.String),
-          config: S.optional(S.String),
-          resourceUri: S.optional(__S(1248, __c39, 0)),
-          platform: S.optional(S.String),
-          undeployTime: S.optional(S.String),
-          userEmail: S.optional(S.String),
-          deployTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Deployment" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          deployment: S.optional(__S(2048, __c64, 0)),
-        }),
-      ).annotate({ identifier: "GrafeasV1beta1DeploymentDetails" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          target: S.optional(S.String),
-          comment: S.optional(S.String),
-          source: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RelationshipOccurrence" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          licenseListVersion: S.optional(S.String),
-          id: S.optional(S.String),
-          title: S.optional(S.String),
-          documentComment: S.optional(S.String),
-          creatorComment: S.optional(S.String),
-          createTime: S.optional(S.String),
-          creators: S.optional(__S(1248, __c39, 0)),
-          namespace: S.optional(S.String),
-          externalDocumentRefs: S.optional(__S(1248, __c39, 0)),
-        }),
-      ).annotate({ identifier: "DocumentOccurrence" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          scanStatus: S.optional(S.String),
-          verdict: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "WorkspacePolicyResult" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          verdict: S.optional(S.String),
-          scanStatus: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MalwareScanResult" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          maxSeverity: S.optional(S.String),
-          scanStatus: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MaliciousContentStaticResult" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          promptCount: S.optional(S.String),
-          candidateCount: S.optional(S.String),
-          cacheCount: S.optional(S.String),
-          thinkingCount: S.optional(S.String),
-          toolUsePromptCount: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TokenUsage" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          scanStatus: S.optional(S.String),
-          modelId: S.optional(S.String),
-          maxSeverity: S.optional(S.String),
-          tokenUsage: S.optional(__S(2055, __c64, 7)),
-        }),
-      ).annotate({ identifier: "MaliciousContentLLMResult" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          workspacePolicy: S.optional(__S(2052, __c64, 4)),
-          malwareScan: S.optional(__S(2053, __c64, 5)),
-          maliciousContentStaticResult: S.optional(__S(2054, __c64, 6)),
-          maliciousContentLlmResult: S.optional(__S(2056, __c64, 8)),
-        }),
-      ).annotate({ identifier: "PerScannerVerdict" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          filePath: S.optional(S.String),
-          lineNumber: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "FindingLocation" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          category: S.optional(S.String),
-          scanner: S.optional(S.String),
-          location: S.optional(__S(2058, __c64, 10)),
-          severity: S.optional(S.String),
-          details: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Finding" });
-    case 12:
-      return S.Array(__S(2059, __c64, 11));
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          maxSeverity: S.optional(S.String),
-          perScannerVerdict: S.optional(__S(2057, __c64, 9)),
-          skillName: S.optional(S.String),
-          findings: S.optional(__S(2060, __c64, 12)),
-        }),
-      ).annotate({ identifier: "AISkillAnalysisOccurrence" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          digest: S.optional(__S(1992, __c62, 8)),
-          location: S.optional(S.String),
-          referrerId: S.optional(S.String),
-          mimeType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SbomReferenceIntotoPredicate" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          predicate: S.optional(__S(2062, __c64, 14)),
-          _type: S.optional(S.String),
-          subject: S.optional(__S(2013, __c62, 29)),
-          predicateType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SbomReferenceIntotoPayload" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          payload: S.optional(__S(2063, __c64, 15)),
-          payloadType: S.optional(S.String),
-          signatures: S.optional(__S(1990, __c62, 6)),
-        }),
-      ).annotate({ identifier: "SBOMReferenceOccurrence" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          path: S.optional(S.String),
-          version: S.optional(__S(1280, __c40, 0)),
-          cpeUri: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Location" });
-    case 18:
-      return S.Array(__S(2065, __c64, 17));
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          architecture: S.optional(S.String),
-          cpeUri: S.optional(S.String),
-          packageType: S.optional(S.String),
-          license: S.optional(__S(1281, __c40, 1)),
-          version: S.optional(__S(1280, __c40, 0)),
-          location: S.optional(__S(2066, __c64, 18)),
-        }),
-      ).annotate({ identifier: "Installation" });
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          installation: S.optional(__S(2067, __c64, 19)),
-        }),
-      ).annotate({ identifier: "GrafeasV1beta1PackageDetails" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
           filePath: S.optional(S.String),
         }),
       ).annotate({ identifier: "FileLocation" });
-    case 22:
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          fileLocation: S.optional(__S(2069, __c64, 21)),
+          fileLocation: S.optional(__S(2048, __c64, 0)),
         }),
       ).annotate({ identifier: "SecretLocation" });
-    case 23:
-      return S.Array(__S(2070, __c64, 22));
-    case 24:
+    case 2:
+      return S.Array(__S(2049, __c64, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          message: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SecretStatus" });
-    case 25:
-      return S.Array(__S(2072, __c64, 24));
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          locations: S.optional(__S(2071, __c64, 23)),
-          statuses: S.optional(__S(2073, __c64, 25)),
+          statuses: S.optional(__S(2047, __c63, 31)),
+          locations: S.optional(__S(2050, __c64, 2)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "SecretOccurrence" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          summaryDescription: S.optional(S.String),
+          version: S.optional(S.String),
+          sourceInfo: S.optional(S.String),
+          licenseConcluded: S.optional(__S(1280, __c40, 0)),
+          comment: S.optional(S.String),
+          id: S.optional(S.String),
+          packageType: S.optional(S.String),
+          title: S.optional(S.String),
+          filename: S.optional(S.String),
+          homePage: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PackageInfoOccurrence" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          publicKeyId: S.optional(S.String),
+          signature: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Signature" });
+    case 6:
+      return S.Array(__S(2053, __c64, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          contentType: S.optional(S.String),
+          serializedPayload: S.optional(S.String),
+          signatures: S.optional(__S(2054, __c64, 6)),
+        }),
+      ).annotate({ identifier: "GenericSignedAttestation" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          signature: S.optional(S.String),
+          contentType: S.optional(S.String),
+          pgpKeyId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PgpSignedAttestation" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          genericSignedAttestation: S.optional(__S(2055, __c64, 7)),
+          pgpSignedAttestation: S.optional(__S(2056, __c64, 8)),
+        }),
+      ).annotate({ identifier: "Attestation" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          attestation: S.optional(__S(2057, __c64, 9)),
+        }),
+      ).annotate({ identifier: "Details" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          signatures: S.optional(__S(1990, __c62, 6)),
+          payloadType: S.optional(S.String),
+          payload: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Envelope" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          directive: S.optional(S.String),
+          arguments: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Layer" });
+    case 13:
+      return S.Array(__S(2060, __c64, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          fingerprint: S.optional(__S(1287, __c40, 7)),
+          layerInfo: S.optional(__S(2061, __c64, 13)),
+          distance: S.optional(S.Number),
+          baseResourceUrl: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Derived" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          derivedImage: S.optional(__S(2062, __c64, 14)),
+        }),
+      ).annotate({ identifier: "GrafeasV1beta1ImageDetails" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          analysisType: S.optional(__S(1248, __c39, 0)),
+        }),
+      ).annotate({ identifier: "AnalysisCompleted" });
+    case 17:
+      return S.Array(__S(2018, __c63, 2));
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          details: S.optional(__S(2065, __c64, 17)),
+          code: S.optional(S.Number),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Status" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.optional(S.String),
+          sbomState: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SBOMStatus" });
+    case 20:
+      return S.Array(__S(2066, __c64, 18));
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          analysisCompleted: S.optional(__S(2064, __c64, 16)),
+          analysisStatus: S.optional(S.String),
+          continuousAnalysis: S.optional(S.String),
+          files: S.optional(__S(1987, __c62, 3)),
+          analysisStatusError: S.optional(__S(2066, __c64, 18)),
+          sbomStatus: S.optional(__S(2067, __c64, 19)),
+          lastScanTime: S.optional(S.String),
+          analysisError: S.optional(__S(2068, __c64, 20)),
+          lastAnalysisTime: S.optional(S.String),
+          lastVulnerabilityUpdateTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Discovered" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          discovered: S.optional(__S(2069, __c64, 21)),
+        }),
+      ).annotate({ identifier: "GrafeasV1beta1DiscoveryDetails" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          affectedLocation: S.optional(__S(1289, __c40, 9)),
+          packageType: S.optional(S.String),
+          severityName: S.optional(S.String),
+          fixedLocation: S.optional(__S(1289, __c40, 9)),
+          effectiveSeverity: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PackageIssue" });
+    case 24:
+      return S.Array(__S(2071, __c64, 23));
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          cve: S.optional(S.String),
+          state: S.optional(S.String),
+          impacts: S.optional(__S(1248, __c39, 0)),
+          justification: S.optional(__S(1281, __c40, 1)),
+          remediations: S.optional(__S(1284, __c40, 4)),
+          noteName: S.optional(S.String),
+          vulnerabilityId: S.optional(S.String),
+          relatedUris: S.optional(__S(1285, __c40, 5)),
+        }),
+      ).annotate({ identifier: "VexAssessment" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          packageIssue: S.optional(__S(2072, __c64, 24)),
+          severity: S.optional(S.String),
+          cvssScore: S.optional(S.Number),
+          cvssVersion: S.optional(S.String),
+          shortDescription: S.optional(S.String),
+          type: S.optional(S.String),
+          cvssV2: S.optional(__S(1288, __c40, 8)),
+          extraDetails: S.optional(S.String),
+          vexAssessment: S.optional(__S(2073, __c64, 25)),
+          cvssV4: S.optional(__S(1288, __c40, 8)),
+          relatedUrls: S.optional(__S(1285, __c40, 5)),
+          cvssV3: S.optional(__S(1288, __c40, 8)),
+          longDescription: S.optional(S.String),
+          effectiveSeverity: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GrafeasV1beta1VulnerabilityDetails" });
     case 27:
       return S.suspend(() =>
         S.Struct({
-          spdxPackage: S.optional(__S(1984, __c62, 0)),
-          derivedImage: S.optional(__S(1988, __c62, 4)),
-          envelope: S.optional(__S(1991, __c62, 7)),
-          name: S.optional(S.String),
-          resource: S.optional(__S(1953, __c61, 1)),
-          intoto: S.optional(__S(2000, __c62, 16)),
-          attestation: S.optional(__S(2006, __c62, 22)),
-          vulnerability: S.optional(__S(2010, __c62, 26)),
-          createTime: S.optional(S.String),
-          noteName: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          spdxFile: S.optional(__S(2011, __c62, 27)),
-          build: S.optional(__S(2040, __c63, 24)),
-          discovered: S.optional(__S(2047, __c63, 31)),
-          deployment: S.optional(__S(2049, __c64, 1)),
-          spdxRelationship: S.optional(__S(2050, __c64, 2)),
-          sbom: S.optional(__S(2051, __c64, 3)),
-          aiSkillAnalysis: S.optional(__S(2061, __c64, 13)),
-          kind: S.optional(S.String),
-          sbomReference: S.optional(__S(2064, __c64, 16)),
-          installation: S.optional(__S(2068, __c64, 20)),
-          secret: S.optional(__S(2074, __c64, 26)),
+          sbomReference: S.optional(__S(1991, __c62, 7)),
+          spdxFile: S.optional(__S(1992, __c62, 8)),
+          installation: S.optional(__S(1996, __c62, 12)),
+          intoto: S.optional(__S(2004, __c62, 20)),
           remediation: S.optional(S.String),
+          sbom: S.optional(__S(2005, __c62, 21)),
+          updateTime: S.optional(S.String),
+          deployment: S.optional(__S(2007, __c62, 23)),
+          aiSkillAnalysis: S.optional(__S(2017, __c63, 1)),
+          build: S.optional(__S(2044, __c63, 28)),
+          spdxRelationship: S.optional(__S(2045, __c63, 29)),
+          secret: S.optional(__S(2051, __c64, 3)),
+          spdxPackage: S.optional(__S(2052, __c64, 4)),
+          attestation: S.optional(__S(2058, __c64, 10)),
+          envelope: S.optional(__S(2059, __c64, 11)),
+          derivedImage: S.optional(__S(2063, __c64, 15)),
+          discovered: S.optional(__S(2070, __c64, 22)),
+          kind: S.optional(S.String),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
+          noteName: S.optional(S.String),
+          resource: S.optional(__S(1953, __c61, 1)),
+          vulnerability: S.optional(__S(2074, __c64, 26)),
         }),
       ).annotate({ identifier: "Occurrence" });
   }

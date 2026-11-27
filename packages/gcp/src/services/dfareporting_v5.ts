@@ -103,23 +103,51 @@ export type ConversionAdUserDataConsentEnum = "GRANTED" | "DENIED";
 export interface CartDataItem {
   /** Number of items sold. This is a required field. */
   quantity?: number | undefined;
-  /** The shopping id of the item. Must be equal to the Merchant Center product identifier. This is a required field. */
-  itemId?: string | undefined;
   /** Unit price excluding tax, shipping, and any transaction level discounts. Interpreted in CM360 Floodlight config parent advertiser's currency code. This is a required field. */
   unitPrice?: number | undefined;
+  /** The shopping id of the item. Must be equal to the Merchant Center product identifier. This is a required field. */
+  itemId?: string | undefined;
 }
 export type CartDataItemList = Array<CartDataItem>;
 /** Contains additional information about cart data. This field may only be used when calling batchinsert; it is not supported by batchupdate. Cart data reporting is only supported in SA360. [Learn more](https://support.google.com/sa360/topic/13425788) */
 export interface CartData {
   /** Data of the items purchased. */
   items?: CartDataItemList | undefined;
-  /** The feed labels associated with the feed where your items are uploaded. For more information, please refer to  https://support.google.com/merchants/answer/12453549. Providing the feed label reduces ambiguity in identifying the right offer details. */
-  merchantFeedLabel?: string | undefined;
   /** The language associated with the feed where your items are uploaded. Use ISO 639-1 language codes. Providing the feed language reduces ambiguity in identifying the right offer details. */
   merchantFeedLanguage?: string | undefined;
   /** The Merchant Center ID where the items are uploaded. Providing Merchant Center ID reduces ambiguity in identifying the right offer details. */
   merchantId?: string | undefined;
+  /** The feed labels associated with the feed where your items are uploaded. For more information, please refer to  https://support.google.com/merchants/answer/12453549. Providing the feed label reduces ambiguity in identifying the right offer details. */
+  merchantFeedLabel?: string | undefined;
 }
+/** Identify a user by name and address. */
+export interface OfflineUserAddressInfo {
+  /** Last name of the user, which is hashed as SHA-256 after normalized (lower case only and no punctuation). */
+  hashedLastName?: string | undefined;
+  /** The street address of the user hashed using SHA-256 hash function after normalization (lower case only). */
+  hashedStreetAddress?: string | undefined;
+  /** State code of the address. */
+  state?: string | undefined;
+  /** City of the address. */
+  city?: string | undefined;
+  /** 2-letter country code in ISO-3166-1 alpha-2 of the user's address. */
+  countryCode?: string | undefined;
+  /** First name of the user, which is hashed as SHA-256 after normalized (Lowercase all characters; Remove any extra spaces before, after, and in between). */
+  hashedFirstName?: string | undefined;
+  /** Postal code of the user's address. */
+  postalCode?: string | undefined;
+}
+/** User identifying information. Exactly one type of identifier must be specified. */
+export interface UserIdentifier {
+  /** Hashed phone number using SHA-256 hash function after normalization (E164 standard). */
+  hashedPhoneNumber?: string | undefined;
+  /** Hashed email address using SHA-256 hash function after normalization. */
+  hashedEmail?: string | undefined;
+  /** Address information. */
+  addressInfo?: OfflineUserAddressInfo | undefined;
+}
+export type UserIdentifierList = Array<UserIdentifier>;
+export type StringList = Array<string>;
 export type CustomFloodlightVariableTypeEnum =
   | "U1"
   | "U2"
@@ -223,92 +251,68 @@ export type CustomFloodlightVariableTypeEnum =
   | "U100";
 /** A custom floodlight variable. Can be used in both batchinsert and batchupdate. Adding this in batchupdate will update or append the variable to the existing list. */
 export interface CustomFloodlightVariable {
-  /** The value of the custom floodlight variable. The length of string must not exceed 100 characters. */
-  value?: string | undefined;
   /** The type of custom floodlight variable to supply a value for. These map to the "u[1-100]=" in the tags. */
   type?: CustomFloodlightVariableTypeEnum | (string & {}) | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#customFloodlightVariable". */
   kind?: string | undefined;
+  /** The value of the custom floodlight variable. The length of string must not exceed 100 characters. */
+  value?: string | undefined;
 }
 export type CustomFloodlightVariableList = Array<CustomFloodlightVariable>;
-/** Identify a user by name and address. */
-export interface OfflineUserAddressInfo {
-  /** State code of the address. */
-  state?: string | undefined;
-  /** First name of the user, which is hashed as SHA-256 after normalized (Lowercase all characters; Remove any extra spaces before, after, and in between). */
-  hashedFirstName?: string | undefined;
-  /** Last name of the user, which is hashed as SHA-256 after normalized (lower case only and no punctuation). */
-  hashedLastName?: string | undefined;
-  /** Postal code of the user's address. */
-  postalCode?: string | undefined;
-  /** 2-letter country code in ISO-3166-1 alpha-2 of the user's address. */
-  countryCode?: string | undefined;
-  /** The street address of the user hashed using SHA-256 hash function after normalization (lower case only). */
-  hashedStreetAddress?: string | undefined;
-  /** City of the address. */
-  city?: string | undefined;
-}
-/** User identifying information. Exactly one type of identifier must be specified. */
-export interface UserIdentifier {
-  /** Hashed email address using SHA-256 hash function after normalization. */
-  hashedEmail?: string | undefined;
-  /** Address information. */
-  addressInfo?: OfflineUserAddressInfo | undefined;
-  /** Hashed phone number using SHA-256 hash function after normalization (E164 standard). */
-  hashedPhoneNumber?: string | undefined;
-}
-export type UserIdentifierList = Array<UserIdentifier>;
-export type StringList = Array<string>;
 /** A Conversion represents when a user successfully performs a desired action after seeing an ad. */
 export interface Conversion {
-  /** The Google click ID. This field is mutually exclusive with encryptedUserId, encryptedUserIdCandidates[], matchId, mobileDeviceId, dclid, and impressionId. This or encryptedUserId or encryptedUserIdCandidates[] or matchId or mobileDeviceId or dclid or impressionId is a required field. */
-  gclid?: string | undefined;
   /** This represents consent for ad user data. */
   adUserDataConsent?: ConversionAdUserDataConsentEnum | (string & {}) | undefined;
-  /** The quantity of the conversion. This is a required field. */
-  quantity?: string | undefined;
-  /** The cart data associated with this conversion. */
-  cartData?: CartData | undefined;
-  /** Custom floodlight variables. */
-  customVariables?: CustomFloodlightVariableList | undefined;
-  /** The match ID field. A match ID is your own first-party identifier that has been synced with Google using the match ID feature in Floodlight. This field is mutually exclusive with encryptedUserId, encryptedUserIdCandidates[],mobileDeviceId, gclid, dclid, and impressionId. This or encryptedUserId orencryptedUserIdCandidates[] or mobileDeviceId or gclid or dclid or impressionIdis a required field. */
-  matchId?: string | undefined;
-  /** The display click ID. This field is mutually exclusive with encryptedUserId, encryptedUserIdCandidates[], matchId, mobileDeviceId, gclid, and impressionId. This or encryptedUserId or encryptedUserIdCandidates[] or matchId or mobileDeviceId or gclid or impressionId is a required field. */
-  dclid?: string | undefined;
-  /** The ordinal of the conversion. Use this field to control how conversions of the same user and day are de-duplicated. This is a required field. */
-  ordinal?: string | undefined;
-  /** The timestamp of conversion, in Unix epoch micros. This is a required field. */
-  timestampMicros?: string | undefined;
-  /** Floodlight Activity ID of this conversion. This is a required field. */
-  floodlightActivityId?: string | undefined;
-  /** The mobile device ID. This field is mutually exclusive with encryptedUserId, encryptedUserIdCandidates[], matchId, gclid, dclid, and impressionId. This or encryptedUserId or encryptedUserIdCandidates[] or matchId or gclid or dclid or impressionId is a required field. */
-  mobileDeviceId?: string | undefined;
-  /** Whether this particular request may come from a user under the age of 13, under COPPA compliance. */
-  childDirectedTreatment?: boolean | undefined;
-  /** The user identifiers to enhance the conversion. The maximum number of user identifiers for each conversion is 5. */
-  userIdentifiers?: UserIdentifierList | undefined;
-  /** The alphanumeric encrypted user ID. When set, encryptionInfo should also be specified. This field is mutually exclusive with encryptedUserIdCandidates[], matchId, mobileDeviceId, gclid, dclid, and impressionId. This or encryptedUserIdCandidates[] or matchId or mobileDeviceId or gclid or dclid or impressionId is a required field. */
-  encryptedUserId?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#conversion". */
-  kind?: string | undefined;
-  /** Session attributes for the conversion, encoded as based64 bytes. This field may only be used when calling batchinsert; it is not supported by batchupdate. */
-  sessionAttributesEncoded?: string | undefined;
   /** The value of the conversion. Interpreted in CM360 Floodlight config parent advertiser's currency code. This is a required field. */
   value?: number | undefined;
+  /** The display click ID. This field is mutually exclusive with encryptedUserId, encryptedUserIdCandidates[], matchId, mobileDeviceId, gclid, and impressionId. This or encryptedUserId or encryptedUserIdCandidates[] or matchId or mobileDeviceId or gclid or impressionId is a required field. */
+  dclid?: string | undefined;
+  /** Session attributes for the conversion, encoded as based64 bytes. This field may only be used when calling batchinsert; it is not supported by batchupdate. */
+  sessionAttributesEncoded?: string | undefined;
+  /** Whether this particular request may come from a user under the age of 13, under COPPA compliance. */
+  childDirectedTreatment?: boolean | undefined;
+  /** The quantity of the conversion. This is a required field. */
+  quantity?: string | undefined;
   /** Floodlight Configuration ID of this conversion. This is a required field. */
   floodlightConfigurationId?: string | undefined;
-  /** A list of the alphanumeric encrypted user IDs. Any user ID with exposure prior to the conversion timestamp will be used in the inserted conversion. If no such user ID is found then the conversion will be rejected with INVALID_ARGUMENT error. When set, encryptionInfo should also be specified. This field may only be used when calling batchinsert; it is not supported by batchupdate. This field is mutually exclusive with encryptedUserId, matchId, mobileDeviceId, gclid dclid, and impressionId. This or encryptedUserId or matchId or mobileDeviceId or gclid or dclid or impressionId is a required field. */
-  encryptedUserIdCandidates?: StringList | undefined;
+  /** The timestamp of conversion, in Unix epoch micros. This is a required field. */
+  timestampMicros?: string | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#conversion". */
+  kind?: string | undefined;
+  /** The Google click ID. This field is mutually exclusive with encryptedUserId, encryptedUserIdCandidates[], matchId, mobileDeviceId, dclid, and impressionId. This or encryptedUserId or encryptedUserIdCandidates[] or matchId or mobileDeviceId or dclid or impressionId is a required field. */
+  gclid?: string | undefined;
+  /** The mobile device ID. This field is mutually exclusive with encryptedUserId, encryptedUserIdCandidates[], matchId, gclid, dclid, and impressionId. This or encryptedUserId or encryptedUserIdCandidates[] or matchId or gclid or dclid or impressionId is a required field. */
+  mobileDeviceId?: string | undefined;
   /** The impression ID. This field is mutually exclusive with encryptedUserId, encryptedUserIdCandidates[], matchId, mobileDeviceId, and gclid. One of these identifiers must be set. */
   impressionId?: string | undefined;
-  /** Whether Limit Ad Tracking is enabled. When set to true, the conversion will be used for reporting but not targeting. This will prevent remarketing. */
-  limitAdTracking?: boolean | undefined;
-  /** Whether this particular request may come from a user under the age of 16 (may differ by country), under compliance with the European Union's General Data Protection Regulation (GDPR). */
-  treatmentForUnderage?: boolean | undefined;
+  /** Floodlight Activity ID of this conversion. This is a required field. */
+  floodlightActivityId?: string | undefined;
+  /** The alphanumeric encrypted user ID. When set, encryptionInfo should also be specified. This field is mutually exclusive with encryptedUserIdCandidates[], matchId, mobileDeviceId, gclid, dclid, and impressionId. This or encryptedUserIdCandidates[] or matchId or mobileDeviceId or gclid or dclid or impressionId is a required field. */
+  encryptedUserId?: string | undefined;
   /** Whether the conversion was for a non personalized ad. */
   nonPersonalizedAd?: boolean | undefined;
+  /** The cart data associated with this conversion. */
+  cartData?: CartData | undefined;
+  /** The user identifiers to enhance the conversion. The maximum number of user identifiers for each conversion is 5. */
+  userIdentifiers?: UserIdentifierList | undefined;
+  /** Whether this particular request may come from a user under the age of 16 (may differ by country), under compliance with the European Union's General Data Protection Regulation (GDPR). */
+  treatmentForUnderage?: boolean | undefined;
+  /** The match ID field. A match ID is your own first-party identifier that has been synced with Google using the match ID feature in Floodlight. This field is mutually exclusive with encryptedUserId, encryptedUserIdCandidates[],mobileDeviceId, gclid, dclid, and impressionId. This or encryptedUserId orencryptedUserIdCandidates[] or mobileDeviceId or gclid or dclid or impressionIdis a required field. */
+  matchId?: string | undefined;
+  /** Whether Limit Ad Tracking is enabled. When set to true, the conversion will be used for reporting but not targeting. This will prevent remarketing. */
+  limitAdTracking?: boolean | undefined;
+  /** A list of the alphanumeric encrypted user IDs. Any user ID with exposure prior to the conversion timestamp will be used in the inserted conversion. If no such user ID is found then the conversion will be rejected with INVALID_ARGUMENT error. When set, encryptionInfo should also be specified. This field may only be used when calling batchinsert; it is not supported by batchupdate. This field is mutually exclusive with encryptedUserId, matchId, mobileDeviceId, gclid dclid, and impressionId. This or encryptedUserId or matchId or mobileDeviceId or gclid or dclid or impressionId is a required field. */
+  encryptedUserIdCandidates?: StringList | undefined;
+  /** The ordinal of the conversion. Use this field to control how conversions of the same user and day are de-duplicated. This is a required field. */
+  ordinal?: string | undefined;
+  /** Custom floodlight variables. */
+  customVariables?: CustomFloodlightVariableList | undefined;
 }
 export type ConversionList = Array<Conversion>;
+export type EncryptionInfoEncryptionSourceEnum =
+  | "ENCRYPTION_SCOPE_UNKNOWN"
+  | "AD_SERVING"
+  | "DATA_TRANSFER";
 export type EncryptionInfoEncryptionEntityTypeEnum =
   | "ENCRYPTION_ENTITY_TYPE_UNKNOWN"
   | "DCM_ACCOUNT"
@@ -317,18 +321,14 @@ export type EncryptionInfoEncryptionEntityTypeEnum =
   | "DBM_ADVERTISER"
   | "ADWORDS_CUSTOMER"
   | "DFP_NETWORK_CODE";
-export type EncryptionInfoEncryptionSourceEnum =
-  | "ENCRYPTION_SCOPE_UNKNOWN"
-  | "AD_SERVING"
-  | "DATA_TRANSFER";
 /** A description of how user IDs are encrypted. */
 export interface EncryptionInfo {
-  /** The encryption entity type. This should match the encryption configuration for ad serving or Data Transfer. */
-  encryptionEntityType?: EncryptionInfoEncryptionEntityTypeEnum | (string & {}) | undefined;
-  /** Describes whether the encrypted cookie was received from ad serving (the %m macro) or from Data Transfer. */
-  encryptionSource?: EncryptionInfoEncryptionSourceEnum | (string & {}) | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#encryptionInfo". */
   kind?: string | undefined;
+  /** Describes whether the encrypted cookie was received from ad serving (the %m macro) or from Data Transfer. */
+  encryptionSource?: EncryptionInfoEncryptionSourceEnum | (string & {}) | undefined;
+  /** The encryption entity type. This should match the encryption configuration for ad serving or Data Transfer. */
+  encryptionEntityType?: EncryptionInfoEncryptionEntityTypeEnum | (string & {}) | undefined;
   /** The encryption entity ID. This should match the encryption configuration for ad serving or Data Transfer. */
   encryptionEntityId?: string | undefined;
 }
@@ -352,39 +352,39 @@ export type ConversionErrorCodeEnum =
   | "NOT_FOUND";
 /** The error code and description for a conversion that failed to insert or update. */
 export interface ConversionError {
-  /** A description of the error. */
-  message?: string | undefined;
   /** The error code. */
   code?: ConversionErrorCodeEnum | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#conversionError". */
   kind?: string | undefined;
+  /** A description of the error. */
+  message?: string | undefined;
 }
 export type ConversionErrorList = Array<ConversionError>;
 /** The original conversion that was inserted or updated and whether there were any errors. */
 export interface ConversionStatus {
-  /** The original conversion that was inserted or updated. */
-  conversion?: Conversion | undefined;
-  /** A list of errors related to this conversion. */
-  errors?: ConversionErrorList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#conversionStatus". */
   kind?: string | undefined;
+  /** A list of errors related to this conversion. */
+  errors?: ConversionErrorList | undefined;
+  /** The original conversion that was inserted or updated. */
+  conversion?: Conversion | undefined;
 }
 export type ConversionStatusList = Array<ConversionStatus>;
 /** Insert Conversions Response. */
 export interface ConversionsBatchInsertResponse {
-  /** Indicates that some or all conversions failed to insert. */
-  hasFailures?: boolean | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#conversionsBatchInsertResponse". */
-  kind?: string | undefined;
   /** The insert status of each conversion. Statuses are returned in the same order that conversions are inserted. */
   status?: ConversionStatusList | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#conversionsBatchInsertResponse". */
+  kind?: string | undefined;
+  /** Indicates that some or all conversions failed to insert. */
+  hasFailures?: boolean | undefined;
 }
 /** Update Conversions Request. */
 export interface ConversionsBatchUpdateRequest {
-  /** Describes how encryptedUserId is encrypted. This is a required field if encryptedUserId is used. */
-  encryptionInfo?: EncryptionInfo | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#conversionsBatchUpdateRequest". */
   kind?: string | undefined;
+  /** Describes how encryptedUserId is encrypted. This is a required field if encryptedUserId is used. */
+  encryptionInfo?: EncryptionInfo | undefined;
   /** The set of conversions to update. */
   conversions?: ConversionList | undefined;
 }
@@ -396,16 +396,16 @@ export interface BatchupdateConversionsRequest extends ConversionsBatchUpdateReq
 export interface ConversionsBatchUpdateResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#conversionsBatchUpdateResponse". */
   kind?: string | undefined;
-  /** Indicates that some or all conversions failed to update. */
-  hasFailures?: boolean | undefined;
   /** The update status of each conversion. Statuses are returned in the same order that conversions are updated. */
   status?: ConversionStatusList | undefined;
+  /** Indicates that some or all conversions failed to update. */
+  hasFailures?: boolean | undefined;
 }
 export interface DeleteAdvertiserGroupsRequest {
-  /** Advertiser group ID. */
-  id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Advertiser group ID. */
+  id: string;
 }
 export interface DeleteAdvertiserGroupsResponse {}
 export interface DeleteContentCategoriesRequest {
@@ -416,17 +416,17 @@ export interface DeleteContentCategoriesRequest {
 }
 export interface DeleteContentCategoriesResponse {}
 export interface DeleteCreativeFieldsRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Creative Field ID */
   id: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 export interface DeleteCreativeFieldsResponse {}
 export interface DeleteCreativeFieldValuesRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Creative field ID for this creative field value. */
   creativeFieldId: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
   /** Creative Field Value ID */
   id: string;
 }
@@ -437,14 +437,14 @@ export type DeleteDynamicTargetingKeysObjectTypeEnum =
   | "OBJECT_CREATIVE"
   | "OBJECT_PLACEMENT";
 export interface DeleteDynamicTargetingKeysRequest {
-  /** ID of the object of this dynamic targeting key. This is a required field. */
-  objectId: string;
+  /** Required. Type of the object of this dynamic targeting key. This is a required field. */
+  objectType: DeleteDynamicTargetingKeysObjectTypeEnum | (string & {});
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. Name of this dynamic targeting key. This is a required field. Must be less than 256 characters long and cannot contain commas. All characters are converted to lowercase. */
   name: string;
-  /** Required. Type of the object of this dynamic targeting key. This is a required field. */
-  objectType: DeleteDynamicTargetingKeysObjectTypeEnum | (string & {});
+  /** ID of the object of this dynamic targeting key. This is a required field. */
+  objectId: string;
 }
 export interface DeleteDynamicTargetingKeysResponse {}
 export interface DeleteEventTagsRequest {
@@ -462,24 +462,24 @@ export interface DeleteFloodlightActivitiesRequest {
 }
 export interface DeleteFloodlightActivitiesResponse {}
 export interface DeletePlacementStrategiesRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Placement strategy ID. */
   id: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 export interface DeletePlacementStrategiesResponse {}
 export interface DeleteReportsRequest {
-  /** The Campaign Manager 360 user profile ID. */
-  profileId: string;
   /** The ID of the report. */
   reportId: string;
+  /** The Campaign Manager 360 user profile ID. */
+  profileId: string;
 }
 export interface DeleteReportsResponse {}
 export interface DeleteUserRolesRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** User role ID. */
   id: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 export interface DeleteUserRolesResponse {}
 export interface GenerateCodeDynamicProfilesRequest {
@@ -499,12 +499,12 @@ export interface GeneratetagFloodlightActivitiesRequest {
 }
 /** Floodlight Activity GenerateTag Response */
 export interface FloodlightActivitiesGenerateTagResponse {
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightActivitiesGenerateTagResponse". */
+  kind?: string | undefined;
   /** Generated tag for this Floodlight activity. For Google tags, this is the event snippet. */
   floodlightActivityTag?: string | undefined;
   /** The global snippet section of a Google tag. The Google tag sets new cookies on your domain, which will store a unique identifier for a user or the ad click that brought the user to your site. Learn more. */
   globalSiteTagGlobalSnippet?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightActivitiesGenerateTagResponse". */
-  kind?: string | undefined;
 }
 export type GeneratetagsPlacementsTagFormatsEnum =
   | "PLACEMENT_TAG_STANDARD"
@@ -531,6 +531,8 @@ export type GeneratetagsPlacementsTagFormatsEnumList = Array<
   GeneratetagsPlacementsTagFormatsEnum | (string & {})
 >;
 export interface GeneratetagsPlacementsRequest {
+  /** Generate tags for these placements. */
+  placementIds?: StringList | undefined;
   /** Optional. Indicates whether to include the GPP macro in the generated tags. [Learn more](https://support.google.com/campaignmanager/answer/10031693) about this macro. */
   "tagProperties.gppMacrosIncluded"?: boolean | undefined;
   /** Optional. Indicates whether to include the dc_dbm macro in the generated tags. [Learn more](https://support.google.com/campaignmanager/answer/9280273) about this macro. */
@@ -539,12 +541,10 @@ export interface GeneratetagsPlacementsRequest {
   profileId: string;
   /** Generate placements belonging to this campaign. This is a required field. */
   campaignId?: string | undefined;
-  /** Optional. Indicates whether to include the TCF macro in the generated tags. Default true. [Learn more](https://support.google.com/campaignmanager/answer/10031693) about this macro. */
-  "tagProperties.tcfGdprMacrosIncluded"?: boolean | undefined;
   /** Tag formats to generate for these placements. *Note:* PLACEMENT_TAG_STANDARD can only be generated for 1x1 placements. */
   tagFormats?: GeneratetagsPlacementsTagFormatsEnumList | undefined;
-  /** Generate tags for these placements. */
-  placementIds?: StringList | undefined;
+  /** Optional. Indicates whether to include the TCF macro in the generated tags. Default true. [Learn more](https://support.google.com/campaignmanager/answer/10031693) about this macro. */
+  "tagProperties.tcfGdprMacrosIncluded"?: boolean | undefined;
 }
 export type TagDataFormatEnum =
   | "PLACEMENT_TAG_STANDARD"
@@ -571,14 +571,14 @@ export type TagDataFormatEnum =
 export interface TagData {
   /** Creative associated with this placement tag. Applicable only when format is PLACEMENT_TAG_TRACKING. */
   creativeId?: string | undefined;
-  /** TagData tag format of this tag. */
-  format?: TagDataFormatEnum | undefined;
-  /** Tag string to record a click. */
-  clickTag?: string | undefined;
-  /** Ad associated with this placement tag. Applicable only when format is PLACEMENT_TAG_TRACKING. */
-  adId?: string | undefined;
   /** Tag string for serving an ad. */
   impressionTag?: string | undefined;
+  /** Tag string to record a click. */
+  clickTag?: string | undefined;
+  /** TagData tag format of this tag. */
+  format?: TagDataFormatEnum | undefined;
+  /** Ad associated with this placement tag. Applicable only when format is PLACEMENT_TAG_TRACKING. */
+  adId?: string | undefined;
 }
 export type TagDataList = Array<TagData>;
 /** Placement Tag */
@@ -613,16 +613,16 @@ export type AccountActiveAdSummaryActiveAdsLimitTierEnum =
   | "ACTIVE_ADS_TIER_1M";
 /** Gets a summary of active ads in an account. */
 export interface AccountActiveAdSummary {
-  /** Ads that can be activated for the account. */
-  availableAds?: string | undefined;
   /** ID of the account. */
   accountId?: string | undefined;
-  /** Ads that have been activated for the account */
-  activeAds?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#accountActiveAdSummary". */
-  kind?: string | undefined;
   /** Maximum number of active ads allowed for the account. */
   activeAdsLimitTier?: AccountActiveAdSummaryActiveAdsLimitTierEnum | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#accountActiveAdSummary". */
+  kind?: string | undefined;
+  /** Ads that have been activated for the account */
+  activeAds?: string | undefined;
+  /** Ads that can be activated for the account. */
+  availableAds?: string | undefined;
 }
 export interface GetAccountPermissionGroupsRequest {
   /** Account permission group ID. */
@@ -632,12 +632,12 @@ export interface GetAccountPermissionGroupsRequest {
 }
 /** AccountPermissionGroups contains a mapping of permission group IDs to names. A permission group is a grouping of account permissions. */
 export interface AccountPermissionGroup {
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#accountPermissionGroup". */
-  kind?: string | undefined;
   /** Name of this account permission group. */
   name?: string | undefined;
   /** ID of this account permission group. */
   id?: string | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#accountPermissionGroup". */
+  kind?: string | undefined;
 }
 export interface GetAccountPermissionsRequest {
   /** Account permission ID. */
@@ -655,16 +655,16 @@ export type AccountPermissionAccountProfilesItemEnumList =
 export interface AccountPermission {
   /** Administrative level required to enable this account permission. */
   level?: AccountPermissionLevelEnum | undefined;
+  /** ID of this account permission. */
+  id?: string | undefined;
   /** Account profiles associated with this account permission. Possible values are: - "ACCOUNT_PROFILE_BASIC" - "ACCOUNT_PROFILE_STANDARD" */
   accountProfiles?: AccountPermissionAccountProfilesItemEnumList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#accountPermission". */
   kind?: string | undefined;
-  /** ID of this account permission. */
-  id?: string | undefined;
-  /** Permission group of this account permission. */
-  permissionGroupId?: string | undefined;
   /** Name of this account permission. */
   name?: string | undefined;
+  /** Permission group of this account permission. */
+  permissionGroupId?: string | undefined;
 }
 export interface GetAccountsRequest {
   /** User profile ID associated with this request. */
@@ -672,23 +672,6 @@ export interface GetAccountsRequest {
   /** Account ID. */
   id: string;
 }
-/** Lookback configuration settings. */
-export interface LookbackConfiguration {
-  /** Lookback window, in days, from the last time a given user clicked on one of your ads. If you enter 0, clicks will not be considered as triggering events for floodlight tracking. If you leave this field blank, the default value for your account will be used. Acceptable values are 0 to 90, inclusive. */
-  clickDuration?: number | undefined;
-  /** Lookback window, in days, from the last time a given user viewed one of your ads. If you enter 0, impressions will not be considered as triggering events for floodlight tracking. If you leave this field blank, the default value for your account will be used. Acceptable values are 0 to 90, inclusive. */
-  postImpressionActivitiesDuration?: number | undefined;
-}
-/** Reporting Configuration */
-export interface ReportsConfiguration {
-  /** Default lookback windows for new advertisers in this account. */
-  lookbackConfiguration?: LookbackConfiguration | undefined;
-  /** Report generation time zone ID of this account. This is a required field that cannot be changed on update. Acceptable values are: - "1" for "America/New_York" - "2" for "Europe/London" - "3" for "Europe/Paris" - "4" for "Africa/Johannesburg" - "5" for "Asia/Jerusalem" - "6" for "Asia/Shanghai" - "7" for "Asia/Hong_Kong" - "8" for "Asia/Tokyo" - "9" for "Australia/Sydney" - "10" for "Asia/Dubai" - "11" for "America/Los_Angeles" - "12" for "Pacific/Auckland" - "13" for "America/Sao_Paulo" - "16" for "America/Asuncion" - "17" for "America/Chicago" - "18" for "America/Denver" - "19" for "America/St_Johns" - "20" for "Asia/Dhaka" - "21" for "Asia/Jakarta" - "22" for "Asia/Kabul" - "23" for "Asia/Karachi" - "24" for "Asia/Calcutta" - "25" for "Asia/Pyongyang" - "26" for "Asia/Rangoon" - "27" for "Atlantic/Cape_Verde" - "28" for "Atlantic/South_Georgia" - "29" for "Australia/Adelaide" - "30" for "Australia/Lord_Howe" - "31" for "Europe/Moscow" - "32" for "Pacific/Kiritimati" - "35" for "Pacific/Norfolk" - "36" for "Pacific/Tongatapu" */
-  reportGenerationTimeZoneId?: string | undefined;
-  /** Whether the exposure to conversion report is enabled. This report shows detailed pathway information on up to 10 of the most recent ad exposures seen by a user before converting. */
-  exposureToConversionEnabled?: boolean | undefined;
-}
-export type AccountAccountProfileEnum = "ACCOUNT_PROFILE_BASIC" | "ACCOUNT_PROFILE_STANDARD";
 export type AccountActiveAdsLimitTierEnum =
   | "ACTIVE_ADS_TIER_40K"
   | "ACTIVE_ADS_TIER_75K"
@@ -698,46 +681,63 @@ export type AccountActiveAdsLimitTierEnum =
   | "ACTIVE_ADS_TIER_500K"
   | "ACTIVE_ADS_TIER_750K"
   | "ACTIVE_ADS_TIER_1M";
+/** Lookback configuration settings. */
+export interface LookbackConfiguration {
+  /** Lookback window, in days, from the last time a given user viewed one of your ads. If you enter 0, impressions will not be considered as triggering events for floodlight tracking. If you leave this field blank, the default value for your account will be used. Acceptable values are 0 to 90, inclusive. */
+  postImpressionActivitiesDuration?: number | undefined;
+  /** Lookback window, in days, from the last time a given user clicked on one of your ads. If you enter 0, clicks will not be considered as triggering events for floodlight tracking. If you leave this field blank, the default value for your account will be used. Acceptable values are 0 to 90, inclusive. */
+  clickDuration?: number | undefined;
+}
+/** Reporting Configuration */
+export interface ReportsConfiguration {
+  /** Whether the exposure to conversion report is enabled. This report shows detailed pathway information on up to 10 of the most recent ad exposures seen by a user before converting. */
+  exposureToConversionEnabled?: boolean | undefined;
+  /** Default lookback windows for new advertisers in this account. */
+  lookbackConfiguration?: LookbackConfiguration | undefined;
+  /** Report generation time zone ID of this account. This is a required field that cannot be changed on update. Acceptable values are: - "1" for "America/New_York" - "2" for "Europe/London" - "3" for "Europe/Paris" - "4" for "Africa/Johannesburg" - "5" for "Asia/Jerusalem" - "6" for "Asia/Shanghai" - "7" for "Asia/Hong_Kong" - "8" for "Asia/Tokyo" - "9" for "Australia/Sydney" - "10" for "Asia/Dubai" - "11" for "America/Los_Angeles" - "12" for "Pacific/Auckland" - "13" for "America/Sao_Paulo" - "16" for "America/Asuncion" - "17" for "America/Chicago" - "18" for "America/Denver" - "19" for "America/St_Johns" - "20" for "Asia/Dhaka" - "21" for "Asia/Jakarta" - "22" for "Asia/Kabul" - "23" for "Asia/Karachi" - "24" for "Asia/Calcutta" - "25" for "Asia/Pyongyang" - "26" for "Asia/Rangoon" - "27" for "Atlantic/Cape_Verde" - "28" for "Atlantic/South_Georgia" - "29" for "Australia/Adelaide" - "30" for "Australia/Lord_Howe" - "31" for "Europe/Moscow" - "32" for "Pacific/Kiritimati" - "35" for "Pacific/Norfolk" - "36" for "Pacific/Tongatapu" */
+  reportGenerationTimeZoneId?: string | undefined;
+}
+export type AccountAccountProfileEnum = "ACCOUNT_PROFILE_BASIC" | "ACCOUNT_PROFILE_STANDARD";
 /** Contains properties of a Campaign Manager account. */
 export interface Account {
-  /** Share Path to Conversion reports with Twitter. */
-  shareReportsWithTwitter?: boolean | undefined;
-  /** User role permissions available to the user roles of this account. */
-  availablePermissionIds?: StringList | undefined;
-  /** Reporting configuration of this account. */
-  reportsConfiguration?: ReportsConfiguration | undefined;
-  /** Profile for this account. This is a read-only field that can be left blank. */
-  accountProfile?: AccountAccountProfileEnum | (string & {}) | undefined;
-  /** Description of this account. */
-  description?: string | undefined;
-  /** Whether campaigns created in this account will be enabled for Nielsen OCR reach ratings by default. */
-  nielsenOcrEnabled?: boolean | undefined;
-  /** ID of currency associated with this account. This is a required field. Acceptable values are: - "1" for USD - "2" for GBP - "3" for ESP - "4" for SEK - "5" for CAD - "6" for JPY - "7" for DEM - "8" for AUD - "9" for FRF - "10" for ITL - "11" for DKK - "12" for NOK - "13" for FIM - "14" for ZAR - "15" for IEP - "16" for NLG - "17" for EUR - "18" for KRW - "19" for TWD - "20" for SGD - "21" for CNY - "22" for HKD - "23" for NZD - "24" for MYR - "25" for BRL - "26" for PTE - "28" for CLP - "29" for TRY - "30" for ARS - "31" for PEN - "32" for ILS - "33" for CHF - "34" for VEF - "35" for COP - "36" for GTQ - "37" for PLN - "39" for INR - "40" for THB - "41" for IDR - "42" for CZK - "43" for RON - "44" for HUF - "45" for RUB - "46" for AED - "47" for BGN - "48" for HRK - "49" for MXN - "50" for NGN - "51" for EGP */
-  currencyId?: string | undefined;
-  /** File size limit in kilobytes of Rich Media teaser creatives. Acceptable values are 1 to 10240, inclusive. */
-  teaserSizeLimit?: string | undefined;
-  /** Account permissions assigned to this account. */
-  accountPermissionIds?: StringList | undefined;
-  /** ID of the country associated with this account. */
-  countryId?: string | undefined;
-  /** Default placement dimensions for this account. */
-  defaultCreativeSizeId?: string | undefined;
   /** Maximum number of active ads allowed for this account. */
   activeAdsLimitTier?: AccountActiveAdsLimitTierEnum | (string & {}) | undefined;
-  /** Name of this account. This is a required field, and must be less than 128 characters long and be globally unique. */
-  name?: string | undefined;
-  /** Maximum image size allowed for this account, in kilobytes. Value must be greater than or equal to 1. */
-  maximumImageSize?: string | undefined;
-  /** Whether to serve creatives with Active View tags. If disabled, viewability data will not be available for any impressions. */
-  activeViewOptOut?: boolean | undefined;
-  /** ID of this account. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Whether this account is active. */
-  active?: boolean | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#account". */
-  kind?: string | undefined;
+  /** File size limit in kilobytes of Rich Media teaser creatives. Acceptable values are 1 to 10240, inclusive. */
+  teaserSizeLimit?: string | undefined;
+  /** Description of this account. */
+  description?: string | undefined;
+  /** User role permissions available to the user roles of this account. */
+  availablePermissionIds?: StringList | undefined;
+  /** Share Path to Conversion reports with Twitter. */
+  shareReportsWithTwitter?: boolean | undefined;
+  /** Whether campaigns created in this account will be enabled for Nielsen OCR reach ratings by default. */
+  nielsenOcrEnabled?: boolean | undefined;
   /** Locale of this account. Acceptable values are: - "cs" (Czech) - "de" (German) - "en" (English) - "en-GB" (English United Kingdom) - "es" (Spanish) - "fr" (French) - "it" (Italian) - "ja" (Japanese) - "ko" (Korean) - "pl" (Polish) - "pt-BR" (Portuguese Brazil) - "ru" (Russian) - "sv" (Swedish) - "tr" (Turkish) - "zh-CN" (Chinese Simplified) - "zh-TW" (Chinese Traditional) */
   locale?: string | undefined;
+  /** Reporting configuration of this account. */
+  reportsConfiguration?: ReportsConfiguration | undefined;
+  /** Account permissions assigned to this account. */
+  accountPermissionIds?: StringList | undefined;
+  /** ID of this account. This is a read-only, auto-generated field. */
+  id?: string | undefined;
+  /** Whether to serve creatives with Active View tags. If disabled, viewability data will not be available for any impressions. */
+  activeViewOptOut?: boolean | undefined;
+  /** Default placement dimensions for this account. */
+  defaultCreativeSizeId?: string | undefined;
+  /** Whether this account is active. */
+  active?: boolean | undefined;
+  /** Profile for this account. This is a read-only field that can be left blank. */
+  accountProfile?: AccountAccountProfileEnum | (string & {}) | undefined;
+  /** Maximum image size allowed for this account, in kilobytes. Value must be greater than or equal to 1. */
+  maximumImageSize?: string | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#account". */
+  kind?: string | undefined;
+  /** ID of currency associated with this account. This is a required field. Acceptable values are: - "1" for USD - "2" for GBP - "3" for ESP - "4" for SEK - "5" for CAD - "6" for JPY - "7" for DEM - "8" for AUD - "9" for FRF - "10" for ITL - "11" for DKK - "12" for NOK - "13" for FIM - "14" for ZAR - "15" for IEP - "16" for NLG - "17" for EUR - "18" for KRW - "19" for TWD - "20" for SGD - "21" for CNY - "22" for HKD - "23" for NZD - "24" for MYR - "25" for BRL - "26" for PTE - "28" for CLP - "29" for TRY - "30" for ARS - "31" for PEN - "32" for ILS - "33" for CHF - "34" for VEF - "35" for COP - "36" for GTQ - "37" for PLN - "39" for INR - "40" for THB - "41" for IDR - "42" for CZK - "43" for RON - "44" for HUF - "45" for RUB - "46" for AED - "47" for BGN - "48" for HRK - "49" for MXN - "50" for NGN - "51" for EGP */
+  currencyId?: string | undefined;
+  /** Name of this account. This is a required field, and must be less than 128 characters long and be globally unique. */
+  name?: string | undefined;
+  /** ID of the country associated with this account. */
+  countryId?: string | undefined;
 }
 export interface GetAccountUserProfilesRequest {
   /** User profile ID. */
@@ -745,13 +745,18 @@ export interface GetAccountUserProfilesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
 }
+export type AccountUserProfileUserAccessTypeEnum =
+  | "NORMAL_USER"
+  | "SUPER_USER"
+  | "INTERNAL_ADMINISTRATOR"
+  | "READ_ONLY_SUPER_USER";
 export type ObjectFilterStatusEnum = "NONE" | "ASSIGNED" | "ALL";
 /** Object Filter. */
 export interface ObjectFilter {
-  /** Applicable when status is ASSIGNED. The user has access to objects with these object IDs. */
-  objectIds?: StringList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#objectFilter". */
   kind?: string | undefined;
+  /** Applicable when status is ASSIGNED. The user has access to objects with these object IDs. */
+  objectIds?: StringList | undefined;
   /** Status of the filter. NONE means the user has access to none of the objects. ALL means the user has access to all objects. ASSIGNED means the user has access to the objects with IDs in the objectIds list. */
   status?: ObjectFilterStatusEnum | (string & {}) | undefined;
 }
@@ -759,57 +764,102 @@ export type AccountUserProfileTraffickerTypeEnum =
   | "INTERNAL_NON_TRAFFICKER"
   | "INTERNAL_TRAFFICKER"
   | "EXTERNAL_TRAFFICKER";
-export type AccountUserProfileUserAccessTypeEnum =
-  | "NORMAL_USER"
-  | "SUPER_USER"
-  | "INTERNAL_ADMINISTRATOR"
-  | "READ_ONLY_SUPER_USER";
 /** AccountUserProfiles contains properties of a Campaign Manager user profile. This resource is specifically for managing user profiles, whereas UserProfiles is for accessing the API. */
 export interface AccountUserProfile {
-  /** Filter that describes which user roles are visible to the user profile. */
-  userRoleFilter?: ObjectFilter | undefined;
-  /** Trafficker type of this user profile. This is a read-only field. */
-  traffickerType?: AccountUserProfileTraffickerTypeEnum | (string & {}) | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#accountUserProfile". */
-  kind?: string | undefined;
-  /** Filter that describes which advertisers are visible to the user profile. */
-  advertiserFilter?: ObjectFilter | undefined;
   /** Name of the user profile. This is a required field. Must be less than 64 characters long, must be globally unique, and cannot contain whitespace or any of the following characters: "&;<>"#%,". */
   name?: string | undefined;
-  /** Account ID of the user profile. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Email of the user profile. The email address must be linked to a Google Account. This field is required on insertion and is read-only after insertion. */
-  email?: string | undefined;
-  /** Locale of the user profile. This is a required field. Acceptable values are: - "cs" (Czech) - "de" (German) - "en" (English) - "en-GB" (English United Kingdom) - "es" (Spanish) - "fr" (French) - "it" (Italian) - "ja" (Japanese) - "ko" (Korean) - "pl" (Polish) - "pt-BR" (Portuguese Brazil) - "ru" (Russian) - "sv" (Swedish) - "tr" (Turkish) - "zh-CN" (Chinese Simplified) - "zh-TW" (Chinese Traditional) */
-  locale?: string | undefined;
-  /** ID of the user profile. This is a read-only, auto-generated field. */
-  id?: string | undefined;
   /** Whether this user profile is active. This defaults to false, and must be set true on insert for the user profile to be usable. */
   active?: boolean | undefined;
-  /** Filter that describes which sites are visible to the user profile. */
-  siteFilter?: ObjectFilter | undefined;
   /** Subaccount ID of the user profile. This is a read-only field that can be left blank. */
   subaccountId?: string | undefined;
   /** Comments for this user profile. */
   comments?: string | undefined;
   /** User type of the user profile. This is a read-only field that can be left blank. */
   userAccessType?: AccountUserProfileUserAccessTypeEnum | (string & {}) | undefined;
-  /** User role ID of the user profile. This is a required field. */
-  userRoleId?: string | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#accountUserProfile". */
+  kind?: string | undefined;
   /** Filter that describes which campaigns are visible to the user profile. */
   campaignFilter?: ObjectFilter | undefined;
+  /** Email of the user profile. The email address must be linked to a Google Account. This field is required on insertion and is read-only after insertion. */
+  email?: string | undefined;
+  /** Filter that describes which sites are visible to the user profile. */
+  siteFilter?: ObjectFilter | undefined;
+  /** Filter that describes which user roles are visible to the user profile. */
+  userRoleFilter?: ObjectFilter | undefined;
+  /** User role ID of the user profile. This is a required field. */
+  userRoleId?: string | undefined;
+  /** ID of the user profile. This is a read-only, auto-generated field. */
+  id?: string | undefined;
+  /** Account ID of the user profile. This is a read-only field that can be left blank. */
+  accountId?: string | undefined;
+  /** Trafficker type of this user profile. This is a read-only field. */
+  traffickerType?: AccountUserProfileTraffickerTypeEnum | (string & {}) | undefined;
+  /** Locale of the user profile. This is a required field. Acceptable values are: - "cs" (Czech) - "de" (German) - "en" (English) - "en-GB" (English United Kingdom) - "es" (Spanish) - "fr" (French) - "it" (Italian) - "ja" (Japanese) - "ko" (Korean) - "pl" (Polish) - "pt-BR" (Portuguese Brazil) - "ru" (Russian) - "sv" (Swedish) - "tr" (Turkish) - "zh-CN" (Chinese Simplified) - "zh-TW" (Chinese Traditional) */
+  locale?: string | undefined;
+  /** Filter that describes which advertisers are visible to the user profile. */
+  advertiserFilter?: ObjectFilter | undefined;
 }
 export interface GetAdsRequest {
-  /** Ad ID. */
-  id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Ad ID. */
+  id: string;
 }
-/** Key Value Targeting Expression. */
-export interface KeyValueTargetingExpression {
-  /** Keyword expression being targeted by the ad. */
-  expression?: string | undefined;
+export type AdTypeEnum =
+  | "AD_SERVING_STANDARD_AD"
+  | "AD_SERVING_DEFAULT_AD"
+  | "AD_SERVING_CLICK_TRACKER"
+  | "AD_SERVING_TRACKING"
+  | "AD_SERVING_BRAND_SAFE_AD";
+/** Click-through URL */
+export interface ClickThroughUrl {
+  /** ID of the landing page for the click-through URL. Applicable if the defaultLandingPage field is set to false. */
+  landingPageId?: string | undefined;
+  /** Read-only convenience field representing the actual URL that will be used for this click-through. The URL is computed as follows: - If defaultLandingPage is enabled then the campaign's default landing page URL is assigned to this field. - If defaultLandingPage is not enabled and a landingPageId is specified then that landing page's URL is assigned to this field. - If neither of the above cases apply, then the customClickThroughUrl is assigned to this field. */
+  computedClickThroughUrl?: string | undefined;
+  /** Whether the campaign default landing page is used. */
+  defaultLandingPage?: boolean | undefined;
+  /** Custom click-through URL. Applicable if the defaultLandingPage field is set to false and the landingPageId field is left unset. */
+  customClickThroughUrl?: string | undefined;
 }
+/** Rich Media Exit Override. */
+export interface RichMediaExitOverride {
+  /** ID for the override to refer to a specific exit in the creative. */
+  exitId?: string | undefined;
+  /** Whether to use the clickThroughUrl. If false, the creative-level exit will be used. */
+  enabled?: boolean | undefined;
+  /** Click-through URL of this rich media exit override. Applicable if the enabled field is set to true. */
+  clickThroughUrl?: ClickThroughUrl | undefined;
+}
+export type RichMediaExitOverrideList = Array<RichMediaExitOverride>;
+export type DimensionValueMatchTypeEnum =
+  | "EXACT"
+  | "BEGINS_WITH"
+  | "CONTAINS"
+  | "WILDCARD_EXPRESSION";
+/** Represents a DimensionValue resource. */
+export interface DimensionValue {
+  /** The ID associated with the value if available. */
+  id?: string | undefined;
+  /** Determines how the 'value' field is matched when filtering. If not specified, defaults to EXACT. If set to WILDCARD_EXPRESSION, '*' is allowed as a placeholder for variable length character sequences, and it can be escaped with a backslash. Note, only paid search dimensions ('dfa:paidSearch*') allow a matchType other than EXACT. */
+  matchType?: DimensionValueMatchTypeEnum | (string & {}) | undefined;
+  /** The kind of resource this is, in this case dfareporting#dimensionValue. */
+  kind?: string | undefined;
+  /** The name of the dimension. */
+  dimensionName?: string | undefined;
+  /** The value of the dimension. */
+  value?: string | undefined;
+  /** The eTag of this response for caching purposes. */
+  etag?: string | undefined;
+}
+/** Companion Click-through override. */
+export interface CompanionClickThroughOverride {
+  /** Click-through URL of this companion click-through override. */
+  clickThroughUrl?: ClickThroughUrl | undefined;
+  /** ID of the creative for this companion click-through override. */
+  creativeId?: string | undefined;
+}
+export type CompanionClickThroughOverrideList = Array<CompanionClickThroughOverride>;
 export type CreativeGroupAssignmentCreativeGroupNumberEnum =
   | "CREATIVE_GROUP_ONE"
   | "CREATIVE_GROUP_TWO";
@@ -821,276 +871,222 @@ export interface CreativeGroupAssignment {
   creativeGroupNumber?: CreativeGroupAssignmentCreativeGroupNumberEnum | (string & {}) | undefined;
 }
 export type CreativeGroupAssignmentList = Array<CreativeGroupAssignment>;
+/** Creative Assignment. */
+export interface CreativeAssignment {
+  /** Weight of the creative assignment, applicable when the rotation type is CREATIVE_ROTATION_TYPE_RANDOM. Value must be greater than or equal to 1. */
+  weight?: number | undefined;
+  /** Rich media exit overrides for this creative assignment. Applicable when the creative type is any of the following: - DISPLAY - RICH_MEDIA_INPAGE - RICH_MEDIA_INPAGE_FLOATING - RICH_MEDIA_IM_EXPAND - RICH_MEDIA_EXPANDING - RICH_MEDIA_INTERSTITIAL_FLOAT - RICH_MEDIA_MOBILE_IN_APP - RICH_MEDIA_MULTI_FLOATING - RICH_MEDIA_PEEL_DOWN - VPAID_LINEAR - VPAID_NON_LINEAR */
+  richMediaExitOverrides?: RichMediaExitOverrideList | undefined;
+  /** Sequence number of the creative assignment, applicable when the rotation type is CREATIVE_ROTATION_TYPE_SEQUENTIAL. Acceptable values are 1 to 65535, inclusive. */
+  sequence?: number | undefined;
+  /** Whether the creative to be assigned is SSL-compliant. This is a read-only field that is auto-generated when the ad is inserted or updated. */
+  sslCompliant?: boolean | undefined;
+  /** Whether this creative assignment is active. When true, the creative will be included in the ad's rotation. */
+  active?: boolean | undefined;
+  /** Dimension value for the ID of the creative. This is a read-only, auto-generated field. */
+  creativeIdDimensionValue?: DimensionValue | undefined;
+  /** ID of the creative to be assigned. This is a required field. */
+  creativeId?: string | undefined;
+  endTime?: string | undefined;
+  /** Whether applicable event tags should fire when this creative assignment is rendered. If this value is unset when the ad is inserted or updated, it will default to true for all creative types EXCEPT for INTERNAL_REDIRECT, INTERSTITIAL_INTERNAL_REDIRECT, and INSTREAM_VIDEO. */
+  applyEventTags?: boolean | undefined;
+  /** Click-through URL of the creative assignment. */
+  clickThroughUrl?: ClickThroughUrl | undefined;
+  /** Companion creative overrides for this creative assignment. Applicable to video ads. */
+  companionCreativeOverrides?: CompanionClickThroughOverrideList | undefined;
+  /** Creative group assignments for this creative assignment. Only one assignment per creative group number is allowed for a maximum of two assignments. */
+  creativeGroupAssignments?: CreativeGroupAssignmentList | undefined;
+  startTime?: string | undefined;
+}
+export type CreativeAssignmentList = Array<CreativeAssignment>;
+export type CreativeRotationWeightCalculationStrategyEnum =
+  | "WEIGHT_STRATEGY_EQUAL"
+  | "WEIGHT_STRATEGY_CUSTOM"
+  | "WEIGHT_STRATEGY_HIGHEST_CTR"
+  | "WEIGHT_STRATEGY_OPTIMIZED";
+export type CreativeRotationTypeEnum =
+  | "CREATIVE_ROTATION_TYPE_SEQUENTIAL"
+  | "CREATIVE_ROTATION_TYPE_RANDOM";
+/** Creative Rotation. */
+export interface CreativeRotation {
+  /** Creative assignments in this creative rotation. */
+  creativeAssignments?: CreativeAssignmentList | undefined;
+  /** Creative optimization configuration that is used by this ad. It should refer to one of the existing optimization configurations in the ad's campaign. If it is unset or set to 0, then the campaign's default optimization configuration will be used for this ad. */
+  creativeOptimizationConfigurationId?: string | undefined;
+  /** Strategy for calculating weights. Used with CREATIVE_ROTATION_TYPE_RANDOM. */
+  weightCalculationStrategy?:
+    | CreativeRotationWeightCalculationStrategyEnum
+    | (string & {})
+    | undefined;
+  /** Type of creative rotation. Can be used to specify whether to use sequential or random rotation. */
+  type?: CreativeRotationTypeEnum | (string & {}) | undefined;
+}
+/** Click Through URL Suffix settings. */
+export interface ClickThroughUrlSuffixProperties {
+  /** Whether this entity should override the inherited click-through URL suffix with its own defined value. */
+  overrideInheritedSuffix?: boolean | undefined;
+  /** Click-through URL suffix to apply to all ads in this entity's scope. Must be less than 128 characters long. */
+  clickThroughUrlSuffix?: string | undefined;
+}
 /** Represents the dimensions of ads, placements, creatives, or creative assets. */
 export interface Size {
-  /** IAB standard size. This is a read-only, auto-generated field. */
-  iab?: boolean | undefined;
   /** Width of this size. Acceptable values are 0 to 32767, inclusive. */
   width?: number | undefined;
   /** Height of this size. Acceptable values are 0 to 32767, inclusive. */
   height?: number | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#size". */
-  kind?: string | undefined;
   /** ID of this size. This is a read-only, auto-generated field. */
   id?: string | undefined;
-}
-export type DimensionValueMatchTypeEnum =
-  | "EXACT"
-  | "BEGINS_WITH"
-  | "CONTAINS"
-  | "WILDCARD_EXPRESSION";
-/** Represents a DimensionValue resource. */
-export interface DimensionValue {
-  /** The kind of resource this is, in this case dfareporting#dimensionValue. */
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#size". */
   kind?: string | undefined;
-  /** The ID associated with the value if available. */
-  id?: string | undefined;
-  /** The name of the dimension. */
-  dimensionName?: string | undefined;
-  /** The eTag of this response for caching purposes. */
-  etag?: string | undefined;
-  /** The value of the dimension. */
-  value?: string | undefined;
-  /** Determines how the 'value' field is matched when filtering. If not specified, defaults to EXACT. If set to WILDCARD_EXPRESSION, '*' is allowed as a placeholder for variable length character sequences, and it can be escaped with a backslash. Note, only paid search dimensions ('dfa:paidSearch*') allow a matchType other than EXACT. */
-  matchType?: DimensionValueMatchTypeEnum | (string & {}) | undefined;
+  /** IAB standard size. This is a read-only, auto-generated field. */
+  iab?: boolean | undefined;
 }
-/** Placement Assignment. */
-export interface PlacementAssignment {
-  /** Whether the placement to be assigned requires SSL. This is a read-only field that is auto-generated when the ad is inserted or updated. */
-  sslRequired?: boolean | undefined;
-  /** Dimension value for the ID of the placement. This is a read-only, auto-generated field. */
-  placementIdDimensionValue?: DimensionValue | undefined;
-  /** ID of the placement to be assigned. This is a required field. */
-  placementId?: string | undefined;
-  /** Whether this placement assignment is active. When true, the placement will be included in the ad's rotation. */
-  active?: boolean | undefined;
+/** Properties of inheriting and overriding the default click-through event tag. A campaign may override the event tag defined at the advertiser level, and an ad may also override the campaign's setting further. */
+export interface DefaultClickThroughEventTagProperties {
+  /** ID of the click-through event tag to apply to all ads in this entity's scope. */
+  defaultClickThroughEventTagId?: string | undefined;
+  /** Whether this entity should override the inherited default click-through event tag with its own defined value. */
+  overrideInheritedEventTag?: boolean | undefined;
 }
-export type PlacementAssignmentList = Array<PlacementAssignment>;
-export type AdTypeEnum =
-  | "AD_SERVING_STANDARD_AD"
-  | "AD_SERVING_DEFAULT_AD"
-  | "AD_SERVING_CLICK_TRACKER"
-  | "AD_SERVING_TRACKING"
-  | "AD_SERVING_BRAND_SAFE_AD";
-/** Remarketing List Targeting Expression. */
-export interface ListTargetingExpression {
-  /** Expression describing which lists are being targeted by the ad. */
-  expression?: string | undefined;
+/** Contains information about a Contextual Keyword that can be targeted by ads. */
+export interface ContextualKeyword {
+  /** The keyword that can be targeted by ads. */
+  keyword?: string | undefined;
 }
-export type DayPartTargetingDaysOfWeekItemEnum =
-  | "SUNDAY"
-  | "MONDAY"
-  | "TUESDAY"
-  | "WEDNESDAY"
-  | "THURSDAY"
-  | "FRIDAY"
-  | "SATURDAY";
-export type DayPartTargetingDaysOfWeekItemEnumList = Array<
-  DayPartTargetingDaysOfWeekItemEnum | (string & {})
->;
-export type IntegerList = Array<number>;
-/** Day Part Targeting. */
-export interface DayPartTargeting {
-  /** Whether or not to use the user's local time. If false, the America/New York time zone applies. */
-  userLocalTime?: boolean | undefined;
-  /** Days of the week when the ad will serve. Acceptable values are: - "SUNDAY" - "MONDAY" - "TUESDAY" - "WEDNESDAY" - "THURSDAY" - "FRIDAY" - "SATURDAY" */
-  daysOfWeek?: DayPartTargetingDaysOfWeekItemEnumList | undefined;
-  /** Hours of the day when the ad will serve, where 0 is midnight to 1 AM and 23 is 11 PM to midnight. Can be specified with days of week, in which case the ad would serve during these hours on the specified days. For example if Monday, Wednesday, Friday are the days of week specified and 9-10am, 3-5pm (hours 9, 15, and 16) is specified, the ad would serve Monday, Wednesdays, and Fridays at 9-10am and 3-5pm. Acceptable values are 0 to 23, inclusive. */
-  hoursOfDay?: IntegerList | undefined;
+export type ContextualKeywordList = Array<ContextualKeyword>;
+/** Contextual Keyword Targeting. */
+export interface ContextualKeywordTargeting {
+  /** Contextual keywords that this ad targets */
+  keywords?: ContextualKeywordList | undefined;
 }
-/** Event tag override information. */
-export interface EventTagOverride {
-  /** ID of this event tag override. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Whether this override is enabled. */
-  enabled?: boolean | undefined;
-}
-export type EventTagOverrideList = Array<EventTagOverride>;
-/** Modification timestamp. */
-export interface LastModifiedInfo {
-  /** Timestamp of the last change in milliseconds since epoch. */
-  time?: string | undefined;
-}
-/** Contains information about a browser that can be targeted by ads. */
-export interface Browser {
-  /** ID referring to this grouping of browser and version numbers. This is the ID used for targeting. */
-  browserVersionId?: string | undefined;
-  /** Major version number (leftmost number) of this browser. For example, for Chrome 5.0.376.86 beta, this field should be set to 5. An asterisk (*) may be used to target any version number, and a question mark (?) may be used to target cases where the version number cannot be identified. For example, Chrome *.* targets any version of Chrome: 1.2, 2.5, 3.5, and so on. Chrome 3.* targets Chrome 3.1, 3.5, but not 4.0. Firefox ?.? targets cases where the ad server knows the browser is Firefox but can't tell which version it is. */
-  majorVersion?: string | undefined;
-  /** Name of this browser. */
+/** Contains information about a platform type that can be targeted by ads. */
+export interface PlatformType {
+  /** Name of this platform type. */
   name?: string | undefined;
-  /** DART ID of this browser. This is the ID used when generating reports. */
-  dartId?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#browser". */
-  kind?: string | undefined;
-  /** Minor version number (number after first dot on left) of this browser. For example, for Chrome 5.0.375.86 beta, this field should be set to 0. An asterisk (*) may be used to target any version number, and a question mark (?) may be used to target cases where the version number cannot be identified. For example, Chrome *.* targets any version of Chrome: 1.2, 2.5, 3.5, and so on. Chrome 3.* targets Chrome 3.1, 3.5, but not 4.0. Firefox ?.? targets cases where the ad server knows the browser is Firefox but can't tell which version it is. */
-  minorVersion?: string | undefined;
-}
-export type BrowserList = Array<Browser>;
-/** Contains information about an internet connection type that can be targeted by ads. Clients can use the connection type to target mobile vs. broadband users. */
-export interface ConnectionType {
-  /** Name of this connection type. */
-  name?: string | undefined;
-  /** ID of this connection type. */
+  /** ID of this platform type. */
   id?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#connectionType". */
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#platformType". */
   kind?: string | undefined;
 }
-export type ConnectionTypeList = Array<ConnectionType>;
+export type PlatformTypeList = Array<PlatformType>;
 /** Contains information about an operating system that can be targeted by ads. */
 export interface OperatingSystem {
   /** Name of this operating system. */
   name?: string | undefined;
   /** DART ID of this operating system. This is the ID used for targeting. */
   dartId?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#operatingSystem". */
-  kind?: string | undefined;
   /** Whether this operating system is for desktop. */
   desktop?: boolean | undefined;
   /** Whether this operating system is for mobile. */
   mobile?: boolean | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#operatingSystem". */
+  kind?: string | undefined;
 }
 export type OperatingSystemList = Array<OperatingSystem>;
-/** Contains information about a platform type that can be targeted by ads. */
-export interface PlatformType {
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#platformType". */
-  kind?: string | undefined;
-  /** ID of this platform type. */
-  id?: string | undefined;
-  /** Name of this platform type. */
-  name?: string | undefined;
-}
-export type PlatformTypeList = Array<PlatformType>;
 /** Contains information about a particular version of an operating system that can be targeted by ads. */
 export interface OperatingSystemVersion {
-  /** Major version (leftmost number) of this operating system version. */
-  majorVersion?: string | undefined;
   /** Name of this operating system version. */
   name?: string | undefined;
-  /** ID of this operating system version. */
-  id?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#operatingSystemVersion". */
-  kind?: string | undefined;
-  /** Operating system of this operating system version. */
-  operatingSystem?: OperatingSystem | undefined;
   /** Minor version (number after the first dot) of this operating system version. */
   minorVersion?: string | undefined;
+  /** ID of this operating system version. */
+  id?: string | undefined;
+  /** Operating system of this operating system version. */
+  operatingSystem?: OperatingSystem | undefined;
+  /** Major version (leftmost number) of this operating system version. */
+  majorVersion?: string | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#operatingSystemVersion". */
+  kind?: string | undefined;
 }
 export type OperatingSystemVersionList = Array<OperatingSystemVersion>;
+/** Contains information about a browser that can be targeted by ads. */
+export interface Browser {
+  /** Minor version number (number after first dot on left) of this browser. For example, for Chrome 5.0.375.86 beta, this field should be set to 0. An asterisk (*) may be used to target any version number, and a question mark (?) may be used to target cases where the version number cannot be identified. For example, Chrome *.* targets any version of Chrome: 1.2, 2.5, 3.5, and so on. Chrome 3.* targets Chrome 3.1, 3.5, but not 4.0. Firefox ?.? targets cases where the ad server knows the browser is Firefox but can't tell which version it is. */
+  minorVersion?: string | undefined;
+  /** ID referring to this grouping of browser and version numbers. This is the ID used for targeting. */
+  browserVersionId?: string | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#browser". */
+  kind?: string | undefined;
+  /** Major version number (leftmost number) of this browser. For example, for Chrome 5.0.376.86 beta, this field should be set to 5. An asterisk (*) may be used to target any version number, and a question mark (?) may be used to target cases where the version number cannot be identified. For example, Chrome *.* targets any version of Chrome: 1.2, 2.5, 3.5, and so on. Chrome 3.* targets Chrome 3.1, 3.5, but not 4.0. Firefox ?.? targets cases where the ad server knows the browser is Firefox but can't tell which version it is. */
+  majorVersion?: string | undefined;
+  /** DART ID of this browser. This is the ID used when generating reports. */
+  dartId?: string | undefined;
+  /** Name of this browser. */
+  name?: string | undefined;
+}
+export type BrowserList = Array<Browser>;
 /** Contains information about a mobile carrier that can be targeted by ads. */
 export interface MobileCarrier {
-  /** DART ID of the country to which this mobile carrier belongs. */
-  countryDartId?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#mobileCarrier". */
   kind?: string | undefined;
   /** ID of this mobile carrier. */
   id?: string | undefined;
-  /** Name of this mobile carrier. */
-  name?: string | undefined;
   /** Country code of the country to which this mobile carrier belongs. */
   countryCode?: string | undefined;
+  /** DART ID of the country to which this mobile carrier belongs. */
+  countryDartId?: string | undefined;
+  /** Name of this mobile carrier. */
+  name?: string | undefined;
 }
 export type MobileCarrierList = Array<MobileCarrier>;
+/** Contains information about an internet connection type that can be targeted by ads. Clients can use the connection type to target mobile vs. broadband users. */
+export interface ConnectionType {
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#connectionType". */
+  kind?: string | undefined;
+  /** ID of this connection type. */
+  id?: string | undefined;
+  /** Name of this connection type. */
+  name?: string | undefined;
+}
+export type ConnectionTypeList = Array<ConnectionType>;
 /** Technology Targeting. */
 export interface TechnologyTargeting {
-  /** Browsers that this ad targets. For each browser either set browserVersionId or dartId along with the version numbers. If both are specified, only browserVersionId will be used. The other fields are populated automatically when the ad is inserted or updated. */
-  browsers?: BrowserList | undefined;
-  /** Connection types that this ad targets. For each connection type only id is required. The other fields are populated automatically when the ad is inserted or updated. */
-  connectionTypes?: ConnectionTypeList | undefined;
-  /** Operating systems that this ad targets. To target specific versions, use operatingSystemVersions. For each operating system only dartId is required. The other fields are populated automatically when the ad is inserted or updated. If targeting an operating system, do not set targeting for operating system versions for the same operating system. */
-  operatingSystems?: OperatingSystemList | undefined;
   /** Platform types that this ad targets. For example, desktop, mobile, or tablet. For each platform type, only id is required, and the other fields are populated automatically when the ad is inserted or updated. */
   platformTypes?: PlatformTypeList | undefined;
+  /** Operating systems that this ad targets. To target specific versions, use operatingSystemVersions. For each operating system only dartId is required. The other fields are populated automatically when the ad is inserted or updated. If targeting an operating system, do not set targeting for operating system versions for the same operating system. */
+  operatingSystems?: OperatingSystemList | undefined;
   /** Operating system versions that this ad targets. To target all versions, use operatingSystems. For each operating system version, only id is required. The other fields are populated automatically when the ad is inserted or updated. If targeting an operating system version, do not set targeting for the corresponding operating system in operatingSystems. */
   operatingSystemVersions?: OperatingSystemVersionList | undefined;
+  /** Browsers that this ad targets. For each browser either set browserVersionId or dartId along with the version numbers. If both are specified, only browserVersionId will be used. The other fields are populated automatically when the ad is inserted or updated. */
+  browsers?: BrowserList | undefined;
   /** Mobile carriers that this ad targets. For each mobile carrier only id is required, and the other fields are populated automatically when the ad is inserted or updated. If targeting a mobile carrier, do not set targeting for any zip codes. */
   mobileCarriers?: MobileCarrierList | undefined;
+  /** Connection types that this ad targets. For each connection type only id is required. The other fields are populated automatically when the ad is inserted or updated. */
+  connectionTypes?: ConnectionTypeList | undefined;
 }
-export type AdCompatibilityEnum =
-  | "DISPLAY"
-  | "DISPLAY_INTERSTITIAL"
-  | "APP"
-  | "APP_INTERSTITIAL"
-  | "IN_STREAM_VIDEO"
-  | "IN_STREAM_AUDIO";
-export type CreativeRotationTypeEnum =
-  | "CREATIVE_ROTATION_TYPE_SEQUENTIAL"
-  | "CREATIVE_ROTATION_TYPE_RANDOM";
-export type CreativeRotationWeightCalculationStrategyEnum =
-  | "WEIGHT_STRATEGY_EQUAL"
-  | "WEIGHT_STRATEGY_CUSTOM"
-  | "WEIGHT_STRATEGY_HIGHEST_CTR"
-  | "WEIGHT_STRATEGY_OPTIMIZED";
-/** Click-through URL */
-export interface ClickThroughUrl {
-  /** Custom click-through URL. Applicable if the defaultLandingPage field is set to false and the landingPageId field is left unset. */
-  customClickThroughUrl?: string | undefined;
-  /** ID of the landing page for the click-through URL. Applicable if the defaultLandingPage field is set to false. */
-  landingPageId?: string | undefined;
-  /** Whether the campaign default landing page is used. */
-  defaultLandingPage?: boolean | undefined;
-  /** Read-only convenience field representing the actual URL that will be used for this click-through. The URL is computed as follows: - If defaultLandingPage is enabled then the campaign's default landing page URL is assigned to this field. - If defaultLandingPage is not enabled and a landingPageId is specified then that landing page's URL is assigned to this field. - If neither of the above cases apply, then the customClickThroughUrl is assigned to this field. */
-  computedClickThroughUrl?: string | undefined;
+/** Contains information about a language that can be targeted by ads. */
+export interface Language {
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#language". */
+  kind?: string | undefined;
+  /** Language ID of this language. This is the ID used for targeting and generating reports. */
+  id?: string | undefined;
+  /** Format of language code is an ISO 639 two-letter language code optionally followed by an underscore followed by an ISO 3166 code. Examples are "en" for English or "zh_CN" for Simplified Chinese. */
+  languageCode?: string | undefined;
+  /** Name of this language. */
+  name?: string | undefined;
 }
-/** Companion Click-through override. */
-export interface CompanionClickThroughOverride {
-  /** Click-through URL of this companion click-through override. */
-  clickThroughUrl?: ClickThroughUrl | undefined;
-  /** ID of the creative for this companion click-through override. */
-  creativeId?: string | undefined;
+export type LanguageList = Array<Language>;
+/** Language Targeting. */
+export interface LanguageTargeting {
+  /** Languages that this ad targets. For each language only languageId is required. The other fields are populated automatically when the ad is inserted or updated. */
+  languages?: LanguageList | undefined;
 }
-export type CompanionClickThroughOverrideList = Array<CompanionClickThroughOverride>;
-/** Rich Media Exit Override. */
-export interface RichMediaExitOverride {
-  /** ID for the override to refer to a specific exit in the creative. */
-  exitId?: string | undefined;
-  /** Click-through URL of this rich media exit override. Applicable if the enabled field is set to true. */
-  clickThroughUrl?: ClickThroughUrl | undefined;
-  /** Whether to use the clickThroughUrl. If false, the creative-level exit will be used. */
-  enabled?: boolean | undefined;
+/** Remarketing List Targeting Expression. */
+export interface ListTargetingExpression {
+  /** Expression describing which lists are being targeted by the ad. */
+  expression?: string | undefined;
 }
-export type RichMediaExitOverrideList = Array<RichMediaExitOverride>;
-/** Creative Assignment. */
-export interface CreativeAssignment {
-  /** Whether the creative to be assigned is SSL-compliant. This is a read-only field that is auto-generated when the ad is inserted or updated. */
-  sslCompliant?: boolean | undefined;
-  endTime?: string | undefined;
-  /** Companion creative overrides for this creative assignment. Applicable to video ads. */
-  companionCreativeOverrides?: CompanionClickThroughOverrideList | undefined;
-  /** Creative group assignments for this creative assignment. Only one assignment per creative group number is allowed for a maximum of two assignments. */
-  creativeGroupAssignments?: CreativeGroupAssignmentList | undefined;
-  /** Whether this creative assignment is active. When true, the creative will be included in the ad's rotation. */
-  active?: boolean | undefined;
-  /** Dimension value for the ID of the creative. This is a read-only, auto-generated field. */
-  creativeIdDimensionValue?: DimensionValue | undefined;
-  /** Click-through URL of the creative assignment. */
-  clickThroughUrl?: ClickThroughUrl | undefined;
-  /** Whether applicable event tags should fire when this creative assignment is rendered. If this value is unset when the ad is inserted or updated, it will default to true for all creative types EXCEPT for INTERNAL_REDIRECT, INTERSTITIAL_INTERNAL_REDIRECT, and INSTREAM_VIDEO. */
-  applyEventTags?: boolean | undefined;
-  /** Rich media exit overrides for this creative assignment. Applicable when the creative type is any of the following: - DISPLAY - RICH_MEDIA_INPAGE - RICH_MEDIA_INPAGE_FLOATING - RICH_MEDIA_IM_EXPAND - RICH_MEDIA_EXPANDING - RICH_MEDIA_INTERSTITIAL_FLOAT - RICH_MEDIA_MOBILE_IN_APP - RICH_MEDIA_MULTI_FLOATING - RICH_MEDIA_PEEL_DOWN - VPAID_LINEAR - VPAID_NON_LINEAR */
-  richMediaExitOverrides?: RichMediaExitOverrideList | undefined;
-  /** Sequence number of the creative assignment, applicable when the rotation type is CREATIVE_ROTATION_TYPE_SEQUENTIAL. Acceptable values are 1 to 65535, inclusive. */
-  sequence?: number | undefined;
-  /** Weight of the creative assignment, applicable when the rotation type is CREATIVE_ROTATION_TYPE_RANDOM. Value must be greater than or equal to 1. */
-  weight?: number | undefined;
-  startTime?: string | undefined;
-  /** ID of the creative to be assigned. This is a required field. */
-  creativeId?: string | undefined;
+/** Modification timestamp. */
+export interface LastModifiedInfo {
+  /** Timestamp of the last change in milliseconds since epoch. */
+  time?: string | undefined;
 }
-export type CreativeAssignmentList = Array<CreativeAssignment>;
-/** Creative Rotation. */
-export interface CreativeRotation {
-  /** Type of creative rotation. Can be used to specify whether to use sequential or random rotation. */
-  type?: CreativeRotationTypeEnum | (string & {}) | undefined;
-  /** Strategy for calculating weights. Used with CREATIVE_ROTATION_TYPE_RANDOM. */
-  weightCalculationStrategy?:
-    | CreativeRotationWeightCalculationStrategyEnum
-    | (string & {})
-    | undefined;
-  /** Creative assignments in this creative rotation. */
-  creativeAssignments?: CreativeAssignmentList | undefined;
-  /** Creative optimization configuration that is used by this ad. It should refer to one of the existing optimization configurations in the ad's campaign. If it is unset or set to 0, then the campaign's default optimization configuration will be used for this ad. */
-  creativeOptimizationConfigurationId?: string | undefined;
+/** Frequency Cap. */
+export interface FrequencyCap {
+  /** Duration of time, in seconds, for this frequency cap. The maximum duration is 90 days. Acceptable values are 1 to 7776000, inclusive. */
+  duration?: string | undefined;
+  /** Number of times an individual user can be served the ad within the specified duration. Acceptable values are 1 to 15, inclusive. */
+  impressions?: string | undefined;
 }
 export type DeliverySchedulePriorityEnum =
   | "AD_PRIORITY_01"
@@ -1109,71 +1105,94 @@ export type DeliverySchedulePriorityEnum =
   | "AD_PRIORITY_14"
   | "AD_PRIORITY_15"
   | "AD_PRIORITY_16";
-/** Frequency Cap. */
-export interface FrequencyCap {
-  /** Number of times an individual user can be served the ad within the specified duration. Acceptable values are 1 to 15, inclusive. */
-  impressions?: string | undefined;
-  /** Duration of time, in seconds, for this frequency cap. The maximum duration is 90 days. Acceptable values are 1 to 7776000, inclusive. */
-  duration?: string | undefined;
-}
 /** Delivery Schedule. */
 export interface DeliverySchedule {
+  /** Limit on the number of times an individual user can be served the ad within a specified period of time. */
+  frequencyCap?: FrequencyCap | undefined;
   /** Serving priority of an ad, with respect to other ads. The lower the priority number, the greater the priority with which it is served. */
   priority?: DeliverySchedulePriorityEnum | (string & {}) | undefined;
   /** Impression ratio for this ad. This ratio determines how often each ad is served relative to the others. For example, if ad A has an impression ratio of 1 and ad B has an impression ratio of 3, then Campaign Manager will serve ad B three times as often as ad A. Acceptable values are 1 to 10, inclusive. */
   impressionRatio?: string | undefined;
   /** Whether or not hard cutoff is enabled. If true, the ad will not serve after the end date and time. Otherwise the ad will continue to be served until it has reached its delivery goals. */
   hardCutoff?: boolean | undefined;
-  /** Limit on the number of times an individual user can be served the ad within a specified period of time. */
-  frequencyCap?: FrequencyCap | undefined;
 }
-/** Contains information about a language that can be targeted by ads. */
-export interface Language {
-  /** Format of language code is an ISO 639 two-letter language code optionally followed by an underscore followed by an ISO 3166 code. Examples are "en" for English or "zh_CN" for Simplified Chinese. */
-  languageCode?: string | undefined;
-  /** Name of this language. */
-  name?: string | undefined;
-  /** Language ID of this language. This is the ID used for targeting and generating reports. */
-  id?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#language". */
-  kind?: string | undefined;
+export type AdCompatibilityEnum =
+  | "DISPLAY"
+  | "DISPLAY_INTERSTITIAL"
+  | "APP"
+  | "APP_INTERSTITIAL"
+  | "IN_STREAM_VIDEO"
+  | "IN_STREAM_AUDIO";
+export type IntegerList = Array<number>;
+export type DayPartTargetingDaysOfWeekItemEnum =
+  | "SUNDAY"
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY";
+export type DayPartTargetingDaysOfWeekItemEnumList = Array<
+  DayPartTargetingDaysOfWeekItemEnum | (string & {})
+>;
+/** Day Part Targeting. */
+export interface DayPartTargeting {
+  /** Hours of the day when the ad will serve, where 0 is midnight to 1 AM and 23 is 11 PM to midnight. Can be specified with days of week, in which case the ad would serve during these hours on the specified days. For example if Monday, Wednesday, Friday are the days of week specified and 9-10am, 3-5pm (hours 9, 15, and 16) is specified, the ad would serve Monday, Wednesdays, and Fridays at 9-10am and 3-5pm. Acceptable values are 0 to 23, inclusive. */
+  hoursOfDay?: IntegerList | undefined;
+  /** Whether or not to use the user's local time. If false, the America/New York time zone applies. */
+  userLocalTime?: boolean | undefined;
+  /** Days of the week when the ad will serve. Acceptable values are: - "SUNDAY" - "MONDAY" - "TUESDAY" - "WEDNESDAY" - "THURSDAY" - "FRIDAY" - "SATURDAY" */
+  daysOfWeek?: DayPartTargetingDaysOfWeekItemEnumList | undefined;
 }
-export type LanguageList = Array<Language>;
-/** Language Targeting. */
-export interface LanguageTargeting {
-  /** Languages that this ad targets. For each language only languageId is required. The other fields are populated automatically when the ad is inserted or updated. */
-  languages?: LanguageList | undefined;
+/** Placement Assignment. */
+export interface PlacementAssignment {
+  /** Dimension value for the ID of the placement. This is a read-only, auto-generated field. */
+  placementIdDimensionValue?: DimensionValue | undefined;
+  /** ID of the placement to be assigned. This is a required field. */
+  placementId?: string | undefined;
+  /** Whether the placement to be assigned requires SSL. This is a read-only field that is auto-generated when the ad is inserted or updated. */
+  sslRequired?: boolean | undefined;
+  /** Whether this placement assignment is active. When true, the placement will be included in the ad's rotation. */
+  active?: boolean | undefined;
 }
-/** Click Through URL Suffix settings. */
-export interface ClickThroughUrlSuffixProperties {
-  /** Click-through URL suffix to apply to all ads in this entity's scope. Must be less than 128 characters long. */
-  clickThroughUrlSuffix?: string | undefined;
-  /** Whether this entity should override the inherited click-through URL suffix with its own defined value. */
-  overrideInheritedSuffix?: boolean | undefined;
+export type PlacementAssignmentList = Array<PlacementAssignment>;
+/** Key Value Targeting Expression. */
+export interface KeyValueTargetingExpression {
+  /** Keyword expression being targeted by the ad. */
+  expression?: string | undefined;
 }
-/** Properties of inheriting and overriding the default click-through event tag. A campaign may override the event tag defined at the advertiser level, and an ad may also override the campaign's setting further. */
-export interface DefaultClickThroughEventTagProperties {
-  /** ID of the click-through event tag to apply to all ads in this entity's scope. */
-  defaultClickThroughEventTagId?: string | undefined;
-  /** Whether this entity should override the inherited default click-through event tag with its own defined value. */
-  overrideInheritedEventTag?: boolean | undefined;
-}
-/** Contains information about a region that can be targeted by ads. */
-export interface Region {
-  /** Country code of the country to which this region belongs. */
-  countryCode?: string | undefined;
-  /** DART ID of the country to which this region belongs. */
-  countryDartId?: string | undefined;
-  /** Region code. */
-  regionCode?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#region". */
-  kind?: string | undefined;
-  /** DART ID of this region. */
+/** Contains information about a metro region that can be targeted by ads. */
+export interface Metro {
+  /** DMA ID of this metro region. This is the ID used for targeting and generating reports, and is equivalent to metro_code. */
+  dmaId?: string | undefined;
+  /** DART ID of this metro region. */
   dartId?: string | undefined;
-  /** Name of this region. */
+  /** Metro code of this metro region. This is equivalent to dma_id. */
+  metroCode?: string | undefined;
+  /** DART ID of the country to which this metro region belongs. */
+  countryDartId?: string | undefined;
+  /** Name of this metro region. */
   name?: string | undefined;
+  /** Country code of the country to which this metro region belongs. */
+  countryCode?: string | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#metro". */
+  kind?: string | undefined;
 }
-export type RegionList = Array<Region>;
+export type MetroList = Array<Metro>;
+/** Contains information about a postal code that can be targeted by ads. */
+export interface PostalCode {
+  /** ID of this postal code. */
+  id?: string | undefined;
+  /** Country code of the country to which this postal code belongs. */
+  countryCode?: string | undefined;
+  /** Postal code. This is equivalent to the id field. */
+  code?: string | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#postalCode". */
+  kind?: string | undefined;
+  /** DART ID of the country to which this postal code belongs. */
+  countryDartId?: string | undefined;
+}
+export type PostalCodeList = Array<PostalCode>;
 export type CountryTvDataProvidersItemEnum =
   | "INVALID_TV_DATA_PROVIDER"
   | "INTAGE_JP"
@@ -1190,180 +1209,161 @@ export type CountryTvDataProvidersItemEnumList = Array<
 >;
 /** Contains information about a country that can be targeted by ads. */
 export interface Country {
+  /** DART ID of this country. This is the ID used for targeting and generating reports. */
+  dartId?: string | undefined;
   /** Name of this country. */
   name?: string | undefined;
   /** Country code. */
   countryCode?: string | undefined;
-  /** Output only. The TV data providers supported in this country. */
-  tvDataProviders?: CountryTvDataProvidersItemEnumList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#country". */
   kind?: string | undefined;
+  /** Output only. The TV data providers supported in this country. */
+  tvDataProviders?: CountryTvDataProvidersItemEnumList | undefined;
   /** Whether ad serving supports secure servers in this country. */
   sslEnabled?: boolean | undefined;
-  /** DART ID of this country. This is the ID used for targeting and generating reports. */
-  dartId?: string | undefined;
 }
 export type CountryList = Array<Country>;
-/** Contains information about a metro region that can be targeted by ads. */
-export interface Metro {
-  /** DART ID of this metro region. */
+/** Contains information about a region that can be targeted by ads. */
+export interface Region {
+  /** DART ID of the country to which this region belongs. */
+  countryDartId?: string | undefined;
+  /** Region code. */
+  regionCode?: string | undefined;
+  /** DART ID of this region. */
   dartId?: string | undefined;
-  /** Metro code of this metro region. This is equivalent to dma_id. */
-  metroCode?: string | undefined;
-  /** DART ID of the country to which this metro region belongs. */
-  countryDartId?: string | undefined;
-  /** Name of this metro region. */
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#region". */
+  kind?: string | undefined;
+  /** Name of this region. */
   name?: string | undefined;
-  /** Country code of the country to which this metro region belongs. */
-  countryCode?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#metro". */
-  kind?: string | undefined;
-  /** DMA ID of this metro region. This is the ID used for targeting and generating reports, and is equivalent to metro_code. */
-  dmaId?: string | undefined;
-}
-export type MetroList = Array<Metro>;
-/** Contains information about a postal code that can be targeted by ads. */
-export interface PostalCode {
-  /** ID of this postal code. */
-  id?: string | undefined;
-  /** Postal code. This is equivalent to the id field. */
-  code?: string | undefined;
-  /** DART ID of the country to which this postal code belongs. */
-  countryDartId?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#postalCode". */
-  kind?: string | undefined;
-  /** Country code of the country to which this postal code belongs. */
+  /** Country code of the country to which this region belongs. */
   countryCode?: string | undefined;
 }
-export type PostalCodeList = Array<PostalCode>;
+export type RegionList = Array<Region>;
 /** Contains information about a city that can be targeted by ads. */
 export interface City {
-  /** DART ID of this city. This is the ID used for targeting and generating reports. */
-  dartId?: string | undefined;
-  /** ID of the metro region (DMA) to which this city belongs. */
-  metroDmaId?: string | undefined;
-  /** Name of this city. */
-  name?: string | undefined;
-  /** Region code of the region to which this city belongs. */
-  regionCode?: string | undefined;
   /** DART ID of the region to which this city belongs. */
   regionDartId?: string | undefined;
+  /** Name of this city. */
+  name?: string | undefined;
   /** Country code of the country to which this city belongs. */
   countryCode?: string | undefined;
+  /** ID of the metro region (DMA) to which this city belongs. */
+  metroDmaId?: string | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#city". */
+  kind?: string | undefined;
+  /** DART ID of this city. This is the ID used for targeting and generating reports. */
+  dartId?: string | undefined;
   /** DART ID of the country to which this city belongs. */
   countryDartId?: string | undefined;
   /** Metro region code of the metro region (DMA) to which this city belongs. */
   metroCode?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#city". */
-  kind?: string | undefined;
+  /** Region code of the region to which this city belongs. */
+  regionCode?: string | undefined;
 }
 export type CityList = Array<City>;
 /** Geographical Targeting. */
 export interface GeoTargeting {
-  /** Regions to be targeted. For each region only dartId is required. The other fields are populated automatically when the ad is inserted or updated. If targeting a region, do not target or exclude the country of the region. */
-  regions?: RegionList | undefined;
-  /** Countries to be targeted or excluded from targeting, depending on the setting of the excludeCountries field. For each country only dartId is required. The other fields are populated automatically when the ad is inserted or updated. If targeting or excluding a country, do not target regions, cities, metros, or postal codes in the same country. */
-  countries?: CountryList | undefined;
   /** Metros to be targeted. For each metro only dmaId is required. The other fields are populated automatically when the ad is inserted or updated. If targeting a metro, do not target or exclude the country of the metro. */
   metros?: MetroList | undefined;
   /** Postal codes to be targeted. For each postal code only id is required. The other fields are populated automatically when the ad is inserted or updated. If targeting a postal code, do not target or exclude the country of the postal code. */
   postalCodes?: PostalCodeList | undefined;
   /** Whether or not to exclude the countries in the countries field from targeting. If false, the countries field refers to countries which will be targeted by the ad. */
   excludeCountries?: boolean | undefined;
+  /** Countries to be targeted or excluded from targeting, depending on the setting of the excludeCountries field. For each country only dartId is required. The other fields are populated automatically when the ad is inserted or updated. If targeting or excluding a country, do not target regions, cities, metros, or postal codes in the same country. */
+  countries?: CountryList | undefined;
+  /** Regions to be targeted. For each region only dartId is required. The other fields are populated automatically when the ad is inserted or updated. If targeting a region, do not target or exclude the country of the region. */
+  regions?: RegionList | undefined;
   /** Cities to be targeted. For each city only dartId is required. The other fields are populated automatically when the ad is inserted or updated. If targeting a city, do not target or exclude the country of the city, and do not target the metro or region of the city. */
   cities?: CityList | undefined;
 }
-/** Contains information about a Contextual Keyword that can be targeted by ads. */
-export interface ContextualKeyword {
-  /** The keyword that can be targeted by ads. */
-  keyword?: string | undefined;
+/** Event tag override information. */
+export interface EventTagOverride {
+  /** ID of this event tag override. This is a read-only, auto-generated field. */
+  id?: string | undefined;
+  /** Whether this override is enabled. */
+  enabled?: boolean | undefined;
 }
-export type ContextualKeywordList = Array<ContextualKeyword>;
-/** Contextual Keyword Targeting. */
-export interface ContextualKeywordTargeting {
-  /** Contextual keywords that this ad targets */
-  keywords?: ContextualKeywordList | undefined;
-}
+export type EventTagOverrideList = Array<EventTagOverride>;
 /** Contains properties of a Campaign Manager ad. */
 export interface Ad {
-  /** Key-value targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
-  keyValueTargetingExpression?: KeyValueTargetingExpression | undefined;
-  /** Creative group assignments for this ad. Applicable when type is AD_SERVING_CLICK_TRACKER. Only one assignment per creative group number is allowed for a maximum of two assignments. */
-  creativeGroupAssignments?: CreativeGroupAssignmentList | undefined;
-  /** Whether this ad requires ssl. This is a read-only field that is auto-generated when the ad is inserted or updated. */
-  sslRequired?: boolean | undefined;
-  /** Size of this ad. Applicable when type is AD_SERVING_DEFAULT_AD. */
-  size?: Size | undefined;
-  /** Placement assignments for this ad. */
-  placementAssignments?: PlacementAssignmentList | undefined;
-  /** Whether this ad is active. When true, archived must be false. */
-  active?: boolean | undefined;
-  /** ID of this ad. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Campaign ID of this ad. This is a required field on insertion. */
-  campaignId?: string | undefined;
-  /** Account ID of this ad. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
   /** Type of ad. This is a required field on insertion. Note that default ads ( AD_SERVING_DEFAULT_AD) cannot be created directly (see Creative resource). */
   type?: AdTypeEnum | (string & {}) | undefined;
-  /** Remarketing list targeting expression for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
-  remarketingListExpression?: ListTargetingExpression | undefined;
-  /** Time and day targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
-  dayPartTargeting?: DayPartTargeting | undefined;
-  /** Event tag overrides for this ad. */
-  eventTagOverrides?: EventTagOverrideList | undefined;
-  /** Whether this ad is ssl compliant. This is a read-only field that is auto-generated when the ad is inserted or updated. */
-  sslCompliant?: boolean | undefined;
-  /** Information about the most recent modification of this ad. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo | undefined;
-  /** Advertiser ID of this ad. This is a required field on insertion. */
-  advertiserId?: string | undefined;
-  /** Technology platform targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
-  technologyTargeting?: TechnologyTargeting | undefined;
-  /** Compatibility of this ad. Applicable when type is AD_SERVING_DEFAULT_AD. DISPLAY and DISPLAY_INTERSTITIAL refer to either rendering on desktop or on mobile devices or in mobile apps for regular or interstitial ads, respectively. APP and APP_INTERSTITIAL are only used for existing default ads. New mobile placements must be assigned DISPLAY or DISPLAY_INTERSTITIAL and default ads created for those placements will be limited to those compatibility types. IN_STREAM_VIDEO refers to rendering in-stream video ads developed with the VAST standard. */
-  compatibility?: AdCompatibilityEnum | (string & {}) | undefined;
   /** Creative rotation for this ad. Applicable when type is AD_SERVING_DEFAULT_AD, AD_SERVING_STANDARD_AD, or AD_SERVING_TRACKING. When type is AD_SERVING_DEFAULT_AD, this field should have exactly one creativeAssignment . */
   creativeRotation?: CreativeRotation | undefined;
-  /** Delivery schedule information for this ad. Applicable when type is AD_SERVING_STANDARD_AD or AD_SERVING_TRACKING. This field along with subfields priority and impressionRatio are required on insertion when type is AD_SERVING_STANDARD_AD. */
-  deliverySchedule?: DeliverySchedule | undefined;
-  /** Name of this ad. This is a required field and must be less than 256 characters long. */
-  name?: string | undefined;
-  /** Whether this ad is archived. When true, active must be false. */
-  archived?: boolean | undefined;
-  /** Click-through URL for this ad. This is a required field on insertion. Applicable when type is AD_SERVING_CLICK_TRACKER. */
-  clickThroughUrl?: ClickThroughUrl | undefined;
-  /** Language targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
-  languageTargeting?: LanguageTargeting | undefined;
-  /** Click-through URL suffix properties for this ad. Applies to the URL in the ad or (if overriding ad properties) the URL in the creative. */
-  clickThroughUrlSuffixProperties?: ClickThroughUrlSuffixProperties | undefined;
-  /** Default click-through event tag properties for this ad. */
-  defaultClickThroughEventTagProperties?: DefaultClickThroughEventTagProperties | undefined;
-  /** Subaccount ID of this ad. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** Audience segment ID that is being targeted for this ad. Applicable when type is AD_SERVING_STANDARD_AD. */
-  audienceSegmentId?: string | undefined;
-  /** Dimension value for the ID of the campaign. This is a read-only, auto-generated field. */
-  campaignIdDimensionValue?: DimensionValue | undefined;
-  /** Dimension value for the ID of this ad. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#ad". */
-  kind?: string | undefined;
+  /** Whether this ad is active. When true, archived must be false. */
+  active?: boolean | undefined;
   /** Targeting template ID, used to apply preconfigured targeting information to this ad. This cannot be set while any of dayPartTargeting, geoTargeting, keyValueTargetingExpression, languageTargeting, remarketingListExpression, or technologyTargeting are set. Applicable when type is AD_SERVING_STANDARD_AD. */
   targetingTemplateId?: string | undefined;
+  /** Dimension value for the ID of this ad. This is a read-only, auto-generated field. */
+  idDimensionValue?: DimensionValue | undefined;
+  /** Click-through URL suffix properties for this ad. Applies to the URL in the ad or (if overriding ad properties) the URL in the creative. */
+  clickThroughUrlSuffixProperties?: ClickThroughUrlSuffixProperties | undefined;
   startTime?: string | undefined;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Geographical targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
-  geoTargeting?: GeoTargeting | undefined;
-  /** Optional. Contextual keyword targeting information for this ad. */
-  contextualKeywordTargeting?: ContextualKeywordTargeting | undefined;
-  /** Whether this ad is a dynamic click tracker. Applicable when type is AD_SERVING_CLICK_TRACKER. This is a required field on insert, and is read-only after insert. */
-  dynamicClickTracker?: boolean | undefined;
-  /** Information about the creation of this ad. This is a read-only field. */
-  createInfo?: LastModifiedInfo | undefined;
   /** Comments for this ad. */
   comments?: string | undefined;
+  /** Dimension value for the ID of the campaign. This is a read-only, auto-generated field. */
+  campaignIdDimensionValue?: DimensionValue | undefined;
+  /** Audience segment ID that is being targeted for this ad. Applicable when type is AD_SERVING_STANDARD_AD. */
+  audienceSegmentId?: string | undefined;
+  /** Size of this ad. Applicable when type is AD_SERVING_DEFAULT_AD. */
+  size?: Size | undefined;
+  /** Default click-through event tag properties for this ad. */
+  defaultClickThroughEventTagProperties?: DefaultClickThroughEventTagProperties | undefined;
+  /** Advertiser ID of this ad. This is a required field on insertion. */
+  advertiserId?: string | undefined;
+  /** Optional. Contextual keyword targeting information for this ad. */
+  contextualKeywordTargeting?: ContextualKeywordTargeting | undefined;
+  /** Click-through URL for this ad. This is a required field on insertion. Applicable when type is AD_SERVING_CLICK_TRACKER. */
+  clickThroughUrl?: ClickThroughUrl | undefined;
+  /** Technology platform targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
+  technologyTargeting?: TechnologyTargeting | undefined;
+  /** Creative group assignments for this ad. Applicable when type is AD_SERVING_CLICK_TRACKER. Only one assignment per creative group number is allowed for a maximum of two assignments. */
+  creativeGroupAssignments?: CreativeGroupAssignmentList | undefined;
+  /** Language targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
+  languageTargeting?: LanguageTargeting | undefined;
+  /** Subaccount ID of this ad. This is a read-only field that can be left blank. */
+  subaccountId?: string | undefined;
+  /** Remarketing list targeting expression for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
+  remarketingListExpression?: ListTargetingExpression | undefined;
+  /** Account ID of this ad. This is a read-only field that can be left blank. */
+  accountId?: string | undefined;
   endTime?: string | undefined;
+  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
+  advertiserIdDimensionValue?: DimensionValue | undefined;
+  /** Information about the most recent modification of this ad. This is a read-only field. */
+  lastModifiedInfo?: LastModifiedInfo | undefined;
+  /** Whether this ad requires ssl. This is a read-only field that is auto-generated when the ad is inserted or updated. */
+  sslRequired?: boolean | undefined;
+  /** Delivery schedule information for this ad. Applicable when type is AD_SERVING_STANDARD_AD or AD_SERVING_TRACKING. This field along with subfields priority and impressionRatio are required on insertion when type is AD_SERVING_STANDARD_AD. */
+  deliverySchedule?: DeliverySchedule | undefined;
+  /** Whether this ad is archived. When true, active must be false. */
+  archived?: boolean | undefined;
+  /** Whether this ad is a dynamic click tracker. Applicable when type is AD_SERVING_CLICK_TRACKER. This is a required field on insert, and is read-only after insert. */
+  dynamicClickTracker?: boolean | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#ad". */
+  kind?: string | undefined;
+  /** Compatibility of this ad. Applicable when type is AD_SERVING_DEFAULT_AD. DISPLAY and DISPLAY_INTERSTITIAL refer to either rendering on desktop or on mobile devices or in mobile apps for regular or interstitial ads, respectively. APP and APP_INTERSTITIAL are only used for existing default ads. New mobile placements must be assigned DISPLAY or DISPLAY_INTERSTITIAL and default ads created for those placements will be limited to those compatibility types. IN_STREAM_VIDEO refers to rendering in-stream video ads developed with the VAST standard. */
+  compatibility?: AdCompatibilityEnum | (string & {}) | undefined;
+  /** Campaign ID of this ad. This is a required field on insertion. */
+  campaignId?: string | undefined;
+  /** Whether this ad is ssl compliant. This is a read-only field that is auto-generated when the ad is inserted or updated. */
+  sslCompliant?: boolean | undefined;
+  /** Name of this ad. This is a required field and must be less than 256 characters long. */
+  name?: string | undefined;
+  /** Time and day targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
+  dayPartTargeting?: DayPartTargeting | undefined;
+  /** Placement assignments for this ad. */
+  placementAssignments?: PlacementAssignmentList | undefined;
+  /** Key-value targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
+  keyValueTargetingExpression?: KeyValueTargetingExpression | undefined;
+  /** Information about the creation of this ad. This is a read-only field. */
+  createInfo?: LastModifiedInfo | undefined;
+  /** Geographical targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
+  geoTargeting?: GeoTargeting | undefined;
+  /** Event tag overrides for this ad. */
+  eventTagOverrides?: EventTagOverrideList | undefined;
+  /** ID of this ad. This is a read-only, auto-generated field. */
+  id?: string | undefined;
 }
 export interface GetAdvertiserGroupsRequest {
   /** Advertiser group ID. */
@@ -1377,10 +1377,10 @@ export interface AdvertiserGroup {
   kind?: string | undefined;
   /** Account ID of this advertiser group. This is a read-only field that can be left blank. */
   accountId?: string | undefined;
-  /** ID of this advertiser group. This is a read-only, auto-generated field. */
-  id?: string | undefined;
   /** Name of this advertiser group. This is a required field and must be less than 256 characters long and unique among advertiser groups of the same account. */
   name?: string | undefined;
+  /** ID of this advertiser group. This is a read-only, auto-generated field. */
+  id?: string | undefined;
 }
 export interface GetAdvertiserLandingPagesRequest {
   /** Landing page ID. */
@@ -1402,58 +1402,57 @@ export type MobileAppDirectoryEnum =
   | "GENERIC_CTV_APP_STORE";
 /** Contains information about a mobile app. Used as a landing page deep link. */
 export interface MobileApp {
-  /** Mobile app directory. */
-  directory?: MobileAppDirectoryEnum | (string & {}) | undefined;
   /** Title of this mobile app. */
   title?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#mobileApp". */
-  kind?: string | undefined;
-  /** Publisher name. */
-  publisherName?: string | undefined;
   /** ID of this mobile app. */
   id?: string | undefined;
+  /** Publisher name. */
+  publisherName?: string | undefined;
+  /** Mobile app directory. */
+  directory?: MobileAppDirectoryEnum | (string & {}) | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#mobileApp". */
+  kind?: string | undefined;
 }
 /** Contains information about a landing page deep link. */
 export interface DeepLink {
-  /** The URL of the mobile app being linked to. */
-  appUrl?: string | undefined;
-  /** Ads served to users on these remarketing lists will use this deep link. Applicable when mobileApp.directory is APPLE_APP_STORE. */
-  remarketingListIds?: StringList | undefined;
+  /** The mobile app targeted by this deep link. */
+  mobileApp?: MobileApp | undefined;
   /** The fallback URL. This URL will be served to users who do not have the mobile app installed. */
   fallbackUrl?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#deepLink". */
   kind?: string | undefined;
-  /** The mobile app targeted by this deep link. */
-  mobileApp?: MobileApp | undefined;
+  /** The URL of the mobile app being linked to. */
+  appUrl?: string | undefined;
+  /** Ads served to users on these remarketing lists will use this deep link. Applicable when mobileApp.directory is APPLE_APP_STORE. */
+  remarketingListIds?: StringList | undefined;
 }
 export type DeepLinkList = Array<DeepLink>;
 /** Contains information about where a user's browser is taken after the user clicks an ad. */
 export interface LandingPage {
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#landingPage". */
-  kind?: string | undefined;
-  /** Advertiser ID of this landing page. This is a required field. */
-  advertiserId?: string | undefined;
-  /** ID of this landing page. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Whether this landing page has been archived. */
-  archived?: boolean | undefined;
-  /** Links that will direct the user to a mobile app, if installed. */
-  deepLinks?: DeepLinkList | undefined;
   /** URL of this landing page. This is a required field. */
   url?: string | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#landingPage". */
+  kind?: string | undefined;
+  /** Links that will direct the user to a mobile app, if installed. */
+  deepLinks?: DeepLinkList | undefined;
+  /** ID of this landing page. This is a read-only, auto-generated field. */
+  id?: string | undefined;
+  /** Advertiser ID of this landing page. This is a required field. */
+  advertiserId?: string | undefined;
+  /** Whether this landing page has been archived. */
+  archived?: boolean | undefined;
   /** Name of this landing page. This is a required field. It must be less than 256 characters long. */
   name?: string | undefined;
 }
 export interface GetAdvertisersRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Advertiser ID. */
   id: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 export type AdvertiserEuPoliticalAdsDeclarationEnum =
   | "ADVERTISER_PLANS_TO_SERVE_EU_POLITICAL_ADS"
   | "ADVERTISER_DOES_NOT_PLAN_TO_SERVE_EU_POLITICAL_ADS";
-export type AdvertiserStatusEnum = "APPROVED" | "ON_HOLD";
 export type MeasurementPartnerAdvertiserLinkMeasurementPartnerEnum =
   | "NONE"
   | "INTEGRAL_AD_SCIENCE"
@@ -1469,8 +1468,6 @@ export type MeasurementPartnerAdvertiserLinkLinkStatusEnum =
   | "MEASUREMENT_PARTNER_MODE_CHANGE_PENDING"
   | "MEASUREMENT_PARTNER_UNLINK_PENDING";
 export interface MeasurementPartnerAdvertiserLink {
-  /** partner Advertiser Id. */
-  partnerAdvertiserId?: string | undefined;
   /** Measurement partner used for tag wrapping. */
   measurementPartner?:
     | MeasurementPartnerAdvertiserLinkMeasurementPartnerEnum
@@ -1478,94 +1475,92 @@ export interface MeasurementPartnerAdvertiserLink {
     | undefined;
   /** Status of the partner link. */
   linkStatus?: MeasurementPartnerAdvertiserLinkLinkStatusEnum | (string & {}) | undefined;
+  /** partner Advertiser Id. */
+  partnerAdvertiserId?: string | undefined;
 }
+export type AdvertiserStatusEnum = "APPROVED" | "ON_HOLD";
 /** Contains properties of a Campaign Manager advertiser. */
 export interface Advertiser {
-  /** Default email address used in sender field for tag emails. */
-  defaultEmail?: string | undefined;
-  /** Floodlight configuration ID of this advertiser. The floodlight configuration ID will be created automatically, so on insert this field should be left blank. This field can be set to another advertiser's floodlight configuration ID in order to share that advertiser's floodlight configuration with this advertiser, so long as: - This advertiser's original floodlight configuration is not already associated with floodlight activities or floodlight activity groups. - This advertiser's original floodlight configuration is not already shared with another advertiser. */
-  floodlightConfigurationId?: string | undefined;
+  /** ID of the click-through event tag to apply by default to the landing pages of this advertiser's campaigns. */
+  defaultClickThroughEventTagId?: string | undefined;
   /** Optional. Whether the advertiser plans to serve EU political ads. */
   euPoliticalAdsDeclaration?: AdvertiserEuPoliticalAdsDeclarationEnum | (string & {}) | undefined;
+  /** Default email address used in sender field for tag emails. */
+  defaultEmail?: string | undefined;
+  /** Suffix added to click-through URL of ad creative associations under this advertiser. Must be less than 129 characters long. */
+  clickThroughUrlSuffix?: string | undefined;
+  /** Measurement partner advertiser link for tag wrapping. */
+  measurementPartnerLink?: MeasurementPartnerAdvertiserLink | undefined;
   /** Status of this advertiser. */
   status?: AdvertiserStatusEnum | (string & {}) | undefined;
+  /** Account ID of this advertiser.This is a read-only field that can be left blank. */
+  accountId?: string | undefined;
+  /** Dimension value for the ID of this advertiser. This is a read-only, auto-generated field. */
+  idDimensionValue?: DimensionValue | undefined;
+  /** Suspension status of this advertiser. */
+  suspended?: boolean | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#advertiser". */
+  kind?: string | undefined;
+  /** ID of this advertiser. This is a read-only, auto-generated field. */
+  id?: string | undefined;
+  /** Name of this advertiser. This is a required field and must be less than 256 characters long and unique among advertisers of the same account. */
+  name?: string | undefined;
+  /** ID of the advertiser group this advertiser belongs to. You can group advertisers for reporting purposes, allowing you to see aggregated information for all advertisers in each group. */
+  advertiserGroupId?: string | undefined;
+  /** Subaccount ID of this advertiser.This is a read-only field that can be left blank. */
+  subaccountId?: string | undefined;
   /** Original floodlight configuration before any sharing occurred. Set the floodlightConfigurationId of this advertiser to originalFloodlightConfigurationId to unshare the advertiser's current floodlight configuration. You cannot unshare an advertiser's floodlight configuration if the shared configuration has activities associated with any campaign or placement. */
   originalFloodlightConfigurationId?: string | undefined;
   /** Dimension value for the ID of the floodlight configuration. This is a read-only, auto-generated field. */
   floodlightConfigurationIdDimensionValue?: DimensionValue | undefined;
-  /** Suffix added to click-through URL of ad creative associations under this advertiser. Must be less than 129 characters long. */
-  clickThroughUrlSuffix?: string | undefined;
-  /** Subaccount ID of this advertiser.This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** ID of this advertiser. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Suspension status of this advertiser. */
-  suspended?: boolean | undefined;
-  /** ID of the click-through event tag to apply by default to the landing pages of this advertiser's campaigns. */
-  defaultClickThroughEventTagId?: string | undefined;
-  /** Dimension value for the ID of this advertiser. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** ID of the advertiser group this advertiser belongs to. You can group advertisers for reporting purposes, allowing you to see aggregated information for all advertisers in each group. */
-  advertiserGroupId?: string | undefined;
-  /** Account ID of this advertiser.This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#advertiser". */
-  kind?: string | undefined;
-  /** Measurement partner advertiser link for tag wrapping. */
-  measurementPartnerLink?: MeasurementPartnerAdvertiserLink | undefined;
-  /** Name of this advertiser. This is a required field and must be less than 256 characters long and unique among advertisers of the same account. */
-  name?: string | undefined;
+  /** Floodlight configuration ID of this advertiser. The floodlight configuration ID will be created automatically, so on insert this field should be left blank. This field can be set to another advertiser's floodlight configuration ID in order to share that advertiser's floodlight configuration with this advertiser, so long as: - This advertiser's original floodlight configuration is not already associated with floodlight activities or floodlight activity groups. - This advertiser's original floodlight configuration is not already shared with another advertiser. */
+  floodlightConfigurationId?: string | undefined;
 }
 export interface GetBillingProfilesRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Billing Profile ID. */
   id: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
+export type BillingProfileStatusEnum = "UNDER_REVIEW" | "ACTIVE" | "ARCHIVED";
 export type BillingProfileInvoiceLevelEnum =
   | "ACCOUNT_LEVEL"
   | "ADVERTISER_LEVEL"
   | "CAMPAIGN_LEVEL";
-export type BillingProfileStatusEnum = "UNDER_REVIEW" | "ACTIVE" | "ARCHIVED";
 /** Contains properties of a Campaign Manager Billing Profile. */
 export interface BillingProfile {
-  /** Billing currency code in ISO 4217 format.This is a read-only field. */
-  currencyCode?: string | undefined;
-  /** ID of this billing profile. This is a read-only, auto-generated field. */
-  id?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#billingProfile". */
   kind?: string | undefined;
-  /** The ID of the payment customer the billing profile belongs to. This is a read-only field. */
-  paymentsCustomerId?: string | undefined;
   /** True if the billing profile is the account default profile. This is a read-only field. */
   isDefault?: boolean | undefined;
-  /** Purchase order (PO) for this billing profile. This PO number is used in the invoices for all of the advertisers in this billing profile. */
-  purchaseOrder?: string | undefined;
-  /** Consolidated invoice option for this billing profile. Used to get a single, consolidated invoice across the chosen invoice level. */
-  consolidatedInvoice?: boolean | undefined;
   /** Name of this billing profile. This is a required field and must be less than 256 characters long and must be unique among billing profile in the same account. */
   name?: string | undefined;
-  /** Invoice level for this billing profile. Used to group fees into separate invoices by account, advertiser, or campaign. */
-  invoiceLevel?: BillingProfileInvoiceLevelEnum | (string & {}) | undefined;
+  /** Consolidated invoice option for this billing profile. Used to get a single, consolidated invoice across the chosen invoice level. */
+  consolidatedInvoice?: boolean | undefined;
   /** Status of this billing profile.This is a read-only field. */
   status?: BillingProfileStatusEnum | (string & {}) | undefined;
-  /** Country code of this billing profile.This is a read-only field. */
-  countryCode?: string | undefined;
   /** The ID of the secondary payment customer the billing profile belongs to. This is a read-only field. */
   secondaryPaymentsCustomerId?: string | undefined;
+  /** Invoice level for this billing profile. Used to group fees into separate invoices by account, advertiser, or campaign. */
+  invoiceLevel?: BillingProfileInvoiceLevelEnum | (string & {}) | undefined;
+  /** The ID of the payment customer the billing profile belongs to. This is a read-only field. */
+  paymentsCustomerId?: string | undefined;
+  /** ID of this billing profile. This is a read-only, auto-generated field. */
+  id?: string | undefined;
+  /** Purchase order (PO) for this billing profile. This PO number is used in the invoices for all of the advertisers in this billing profile. */
+  purchaseOrder?: string | undefined;
+  /** Billing currency code in ISO 4217 format.This is a read-only field. */
+  currencyCode?: string | undefined;
   /** The ID of the payment account the billing profile belongs to. This is a read-only field. */
   paymentsAccountId?: string | undefined;
+  /** Country code of this billing profile.This is a read-only field. */
+  countryCode?: string | undefined;
 }
 export interface GetCampaignsRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Campaign ID. */
   id: string;
-}
-/** Campaign ad blocking settings. */
-export interface AdBlockingConfiguration {
-  /** Whether this campaign has enabled ad blocking. When true, ad blocking is enabled for placements in the campaign, but this may be overridden by site and placement settings. When false, ad blocking is disabled for all placements under the campaign, regardless of site and placement settings. */
-  enabled?: boolean | undefined;
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 export type MeasurementPartnerCampaignLinkMeasurementPartnerEnum =
   | "NONE"
@@ -1582,132 +1577,137 @@ export type MeasurementPartnerCampaignLinkLinkStatusEnum =
   | "MEASUREMENT_PARTNER_MODE_CHANGE_PENDING"
   | "MEASUREMENT_PARTNER_UNLINK_PENDING";
 export interface MeasurementPartnerCampaignLink {
+  /** Partner campaign ID needed for establishing linking with Measurement partner. */
+  partnerCampaignId?: string | undefined;
   /** Measurement partner used for tag wrapping. */
   measurementPartner?:
     | MeasurementPartnerCampaignLinkMeasurementPartnerEnum
     | (string & {})
     | undefined;
-  /** Partner campaign ID needed for establishing linking with Measurement partner. */
-  partnerCampaignId?: string | undefined;
   /** . */
   linkStatus?: MeasurementPartnerCampaignLinkLinkStatusEnum | (string & {}) | undefined;
 }
-/** Audience Segment. */
-export interface AudienceSegment {
-  /** Weight allocated to this segment. The weight assigned will be understood in proportion to the weights assigned to other segments in the same segment group. Acceptable values are 1 to 1000, inclusive. */
-  allocation?: number | undefined;
-  /** Name of this audience segment. This is a required field and must be less than 65 characters long. */
-  name?: string | undefined;
-  /** ID of this audience segment. This is a read-only, auto-generated field. */
-  id?: string | undefined;
+/** Campaign ad blocking settings. */
+export interface AdBlockingConfiguration {
+  /** Whether this campaign has enabled ad blocking. When true, ad blocking is enabled for placements in the campaign, but this may be overridden by site and placement settings. When false, ad blocking is disabled for all placements under the campaign, regardless of site and placement settings. */
+  enabled?: boolean | undefined;
 }
-export type AudienceSegmentList = Array<AudienceSegment>;
-/** Audience Segment Group. */
-export interface AudienceSegmentGroup {
-  /** Audience segments assigned to this group. The number of segments must be between 2 and 100. */
-  audienceSegments?: AudienceSegmentList | undefined;
-  /** ID of this audience segment group. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Name of this audience segment group. This is a required field and must be less than 65 characters long. */
-  name?: string | undefined;
+export type CampaignEuPoliticalAdsDeclarationEnum =
+  | "CONTAINS_EU_POLITICAL_ADS"
+  | "DOES_NOT_CONTAIN_EU_POLITICAL_ADS";
+/** Creative optimization activity. */
+export interface OptimizationActivity {
+  /** Weight associated with this optimization. The weight assigned will be understood in proportion to the weights assigned to the other optimization activities. Value must be greater than or equal to 1. */
+  weight?: number | undefined;
+  /** Floodlight activity ID of this optimization activity. This is a required field. */
+  floodlightActivityId?: string | undefined;
+  /** Dimension value for the ID of the floodlight activity. This is a read-only, auto-generated field. */
+  floodlightActivityIdDimensionValue?: DimensionValue | undefined;
 }
-export type AudienceSegmentGroupList = Array<AudienceSegmentGroup>;
+export type OptimizationActivityList = Array<OptimizationActivity>;
 export type CreativeOptimizationConfigurationOptimizationModelEnum =
   | "CLICK"
   | "POST_CLICK"
   | "POST_IMPRESSION"
   | "POST_CLICK_AND_IMPRESSION"
   | "VIDEO_COMPLETION";
-/** Creative optimization activity. */
-export interface OptimizationActivity {
-  /** Floodlight activity ID of this optimization activity. This is a required field. */
-  floodlightActivityId?: string | undefined;
-  /** Dimension value for the ID of the floodlight activity. This is a read-only, auto-generated field. */
-  floodlightActivityIdDimensionValue?: DimensionValue | undefined;
-  /** Weight associated with this optimization. The weight assigned will be understood in proportion to the weights assigned to the other optimization activities. Value must be greater than or equal to 1. */
-  weight?: number | undefined;
-}
-export type OptimizationActivityList = Array<OptimizationActivity>;
 /** Creative optimization settings. */
 export interface CreativeOptimizationConfiguration {
+  /** List of optimization activities associated with this configuration. */
+  optimizationActivitys?: OptimizationActivityList | undefined;
   /** Name of this creative optimization config. This is a required field and must be less than 129 characters long. */
   name?: string | undefined;
-  /** ID of this creative optimization config. This field is auto-generated when the campaign is inserted or updated. It can be null for existing campaigns. */
-  id?: string | undefined;
   /** Optimization model for this configuration. */
   optimizationModel?:
     | CreativeOptimizationConfigurationOptimizationModelEnum
     | (string & {})
     | undefined;
-  /** List of optimization activities associated with this configuration. */
-  optimizationActivitys?: OptimizationActivityList | undefined;
+  /** ID of this creative optimization config. This field is auto-generated when the campaign is inserted or updated. It can be null for existing campaigns. */
+  id?: string | undefined;
 }
+/** Audience Segment. */
+export interface AudienceSegment {
+  /** Name of this audience segment. This is a required field and must be less than 65 characters long. */
+  name?: string | undefined;
+  /** Weight allocated to this segment. The weight assigned will be understood in proportion to the weights assigned to other segments in the same segment group. Acceptable values are 1 to 1000, inclusive. */
+  allocation?: number | undefined;
+  /** ID of this audience segment. This is a read-only, auto-generated field. */
+  id?: string | undefined;
+}
+export type AudienceSegmentList = Array<AudienceSegment>;
+/** Audience Segment Group. */
+export interface AudienceSegmentGroup {
+  /** ID of this audience segment group. This is a read-only, auto-generated field. */
+  id?: string | undefined;
+  /** Audience segments assigned to this group. The number of segments must be between 2 and 100. */
+  audienceSegments?: AudienceSegmentList | undefined;
+  /** Name of this audience segment group. This is a required field and must be less than 65 characters long. */
+  name?: string | undefined;
+}
+export type AudienceSegmentGroupList = Array<AudienceSegmentGroup>;
 export type CreativeOptimizationConfigurationList = Array<CreativeOptimizationConfiguration>;
-export type CampaignEuPoliticalAdsDeclarationEnum =
-  | "CONTAINS_EU_POLITICAL_ADS"
-  | "DOES_NOT_CONTAIN_EU_POLITICAL_ADS";
 /** Contains properties of a Campaign Manager campaign. */
 export interface Campaign {
-  /** The default landing page ID for this campaign. */
-  defaultLandingPageId?: string | undefined;
-  /** ID of this campaign. This is a read-only auto-generated field. */
-  id?: string | undefined;
-  /** Overrides that can be used to activate or deactivate advertiser event tags. */
-  eventTagOverrides?: EventTagOverrideList | undefined;
-  /** Name of this campaign. This is a required field and must be less than 512 characters long and unique among campaigns of the same advertiser. */
-  name?: string | undefined;
-  startDate?: string | undefined;
-  /** List of creative group IDs that are assigned to the campaign. */
-  creativeGroupIds?: StringList | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#campaign". */
-  kind?: string | undefined;
-  /** Account ID of this campaign. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Ad blocking settings for this campaign. */
-  adBlockingConfiguration?: AdBlockingConfiguration | undefined;
-  /** Subaccount ID of this campaign. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** Arbitrary comments about this campaign. Must be less than 256 characters long. */
-  comment?: string | undefined;
-  /** Whether this campaign has been archived. */
-  archived?: boolean | undefined;
-  /** Measurement partner campaign link for tag wrapping. */
-  measurementPartnerLink?: MeasurementPartnerCampaignLink | undefined;
-  /** Dimension value for the ID of this campaign. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** Dimension value for the advertiser ID of this campaign. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
   /** Information about the creation of this campaign. This is a read-only field. */
   createInfo?: LastModifiedInfo | undefined;
   /** Information about the most recent modification of this campaign. This is a read-only field. */
   lastModifiedInfo?: LastModifiedInfo | undefined;
-  /** Advertiser ID of this campaign. This is a required field. */
-  advertiserId?: string | undefined;
+  /** Overrides that can be used to activate or deactivate advertiser event tags. */
+  eventTagOverrides?: EventTagOverrideList | undefined;
+  /** Billing invoice code included in the Campaign Manager client billing invoices associated with the campaign. */
+  billingInvoiceCode?: string | undefined;
+  /** External ID for this campaign. */
+  externalId?: string | undefined;
+  /** Measurement partner campaign link for tag wrapping. */
+  measurementPartnerLink?: MeasurementPartnerCampaignLink | undefined;
+  /** Ad blocking settings for this campaign. */
+  adBlockingConfiguration?: AdBlockingConfiguration | undefined;
   /** Advertiser group ID of the associated advertiser. */
   advertiserGroupId?: string | undefined;
-  endDate?: string | undefined;
+  /** Arbitrary comments about this campaign. Must be less than 256 characters long. */
+  comment?: string | undefined;
+  /** Dimension value for the advertiser ID of this campaign. This is a read-only, auto-generated field. */
+  advertiserIdDimensionValue?: DimensionValue | undefined;
+  /** Click-through URL suffix override properties for this campaign. */
+  clickThroughUrlSuffixProperties?: ClickThroughUrlSuffixProperties | undefined;
+  /** Optional. Whether the campaign has EU political ads. Campaign Manager 360 doesn't allow campaigns with EU political ads to serve in the EU. They can still serve in other regions. */
+  euPoliticalAdsDeclaration?: CampaignEuPoliticalAdsDeclarationEnum | (string & {}) | undefined;
+  /** List of creative group IDs that are assigned to the campaign. */
+  creativeGroupIds?: StringList | undefined;
+  /** Click-through event tag ID override properties for this campaign. */
+  defaultClickThroughEventTagProperties?: DefaultClickThroughEventTagProperties | undefined;
+  /** Subaccount ID of this campaign. This is a read-only field that can be left blank. */
+  subaccountId?: string | undefined;
+  /** Creative optimization configuration for the campaign. */
+  creativeOptimizationConfiguration?: CreativeOptimizationConfiguration | undefined;
+  /** Advertiser ID of this campaign. This is a required field. */
+  advertiserId?: string | undefined;
   /** Audience segment groups assigned to this campaign. Cannot have more than 300 segment groups. */
   audienceSegmentGroups?: AudienceSegmentGroupList | undefined;
   /** Additional creative optimization configurations for the campaign. */
   additionalCreativeOptimizationConfigurations?: CreativeOptimizationConfigurationList | undefined;
-  /** Billing invoice code included in the Campaign Manager client billing invoices associated with the campaign. */
-  billingInvoiceCode?: string | undefined;
-  /** Optional. Whether the campaign has EU political ads. Campaign Manager 360 doesn't allow campaigns with EU political ads to serve in the EU. They can still serve in other regions. */
-  euPoliticalAdsDeclaration?: CampaignEuPoliticalAdsDeclarationEnum | (string & {}) | undefined;
-  /** Click-through event tag ID override properties for this campaign. */
-  defaultClickThroughEventTagProperties?: DefaultClickThroughEventTagProperties | undefined;
-  /** Click-through URL suffix override properties for this campaign. */
-  clickThroughUrlSuffixProperties?: ClickThroughUrlSuffixProperties | undefined;
-  /** External ID for this campaign. */
-  externalId?: string | undefined;
-  /** Creative optimization configuration for the campaign. */
-  creativeOptimizationConfiguration?: CreativeOptimizationConfiguration | undefined;
+  /** Dimension value for the ID of this campaign. This is a read-only, auto-generated field. */
+  idDimensionValue?: DimensionValue | undefined;
+  /** The default landing page ID for this campaign. */
+  defaultLandingPageId?: string | undefined;
+  /** Whether this campaign has been archived. */
+  archived?: boolean | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#campaign". */
+  kind?: string | undefined;
+  /** ID of this campaign. This is a read-only auto-generated field. */
+  id?: string | undefined;
+  /** Name of this campaign. This is a required field and must be less than 512 characters long and unique among campaigns of the same advertiser. */
+  name?: string | undefined;
+  endDate?: string | undefined;
+  startDate?: string | undefined;
+  /** Account ID of this campaign. This is a read-only field that can be left blank. */
+  accountId?: string | undefined;
 }
 export interface GetChangeLogsRequest {
-  /** Change log ID. */
-  id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Change log ID. */
+  id: string;
 }
 /** Describes a change that a user has made to a resource. */
 export interface ChangeLog {
@@ -1715,29 +1715,29 @@ export interface ChangeLog {
   fieldName?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#changeLog". */
   kind?: string | undefined;
-  /** Subaccount ID of the modified object. */
-  subaccountId?: string | undefined;
+  /** Old value of the object field. */
+  oldValue?: string | undefined;
+  /** Object type of the change log. */
+  objectType?: string | undefined;
+  /** Action which caused the change. */
+  action?: string | undefined;
   /** ID of this change log. */
   id?: string | undefined;
-  /** Account ID of the modified object. */
-  accountId?: string | undefined;
+  changeTime?: string | undefined;
   /** ID of the object of this change log. The object could be a campaign, placement, ad, or other type. */
   objectId?: string | undefined;
   /** New value of the object field. */
   newValue?: string | undefined;
-  /** Action which caused the change. */
-  action?: string | undefined;
-  /** Old value of the object field. */
-  oldValue?: string | undefined;
-  /** ID of the user who modified the object. */
-  userProfileId?: string | undefined;
-  /** Object type of the change log. */
-  objectType?: string | undefined;
-  /** User profile name of the user who modified the object. */
-  userProfileName?: string | undefined;
   /** Transaction ID of this change log. When a single API call results in many changes, each change will have a separate ID in the change log but will share the same transactionId. */
   transactionId?: string | undefined;
-  changeTime?: string | undefined;
+  /** User profile name of the user who modified the object. */
+  userProfileName?: string | undefined;
+  /** Subaccount ID of the modified object. */
+  subaccountId?: string | undefined;
+  /** Account ID of the modified object. */
+  accountId?: string | undefined;
+  /** ID of the user who modified the object. */
+  userProfileId?: string | undefined;
 }
 export interface GetConnectionTypesRequest {
   /** User profile ID associated with this request. */
@@ -1746,20 +1746,20 @@ export interface GetConnectionTypesRequest {
   id: string;
 }
 export interface GetContentCategoriesRequest {
-  /** Content category ID. */
-  id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Content category ID. */
+  id: string;
 }
 export interface ContentCategory {
-  /** Name of this content category. This is a required field and must be less than 256 characters long and unique among content categories of the same account. */
-  name?: string | undefined;
   /** Account ID of this content category. This is a read-only field that can be left blank. */
   accountId?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#contentCategory". */
-  kind?: string | undefined;
+  /** Name of this content category. This is a required field and must be less than 256 characters long and unique among content categories of the same account. */
+  name?: string | undefined;
   /** ID of this content category. This is a read-only, auto-generated field. */
   id?: string | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#contentCategory". */
+  kind?: string | undefined;
 }
 export interface GetCountriesRequest {
   /** Country DART ID. */
@@ -1768,44 +1768,44 @@ export interface GetCountriesRequest {
   profileId: string;
 }
 export interface GetCreativeFieldsRequest {
-  /** Creative Field ID */
-  id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Creative Field ID */
+  id: string;
 }
 /** Contains properties of a creative field. */
 export interface CreativeField {
-  /** Account ID of this creative field. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
+  /** Advertiser ID of this creative field. This is a required field on insertion. */
+  advertiserId?: string | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeField". */
+  kind?: string | undefined;
   /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
   advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Name of this creative field. This is a required field and must be less than 256 characters long and unique among creative fields of the same advertiser. */
-  name?: string | undefined;
   /** Subaccount ID of this creative field. This is a read-only field that can be left blank. */
   subaccountId?: string | undefined;
   /** ID of this creative field. This is a read-only, auto-generated field. */
   id?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeField". */
-  kind?: string | undefined;
-  /** Advertiser ID of this creative field. This is a required field on insertion. */
-  advertiserId?: string | undefined;
+  /** Account ID of this creative field. This is a read-only field that can be left blank. */
+  accountId?: string | undefined;
+  /** Name of this creative field. This is a required field and must be less than 256 characters long and unique among creative fields of the same advertiser. */
+  name?: string | undefined;
 }
 export interface GetCreativeFieldValuesRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
-  /** Creative Field Value ID */
-  id: string;
   /** Creative field ID for this creative field value. */
   creativeFieldId: string;
+  /** Creative Field Value ID */
+  id: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 /** Contains properties of a creative field value. */
 export interface CreativeFieldValue {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeFieldValue". */
   kind?: string | undefined;
-  /** Value of this creative field value. It needs to be less than 256 characters in length and unique per creative field. */
-  value?: string | undefined;
   /** ID of this creative field value. This is a read-only, auto-generated field. */
   id?: string | undefined;
+  /** Value of this creative field value. It needs to be less than 256 characters in length and unique per creative field. */
+  value?: string | undefined;
 }
 export interface GetCreativeGroupsRequest {
   /** User profile ID associated with this request. */
@@ -1815,22 +1815,22 @@ export interface GetCreativeGroupsRequest {
 }
 /** Contains properties of a creative group. */
 export interface CreativeGroup {
-  /** Account ID of this creative group. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Subgroup of the creative group. Assign your creative groups to a subgroup in order to filter or manage them more easily. This field is required on insertion and is read-only after insertion. Acceptable values are 1 to 2, inclusive. */
-  groupNumber?: number | undefined;
+  /** Advertiser ID of this creative group. This is a required field on insertion. */
+  advertiserId?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeGroup". */
   kind?: string | undefined;
-  /** ID of this creative group. This is a read-only, auto-generated field. */
-  id?: string | undefined;
   /** Subaccount ID of this creative group. This is a read-only field that can be left blank. */
   subaccountId?: string | undefined;
   /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
   advertiserIdDimensionValue?: DimensionValue | undefined;
+  /** Account ID of this creative group. This is a read-only field that can be left blank. */
+  accountId?: string | undefined;
+  /** ID of this creative group. This is a read-only, auto-generated field. */
+  id?: string | undefined;
   /** Name of this creative group. This is a required field and must be less than 256 characters long and unique among creative groups of the same advertiser. */
   name?: string | undefined;
-  /** Advertiser ID of this creative group. This is a required field on insertion. */
-  advertiserId?: string | undefined;
+  /** Subgroup of the creative group. Assign your creative groups to a subgroup in order to filter or manage them more easily. This field is required on insertion and is read-only after insertion. Acceptable values are 1 to 2, inclusive. */
+  groupNumber?: number | undefined;
 }
 export interface GetCreativesRequest {
   /** User profile ID associated with this request. */
@@ -1838,188 +1838,37 @@ export interface GetCreativesRequest {
   /** Creative ID. */
   id: string;
 }
-export type CreativeTypeEnum =
-  | "IMAGE"
-  | "DISPLAY_REDIRECT"
-  | "CUSTOM_DISPLAY"
-  | "INTERNAL_REDIRECT"
-  | "CUSTOM_DISPLAY_INTERSTITIAL"
-  | "INTERSTITIAL_INTERNAL_REDIRECT"
-  | "TRACKING_TEXT"
-  | "RICH_MEDIA_DISPLAY_BANNER"
-  | "RICH_MEDIA_INPAGE_FLOATING"
-  | "RICH_MEDIA_IM_EXPAND"
-  | "RICH_MEDIA_DISPLAY_EXPANDING"
-  | "RICH_MEDIA_DISPLAY_INTERSTITIAL"
-  | "RICH_MEDIA_DISPLAY_MULTI_FLOATING_INTERSTITIAL"
-  | "RICH_MEDIA_MOBILE_IN_APP"
-  | "FLASH_INPAGE"
-  | "INSTREAM_VIDEO"
-  | "VPAID_LINEAR_VIDEO"
-  | "VPAID_NON_LINEAR_VIDEO"
-  | "INSTREAM_VIDEO_REDIRECT"
-  | "RICH_MEDIA_PEEL_DOWN"
-  | "HTML5_BANNER"
-  | "DISPLAY"
-  | "DISPLAY_IMAGE_GALLERY"
-  | "BRAND_SAFE_DEFAULT_INSTREAM_VIDEO"
-  | "INSTREAM_AUDIO";
-export type CreativeCompatibilityItemEnum =
-  | "DISPLAY"
-  | "DISPLAY_INTERSTITIAL"
-  | "APP"
-  | "APP_INTERSTITIAL"
-  | "IN_STREAM_VIDEO"
-  | "IN_STREAM_AUDIO";
-export type CreativeCompatibilityItemEnumList = Array<
-  CreativeCompatibilityItemEnum | (string & {})
->;
 /** Video Offset */
 export interface VideoOffset {
-  /** Duration, as a percentage of video duration. Do not set when offsetSeconds is set. Acceptable values are 0 to 100, inclusive. */
-  offsetPercentage?: number | undefined;
   /** Duration, in seconds. Do not set when offsetPercentage is set. Acceptable values are 0 to 86399, inclusive. */
   offsetSeconds?: number | undefined;
+  /** Duration, as a percentage of video duration. Do not set when offsetSeconds is set. Acceptable values are 0 to 100, inclusive. */
+  offsetPercentage?: number | undefined;
 }
-export type CreativeBackupImageFeaturesItemEnum =
-  | "CSS_FONT_FACE"
-  | "CSS_BACKGROUND_SIZE"
-  | "CSS_BORDER_IMAGE"
-  | "CSS_BORDER_RADIUS"
-  | "CSS_BOX_SHADOW"
-  | "CSS_FLEX_BOX"
-  | "CSS_HSLA"
-  | "CSS_MULTIPLE_BGS"
-  | "CSS_OPACITY"
-  | "CSS_RGBA"
-  | "CSS_TEXT_SHADOW"
-  | "CSS_ANIMATIONS"
-  | "CSS_COLUMNS"
-  | "CSS_GENERATED_CONTENT"
-  | "CSS_GRADIENTS"
-  | "CSS_REFLECTIONS"
-  | "CSS_TRANSFORMS"
-  | "CSS_TRANSFORMS3D"
-  | "CSS_TRANSITIONS"
-  | "APPLICATION_CACHE"
-  | "CANVAS"
-  | "CANVAS_TEXT"
-  | "DRAG_AND_DROP"
-  | "HASH_CHANGE"
-  | "HISTORY"
-  | "AUDIO"
-  | "VIDEO"
-  | "INDEXED_DB"
-  | "INPUT_ATTR_AUTOCOMPLETE"
-  | "INPUT_ATTR_AUTOFOCUS"
-  | "INPUT_ATTR_LIST"
-  | "INPUT_ATTR_PLACEHOLDER"
-  | "INPUT_ATTR_MAX"
-  | "INPUT_ATTR_MIN"
-  | "INPUT_ATTR_MULTIPLE"
-  | "INPUT_ATTR_PATTERN"
-  | "INPUT_ATTR_REQUIRED"
-  | "INPUT_ATTR_STEP"
-  | "INPUT_TYPE_SEARCH"
-  | "INPUT_TYPE_TEL"
-  | "INPUT_TYPE_URL"
-  | "INPUT_TYPE_EMAIL"
-  | "INPUT_TYPE_DATETIME"
-  | "INPUT_TYPE_DATE"
-  | "INPUT_TYPE_MONTH"
-  | "INPUT_TYPE_WEEK"
-  | "INPUT_TYPE_TIME"
-  | "INPUT_TYPE_DATETIME_LOCAL"
-  | "INPUT_TYPE_NUMBER"
-  | "INPUT_TYPE_RANGE"
-  | "INPUT_TYPE_COLOR"
-  | "LOCAL_STORAGE"
-  | "POST_MESSAGE"
-  | "SESSION_STORAGE"
-  | "WEB_SOCKETS"
-  | "WEB_SQL_DATABASE"
-  | "WEB_WORKERS"
-  | "GEO_LOCATION"
-  | "INLINE_SVG"
-  | "SMIL"
-  | "SVG_HREF"
-  | "SVG_CLIP_PATHS"
-  | "TOUCH"
-  | "WEBGL"
-  | "SVG_FILTERS"
-  | "SVG_FE_IMAGE";
-export type CreativeBackupImageFeaturesItemEnumList = Array<
-  CreativeBackupImageFeaturesItemEnum | (string & {})
->;
-export type UniversalAdIdRegistryEnum =
-  | "OTHER"
-  | "AD_ID_OFFICIAL"
-  | "CLEARCAST"
-  | "DCM"
-  | "ARPP"
-  | "CUSV";
-/** A Universal Ad ID as per the VAST 4.0 spec. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and VPAID. */
-export interface UniversalAdId {
-  /** Registry used for the Ad ID value. */
-  registry?: UniversalAdIdRegistryEnum | (string & {}) | undefined;
-  /** ID value for this creative. Only alphanumeric characters and the following symbols are valid: "_/\-". Maximum length is 64 characters. Read only when registry is DCM. */
-  value?: string | undefined;
+/** Click-through URL */
+export interface CreativeClickThroughUrl {
+  /** Read-only convenience field representing the actual URL that will be used for this click-through. The URL is computed as follows: - If landingPageId is specified then that landing page's URL is assigned to this field. - Otherwise, the customClickThroughUrl is assigned to this field. */
+  computedClickThroughUrl?: string | undefined;
+  /** Custom click-through URL. Applicable if the landingPageId field is left unset. */
+  customClickThroughUrl?: string | undefined;
+  /** ID of the landing page for the click-through URL. */
+  landingPageId?: string | undefined;
 }
-export type TargetWindowTargetWindowOptionEnum = "NEW_WINDOW" | "CURRENT_WINDOW" | "CUSTOM";
-/** Target Window. */
-export interface TargetWindow {
-  /** User-entered value. */
-  customHtml?: string | undefined;
-  /** Type of browser window for which the backup image of the flash creative can be displayed. */
-  targetWindowOption?: TargetWindowTargetWindowOptionEnum | (string & {}) | undefined;
-}
-export type ThirdPartyTrackingUrlThirdPartyUrlTypeEnum =
-  | "IMPRESSION"
-  | "CLICK_TRACKING"
-  | "VIDEO_START"
-  | "VIDEO_FIRST_QUARTILE"
-  | "VIDEO_MIDPOINT"
-  | "VIDEO_THIRD_QUARTILE"
-  | "VIDEO_COMPLETE"
-  | "VIDEO_MUTE"
-  | "VIDEO_PAUSE"
-  | "VIDEO_REWIND"
-  | "VIDEO_FULLSCREEN"
-  | "VIDEO_STOP"
-  | "VIDEO_CUSTOM"
-  | "SURVEY"
-  | "RICH_MEDIA_IMPRESSION"
-  | "RICH_MEDIA_RM_IMPRESSION"
-  | "RICH_MEDIA_BACKUP_IMPRESSION"
-  | "VIDEO_SKIP"
-  | "VIDEO_PROGRESS";
-/** Third-party Tracking URL. */
-export interface ThirdPartyTrackingUrl {
-  /** Third-party URL type for in-stream video and in-stream audio creatives. */
-  thirdPartyUrlType?: ThirdPartyTrackingUrlThirdPartyUrlTypeEnum | (string & {}) | undefined;
-  /** URL for the specified third-party URL type. */
-  url?: string | undefined;
-}
-export type ThirdPartyTrackingUrlList = Array<ThirdPartyTrackingUrl>;
-/** Online Behavioral Advertiser icon. */
-export interface ObaIcon {
-  /** URL to track view when an OBA icon is clicked. */
-  iconViewTrackingUrl?: string | undefined;
-  /** OBA icon x coordinate position. Accepted values are left or right. */
-  xPosition?: string | undefined;
-  /** URL to track click when an OBA icon is clicked. */
-  iconClickTrackingUrl?: string | undefined;
-  /** OBA icon size. */
-  size?: Size | undefined;
-  /** OBA icon y coordinate position. Accepted values are top or bottom. */
-  yPosition?: string | undefined;
-  /** Identifies the industry initiative that the icon supports. For example, AdChoices. */
-  program?: string | undefined;
-  /** OBA icon resource URL. Campaign Manager only supports image and JavaScript icons. Learn more */
-  resourceUrl?: string | undefined;
-  /** URL to redirect to when an OBA icon is clicked. */
-  iconClickThroughUrl?: string | undefined;
-}
+export type CreativeCustomEventAdvertiserCustomEventTypeEnum =
+  | "ADVERTISER_EVENT_TIMER"
+  | "ADVERTISER_EVENT_EXIT"
+  | "ADVERTISER_EVENT_COUNTER";
+export type CreativeCustomEventTargetTypeEnum =
+  | "TARGET_BLANK"
+  | "TARGET_TOP"
+  | "TARGET_SELF"
+  | "TARGET_PARENT"
+  | "TARGET_POPUP";
+export type CreativeCustomEventArtworkTypeEnum =
+  | "ARTWORK_TYPE_FLASH"
+  | "ARTWORK_TYPE_HTML5"
+  | "ARTWORK_TYPE_MIXED"
+  | "ARTWORK_TYPE_IMAGE";
 /** Offset Position. */
 export interface OffsetPosition {
   /** Offset distance from left side of an asset or a window. */
@@ -2030,63 +1879,33 @@ export interface OffsetPosition {
 export type PopupWindowPropertiesPositionTypeEnum = "CENTER" | "COORDINATES";
 /** Popup Window Properties. */
 export interface PopupWindowProperties {
-  /** Upper-left corner coordinates of the popup window. Applicable if positionType is COORDINATES. */
-  offset?: OffsetPosition | undefined;
-  /** Title of popup window. */
-  title?: string | undefined;
-  /** Whether to display the browser address bar. */
-  showAddressBar?: boolean | undefined;
-  /** Popup window position either centered or at specific coordinate. */
-  positionType?: PopupWindowPropertiesPositionTypeEnum | (string & {}) | undefined;
   /** Whether to display the browser status bar. */
   showStatusBar?: boolean | undefined;
-  /** Whether to display the browser tool bar. */
-  showToolBar?: boolean | undefined;
   /** Whether to display the browser scroll bar. */
   showScrollBar?: boolean | undefined;
-  /** Popup dimension for a creative. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA and all VPAID */
-  dimension?: Size | undefined;
+  /** Whether to display the browser address bar. */
+  showAddressBar?: boolean | undefined;
+  /** Title of popup window. */
+  title?: string | undefined;
   /** Whether to display the browser menu bar. */
   showMenuBar?: boolean | undefined;
+  /** Whether to display the browser tool bar. */
+  showToolBar?: boolean | undefined;
+  /** Upper-left corner coordinates of the popup window. Applicable if positionType is COORDINATES. */
+  offset?: OffsetPosition | undefined;
+  /** Popup dimension for a creative. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA and all VPAID */
+  dimension?: Size | undefined;
+  /** Popup window position either centered or at specific coordinate. */
+  positionType?: PopupWindowPropertiesPositionTypeEnum | (string & {}) | undefined;
 }
-export type CreativeCustomEventTargetTypeEnum =
-  | "TARGET_BLANK"
-  | "TARGET_TOP"
-  | "TARGET_SELF"
-  | "TARGET_PARENT"
-  | "TARGET_POPUP";
-/** Click-through URL */
-export interface CreativeClickThroughUrl {
-  /** Custom click-through URL. Applicable if the landingPageId field is left unset. */
-  customClickThroughUrl?: string | undefined;
-  /** ID of the landing page for the click-through URL. */
-  landingPageId?: string | undefined;
-  /** Read-only convenience field representing the actual URL that will be used for this click-through. The URL is computed as follows: - If landingPageId is specified then that landing page's URL is assigned to this field. - Otherwise, the customClickThroughUrl is assigned to this field. */
-  computedClickThroughUrl?: string | undefined;
-}
-export type CreativeCustomEventAdvertiserCustomEventTypeEnum =
-  | "ADVERTISER_EVENT_TIMER"
-  | "ADVERTISER_EVENT_EXIT"
-  | "ADVERTISER_EVENT_COUNTER";
-export type CreativeCustomEventArtworkTypeEnum =
-  | "ARTWORK_TYPE_FLASH"
-  | "ARTWORK_TYPE_HTML5"
-  | "ARTWORK_TYPE_MIXED"
-  | "ARTWORK_TYPE_IMAGE";
 /** Creative Custom Event. */
 export interface CreativeCustomEvent {
-  /** Unique ID of this event used by Reporting and Data Transfer. This is a read-only field. */
-  advertiserCustomEventId?: string | undefined;
+  /** ID of this event. This is a required field and should not be modified after insertion. */
+  id?: string | undefined;
   /** Artwork label column, used to link events in Campaign Manager back to events in Studio. This is a required field and should not be modified after insertion. */
   artworkLabel?: string | undefined;
-  /** Properties for rich media popup windows. This field is used only for exit events. */
-  popupWindowProperties?: PopupWindowProperties | undefined;
-  /** Video reporting ID, used to differentiate multiple videos in a single creative. This is a read-only field. */
-  videoReportingId?: string | undefined;
-  /** User-entered name for the event. */
-  advertiserCustomEventName?: string | undefined;
-  /** Target type used by the event. */
-  targetType?: CreativeCustomEventTargetTypeEnum | (string & {}) | undefined;
+  /** Unique ID of this event used by Reporting and Data Transfer. This is a read-only field. */
+  advertiserCustomEventId?: string | undefined;
   /** Exit click-through URL for the event. This field is used only for exit events. */
   exitClickThroughUrl?: CreativeClickThroughUrl | undefined;
   /** Type of the event. This is a read-only field. */
@@ -2094,70 +1913,32 @@ export interface CreativeCustomEvent {
     | CreativeCustomEventAdvertiserCustomEventTypeEnum
     | (string & {})
     | undefined;
+  /** Target type used by the event. */
+  targetType?: CreativeCustomEventTargetTypeEnum | (string & {}) | undefined;
+  /** User-entered name for the event. */
+  advertiserCustomEventName?: string | undefined;
   /** Artwork type used by the creative.This is a read-only field. */
   artworkType?: CreativeCustomEventArtworkTypeEnum | (string & {}) | undefined;
-  /** ID of this event. This is a required field and should not be modified after insertion. */
-  id?: string | undefined;
+  /** Properties for rich media popup windows. This field is used only for exit events. */
+  popupWindowProperties?: PopupWindowProperties | undefined;
+  /** Video reporting ID, used to differentiate multiple videos in a single creative. This is a read-only field. */
+  videoReportingId?: string | undefined;
 }
 export type CreativeCustomEventList = Array<CreativeCustomEvent>;
-export type FsCommandPositionOptionEnum = "CENTERED" | "DISTANCE_FROM_TOP_LEFT_CORNER";
-/** FsCommand. */
-export interface FsCommand {
-  /** Position in the browser where the window will open. */
-  positionOption?: FsCommandPositionOptionEnum | (string & {}) | undefined;
-  /** Width of the window. */
-  windowWidth?: number | undefined;
-  /** Distance from the top of the browser. Applicable when positionOption is DISTANCE_FROM_TOP_LEFT_CORNER. */
-  top?: number | undefined;
-  /** Distance from the left of the browser.Applicable when positionOption is DISTANCE_FROM_TOP_LEFT_CORNER. */
-  left?: number | undefined;
-  /** Height of the window. */
-  windowHeight?: number | undefined;
-}
-export type SizeList = Array<Size>;
-export type CreativeSyntheticContentAttestationStatusEnum =
-  | "SYNTHETIC_CONTENT_ATTESTATION_STATUS_UNSPECIFIED"
-  | "IS_SYNTHETIC"
-  | "NOT_SYNTHETIC";
-export type CreativeAuthoringToolEnum = "NINJA" | "SWIFFY";
-/** Creative Field Assignment. */
-export interface CreativeFieldAssignment {
-  /** ID of the creative field. */
-  creativeFieldId?: string | undefined;
-  /** ID of the creative field value. */
-  creativeFieldValueId?: string | undefined;
-}
-export type CreativeFieldAssignmentList = Array<CreativeFieldAssignment>;
-export type CreativeAuthoringSourceEnum =
-  | "CREATIVE_AUTHORING_SOURCE_DCM"
-  | "CREATIVE_AUTHORING_SOURCE_DBM"
-  | "CREATIVE_AUTHORING_SOURCE_STUDIO"
-  | "CREATIVE_AUTHORING_SOURCE_GWD"
-  | "CREATIVE_AUTHORING_SOURCE_ACS"
-  | "CREATIVE_AUTHORING_SOURCE_ADOBE"
-  | "CREATIVE_AUTHORING_SOURCE_TYPEFACE_AI"
-  | "CREATIVE_AUTHORING_SOURCE_REMBRAND"
-  | "CREATIVE_AUTHORING_SOURCE_TRACKTO_STUDIO"
-  | "CREATIVE_AUTHORING_SOURCE_BORNLOGIC"
-  | "CREATIVE_AUTHORING_SOURCE_BEGEN_AI";
-/** Creative Click Tag. */
-export interface ClickTag {
-  /** Parameter name for the specified click tag. For DISPLAY_IMAGE_GALLERY creative assets, this field must match the value of the creative asset's creativeAssetId.name field. */
-  name?: string | undefined;
-  /** Advertiser event name associated with the click tag. This field is used by DISPLAY_IMAGE_GALLERY and HTML5_BANNER creatives. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  eventName?: string | undefined;
-  /** Parameter value for the specified click tag. This field contains a click-through url. */
-  clickThroughUrl?: CreativeClickThroughUrl | undefined;
-}
-export type ClickTagList = Array<ClickTag>;
-export type CreativeAssetIdTypeEnum = "IMAGE" | "FLASH" | "VIDEO" | "HTML" | "HTML_IMAGE" | "AUDIO";
-/** Creative Asset ID. */
-export interface CreativeAssetId {
-  /** Type of asset to upload. This is a required field. FLASH and IMAGE are no longer supported for new uploads. All image assets should use HTML_IMAGE. */
-  type?: CreativeAssetIdTypeEnum | (string & {}) | undefined;
-  /** Name of the creative asset. This is a required field while inserting an asset. After insertion, this assetIdentifier is used to identify the uploaded asset. Characters in the name must be alphanumeric or one of the following: ".-_ ". Spaces are allowed. */
-  name?: string | undefined;
-}
+export type CreativeAssetWindowModeEnum = "OPAQUE" | "WINDOW" | "TRANSPARENT";
+export type CreativeAssetStartTimeTypeEnum =
+  | "ASSET_START_TIME_TYPE_NONE"
+  | "ASSET_START_TIME_TYPE_CUSTOM";
+export type CreativeAssetOrientationEnum = "LANDSCAPE" | "PORTRAIT" | "SQUARE";
+export type CreativeAssetChildAssetTypeEnum =
+  | "CHILD_ASSET_TYPE_FLASH"
+  | "CHILD_ASSET_TYPE_VIDEO"
+  | "CHILD_ASSET_TYPE_IMAGE"
+  | "CHILD_ASSET_TYPE_DATA";
+export type CreativeAssetDurationTypeEnum =
+  | "ASSET_DURATION_TYPE_AUTO"
+  | "ASSET_DURATION_TYPE_NONE"
+  | "ASSET_DURATION_TYPE_CUSTOM";
 export type CreativeAssetRoleEnum =
   | "PRIMARY"
   | "BACKUP_IMAGE"
@@ -2175,26 +1956,30 @@ export type CreativeAssetRoleEnum =
   | "DESCRIPTION"
   | "LONG_DESCRIPTION"
   | "CALL_TO_ACTION";
-export type CreativeAssetDisplayTypeEnum =
-  | "ASSET_DISPLAY_TYPE_INPAGE"
-  | "ASSET_DISPLAY_TYPE_FLOATING"
-  | "ASSET_DISPLAY_TYPE_OVERLAY"
-  | "ASSET_DISPLAY_TYPE_EXPANDING"
-  | "ASSET_DISPLAY_TYPE_FLASH_IN_FLASH"
-  | "ASSET_DISPLAY_TYPE_FLASH_IN_FLASH_EXPANDING"
-  | "ASSET_DISPLAY_TYPE_PEEL_DOWN"
-  | "ASSET_DISPLAY_TYPE_VPAID_LINEAR"
-  | "ASSET_DISPLAY_TYPE_VPAID_NON_LINEAR"
-  | "ASSET_DISPLAY_TYPE_BACKDROP";
+export type SizeList = Array<Size>;
+export type CreativeAssetIdTypeEnum = "IMAGE" | "FLASH" | "VIDEO" | "HTML" | "HTML_IMAGE" | "AUDIO";
+/** Creative Asset ID. */
+export interface CreativeAssetId {
+  /** Name of the creative asset. This is a required field while inserting an asset. After insertion, this assetIdentifier is used to identify the uploaded asset. Characters in the name must be alphanumeric or one of the following: ".-_ ". Spaces are allowed. */
+  name?: string | undefined;
+  /** Type of asset to upload. This is a required field. FLASH and IMAGE are no longer supported for new uploads. All image assets should use HTML_IMAGE. */
+  type?: CreativeAssetIdTypeEnum | (string & {}) | undefined;
+}
+export type CreativeAssetPositionLeftUnitEnum =
+  | "OFFSET_UNIT_PIXEL"
+  | "OFFSET_UNIT_PERCENT"
+  | "OFFSET_UNIT_PIXEL_FROM_CENTER";
+export type CreativeAssetArtworkTypeEnum =
+  | "ARTWORK_TYPE_FLASH"
+  | "ARTWORK_TYPE_HTML5"
+  | "ARTWORK_TYPE_MIXED"
+  | "ARTWORK_TYPE_IMAGE";
 export type CreativeAssetAlignmentEnum =
   | "ALIGNMENT_TOP"
   | "ALIGNMENT_RIGHT"
   | "ALIGNMENT_BOTTOM"
   | "ALIGNMENT_LEFT";
-export type CreativeAssetStartTimeTypeEnum =
-  | "ASSET_START_TIME_TYPE_NONE"
-  | "ASSET_START_TIME_TYPE_CUSTOM";
-export type CreativeAssetPositionLeftUnitEnum =
+export type CreativeAssetPositionTopUnitEnum =
   | "OFFSET_UNIT_PIXEL"
   | "OFFSET_UNIT_PERCENT"
   | "OFFSET_UNIT_PIXEL_FROM_CENTER";
@@ -2268,293 +2053,508 @@ export type CreativeAssetDetectedFeaturesItemEnum =
 export type CreativeAssetDetectedFeaturesItemEnumList = Array<
   CreativeAssetDetectedFeaturesItemEnum | (string & {})
 >;
-export type CreativeAssetPositionTopUnitEnum =
-  | "OFFSET_UNIT_PIXEL"
-  | "OFFSET_UNIT_PERCENT"
-  | "OFFSET_UNIT_PIXEL_FROM_CENTER";
-export type CreativeAssetWindowModeEnum = "OPAQUE" | "WINDOW" | "TRANSPARENT";
-export type CreativeAssetOrientationEnum = "LANDSCAPE" | "PORTRAIT" | "SQUARE";
-export type CreativeAssetDurationTypeEnum =
-  | "ASSET_DURATION_TYPE_AUTO"
-  | "ASSET_DURATION_TYPE_NONE"
-  | "ASSET_DURATION_TYPE_CUSTOM";
-export type CreativeAssetChildAssetTypeEnum =
-  | "CHILD_ASSET_TYPE_FLASH"
-  | "CHILD_ASSET_TYPE_VIDEO"
-  | "CHILD_ASSET_TYPE_IMAGE"
-  | "CHILD_ASSET_TYPE_DATA";
-export type CreativeAssetArtworkTypeEnum =
-  | "ARTWORK_TYPE_FLASH"
-  | "ARTWORK_TYPE_HTML5"
-  | "ARTWORK_TYPE_MIXED"
-  | "ARTWORK_TYPE_IMAGE";
+export type CreativeAssetDisplayTypeEnum =
+  | "ASSET_DISPLAY_TYPE_INPAGE"
+  | "ASSET_DISPLAY_TYPE_FLOATING"
+  | "ASSET_DISPLAY_TYPE_OVERLAY"
+  | "ASSET_DISPLAY_TYPE_EXPANDING"
+  | "ASSET_DISPLAY_TYPE_FLASH_IN_FLASH"
+  | "ASSET_DISPLAY_TYPE_FLASH_IN_FLASH_EXPANDING"
+  | "ASSET_DISPLAY_TYPE_PEEL_DOWN"
+  | "ASSET_DISPLAY_TYPE_VPAID_LINEAR"
+  | "ASSET_DISPLAY_TYPE_VPAID_NON_LINEAR"
+  | "ASSET_DISPLAY_TYPE_BACKDROP";
 /** Creative Asset. */
 export interface CreativeAsset {
-  /** File name of zip file. This is a read-only field. Applicable to the following creative types: HTML5_BANNER. */
-  zipFilename?: string | undefined;
-  /** Whether the asset pushes down other content. Applicable to the following creative types: all RICH_MEDIA. Additionally, only applicable when the asset offsets are 0, the collapsedSize.width matches size.width, and the collapsedSize.height is less than size.height. */
-  pushdown?: boolean | undefined;
-  /** Size of zip file. This is a read-only field. Applicable to the following creative types: HTML5_BANNER. */
-  zipFilesize?: string | undefined;
-  /** Exit event configured for the backup image. Applicable to the following creative types: all RICH_MEDIA. */
-  backupImageExit?: CreativeCustomEvent | undefined;
-  /** Size associated with this creative asset. This is a required field when applicable; however for IMAGE and FLASH_INPAGE, creatives if left blank, this field will be automatically set using the actual size of the associated image asset. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, FLASH_INPAGE, HTML5_BANNER, IMAGE, and all RICH_MEDIA. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  size?: Size | undefined;
-  /** Streaming URL for video asset. This is a read-only field. Applicable to the following creative types: INSTREAM_VIDEO and all VPAID. */
-  streamingServingUrl?: string | undefined;
-  /** Duration in seconds for which an asset will be displayed. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and VPAID_LINEAR_VIDEO. Value must be greater than or equal to 1. */
-  duration?: number | undefined;
-  /** Identifier of this asset. This is the same identifier returned during creative asset insert operation. This is a required field. Applicable to all but the following creative types: all REDIRECT and TRACKING_TEXT. */
-  assetIdentifier?: CreativeAssetId | undefined;
-  /** Numeric ID of this creative asset. This is a required field and should not be modified. Applicable to all but the following creative types: all REDIRECT and TRACKING_TEXT. */
-  id?: string | undefined;
-  /** Role of the asset in relation to creative. Applicable to all but the following creative types: all REDIRECT and TRACKING_TEXT. This is a required field. PRIMARY applies to DISPLAY, FLASH_INPAGE, HTML5_BANNER, IMAGE, DISPLAY_IMAGE_GALLERY, all RICH_MEDIA (which may contain multiple primary assets), and all VPAID creatives. BACKUP_IMAGE applies to FLASH_INPAGE, HTML5_BANNER, all RICH_MEDIA, and all VPAID creatives. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. ADDITIONAL_IMAGE and ADDITIONAL_FLASH apply to FLASH_INPAGE creatives. OTHER refers to assets from sources other than Campaign Manager, such as Studio uploaded assets, applicable to all RICH_MEDIA and all VPAID creatives. PARENT_VIDEO refers to videos uploaded by the user in Campaign Manager and is applicable to INSTREAM_VIDEO and VPAID_LINEAR_VIDEO creatives. TRANSCODED_VIDEO refers to videos transcoded by Campaign Manager from PARENT_VIDEO assets and is applicable to INSTREAM_VIDEO and VPAID_LINEAR_VIDEO creatives. ALTERNATE_VIDEO refers to the Campaign Manager representation of child asset videos from Studio, and is applicable to VPAID_LINEAR_VIDEO creatives. These cannot be added or removed within Campaign Manager. For VPAID_LINEAR_VIDEO creatives, PARENT_VIDEO, TRANSCODED_VIDEO and ALTERNATE_VIDEO assets that are marked active serve as backup in case the VPAID creative cannot be served. Only PARENT_VIDEO assets can be added or removed for an INSTREAM_VIDEO or VPAID_LINEAR_VIDEO creative. PARENT_AUDIO refers to audios uploaded by the user in Campaign Manager and is applicable to INSTREAM_AUDIO creatives. TRANSCODED_AUDIO refers to audios transcoded by Campaign Manager from PARENT_AUDIO assets and is applicable to INSTREAM_AUDIO creatives. */
-  role?: CreativeAssetRoleEnum | (string & {}) | undefined;
-  /** Whether the asset is vertically locked. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA. */
-  verticallyLocked?: boolean | undefined;
   /** Whether the asset is SSL-compliant. This is a read-only field. Applicable to all but the following creative types: all REDIRECT and TRACKING_TEXT. */
   sslCompliant?: boolean | undefined;
-  /** Whether the backup asset is original or changed by the user in Campaign Manager. Applicable to the following creative types: all RICH_MEDIA. */
-  originalBackup?: boolean | undefined;
-  /** Whether the asset is horizontally locked. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA. */
-  horizontallyLocked?: boolean | undefined;
-  /** Type of rich media asset. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA. */
-  displayType?: CreativeAssetDisplayTypeEnum | (string & {}) | undefined;
-  /** Size of an asset when collapsed. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA and all VPAID. Additionally, applicable to assets whose displayType is ASSET_DISPLAY_TYPE_EXPANDING or ASSET_DISPLAY_TYPE_PEEL_DOWN. */
-  collapsedSize?: Size | undefined;
-  /** Video frame rate for video asset in frames per second. This is a read-only field. Applicable to the following creative types: INSTREAM_VIDEO and all VPAID. */
-  frameRate?: number | undefined;
-  /** Possible alignments for an asset. This is a read-only field. Applicable to the following creative types: RICH_MEDIA_DISPLAY_MULTI_FLOATING_INTERSTITIAL . */
-  alignment?: CreativeAssetAlignmentEnum | (string & {}) | undefined;
-  /** Initial wait time type before making the asset visible. Applicable to the following creative types: all RICH_MEDIA. */
-  startTimeType?: CreativeAssetStartTimeTypeEnum | (string & {}) | undefined;
-  /** Pushdown duration in seconds for an asset. Applicable to the following creative types: all RICH_MEDIA.Additionally, only applicable when the asset pushdown field is true, the offsets are 0, the collapsedSize.width matches size.width, and the collapsedSize.height is less than size.height. Acceptable values are 0 to 9.99, inclusive. */
-  pushdownDuration?: number | undefined;
-  /** Offset left unit for an asset. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA. */
-  positionLeftUnit?: CreativeAssetPositionLeftUnitEnum | (string & {}) | undefined;
-  /** Detected bit-rate for audio or video asset. This is a read-only field. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and all VPAID. */
-  bitRate?: number | undefined;
-  /** Dimension value for the ID of the asset. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** Whether the video or audio asset is active. This is a read-only field for VPAID_NON_LINEAR_VIDEO assets. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and all VPAID. */
-  active?: boolean | undefined;
-  /** Whether the asset is transparent. Applicable to the following creative types: all RICH_MEDIA. Additionally, only applicable to HTML5 assets. */
-  transparency?: boolean | undefined;
-  /** Whether ActionScript3 is enabled for the flash asset. This is a read-only field. Applicable to the following creative type: FLASH_INPAGE. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  actionScript3?: boolean | undefined;
-  /** File size associated with this creative asset. This is a read-only field. Applicable to all but the following creative types: all REDIRECT and TRACKING_TEXT. */
-  fileSize?: string | undefined;
-  /** List of feature dependencies for the creative asset that are detected by Campaign Manager. Feature dependencies are features that a browser must be able to support in order to render your HTML5 creative correctly. This is a read-only, auto-generated field. Applicable to the following creative types: HTML5_BANNER. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  detectedFeatures?: CreativeAssetDetectedFeaturesItemEnumList | undefined;
-  /** Offset top unit for an asset. This is a read-only field if the asset displayType is ASSET_DISPLAY_TYPE_OVERLAY. Applicable to the following creative types: all RICH_MEDIA. */
-  positionTopUnit?: CreativeAssetPositionTopUnitEnum | (string & {}) | undefined;
   /** Detected duration for audio or video asset. This is a read-only field. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and all VPAID. */
   mediaDuration?: number | undefined;
-  /** Audio stream bit rate in kbps. This is a read-only field. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and all VPAID. */
-  audioBitRate?: number | undefined;
-  /** Offset position for an asset. Applicable to the following creative types: all RICH_MEDIA. */
-  position?: OffsetPosition | undefined;
-  /** zIndex value of an asset. Applicable to the following creative types: all RICH_MEDIA.Additionally, only applicable to assets whose displayType is NOT one of the following types: ASSET_DISPLAY_TYPE_INPAGE or ASSET_DISPLAY_TYPE_OVERLAY. Acceptable values are -999999999 to 999999999, inclusive. */
-  zIndex?: number | undefined;
-  /** Whether to hide Flash objects flag for an asset. Applicable to the following creative types: all RICH_MEDIA. */
-  hideFlashObjects?: boolean | undefined;
-  /** Detected expanded dimension for video asset. This is a read-only field. Applicable to the following creative types: INSTREAM_VIDEO and all VPAID. */
-  expandedDimension?: Size | undefined;
   /** Window mode options for flash assets. Applicable to the following creative types: FLASH_INPAGE, RICH_MEDIA_DISPLAY_EXPANDING, RICH_MEDIA_IM_EXPAND, RICH_MEDIA_DISPLAY_BANNER, and RICH_MEDIA_INPAGE_FLOATING. */
   windowMode?: CreativeAssetWindowModeEnum | (string & {}) | undefined;
-  /** Custom start time in seconds for making the asset visible. Applicable to the following creative types: all RICH_MEDIA. Value must be greater than or equal to 0. */
-  customStartTimeValue?: number | undefined;
-  /** Whether this asset is used as a polite load asset. */
-  politeLoad?: boolean | undefined;
-  /** Offset position for an asset in collapsed mode. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA and all VPAID. Additionally, only applicable to assets whose displayType is ASSET_DISPLAY_TYPE_EXPANDING or ASSET_DISPLAY_TYPE_PEEL_DOWN. */
-  offset?: OffsetPosition | undefined;
-  /** List of companion creatives assigned to an in-stream video creative asset. Acceptable values include IDs of existing flash and image creatives. Applicable to INSTREAM_VIDEO creative type with dynamicAssetSelection set to true. */
-  companionCreativeIds?: StringList | undefined;
+  /** Initial wait time type before making the asset visible. Applicable to the following creative types: all RICH_MEDIA. */
+  startTimeType?: CreativeAssetStartTimeTypeEnum | (string & {}) | undefined;
   /** Orientation of video asset. This is a read-only, auto-generated field. */
   orientation?: CreativeAssetOrientationEnum | (string & {}) | undefined;
-  /** Flash version of the asset. This is a read-only field. Applicable to the following creative types: FLASH_INPAGE, all RICH_MEDIA, and all VPAID. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  flashVersion?: number | undefined;
-  /** Whether to hide selection boxes flag for an asset. Applicable to the following creative types: all RICH_MEDIA. */
-  hideSelectionBoxes?: boolean | undefined;
-  /** Detected MIME type for audio or video asset. This is a read-only field. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and all VPAID. */
-  mimeType?: string | undefined;
-  /** Duration type for which an asset will be displayed. Applicable to the following creative types: all RICH_MEDIA. */
-  durationType?: CreativeAssetDurationTypeEnum | (string & {}) | undefined;
   /** Rich media child asset type. This is a read-only field. Applicable to the following creative types: all VPAID. */
   childAssetType?: CreativeAssetChildAssetTypeEnum | (string & {}) | undefined;
-  /** Audio sample bit rate in hertz. This is a read-only field. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and all VPAID. */
-  audioSampleRate?: number | undefined;
+  /** Duration type for which an asset will be displayed. Applicable to the following creative types: all RICH_MEDIA. */
+  durationType?: CreativeAssetDurationTypeEnum | (string & {}) | undefined;
+  /** Whether the asset pushes down other content. Applicable to the following creative types: all RICH_MEDIA. Additionally, only applicable when the asset offsets are 0, the collapsedSize.width matches size.width, and the collapsedSize.height is less than size.height. */
+  pushdown?: boolean | undefined;
+  /** Role of the asset in relation to creative. Applicable to all but the following creative types: all REDIRECT and TRACKING_TEXT. This is a required field. PRIMARY applies to DISPLAY, FLASH_INPAGE, HTML5_BANNER, IMAGE, DISPLAY_IMAGE_GALLERY, all RICH_MEDIA (which may contain multiple primary assets), and all VPAID creatives. BACKUP_IMAGE applies to FLASH_INPAGE, HTML5_BANNER, all RICH_MEDIA, and all VPAID creatives. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. ADDITIONAL_IMAGE and ADDITIONAL_FLASH apply to FLASH_INPAGE creatives. OTHER refers to assets from sources other than Campaign Manager, such as Studio uploaded assets, applicable to all RICH_MEDIA and all VPAID creatives. PARENT_VIDEO refers to videos uploaded by the user in Campaign Manager and is applicable to INSTREAM_VIDEO and VPAID_LINEAR_VIDEO creatives. TRANSCODED_VIDEO refers to videos transcoded by Campaign Manager from PARENT_VIDEO assets and is applicable to INSTREAM_VIDEO and VPAID_LINEAR_VIDEO creatives. ALTERNATE_VIDEO refers to the Campaign Manager representation of child asset videos from Studio, and is applicable to VPAID_LINEAR_VIDEO creatives. These cannot be added or removed within Campaign Manager. For VPAID_LINEAR_VIDEO creatives, PARENT_VIDEO, TRANSCODED_VIDEO and ALTERNATE_VIDEO assets that are marked active serve as backup in case the VPAID creative cannot be served. Only PARENT_VIDEO assets can be added or removed for an INSTREAM_VIDEO or VPAID_LINEAR_VIDEO creative. PARENT_AUDIO refers to audios uploaded by the user in Campaign Manager and is applicable to INSTREAM_AUDIO creatives. TRANSCODED_AUDIO refers to audios transcoded by Campaign Manager from PARENT_AUDIO assets and is applicable to INSTREAM_AUDIO creatives. */
+  role?: CreativeAssetRoleEnum | (string & {}) | undefined;
+  /** Whether the backup asset is original or changed by the user in Campaign Manager. Applicable to the following creative types: all RICH_MEDIA. */
+  originalBackup?: boolean | undefined;
+  /** Video frame rate for video asset in frames per second. This is a read-only field. Applicable to the following creative types: INSTREAM_VIDEO and all VPAID. */
+  frameRate?: number | undefined;
+  /** Size associated with this creative asset. This is a required field when applicable; however for IMAGE and FLASH_INPAGE, creatives if left blank, this field will be automatically set using the actual size of the associated image asset. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, FLASH_INPAGE, HTML5_BANNER, IMAGE, and all RICH_MEDIA. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
+  size?: Size | undefined;
+  /** Detected bit-rate for audio or video asset. This is a read-only field. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and all VPAID. */
+  bitRate?: number | undefined;
+  /** Offset position for an asset. Applicable to the following creative types: all RICH_MEDIA. */
+  position?: OffsetPosition | undefined;
+  /** Detected MIME type for audio or video asset. This is a read-only field. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and all VPAID. */
+  mimeType?: string | undefined;
+  /** File size associated with this creative asset. This is a read-only field. Applicable to all but the following creative types: all REDIRECT and TRACKING_TEXT. */
+  fileSize?: string | undefined;
   /** Progressive URL for video asset. This is a read-only field. Applicable to the following creative types: INSTREAM_VIDEO and all VPAID. */
   progressiveServingUrl?: string | undefined;
   /** Additional sizes associated with this creative asset. HTML5 asset generated by compatible software such as GWD will be able to support more sizes this creative asset can render. */
   additionalSizes?: SizeList | undefined;
+  /** Streaming URL for video asset. This is a read-only field. Applicable to the following creative types: INSTREAM_VIDEO and all VPAID. */
+  streamingServingUrl?: string | undefined;
+  /** Pushdown duration in seconds for an asset. Applicable to the following creative types: all RICH_MEDIA.Additionally, only applicable when the asset pushdown field is true, the offsets are 0, the collapsedSize.width matches size.width, and the collapsedSize.height is less than size.height. Acceptable values are 0 to 9.99, inclusive. */
+  pushdownDuration?: number | undefined;
+  /** Size of an asset when collapsed. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA and all VPAID. Additionally, applicable to assets whose displayType is ASSET_DISPLAY_TYPE_EXPANDING or ASSET_DISPLAY_TYPE_PEEL_DOWN. */
+  collapsedSize?: Size | undefined;
+  /** Identifier of this asset. This is the same identifier returned during creative asset insert operation. This is a required field. Applicable to all but the following creative types: all REDIRECT and TRACKING_TEXT. */
+  assetIdentifier?: CreativeAssetId | undefined;
+  /** Audio sample bit rate in hertz. This is a read-only field. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and all VPAID. */
+  audioSampleRate?: number | undefined;
+  /** Dimension value for the ID of the asset. This is a read-only, auto-generated field. */
+  idDimensionValue?: DimensionValue | undefined;
+  /** File name of zip file. This is a read-only field. Applicable to the following creative types: HTML5_BANNER. */
+  zipFilename?: string | undefined;
+  /** Whether to hide selection boxes flag for an asset. Applicable to the following creative types: all RICH_MEDIA. */
+  hideSelectionBoxes?: boolean | undefined;
+  /** Numeric ID of this creative asset. This is a required field and should not be modified. Applicable to all but the following creative types: all REDIRECT and TRACKING_TEXT. */
+  id?: string | undefined;
+  /** Offset left unit for an asset. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA. */
+  positionLeftUnit?: CreativeAssetPositionLeftUnitEnum | (string & {}) | undefined;
+  /** Flash version of the asset. This is a read-only field. Applicable to the following creative types: FLASH_INPAGE, all RICH_MEDIA, and all VPAID. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
+  flashVersion?: number | undefined;
+  /** Audio stream bit rate in kbps. This is a read-only field. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and all VPAID. */
+  audioBitRate?: number | undefined;
+  /** Whether this asset is used as a polite load asset. */
+  politeLoad?: boolean | undefined;
+  /** Detected expanded dimension for video asset. This is a read-only field. Applicable to the following creative types: INSTREAM_VIDEO and all VPAID. */
+  expandedDimension?: Size | undefined;
+  /** Offset position for an asset in collapsed mode. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA and all VPAID. Additionally, only applicable to assets whose displayType is ASSET_DISPLAY_TYPE_EXPANDING or ASSET_DISPLAY_TYPE_PEEL_DOWN. */
+  offset?: OffsetPosition | undefined;
   /** Artwork type of rich media creative. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA. */
   artworkType?: CreativeAssetArtworkTypeEnum | (string & {}) | undefined;
+  /** Whether to hide Flash objects flag for an asset. Applicable to the following creative types: all RICH_MEDIA. */
+  hideFlashObjects?: boolean | undefined;
+  /** zIndex value of an asset. Applicable to the following creative types: all RICH_MEDIA.Additionally, only applicable to assets whose displayType is NOT one of the following types: ASSET_DISPLAY_TYPE_INPAGE or ASSET_DISPLAY_TYPE_OVERLAY. Acceptable values are -999999999 to 999999999, inclusive. */
+  zIndex?: number | undefined;
+  /** Whether the asset is transparent. Applicable to the following creative types: all RICH_MEDIA. Additionally, only applicable to HTML5 assets. */
+  transparency?: boolean | undefined;
+  /** Whether the video or audio asset is active. This is a read-only field for VPAID_NON_LINEAR_VIDEO assets. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and all VPAID. */
+  active?: boolean | undefined;
+  /** Whether the asset is horizontally locked. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA. */
+  horizontallyLocked?: boolean | undefined;
+  /** Possible alignments for an asset. This is a read-only field. Applicable to the following creative types: RICH_MEDIA_DISPLAY_MULTI_FLOATING_INTERSTITIAL . */
+  alignment?: CreativeAssetAlignmentEnum | (string & {}) | undefined;
+  /** Exit event configured for the backup image. Applicable to the following creative types: all RICH_MEDIA. */
+  backupImageExit?: CreativeCustomEvent | undefined;
+  /** Offset top unit for an asset. This is a read-only field if the asset displayType is ASSET_DISPLAY_TYPE_OVERLAY. Applicable to the following creative types: all RICH_MEDIA. */
+  positionTopUnit?: CreativeAssetPositionTopUnitEnum | (string & {}) | undefined;
+  /** Whether the asset is vertically locked. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA. */
+  verticallyLocked?: boolean | undefined;
+  /** Whether ActionScript3 is enabled for the flash asset. This is a read-only field. Applicable to the following creative type: FLASH_INPAGE. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
+  actionScript3?: boolean | undefined;
+  /** List of companion creatives assigned to an in-stream video creative asset. Acceptable values include IDs of existing flash and image creatives. Applicable to INSTREAM_VIDEO creative type with dynamicAssetSelection set to true. */
+  companionCreativeIds?: StringList | undefined;
+  /** Duration in seconds for which an asset will be displayed. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and VPAID_LINEAR_VIDEO. Value must be greater than or equal to 1. */
+  duration?: number | undefined;
+  /** Custom start time in seconds for making the asset visible. Applicable to the following creative types: all RICH_MEDIA. Value must be greater than or equal to 0. */
+  customStartTimeValue?: number | undefined;
+  /** Size of zip file. This is a read-only field. Applicable to the following creative types: HTML5_BANNER. */
+  zipFilesize?: string | undefined;
+  /** List of feature dependencies for the creative asset that are detected by Campaign Manager. Feature dependencies are features that a browser must be able to support in order to render your HTML5 creative correctly. This is a read-only, auto-generated field. Applicable to the following creative types: HTML5_BANNER. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
+  detectedFeatures?: CreativeAssetDetectedFeaturesItemEnumList | undefined;
+  /** Type of rich media asset. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA. */
+  displayType?: CreativeAssetDisplayTypeEnum | (string & {}) | undefined;
 }
 export type CreativeAssetList = Array<CreativeAsset>;
 /** Additional assets for a creative. */
 export interface AdditionalAsset {
-  /** Optional. Long headlines for the creative. */
-  longHeadlines?: StringList | undefined;
-  /** Optional. Cover images for the creative. */
-  coverImages?: CreativeAssetList | undefined;
-  /** Optional. Long descriptions for the creative. */
-  longDescriptions?: StringList | undefined;
   /** Optional. Headlines for the creative. */
   headlines?: StringList | undefined;
-  /** Optional. Call to actions for the creative. */
-  callToActions?: StringList | undefined;
-  /** Optional. Display URL for the creative. */
-  displayUrl?: string | undefined;
   /** Optional. Descriptions for the creative. */
   descriptions?: StringList | undefined;
+  /** Optional. Call to actions for the creative. */
+  callToActions?: StringList | undefined;
+  /** Optional. Long headlines for the creative. */
+  longHeadlines?: StringList | undefined;
+  /** Optional. Display URL for the creative. */
+  displayUrl?: string | undefined;
+  /** Optional. Long descriptions for the creative. */
+  longDescriptions?: StringList | undefined;
+  /** Optional. Cover images for the creative. */
+  coverImages?: CreativeAssetList | undefined;
 }
+export type FsCommandPositionOptionEnum = "CENTERED" | "DISTANCE_FROM_TOP_LEFT_CORNER";
+/** FsCommand. */
+export interface FsCommand {
+  /** Height of the window. */
+  windowHeight?: number | undefined;
+  /** Position in the browser where the window will open. */
+  positionOption?: FsCommandPositionOptionEnum | (string & {}) | undefined;
+  /** Distance from the top of the browser. Applicable when positionOption is DISTANCE_FROM_TOP_LEFT_CORNER. */
+  top?: number | undefined;
+  /** Distance from the left of the browser.Applicable when positionOption is DISTANCE_FROM_TOP_LEFT_CORNER. */
+  left?: number | undefined;
+  /** Width of the window. */
+  windowWidth?: number | undefined;
+}
+/** Creative Click Tag. */
+export interface ClickTag {
+  /** Advertiser event name associated with the click tag. This field is used by DISPLAY_IMAGE_GALLERY and HTML5_BANNER creatives. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
+  eventName?: string | undefined;
+  /** Parameter value for the specified click tag. This field contains a click-through url. */
+  clickThroughUrl?: CreativeClickThroughUrl | undefined;
+  /** Parameter name for the specified click tag. For DISPLAY_IMAGE_GALLERY creative assets, this field must match the value of the creative asset's creativeAssetId.name field. */
+  name?: string | undefined;
+}
+export type ClickTagList = Array<ClickTag>;
+export type CreativeSyntheticContentAttestationStatusEnum =
+  | "SYNTHETIC_CONTENT_ATTESTATION_STATUS_UNSPECIFIED"
+  | "IS_SYNTHETIC"
+  | "NOT_SYNTHETIC";
+/** Online Behavioral Advertiser icon. */
+export interface ObaIcon {
+  /** OBA icon size. */
+  size?: Size | undefined;
+  /** OBA icon x coordinate position. Accepted values are left or right. */
+  xPosition?: string | undefined;
+  /** OBA icon y coordinate position. Accepted values are top or bottom. */
+  yPosition?: string | undefined;
+  /** OBA icon resource URL. Campaign Manager only supports image and JavaScript icons. Learn more */
+  resourceUrl?: string | undefined;
+  /** Identifies the industry initiative that the icon supports. For example, AdChoices. */
+  program?: string | undefined;
+  /** URL to redirect to when an OBA icon is clicked. */
+  iconClickThroughUrl?: string | undefined;
+  /** URL to track view when an OBA icon is clicked. */
+  iconViewTrackingUrl?: string | undefined;
+  /** URL to track click when an OBA icon is clicked. */
+  iconClickTrackingUrl?: string | undefined;
+}
+export type ThirdPartyTrackingUrlThirdPartyUrlTypeEnum =
+  | "IMPRESSION"
+  | "CLICK_TRACKING"
+  | "VIDEO_START"
+  | "VIDEO_FIRST_QUARTILE"
+  | "VIDEO_MIDPOINT"
+  | "VIDEO_THIRD_QUARTILE"
+  | "VIDEO_COMPLETE"
+  | "VIDEO_MUTE"
+  | "VIDEO_PAUSE"
+  | "VIDEO_REWIND"
+  | "VIDEO_FULLSCREEN"
+  | "VIDEO_STOP"
+  | "VIDEO_CUSTOM"
+  | "SURVEY"
+  | "RICH_MEDIA_IMPRESSION"
+  | "RICH_MEDIA_RM_IMPRESSION"
+  | "RICH_MEDIA_BACKUP_IMPRESSION"
+  | "VIDEO_SKIP"
+  | "VIDEO_PROGRESS";
+/** Third-party Tracking URL. */
+export interface ThirdPartyTrackingUrl {
+  /** Third-party URL type for in-stream video and in-stream audio creatives. */
+  thirdPartyUrlType?: ThirdPartyTrackingUrlThirdPartyUrlTypeEnum | (string & {}) | undefined;
+  /** URL for the specified third-party URL type. */
+  url?: string | undefined;
+}
+export type ThirdPartyTrackingUrlList = Array<ThirdPartyTrackingUrl>;
 export type CreativeArtworkTypeEnum =
   | "ARTWORK_TYPE_FLASH"
   | "ARTWORK_TYPE_HTML5"
   | "ARTWORK_TYPE_MIXED"
   | "ARTWORK_TYPE_IMAGE";
+export type CreativeAuthoringSourceEnum =
+  | "CREATIVE_AUTHORING_SOURCE_DCM"
+  | "CREATIVE_AUTHORING_SOURCE_DBM"
+  | "CREATIVE_AUTHORING_SOURCE_STUDIO"
+  | "CREATIVE_AUTHORING_SOURCE_GWD"
+  | "CREATIVE_AUTHORING_SOURCE_ACS"
+  | "CREATIVE_AUTHORING_SOURCE_ADOBE"
+  | "CREATIVE_AUTHORING_SOURCE_TYPEFACE_AI"
+  | "CREATIVE_AUTHORING_SOURCE_REMBRAND"
+  | "CREATIVE_AUTHORING_SOURCE_TRACKTO_STUDIO"
+  | "CREATIVE_AUTHORING_SOURCE_BORNLOGIC"
+  | "CREATIVE_AUTHORING_SOURCE_BEGEN_AI";
+export type CreativeCompatibilityItemEnum =
+  | "DISPLAY"
+  | "DISPLAY_INTERSTITIAL"
+  | "APP"
+  | "APP_INTERSTITIAL"
+  | "IN_STREAM_VIDEO"
+  | "IN_STREAM_AUDIO";
+export type CreativeCompatibilityItemEnumList = Array<
+  CreativeCompatibilityItemEnum | (string & {})
+>;
+export type CreativeAuthoringToolEnum = "NINJA" | "SWIFFY";
+export type UniversalAdIdRegistryEnum =
+  | "OTHER"
+  | "AD_ID_OFFICIAL"
+  | "CLEARCAST"
+  | "DCM"
+  | "ARPP"
+  | "CUSV";
+/** A Universal Ad ID as per the VAST 4.0 spec. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and VPAID. */
+export interface UniversalAdId {
+  /** ID value for this creative. Only alphanumeric characters and the following symbols are valid: "_/\-". Maximum length is 64 characters. Read only when registry is DCM. */
+  value?: string | undefined;
+  /** Registry used for the Ad ID value. */
+  registry?: UniversalAdIdRegistryEnum | (string & {}) | undefined;
+}
+/** Creative Field Assignment. */
+export interface CreativeFieldAssignment {
+  /** ID of the creative field. */
+  creativeFieldId?: string | undefined;
+  /** ID of the creative field value. */
+  creativeFieldValueId?: string | undefined;
+}
+export type CreativeFieldAssignmentList = Array<CreativeFieldAssignment>;
+export type CreativeTypeEnum =
+  | "IMAGE"
+  | "DISPLAY_REDIRECT"
+  | "CUSTOM_DISPLAY"
+  | "INTERNAL_REDIRECT"
+  | "CUSTOM_DISPLAY_INTERSTITIAL"
+  | "INTERSTITIAL_INTERNAL_REDIRECT"
+  | "TRACKING_TEXT"
+  | "RICH_MEDIA_DISPLAY_BANNER"
+  | "RICH_MEDIA_INPAGE_FLOATING"
+  | "RICH_MEDIA_IM_EXPAND"
+  | "RICH_MEDIA_DISPLAY_EXPANDING"
+  | "RICH_MEDIA_DISPLAY_INTERSTITIAL"
+  | "RICH_MEDIA_DISPLAY_MULTI_FLOATING_INTERSTITIAL"
+  | "RICH_MEDIA_MOBILE_IN_APP"
+  | "FLASH_INPAGE"
+  | "INSTREAM_VIDEO"
+  | "VPAID_LINEAR_VIDEO"
+  | "VPAID_NON_LINEAR_VIDEO"
+  | "INSTREAM_VIDEO_REDIRECT"
+  | "RICH_MEDIA_PEEL_DOWN"
+  | "HTML5_BANNER"
+  | "DISPLAY"
+  | "DISPLAY_IMAGE_GALLERY"
+  | "BRAND_SAFE_DEFAULT_INSTREAM_VIDEO"
+  | "INSTREAM_AUDIO";
+export type CreativeBackupImageFeaturesItemEnum =
+  | "CSS_FONT_FACE"
+  | "CSS_BACKGROUND_SIZE"
+  | "CSS_BORDER_IMAGE"
+  | "CSS_BORDER_RADIUS"
+  | "CSS_BOX_SHADOW"
+  | "CSS_FLEX_BOX"
+  | "CSS_HSLA"
+  | "CSS_MULTIPLE_BGS"
+  | "CSS_OPACITY"
+  | "CSS_RGBA"
+  | "CSS_TEXT_SHADOW"
+  | "CSS_ANIMATIONS"
+  | "CSS_COLUMNS"
+  | "CSS_GENERATED_CONTENT"
+  | "CSS_GRADIENTS"
+  | "CSS_REFLECTIONS"
+  | "CSS_TRANSFORMS"
+  | "CSS_TRANSFORMS3D"
+  | "CSS_TRANSITIONS"
+  | "APPLICATION_CACHE"
+  | "CANVAS"
+  | "CANVAS_TEXT"
+  | "DRAG_AND_DROP"
+  | "HASH_CHANGE"
+  | "HISTORY"
+  | "AUDIO"
+  | "VIDEO"
+  | "INDEXED_DB"
+  | "INPUT_ATTR_AUTOCOMPLETE"
+  | "INPUT_ATTR_AUTOFOCUS"
+  | "INPUT_ATTR_LIST"
+  | "INPUT_ATTR_PLACEHOLDER"
+  | "INPUT_ATTR_MAX"
+  | "INPUT_ATTR_MIN"
+  | "INPUT_ATTR_MULTIPLE"
+  | "INPUT_ATTR_PATTERN"
+  | "INPUT_ATTR_REQUIRED"
+  | "INPUT_ATTR_STEP"
+  | "INPUT_TYPE_SEARCH"
+  | "INPUT_TYPE_TEL"
+  | "INPUT_TYPE_URL"
+  | "INPUT_TYPE_EMAIL"
+  | "INPUT_TYPE_DATETIME"
+  | "INPUT_TYPE_DATE"
+  | "INPUT_TYPE_MONTH"
+  | "INPUT_TYPE_WEEK"
+  | "INPUT_TYPE_TIME"
+  | "INPUT_TYPE_DATETIME_LOCAL"
+  | "INPUT_TYPE_NUMBER"
+  | "INPUT_TYPE_RANGE"
+  | "INPUT_TYPE_COLOR"
+  | "LOCAL_STORAGE"
+  | "POST_MESSAGE"
+  | "SESSION_STORAGE"
+  | "WEB_SOCKETS"
+  | "WEB_SQL_DATABASE"
+  | "WEB_WORKERS"
+  | "GEO_LOCATION"
+  | "INLINE_SVG"
+  | "SMIL"
+  | "SVG_HREF"
+  | "SVG_CLIP_PATHS"
+  | "TOUCH"
+  | "WEBGL"
+  | "SVG_FILTERS"
+  | "SVG_FE_IMAGE";
+export type CreativeBackupImageFeaturesItemEnumList = Array<
+  CreativeBackupImageFeaturesItemEnum | (string & {})
+>;
+export type TargetWindowTargetWindowOptionEnum = "NEW_WINDOW" | "CURRENT_WINDOW" | "CUSTOM";
+/** Target Window. */
+export interface TargetWindow {
+  /** Type of browser window for which the backup image of the flash creative can be displayed. */
+  targetWindowOption?: TargetWindowTargetWindowOptionEnum | (string & {}) | undefined;
+  /** User-entered value. */
+  customHtml?: string | undefined;
+}
 /** Contains properties of a Creative. */
 export interface Creative {
-  /** Required. Type of this creative. Applicable to all creative types. *Note:* FLASH_INPAGE, HTML5_BANNER, and IMAGE are only used for existing creatives. New creatives should use DISPLAY as a replacement for these types. */
-  type?: CreativeTypeEnum | (string & {}) | undefined;
-  /** Compatibilities associated with this creative. This is a read-only field. DISPLAY and DISPLAY_INTERSTITIAL refer to rendering either on desktop or on mobile devices or in mobile apps for regular or interstitial ads, respectively. APP and APP_INTERSTITIAL are for rendering in mobile apps. Only pre-existing creatives may have these compatibilities since new creatives will either be assigned DISPLAY or DISPLAY_INTERSTITIAL instead. IN_STREAM_VIDEO refers to rendering in in-stream video ads developed with the VAST standard. IN_STREAM_AUDIO refers to rendering in in-stream audio ads developed with the VAST standard. Applicable to all creative types. Acceptable values are: - "APP" - "APP_INTERSTITIAL" - "IN_STREAM_VIDEO" - "IN_STREAM_AUDIO" - "DISPLAY" - "DISPLAY_INTERSTITIAL" */
-  compatibility?: CreativeCompatibilityItemEnumList | undefined;
-  /** Whether images are automatically advanced for image gallery creatives. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY. */
-  autoAdvanceImages?: boolean | undefined;
-  /** Required. Advertiser ID of this creative. This is a required field. Applicable to all creative types. */
-  advertiserId?: string | undefined;
-  /** Creative audio or video duration in seconds. This is a read-only field. Applicable to the following creative types: INSTREAM_VIDEO, INSTREAM_AUDIO, all RICH_MEDIA, and all VPAID. */
-  mediaDuration?: number | undefined;
-  /** Dimension value for the ID of this creative. This is a read-only field. Applicable to all creative types. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** Whether the creative is active. Applicable to all creative types. */
-  active?: boolean | undefined;
-  /** Amount of time to play the video before the skip button appears. Applicable to the following creative types: all INSTREAM_VIDEO. */
-  skipOffset?: VideoOffset | undefined;
-  /** List of feature dependencies that will cause a backup image to be served if the browser that serves the ad does not support them. Feature dependencies are features that a browser must be able to support in order to render your HTML5 creative asset correctly. This field is initially auto-generated to contain all features detected by Campaign Manager for all the assets of this creative and can then be modified by the client. To reset this field, copy over all the creativeAssets' detected features. Applicable to the following creative types: HTML5_BANNER. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  backupImageFeatures?: CreativeBackupImageFeaturesItemEnumList | undefined;
-  /** URL of hosted image or hosted video or another ad tag. For INSTREAM_VIDEO_REDIRECT creatives this is the in-stream video redirect URL. The standard for a VAST (Video Ad Serving Template) ad response allows for a redirect link to another VAST 2.0 or 3.0 call. This is a required field when applicable. Applicable to the following creative types: DISPLAY_REDIRECT, INTERNAL_REDIRECT, INTERSTITIAL_INTERNAL_REDIRECT, and INSTREAM_VIDEO_REDIRECT */
-  redirectUrl?: string | undefined;
-  /** Third-party URL used to record rich media impressions. Applicable to the following creative types: all RICH_MEDIA. */
-  thirdPartyRichMediaImpressionsUrl?: string | undefined;
-  /** A Universal Ad ID as per the VAST 4.0 spec. Applicable to the following creative types: INSTREAM_AUDIO and INSTREAM_VIDEO and VPAID. */
-  universalAdId?: UniversalAdId | undefined;
-  /** Target window for backup image. Applicable to the following creative types: FLASH_INPAGE and HTML5_BANNER. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  backupImageTargetWindow?: TargetWindow | undefined;
-  /** HTML code for the creative. This is a required field when applicable. This field is ignored if htmlCodeLocked is true. Applicable to the following creative types: all CUSTOM, FLASH_INPAGE, and HTML5_BANNER, and all RICH_MEDIA. */
-  htmlCode?: string | undefined;
-  /** Creative last modification information. This is a read-only field. Applicable to all creative types. */
-  lastModifiedInfo?: LastModifiedInfo | undefined;
-  /** Combined size of all creative assets. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  totalFileSize?: string | undefined;
-  /** Studio creative ID associated with rich media and VPAID creatives. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  studioCreativeId?: string | undefined;
-  /** The internal Flash version for this creative as calculated by Studio. This is a read-only field. Applicable to the following creative types: FLASH_INPAGE all RICH_MEDIA, and all VPAID. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  requiredFlashVersion?: number | undefined;
-  /** Industry standard ID assigned to creative for reach and frequency. Applicable to INSTREAM_VIDEO_REDIRECT creatives. */
-  commercialId?: string | undefined;
-  /** Third-party URLs for tracking in-stream creative events. Applicable to the following creative types: all INSTREAM_VIDEO, all INSTREAM_AUDIO, and all VPAID. */
-  thirdPartyUrls?: ThirdPartyTrackingUrlList | undefined;
-  /** Online behavioral advertising icon to be added to the creative. Applicable to the following creative types: all INSTREAM_VIDEO. */
-  obaIcon?: ObaIcon | undefined;
-  /** ID of this creative. This is a read-only, auto-generated field. Applicable to all creative types. */
-  id?: string | undefined;
-  /** Latest Studio trafficked creative ID associated with rich media and VPAID creatives. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  latestTraffickedCreativeId?: string | undefined;
-  /** Required. Name of the creative. This must be less than 256 characters long. Applicable to all creative types. */
-  name?: string | undefined;
-  /** The minimum required Flash plugin version for this creative. For example, 11.2.202.235. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  requiredFlashPluginVersion?: string | undefined;
-  /** Whether Flash assets associated with the creative need to be automatically converted to HTML5. This flag is enabled by default and users can choose to disable it if they don't want the system to generate and use HTML5 asset for this creative. Applicable to the following creative type: FLASH_INPAGE. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  convertFlashToHtml5?: boolean | undefined;
-  /** Description of the audio or video ad. Applicable to the following creative types: all INSTREAM_VIDEO, INSTREAM_AUDIO, and all VPAID. */
-  mediaDescription?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creative". */
-  kind?: string | undefined;
-  /** List of timer events configured for the creative. For DISPLAY_IMAGE_GALLERY creatives, these are read-only and auto-generated from clickTags. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, all RICH_MEDIA, and all VPAID. Applicable to DISPLAY when the primary asset is not HTML_IMAGE. */
-  timerCustomEvents?: CreativeCustomEventList | undefined;
-  /** OpenWindow FSCommand of this creative. This lets the SWF file communicate with either Flash Player or the program hosting Flash Player, such as a web browser. This is only triggered if allowScriptAccess field is true. Applicable to the following creative types: FLASH_INPAGE. */
-  fsCommand?: FsCommand | undefined;
-  /** Amount of time to play the video before counting a view. Applicable to the following creative types: all INSTREAM_VIDEO. */
-  progressOffset?: VideoOffset | undefined;
   /** Keywords for a Rich Media creative. Keywords let you customize the creative settings of a Rich Media ad running on your site without having to contact the advertiser. You can use keywords to dynamically change the look or functionality of a creative. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
   adTagKeys?: StringList | undefined;
-  /** Additional sizes associated with a responsive creative. When inserting or updating a creative either the size ID field or size width and height fields can be used. Applicable to DISPLAY creatives when the primary asset type is HTML_IMAGE. */
-  additionalSizes?: SizeList | undefined;
-  /** ID of current rendering version. This is a read-only field. Applicable to all creative types. */
-  renderingId?: string | undefined;
-  /** Dimension value for the rendering ID of this creative. This is a read-only field. Applicable to all creative types. */
-  renderingIdDimensionValue?: DimensionValue | undefined;
-  /** Whether HTML code is generated by Campaign Manager or manually entered. Set to true to ignore changes to htmlCode. Applicable to the following creative types: FLASH_INPAGE and HTML5_BANNER. */
-  htmlCodeLocked?: boolean | undefined;
-  /** Whether the creative is SSL-compliant. This is a read-only field. Applicable to all creative types. */
-  sslCompliant?: boolean | undefined;
-  /** Whether the user can choose to skip the creative. Applicable to the following creative types: all INSTREAM_VIDEO and all VPAID. */
-  skippable?: boolean | undefined;
+  /** Account ID of this creative. This field, if left unset, will be auto-generated for both insert and update operations. Applicable to all creative types. */
+  accountId?: string | undefined;
+  /** The 6-character HTML color code, beginning with #, for the background of the window area where the Flash file is displayed. Default is white. Applicable to the following creative types: FLASH_INPAGE. */
+  backgroundColor?: string | undefined;
+  /** Amount of time to play the video before counting a view. Applicable to the following creative types: all INSTREAM_VIDEO. */
+  progressOffset?: VideoOffset | undefined;
+  /** The version number helps you keep track of multiple versions of your creative in your reports. The version number will always be auto-generated during insert operations to start at 1. For tracking creatives the version cannot be incremented and will always remain at 1. For all other creative types the version can be incremented only by 1 during update operations. In addition, the version will be automatically incremented by 1 when undergoing Rich Media creative merging. Applicable to all creative types. */
+  version?: number | undefined;
+  /** URL of hosted image or hosted video or another ad tag. For INSTREAM_VIDEO_REDIRECT creatives this is the in-stream video redirect URL. The standard for a VAST (Video Ad Serving Template) ad response allows for a redirect link to another VAST 2.0 or 3.0 call. This is a required field when applicable. Applicable to the following creative types: DISPLAY_REDIRECT, INTERNAL_REDIRECT, INTERSTITIAL_INTERNAL_REDIRECT, and INSTREAM_VIDEO_REDIRECT */
+  redirectUrl?: string | undefined;
+  /** Description of the audio or video ad. Applicable to the following creative types: all INSTREAM_VIDEO, INSTREAM_AUDIO, and all VPAID. */
+  mediaDescription?: string | undefined;
+  /** List of exit events configured for the creative. For DISPLAY and DISPLAY_IMAGE_GALLERY creatives, these are read-only and auto-generated from clickTags, For DISPLAY, an event is also created from the backupImageReportingLabel. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, all RICH_MEDIA, and all VPAID. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
+  exitCustomEvents?: CreativeCustomEventList | undefined;
+  /** Custom key-values for a Rich Media creative. Key-values let you customize the creative settings of a Rich Media ad running on your site without having to contact the advertiser. You can use key-values to dynamically change the look or functionality of a creative. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
+  customKeyValues?: StringList | undefined;
+  /** Required. Advertiser ID of this creative. This is a required field. Applicable to all creative types. */
+  advertiserId?: string | undefined;
+  /** Creative last modification information. This is a read-only field. Applicable to all creative types. */
+  lastModifiedInfo?: LastModifiedInfo | undefined;
+  /** Studio creative ID associated with rich media and VPAID creatives. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
+  studioCreativeId?: string | undefined;
+  /** Required. Name of the creative. This must be less than 256 characters long. Applicable to all creative types. */
+  name?: string | undefined;
+  /** Latest Studio trafficked creative ID associated with rich media and VPAID creatives. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
+  latestTraffickedCreativeId?: string | undefined;
+  /** List of timer events configured for the creative. For DISPLAY_IMAGE_GALLERY creatives, these are read-only and auto-generated from clickTags. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, all RICH_MEDIA, and all VPAID. Applicable to DISPLAY when the primary asset is not HTML_IMAGE. */
+  timerCustomEvents?: CreativeCustomEventList | undefined;
+  /** Click-through URL for backup image. Applicable to ENHANCED_BANNER when the primary asset type is not HTML_IMAGE. */
+  backupImageClickThroughUrl?: CreativeClickThroughUrl | undefined;
+  /** Optional. Additional asset for the creative. This field captures additional assets that are associated with the creative and used in the context of the social/native and YouTube platforms. */
+  additionalAsset?: AdditionalAsset | undefined;
+  /** OpenWindow FSCommand of this creative. This lets the SWF file communicate with either Flash Player or the program hosting Flash Player, such as a web browser. This is only triggered if allowScriptAccess field is true. Applicable to the following creative types: FLASH_INPAGE. */
+  fsCommand?: FsCommand | undefined;
+  /** Click tags of the creative. For DISPLAY, FLASH_INPAGE, and HTML5_BANNER creatives, this is a subset of detected click tags for the assets associated with this creative. After creating a flash asset, detected click tags will be returned in the creativeAssetMetadata. When inserting the creative, populate the creative clickTags field using the creativeAssetMetadata.clickTags field. For DISPLAY_IMAGE_GALLERY creatives, there should be exactly one entry in this list for each image creative asset. A click tag is matched with a corresponding creative asset by matching the clickTag.name field with the creativeAsset.assetIdentifier.name field. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, FLASH_INPAGE, HTML5_BANNER. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
+  clickTags?: ClickTagList | undefined;
   /** Optional. Whether to add a label to the creative as created or edited using AI when served in regions with local AI labeling regulations. [Learn more about labeling requirements in AI regulations.](https://support.google.com/campaignmanager/answer/17232030) */
   syntheticContentAttestationStatus?:
     | CreativeSyntheticContentAttestationStatusEnum
     | (string & {})
     | undefined;
-  /** Ad parameters user for VPAID creative. This is a read-only field. Applicable to the following creative types: all VPAID. */
-  adParameters?: string | undefined;
-  /** Authoring tool for HTML5 banner creatives. This is a read-only field. Applicable to the following creative types: HTML5_BANNER. */
-  authoringTool?: CreativeAuthoringToolEnum | (string & {}) | undefined;
-  /** Whether script access is allowed for this creative. This is a read-only and deprecated field which will automatically be set to true on update. Applicable to the following creative types: FLASH_INPAGE. */
-  allowScriptAccess?: boolean | undefined;
-  /** Studio trafficked creative ID associated with rich media and VPAID creatives. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  studioTraffickedCreativeId?: string | undefined;
-  /** Size associated with this creative. When inserting or updating a creative either the size ID field or size width and height fields can be used. This is a required field when applicable; however for IMAGE, FLASH_INPAGE creatives, and for DISPLAY creatives with a primary asset of type HTML_IMAGE, if left blank, this field will be automatically set using the actual size of the associated image assets. Applicable to the following creative types: DISPLAY, DISPLAY_IMAGE_GALLERY, FLASH_INPAGE, HTML5_BANNER, IMAGE, and all RICH_MEDIA. */
-  size?: Size | undefined;
-  /** Reporting label used for HTML5 banner backup image. Applicable to the following creative types: DISPLAY when the primary asset type is not HTML_IMAGE. */
-  backupImageReportingLabel?: string | undefined;
-  /** Creative field assignments for this creative. Applicable to all creative types. */
-  creativeFieldAssignments?: CreativeFieldAssignmentList | undefined;
-  /** Whether creative should be treated as SSL compliant even if the system scan shows it's not. Applicable to all creative types. */
-  sslOverride?: boolean | undefined;
-  /** Third-party URL used to record backup image impressions. Applicable to the following creative types: all RICH_MEDIA. */
-  thirdPartyBackupImageImpressionsUrl?: string | undefined;
-  /** The version number helps you keep track of multiple versions of your creative in your reports. The version number will always be auto-generated during insert operations to start at 1. For tracking creatives the version cannot be incremented and will always remain at 1. For all other creative types the version can be incremented only by 1 during update operations. In addition, the version will be automatically incremented by 1 when undergoing Rich Media creative merging. Applicable to all creative types. */
-  version?: number | undefined;
-  /** Source application where creative was authored. Presently, only DBM authored creatives will have this field set. Applicable to all creative types. */
-  authoringSource?: CreativeAuthoringSourceEnum | (string & {}) | undefined;
-  /** Account ID of this creative. This field, if left unset, will be auto-generated for both insert and update operations. Applicable to all creative types. */
-  accountId?: string | undefined;
-  /** Override CSS value for rich media creatives. Applicable to the following creative types: all RICH_MEDIA. */
-  overrideCss?: string | undefined;
-  /** List of counter events configured for the creative. For DISPLAY_IMAGE_GALLERY creatives, these are read-only and auto-generated from clickTags. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, all RICH_MEDIA, and all VPAID. */
-  counterCustomEvents?: CreativeCustomEventList | undefined;
-  /** Studio advertiser ID associated with rich media and VPAID creatives. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  studioAdvertiserId?: string | undefined;
-  /** Click tags of the creative. For DISPLAY, FLASH_INPAGE, and HTML5_BANNER creatives, this is a subset of detected click tags for the assets associated with this creative. After creating a flash asset, detected click tags will be returned in the creativeAssetMetadata. When inserting the creative, populate the creative clickTags field using the creativeAssetMetadata.clickTags field. For DISPLAY_IMAGE_GALLERY creatives, there should be exactly one entry in this list for each image creative asset. A click tag is matched with a corresponding creative asset by matching the clickTag.name field with the creativeAsset.assetIdentifier.name field. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, FLASH_INPAGE, HTML5_BANNER. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  clickTags?: ClickTagList | undefined;
+  /** Online behavioral advertising icon to be added to the creative. Applicable to the following creative types: all INSTREAM_VIDEO. */
+  obaIcon?: ObaIcon | undefined;
+  /** Third-party URLs for tracking in-stream creative events. Applicable to the following creative types: all INSTREAM_VIDEO, all INSTREAM_AUDIO, and all VPAID. */
+  thirdPartyUrls?: ThirdPartyTrackingUrlList | undefined;
   /** List of companion creatives assigned to an in-Stream video creative. Acceptable values include IDs of existing flash and image creatives. Applicable to the following creative types: all VPAID, all INSTREAM_AUDIO and all INSTREAM_VIDEO with dynamicAssetSelection set to false. */
   companionCreatives?: StringList | undefined;
-  /** The 6-character HTML color code, beginning with #, for the background of the window area where the Flash file is displayed. Default is white. Applicable to the following creative types: FLASH_INPAGE. */
-  backgroundColor?: string | undefined;
-  /** Click-through URL for backup image. Applicable to ENHANCED_BANNER when the primary asset type is not HTML_IMAGE. */
-  backupImageClickThroughUrl?: CreativeClickThroughUrl | undefined;
-  /** List of exit events configured for the creative. For DISPLAY and DISPLAY_IMAGE_GALLERY creatives, these are read-only and auto-generated from clickTags, For DISPLAY, an event is also created from the backupImageReportingLabel. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, all RICH_MEDIA, and all VPAID. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  exitCustomEvents?: CreativeCustomEventList | undefined;
-  /** Assets associated with a creative. Applicable to all but the following creative types: INTERNAL_REDIRECT, INTERSTITIAL_INTERNAL_REDIRECT, and REDIRECT */
-  creativeAssets?: CreativeAssetList | undefined;
-  /** Whether the creative is archived. Applicable to all creative types. */
-  archived?: boolean | undefined;
-  /** Subaccount ID of this creative. This field, if left unset, will be auto-generated for both insert and update operations. Applicable to all creative types. */
-  subaccountId?: string | undefined;
-  /** Custom key-values for a Rich Media creative. Key-values let you customize the creative settings of a Rich Media ad running on your site without having to contact the advertiser. You can use key-values to dynamically change the look or functionality of a creative. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  customKeyValues?: StringList | undefined;
-  /** Optional. Additional asset for the creative. This field captures additional assets that are associated with the creative and used in the context of the social/native and YouTube platforms. */
-  additionalAsset?: AdditionalAsset | undefined;
+  /** Creative audio or video duration in seconds. This is a read-only field. Applicable to the following creative types: INSTREAM_VIDEO, INSTREAM_AUDIO, all RICH_MEDIA, and all VPAID. */
+  mediaDuration?: number | undefined;
+  /** The minimum required Flash plugin version for this creative. For example, 11.2.202.235. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
+  requiredFlashPluginVersion?: string | undefined;
+  /** Amount of time to play the video before the skip button appears. Applicable to the following creative types: all INSTREAM_VIDEO. */
+  skipOffset?: VideoOffset | undefined;
+  /** Studio advertiser ID associated with rich media and VPAID creatives. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
+  studioAdvertiserId?: string | undefined;
   /** Type of artwork used for the creative. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
   artworkType?: CreativeArtworkTypeEnum | (string & {}) | undefined;
+  /** Dimension value for the ID of this creative. This is a read-only field. Applicable to all creative types. */
+  idDimensionValue?: DimensionValue | undefined;
+  /** Industry standard ID assigned to creative for reach and frequency. Applicable to INSTREAM_VIDEO_REDIRECT creatives. */
+  commercialId?: string | undefined;
+  /** HTML code for the creative. This is a required field when applicable. This field is ignored if htmlCodeLocked is true. Applicable to the following creative types: all CUSTOM, FLASH_INPAGE, and HTML5_BANNER, and all RICH_MEDIA. */
+  htmlCode?: string | undefined;
+  /** Whether creative should be treated as SSL compliant even if the system scan shows it's not. Applicable to all creative types. */
+  sslOverride?: boolean | undefined;
+  /** ID of current rendering version. This is a read-only field. Applicable to all creative types. */
+  renderingId?: string | undefined;
+  /** Third-party URL used to record rich media impressions. Applicable to the following creative types: all RICH_MEDIA. */
+  thirdPartyRichMediaImpressionsUrl?: string | undefined;
+  /** List of counter events configured for the creative. For DISPLAY_IMAGE_GALLERY creatives, these are read-only and auto-generated from clickTags. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, all RICH_MEDIA, and all VPAID. */
+  counterCustomEvents?: CreativeCustomEventList | undefined;
+  /** Source application where creative was authored. Presently, only DBM authored creatives will have this field set. Applicable to all creative types. */
+  authoringSource?: CreativeAuthoringSourceEnum | (string & {}) | undefined;
+  /** The internal Flash version for this creative as calculated by Studio. This is a read-only field. Applicable to the following creative types: FLASH_INPAGE all RICH_MEDIA, and all VPAID. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
+  requiredFlashVersion?: number | undefined;
+  /** Third-party URL used to record backup image impressions. Applicable to the following creative types: all RICH_MEDIA. */
+  thirdPartyBackupImageImpressionsUrl?: string | undefined;
+  /** Compatibilities associated with this creative. This is a read-only field. DISPLAY and DISPLAY_INTERSTITIAL refer to rendering either on desktop or on mobile devices or in mobile apps for regular or interstitial ads, respectively. APP and APP_INTERSTITIAL are for rendering in mobile apps. Only pre-existing creatives may have these compatibilities since new creatives will either be assigned DISPLAY or DISPLAY_INTERSTITIAL instead. IN_STREAM_VIDEO refers to rendering in in-stream video ads developed with the VAST standard. IN_STREAM_AUDIO refers to rendering in in-stream audio ads developed with the VAST standard. Applicable to all creative types. Acceptable values are: - "APP" - "APP_INTERSTITIAL" - "IN_STREAM_VIDEO" - "IN_STREAM_AUDIO" - "DISPLAY" - "DISPLAY_INTERSTITIAL" */
+  compatibility?: CreativeCompatibilityItemEnumList | undefined;
+  /** Reporting label used for HTML5 banner backup image. Applicable to the following creative types: DISPLAY when the primary asset type is not HTML_IMAGE. */
+  backupImageReportingLabel?: string | undefined;
+  /** Additional sizes associated with a responsive creative. When inserting or updating a creative either the size ID field or size width and height fields can be used. Applicable to DISPLAY creatives when the primary asset type is HTML_IMAGE. */
+  additionalSizes?: SizeList | undefined;
+  /** Whether the creative is active. Applicable to all creative types. */
+  active?: boolean | undefined;
+  /** Override CSS value for rich media creatives. Applicable to the following creative types: all RICH_MEDIA. */
+  overrideCss?: string | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creative". */
+  kind?: string | undefined;
+  /** Combined size of all creative assets. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
+  totalFileSize?: string | undefined;
+  /** Authoring tool for HTML5 banner creatives. This is a read-only field. Applicable to the following creative types: HTML5_BANNER. */
+  authoringTool?: CreativeAuthoringToolEnum | (string & {}) | undefined;
+  /** Whether Flash assets associated with the creative need to be automatically converted to HTML5. This flag is enabled by default and users can choose to disable it if they don't want the system to generate and use HTML5 asset for this creative. Applicable to the following creative type: FLASH_INPAGE. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
+  convertFlashToHtml5?: boolean | undefined;
+  /** A Universal Ad ID as per the VAST 4.0 spec. Applicable to the following creative types: INSTREAM_AUDIO and INSTREAM_VIDEO and VPAID. */
+  universalAdId?: UniversalAdId | undefined;
+  /** Whether the user can choose to skip the creative. Applicable to the following creative types: all INSTREAM_VIDEO and all VPAID. */
+  skippable?: boolean | undefined;
+  /** Size associated with this creative. When inserting or updating a creative either the size ID field or size width and height fields can be used. This is a required field when applicable; however for IMAGE, FLASH_INPAGE creatives, and for DISPLAY creatives with a primary asset of type HTML_IMAGE, if left blank, this field will be automatically set using the actual size of the associated image assets. Applicable to the following creative types: DISPLAY, DISPLAY_IMAGE_GALLERY, FLASH_INPAGE, HTML5_BANNER, IMAGE, and all RICH_MEDIA. */
+  size?: Size | undefined;
+  /** Whether the creative is archived. Applicable to all creative types. */
+  archived?: boolean | undefined;
+  /** Whether images are automatically advanced for image gallery creatives. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY. */
+  autoAdvanceImages?: boolean | undefined;
+  /** Dimension value for the rendering ID of this creative. This is a read-only field. Applicable to all creative types. */
+  renderingIdDimensionValue?: DimensionValue | undefined;
+  /** Subaccount ID of this creative. This field, if left unset, will be auto-generated for both insert and update operations. Applicable to all creative types. */
+  subaccountId?: string | undefined;
+  /** Creative field assignments for this creative. Applicable to all creative types. */
+  creativeFieldAssignments?: CreativeFieldAssignmentList | undefined;
+  /** Whether script access is allowed for this creative. This is a read-only and deprecated field which will automatically be set to true on update. Applicable to the following creative types: FLASH_INPAGE. */
+  allowScriptAccess?: boolean | undefined;
+  /** Required. Type of this creative. Applicable to all creative types. *Note:* FLASH_INPAGE, HTML5_BANNER, and IMAGE are only used for existing creatives. New creatives should use DISPLAY as a replacement for these types. */
+  type?: CreativeTypeEnum | (string & {}) | undefined;
+  /** List of feature dependencies that will cause a backup image to be served if the browser that serves the ad does not support them. Feature dependencies are features that a browser must be able to support in order to render your HTML5 creative asset correctly. This field is initially auto-generated to contain all features detected by Campaign Manager for all the assets of this creative and can then be modified by the client. To reset this field, copy over all the creativeAssets' detected features. Applicable to the following creative types: HTML5_BANNER. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
+  backupImageFeatures?: CreativeBackupImageFeaturesItemEnumList | undefined;
+  /** Assets associated with a creative. Applicable to all but the following creative types: INTERNAL_REDIRECT, INTERSTITIAL_INTERNAL_REDIRECT, and REDIRECT */
+  creativeAssets?: CreativeAssetList | undefined;
+  /** Studio trafficked creative ID associated with rich media and VPAID creatives. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
+  studioTraffickedCreativeId?: string | undefined;
+  /** Ad parameters user for VPAID creative. This is a read-only field. Applicable to the following creative types: all VPAID. */
+  adParameters?: string | undefined;
+  /** Whether HTML code is generated by Campaign Manager or manually entered. Set to true to ignore changes to htmlCode. Applicable to the following creative types: FLASH_INPAGE and HTML5_BANNER. */
+  htmlCodeLocked?: boolean | undefined;
+  /** Target window for backup image. Applicable to the following creative types: FLASH_INPAGE and HTML5_BANNER. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
+  backupImageTargetWindow?: TargetWindow | undefined;
+  /** Whether the creative is SSL-compliant. This is a read-only field. Applicable to all creative types. */
+  sslCompliant?: boolean | undefined;
+  /** ID of this creative. This is a read-only, auto-generated field. Applicable to all creative types. */
+  id?: string | undefined;
 }
 export interface GetDirectorySitesRequest {
-  /** Directory site ID. */
-  id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Directory site ID. */
+  id: string;
 }
 export type DirectorySiteInpageTagFormatsItemEnum =
   | "STANDARD"
@@ -2566,25 +2566,25 @@ export type DirectorySiteInpageTagFormatsItemEnumList = Array<
 >;
 /** Google Ad Manager Settings */
 export interface DfpSettings {
-  /** Whether this directory site is available only via Publisher Portal. */
-  publisherPortalOnly?: boolean | undefined;
+  /** Ad Manager network name for this directory site. */
+  dfpNetworkName?: string | undefined;
   /** Whether this directory site accepts publisher-paid tags. */
   pubPaidPlacementAccepted?: boolean | undefined;
   /** Whether this directory site accepts programmatic placements. */
   programmaticPlacementAccepted?: boolean | undefined;
-  /** Ad Manager network name for this directory site. */
-  dfpNetworkName?: string | undefined;
   /** Ad Manager network code for this directory site. */
   dfpNetworkCode?: string | undefined;
+  /** Whether this directory site is available only via Publisher Portal. */
+  publisherPortalOnly?: boolean | undefined;
 }
 /** Directory Site Settings */
 export interface DirectorySiteSettings {
-  /** Whether this site accepts in-stream video ads. */
-  instreamVideoPlacementAccepted?: boolean | undefined;
-  /** Directory site Ad Manager settings. */
-  dfpSettings?: DfpSettings | undefined;
   /** Whether this site accepts interstitial ads. */
   interstitialPlacementAccepted?: boolean | undefined;
+  /** Directory site Ad Manager settings. */
+  dfpSettings?: DfpSettings | undefined;
+  /** Whether this site accepts in-stream video ads. */
+  instreamVideoPlacementAccepted?: boolean | undefined;
   /** Whether this directory site has disabled active view creatives. */
   activeViewOptOut?: boolean | undefined;
 }
@@ -2597,20 +2597,20 @@ export type DirectorySiteInterstitialTagFormatsItemEnumList = Array<
 >;
 /** DirectorySites contains properties of a website from the Site Directory. Sites need to be added to an account via the Sites resource before they can be assigned to a placement. */
 export interface DirectorySite {
+  /** Dimension value for the ID of this directory site. This is a read-only, auto-generated field. */
+  idDimensionValue?: DimensionValue | undefined;
+  /** URL of this directory site. */
+  url?: string | undefined;
+  /** ID of this directory site. This is a read-only, auto-generated field. */
+  id?: string | undefined;
+  /** Output only. Default publisher specification ID of video placements under this directory site. Possible values are: * `1`, Hulu * `2`, NBC * `3`, CBS * `4`, CBS Desktop * `5`, Discovery * `6`, VEVO HD * `7`, VEVO Vertical * `8`, Fox * `9`, CW Network * `10`, Disney * `11`, IGN * `12`, NFL.com * `13`, Turner Broadcasting * `14`, Tubi on Fox * `15`, Hearst Corporation * `16`, Twitch Desktop * `17`, ABC * `18`, Univision * `19`, MLB.com * `20`, MLB.com Mobile * `21`, MLB.com OTT * `22`, Polsat * `23`, TVN * `24`, Mediaset * `25`, Antena 3 * `26`, Mediamond * `27`, Sky Italia * `28`, Tubi on CBS * `29`, Spotify * `30`, Paramount * `31`, Max */
+  publisherSpecificationId?: string | undefined;
   /** Tag types for regular placements. Acceptable values are: - "STANDARD" - "IFRAME_JAVASCRIPT_INPAGE" - "INTERNAL_REDIRECT_INPAGE" - "JAVASCRIPT_INPAGE" */
   inpageTagFormats?: DirectorySiteInpageTagFormatsItemEnumList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#directorySite". */
   kind?: string | undefined;
-  /** Output only. Default publisher specification ID of video placements under this directory site. Possible values are: * `1`, Hulu * `2`, NBC * `3`, CBS * `4`, CBS Desktop * `5`, Discovery * `6`, VEVO HD * `7`, VEVO Vertical * `8`, Fox * `9`, CW Network * `10`, Disney * `11`, IGN * `12`, NFL.com * `13`, Turner Broadcasting * `14`, Tubi on Fox * `15`, Hearst Corporation * `16`, Twitch Desktop * `17`, ABC * `18`, Univision * `19`, MLB.com * `20`, MLB.com Mobile * `21`, MLB.com OTT * `22`, Polsat * `23`, TVN * `24`, Mediaset * `25`, Antena 3 * `26`, Mediamond * `27`, Sky Italia * `28`, Tubi on CBS * `29`, Spotify * `30`, Paramount * `31`, Max */
-  publisherSpecificationId?: string | undefined;
-  /** ID of this directory site. This is a read-only, auto-generated field. */
-  id?: string | undefined;
   /** Directory site settings. */
   settings?: DirectorySiteSettings | undefined;
-  /** URL of this directory site. */
-  url?: string | undefined;
-  /** Dimension value for the ID of this directory site. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
   /** Tag types for interstitial placements. Acceptable values are: - "IFRAME_JAVASCRIPT_INTERSTITIAL" - "INTERNAL_REDIRECT_INTERSTITIAL" - "JAVASCRIPT_INTERSTITIAL" */
   interstitialTagFormats?: DirectorySiteInterstitialTagFormatsItemEnumList | undefined;
   /** Name of this directory site. */
@@ -2620,46 +2620,17 @@ export interface GetDynamicFeedsRequest {
   /** Required. Dynamic feed ID. */
   dynamicFeedId: string;
 }
-/** Contains the meta data of the content source. This is a read-only field. */
-export interface ContentSourceMetaData {
-  /** Output only. The number of rows in the content source. */
-  rowNumber?: number | undefined;
-  /** Output only. The charset of the content source. */
-  charset?: string | undefined;
-  /** Output only. The list of column names in the content source. */
-  fieldNames?: StringList | undefined;
-  /** Output only. The separator of the content source. */
-  separator?: string | undefined;
-}
-export type ContentSourceResourceTypeEnum =
-  | "RESOURCE_TYPE_UNSPECIFIED"
-  | "RESOURCE_TYPE_GOOGLE_SPREADSHEET"
-  | "RESOURCE_TYPE_REMOTE_FILE";
-/** Contains the content source of the dynamic feed. */
-export interface ContentSource {
-  /** Output only. The last modified timestamp of the content source. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo | undefined;
-  /** Optional. The name of the content source. It is defaulted to content source file name if not provided. */
-  contentSourceName?: string | undefined;
-  /** Output only. Metadata of the content source. It contains the number of rows and the column names from resource link. This is a read-only field. */
-  metaData?: ContentSourceMetaData | undefined;
-  /** Required. The resource type of the content source. */
-  resourceType?: ContentSourceResourceTypeEnum | (string & {}) | undefined;
-  /** Output only. The creation timestamp of the content source. This is a read-only field. */
-  createInfo?: LastModifiedInfo | undefined;
-  /** Required. The link to the file of the content source. */
-  resourceLink?: string | undefined;
-}
+export type DynamicFeedStatusEnum = "STATUS_UNKNOWN" | "ACTIVE" | "INACTIVE" | "DELETED";
 /** Contains the schedule of the dynamic feed. */
 export interface FeedSchedule {
   /** Optional. The time zone to schedule the feed. It is applicable if the repeat value is equal to 1. Default value is "America/Los_Angeles". */
   timeZone?: string | undefined;
+  /** Optional. The minute of the hour to start the feed. It is applicable if the repeat value is equal to 1. Default value is 0. */
+  startMinute?: string | undefined;
   /** Optional. Whether the schedule is enabled. */
   scheduleEnabled?: boolean | undefined;
   /** Optional. The number of times the feed retransforms within one day. This is a required field if the schedule is enabled. Acceptable values are between 1 to 6, inclusive. */
   repeatValue?: string | undefined;
-  /** Optional. The minute of the hour to start the feed. It is applicable if the repeat value is equal to 1. Default value is 0. */
-  startMinute?: string | undefined;
   /** Optional. The hour of the day to start the feed. It is applicable if the repeat value is equal to 1. Default value is 0. */
   startHour?: string | undefined;
 }
@@ -2700,49 +2671,60 @@ export type FeedFieldTypeEnum =
   | "DV360_LINE_ITEM_ID";
 /** Each field of the element. This is a required field. */
 export interface FeedField {
-  /** Required. The ID of the field. The ID is based on the column index starting from 0, and it should match the column index in the resource link. */
-  id?: number | undefined;
-  /** Optional. Whether the field is required and should not be empty in the feed. Could be set as true when the field type is any of the following: - GPA_SERVED_IMAGE_URL - GPA_SERVED_ASSET_URL - ASSET_LIBRARY_HANDLE - ASSET_LIBRARY_VIDEO_HANDLE - ASSET_LIBRARY_DIRECTORY_HANDLE */
-  required?: boolean | undefined;
   /** Optional. Whether the field is able to display. Could be set as true when the field type is not in any of the following and the field is not filterable: - COUNTRY_CODE_ISO - CITY - REGION - POSTAL_CODE - METRO - GEO_CANONICAL - USERLIST_ID - CONTEXTUAL_KEYWORD - CM360_DYNAMIC_TARGETING_KEY - WEIGHT */
   renderable?: boolean | undefined;
-  /** Optional. Whether the field is filterable. Could be set as true when the field type is any of the following and is not renderable: - STRING - BOOL - COUNTRY_CODE_ISO - CM360_SITE_ID - CM360_KEYWORD - CM360_CREATIVE_ID - CM360_PLACEMENT_ID - CM360_AD_ID - CM360_ADVERTISER_ID - CM360_CAMPAIGN_ID - CITY - REGION - POSTAL_CODE - METRO - CUSTOM_VALUE - REMARKETING_VALUE - GEO_CANONICAL - STRING_LIST - CREATIVE_DIMENSION - USERLIST_ID - CM360_DYNAMIC_TARGETING_KEY - DV360_LINE_ITEM_ID */
-  filterable?: boolean | undefined;
-  /** Optional. The default value of the field. */
-  defaultValue?: string | undefined;
-  /** Required. The name of the field. */
-  name?: string | undefined;
   /** Required. The type of the field. */
   type?: FeedFieldTypeEnum | (string & {}) | undefined;
+  /** Optional. Whether the field is filterable. Could be set as true when the field type is any of the following and is not renderable: - STRING - BOOL - COUNTRY_CODE_ISO - CM360_SITE_ID - CM360_KEYWORD - CM360_CREATIVE_ID - CM360_PLACEMENT_ID - CM360_AD_ID - CM360_ADVERTISER_ID - CM360_CAMPAIGN_ID - CITY - REGION - POSTAL_CODE - METRO - CUSTOM_VALUE - REMARKETING_VALUE - GEO_CANONICAL - STRING_LIST - CREATIVE_DIMENSION - USERLIST_ID - CM360_DYNAMIC_TARGETING_KEY - DV360_LINE_ITEM_ID */
+  filterable?: boolean | undefined;
+  /** Optional. Whether the field is required and should not be empty in the feed. Could be set as true when the field type is any of the following: - GPA_SERVED_IMAGE_URL - GPA_SERVED_ASSET_URL - ASSET_LIBRARY_HANDLE - ASSET_LIBRARY_VIDEO_HANDLE - ASSET_LIBRARY_DIRECTORY_HANDLE */
+  required?: boolean | undefined;
+  /** Optional. The default value of the field. */
+  defaultValue?: string | undefined;
+  /** Required. The ID of the field. The ID is based on the column index starting from 0, and it should match the column index in the resource link. */
+  id?: number | undefined;
+  /** Required. The name of the field. */
+  name?: string | undefined;
 }
 export type FeedFieldList = Array<FeedField>;
 /** Contains the element of the dynamic feed. */
 export interface Element {
-  /** Required. The field ID to specify the field used for uniquely identifying the feed row. This is a required field. */
-  externalIdFieldId?: number | undefined;
-  /** Optional. The field ID to specify the field that represents the default field in the feed. */
-  defaultFieldId?: number | undefined;
-  /** Optional. The field ID to specify the field that represents the start timestamp. Only applicable if you're planning to use scheduling in your dynamic creative. */
-  startTimestampFieldId?: number | undefined;
-  /** Optional. The name of the element. It is defaulted to resource file name if not provided. */
-  elementName?: string | undefined;
-  /** Required. The field ID to specify the field used for dynamic reporting in Campaign Manager 360. */
-  reportingLabelFieldId?: number | undefined;
-  /** Optional. The field ID to specify the field that represents the end timestamp. Only applicable if you're planning to use scheduling in your dynamic creative. */
-  endTimestampFieldId?: number | undefined;
-  /** Required. The list of fields of the element. The field order and name should match the meta data in the content source source. */
-  feedFields?: FeedFieldList | undefined;
-  /** Optional. The field ID to specify the active field in the feed. */
-  activeFieldId?: number | undefined;
-  /** Output only. The creation timestamp of the element. This is a read-only field. */
-  createInfo?: LastModifiedInfo | undefined;
-  /** Optional. Whether the start and end timestamp is local timestamp. The default value is false which means start and end timestamp is in UTC. */
-  isLocalTimestamp?: boolean | undefined;
   /** Output only. The last modified timestamp of the element. This is a read-only field. */
   lastModifiedInfo?: LastModifiedInfo | undefined;
   /** Optional. The field ID that specify field used for proximity targeting. */
   proximityTargetingFieldId?: number | undefined;
+  /** Optional. The name of the element. It is defaulted to resource file name if not provided. */
+  elementName?: string | undefined;
+  /** Optional. Whether the start and end timestamp is local timestamp. The default value is false which means start and end timestamp is in UTC. */
+  isLocalTimestamp?: boolean | undefined;
+  /** Output only. The creation timestamp of the element. This is a read-only field. */
+  createInfo?: LastModifiedInfo | undefined;
+  /** Required. The list of fields of the element. The field order and name should match the meta data in the content source source. */
+  feedFields?: FeedFieldList | undefined;
+  /** Optional. The field ID to specify the field that represents the end timestamp. Only applicable if you're planning to use scheduling in your dynamic creative. */
+  endTimestampFieldId?: number | undefined;
+  /** Required. The field ID to specify the field used for uniquely identifying the feed row. This is a required field. */
+  externalIdFieldId?: number | undefined;
+  /** Required. The field ID to specify the field used for dynamic reporting in Campaign Manager 360. */
+  reportingLabelFieldId?: number | undefined;
+  /** Optional. The field ID to specify the active field in the feed. */
+  activeFieldId?: number | undefined;
+  /** Optional. The field ID to specify the field that represents the start timestamp. Only applicable if you're planning to use scheduling in your dynamic creative. */
+  startTimestampFieldId?: number | undefined;
+  /** Optional. The field ID to specify the field that represents the default field in the feed. */
+  defaultFieldId?: number | undefined;
 }
+export type FeedIngestionStatusStateEnum =
+  | "FEED_PROCESSING_STATE_UNKNOWN"
+  | "CANCELLED"
+  | "INGESTING_QUEUED"
+  | "INGESTING"
+  | "INGESTED_SUCCESS"
+  | "INGESTED_FAILURE"
+  | "REQUEST_TO_PUBLISH"
+  | "PUBLISHING"
+  | "PUBLISHED_SUCCESS"
+  | "PUBLISHED_FAILURE";
 export type FieldErrorIngestionErrorEnum =
   | "UNKNOWN_PARSING_ERROR"
   | "MISSING_ID"
@@ -2788,117 +2770,158 @@ export type FieldErrorIngestionErrorEnum =
   | "SSL_NOT_COMPLIANT";
 /** Contains the field error of the dynamic feed. */
 export interface FieldError {
-  /** Output only. The list of values of the field. */
-  fieldValues?: StringList | undefined;
   /** Output only. The ID of the field. */
   fieldId?: number | undefined;
-  /** Output only. Incidcates whether the field has error or warning. */
-  isError?: boolean | undefined;
-  /** Output only. The name of the field. */
-  fieldName?: string | undefined;
   /** Output only. The ingestion error of the field. */
   ingestionError?: FieldErrorIngestionErrorEnum | (string & {}) | undefined;
+  /** Output only. The list of values of the field. */
+  fieldValues?: StringList | undefined;
+  /** Output only. The name of the field. */
+  fieldName?: string | undefined;
+  /** Output only. Incidcates whether the field has error or warning. */
+  isError?: boolean | undefined;
 }
 export type FieldErrorList = Array<FieldError>;
 /** Contains the ingestion error record of the dynamic feed. limited to 100 records. */
 export interface IngestionErrorRecord {
-  /** Output only. The record ID of the ingestion error record. */
-  recordId?: string | undefined;
   /** Output only. The list of field errors of the ingestion error record. */
   errors?: FieldErrorList | undefined;
+  /** Output only. The record ID of the ingestion error record. */
+  recordId?: string | undefined;
 }
 export type IngestionErrorRecordList = Array<IngestionErrorRecord>;
 /** Contains the ingestion status of the dynamic feed. */
 export interface IngestionStatus {
-  /** Output only. The number of rows with errors in the feed. */
-  numRowsWithErrors?: string | undefined;
-  /** Output only. The number of active rows in the feed. */
-  numActiveRows?: string | undefined;
   /** Output only. The number of rows processed in the feed. */
   numRowsProcessed?: string | undefined;
   /** Output only. The total number of warnings in the feed. */
   numWarningsTotal?: string | undefined;
+  /** Output only. The number of rows with errors in the feed. */
+  numRowsWithErrors?: string | undefined;
+  /** Output only. The number of active rows in the feed. */
+  numActiveRows?: string | undefined;
   /** Output only. The total number of rows in the feed. */
   numRowsTotal?: string | undefined;
 }
-export type FeedIngestionStatusStateEnum =
-  | "FEED_PROCESSING_STATE_UNKNOWN"
-  | "CANCELLED"
-  | "INGESTING_QUEUED"
-  | "INGESTING"
-  | "INGESTED_SUCCESS"
-  | "INGESTED_FAILURE"
-  | "REQUEST_TO_PUBLISH"
-  | "PUBLISHING"
-  | "PUBLISHED_SUCCESS"
-  | "PUBLISHED_FAILURE";
 /** Contains the ingestion status of the dynamic feed. Feed ingestion is an asynchronous process. If the feed create request is successful, feed ingestion will be processed in the background, including validation, assets retrieval, and saving the data from the resource link. The processing time is dependent on the data size in the resource link. This read-only status field contains the current stage of that processing and its ingestion state. */
 export interface FeedIngestionStatus {
+  /** Output only. The processing state of the feed. */
+  state?: FeedIngestionStatusStateEnum | (string & {}) | undefined;
   /** Output only. The ingestion error records of the feed. */
   ingestionErrorRecords?: IngestionErrorRecordList | undefined;
   /** Output only. The ingestion status of the feed. */
   ingestionStatus?: IngestionStatus | undefined;
-  /** Output only. The processing state of the feed. */
-  state?: FeedIngestionStatusStateEnum | (string & {}) | undefined;
 }
-export type DynamicFeedStatusEnum = "STATUS_UNKNOWN" | "ACTIVE" | "INACTIVE" | "DELETED";
+/** Contains the meta data of the content source. This is a read-only field. */
+export interface ContentSourceMetaData {
+  /** Output only. The number of rows in the content source. */
+  rowNumber?: number | undefined;
+  /** Output only. The separator of the content source. */
+  separator?: string | undefined;
+  /** Output only. The list of column names in the content source. */
+  fieldNames?: StringList | undefined;
+  /** Output only. The charset of the content source. */
+  charset?: string | undefined;
+}
+export type ContentSourceResourceTypeEnum =
+  | "RESOURCE_TYPE_UNSPECIFIED"
+  | "RESOURCE_TYPE_GOOGLE_SPREADSHEET"
+  | "RESOURCE_TYPE_REMOTE_FILE";
+/** Contains the content source of the dynamic feed. */
+export interface ContentSource {
+  /** Optional. The name of the content source. It is defaulted to content source file name if not provided. */
+  contentSourceName?: string | undefined;
+  /** Required. The link to the file of the content source. */
+  resourceLink?: string | undefined;
+  /** Output only. The last modified timestamp of the content source. This is a read-only field. */
+  lastModifiedInfo?: LastModifiedInfo | undefined;
+  /** Output only. Metadata of the content source. It contains the number of rows and the column names from resource link. This is a read-only field. */
+  metaData?: ContentSourceMetaData | undefined;
+  /** Output only. The creation timestamp of the content source. This is a read-only field. */
+  createInfo?: LastModifiedInfo | undefined;
+  /** Required. The resource type of the content source. */
+  resourceType?: ContentSourceResourceTypeEnum | (string & {}) | undefined;
+}
 /** *Beta:* This API resource is available only to a very limited number of customers. If you'd like to use this resource, please reach out to your Google sales representative. Contains dynamic feed information. */
 export interface DynamicFeed {
-  /** Required. The content source of the dynamic feed. This is a required field. */
-  contentSource?: ContentSource | undefined;
-  /** Output only. The last modified timestamp of the dynamic feed. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo | undefined;
-  /** Output only. Indicates whether the dynamic feed has a published version. This is a read-only field. */
-  hasPublished?: boolean | undefined;
-  /** Required. Advertiser ID of this dynamic feed. This is a required field. */
-  studioAdvertiserId?: string | undefined;
-  /** Output only. The creation timestamp of the dynamic feed. This is a read-only field. */
-  createInfo?: LastModifiedInfo | undefined;
+  /** Output only. The status of the feed. It is a read-only field that depends on the the feed ingestion status. The default value is INACTIVE, and it will be updated to ACTIVE once the feed is ingested successfully. */
+  status?: DynamicFeedStatusEnum | (string & {}) | undefined;
   /** Optional. The schedule of the dynamic feed. It can be set if the feed is published. */
   feedSchedule?: FeedSchedule | undefined;
+  /** Output only. Unique ID of this dynamic feed. This is a read-only, auto-generated field. */
+  dynamicFeedId?: string | undefined;
   /** Required. The element of the dynamic feed that is to specify the schema of the feed. This is a required field. */
   element?: Element | undefined;
   /** Output only. The ingestion status of the dynamic feed. This is a read-only field. */
   feedIngestionStatus?: FeedIngestionStatus | undefined;
-  /** Output only. The status of the feed. It is a read-only field that depends on the the feed ingestion status. The default value is INACTIVE, and it will be updated to ACTIVE once the feed is ingested successfully. */
-  status?: DynamicFeedStatusEnum | (string & {}) | undefined;
+  /** Output only. The creation timestamp of the dynamic feed. This is a read-only field. */
+  createInfo?: LastModifiedInfo | undefined;
+  /** Output only. The last modified timestamp of the dynamic feed. This is a read-only field. */
+  lastModifiedInfo?: LastModifiedInfo | undefined;
+  /** Required. The content source of the dynamic feed. This is a required field. */
+  contentSource?: ContentSource | undefined;
+  /** Required. Advertiser ID of this dynamic feed. This is a required field. */
+  studioAdvertiserId?: string | undefined;
   /** Optional. Name of this dynamic feed. It is defaulted to content source file name if not provided. */
   dynamicFeedName?: string | undefined;
-  /** Output only. Unique ID of this dynamic feed. This is a read-only, auto-generated field. */
-  dynamicFeedId?: string | undefined;
+  /** Output only. Indicates whether the dynamic feed has a published version. This is a read-only field. */
+  hasPublished?: boolean | undefined;
 }
 export interface GetDynamicProfilesRequest {
   /** Required. Dynamic profile ID. */
   dynamicProfileId: string;
 }
-export type DynamicProfileStatusEnum = "STATUS_UNKNOWN" | "ACTIVE" | "INACTIVE" | "DELETED";
-/** Contains custom value field information. */
-export interface CustomValueField {
+export type DynamicProfileArchiveStatusEnum = "ARCHIVE_STATUS_UNKNOWN" | "UNARCHIVED" | "ARCHIVED";
+/** Contains remarketing value attribute information. */
+export interface RemarketingValueAttribute {
   /** Optional. Field ID in the element. */
   fieldId?: number | undefined;
-  /** Optional. Custom key used to match for auto filtering. */
-  requestKey?: string | undefined;
+  /** Optional. Remarketing user attribute IDs for auto filtering. */
+  userAttributeIds?: StringList | undefined;
 }
-export type CustomValueFieldList = Array<CustomValueField>;
-export type DynamicRulesRotationTypeEnum =
-  | "ROTATION_TYPE_UNKNOWN"
-  | "RANDOM"
-  | "OPTIMIZED"
-  | "WEIGHTED";
+export type RemarketingValueAttributeList = Array<RemarketingValueAttribute>;
+export type ProximityFilterRadiusUnitTypeEnum = "RADIUS_UNIT_TYPE_UNKNOWN" | "KILOMETERS" | "MILES";
+export type ProximityFilterRadiusBucketTypeEnum =
+  | "RADIUS_BUCKET_TYPE_UNKNOWN"
+  | "SMALL"
+  | "MEDIUM"
+  | "LARGE"
+  | "MULTI_REGIONAL"
+  | "NATIONAL";
+/** Contains proximity filter information. */
+export interface ProximityFilter {
+  /** Optional. Radius length in units defined by radius_units. */
+  radiusValue?: number | undefined;
+  /** Optional. The units of the radius value */
+  radiusUnitType?: ProximityFilterRadiusUnitTypeEnum | (string & {}) | undefined;
+  /** Optional. The radius bucket type of the proximity filter */
+  radiusBucketType?: ProximityFilterRadiusBucketTypeEnum | (string & {}) | undefined;
+  /** Optional. Field ID in the element. */
+  fieldId?: number | undefined;
+}
 export type DynamicRulesRuleTypeEnum =
   | "RULE_SET_TYPE_UNKNOWN"
   | "OPEN"
   | "AUTO"
   | "CUSTOM"
   | "PROXIMITY_TARGETING";
+/** Contains dependent field value information. */
+export interface DependentFieldValue {
+  /** Optional. The ID of the element that value's field will match against. */
+  elementId?: string | undefined;
+  /** Optional. The ID of the dynamic feed that value's field will match against. */
+  dynamicFeedId?: string | undefined;
+  /** Optional. The field id of the dependent field. */
+  fieldId?: number | undefined;
+}
 /** Contains request value information. */
 export interface RequestValue {
-  /** Optional. User attribute IDs in the request that should be excluded. Used only when the field type is REMARKETING_VALUE or USER_ATTRIBUTE_ID. */
-  excludeFromUserAttributeIds?: StringList | undefined;
   /** Optional. Custom key in the request. Used only when the field type is CUSTOM_VALUE. */
   key?: string | undefined;
   /** Optional. User attribute IDs in the request. Used only when the field type is REMARKETING_VALUE or USER_ATTRIBUTE_ID. */
   userAttributeIds?: StringList | undefined;
+  /** Optional. User attribute IDs in the request that should be excluded. Used only when the field type is REMARKETING_VALUE or USER_ATTRIBUTE_ID. */
+  excludeFromUserAttributeIds?: StringList | undefined;
 }
 export type FieldFilterMatchTypeEnum =
   | "LHS_MATCH_TYPE_UNKNOWN"
@@ -2912,17 +2935,12 @@ export type FieldFilterValueTypeEnum =
   | "REQUEST"
   | "BOOL"
   | "DEPENDENT";
-/** Contains dependent field value information. */
-export interface DependentFieldValue {
-  /** Optional. The ID of the element that value's field will match against. */
-  elementId?: string | undefined;
-  /** Optional. The field id of the dependent field. */
-  fieldId?: number | undefined;
-  /** Optional. The ID of the dynamic feed that value's field will match against. */
-  dynamicFeedId?: string | undefined;
-}
 /** Contains field filter information. */
 export interface FieldFilter {
+  /** Optional. The field ID on the left hand side of the expression. */
+  fieldId?: number | undefined;
+  /** Optional. The dependent values, only applicable when rhs_value_type is DEPENDENT. */
+  dependentFieldValue?: DependentFieldValue | undefined;
   /** Optional. The string value, only applicable when rhs_value_type is STRING. */
   stringValue?: string | undefined;
   /** Optional. The request value, only applicable when rhs_value_type is REQUEST. */
@@ -2931,12 +2949,8 @@ export interface FieldFilter {
   matchType?: FieldFilterMatchTypeEnum | (string & {}) | undefined;
   /** Optional. Right hand side of the expression. */
   valueType?: FieldFilterValueTypeEnum | (string & {}) | undefined;
-  /** Optional. The dependent values, only applicable when rhs_value_type is DEPENDENT. */
-  dependentFieldValue?: DependentFieldValue | undefined;
   /** Optional. The boolean values, only applicable when rhs_value_type is BOOL. */
   boolValue?: boolean | undefined;
-  /** Optional. The field ID on the left hand side of the expression. */
-  fieldId?: number | undefined;
 }
 export type FieldFilterList = Array<FieldFilter>;
 /** Contains a list of field filters that the given custom rule will apply. */
@@ -2947,68 +2961,54 @@ export interface RuleBlock {
 export type RuleBlockList = Array<RuleBlock>;
 /** Contains custom rule information. */
 export interface CustomRule {
-  /** Optional. Name of this custom rule. */
-  name?: string | undefined;
   /** Optional. A list of field filter, the custom rule will apply. */
   ruleBlocks?: RuleBlockList | undefined;
   /** Optional. Priority of the custom rule. */
   priority?: number | undefined;
+  /** Optional. Name of this custom rule. */
+  name?: string | undefined;
 }
 export type CustomRuleList = Array<CustomRule>;
-export type ProximityFilterRadiusBucketTypeEnum =
-  | "RADIUS_BUCKET_TYPE_UNKNOWN"
-  | "SMALL"
-  | "MEDIUM"
-  | "LARGE"
-  | "MULTI_REGIONAL"
-  | "NATIONAL";
-export type ProximityFilterRadiusUnitTypeEnum = "RADIUS_UNIT_TYPE_UNKNOWN" | "KILOMETERS" | "MILES";
-/** Contains proximity filter information. */
-export interface ProximityFilter {
-  /** Optional. Radius length in units defined by radius_units. */
-  radiusValue?: number | undefined;
-  /** Optional. The radius bucket type of the proximity filter */
-  radiusBucketType?: ProximityFilterRadiusBucketTypeEnum | (string & {}) | undefined;
-  /** Optional. The units of the radius value */
-  radiusUnitType?: ProximityFilterRadiusUnitTypeEnum | (string & {}) | undefined;
+/** Contains custom value field information. */
+export interface CustomValueField {
+  /** Optional. Custom key used to match for auto filtering. */
+  requestKey?: string | undefined;
   /** Optional. Field ID in the element. */
   fieldId?: number | undefined;
 }
-/** Contains remarketing value attribute information. */
-export interface RemarketingValueAttribute {
-  /** Optional. Remarketing user attribute IDs for auto filtering. */
-  userAttributeIds?: StringList | undefined;
-  /** Optional. Field ID in the element. */
-  fieldId?: number | undefined;
-}
-export type RemarketingValueAttributeList = Array<RemarketingValueAttribute>;
+export type CustomValueFieldList = Array<CustomValueField>;
+export type DynamicRulesRotationTypeEnum =
+  | "ROTATION_TYPE_UNKNOWN"
+  | "RANDOM"
+  | "OPTIMIZED"
+  | "WEIGHTED";
 /** Contains dynamic rules information. */
 export interface DynamicRules {
-  /** Optional. List of field IDs in this element that should be auto-targeted. Applicable when rule type is AUTO. */
-  autoTargetedFieldIds?: IntegerList | undefined;
-  /** Optional. Mapping between field ID and custom key that are used to match for auto filtering. */
-  customValueFields?: CustomValueFieldList | undefined;
-  /** Optional. The rotation type to select from eligible rows. Rotation type only apply when the filtering rule results in more than one eligible rows. */
-  rotationType?: DynamicRulesRotationTypeEnum | (string & {}) | undefined;
-  /** Optional. The field ID for the feed that will be used for weighted rotation, only applicable when rotation type is WEIGHTED. */
-  weightFieldId?: number | undefined;
-  /** Optional. The type of the rule, the default value is OPEN. */
-  ruleType?: DynamicRulesRuleTypeEnum | (string & {}) | undefined;
-  /** Optional. The custom rules of the dynamic feed, only applicable when rule type is CUSTOM. */
-  customRules?: CustomRuleList | undefined;
-  /** Optional. The proximity targeting rules of the dynamic feed, only applicable when rule type is PROXIMITY_TARGETING. */
-  proximityFilter?: ProximityFilter | undefined;
   /** Optional. The link between an element field ID and a list of user attribute IDs. */
   remarketingValueAttributes?: RemarketingValueAttributeList | undefined;
+  /** Optional. The proximity targeting rules of the dynamic feed, only applicable when rule type is PROXIMITY_TARGETING. */
+  proximityFilter?: ProximityFilter | undefined;
+  /** Optional. The type of the rule, the default value is OPEN. */
+  ruleType?: DynamicRulesRuleTypeEnum | (string & {}) | undefined;
+  /** Optional. List of field IDs in this element that should be auto-targeted. Applicable when rule type is AUTO. */
+  autoTargetedFieldIds?: IntegerList | undefined;
+  /** Optional. The custom rules of the dynamic feed, only applicable when rule type is CUSTOM. */
+  customRules?: CustomRuleList | undefined;
+  /** Optional. Mapping between field ID and custom key that are used to match for auto filtering. */
+  customValueFields?: CustomValueFieldList | undefined;
+  /** Optional. The field ID for the feed that will be used for weighted rotation, only applicable when rotation type is WEIGHTED. */
+  weightFieldId?: number | undefined;
+  /** Optional. The rotation type to select from eligible rows. Rotation type only apply when the filtering rule results in more than one eligible rows. */
+  rotationType?: DynamicRulesRotationTypeEnum | (string & {}) | undefined;
 }
 /** Contains dynamic profile specific settings for an associated dynamic feed. */
 export interface DynamicProfileFeedSettings {
-  /** Optional. Dynamic rules for row selection for the given dynamic feed in the given dynamic profile. */
-  dynamicRules?: DynamicRules | undefined;
-  /** Optional. Dynamic feed ID associated with dynamic profile version. */
-  dynamicFeedId?: string | undefined;
   /** Optional. The number of this dynamic feed rows needed by the dynamic profile, default value is 1. Acceptable values are between 1 to 99, inclusive. */
   quantity?: number | undefined;
+  /** Optional. Dynamic feed ID associated with dynamic profile version. */
+  dynamicFeedId?: string | undefined;
+  /** Optional. Dynamic rules for row selection for the given dynamic feed in the given dynamic profile. */
+  dynamicRules?: DynamicRules | undefined;
 }
 export type DynamicProfileFeedSettingsList = Array<DynamicProfileFeedSettings>;
 /** Contains dynamic profile version information. */
@@ -3018,31 +3018,31 @@ export interface DynamicProfileVersion {
   /** Optional. Associated dynamic feeds and their settings (including dynamic rules) for this dynamic profile version. */
   dynamicProfileFeedSettings?: DynamicProfileFeedSettingsList | undefined;
 }
-export type DynamicProfileArchiveStatusEnum = "ARCHIVE_STATUS_UNKNOWN" | "UNARCHIVED" | "ARCHIVED";
+export type DynamicProfileStatusEnum = "STATUS_UNKNOWN" | "ACTIVE" | "INACTIVE" | "DELETED";
 /** *Beta:* This API resource is available only to a very limited number of customers. If you'd like to use this resource, please reach out to your Google sales representative. Contains dynamic profile information. */
 export interface DynamicProfile {
-  /** Output only. The last modified timestamp of the dynamic profile. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo | undefined;
-  /** Required. Advertiser ID of this dynamic profile. This is a required field on insertion. */
-  studioAdvertiserId?: string | undefined;
-  /** Output only. Identifies what kind of resource this is. Value: the fixed string "dfareporting#dynamicProfile". */
-  kind?: string | undefined;
-  /** Output only. Unique ID of this dynamic profile. This is a read-only, auto-generated field. */
-  dynamicProfileId?: string | undefined;
-  /** Output only. The creation timestamp of the dynamic profile. This is a read-only field. */
-  createInfo?: LastModifiedInfo | undefined;
-  /** Optional. Description of this dynamic profile. */
-  description?: string | undefined;
-  /** Optional. Status of this dynamic profile. */
-  status?: DynamicProfileStatusEnum | (string & {}) | undefined;
-  /** Optional. Active version of the dynamic profile. */
-  active?: DynamicProfileVersion | undefined;
-  /** Optional. Draft version of the dynamic profile. */
-  draft?: DynamicProfileVersion | undefined;
   /** Optional. Archive status of this dynamic profile. */
   archiveStatus?: DynamicProfileArchiveStatusEnum | (string & {}) | undefined;
+  /** Output only. Identifies what kind of resource this is. Value: the fixed string "dfareporting#dynamicProfile". */
+  kind?: string | undefined;
+  /** Output only. The last modified timestamp of the dynamic profile. This is a read-only field. */
+  lastModifiedInfo?: LastModifiedInfo | undefined;
+  /** Optional. Active version of the dynamic profile. */
+  active?: DynamicProfileVersion | undefined;
   /** Required. Identifier. Name of this dynamic profile. This is a required field and must be less than 256 characters long. */
   name?: string | undefined;
+  /** Optional. Draft version of the dynamic profile. */
+  draft?: DynamicProfileVersion | undefined;
+  /** Required. Advertiser ID of this dynamic profile. This is a required field on insertion. */
+  studioAdvertiserId?: string | undefined;
+  /** Optional. Description of this dynamic profile. */
+  description?: string | undefined;
+  /** Output only. Unique ID of this dynamic profile. This is a read-only, auto-generated field. */
+  dynamicProfileId?: string | undefined;
+  /** Optional. Status of this dynamic profile. */
+  status?: DynamicProfileStatusEnum | (string & {}) | undefined;
+  /** Output only. The creation timestamp of the dynamic profile. This is a read-only field. */
+  createInfo?: LastModifiedInfo | undefined;
 }
 export interface GetEventTagsRequest {
   /** User profile ID associated with this request. */
@@ -3050,50 +3050,50 @@ export interface GetEventTagsRequest {
   /** Event tag ID. */
   id: string;
 }
+export type EventTagStatusEnum = "ENABLED" | "DISABLED";
+export type EventTagSiteFilterTypeEnum = "ALLOWLIST" | "BLOCKLIST";
 export type EventTagTypeEnum =
   | "IMPRESSION_IMAGE_EVENT_TAG"
   | "IMPRESSION_JAVASCRIPT_EVENT_TAG"
   | "CLICK_THROUGH_EVENT_TAG";
-export type EventTagStatusEnum = "ENABLED" | "DISABLED";
-export type EventTagSiteFilterTypeEnum = "ALLOWLIST" | "BLOCKLIST";
 /** Contains properties of an event tag. */
 export interface EventTag {
-  /** Whether to remove this event tag from ads that are trafficked through Display & Video 360 to Ad Exchange. This may be useful if the event tag uses a pixel that is unapproved for Ad Exchange bids on one or more networks, such as the Google Display Network. */
-  excludeFromAdxRequests?: boolean | undefined;
-  /** Account ID of this event tag. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Event tag type. Can be used to specify whether to use a third-party pixel, a third-party JavaScript URL, or a third-party click-through URL for either impression or click tracking. This is a required field. */
-  type?: EventTagTypeEnum | (string & {}) | undefined;
-  /** Payload URL for this event tag. The URL on a click-through event tag should have a landing page URL appended to the end of it. This field is required on insertion. */
-  url?: string | undefined;
-  /** ID of this event tag. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Subaccount ID of this event tag. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** Status of this event tag. Must be ENABLED for this event tag to fire. This is a required field. */
-  status?: EventTagStatusEnum | (string & {}) | undefined;
-  /** Dimension value for the ID of the campaign. This is a read-only, auto-generated field. */
-  campaignIdDimensionValue?: DimensionValue | undefined;
-  /** Advertiser ID of this event tag. This field or the campaignId field is required on insertion. */
-  advertiserId?: string | undefined;
-  /** Number of times the landing page URL should be URL-escaped before being appended to the click-through event tag URL. Only applies to click-through event tags as specified by the event tag type. */
-  urlEscapeLevels?: number | undefined;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Name of this event tag. This is a required field and must be less than 256 characters long. */
-  name?: string | undefined;
-  /** Site filter type for this event tag. If no type is specified then the event tag will be applied to all sites. */
-  siteFilterType?: EventTagSiteFilterTypeEnum | (string & {}) | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#eventTag". */
-  kind?: string | undefined;
-  /** Whether this event tag should be automatically enabled for all of the advertiser's campaigns and ads. */
-  enabledByDefault?: boolean | undefined;
-  /** Filter list of site IDs associated with this event tag. The siteFilterType determines whether this is a allowlist or blocklist filter. */
-  siteIds?: StringList | undefined;
   /** Whether this tag is SSL-compliant or not. This is a read-only field. */
   sslCompliant?: boolean | undefined;
+  /** Name of this event tag. This is a required field and must be less than 256 characters long. */
+  name?: string | undefined;
+  /** Filter list of site IDs associated with this event tag. The siteFilterType determines whether this is a allowlist or blocklist filter. */
+  siteIds?: StringList | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#eventTag". */
+  kind?: string | undefined;
+  /** Status of this event tag. Must be ENABLED for this event tag to fire. This is a required field. */
+  status?: EventTagStatusEnum | (string & {}) | undefined;
+  /** Advertiser ID of this event tag. This field or the campaignId field is required on insertion. */
+  advertiserId?: string | undefined;
+  /** Payload URL for this event tag. The URL on a click-through event tag should have a landing page URL appended to the end of it. This field is required on insertion. */
+  url?: string | undefined;
+  /** Site filter type for this event tag. If no type is specified then the event tag will be applied to all sites. */
+  siteFilterType?: EventTagSiteFilterTypeEnum | (string & {}) | undefined;
+  /** Event tag type. Can be used to specify whether to use a third-party pixel, a third-party JavaScript URL, or a third-party click-through URL for either impression or click tracking. This is a required field. */
+  type?: EventTagTypeEnum | (string & {}) | undefined;
+  /** Whether to remove this event tag from ads that are trafficked through Display & Video 360 to Ad Exchange. This may be useful if the event tag uses a pixel that is unapproved for Ad Exchange bids on one or more networks, such as the Google Display Network. */
+  excludeFromAdxRequests?: boolean | undefined;
+  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
+  advertiserIdDimensionValue?: DimensionValue | undefined;
+  /** Subaccount ID of this event tag. This is a read-only field that can be left blank. */
+  subaccountId?: string | undefined;
+  /** Dimension value for the ID of the campaign. This is a read-only, auto-generated field. */
+  campaignIdDimensionValue?: DimensionValue | undefined;
+  /** Number of times the landing page URL should be URL-escaped before being appended to the click-through event tag URL. Only applies to click-through event tags as specified by the event tag type. */
+  urlEscapeLevels?: number | undefined;
+  /** Account ID of this event tag. This is a read-only field that can be left blank. */
+  accountId?: string | undefined;
   /** Campaign ID of this event tag. This field or the advertiserId field is required on insertion. */
   campaignId?: string | undefined;
+  /** Whether this event tag should be automatically enabled for all of the advertiser's campaigns and ads. */
+  enabledByDefault?: boolean | undefined;
+  /** ID of this event tag. This is a read-only, auto-generated field. */
+  id?: string | undefined;
 }
 export interface GetFilesRequest {
   /** The ID of the report file. */
@@ -3101,7 +3101,7 @@ export interface GetFilesRequest {
   /** The ID of the report. */
   reportId: string;
 }
-export type FileFormatEnum = "CSV" | "EXCEL";
+export type FileStatusEnum = "PROCESSING" | "REPORT_AVAILABLE" | "FAILED" | "CANCELLED" | "QUEUED";
 export type DateRangeRelativeDateRangeEnum =
   | "TODAY"
   | "YESTERDAY"
@@ -3123,41 +3123,41 @@ export type DateRangeRelativeDateRangeEnum =
 /** Represents a date range. */
 export interface DateRange {
   startDate?: string | undefined;
+  /** The date range relative to the date of when the report is run. */
+  relativeDateRange?: DateRangeRelativeDateRangeEnum | (string & {}) | undefined;
   endDate?: string | undefined;
   /** The kind of resource this is, in this case dfareporting#dateRange. */
   kind?: string | undefined;
-  /** The date range relative to the date of when the report is run. */
-  relativeDateRange?: DateRangeRelativeDateRangeEnum | (string & {}) | undefined;
 }
+export type FileFormatEnum = "CSV" | "EXCEL";
 export interface FileUrls {
-  /** The URL for downloading the report data through a browser. */
-  browserUrl?: string | undefined;
   /** The URL for downloading the report data through the API. */
   apiUrl?: string | undefined;
+  /** The URL for downloading the report data through a browser. */
+  browserUrl?: string | undefined;
 }
-export type FileStatusEnum = "PROCESSING" | "REPORT_AVAILABLE" | "FAILED" | "CANCELLED" | "QUEUED";
 /** Represents a File resource. A file contains the metadata for a report run. It shows the status of the run and holds the URLs to the generated report data if the run is finished and the status is "REPORT_AVAILABLE". */
 export interface File {
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#file". */
+  kind?: string | undefined;
+  /** The ID of the report this file was generated from. */
+  reportId?: string | undefined;
+  /** The filename of the file. */
+  fileName?: string | undefined;
   /** Etag of this resource. */
   etag?: string | undefined;
+  /** The timestamp in milliseconds since epoch when this file was last modified. */
+  lastModifiedTime?: string | undefined;
+  /** The status of the report file. */
+  status?: FileStatusEnum | undefined;
+  /** The date range for which the file has report data. The date range will always be the absolute date range for which the report is run. */
+  dateRange?: DateRange | undefined;
   /** The unique ID of this report file. */
   id?: string | undefined;
   /** The output format of the report. Only available once the file is available. */
   format?: FileFormatEnum | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#file". */
-  kind?: string | undefined;
-  /** The timestamp in milliseconds since epoch when this file was last modified. */
-  lastModifiedTime?: string | undefined;
-  /** The date range for which the file has report data. The date range will always be the absolute date range for which the report is run. */
-  dateRange?: DateRange | undefined;
   /** The URLs where the completed report file can be downloaded. */
   urls?: FileUrls | undefined;
-  /** The filename of the file. */
-  fileName?: string | undefined;
-  /** The ID of the report this file was generated from. */
-  reportId?: string | undefined;
-  /** The status of the report file. */
-  status?: FileStatusEnum | undefined;
 }
 export interface GetFloodlightActivitiesRequest {
   /** Floodlight activity ID. */
@@ -3165,14 +3165,40 @@ export interface GetFloodlightActivitiesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
 }
-export type FloodlightActivityTagFormatEnum = "HTML" | "XHTML";
-export type FloodlightActivityFloodlightActivityGroupTypeEnum = "COUNTER" | "SALE";
 export type FloodlightActivityCountingMethodEnum =
   | "STANDARD_COUNTING"
   | "UNIQUE_COUNTING"
   | "SESSION_COUNTING"
   | "TRANSACTIONS_COUNTING"
   | "ITEMS_SOLD_COUNTING";
+export type FloodlightActivityFloodlightActivityGroupTypeEnum = "COUNTER" | "SALE";
+/** Dynamic Tag */
+export interface FloodlightActivityDynamicTag {
+  /** ID of this dynamic tag. This is a read-only, auto-generated field. */
+  id?: string | undefined;
+  /** Tag code. */
+  tag?: string | undefined;
+  /** Name of this tag. */
+  name?: string | undefined;
+}
+/** Publisher Dynamic Tag */
+export interface FloodlightActivityPublisherDynamicTag {
+  /** Whether this tag is applicable only for view-throughs. */
+  viewThrough?: boolean | undefined;
+  /** Site ID of this dynamic tag. */
+  siteId?: string | undefined;
+  /** Directory site ID of this dynamic tag. This is a write-only field that can be used as an alternative to the siteId field. When this resource is retrieved, only the siteId field will be populated. */
+  directorySiteId?: string | undefined;
+  /** Dimension value for the ID of the site. This is a read-only, auto-generated field. */
+  siteIdDimensionValue?: DimensionValue | undefined;
+  /** Dynamic floodlight tag. */
+  dynamicTag?: FloodlightActivityDynamicTag | undefined;
+  /** Whether this tag is applicable only for click-throughs. */
+  clickThrough?: boolean | undefined;
+}
+export type FloodlightActivityPublisherDynamicTagList =
+  Array<FloodlightActivityPublisherDynamicTag>;
+export type FloodlightActivityTagFormatEnum = "HTML" | "XHTML";
 export type FloodlightActivityConversionCategoryEnum =
   | "CONVERSION_CATEGORY_DEFAULT"
   | "CONVERSION_CATEGORY_PURCHASE"
@@ -3191,6 +3217,19 @@ export type FloodlightActivityConversionCategoryEnum =
   | "CONVERSION_CATEGORY_QUALIFIED_LEAD"
   | "CONVERSION_CATEGORY_CONVERTED_LEAD"
   | "CONVERSION_CATEGORY_IN_APP_AD_REVENUE";
+export type FloodlightActivityStatusEnum =
+  | "ACTIVE"
+  | "ARCHIVED_AND_DISABLED"
+  | "ARCHIVED"
+  | "DISABLED_POLICY";
+export type FloodlightActivityDynamicTagList = Array<FloodlightActivityDynamicTag>;
+export type FloodlightActivityFloodlightTagTypeEnum = "IFRAME" | "IMAGE" | "GLOBAL_SITE_TAG";
+export type FloodlightActivityCacheBustingTypeEnum =
+  | "JAVASCRIPT"
+  | "ACTIVE_SERVER_PAGE"
+  | "JSP"
+  | "PHP"
+  | "COLD_FUSION";
 export type FloodlightActivityUserDefinedVariableTypesItemEnum =
   | "U1"
   | "U2"
@@ -3295,110 +3334,71 @@ export type FloodlightActivityUserDefinedVariableTypesItemEnum =
 export type FloodlightActivityUserDefinedVariableTypesItemEnumList = Array<
   FloodlightActivityUserDefinedVariableTypesItemEnum | (string & {})
 >;
-export type FloodlightActivityFloodlightTagTypeEnum = "IFRAME" | "IMAGE" | "GLOBAL_SITE_TAG";
-/** Dynamic Tag */
-export interface FloodlightActivityDynamicTag {
-  /** Name of this tag. */
-  name?: string | undefined;
-  /** ID of this dynamic tag. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Tag code. */
-  tag?: string | undefined;
-}
-export type FloodlightActivityDynamicTagList = Array<FloodlightActivityDynamicTag>;
-export type FloodlightActivityStatusEnum =
-  | "ACTIVE"
-  | "ARCHIVED_AND_DISABLED"
-  | "ARCHIVED"
-  | "DISABLED_POLICY";
-export type FloodlightActivityCacheBustingTypeEnum =
-  | "JAVASCRIPT"
-  | "ACTIVE_SERVER_PAGE"
-  | "JSP"
-  | "PHP"
-  | "COLD_FUSION";
-/** Publisher Dynamic Tag */
-export interface FloodlightActivityPublisherDynamicTag {
-  /** Directory site ID of this dynamic tag. This is a write-only field that can be used as an alternative to the siteId field. When this resource is retrieved, only the siteId field will be populated. */
-  directorySiteId?: string | undefined;
-  /** Whether this tag is applicable only for click-throughs. */
-  clickThrough?: boolean | undefined;
-  /** Site ID of this dynamic tag. */
-  siteId?: string | undefined;
-  /** Dimension value for the ID of the site. This is a read-only, auto-generated field. */
-  siteIdDimensionValue?: DimensionValue | undefined;
-  /** Dynamic floodlight tag. */
-  dynamicTag?: FloodlightActivityDynamicTag | undefined;
-  /** Whether this tag is applicable only for view-throughs. */
-  viewThrough?: boolean | undefined;
-}
-export type FloodlightActivityPublisherDynamicTagList =
-  Array<FloodlightActivityPublisherDynamicTag>;
 /** Contains properties of a Floodlight activity. */
 export interface FloodlightActivity {
-  /** Tag format type for the floodlight activity. If left blank, the tag format will default to HTML. */
-  tagFormat?: FloodlightActivityTagFormatEnum | (string & {}) | undefined;
+  /** Whether the floodlight activity is SSL-compliant. This is a read-only field, its value detected by the system from the floodlight tags. */
+  sslCompliant?: boolean | undefined;
   /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
   advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Advertiser ID of this floodlight activity. If this field is left blank, the value will be copied over either from the activity group's advertiser or the existing activity's advertiser. */
-  advertiserId?: string | undefined;
+  /** Whether this floodlight activity must be SSL-compliant. */
+  sslRequired?: boolean | undefined;
+  /** Account ID of this floodlight activity. This is a read-only field that can be left blank. */
+  accountId?: string | undefined;
+  /** Tag string of the associated floodlight activity group. This is a read-only field. */
+  floodlightActivityGroupTagString?: string | undefined;
+  /** Counting method for conversions for this floodlight activity. This is a required field. */
+  countingMethod?: FloodlightActivityCountingMethodEnum | (string & {}) | undefined;
+  /** Whether this tag should use SSL. */
+  secure?: boolean | undefined;
+  /** General notes or implementation instructions for the tag. */
+  notes?: string | undefined;
+  /** Value of the cat= parameter in the floodlight tag, which the ad servers use to identify the activity. This is optional: if empty, a new tag string will be generated for you. This string must be 1 to 8 characters long, with valid characters being a-z0-9[ _ ]. This tag string must also be unique among activities of the same activity group. This field is read-only after insertion. */
+  tagString?: string | undefined;
+  /** Whether the activity is enabled for attribution. */
+  attributionEnabled?: boolean | undefined;
+  /** Subaccount ID of this floodlight activity. This is a read-only field that can be left blank. */
+  subaccountId?: string | undefined;
   /** Type of the associated floodlight activity group. This is a read-only field. */
   floodlightActivityGroupType?:
     | FloodlightActivityFloodlightActivityGroupTypeEnum
     | (string & {})
     | undefined;
-  /** Name of the associated floodlight activity group. This is a read-only field. */
-  floodlightActivityGroupName?: string | undefined;
-  /** Whether this floodlight activity must be SSL-compliant. */
-  sslRequired?: boolean | undefined;
-  /** Value of the cat= parameter in the floodlight tag, which the ad servers use to identify the activity. This is optional: if empty, a new tag string will be generated for you. This string must be 1 to 8 characters long, with valid characters being a-z0-9[ _ ]. This tag string must also be unique among activities of the same activity group. This field is read-only after insertion. */
-  tagString?: string | undefined;
-  /** ID of this floodlight activity. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Counting method for conversions for this floodlight activity. This is a required field. */
-  countingMethod?: FloodlightActivityCountingMethodEnum | (string & {}) | undefined;
-  /** Whether the floodlight activity is SSL-compliant. This is a read-only field, its value detected by the system from the floodlight tags. */
-  sslCompliant?: boolean | undefined;
+  /** Publisher dynamic floodlight tags. */
+  publisherTags?: FloodlightActivityPublisherDynamicTagList | undefined;
+  /** Tag format type for the floodlight activity. If left blank, the tag format will default to HTML. */
+  tagFormat?: FloodlightActivityTagFormatEnum | (string & {}) | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightActivity". */
+  kind?: string | undefined;
   /** Required. The conversion category of the activity. */
   conversionCategory?: FloodlightActivityConversionCategoryEnum | (string & {}) | undefined;
-  /** Floodlight activity group ID of this floodlight activity. This is a required field. */
-  floodlightActivityGroupId?: string | undefined;
-  /** Whether the activity is enabled for attribution. */
-  attributionEnabled?: boolean | undefined;
-  /** Whether this tag should use SSL. */
-  secure?: boolean | undefined;
   /** Name of this floodlight activity. This is a required field. Must be less than 129 characters long and cannot contain quotes. */
   name?: string | undefined;
-  /** List of the user-defined variables used by this conversion tag. These map to the "u[1-100]=" in the tags. Each of these can have a user defined type. Acceptable values are U1 to U100, inclusive. */
-  userDefinedVariableTypes?: FloodlightActivityUserDefinedVariableTypesItemEnumList | undefined;
+  /** The status of the activity. This can only be set to ACTIVE or ARCHIVED_AND_DISABLED. The ARCHIVED status is no longer supported and cannot be set for Floodlight activities. The DISABLED_POLICY status indicates that a Floodlight activity is violating Google policy. Contact your account manager for more information. */
+  status?: FloodlightActivityStatusEnum | (string & {}) | undefined;
+  /** Floodlight configuration ID of this floodlight activity. If this field is left blank, the value will be copied over either from the activity group's floodlight configuration or from the existing activity's floodlight configuration. */
+  floodlightConfigurationId?: string | undefined;
+  /** Dimension value for the ID of this floodlight activity. This is a read-only, auto-generated field. */
+  idDimensionValue?: DimensionValue | undefined;
+  /** Dynamic floodlight tags. */
+  defaultTags?: FloodlightActivityDynamicTagList | undefined;
+  /** ID of this floodlight activity. This is a read-only, auto-generated field. */
+  id?: string | undefined;
   /** The type of Floodlight tag this activity will generate. This is a required field. */
   floodlightTagType?: FloodlightActivityFloodlightTagTypeEnum | (string & {}) | undefined;
   /** URL where this tag will be deployed. If specified, must be less than 256 characters long. */
   expectedUrl?: string | undefined;
-  /** Tag string of the associated floodlight activity group. This is a read-only field. */
-  floodlightActivityGroupTagString?: string | undefined;
-  /** Account ID of this floodlight activity. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightActivity". */
-  kind?: string | undefined;
-  /** Dynamic floodlight tags. */
-  defaultTags?: FloodlightActivityDynamicTagList | undefined;
-  /** Subaccount ID of this floodlight activity. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** The status of the activity. This can only be set to ACTIVE or ARCHIVED_AND_DISABLED. The ARCHIVED status is no longer supported and cannot be set for Floodlight activities. The DISABLED_POLICY status indicates that a Floodlight activity is violating Google policy. Contact your account manager for more information. */
-  status?: FloodlightActivityStatusEnum | (string & {}) | undefined;
-  /** Dimension value for the ID of this floodlight activity. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** General notes or implementation instructions for the tag. */
-  notes?: string | undefined;
-  /** Code type used for cache busting in the generated tag. Applicable only when floodlightActivityGroupType is COUNTER and countingMethod is STANDARD_COUNTING or UNIQUE_COUNTING. */
-  cacheBustingType?: FloodlightActivityCacheBustingTypeEnum | (string & {}) | undefined;
-  /** Publisher dynamic floodlight tags. */
-  publisherTags?: FloodlightActivityPublisherDynamicTagList | undefined;
+  /** Floodlight activity group ID of this floodlight activity. This is a required field. */
+  floodlightActivityGroupId?: string | undefined;
+  /** Advertiser ID of this floodlight activity. If this field is left blank, the value will be copied over either from the activity group's advertiser or the existing activity's advertiser. */
+  advertiserId?: string | undefined;
+  /** Name of the associated floodlight activity group. This is a read-only field. */
+  floodlightActivityGroupName?: string | undefined;
   /** Dimension value for the ID of the floodlight configuration. This is a read-only, auto-generated field. */
   floodlightConfigurationIdDimensionValue?: DimensionValue | undefined;
-  /** Floodlight configuration ID of this floodlight activity. If this field is left blank, the value will be copied over either from the activity group's floodlight configuration or from the existing activity's floodlight configuration. */
-  floodlightConfigurationId?: string | undefined;
+  /** Code type used for cache busting in the generated tag. Applicable only when floodlightActivityGroupType is COUNTER and countingMethod is STANDARD_COUNTING or UNIQUE_COUNTING. */
+  cacheBustingType?: FloodlightActivityCacheBustingTypeEnum | (string & {}) | undefined;
+  /** List of the user-defined variables used by this conversion tag. These map to the "u[1-100]=" in the tags. Each of these can have a user defined type. Acceptable values are U1 to U100, inclusive. */
+  userDefinedVariableTypes?: FloodlightActivityUserDefinedVariableTypesItemEnumList | undefined;
 }
 export interface GetFloodlightActivityGroupsRequest {
   /** User profile ID associated with this request. */
@@ -3409,60 +3409,59 @@ export interface GetFloodlightActivityGroupsRequest {
 export type FloodlightActivityGroupTypeEnum = "COUNTER" | "SALE";
 /** Contains properties of a Floodlight activity group. */
 export interface FloodlightActivityGroup {
-  /** Dimension value for the ID of this floodlight activity group. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
+  /** Value of the type= parameter in the floodlight tag, which the ad servers use to identify the activity group that the activity belongs to. This is optional: if empty, a new tag string will be generated for you. This string must be 1 to 8 characters long, with valid characters being a-z0-9[ _ ]. This tag string must also be unique among activity groups of the same floodlight configuration. This field is read-only after insertion. */
+  tagString?: string | undefined;
+  /** Floodlight configuration ID of this floodlight activity group. This is a required field. */
+  floodlightConfigurationId?: string | undefined;
+  /** Name of this floodlight activity group. This is a required field. Must be less than 65 characters long and cannot contain quotes. */
+  name?: string | undefined;
+  /** Dimension value for the ID of the floodlight configuration. This is a read-only, auto-generated field. */
+  floodlightConfigurationIdDimensionValue?: DimensionValue | undefined;
+  /** Subaccount ID of this floodlight activity group. This is a read-only field that can be left blank. */
+  subaccountId?: string | undefined;
+  /** Type of the floodlight activity group. This is a required field that is read-only after insertion. */
+  type?: FloodlightActivityGroupTypeEnum | (string & {}) | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightActivityGroup". */
   kind?: string | undefined;
   /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
   advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Subaccount ID of this floodlight activity group. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** ID of this floodlight activity group. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Floodlight configuration ID of this floodlight activity group. This is a required field. */
-  floodlightConfigurationId?: string | undefined;
-  /** Advertiser ID of this floodlight activity group. If this field is left blank, the value will be copied over either from the floodlight configuration's advertiser or from the existing activity group's advertiser. */
-  advertiserId?: string | undefined;
-  /** Value of the type= parameter in the floodlight tag, which the ad servers use to identify the activity group that the activity belongs to. This is optional: if empty, a new tag string will be generated for you. This string must be 1 to 8 characters long, with valid characters being a-z0-9[ _ ]. This tag string must also be unique among activity groups of the same floodlight configuration. This field is read-only after insertion. */
-  tagString?: string | undefined;
-  /** Name of this floodlight activity group. This is a required field. Must be less than 65 characters long and cannot contain quotes. */
-  name?: string | undefined;
-  /** Type of the floodlight activity group. This is a required field that is read-only after insertion. */
-  type?: FloodlightActivityGroupTypeEnum | (string & {}) | undefined;
-  /** Dimension value for the ID of the floodlight configuration. This is a read-only, auto-generated field. */
-  floodlightConfigurationIdDimensionValue?: DimensionValue | undefined;
   /** Account ID of this floodlight activity group. This is a read-only field that can be left blank. */
   accountId?: string | undefined;
+  /** Dimension value for the ID of this floodlight activity group. This is a read-only, auto-generated field. */
+  idDimensionValue?: DimensionValue | undefined;
+  /** ID of this floodlight activity group. This is a read-only, auto-generated field. */
+  id?: string | undefined;
+  /** Advertiser ID of this floodlight activity group. If this field is left blank, the value will be copied over either from the floodlight configuration's advertiser or from the existing activity group's advertiser. */
+  advertiserId?: string | undefined;
 }
 export interface GetFloodlightConfigurationsRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Floodlight configuration ID. */
   id: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
-export type FloodlightConfigurationNaturalSearchConversionAttributionOptionEnum =
-  | "EXCLUDE_NATURAL_SEARCH_CONVERSION_ATTRIBUTION"
-  | "INCLUDE_NATURAL_SEARCH_CONVERSION_ATTRIBUTION"
-  | "INCLUDE_NATURAL_SEARCH_TIERED_CONVERSION_ATTRIBUTION";
-/** The attributes, like playtime and percent onscreen, that define the Custom Viewability Metric. */
-export interface CustomViewabilityMetricConfiguration {
-  /** Whether the video must be audible to count an impression. */
-  audible?: boolean | undefined;
-  /** The time in milliseconds the video must play for the Custom Viewability Metric to count an impression. If both this and timePercent are specified, the earlier of the two will be used. */
-  timeMillis?: number | undefined;
-  /** The percentage of video that must be on screen for the Custom Viewability Metric to count an impression. */
-  viewabilityPercent?: number | undefined;
-  /** The percentage of video that must play for the Custom Viewability Metric to count an impression. If both this and timeMillis are specified, the earlier of the two will be used. */
-  timePercent?: number | undefined;
+export type FloodlightConfigurationFirstDayOfWeekEnum = "SUNDAY" | "MONDAY";
+/** Omniture Integration Settings. */
+export interface OmnitureSettings {
+  /** Whether placement cost data will be sent to Omniture. This property can be enabled only if omnitureIntegrationEnabled is true. */
+  omnitureCostDataEnabled?: boolean | undefined;
+  /** Whether Omniture integration is enabled. This property can be enabled only when the "Advanced Ad Serving" account setting is enabled. */
+  omnitureIntegrationEnabled?: boolean | undefined;
 }
-/** Custom Viewability Metric */
-export interface CustomViewabilityMetric {
-  /** Name of the custom viewability metric. */
+/** Third Party Authentication Token */
+export interface ThirdPartyAuthenticationToken {
+  /** Name of the third-party authentication token. */
   name?: string | undefined;
-  /** ID of the custom viewability metric. */
-  id?: string | undefined;
-  /** Configuration of the custom viewability metric. */
-  configuration?: CustomViewabilityMetricConfiguration | undefined;
+  /** Value of the third-party authentication token. This is a read-only, auto-generated field. */
+  value?: string | Redacted.Redacted<string> | undefined;
+}
+export type ThirdPartyAuthenticationTokenList = Array<ThirdPartyAuthenticationToken>;
+/** Dynamic and Image Tag Settings. */
+export interface TagSettings {
+  /** Whether dynamic floodlight tags are enabled. */
+  dynamicTagEnabled?: boolean | undefined;
+  /** Whether image tags are enabled. */
+  imageTagEnabled?: boolean | undefined;
 }
 export type UserDefinedVariableConfigurationDataTypeEnum = "STRING" | "NUMBER";
 export type UserDefinedVariableConfigurationVariableTypeEnum =
@@ -3570,81 +3569,82 @@ export type UserDefinedVariableConfigurationVariableTypeEnum =
 export interface UserDefinedVariableConfiguration {
   /** Data type for the variable. This is a required field. */
   dataType?: UserDefinedVariableConfigurationDataTypeEnum | (string & {}) | undefined;
-  /** User-friendly name for the variable which will appear in reports. This is a required field, must be less than 64 characters long, and cannot contain the following characters: ""<>". */
-  reportName?: string | undefined;
   /** Variable name in the tag. This is a required field. */
   variableType?: UserDefinedVariableConfigurationVariableTypeEnum | (string & {}) | undefined;
+  /** User-friendly name for the variable which will appear in reports. This is a required field, must be less than 64 characters long, and cannot contain the following characters: ""<>". */
+  reportName?: string | undefined;
 }
 export type UserDefinedVariableConfigurationList = Array<UserDefinedVariableConfiguration>;
-/** Omniture Integration Settings. */
-export interface OmnitureSettings {
-  /** Whether Omniture integration is enabled. This property can be enabled only when the "Advanced Ad Serving" account setting is enabled. */
-  omnitureIntegrationEnabled?: boolean | undefined;
-  /** Whether placement cost data will be sent to Omniture. This property can be enabled only if omnitureIntegrationEnabled is true. */
-  omnitureCostDataEnabled?: boolean | undefined;
+/** The attributes, like playtime and percent onscreen, that define the Custom Viewability Metric. */
+export interface CustomViewabilityMetricConfiguration {
+  /** Whether the video must be audible to count an impression. */
+  audible?: boolean | undefined;
+  /** The time in milliseconds the video must play for the Custom Viewability Metric to count an impression. If both this and timePercent are specified, the earlier of the two will be used. */
+  timeMillis?: number | undefined;
+  /** The percentage of video that must be on screen for the Custom Viewability Metric to count an impression. */
+  viewabilityPercent?: number | undefined;
+  /** The percentage of video that must play for the Custom Viewability Metric to count an impression. If both this and timeMillis are specified, the earlier of the two will be used. */
+  timePercent?: number | undefined;
 }
-/** Dynamic and Image Tag Settings. */
-export interface TagSettings {
-  /** Whether dynamic floodlight tags are enabled. */
-  dynamicTagEnabled?: boolean | undefined;
-  /** Whether image tags are enabled. */
-  imageTagEnabled?: boolean | undefined;
-}
-/** Third Party Authentication Token */
-export interface ThirdPartyAuthenticationToken {
-  /** Value of the third-party authentication token. This is a read-only, auto-generated field. */
-  value?: string | Redacted.Redacted<string> | undefined;
-  /** Name of the third-party authentication token. */
+/** Custom Viewability Metric */
+export interface CustomViewabilityMetric {
+  /** Configuration of the custom viewability metric. */
+  configuration?: CustomViewabilityMetricConfiguration | undefined;
+  /** Name of the custom viewability metric. */
   name?: string | undefined;
+  /** ID of the custom viewability metric. */
+  id?: string | undefined;
 }
-export type ThirdPartyAuthenticationTokenList = Array<ThirdPartyAuthenticationToken>;
-export type FloodlightConfigurationFirstDayOfWeekEnum = "SUNDAY" | "MONDAY";
+export type FloodlightConfigurationNaturalSearchConversionAttributionOptionEnum =
+  | "EXCLUDE_NATURAL_SEARCH_CONVERSION_ATTRIBUTION"
+  | "INCLUDE_NATURAL_SEARCH_CONVERSION_ATTRIBUTION"
+  | "INCLUDE_NATURAL_SEARCH_TIERED_CONVERSION_ATTRIBUTION";
 /** Contains properties of a Floodlight configuration. */
 export interface FloodlightConfiguration {
+  /** Lookback window settings for this floodlight configuration. */
+  lookbackConfiguration?: LookbackConfiguration | undefined;
+  firstDayOfWeek?: FloodlightConfigurationFirstDayOfWeekEnum | (string & {}) | undefined;
+  /** Advertiser ID of the parent advertiser of this floodlight configuration. */
+  advertiserId?: string | undefined;
+  /** Settings for Campaign Manager Omniture integration. */
+  omnitureSettings?: OmnitureSettings | undefined;
+  /** Whether advertiser data is shared with Google Analytics. */
+  analyticsDataSharingEnabled?: boolean | undefined;
+  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
+  advertiserIdDimensionValue?: DimensionValue | undefined;
+  /** ID of this floodlight configuration. This is a read-only, auto-generated field. */
+  id?: string | undefined;
+  /** List of third-party authentication tokens enabled for this configuration. */
+  thirdPartyAuthenticationTokens?: ThirdPartyAuthenticationTokenList | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightConfiguration". */
+  kind?: string | undefined;
+  /** Dimension value for the ID of this floodlight configuration. This is a read-only, auto-generated field. */
+  idDimensionValue?: DimensionValue | undefined;
+  /** Whether in-app attribution tracking is enabled. */
+  inAppAttributionTrackingEnabled?: boolean | undefined;
+  /** Whether the exposure-to-conversion report is enabled. This report shows detailed pathway information on up to 10 of the most recent ad exposures seen by a user before converting. */
+  exposureToConversionEnabled?: boolean | undefined;
+  /** Configuration settings for dynamic and image floodlight tags. */
+  tagSettings?: TagSettings | undefined;
+  /** List of user defined variables enabled for this configuration. */
+  userDefinedVariableConfigurations?: UserDefinedVariableConfigurationList | undefined;
+  /** Custom Viewability metric for the floodlight configuration. */
+  customViewabilityMetric?: CustomViewabilityMetric | undefined;
+  /** Account ID of this floodlight configuration. This is a read-only field that can be left blank. */
+  accountId?: string | undefined;
+  /** Subaccount ID of this floodlight configuration. This is a read-only field that can be left blank. */
+  subaccountId?: string | undefined;
   /** Types of attribution options for natural search conversions. */
   naturalSearchConversionAttributionOption?:
     | FloodlightConfigurationNaturalSearchConversionAttributionOptionEnum
     | (string & {})
     | undefined;
-  /** Advertiser ID of the parent advertiser of this floodlight configuration. */
-  advertiserId?: string | undefined;
-  /** Dimension value for the ID of this floodlight configuration. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** Whether advertiser data is shared with Google Analytics. */
-  analyticsDataSharingEnabled?: boolean | undefined;
-  /** Custom Viewability metric for the floodlight configuration. */
-  customViewabilityMetric?: CustomViewabilityMetric | undefined;
-  /** List of user defined variables enabled for this configuration. */
-  userDefinedVariableConfigurations?: UserDefinedVariableConfigurationList | undefined;
-  /** Settings for Campaign Manager Omniture integration. */
-  omnitureSettings?: OmnitureSettings | undefined;
-  /** Whether the exposure-to-conversion report is enabled. This report shows detailed pathway information on up to 10 of the most recent ad exposures seen by a user before converting. */
-  exposureToConversionEnabled?: boolean | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightConfiguration". */
-  kind?: string | undefined;
-  /** Lookback window settings for this floodlight configuration. */
-  lookbackConfiguration?: LookbackConfiguration | undefined;
-  /** Account ID of this floodlight configuration. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** Configuration settings for dynamic and image floodlight tags. */
-  tagSettings?: TagSettings | undefined;
-  /** List of third-party authentication tokens enabled for this configuration. */
-  thirdPartyAuthenticationTokens?: ThirdPartyAuthenticationTokenList | undefined;
-  firstDayOfWeek?: FloodlightConfigurationFirstDayOfWeekEnum | (string & {}) | undefined;
-  /** ID of this floodlight configuration. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Subaccount ID of this floodlight configuration. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Whether in-app attribution tracking is enabled. */
-  inAppAttributionTrackingEnabled?: boolean | undefined;
 }
 export interface GetMobileAppsRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Mobile app ID. */
   id: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 export interface GetMobileCarriersRequest {
   /** User profile ID associated with this request. */
@@ -3653,16 +3653,16 @@ export interface GetMobileCarriersRequest {
   id: string;
 }
 export interface GetOperatingSystemsRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Operating system DART ID. */
   dartId: string;
-}
-export interface GetOperatingSystemVersionsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
+}
+export interface GetOperatingSystemVersionsRequest {
   /** Operating system version ID. */
   id: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 export interface GetPlacementGroupsRequest {
   /** Placement group ID. */
@@ -3671,24 +3671,6 @@ export interface GetPlacementGroupsRequest {
   profileId: string;
 }
 export type PlacementGroupPlacementGroupTypeEnum = "PLACEMENT_PACKAGE" | "PLACEMENT_ROADBLOCK";
-export type PlacementGroupActiveStatusEnum =
-  | "PLACEMENT_STATUS_UNKNOWN"
-  | "PLACEMENT_STATUS_ACTIVE"
-  | "PLACEMENT_STATUS_INACTIVE"
-  | "PLACEMENT_STATUS_ARCHIVED"
-  | "PLACEMENT_STATUS_PERMANENTLY_ARCHIVED";
-/** Pricing Period */
-export interface PricingSchedulePricingPeriod {
-  /** Rate or cost of this pricing period in nanos (i.e., multiplied by 1000000000). Acceptable values are 0 to 1000000000000000000, inclusive. */
-  rateOrCostNanos?: string | undefined;
-  /** Units of this pricing period. Acceptable values are 0 to 10000000000, inclusive. */
-  units?: string | undefined;
-  endDate?: string | undefined;
-  startDate?: string | undefined;
-  /** Comments for this pricing period. */
-  pricingComment?: string | undefined;
-}
-export type PricingSchedulePricingPeriodList = Array<PricingSchedulePricingPeriod>;
 export type PricingSchedulePricingTypeEnum =
   | "PRICING_TYPE_CPM"
   | "PRICING_TYPE_CPC"
@@ -3696,6 +3678,18 @@ export type PricingSchedulePricingTypeEnum =
   | "PRICING_TYPE_FLAT_RATE_IMPRESSIONS"
   | "PRICING_TYPE_FLAT_RATE_CLICKS"
   | "PRICING_TYPE_CPM_ACTIVEVIEW";
+/** Pricing Period */
+export interface PricingSchedulePricingPeriod {
+  startDate?: string | undefined;
+  /** Comments for this pricing period. */
+  pricingComment?: string | undefined;
+  endDate?: string | undefined;
+  /** Units of this pricing period. Acceptable values are 0 to 10000000000, inclusive. */
+  units?: string | undefined;
+  /** Rate or cost of this pricing period in nanos (i.e., multiplied by 1000000000). Acceptable values are 0 to 1000000000000000000, inclusive. */
+  rateOrCostNanos?: string | undefined;
+}
+export type PricingSchedulePricingPeriodList = Array<PricingSchedulePricingPeriod>;
 export type PricingScheduleCapCostOptionEnum =
   | "CAP_COST_NONE"
   | "CAP_COST_MONTHLY"
@@ -3704,72 +3698,78 @@ export type PricingScheduleCapCostOptionEnum =
 export interface PricingSchedule {
   /** Floodlight activity ID associated with this placement. This field should be set when placement pricing type is set to PRICING_TYPE_CPA. */
   floodlightActivityId?: string | undefined;
-  testingStartDate?: string | undefined;
   startDate?: string | undefined;
-  /** Pricing periods for this placement. */
-  pricingPeriods?: PricingSchedulePricingPeriodList | undefined;
   /** Placement pricing type. This field is required on insertion. */
   pricingType?: PricingSchedulePricingTypeEnum | (string & {}) | undefined;
-  endDate?: string | undefined;
+  /** Pricing periods for this placement. */
+  pricingPeriods?: PricingSchedulePricingPeriodList | undefined;
   /** Whether this placement is flighted. If true, pricing periods will be computed automatically. */
   flighted?: boolean | undefined;
   /** Placement cap cost option. */
   capCostOption?: PricingScheduleCapCostOptionEnum | (string & {}) | undefined;
+  testingStartDate?: string | undefined;
+  endDate?: string | undefined;
 }
+export type PlacementGroupActiveStatusEnum =
+  | "PLACEMENT_STATUS_UNKNOWN"
+  | "PLACEMENT_STATUS_ACTIVE"
+  | "PLACEMENT_STATUS_INACTIVE"
+  | "PLACEMENT_STATUS_ARCHIVED"
+  | "PLACEMENT_STATUS_PERMANENTLY_ARCHIVED";
 /** Contains properties of a package or roadblock. */
 export interface PlacementGroup {
-  /** External ID for this placement. */
-  externalId?: string | undefined;
-  /** Comments for this placement group. */
-  comment?: string | undefined;
-  /** Name of this placement group. This is a required field and must be less than 256 characters long. */
-  name?: string | undefined;
-  /** Site ID associated with this placement group. On insert, you must set either this field or the directorySiteId field to specify the site associated with this placement group. This is a required field that is read-only after insertion. */
-  siteId?: string | undefined;
   /** Type of this placement group. A package is a simple group of placements that acts as a single pricing point for a group of tags. A roadblock is a group of placements that not only acts as a single pricing point, but also assumes that all the tags in it will be served at the same time. A roadblock requires one of its assigned placements to be marked as primary for reporting. This field is required on insertion. */
   placementGroupType?: PlacementGroupPlacementGroupTypeEnum | (string & {}) | undefined;
-  /** ID of this placement group. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#placementGroup". */
-  kind?: string | undefined;
-  /** ID of the placement strategy assigned to this placement group. */
-  placementStrategyId?: string | undefined;
   /** Advertiser ID of this placement group. This is a required field on insertion. */
   advertiserId?: string | undefined;
+  /** Dimension value for the ID of the primary placement. This is a read-only, auto-generated field. */
+  primaryPlacementIdDimensionValue?: DimensionValue | undefined;
+  /** Pricing schedule of this placement group. This field is required on insertion. */
+  pricingSchedule?: PricingSchedule | undefined;
+  /** Dimension value for the ID of this placement group. This is a read-only, auto-generated field. */
+  idDimensionValue?: DimensionValue | undefined;
+  /** Name of this placement group. This is a required field and must be less than 256 characters long. */
+  name?: string | undefined;
+  /** Dimension value for the ID of the site. This is a read-only, auto-generated field. */
+  siteIdDimensionValue?: DimensionValue | undefined;
+  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
+  advertiserIdDimensionValue?: DimensionValue | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#placementGroup". */
+  kind?: string | undefined;
+  /** Dimension value for the ID of the directory site. This is a read-only, auto-generated field. */
+  directorySiteIdDimensionValue?: DimensionValue | undefined;
+  /** Directory site ID associated with this placement group. On insert, you must set either this field or the site_id field to specify the site associated with this placement group. This is a required field that is read-only after insertion. */
+  directorySiteId?: string | undefined;
+  /** ID of the placement strategy assigned to this placement group. */
+  placementStrategyId?: string | undefined;
+  /** IDs of placements which are assigned to this placement group. This is a read-only, auto-generated field. */
+  childPlacementIds?: StringList | undefined;
+  /** Campaign ID of this placement group. This field is required on insertion. */
+  campaignId?: string | undefined;
+  /** Whether this placement group is active, inactive, archived or permanently archived. */
+  activeStatus?: PlacementGroupActiveStatusEnum | (string & {}) | undefined;
+  /** ID of the content category assigned to this placement group. */
+  contentCategoryId?: string | undefined;
+  /** ID of the primary placement, used to calculate the media cost of a roadblock (placement group). Modifying this field will automatically modify the primary field on all affected roadblock child placements. */
+  primaryPlacementId?: string | undefined;
   /** Information about the most recent modification of this placement group. This is a read-only field. */
   lastModifiedInfo?: LastModifiedInfo | undefined;
   /** Information about the creation of this placement group. This is a read-only field. */
   createInfo?: LastModifiedInfo | undefined;
+  /** Site ID associated with this placement group. On insert, you must set either this field or the directorySiteId field to specify the site associated with this placement group. This is a required field that is read-only after insertion. */
+  siteId?: string | undefined;
+  /** Comments for this placement group. */
+  comment?: string | undefined;
+  /** External ID for this placement. */
+  externalId?: string | undefined;
   /** Account ID of this placement group. This is a read-only field that can be left blank. */
   accountId?: string | undefined;
-  /** Dimension value for the ID of the site. This is a read-only, auto-generated field. */
-  siteIdDimensionValue?: DimensionValue | undefined;
-  /** ID of the content category assigned to this placement group. */
-  contentCategoryId?: string | undefined;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Dimension value for the ID of this placement group. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** Subaccount ID of this placement group. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** IDs of placements which are assigned to this placement group. This is a read-only, auto-generated field. */
-  childPlacementIds?: StringList | undefined;
-  /** Dimension value for the ID of the primary placement. This is a read-only, auto-generated field. */
-  primaryPlacementIdDimensionValue?: DimensionValue | undefined;
-  /** Dimension value for the ID of the directory site. This is a read-only, auto-generated field. */
-  directorySiteIdDimensionValue?: DimensionValue | undefined;
+  /** ID of this placement group. This is a read-only, auto-generated field. */
+  id?: string | undefined;
   /** Dimension value for the ID of the campaign. This is a read-only, auto-generated field. */
   campaignIdDimensionValue?: DimensionValue | undefined;
-  /** Whether this placement group is active, inactive, archived or permanently archived. */
-  activeStatus?: PlacementGroupActiveStatusEnum | (string & {}) | undefined;
-  /** Directory site ID associated with this placement group. On insert, you must set either this field or the site_id field to specify the site associated with this placement group. This is a required field that is read-only after insertion. */
-  directorySiteId?: string | undefined;
-  /** ID of the primary placement, used to calculate the media cost of a roadblock (placement group). Modifying this field will automatically modify the primary field on all affected roadblock child placements. */
-  primaryPlacementId?: string | undefined;
-  /** Campaign ID of this placement group. This field is required on insertion. */
-  campaignId?: string | undefined;
-  /** Pricing schedule of this placement group. This field is required on insertion. */
-  pricingSchedule?: PricingSchedule | undefined;
+  /** Subaccount ID of this placement group. This is a read-only field that can be left blank. */
+  subaccountId?: string | undefined;
 }
 export interface GetPlacementsRequest {
   /** User profile ID associated with this request. */
@@ -3777,14 +3777,19 @@ export interface GetPlacementsRequest {
   /** Placement ID. */
   id: string;
 }
-export interface PlacementSingleConversionDomain {
-  conversionDomainValue?: string | undefined;
-  conversionDomainId?: string | undefined;
-}
-export type PlacementSingleConversionDomainList = Array<PlacementSingleConversionDomain>;
-export interface PlacementConversionDomainOverride {
-  conversionDomains?: PlacementSingleConversionDomainList | undefined;
-}
+export type PlacementActiveStatusEnum =
+  | "PLACEMENT_STATUS_UNKNOWN"
+  | "PLACEMENT_STATUS_ACTIVE"
+  | "PLACEMENT_STATUS_INACTIVE"
+  | "PLACEMENT_STATUS_ARCHIVED"
+  | "PLACEMENT_STATUS_PERMANENTLY_ARCHIVED";
+export type PlacementStatusEnum =
+  | "PENDING_REVIEW"
+  | "PAYMENT_ACCEPTED"
+  | "PAYMENT_REJECTED"
+  | "ACKNOWLEDGE_REJECTION"
+  | "ACKNOWLEDGE_ACCEPTANCE"
+  | "DRAFT";
 export type PlacementCompatibilityEnum =
   | "DISPLAY"
   | "DISPLAY_INTERSTITIAL"
@@ -3792,6 +3797,23 @@ export type PlacementCompatibilityEnum =
   | "APP_INTERSTITIAL"
   | "IN_STREAM_VIDEO"
   | "IN_STREAM_AUDIO";
+export type TagSettingKeywordOptionEnum =
+  | "PLACEHOLDER_WITH_LIST_OF_KEYWORDS"
+  | "IGNORE"
+  | "GENERATE_SEPARATE_TAG_FOR_EACH_KEYWORD";
+/** Tag Settings */
+export interface TagSetting {
+  /** Optional. Indicates that the unescapedlpurl macro should be included in the tag for the static landing page. New placements will default to the value set on their site. */
+  includeUnescapedlpurlMacro?: boolean | undefined;
+  /** Whether click-tracking string should be included in the tags. */
+  includeClickTracking?: boolean | undefined;
+  /** Option specifying how keywords are embedded in ad tags. This setting can be used to specify whether keyword placeholders are inserted in placement tags for this site. Publishers can then add keywords to those placeholders. */
+  keywordOption?: TagSettingKeywordOptionEnum | (string & {}) | undefined;
+  /** Whether static landing page URLs should be included in the tags. New placements will default to the value set on their site. */
+  includeClickThroughUrls?: boolean | undefined;
+  /** Additional key-values to be included in tags. Each key-value pair must be of the form key=value, and pairs must be separated by a semicolon (;). Keys and values must not contain commas. For example, id=2;color=red is a valid value for this field. */
+  additionalKeyValues?: string | undefined;
+}
 export type PlacementTagFormatsItemEnum =
   | "PLACEMENT_TAG_STANDARD"
   | "PLACEMENT_TAG_IFRAME_JAVASCRIPT"
@@ -3814,80 +3836,6 @@ export type PlacementTagFormatsItemEnum =
   | "PLACEMENT_TAG_INSTREAM_VIDEO_PREFETCH_VAST_4"
   | "PLACEMENT_TAG_TRACKING_THIRD_PARTY_MEASUREMENT";
 export type PlacementTagFormatsItemEnumList = Array<PlacementTagFormatsItemEnum | (string & {})>;
-export type PlacementActiveStatusEnum =
-  | "PLACEMENT_STATUS_UNKNOWN"
-  | "PLACEMENT_STATUS_ACTIVE"
-  | "PLACEMENT_STATUS_INACTIVE"
-  | "PLACEMENT_STATUS_ARCHIVED"
-  | "PLACEMENT_STATUS_PERMANENTLY_ARCHIVED";
-export type TagSettingKeywordOptionEnum =
-  | "PLACEHOLDER_WITH_LIST_OF_KEYWORDS"
-  | "IGNORE"
-  | "GENERATE_SEPARATE_TAG_FOR_EACH_KEYWORD";
-/** Tag Settings */
-export interface TagSetting {
-  /** Optional. Indicates that the unescapedlpurl macro should be included in the tag for the static landing page. New placements will default to the value set on their site. */
-  includeUnescapedlpurlMacro?: boolean | undefined;
-  /** Whether static landing page URLs should be included in the tags. New placements will default to the value set on their site. */
-  includeClickThroughUrls?: boolean | undefined;
-  /** Whether click-tracking string should be included in the tags. */
-  includeClickTracking?: boolean | undefined;
-  /** Option specifying how keywords are embedded in ad tags. This setting can be used to specify whether keyword placeholders are inserted in placement tags for this site. Publishers can then add keywords to those placeholders. */
-  keywordOption?: TagSettingKeywordOptionEnum | (string & {}) | undefined;
-  /** Additional key-values to be included in tags. Each key-value pair must be of the form key=value, and pairs must be separated by a semicolon (;). Keys and values must not contain commas. For example, id=2;color=red is a valid value for this field. */
-  additionalKeyValues?: string | undefined;
-}
-/** Companion Settings */
-export interface CompanionSetting {
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#companionSetting". */
-  kind?: string | undefined;
-  /** Whether companions are disabled for this placement. */
-  companionsDisabled?: boolean | undefined;
-  /** Allowlist of companion sizes to be served to this placement. Set this list to null or empty to serve all companion sizes. */
-  enabledSizes?: SizeList | undefined;
-  /** Whether to serve only static images as companions. */
-  imageOnly?: boolean | undefined;
-}
-/** Skippable Settings */
-export interface SkippableSetting {
-  /** Whether the user can skip creatives served to this placement. */
-  skippable?: boolean | undefined;
-  /** Amount of time to play videos served to this placement before counting a view. Applicable when skippable is true. */
-  progressOffset?: VideoOffset | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#skippableSetting". */
-  kind?: string | undefined;
-  /** Amount of time to play videos served to this placement before the skip button should appear. Applicable when skippable is true. */
-  skipOffset?: VideoOffset | undefined;
-}
-export type VideoSettingsOrientationEnum = "ANY" | "LANDSCAPE" | "PORTRAIT";
-/** Transcode Settings */
-export interface TranscodeSetting {
-  /** Allowlist of video formats to be served to this placement. Set this list to null or empty to serve all video formats. */
-  enabledVideoFormats?: IntegerList | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#transcodeSetting". */
-  kind?: string | undefined;
-}
-/** Video Settings */
-export interface VideoSettings {
-  /** Duration of a video placement in seconds. */
-  durationSeconds?: number | undefined;
-  /** Settings for the companion creatives of video creatives served to this placement. */
-  companionSettings?: CompanionSetting | undefined;
-  /** Settings for the skippability of video creatives served to this placement. If this object is provided, the creative-level skippable settings will be overridden. */
-  skippableSettings?: SkippableSetting | undefined;
-  /** Whether OBA icons are enabled for this placement. */
-  obaEnabled?: boolean | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#videoSettings". */
-  kind?: string | undefined;
-  /** Settings for the OBA icon of video creatives served to this placement. If this object is provided, the creative-level OBA settings will be overridden. */
-  obaSettings?: ObaIcon | undefined;
-  /** Publisher specification ID of a video placement. Possible values are: * `1`, Hulu * `2`, NBC * `3`, CBS * `4`, CBS Desktop * `5`, Discovery * `6`, VEVO HD * `7`, VEVO Vertical * `8`, Fox * `9`, CW Network * `10`, Disney * `11`, IGN * `12`, NFL.com * `13`, Turner Broadcasting * `14`, Tubi on Fox * `15`, Hearst Corporation * `16`, Twitch Desktop * `17`, ABC * `18`, Univision * `19`, MLB.com * `20`, MLB.com Mobile * `21`, MLB.com OTT * `22`, Polsat * `23`, TVN * `24`, Mediaset * `25`, Antena 3 * `26`, Mediamond * `27`, Sky Italia * `28`, Tubi on CBS * `29`, Spotify * `30`, Paramount * `31`, Max */
-  publisherSpecificationId?: string | undefined;
-  /** Orientation of a video placement. If this value is set, placement will return assets matching the specified orientation. */
-  orientation?: VideoSettingsOrientationEnum | (string & {}) | undefined;
-  /** Settings for the transcodes of video creatives served to this placement. If this object is provided, the creative-level transcode settings will be overridden. */
-  transcodeSettings?: TranscodeSetting | undefined;
-}
 export type YoutubeSettingsCallToActionsItemEnum =
   | "CALL_TO_ACTION_UNKNOWN"
   | "CALL_TO_ACTION_LEARN_MORE"
@@ -3920,35 +3868,17 @@ export type YoutubeSettingsCallToActionsItemEnumList = Array<
 export interface YoutubeSettings {
   /** Optional. The long headlines. Currently only one long headline is supported. */
   longHeadlines?: StringList | undefined;
-  /** Optional. The business name. */
-  businessName?: string | undefined;
-  /** Optional. The call to actions. Currently only one call to action is supported. */
-  callToActions?: YoutubeSettingsCallToActionsItemEnumList | undefined;
-  /** Optional. The headlines associated with the call to actions. Currently only one headline is supported. */
-  headlines?: StringList | undefined;
   /** Optional. The IDs of the creatives to use for the business logo. Currently only one creative is supported. */
   businessLogoCreativeIds?: StringList | undefined;
+  /** Optional. The business name. */
+  businessName?: string | undefined;
+  /** Optional. The headlines associated with the call to actions. Currently only one headline is supported. */
+  headlines?: StringList | undefined;
   /** Optional. The descriptions. Currently only one description is supported. */
   descriptions?: StringList | undefined;
+  /** Optional. The call to actions. Currently only one call to action is supported. */
+  callToActions?: YoutubeSettingsCallToActionsItemEnumList | undefined;
 }
-export type PlacementStatusEnum =
-  | "PENDING_REVIEW"
-  | "PAYMENT_ACCEPTED"
-  | "PAYMENT_REJECTED"
-  | "ACKNOWLEDGE_REJECTION"
-  | "ACKNOWLEDGE_ACCEPTANCE"
-  | "DRAFT";
-export type PlacementPaymentSourceEnum = "PLACEMENT_AGENCY_PAID" | "PLACEMENT_PUBLISHER_PAID";
-export type MeasurementPartnerWrappingDataLinkStatusEnum =
-  | "MEASUREMENT_PARTNER_UNLINKED"
-  | "MEASUREMENT_PARTNER_LINKED"
-  | "MEASUREMENT_PARTNER_LINK_PENDING"
-  | "MEASUREMENT_PARTNER_LINK_FAILURE"
-  | "MEASUREMENT_PARTNER_LINK_OPT_OUT"
-  | "MEASUREMENT_PARTNER_LINK_OPT_OUT_PENDING"
-  | "MEASUREMENT_PARTNER_LINK_WRAPPING_PENDING"
-  | "MEASUREMENT_PARTNER_MODE_CHANGE_PENDING"
-  | "MEASUREMENT_PARTNER_UNLINK_PENDING";
 export type MeasurementPartnerWrappingDataMeasurementPartnerEnum =
   | "NONE"
   | "INTEGRAL_AD_SCIENCE"
@@ -3970,12 +3900,18 @@ export type MeasurementPartnerWrappingDataTagWrappingModeEnum =
   | "NON_VPAID_FILTERING"
   | "BLOCKING_FILTERING_VPAID"
   | "BLOCKING_FILTERING_VPAID_ONLY";
+export type MeasurementPartnerWrappingDataLinkStatusEnum =
+  | "MEASUREMENT_PARTNER_UNLINKED"
+  | "MEASUREMENT_PARTNER_LINKED"
+  | "MEASUREMENT_PARTNER_LINK_PENDING"
+  | "MEASUREMENT_PARTNER_LINK_FAILURE"
+  | "MEASUREMENT_PARTNER_LINK_OPT_OUT"
+  | "MEASUREMENT_PARTNER_LINK_OPT_OUT_PENDING"
+  | "MEASUREMENT_PARTNER_LINK_WRAPPING_PENDING"
+  | "MEASUREMENT_PARTNER_MODE_CHANGE_PENDING"
+  | "MEASUREMENT_PARTNER_UNLINK_PENDING";
 /** Placement tag wrapping */
 export interface MeasurementPartnerWrappingData {
-  /** Placement wrapping status. */
-  linkStatus?: MeasurementPartnerWrappingDataLinkStatusEnum | (string & {}) | undefined;
-  /** Tag provided by the measurement partner during wrapping. */
-  wrappedTag?: string | undefined;
   /** Measurement partner used for wrapping the placement. */
   measurementPartner?:
     | MeasurementPartnerWrappingDataMeasurementPartnerEnum
@@ -3983,106 +3919,170 @@ export interface MeasurementPartnerWrappingData {
     | undefined;
   /** Measurement mode for the wrapped placement. */
   tagWrappingMode?: MeasurementPartnerWrappingDataTagWrappingModeEnum | (string & {}) | undefined;
+  /** Placement wrapping status. */
+  linkStatus?: MeasurementPartnerWrappingDataLinkStatusEnum | (string & {}) | undefined;
+  /** Tag provided by the measurement partner during wrapping. */
+  wrappedTag?: string | undefined;
+}
+export interface PlacementSingleConversionDomain {
+  conversionDomainId?: string | undefined;
+  conversionDomainValue?: string | undefined;
+}
+export type PlacementSingleConversionDomainList = Array<PlacementSingleConversionDomain>;
+export interface PlacementConversionDomainOverride {
+  conversionDomains?: PlacementSingleConversionDomainList | undefined;
 }
 export type PlacementVpaidAdapterChoiceEnum = "DEFAULT" | "FLASH" | "HTML5" | "BOTH";
+export type PlacementPaymentSourceEnum = "PLACEMENT_AGENCY_PAID" | "PLACEMENT_PUBLISHER_PAID";
+export type VideoSettingsOrientationEnum = "ANY" | "LANDSCAPE" | "PORTRAIT";
+/** Companion Settings */
+export interface CompanionSetting {
+  /** Allowlist of companion sizes to be served to this placement. Set this list to null or empty to serve all companion sizes. */
+  enabledSizes?: SizeList | undefined;
+  /** Whether companions are disabled for this placement. */
+  companionsDisabled?: boolean | undefined;
+  /** Whether to serve only static images as companions. */
+  imageOnly?: boolean | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#companionSetting". */
+  kind?: string | undefined;
+}
+/** Skippable Settings */
+export interface SkippableSetting {
+  /** Amount of time to play videos served to this placement before the skip button should appear. Applicable when skippable is true. */
+  skipOffset?: VideoOffset | undefined;
+  /** Whether the user can skip creatives served to this placement. */
+  skippable?: boolean | undefined;
+  /** Amount of time to play videos served to this placement before counting a view. Applicable when skippable is true. */
+  progressOffset?: VideoOffset | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#skippableSetting". */
+  kind?: string | undefined;
+}
+/** Transcode Settings */
+export interface TranscodeSetting {
+  /** Allowlist of video formats to be served to this placement. Set this list to null or empty to serve all video formats. */
+  enabledVideoFormats?: IntegerList | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#transcodeSetting". */
+  kind?: string | undefined;
+}
+/** Video Settings */
+export interface VideoSettings {
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#videoSettings". */
+  kind?: string | undefined;
+  /** Publisher specification ID of a video placement. Possible values are: * `1`, Hulu * `2`, NBC * `3`, CBS * `4`, CBS Desktop * `5`, Discovery * `6`, VEVO HD * `7`, VEVO Vertical * `8`, Fox * `9`, CW Network * `10`, Disney * `11`, IGN * `12`, NFL.com * `13`, Turner Broadcasting * `14`, Tubi on Fox * `15`, Hearst Corporation * `16`, Twitch Desktop * `17`, ABC * `18`, Univision * `19`, MLB.com * `20`, MLB.com Mobile * `21`, MLB.com OTT * `22`, Polsat * `23`, TVN * `24`, Mediaset * `25`, Antena 3 * `26`, Mediamond * `27`, Sky Italia * `28`, Tubi on CBS * `29`, Spotify * `30`, Paramount * `31`, Max */
+  publisherSpecificationId?: string | undefined;
+  /** Orientation of a video placement. If this value is set, placement will return assets matching the specified orientation. */
+  orientation?: VideoSettingsOrientationEnum | (string & {}) | undefined;
+  /** Settings for the companion creatives of video creatives served to this placement. */
+  companionSettings?: CompanionSetting | undefined;
+  /** Settings for the skippability of video creatives served to this placement. If this object is provided, the creative-level skippable settings will be overridden. */
+  skippableSettings?: SkippableSetting | undefined;
+  /** Duration of a video placement in seconds. */
+  durationSeconds?: number | undefined;
+  /** Settings for the OBA icon of video creatives served to this placement. If this object is provided, the creative-level OBA settings will be overridden. */
+  obaSettings?: ObaIcon | undefined;
+  /** Whether OBA icons are enabled for this placement. */
+  obaEnabled?: boolean | undefined;
+  /** Settings for the transcodes of video creatives served to this placement. If this object is provided, the creative-level transcode settings will be overridden. */
+  transcodeSettings?: TranscodeSetting | undefined;
+}
 /** Contains properties of a placement. */
 export interface Placement {
+  /** Dimension value for the ID of the site. This is a read-only, auto-generated field. */
+  siteIdDimensionValue?: DimensionValue | undefined;
+  /** Whether Verification and ActiveView are disabled for in-stream video creatives for this placement. The same setting videoActiveViewOptOut exists on the site level -- the opt out occurs if either of these settings are true. These settings are distinct from DirectorySites.settings.activeViewOptOut or Sites.siteSettings.activeViewOptOut which only apply to display ads. However, Accounts.activeViewOptOut opts out both video traffic, as well as display ads, from Verification and ActiveView. */
+  videoActiveViewOptOut?: boolean | undefined;
+  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
+  advertiserIdDimensionValue?: DimensionValue | undefined;
+  /** Whether this placement is active, inactive, archived or permanently archived. */
+  activeStatus?: PlacementActiveStatusEnum | (string & {}) | undefined;
+  /** Lookback window settings for this placement. */
+  lookbackConfiguration?: LookbackConfiguration | undefined;
+  /** Comments for this placement. */
+  comment?: string | undefined;
+  /** Third-party placement status. */
+  status?: PlacementStatusEnum | (string & {}) | undefined;
+  /** Whether this placement opts out of tag wrapping. */
+  wrappingOptOut?: boolean | undefined;
+  /** Key name of this placement. This is a read-only, auto-generated field. */
+  keyName?: string | undefined;
+  /** Placement compatibility. DISPLAY and DISPLAY_INTERSTITIAL refer to rendering on desktop, on mobile devices or in mobile apps for regular or interstitial ads respectively. APP and APP_INTERSTITIAL are no longer allowed for new placement insertions. Instead, use DISPLAY or DISPLAY_INTERSTITIAL. IN_STREAM_VIDEO refers to rendering in in-stream video ads developed with the VAST standard. This field is required on insertion. */
+  compatibility?: PlacementCompatibilityEnum | (string & {}) | undefined;
+  /** Whether this placement is the primary placement of a roadblock (placement group). You cannot change this field from true to false. Setting this field to true will automatically set the primary field on the original primary placement of the roadblock to false, and it will automatically set the roadblock's primaryPlacementId field to the ID of this placement. */
+  primary?: boolean | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#placement". */
+  kind?: string | undefined;
+  /** Dimension value for the ID of the campaign. This is a read-only, auto-generated field. */
+  campaignIdDimensionValue?: DimensionValue | undefined;
+  /** Whether creatives assigned to this placement must be SSL-compliant. */
+  sslRequired?: boolean | undefined;
+  /** Tag settings for this placement. */
+  tagSetting?: TagSetting | undefined;
+  /** Information about the last publisher update. This is a read-only field. */
+  publisherUpdateInfo?: LastModifiedInfo | undefined;
+  /** Dimension value for the ID of the directory site. This is a read-only, auto-generated field. */
+  directorySiteIdDimensionValue?: DimensionValue | undefined;
+  /** Whether this placement opts out of ad blocking. When true, ad blocking is disabled for this placement. When false, the campaign and site settings take effect. */
+  adBlockingOptOut?: boolean | undefined;
+  /** Name of this placement.This is a required field and must be less than or equal to 512 characters long. */
+  name?: string | undefined;
+  /** Tag formats to generate for this placement. This field is required on insertion. Acceptable values are: - "PLACEMENT_TAG_STANDARD" - "PLACEMENT_TAG_IFRAME_JAVASCRIPT" - "PLACEMENT_TAG_IFRAME_ILAYER" - "PLACEMENT_TAG_INTERNAL_REDIRECT" - "PLACEMENT_TAG_JAVASCRIPT" - "PLACEMENT_TAG_INTERSTITIAL_IFRAME_JAVASCRIPT" - "PLACEMENT_TAG_INTERSTITIAL_INTERNAL_REDIRECT" - "PLACEMENT_TAG_INTERSTITIAL_JAVASCRIPT" - "PLACEMENT_TAG_CLICK_COMMANDS" - "PLACEMENT_TAG_INSTREAM_VIDEO_PREFETCH" - "PLACEMENT_TAG_INSTREAM_VIDEO_PREFETCH_VAST_3" - "PLACEMENT_TAG_INSTREAM_VIDEO_PREFETCH_VAST_4" - "PLACEMENT_TAG_TRACKING" - "PLACEMENT_TAG_TRACKING_IFRAME" - "PLACEMENT_TAG_TRACKING_JAVASCRIPT" */
+  tagFormats?: PlacementTagFormatsItemEnumList | undefined;
+  /** Account ID of this placement. This field can be left blank. */
+  accountId?: string | undefined;
+  /** Subaccount ID of this placement. This field can be left blank. */
+  subaccountId?: string | undefined;
+  /** Information about the most recent modification of this placement. This is a read-only field. */
+  lastModifiedInfo?: LastModifiedInfo | undefined;
+  /** Optional. Whether the placement is enabled for YouTube integration. */
+  allowOnYoutube?: boolean | undefined;
+  /** Optional. YouTube settings for the placement. The placement must be enabled for YouTube to use this field. */
+  youtubeSettings?: YoutubeSettings | undefined;
+  /** Measurement partner provided settings for a wrapped placement. */
+  partnerWrappingData?: MeasurementPartnerWrappingData | undefined;
   /** Optional. Conversion domain overrides for a placement. */
   conversionDomainOverride?: PlacementConversionDomainOverride | undefined;
   /** Pricing schedule of this placement. This field is required on insertion, specifically subfields startDate, endDate and pricingType. */
   pricingSchedule?: PricingSchedule | undefined;
-  /** Name of this placement.This is a required field and must be less than or equal to 512 characters long. */
-  name?: string | undefined;
-  /** Whether payment was approved for this placement. This is a read-only field relevant only to publisher-paid placements. */
-  paymentApproved?: boolean | undefined;
-  /** Additional sizes associated with this placement. When inserting or updating a placement, only the size ID field is used. */
-  additionalSizes?: SizeList | undefined;
-  /** Whether this placement opts out of tag wrapping. */
-  wrappingOptOut?: boolean | undefined;
-  /** Whether this placement is the primary placement of a roadblock (placement group). You cannot change this field from true to false. Setting this field to true will automatically set the primary field on the original primary placement of the roadblock to false, and it will automatically set the roadblock's primaryPlacementId field to the ID of this placement. */
-  primary?: boolean | undefined;
-  /** Comments for this placement. */
-  comment?: string | undefined;
-  /** Directory site ID of this placement. On insert, you must set either this field or the siteId field to specify the site associated with this placement. This is a required field that is read-only after insertion. */
-  directorySiteId?: string | undefined;
-  /** Subaccount ID of this placement. This field can be left blank. */
-  subaccountId?: string | undefined;
-  /** Dimension value for the ID of the directory site. This is a read-only, auto-generated field. */
-  directorySiteIdDimensionValue?: DimensionValue | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#placement". */
-  kind?: string | undefined;
-  /** Placement compatibility. DISPLAY and DISPLAY_INTERSTITIAL refer to rendering on desktop, on mobile devices or in mobile apps for regular or interstitial ads respectively. APP and APP_INTERSTITIAL are no longer allowed for new placement insertions. Instead, use DISPLAY or DISPLAY_INTERSTITIAL. IN_STREAM_VIDEO refers to rendering in in-stream video ads developed with the VAST standard. This field is required on insertion. */
-  compatibility?: PlacementCompatibilityEnum | (string & {}) | undefined;
-  /** Tag formats to generate for this placement. This field is required on insertion. Acceptable values are: - "PLACEMENT_TAG_STANDARD" - "PLACEMENT_TAG_IFRAME_JAVASCRIPT" - "PLACEMENT_TAG_IFRAME_ILAYER" - "PLACEMENT_TAG_INTERNAL_REDIRECT" - "PLACEMENT_TAG_JAVASCRIPT" - "PLACEMENT_TAG_INTERSTITIAL_IFRAME_JAVASCRIPT" - "PLACEMENT_TAG_INTERSTITIAL_INTERNAL_REDIRECT" - "PLACEMENT_TAG_INTERSTITIAL_JAVASCRIPT" - "PLACEMENT_TAG_CLICK_COMMANDS" - "PLACEMENT_TAG_INSTREAM_VIDEO_PREFETCH" - "PLACEMENT_TAG_INSTREAM_VIDEO_PREFETCH_VAST_3" - "PLACEMENT_TAG_INSTREAM_VIDEO_PREFETCH_VAST_4" - "PLACEMENT_TAG_TRACKING" - "PLACEMENT_TAG_TRACKING_IFRAME" - "PLACEMENT_TAG_TRACKING_JAVASCRIPT" */
-  tagFormats?: PlacementTagFormatsItemEnumList | undefined;
-  /** Whether this placement is active, inactive, archived or permanently archived. */
-  activeStatus?: PlacementActiveStatusEnum | (string & {}) | undefined;
-  /** Dimension value for the ID of this placement. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** Optional. Whether the ads in the placement are served by another platform and CM is only used for tracking or they are served by CM. A false value indicates the ad is served by CM. */
-  siteServed?: boolean | undefined;
-  /** Tag settings for this placement. */
-  tagSetting?: TagSetting | undefined;
-  /** A collection of settings which affect video creatives served through this placement. Applicable to placements with IN_STREAM_VIDEO compatibility. */
-  videoSettings?: VideoSettings | undefined;
-  /** Optional. Ad serving platform ID to identify the ad serving platform used by the placement. Measurement partners can use this field to add ad-server specific macros. Possible values are: * `1`, Adelphic * `2`, Adform * `3`, Adobe * `4`, Amobee * `5`, Basis (Centro) * `6`, Beeswax * `7`, Amazon * `8`, DV360 (DBM) * `9`, Innovid * `10`, MediaMath * `11`, Roku OneView DSP * `12`, TabMo Hawk * `13`, The Trade Desk * `14`, Xandr Invest DSP * `15`, Yahoo DSP * `16`, Zeta Global * `17`, Scaleout * `18`, Bidtellect * `19`, Unicorn * `20`, Teads * `21`, Quantcast * `22`, Cognitiv * `23`, AdTheorent * `24`, DeepIntent * `25`, Pulsepoint */
-  adServingPlatformId?: string | undefined;
-  /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Optional. YouTube settings for the placement. The placement must be enabled for YouTube to use this field. */
-  youtubeSettings?: YoutubeSettings | undefined;
-  /** Dimension value for the ID of the site. This is a read-only, auto-generated field. */
-  siteIdDimensionValue?: DimensionValue | undefined;
-  /** ID of this placement. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Campaign ID of this placement. This field is a required field on insertion. */
-  campaignId?: string | undefined;
-  /** ID of this placement's group, if applicable. */
-  placementGroupId?: string | undefined;
-  /** Third-party placement status. */
-  status?: PlacementStatusEnum | (string & {}) | undefined;
-  /** Optional. Whether the placement is enabled for YouTube integration. */
-  allowOnYoutube?: boolean | undefined;
-  /** Size associated with this placement. When inserting or updating a placement, only the size ID field is used. This field is required on insertion. */
-  size?: Size | undefined;
-  /** Payment source for this placement. This is a required field that is read-only after insertion. */
-  paymentSource?: PlacementPaymentSourceEnum | (string & {}) | undefined;
-  /** Information about the most recent modification of this placement. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo | undefined;
-  /** Site ID associated with this placement. On insert, you must set either this field or the directorySiteId field to specify the site associated with this placement. This is a required field that is read-only after insertion. */
-  siteId?: string | undefined;
-  /** Key name of this placement. This is a read-only, auto-generated field. */
-  keyName?: string | undefined;
-  /** Dimension value for the ID of the placement group. This is a read-only, auto-generated field. */
-  placementGroupIdDimensionValue?: DimensionValue | undefined;
-  /** Whether creatives assigned to this placement must be SSL-compliant. */
-  sslRequired?: boolean | undefined;
-  /** ID of the content category assigned to this placement. */
-  contentCategoryId?: string | undefined;
   /** ID of the placement strategy assigned to this placement. */
   placementStrategyId?: string | undefined;
-  /** External ID for this placement. */
-  externalId?: string | undefined;
-  /** Information about the creation of this placement. This is a read-only field. */
-  createInfo?: LastModifiedInfo | undefined;
-  /** Whether this placement opts out of ad blocking. When true, ad blocking is disabled for this placement. When false, the campaign and site settings take effect. */
-  adBlockingOptOut?: boolean | undefined;
-  /** Whether Verification and ActiveView are disabled for in-stream video creatives for this placement. The same setting videoActiveViewOptOut exists on the site level -- the opt out occurs if either of these settings are true. These settings are distinct from DirectorySites.settings.activeViewOptOut or Sites.siteSettings.activeViewOptOut which only apply to display ads. However, Accounts.activeViewOptOut opts out both video traffic, as well as display ads, from Verification and ActiveView. */
-  videoActiveViewOptOut?: boolean | undefined;
-  /** Information about the last publisher update. This is a read-only field. */
-  publisherUpdateInfo?: LastModifiedInfo | undefined;
+  /** Dimension value for the ID of the placement group. This is a read-only, auto-generated field. */
+  placementGroupIdDimensionValue?: DimensionValue | undefined;
+  /** Whether payment was approved for this placement. This is a read-only field relevant only to publisher-paid placements. */
+  paymentApproved?: boolean | undefined;
   /** Advertiser ID of this placement. This field can be left blank. */
   advertiserId?: string | undefined;
-  /** Measurement partner provided settings for a wrapped placement. */
-  partnerWrappingData?: MeasurementPartnerWrappingData | undefined;
-  /** Lookback window settings for this placement. */
-  lookbackConfiguration?: LookbackConfiguration | undefined;
+  /** Additional sizes associated with this placement. When inserting or updating a placement, only the size ID field is used. */
+  additionalSizes?: SizeList | undefined;
+  /** Size associated with this placement. When inserting or updating a placement, only the size ID field is used. This field is required on insertion. */
+  size?: Size | undefined;
+  /** ID of this placement's group, if applicable. */
+  placementGroupId?: string | undefined;
+  /** ID of this placement. This is a read-only, auto-generated field. */
+  id?: string | undefined;
+  /** Information about the creation of this placement. This is a read-only field. */
+  createInfo?: LastModifiedInfo | undefined;
+  /** Directory site ID of this placement. On insert, you must set either this field or the siteId field to specify the site associated with this placement. This is a required field that is read-only after insertion. */
+  directorySiteId?: string | undefined;
   /** VPAID adapter setting for this placement. Controls which VPAID format the measurement adapter will use for in-stream video creatives assigned to this placement. *Note:* Flash is no longer supported. This field now defaults to HTML5 when the following values are provided: FLASH, BOTH. */
   vpaidAdapterChoice?: PlacementVpaidAdapterChoiceEnum | (string & {}) | undefined;
-  /** Dimension value for the ID of the campaign. This is a read-only, auto-generated field. */
-  campaignIdDimensionValue?: DimensionValue | undefined;
-  /** Account ID of this placement. This field can be left blank. */
-  accountId?: string | undefined;
+  /** Payment source for this placement. This is a required field that is read-only after insertion. */
+  paymentSource?: PlacementPaymentSourceEnum | (string & {}) | undefined;
+  /** Dimension value for the ID of this placement. This is a read-only, auto-generated field. */
+  idDimensionValue?: DimensionValue | undefined;
+  /** External ID for this placement. */
+  externalId?: string | undefined;
+  /** A collection of settings which affect video creatives served through this placement. Applicable to placements with IN_STREAM_VIDEO compatibility. */
+  videoSettings?: VideoSettings | undefined;
+  /** Campaign ID of this placement. This field is a required field on insertion. */
+  campaignId?: string | undefined;
+  /** Site ID associated with this placement. On insert, you must set either this field or the directorySiteId field to specify the site associated with this placement. This is a required field that is read-only after insertion. */
+  siteId?: string | undefined;
+  /** ID of the content category assigned to this placement. */
+  contentCategoryId?: string | undefined;
+  /** Optional. Whether the ads in the placement are served by another platform and CM is only used for tracking or they are served by CM. A false value indicates the ad is served by CM. */
+  siteServed?: boolean | undefined;
+  /** Optional. Ad serving platform ID to identify the ad serving platform used by the placement. Measurement partners can use this field to add ad-server specific macros. Possible values are: * `1`, Adelphic * `2`, Adform * `3`, Adobe * `4`, Amobee * `5`, Basis (Centro) * `6`, Beeswax * `7`, Amazon * `8`, DV360 (DBM) * `9`, Innovid * `10`, MediaMath * `11`, Roku OneView DSP * `12`, TabMo Hawk * `13`, The Trade Desk * `14`, Xandr Invest DSP * `15`, Yahoo DSP * `16`, Zeta Global * `17`, Scaleout * `18`, Bidtellect * `19`, Unicorn * `20`, Teads * `21`, Quantcast * `22`, Cognitiv * `23`, AdTheorent * `24`, DeepIntent * `25`, Pulsepoint */
+  adServingPlatformId?: string | undefined;
 }
 export interface GetPlacementStrategiesRequest {
   /** Placement strategy ID. */
@@ -4092,37 +4092,45 @@ export interface GetPlacementStrategiesRequest {
 }
 /** Contains properties of a placement strategy. */
 export interface PlacementStrategy {
-  /** ID of this placement strategy. This is a read-only, auto-generated field. */
-  id?: string | undefined;
   /** Account ID of this placement strategy.This is a read-only field that can be left blank. */
   accountId?: string | undefined;
   /** Name of this placement strategy. This is a required field. It must be less than 256 characters long and unique among placement strategies of the same account. */
   name?: string | undefined;
+  /** ID of this placement strategy. This is a read-only, auto-generated field. */
+  id?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#placementStrategy". */
   kind?: string | undefined;
 }
 export interface GetPlatformTypesRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Platform type ID. */
   id: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 export interface GetPostalCodesRequest {
+  /** User profile ID associated with this request. */
+  profileId: string;
   /** Postal code ID. */
   code: string;
-  /** User profile ID associated with this request. */
-  profileId: string;
 }
 export interface GetRemarketingListsRequest {
-  /** Remarketing list ID. */
-  id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Remarketing list ID. */
+  id: string;
 }
-export type ListPopulationTermTypeEnum =
-  | "CUSTOM_VARIABLE_TERM"
-  | "LIST_MEMBERSHIP_TERM"
-  | "REFERRER_TERM";
+export type RemarketingListListSourceEnum =
+  | "REMARKETING_LIST_SOURCE_OTHER"
+  | "REMARKETING_LIST_SOURCE_ADX"
+  | "REMARKETING_LIST_SOURCE_DFP"
+  | "REMARKETING_LIST_SOURCE_XFP"
+  | "REMARKETING_LIST_SOURCE_DFA"
+  | "REMARKETING_LIST_SOURCE_GA"
+  | "REMARKETING_LIST_SOURCE_YOUTUBE"
+  | "REMARKETING_LIST_SOURCE_DBM"
+  | "REMARKETING_LIST_SOURCE_GPLUS"
+  | "REMARKETING_LIST_SOURCE_DMP"
+  | "REMARKETING_LIST_SOURCE_PLAY_STORE";
 export type ListPopulationTermOperatorEnum =
   | "NUM_EQUALS"
   | "NUM_LESS_THAN"
@@ -4131,24 +4139,28 @@ export type ListPopulationTermOperatorEnum =
   | "NUM_GREATER_THAN_EQUAL"
   | "STRING_EQUALS"
   | "STRING_CONTAINS";
+export type ListPopulationTermTypeEnum =
+  | "CUSTOM_VARIABLE_TERM"
+  | "LIST_MEMBERSHIP_TERM"
+  | "REFERRER_TERM";
 /** Remarketing List Population Rule Term. */
 export interface ListPopulationTerm {
+  /** Whether to negate the comparison result of this term during rule evaluation. This field is only relevant when type is left unset or set to CUSTOM_VARIABLE_TERM or REFERRER_TERM. */
+  negation?: boolean | undefined;
+  /** Comparison operator of this term. This field is only relevant when type is left unset or set to CUSTOM_VARIABLE_TERM or REFERRER_TERM. */
+  operator?: ListPopulationTermOperatorEnum | (string & {}) | undefined;
   /** List population term type determines the applicable fields in this object. If left unset or set to CUSTOM_VARIABLE_TERM, then variableName, variableFriendlyName, operator, value, and negation are applicable. If set to LIST_MEMBERSHIP_TERM then remarketingListId and contains are applicable. If set to REFERRER_TERM then operator, value, and negation are applicable. */
   type?: ListPopulationTermTypeEnum | (string & {}) | undefined;
   /** Literal to compare the variable to. This field is only relevant when type is left unset or set to CUSTOM_VARIABLE_TERM or REFERRER_TERM. */
   value?: string | undefined;
-  /** Whether to negate the comparison result of this term during rule evaluation. This field is only relevant when type is left unset or set to CUSTOM_VARIABLE_TERM or REFERRER_TERM. */
-  negation?: boolean | undefined;
+  /** ID of the list in question. This field is only relevant when type is set to LIST_MEMBERSHIP_TERM. */
+  remarketingListId?: string | undefined;
+  /** Name of the variable (U1, U2, etc.) being compared in this term. This field is only relevant when type is set to null, CUSTOM_VARIABLE_TERM or REFERRER_TERM. */
+  variableName?: string | undefined;
   /** Will be true if the term should check if the user is in the list and false if the term should check if the user is not in the list. This field is only relevant when type is set to LIST_MEMBERSHIP_TERM. False by default. */
   contains?: boolean | undefined;
   /** Friendly name of this term's variable. This is a read-only, auto-generated field. This field is only relevant when type is left unset or set to CUSTOM_VARIABLE_TERM. */
   variableFriendlyName?: string | undefined;
-  /** Name of the variable (U1, U2, etc.) being compared in this term. This field is only relevant when type is set to null, CUSTOM_VARIABLE_TERM or REFERRER_TERM. */
-  variableName?: string | undefined;
-  /** ID of the list in question. This field is only relevant when type is set to LIST_MEMBERSHIP_TERM. */
-  remarketingListId?: string | undefined;
-  /** Comparison operator of this term. This field is only relevant when type is left unset or set to CUSTOM_VARIABLE_TERM or REFERRER_TERM. */
-  operator?: ListPopulationTermOperatorEnum | (string & {}) | undefined;
 }
 export type ListPopulationTermList = Array<ListPopulationTerm>;
 /** A group clause made up of list population terms representing constraints joined by ORs. */
@@ -4166,61 +4178,49 @@ export interface ListPopulationRule {
   /** Name of floodlight activity associated with this rule. This is a read-only, auto-generated field. */
   floodlightActivityName?: string | undefined;
 }
-export type RemarketingListListSourceEnum =
-  | "REMARKETING_LIST_SOURCE_OTHER"
-  | "REMARKETING_LIST_SOURCE_ADX"
-  | "REMARKETING_LIST_SOURCE_DFP"
-  | "REMARKETING_LIST_SOURCE_XFP"
-  | "REMARKETING_LIST_SOURCE_DFA"
-  | "REMARKETING_LIST_SOURCE_GA"
-  | "REMARKETING_LIST_SOURCE_YOUTUBE"
-  | "REMARKETING_LIST_SOURCE_DBM"
-  | "REMARKETING_LIST_SOURCE_GPLUS"
-  | "REMARKETING_LIST_SOURCE_DMP"
-  | "REMARKETING_LIST_SOURCE_PLAY_STORE";
 /** Contains properties of a remarketing list. Remarketing enables you to create lists of users who have performed specific actions on a site, then target ads to members of those lists. This resource can be used to manage remarketing lists that are owned by your advertisers. To see all remarketing lists that are visible to your advertisers, including those that are shared to your advertiser or account, use the TargetableRemarketingLists resource. */
 export interface RemarketingList {
-  /** Rule used to populate the remarketing list with users. */
-  listPopulationRule?: ListPopulationRule | undefined;
+  /** Number of days that a user should remain in the remarketing list without an impression. Acceptable values are 1 to 540, inclusive. */
+  lifeSpan?: string | undefined;
+  /** Whether this remarketing list is active. */
+  active?: boolean | undefined;
   /** Subaccount ID of this remarketing list. This is a read-only, auto-generated field that is only returned in GET requests. */
   subaccountId?: string | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#remarketingList". */
+  kind?: string | undefined;
+  /** Number of users currently in the list. This is a read-only field. */
+  listSize?: string | undefined;
+  /** Name of the remarketing list. This is a required field. Must be no greater than 128 characters long. */
+  name?: string | undefined;
+  /** Product from which this remarketing list was originated. */
+  listSource?: RemarketingListListSourceEnum | (string & {}) | undefined;
   /** Remarketing list ID. This is a read-only, auto-generated field. */
   id?: string | undefined;
   /** Account ID of this remarketing list. This is a read-only, auto-generated field that is only returned in GET requests. */
   accountId?: string | undefined;
-  /** Remarketing list description. */
-  description?: string | undefined;
-  /** Number of users currently in the list. This is a read-only field. */
-  listSize?: string | undefined;
-  /** Number of days that a user should remain in the remarketing list without an impression. Acceptable values are 1 to 540, inclusive. */
-  lifeSpan?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#remarketingList". */
-  kind?: string | undefined;
-  /** Whether this remarketing list is active. */
-  active?: boolean | undefined;
-  /** Name of the remarketing list. This is a required field. Must be no greater than 128 characters long. */
-  name?: string | undefined;
   /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
   advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Product from which this remarketing list was originated. */
-  listSource?: RemarketingListListSourceEnum | (string & {}) | undefined;
+  /** Remarketing list description. */
+  description?: string | undefined;
+  /** Rule used to populate the remarketing list with users. */
+  listPopulationRule?: ListPopulationRule | undefined;
   /** Dimension value for the advertiser ID that owns this remarketing list. This is a required field. */
   advertiserId?: string | undefined;
 }
 export interface GetRemarketingListSharesRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Remarketing list ID. */
   remarketingListId: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 /** Contains properties of a remarketing list's sharing information. Sharing allows other accounts or advertisers to target to your remarketing lists. This resource can be used to manage remarketing list sharing to other accounts and advertisers. */
 export interface RemarketingListShare {
+  /** Remarketing list ID. This is a read-only, auto-generated field. */
+  remarketingListId?: string | undefined;
   /** Advertisers that the remarketing list is shared with. */
   sharedAdvertiserIds?: StringList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#remarketingListShare". */
   kind?: string | undefined;
-  /** Remarketing list ID. This is a read-only, auto-generated field. */
-  remarketingListId?: string | undefined;
   /** Accounts that the remarketing list is shared with. */
   sharedAccountIds?: StringList | undefined;
 }
@@ -4230,156 +4230,34 @@ export interface GetReportsRequest {
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
 }
-export type DimensionValueList_ = Array<DimensionValue>;
-export interface ReportFloodlightCriteriaReportProperties {
-  /** Include conversions that have no cookie, but do have an exposure path. */
-  includeAttributedIPConversions?: boolean | undefined;
-  /** Include conversions that have no associated cookies and no exposures. It's therefore impossible to know how the user was exposed to your ads during the lookback window prior to a conversion. */
-  includeUnattributedIPConversions?: boolean | undefined;
-  /** Include conversions of users with a DoubleClick cookie but without an exposure. That means the user did not click or see an ad from the advertiser within the Floodlight group, or that the interaction happened outside the lookback window. */
-  includeUnattributedCookieConversions?: boolean | undefined;
-}
-export type SortedDimensionSortOrderEnum = "ASCENDING" | "DESCENDING";
-/** Represents a sorted dimension. */
-export interface SortedDimension {
-  /** The kind of resource this is, in this case dfareporting#sortedDimension. */
-  kind?: string | undefined;
-  /** The name of the dimension. */
-  name?: string | undefined;
-  /** An optional sort order for the dimension column. */
-  sortOrder?: SortedDimensionSortOrderEnum | (string & {}) | undefined;
-}
-export type SortedDimensionList = Array<SortedDimension>;
-export interface ReportFloodlightCriteria {
-  /** The list of names of metrics the report should include. */
-  metricNames?: StringList | undefined;
-  /** The floodlight ID for which to show data in this report. All advertisers associated with that ID will automatically be added. The dimension of the value needs to be 'dfa:floodlightConfigId'. */
-  floodlightConfigId?: DimensionValue | undefined;
-  /** The list of filters on which dimensions are filtered. Filters for different dimensions are ANDed, filters for the same dimension are grouped together and ORed. */
-  dimensionFilters?: DimensionValueList_ | undefined;
-  /** The list of custom rich media events to include. */
-  customRichMediaEvents?: DimensionValueList_ | undefined;
-  /** The properties of the report. */
-  reportProperties?: ReportFloodlightCriteriaReportProperties | undefined;
-  /** The date range this report should be run for. */
-  dateRange?: DateRange | undefined;
-  /** The list of dimensions the report should include. */
-  dimensions?: SortedDimensionList | undefined;
-}
-/** Represents an activity group. */
-export interface Activities {
-  /** List of activity filters. The dimension values need to be all either of type "dfa:activity" or "dfa:activityGroup". */
-  filters?: DimensionValueList_ | undefined;
-  /** The kind of resource this is, in this case dfareporting#activities. */
-  kind?: string | undefined;
-  /** List of names of floodlight activity metrics. */
-  metricNames?: StringList | undefined;
-}
-/** Represents a Custom Rich Media Events group. */
-export interface CustomRichMediaEvents {
-  /** The kind of resource this is, in this case dfareporting#customRichMediaEvents. */
-  kind?: string | undefined;
-  /** List of custom rich media event IDs. Dimension values must be all of type dfa:richMediaEventTypeIdAndName. */
-  filteredEventIds?: DimensionValueList_ | undefined;
-}
-export interface ReportCriteria {
-  /** The list of names of metrics the report should include. */
-  metricNames?: StringList | undefined;
-  /** Activity group. */
-  activities?: Activities | undefined;
-  /** The list of standard dimensions the report should include. */
-  dimensions?: SortedDimensionList | undefined;
-  /** Custom Rich Media Events group. */
-  customRichMediaEvents?: CustomRichMediaEvents | undefined;
-  /** The date range for which this report should be run. */
-  dateRange?: DateRange | undefined;
-  /** The list of filters on which dimensions are filtered. Filters for different dimensions are ANDed, filters for the same dimension are grouped together and ORed. */
-  dimensionFilters?: DimensionValueList_ | undefined;
-}
+export type ReportFormatEnum = "CSV" | "EXCEL";
 export type ReportTypeEnum =
   | "STANDARD"
   | "REACH"
   | "PATH_TO_CONVERSION"
   | "FLOODLIGHT"
   | "CROSS_MEDIA_REACH";
-export type ReportFormatEnum = "CSV" | "EXCEL";
-export type ReportDeliveryEmailOwnerDeliveryTypeEnum = "LINK" | "ATTACHMENT";
 export type RecipientDeliveryTypeEnum = "LINK" | "ATTACHMENT";
 /** Represents a recipient. */
 export interface Recipient {
+  /** The email address of the recipient. */
+  email?: string | undefined;
   /** The kind of resource this is, in this case dfareporting#recipient. */
   kind?: string | undefined;
   /** The delivery type for the recipient. */
   deliveryType?: RecipientDeliveryTypeEnum | (string & {}) | undefined;
-  /** The email address of the recipient. */
-  email?: string | undefined;
 }
 export type RecipientList = Array<Recipient>;
+export type ReportDeliveryEmailOwnerDeliveryTypeEnum = "LINK" | "ATTACHMENT";
 export interface ReportDelivery {
-  /** The type of delivery for the owner to receive, if enabled. */
-  emailOwnerDeliveryType?: ReportDeliveryEmailOwnerDeliveryTypeEnum | (string & {}) | undefined;
   /** The message to be sent with each email. */
   message?: string | undefined;
   /** Whether the report should be emailed to the report owner. */
   emailOwner?: boolean | undefined;
   /** The list of recipients to which to email the report. */
   recipients?: RecipientList | undefined;
-}
-export interface ReportReachCriteria {
-  /** The list of names of Reach By Frequency metrics the report should include. */
-  reachByFrequencyMetricNames?: StringList | undefined;
-  /** The date range this report should be run for. */
-  dateRange?: DateRange | undefined;
-  /** The list of filters on which dimensions are filtered. Filters for different dimensions are ANDed, filters for the same dimension are grouped together and ORed. */
-  dimensionFilters?: DimensionValueList_ | undefined;
-  /** Activity group. */
-  activities?: Activities | undefined;
-  /** Custom Rich Media Events group. */
-  customRichMediaEvents?: CustomRichMediaEvents | undefined;
-  /** The list of names of metrics the report should include. */
-  metricNames?: StringList | undefined;
-  /** The list of dimensions the report should include. */
-  dimensions?: SortedDimensionList | undefined;
-}
-export interface ReportPathToConversionCriteriaReportProperties {
-  /** Enable pivoting on interaction path. */
-  pivotOnInteractionPath?: boolean | undefined;
-  /** Include conversions that have no associated cookies and no exposures. It's therefore impossible to know how the user was exposed to your ads during the lookback window prior to a conversion. */
-  includeUnattributedIPConversions?: boolean | undefined;
-  /** The maximum amount of time that can take place between interactions (clicks or impressions) by the same user. Valid values: 1-90. */
-  maximumInteractionGap?: number | undefined;
-  /** CM360 checks to see if a click interaction occurred within the specified period of time before a conversion. By default the value is pulled from Floodlight or you can manually enter a custom value. Valid values: 1-90. */
-  clicksLookbackWindow?: number | undefined;
-  /** CM360 checks to see if an impression interaction occurred within the specified period of time before a conversion. By default the value is pulled from Floodlight or you can manually enter a custom value. Valid values: 1-90. */
-  impressionsLookbackWindow?: number | undefined;
-  /** Deprecated: has no effect. */
-  includeAttributedIPConversions?: boolean | undefined;
-  /** The maximum number of click interactions to include in the report. Advertisers currently paying for E2C reports get up to 200 (100 clicks, 100 impressions). If another advertiser in your network is paying for E2C, you can have up to 5 total exposures per report. */
-  maximumImpressionInteractions?: number | undefined;
-  /** The maximum number of click interactions to include in the report. Advertisers currently paying for E2C reports get up to 200 (100 clicks, 100 impressions). If another advertiser in your network is paying for E2C, you can have up to 5 total exposures per report. */
-  maximumClickInteractions?: number | undefined;
-  /** Include conversions of users with a DoubleClick cookie but without an exposure. That means the user did not click or see an ad from the advertiser within the Floodlight group, or that the interaction happened outside the lookback window. */
-  includeUnattributedCookieConversions?: boolean | undefined;
-}
-export interface ReportPathToConversionCriteria {
-  /** The list of 'dfa:activity' values to filter on. */
-  activityFilters?: DimensionValueList_ | undefined;
-  /** The properties of the report. */
-  reportProperties?: ReportPathToConversionCriteriaReportProperties | undefined;
-  /** The list of conversion dimensions the report should include. */
-  conversionDimensions?: SortedDimensionList | undefined;
-  /** The list of custom rich media events to include. */
-  customRichMediaEvents?: DimensionValueList_ | undefined;
-  /** The list of names of metrics the report should include. */
-  metricNames?: StringList | undefined;
-  /** The list of per interaction dimensions the report should include. */
-  perInteractionDimensions?: SortedDimensionList | undefined;
-  /** The date range this report should be run for. */
-  dateRange?: DateRange | undefined;
-  /** The list of custom floodlight variables the report should include. */
-  customFloodlightVariables?: SortedDimensionList | undefined;
-  /** The floodlight ID for which to show data in this report. All advertisers associated with that ID will automatically be added. The dimension of the value needs to be 'dfa:floodlightConfigId'. */
-  floodlightConfigId?: DimensionValue | undefined;
+  /** The type of delivery for the owner to receive, if enabled. */
+  emailOwnerDeliveryType?: ReportDeliveryEmailOwnerDeliveryTypeEnum | (string & {}) | undefined;
 }
 export type ReportScheduleRepeatsOnWeekDaysItemEnum =
   | "SUNDAY"
@@ -4394,209 +4272,331 @@ export type ReportScheduleRepeatsOnWeekDaysItemEnumList = Array<
 >;
 export type ReportScheduleRunsOnDayOfMonthEnum = "DAY_OF_MONTH" | "WEEK_OF_MONTH";
 export interface ReportSchedule {
-  /** Whether the schedule is active or not. Must be set to either true or false. */
-  active?: boolean | undefined;
-  /** List of week days "WEEKLY" on which scheduled reports should run. */
-  repeatsOnWeekDays?: ReportScheduleRepeatsOnWeekDaysItemEnumList | undefined;
-  expirationDate?: string | undefined;
-  /** Enum to define for "MONTHLY" scheduled reports whether reports should be repeated on the same day of the month as "startDate" or the same day of the week of the month. Example: If 'startDate' is Monday, April 2nd 2012 (2012-04-02), "DAY_OF_MONTH" would run subsequent reports on the 2nd of every Month, and "WEEK_OF_MONTH" would run subsequent reports on the first Monday of the month. */
-  runsOnDayOfMonth?: ReportScheduleRunsOnDayOfMonthEnum | (string & {}) | undefined;
   /** The interval for which the report is repeated. Note: - "DAILY" also requires field "every" to be set. - "WEEKLY" also requires fields "every" and "repeatsOnWeekDays" to be set. - "MONTHLY" also requires fields "every" and "runsOnDayOfMonth" to be set. */
   repeats?: string | undefined;
-  /** Defines every how many days, weeks or months the report should be run. Needs to be set when "repeats" is either "DAILY", "WEEKLY" or "MONTHLY". */
-  every?: number | undefined;
-  startDate?: string | undefined;
   /** The timezone when the report will run. */
   timezone?: string | undefined;
+  /** Defines every how many days, weeks or months the report should be run. Needs to be set when "repeats" is either "DAILY", "WEEKLY" or "MONTHLY". */
+  every?: number | undefined;
+  /** Whether the schedule is active or not. Must be set to either true or false. */
+  active?: boolean | undefined;
+  startDate?: string | undefined;
+  expirationDate?: string | undefined;
+  /** List of week days "WEEKLY" on which scheduled reports should run. */
+  repeatsOnWeekDays?: ReportScheduleRepeatsOnWeekDaysItemEnumList | undefined;
+  /** Enum to define for "MONTHLY" scheduled reports whether reports should be repeated on the same day of the month as "startDate" or the same day of the week of the month. Example: If 'startDate' is Monday, April 2nd 2012 (2012-04-02), "DAY_OF_MONTH" would run subsequent reports on the 2nd of every Month, and "WEEK_OF_MONTH" would run subsequent reports on the first Monday of the month. */
+  runsOnDayOfMonth?: ReportScheduleRunsOnDayOfMonthEnum | (string & {}) | undefined;
 }
+export type DimensionValueList_ = Array<DimensionValue>;
+export type SortedDimensionSortOrderEnum = "ASCENDING" | "DESCENDING";
+/** Represents a sorted dimension. */
+export interface SortedDimension {
+  /** The kind of resource this is, in this case dfareporting#sortedDimension. */
+  kind?: string | undefined;
+  /** An optional sort order for the dimension column. */
+  sortOrder?: SortedDimensionSortOrderEnum | (string & {}) | undefined;
+  /** The name of the dimension. */
+  name?: string | undefined;
+}
+export type SortedDimensionList = Array<SortedDimension>;
 export interface ReportCrossMediaReachCriteria {
-  /** Required. The date range this report should be run for. */
-  dateRange?: DateRange | undefined;
   /** Required. The list of filters on which dimensions are filtered. Filters for different dimensions are ANDed, filters for the same dimension are grouped together and ORed. */
   dimensionFilters?: DimensionValueList_ | undefined;
   /** Required. The list of dimensions the report should include. */
   dimensions?: SortedDimensionList | undefined;
+  /** Required. The date range this report should be run for. */
+  dateRange?: DateRange | undefined;
   /** Required. The list of names of metrics the report should include. */
   metricNames?: StringList | undefined;
 }
+export interface ReportFloodlightCriteriaReportProperties {
+  /** Include conversions that have no associated cookies and no exposures. It's therefore impossible to know how the user was exposed to your ads during the lookback window prior to a conversion. */
+  includeUnattributedIPConversions?: boolean | undefined;
+  /** Include conversions of users with a DoubleClick cookie but without an exposure. That means the user did not click or see an ad from the advertiser within the Floodlight group, or that the interaction happened outside the lookback window. */
+  includeUnattributedCookieConversions?: boolean | undefined;
+  /** Include conversions that have no cookie, but do have an exposure path. */
+  includeAttributedIPConversions?: boolean | undefined;
+}
+export interface ReportFloodlightCriteria {
+  /** The properties of the report. */
+  reportProperties?: ReportFloodlightCriteriaReportProperties | undefined;
+  /** The list of names of metrics the report should include. */
+  metricNames?: StringList | undefined;
+  /** The list of custom rich media events to include. */
+  customRichMediaEvents?: DimensionValueList_ | undefined;
+  /** The floodlight ID for which to show data in this report. All advertisers associated with that ID will automatically be added. The dimension of the value needs to be 'dfa:floodlightConfigId'. */
+  floodlightConfigId?: DimensionValue | undefined;
+  /** The date range this report should be run for. */
+  dateRange?: DateRange | undefined;
+  /** The list of filters on which dimensions are filtered. Filters for different dimensions are ANDed, filters for the same dimension are grouped together and ORed. */
+  dimensionFilters?: DimensionValueList_ | undefined;
+  /** The list of dimensions the report should include. */
+  dimensions?: SortedDimensionList | undefined;
+}
+/** Represents a Custom Rich Media Events group. */
+export interface CustomRichMediaEvents {
+  /** List of custom rich media event IDs. Dimension values must be all of type dfa:richMediaEventTypeIdAndName. */
+  filteredEventIds?: DimensionValueList_ | undefined;
+  /** The kind of resource this is, in this case dfareporting#customRichMediaEvents. */
+  kind?: string | undefined;
+}
+/** Represents an activity group. */
+export interface Activities {
+  /** List of activity filters. The dimension values need to be all either of type "dfa:activity" or "dfa:activityGroup". */
+  filters?: DimensionValueList_ | undefined;
+  /** The kind of resource this is, in this case dfareporting#activities. */
+  kind?: string | undefined;
+  /** List of names of floodlight activity metrics. */
+  metricNames?: StringList | undefined;
+}
+export interface ReportReachCriteria {
+  /** Custom Rich Media Events group. */
+  customRichMediaEvents?: CustomRichMediaEvents | undefined;
+  /** Activity group. */
+  activities?: Activities | undefined;
+  /** The list of filters on which dimensions are filtered. Filters for different dimensions are ANDed, filters for the same dimension are grouped together and ORed. */
+  dimensionFilters?: DimensionValueList_ | undefined;
+  /** The list of names of Reach By Frequency metrics the report should include. */
+  reachByFrequencyMetricNames?: StringList | undefined;
+  /** The list of names of metrics the report should include. */
+  metricNames?: StringList | undefined;
+  /** The list of dimensions the report should include. */
+  dimensions?: SortedDimensionList | undefined;
+  /** The date range this report should be run for. */
+  dateRange?: DateRange | undefined;
+}
+export interface ReportPathToConversionCriteriaReportProperties {
+  /** The maximum amount of time that can take place between interactions (clicks or impressions) by the same user. Valid values: 1-90. */
+  maximumInteractionGap?: number | undefined;
+  /** CM360 checks to see if an impression interaction occurred within the specified period of time before a conversion. By default the value is pulled from Floodlight or you can manually enter a custom value. Valid values: 1-90. */
+  impressionsLookbackWindow?: number | undefined;
+  /** The maximum number of click interactions to include in the report. Advertisers currently paying for E2C reports get up to 200 (100 clicks, 100 impressions). If another advertiser in your network is paying for E2C, you can have up to 5 total exposures per report. */
+  maximumImpressionInteractions?: number | undefined;
+  /** CM360 checks to see if a click interaction occurred within the specified period of time before a conversion. By default the value is pulled from Floodlight or you can manually enter a custom value. Valid values: 1-90. */
+  clicksLookbackWindow?: number | undefined;
+  /** The maximum number of click interactions to include in the report. Advertisers currently paying for E2C reports get up to 200 (100 clicks, 100 impressions). If another advertiser in your network is paying for E2C, you can have up to 5 total exposures per report. */
+  maximumClickInteractions?: number | undefined;
+  /** Include conversions of users with a DoubleClick cookie but without an exposure. That means the user did not click or see an ad from the advertiser within the Floodlight group, or that the interaction happened outside the lookback window. */
+  includeUnattributedCookieConversions?: boolean | undefined;
+  /** Deprecated: has no effect. */
+  includeAttributedIPConversions?: boolean | undefined;
+  /** Enable pivoting on interaction path. */
+  pivotOnInteractionPath?: boolean | undefined;
+  /** Include conversions that have no associated cookies and no exposures. It's therefore impossible to know how the user was exposed to your ads during the lookback window prior to a conversion. */
+  includeUnattributedIPConversions?: boolean | undefined;
+}
+export interface ReportPathToConversionCriteria {
+  /** The list of custom rich media events to include. */
+  customRichMediaEvents?: DimensionValueList_ | undefined;
+  /** The list of per interaction dimensions the report should include. */
+  perInteractionDimensions?: SortedDimensionList | undefined;
+  /** The list of conversion dimensions the report should include. */
+  conversionDimensions?: SortedDimensionList | undefined;
+  /** The list of names of metrics the report should include. */
+  metricNames?: StringList | undefined;
+  /** The list of custom floodlight variables the report should include. */
+  customFloodlightVariables?: SortedDimensionList | undefined;
+  /** The list of 'dfa:activity' values to filter on. */
+  activityFilters?: DimensionValueList_ | undefined;
+  /** The properties of the report. */
+  reportProperties?: ReportPathToConversionCriteriaReportProperties | undefined;
+  /** The date range this report should be run for. */
+  dateRange?: DateRange | undefined;
+  /** The floodlight ID for which to show data in this report. All advertisers associated with that ID will automatically be added. The dimension of the value needs to be 'dfa:floodlightConfigId'. */
+  floodlightConfigId?: DimensionValue | undefined;
+}
+export interface ReportCriteria {
+  /** The list of standard dimensions the report should include. */
+  dimensions?: SortedDimensionList | undefined;
+  /** Activity group. */
+  activities?: Activities | undefined;
+  /** The date range for which this report should be run. */
+  dateRange?: DateRange | undefined;
+  /** The list of names of metrics the report should include. */
+  metricNames?: StringList | undefined;
+  /** The list of filters on which dimensions are filtered. Filters for different dimensions are ANDed, filters for the same dimension are grouped together and ORed. */
+  dimensionFilters?: DimensionValueList_ | undefined;
+  /** Custom Rich Media Events group. */
+  customRichMediaEvents?: CustomRichMediaEvents | undefined;
+}
 /** Represents a Report resource. */
 export interface Report {
-  /** The report criteria for a report of type "FLOODLIGHT". */
-  floodlightCriteria?: ReportFloodlightCriteria | undefined;
-  /** The eTag of this response for caching purposes. */
-  etag?: string | undefined;
-  /** The filename used when generating report files for this report. */
-  fileName?: string | undefined;
-  /** The report criteria for a report of type "STANDARD". */
-  criteria?: ReportCriteria | undefined;
-  /** The type of the report. */
-  type?: ReportTypeEnum | (string & {}) | undefined;
   /** The output format of the report. If not specified, default format is "CSV". Note that the actual format in the completed report file might differ if for instance the report's size exceeds the format's capabilities. "CSV" will then be the fallback format. */
   format?: ReportFormatEnum | (string & {}) | undefined;
-  /** The report's email delivery settings. */
-  delivery?: ReportDelivery | undefined;
+  /** The type of the report. */
+  type?: ReportTypeEnum | (string & {}) | undefined;
   /** The timestamp (in milliseconds since epoch) of when this report was last modified. */
   lastModifiedTime?: string | undefined;
-  /** The account ID to which this report belongs. */
-  accountId?: string | undefined;
-  /** The report criteria for a report of type "REACH". */
-  reachCriteria?: ReportReachCriteria | undefined;
-  /** The kind of resource this is, in this case dfareporting#report. */
-  kind?: string | undefined;
-  /** The name of the report. */
-  name?: string | undefined;
-  /** The report criteria for a report of type "PATH_TO_CONVERSION". */
-  pathToConversionCriteria?: ReportPathToConversionCriteria | undefined;
-  /** The unique ID identifying this report resource. */
-  id?: string | undefined;
-  /** The subaccount ID to which this report belongs if applicable. */
-  subAccountId?: string | undefined;
+  /** The report's email delivery settings. */
+  delivery?: ReportDelivery | undefined;
   /** The report's schedule. Can only be set if the report's 'dateRange' is a relative date range and the relative date range is not "TODAY". */
   schedule?: ReportSchedule | undefined;
-  /** The user profile id of the owner of this report. */
-  ownerProfileId?: string | undefined;
   /** Optional. The report criteria for a report of type "CROSS_MEDIA_REACH". */
   crossMediaReachCriteria?: ReportCrossMediaReachCriteria | undefined;
+  /** The kind of resource this is, in this case dfareporting#report. */
+  kind?: string | undefined;
+  /** The unique ID identifying this report resource. */
+  id?: string | undefined;
+  /** The report criteria for a report of type "FLOODLIGHT". */
+  floodlightCriteria?: ReportFloodlightCriteria | undefined;
+  /** The subaccount ID to which this report belongs if applicable. */
+  subAccountId?: string | undefined;
+  /** The eTag of this response for caching purposes. */
+  etag?: string | undefined;
+  /** The report criteria for a report of type "REACH". */
+  reachCriteria?: ReportReachCriteria | undefined;
+  /** The filename used when generating report files for this report. */
+  fileName?: string | undefined;
+  /** The name of the report. */
+  name?: string | undefined;
+  /** The user profile id of the owner of this report. */
+  ownerProfileId?: string | undefined;
+  /** The account ID to which this report belongs. */
+  accountId?: string | undefined;
+  /** The report criteria for a report of type "PATH_TO_CONVERSION". */
+  pathToConversionCriteria?: ReportPathToConversionCriteria | undefined;
+  /** The report criteria for a report of type "STANDARD". */
+  criteria?: ReportCriteria | undefined;
 }
 export interface GetReportsFilesRequest {
+  /** The ID of the report file. */
+  fileId: string;
   /** The ID of the report. */
   reportId: string;
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
-  /** The ID of the report file. */
-  fileId: string;
 }
 export interface GetSitesRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Site ID. */
   id: string;
-}
-export type SiteSettingsVpaidAdapterChoiceTemplateEnum = "DEFAULT" | "FLASH" | "HTML5" | "BOTH";
-/** Site Settings */
-export interface SiteSettings {
-  /** Whether new cookies are disabled for this site. */
-  disableNewCookie?: boolean | undefined;
-  /** Whether active view creatives are disabled for this site. */
-  activeViewOptOut?: boolean | undefined;
-  /** Whether this site opts out of ad blocking. When true, ad blocking is disabled for all placements under the site, regardless of the individual placement settings. When false, the campaign and placement settings take effect. */
-  adBlockingOptOut?: boolean | undefined;
-  /** Whether Verification and ActiveView for in-stream video creatives are disabled by default for new placements created under this site. This value will be used to populate the placement.videoActiveViewOptOut field, when no value is specified for the new placement. */
-  videoActiveViewOptOutTemplate?: boolean | undefined;
-  /** Default VPAID adapter setting for new placements created under this site. This value will be used to populate the placements.vpaidAdapterChoice field, when no value is specified for the new placement. Controls which VPAID format the measurement adapter will use for in-stream video creatives assigned to the placement. The publisher's specifications will typically determine this setting. For VPAID creatives, the adapter format will match the VPAID format (HTML5 VPAID creatives use the HTML5 adapter). *Note:* Flash is no longer supported. This field now defaults to HTML5 when the following values are provided: FLASH, BOTH. */
-  vpaidAdapterChoiceTemplate?:
-    | SiteSettingsVpaidAdapterChoiceTemplateEnum
-    | (string & {})
-    | undefined;
-  /** Configuration settings for dynamic and image floodlight tags. */
-  tagSetting?: TagSetting | undefined;
-}
-/** Transcode Settings */
-export interface SiteTranscodeSetting {
-  /** Allowlist of video formats to be served to this site template. Set this list to null or empty to serve all video formats. */
-  enabledVideoFormats?: IntegerList | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#siteTranscodeSetting". */
-  kind?: string | undefined;
-}
-/** Skippable Settings */
-export interface SiteSkippableSetting {
-  /** Amount of time to play videos served to this site template before counting a view. Applicable when skippable is true. */
-  progressOffset?: VideoOffset | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#siteSkippableSetting". */
-  kind?: string | undefined;
-  /** Whether the user can skip creatives served to this site. This will act as default for new placements created under this site. */
-  skippable?: boolean | undefined;
-  /** Amount of time to play videos served to this site before the skip button should appear. Applicable when skippable is true. */
-  skipOffset?: VideoOffset | undefined;
-}
-export type SiteVideoSettingsOrientationEnum = "ANY" | "LANDSCAPE" | "PORTRAIT";
-/** Companion Settings */
-export interface SiteCompanionSetting {
-  /** Whether companions are disabled for this site template. */
-  companionsDisabled?: boolean | undefined;
-  /** Whether to serve only static images as companions. */
-  imageOnly?: boolean | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#siteCompanionSetting". */
-  kind?: string | undefined;
-  /** Allowlist of companion sizes to be served via this site template. Set this list to null or empty to serve all companion sizes. */
-  enabledSizes?: SizeList | undefined;
-}
-/** Video Settings */
-export interface SiteVideoSettings {
-  /** Settings for the transcodes of video creatives served to this site. This will act as default for new placements created under this site. */
-  transcodeSettings?: SiteTranscodeSetting | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#siteVideoSettings". */
-  kind?: string | undefined;
-  /** Whether OBA icons are enabled for this placement. */
-  obaEnabled?: boolean | undefined;
-  /** Settings for the skippability of video creatives served to this site. This will act as default for new placements created under this site. */
-  skippableSettings?: SiteSkippableSetting | undefined;
-  /** Orientation of a site template used for video. This will act as default for new placements created under this site. */
-  orientation?: SiteVideoSettingsOrientationEnum | (string & {}) | undefined;
-  /** Settings for the OBA icon of video creatives served to this site. This will act as default for new placements created under this site. */
-  obaSettings?: ObaIcon | undefined;
-  /** Settings for the companion creatives of video creatives served to this site. */
-  companionSettings?: SiteCompanionSetting | undefined;
-  /** Publisher specification ID used to identify site-associated publisher requirements and automatically populate transcode settings. If publisher specification ID is specified, it will take precedence over transcode settings. Possible values are: * `1`, Hulu * `2`, NBC * `3`, CBS * `4`, CBS Desktop * `5`, Discovery * `6`, VEVO HD * `7`, VEVO Vertical * `8`, Fox * `9`, CW Network * `10`, Disney * `11`, IGN * `12`, NFL.com * `13`, Turner Broadcasting * `14`, Tubi on Fox * `15`, Hearst Corporation * `16`, Twitch Desktop * `17`, ABC * `18`, Univision * `19`, MLB.com * `20`, MLB.com Mobile * `21`, MLB.com OTT * `22`, Polsat * `23`, TVN * `24`, Mediaset * `25`, Antena 3 * `26`, Mediamond * `27`, Sky Italia * `28`, Tubi on CBS * `29`, Spotify * `30`, Paramount * `31`, Max */
-  publisherSpecificationId?: string | undefined;
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 export type SiteContactContactTypeEnum = "SALES_PERSON" | "TRAFFICKER";
 /** Site Contact */
 export interface SiteContact {
-  /** Email address of this site contact. This is a required field. */
-  email?: string | undefined;
   /** Primary phone number of this site contact. */
   phone?: string | undefined;
+  /** Address of this site contact. */
+  address?: string | undefined;
+  /** Site contact type. */
+  contactType?: SiteContactContactTypeEnum | (string & {}) | undefined;
+  /** Email address of this site contact. This is a required field. */
+  email?: string | undefined;
+  /** ID of this site contact. This is a read-only, auto-generated field. */
+  id?: string | undefined;
   /** First name of this site contact. */
   firstName?: string | undefined;
   /** Last name of this site contact. */
   lastName?: string | undefined;
   /** Title or designation of this site contact. */
   title?: string | undefined;
-  /** Site contact type. */
-  contactType?: SiteContactContactTypeEnum | (string & {}) | undefined;
-  /** Address of this site contact. */
-  address?: string | undefined;
-  /** ID of this site contact. This is a read-only, auto-generated field. */
-  id?: string | undefined;
 }
 export type SiteContactList = Array<SiteContact>;
+export type SiteVideoSettingsOrientationEnum = "ANY" | "LANDSCAPE" | "PORTRAIT";
+/** Transcode Settings */
+export interface SiteTranscodeSetting {
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#siteTranscodeSetting". */
+  kind?: string | undefined;
+  /** Allowlist of video formats to be served to this site template. Set this list to null or empty to serve all video formats. */
+  enabledVideoFormats?: IntegerList | undefined;
+}
+/** Companion Settings */
+export interface SiteCompanionSetting {
+  /** Whether companions are disabled for this site template. */
+  companionsDisabled?: boolean | undefined;
+  /** Allowlist of companion sizes to be served via this site template. Set this list to null or empty to serve all companion sizes. */
+  enabledSizes?: SizeList | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#siteCompanionSetting". */
+  kind?: string | undefined;
+  /** Whether to serve only static images as companions. */
+  imageOnly?: boolean | undefined;
+}
+/** Skippable Settings */
+export interface SiteSkippableSetting {
+  /** Amount of time to play videos served to this site before the skip button should appear. Applicable when skippable is true. */
+  skipOffset?: VideoOffset | undefined;
+  /** Amount of time to play videos served to this site template before counting a view. Applicable when skippable is true. */
+  progressOffset?: VideoOffset | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#siteSkippableSetting". */
+  kind?: string | undefined;
+  /** Whether the user can skip creatives served to this site. This will act as default for new placements created under this site. */
+  skippable?: boolean | undefined;
+}
+/** Video Settings */
+export interface SiteVideoSettings {
+  /** Orientation of a site template used for video. This will act as default for new placements created under this site. */
+  orientation?: SiteVideoSettingsOrientationEnum | (string & {}) | undefined;
+  /** Settings for the OBA icon of video creatives served to this site. This will act as default for new placements created under this site. */
+  obaSettings?: ObaIcon | undefined;
+  /** Settings for the transcodes of video creatives served to this site. This will act as default for new placements created under this site. */
+  transcodeSettings?: SiteTranscodeSetting | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#siteVideoSettings". */
+  kind?: string | undefined;
+  /** Publisher specification ID used to identify site-associated publisher requirements and automatically populate transcode settings. If publisher specification ID is specified, it will take precedence over transcode settings. Possible values are: * `1`, Hulu * `2`, NBC * `3`, CBS * `4`, CBS Desktop * `5`, Discovery * `6`, VEVO HD * `7`, VEVO Vertical * `8`, Fox * `9`, CW Network * `10`, Disney * `11`, IGN * `12`, NFL.com * `13`, Turner Broadcasting * `14`, Tubi on Fox * `15`, Hearst Corporation * `16`, Twitch Desktop * `17`, ABC * `18`, Univision * `19`, MLB.com * `20`, MLB.com Mobile * `21`, MLB.com OTT * `22`, Polsat * `23`, TVN * `24`, Mediaset * `25`, Antena 3 * `26`, Mediamond * `27`, Sky Italia * `28`, Tubi on CBS * `29`, Spotify * `30`, Paramount * `31`, Max */
+  publisherSpecificationId?: string | undefined;
+  /** Whether OBA icons are enabled for this placement. */
+  obaEnabled?: boolean | undefined;
+  /** Settings for the companion creatives of video creatives served to this site. */
+  companionSettings?: SiteCompanionSetting | undefined;
+  /** Settings for the skippability of video creatives served to this site. This will act as default for new placements created under this site. */
+  skippableSettings?: SiteSkippableSetting | undefined;
+}
+export type SiteSettingsVpaidAdapterChoiceTemplateEnum = "DEFAULT" | "FLASH" | "HTML5" | "BOTH";
+/** Site Settings */
+export interface SiteSettings {
+  /** Configuration settings for dynamic and image floodlight tags. */
+  tagSetting?: TagSetting | undefined;
+  /** Whether new cookies are disabled for this site. */
+  disableNewCookie?: boolean | undefined;
+  /** Default VPAID adapter setting for new placements created under this site. This value will be used to populate the placements.vpaidAdapterChoice field, when no value is specified for the new placement. Controls which VPAID format the measurement adapter will use for in-stream video creatives assigned to the placement. The publisher's specifications will typically determine this setting. For VPAID creatives, the adapter format will match the VPAID format (HTML5 VPAID creatives use the HTML5 adapter). *Note:* Flash is no longer supported. This field now defaults to HTML5 when the following values are provided: FLASH, BOTH. */
+  vpaidAdapterChoiceTemplate?:
+    | SiteSettingsVpaidAdapterChoiceTemplateEnum
+    | (string & {})
+    | undefined;
+  /** Whether Verification and ActiveView for in-stream video creatives are disabled by default for new placements created under this site. This value will be used to populate the placement.videoActiveViewOptOut field, when no value is specified for the new placement. */
+  videoActiveViewOptOutTemplate?: boolean | undefined;
+  /** Whether this site opts out of ad blocking. When true, ad blocking is disabled for all placements under the site, regardless of the individual placement settings. When false, the campaign and placement settings take effect. */
+  adBlockingOptOut?: boolean | undefined;
+  /** Whether active view creatives are disabled for this site. */
+  activeViewOptOut?: boolean | undefined;
+}
 /** Contains properties of a site. */
 export interface Site {
-  /** Site-wide settings. */
-  siteSettings?: SiteSettings | undefined;
-  /** Directory site associated with this site. This is a required field that is read-only after insertion. */
-  directorySiteId?: string | undefined;
-  /** Optional. Ad serving platform ID to identify the ad serving platform used by the site. Measurement partners can use this field to add ad-server specific macros. If set, this value acts as the default during placement creation. Possible values are: * `1`, Adelphic * `2`, Adform * `3`, Adobe * `4`, Amobee * `5`, Basis (Centro) * `6`, Beeswax * `7`, Amazon * `8`, DV360 (DBM) * `9`, Innovid * `10`, MediaMath * `11`, Roku OneView DSP * `12`, TabMo Hawk * `13`, The Trade Desk * `14`, Xandr Invest DSP * `15`, Yahoo DSP * `16`, Zeta Global * `17`, Scaleout * `18`, Bidtellect * `19`, Unicorn * `20`, Teads * `21`, Quantcast * `22`, Cognitiv * `23`, AdTheorent * `24`, DeepIntent * `25`, Pulsepoint */
-  adServingPlatformId?: string | undefined;
-  /** Key name of this site. This is a read-only, auto-generated field. */
-  keyName?: string | undefined;
-  /** Default video settings for new placements created under this site. This value will be used to populate the placements.videoSettings field, when no value is specified for the new placement. */
-  videoSettings?: SiteVideoSettings | undefined;
-  /** Account ID of this site. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** ID of this site. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Dimension value for the ID of this site. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue | undefined;
-  /** Subaccount ID of this site. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
   /** Dimension value for the ID of the directory site. This is a read-only, auto-generated field. */
   directorySiteIdDimensionValue?: DimensionValue | undefined;
   /** Site contacts. */
   siteContacts?: SiteContactList | undefined;
+  /** Directory site associated with this site. This is a required field that is read-only after insertion. */
+  directorySiteId?: string | undefined;
+  /** Default video settings for new placements created under this site. This value will be used to populate the placements.videoSettings field, when no value is specified for the new placement. */
+  videoSettings?: SiteVideoSettings | undefined;
+  /** Site-wide settings. */
+  siteSettings?: SiteSettings | undefined;
   /** Name of this site.This is a required field. Must be less than 128 characters long. If this site is under a subaccount, the name must be unique among sites of the same subaccount. Otherwise, this site is a top-level site, and the name must be unique among top-level sites of the same account. */
   name?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#site". */
-  kind?: string | undefined;
+  /** ID of this site. This is a read-only, auto-generated field. */
+  id?: string | undefined;
   /** Whether this site is approved. */
   approved?: boolean | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#site". */
+  kind?: string | undefined;
+  /** Optional. Ad serving platform ID to identify the ad serving platform used by the site. Measurement partners can use this field to add ad-server specific macros. If set, this value acts as the default during placement creation. Possible values are: * `1`, Adelphic * `2`, Adform * `3`, Adobe * `4`, Amobee * `5`, Basis (Centro) * `6`, Beeswax * `7`, Amazon * `8`, DV360 (DBM) * `9`, Innovid * `10`, MediaMath * `11`, Roku OneView DSP * `12`, TabMo Hawk * `13`, The Trade Desk * `14`, Xandr Invest DSP * `15`, Yahoo DSP * `16`, Zeta Global * `17`, Scaleout * `18`, Bidtellect * `19`, Unicorn * `20`, Teads * `21`, Quantcast * `22`, Cognitiv * `23`, AdTheorent * `24`, DeepIntent * `25`, Pulsepoint */
+  adServingPlatformId?: string | undefined;
+  /** Account ID of this site. This is a read-only field that can be left blank. */
+  accountId?: string | undefined;
+  /** Subaccount ID of this site. This is a read-only field that can be left blank. */
+  subaccountId?: string | undefined;
+  /** Dimension value for the ID of this site. This is a read-only, auto-generated field. */
+  idDimensionValue?: DimensionValue | undefined;
+  /** Key name of this site. This is a read-only, auto-generated field. */
+  keyName?: string | undefined;
 }
 export interface GetSizesRequest {
-  /** Size ID. */
-  id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Size ID. */
+  id: string;
 }
 export interface GetStudioCreativesRequest {
   /** Required. Studio creative ID. */
@@ -4609,6 +4609,12 @@ export interface StudioCreativeDimension {
   /** Height of the studio creative. */
   height?: number | undefined;
 }
+export type StudioCreativeFormatEnum =
+  | "UNKNOWN"
+  | "BANNER"
+  | "EXPANDING"
+  | "INTERSTITIAL"
+  | "VPAID_LINEAR_VIDEO";
 export type StudioCreativeStatusEnum =
   | "UNKNOWN_STATUS"
   | "IN_DEVELOPMENT"
@@ -4616,65 +4622,59 @@ export type StudioCreativeStatusEnum =
   | "QA_REJECTED"
   | "QA_APPROVED"
   | "TRAFFICKED";
-export type StudioCreativeFormatEnum =
-  | "UNKNOWN"
-  | "BANNER"
-  | "EXPANDING"
-  | "INTERSTITIAL"
-  | "VPAID_LINEAR_VIDEO";
 /** *Beta:* This API resource is available only to a very limited number of customers. If you'd like to use this resource, please reach out to your Google sales representative. Contains studio creative information. */
 export interface StudioCreative {
-  /** Dimension of this studio creative. This is a required field on insertion if format is BANNER or EXPANDING. */
-  dimension?: StudioCreativeDimension | undefined;
-  /** Identifier. Name of this studio creative. This is a required field on insertion. */
-  name?: string | undefined;
   /** The timestamp when the studio creative was last modified. This is a read-only, auto-generated field. */
   lastModifiedInfo?: LastModifiedInfo | undefined;
-  /** Output only. Status of this studio creative. It is a read-only field. */
-  status?: StudioCreativeStatusEnum | (string & {}) | undefined;
+  /** Dimension of this studio creative. This is a required field on insertion if format is BANNER or EXPANDING. */
+  dimension?: StudioCreativeDimension | undefined;
   /** Studio advertiser ID of this studio creative. This is a required field on insertion. */
   studioAdvertiserId?: string | undefined;
-  /** List of assets associated with this studio creative. It is a required field on insertion. */
-  assetIds?: StringList | undefined;
-  /** Format of this studio creative. This is a required field on insertion. */
-  format?: StudioCreativeFormatEnum | (string & {}) | undefined;
-  /** Studio campaign ID of this studio creative. This is a required field on insertion. */
-  studioCampaignId?: string | undefined;
-  /** Backup image asset ID of this studio creative. It is a required field on insertion. */
-  backupImageAssetId?: string | undefined;
   /** Studio account ID of this creative. This field, if left unset, will be auto-populated. */
   studioAccountId?: string | undefined;
-  /** Output only. Unique ID of this studio creative. This is a read-only, auto-generated field. */
-  id?: string | undefined;
+  /** Identifier. Name of this studio creative. This is a required field on insertion. */
+  name?: string | undefined;
+  /** Format of this studio creative. This is a required field on insertion. */
+  format?: StudioCreativeFormatEnum | (string & {}) | undefined;
+  /** Output only. Status of this studio creative. It is a read-only field. */
+  status?: StudioCreativeStatusEnum | (string & {}) | undefined;
+  /** Backup image asset ID of this studio creative. It is a required field on insertion. */
+  backupImageAssetId?: string | undefined;
   /** Dynamic profile ID of this studio creative. */
   dynamicProfileId?: string | undefined;
   /** The timestamp when the studio creative was created. This is a read-only, auto-generated field. */
   createdInfo?: LastModifiedInfo | undefined;
+  /** Studio campaign ID of this studio creative. This is a required field on insertion. */
+  studioCampaignId?: string | undefined;
+  /** Output only. Unique ID of this studio creative. This is a read-only, auto-generated field. */
+  id?: string | undefined;
+  /** List of assets associated with this studio creative. It is a required field on insertion. */
+  assetIds?: StringList | undefined;
 }
 export interface GetSubaccountsRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Subaccount ID. */
   id: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 /** Contains properties of a Campaign Manager subaccount. */
 export interface Subaccount {
-  /** ID of this subaccount. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#subaccount". */
-  kind?: string | undefined;
-  /** ID of the account that contains this subaccount. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** IDs of the available user role permissions for this subaccount. */
-  availablePermissionIds?: StringList | undefined;
   /** Name of this subaccount. This is a required field. Must be less than 128 characters long and be unique among subaccounts of the same account. */
   name?: string | undefined;
+  /** ID of this subaccount. This is a read-only, auto-generated field. */
+  id?: string | undefined;
+  /** IDs of the available user role permissions for this subaccount. */
+  availablePermissionIds?: StringList | undefined;
+  /** ID of the account that contains this subaccount. This is a read-only field that can be left blank. */
+  accountId?: string | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#subaccount". */
+  kind?: string | undefined;
 }
 export interface GetTargetableRemarketingListsRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Remarketing list ID. */
   id: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 export type TargetableRemarketingListListSourceEnum =
   | "REMARKETING_LIST_SOURCE_OTHER"
@@ -4690,67 +4690,67 @@ export type TargetableRemarketingListListSourceEnum =
   | "REMARKETING_LIST_SOURCE_PLAY_STORE";
 /** Contains properties of a targetable remarketing list. Remarketing enables you to create lists of users who have performed specific actions on a site, then target ads to members of those lists. This resource is a read-only view of a remarketing list to be used to facilitate targeting ads to specific lists. Remarketing lists that are owned by your advertisers and those that are shared to your advertisers or account are accessible via this resource. To manage remarketing lists that are owned by your advertisers, use the RemarketingLists resource. */
 export interface TargetableRemarketingList {
-  /** Product from which this targetable remarketing list was originated. */
-  listSource?: TargetableRemarketingListListSourceEnum | undefined;
   /** Whether this targetable remarketing list is active. */
   active?: boolean | undefined;
-  /** Number of users currently in the list. This is a read-only field. */
-  listSize?: string | undefined;
+  /** Product from which this targetable remarketing list was originated. */
+  listSource?: TargetableRemarketingListListSourceEnum | undefined;
   /** Name of the targetable remarketing list. Is no greater than 128 characters long. */
   name?: string | undefined;
-  /** Dimension value for the advertiser ID that owns this targetable remarketing list. */
-  advertiserId?: string | undefined;
-  /** Targetable remarketing list description. */
-  description?: string | undefined;
-  /** Dimension value for the ID of the advertiser. */
-  advertiserIdDimensionValue?: DimensionValue | undefined;
-  /** Number of days that a user should remain in the targetable remarketing list without an impression. */
-  lifeSpan?: string | undefined;
-  /** Targetable remarketing list ID. */
-  id?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#targetableRemarketingList". */
   kind?: string | undefined;
+  /** Dimension value for the advertiser ID that owns this targetable remarketing list. */
+  advertiserId?: string | undefined;
+  /** Number of days that a user should remain in the targetable remarketing list without an impression. */
+  lifeSpan?: string | undefined;
+  /** Targetable remarketing list description. */
+  description?: string | undefined;
   /** Account ID of this remarketing list. This is a read-only, auto-generated field that is only returned in GET requests. */
   accountId?: string | undefined;
+  /** Dimension value for the ID of the advertiser. */
+  advertiserIdDimensionValue?: DimensionValue | undefined;
+  /** Targetable remarketing list ID. */
+  id?: string | undefined;
   /** Subaccount ID of this remarketing list. This is a read-only, auto-generated field that is only returned in GET requests. */
   subaccountId?: string | undefined;
+  /** Number of users currently in the list. This is a read-only field. */
+  listSize?: string | undefined;
 }
 export interface GetTargetingTemplatesRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Targeting template ID. */
   id: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 /** Contains properties of a targeting template. A targeting template encapsulates targeting information which can be reused across multiple ads. */
 export interface TargetingTemplate {
-  /** Geographical targeting criteria. */
-  geoTargeting?: GeoTargeting | undefined;
   /** Name of this targeting template. This field is required. It must be less than 256 characters long and unique within an advertiser. */
   name?: string | undefined;
-  /** Technology platform targeting criteria. */
-  technologyTargeting?: TechnologyTargeting | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#targetingTemplate". */
-  kind?: string | undefined;
-  /** ID of this targeting template. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Account ID of this targeting template. This field, if left unset, will be auto-generated on insert and is read-only after insert. */
-  accountId?: string | undefined;
-  /** Advertiser ID of this targeting template. This is a required field on insert and is read-only after insert. */
-  advertiserId?: string | undefined;
-  /** Key-value targeting criteria. */
-  keyValueTargetingExpression?: KeyValueTargetingExpression | undefined;
-  /** Subaccount ID of this targeting template. This field, if left unset, will be auto-generated on insert and is read-only after insert. */
-  subaccountId?: string | undefined;
   /** Optional. Contextual keyword targeting criteria. */
   contextualKeywordTargeting?: ContextualKeywordTargeting | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#targetingTemplate". */
+  kind?: string | undefined;
+  /** Key-value targeting criteria. */
+  keyValueTargetingExpression?: KeyValueTargetingExpression | undefined;
+  /** Technology platform targeting criteria. */
+  technologyTargeting?: TechnologyTargeting | undefined;
+  /** Subaccount ID of this targeting template. This field, if left unset, will be auto-generated on insert and is read-only after insert. */
+  subaccountId?: string | undefined;
+  /** ID of this targeting template. This is a read-only, auto-generated field. */
+  id?: string | undefined;
+  /** Advertiser ID of this targeting template. This is a required field on insert and is read-only after insert. */
+  advertiserId?: string | undefined;
   /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
   advertiserIdDimensionValue?: DimensionValue | undefined;
+  /** Geographical targeting criteria. */
+  geoTargeting?: GeoTargeting | undefined;
   /** Language targeting criteria. */
   languageTargeting?: LanguageTargeting | undefined;
-  /** Time and day targeting criteria. */
-  dayPartTargeting?: DayPartTargeting | undefined;
   /** Remarketing list targeting criteria. */
   listTargetingExpression?: ListTargetingExpression | undefined;
+  /** Time and day targeting criteria. */
+  dayPartTargeting?: DayPartTargeting | undefined;
+  /** Account ID of this targeting template. This field, if left unset, will be auto-generated on insert and is read-only after insert. */
+  accountId?: string | undefined;
 }
 export type GetTvCampaignDetailsTvDataProviderEnum =
   | "INVALID_TV_DATA_PROVIDER"
@@ -4764,16 +4764,16 @@ export type GetTvCampaignDetailsTvDataProviderEnum =
   | "COMSCORE_CA"
   | "SAMBA_AU";
 export interface GetTvCampaignDetailsRequest {
-  /** Required. Account ID associated with this request. */
-  accountId?: string | undefined;
-  /** Optional. TV data provider. If not specified, defaults to `COMSCORE_NATIONAL_US`. */
-  tvDataProvider?: GetTvCampaignDetailsTvDataProviderEnum | (string & {}) | undefined;
-  /** Optional. Country Dart ID. If not specified, defaults to 256 (US). */
-  countryDartId?: string | undefined;
   /** Required. User profile ID associated with this request. */
   profileId: string;
   /** Required. TV Campaign ID. */
   id: string;
+  /** Optional. Country Dart ID. If not specified, defaults to 256 (US). */
+  countryDartId?: string | undefined;
+  /** Required. Account ID associated with this request. */
+  accountId?: string | undefined;
+  /** Optional. TV data provider. If not specified, defaults to `COMSCORE_NATIONAL_US`. */
+  tvDataProvider?: GetTvCampaignDetailsTvDataProviderEnum | (string & {}) | undefined;
 }
 export type TvCampaignTimepointDateWindowEnum =
   | "WEEKS_UNSPECIFIED"
@@ -4784,22 +4784,22 @@ export type TvCampaignTimepointDateWindowEnum =
   | "WEEKS_TWELVE";
 /** A single data point for TvCampaignDetail, which holds information about the TV campaign for a specific start date and date window. */
 export interface TvCampaignTimepoint {
-  /** The date window of the timepoint. */
-  dateWindow?: TvCampaignTimepointDateWindowEnum | undefined;
   /** The spend within the time range of the timepoint. */
   spend?: number | undefined;
   /** The start date of the timepoint. A string in the format of "yyyy-MM-dd". */
   startDate?: string | undefined;
+  /** The date window of the timepoint. */
+  dateWindow?: TvCampaignTimepointDateWindowEnum | undefined;
 }
 export type TvCampaignTimepointList = Array<TvCampaignTimepoint>;
 /** TvCampaignDetail contains data from a TV campaign for specific start dates and date windows. */
 export interface TvCampaignDetail {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#tvCampaignSummary". */
   kind?: string | undefined;
-  /** The timepoints of the TV campaign. */
-  timepoints?: TvCampaignTimepointList | undefined;
   /** ID of this TV campaign. */
   id?: string | undefined;
+  /** The timepoints of the TV campaign. */
+  timepoints?: TvCampaignTimepointList | undefined;
 }
 export interface GetUserProfilesRequest {
   /** The user profile ID. */
@@ -4807,22 +4807,22 @@ export interface GetUserProfilesRequest {
 }
 /** A UserProfile resource lets you list all DFA user profiles that are associated with a Google user account. The profile_id needs to be specified in other API requests. */
 export interface UserProfile {
-  /** The sub account name this profile belongs to if applicable. */
-  subAccountName?: string | undefined;
-  /** The account ID to which this profile belongs. */
-  accountId?: string | undefined;
-  /** Etag of this resource. */
-  etag?: string | undefined;
-  /** The user name. */
-  userName?: string | undefined;
-  /** The account name this profile belongs to. */
-  accountName?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#userProfile". */
-  kind?: string | undefined;
   /** The sub account ID this profile belongs to if applicable. */
   subAccountId?: string | undefined;
+  /** Etag of this resource. */
+  etag?: string | undefined;
   /** The unique ID of the user profile. */
   profileId?: string | undefined;
+  /** The sub account name this profile belongs to if applicable. */
+  subAccountName?: string | undefined;
+  /** The account name this profile belongs to. */
+  accountName?: string | undefined;
+  /** The account ID to which this profile belongs. */
+  accountId?: string | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#userProfile". */
+  kind?: string | undefined;
+  /** The user name. */
+  userName?: string | undefined;
 }
 export interface GetUserRolePermissionGroupsRequest {
   /** User profile ID associated with this request. */
@@ -4854,42 +4854,42 @@ export type UserRolePermissionAvailabilityEnum =
   | "USER_PROFILE_ONLY";
 /** Contains properties of a user role permission. */
 export interface UserRolePermission {
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#userRolePermission". */
-  kind?: string | undefined;
-  /** Levels of availability for a user role permission. */
-  availability?: UserRolePermissionAvailabilityEnum | (string & {}) | undefined;
-  /** ID of this user role permission. */
-  id?: string | undefined;
-  /** ID of the permission group that this user role permission belongs to. */
-  permissionGroupId?: string | undefined;
   /** Name of this user role permission. */
   name?: string | undefined;
+  /** ID of this user role permission. */
+  id?: string | undefined;
+  /** Levels of availability for a user role permission. */
+  availability?: UserRolePermissionAvailabilityEnum | (string & {}) | undefined;
+  /** ID of the permission group that this user role permission belongs to. */
+  permissionGroupId?: string | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#userRolePermission". */
+  kind?: string | undefined;
 }
 export interface GetUserRolesRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** User role ID. */
   id: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 export type UserRolePermissionList = Array<UserRolePermission>;
 /** Contains properties of auser role, which is used to manage user access. */
 export interface UserRole {
-  /** ID of the user role that this user role is based on or copied from. This is a required field. */
-  parentUserRoleId?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#userRole". */
-  kind?: string | undefined;
-  /** Subaccount ID of this user role. This is a read-only field that can be left blank. */
-  subaccountId?: string | undefined;
-  /** Account ID of this user role. This is a read-only field that can be left blank. */
-  accountId?: string | undefined;
-  /** ID of this user role. This is a read-only, auto-generated field. */
-  id?: string | undefined;
-  /** Whether this is a default user role. Default user roles are created by the system for the account/subaccount and cannot be modified or deleted. Each default user role comes with a basic set of preassigned permissions. */
-  defaultUserRole?: boolean | undefined;
   /** List of permissions associated with this user role. */
   permissions?: UserRolePermissionList | undefined;
+  /** Account ID of this user role. This is a read-only field that can be left blank. */
+  accountId?: string | undefined;
+  /** Whether this is a default user role. Default user roles are created by the system for the account/subaccount and cannot be modified or deleted. Each default user role comes with a basic set of preassigned permissions. */
+  defaultUserRole?: boolean | undefined;
   /** Name of this user role. This is a required field. Must be less than 256 characters long. If this user role is under a subaccount, the name must be unique among sites of the same subaccount. Otherwise, this user role is a top-level user role, and the name must be unique among top-level user roles of the same account. */
   name?: string | undefined;
+  /** ID of this user role. This is a read-only, auto-generated field. */
+  id?: string | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#userRole". */
+  kind?: string | undefined;
+  /** ID of the user role that this user role is based on or copied from. This is a required field. */
+  parentUserRoleId?: string | undefined;
+  /** Subaccount ID of this user role. This is a read-only field that can be left blank. */
+  subaccountId?: string | undefined;
 }
 export interface GetVideoFormatsRequest {
   /** User profile ID associated with this request. */
@@ -4902,14 +4902,14 @@ export type VideoFormatFileTypeEnum = "FLV" | "THREEGPP" | "MP4" | "WEBM" | "M3U
 export interface VideoFormat {
   /** The target bit rate of this video format. */
   targetBitRate?: number | undefined;
-  /** The resolution of this video format. */
-  resolution?: Size | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#videoFormat". */
   kind?: string | undefined;
-  /** File type of the video format. */
-  fileType?: VideoFormatFileTypeEnum | undefined;
   /** ID of the video format. */
   id?: number | undefined;
+  /** The resolution of this video format. */
+  resolution?: Size | undefined;
+  /** File type of the video format. */
+  fileType?: VideoFormatFileTypeEnum | undefined;
 }
 export interface InsertAccountUserProfilesRequest extends AccountUserProfile {
   /** User profile ID associated with this request. */
@@ -4933,35 +4933,35 @@ export interface InsertAdvertisersRequest extends Advertiser {
 }
 /** List account, subaccount, advertiser, and campaign associated with a given Billing Profile. */
 export interface BillingAssignment {
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#billingAssignment". */
-  kind?: string | undefined;
   /** ID of the subaccount associated with the billing assignment.Wildcard (*) means this assignment is not limited to a single subaccountThis is a read-only, auto-generated field. */
   subaccountId?: string | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#billingAssignment". */
+  kind?: string | undefined;
+  /** ID of the advertiser associated with the billing assignment.Wildcard (*) means this assignment is not limited to a single advertiser */
+  advertiserId?: string | undefined;
   /** ID of the campaign associated with the billing assignment. Wildcard (*) means this assignment is not limited to a single campaign */
   campaignId?: string | undefined;
   /** ID of the account associated with the billing assignment.This is a read-only, auto-generated field. */
   accountId?: string | undefined;
-  /** ID of the advertiser associated with the billing assignment.Wildcard (*) means this assignment is not limited to a single advertiser */
-  advertiserId?: string | undefined;
 }
 export interface InsertBillingAssignmentsRequest extends BillingAssignment {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Billing profile ID of this billing assignment. */
   billingProfileId: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 /** Identifies a creative which has been associated with a given campaign. */
 export interface CampaignCreativeAssociation {
-  /** ID of the creative associated with the campaign. This is a required field. */
-  creativeId?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#campaignCreativeAssociation". */
   kind?: string | undefined;
+  /** ID of the creative associated with the campaign. This is a required field. */
+  creativeId?: string | undefined;
 }
 export interface InsertCampaignCreativeAssociationsRequest extends CampaignCreativeAssociation {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Campaign ID in this association. */
   campaignId: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 export interface InsertCampaignsRequest extends Campaign {
   /** User profile ID associated with this request. */
@@ -5073,34 +5073,34 @@ export type CreativeAssetMetadataDetectedFeaturesItemEnumList = Array<
 >;
 /** CreativeAssets contains properties of a creative asset file which will be uploaded or has already been uploaded. Refer to the creative sample code for how to upload assets and insert a creative. */
 export interface CreativeAssetMetadata {
-  /** Rules validated during code generation that generated a warning. This is a read-only, auto-generated field. Possible values are: - "ADMOB_REFERENCED" - "ASSET_FORMAT_UNSUPPORTED_DCM" - "ASSET_INVALID" - "CLICK_TAG_HARD_CODED" - "CLICK_TAG_INVALID" - "CLICK_TAG_IN_GWD" - "CLICK_TAG_MISSING" - "CLICK_TAG_MORE_THAN_ONE" - "CLICK_TAG_NON_TOP_LEVEL" - "COMPONENT_UNSUPPORTED_DCM" - "ENABLER_UNSUPPORTED_METHOD_DCM" - "EXTERNAL_FILE_REFERENCED" - "FILE_DETAIL_EMPTY" - "FILE_TYPE_INVALID" - "GWD_PROPERTIES_INVALID" - "HTML5_FEATURE_UNSUPPORTED" - "LINKED_FILE_NOT_FOUND" - "MAX_FLASH_VERSION_11" - "MRAID_REFERENCED" - "NOT_SSL_COMPLIANT" - "ORPHANED_ASSET" - "PRIMARY_HTML_MISSING" - "SVG_INVALID" - "ZIP_INVALID" */
-  warnedValidationRules?: CreativeAssetMetadataWarnedValidationRulesItemEnumList | undefined;
-  /** List of timer events configured for the asset. This is a read-only, auto-generated field and only applicable to a rich media asset. */
-  timerCustomEvents?: CreativeCustomEventList | undefined;
-  /** List of feature dependencies for the creative asset that are detected by Campaign Manager. Feature dependencies are features that a browser must be able to support in order to render your HTML5 creative correctly. This is a read-only, auto-generated field. */
-  detectedFeatures?: CreativeAssetMetadataDetectedFeaturesItemEnumList | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeAssetMetadata". */
-  kind?: string | undefined;
-  /** Numeric ID of the asset. This is a read-only, auto-generated field. */
-  id?: string | undefined;
   /** Dimension value for the numeric ID of the asset. This is a read-only, auto-generated field. */
   idDimensionValue?: DimensionValue | undefined;
+  /** Rules validated during code generation that generated a warning. This is a read-only, auto-generated field. Possible values are: - "ADMOB_REFERENCED" - "ASSET_FORMAT_UNSUPPORTED_DCM" - "ASSET_INVALID" - "CLICK_TAG_HARD_CODED" - "CLICK_TAG_INVALID" - "CLICK_TAG_IN_GWD" - "CLICK_TAG_MISSING" - "CLICK_TAG_MORE_THAN_ONE" - "CLICK_TAG_NON_TOP_LEVEL" - "COMPONENT_UNSUPPORTED_DCM" - "ENABLER_UNSUPPORTED_METHOD_DCM" - "EXTERNAL_FILE_REFERENCED" - "FILE_DETAIL_EMPTY" - "FILE_TYPE_INVALID" - "GWD_PROPERTIES_INVALID" - "HTML5_FEATURE_UNSUPPORTED" - "LINKED_FILE_NOT_FOUND" - "MAX_FLASH_VERSION_11" - "MRAID_REFERENCED" - "NOT_SSL_COMPLIANT" - "ORPHANED_ASSET" - "PRIMARY_HTML_MISSING" - "SVG_INVALID" - "ZIP_INVALID" */
+  warnedValidationRules?: CreativeAssetMetadataWarnedValidationRulesItemEnumList | undefined;
   /** List of exit events configured for the asset. This is a read-only, auto-generated field and only applicable to a rich media asset. */
   exitCustomEvents?: CreativeCustomEventList | undefined;
-  /** List of detected click tags for assets. This is a read-only, auto-generated field. This field is empty for a rich media asset. */
-  clickTags?: ClickTagList | undefined;
-  /** ID of the creative asset. This is a required field. */
-  assetIdentifier?: CreativeAssetId | undefined;
+  /** List of timer events configured for the asset. This is a read-only, auto-generated field and only applicable to a rich media asset. */
+  timerCustomEvents?: CreativeCustomEventList | undefined;
+  /** Numeric ID of the asset. This is a read-only, auto-generated field. */
+  id?: string | undefined;
   /** True if the uploaded asset is a rich media asset. This is a read-only, auto-generated field. */
   richMedia?: boolean | undefined;
   /** List of counter events configured for the asset. This is a read-only, auto-generated field and only applicable to a rich media asset. */
   counterCustomEvents?: CreativeCustomEventList | undefined;
+  /** List of feature dependencies for the creative asset that are detected by Campaign Manager. Feature dependencies are features that a browser must be able to support in order to render your HTML5 creative correctly. This is a read-only, auto-generated field. */
+  detectedFeatures?: CreativeAssetMetadataDetectedFeaturesItemEnumList | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeAssetMetadata". */
+  kind?: string | undefined;
+  /** ID of the creative asset. This is a required field. */
+  assetIdentifier?: CreativeAssetId | undefined;
+  /** List of detected click tags for assets. This is a read-only, auto-generated field. This field is empty for a rich media asset. */
+  clickTags?: ClickTagList | undefined;
 }
 export interface InsertCreativeAssetsRequest extends CreativeAssetMetadata {
-  /** Advertiser ID of this creative. This is a required field. */
-  advertiserId: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Advertiser ID of this creative. This is a required field. */
+  advertiserId: string;
 }
 export interface InsertCreativeFieldsRequest extends CreativeField {
   /** User profile ID associated with this request. */
@@ -5140,14 +5140,14 @@ export type DynamicTargetingKeyObjectTypeEnum =
   | "OBJECT_PLACEMENT";
 /** Contains properties of a dynamic targeting key. Dynamic targeting keys are unique, user-friendly labels, created at the advertiser level in DCM, that can be assigned to ads, creatives, and placements and used for targeting with Studio dynamic creatives. Use these labels instead of numeric Campaign Manager IDs (such as placement IDs) to save time and avoid errors in your dynamic feeds. */
 export interface DynamicTargetingKey {
-  /** Type of the object of this dynamic targeting key. This is a required field. */
-  objectType?: DynamicTargetingKeyObjectTypeEnum | (string & {}) | undefined;
-  /** ID of the object of this dynamic targeting key. This is a required field. */
-  objectId?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#dynamicTargetingKey". */
-  kind?: string | undefined;
   /** Name of this dynamic targeting key. This is a required field. Must be less than 256 characters long and cannot contain commas. All characters are converted to lowercase. */
   name?: string | undefined;
+  /** ID of the object of this dynamic targeting key. This is a required field. */
+  objectId?: string | undefined;
+  /** Type of the object of this dynamic targeting key. This is a required field. */
+  objectType?: DynamicTargetingKeyObjectTypeEnum | (string & {}) | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#dynamicTargetingKey". */
+  kind?: string | undefined;
 }
 export interface InsertDynamicTargetingKeysRequest extends DynamicTargetingKey {
   /** User profile ID associated with this request. */
@@ -5195,12 +5195,12 @@ export interface InsertSizesRequest extends Size {
 }
 /** Request message for DfareportingStudioCreativeAssets.Insert. */
 export interface DfareportingStudioCreativeAssetsInsertRequest {
-  /** Optional. Studio account ID of the studio creative asset. It is a optional. */
-  studioAccountId?: string | undefined;
   /** Optional. Studio creative ID of the studio creative asset. It is a optional field. If it is set, the asset will be associated to the creative. */
   studioCreativeId?: string | undefined;
   /** Required. Studio advertiser ID of the studio creative asset. It is a required field on insertion. */
   studioAdvertiserId?: string | undefined;
+  /** Optional. Studio account ID of the studio creative asset. It is a optional. */
+  studioAccountId?: string | undefined;
 }
 export interface InsertStudioCreativeAssetsRequest extends DfareportingStudioCreativeAssetsInsertRequest {}
 export type StudioCreativeAssetTypeEnum = "UNKNOWN_TYPE" | "HTML" | "VIDEO" | "IMAGE" | "FONT";
@@ -5218,26 +5218,26 @@ export interface VideoProcessingData {
 }
 /** *Beta:* This API resource is available only to a very limited number of customers. If you'd like to use this resource, please reach out to your Google sales representative. Contains studio creative asset information. */
 export interface StudioCreativeAsset {
-  /** The filesize of the studio creative asset. This is a read-only field. */
-  filesize?: string | undefined;
   /** Output only. Unique ID of this studio creative asset. This is a read-only, auto-generated field. */
   id?: string | undefined;
+  /** Studio advertiser ID of this studio creative asset. This is a required field on insertion. */
+  studioAdvertiserId?: string | undefined;
+  /** The filename of the studio creative asset. It is default to the original filename of the asset. */
+  filename?: string | undefined;
   /** The type of the studio creative asset. It is a auto-generated, read-only field. */
   type?: StudioCreativeAssetTypeEnum | undefined;
+  /** Studio creative ID of this studio creative asset. The asset will be associated to the creative if creative id is set. */
+  studioCreativeId?: string | undefined;
   /** Studio account ID of this studio creative asset. This field, if left unset, will be auto-populated.. */
   studioAccountId?: string | undefined;
   /** Output only. The creation timestamp of the studio creative asset. This is a read-only field. */
   createInfo?: LastModifiedInfo | undefined;
-  /** Studio advertiser ID of this studio creative asset. This is a required field on insertion. */
-  studioAdvertiserId?: string | undefined;
-  /** Output only. The last modified timestamp of the studio creative asset. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo | undefined;
-  /** Studio creative ID of this studio creative asset. The asset will be associated to the creative if creative id is set. */
-  studioCreativeId?: string | undefined;
-  /** The filename of the studio creative asset. It is default to the original filename of the asset. */
-  filename?: string | undefined;
   /** The processing data of the studio creative asset. This is a read-only field. */
   videoProcessingData?: VideoProcessingData | undefined;
+  /** Output only. The last modified timestamp of the studio creative asset. This is a read-only field. */
+  lastModifiedInfo?: LastModifiedInfo | undefined;
+  /** The filesize of the studio creative asset. This is a read-only field. */
+  filesize?: string | undefined;
 }
 export type StudioCreativeAssetList = Array<StudioCreativeAsset>;
 /** Response message for DfareportingStudioCreativeAssets.Insert. */
@@ -5277,74 +5277,74 @@ export interface ListAccountPermissionsRequest {
 export type AccountPermissionList = Array<AccountPermission>;
 /** Account Permission List Response */
 export interface AccountPermissionsListResponse {
-  /** Account permission collection. */
-  accountPermissions?: AccountPermissionList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#accountPermissionsListResponse". */
   kind?: string | undefined;
+  /** Account permission collection. */
+  accountPermissions?: AccountPermissionList | undefined;
 }
-export type ListAccountsSortFieldEnum = "ID" | "NAME";
 export type ListAccountsSortOrderEnum = "ASCENDING" | "DESCENDING";
+export type ListAccountsSortFieldEnum = "ID" | "NAME";
 export interface ListAccountsRequest {
-  /** Maximum number of results to return. */
-  maxResults?: number | undefined;
+  /** Order of sorted results. */
+  sortOrder?: ListAccountsSortOrderEnum | (string & {}) | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
   /** Value of the nextPageToken from the previous result page. */
   pageToken?: string | undefined;
   /** Select only active accounts. Don't set this field to select both active and non-active accounts. */
   active?: boolean | undefined;
-  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "account*2015" will return objects with names like "account June 2015", "account April 2015", or simply "account 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "account" will match objects with name "my account", "account 2015", or simply "account". */
-  searchString?: string | undefined;
   /** Field by which to sort the list. */
   sortField?: ListAccountsSortFieldEnum | (string & {}) | undefined;
-  /** Order of sorted results. */
-  sortOrder?: ListAccountsSortOrderEnum | (string & {}) | undefined;
+  /** Maximum number of results to return. */
+  maxResults?: number | undefined;
   /** Select only accounts with these IDs. */
   ids?: StringList | undefined;
+  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "account*2015" will return objects with names like "account June 2015", "account April 2015", or simply "account 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "account" will match objects with name "my account", "account 2015", or simply "account". */
+  searchString?: string | undefined;
 }
 export type AccountList = Array<Account>;
 /** Account List Response */
 export interface AccountsListResponse {
+  /** Account collection. */
+  accounts?: AccountList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#accountsListResponse". */
   kind?: string | undefined;
   /** Pagination token to be used for the next list operation. */
   nextPageToken?: string | undefined;
-  /** Account collection. */
-  accounts?: AccountList | undefined;
 }
 export type ListAccountUserProfilesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export type ListAccountUserProfilesSortFieldEnum = "ID" | "NAME";
 export interface ListAccountUserProfilesRequest {
-  /** Order of sorted results. */
-  sortOrder?: ListAccountUserProfilesSortOrderEnum | (string & {}) | undefined;
-  /** Select only user profiles with the specified user role ID. */
-  userRoleId?: string | undefined;
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string | undefined;
   /** Maximum number of results to return. */
   maxResults?: number | undefined;
-  /** Select only active user profiles. */
-  active?: boolean | undefined;
-  /** Allows searching for objects by name, ID or email. Wildcards (*) are allowed. For example, "user profile*2015" will return objects with names like "user profile June 2015", "user profile April 2015", or simply "user profile 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "user profile" will match objects with name "my user profile", "user profile 2015", or simply "user profile". */
-  searchString?: string | undefined;
-  /** User profile ID associated with this request. */
-  profileId: string;
-  /** Select only user profiles with these IDs. */
-  ids?: StringList | undefined;
+  /** Order of sorted results. */
+  sortOrder?: ListAccountUserProfilesSortOrderEnum | (string & {}) | undefined;
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string | undefined;
   /** Field by which to sort the list. */
   sortField?: ListAccountUserProfilesSortFieldEnum | (string & {}) | undefined;
+  /** Select only user profiles with these IDs. */
+  ids?: StringList | undefined;
   /** Select only user profiles with the specified subaccount ID. */
   subaccountId?: string | undefined;
+  /** User profile ID associated with this request. */
+  profileId: string;
+  /** Allows searching for objects by name, ID or email. Wildcards (*) are allowed. For example, "user profile*2015" will return objects with names like "user profile June 2015", "user profile April 2015", or simply "user profile 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "user profile" will match objects with name "my user profile", "user profile 2015", or simply "user profile". */
+  searchString?: string | undefined;
+  /** Select only user profiles with the specified user role ID. */
+  userRoleId?: string | undefined;
+  /** Select only active user profiles. */
+  active?: boolean | undefined;
 }
 export type AccountUserProfileList = Array<AccountUserProfile>;
 /** Account User Profile List Response */
 export interface AccountUserProfilesListResponse {
-  /** Account user profile collection. */
-  accountUserProfiles?: AccountUserProfileList | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#accountUserProfilesListResponse". */
-  kind?: string | undefined;
   /** Pagination token to be used for the next list operation. */
   nextPageToken?: string | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#accountUserProfilesListResponse". */
+  kind?: string | undefined;
+  /** Account user profile collection. */
+  accountUserProfiles?: AccountUserProfileList | undefined;
 }
 export type ListAdsTypeEnum =
   | "AD_SERVING_STANDARD_AD"
@@ -5353,8 +5353,6 @@ export type ListAdsTypeEnum =
   | "AD_SERVING_TRACKING"
   | "AD_SERVING_BRAND_SAFE_AD";
 export type ListAdsTypeEnumList = Array<ListAdsTypeEnum | (string & {})>;
-export type ListAdsSortOrderEnum = "ASCENDING" | "DESCENDING";
-export type ListAdsSortFieldEnum = "ID" | "NAME";
 export type ListAdsCompatibilityEnum =
   | "DISPLAY"
   | "DISPLAY_INTERSTITIAL"
@@ -5362,55 +5360,57 @@ export type ListAdsCompatibilityEnum =
   | "APP_INTERSTITIAL"
   | "IN_STREAM_VIDEO"
   | "IN_STREAM_AUDIO";
+export type ListAdsSortFieldEnum = "ID" | "NAME";
+export type ListAdsSortOrderEnum = "ASCENDING" | "DESCENDING";
 export interface ListAdsRequest {
-  /** Select only ads that are SSL-compliant. */
-  sslCompliant?: boolean | undefined;
-  /** Select only dynamic click trackers. Applicable when type is AD_SERVING_CLICK_TRACKER. If true, select dynamic click trackers. If false, select static click trackers. Leave unset to select both. */
-  dynamicClickTracker?: boolean | undefined;
-  /** Select only ads with this advertiser ID. */
-  advertiserId?: string | undefined;
-  /** Select only ads with these audience segment IDs. */
-  audienceSegmentIds?: StringList | undefined;
+  /** Select only ads with these landing page IDs. */
+  landingPageIds?: StringList | undefined;
   /** Select only ads with these creative optimization configuration IDs. */
   creativeOptimizationConfigurationIds?: StringList | undefined;
-  /** Select only ads with these campaign IDs. */
-  campaignIds?: StringList | undefined;
-  /** Select only ads that require SSL. */
-  sslRequired?: boolean | undefined;
-  /** Select only ads with these types. */
-  type?: ListAdsTypeEnumList | undefined;
-  /** Select only ads whose list targeting expression use these remarketing list IDs. */
-  remarketingListIds?: StringList | undefined;
-  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "ad*2015" will return objects with names like "ad June 2015", "ad April 2015", or simply "ad 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "ad" will match objects with name "my ad", "ad 2015", or simply "ad". */
-  searchString?: string | undefined;
-  /** Select only ads with these size IDs. */
-  sizeIds?: StringList | undefined;
-  /** Order of sorted results. */
-  sortOrder?: ListAdsSortOrderEnum | (string & {}) | undefined;
+  /** Select only ads with this advertiser ID. */
+  advertiserId?: string | undefined;
   /** Select only ads with these creative IDs assigned. */
   creativeIds?: StringList | undefined;
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string | undefined;
-  /** Select only archived ads. */
-  archived?: boolean | undefined;
-  /** Select only active ads. */
-  active?: boolean | undefined;
+  /** Select only ads with these size IDs. */
+  sizeIds?: StringList | undefined;
+  /** Select only ads with these IDs. */
+  ids?: StringList | undefined;
+  /** Select only ads with these placement IDs assigned. */
+  placementIds?: StringList | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
   /** Select only ads with this event tag override ID. */
   overriddenEventTagId?: string | undefined;
-  /** Field by which to sort the list. */
-  sortField?: ListAdsSortFieldEnum | (string & {}) | undefined;
-  /** Select only ads with these placement IDs assigned. */
-  placementIds?: StringList | undefined;
-  /** Select only ads with these landing page IDs. */
-  landingPageIds?: StringList | undefined;
-  /** Select default ads with the specified compatibility. Applicable when type is AD_SERVING_DEFAULT_AD. DISPLAY and DISPLAY_INTERSTITIAL refer to rendering either on desktop or on mobile devices for regular or interstitial ads, respectively. APP and APP_INTERSTITIAL are for rendering in mobile apps. IN_STREAM_VIDEO refers to rendering an in-stream video ads developed with the VAST standard. */
-  compatibility?: ListAdsCompatibilityEnum | (string & {}) | undefined;
-  /** Select only ads with these IDs. */
-  ids?: StringList | undefined;
   /** Maximum number of results to return. */
   maxResults?: number | undefined;
+  /** Select only ads with these campaign IDs. */
+  campaignIds?: StringList | undefined;
+  /** Select only dynamic click trackers. Applicable when type is AD_SERVING_CLICK_TRACKER. If true, select dynamic click trackers. If false, select static click trackers. Leave unset to select both. */
+  dynamicClickTracker?: boolean | undefined;
+  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "ad*2015" will return objects with names like "ad June 2015", "ad April 2015", or simply "ad 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "ad" will match objects with name "my ad", "ad 2015", or simply "ad". */
+  searchString?: string | undefined;
+  /** Select only ads with these types. */
+  type?: ListAdsTypeEnumList | undefined;
+  /** Select default ads with the specified compatibility. Applicable when type is AD_SERVING_DEFAULT_AD. DISPLAY and DISPLAY_INTERSTITIAL refer to rendering either on desktop or on mobile devices for regular or interstitial ads, respectively. APP and APP_INTERSTITIAL are for rendering in mobile apps. IN_STREAM_VIDEO refers to rendering an in-stream video ads developed with the VAST standard. */
+  compatibility?: ListAdsCompatibilityEnum | (string & {}) | undefined;
+  /** Select only ads that require SSL. */
+  sslRequired?: boolean | undefined;
+  /** Field by which to sort the list. */
+  sortField?: ListAdsSortFieldEnum | (string & {}) | undefined;
+  /** Select only active ads. */
+  active?: boolean | undefined;
+  /** Select only ads whose list targeting expression use these remarketing list IDs. */
+  remarketingListIds?: StringList | undefined;
+  /** Select only ads that are SSL-compliant. */
+  sslCompliant?: boolean | undefined;
+  /** Select only ads with these audience segment IDs. */
+  audienceSegmentIds?: StringList | undefined;
+  /** Order of sorted results. */
+  sortOrder?: ListAdsSortOrderEnum | (string & {}) | undefined;
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string | undefined;
+  /** Select only archived ads. */
+  archived?: boolean | undefined;
 }
 export type AdList = Array<Ad>;
 /** Ad List Response */
@@ -5427,28 +5427,28 @@ export type ListAdvertiserGroupsSortOrderEnum = "ASCENDING" | "DESCENDING";
 export interface ListAdvertiserGroupsRequest {
   /** Field by which to sort the list. */
   sortField?: ListAdvertiserGroupsSortFieldEnum | (string & {}) | undefined;
-  /** Order of sorted results. */
-  sortOrder?: ListAdvertiserGroupsSortOrderEnum | (string & {}) | undefined;
-  /** Select only advertiser groups with these IDs. */
-  ids?: StringList | undefined;
-  /** Maximum number of results to return. */
-  maxResults?: number | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
   /** Value of the nextPageToken from the previous result page. */
   pageToken?: string | undefined;
+  /** Order of sorted results. */
+  sortOrder?: ListAdvertiserGroupsSortOrderEnum | (string & {}) | undefined;
+  /** Select only advertiser groups with these IDs. */
+  ids?: StringList | undefined;
   /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "advertiser*2015" will return objects with names like "advertiser group June 2015", "advertiser group April 2015", or simply "advertiser group 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "advertisergroup" will match objects with name "my advertisergroup", "advertisergroup 2015", or simply "advertisergroup". */
   searchString?: string | undefined;
+  /** Maximum number of results to return. */
+  maxResults?: number | undefined;
 }
 export type AdvertiserGroupList = Array<AdvertiserGroup>;
 /** Advertiser Group List Response */
 export interface AdvertiserGroupsListResponse {
+  /** Advertiser group collection. */
+  advertiserGroups?: AdvertiserGroupList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#advertiserGroupsListResponse". */
   kind?: string | undefined;
   /** Pagination token to be used for the next list operation. */
   nextPageToken?: string | undefined;
-  /** Advertiser group collection. */
-  advertiserGroups?: AdvertiserGroupList | undefined;
 }
 export interface ListAdvertiserInvoicesRequest {
   /** Maximum number of results to return. */
@@ -5462,139 +5462,139 @@ export interface ListAdvertiserInvoicesRequest {
   /** Month for which invoices are needed in the format YYYYMM. Required field */
   issueMonth?: string | undefined;
 }
-export type InvoiceInvoiceTypeEnum =
-  | "INVOICE_TYPE_UNSPECIFIED"
-  | "INVOICE_TYPE_CREDIT"
-  | "INVOICE_TYPE_INVOICE";
 /** Represents a summarized campaign information associated with this invoice. */
 export interface CampaignSummary {
   /** The pre-tax amount for this campaign, in micros of the invoice's currency. */
   preTaxAmountMicros?: string | undefined;
-  /** Campaign ID. */
-  campaignId?: string | undefined;
   /** The total amount of charges for this campaign, in micros of the invoice's currency. */
   totalAmountMicros?: string | undefined;
-  /** The tax amount for this campaign, in micros of the invoice's currency. */
-  taxAmountMicros?: string | undefined;
   /** Campaign billing invoice code. */
   billingInvoiceCode?: string | undefined;
+  /** The tax amount for this campaign, in micros of the invoice's currency. */
+  taxAmountMicros?: string | undefined;
+  /** Campaign ID. */
+  campaignId?: string | undefined;
 }
 export type CampaignSummaryList = Array<CampaignSummary>;
+export type InvoiceInvoiceTypeEnum =
+  | "INVOICE_TYPE_UNSPECIFIED"
+  | "INVOICE_TYPE_CREDIT"
+  | "INVOICE_TYPE_INVOICE";
 /** Contains information about a single invoice */
 export interface Invoice {
-  /** The ID of the payments account the invoice belongs to. Appears on the invoice PDF as *Billing Account Number*. */
-  paymentsAccountId?: string | undefined;
-  /** The ID of the payments profile the invoice belongs to. Appears on the invoice PDF as *Billing ID*. */
-  paymentsProfileId?: string | undefined;
-  /** The URL to download a PDF copy of the invoice. Note that this URL is user specific and requires a valid OAuth 2.0 access token to access. The access token must be provided in an *Authorization: Bearer* HTTP header. The URL will only be usable for 7 days from when the api is called. */
-  pdfUrl?: string | undefined;
-  /** Purchase order number associated with the invoice. */
-  purchaseOrderNumber?: string | undefined;
-  /** Invoice currency code in ISO 4217 format. */
-  currencyCode?: string | undefined;
-  /** The originally issued invoice(s) that is being cancelled by this invoice, if applicable. May appear on invoice PDF as *Replaced invoice numbers*. Note: There may be multiple replaced invoices due to consolidation of multiple invoices into a single invoice. */
-  replacedInvoiceIds?: StringList | undefined;
-  /** The sum of all taxes in invoice, in micros of the invoice's currency. */
-  totalTaxAmountMicros?: string | undefined;
-  /** The type of invoice document. */
-  invoiceType?: InvoiceInvoiceTypeEnum | undefined;
   /** The pre-tax subtotal amount, in micros of the invoice's currency. */
   subtotalAmountMicros?: string | undefined;
-  /** The date when the invoice was issued. */
-  issueDate?: string | undefined;
   /** The list of summarized campaign information associated with this invoice. */
   campaign_summaries?: CampaignSummaryList | undefined;
-  /** ID of this invoice. */
-  id?: string | undefined;
+  /** Invoice currency code in ISO 4217 format. */
+  currencyCode?: string | undefined;
+  /** The type of invoice document. */
+  invoiceType?: InvoiceInvoiceTypeEnum | undefined;
   /** The invoice total amount, in micros of the invoice's currency. */
   totalAmountMicros?: string | undefined;
-  /** The invoice service end date. */
-  serviceEndDate?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#invoice". */
-  kind?: string | undefined;
-  /** The invoice due date. */
-  dueDate?: string | undefined;
-  /** The originally issued invoice that is being adjusted by this invoice, if applicable. May appear on invoice PDF as *Reference invoice number*. */
-  correctedInvoiceId?: string | undefined;
   /** The invoice service start date. */
   serviceStartDate?: string | undefined;
+  /** The ID of the payments account the invoice belongs to. Appears on the invoice PDF as *Billing Account Number*. */
+  paymentsAccountId?: string | undefined;
+  /** The URL to download a PDF copy of the invoice. Note that this URL is user specific and requires a valid OAuth 2.0 access token to access. The access token must be provided in an *Authorization: Bearer* HTTP header. The URL will only be usable for 7 days from when the api is called. */
+  pdfUrl?: string | undefined;
+  /** The invoice service end date. */
+  serviceEndDate?: string | undefined;
+  /** Purchase order number associated with the invoice. */
+  purchaseOrderNumber?: string | undefined;
+  /** The date when the invoice was issued. */
+  issueDate?: string | undefined;
+  /** The originally issued invoice(s) that is being cancelled by this invoice, if applicable. May appear on invoice PDF as *Replaced invoice numbers*. Note: There may be multiple replaced invoices due to consolidation of multiple invoices into a single invoice. */
+  replacedInvoiceIds?: StringList | undefined;
+  /** The ID of the payments profile the invoice belongs to. Appears on the invoice PDF as *Billing ID*. */
+  paymentsProfileId?: string | undefined;
+  /** The invoice due date. */
+  dueDate?: string | undefined;
+  /** The sum of all taxes in invoice, in micros of the invoice's currency. */
+  totalTaxAmountMicros?: string | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#invoice". */
+  kind?: string | undefined;
+  /** ID of this invoice. */
+  id?: string | undefined;
+  /** The originally issued invoice that is being adjusted by this invoice, if applicable. May appear on invoice PDF as *Reference invoice number*. */
+  correctedInvoiceId?: string | undefined;
 }
 export type InvoiceList = Array<Invoice>;
 /** Invoice List Response */
 export interface AdvertiserInvoicesListResponse {
+  /** Pagination token to be used for the next list operation. */
+  nextPageToken?: string | undefined;
   /** Invoice collection */
   invoices?: InvoiceList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#advertiserInvoicesListResponse". */
   kind?: string | undefined;
-  /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string | undefined;
 }
-export type ListAdvertiserLandingPagesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export type ListAdvertiserLandingPagesSortFieldEnum = "ID" | "NAME";
+export type ListAdvertiserLandingPagesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export interface ListAdvertiserLandingPagesRequest {
-  /** Select only landing pages that are associated with these campaigns. */
-  campaignIds?: StringList | undefined;
-  /** Order of sorted results. */
-  sortOrder?: ListAdvertiserLandingPagesSortOrderEnum | (string & {}) | undefined;
-  /** Select only landing pages that belong to this subaccount. */
-  subaccountId?: string | undefined;
-  /** Select only landing pages with these IDs. */
-  ids?: StringList | undefined;
-  /** User profile ID associated with this request. */
-  profileId: string;
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string | undefined;
   /** Field by which to sort the list. */
   sortField?: ListAdvertiserLandingPagesSortFieldEnum | (string & {}) | undefined;
-  /** Allows searching for landing pages by name or ID. Wildcards (*) are allowed. For example, "landingpage*2017" will return landing pages with names like "landingpage July 2017", "landingpage March 2017", or simply "landingpage 2017". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "landingpage" will match campaigns with name "my landingpage", "landingpage 2015", or simply "landingpage". */
-  searchString?: string | undefined;
-  /** Select only landing pages that belong to these advertisers. */
-  advertiserIds?: StringList | undefined;
-  /** Select only archived landing pages. Don't set this field to select both archived and non-archived landing pages. */
-  archived?: boolean | undefined;
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string | undefined;
+  /** Order of sorted results. */
+  sortOrder?: ListAdvertiserLandingPagesSortOrderEnum | (string & {}) | undefined;
   /** Maximum number of results to return. */
   maxResults?: number | undefined;
+  /** Select only landing pages that belong to these advertisers. */
+  advertiserIds?: StringList | undefined;
+  /** Select only landing pages that are associated with these campaigns. */
+  campaignIds?: StringList | undefined;
+  /** User profile ID associated with this request. */
+  profileId: string;
+  /** Allows searching for landing pages by name or ID. Wildcards (*) are allowed. For example, "landingpage*2017" will return landing pages with names like "landingpage July 2017", "landingpage March 2017", or simply "landingpage 2017". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "landingpage" will match campaigns with name "my landingpage", "landingpage 2015", or simply "landingpage". */
+  searchString?: string | undefined;
+  /** Select only landing pages with these IDs. */
+  ids?: StringList | undefined;
+  /** Select only landing pages that belong to this subaccount. */
+  subaccountId?: string | undefined;
+  /** Select only archived landing pages. Don't set this field to select both archived and non-archived landing pages. */
+  archived?: boolean | undefined;
 }
 export type LandingPageList = Array<LandingPage>;
 /** Landing Page List Response */
 export interface AdvertiserLandingPagesListResponse {
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#advertiserLandingPagesListResponse". */
-  kind?: string | undefined;
   /** Pagination token to be used for the next list operation. */
   nextPageToken?: string | undefined;
   /** Landing page collection */
   landingPages?: LandingPageList | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#advertiserLandingPagesListResponse". */
+  kind?: string | undefined;
 }
+export type ListAdvertisersSortFieldEnum = "ID" | "NAME";
 export type ListAdvertisersStatusEnum = "APPROVED" | "ON_HOLD";
 export type ListAdvertisersSortOrderEnum = "ASCENDING" | "DESCENDING";
-export type ListAdvertisersSortFieldEnum = "ID" | "NAME";
 export interface ListAdvertisersRequest {
-  /** Maximum number of results to return. */
-  maxResults?: number | undefined;
-  /** Select only advertisers with these subaccount IDs. */
-  subaccountId?: string | undefined;
-  /** Select only advertisers with these floodlight configuration IDs. */
-  floodlightConfigurationIds?: StringList | undefined;
-  /** Select only advertisers with the specified status. */
-  status?: ListAdvertisersStatusEnum | (string & {}) | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Select only advertisers with these IDs. */
-  ids?: StringList | undefined;
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string | undefined;
-  /** Order of sorted results. */
-  sortOrder?: ListAdvertisersSortOrderEnum | (string & {}) | undefined;
-  /** Select only advertisers which do not belong to any advertiser group. */
-  includeAdvertisersWithoutGroupsOnly?: boolean | undefined;
+  /** Maximum number of results to return. */
+  maxResults?: number | undefined;
   /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "advertiser*2015" will return objects with names like "advertiser June 2015", "advertiser April 2015", or simply "advertiser 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "advertiser" will match objects with name "my advertiser", "advertiser 2015", or simply "advertiser" . */
   searchString?: string | undefined;
-  /** Select only advertisers which use another advertiser's floodlight configuration. */
-  onlyParent?: boolean | undefined;
   /** Select only advertisers with these advertiser group IDs. */
   advertiserGroupIds?: StringList | undefined;
   /** Field by which to sort the list. */
   sortField?: ListAdvertisersSortFieldEnum | (string & {}) | undefined;
+  /** Select only advertisers with these IDs. */
+  ids?: StringList | undefined;
+  /** Select only advertisers which use another advertiser's floodlight configuration. */
+  onlyParent?: boolean | undefined;
+  /** Select only advertisers with the specified status. */
+  status?: ListAdvertisersStatusEnum | (string & {}) | undefined;
+  /** Select only advertisers with these subaccount IDs. */
+  subaccountId?: string | undefined;
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string | undefined;
+  /** Order of sorted results. */
+  sortOrder?: ListAdvertisersSortOrderEnum | (string & {}) | undefined;
+  /** Select only advertisers with these floodlight configuration IDs. */
+  floodlightConfigurationIds?: StringList | undefined;
+  /** Select only advertisers which do not belong to any advertiser group. */
+  includeAdvertisersWithoutGroupsOnly?: boolean | undefined;
 }
 export type AdvertiserList = Array<Advertiser>;
 /** Advertiser List Response */
@@ -5620,43 +5620,43 @@ export interface BillingAssignmentsListResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#billingAssignmentsListResponse". */
   kind?: string | undefined;
 }
+export type ListBillingProfilesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export type ListBillingProfilesSortFieldEnum = "ID" | "NAME";
 export type ListBillingProfilesStatusEnum = "UNDER_REVIEW" | "ACTIVE" | "ARCHIVED";
 export type ListBillingProfilesStatusEnumList = Array<
   ListBillingProfilesStatusEnum | (string & {})
 >;
-export type ListBillingProfilesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export interface ListBillingProfilesRequest {
-  /** Select only billing profile which is suggested for the currency_code & subaccount_id using the Billing Suggestion API. */
-  onlySuggestion?: boolean | undefined;
-  /** Field by which to sort the list. */
-  sortField?: ListBillingProfilesSortFieldEnum | (string & {}) | undefined;
-  /** Select only billing profile with the specified status. */
-  status?: ListBillingProfilesStatusEnumList | undefined;
-  /** Select only billing profile with currency. */
-  currency_code?: string | undefined;
   /** Select only billing profile with these IDs. */
   ids?: StringList | undefined;
-  /** Order of sorted results. */
-  sortOrder?: ListBillingProfilesSortOrderEnum | (string & {}) | undefined;
-  /** Allows searching for billing profiles by name. Wildcards (*) are allowed. For example, "profile*2020" will return objects with names like "profile June 2020", "profile April 2020", or simply "profile 2020". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "profile" will match objects with name "my profile", "profile 2021", or simply "profile". */
-  name?: string | undefined;
-  /** Select only billing profile with the specified subaccount.When only_suggestion is true, only a single subaccount_id is supported. */
-  subaccountIds?: StringList | undefined;
-  /** User profile ID associated with this request. */
-  profileId: string;
-  /** Maximum number of results to return. */
-  maxResults?: number | undefined;
   /** Value of the nextPageToken from the previous result page. */
   pageToken?: string | undefined;
+  /** Order of sorted results. */
+  sortOrder?: ListBillingProfilesSortOrderEnum | (string & {}) | undefined;
+  /** Field by which to sort the list. */
+  sortField?: ListBillingProfilesSortFieldEnum | (string & {}) | undefined;
+  /** Select only billing profile with the specified subaccount.When only_suggestion is true, only a single subaccount_id is supported. */
+  subaccountIds?: StringList | undefined;
+  /** Allows searching for billing profiles by name. Wildcards (*) are allowed. For example, "profile*2020" will return objects with names like "profile June 2020", "profile April 2020", or simply "profile 2020". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "profile" will match objects with name "my profile", "profile 2021", or simply "profile". */
+  name?: string | undefined;
+  /** Select only billing profile with currency. */
+  currency_code?: string | undefined;
+  /** Select only billing profile with the specified status. */
+  status?: ListBillingProfilesStatusEnumList | undefined;
+  /** User profile ID associated with this request. */
+  profileId: string;
+  /** Select only billing profile which is suggested for the currency_code & subaccount_id using the Billing Suggestion API. */
+  onlySuggestion?: boolean | undefined;
+  /** Maximum number of results to return. */
+  maxResults?: number | undefined;
 }
 export type BillingProfileList = Array<BillingProfile>;
 /** Billing profile List Response */
 export interface BillingProfilesListResponse {
-  /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string | undefined;
   /** Billing profiles collection. */
   billingProfiles?: BillingProfileList | undefined;
+  /** Pagination token to be used for the next list operation. */
+  nextPageToken?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#billingProfilesListResponse". */
   kind?: string | undefined;
 }
@@ -5666,16 +5666,16 @@ export interface ListBillingRatesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
 }
+export type BillingRateUnitOfMeasureEnum = "CPM" | "CPC" | "EA" | "P2C";
 export interface BillingRateTieredRate {
-  /** The minimum for this tier range. */
-  lowValue?: string | undefined;
-  /** Rate in micros for this tier. */
-  rateInMicros?: string | undefined;
   /** The maximum for this tier range. */
   highValue?: string | undefined;
+  /** Rate in micros for this tier. */
+  rateInMicros?: string | undefined;
+  /** The minimum for this tier range. */
+  lowValue?: string | undefined;
 }
 export type BillingRateTieredRateList = Array<BillingRateTieredRate>;
-export type BillingRateUnitOfMeasureEnum = "CPM" | "CPC" | "EA" | "P2C";
 export type BillingRateTypeEnum =
   | "AD_SERVING"
   | "CLICKS"
@@ -5712,30 +5712,30 @@ export type BillingRateTypeEnum =
 export interface BillingRate {
   /** Start date of this billing rate. */
   startDate?: string | undefined;
+  /** Billing currency code in ISO 4217 format. */
+  currencyCode?: string | undefined;
+  /** Unit of measure for this billing rate. */
+  unitOfMeasure?: BillingRateUnitOfMeasureEnum | undefined;
   /** Tiered rate of this billing rate. This cannot co-exist with flat rate. */
   tieredRates?: BillingRateTieredRateList | undefined;
   /** ID of this billing rate. */
   id?: string | undefined;
-  /** Unit of measure for this billing rate. */
-  unitOfMeasure?: BillingRateUnitOfMeasureEnum | undefined;
   /** End date of this billing rate. */
   endDate?: string | undefined;
-  /** Billing currency code in ISO 4217 format. */
-  currencyCode?: string | undefined;
   /** Name of this billing rate. This must be less than 256 characters long. */
   name?: string | undefined;
-  /** Type of this billing rate. */
-  type?: BillingRateTypeEnum | undefined;
   /** Flat rate in micros of this billing rate. This cannot co-exist with tiered rate. */
   rateInMicros?: string | undefined;
+  /** Type of this billing rate. */
+  type?: BillingRateTypeEnum | undefined;
 }
 export type BillingRateList = Array<BillingRate>;
 /** Billing Rate List Response */
 export interface BillingRatesListResponse {
-  /** Billing rates collection. */
-  billingRates?: BillingRateList | undefined;
   /** Pagination token to be used for the next list operation. */
   nextPageToken?: string | undefined;
+  /** Billing rates collection. */
+  billingRates?: BillingRateList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#billingRatesListResponse". */
   kind?: string | undefined;
 }
@@ -5752,87 +5752,69 @@ export interface BrowsersListResponse {
 }
 export type ListCampaignCreativeAssociationsSortOrderEnum = "ASCENDING" | "DESCENDING";
 export interface ListCampaignCreativeAssociationsRequest {
+  /** User profile ID associated with this request. */
+  profileId: string;
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string | undefined;
   /** Order of sorted results. */
   sortOrder?: ListCampaignCreativeAssociationsSortOrderEnum | (string & {}) | undefined;
   /** Campaign ID in this association. */
   campaignId: string;
   /** Maximum number of results to return. */
   maxResults?: number | undefined;
-  /** User profile ID associated with this request. */
-  profileId: string;
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string | undefined;
 }
 export type CampaignCreativeAssociationList = Array<CampaignCreativeAssociation>;
 /** Campaign Creative Association List Response */
 export interface CampaignCreativeAssociationsListResponse {
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#campaignCreativeAssociationsListResponse". */
-  kind?: string | undefined;
   /** Campaign creative association collection */
   campaignCreativeAssociations?: CampaignCreativeAssociationList | undefined;
   /** Pagination token to be used for the next list operation. */
   nextPageToken?: string | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#campaignCreativeAssociationsListResponse". */
+  kind?: string | undefined;
 }
-export type ListCampaignsSortOrderEnum = "ASCENDING" | "DESCENDING";
 export type ListCampaignsSortFieldEnum = "ID" | "NAME";
+export type ListCampaignsSortOrderEnum = "ASCENDING" | "DESCENDING";
 export interface ListCampaignsRequest {
-  /** Select only campaigns whose advertisers belong to these advertiser groups. */
-  advertiserGroupIds?: StringList | undefined;
-  /** Select only campaigns that belong to these advertisers. */
-  advertiserIds?: StringList | undefined;
-  /** Allows searching for campaigns by name or ID. Wildcards (*) are allowed. For example, "campaign*2015" will return campaigns with names like "campaign June 2015", "campaign April 2015", or simply "campaign 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "campaign" will match campaigns with name "my campaign", "campaign 2015", or simply "campaign". */
-  searchString?: string | undefined;
-  /** Select only archived campaigns. Don't set this field to select both archived and non-archived campaigns. */
-  archived?: boolean | undefined;
-  /** Maximum number of results to return. */
-  maxResults?: number | undefined;
   /** Exclude campaigns with these IDs. */
   excludedIds?: StringList | undefined;
+  /** Select only campaigns whose advertisers belong to these advertiser groups. */
+  advertiserGroupIds?: StringList | undefined;
+  /** Maximum number of results to return. */
+  maxResults?: number | undefined;
+  /** Field by which to sort the list. */
+  sortField?: ListCampaignsSortFieldEnum | (string & {}) | undefined;
+  /** Allows searching for campaigns by name or ID. Wildcards (*) are allowed. For example, "campaign*2015" will return campaigns with names like "campaign June 2015", "campaign April 2015", or simply "campaign 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "campaign" will match campaigns with name "my campaign", "campaign 2015", or simply "campaign". */
+  searchString?: string | undefined;
+  /** Select only campaigns that have at least one optimization activity. */
+  atLeastOneOptimizationActivity?: boolean | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Select only archived campaigns. Don't set this field to select both archived and non-archived campaigns. */
+  archived?: boolean | undefined;
+  /** Select only campaigns that belong to these advertisers. */
+  advertiserIds?: StringList | undefined;
   /** Value of the nextPageToken from the previous result page. */
   pageToken?: string | undefined;
+  /** Order of sorted results. */
+  sortOrder?: ListCampaignsSortOrderEnum | (string & {}) | undefined;
   /** Select only campaigns that belong to this subaccount. */
   subaccountId?: string | undefined;
   /** Select only campaigns that have overridden this event tag ID. */
   overriddenEventTagId?: string | undefined;
-  /** Order of sorted results. */
-  sortOrder?: ListCampaignsSortOrderEnum | (string & {}) | undefined;
   /** Select only campaigns with these IDs. */
   ids?: StringList | undefined;
-  /** Select only campaigns that have at least one optimization activity. */
-  atLeastOneOptimizationActivity?: boolean | undefined;
-  /** Field by which to sort the list. */
-  sortField?: ListCampaignsSortFieldEnum | (string & {}) | undefined;
 }
 export type CampaignList = Array<Campaign>;
 /** Campaign List Response */
 export interface CampaignsListResponse {
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#campaignsListResponse". */
-  kind?: string | undefined;
-  /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string | undefined;
   /** Campaign collection. */
   campaigns?: CampaignList | undefined;
+  /** Pagination token to be used for the next list operation. */
+  nextPageToken?: string | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#campaignsListResponse". */
+  kind?: string | undefined;
 }
-export type ListChangeLogsActionEnum =
-  | "ACTION_CREATE"
-  | "ACTION_UPDATE"
-  | "ACTION_DELETE"
-  | "ACTION_ENABLE"
-  | "ACTION_DISABLE"
-  | "ACTION_ADD"
-  | "ACTION_REMOVE"
-  | "ACTION_MARK_AS_DEFAULT"
-  | "ACTION_ASSOCIATE"
-  | "ACTION_ASSIGN"
-  | "ACTION_UNASSIGN"
-  | "ACTION_SEND"
-  | "ACTION_LINK"
-  | "ACTION_UNLINK"
-  | "ACTION_PUSH"
-  | "ACTION_EMAIL_TAGS"
-  | "ACTION_SHARE";
 export type ListChangeLogsObjectTypeEnum =
   | "OBJECT_ADVERTISER"
   | "OBJECT_FLOODLIGHT_CONFIGURATION"
@@ -5877,58 +5859,76 @@ export type ListChangeLogsObjectTypeEnum =
   | "OBJECT_ADVERTISER_CUSTOMER_LINK"
   | "OBJECT_CONVERSION_DOMAIN"
   | "OBJECT_ACCOUNT_CONVERSION_DOMAIN";
+export type ListChangeLogsActionEnum =
+  | "ACTION_CREATE"
+  | "ACTION_UPDATE"
+  | "ACTION_DELETE"
+  | "ACTION_ENABLE"
+  | "ACTION_DISABLE"
+  | "ACTION_ADD"
+  | "ACTION_REMOVE"
+  | "ACTION_MARK_AS_DEFAULT"
+  | "ACTION_ASSOCIATE"
+  | "ACTION_ASSIGN"
+  | "ACTION_UNASSIGN"
+  | "ACTION_SEND"
+  | "ACTION_LINK"
+  | "ACTION_UNLINK"
+  | "ACTION_PUSH"
+  | "ACTION_EMAIL_TAGS"
+  | "ACTION_SHARE";
 export interface ListChangeLogsRequest {
-  /** Select only change logs whose change time is before the specified maxChangeTime.The time should be formatted as an RFC3339 date/time string. For example, for 10:54 PM on July 18th, 2015, in the America/New York time zone, the format is "2015-07-18T22:54:00-04:00". In other words, the year, month, day, the letter T, the hour (24-hour clock system), minute, second, and then the time zone offset. */
-  maxChangeTime?: string | undefined;
-  /** Maximum number of results to return. */
-  maxResults?: number | undefined;
-  /** Select only change logs with these user profile IDs. */
-  userProfileIds?: StringList | undefined;
   /** Select only change logs with these IDs. */
   ids?: StringList | undefined;
-  /** Select only change logs with the specified action. */
-  action?: ListChangeLogsActionEnum | (string & {}) | undefined;
-  /** Select only change logs with the specified object type. */
-  objectType?: ListChangeLogsObjectTypeEnum | (string & {}) | undefined;
   /** Select only change logs with these object IDs. */
   objectIds?: StringList | undefined;
+  /** Select only change logs with the specified object type. */
+  objectType?: ListChangeLogsObjectTypeEnum | (string & {}) | undefined;
+  /** Select only change logs whose change time is before the specified maxChangeTime.The time should be formatted as an RFC3339 date/time string. For example, for 10:54 PM on July 18th, 2015, in the America/New York time zone, the format is "2015-07-18T22:54:00-04:00". In other words, the year, month, day, the letter T, the hour (24-hour clock system), minute, second, and then the time zone offset. */
+  maxChangeTime?: string | undefined;
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string | undefined;
+  /** Select only change logs with these user profile IDs. */
+  userProfileIds?: StringList | undefined;
+  /** Maximum number of results to return. */
+  maxResults?: number | undefined;
+  /** Select only change logs whose object ID, user name, old or new values match the search string. */
+  searchString?: string | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
   /** Select only change logs whose change time is after the specified minChangeTime.The time should be formatted as an RFC3339 date/time string. For example, for 10:54 PM on July 18th, 2015, in the America/New York time zone, the format is "2015-07-18T22:54:00-04:00". In other words, the year, month, day, the letter T, the hour (24-hour clock system), minute, second, and then the time zone offset. */
   minChangeTime?: string | undefined;
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string | undefined;
-  /** Select only change logs whose object ID, user name, old or new values match the search string. */
-  searchString?: string | undefined;
+  /** Select only change logs with the specified action. */
+  action?: ListChangeLogsActionEnum | (string & {}) | undefined;
 }
 export type ChangeLogList = Array<ChangeLog>;
 /** Change Log List Response */
 export interface ChangeLogsListResponse {
   /** Pagination token to be used for the next list operation. */
   nextPageToken?: string | undefined;
-  /** Change log collection. */
-  changeLogs?: ChangeLogList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#changeLogsListResponse". */
   kind?: string | undefined;
+  /** Change log collection. */
+  changeLogs?: ChangeLogList | undefined;
 }
 export interface ListCitiesRequest {
-  /** Select only cities from these regions. */
-  regionDartIds?: StringList | undefined;
-  /** Select only cities with these DART IDs. */
-  dartIds?: StringList | undefined;
-  /** Select only cities from these countries. */
-  countryDartIds?: StringList | undefined;
   /** Select only cities with names starting with this prefix. */
   namePrefix?: string | undefined;
+  /** Select only cities from these countries. */
+  countryDartIds?: StringList | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Select only cities with these DART IDs. */
+  dartIds?: StringList | undefined;
+  /** Select only cities from these regions. */
+  regionDartIds?: StringList | undefined;
 }
 /** City List Response */
 export interface CitiesListResponse {
-  /** City collection. */
-  cities?: CityList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#citiesListResponse". */
   kind?: string | undefined;
+  /** City collection. */
+  cities?: CityList | undefined;
 }
 export interface ListConnectionTypesRequest {
   /** User profile ID associated with this request. */
@@ -5941,33 +5941,33 @@ export interface ConnectionTypesListResponse {
   /** Collection of connection types such as broadband and mobile. */
   connectionTypes?: ConnectionTypeList | undefined;
 }
-export type ListContentCategoriesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export type ListContentCategoriesSortFieldEnum = "ID" | "NAME";
+export type ListContentCategoriesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export interface ListContentCategoriesRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
-  /** Maximum number of results to return. */
-  maxResults?: number | undefined;
   /** Select only content categories with these IDs. */
   ids?: StringList | undefined;
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string | undefined;
-  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "contentcategory*2015" will return objects with names like "contentcategory June 2015", "contentcategory April 2015", or simply "contentcategory 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "contentcategory" will match objects with name "my contentcategory", "contentcategory 2015", or simply "contentcategory". */
-  searchString?: string | undefined;
-  /** Order of sorted results. */
-  sortOrder?: ListContentCategoriesSortOrderEnum | (string & {}) | undefined;
   /** Field by which to sort the list. */
   sortField?: ListContentCategoriesSortFieldEnum | (string & {}) | undefined;
+  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "contentcategory*2015" will return objects with names like "contentcategory June 2015", "contentcategory April 2015", or simply "contentcategory 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "contentcategory" will match objects with name "my contentcategory", "contentcategory 2015", or simply "contentcategory". */
+  searchString?: string | undefined;
+  /** Maximum number of results to return. */
+  maxResults?: number | undefined;
+  /** User profile ID associated with this request. */
+  profileId: string;
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string | undefined;
+  /** Order of sorted results. */
+  sortOrder?: ListContentCategoriesSortOrderEnum | (string & {}) | undefined;
 }
 export type ContentCategoryList = Array<ContentCategory>;
 /** Content Category List Response */
 export interface ContentCategoriesListResponse {
-  /** Content category collection. */
-  contentCategories?: ContentCategoryList | undefined;
-  /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#contentCategoriesListResponse". */
   kind?: string | undefined;
+  /** Pagination token to be used for the next list operation. */
+  nextPageToken?: string | undefined;
+  /** Content category collection. */
+  contentCategories?: ContentCategoryList | undefined;
 }
 export interface ListCountriesRequest {
   /** User profile ID associated with this request. */
@@ -5980,100 +5980,99 @@ export interface CountriesListResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#countriesListResponse". */
   kind?: string | undefined;
 }
-export type ListCreativeFieldsSortFieldEnum = "ID" | "NAME";
 export type ListCreativeFieldsSortOrderEnum = "ASCENDING" | "DESCENDING";
+export type ListCreativeFieldsSortFieldEnum = "ID" | "NAME";
 export interface ListCreativeFieldsRequest {
-  /** Allows searching for creative fields by name or ID. Wildcards (*) are allowed. For example, "creativefield*2015" will return creative fields with names like "creativefield June 2015", "creativefield April 2015", or simply "creativefield 2015". Most of the searches also add wild-cards implicitly at the start and the end of the search string. For example, a search string of "creativefield" will match creative fields with the name "my creativefield", "creativefield 2015", or simply "creativefield". */
-  searchString?: string | undefined;
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string | undefined;
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Maximum number of results to return. */
   maxResults?: number | undefined;
-  /** Select only creative fields with these IDs. */
-  ids?: StringList | undefined;
-  /** Field by which to sort the list. */
-  sortField?: ListCreativeFieldsSortFieldEnum | (string & {}) | undefined;
-  /** Select only creative fields that belong to these advertisers. */
-  advertiserIds?: StringList | undefined;
+  /** User profile ID associated with this request. */
+  profileId: string;
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string | undefined;
   /** Order of sorted results. */
   sortOrder?: ListCreativeFieldsSortOrderEnum | (string & {}) | undefined;
+  /** Select only creative fields that belong to these advertisers. */
+  advertiserIds?: StringList | undefined;
+  /** Field by which to sort the list. */
+  sortField?: ListCreativeFieldsSortFieldEnum | (string & {}) | undefined;
+  /** Allows searching for creative fields by name or ID. Wildcards (*) are allowed. For example, "creativefield*2015" will return creative fields with names like "creativefield June 2015", "creativefield April 2015", or simply "creativefield 2015". Most of the searches also add wild-cards implicitly at the start and the end of the search string. For example, a search string of "creativefield" will match creative fields with the name "my creativefield", "creativefield 2015", or simply "creativefield". */
+  searchString?: string | undefined;
+  /** Select only creative fields with these IDs. */
+  ids?: StringList | undefined;
 }
 export type CreativeFieldList = Array<CreativeField>;
 /** Creative Field List Response */
 export interface CreativeFieldsListResponse {
   /** Creative field collection. */
   creativeFields?: CreativeFieldList | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeFieldsListResponse". */
-  kind?: string | undefined;
   /** Pagination token to be used for the next list operation. */
   nextPageToken?: string | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeFieldsListResponse". */
+  kind?: string | undefined;
 }
-export type ListCreativeFieldValuesSortFieldEnum = "ID" | "VALUE";
 export type ListCreativeFieldValuesSortOrderEnum = "ASCENDING" | "DESCENDING";
+export type ListCreativeFieldValuesSortFieldEnum = "ID" | "VALUE";
 export interface ListCreativeFieldValuesRequest {
-  /** Allows searching for creative field values by their values. Wildcards (e.g. *) are not allowed. */
-  searchString?: string | undefined;
+  /** User profile ID associated with this request. */
+  profileId: string;
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string | undefined;
+  /** Order of sorted results. */
+  sortOrder?: ListCreativeFieldValuesSortOrderEnum | (string & {}) | undefined;
+  /** Select only creative field values with these IDs. */
+  ids?: StringList | undefined;
   /** Field by which to sort the list. */
   sortField?: ListCreativeFieldValuesSortFieldEnum | (string & {}) | undefined;
   /** Creative field ID for this creative field value. */
   creativeFieldId: string;
+  /** Allows searching for creative field values by their values. Wildcards (e.g. *) are not allowed. */
+  searchString?: string | undefined;
   /** Maximum number of results to return. */
   maxResults?: number | undefined;
-  /** Select only creative field values with these IDs. */
-  ids?: StringList | undefined;
-  /** Order of sorted results. */
-  sortOrder?: ListCreativeFieldValuesSortOrderEnum | (string & {}) | undefined;
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string | undefined;
-  /** User profile ID associated with this request. */
-  profileId: string;
 }
 export type CreativeFieldValueList = Array<CreativeFieldValue>;
 /** Creative Field Value List Response */
 export interface CreativeFieldValuesListResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeFieldValuesListResponse". */
   kind?: string | undefined;
-  /** Creative field value collection. */
-  creativeFieldValues?: CreativeFieldValueList | undefined;
   /** Pagination token to be used for the next list operation. */
   nextPageToken?: string | undefined;
+  /** Creative field value collection. */
+  creativeFieldValues?: CreativeFieldValueList | undefined;
 }
-export type ListCreativeGroupsSortOrderEnum = "ASCENDING" | "DESCENDING";
 export type ListCreativeGroupsSortFieldEnum = "ID" | "NAME";
+export type ListCreativeGroupsSortOrderEnum = "ASCENDING" | "DESCENDING";
 export interface ListCreativeGroupsRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string | undefined;
-  /** Order of sorted results. */
-  sortOrder?: ListCreativeGroupsSortOrderEnum | (string & {}) | undefined;
-  /** Select only creative groups with these IDs. */
-  ids?: StringList | undefined;
-  /** Allows searching for creative groups by name or ID. Wildcards (*) are allowed. For example, "creativegroup*2015" will return creative groups with names like "creativegroup June 2015", "creativegroup April 2015", or simply "creativegroup 2015". Most of the searches also add wild-cards implicitly at the start and the end of the search string. For example, a search string of "creativegroup" will match creative groups with the name "my creativegroup", "creativegroup 2015", or simply "creativegroup". */
-  searchString?: string | undefined;
-  /** Field by which to sort the list. */
-  sortField?: ListCreativeGroupsSortFieldEnum | (string & {}) | undefined;
-  /** Select only creative groups that belong to this subgroup. */
-  groupNumber?: number | undefined;
   /** Maximum number of results to return. */
   maxResults?: number | undefined;
+  /** Field by which to sort the list. */
+  sortField?: ListCreativeGroupsSortFieldEnum | (string & {}) | undefined;
+  /** Order of sorted results. */
+  sortOrder?: ListCreativeGroupsSortOrderEnum | (string & {}) | undefined;
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string | undefined;
+  /** Allows searching for creative groups by name or ID. Wildcards (*) are allowed. For example, "creativegroup*2015" will return creative groups with names like "creativegroup June 2015", "creativegroup April 2015", or simply "creativegroup 2015". Most of the searches also add wild-cards implicitly at the start and the end of the search string. For example, a search string of "creativegroup" will match creative groups with the name "my creativegroup", "creativegroup 2015", or simply "creativegroup". */
+  searchString?: string | undefined;
+  /** Select only creative groups that belong to this subgroup. */
+  groupNumber?: number | undefined;
+  /** User profile ID associated with this request. */
+  profileId: string;
   /** Select only creative groups that belong to these advertisers. */
   advertiserIds?: StringList | undefined;
+  /** Select only creative groups with these IDs. */
+  ids?: StringList | undefined;
 }
 export type CreativeGroupList = Array<CreativeGroup>;
 /** Creative Group List Response */
 export interface CreativeGroupsListResponse {
-  /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string | undefined;
   /** Creative group collection. */
   creativeGroups?: CreativeGroupList | undefined;
+  /** Pagination token to be used for the next list operation. */
+  nextPageToken?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeGroupsListResponse". */
   kind?: string | undefined;
 }
 export type ListCreativesSortFieldEnum = "ID" | "NAME";
-export type ListCreativesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export type ListCreativesTypesEnum =
   | "IMAGE"
   | "DISPLAY_REDIRECT"
@@ -6101,89 +6100,90 @@ export type ListCreativesTypesEnum =
   | "BRAND_SAFE_DEFAULT_INSTREAM_VIDEO"
   | "INSTREAM_AUDIO";
 export type ListCreativesTypesEnumList = Array<ListCreativesTypesEnum | (string & {})>;
+export type ListCreativesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export interface ListCreativesRequest {
-  /** Field by which to sort the list. */
-  sortField?: ListCreativesSortFieldEnum | (string & {}) | undefined;
-  /** Select only creatives corresponding to this Studio creative ID. */
-  studioCreativeId?: string | undefined;
-  /** Maximum number of results to return. */
-  maxResults?: number | undefined;
-  /** Select only creatives with these IDs. */
-  ids?: StringList | undefined;
+  /** Select only creatives with these creative field IDs. */
+  creativeFieldIds?: StringList | undefined;
   /** Select only creatives with these size IDs. */
   sizeIds?: StringList | undefined;
-  /** Order of sorted results. */
-  sortOrder?: ListCreativesSortOrderEnum | (string & {}) | undefined;
-  /** User profile ID associated with this request. */
-  profileId: string;
+  /** Select only creatives with these IDs. */
+  ids?: StringList | undefined;
+  /** Field by which to sort the list. */
+  sortField?: ListCreativesSortFieldEnum | (string & {}) | undefined;
+  /** Select only creatives with this advertiser ID. */
+  advertiserId?: string | undefined;
+  /** Select only creatives corresponding to this Studio creative ID. */
+  studioCreativeId?: string | undefined;
+  /** Select only in-stream video creatives with these companion IDs. */
+  companionCreativeIds?: StringList | undefined;
   /** Select only creatives with these rendering IDs. */
   renderingIds?: StringList | undefined;
+  /** Select only creatives with these creative types. */
+  types?: ListCreativesTypesEnumList | undefined;
+  /** Maximum number of results to return. */
+  maxResults?: number | undefined;
+  /** User profile ID associated with this request. */
+  profileId: string;
+  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "creative*2015" will return objects with names like "creative June 2015", "creative April 2015", or simply "creative 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "creative" will match objects with name "my creative", "creative 2015", or simply "creative". */
+  searchString?: string | undefined;
+  /** Order of sorted results. */
+  sortOrder?: ListCreativesSortOrderEnum | (string & {}) | undefined;
   /** Value of the nextPageToken from the previous result page. */
   pageToken?: string | undefined;
   /** Select only archived creatives. Leave blank to select archived and unarchived creatives. */
   archived?: boolean | undefined;
   /** Select only creatives with this campaign ID. */
   campaignId?: string | undefined;
-  /** Select only in-stream video creatives with these companion IDs. */
-  companionCreativeIds?: StringList | undefined;
-  /** Select only creatives with these creative field IDs. */
-  creativeFieldIds?: StringList | undefined;
-  /** Select only creatives with this advertiser ID. */
-  advertiserId?: string | undefined;
-  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "creative*2015" will return objects with names like "creative June 2015", "creative April 2015", or simply "creative 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "creative" will match objects with name "my creative", "creative 2015", or simply "creative". */
-  searchString?: string | undefined;
-  /** Select only creatives with these creative types. */
-  types?: ListCreativesTypesEnumList | undefined;
   /** Select only active creatives. Leave blank to select active and inactive creatives. */
   active?: boolean | undefined;
 }
 export type CreativeList = Array<Creative>;
 /** Creative List Response */
 export interface CreativesListResponse {
-  /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string | undefined;
   /** Creative collection. */
   creatives?: CreativeList | undefined;
+  /** Pagination token to be used for the next list operation. */
+  nextPageToken?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativesListResponse". */
   kind?: string | undefined;
 }
-export type ListDirectorySitesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export type ListDirectorySitesSortFieldEnum = "ID" | "NAME";
+export type ListDirectorySitesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export interface ListDirectorySitesRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
-  /** Select only directory sites with this Ad Manager network code. */
-  dfpNetworkCode?: string | undefined;
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string | undefined;
-  /** This search filter is no longer supported and will have no effect on the results returned. */
-  acceptsInStreamVideoPlacements?: boolean | undefined;
-  /** Order of sorted results. */
-  sortOrder?: ListDirectorySitesSortOrderEnum | (string & {}) | undefined;
-  /** Select only directory sites that accept publisher paid placements. This field can be left blank. */
-  acceptsPublisherPaidPlacements?: boolean | undefined;
-  /** Allows searching for objects by name, ID or URL. Wildcards (*) are allowed. For example, "directory site*2015" will return objects with names like "directory site June 2015", "directory site April 2015", or simply "directory site 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "directory site" will match objects with name "my directory site", "directory site 2015" or simply, "directory site". */
-  searchString?: string | undefined;
-  /** Select only directory sites with these IDs. */
-  ids?: StringList | undefined;
   /** This search filter is no longer supported and will have no effect on the results returned. */
   acceptsInterstitialPlacements?: boolean | undefined;
+  /** Select only directory sites with these IDs. */
+  ids?: StringList | undefined;
+  /** Select only directory sites that accept publisher paid placements. This field can be left blank. */
+  acceptsPublisherPaidPlacements?: boolean | undefined;
+  /** This search filter is no longer supported and will have no effect on the results returned. */
+  acceptsInStreamVideoPlacements?: boolean | undefined;
+  /** Allows searching for objects by name, ID or URL. Wildcards (*) are allowed. For example, "directory site*2015" will return objects with names like "directory site June 2015", "directory site April 2015", or simply "directory site 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "directory site" will match objects with name "my directory site", "directory site 2015" or simply, "directory site". */
+  searchString?: string | undefined;
+  /** User profile ID associated with this request. */
+  profileId: string;
+  /** Select only active directory sites. Leave blank to retrieve both active and inactive directory sites. */
+  active?: boolean | undefined;
+  /** Select only directory sites with this Ad Manager network code. */
+  dfpNetworkCode?: string | undefined;
   /** Maximum number of results to return. */
   maxResults?: number | undefined;
   /** Field by which to sort the list. */
   sortField?: ListDirectorySitesSortFieldEnum | (string & {}) | undefined;
-  /** Select only active directory sites. Leave blank to retrieve both active and inactive directory sites. */
-  active?: boolean | undefined;
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string | undefined;
+  /** Order of sorted results. */
+  sortOrder?: ListDirectorySitesSortOrderEnum | (string & {}) | undefined;
 }
 export type DirectorySiteList = Array<DirectorySite>;
 /** Directory Site List Response */
 export interface DirectorySitesListResponse {
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#directorySitesListResponse". */
+  kind?: string | undefined;
   /** Pagination token to be used for the next list operation. */
   nextPageToken?: string | undefined;
   /** Directory site collection. */
   directorySites?: DirectorySiteList | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#directorySitesListResponse". */
-  kind?: string | undefined;
 }
 export type ListDynamicTargetingKeysObjectTypeEnum =
   | "OBJECT_ADVERTISER"
@@ -6191,16 +6191,16 @@ export type ListDynamicTargetingKeysObjectTypeEnum =
   | "OBJECT_CREATIVE"
   | "OBJECT_PLACEMENT";
 export interface ListDynamicTargetingKeysRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Select only dynamic targeting keys exactly matching these names. */
   names?: StringList | undefined;
   /** Select only dynamic targeting keys with this object type. */
   objectType?: ListDynamicTargetingKeysObjectTypeEnum | (string & {}) | undefined;
-  /** Select only dynamic targeting keys whose object has this advertiser ID. */
-  advertiserId?: string | undefined;
+  /** User profile ID associated with this request. */
+  profileId: string;
   /** Select only dynamic targeting keys with this object ID. */
   objectId?: string | undefined;
+  /** Select only dynamic targeting keys whose object has this advertiser ID. */
+  advertiserId?: string | undefined;
 }
 export type DynamicTargetingKeyList = Array<DynamicTargetingKey>;
 /** Dynamic Targeting Key List Response */
@@ -6210,6 +6210,7 @@ export interface DynamicTargetingKeysListResponse {
   /** Dynamic targeting key collection. */
   dynamicTargetingKeys?: DynamicTargetingKeyList | undefined;
 }
+export type ListEventTagsSortFieldEnum = "ID" | "NAME";
 export type ListEventTagsEventTagTypesEnum =
   | "IMPRESSION_IMAGE_EVENT_TAG"
   | "IMPRESSION_JAVASCRIPT_EVENT_TAG"
@@ -6218,51 +6219,50 @@ export type ListEventTagsEventTagTypesEnumList = Array<
   ListEventTagsEventTagTypesEnum | (string & {})
 >;
 export type ListEventTagsSortOrderEnum = "ASCENDING" | "DESCENDING";
-export type ListEventTagsSortFieldEnum = "ID" | "NAME";
 export interface ListEventTagsRequest {
-  /** Select only event tags with the specified event tag types. Event tag types can be used to specify whether to use a third-party pixel, a third-party JavaScript URL, or a third-party click-through URL for either impression or click tracking. */
-  eventTagTypes?: ListEventTagsEventTagTypesEnumList | undefined;
-  /** Select only event tags that belong to this campaign. */
-  campaignId?: string | undefined;
   /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "eventtag*2015" will return objects with names like "eventtag June 2015", "eventtag April 2015", or simply "eventtag 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "eventtag" will match objects with name "my eventtag", "eventtag 2015", or simply "eventtag". */
   searchString?: string | undefined;
+  /** Select only event tags with these IDs. */
+  ids?: StringList | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
   /** Select only enabled event tags. What is considered enabled or disabled depends on the definitionsOnly parameter. When definitionsOnly is set to true, only the specified advertiser or campaign's event tags' enabledByDefault field is examined. When definitionsOnly is set to false, the specified ad or specified campaign's parent advertiser's or parent campaign's event tags' enabledByDefault and status fields are examined as well. */
   enabled?: boolean | undefined;
-  /** Select only event tags that belong to this advertiser. */
-  advertiserId?: string | undefined;
-  /** Examine only the specified campaign or advertiser's event tags for matching selector criteria. When set to false, the parent advertiser and parent campaign of the specified ad or campaign is examined as well. In addition, when set to false, the status field is examined as well, along with the enabledByDefault field. This parameter can not be set to true when adId is specified as ads do not define their own even tags. */
-  definitionsOnly?: boolean | undefined;
-  /** Order of sorted results. */
-  sortOrder?: ListEventTagsSortOrderEnum | (string & {}) | undefined;
-  /** Select only event tags that belong to this ad. */
-  adId?: string | undefined;
-  /** Select only event tags with these IDs. */
-  ids?: StringList | undefined;
   /** Field by which to sort the list. */
   sortField?: ListEventTagsSortFieldEnum | (string & {}) | undefined;
+  /** Select only event tags that belong to this advertiser. */
+  advertiserId?: string | undefined;
+  /** Select only event tags with the specified event tag types. Event tag types can be used to specify whether to use a third-party pixel, a third-party JavaScript URL, or a third-party click-through URL for either impression or click tracking. */
+  eventTagTypes?: ListEventTagsEventTagTypesEnumList | undefined;
+  /** Order of sorted results. */
+  sortOrder?: ListEventTagsSortOrderEnum | (string & {}) | undefined;
+  /** Select only event tags that belong to this campaign. */
+  campaignId?: string | undefined;
+  /** Select only event tags that belong to this ad. */
+  adId?: string | undefined;
+  /** Examine only the specified campaign or advertiser's event tags for matching selector criteria. When set to false, the parent advertiser and parent campaign of the specified ad or campaign is examined as well. In addition, when set to false, the status field is examined as well, along with the enabledByDefault field. This parameter can not be set to true when adId is specified as ads do not define their own even tags. */
+  definitionsOnly?: boolean | undefined;
 }
 export type EventTagList = Array<EventTag>;
 /** Event Tag List Response */
 export interface EventTagsListResponse {
-  /** Event tag collection. */
-  eventTags?: EventTagList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#eventTagsListResponse". */
   kind?: string | undefined;
+  /** Event tag collection. */
+  eventTags?: EventTagList | undefined;
 }
-export type ListFilesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export type ListFilesScopeEnum = "ALL" | "MINE" | "SHARED_WITH_ME";
 export type ListFilesSortFieldEnum = "ID" | "LAST_MODIFIED_TIME";
+export type ListFilesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export interface ListFilesRequest {
-  /** Order of sorted results. */
-  sortOrder?: ListFilesSortOrderEnum | (string & {}) | undefined;
   /** Maximum number of results to return. */
   maxResults?: number | undefined;
   /** The scope that defines which results are returned. */
   scope?: ListFilesScopeEnum | (string & {}) | undefined;
   /** The field by which to sort the list. */
   sortField?: ListFilesSortFieldEnum | (string & {}) | undefined;
+  /** Order of sorted results. */
+  sortOrder?: ListFilesSortOrderEnum | (string & {}) | undefined;
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
   /** The value of the nextToken from the previous result page. */
@@ -6271,109 +6271,109 @@ export interface ListFilesRequest {
 export type FileList_ = Array<File>;
 /** List of files for a report. */
 export interface FileList {
-  /** The files returned in this response. */
-  items: FileList_;
-  /** Continuation token used to page through files. To retrieve the next page of results, set the next request's "pageToken" to the value of this field. The page token is only valid for a limited amount of time and should not be persisted. */
-  nextPageToken?: string | undefined;
-  /** Etag of this resource. */
-  etag?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#fileList". */
   kind?: string | undefined;
+  /** Etag of this resource. */
+  etag?: string | undefined;
+  /** Continuation token used to page through files. To retrieve the next page of results, set the next request's "pageToken" to the value of this field. The page token is only valid for a limited amount of time and should not be persisted. */
+  nextPageToken?: string | undefined;
+  /** The files returned in this response. */
+  items: FileList_;
 }
 export type ListFloodlightActivitiesFloodlightActivityGroupTypeEnum = "COUNTER" | "SALE";
-export type ListFloodlightActivitiesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export type ListFloodlightActivitiesSortFieldEnum = "ID" | "NAME";
+export type ListFloodlightActivitiesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export interface ListFloodlightActivitiesRequest {
   /** Select only floodlight activities with the specified floodlight activity group type. */
   floodlightActivityGroupType?:
     | ListFloodlightActivitiesFloodlightActivityGroupTypeEnum
     | (string & {})
     | undefined;
-  /** User profile ID associated with this request. */
-  profileId: string;
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string | undefined;
-  /** Order of sorted results. */
-  sortOrder?: ListFloodlightActivitiesSortOrderEnum | (string & {}) | undefined;
-  /** Select only floodlight activities with the specified floodlight activity group name. */
-  floodlightActivityGroupName?: string | undefined;
-  /** Select only floodlight activities for the specified advertiser ID. Must specify either ids, advertiserId, or floodlightConfigurationId for a non-empty result. */
-  advertiserId?: string | undefined;
-  /** Select only floodlight activities for the specified floodlight configuration ID. Must specify either ids, advertiserId, or floodlightConfigurationId for a non-empty result. */
-  floodlightConfigurationId?: string | undefined;
-  /** Select only floodlight activities with the specified floodlight activity group tag string. */
-  floodlightActivityGroupTagString?: string | undefined;
-  /** Field by which to sort the list. */
-  sortField?: ListFloodlightActivitiesSortFieldEnum | (string & {}) | undefined;
-  /** Maximum number of results to return. */
-  maxResults?: number | undefined;
   /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "floodlightactivity*2015" will return objects with names like "floodlightactivity June 2015", "floodlightactivity April 2015", or simply "floodlightactivity 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "floodlightactivity" will match objects with name "my floodlightactivity activity", "floodlightactivity 2015", or simply "floodlightactivity". */
   searchString?: string | undefined;
-  /** Select only floodlight activities with the specified IDs. Must specify either ids, advertiserId, or floodlightConfigurationId for a non-empty result. */
-  ids?: StringList | undefined;
-  /** Select only floodlight activities with the specified tag string. */
-  tagString?: string | undefined;
+  /** Select only floodlight activities for the specified floodlight configuration ID. Must specify either ids, advertiserId, or floodlightConfigurationId for a non-empty result. */
+  floodlightConfigurationId?: string | undefined;
+  /** User profile ID associated with this request. */
+  profileId: string;
+  /** Select only floodlight activities with the specified floodlight activity group name. */
+  floodlightActivityGroupName?: string | undefined;
   /** Select only floodlight activities with the specified floodlight activity group IDs. */
   floodlightActivityGroupIds?: StringList | undefined;
+  /** Select only floodlight activities for the specified advertiser ID. Must specify either ids, advertiserId, or floodlightConfigurationId for a non-empty result. */
+  advertiserId?: string | undefined;
+  /** Field by which to sort the list. */
+  sortField?: ListFloodlightActivitiesSortFieldEnum | (string & {}) | undefined;
+  /** Select only floodlight activities with the specified tag string. */
+  tagString?: string | undefined;
+  /** Maximum number of results to return. */
+  maxResults?: number | undefined;
+  /** Select only floodlight activities with the specified IDs. Must specify either ids, advertiserId, or floodlightConfigurationId for a non-empty result. */
+  ids?: StringList | undefined;
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string | undefined;
+  /** Select only floodlight activities with the specified floodlight activity group tag string. */
+  floodlightActivityGroupTagString?: string | undefined;
+  /** Order of sorted results. */
+  sortOrder?: ListFloodlightActivitiesSortOrderEnum | (string & {}) | undefined;
 }
 export type FloodlightActivityList = Array<FloodlightActivity>;
 /** Floodlight Activity List Response */
 export interface FloodlightActivitiesListResponse {
   /** Pagination token to be used for the next list operation. */
   nextPageToken?: string | undefined;
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightActivitiesListResponse". */
-  kind?: string | undefined;
   /** Floodlight activity collection. */
   floodlightActivities?: FloodlightActivityList | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightActivitiesListResponse". */
+  kind?: string | undefined;
 }
 export type ListFloodlightActivityGroupsSortFieldEnum = "ID" | "NAME";
-export type ListFloodlightActivityGroupsTypeEnum = "COUNTER" | "SALE";
 export type ListFloodlightActivityGroupsSortOrderEnum = "ASCENDING" | "DESCENDING";
+export type ListFloodlightActivityGroupsTypeEnum = "COUNTER" | "SALE";
 export interface ListFloodlightActivityGroupsRequest {
-  /** Field by which to sort the list. */
-  sortField?: ListFloodlightActivityGroupsSortFieldEnum | (string & {}) | undefined;
-  /** Select only floodlight activity groups with the specified floodlight activity group type. */
-  type?: ListFloodlightActivityGroupsTypeEnum | (string & {}) | undefined;
-  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "floodlightactivitygroup*2015" will return objects with names like "floodlightactivitygroup June 2015", "floodlightactivitygroup April 2015", or simply "floodlightactivitygroup 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "floodlightactivitygroup" will match objects with name "my floodlightactivitygroup activity", "floodlightactivitygroup 2015", or simply "floodlightactivitygroup". */
-  searchString?: string | undefined;
-  /** Select only floodlight activity groups with the specified advertiser ID. Must specify either advertiserId or floodlightConfigurationId for a non-empty result. */
-  advertiserId?: string | undefined;
   /** Select only floodlight activity groups with the specified IDs. Must specify either advertiserId or floodlightConfigurationId for a non-empty result. */
   ids?: StringList | undefined;
-  /** Select only floodlight activity groups with the specified floodlight configuration ID. Must specify either advertiserId, or floodlightConfigurationId for a non-empty result. */
-  floodlightConfigurationId?: string | undefined;
+  /** Field by which to sort the list. */
+  sortField?: ListFloodlightActivityGroupsSortFieldEnum | (string & {}) | undefined;
   /** Order of sorted results. */
   sortOrder?: ListFloodlightActivityGroupsSortOrderEnum | (string & {}) | undefined;
-  /** User profile ID associated with this request. */
-  profileId: string;
+  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "floodlightactivitygroup*2015" will return objects with names like "floodlightactivitygroup June 2015", "floodlightactivitygroup April 2015", or simply "floodlightactivitygroup 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "floodlightactivitygroup" will match objects with name "my floodlightactivitygroup activity", "floodlightactivitygroup 2015", or simply "floodlightactivitygroup". */
+  searchString?: string | undefined;
   /** Value of the nextPageToken from the previous result page. */
   pageToken?: string | undefined;
+  /** Select only floodlight activity groups with the specified floodlight activity group type. */
+  type?: ListFloodlightActivityGroupsTypeEnum | (string & {}) | undefined;
+  /** Select only floodlight activity groups with the specified advertiser ID. Must specify either advertiserId or floodlightConfigurationId for a non-empty result. */
+  advertiserId?: string | undefined;
   /** Maximum number of results to return. */
   maxResults?: number | undefined;
+  /** User profile ID associated with this request. */
+  profileId: string;
+  /** Select only floodlight activity groups with the specified floodlight configuration ID. Must specify either advertiserId, or floodlightConfigurationId for a non-empty result. */
+  floodlightConfigurationId?: string | undefined;
 }
 export type FloodlightActivityGroupList = Array<FloodlightActivityGroup>;
 /** Floodlight Activity Group List Response */
 export interface FloodlightActivityGroupsListResponse {
-  /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightActivityGroupsListResponse". */
   kind?: string | undefined;
+  /** Pagination token to be used for the next list operation. */
+  nextPageToken?: string | undefined;
   /** Floodlight activity group collection. */
   floodlightActivityGroups?: FloodlightActivityGroupList | undefined;
 }
 export interface ListFloodlightConfigurationsRequest {
-  /** Set of IDs of floodlight configurations to retrieve. Required field; otherwise an empty list will be returned. */
-  ids?: StringList | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Set of IDs of floodlight configurations to retrieve. Required field; otherwise an empty list will be returned. */
+  ids?: StringList | undefined;
 }
 export type FloodlightConfigurationList = Array<FloodlightConfiguration>;
 /** Floodlight Configuration List Response */
 export interface FloodlightConfigurationsListResponse {
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightConfigurationsListResponse". */
-  kind?: string | undefined;
   /** Floodlight configuration collection. */
   floodlightConfigurations?: FloodlightConfigurationList | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightConfigurationsListResponse". */
+  kind?: string | undefined;
 }
 export interface ListLanguagesRequest {
   /** User profile ID associated with this request. */
@@ -6413,26 +6413,26 @@ export type ListMobileAppsDirectoriesEnumList = Array<
   ListMobileAppsDirectoriesEnum | (string & {})
 >;
 export interface ListMobileAppsRequest {
-  /** Maximum number of results to return. */
-  maxResults?: number | undefined;
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string | undefined;
+  /** Select only apps with these IDs. */
+  ids?: StringList | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string | undefined;
+  /** Maximum number of results to return. */
+  maxResults?: number | undefined;
   /** Select only apps from these directories. */
   directories?: ListMobileAppsDirectoriesEnumList | undefined;
   /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "app*2015" will return objects with names like "app Jan 2018", "app Jan 2018", or simply "app 2018". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "app" will match objects with name "my app", "app 2018", or simply "app". */
   searchString?: string | undefined;
-  /** Select only apps with these IDs. */
-  ids?: StringList | undefined;
 }
 export type MobileAppList = Array<MobileApp>;
 /** Mobile app List Response */
 export interface MobileAppsListResponse {
-  /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#mobileAppsListResponse". */
   kind?: string | undefined;
+  /** Pagination token to be used for the next list operation. */
+  nextPageToken?: string | undefined;
   /** Mobile apps collection. */
   mobileApps?: MobileAppList | undefined;
 }
@@ -6442,10 +6442,10 @@ export interface ListMobileCarriersRequest {
 }
 /** Mobile Carrier List Response */
 export interface MobileCarriersListResponse {
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#mobileCarriersListResponse". */
-  kind?: string | undefined;
   /** Mobile carrier collection. */
   mobileCarriers?: MobileCarrierList | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#mobileCarriersListResponse". */
+  kind?: string | undefined;
 }
 export interface ListOperatingSystemsRequest {
   /** User profile ID associated with this request. */
@@ -6469,6 +6469,8 @@ export interface OperatingSystemVersionsListResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#operatingSystemVersionsListResponse". */
   kind?: string | undefined;
 }
+export type ListPlacementGroupsPlacementGroupTypeEnum = "PLACEMENT_PACKAGE" | "PLACEMENT_ROADBLOCK";
+export type ListPlacementGroupsSortFieldEnum = "ID" | "NAME";
 export type ListPlacementGroupsActiveStatusEnum =
   | "PLACEMENT_STATUS_UNKNOWN"
   | "PLACEMENT_STATUS_ACTIVE"
@@ -6479,8 +6481,6 @@ export type ListPlacementGroupsActiveStatusEnumList = Array<
   ListPlacementGroupsActiveStatusEnum | (string & {})
 >;
 export type ListPlacementGroupsSortOrderEnum = "ASCENDING" | "DESCENDING";
-export type ListPlacementGroupsPlacementGroupTypeEnum = "PLACEMENT_PACKAGE" | "PLACEMENT_ROADBLOCK";
-export type ListPlacementGroupsSortFieldEnum = "ID" | "NAME";
 export type ListPlacementGroupsPricingTypesEnum =
   | "PRICING_TYPE_CPM"
   | "PRICING_TYPE_CPC"
@@ -6492,69 +6492,57 @@ export type ListPlacementGroupsPricingTypesEnumList = Array<
   ListPlacementGroupsPricingTypesEnum | (string & {})
 >;
 export interface ListPlacementGroupsRequest {
-  /** Select only placements or placement groups whose end date is on or before the specified maxEndDate. The date should be formatted as "yyyy-MM-dd". */
-  maxEndDate?: string | undefined;
-  /** Maximum number of results to return. */
-  maxResults?: number | undefined;
-  /** Select only placement groups that are associated with these content categories. */
-  contentCategoryIds?: StringList | undefined;
   /** Select only placement groups that belong to these campaigns. */
   campaignIds?: StringList | undefined;
+  /** Select only placement groups belonging with this group type. A package is a simple group of placements that acts as a single pricing point for a group of tags. A roadblock is a group of placements that not only acts as a single pricing point but also assumes that all the tags in it will be served at the same time. A roadblock requires one of its assigned placements to be marked as primary for reporting. */
+  placementGroupType?: ListPlacementGroupsPlacementGroupTypeEnum | (string & {}) | undefined;
+  /** Select only placement groups that are associated with these sites. */
+  siteIds?: StringList | undefined;
+  /** Field by which to sort the list. */
+  sortField?: ListPlacementGroupsSortFieldEnum | (string & {}) | undefined;
+  /** Select only placements or placement groups whose end date is on or before the specified maxEndDate. The date should be formatted as "yyyy-MM-dd". */
+  maxEndDate?: string | undefined;
+  /** Select only placements or placement groups whose end date is on or after the specified minEndDate. The date should be formatted as "yyyy-MM-dd". */
+  minEndDate?: string | undefined;
+  /** Select only placements or placement groups whose start date is on or after the specified minStartDate. The date should be formatted as "yyyy-MM-dd". */
+  minStartDate?: string | undefined;
   /** Select only placement groups that are associated with these directory sites. */
   directorySiteIds?: StringList | undefined;
-  /** Select only placement groups that belong to these advertisers. */
-  advertiserIds?: StringList | undefined;
-  /** Allows searching for placement groups by name or ID. Wildcards (*) are allowed. For example, "placement*2015" will return placement groups with names like "placement group June 2015", "placement group May 2015", or simply "placements 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "placementgroup" will match placement groups with name "my placementgroup", "placementgroup 2015", or simply "placementgroup". */
-  searchString?: string | undefined;
+  /** User profile ID associated with this request. */
+  profileId: string;
+  /** Select only placement groups that are associated with these content categories. */
+  contentCategoryIds?: StringList | undefined;
   /** Select only placements with these active statuses. */
   activeStatus?: ListPlacementGroupsActiveStatusEnumList | undefined;
   /** Select only placement groups with these IDs. */
   ids?: StringList | undefined;
-  /** Select only placements or placement groups whose start date is on or after the specified minStartDate. The date should be formatted as "yyyy-MM-dd". */
-  minStartDate?: string | undefined;
-  /** Select only placement groups that are associated with these sites. */
-  siteIds?: StringList | undefined;
   /** Order of sorted results. */
   sortOrder?: ListPlacementGroupsSortOrderEnum | (string & {}) | undefined;
-  /** Select only placements or placement groups whose end date is on or after the specified minEndDate. The date should be formatted as "yyyy-MM-dd". */
-  minEndDate?: string | undefined;
-  /** User profile ID associated with this request. */
-  profileId: string;
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string | undefined;
-  /** Select only placement groups that are associated with these placement strategies. */
-  placementStrategyIds?: StringList | undefined;
-  /** Select only placement groups belonging with this group type. A package is a simple group of placements that acts as a single pricing point for a group of tags. A roadblock is a group of placements that not only acts as a single pricing point but also assumes that all the tags in it will be served at the same time. A roadblock requires one of its assigned placements to be marked as primary for reporting. */
-  placementGroupType?: ListPlacementGroupsPlacementGroupTypeEnum | (string & {}) | undefined;
-  /** Select only placements or placement groups whose start date is on or before the specified maxStartDate. The date should be formatted as "yyyy-MM-dd". */
-  maxStartDate?: string | undefined;
-  /** Field by which to sort the list. */
-  sortField?: ListPlacementGroupsSortFieldEnum | (string & {}) | undefined;
   /** Select only placement groups with these pricing types. */
   pricingTypes?: ListPlacementGroupsPricingTypesEnumList | undefined;
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string | undefined;
+  /** Select only placement groups that belong to these advertisers. */
+  advertiserIds?: StringList | undefined;
+  /** Select only placements or placement groups whose start date is on or before the specified maxStartDate. The date should be formatted as "yyyy-MM-dd". */
+  maxStartDate?: string | undefined;
+  /** Maximum number of results to return. */
+  maxResults?: number | undefined;
+  /** Select only placement groups that are associated with these placement strategies. */
+  placementStrategyIds?: StringList | undefined;
+  /** Allows searching for placement groups by name or ID. Wildcards (*) are allowed. For example, "placement*2015" will return placement groups with names like "placement group June 2015", "placement group May 2015", or simply "placements 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "placementgroup" will match placement groups with name "my placementgroup", "placementgroup 2015", or simply "placementgroup". */
+  searchString?: string | undefined;
 }
 export type PlacementGroupList = Array<PlacementGroup>;
 /** Placement Group List Response */
 export interface PlacementGroupsListResponse {
-  /** Placement group collection. */
-  placementGroups?: PlacementGroupList | undefined;
   /** Pagination token to be used for the next list operation. */
   nextPageToken?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#placementGroupsListResponse". */
   kind?: string | undefined;
+  /** Placement group collection. */
+  placementGroups?: PlacementGroupList | undefined;
 }
-export type ListPlacementsPaymentSourceEnum = "PLACEMENT_AGENCY_PAID" | "PLACEMENT_PUBLISHER_PAID";
-export type ListPlacementsSortOrderEnum = "ASCENDING" | "DESCENDING";
-export type ListPlacementsPricingTypesEnum =
-  | "PRICING_TYPE_CPM"
-  | "PRICING_TYPE_CPC"
-  | "PRICING_TYPE_CPA"
-  | "PRICING_TYPE_FLAT_RATE_IMPRESSIONS"
-  | "PRICING_TYPE_FLAT_RATE_CLICKS"
-  | "PRICING_TYPE_CPM_ACTIVEVIEW";
-export type ListPlacementsPricingTypesEnumList = Array<
-  ListPlacementsPricingTypesEnum | (string & {})
->;
 export type ListPlacementsSortFieldEnum = "ID" | "NAME";
 export type ListPlacementsCompatibilitiesEnum =
   | "DISPLAY"
@@ -6575,53 +6563,65 @@ export type ListPlacementsActiveStatusEnum =
 export type ListPlacementsActiveStatusEnumList = Array<
   ListPlacementsActiveStatusEnum | (string & {})
 >;
+export type ListPlacementsSortOrderEnum = "ASCENDING" | "DESCENDING";
+export type ListPlacementsPricingTypesEnum =
+  | "PRICING_TYPE_CPM"
+  | "PRICING_TYPE_CPC"
+  | "PRICING_TYPE_CPA"
+  | "PRICING_TYPE_FLAT_RATE_IMPRESSIONS"
+  | "PRICING_TYPE_FLAT_RATE_CLICKS"
+  | "PRICING_TYPE_CPM_ACTIVEVIEW";
+export type ListPlacementsPricingTypesEnumList = Array<
+  ListPlacementsPricingTypesEnum | (string & {})
+>;
+export type ListPlacementsPaymentSourceEnum = "PLACEMENT_AGENCY_PAID" | "PLACEMENT_PUBLISHER_PAID";
 export interface ListPlacementsRequest {
-  /** Select only placements with this payment source. */
-  paymentSource?: ListPlacementsPaymentSourceEnum | (string & {}) | undefined;
-  /** Order of sorted results. */
-  sortOrder?: ListPlacementsSortOrderEnum | (string & {}) | undefined;
-  /** Select only placements or placement groups whose start date is on or before the specified maxStartDate. The date should be formatted as "yyyy-MM-dd". */
-  maxStartDate?: string | undefined;
-  /** Select only placements or placement groups whose end date is on or before the specified maxEndDate. The date should be formatted as "yyyy-MM-dd". */
-  maxEndDate?: string | undefined;
   /** Select only placements that are associated with these sites. */
   siteIds?: StringList | undefined;
-  /** Select only placements that are associated with these sizes. */
-  sizeIds?: StringList | undefined;
+  /** Select only placements with these IDs. */
+  ids?: StringList | undefined;
+  /** Select only placements or placement groups whose end date is on or before the specified maxEndDate. The date should be formatted as "yyyy-MM-dd". */
+  maxEndDate?: string | undefined;
+  /** Select only placements that belong to these placement groups. */
+  groupIds?: StringList | undefined;
+  /** Field by which to sort the list. */
+  sortField?: ListPlacementsSortFieldEnum | (string & {}) | undefined;
+  /** Select only placements or placement groups whose start date is on or after the specified minStartDate. The date should be formatted as "yyyy-MM-dd". */
+  minStartDate?: string | undefined;
+  /** Select only placements that are associated with these compatibilities. DISPLAY and DISPLAY_INTERSTITIAL refer to rendering either on desktop or on mobile devices for regular or interstitial ads respectively. APP and APP_INTERSTITIAL are for rendering in mobile apps. IN_STREAM_VIDEO refers to rendering in in-stream video ads developed with the VAST standard. */
+  compatibilities?: ListPlacementsCompatibilitiesEnumList | undefined;
+  /** Select only placements or placement groups whose end date is on or after the specified minEndDate. The date should be formatted as "yyyy-MM-dd". */
+  minEndDate?: string | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
-  /** Maximum number of results to return. */
-  maxResults?: number | undefined;
+  /** Select only placements that are associated with these placement strategies. */
+  placementStrategyIds?: StringList | undefined;
+  /** Select only placements that belong to these advertisers. */
+  advertiserIds?: StringList | undefined;
+  /** Select only placements with these active statuses. */
+  activeStatus?: ListPlacementsActiveStatusEnumList | undefined;
+  /** Select only placements that are associated with these content categories. */
+  contentCategoryIds?: StringList | undefined;
+  /** Select only placements that are associated with these sizes. */
+  sizeIds?: StringList | undefined;
+  /** Order of sorted results. */
+  sortOrder?: ListPlacementsSortOrderEnum | (string & {}) | undefined;
   /** Value of the nextPageToken from the previous result page. */
   pageToken?: string | undefined;
   /** Select only placements with these pricing types. */
   pricingTypes?: ListPlacementsPricingTypesEnumList | undefined;
-  /** Select only placements that are associated with these content categories. */
-  contentCategoryIds?: StringList | undefined;
-  /** Field by which to sort the list. */
-  sortField?: ListPlacementsSortFieldEnum | (string & {}) | undefined;
-  /** Select only placements that belong to these advertisers. */
-  advertiserIds?: StringList | undefined;
-  /** Select only placements that are associated with these compatibilities. DISPLAY and DISPLAY_INTERSTITIAL refer to rendering either on desktop or on mobile devices for regular or interstitial ads respectively. APP and APP_INTERSTITIAL are for rendering in mobile apps. IN_STREAM_VIDEO refers to rendering in in-stream video ads developed with the VAST standard. */
-  compatibilities?: ListPlacementsCompatibilitiesEnumList | undefined;
-  /** Select only placements with these IDs. */
-  ids?: StringList | undefined;
-  /** Select only placements with these active statuses. */
-  activeStatus?: ListPlacementsActiveStatusEnumList | undefined;
+  /** Select only placements or placement groups whose start date is on or before the specified maxStartDate. The date should be formatted as "yyyy-MM-dd". */
+  maxStartDate?: string | undefined;
   /** Select only placements that belong to these campaigns. */
   campaignIds?: StringList | undefined;
-  /** Allows searching for placements by name or ID. Wildcards (*) are allowed. For example, "placement*2015" will return placements with names like "placement June 2015", "placement May 2015", or simply "placements 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "placement" will match placements with name "my placement", "placement 2015", or simply "placement" . */
-  searchString?: string | undefined;
-  /** Select only placements that are associated with these placement strategies. */
-  placementStrategyIds?: StringList | undefined;
   /** Select only placements that are associated with these directory sites. */
   directorySiteIds?: StringList | undefined;
-  /** Select only placements or placement groups whose start date is on or after the specified minStartDate. The date should be formatted as "yyyy-MM-dd". */
-  minStartDate?: string | undefined;
-  /** Select only placements or placement groups whose end date is on or after the specified minEndDate. The date should be formatted as "yyyy-MM-dd". */
-  minEndDate?: string | undefined;
-  /** Select only placements that belong to these placement groups. */
-  groupIds?: StringList | undefined;
+  /** Select only placements with this payment source. */
+  paymentSource?: ListPlacementsPaymentSourceEnum | (string & {}) | undefined;
+  /** Allows searching for placements by name or ID. Wildcards (*) are allowed. For example, "placement*2015" will return placements with names like "placement June 2015", "placement May 2015", or simply "placements 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "placement" will match placements with name "my placement", "placement 2015", or simply "placement" . */
+  searchString?: string | undefined;
+  /** Maximum number of results to return. */
+  maxResults?: number | undefined;
 }
 export type PlacementList = Array<Placement>;
 /** Placement List Response */
@@ -6633,31 +6633,31 @@ export interface PlacementsListResponse {
   /** Placement collection. */
   placements?: PlacementList | undefined;
 }
-export type ListPlacementStrategiesSortFieldEnum = "ID" | "NAME";
 export type ListPlacementStrategiesSortOrderEnum = "ASCENDING" | "DESCENDING";
+export type ListPlacementStrategiesSortFieldEnum = "ID" | "NAME";
 export interface ListPlacementStrategiesRequest {
-  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "placementstrategy*2015" will return objects with names like "placementstrategy June 2015", "placementstrategy April 2015", or simply "placementstrategy 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "placementstrategy" will match objects with name "my placementstrategy", "placementstrategy 2015", or simply "placementstrategy". */
-  searchString?: string | undefined;
+  /** User profile ID associated with this request. */
+  profileId: string;
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string | undefined;
   /** Select only placement strategies with these IDs. */
   ids?: StringList | undefined;
+  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "placementstrategy*2015" will return objects with names like "placementstrategy June 2015", "placementstrategy April 2015", or simply "placementstrategy 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "placementstrategy" will match objects with name "my placementstrategy", "placementstrategy 2015", or simply "placementstrategy". */
+  searchString?: string | undefined;
+  /** Order of sorted results. */
+  sortOrder?: ListPlacementStrategiesSortOrderEnum | (string & {}) | undefined;
   /** Field by which to sort the list. */
   sortField?: ListPlacementStrategiesSortFieldEnum | (string & {}) | undefined;
   /** Maximum number of results to return. */
   maxResults?: number | undefined;
-  /** Order of sorted results. */
-  sortOrder?: ListPlacementStrategiesSortOrderEnum | (string & {}) | undefined;
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string | undefined;
-  /** User profile ID associated with this request. */
-  profileId: string;
 }
 export type PlacementStrategyList = Array<PlacementStrategy>;
 /** Placement Strategy List Response */
 export interface PlacementStrategiesListResponse {
-  /** Placement strategy collection. */
-  placementStrategies?: PlacementStrategyList | undefined;
   /** Pagination token to be used for the next list operation. */
   nextPageToken?: string | undefined;
+  /** Placement strategy collection. */
+  placementStrategies?: PlacementStrategyList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#placementStrategiesListResponse". */
   kind?: string | undefined;
 }
@@ -6694,157 +6694,153 @@ export interface RegionsListResponse {
   /** Region collection. */
   regions?: RegionList | undefined;
 }
-export type ListRemarketingListsSortFieldEnum = "ID" | "NAME";
 export type ListRemarketingListsSortOrderEnum = "ASCENDING" | "DESCENDING";
+export type ListRemarketingListsSortFieldEnum = "ID" | "NAME";
 export interface ListRemarketingListsRequest {
-  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "remarketing list*2015" will return objects with names like "remarketing list June 2015", "remarketing list April 2015", or simply "remarketing list 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "remarketing list" will match objects with name "my remarketing list", "remarketing list 2015", or simply "remarketing list". */
-  name?: string | undefined;
-  /** Maximum number of results to return. */
-  maxResults?: number | undefined;
   /** Select only remarketing lists that have this floodlight activity ID. */
   floodlightActivityId?: string | undefined;
-  /** Field by which to sort the list. */
-  sortField?: ListRemarketingListsSortFieldEnum | (string & {}) | undefined;
   /** Value of the nextPageToken from the previous result page. */
   pageToken?: string | undefined;
-  /** Select only active or only inactive remarketing lists. */
-  active?: boolean | undefined;
-  /** User profile ID associated with this request. */
-  profileId: string;
+  /** Maximum number of results to return. */
+  maxResults?: number | undefined;
   /** Order of sorted results. */
   sortOrder?: ListRemarketingListsSortOrderEnum | (string & {}) | undefined;
   /** Required. Select only remarketing lists owned by this advertiser. */
   advertiserId: string;
+  /** Field by which to sort the list. */
+  sortField?: ListRemarketingListsSortFieldEnum | (string & {}) | undefined;
+  /** User profile ID associated with this request. */
+  profileId: string;
+  /** Select only active or only inactive remarketing lists. */
+  active?: boolean | undefined;
+  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "remarketing list*2015" will return objects with names like "remarketing list June 2015", "remarketing list April 2015", or simply "remarketing list 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "remarketing list" will match objects with name "my remarketing list", "remarketing list 2015", or simply "remarketing list". */
+  name?: string | undefined;
 }
 export type RemarketingListList = Array<RemarketingList>;
 /** Remarketing list response */
 export interface RemarketingListsListResponse {
+  /** Remarketing list collection. */
+  remarketingLists?: RemarketingListList | undefined;
   /** Pagination token to be used for the next list operation. */
   nextPageToken?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#remarketingListsListResponse". */
   kind?: string | undefined;
-  /** Remarketing list collection. */
-  remarketingLists?: RemarketingListList | undefined;
 }
-export type ListReportsSortOrderEnum = "ASCENDING" | "DESCENDING";
 export type ListReportsSortFieldEnum = "ID" | "LAST_MODIFIED_TIME" | "NAME";
+export type ListReportsSortOrderEnum = "ASCENDING" | "DESCENDING";
 export type ListReportsScopeEnum = "ALL" | "MINE";
 export interface ListReportsRequest {
-  /** Maximum number of results to return. */
-  maxResults?: number | undefined;
-  /** Order of sorted results. */
-  sortOrder?: ListReportsSortOrderEnum | (string & {}) | undefined;
   /** The field by which to sort the list. */
   sortField?: ListReportsSortFieldEnum | (string & {}) | undefined;
-  /** The value of the nextToken from the previous result page. */
-  pageToken?: string | undefined;
+  /** Order of sorted results. */
+  sortOrder?: ListReportsSortOrderEnum | (string & {}) | undefined;
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
+  /** The value of the nextToken from the previous result page. */
+  pageToken?: string | undefined;
   /** The scope that defines which results are returned. */
   scope?: ListReportsScopeEnum | (string & {}) | undefined;
+  /** Maximum number of results to return. */
+  maxResults?: number | undefined;
 }
 export type ReportList_ = Array<Report>;
 /** Represents the list of reports. */
 export interface ReportList {
-  /** Continuation token used to page through reports. To retrieve the next page of results, set the next request's "pageToken" to the value of this field. The page token is only valid for a limited amount of time and should not be persisted. */
-  nextPageToken?: string | undefined;
+  /** The reports returned in this response. */
+  items: ReportList_;
   /** The kind of list this is, in this case dfareporting#reportList. */
   kind?: string | undefined;
   /** The eTag of this response for caching purposes. */
   etag?: string | undefined;
-  /** The reports returned in this response. */
-  items: ReportList_;
+  /** Continuation token used to page through reports. To retrieve the next page of results, set the next request's "pageToken" to the value of this field. The page token is only valid for a limited amount of time and should not be persisted. */
+  nextPageToken?: string | undefined;
 }
-export type ListReportsFilesSortFieldEnum = "ID" | "LAST_MODIFIED_TIME";
 export type ListReportsFilesSortOrderEnum = "ASCENDING" | "DESCENDING";
+export type ListReportsFilesSortFieldEnum = "ID" | "LAST_MODIFIED_TIME";
 export interface ListReportsFilesRequest {
   /** The ID of the parent report. */
   reportId: string;
-  /** The field by which to sort the list. */
-  sortField?: ListReportsFilesSortFieldEnum | (string & {}) | undefined;
-  /** Order of sorted results. */
-  sortOrder?: ListReportsFilesSortOrderEnum | (string & {}) | undefined;
-  /** The value of the nextToken from the previous result page. */
-  pageToken?: string | undefined;
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
+  /** The value of the nextToken from the previous result page. */
+  pageToken?: string | undefined;
   /** Maximum number of results to return. */
   maxResults?: number | undefined;
+  /** Order of sorted results. */
+  sortOrder?: ListReportsFilesSortOrderEnum | (string & {}) | undefined;
+  /** The field by which to sort the list. */
+  sortField?: ListReportsFilesSortFieldEnum | (string & {}) | undefined;
 }
-export type ListSitesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export type ListSitesSortFieldEnum = "ID" | "NAME";
+export type ListSitesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export interface ListSitesRequest {
+  /** Select only sites with these IDs. */
+  ids?: StringList | undefined;
+  /** Field by which to sort the list. */
+  sortField?: ListSitesSortFieldEnum | (string & {}) | undefined;
+  /** Select only sites with these campaign IDs. */
+  campaignIds?: StringList | undefined;
+  /** Select only sites with these directory site IDs. */
+  directorySiteIds?: StringList | undefined;
   /** This search filter is no longer supported and will have no effect on the results returned. */
   acceptsInterstitialPlacements?: boolean | undefined;
   /** Select only approved sites. */
   approved?: boolean | undefined;
-  /** This search filter is no longer supported and will have no effect on the results returned. */
-  acceptsInStreamVideoPlacements?: boolean | undefined;
-  /** Select only AdWords sites. */
-  adWordsSite?: boolean | undefined;
-  /** Select only sites with these directory site IDs. */
-  directorySiteIds?: StringList | undefined;
-  /** Select only sites with these campaign IDs. */
-  campaignIds?: StringList | undefined;
-  /** Select only sites that have not been mapped to a directory site. */
-  unmappedSite?: boolean | undefined;
-  /** Allows searching for objects by name, ID or keyName. Wildcards (*) are allowed. For example, "site*2015" will return objects with names like "site June 2015", "site April 2015", or simply "site 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "site" will match objects with name "my site", "site 2015", or simply "site". */
-  searchString?: string | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Maximum number of results to return. */
+  maxResults?: number | undefined;
+  /** Select only sites with this subaccount ID. */
+  subaccountId?: string | undefined;
   /** Value of the nextPageToken from the previous result page. */
   pageToken?: string | undefined;
   /** Order of sorted results. */
   sortOrder?: ListSitesSortOrderEnum | (string & {}) | undefined;
-  /** Select only sites with this subaccount ID. */
-  subaccountId?: string | undefined;
-  /** Maximum number of results to return. */
-  maxResults?: number | undefined;
-  /** Select only sites with these IDs. */
-  ids?: StringList | undefined;
   /** Select only sites that accept publisher paid placements. */
   acceptsPublisherPaidPlacements?: boolean | undefined;
-  /** Field by which to sort the list. */
-  sortField?: ListSitesSortFieldEnum | (string & {}) | undefined;
+  /** This search filter is no longer supported and will have no effect on the results returned. */
+  acceptsInStreamVideoPlacements?: boolean | undefined;
+  /** Select only AdWords sites. */
+  adWordsSite?: boolean | undefined;
+  /** Allows searching for objects by name, ID or keyName. Wildcards (*) are allowed. For example, "site*2015" will return objects with names like "site June 2015", "site April 2015", or simply "site 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "site" will match objects with name "my site", "site 2015", or simply "site". */
+  searchString?: string | undefined;
+  /** Select only sites that have not been mapped to a directory site. */
+  unmappedSite?: boolean | undefined;
 }
 export type SiteList = Array<Site>;
 /** Site List Response */
 export interface SitesListResponse {
-  /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string | undefined;
   /** Site collection. */
   sites?: SiteList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#sitesListResponse". */
   kind?: string | undefined;
+  /** Pagination token to be used for the next list operation. */
+  nextPageToken?: string | undefined;
 }
 export interface ListSizesRequest {
+  /** Select only sizes with this width. */
+  width?: number | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
   /** Select only sizes with this height. */
   height?: number | undefined;
-  /** Select only sizes with these IDs. */
-  ids?: StringList | undefined;
-  /** Select only sizes with this width. */
-  width?: number | undefined;
   /** Select only IAB standard sizes. */
   iabStandard?: boolean | undefined;
+  /** Select only sizes with these IDs. */
+  ids?: StringList | undefined;
 }
 /** Size List Response */
 export interface SizesListResponse {
-  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#sizesListResponse". */
-  kind?: string | undefined;
   /** Size collection. */
   sizes?: SizeList | undefined;
+  /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#sizesListResponse". */
+  kind?: string | undefined;
 }
 export type ListSubaccountsSortFieldEnum = "ID" | "NAME";
 export type ListSubaccountsSortOrderEnum = "ASCENDING" | "DESCENDING";
 export interface ListSubaccountsRequest {
   /** Maximum number of results to return. */
   maxResults?: number | undefined;
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string | undefined;
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Select only subaccounts with these IDs. */
   ids?: StringList | undefined;
   /** Field by which to sort the list. */
@@ -6853,6 +6849,10 @@ export interface ListSubaccountsRequest {
   searchString?: string | undefined;
   /** Order of sorted results. */
   sortOrder?: ListSubaccountsSortOrderEnum | (string & {}) | undefined;
+  /** User profile ID associated with this request. */
+  profileId: string;
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string | undefined;
 }
 export type SubaccountList = Array<Subaccount>;
 /** Subaccount List Response */
@@ -6864,55 +6864,55 @@ export interface SubaccountsListResponse {
   /** Pagination token to be used for the next list operation. */
   nextPageToken?: string | undefined;
 }
-export type ListTargetableRemarketingListsSortOrderEnum = "ASCENDING" | "DESCENDING";
 export type ListTargetableRemarketingListsSortFieldEnum = "ID" | "NAME";
+export type ListTargetableRemarketingListsSortOrderEnum = "ASCENDING" | "DESCENDING";
 export interface ListTargetableRemarketingListsRequest {
-  /** User profile ID associated with this request. */
-  profileId: string;
-  /** Required. Select only targetable remarketing lists targetable by these advertisers. */
-  advertiserId: string;
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string | undefined;
-  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "remarketing list*2015" will return objects with names like "remarketing list June 2015", "remarketing list April 2015", or simply "remarketing list 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "remarketing list" will match objects with name "my remarketing list", "remarketing list 2015", or simply "remarketing list". */
-  name?: string | undefined;
-  /** Maximum number of results to return. */
-  maxResults?: number | undefined;
-  /** Order of sorted results. */
-  sortOrder?: ListTargetableRemarketingListsSortOrderEnum | (string & {}) | undefined;
   /** Field by which to sort the list. */
   sortField?: ListTargetableRemarketingListsSortFieldEnum | (string & {}) | undefined;
   /** Select only active or only inactive targetable remarketing lists. */
   active?: boolean | undefined;
+  /** Maximum number of results to return. */
+  maxResults?: number | undefined;
+  /** User profile ID associated with this request. */
+  profileId: string;
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string | undefined;
+  /** Order of sorted results. */
+  sortOrder?: ListTargetableRemarketingListsSortOrderEnum | (string & {}) | undefined;
+  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "remarketing list*2015" will return objects with names like "remarketing list June 2015", "remarketing list April 2015", or simply "remarketing list 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "remarketing list" will match objects with name "my remarketing list", "remarketing list 2015", or simply "remarketing list". */
+  name?: string | undefined;
+  /** Required. Select only targetable remarketing lists targetable by these advertisers. */
+  advertiserId: string;
 }
 export type TargetableRemarketingListList = Array<TargetableRemarketingList>;
 /** Targetable remarketing list response */
 export interface TargetableRemarketingListsListResponse {
-  /** Targetable remarketing list collection. */
-  targetableRemarketingLists?: TargetableRemarketingListList | undefined;
-  /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#targetableRemarketingListsListResponse". */
   kind?: string | undefined;
+  /** Pagination token to be used for the next list operation. */
+  nextPageToken?: string | undefined;
+  /** Targetable remarketing list collection. */
+  targetableRemarketingLists?: TargetableRemarketingListList | undefined;
 }
 export type ListTargetingTemplatesSortFieldEnum = "ID" | "NAME";
 export type ListTargetingTemplatesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export interface ListTargetingTemplatesRequest {
   /** Field by which to sort the list. */
   sortField?: ListTargetingTemplatesSortFieldEnum | (string & {}) | undefined;
-  /** Maximum number of results to return. */
-  maxResults?: number | undefined;
-  /** Select only targeting templates with these IDs. */
-  ids?: StringList | undefined;
-  /** Select only targeting templates with this advertiser ID. */
-  advertiserId?: string | undefined;
-  /** Order of sorted results. */
-  sortOrder?: ListTargetingTemplatesSortOrderEnum | (string & {}) | undefined;
-  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "template*2015" will return objects with names like "template June 2015", "template April 2015", or simply "template 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "template" will match objects with name "my template", "template 2015", or simply "template". */
-  searchString?: string | undefined;
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string | undefined;
+  /** Maximum number of results to return. */
+  maxResults?: number | undefined;
+  /** Order of sorted results. */
+  sortOrder?: ListTargetingTemplatesSortOrderEnum | (string & {}) | undefined;
+  /** Select only targeting templates with these IDs. */
+  ids?: StringList | undefined;
+  /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "template*2015" will return objects with names like "template June 2015", "template April 2015", or simply "template 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "template" will match objects with name "my template", "template 2015", or simply "template". */
+  searchString?: string | undefined;
+  /** Select only targeting templates with this advertiser ID. */
+  advertiserId?: string | undefined;
 }
 export type TargetingTemplateList = Array<TargetingTemplate>;
 /** Targeting Template List Response */
@@ -6936,16 +6936,16 @@ export type ListTvCampaignSummariesTvDataProviderEnum =
   | "COMSCORE_CA"
   | "SAMBA_AU";
 export interface ListTvCampaignSummariesRequest {
-  /** Required. Account ID associated with this request. */
-  accountId?: string | undefined;
-  /** Optional. TV data provider. If not specified, defaults to `COMSCORE_NATIONAL_US`. */
-  tvDataProvider?: ListTvCampaignSummariesTvDataProviderEnum | (string & {}) | undefined;
-  /** Required. Search string to filter the list of TV campaign summaries. Matches any substring. Required field. */
-  name?: string | undefined;
   /** Optional. Country Dart ID. If not specified, defaults to 256 (US). */
   countryDartId?: string | undefined;
+  /** Optional. TV data provider. If not specified, defaults to `COMSCORE_NATIONAL_US`. */
+  tvDataProvider?: ListTvCampaignSummariesTvDataProviderEnum | (string & {}) | undefined;
+  /** Required. Account ID associated with this request. */
+  accountId?: string | undefined;
   /** Required. User profile ID associated with this request. */
   profileId: string;
+  /** Required. Search string to filter the list of TV campaign summaries. Matches any substring. Required field. */
+  name?: string | undefined;
 }
 export type TvCampaignSummaryTypeEnum =
   | "CAMPAIGN_COMPONENT_TYPE_UNSPECIFIED"
@@ -6955,32 +6955,32 @@ export type TvCampaignSummaryTypeEnum =
   | "CAMPAIGN";
 /** TvCampaignSummary contains aggregate data from a TV campaign. */
 export interface TvCampaignSummary {
+  /** Impressions across the entire TV campaign. */
+  impressions?: string | undefined;
   /** Spend across the entire TV campaign. */
   spend?: number | undefined;
   /** GRP of this TV campaign. */
   grp?: string | undefined;
+  /** ID of this TV campaign. */
+  id?: string | undefined;
+  /** "CampaignComponentType" of this TV campaign. */
+  type?: TvCampaignSummaryTypeEnum | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#tvCampaignSummary". */
   kind?: string | undefined;
   /** The start date of the TV campaign, inclusive. A string of the format: "yyyy-MM-dd". */
   startDate?: string | undefined;
-  /** ID of this TV campaign. */
-  id?: string | undefined;
-  /** Impressions across the entire TV campaign. */
-  impressions?: string | undefined;
   /** The end date of the TV campaign, inclusive. A string of the format: "yyyy-MM-dd". */
   endDate?: string | undefined;
   /** Identifier. Name of this TV campaign. */
   name?: string | undefined;
-  /** "CampaignComponentType" of this TV campaign. */
-  type?: TvCampaignSummaryTypeEnum | undefined;
 }
 export type TvCampaignSummaryList = Array<TvCampaignSummary>;
 /** Response message for TvCampaignSummariesService.List. */
 export interface TvCampaignSummariesListResponse {
-  /** List of TV campaign summaries. */
-  tvCampaignSummaries?: TvCampaignSummaryList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#tvCampaignSummariesListResponse". */
   kind?: string | undefined;
+  /** List of TV campaign summaries. */
+  tvCampaignSummaries?: TvCampaignSummaryList | undefined;
 }
 export interface ListUserProfilesRequest {}
 export type UserProfileList_ = Array<UserProfile>;
@@ -6988,10 +6988,10 @@ export type UserProfileList_ = Array<UserProfile>;
 export interface UserProfileList {
   /** The user profiles returned in this response. */
   items?: UserProfileList_ | undefined;
-  /** Etag of this resource. */
-  etag?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#userProfileList". */
   kind?: string | undefined;
+  /** Etag of this resource. */
+  etag?: string | undefined;
 }
 export interface ListUserRolePermissionGroupsRequest {
   /** User profile ID associated with this request. */
@@ -7000,10 +7000,10 @@ export interface ListUserRolePermissionGroupsRequest {
 export type UserRolePermissionGroupList = Array<UserRolePermissionGroup>;
 /** User Role Permission Group List Response */
 export interface UserRolePermissionGroupsListResponse {
-  /** User role permission group collection. */
-  userRolePermissionGroups?: UserRolePermissionGroupList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#userRolePermissionGroupsListResponse". */
   kind?: string | undefined;
+  /** User role permission group collection. */
+  userRolePermissionGroups?: UserRolePermissionGroupList | undefined;
 }
 export interface ListUserRolePermissionsRequest {
   /** User profile ID associated with this request. */
@@ -7013,42 +7013,42 @@ export interface ListUserRolePermissionsRequest {
 }
 /** User Role Permission List Response */
 export interface UserRolePermissionsListResponse {
-  /** User role permission collection. */
-  userRolePermissions?: UserRolePermissionList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#userRolePermissionsListResponse". */
   kind?: string | undefined;
+  /** User role permission collection. */
+  userRolePermissions?: UserRolePermissionList | undefined;
 }
-export type ListUserRolesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export type ListUserRolesSortFieldEnum = "ID" | "NAME";
+export type ListUserRolesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export interface ListUserRolesRequest {
+  /** Field by which to sort the list. */
+  sortField?: ListUserRolesSortFieldEnum | (string & {}) | undefined;
+  /** Value of the nextPageToken from the previous result page. */
+  pageToken?: string | undefined;
   /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "userrole*2015" will return objects with names like "userrole June 2015", "userrole April 2015", or simply "userrole 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "userrole" will match objects with name "my userrole", "userrole 2015", or simply "userrole". */
   searchString?: string | undefined;
   /** Order of sorted results. */
   sortOrder?: ListUserRolesSortOrderEnum | (string & {}) | undefined;
-  /** Select only user roles with the specified IDs. */
-  ids?: StringList | undefined;
-  /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string | undefined;
-  /** Select only account level user roles not associated with any specific subaccount. */
-  accountUserRoleOnly?: boolean | undefined;
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Select only user roles that belong to this subaccount. */
   subaccountId?: string | undefined;
-  /** Field by which to sort the list. */
-  sortField?: ListUserRolesSortFieldEnum | (string & {}) | undefined;
+  /** Select only user roles with the specified IDs. */
+  ids?: StringList | undefined;
+  /** User profile ID associated with this request. */
+  profileId: string;
   /** Maximum number of results to return. */
   maxResults?: number | undefined;
+  /** Select only account level user roles not associated with any specific subaccount. */
+  accountUserRoleOnly?: boolean | undefined;
 }
 export type UserRoleList = Array<UserRole>;
 /** User Role List Response */
 export interface UserRolesListResponse {
+  /** User role collection. */
+  userRoles?: UserRoleList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#userRolesListResponse". */
   kind?: string | undefined;
   /** Pagination token to be used for the next list operation. */
   nextPageToken?: string | undefined;
-  /** User role collection. */
-  userRoles?: UserRoleList | undefined;
 }
 export interface ListVideoFormatsRequest {
   /** User profile ID associated with this request. */
@@ -7057,10 +7057,10 @@ export interface ListVideoFormatsRequest {
 export type VideoFormatList = Array<VideoFormat>;
 /** Video Format List Response */
 export interface VideoFormatsListResponse {
-  /** Video format collection. */
-  videoFormats?: VideoFormatList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#videoFormatsListResponse". */
   kind?: string | undefined;
+  /** Video format collection. */
+  videoFormats?: VideoFormatList | undefined;
 }
 export interface PatchAccountsRequest extends Omit<Account, "id"> {
   /** User profile ID associated with this request. */
@@ -7075,10 +7075,10 @@ export interface PatchAccountUserProfilesRequest extends Omit<AccountUserProfile
   profileId: string;
 }
 export interface PatchAdsRequest extends Omit<Ad, "id"> {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Required. RemarketingList ID. */
   id: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 export interface PatchAdvertiserGroupsRequest extends Omit<AdvertiserGroup, "id"> {
   /** User profile ID associated with this request. */
@@ -7119,10 +7119,10 @@ export interface PatchCreativeFieldsRequest extends Omit<CreativeField, "id"> {
 export interface PatchCreativeFieldValuesRequest extends Omit<CreativeFieldValue, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
-  /** CreativeFieldValue ID. */
-  id: string;
   /** CreativeField ID. */
   creativeFieldId: string;
+  /** CreativeFieldValue ID. */
+  id: string;
 }
 export interface PatchCreativeGroupsRequest extends Omit<CreativeGroup, "id"> {
   /** User profile ID associated with this request. */
@@ -7131,16 +7131,16 @@ export interface PatchCreativeGroupsRequest extends Omit<CreativeGroup, "id"> {
   id: string;
 }
 export interface PatchCreativesRequest extends Omit<Creative, "id"> {
+  /** User profile ID associated with this request. */
+  profileId: string;
   /** Required. Creative ID. */
   id: string;
-  /** User profile ID associated with this request. */
-  profileId: string;
 }
 export interface PatchEventTagsRequest extends Omit<EventTag, "id"> {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Required. EventTag ID. */
   id: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 export interface PatchFloodlightActivitiesRequest extends Omit<FloodlightActivity, "id"> {
   /** User profile ID associated with this request. */
@@ -7149,28 +7149,28 @@ export interface PatchFloodlightActivitiesRequest extends Omit<FloodlightActivit
   id: string;
 }
 export interface PatchFloodlightActivityGroupsRequest extends Omit<FloodlightActivityGroup, "id"> {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Required. EventTag ID. */
   id: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 export interface PatchFloodlightConfigurationsRequest extends Omit<FloodlightConfiguration, "id"> {
+  /** User profile ID associated with this request. */
+  profileId: string;
   /** Required. EventTag ID. */
   id: string;
-  /** User profile ID associated with this request. */
-  profileId: string;
 }
 export interface PatchPlacementGroupsRequest extends Omit<PlacementGroup, "id"> {
-  /** Required. Placement ID. */
-  id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** Required. Placement ID. */
+  id: string;
 }
 export interface PatchPlacementsRequest extends Omit<Placement, "id"> {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Required. Placement ID. */
   id: string;
+  /** User profile ID associated with this request. */
+  profileId: string;
 }
 export interface PatchPlacementStrategiesRequest extends Omit<PlacementStrategy, "id"> {
   /** Required. PlacementStrategy ID. */
@@ -7185,22 +7185,22 @@ export interface PatchRemarketingListsRequest extends Omit<RemarketingList, "id"
   profileId: string;
 }
 export interface PatchRemarketingListSharesRequest extends RemarketingListShare {
+  /** User profile ID associated with this request. */
+  profileId: string;
   /** Required. RemarketingList ID. */
   id: string;
-  /** User profile ID associated with this request. */
-  profileId: string;
 }
 export interface PatchSitesRequest extends Omit<Site, "id"> {
-  /** User profile ID associated with this request. */
-  profileId: string;
   /** Required. Site ID. */
   id: string;
-}
-export interface PatchSubaccountsRequest extends Omit<Subaccount, "id"> {
-  /** Required. Subaccount ID. */
-  id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+}
+export interface PatchSubaccountsRequest extends Omit<Subaccount, "id"> {
+  /** User profile ID associated with this request. */
+  profileId: string;
+  /** Required. Subaccount ID. */
+  id: string;
 }
 export interface PatchTargetingTemplatesRequest extends Omit<TargetingTemplate, "id"> {
   /** User profile ID associated with this request. */
@@ -7226,69 +7226,69 @@ export interface PublishStudioCreativesRequest {
 export interface PublishStudioCreativesResponse {}
 /** Represents a dimension filter. */
 export interface DimensionFilter {
-  /** The name of the dimension to filter. */
-  dimensionName?: string | undefined;
   /** The kind of resource this is, in this case dfareporting#dimensionFilter. */
   kind?: string | undefined;
   /** The value of the dimension to filter. */
   value?: string | undefined;
+  /** The name of the dimension to filter. */
+  dimensionName?: string | undefined;
 }
 export type DimensionFilterList = Array<DimensionFilter>;
 /** Represents a DimensionValuesRequest. */
 export interface DimensionValueRequest {
-  endDate?: string | undefined;
+  /** The name of the dimension for which values should be requested. */
+  dimensionName?: string | undefined;
   startDate?: string | undefined;
   /** The list of filters by which to filter values. The filters are ANDed. */
   filters?: DimensionFilterList | undefined;
-  /** The name of the dimension for which values should be requested. */
-  dimensionName?: string | undefined;
   /** The kind of request this is, in this case dfareporting#dimensionValueRequest . */
   kind?: string | undefined;
+  endDate?: string | undefined;
 }
 export interface QueryDimensionValuesRequest extends DimensionValueRequest {
-  /** Maximum number of results to return. */
-  maxResults?: number | undefined;
-  /** The value of the nextToken from the previous result page. */
-  pageToken?: string | undefined;
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
+  /** The value of the nextToken from the previous result page. */
+  pageToken?: string | undefined;
+  /** Maximum number of results to return. */
+  maxResults?: number | undefined;
 }
 /** Represents the list of DimensionValue resources. */
 export interface DimensionValueList {
+  /** The dimension values returned in this response. */
+  items: DimensionValueList_;
   /** Continuation token used to page through dimension values. To retrieve the next page of results, set the next request's "pageToken" to the value of this field. The page token is only valid for a limited amount of time and should not be persisted. */
   nextPageToken?: string | undefined;
   /** The kind of list this is, in this case dfareporting#dimensionValueList. */
   kind?: string | undefined;
-  /** The dimension values returned in this response. */
-  items: DimensionValueList_;
   /** The eTag of this response for caching purposes. */
   etag?: string | undefined;
 }
 export type SortBySortOrderEnum = "ASCENDING" | "DESCENDING";
 /** Specifies the sort configuration for a specific field in the report. */
 export interface SortBy {
-  /** Optional. The sort order of this column. */
-  sortOrder?: SortBySortOrderEnum | (string & {}) | undefined;
   /** Required. The dimension or metric field name to sort on. */
   name?: string | undefined;
+  /** Optional. The sort order of this column. */
+  sortOrder?: SortBySortOrderEnum | (string & {}) | undefined;
 }
 export type SortByList = Array<SortBy>;
 /** The request body containing ad-hoc query parameters. */
 export interface ReportDataQueryRequest {
-  /** Optional. The requested date range covering the report duration. */
-  dateRange?: DateRange | undefined;
-  /** Optional. Maximum number of result rows to return per page. The default value is 100. The maximum allowed value is 1000. Values above 1000 will be coerced (clamped) down to 1000. Negative values will be rejected. */
-  maxResults?: number | undefined;
-  /** Optional. The list of dimension values on which report lines are filtered. Utilizes the existing legacy filter message `DimensionValue`. */
-  dimensionFilters?: DimensionValueList_ | undefined;
-  /** Optional. Continuation token for paginating results. */
-  pageToken?: string | undefined;
   /** Required. The list of metric names to include. */
   metricNames?: StringList | undefined;
   /** Optional. Sort options across either requested dimensions or metrics. */
   sortBys?: SortByList | undefined;
+  /** Optional. The requested date range covering the report duration. */
+  dateRange?: DateRange | undefined;
+  /** Optional. Continuation token for paginating results. */
+  pageToken?: string | undefined;
+  /** Optional. The list of dimension values on which report lines are filtered. Utilizes the existing legacy filter message `DimensionValue`. */
+  dimensionFilters?: DimensionValueList_ | undefined;
   /** Optional. The list of dimension names to group by. */
   dimensionNames?: StringList | undefined;
+  /** Optional. Maximum number of result rows to return per page. The default value is 100. The maximum allowed value is 1000. Values above 1000 will be coerced (clamped) down to 1000. Negative values will be rejected. */
+  maxResults?: number | undefined;
 }
 export interface QueryReportDataRequest extends ReportDataQueryRequest {
   /** Required. The Campaign Manager 360 user profile ID. */
@@ -7313,10 +7313,10 @@ export type ColumnHeaderList = Array<ColumnHeader>;
 export interface ReportDataResponse {
   /** Output only. Token to retrieve the next page of rows, or empty if end of results. */
   nextPageToken?: string | undefined;
-  /** Output only. Singular aggregate total row for the entire query matching the criteria. Column headers apply in the exact same order as data rows. In the total_row: - All dimension columns contain an empty string (""), as aggregation does not apply. - Non-summable metric columns (e.g. Reach metrics) contain an empty string (""), as grand total aggregation cannot be mathematically/logically computed for them. */
-  totalRow?: ReportDataRow | undefined;
   /** Output only. The resulting set of matching data rows. */
   rows?: ReportDataRowList | undefined;
+  /** Output only. Singular aggregate total row for the entire query matching the criteria. Column headers apply in the exact same order as data rows. In the total_row: - All dimension columns contain an empty string (""), as aggregation does not apply. - Non-summable metric columns (e.g. Reach metrics) contain an empty string (""), as grand total aggregation cannot be mathematically/logically computed for them. */
+  totalRow?: ReportDataRow | undefined;
   /** Output only. Ordered descriptors of the requested column fields. */
   columnHeaders?: ColumnHeaderList | undefined;
 }
@@ -7334,104 +7334,104 @@ export interface Dimension {
 export type DimensionList = Array<Dimension>;
 /** Represents a metric. */
 export interface Metric {
-  /** The kind of resource this is, in this case dfareporting#metric. */
-  kind?: string | undefined;
   /** The metric name, e.g. impressions */
   name?: string | undefined;
+  /** The kind of resource this is, in this case dfareporting#metric. */
+  kind?: string | undefined;
 }
 export type MetricList = Array<Metric>;
-/** Represents fields that are compatible to be selected for a report of type "CROSS_MEDIA_REACH". */
-export interface CrossMediaReachReportCompatibleFields {
-  /** Dimensions which are compatible to be selected in the "dimensionFilters" section of the report. */
-  dimensionFilters?: DimensionList | undefined;
+/** Represents fields that are compatible to be selected for a report of type "PATH_TO_CONVERSION". */
+export interface PathToConversionReportCompatibleFields {
+  /** The kind of resource this is, in this case dfareporting#pathToConversionReportCompatibleFields. */
+  kind?: string | undefined;
+  /** Per-interaction dimensions which are compatible to be selected in the "perInteractionDimensions" section of the report. */
+  perInteractionDimensions?: DimensionList | undefined;
+  /** Conversion dimensions which are compatible to be selected in the "conversionDimensions" section of the report. */
+  conversionDimensions?: DimensionList | undefined;
+  /** Custom floodlight variables which are compatible to be selected in the "customFloodlightVariables" section of the report. */
+  customFloodlightVariables?: DimensionList | undefined;
+  /** Metrics which are compatible to be selected in the "metricNames" section of the report. */
+  metrics?: MetricList | undefined;
+}
+/** Represents fields that are compatible to be selected for a report of type "REACH". */
+export interface ReachReportCompatibleFields {
+  /** Metrics which are compatible to be selected as activity metrics to pivot on in the "activities" section of the report. */
+  pivotedActivityMetrics?: MetricList | undefined;
+  /** The kind of resource this is, in this case dfareporting#reachReportCompatibleFields. */
+  kind?: string | undefined;
+  /** Metrics which are compatible to be selected in the "reachByFrequencyMetricNames" section of the report. */
+  reachByFrequencyMetrics?: MetricList | undefined;
   /** Metrics which are compatible to be selected in the "metricNames" section of the report. */
   metrics?: MetricList | undefined;
   /** Dimensions which are compatible to be selected in the "dimensions" section of the report. */
   dimensions?: DimensionList | undefined;
-  /** The kind of resource this is, in this case dfareporting#crossMediaReachReportCompatibleFields. */
-  kind?: string | undefined;
-}
-/** Represents fields that are compatible to be selected for a report of type "CROSS_DIMENSION_REACH". */
-export interface CrossDimensionReachReportCompatibleFields {
-  /** Metrics which are compatible to be selected in the "overlapMetricNames" section of the report. */
-  overlapMetrics?: MetricList | undefined;
   /** Dimensions which are compatible to be selected in the "dimensionFilters" section of the report. */
   dimensionFilters?: DimensionList | undefined;
+}
+/** Represents fields that are compatible to be selected for a report of type "STANDARD". */
+export interface ReportCompatibleFields {
+  /** Metrics which are compatible to be selected as activity metrics to pivot on in the "activities" section of the report. */
+  pivotedActivityMetrics?: MetricList | undefined;
+  /** Dimensions which are compatible to be selected in the "dimensions" section of the report. */
+  dimensions?: DimensionList | undefined;
+  /** The kind of resource this is, in this case dfareporting#reportCompatibleFields. */
+  kind?: string | undefined;
   /** Metrics which are compatible to be selected in the "metricNames" section of the report. */
   metrics?: MetricList | undefined;
-  /** The kind of resource this is, in this case dfareporting#crossDimensionReachReportCompatibleFields. */
-  kind?: string | undefined;
-  /** Dimensions which are compatible to be selected in the "breakdown" section of the report. */
-  breakdown?: DimensionList | undefined;
+  /** Dimensions which are compatible to be selected in the "dimensionFilters" section of the report. */
+  dimensionFilters?: DimensionList | undefined;
 }
 /** Represents fields that are compatible to be selected for a report of type "FlOODLIGHT". */
 export interface FloodlightReportCompatibleFields {
-  /** Metrics which are compatible to be selected in the "metricNames" section of the report. */
-  metrics?: MetricList | undefined;
   /** The kind of resource this is, in this case dfareporting#floodlightReportCompatibleFields. */
   kind?: string | undefined;
   /** Dimensions which are compatible to be selected in the "dimensionFilters" section of the report. */
   dimensionFilters?: DimensionList | undefined;
   /** Dimensions which are compatible to be selected in the "dimensions" section of the report. */
   dimensions?: DimensionList | undefined;
-}
-/** Represents fields that are compatible to be selected for a report of type "PATH_TO_CONVERSION". */
-export interface PathToConversionReportCompatibleFields {
-  /** Conversion dimensions which are compatible to be selected in the "conversionDimensions" section of the report. */
-  conversionDimensions?: DimensionList | undefined;
-  /** The kind of resource this is, in this case dfareporting#pathToConversionReportCompatibleFields. */
-  kind?: string | undefined;
-  /** Per-interaction dimensions which are compatible to be selected in the "perInteractionDimensions" section of the report. */
-  perInteractionDimensions?: DimensionList | undefined;
   /** Metrics which are compatible to be selected in the "metricNames" section of the report. */
   metrics?: MetricList | undefined;
-  /** Custom floodlight variables which are compatible to be selected in the "customFloodlightVariables" section of the report. */
-  customFloodlightVariables?: DimensionList | undefined;
 }
-/** Represents fields that are compatible to be selected for a report of type "REACH". */
-export interface ReachReportCompatibleFields {
+/** Represents fields that are compatible to be selected for a report of type "CROSS_MEDIA_REACH". */
+export interface CrossMediaReachReportCompatibleFields {
+  /** The kind of resource this is, in this case dfareporting#crossMediaReachReportCompatibleFields. */
+  kind?: string | undefined;
+  /** Metrics which are compatible to be selected in the "metricNames" section of the report. */
+  metrics?: MetricList | undefined;
   /** Dimensions which are compatible to be selected in the "dimensions" section of the report. */
   dimensions?: DimensionList | undefined;
-  /** Metrics which are compatible to be selected as activity metrics to pivot on in the "activities" section of the report. */
-  pivotedActivityMetrics?: MetricList | undefined;
-  /** Metrics which are compatible to be selected in the "metricNames" section of the report. */
-  metrics?: MetricList | undefined;
   /** Dimensions which are compatible to be selected in the "dimensionFilters" section of the report. */
   dimensionFilters?: DimensionList | undefined;
-  /** Metrics which are compatible to be selected in the "reachByFrequencyMetricNames" section of the report. */
-  reachByFrequencyMetrics?: MetricList | undefined;
-  /** The kind of resource this is, in this case dfareporting#reachReportCompatibleFields. */
-  kind?: string | undefined;
 }
-/** Represents fields that are compatible to be selected for a report of type "STANDARD". */
-export interface ReportCompatibleFields {
-  /** Dimensions which are compatible to be selected in the "dimensionFilters" section of the report. */
-  dimensionFilters?: DimensionList | undefined;
-  /** The kind of resource this is, in this case dfareporting#reportCompatibleFields. */
-  kind?: string | undefined;
-  /** Dimensions which are compatible to be selected in the "dimensions" section of the report. */
-  dimensions?: DimensionList | undefined;
+/** Represents fields that are compatible to be selected for a report of type "CROSS_DIMENSION_REACH". */
+export interface CrossDimensionReachReportCompatibleFields {
   /** Metrics which are compatible to be selected in the "metricNames" section of the report. */
   metrics?: MetricList | undefined;
-  /** Metrics which are compatible to be selected as activity metrics to pivot on in the "activities" section of the report. */
-  pivotedActivityMetrics?: MetricList | undefined;
+  /** Dimensions which are compatible to be selected in the "breakdown" section of the report. */
+  breakdown?: DimensionList | undefined;
+  /** The kind of resource this is, in this case dfareporting#crossDimensionReachReportCompatibleFields. */
+  kind?: string | undefined;
+  /** Dimensions which are compatible to be selected in the "dimensionFilters" section of the report. */
+  dimensionFilters?: DimensionList | undefined;
+  /** Metrics which are compatible to be selected in the "overlapMetricNames" section of the report. */
+  overlapMetrics?: MetricList | undefined;
 }
 /** Represents a response to the queryCompatibleFields method. Next ID: 10 */
 export interface CompatibleFields {
-  /** Contains items that are compatible to be selected for a report of type "CROSS_MEDIA_REACH". */
-  crossMediaReachReportCompatibleFields?: CrossMediaReachReportCompatibleFields | undefined;
-  /** Contains items that are compatible to be selected for a report of type "CROSS_DIMENSION_REACH". */
-  crossDimensionReachReportCompatibleFields?: CrossDimensionReachReportCompatibleFields | undefined;
-  /** Contains items that are compatible to be selected for a report of type "FLOODLIGHT". */
-  floodlightReportCompatibleFields?: FloodlightReportCompatibleFields | undefined;
-  /** The kind of resource this is, in this case dfareporting#compatibleFields. */
-  kind?: string | undefined;
   /** Contains items that are compatible to be selected for a report of type "PATH_TO_CONVERSION". */
   pathToConversionReportCompatibleFields?: PathToConversionReportCompatibleFields | undefined;
   /** Contains items that are compatible to be selected for a report of type "REACH". */
   reachReportCompatibleFields?: ReachReportCompatibleFields | undefined;
   /** Contains items that are compatible to be selected for a report of type "STANDARD". */
   reportCompatibleFields?: ReportCompatibleFields | undefined;
+  /** Contains items that are compatible to be selected for a report of type "FLOODLIGHT". */
+  floodlightReportCompatibleFields?: FloodlightReportCompatibleFields | undefined;
+  /** Contains items that are compatible to be selected for a report of type "CROSS_MEDIA_REACH". */
+  crossMediaReachReportCompatibleFields?: CrossMediaReachReportCompatibleFields | undefined;
+  /** Contains items that are compatible to be selected for a report of type "CROSS_DIMENSION_REACH". */
+  crossDimensionReachReportCompatibleFields?: CrossDimensionReachReportCompatibleFields | undefined;
+  /** The kind of resource this is, in this case dfareporting#compatibleFields. */
+  kind?: string | undefined;
 }
 export interface RetransformDynamicFeedsRequest {
   /** Required. Dynamic feed ID. */
@@ -7440,10 +7440,10 @@ export interface RetransformDynamicFeedsRequest {
 export interface RunReportsRequest {
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
-  /** The ID of the report. */
-  reportId: string;
   /** If set and true, tries to run the report synchronously. */
   synchronous?: boolean | undefined;
+  /** The ID of the report. */
+  reportId: string;
 }
 export interface UpdateAccountsRequest extends Account {
   /** User profile ID associated with this request. */
@@ -7573,8 +7573,8 @@ export const batchinsertConversions: API.OperationMethod<
   BatchinsertConversionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7041, __c220, 1) as any as S.Schema<BatchinsertConversionsRequest>,
-  output: __S(7042, __c220, 2) as any as S.Schema<ConversionsBatchInsertResponse>,
+  input: __S(7073, __c221, 1) as any as S.Schema<BatchinsertConversionsRequest>,
+  output: __S(7074, __c221, 2) as any as S.Schema<ConversionsBatchInsertResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7765,7 +7765,7 @@ export const deleteFloodlightActivities: API.OperationMethod<
   DeleteFloodlightActivitiesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<DeleteFloodlightActivitiesRequest>,
+  input: __S(1088, __c34, 0) as any as S.Schema<DeleteFloodlightActivitiesRequest>,
   output: __S(8384, __c262, 0) as any as S.Schema<DeleteFloodlightActivitiesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -7789,7 +7789,7 @@ export const deletePlacementStrategies: API.OperationMethod<
   DeletePlacementStrategiesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<DeletePlacementStrategiesRequest>,
+  input: __S(1472, __c46, 0) as any as S.Schema<DeletePlacementStrategiesRequest>,
   output: __S(8384, __c262, 0) as any as S.Schema<DeletePlacementStrategiesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -7813,7 +7813,7 @@ export const deleteReports: API.OperationMethod<
   DeleteReportsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<DeleteReportsRequest>,
+  input: __S(1824, __c57, 0) as any as S.Schema<DeleteReportsRequest>,
   output: __S(8384, __c262, 0) as any as S.Schema<DeleteReportsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -7837,7 +7837,7 @@ export const deleteUserRoles: API.OperationMethod<
   DeleteUserRolesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<DeleteUserRolesRequest>,
+  input: __S(2176, __c68, 0) as any as S.Schema<DeleteUserRolesRequest>,
   output: __S(8384, __c262, 0) as any as S.Schema<DeleteUserRolesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -7859,8 +7859,8 @@ export const generateCodeDynamicProfiles: API.OperationMethod<
   GenerateCodeDynamicProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<GenerateCodeDynamicProfilesRequest>,
-  output: __S(2497, __c78, 1) as any as S.Schema<DynamicProfileGenerateCodeResponse>,
+  input: __S(2528, __c79, 0) as any as S.Schema<GenerateCodeDynamicProfilesRequest>,
+  output: __S(2529, __c79, 1) as any as S.Schema<DynamicProfileGenerateCodeResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7883,8 +7883,8 @@ export const generatetagFloodlightActivities: API.OperationMethod<
   GeneratetagFloodlightActivitiesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<GeneratetagFloodlightActivitiesRequest>,
-  output: __S(2849, __c89, 1) as any as S.Schema<FloodlightActivitiesGenerateTagResponse>,
+  input: __S(2880, __c90, 0) as any as S.Schema<GeneratetagFloodlightActivitiesRequest>,
+  output: __S(2881, __c90, 1) as any as S.Schema<FloodlightActivitiesGenerateTagResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7907,8 +7907,8 @@ export const generatetagsPlacements: API.OperationMethod<
   GeneratetagsPlacementsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<GeneratetagsPlacementsRequest>,
-  output: __S(3205, __c100, 5) as any as S.Schema<PlacementsGenerateTagsResponse>,
+  input: __S(3232, __c101, 0) as any as S.Schema<GeneratetagsPlacementsRequest>,
+  output: __S(3237, __c101, 5) as any as S.Schema<PlacementsGenerateTagsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7929,8 +7929,8 @@ export const getAccountActiveAdSummaries: API.OperationMethod<
   GetAccountActiveAdSummariesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<GetAccountActiveAdSummariesRequest>,
-  output: __S(3585, __c112, 1) as any as S.Schema<AccountActiveAdSummary>,
+  input: __S(3616, __c113, 0) as any as S.Schema<GetAccountActiveAdSummariesRequest>,
+  output: __S(3617, __c113, 1) as any as S.Schema<AccountActiveAdSummary>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7951,8 +7951,8 @@ export const getAccountPermissionGroups: API.OperationMethod<
   GetAccountPermissionGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<GetAccountPermissionGroupsRequest>,
-  output: __S(3968, __c124, 0) as any as S.Schema<AccountPermissionGroup>,
+  input: __S(3968, __c124, 0) as any as S.Schema<GetAccountPermissionGroupsRequest>,
+  output: __S(4000, __c125, 0) as any as S.Schema<AccountPermissionGroup>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7969,8 +7969,8 @@ export const getAccountPermissions: API.OperationMethod<
   GetAccountPermissionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c135, 0) as any as S.Schema<GetAccountPermissionsRequest>,
-  output: __S(4352, __c136, 0) as any as S.Schema<AccountPermission>,
+  input: __S(4352, __c136, 0) as any as S.Schema<GetAccountPermissionsRequest>,
+  output: __S(4384, __c137, 0) as any as S.Schema<AccountPermission>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -7987,8 +7987,8 @@ export const getAccounts: API.OperationMethod<
   GetAccountsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<GetAccountsRequest>,
-  output: __S(4513, __c141, 1) as any as S.Schema<Account>,
+  input: __S(4512, __c141, 0) as any as S.Schema<GetAccountsRequest>,
+  output: __S(4545, __c142, 1) as any as S.Schema<Account>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -8005,8 +8005,8 @@ export const getAccountUserProfiles: API.OperationMethod<
   GetAccountUserProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<GetAccountUserProfilesRequest>,
-  output: __S(4609, __c144, 1) as any as S.Schema<AccountUserProfile>,
+  input: __S(4608, __c144, 0) as any as S.Schema<GetAccountUserProfilesRequest>,
+  output: __S(4641, __c145, 1) as any as S.Schema<AccountUserProfile>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -8019,7 +8019,7 @@ export type GetAdsError = NotFound | Forbidden | InsufficientScopes | GcpOpError
 /** Gets one ad by ID. */
 export const getAds: API.OperationMethod<GetAdsRequest, Ad, GetAdsError, GcpOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(4640, __c145, 0) as any as S.Schema<GetAdsRequest>,
+    input: __S(4672, __c146, 0) as any as S.Schema<GetAdsRequest>,
     output: __S(5486, __c171, 14) as any as S.Schema<Ad>,
     errors: [NotFound, Forbidden, InsufficientScopes],
     serviceErrors: GcpServiceErrors,
@@ -8146,7 +8146,7 @@ export const getConnectionTypes: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5920, __c185, 0) as any as S.Schema<GetConnectionTypesRequest>,
-  output: __S(4768, __c149, 0) as any as S.Schema<ConnectionType>,
+  output: __S(4800, __c150, 0) as any as S.Schema<ConnectionType>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -8182,7 +8182,7 @@ export const getCountries: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6016, __c188, 0) as any as S.Schema<GetCountriesRequest>,
-  output: __S(4800, __c150, 0) as any as S.Schema<Country>,
+  output: __S(4832, __c151, 0) as any as S.Schema<Country>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -8254,7 +8254,7 @@ export const getCreatives: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6240, __c195, 0) as any as S.Schema<GetCreativesRequest>,
-  output: __S(6378, __c199, 10) as any as S.Schema<Creative>,
+  output: __S(6410, __c200, 10) as any as S.Schema<Creative>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -8271,8 +8271,8 @@ export const getDirectorySites: API.OperationMethod<
   GetDirectorySitesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6400, __c200, 0) as any as S.Schema<GetDirectorySitesRequest>,
-  output: __S(6434, __c201, 2) as any as S.Schema<DirectorySite>,
+  input: __S(6432, __c201, 0) as any as S.Schema<GetDirectorySitesRequest>,
+  output: __S(6466, __c202, 2) as any as S.Schema<DirectorySite>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -8289,8 +8289,8 @@ export const getDynamicFeeds: API.OperationMethod<
   GetDynamicFeedsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6464, __c202, 0) as any as S.Schema<GetDynamicFeedsRequest>,
-  output: __S(6508, __c203, 12) as any as S.Schema<DynamicFeed>,
+  input: __S(6496, __c203, 0) as any as S.Schema<GetDynamicFeedsRequest>,
+  output: __S(6540, __c204, 12) as any as S.Schema<DynamicFeed>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -8307,8 +8307,8 @@ export const getDynamicProfiles: API.OperationMethod<
   GetDynamicProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6528, __c204, 0) as any as S.Schema<GetDynamicProfilesRequest>,
-  output: __S(6577, __c205, 17) as any as S.Schema<DynamicProfile>,
+  input: __S(6560, __c205, 0) as any as S.Schema<GetDynamicProfilesRequest>,
+  output: __S(6609, __c206, 17) as any as S.Schema<DynamicProfile>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -8325,8 +8325,8 @@ export const getEventTags: API.OperationMethod<
   GetEventTagsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6592, __c206, 0) as any as S.Schema<GetEventTagsRequest>,
-  output: __S(6624, __c207, 0) as any as S.Schema<EventTag>,
+  input: __S(6624, __c207, 0) as any as S.Schema<GetEventTagsRequest>,
+  output: __S(6656, __c208, 0) as any as S.Schema<EventTag>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -8339,8 +8339,8 @@ export type GetFilesError = NotFound | Forbidden | InsufficientScopes | GcpOpErr
 /** Retrieves a report file by its report ID and file ID. This method supports media download. */
 export const getFiles: API.OperationMethod<GetFilesRequest, File, GetFilesError, GcpOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(6656, __c208, 0) as any as S.Schema<GetFilesRequest>,
-    output: __S(6721, __c210, 1) as any as S.Schema<File>,
+    input: __S(6688, __c209, 0) as any as S.Schema<GetFilesRequest>,
+    output: __S(6753, __c211, 1) as any as S.Schema<File>,
     errors: [NotFound, Forbidden, InsufficientScopes],
     serviceErrors: GcpServiceErrors,
     protocol: GcpProtocol,
@@ -8357,8 +8357,8 @@ export const getFloodlightActivities: API.OperationMethod<
   GetFloodlightActivitiesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6752, __c211, 0) as any as S.Schema<GetFloodlightActivitiesRequest>,
-  output: __S(6788, __c212, 4) as any as S.Schema<FloodlightActivity>,
+  input: __S(6784, __c212, 0) as any as S.Schema<GetFloodlightActivitiesRequest>,
+  output: __S(6820, __c213, 4) as any as S.Schema<FloodlightActivity>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -8379,8 +8379,8 @@ export const getFloodlightActivityGroups: API.OperationMethod<
   GetFloodlightActivityGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6816, __c213, 0) as any as S.Schema<GetFloodlightActivityGroupsRequest>,
-  output: __S(6848, __c214, 0) as any as S.Schema<FloodlightActivityGroup>,
+  input: __S(6848, __c214, 0) as any as S.Schema<GetFloodlightActivityGroupsRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<FloodlightActivityGroup>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -8401,8 +8401,8 @@ export const getFloodlightConfigurations: API.OperationMethod<
   GetFloodlightConfigurationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6880, __c215, 0) as any as S.Schema<GetFloodlightConfigurationsRequest>,
-  output: __S(6920, __c216, 8) as any as S.Schema<FloodlightConfiguration>,
+  input: __S(6912, __c216, 0) as any as S.Schema<GetFloodlightConfigurationsRequest>,
+  output: __S(6952, __c217, 8) as any as S.Schema<FloodlightConfiguration>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -8419,7 +8419,7 @@ export const getMobileApps: API.OperationMethod<
   GetMobileAppsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6944, __c217, 0) as any as S.Schema<GetMobileAppsRequest>,
+  input: __S(6976, __c218, 0) as any as S.Schema<GetMobileAppsRequest>,
   output: __S(5600, __c175, 0) as any as S.Schema<MobileApp>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -8437,8 +8437,8 @@ export const getMobileCarriers: API.OperationMethod<
   GetMobileCarriersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6976, __c218, 0) as any as S.Schema<GetMobileCarriersRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<MobileCarrier>,
+  input: __S(7008, __c219, 0) as any as S.Schema<GetMobileCarriersRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<MobileCarrier>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -8455,8 +8455,8 @@ export const getOperatingSystems: API.OperationMethod<
   GetOperatingSystemsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7008, __c219, 0) as any as S.Schema<GetOperatingSystemsRequest>,
-  output: __S(4928, __c154, 0) as any as S.Schema<OperatingSystem>,
+  input: __S(7040, __c220, 0) as any as S.Schema<GetOperatingSystemsRequest>,
+  output: __S(4960, __c155, 0) as any as S.Schema<OperatingSystem>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -8477,8 +8477,8 @@ export const getOperatingSystemVersions: API.OperationMethod<
   GetOperatingSystemVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7136, __c223, 0) as any as S.Schema<GetOperatingSystemVersionsRequest>,
-  output: __S(4960, __c155, 0) as any as S.Schema<OperatingSystemVersion>,
+  input: __S(7168, __c224, 0) as any as S.Schema<GetOperatingSystemVersionsRequest>,
+  output: __S(4992, __c156, 0) as any as S.Schema<OperatingSystemVersion>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -8495,8 +8495,8 @@ export const getPlacementGroups: API.OperationMethod<
   GetPlacementGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7168, __c224, 0) as any as S.Schema<GetPlacementGroupsRequest>,
-  output: __S(7232, __c226, 0) as any as S.Schema<PlacementGroup>,
+  input: __S(7200, __c225, 0) as any as S.Schema<GetPlacementGroupsRequest>,
+  output: __S(7264, __c227, 0) as any as S.Schema<PlacementGroup>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -8513,8 +8513,8 @@ export const getPlacements: API.OperationMethod<
   GetPlacementsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7264, __c227, 0) as any as S.Schema<GetPlacementsRequest>,
-  output: __S(7336, __c229, 8) as any as S.Schema<Placement>,
+  input: __S(7296, __c228, 0) as any as S.Schema<GetPlacementsRequest>,
+  output: __S(7369, __c230, 9) as any as S.Schema<Placement>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -8531,8 +8531,8 @@ export const getPlacementStrategies: API.OperationMethod<
   GetPlacementStrategiesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7360, __c230, 0) as any as S.Schema<GetPlacementStrategiesRequest>,
-  output: __S(7392, __c231, 0) as any as S.Schema<PlacementStrategy>,
+  input: __S(7392, __c231, 0) as any as S.Schema<GetPlacementStrategiesRequest>,
+  output: __S(5984, __c187, 0) as any as S.Schema<PlacementStrategy>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -8550,7 +8550,7 @@ export const getPlatformTypes: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7424, __c232, 0) as any as S.Schema<GetPlatformTypesRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<PlatformType>,
+  output: __S(4000, __c125, 0) as any as S.Schema<PlatformType>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -8640,7 +8640,7 @@ export const getReportsFiles: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7712, __c241, 0) as any as S.Schema<GetReportsFilesRequest>,
-  output: __S(6721, __c210, 1) as any as S.Schema<File>,
+  output: __S(6753, __c211, 1) as any as S.Schema<File>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -8654,7 +8654,7 @@ export type GetSitesError = NotFound | Forbidden | InsufficientScopes | GcpOpErr
 export const getSites: API.OperationMethod<GetSitesRequest, Site, GetSitesError, GcpOpContext> =
   /*@__PURE__*/ API.make(() => ({
     input: __S(7776, __c243, 0) as any as S.Schema<GetSitesRequest>,
-    output: __S(7814, __c244, 6) as any as S.Schema<Site>,
+    output: __S(7815, __c244, 7) as any as S.Schema<Site>,
     errors: [NotFound, Forbidden, InsufficientScopes],
     serviceErrors: GcpServiceErrors,
     protocol: GcpProtocol,
@@ -8668,7 +8668,7 @@ export type GetSizesError = NotFound | Forbidden | InsufficientScopes | GcpOpErr
 export const getSizes: API.OperationMethod<GetSizesRequest, Size, GetSizesError, GcpOpContext> =
   /*@__PURE__*/ API.make(() => ({
     input: __S(7840, __c245, 0) as any as S.Schema<GetSizesRequest>,
-    output: __S(4832, __c151, 0) as any as S.Schema<Size>,
+    output: __S(4864, __c152, 0) as any as S.Schema<Size>,
     errors: [NotFound, Forbidden, InsufficientScopes],
     serviceErrors: GcpServiceErrors,
     protocol: GcpProtocol,
@@ -8880,7 +8880,7 @@ export const insertAccountUserProfiles: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8576, __c268, 0) as any as S.Schema<InsertAccountUserProfilesRequest>,
-  output: __S(4609, __c144, 1) as any as S.Schema<AccountUserProfile>,
+  output: __S(4641, __c145, 1) as any as S.Schema<AccountUserProfile>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -9188,7 +9188,7 @@ export const insertCreatives: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9088, __c284, 0) as any as S.Schema<InsertCreativesRequest>,
-  output: __S(6378, __c199, 10) as any as S.Schema<Creative>,
+  output: __S(6410, __c200, 10) as any as S.Schema<Creative>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -9212,7 +9212,7 @@ export const insertDirectorySites: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9120, __c285, 0) as any as S.Schema<InsertDirectorySitesRequest>,
-  output: __S(6434, __c201, 2) as any as S.Schema<DirectorySite>,
+  output: __S(6466, __c202, 2) as any as S.Schema<DirectorySite>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -9236,7 +9236,7 @@ export const insertDynamicFeeds: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9153, __c286, 1) as any as S.Schema<InsertDynamicFeedsRequest>,
-  output: __S(6508, __c203, 12) as any as S.Schema<DynamicFeed>,
+  output: __S(6540, __c204, 12) as any as S.Schema<DynamicFeed>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -9260,7 +9260,7 @@ export const insertDynamicProfiles: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9184, __c287, 0) as any as S.Schema<InsertDynamicProfilesRequest>,
-  output: __S(6577, __c205, 17) as any as S.Schema<DynamicProfile>,
+  output: __S(6609, __c206, 17) as any as S.Schema<DynamicProfile>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -9308,7 +9308,7 @@ export const insertEventTags: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9312, __c291, 0) as any as S.Schema<InsertEventTagsRequest>,
-  output: __S(6624, __c207, 0) as any as S.Schema<EventTag>,
+  output: __S(6656, __c208, 0) as any as S.Schema<EventTag>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -9332,7 +9332,7 @@ export const insertFloodlightActivities: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9344, __c292, 0) as any as S.Schema<InsertFloodlightActivitiesRequest>,
-  output: __S(6788, __c212, 4) as any as S.Schema<FloodlightActivity>,
+  output: __S(6820, __c213, 4) as any as S.Schema<FloodlightActivity>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -9356,7 +9356,7 @@ export const insertFloodlightActivityGroups: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9376, __c293, 0) as any as S.Schema<InsertFloodlightActivityGroupsRequest>,
-  output: __S(6848, __c214, 0) as any as S.Schema<FloodlightActivityGroup>,
+  output: __S(6880, __c215, 0) as any as S.Schema<FloodlightActivityGroup>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -9380,7 +9380,7 @@ export const insertPlacementGroups: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9408, __c294, 0) as any as S.Schema<InsertPlacementGroupsRequest>,
-  output: __S(7232, __c226, 0) as any as S.Schema<PlacementGroup>,
+  output: __S(7264, __c227, 0) as any as S.Schema<PlacementGroup>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -9404,7 +9404,7 @@ export const insertPlacements: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9440, __c295, 0) as any as S.Schema<InsertPlacementsRequest>,
-  output: __S(7336, __c229, 8) as any as S.Schema<Placement>,
+  output: __S(7369, __c230, 9) as any as S.Schema<Placement>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -9428,7 +9428,7 @@ export const insertPlacementStrategies: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9472, __c296, 0) as any as S.Schema<InsertPlacementStrategiesRequest>,
-  output: __S(7392, __c231, 0) as any as S.Schema<PlacementStrategy>,
+  output: __S(5984, __c187, 0) as any as S.Schema<PlacementStrategy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -9500,7 +9500,7 @@ export const insertSites: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9568, __c299, 0) as any as S.Schema<InsertSitesRequest>,
-  output: __S(7814, __c244, 6) as any as S.Schema<Site>,
+  output: __S(7815, __c244, 7) as any as S.Schema<Site>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -9524,7 +9524,7 @@ export const insertSizes: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9600, __c300, 0) as any as S.Schema<InsertSizesRequest>,
-  output: __S(4832, __c151, 0) as any as S.Schema<Size>,
+  output: __S(4864, __c152, 0) as any as S.Schema<Size>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -9666,7 +9666,7 @@ export const listAccountPermissionGroups: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<ListAccountPermissionGroupsRequest>,
-  output: __S(194, __c6, 2) as any as S.Schema<AccountPermissionGroupsListResponse>,
+  output: __S(193, __c6, 1) as any as S.Schema<AccountPermissionGroupsListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10021,7 +10021,7 @@ export const listContentCategories: API.PaginatedOperationMethod<
   ContentCategoriesListResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<ListContentCategoriesRequest>,
-  output: __S(834, __c26, 2) as any as S.Schema<ContentCategoriesListResponse>,
+  output: __S(833, __c26, 1) as any as S.Schema<ContentCategoriesListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10039,8 +10039,8 @@ export const listCountries: API.OperationMethod<
   ListCountriesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<ListCountriesRequest>,
-  output: __S(865, __c27, 1) as any as S.Schema<CountriesListResponse>,
+  input: __S(896, __c28, 0) as any as S.Schema<ListCountriesRequest>,
+  output: __S(897, __c28, 1) as any as S.Schema<CountriesListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10058,8 +10058,8 @@ export const listCreativeFields: API.PaginatedOperationMethod<
   GcpOpContext,
   CreativeFieldsListResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<ListCreativeFieldsRequest>,
-  output: __S(898, __c28, 2) as any as S.Schema<CreativeFieldsListResponse>,
+  input: __S(928, __c29, 0) as any as S.Schema<ListCreativeFieldsRequest>,
+  output: __S(930, __c29, 2) as any as S.Schema<CreativeFieldsListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10078,8 +10078,8 @@ export const listCreativeFieldValues: API.PaginatedOperationMethod<
   GcpOpContext,
   CreativeFieldValuesListResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<ListCreativeFieldValuesRequest>,
-  output: __S(930, __c29, 2) as any as S.Schema<CreativeFieldValuesListResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<ListCreativeFieldValuesRequest>,
+  output: __S(962, __c30, 2) as any as S.Schema<CreativeFieldValuesListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10098,8 +10098,8 @@ export const listCreativeGroups: API.PaginatedOperationMethod<
   GcpOpContext,
   CreativeGroupsListResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<ListCreativeGroupsRequest>,
-  output: __S(962, __c30, 2) as any as S.Schema<CreativeGroupsListResponse>,
+  input: __S(992, __c31, 0) as any as S.Schema<ListCreativeGroupsRequest>,
+  output: __S(994, __c31, 2) as any as S.Schema<CreativeGroupsListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10118,8 +10118,8 @@ export const listCreatives: API.PaginatedOperationMethod<
   GcpOpContext,
   CreativesListResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<ListCreativesRequest>,
-  output: __S(994, __c31, 2) as any as S.Schema<CreativesListResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<ListCreativesRequest>,
+  output: __S(1026, __c32, 2) as any as S.Schema<CreativesListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10138,8 +10138,8 @@ export const listDirectorySites: API.PaginatedOperationMethod<
   GcpOpContext,
   DirectorySitesListResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<ListDirectorySitesRequest>,
-  output: __S(1026, __c32, 2) as any as S.Schema<DirectorySitesListResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<ListDirectorySitesRequest>,
+  output: __S(1058, __c33, 2) as any as S.Schema<DirectorySitesListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10157,8 +10157,8 @@ export const listDynamicTargetingKeys: API.OperationMethod<
   ListDynamicTargetingKeysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<ListDynamicTargetingKeysRequest>,
-  output: __S(1090, __c34, 2) as any as S.Schema<DynamicTargetingKeysListResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<ListDynamicTargetingKeysRequest>,
+  output: __S(1122, __c35, 2) as any as S.Schema<DynamicTargetingKeysListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10175,8 +10175,8 @@ export const listEventTags: API.OperationMethod<
   ListEventTagsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<ListEventTagsRequest>,
-  output: __S(1122, __c35, 2) as any as S.Schema<EventTagsListResponse>,
+  input: __S(1152, __c36, 0) as any as S.Schema<ListEventTagsRequest>,
+  output: __S(1154, __c36, 2) as any as S.Schema<EventTagsListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10194,8 +10194,8 @@ export const listFiles: API.PaginatedOperationMethod<
   GcpOpContext,
   File
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<ListFilesRequest>,
-  output: __S(1185, __c37, 1) as any as S.Schema<FileList>,
+  input: __S(1184, __c37, 0) as any as S.Schema<ListFilesRequest>,
+  output: __S(1217, __c38, 1) as any as S.Schema<FileList>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10214,8 +10214,8 @@ export const listFloodlightActivities: API.PaginatedOperationMethod<
   GcpOpContext,
   FloodlightActivitiesListResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<ListFloodlightActivitiesRequest>,
-  output: __S(1218, __c38, 2) as any as S.Schema<FloodlightActivitiesListResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<ListFloodlightActivitiesRequest>,
+  output: __S(1250, __c39, 2) as any as S.Schema<FloodlightActivitiesListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10238,8 +10238,8 @@ export const listFloodlightActivityGroups: API.PaginatedOperationMethod<
   GcpOpContext,
   FloodlightActivityGroupsListResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<ListFloodlightActivityGroupsRequest>,
-  output: __S(1250, __c39, 2) as any as S.Schema<FloodlightActivityGroupsListResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<ListFloodlightActivityGroupsRequest>,
+  output: __S(1282, __c40, 2) as any as S.Schema<FloodlightActivityGroupsListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10261,8 +10261,8 @@ export const listFloodlightConfigurations: API.OperationMethod<
   ListFloodlightConfigurationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<ListFloodlightConfigurationsRequest>,
-  output: __S(1282, __c40, 2) as any as S.Schema<FloodlightConfigurationsListResponse>,
+  input: __S(1312, __c41, 0) as any as S.Schema<ListFloodlightConfigurationsRequest>,
+  output: __S(1314, __c41, 2) as any as S.Schema<FloodlightConfigurationsListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10279,8 +10279,8 @@ export const listLanguages: API.OperationMethod<
   ListLanguagesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<ListLanguagesRequest>,
-  output: __S(1313, __c41, 1) as any as S.Schema<LanguagesListResponse>,
+  input: __S(1344, __c42, 0) as any as S.Schema<ListLanguagesRequest>,
+  output: __S(1345, __c42, 1) as any as S.Schema<LanguagesListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10297,8 +10297,8 @@ export const listMetros: API.OperationMethod<
   ListMetrosError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<ListMetrosRequest>,
-  output: __S(1345, __c42, 1) as any as S.Schema<MetrosListResponse>,
+  input: __S(1376, __c43, 0) as any as S.Schema<ListMetrosRequest>,
+  output: __S(1377, __c43, 1) as any as S.Schema<MetrosListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10316,8 +10316,8 @@ export const listMobileApps: API.PaginatedOperationMethod<
   GcpOpContext,
   MobileAppsListResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<ListMobileAppsRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<MobileAppsListResponse>,
+  input: __S(1408, __c44, 0) as any as S.Schema<ListMobileAppsRequest>,
+  output: __S(1410, __c44, 2) as any as S.Schema<MobileAppsListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10335,8 +10335,8 @@ export const listMobileCarriers: API.OperationMethod<
   ListMobileCarriersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<ListMobileCarriersRequest>,
-  output: __S(1409, __c44, 1) as any as S.Schema<MobileCarriersListResponse>,
+  input: __S(1440, __c45, 0) as any as S.Schema<ListMobileCarriersRequest>,
+  output: __S(1441, __c45, 1) as any as S.Schema<MobileCarriersListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10353,8 +10353,8 @@ export const listOperatingSystems: API.OperationMethod<
   ListOperatingSystemsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<ListOperatingSystemsRequest>,
-  output: __S(1473, __c46, 1) as any as S.Schema<OperatingSystemsListResponse>,
+  input: __S(1504, __c47, 0) as any as S.Schema<ListOperatingSystemsRequest>,
+  output: __S(1505, __c47, 1) as any as S.Schema<OperatingSystemsListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10375,8 +10375,8 @@ export const listOperatingSystemVersions: API.OperationMethod<
   ListOperatingSystemVersionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<ListOperatingSystemVersionsRequest>,
-  output: __S(1505, __c47, 1) as any as S.Schema<OperatingSystemVersionsListResponse>,
+  input: __S(1536, __c48, 0) as any as S.Schema<ListOperatingSystemVersionsRequest>,
+  output: __S(1537, __c48, 1) as any as S.Schema<OperatingSystemVersionsListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10394,8 +10394,8 @@ export const listPlacementGroups: API.PaginatedOperationMethod<
   GcpOpContext,
   PlacementGroupsListResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<ListPlacementGroupsRequest>,
-  output: __S(1538, __c48, 2) as any as S.Schema<PlacementGroupsListResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<ListPlacementGroupsRequest>,
+  output: __S(1570, __c49, 2) as any as S.Schema<PlacementGroupsListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10414,8 +10414,8 @@ export const listPlacements: API.PaginatedOperationMethod<
   GcpOpContext,
   PlacementsListResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<ListPlacementsRequest>,
-  output: __S(1570, __c49, 2) as any as S.Schema<PlacementsListResponse>,
+  input: __S(1600, __c50, 0) as any as S.Schema<ListPlacementsRequest>,
+  output: __S(1602, __c50, 2) as any as S.Schema<PlacementsListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10434,8 +10434,8 @@ export const listPlacementStrategies: API.PaginatedOperationMethod<
   GcpOpContext,
   PlacementStrategiesListResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<ListPlacementStrategiesRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<PlacementStrategiesListResponse>,
+  input: __S(1632, __c51, 0) as any as S.Schema<ListPlacementStrategiesRequest>,
+  output: __S(1633, __c51, 1) as any as S.Schema<PlacementStrategiesListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10453,8 +10453,8 @@ export const listPlatformTypes: API.OperationMethod<
   ListPlatformTypesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<ListPlatformTypesRequest>,
-  output: __S(1633, __c51, 1) as any as S.Schema<PlatformTypesListResponse>,
+  input: __S(1664, __c52, 0) as any as S.Schema<ListPlatformTypesRequest>,
+  output: __S(1665, __c52, 1) as any as S.Schema<PlatformTypesListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10471,8 +10471,8 @@ export const listPostalCodes: API.OperationMethod<
   ListPostalCodesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<ListPostalCodesRequest>,
-  output: __S(1665, __c52, 1) as any as S.Schema<PostalCodesListResponse>,
+  input: __S(1696, __c53, 0) as any as S.Schema<ListPostalCodesRequest>,
+  output: __S(1697, __c53, 1) as any as S.Schema<PostalCodesListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10489,8 +10489,8 @@ export const listRegions: API.OperationMethod<
   ListRegionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<ListRegionsRequest>,
-  output: __S(1697, __c53, 1) as any as S.Schema<RegionsListResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<ListRegionsRequest>,
+  output: __S(1729, __c54, 1) as any as S.Schema<RegionsListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10508,8 +10508,8 @@ export const listRemarketingLists: API.PaginatedOperationMethod<
   GcpOpContext,
   RemarketingListsListResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<ListRemarketingListsRequest>,
-  output: __S(1730, __c54, 2) as any as S.Schema<RemarketingListsListResponse>,
+  input: __S(1760, __c55, 0) as any as S.Schema<ListRemarketingListsRequest>,
+  output: __S(1762, __c55, 2) as any as S.Schema<RemarketingListsListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10528,8 +10528,8 @@ export const listReports: API.PaginatedOperationMethod<
   GcpOpContext,
   Report
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<ListReportsRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<ReportList>,
+  input: __S(1792, __c56, 0) as any as S.Schema<ListReportsRequest>,
+  output: __S(1794, __c56, 2) as any as S.Schema<ReportList>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10548,8 +10548,8 @@ export const listReportsFiles: API.PaginatedOperationMethod<
   GcpOpContext,
   File
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<ListReportsFilesRequest>,
-  output: __S(1185, __c37, 1) as any as S.Schema<FileList>,
+  input: __S(1856, __c58, 0) as any as S.Schema<ListReportsFilesRequest>,
+  output: __S(1217, __c38, 1) as any as S.Schema<FileList>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10568,8 +10568,8 @@ export const listSites: API.PaginatedOperationMethod<
   GcpOpContext,
   SitesListResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<ListSitesRequest>,
-  output: __S(1858, __c58, 2) as any as S.Schema<SitesListResponse>,
+  input: __S(1888, __c59, 0) as any as S.Schema<ListSitesRequest>,
+  output: __S(1890, __c59, 2) as any as S.Schema<SitesListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10587,8 +10587,8 @@ export const listSizes: API.OperationMethod<
   ListSizesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<ListSizesRequest>,
-  output: __S(1889, __c59, 1) as any as S.Schema<SizesListResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<ListSizesRequest>,
+  output: __S(1921, __c60, 1) as any as S.Schema<SizesListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10606,8 +10606,8 @@ export const listSubaccounts: API.PaginatedOperationMethod<
   GcpOpContext,
   SubaccountsListResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<ListSubaccountsRequest>,
-  output: __S(1922, __c60, 2) as any as S.Schema<SubaccountsListResponse>,
+  input: __S(1952, __c61, 0) as any as S.Schema<ListSubaccountsRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<SubaccountsListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10630,8 +10630,8 @@ export const listTargetableRemarketingLists: API.PaginatedOperationMethod<
   GcpOpContext,
   TargetableRemarketingListsListResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<ListTargetableRemarketingListsRequest>,
-  output: __S(1954, __c61, 2) as any as S.Schema<TargetableRemarketingListsListResponse>,
+  input: __S(1984, __c62, 0) as any as S.Schema<ListTargetableRemarketingListsRequest>,
+  output: __S(1986, __c62, 2) as any as S.Schema<TargetableRemarketingListsListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10650,8 +10650,8 @@ export const listTargetingTemplates: API.PaginatedOperationMethod<
   GcpOpContext,
   TargetingTemplatesListResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<ListTargetingTemplatesRequest>,
-  output: __S(1986, __c62, 2) as any as S.Schema<TargetingTemplatesListResponse>,
+  input: __S(2016, __c63, 0) as any as S.Schema<ListTargetingTemplatesRequest>,
+  output: __S(2018, __c63, 2) as any as S.Schema<TargetingTemplatesListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10669,8 +10669,8 @@ export const listTvCampaignSummaries: API.OperationMethod<
   ListTvCampaignSummariesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<ListTvCampaignSummariesRequest>,
-  output: __S(2019, __c63, 3) as any as S.Schema<TvCampaignSummariesListResponse>,
+  input: __S(2048, __c64, 0) as any as S.Schema<ListTvCampaignSummariesRequest>,
+  output: __S(2051, __c64, 3) as any as S.Schema<TvCampaignSummariesListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10687,8 +10687,8 @@ export const listUserProfiles: API.OperationMethod<
   ListUserProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<ListUserProfilesRequest>,
-  output: __S(2050, __c64, 2) as any as S.Schema<UserProfileList>,
+  input: __S(2080, __c65, 0) as any as S.Schema<ListUserProfilesRequest>,
+  output: __S(2082, __c65, 2) as any as S.Schema<UserProfileList>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10709,8 +10709,8 @@ export const listUserRolePermissionGroups: API.OperationMethod<
   ListUserRolePermissionGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<ListUserRolePermissionGroupsRequest>,
-  output: __S(2082, __c65, 2) as any as S.Schema<UserRolePermissionGroupsListResponse>,
+  input: __S(2112, __c66, 0) as any as S.Schema<ListUserRolePermissionGroupsRequest>,
+  output: __S(2114, __c66, 2) as any as S.Schema<UserRolePermissionGroupsListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10727,8 +10727,8 @@ export const listUserRolePermissions: API.OperationMethod<
   ListUserRolePermissionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<ListUserRolePermissionsRequest>,
-  output: __S(2113, __c66, 1) as any as S.Schema<UserRolePermissionsListResponse>,
+  input: __S(2144, __c67, 0) as any as S.Schema<ListUserRolePermissionsRequest>,
+  output: __S(2145, __c67, 1) as any as S.Schema<UserRolePermissionsListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10746,8 +10746,8 @@ export const listUserRoles: API.PaginatedOperationMethod<
   GcpOpContext,
   UserRolesListResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<ListUserRolesRequest>,
-  output: __S(2178, __c68, 2) as any as S.Schema<UserRolesListResponse>,
+  input: __S(2208, __c69, 0) as any as S.Schema<ListUserRolesRequest>,
+  output: __S(2210, __c69, 2) as any as S.Schema<UserRolesListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10765,8 +10765,8 @@ export const listVideoFormats: API.OperationMethod<
   ListVideoFormatsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<ListVideoFormatsRequest>,
-  output: __S(2210, __c69, 2) as any as S.Schema<VideoFormatsListResponse>,
+  input: __S(2240, __c70, 0) as any as S.Schema<ListVideoFormatsRequest>,
+  output: __S(2242, __c70, 2) as any as S.Schema<VideoFormatsListResponse>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10789,8 +10789,8 @@ export const patchAccounts: API.OperationMethod<
   PatchAccountsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<PatchAccountsRequest>,
-  output: __S(4513, __c141, 1) as any as S.Schema<Account>,
+  input: __S(2272, __c71, 0) as any as S.Schema<PatchAccountsRequest>,
+  output: __S(4545, __c142, 1) as any as S.Schema<Account>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10813,8 +10813,8 @@ export const patchAccountUserProfiles: API.OperationMethod<
   PatchAccountUserProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<PatchAccountUserProfilesRequest>,
-  output: __S(4609, __c144, 1) as any as S.Schema<AccountUserProfile>,
+  input: __S(2304, __c72, 0) as any as S.Schema<PatchAccountUserProfilesRequest>,
+  output: __S(4641, __c145, 1) as any as S.Schema<AccountUserProfile>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -10833,7 +10833,7 @@ export type PatchAdsError =
 /** Updates an existing ad. This method supports patch semantics. */
 export const patchAds: API.OperationMethod<PatchAdsRequest, Ad, PatchAdsError, GcpOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(2304, __c72, 0) as any as S.Schema<PatchAdsRequest>,
+    input: __S(2336, __c73, 0) as any as S.Schema<PatchAdsRequest>,
     output: __S(5486, __c171, 14) as any as S.Schema<Ad>,
     errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
     serviceErrors: GcpServiceErrors,
@@ -10857,7 +10857,7 @@ export const patchAdvertiserGroups: API.OperationMethod<
   PatchAdvertiserGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<PatchAdvertiserGroupsRequest>,
+  input: __S(2368, __c74, 0) as any as S.Schema<PatchAdvertiserGroupsRequest>,
   output: __S(5536, __c173, 0) as any as S.Schema<AdvertiserGroup>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -10881,7 +10881,7 @@ export const patchAdvertiserLandingPages: API.OperationMethod<
   PatchAdvertiserLandingPagesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<PatchAdvertiserLandingPagesRequest>,
+  input: __S(2400, __c75, 0) as any as S.Schema<PatchAdvertiserLandingPagesRequest>,
   output: __S(5634, __c176, 2) as any as S.Schema<LandingPage>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -10905,7 +10905,7 @@ export const patchAdvertisers: API.OperationMethod<
   PatchAdvertisersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<PatchAdvertisersRequest>,
+  input: __S(2432, __c76, 0) as any as S.Schema<PatchAdvertisersRequest>,
   output: __S(5697, __c178, 1) as any as S.Schema<Advertiser>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -10929,7 +10929,7 @@ export const patchCampaigns: API.OperationMethod<
   PatchCampaignsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<PatchCampaignsRequest>,
+  input: __S(2464, __c77, 0) as any as S.Schema<PatchCampaignsRequest>,
   output: __S(5834, __c182, 10) as any as S.Schema<Campaign>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -10953,7 +10953,7 @@ export const patchContentCategories: API.OperationMethod<
   PatchContentCategoriesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<PatchContentCategoriesRequest>,
+  input: __S(2496, __c78, 0) as any as S.Schema<PatchContentCategoriesRequest>,
   output: __S(5984, __c187, 0) as any as S.Schema<ContentCategory>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -10977,7 +10977,7 @@ export const patchCreativeFields: API.OperationMethod<
   PatchCreativeFieldsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<PatchCreativeFieldsRequest>,
+  input: __S(2560, __c80, 0) as any as S.Schema<PatchCreativeFieldsRequest>,
   output: __S(6080, __c190, 0) as any as S.Schema<CreativeField>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -11001,7 +11001,7 @@ export const patchCreativeFieldValues: API.OperationMethod<
   PatchCreativeFieldValuesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<PatchCreativeFieldValuesRequest>,
+  input: __S(2592, __c81, 0) as any as S.Schema<PatchCreativeFieldValuesRequest>,
   output: __S(6144, __c192, 0) as any as S.Schema<CreativeFieldValue>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -11025,7 +11025,7 @@ export const patchCreativeGroups: API.OperationMethod<
   PatchCreativeGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<PatchCreativeGroupsRequest>,
+  input: __S(2624, __c82, 0) as any as S.Schema<PatchCreativeGroupsRequest>,
   output: __S(6208, __c194, 0) as any as S.Schema<CreativeGroup>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -11049,8 +11049,8 @@ export const patchCreatives: API.OperationMethod<
   PatchCreativesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<PatchCreativesRequest>,
-  output: __S(6378, __c199, 10) as any as S.Schema<Creative>,
+  input: __S(2656, __c83, 0) as any as S.Schema<PatchCreativesRequest>,
+  output: __S(6410, __c200, 10) as any as S.Schema<Creative>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -11073,8 +11073,8 @@ export const patchEventTags: API.OperationMethod<
   PatchEventTagsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<PatchEventTagsRequest>,
-  output: __S(6624, __c207, 0) as any as S.Schema<EventTag>,
+  input: __S(2688, __c84, 0) as any as S.Schema<PatchEventTagsRequest>,
+  output: __S(6656, __c208, 0) as any as S.Schema<EventTag>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -11097,8 +11097,8 @@ export const patchFloodlightActivities: API.OperationMethod<
   PatchFloodlightActivitiesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<PatchFloodlightActivitiesRequest>,
-  output: __S(6788, __c212, 4) as any as S.Schema<FloodlightActivity>,
+  input: __S(2720, __c85, 0) as any as S.Schema<PatchFloodlightActivitiesRequest>,
+  output: __S(6820, __c213, 4) as any as S.Schema<FloodlightActivity>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -11121,8 +11121,8 @@ export const patchFloodlightActivityGroups: API.OperationMethod<
   PatchFloodlightActivityGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<PatchFloodlightActivityGroupsRequest>,
-  output: __S(6848, __c214, 0) as any as S.Schema<FloodlightActivityGroup>,
+  input: __S(2752, __c86, 0) as any as S.Schema<PatchFloodlightActivityGroupsRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<FloodlightActivityGroup>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -11145,8 +11145,8 @@ export const patchFloodlightConfigurations: API.OperationMethod<
   PatchFloodlightConfigurationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<PatchFloodlightConfigurationsRequest>,
-  output: __S(6920, __c216, 8) as any as S.Schema<FloodlightConfiguration>,
+  input: __S(2784, __c87, 0) as any as S.Schema<PatchFloodlightConfigurationsRequest>,
+  output: __S(6952, __c217, 8) as any as S.Schema<FloodlightConfiguration>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -11169,8 +11169,8 @@ export const patchPlacementGroups: API.OperationMethod<
   PatchPlacementGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<PatchPlacementGroupsRequest>,
-  output: __S(7232, __c226, 0) as any as S.Schema<PlacementGroup>,
+  input: __S(2816, __c88, 0) as any as S.Schema<PatchPlacementGroupsRequest>,
+  output: __S(7264, __c227, 0) as any as S.Schema<PlacementGroup>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -11193,8 +11193,8 @@ export const patchPlacements: API.OperationMethod<
   PatchPlacementsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<PatchPlacementsRequest>,
-  output: __S(7336, __c229, 8) as any as S.Schema<Placement>,
+  input: __S(2848, __c89, 0) as any as S.Schema<PatchPlacementsRequest>,
+  output: __S(7369, __c230, 9) as any as S.Schema<Placement>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -11217,8 +11217,8 @@ export const patchPlacementStrategies: API.OperationMethod<
   PatchPlacementStrategiesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<PatchPlacementStrategiesRequest>,
-  output: __S(7392, __c231, 0) as any as S.Schema<PlacementStrategy>,
+  input: __S(2912, __c91, 0) as any as S.Schema<PatchPlacementStrategiesRequest>,
+  output: __S(5984, __c187, 0) as any as S.Schema<PlacementStrategy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -11241,7 +11241,7 @@ export const patchRemarketingLists: API.OperationMethod<
   PatchRemarketingListsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<PatchRemarketingListsRequest>,
+  input: __S(2944, __c92, 0) as any as S.Schema<PatchRemarketingListsRequest>,
   output: __S(7525, __c235, 5) as any as S.Schema<RemarketingList>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -11265,7 +11265,7 @@ export const patchRemarketingListShares: API.OperationMethod<
   PatchRemarketingListSharesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<PatchRemarketingListSharesRequest>,
+  input: __S(2976, __c93, 0) as any as S.Schema<PatchRemarketingListSharesRequest>,
   output: __S(7584, __c237, 0) as any as S.Schema<RemarketingListShare>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -11289,8 +11289,8 @@ export const patchSites: API.OperationMethod<
   PatchSitesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<PatchSitesRequest>,
-  output: __S(7814, __c244, 6) as any as S.Schema<Site>,
+  input: __S(3008, __c94, 0) as any as S.Schema<PatchSitesRequest>,
+  output: __S(7815, __c244, 7) as any as S.Schema<Site>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -11313,7 +11313,7 @@ export const patchSubaccounts: API.OperationMethod<
   PatchSubaccountsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<PatchSubaccountsRequest>,
+  input: __S(3040, __c95, 0) as any as S.Schema<PatchSubaccountsRequest>,
   output: __S(7968, __c249, 0) as any as S.Schema<Subaccount>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -11337,7 +11337,7 @@ export const patchTargetingTemplates: API.OperationMethod<
   PatchTargetingTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<PatchTargetingTemplatesRequest>,
+  input: __S(3072, __c96, 0) as any as S.Schema<PatchTargetingTemplatesRequest>,
   output: __S(8096, __c253, 0) as any as S.Schema<TargetingTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -11361,7 +11361,7 @@ export const patchUserRoles: API.OperationMethod<
   PatchUserRolesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<PatchUserRolesRequest>,
+  input: __S(3104, __c97, 0) as any as S.Schema<PatchUserRolesRequest>,
   output: __S(8480, __c265, 0) as any as S.Schema<UserRole>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -11385,7 +11385,7 @@ export const publishDynamicProfiles: API.OperationMethod<
   PublishDynamicProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<PublishDynamicProfilesRequest>,
+  input: __S(3136, __c98, 0) as any as S.Schema<PublishDynamicProfilesRequest>,
   output: __S(8384, __c262, 0) as any as S.Schema<PublishDynamicProfilesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -11409,7 +11409,7 @@ export const publishStudioCreatives: API.OperationMethod<
   PublishStudioCreativesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<PublishStudioCreativesRequest>,
+  input: __S(3168, __c99, 0) as any as S.Schema<PublishStudioCreativesRequest>,
   output: __S(8384, __c262, 0) as any as S.Schema<PublishStudioCreativesResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -11434,8 +11434,8 @@ export const queryDimensionValues: API.PaginatedOperationMethod<
   GcpOpContext,
   DimensionValue
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3171, __c99, 3) as any as S.Schema<QueryDimensionValuesRequest>,
-  output: __S(3172, __c99, 4) as any as S.Schema<DimensionValueList>,
+  input: __S(3203, __c100, 3) as any as S.Schema<QueryDimensionValuesRequest>,
+  output: __S(3204, __c100, 4) as any as S.Schema<DimensionValueList>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -11459,8 +11459,8 @@ export const queryReportData: API.OperationMethod<
   QueryReportDataError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3267, __c102, 3) as any as S.Schema<QueryReportDataRequest>,
-  output: __S(3272, __c102, 8) as any as S.Schema<ReportDataResponse>,
+  input: __S(3299, __c103, 3) as any as S.Schema<QueryReportDataRequest>,
+  output: __S(3303, __c103, 7) as any as S.Schema<ReportDataResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -11483,8 +11483,8 @@ export const queryReportsCompatibleFields: API.OperationMethod<
   QueryReportsCompatibleFieldsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<QueryReportsCompatibleFieldsRequest>,
-  output: __S(3307, __c103, 11) as any as S.Schema<CompatibleFields>,
+  input: __S(3328, __c104, 0) as any as S.Schema<QueryReportsCompatibleFieldsRequest>,
+  output: __S(3337, __c104, 9) as any as S.Schema<CompatibleFields>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -11507,8 +11507,8 @@ export const retransformDynamicFeeds: API.OperationMethod<
   RetransformDynamicFeedsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<RetransformDynamicFeedsRequest>,
-  output: __S(6508, __c203, 12) as any as S.Schema<DynamicFeed>,
+  input: __S(3360, __c105, 0) as any as S.Schema<RetransformDynamicFeedsRequest>,
+  output: __S(6540, __c204, 12) as any as S.Schema<DynamicFeed>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -11531,8 +11531,8 @@ export const runReports: API.OperationMethod<
   RunReportsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<RunReportsRequest>,
-  output: __S(6721, __c210, 1) as any as S.Schema<File>,
+  input: __S(3392, __c106, 0) as any as S.Schema<RunReportsRequest>,
+  output: __S(6753, __c211, 1) as any as S.Schema<File>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -11555,8 +11555,8 @@ export const updateAccounts: API.OperationMethod<
   UpdateAccountsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<UpdateAccountsRequest>,
-  output: __S(4513, __c141, 1) as any as S.Schema<Account>,
+  input: __S(3424, __c107, 0) as any as S.Schema<UpdateAccountsRequest>,
+  output: __S(4545, __c142, 1) as any as S.Schema<Account>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -11579,8 +11579,8 @@ export const updateAccountUserProfiles: API.OperationMethod<
   UpdateAccountUserProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<UpdateAccountUserProfilesRequest>,
-  output: __S(4609, __c144, 1) as any as S.Schema<AccountUserProfile>,
+  input: __S(3456, __c108, 0) as any as S.Schema<UpdateAccountUserProfilesRequest>,
+  output: __S(4641, __c145, 1) as any as S.Schema<AccountUserProfile>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -11599,7 +11599,7 @@ export type UpdateAdsError =
 /** Updates an existing ad. */
 export const updateAds: API.OperationMethod<UpdateAdsRequest, Ad, UpdateAdsError, GcpOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(3456, __c108, 0) as any as S.Schema<UpdateAdsRequest>,
+    input: __S(3488, __c109, 0) as any as S.Schema<UpdateAdsRequest>,
     output: __S(5486, __c171, 14) as any as S.Schema<Ad>,
     errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
     serviceErrors: GcpServiceErrors,
@@ -11623,7 +11623,7 @@ export const updateAdvertiserGroups: API.OperationMethod<
   UpdateAdvertiserGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<UpdateAdvertiserGroupsRequest>,
+  input: __S(3520, __c110, 0) as any as S.Schema<UpdateAdvertiserGroupsRequest>,
   output: __S(5536, __c173, 0) as any as S.Schema<AdvertiserGroup>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -11647,7 +11647,7 @@ export const updateAdvertiserLandingPages: API.OperationMethod<
   UpdateAdvertiserLandingPagesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<UpdateAdvertiserLandingPagesRequest>,
+  input: __S(3552, __c111, 0) as any as S.Schema<UpdateAdvertiserLandingPagesRequest>,
   output: __S(5634, __c176, 2) as any as S.Schema<LandingPage>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -11671,7 +11671,7 @@ export const updateAdvertisers: API.OperationMethod<
   UpdateAdvertisersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<UpdateAdvertisersRequest>,
+  input: __S(3584, __c112, 0) as any as S.Schema<UpdateAdvertisersRequest>,
   output: __S(5697, __c178, 1) as any as S.Schema<Advertiser>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -11695,7 +11695,7 @@ export const updateBillingProfiles: API.OperationMethod<
   UpdateBillingProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<UpdateBillingProfilesRequest>,
+  input: __S(3648, __c114, 0) as any as S.Schema<UpdateBillingProfilesRequest>,
   output: __S(5760, __c180, 0) as any as S.Schema<BillingProfile>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -11719,7 +11719,7 @@ export const updateCampaigns: API.OperationMethod<
   UpdateCampaignsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<UpdateCampaignsRequest>,
+  input: __S(3680, __c115, 0) as any as S.Schema<UpdateCampaignsRequest>,
   output: __S(5834, __c182, 10) as any as S.Schema<Campaign>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -11743,7 +11743,7 @@ export const updateContentCategories: API.OperationMethod<
   UpdateContentCategoriesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<UpdateContentCategoriesRequest>,
+  input: __S(3712, __c116, 0) as any as S.Schema<UpdateContentCategoriesRequest>,
   output: __S(5984, __c187, 0) as any as S.Schema<ContentCategory>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -11767,7 +11767,7 @@ export const updateCreativeFields: API.OperationMethod<
   UpdateCreativeFieldsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c116, 0) as any as S.Schema<UpdateCreativeFieldsRequest>,
+  input: __S(3744, __c117, 0) as any as S.Schema<UpdateCreativeFieldsRequest>,
   output: __S(6080, __c190, 0) as any as S.Schema<CreativeField>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -11791,7 +11791,7 @@ export const updateCreativeFieldValues: API.OperationMethod<
   UpdateCreativeFieldValuesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<UpdateCreativeFieldValuesRequest>,
+  input: __S(3776, __c118, 0) as any as S.Schema<UpdateCreativeFieldValuesRequest>,
   output: __S(6144, __c192, 0) as any as S.Schema<CreativeFieldValue>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -11815,7 +11815,7 @@ export const updateCreativeGroups: API.OperationMethod<
   UpdateCreativeGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<UpdateCreativeGroupsRequest>,
+  input: __S(3808, __c119, 0) as any as S.Schema<UpdateCreativeGroupsRequest>,
   output: __S(6208, __c194, 0) as any as S.Schema<CreativeGroup>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -11839,8 +11839,8 @@ export const updateCreatives: API.OperationMethod<
   UpdateCreativesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<UpdateCreativesRequest>,
-  output: __S(6378, __c199, 10) as any as S.Schema<Creative>,
+  input: __S(3840, __c120, 0) as any as S.Schema<UpdateCreativesRequest>,
+  output: __S(6410, __c200, 10) as any as S.Schema<Creative>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -11863,8 +11863,8 @@ export const updateDynamicFeeds: API.OperationMethod<
   UpdateDynamicFeedsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<UpdateDynamicFeedsRequest>,
-  output: __S(6508, __c203, 12) as any as S.Schema<DynamicFeed>,
+  input: __S(3872, __c121, 0) as any as S.Schema<UpdateDynamicFeedsRequest>,
+  output: __S(6540, __c204, 12) as any as S.Schema<DynamicFeed>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -11887,8 +11887,8 @@ export const updateDynamicProfiles: API.OperationMethod<
   UpdateDynamicProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<UpdateDynamicProfilesRequest>,
-  output: __S(6577, __c205, 17) as any as S.Schema<DynamicProfile>,
+  input: __S(3904, __c122, 0) as any as S.Schema<UpdateDynamicProfilesRequest>,
+  output: __S(6609, __c206, 17) as any as S.Schema<DynamicProfile>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -11911,8 +11911,8 @@ export const updateEventTags: API.OperationMethod<
   UpdateEventTagsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c122, 0) as any as S.Schema<UpdateEventTagsRequest>,
-  output: __S(6624, __c207, 0) as any as S.Schema<EventTag>,
+  input: __S(3936, __c123, 0) as any as S.Schema<UpdateEventTagsRequest>,
+  output: __S(6656, __c208, 0) as any as S.Schema<EventTag>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -11935,8 +11935,8 @@ export const updateFloodlightActivities: API.OperationMethod<
   UpdateFloodlightActivitiesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<UpdateFloodlightActivitiesRequest>,
-  output: __S(6788, __c212, 4) as any as S.Schema<FloodlightActivity>,
+  input: __S(4032, __c126, 0) as any as S.Schema<UpdateFloodlightActivitiesRequest>,
+  output: __S(6820, __c213, 4) as any as S.Schema<FloodlightActivity>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -11959,8 +11959,8 @@ export const updateFloodlightActivityGroups: API.OperationMethod<
   UpdateFloodlightActivityGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<UpdateFloodlightActivityGroupsRequest>,
-  output: __S(6848, __c214, 0) as any as S.Schema<FloodlightActivityGroup>,
+  input: __S(4064, __c127, 0) as any as S.Schema<UpdateFloodlightActivityGroupsRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<FloodlightActivityGroup>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -11983,8 +11983,8 @@ export const updateFloodlightConfigurations: API.OperationMethod<
   UpdateFloodlightConfigurationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<UpdateFloodlightConfigurationsRequest>,
-  output: __S(6920, __c216, 8) as any as S.Schema<FloodlightConfiguration>,
+  input: __S(4096, __c128, 0) as any as S.Schema<UpdateFloodlightConfigurationsRequest>,
+  output: __S(6952, __c217, 8) as any as S.Schema<FloodlightConfiguration>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -12007,8 +12007,8 @@ export const updatePlacementGroups: API.OperationMethod<
   UpdatePlacementGroupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<UpdatePlacementGroupsRequest>,
-  output: __S(7232, __c226, 0) as any as S.Schema<PlacementGroup>,
+  input: __S(4128, __c129, 0) as any as S.Schema<UpdatePlacementGroupsRequest>,
+  output: __S(7264, __c227, 0) as any as S.Schema<PlacementGroup>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -12031,8 +12031,8 @@ export const updatePlacements: API.OperationMethod<
   UpdatePlacementsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<UpdatePlacementsRequest>,
-  output: __S(7336, __c229, 8) as any as S.Schema<Placement>,
+  input: __S(4160, __c130, 0) as any as S.Schema<UpdatePlacementsRequest>,
+  output: __S(7369, __c230, 9) as any as S.Schema<Placement>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -12055,8 +12055,8 @@ export const updatePlacementStrategies: API.OperationMethod<
   UpdatePlacementStrategiesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<UpdatePlacementStrategiesRequest>,
-  output: __S(7392, __c231, 0) as any as S.Schema<PlacementStrategy>,
+  input: __S(4192, __c131, 0) as any as S.Schema<UpdatePlacementStrategiesRequest>,
+  output: __S(5984, __c187, 0) as any as S.Schema<PlacementStrategy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -12079,7 +12079,7 @@ export const updateRemarketingLists: API.OperationMethod<
   UpdateRemarketingListsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<UpdateRemarketingListsRequest>,
+  input: __S(4224, __c132, 0) as any as S.Schema<UpdateRemarketingListsRequest>,
   output: __S(7525, __c235, 5) as any as S.Schema<RemarketingList>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -12103,7 +12103,7 @@ export const updateRemarketingListShares: API.OperationMethod<
   UpdateRemarketingListSharesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<UpdateRemarketingListSharesRequest>,
+  input: __S(4256, __c133, 0) as any as S.Schema<UpdateRemarketingListSharesRequest>,
   output: __S(7584, __c237, 0) as any as S.Schema<RemarketingListShare>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -12127,7 +12127,7 @@ export const updateReports: API.OperationMethod<
   UpdateReportsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<UpdateReportsRequest>,
+  input: __S(4288, __c134, 0) as any as S.Schema<UpdateReportsRequest>,
   output: __S(7695, __c240, 15) as any as S.Schema<Report>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -12151,8 +12151,8 @@ export const updateSites: API.OperationMethod<
   UpdateSitesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<UpdateSitesRequest>,
-  output: __S(7814, __c244, 6) as any as S.Schema<Site>,
+  input: __S(4320, __c135, 0) as any as S.Schema<UpdateSitesRequest>,
+  output: __S(7815, __c244, 7) as any as S.Schema<Site>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -12175,7 +12175,7 @@ export const updateSubaccounts: API.OperationMethod<
   UpdateSubaccountsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<UpdateSubaccountsRequest>,
+  input: __S(4416, __c138, 0) as any as S.Schema<UpdateSubaccountsRequest>,
   output: __S(7968, __c249, 0) as any as S.Schema<Subaccount>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -12199,7 +12199,7 @@ export const updateTargetingTemplates: API.OperationMethod<
   UpdateTargetingTemplatesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<UpdateTargetingTemplatesRequest>,
+  input: __S(4448, __c139, 0) as any as S.Schema<UpdateTargetingTemplatesRequest>,
   output: __S(8096, __c253, 0) as any as S.Schema<TargetingTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -12223,7 +12223,7 @@ export const updateUserRoles: API.OperationMethod<
   UpdateUserRolesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4448, __c139, 0) as any as S.Schema<UpdateUserRolesRequest>,
+  input: __S(4480, __c140, 0) as any as S.Schema<UpdateUserRolesRequest>,
   output: __S(8480, __c265, 0) as any as S.Schema<UserRole>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -12239,8 +12239,8 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          profileId: S.String.pipe(T.Label()),
           creativeFieldId: S.String.pipe(T.Label()),
+          profileId: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -12257,9 +12257,9 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          studioAccountId: S.optional(S.String),
           studioCreativeId: S.optional(S.String),
           studioAdvertiserId: S.optional(S.String),
+          studioAccountId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DfareportingStudioCreativeAssetsInsertRequest" });
     case 1:
@@ -12282,16 +12282,16 @@ function __c1(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          filesize: S.optional(S.String),
           id: S.optional(S.String),
-          type: S.optional(S.String),
-          studioAccountId: S.optional(S.String),
-          createInfo: S.optional(__S(4704, __c147, 0)),
           studioAdvertiserId: S.optional(S.String),
-          lastModifiedInfo: S.optional(__S(4704, __c147, 0)),
-          studioCreativeId: S.optional(S.String),
           filename: S.optional(S.String),
+          type: S.optional(S.String),
+          studioCreativeId: S.optional(S.String),
+          studioAccountId: S.optional(S.String),
+          createInfo: S.optional(__S(4736, __c148, 0)),
           videoProcessingData: S.optional(__S(34, __c1, 2)),
+          lastModifiedInfo: S.optional(__S(4736, __c148, 0)),
+          filesize: S.optional(S.String),
         }),
       ).annotate({ identifier: "StudioCreativeAsset" });
     case 4:
@@ -12390,12 +12390,10 @@ function __c6(j: number): any {
         ),
       ).annotate({ identifier: "ListAccountPermissionGroupsRequest" });
     case 1:
-      return S.Array(__S(3968, __c124, 0));
-    case 2:
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
-          accountPermissionGroups: S.optional(__S(193, __c6, 1)),
+          accountPermissionGroups: S.optional(__S(5056, __c158, 0)),
         }),
       ).annotate({ identifier: "AccountPermissionGroupsListResponse" });
   }
@@ -12415,12 +12413,12 @@ function __c7(j: number): any {
         ),
       ).annotate({ identifier: "ListAccountPermissionsRequest" });
     case 1:
-      return S.Array(__S(4352, __c136, 0));
+      return S.Array(__S(4384, __c137, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          accountPermissions: S.optional(__S(225, __c7, 1)),
           kind: S.optional(S.String),
+          accountPermissions: S.optional(__S(225, __c7, 1)),
         }),
       ).annotate({ identifier: "AccountPermissionsListResponse" });
   }
@@ -12430,14 +12428,14 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          maxResults: S.optional(S.Number.pipe(T.Query())),
+          sortOrder: S.optional(S.String.pipe(T.Query())),
           profileId: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
           active: S.optional(S.Boolean.pipe(T.Query())),
-          searchString: S.optional(S.String.pipe(T.Query())),
           sortField: S.optional(S.String.pipe(T.Query())),
-          sortOrder: S.optional(S.String.pipe(T.Query())),
-          ids: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
+          ids: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          searchString: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12447,13 +12445,13 @@ function __c8(j: number): any {
         ),
       ).annotate({ identifier: "ListAccountsRequest" });
     case 1:
-      return S.Array(__S(4513, __c141, 1));
+      return S.Array(__S(4545, __c142, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
+          accounts: S.optional(__S(257, __c8, 1)),
           kind: S.optional(S.String),
           nextPageToken: S.optional(S.String),
-          accounts: S.optional(__S(257, __c8, 1)),
         }),
       ).annotate({ identifier: "AccountsListResponse" });
   }
@@ -12463,16 +12461,16 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sortOrder: S.optional(S.String.pipe(T.Query())),
-          userRoleId: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           maxResults: S.optional(S.Number.pipe(T.Query())),
-          active: S.optional(S.Boolean.pipe(T.Query())),
-          searchString: S.optional(S.String.pipe(T.Query())),
-          profileId: S.String.pipe(T.Label()),
-          ids: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
+          sortOrder: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           sortField: S.optional(S.String.pipe(T.Query())),
+          ids: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
           subaccountId: S.optional(S.String.pipe(T.Query())),
+          profileId: S.String.pipe(T.Label()),
+          searchString: S.optional(S.String.pipe(T.Query())),
+          userRoleId: S.optional(S.String.pipe(T.Query())),
+          active: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12482,13 +12480,13 @@ function __c9(j: number): any {
         ),
       ).annotate({ identifier: "ListAccountUserProfilesRequest" });
     case 1:
-      return S.Array(__S(4609, __c144, 1));
+      return S.Array(__S(4641, __c145, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          accountUserProfiles: S.optional(__S(289, __c9, 1)),
-          kind: S.optional(S.String),
           nextPageToken: S.optional(S.String),
+          kind: S.optional(S.String),
+          accountUserProfiles: S.optional(__S(289, __c9, 1)),
         }),
       ).annotate({ identifier: "AccountUserProfilesListResponse" });
   }
@@ -12498,30 +12496,30 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sslCompliant: S.optional(S.Boolean.pipe(T.Query())),
-          dynamicClickTracker: S.optional(S.Boolean.pipe(T.Query())),
+          landingPageIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          creativeOptimizationConfigurationIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
           advertiserId: S.optional(S.String.pipe(T.Query())),
-          audienceSegmentIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          creativeOptimizationConfigurationIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          campaignIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          sslRequired: S.optional(S.Boolean.pipe(T.Query())),
-          type: S.optional(__S(3232, __c101, 0).pipe(T.Query())),
-          remarketingListIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          searchString: S.optional(S.String.pipe(T.Query())),
-          sizeIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          sortOrder: S.optional(S.String.pipe(T.Query())),
-          creativeIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          archived: S.optional(S.Boolean.pipe(T.Query())),
-          active: S.optional(S.Boolean.pipe(T.Query())),
+          creativeIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          sizeIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          ids: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          placementIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
           profileId: S.String.pipe(T.Label()),
           overriddenEventTagId: S.optional(S.String.pipe(T.Query())),
-          sortField: S.optional(S.String.pipe(T.Query())),
-          placementIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          landingPageIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          compatibility: S.optional(S.String.pipe(T.Query())),
-          ids: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
           maxResults: S.optional(S.Number.pipe(T.Query())),
+          campaignIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          dynamicClickTracker: S.optional(S.Boolean.pipe(T.Query())),
+          searchString: S.optional(S.String.pipe(T.Query())),
+          type: S.optional(__S(3264, __c102, 0).pipe(T.Query())),
+          compatibility: S.optional(S.String.pipe(T.Query())),
+          sslRequired: S.optional(S.Boolean.pipe(T.Query())),
+          sortField: S.optional(S.String.pipe(T.Query())),
+          active: S.optional(S.Boolean.pipe(T.Query())),
+          remarketingListIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          sslCompliant: S.optional(S.Boolean.pipe(T.Query())),
+          audienceSegmentIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          sortOrder: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          archived: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12547,10 +12545,10 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          objectId: S.String.pipe(T.Label()),
+          objectType: S.String.pipe(T.Query()),
           profileId: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Query()),
-          objectType: S.String.pipe(T.Query()),
+          objectId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -12567,12 +12565,12 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           sortField: S.optional(S.String.pipe(T.Query())),
-          sortOrder: S.optional(S.String.pipe(T.Query())),
-          ids: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
           profileId: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          sortOrder: S.optional(S.String.pipe(T.Query())),
+          ids: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
           searchString: S.optional(S.String.pipe(T.Query())),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12586,9 +12584,9 @@ function __c12(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          advertiserGroups: S.optional(__S(385, __c12, 1)),
           kind: S.optional(S.String),
           nextPageToken: S.optional(S.String),
-          advertiserGroups: S.optional(__S(385, __c12, 1)),
         }),
       ).annotate({ identifier: "AdvertiserGroupsListResponse" });
   }
@@ -12615,10 +12613,10 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           preTaxAmountMicros: S.optional(S.String),
-          campaignId: S.optional(S.String),
           totalAmountMicros: S.optional(S.String),
-          taxAmountMicros: S.optional(S.String),
           billingInvoiceCode: S.optional(S.String),
+          taxAmountMicros: S.optional(S.String),
+          campaignId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CampaignSummary" });
     case 2:
@@ -12626,24 +12624,24 @@ function __c13(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          paymentsAccountId: S.optional(S.String),
-          paymentsProfileId: S.optional(S.String),
-          pdfUrl: S.optional(S.String),
-          purchaseOrderNumber: S.optional(S.String),
-          currencyCode: S.optional(S.String),
-          replacedInvoiceIds: S.optional(__S(7104, __c222, 0)),
-          totalTaxAmountMicros: S.optional(S.String),
-          invoiceType: S.optional(S.String),
           subtotalAmountMicros: S.optional(S.String),
-          issueDate: S.optional(S.String),
           campaign_summaries: S.optional(__S(418, __c13, 2)),
-          id: S.optional(S.String),
+          currencyCode: S.optional(S.String),
+          invoiceType: S.optional(S.String),
           totalAmountMicros: S.optional(S.String),
-          serviceEndDate: S.optional(S.String),
-          kind: S.optional(S.String),
-          dueDate: S.optional(S.String),
-          correctedInvoiceId: S.optional(S.String),
           serviceStartDate: S.optional(S.String),
+          paymentsAccountId: S.optional(S.String),
+          pdfUrl: S.optional(S.String),
+          serviceEndDate: S.optional(S.String),
+          purchaseOrderNumber: S.optional(S.String),
+          issueDate: S.optional(S.String),
+          replacedInvoiceIds: S.optional(__S(7136, __c223, 0)),
+          paymentsProfileId: S.optional(S.String),
+          dueDate: S.optional(S.String),
+          totalTaxAmountMicros: S.optional(S.String),
+          kind: S.optional(S.String),
+          id: S.optional(S.String),
+          correctedInvoiceId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Invoice" });
     case 4:
@@ -12651,9 +12649,9 @@ function __c13(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
+          nextPageToken: S.optional(S.String),
           invoices: S.optional(__S(420, __c13, 4)),
           kind: S.optional(S.String),
-          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "AdvertiserInvoicesListResponse" });
   }
@@ -12663,17 +12661,17 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          campaignIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          sortOrder: S.optional(S.String.pipe(T.Query())),
-          subaccountId: S.optional(S.String.pipe(T.Query())),
-          ids: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          profileId: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           sortField: S.optional(S.String.pipe(T.Query())),
-          searchString: S.optional(S.String.pipe(T.Query())),
-          advertiserIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          archived: S.optional(S.Boolean.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          sortOrder: S.optional(S.String.pipe(T.Query())),
           maxResults: S.optional(S.Number.pipe(T.Query())),
+          advertiserIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          campaignIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          profileId: S.String.pipe(T.Label()),
+          searchString: S.optional(S.String.pipe(T.Query())),
+          ids: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          subaccountId: S.optional(S.String.pipe(T.Query())),
+          archived: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12687,9 +12685,9 @@ function __c14(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          kind: S.optional(S.String),
           nextPageToken: S.optional(S.String),
           landingPages: S.optional(__S(449, __c14, 1)),
+          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "AdvertiserLandingPagesListResponse" });
   }
@@ -12699,19 +12697,19 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          subaccountId: S.optional(S.String.pipe(T.Query())),
-          floodlightConfigurationIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          status: S.optional(S.String.pipe(T.Query())),
           profileId: S.String.pipe(T.Label()),
-          ids: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
+          searchString: S.optional(S.String.pipe(T.Query())),
+          advertiserGroupIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          sortField: S.optional(S.String.pipe(T.Query())),
+          ids: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          onlyParent: S.optional(S.Boolean.pipe(T.Query())),
+          status: S.optional(S.String.pipe(T.Query())),
+          subaccountId: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           sortOrder: S.optional(S.String.pipe(T.Query())),
+          floodlightConfigurationIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
           includeAdvertisersWithoutGroupsOnly: S.optional(S.Boolean.pipe(T.Query())),
-          searchString: S.optional(S.String.pipe(T.Query())),
-          onlyParent: S.optional(S.Boolean.pipe(T.Query())),
-          advertiserGroupIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          sortField: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12763,17 +12761,17 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          onlySuggestion: S.optional(S.Boolean.pipe(T.Query())),
-          sortField: S.optional(S.String.pipe(T.Query())),
-          status: S.optional(__S(3232, __c101, 0).pipe(T.Query())),
-          currency_code: S.optional(S.String.pipe(T.Query())),
-          ids: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          sortOrder: S.optional(S.String.pipe(T.Query())),
-          name: S.optional(S.String.pipe(T.Query())),
-          subaccountIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          profileId: S.String.pipe(T.Label()),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
+          ids: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          sortOrder: S.optional(S.String.pipe(T.Query())),
+          sortField: S.optional(S.String.pipe(T.Query())),
+          subaccountIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          name: S.optional(S.String.pipe(T.Query())),
+          currency_code: S.optional(S.String.pipe(T.Query())),
+          status: S.optional(__S(3264, __c102, 0).pipe(T.Query())),
+          profileId: S.String.pipe(T.Label()),
+          onlySuggestion: S.optional(S.Boolean.pipe(T.Query())),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12787,8 +12785,8 @@ function __c17(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           billingProfiles: S.optional(__S(545, __c17, 1)),
+          nextPageToken: S.optional(S.String),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "BillingProfilesListResponse" });
@@ -12812,9 +12810,9 @@ function __c18(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          lowValue: S.optional(S.String),
-          rateInMicros: S.optional(S.String),
           highValue: S.optional(S.String),
+          rateInMicros: S.optional(S.String),
+          lowValue: S.optional(S.String),
         }),
       ).annotate({ identifier: "BillingRateTieredRate" });
     case 2:
@@ -12823,14 +12821,14 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           startDate: S.optional(S.String),
+          currencyCode: S.optional(S.String),
+          unitOfMeasure: S.optional(S.String),
           tieredRates: S.optional(__S(578, __c18, 2)),
           id: S.optional(S.String),
-          unitOfMeasure: S.optional(S.String),
           endDate: S.optional(S.String),
-          currencyCode: S.optional(S.String),
           name: S.optional(S.String),
-          type: S.optional(S.String),
           rateInMicros: S.optional(S.String),
+          type: S.optional(S.String),
         }),
       ).annotate({ identifier: "BillingRate" });
     case 4:
@@ -12838,8 +12836,8 @@ function __c18(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          billingRates: S.optional(__S(580, __c18, 4)),
           nextPageToken: S.optional(S.String),
+          billingRates: S.optional(__S(580, __c18, 4)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "BillingRatesListResponse" });
@@ -12863,7 +12861,7 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
-          browsers: S.optional(__S(5057, __c158, 1)),
+          browsers: S.optional(__S(5089, __c159, 1)),
         }),
       ).annotate({ identifier: "BrowsersListResponse" });
   }
@@ -12873,11 +12871,11 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          profileId: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           sortOrder: S.optional(S.String.pipe(T.Query())),
           campaignId: S.String.pipe(T.Label()),
           maxResults: S.optional(S.Number.pipe(T.Query())),
-          profileId: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12891,9 +12889,9 @@ function __c20(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          kind: S.optional(S.String),
           campaignCreativeAssociations: S.optional(__S(641, __c20, 1)),
           nextPageToken: S.optional(S.String),
+          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "CampaignCreativeAssociationsListResponse" });
   }
@@ -12903,20 +12901,20 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          advertiserGroupIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          advertiserIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          searchString: S.optional(S.String.pipe(T.Query())),
-          archived: S.optional(S.Boolean.pipe(T.Query())),
+          excludedIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          advertiserGroupIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
           maxResults: S.optional(S.Number.pipe(T.Query())),
-          excludedIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
+          sortField: S.optional(S.String.pipe(T.Query())),
+          searchString: S.optional(S.String.pipe(T.Query())),
+          atLeastOneOptimizationActivity: S.optional(S.Boolean.pipe(T.Query())),
           profileId: S.String.pipe(T.Label()),
+          archived: S.optional(S.Boolean.pipe(T.Query())),
+          advertiserIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          sortOrder: S.optional(S.String.pipe(T.Query())),
           subaccountId: S.optional(S.String.pipe(T.Query())),
           overriddenEventTagId: S.optional(S.String.pipe(T.Query())),
-          sortOrder: S.optional(S.String.pipe(T.Query())),
-          ids: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          atLeastOneOptimizationActivity: S.optional(S.Boolean.pipe(T.Query())),
-          sortField: S.optional(S.String.pipe(T.Query())),
+          ids: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12930,9 +12928,9 @@ function __c21(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          kind: S.optional(S.String),
-          nextPageToken: S.optional(S.String),
           campaigns: S.optional(__S(673, __c21, 1)),
+          nextPageToken: S.optional(S.String),
+          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "CampaignsListResponse" });
   }
@@ -12959,17 +12957,17 @@ function __c23(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          maxChangeTime: S.optional(S.String.pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          userProfileIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          ids: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          action: S.optional(S.String.pipe(T.Query())),
+          ids: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          objectIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
           objectType: S.optional(S.String.pipe(T.Query())),
-          objectIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
+          maxChangeTime: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          userProfileIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
+          searchString: S.optional(S.String.pipe(T.Query())),
           profileId: S.String.pipe(T.Label()),
           minChangeTime: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          searchString: S.optional(S.String.pipe(T.Query())),
+          action: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12984,8 +12982,8 @@ function __c23(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          changeLogs: S.optional(__S(737, __c23, 1)),
           kind: S.optional(S.String),
+          changeLogs: S.optional(__S(737, __c23, 1)),
         }),
       ).annotate({ identifier: "ChangeLogsListResponse" });
   }
@@ -12995,11 +12993,11 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          regionDartIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          dartIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          countryDartIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
           namePrefix: S.optional(S.String.pipe(T.Query())),
+          countryDartIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
           profileId: S.String.pipe(T.Label()),
+          dartIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          regionDartIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -13011,8 +13009,8 @@ function __c24(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          cities: S.optional(__S(5089, __c159, 1)),
           kind: S.optional(S.String),
+          cities: S.optional(__S(5121, __c160, 1)),
         }),
       ).annotate({ identifier: "CitiesListResponse" });
   }
@@ -13035,7 +13033,7 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
-          connectionTypes: S.optional(__S(5120, __c160, 0)),
+          connectionTypes: S.optional(__S(5152, __c161, 0)),
         }),
       ).annotate({ identifier: "ConnectionTypesListResponse" });
   }
@@ -13045,13 +13043,13 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          ids: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          searchString: S.optional(S.String.pipe(T.Query())),
-          sortOrder: S.optional(S.String.pipe(T.Query())),
+          ids: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
           sortField: S.optional(S.String.pipe(T.Query())),
+          searchString: S.optional(S.String.pipe(T.Query())),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
+          profileId: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          sortOrder: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -13061,18 +13059,22 @@ function __c26(j: number): any {
         ),
       ).annotate({ identifier: "ListContentCategoriesRequest" });
     case 1:
-      return S.Array(__S(5984, __c187, 0));
-    case 2:
       return S.suspend(() =>
         S.Struct({
-          contentCategories: S.optional(__S(833, __c26, 1)),
-          nextPageToken: S.optional(S.String),
           kind: S.optional(S.String),
+          nextPageToken: S.optional(S.String),
+          contentCategories: S.optional(__S(864, __c27, 0)),
         }),
       ).annotate({ identifier: "ContentCategoriesListResponse" });
   }
 }
 function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(5984, __c187, 0));
+  }
+}
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13089,25 +13091,25 @@ function __c27(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          countries: S.optional(__S(5152, __c161, 0)),
+          countries: S.optional(__S(5184, __c162, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "CountriesListResponse" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          searchString: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          profileId: S.String.pipe(T.Label()),
           maxResults: S.optional(S.Number.pipe(T.Query())),
-          ids: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          sortField: S.optional(S.String.pipe(T.Query())),
-          advertiserIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
+          profileId: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           sortOrder: S.optional(S.String.pipe(T.Query())),
+          advertiserIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          sortField: S.optional(S.String.pipe(T.Query())),
+          searchString: S.optional(S.String.pipe(T.Query())),
+          ids: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -13121,26 +13123,26 @@ function __c28(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          creativeFields: S.optional(__S(897, __c28, 1)),
-          kind: S.optional(S.String),
+          creativeFields: S.optional(__S(929, __c29, 1)),
           nextPageToken: S.optional(S.String),
+          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreativeFieldsListResponse" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          searchString: S.optional(S.String.pipe(T.Query())),
+          profileId: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          sortOrder: S.optional(S.String.pipe(T.Query())),
+          ids: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
           sortField: S.optional(S.String.pipe(T.Query())),
           creativeFieldId: S.String.pipe(T.Label()),
+          searchString: S.optional(S.String.pipe(T.Query())),
           maxResults: S.optional(S.Number.pipe(T.Query())),
-          ids: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          sortOrder: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          profileId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -13155,26 +13157,26 @@ function __c29(j: number): any {
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
-          creativeFieldValues: S.optional(__S(929, __c29, 1)),
           nextPageToken: S.optional(S.String),
+          creativeFieldValues: S.optional(__S(961, __c30, 1)),
         }),
       ).annotate({ identifier: "CreativeFieldValuesListResponse" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          sortOrder: S.optional(S.String.pipe(T.Query())),
-          ids: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          searchString: S.optional(S.String.pipe(T.Query())),
-          sortField: S.optional(S.String.pipe(T.Query())),
-          groupNumber: S.optional(S.Number.pipe(T.Query())),
           maxResults: S.optional(S.Number.pipe(T.Query())),
-          advertiserIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
+          sortField: S.optional(S.String.pipe(T.Query())),
+          sortOrder: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          searchString: S.optional(S.String.pipe(T.Query())),
+          groupNumber: S.optional(S.Number.pipe(T.Query())),
+          profileId: S.String.pipe(T.Label()),
+          advertiserIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          ids: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -13188,34 +13190,34 @@ function __c30(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          creativeGroups: S.optional(__S(993, __c31, 1)),
           nextPageToken: S.optional(S.String),
-          creativeGroups: S.optional(__S(961, __c30, 1)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreativeGroupsListResponse" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          creativeFieldIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          sizeIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          ids: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
           sortField: S.optional(S.String.pipe(T.Query())),
+          advertiserId: S.optional(S.String.pipe(T.Query())),
           studioCreativeId: S.optional(S.String.pipe(T.Query())),
+          companionCreativeIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          renderingIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          types: S.optional(__S(3264, __c102, 0).pipe(T.Query())),
           maxResults: S.optional(S.Number.pipe(T.Query())),
-          ids: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          sizeIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          sortOrder: S.optional(S.String.pipe(T.Query())),
           profileId: S.String.pipe(T.Label()),
-          renderingIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
+          searchString: S.optional(S.String.pipe(T.Query())),
+          sortOrder: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           archived: S.optional(S.Boolean.pipe(T.Query())),
           campaignId: S.optional(S.String.pipe(T.Query())),
-          companionCreativeIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          creativeFieldIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          advertiserId: S.optional(S.String.pipe(T.Query())),
-          searchString: S.optional(S.String.pipe(T.Query())),
-          types: S.optional(__S(3232, __c101, 0).pipe(T.Query())),
           active: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -13226,34 +13228,34 @@ function __c31(j: number): any {
         ),
       ).annotate({ identifier: "ListCreativesRequest" });
     case 1:
-      return S.Array(__S(6378, __c199, 10));
+      return S.Array(__S(6410, __c200, 10));
     case 2:
       return S.suspend(() =>
         S.Struct({
+          creatives: S.optional(__S(1025, __c32, 1)),
           nextPageToken: S.optional(S.String),
-          creatives: S.optional(__S(993, __c31, 1)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreativesListResponse" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          dfpNetworkCode: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          acceptsInStreamVideoPlacements: S.optional(S.Boolean.pipe(T.Query())),
-          sortOrder: S.optional(S.String.pipe(T.Query())),
-          acceptsPublisherPaidPlacements: S.optional(S.Boolean.pipe(T.Query())),
-          searchString: S.optional(S.String.pipe(T.Query())),
-          ids: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
           acceptsInterstitialPlacements: S.optional(S.Boolean.pipe(T.Query())),
+          ids: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          acceptsPublisherPaidPlacements: S.optional(S.Boolean.pipe(T.Query())),
+          acceptsInStreamVideoPlacements: S.optional(S.Boolean.pipe(T.Query())),
+          searchString: S.optional(S.String.pipe(T.Query())),
+          profileId: S.String.pipe(T.Label()),
+          active: S.optional(S.Boolean.pipe(T.Query())),
+          dfpNetworkCode: S.optional(S.String.pipe(T.Query())),
           maxResults: S.optional(S.Number.pipe(T.Query())),
           sortField: S.optional(S.String.pipe(T.Query())),
-          active: S.optional(S.Boolean.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          sortOrder: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -13263,18 +13265,18 @@ function __c32(j: number): any {
         ),
       ).annotate({ identifier: "ListDirectorySitesRequest" });
     case 1:
-      return S.Array(__S(6434, __c201, 2));
+      return S.Array(__S(6466, __c202, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
-          directorySites: S.optional(__S(1025, __c32, 1)),
           kind: S.optional(S.String),
+          nextPageToken: S.optional(S.String),
+          directorySites: S.optional(__S(1057, __c33, 1)),
         }),
       ).annotate({ identifier: "DirectorySitesListResponse" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13291,16 +13293,16 @@ function __c33(j: number): any {
       ).annotate({ identifier: "DeleteFloodlightActivitiesRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          names: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
+          names: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
           objectType: S.optional(S.String.pipe(T.Query())),
-          advertiserId: S.optional(S.String.pipe(T.Query())),
+          profileId: S.String.pipe(T.Label()),
           objectId: S.optional(S.String.pipe(T.Query())),
+          advertiserId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -13315,27 +13317,27 @@ function __c34(j: number): any {
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
-          dynamicTargetingKeys: S.optional(__S(1089, __c34, 1)),
+          dynamicTargetingKeys: S.optional(__S(1121, __c35, 1)),
         }),
       ).annotate({ identifier: "DynamicTargetingKeysListResponse" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          eventTagTypes: S.optional(__S(3232, __c101, 0).pipe(T.Query())),
-          campaignId: S.optional(S.String.pipe(T.Query())),
           searchString: S.optional(S.String.pipe(T.Query())),
+          ids: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
           profileId: S.String.pipe(T.Label()),
           enabled: S.optional(S.Boolean.pipe(T.Query())),
-          advertiserId: S.optional(S.String.pipe(T.Query())),
-          definitionsOnly: S.optional(S.Boolean.pipe(T.Query())),
-          sortOrder: S.optional(S.String.pipe(T.Query())),
-          adId: S.optional(S.String.pipe(T.Query())),
-          ids: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
           sortField: S.optional(S.String.pipe(T.Query())),
+          advertiserId: S.optional(S.String.pipe(T.Query())),
+          eventTagTypes: S.optional(__S(3264, __c102, 0).pipe(T.Query())),
+          sortOrder: S.optional(S.String.pipe(T.Query())),
+          campaignId: S.optional(S.String.pipe(T.Query())),
+          adId: S.optional(S.String.pipe(T.Query())),
+          definitionsOnly: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -13345,25 +13347,25 @@ function __c35(j: number): any {
         ),
       ).annotate({ identifier: "ListEventTagsRequest" });
     case 1:
-      return S.Array(__S(6624, __c207, 0));
+      return S.Array(__S(6656, __c208, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          eventTags: S.optional(__S(1121, __c35, 1)),
           kind: S.optional(S.String),
+          eventTags: S.optional(__S(1153, __c36, 1)),
         }),
       ).annotate({ identifier: "EventTagsListResponse" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sortOrder: S.optional(S.String.pipe(T.Query())),
           maxResults: S.optional(S.Number.pipe(T.Query())),
           scope: S.optional(S.String.pipe(T.Query())),
           sortField: S.optional(S.String.pipe(T.Query())),
+          sortOrder: S.optional(S.String.pipe(T.Query())),
           profileId: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -13376,40 +13378,40 @@ function __c36(j: number): any {
       ).annotate({ identifier: "ListFilesRequest" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6721, __c210, 1));
+      return S.Array(__S(6753, __c211, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1184, __c37, 0),
-          nextPageToken: S.optional(S.String),
-          etag: S.optional(S.String),
           kind: S.optional(S.String),
+          etag: S.optional(S.String),
+          nextPageToken: S.optional(S.String),
+          items: __S(1216, __c38, 0),
         }),
       ).annotate({ identifier: "FileList" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           floodlightActivityGroupType: S.optional(S.String.pipe(T.Query())),
-          profileId: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          sortOrder: S.optional(S.String.pipe(T.Query())),
-          floodlightActivityGroupName: S.optional(S.String.pipe(T.Query())),
-          advertiserId: S.optional(S.String.pipe(T.Query())),
-          floodlightConfigurationId: S.optional(S.String.pipe(T.Query())),
-          floodlightActivityGroupTagString: S.optional(S.String.pipe(T.Query())),
-          sortField: S.optional(S.String.pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
           searchString: S.optional(S.String.pipe(T.Query())),
-          ids: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
+          floodlightConfigurationId: S.optional(S.String.pipe(T.Query())),
+          profileId: S.String.pipe(T.Label()),
+          floodlightActivityGroupName: S.optional(S.String.pipe(T.Query())),
+          floodlightActivityGroupIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          advertiserId: S.optional(S.String.pipe(T.Query())),
+          sortField: S.optional(S.String.pipe(T.Query())),
           tagString: S.optional(S.String.pipe(T.Query())),
-          floodlightActivityGroupIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
+          ids: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          floodlightActivityGroupTagString: S.optional(S.String.pipe(T.Query())),
+          sortOrder: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -13419,32 +13421,32 @@ function __c38(j: number): any {
         ),
       ).annotate({ identifier: "ListFloodlightActivitiesRequest" });
     case 1:
-      return S.Array(__S(6788, __c212, 4));
+      return S.Array(__S(6820, __c213, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
+          floodlightActivities: S.optional(__S(1249, __c39, 1)),
           kind: S.optional(S.String),
-          floodlightActivities: S.optional(__S(1217, __c38, 1)),
         }),
       ).annotate({ identifier: "FloodlightActivitiesListResponse" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          ids: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
           sortField: S.optional(S.String.pipe(T.Query())),
-          type: S.optional(S.String.pipe(T.Query())),
-          searchString: S.optional(S.String.pipe(T.Query())),
-          advertiserId: S.optional(S.String.pipe(T.Query())),
-          ids: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          floodlightConfigurationId: S.optional(S.String.pipe(T.Query())),
           sortOrder: S.optional(S.String.pipe(T.Query())),
-          profileId: S.String.pipe(T.Label()),
+          searchString: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          type: S.optional(S.String.pipe(T.Query())),
+          advertiserId: S.optional(S.String.pipe(T.Query())),
           maxResults: S.optional(S.Number.pipe(T.Query())),
+          profileId: S.String.pipe(T.Label()),
+          floodlightConfigurationId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -13454,24 +13456,24 @@ function __c39(j: number): any {
         ),
       ).annotate({ identifier: "ListFloodlightActivityGroupsRequest" });
     case 1:
-      return S.Array(__S(6848, __c214, 0));
+      return S.Array(__S(6880, __c215, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           kind: S.optional(S.String),
-          floodlightActivityGroups: S.optional(__S(1249, __c39, 1)),
+          nextPageToken: S.optional(S.String),
+          floodlightActivityGroups: S.optional(__S(1281, __c40, 1)),
         }),
       ).annotate({ identifier: "FloodlightActivityGroupsListResponse" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ids: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
           profileId: S.String.pipe(T.Label()),
+          ids: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -13481,17 +13483,17 @@ function __c40(j: number): any {
         ),
       ).annotate({ identifier: "ListFloodlightConfigurationsRequest" });
     case 1:
-      return S.Array(__S(6920, __c216, 8));
+      return S.Array(__S(6952, __c217, 8));
     case 2:
       return S.suspend(() =>
         S.Struct({
+          floodlightConfigurations: S.optional(__S(1313, __c41, 1)),
           kind: S.optional(S.String),
-          floodlightConfigurations: S.optional(__S(1281, __c40, 1)),
         }),
       ).annotate({ identifier: "FloodlightConfigurationsListResponse" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13509,12 +13511,12 @@ function __c41(j: number): any {
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
-          languages: S.optional(__S(5185, __c162, 1)),
+          languages: S.optional(__S(5217, __c163, 1)),
         }),
       ).annotate({ identifier: "LanguagesListResponse" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13531,23 +13533,23 @@ function __c42(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          metros: S.optional(__S(5217, __c163, 1)),
+          metros: S.optional(__S(5249, __c164, 1)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "MetrosListResponse" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
+          ids: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
           profileId: S.String.pipe(T.Label()),
-          directories: S.optional(__S(3232, __c101, 0).pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
+          directories: S.optional(__S(3264, __c102, 0).pipe(T.Query())),
           searchString: S.optional(S.String.pipe(T.Query())),
-          ids: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -13561,14 +13563,14 @@ function __c43(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           kind: S.optional(S.String),
-          mobileApps: S.optional(__S(1377, __c43, 1)),
+          nextPageToken: S.optional(S.String),
+          mobileApps: S.optional(__S(1409, __c44, 1)),
         }),
       ).annotate({ identifier: "MobileAppsListResponse" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13585,19 +13587,19 @@ function __c44(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          mobileCarriers: S.optional(__S(5280, __c165, 0)),
           kind: S.optional(S.String),
-          mobileCarriers: S.optional(__S(5248, __c164, 0)),
         }),
       ).annotate({ identifier: "MobileCarriersListResponse" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          profileId: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
+          profileId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -13608,7 +13610,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "DeletePlacementStrategiesRequest" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13626,12 +13628,12 @@ function __c46(j: number): any {
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
-          operatingSystems: S.optional(__S(5280, __c165, 0)),
+          operatingSystems: S.optional(__S(5312, __c166, 0)),
         }),
       ).annotate({ identifier: "OperatingSystemsListResponse" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13648,37 +13650,37 @@ function __c47(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          operatingSystemVersions: S.optional(__S(5312, __c166, 0)),
+          operatingSystemVersions: S.optional(__S(5344, __c167, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperatingSystemVersionsListResponse" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          maxEndDate: S.optional(S.String.pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          contentCategoryIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          campaignIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          directorySiteIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          advertiserIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          searchString: S.optional(S.String.pipe(T.Query())),
-          activeStatus: S.optional(__S(3232, __c101, 0).pipe(T.Query())),
-          ids: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          minStartDate: S.optional(S.String.pipe(T.Query())),
-          siteIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          sortOrder: S.optional(S.String.pipe(T.Query())),
-          minEndDate: S.optional(S.String.pipe(T.Query())),
-          profileId: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          placementStrategyIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
+          campaignIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
           placementGroupType: S.optional(S.String.pipe(T.Query())),
-          maxStartDate: S.optional(S.String.pipe(T.Query())),
+          siteIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
           sortField: S.optional(S.String.pipe(T.Query())),
-          pricingTypes: S.optional(__S(3232, __c101, 0).pipe(T.Query())),
+          maxEndDate: S.optional(S.String.pipe(T.Query())),
+          minEndDate: S.optional(S.String.pipe(T.Query())),
+          minStartDate: S.optional(S.String.pipe(T.Query())),
+          directorySiteIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          profileId: S.String.pipe(T.Label()),
+          contentCategoryIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          activeStatus: S.optional(__S(3264, __c102, 0).pipe(T.Query())),
+          ids: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          sortOrder: S.optional(S.String.pipe(T.Query())),
+          pricingTypes: S.optional(__S(3264, __c102, 0).pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          advertiserIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          maxStartDate: S.optional(S.String.pipe(T.Query())),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
+          placementStrategyIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          searchString: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -13688,45 +13690,45 @@ function __c48(j: number): any {
         ),
       ).annotate({ identifier: "ListPlacementGroupsRequest" });
     case 1:
-      return S.Array(__S(7232, __c226, 0));
+      return S.Array(__S(7264, __c227, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          placementGroups: S.optional(__S(1537, __c48, 1)),
           nextPageToken: S.optional(S.String),
           kind: S.optional(S.String),
+          placementGroups: S.optional(__S(1569, __c49, 1)),
         }),
       ).annotate({ identifier: "PlacementGroupsListResponse" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          paymentSource: S.optional(S.String.pipe(T.Query())),
-          sortOrder: S.optional(S.String.pipe(T.Query())),
-          maxStartDate: S.optional(S.String.pipe(T.Query())),
+          siteIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          ids: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
           maxEndDate: S.optional(S.String.pipe(T.Query())),
-          siteIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          sizeIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          profileId: S.String.pipe(T.Label()),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pricingTypes: S.optional(__S(3232, __c101, 0).pipe(T.Query())),
-          contentCategoryIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
+          groupIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
           sortField: S.optional(S.String.pipe(T.Query())),
-          advertiserIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          compatibilities: S.optional(__S(3232, __c101, 0).pipe(T.Query())),
-          ids: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          activeStatus: S.optional(__S(3232, __c101, 0).pipe(T.Query())),
-          campaignIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          searchString: S.optional(S.String.pipe(T.Query())),
-          placementStrategyIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          directorySiteIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
           minStartDate: S.optional(S.String.pipe(T.Query())),
+          compatibilities: S.optional(__S(3264, __c102, 0).pipe(T.Query())),
           minEndDate: S.optional(S.String.pipe(T.Query())),
-          groupIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
+          profileId: S.String.pipe(T.Label()),
+          placementStrategyIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          advertiserIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          activeStatus: S.optional(__S(3264, __c102, 0).pipe(T.Query())),
+          contentCategoryIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          sizeIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          sortOrder: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pricingTypes: S.optional(__S(3264, __c102, 0).pipe(T.Query())),
+          maxStartDate: S.optional(S.String.pipe(T.Query())),
+          campaignIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          directorySiteIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          paymentSource: S.optional(S.String.pipe(T.Query())),
+          searchString: S.optional(S.String.pipe(T.Query())),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -13736,29 +13738,29 @@ function __c49(j: number): any {
         ),
       ).annotate({ identifier: "ListPlacementsRequest" });
     case 1:
-      return S.Array(__S(7336, __c229, 8));
+      return S.Array(__S(7369, __c230, 9));
     case 2:
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
           nextPageToken: S.optional(S.String),
-          placements: S.optional(__S(1569, __c49, 1)),
+          placements: S.optional(__S(1601, __c50, 1)),
         }),
       ).annotate({ identifier: "PlacementsListResponse" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          profileId: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          ids: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
           searchString: S.optional(S.String.pipe(T.Query())),
-          ids: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
+          sortOrder: S.optional(S.String.pipe(T.Query())),
           sortField: S.optional(S.String.pipe(T.Query())),
           maxResults: S.optional(S.Number.pipe(T.Query())),
-          sortOrder: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          profileId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -13768,18 +13770,16 @@ function __c50(j: number): any {
         ),
       ).annotate({ identifier: "ListPlacementStrategiesRequest" });
     case 1:
-      return S.Array(__S(7392, __c231, 0));
-    case 2:
       return S.suspend(() =>
         S.Struct({
-          placementStrategies: S.optional(__S(1601, __c50, 1)),
           nextPageToken: S.optional(S.String),
+          placementStrategies: S.optional(__S(864, __c27, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "PlacementStrategiesListResponse" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13796,13 +13796,13 @@ function __c51(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          platformTypes: S.optional(__S(5344, __c167, 0)),
+          platformTypes: S.optional(__S(5056, __c158, 0)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "PlatformTypesListResponse" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13825,7 +13825,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "PostalCodesListResponse" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13848,20 +13848,20 @@ function __c53(j: number): any {
       ).annotate({ identifier: "RegionsListResponse" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String.pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
           floodlightActivityId: S.optional(S.String.pipe(T.Query())),
-          sortField: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          active: S.optional(S.Boolean.pipe(T.Query())),
-          profileId: S.String.pipe(T.Label()),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
           sortOrder: S.optional(S.String.pipe(T.Query())),
           advertiserId: S.String.pipe(T.Query()),
+          sortField: S.optional(S.String.pipe(T.Query())),
+          profileId: S.String.pipe(T.Label()),
+          active: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -13875,24 +13875,24 @@ function __c54(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          remarketingLists: S.optional(__S(1761, __c55, 1)),
           nextPageToken: S.optional(S.String),
           kind: S.optional(S.String),
-          remarketingLists: S.optional(__S(1729, __c54, 1)),
         }),
       ).annotate({ identifier: "RemarketingListsListResponse" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          sortOrder: S.optional(S.String.pipe(T.Query())),
           sortField: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
+          sortOrder: S.optional(S.String.pipe(T.Query())),
           profileId: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           scope: S.optional(S.String.pipe(T.Query())),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -13906,21 +13906,21 @@ function __c55(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
+          items: __S(1793, __c56, 1),
           kind: S.optional(S.String),
           etag: S.optional(S.String),
-          items: __S(1761, __c55, 1),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReportList" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          profileId: S.String.pipe(T.Label()),
           reportId: S.String.pipe(T.Label()),
+          profileId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -13931,17 +13931,17 @@ function __c56(j: number): any {
       ).annotate({ identifier: "DeleteReportsRequest" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           reportId: S.String.pipe(T.Label()),
-          sortField: S.optional(S.String.pipe(T.Query())),
-          sortOrder: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           profileId: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           maxResults: S.optional(S.Number.pipe(T.Query())),
+          sortOrder: S.optional(S.String.pipe(T.Query())),
+          sortField: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -13952,27 +13952,27 @@ function __c57(j: number): any {
       ).annotate({ identifier: "ListReportsFilesRequest" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          ids: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          sortField: S.optional(S.String.pipe(T.Query())),
+          campaignIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          directorySiteIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
           acceptsInterstitialPlacements: S.optional(S.Boolean.pipe(T.Query())),
           approved: S.optional(S.Boolean.pipe(T.Query())),
-          acceptsInStreamVideoPlacements: S.optional(S.Boolean.pipe(T.Query())),
-          adWordsSite: S.optional(S.Boolean.pipe(T.Query())),
-          directorySiteIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          campaignIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          unmappedSite: S.optional(S.Boolean.pipe(T.Query())),
-          searchString: S.optional(S.String.pipe(T.Query())),
           profileId: S.String.pipe(T.Label()),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
+          subaccountId: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           sortOrder: S.optional(S.String.pipe(T.Query())),
-          subaccountId: S.optional(S.String.pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          ids: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
           acceptsPublisherPaidPlacements: S.optional(S.Boolean.pipe(T.Query())),
-          sortField: S.optional(S.String.pipe(T.Query())),
+          acceptsInStreamVideoPlacements: S.optional(S.Boolean.pipe(T.Query())),
+          adWordsSite: S.optional(S.Boolean.pipe(T.Query())),
+          searchString: S.optional(S.String.pipe(T.Query())),
+          unmappedSite: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -13982,27 +13982,27 @@ function __c58(j: number): any {
         ),
       ).annotate({ identifier: "ListSitesRequest" });
     case 1:
-      return S.Array(__S(7814, __c244, 6));
+      return S.Array(__S(7815, __c244, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
-          sites: S.optional(__S(1857, __c58, 1)),
+          sites: S.optional(__S(1889, __c59, 1)),
           kind: S.optional(S.String),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "SitesListResponse" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          width: S.optional(S.Number.pipe(T.Query())),
           profileId: S.String.pipe(T.Label()),
           height: S.optional(S.Number.pipe(T.Query())),
-          ids: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          width: S.optional(S.Number.pipe(T.Query())),
           iabStandard: S.optional(S.Boolean.pipe(T.Query())),
+          ids: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -14014,24 +14014,24 @@ function __c59(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          kind: S.optional(S.String),
           sizes: S.optional(__S(6272, __c196, 0)),
+          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "SizesListResponse" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           maxResults: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          profileId: S.String.pipe(T.Label()),
-          ids: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
+          ids: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
           sortField: S.optional(S.String.pipe(T.Query())),
           searchString: S.optional(S.String.pipe(T.Query())),
           sortOrder: S.optional(S.String.pipe(T.Query())),
+          profileId: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -14046,25 +14046,25 @@ function __c60(j: number): any {
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
-          subaccounts: S.optional(__S(1921, __c60, 1)),
+          subaccounts: S.optional(__S(1953, __c61, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "SubaccountsListResponse" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          advertiserId: S.String.pipe(T.Query()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          name: S.optional(S.String.pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          sortOrder: S.optional(S.String.pipe(T.Query())),
           sortField: S.optional(S.String.pipe(T.Query())),
           active: S.optional(S.Boolean.pipe(T.Query())),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
+          profileId: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          sortOrder: S.optional(S.String.pipe(T.Query())),
+          name: S.optional(S.String.pipe(T.Query())),
+          advertiserId: S.String.pipe(T.Query()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -14078,26 +14078,26 @@ function __c61(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          targetableRemarketingLists: S.optional(__S(1953, __c61, 1)),
-          nextPageToken: S.optional(S.String),
           kind: S.optional(S.String),
+          nextPageToken: S.optional(S.String),
+          targetableRemarketingLists: S.optional(__S(1985, __c62, 1)),
         }),
       ).annotate({ identifier: "TargetableRemarketingListsListResponse" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           sortField: S.optional(S.String.pipe(T.Query())),
-          maxResults: S.optional(S.Number.pipe(T.Query())),
-          ids: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          advertiserId: S.optional(S.String.pipe(T.Query())),
-          sortOrder: S.optional(S.String.pipe(T.Query())),
-          searchString: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           profileId: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          maxResults: S.optional(S.Number.pipe(T.Query())),
+          sortOrder: S.optional(S.String.pipe(T.Query())),
+          ids: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          searchString: S.optional(S.String.pipe(T.Query())),
+          advertiserId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -14113,21 +14113,21 @@ function __c62(j: number): any {
         S.Struct({
           nextPageToken: S.optional(S.String),
           kind: S.optional(S.String),
-          targetingTemplates: S.optional(__S(1985, __c62, 1)),
+          targetingTemplates: S.optional(__S(2017, __c63, 1)),
         }),
       ).annotate({ identifier: "TargetingTemplatesListResponse" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          accountId: S.optional(S.String.pipe(T.Query())),
-          tvDataProvider: S.optional(S.String.pipe(T.Query())),
-          name: S.optional(S.String.pipe(T.Query())),
           countryDartId: S.optional(S.String.pipe(T.Query())),
+          tvDataProvider: S.optional(S.String.pipe(T.Query())),
+          accountId: S.optional(S.String.pipe(T.Query())),
           profileId: S.String.pipe(T.Label()),
+          name: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -14139,29 +14139,29 @@ function __c63(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          impressions: S.optional(S.String),
           spend: S.optional(S.Number),
           grp: S.optional(S.String),
+          id: S.optional(S.String),
+          type: S.optional(S.String),
           kind: S.optional(S.String),
           startDate: S.optional(S.String),
-          id: S.optional(S.String),
-          impressions: S.optional(S.String),
           endDate: S.optional(S.String),
           name: S.optional(S.String),
-          type: S.optional(S.String),
         }),
       ).annotate({ identifier: "TvCampaignSummary" });
     case 2:
-      return S.Array(__S(2017, __c63, 1));
+      return S.Array(__S(2049, __c64, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          tvCampaignSummaries: S.optional(__S(2018, __c63, 2)),
           kind: S.optional(S.String),
+          tvCampaignSummaries: S.optional(__S(2050, __c64, 2)),
         }),
       ).annotate({ identifier: "TvCampaignSummariesListResponse" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14178,14 +14178,14 @@ function __c64(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(2049, __c64, 1)),
-          etag: S.optional(S.String),
+          items: S.optional(__S(2081, __c65, 1)),
           kind: S.optional(S.String),
+          etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "UserProfileList" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14204,19 +14204,19 @@ function __c65(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          userRolePermissionGroups: S.optional(__S(2081, __c65, 1)),
           kind: S.optional(S.String),
+          userRolePermissionGroups: S.optional(__S(2113, __c66, 1)),
         }),
       ).annotate({ identifier: "UserRolePermissionGroupsListResponse" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           profileId: S.String.pipe(T.Label()),
-          ids: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
+          ids: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -14228,19 +14228,19 @@ function __c66(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          userRolePermissions: S.optional(__S(8448, __c264, 0)),
           kind: S.optional(S.String),
+          userRolePermissions: S.optional(__S(8448, __c264, 0)),
         }),
       ).annotate({ identifier: "UserRolePermissionsListResponse" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          profileId: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
+          profileId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -14251,20 +14251,20 @@ function __c67(j: number): any {
       ).annotate({ identifier: "DeleteUserRolesRequest" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          sortField: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           searchString: S.optional(S.String.pipe(T.Query())),
           sortOrder: S.optional(S.String.pipe(T.Query())),
-          ids: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          accountUserRoleOnly: S.optional(S.Boolean.pipe(T.Query())),
-          profileId: S.String.pipe(T.Label()),
           subaccountId: S.optional(S.String.pipe(T.Query())),
-          sortField: S.optional(S.String.pipe(T.Query())),
+          ids: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
+          profileId: S.String.pipe(T.Label()),
           maxResults: S.optional(S.Number.pipe(T.Query())),
+          accountUserRoleOnly: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -14278,14 +14278,14 @@ function __c68(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          userRoles: S.optional(__S(2209, __c69, 1)),
           kind: S.optional(S.String),
           nextPageToken: S.optional(S.String),
-          userRoles: S.optional(__S(2177, __c68, 1)),
         }),
       ).annotate({ identifier: "UserRolesListResponse" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14304,18 +14304,18 @@ function __c69(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          videoFormats: S.optional(__S(2209, __c69, 1)),
           kind: S.optional(S.String),
+          videoFormats: S.optional(__S(2241, __c70, 1)),
         }),
       ).annotate({ identifier: "VideoFormatsListResponse" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4513, __c141, 1),
+          __S(4545, __c142, 1),
           S.Struct({
             profileId: S.String.pipe(T.Label()),
             id: S.String.pipe(T.Query()),
@@ -14330,12 +14330,12 @@ function __c70(j: number): any {
       ).annotate({ identifier: "PatchAccountsRequest" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4609, __c144, 1),
+          __S(4641, __c145, 1),
           S.Struct({
             id: S.String.pipe(T.Query()),
             profileId: S.String.pipe(T.Label()),
@@ -14350,15 +14350,15 @@ function __c71(j: number): any {
       ).annotate({ identifier: "PatchAccountUserProfilesRequest" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
           __S(5486, __c171, 14),
           S.Struct({
-            profileId: S.String.pipe(T.Label()),
             id: S.String.pipe(T.Query()),
+            profileId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -14370,7 +14370,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "PatchAdsRequest" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14390,7 +14390,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "PatchAdvertiserGroupsRequest" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14410,7 +14410,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "PatchAdvertiserLandingPagesRequest" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14430,7 +14430,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "PatchAdvertisersRequest" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14450,7 +14450,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "PatchCampaignsRequest" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14470,7 +14470,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "PatchContentCategoriesRequest" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14492,7 +14492,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "DynamicProfileGenerateCodeResponse" });
   }
 }
-function __c79(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14512,7 +14512,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "PatchCreativeFieldsRequest" });
   }
 }
-function __c80(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14520,8 +14520,8 @@ function __c80(j: number): any {
           __S(6144, __c192, 0),
           S.Struct({
             profileId: S.String.pipe(T.Label()),
-            id: S.String.pipe(T.Query()),
             creativeFieldId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Query()),
           }),
         ).pipe(
           T.Http({
@@ -14533,7 +14533,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "PatchCreativeFieldValuesRequest" });
   }
 }
-function __c81(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14553,15 +14553,15 @@ function __c81(j: number): any {
       ).annotate({ identifier: "PatchCreativeGroupsRequest" });
   }
 }
-function __c82(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(6378, __c199, 10),
+          __S(6410, __c200, 10),
           S.Struct({
-            id: S.String.pipe(T.Query()),
             profileId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Query()),
           }),
         ).pipe(
           T.Http({
@@ -14573,15 +14573,15 @@ function __c82(j: number): any {
       ).annotate({ identifier: "PatchCreativesRequest" });
   }
 }
-function __c83(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(6624, __c207, 0),
+          __S(6656, __c208, 0),
           S.Struct({
-            profileId: S.String.pipe(T.Label()),
             id: S.String.pipe(T.Query()),
+            profileId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -14593,12 +14593,12 @@ function __c83(j: number): any {
       ).annotate({ identifier: "PatchEventTagsRequest" });
   }
 }
-function __c84(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(6788, __c212, 4),
+          __S(6820, __c213, 4),
           S.Struct({
             profileId: S.String.pipe(T.Label()),
             id: S.String.pipe(T.Query()),
@@ -14613,15 +14613,15 @@ function __c84(j: number): any {
       ).annotate({ identifier: "PatchFloodlightActivitiesRequest" });
   }
 }
-function __c85(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(6848, __c214, 0),
+          __S(6880, __c215, 0),
           S.Struct({
-            profileId: S.String.pipe(T.Label()),
             id: S.String.pipe(T.Query()),
+            profileId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -14633,15 +14633,15 @@ function __c85(j: number): any {
       ).annotate({ identifier: "PatchFloodlightActivityGroupsRequest" });
   }
 }
-function __c86(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(6920, __c216, 8),
+          __S(6952, __c217, 8),
           S.Struct({
-            id: S.String.pipe(T.Query()),
             profileId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Query()),
           }),
         ).pipe(
           T.Http({
@@ -14653,15 +14653,15 @@ function __c86(j: number): any {
       ).annotate({ identifier: "PatchFloodlightConfigurationsRequest" });
   }
 }
-function __c87(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(7232, __c226, 0),
+          __S(7264, __c227, 0),
           S.Struct({
-            id: S.String.pipe(T.Query()),
             profileId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Query()),
           }),
         ).pipe(
           T.Http({
@@ -14673,15 +14673,15 @@ function __c87(j: number): any {
       ).annotate({ identifier: "PatchPlacementGroupsRequest" });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(7336, __c229, 8),
+          __S(7369, __c230, 9),
           S.Struct({
-            profileId: S.String.pipe(T.Label()),
             id: S.String.pipe(T.Query()),
+            profileId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -14693,7 +14693,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "PatchPlacementsRequest" });
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14711,19 +14711,19 @@ function __c89(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          kind: S.optional(S.String),
           floodlightActivityTag: S.optional(S.String),
           globalSiteTagGlobalSnippet: S.optional(S.String),
-          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "FloodlightActivitiesGenerateTagResponse" });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(7392, __c231, 0),
+          __S(5984, __c187, 0),
           S.Struct({
             id: S.String.pipe(T.Query()),
             profileId: S.String.pipe(T.Label()),
@@ -14738,7 +14738,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "PatchPlacementStrategiesRequest" });
   }
 }
-function __c91(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14758,15 +14758,15 @@ function __c91(j: number): any {
       ).annotate({ identifier: "PatchRemarketingListsRequest" });
   }
 }
-function __c92(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
           __S(7584, __c237, 0),
           S.Struct({
-            id: S.String.pipe(T.Query()),
             profileId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Query()),
           }),
         ).pipe(
           T.Http({
@@ -14778,15 +14778,15 @@ function __c92(j: number): any {
       ).annotate({ identifier: "PatchRemarketingListSharesRequest" });
   }
 }
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(7814, __c244, 6),
+          __S(7815, __c244, 7),
           S.Struct({
-            profileId: S.String.pipe(T.Label()),
             id: S.String.pipe(T.Query()),
+            profileId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -14798,15 +14798,15 @@ function __c93(j: number): any {
       ).annotate({ identifier: "PatchSitesRequest" });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
           __S(7968, __c249, 0),
           S.Struct({
-            id: S.String.pipe(T.Query()),
             profileId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Query()),
           }),
         ).pipe(
           T.Http({
@@ -14818,7 +14818,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "PatchSubaccountsRequest" });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14838,7 +14838,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "PatchTargetingTemplatesRequest" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14858,7 +14858,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "PatchUserRolesRequest" });
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14874,7 +14874,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "PublishDynamicProfilesRequest" });
   }
 }
-function __c98(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14890,36 +14890,36 @@ function __c98(j: number): any {
       ).annotate({ identifier: "PublishStudioCreativesRequest" });
   }
 }
-function __c99(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dimensionName: S.optional(S.String),
           kind: S.optional(S.String),
           value: S.optional(S.String),
+          dimensionName: S.optional(S.String),
         }),
       ).annotate({ identifier: "DimensionFilter" });
     case 1:
-      return S.Array(__S(3168, __c99, 0));
+      return S.Array(__S(3200, __c100, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          endDate: S.optional(S.String),
-          startDate: S.optional(S.String),
-          filters: S.optional(__S(3169, __c99, 1)),
           dimensionName: S.optional(S.String),
+          startDate: S.optional(S.String),
+          filters: S.optional(__S(3201, __c100, 1)),
           kind: S.optional(S.String),
+          endDate: S.optional(S.String),
         }),
       ).annotate({ identifier: "DimensionValueRequest" });
     case 3:
       return S.suspend(() =>
         S.Extend(
-          __S(3170, __c99, 2),
+          __S(3202, __c100, 2),
           S.Struct({
-            maxResults: S.optional(S.Number.pipe(T.Query())),
-            pageToken: S.optional(S.String.pipe(T.Query())),
             profileId: S.String.pipe(T.Label()),
+            pageToken: S.optional(S.String.pipe(T.Query())),
+            maxResults: S.optional(S.Number.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -14932,26 +14932,26 @@ function __c99(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
+          items: __S(7648, __c239, 0),
           nextPageToken: S.optional(S.String),
           kind: S.optional(S.String),
-          items: __S(7648, __c239, 0),
           etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "DimensionValueList" });
   }
 }
-function __c100(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          placementIds: S.optional(__S(7136, __c223, 0).pipe(T.Query())),
           "tagProperties.gppMacrosIncluded": S.optional(S.Boolean.pipe(T.Query())),
           "tagProperties.dcDbmMacroIncluded": S.optional(S.Boolean.pipe(T.Query())),
           profileId: S.String.pipe(T.Label()),
           campaignId: S.optional(S.String.pipe(T.Query())),
+          tagFormats: S.optional(__S(3264, __c102, 0).pipe(T.Query())),
           "tagProperties.tcfGdprMacrosIncluded": S.optional(S.Boolean.pipe(T.Query())),
-          tagFormats: S.optional(__S(3232, __c101, 0).pipe(T.Query())),
-          placementIds: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -14964,65 +14964,65 @@ function __c100(j: number): any {
       return S.suspend(() =>
         S.Struct({
           creativeId: S.optional(S.String),
-          format: S.optional(S.String),
-          clickTag: S.optional(S.String),
-          adId: S.optional(S.String),
           impressionTag: S.optional(S.String),
+          clickTag: S.optional(S.String),
+          format: S.optional(S.String),
+          adId: S.optional(S.String),
         }),
       ).annotate({ identifier: "TagData" });
     case 2:
-      return S.Array(__S(3201, __c100, 1));
+      return S.Array(__S(3233, __c101, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          tagDatas: S.optional(__S(3202, __c100, 2)),
+          tagDatas: S.optional(__S(3234, __c101, 2)),
           placementId: S.optional(S.String),
         }),
       ).annotate({ identifier: "PlacementTag" });
     case 4:
-      return S.Array(__S(3203, __c100, 3));
+      return S.Array(__S(3235, __c101, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
-          placementTags: S.optional(__S(3204, __c100, 4)),
+          placementTags: S.optional(__S(3236, __c101, 4)),
         }),
       ).annotate({ identifier: "PlacementsGenerateTagsResponse" });
-  }
-}
-function __c101(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
   }
 }
 function __c102(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+  }
+}
+function __c103(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
-          sortOrder: S.optional(S.String),
           name: S.optional(S.String),
+          sortOrder: S.optional(S.String),
         }),
       ).annotate({ identifier: "SortBy" });
     case 1:
-      return S.Array(__S(3264, __c102, 0));
+      return S.Array(__S(3296, __c103, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          dateRange: S.optional(__S(6688, __c209, 0)),
-          maxResults: S.optional(S.Number),
-          dimensionFilters: S.optional(__S(7648, __c239, 0)),
+          metricNames: S.optional(__S(7136, __c223, 0)),
+          sortBys: S.optional(__S(3297, __c103, 1)),
+          dateRange: S.optional(__S(6720, __c210, 0)),
           pageToken: S.optional(S.String),
-          metricNames: S.optional(__S(7104, __c222, 0)),
-          sortBys: S.optional(__S(3265, __c102, 1)),
-          dimensionNames: S.optional(__S(7104, __c222, 0)),
+          dimensionFilters: S.optional(__S(7648, __c239, 0)),
+          dimensionNames: S.optional(__S(7136, __c223, 0)),
+          maxResults: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ReportDataQueryRequest" });
     case 3:
       return S.suspend(() =>
         S.Extend(
-          __S(3266, __c102, 2),
+          __S(3298, __c103, 2),
           S.Struct({
             profileId: S.String.pipe(T.Label()),
           }),
@@ -15037,32 +15037,25 @@ function __c102(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(7104, __c222, 0)),
+          values: S.optional(__S(7136, __c223, 0)),
         }),
       ).annotate({ identifier: "ReportDataRow" });
     case 5:
-      return S.Array(__S(3268, __c102, 4));
+      return S.Array(__S(3300, __c103, 4));
     case 6:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ColumnHeader" });
+      return S.Array(__S(6336, __c198, 0));
     case 7:
-      return S.Array(__S(3270, __c102, 6));
-    case 8:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          totalRow: S.optional(__S(3268, __c102, 4)),
-          rows: S.optional(__S(3269, __c102, 5)),
-          columnHeaders: S.optional(__S(3271, __c102, 7)),
+          rows: S.optional(__S(3301, __c103, 5)),
+          totalRow: S.optional(__S(3300, __c103, 4)),
+          columnHeaders: S.optional(__S(3302, __c103, 6)),
         }),
       ).annotate({ identifier: "ReportDataResponse" });
   }
 }
-function __c103(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15087,90 +15080,81 @@ function __c103(j: number): any {
         }),
       ).annotate({ identifier: "Dimension" });
     case 2:
-      return S.Array(__S(3297, __c103, 1));
+      return S.Array(__S(3329, __c104, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
-          name: S.optional(S.String),
+          perInteractionDimensions: S.optional(__S(3330, __c104, 2)),
+          conversionDimensions: S.optional(__S(3330, __c104, 2)),
+          customFloodlightVariables: S.optional(__S(3330, __c104, 2)),
+          metrics: S.optional(__S(3330, __c104, 2)),
         }),
-      ).annotate({ identifier: "Metric" });
+      ).annotate({ identifier: "PathToConversionReportCompatibleFields" });
     case 4:
-      return S.Array(__S(3299, __c103, 3));
+      return S.suspend(() =>
+        S.Struct({
+          pivotedActivityMetrics: S.optional(__S(3330, __c104, 2)),
+          kind: S.optional(S.String),
+          reachByFrequencyMetrics: S.optional(__S(3330, __c104, 2)),
+          metrics: S.optional(__S(3330, __c104, 2)),
+          dimensions: S.optional(__S(3330, __c104, 2)),
+          dimensionFilters: S.optional(__S(3330, __c104, 2)),
+        }),
+      ).annotate({ identifier: "ReachReportCompatibleFields" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          dimensionFilters: S.optional(__S(3298, __c103, 2)),
-          metrics: S.optional(__S(3300, __c103, 4)),
-          dimensions: S.optional(__S(3298, __c103, 2)),
+          pivotedActivityMetrics: S.optional(__S(3330, __c104, 2)),
+          dimensions: S.optional(__S(3330, __c104, 2)),
           kind: S.optional(S.String),
+          metrics: S.optional(__S(3330, __c104, 2)),
+          dimensionFilters: S.optional(__S(3330, __c104, 2)),
         }),
-      ).annotate({ identifier: "CrossMediaReachReportCompatibleFields" });
+      ).annotate({ identifier: "ReportCompatibleFields" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          overlapMetrics: S.optional(__S(3300, __c103, 4)),
-          dimensionFilters: S.optional(__S(3298, __c103, 2)),
-          metrics: S.optional(__S(3300, __c103, 4)),
           kind: S.optional(S.String),
-          breakdown: S.optional(__S(3298, __c103, 2)),
+          dimensionFilters: S.optional(__S(3330, __c104, 2)),
+          dimensions: S.optional(__S(3330, __c104, 2)),
+          metrics: S.optional(__S(3330, __c104, 2)),
         }),
-      ).annotate({ identifier: "CrossDimensionReachReportCompatibleFields" });
+      ).annotate({ identifier: "FloodlightReportCompatibleFields" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          metrics: S.optional(__S(3300, __c103, 4)),
           kind: S.optional(S.String),
-          dimensionFilters: S.optional(__S(3298, __c103, 2)),
-          dimensions: S.optional(__S(3298, __c103, 2)),
+          metrics: S.optional(__S(3330, __c104, 2)),
+          dimensions: S.optional(__S(3330, __c104, 2)),
+          dimensionFilters: S.optional(__S(3330, __c104, 2)),
         }),
-      ).annotate({ identifier: "FloodlightReportCompatibleFields" });
+      ).annotate({ identifier: "CrossMediaReachReportCompatibleFields" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          conversionDimensions: S.optional(__S(3298, __c103, 2)),
+          metrics: S.optional(__S(3330, __c104, 2)),
+          breakdown: S.optional(__S(3330, __c104, 2)),
           kind: S.optional(S.String),
-          perInteractionDimensions: S.optional(__S(3298, __c103, 2)),
-          metrics: S.optional(__S(3300, __c103, 4)),
-          customFloodlightVariables: S.optional(__S(3298, __c103, 2)),
+          dimensionFilters: S.optional(__S(3330, __c104, 2)),
+          overlapMetrics: S.optional(__S(3330, __c104, 2)),
         }),
-      ).annotate({ identifier: "PathToConversionReportCompatibleFields" });
+      ).annotate({ identifier: "CrossDimensionReachReportCompatibleFields" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          dimensions: S.optional(__S(3298, __c103, 2)),
-          pivotedActivityMetrics: S.optional(__S(3300, __c103, 4)),
-          metrics: S.optional(__S(3300, __c103, 4)),
-          dimensionFilters: S.optional(__S(3298, __c103, 2)),
-          reachByFrequencyMetrics: S.optional(__S(3300, __c103, 4)),
+          pathToConversionReportCompatibleFields: S.optional(__S(3331, __c104, 3)),
+          reachReportCompatibleFields: S.optional(__S(3332, __c104, 4)),
+          reportCompatibleFields: S.optional(__S(3333, __c104, 5)),
+          floodlightReportCompatibleFields: S.optional(__S(3334, __c104, 6)),
+          crossMediaReachReportCompatibleFields: S.optional(__S(3335, __c104, 7)),
+          crossDimensionReachReportCompatibleFields: S.optional(__S(3336, __c104, 8)),
           kind: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ReachReportCompatibleFields" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          dimensionFilters: S.optional(__S(3298, __c103, 2)),
-          kind: S.optional(S.String),
-          dimensions: S.optional(__S(3298, __c103, 2)),
-          metrics: S.optional(__S(3300, __c103, 4)),
-          pivotedActivityMetrics: S.optional(__S(3300, __c103, 4)),
-        }),
-      ).annotate({ identifier: "ReportCompatibleFields" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          crossMediaReachReportCompatibleFields: S.optional(__S(3301, __c103, 5)),
-          crossDimensionReachReportCompatibleFields: S.optional(__S(3302, __c103, 6)),
-          floodlightReportCompatibleFields: S.optional(__S(3303, __c103, 7)),
-          kind: S.optional(S.String),
-          pathToConversionReportCompatibleFields: S.optional(__S(3304, __c103, 8)),
-          reachReportCompatibleFields: S.optional(__S(3305, __c103, 9)),
-          reportCompatibleFields: S.optional(__S(3306, __c103, 10)),
         }),
       ).annotate({ identifier: "CompatibleFields" });
   }
 }
-function __c104(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15186,14 +15170,14 @@ function __c104(j: number): any {
       ).annotate({ identifier: "RetransformDynamicFeedsRequest" });
   }
 }
-function __c105(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           profileId: S.String.pipe(T.Label()),
-          reportId: S.String.pipe(T.Label()),
           synchronous: S.optional(S.Boolean.pipe(T.Query())),
+          reportId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -15204,12 +15188,12 @@ function __c105(j: number): any {
       ).annotate({ identifier: "RunReportsRequest" });
   }
 }
-function __c106(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4513, __c141, 1),
+          __S(4545, __c142, 1),
           S.Struct({
             profileId: S.String.pipe(T.Label()),
           }),
@@ -15223,12 +15207,12 @@ function __c106(j: number): any {
       ).annotate({ identifier: "UpdateAccountsRequest" });
   }
 }
-function __c107(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4609, __c144, 1),
+          __S(4641, __c145, 1),
           S.Struct({
             profileId: S.String.pipe(T.Label()),
           }),
@@ -15242,7 +15226,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "UpdateAccountUserProfilesRequest" });
   }
 }
-function __c108(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15261,7 +15245,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "UpdateAdsRequest" });
   }
 }
-function __c109(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15280,7 +15264,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "UpdateAdvertiserGroupsRequest" });
   }
 }
-function __c110(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15299,7 +15283,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "UpdateAdvertiserLandingPagesRequest" });
   }
 }
-function __c111(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15318,7 +15302,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "UpdateAdvertisersRequest" });
   }
 }
-function __c112(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15336,16 +15320,16 @@ function __c112(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          availableAds: S.optional(S.String),
           accountId: S.optional(S.String),
-          activeAds: S.optional(S.String),
-          kind: S.optional(S.String),
           activeAdsLimitTier: S.optional(S.String),
+          kind: S.optional(S.String),
+          activeAds: S.optional(S.String),
+          availableAds: S.optional(S.String),
         }),
       ).annotate({ identifier: "AccountActiveAdSummary" });
   }
 }
-function __c113(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15364,7 +15348,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "UpdateBillingProfilesRequest" });
   }
 }
-function __c114(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15383,7 +15367,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "UpdateCampaignsRequest" });
   }
 }
-function __c115(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15402,7 +15386,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "UpdateContentCategoriesRequest" });
   }
 }
-function __c116(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15421,7 +15405,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "UpdateCreativeFieldsRequest" });
   }
 }
-function __c117(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15441,7 +15425,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "UpdateCreativeFieldValuesRequest" });
   }
 }
-function __c118(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15460,12 +15444,12 @@ function __c118(j: number): any {
       ).annotate({ identifier: "UpdateCreativeGroupsRequest" });
   }
 }
-function __c119(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(6378, __c199, 10),
+          __S(6410, __c200, 10),
           S.Struct({
             profileId: S.String.pipe(T.Label()),
           }),
@@ -15479,11 +15463,11 @@ function __c119(j: number): any {
       ).annotate({ identifier: "UpdateCreativesRequest" });
   }
 }
-function __c120(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Extend(__S(6508, __c203, 12), S.Struct({})).pipe(
+        S.Extend(__S(6540, __c204, 12), S.Struct({})).pipe(
           T.Http({
             method: "PUT",
             uri: "studio/dynamicFeeds",
@@ -15493,11 +15477,11 @@ function __c120(j: number): any {
       ).annotate({ identifier: "UpdateDynamicFeedsRequest" });
   }
 }
-function __c121(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Extend(__S(6577, __c205, 17), S.Struct({})).pipe(
+        S.Extend(__S(6609, __c206, 17), S.Struct({})).pipe(
           T.Http({
             method: "PUT",
             uri: "studio/dynamicProfiles",
@@ -15507,12 +15491,12 @@ function __c121(j: number): any {
       ).annotate({ identifier: "UpdateDynamicProfilesRequest" });
   }
 }
-function __c122(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(6624, __c207, 0),
+          __S(6656, __c208, 0),
           S.Struct({
             profileId: S.String.pipe(T.Label()),
           }),
@@ -15526,7 +15510,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "UpdateEventTagsRequest" });
   }
 }
-function __c123(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15543,24 +15527,24 @@ function __c123(j: number): any {
       ).annotate({ identifier: "GetAccountPermissionGroupsRequest" });
   }
 }
-function __c124(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          kind: S.optional(S.String),
-          name: S.optional(S.String),
-          id: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AccountPermissionGroup" });
-  }
-}
 function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          id: S.optional(S.String),
+          kind: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AccountPermissionGroup" });
+  }
+}
+function __c126(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Extend(
-          __S(6788, __c212, 4),
+          __S(6820, __c213, 4),
           S.Struct({
             profileId: S.String.pipe(T.Label()),
           }),
@@ -15574,12 +15558,12 @@ function __c125(j: number): any {
       ).annotate({ identifier: "UpdateFloodlightActivitiesRequest" });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(6848, __c214, 0),
+          __S(6880, __c215, 0),
           S.Struct({
             profileId: S.String.pipe(T.Label()),
           }),
@@ -15593,12 +15577,12 @@ function __c126(j: number): any {
       ).annotate({ identifier: "UpdateFloodlightActivityGroupsRequest" });
   }
 }
-function __c127(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(6920, __c216, 8),
+          __S(6952, __c217, 8),
           S.Struct({
             profileId: S.String.pipe(T.Label()),
           }),
@@ -15612,12 +15596,12 @@ function __c127(j: number): any {
       ).annotate({ identifier: "UpdateFloodlightConfigurationsRequest" });
   }
 }
-function __c128(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(7232, __c226, 0),
+          __S(7264, __c227, 0),
           S.Struct({
             profileId: S.String.pipe(T.Label()),
           }),
@@ -15631,12 +15615,12 @@ function __c128(j: number): any {
       ).annotate({ identifier: "UpdatePlacementGroupsRequest" });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(7336, __c229, 8),
+          __S(7369, __c230, 9),
           S.Struct({
             profileId: S.String.pipe(T.Label()),
           }),
@@ -15650,12 +15634,12 @@ function __c129(j: number): any {
       ).annotate({ identifier: "UpdatePlacementsRequest" });
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(7392, __c231, 0),
+          __S(5984, __c187, 0),
           S.Struct({
             profileId: S.String.pipe(T.Label()),
           }),
@@ -15669,7 +15653,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "UpdatePlacementStrategiesRequest" });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15688,7 +15672,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "UpdateRemarketingListsRequest" });
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15707,7 +15691,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "UpdateRemarketingListSharesRequest" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15727,12 +15711,12 @@ function __c133(j: number): any {
       ).annotate({ identifier: "UpdateReportsRequest" });
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(7814, __c244, 6),
+          __S(7815, __c244, 7),
           S.Struct({
             profileId: S.String.pipe(T.Label()),
           }),
@@ -15746,7 +15730,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "UpdateSitesRequest" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15763,22 +15747,22 @@ function __c135(j: number): any {
       ).annotate({ identifier: "GetAccountPermissionsRequest" });
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           level: S.optional(S.String),
-          accountProfiles: S.optional(__S(3232, __c101, 0)),
-          kind: S.optional(S.String),
           id: S.optional(S.String),
-          permissionGroupId: S.optional(S.String),
+          accountProfiles: S.optional(__S(3264, __c102, 0)),
+          kind: S.optional(S.String),
           name: S.optional(S.String),
+          permissionGroupId: S.optional(S.String),
         }),
       ).annotate({ identifier: "AccountPermission" });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15797,7 +15781,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "UpdateSubaccountsRequest" });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15816,7 +15800,7 @@ function __c138(j: number): any {
       ).annotate({ identifier: "UpdateTargetingTemplatesRequest" });
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15835,7 +15819,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "UpdateUserRolesRequest" });
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15852,54 +15836,54 @@ function __c140(j: number): any {
       ).annotate({ identifier: "GetAccountsRequest" });
   }
 }
-function __c141(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          lookbackConfiguration: S.optional(__S(4544, __c142, 0)),
-          reportGenerationTimeZoneId: S.optional(S.String),
-          exposureToConversionEnabled: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "ReportsConfiguration" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          shareReportsWithTwitter: S.optional(S.Boolean),
-          availablePermissionIds: S.optional(__S(7104, __c222, 0)),
-          reportsConfiguration: S.optional(__S(4512, __c141, 0)),
-          accountProfile: S.optional(S.String),
-          description: S.optional(S.String),
-          nielsenOcrEnabled: S.optional(S.Boolean),
-          currencyId: S.optional(S.String),
-          teaserSizeLimit: S.optional(S.String),
-          accountPermissionIds: S.optional(__S(7104, __c222, 0)),
-          countryId: S.optional(S.String),
-          defaultCreativeSizeId: S.optional(S.String),
-          activeAdsLimitTier: S.optional(S.String),
-          name: S.optional(S.String),
-          maximumImageSize: S.optional(S.String),
-          activeViewOptOut: S.optional(S.Boolean),
-          id: S.optional(S.String),
-          active: S.optional(S.Boolean),
-          kind: S.optional(S.String),
-          locale: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Account" });
-  }
-}
 function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clickDuration: S.optional(S.Number),
+          exposureToConversionEnabled: S.optional(S.Boolean),
+          lookbackConfiguration: S.optional(__S(4576, __c143, 0)),
+          reportGenerationTimeZoneId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ReportsConfiguration" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          activeAdsLimitTier: S.optional(S.String),
+          teaserSizeLimit: S.optional(S.String),
+          description: S.optional(S.String),
+          availablePermissionIds: S.optional(__S(7136, __c223, 0)),
+          shareReportsWithTwitter: S.optional(S.Boolean),
+          nielsenOcrEnabled: S.optional(S.Boolean),
+          locale: S.optional(S.String),
+          reportsConfiguration: S.optional(__S(4544, __c142, 0)),
+          accountPermissionIds: S.optional(__S(7136, __c223, 0)),
+          id: S.optional(S.String),
+          activeViewOptOut: S.optional(S.Boolean),
+          defaultCreativeSizeId: S.optional(S.String),
+          active: S.optional(S.Boolean),
+          accountProfile: S.optional(S.String),
+          maximumImageSize: S.optional(S.String),
+          kind: S.optional(S.String),
+          currencyId: S.optional(S.String),
+          name: S.optional(S.String),
+          countryId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Account" });
+  }
+}
+function __c143(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           postImpressionActivitiesDuration: S.optional(S.Number),
+          clickDuration: S.optional(S.Number),
         }),
       ).annotate({ identifier: "LookbackConfiguration" });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15916,46 +15900,46 @@ function __c143(j: number): any {
       ).annotate({ identifier: "GetAccountUserProfilesRequest" });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          objectIds: S.optional(__S(7104, __c222, 0)),
           kind: S.optional(S.String),
+          objectIds: S.optional(__S(7136, __c223, 0)),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "ObjectFilter" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          userRoleFilter: S.optional(__S(4608, __c144, 0)),
-          traffickerType: S.optional(S.String),
-          kind: S.optional(S.String),
-          advertiserFilter: S.optional(__S(4608, __c144, 0)),
           name: S.optional(S.String),
-          accountId: S.optional(S.String),
-          email: S.optional(S.String),
-          locale: S.optional(S.String),
-          id: S.optional(S.String),
           active: S.optional(S.Boolean),
-          siteFilter: S.optional(__S(4608, __c144, 0)),
           subaccountId: S.optional(S.String),
           comments: S.optional(S.String),
           userAccessType: S.optional(S.String),
+          kind: S.optional(S.String),
+          campaignFilter: S.optional(__S(4640, __c145, 0)),
+          email: S.optional(S.String),
+          siteFilter: S.optional(__S(4640, __c145, 0)),
+          userRoleFilter: S.optional(__S(4640, __c145, 0)),
           userRoleId: S.optional(S.String),
-          campaignFilter: S.optional(__S(4608, __c144, 0)),
+          id: S.optional(S.String),
+          accountId: S.optional(S.String),
+          traffickerType: S.optional(S.String),
+          locale: S.optional(S.String),
+          advertiserFilter: S.optional(__S(4640, __c145, 0)),
         }),
       ).annotate({ identifier: "AccountUserProfile" });
   }
 }
-function __c145(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.String.pipe(T.Label()),
           profileId: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -15966,22 +15950,22 @@ function __c145(j: number): any {
       ).annotate({ identifier: "GetAdsRequest" });
   }
 }
-function __c146(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          kind: S.optional(S.String),
           id: S.optional(S.String),
-          dimensionName: S.optional(S.String),
-          etag: S.optional(S.String),
-          value: S.optional(S.String),
           matchType: S.optional(S.String),
+          kind: S.optional(S.String),
+          dimensionName: S.optional(S.String),
+          value: S.optional(S.String),
+          etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "DimensionValue" });
   }
 }
-function __c147(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15991,43 +15975,31 @@ function __c147(j: number): any {
       ).annotate({ identifier: "LastModifiedInfo" });
   }
 }
-function __c148(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
-          enabled: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "EventTagOverride" });
-    case 1:
-      return S.Array(__S(4736, __c148, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          clickThroughUrlSuffix: S.optional(S.String),
           overrideInheritedSuffix: S.optional(S.Boolean),
+          clickThroughUrlSuffix: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClickThroughUrlSuffixProperties" });
-    case 3:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           defaultClickThroughEventTagId: S.optional(S.String),
           overrideInheritedEventTag: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DefaultClickThroughEventTagProperties" });
-  }
-}
-function __c149(j: number): any {
-  switch (j) {
-    case 0:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           id: S.optional(S.String),
-          kind: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "ConnectionType" });
+      ).annotate({ identifier: "EventTagOverride" });
+    case 3:
+      return S.Array(__S(4770, __c149, 2));
   }
 }
 function __c150(j: number): any {
@@ -16035,14 +16007,11 @@ function __c150(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          countryCode: S.optional(S.String),
-          tvDataProviders: S.optional(__S(3232, __c101, 0)),
           kind: S.optional(S.String),
-          sslEnabled: S.optional(S.Boolean),
-          dartId: S.optional(S.String),
+          id: S.optional(S.String),
+          name: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Country" });
+      ).annotate({ identifier: "ConnectionType" });
   }
 }
 function __c151(j: number): any {
@@ -16050,33 +16019,34 @@ function __c151(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          iab: S.optional(S.Boolean),
-          width: S.optional(S.Number),
-          height: S.optional(S.Number),
+          dartId: S.optional(S.String),
+          name: S.optional(S.String),
+          countryCode: S.optional(S.String),
           kind: S.optional(S.String),
-          id: S.optional(S.String),
+          tvDataProviders: S.optional(__S(3264, __c102, 0)),
+          sslEnabled: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "Size" });
+      ).annotate({ identifier: "Country" });
   }
 }
 function __c152(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.Number);
+      return S.suspend(() =>
+        S.Struct({
+          width: S.optional(S.Number),
+          height: S.optional(S.Number),
+          id: S.optional(S.String),
+          kind: S.optional(S.String),
+          iab: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Size" });
   }
 }
 function __c153(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          countryDartId: S.optional(S.String),
-          kind: S.optional(S.String),
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          countryCode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MobileCarrier" });
+      return S.Array(S.Number);
   }
 }
 function __c154(j: number): any {
@@ -16084,13 +16054,13 @@ function __c154(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          dartId: S.optional(S.String),
           kind: S.optional(S.String),
-          desktop: S.optional(S.Boolean),
-          mobile: S.optional(S.Boolean),
+          id: S.optional(S.String),
+          countryCode: S.optional(S.String),
+          countryDartId: S.optional(S.String),
+          name: S.optional(S.String),
         }),
-      ).annotate({ identifier: "OperatingSystem" });
+      ).annotate({ identifier: "MobileCarrier" });
   }
 }
 function __c155(j: number): any {
@@ -16098,14 +16068,13 @@ function __c155(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          majorVersion: S.optional(S.String),
           name: S.optional(S.String),
-          id: S.optional(S.String),
+          dartId: S.optional(S.String),
+          desktop: S.optional(S.Boolean),
+          mobile: S.optional(S.Boolean),
           kind: S.optional(S.String),
-          operatingSystem: S.optional(__S(4928, __c154, 0)),
-          minorVersion: S.optional(S.String),
         }),
-      ).annotate({ identifier: "OperatingSystemVersion" });
+      ).annotate({ identifier: "OperatingSystem" });
   }
 }
 function __c156(j: number): any {
@@ -16113,11 +16082,14 @@ function __c156(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          kind: S.optional(S.String),
-          id: S.optional(S.String),
           name: S.optional(S.String),
+          minorVersion: S.optional(S.String),
+          id: S.optional(S.String),
+          operatingSystem: S.optional(__S(4960, __c155, 0)),
+          majorVersion: S.optional(S.String),
+          kind: S.optional(S.String),
         }),
-      ).annotate({ identifier: "PlatformType" });
+      ).annotate({ identifier: "OperatingSystemVersion" });
   }
 }
 function __c157(j: number): any {
@@ -16126,10 +16098,10 @@ function __c157(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          code: S.optional(S.String),
-          countryDartId: S.optional(S.String),
-          kind: S.optional(S.String),
           countryCode: S.optional(S.String),
+          code: S.optional(S.String),
+          kind: S.optional(S.String),
+          countryDartId: S.optional(S.String),
         }),
       ).annotate({ identifier: "PostalCode" });
   }
@@ -16137,18 +16109,7 @@ function __c157(j: number): any {
 function __c158(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          browserVersionId: S.optional(S.String),
-          majorVersion: S.optional(S.String),
-          name: S.optional(S.String),
-          dartId: S.optional(S.String),
-          kind: S.optional(S.String),
-          minorVersion: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Browser" });
-    case 1:
-      return S.Array(__S(5056, __c158, 0));
+      return S.Array(__S(4000, __c125, 0));
   }
 }
 function __c159(j: number): any {
@@ -16156,17 +16117,14 @@ function __c159(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dartId: S.optional(S.String),
-          metroDmaId: S.optional(S.String),
-          name: S.optional(S.String),
-          regionCode: S.optional(S.String),
-          regionDartId: S.optional(S.String),
-          countryCode: S.optional(S.String),
-          countryDartId: S.optional(S.String),
-          metroCode: S.optional(S.String),
+          minorVersion: S.optional(S.String),
+          browserVersionId: S.optional(S.String),
           kind: S.optional(S.String),
+          majorVersion: S.optional(S.String),
+          dartId: S.optional(S.String),
+          name: S.optional(S.String),
         }),
-      ).annotate({ identifier: "City" });
+      ).annotate({ identifier: "Browser" });
     case 1:
       return S.Array(__S(5088, __c159, 0));
   }
@@ -16174,7 +16132,21 @@ function __c159(j: number): any {
 function __c160(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4768, __c149, 0));
+      return S.suspend(() =>
+        S.Struct({
+          regionDartId: S.optional(S.String),
+          name: S.optional(S.String),
+          countryCode: S.optional(S.String),
+          metroDmaId: S.optional(S.String),
+          kind: S.optional(S.String),
+          dartId: S.optional(S.String),
+          countryDartId: S.optional(S.String),
+          metroCode: S.optional(S.String),
+          regionCode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "City" });
+    case 1:
+      return S.Array(__S(5120, __c160, 0));
   }
 }
 function __c161(j: number): any {
@@ -16186,16 +16158,7 @@ function __c161(j: number): any {
 function __c162(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          languageCode: S.optional(S.String),
-          name: S.optional(S.String),
-          id: S.optional(S.String),
-          kind: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Language" });
-    case 1:
-      return S.Array(__S(5184, __c162, 0));
+      return S.Array(__S(4832, __c151, 0));
   }
 }
 function __c163(j: number): any {
@@ -16203,15 +16166,12 @@ function __c163(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dartId: S.optional(S.String),
-          metroCode: S.optional(S.String),
-          countryDartId: S.optional(S.String),
-          name: S.optional(S.String),
-          countryCode: S.optional(S.String),
           kind: S.optional(S.String),
-          dmaId: S.optional(S.String),
+          id: S.optional(S.String),
+          languageCode: S.optional(S.String),
+          name: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Metro" });
+      ).annotate({ identifier: "Language" });
     case 1:
       return S.Array(__S(5216, __c163, 0));
   }
@@ -16219,7 +16179,19 @@ function __c163(j: number): any {
 function __c164(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4896, __c153, 0));
+      return S.suspend(() =>
+        S.Struct({
+          dmaId: S.optional(S.String),
+          dartId: S.optional(S.String),
+          metroCode: S.optional(S.String),
+          countryDartId: S.optional(S.String),
+          name: S.optional(S.String),
+          countryCode: S.optional(S.String),
+          kind: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Metro" });
+    case 1:
+      return S.Array(__S(5248, __c164, 0));
   }
 }
 function __c165(j: number): any {
@@ -16251,12 +16223,12 @@ function __c169(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          countryCode: S.optional(S.String),
           countryDartId: S.optional(S.String),
           regionCode: S.optional(S.String),
-          kind: S.optional(S.String),
           dartId: S.optional(S.String),
+          kind: S.optional(S.String),
           name: S.optional(S.String),
+          countryCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "Region" });
     case 1:
@@ -16268,59 +16240,59 @@ function __c170(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          expression: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "KeyValueTargetingExpression" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          userLocalTime: S.optional(S.Boolean),
-          daysOfWeek: S.optional(__S(3232, __c101, 0)),
-          hoursOfDay: S.optional(__S(4864, __c152, 0)),
-        }),
-      ).annotate({ identifier: "DayPartTargeting" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          browsers: S.optional(__S(5057, __c158, 1)),
-          connectionTypes: S.optional(__S(5120, __c160, 0)),
-          operatingSystems: S.optional(__S(5280, __c165, 0)),
-          platformTypes: S.optional(__S(5344, __c167, 0)),
-          operatingSystemVersions: S.optional(__S(5312, __c166, 0)),
-          mobileCarriers: S.optional(__S(5248, __c164, 0)),
-        }),
-      ).annotate({ identifier: "TechnologyTargeting" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          languages: S.optional(__S(5185, __c162, 1)),
-        }),
-      ).annotate({ identifier: "LanguageTargeting" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          regions: S.optional(__S(5409, __c169, 1)),
-          countries: S.optional(__S(5152, __c161, 0)),
-          metros: S.optional(__S(5217, __c163, 1)),
-          postalCodes: S.optional(__S(5376, __c168, 0)),
-          excludeCountries: S.optional(S.Boolean),
-          cities: S.optional(__S(5089, __c159, 1)),
-        }),
-      ).annotate({ identifier: "GeoTargeting" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
           keyword: S.optional(S.String),
         }),
       ).annotate({ identifier: "ContextualKeyword" });
+    case 1:
+      return S.Array(__S(5440, __c170, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          keywords: S.optional(__S(5441, __c170, 1)),
+        }),
+      ).annotate({ identifier: "ContextualKeywordTargeting" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          platformTypes: S.optional(__S(5056, __c158, 0)),
+          operatingSystems: S.optional(__S(5312, __c166, 0)),
+          operatingSystemVersions: S.optional(__S(5344, __c167, 0)),
+          browsers: S.optional(__S(5089, __c159, 1)),
+          mobileCarriers: S.optional(__S(5280, __c165, 0)),
+          connectionTypes: S.optional(__S(5152, __c161, 0)),
+        }),
+      ).annotate({ identifier: "TechnologyTargeting" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          languages: S.optional(__S(5217, __c163, 1)),
+        }),
+      ).annotate({ identifier: "LanguageTargeting" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          expression: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListTargetingExpression" });
     case 6:
-      return S.Array(__S(5445, __c170, 5));
+      return S.suspend(() =>
+        S.Struct({
+          hoursOfDay: S.optional(__S(4896, __c153, 0)),
+          userLocalTime: S.optional(S.Boolean),
+          daysOfWeek: S.optional(__S(3264, __c102, 0)),
+        }),
+      ).annotate({ identifier: "DayPartTargeting" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          keywords: S.optional(__S(5446, __c170, 6)),
+          metros: S.optional(__S(5249, __c164, 1)),
+          postalCodes: S.optional(__S(5376, __c168, 0)),
+          excludeCountries: S.optional(S.Boolean),
+          countries: S.optional(__S(5184, __c162, 0)),
+          regions: S.optional(__S(5409, __c169, 1)),
+          cities: S.optional(__S(5121, __c160, 1)),
         }),
-      ).annotate({ identifier: "ContextualKeywordTargeting" });
+      ).annotate({ identifier: "GeoTargeting" });
   }
 }
 function __c171(j: number): any {
@@ -16328,139 +16300,139 @@ function __c171(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          landingPageId: S.optional(S.String),
+          computedClickThroughUrl: S.optional(S.String),
+          defaultLandingPage: S.optional(S.Boolean),
+          customClickThroughUrl: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ClickThroughUrl" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          exitId: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+          clickThroughUrl: S.optional(__S(5472, __c171, 0)),
+        }),
+      ).annotate({ identifier: "RichMediaExitOverride" });
+    case 2:
+      return S.Array(__S(5473, __c171, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          clickThroughUrl: S.optional(__S(5472, __c171, 0)),
+          creativeId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CompanionClickThroughOverride" });
+    case 4:
+      return S.Array(__S(5475, __c171, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
           creativeGroupId: S.optional(S.String),
           creativeGroupNumber: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreativeGroupAssignment" });
-    case 1:
-      return S.Array(__S(5472, __c171, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          sslRequired: S.optional(S.Boolean),
-          placementIdDimensionValue: S.optional(__S(4672, __c146, 0)),
-          placementId: S.optional(S.String),
-          active: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "PlacementAssignment" });
-    case 3:
-      return S.Array(__S(5474, __c171, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          customClickThroughUrl: S.optional(S.String),
-          landingPageId: S.optional(S.String),
-          defaultLandingPage: S.optional(S.Boolean),
-          computedClickThroughUrl: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ClickThroughUrl" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          clickThroughUrl: S.optional(__S(5476, __c171, 4)),
-          creativeId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CompanionClickThroughOverride" });
     case 6:
       return S.Array(__S(5477, __c171, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          exitId: S.optional(S.String),
-          clickThroughUrl: S.optional(__S(5476, __c171, 4)),
-          enabled: S.optional(S.Boolean),
+          weight: S.optional(S.Number),
+          richMediaExitOverrides: S.optional(__S(5474, __c171, 2)),
+          sequence: S.optional(S.Number),
+          sslCompliant: S.optional(S.Boolean),
+          active: S.optional(S.Boolean),
+          creativeIdDimensionValue: S.optional(__S(4704, __c147, 0)),
+          creativeId: S.optional(S.String),
+          endTime: S.optional(S.String),
+          applyEventTags: S.optional(S.Boolean),
+          clickThroughUrl: S.optional(__S(5472, __c171, 0)),
+          companionCreativeOverrides: S.optional(__S(5476, __c171, 4)),
+          creativeGroupAssignments: S.optional(__S(5478, __c171, 6)),
+          startTime: S.optional(S.String),
         }),
-      ).annotate({ identifier: "RichMediaExitOverride" });
+      ).annotate({ identifier: "CreativeAssignment" });
     case 8:
       return S.Array(__S(5479, __c171, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          sslCompliant: S.optional(S.Boolean),
-          endTime: S.optional(S.String),
-          companionCreativeOverrides: S.optional(__S(5478, __c171, 6)),
-          creativeGroupAssignments: S.optional(__S(5473, __c171, 1)),
-          active: S.optional(S.Boolean),
-          creativeIdDimensionValue: S.optional(__S(4672, __c146, 0)),
-          clickThroughUrl: S.optional(__S(5476, __c171, 4)),
-          applyEventTags: S.optional(S.Boolean),
-          richMediaExitOverrides: S.optional(__S(5480, __c171, 8)),
-          sequence: S.optional(S.Number),
-          weight: S.optional(S.Number),
-          startTime: S.optional(S.String),
-          creativeId: S.optional(S.String),
+          creativeAssignments: S.optional(__S(5480, __c171, 8)),
+          creativeOptimizationConfigurationId: S.optional(S.String),
+          weightCalculationStrategy: S.optional(S.String),
+          type: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CreativeAssignment" });
+      ).annotate({ identifier: "CreativeRotation" });
     case 10:
-      return S.Array(__S(5481, __c171, 9));
+      return S.suspend(() =>
+        S.Struct({
+          duration: S.optional(S.String),
+          impressions: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FrequencyCap" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          weightCalculationStrategy: S.optional(S.String),
-          creativeAssignments: S.optional(__S(5482, __c171, 10)),
-          creativeOptimizationConfigurationId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreativeRotation" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          impressions: S.optional(S.String),
-          duration: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "FrequencyCap" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
+          frequencyCap: S.optional(__S(5482, __c171, 10)),
           priority: S.optional(S.String),
           impressionRatio: S.optional(S.String),
           hardCutoff: S.optional(S.Boolean),
-          frequencyCap: S.optional(__S(5484, __c171, 12)),
         }),
       ).annotate({ identifier: "DeliverySchedule" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          placementIdDimensionValue: S.optional(__S(4704, __c147, 0)),
+          placementId: S.optional(S.String),
+          sslRequired: S.optional(S.Boolean),
+          active: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "PlacementAssignment" });
+    case 13:
+      return S.Array(__S(5484, __c171, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          keyValueTargetingExpression: S.optional(__S(5440, __c170, 0)),
-          creativeGroupAssignments: S.optional(__S(5473, __c171, 1)),
-          sslRequired: S.optional(S.Boolean),
-          size: S.optional(__S(4832, __c151, 0)),
-          placementAssignments: S.optional(__S(5475, __c171, 3)),
-          active: S.optional(S.Boolean),
-          id: S.optional(S.String),
-          campaignId: S.optional(S.String),
-          accountId: S.optional(S.String),
           type: S.optional(S.String),
-          remarketingListExpression: S.optional(__S(5440, __c170, 0)),
-          dayPartTargeting: S.optional(__S(5441, __c170, 1)),
-          eventTagOverrides: S.optional(__S(4737, __c148, 1)),
-          sslCompliant: S.optional(S.Boolean),
-          lastModifiedInfo: S.optional(__S(4704, __c147, 0)),
-          advertiserId: S.optional(S.String),
-          technologyTargeting: S.optional(__S(5442, __c170, 2)),
-          compatibility: S.optional(S.String),
-          creativeRotation: S.optional(__S(5483, __c171, 11)),
-          deliverySchedule: S.optional(__S(5485, __c171, 13)),
-          name: S.optional(S.String),
-          archived: S.optional(S.Boolean),
-          clickThroughUrl: S.optional(__S(5476, __c171, 4)),
-          languageTargeting: S.optional(__S(5443, __c170, 3)),
-          clickThroughUrlSuffixProperties: S.optional(__S(4738, __c148, 2)),
-          defaultClickThroughEventTagProperties: S.optional(__S(4739, __c148, 3)),
-          subaccountId: S.optional(S.String),
-          audienceSegmentId: S.optional(S.String),
-          campaignIdDimensionValue: S.optional(__S(4672, __c146, 0)),
-          idDimensionValue: S.optional(__S(4672, __c146, 0)),
-          kind: S.optional(S.String),
+          creativeRotation: S.optional(__S(5481, __c171, 9)),
+          active: S.optional(S.Boolean),
           targetingTemplateId: S.optional(S.String),
+          idDimensionValue: S.optional(__S(4704, __c147, 0)),
+          clickThroughUrlSuffixProperties: S.optional(__S(4768, __c149, 0)),
           startTime: S.optional(S.String),
-          advertiserIdDimensionValue: S.optional(__S(4672, __c146, 0)),
-          geoTargeting: S.optional(__S(5444, __c170, 4)),
-          contextualKeywordTargeting: S.optional(__S(5447, __c170, 7)),
-          dynamicClickTracker: S.optional(S.Boolean),
-          createInfo: S.optional(__S(4704, __c147, 0)),
           comments: S.optional(S.String),
+          campaignIdDimensionValue: S.optional(__S(4704, __c147, 0)),
+          audienceSegmentId: S.optional(S.String),
+          size: S.optional(__S(4864, __c152, 0)),
+          defaultClickThroughEventTagProperties: S.optional(__S(4769, __c149, 1)),
+          advertiserId: S.optional(S.String),
+          contextualKeywordTargeting: S.optional(__S(5442, __c170, 2)),
+          clickThroughUrl: S.optional(__S(5472, __c171, 0)),
+          technologyTargeting: S.optional(__S(5443, __c170, 3)),
+          creativeGroupAssignments: S.optional(__S(5478, __c171, 6)),
+          languageTargeting: S.optional(__S(5444, __c170, 4)),
+          subaccountId: S.optional(S.String),
+          remarketingListExpression: S.optional(__S(5445, __c170, 5)),
+          accountId: S.optional(S.String),
           endTime: S.optional(S.String),
+          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
+          lastModifiedInfo: S.optional(__S(4736, __c148, 0)),
+          sslRequired: S.optional(S.Boolean),
+          deliverySchedule: S.optional(__S(5483, __c171, 11)),
+          archived: S.optional(S.Boolean),
+          dynamicClickTracker: S.optional(S.Boolean),
+          kind: S.optional(S.String),
+          compatibility: S.optional(S.String),
+          campaignId: S.optional(S.String),
+          sslCompliant: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          dayPartTargeting: S.optional(__S(5446, __c170, 6)),
+          placementAssignments: S.optional(__S(5485, __c171, 13)),
+          keyValueTargetingExpression: S.optional(__S(5445, __c170, 5)),
+          createInfo: S.optional(__S(4736, __c148, 0)),
+          geoTargeting: S.optional(__S(5447, __c170, 7)),
+          eventTagOverrides: S.optional(__S(4771, __c149, 3)),
+          id: S.optional(S.String),
         }),
       ).annotate({ identifier: "Ad" });
   }
@@ -16489,8 +16461,8 @@ function __c173(j: number): any {
         S.Struct({
           kind: S.optional(S.String),
           accountId: S.optional(S.String),
-          id: S.optional(S.String),
           name: S.optional(S.String),
+          id: S.optional(S.String),
         }),
       ).annotate({ identifier: "AdvertiserGroup" });
   }
@@ -16517,11 +16489,11 @@ function __c175(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          directory: S.optional(S.String),
           title: S.optional(S.String),
-          kind: S.optional(S.String),
-          publisherName: S.optional(S.String),
           id: S.optional(S.String),
+          publisherName: S.optional(S.String),
+          directory: S.optional(S.String),
+          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "MobileApp" });
   }
@@ -16531,11 +16503,11 @@ function __c176(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          appUrl: S.optional(S.String),
-          remarketingListIds: S.optional(__S(7104, __c222, 0)),
+          mobileApp: S.optional(__S(5600, __c175, 0)),
           fallbackUrl: S.optional(S.String),
           kind: S.optional(S.String),
-          mobileApp: S.optional(__S(5600, __c175, 0)),
+          appUrl: S.optional(S.String),
+          remarketingListIds: S.optional(__S(7136, __c223, 0)),
         }),
       ).annotate({ identifier: "DeepLink" });
     case 1:
@@ -16543,12 +16515,12 @@ function __c176(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          kind: S.optional(S.String),
-          advertiserId: S.optional(S.String),
-          id: S.optional(S.String),
-          archived: S.optional(S.Boolean),
-          deepLinks: S.optional(__S(5633, __c176, 1)),
           url: S.optional(S.String),
+          kind: S.optional(S.String),
+          deepLinks: S.optional(__S(5633, __c176, 1)),
+          id: S.optional(S.String),
+          advertiserId: S.optional(S.String),
+          archived: S.optional(S.Boolean),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "LandingPage" });
@@ -16559,8 +16531,8 @@ function __c177(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          profileId: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
+          profileId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -16576,31 +16548,31 @@ function __c178(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          partnerAdvertiserId: S.optional(S.String),
           measurementPartner: S.optional(S.String),
           linkStatus: S.optional(S.String),
+          partnerAdvertiserId: S.optional(S.String),
         }),
       ).annotate({ identifier: "MeasurementPartnerAdvertiserLink" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          defaultEmail: S.optional(S.String),
-          floodlightConfigurationId: S.optional(S.String),
-          euPoliticalAdsDeclaration: S.optional(S.String),
-          status: S.optional(S.String),
-          originalFloodlightConfigurationId: S.optional(S.String),
-          floodlightConfigurationIdDimensionValue: S.optional(__S(4672, __c146, 0)),
-          clickThroughUrlSuffix: S.optional(S.String),
-          subaccountId: S.optional(S.String),
-          id: S.optional(S.String),
-          suspended: S.optional(S.Boolean),
           defaultClickThroughEventTagId: S.optional(S.String),
-          idDimensionValue: S.optional(__S(4672, __c146, 0)),
-          advertiserGroupId: S.optional(S.String),
-          accountId: S.optional(S.String),
-          kind: S.optional(S.String),
+          euPoliticalAdsDeclaration: S.optional(S.String),
+          defaultEmail: S.optional(S.String),
+          clickThroughUrlSuffix: S.optional(S.String),
           measurementPartnerLink: S.optional(__S(5696, __c178, 0)),
+          status: S.optional(S.String),
+          accountId: S.optional(S.String),
+          idDimensionValue: S.optional(__S(4704, __c147, 0)),
+          suspended: S.optional(S.Boolean),
+          kind: S.optional(S.String),
+          id: S.optional(S.String),
           name: S.optional(S.String),
+          advertiserGroupId: S.optional(S.String),
+          subaccountId: S.optional(S.String),
+          originalFloodlightConfigurationId: S.optional(S.String),
+          floodlightConfigurationIdDimensionValue: S.optional(__S(4704, __c147, 0)),
+          floodlightConfigurationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Advertiser" });
   }
@@ -16610,8 +16582,8 @@ function __c179(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          profileId: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
+          profileId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -16627,19 +16599,19 @@ function __c180(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          currencyCode: S.optional(S.String),
-          id: S.optional(S.String),
           kind: S.optional(S.String),
-          paymentsCustomerId: S.optional(S.String),
           isDefault: S.optional(S.Boolean),
-          purchaseOrder: S.optional(S.String),
-          consolidatedInvoice: S.optional(S.Boolean),
           name: S.optional(S.String),
-          invoiceLevel: S.optional(S.String),
+          consolidatedInvoice: S.optional(S.Boolean),
           status: S.optional(S.String),
-          countryCode: S.optional(S.String),
           secondaryPaymentsCustomerId: S.optional(S.String),
+          invoiceLevel: S.optional(S.String),
+          paymentsCustomerId: S.optional(S.String),
+          id: S.optional(S.String),
+          purchaseOrder: S.optional(S.String),
+          currencyCode: S.optional(S.String),
           paymentsAccountId: S.optional(S.String),
+          countryCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "BillingProfile" });
   }
@@ -16649,8 +16621,8 @@ function __c181(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          profileId: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
+          profileId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -16666,89 +16638,89 @@ function __c182(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          enabled: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "AdBlockingConfiguration" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          measurementPartner: S.optional(S.String),
           partnerCampaignId: S.optional(S.String),
+          measurementPartner: S.optional(S.String),
           linkStatus: S.optional(S.String),
         }),
       ).annotate({ identifier: "MeasurementPartnerCampaignLink" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "AdBlockingConfiguration" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          allocation: S.optional(S.Number),
-          name: S.optional(S.String),
-          id: S.optional(S.String),
+          weight: S.optional(S.Number),
+          floodlightActivityId: S.optional(S.String),
+          floodlightActivityIdDimensionValue: S.optional(__S(4704, __c147, 0)),
         }),
-      ).annotate({ identifier: "AudienceSegment" });
+      ).annotate({ identifier: "OptimizationActivity" });
     case 3:
       return S.Array(__S(5826, __c182, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          audienceSegments: S.optional(__S(5827, __c182, 3)),
+          optimizationActivitys: S.optional(__S(5827, __c182, 3)),
+          name: S.optional(S.String),
+          optimizationModel: S.optional(S.String),
           id: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreativeOptimizationConfiguration" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          allocation: S.optional(S.Number),
+          id: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AudienceSegment" });
+    case 6:
+      return S.Array(__S(5829, __c182, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          audienceSegments: S.optional(__S(5830, __c182, 6)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "AudienceSegmentGroup" });
-    case 5:
-      return S.Array(__S(5828, __c182, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          floodlightActivityId: S.optional(S.String),
-          floodlightActivityIdDimensionValue: S.optional(__S(4672, __c146, 0)),
-          weight: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "OptimizationActivity" });
-    case 7:
-      return S.Array(__S(5830, __c182, 6));
     case 8:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          id: S.optional(S.String),
-          optimizationModel: S.optional(S.String),
-          optimizationActivitys: S.optional(__S(5831, __c182, 7)),
-        }),
-      ).annotate({ identifier: "CreativeOptimizationConfiguration" });
+      return S.Array(__S(5831, __c182, 7));
     case 9:
-      return S.Array(__S(5832, __c182, 8));
+      return S.Array(__S(5828, __c182, 4));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          defaultLandingPageId: S.optional(S.String),
-          id: S.optional(S.String),
-          eventTagOverrides: S.optional(__S(4737, __c148, 1)),
-          name: S.optional(S.String),
-          startDate: S.optional(S.String),
-          creativeGroupIds: S.optional(__S(7104, __c222, 0)),
-          kind: S.optional(S.String),
-          accountId: S.optional(S.String),
-          adBlockingConfiguration: S.optional(__S(5824, __c182, 0)),
-          subaccountId: S.optional(S.String),
-          comment: S.optional(S.String),
-          archived: S.optional(S.Boolean),
-          measurementPartnerLink: S.optional(__S(5825, __c182, 1)),
-          idDimensionValue: S.optional(__S(4672, __c146, 0)),
-          advertiserIdDimensionValue: S.optional(__S(4672, __c146, 0)),
-          createInfo: S.optional(__S(4704, __c147, 0)),
-          lastModifiedInfo: S.optional(__S(4704, __c147, 0)),
-          advertiserId: S.optional(S.String),
-          advertiserGroupId: S.optional(S.String),
-          endDate: S.optional(S.String),
-          audienceSegmentGroups: S.optional(__S(5829, __c182, 5)),
-          additionalCreativeOptimizationConfigurations: S.optional(__S(5833, __c182, 9)),
+          createInfo: S.optional(__S(4736, __c148, 0)),
+          lastModifiedInfo: S.optional(__S(4736, __c148, 0)),
+          eventTagOverrides: S.optional(__S(4771, __c149, 3)),
           billingInvoiceCode: S.optional(S.String),
-          euPoliticalAdsDeclaration: S.optional(S.String),
-          defaultClickThroughEventTagProperties: S.optional(__S(4739, __c148, 3)),
-          clickThroughUrlSuffixProperties: S.optional(__S(4738, __c148, 2)),
           externalId: S.optional(S.String),
-          creativeOptimizationConfiguration: S.optional(__S(5832, __c182, 8)),
+          measurementPartnerLink: S.optional(__S(5824, __c182, 0)),
+          adBlockingConfiguration: S.optional(__S(5825, __c182, 1)),
+          advertiserGroupId: S.optional(S.String),
+          comment: S.optional(S.String),
+          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
+          clickThroughUrlSuffixProperties: S.optional(__S(4768, __c149, 0)),
+          euPoliticalAdsDeclaration: S.optional(S.String),
+          creativeGroupIds: S.optional(__S(7136, __c223, 0)),
+          defaultClickThroughEventTagProperties: S.optional(__S(4769, __c149, 1)),
+          subaccountId: S.optional(S.String),
+          creativeOptimizationConfiguration: S.optional(__S(5828, __c182, 4)),
+          advertiserId: S.optional(S.String),
+          audienceSegmentGroups: S.optional(__S(5832, __c182, 8)),
+          additionalCreativeOptimizationConfigurations: S.optional(__S(5833, __c182, 9)),
+          idDimensionValue: S.optional(__S(4704, __c147, 0)),
+          defaultLandingPageId: S.optional(S.String),
+          archived: S.optional(S.Boolean),
+          kind: S.optional(S.String),
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          endDate: S.optional(S.String),
+          startDate: S.optional(S.String),
+          accountId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Campaign" });
   }
@@ -16758,8 +16730,8 @@ function __c183(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.String.pipe(T.Label()),
           profileId: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -16777,18 +16749,18 @@ function __c184(j: number): any {
         S.Struct({
           fieldName: S.optional(S.String),
           kind: S.optional(S.String),
-          subaccountId: S.optional(S.String),
+          oldValue: S.optional(S.String),
+          objectType: S.optional(S.String),
+          action: S.optional(S.String),
           id: S.optional(S.String),
-          accountId: S.optional(S.String),
+          changeTime: S.optional(S.String),
           objectId: S.optional(S.String),
           newValue: S.optional(S.String),
-          action: S.optional(S.String),
-          oldValue: S.optional(S.String),
-          userProfileId: S.optional(S.String),
-          objectType: S.optional(S.String),
-          userProfileName: S.optional(S.String),
           transactionId: S.optional(S.String),
-          changeTime: S.optional(S.String),
+          userProfileName: S.optional(S.String),
+          subaccountId: S.optional(S.String),
+          accountId: S.optional(S.String),
+          userProfileId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ChangeLog" });
   }
@@ -16815,8 +16787,8 @@ function __c186(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.String.pipe(T.Label()),
           profileId: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -16832,10 +16804,10 @@ function __c187(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           accountId: S.optional(S.String),
-          kind: S.optional(S.String),
+          name: S.optional(S.String),
           id: S.optional(S.String),
+          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "ContentCategory" });
   }
@@ -16862,8 +16834,8 @@ function __c189(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.String.pipe(T.Label()),
           profileId: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -16879,13 +16851,13 @@ function __c190(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          accountId: S.optional(S.String),
-          advertiserIdDimensionValue: S.optional(__S(4672, __c146, 0)),
-          name: S.optional(S.String),
+          advertiserId: S.optional(S.String),
+          kind: S.optional(S.String),
+          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
           subaccountId: S.optional(S.String),
           id: S.optional(S.String),
-          kind: S.optional(S.String),
-          advertiserId: S.optional(S.String),
+          accountId: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreativeField" });
   }
@@ -16895,9 +16867,9 @@ function __c191(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          profileId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
           creativeFieldId: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          profileId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -16914,8 +16886,8 @@ function __c192(j: number): any {
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
-          value: S.optional(S.String),
           id: S.optional(S.String),
+          value: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreativeFieldValue" });
   }
@@ -16942,14 +16914,14 @@ function __c194(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          accountId: S.optional(S.String),
-          groupNumber: S.optional(S.Number),
-          kind: S.optional(S.String),
-          id: S.optional(S.String),
-          subaccountId: S.optional(S.String),
-          advertiserIdDimensionValue: S.optional(__S(4672, __c146, 0)),
-          name: S.optional(S.String),
           advertiserId: S.optional(S.String),
+          kind: S.optional(S.String),
+          subaccountId: S.optional(S.String),
+          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
+          accountId: S.optional(S.String),
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          groupNumber: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CreativeGroup" });
   }
@@ -16974,7 +16946,7 @@ function __c195(j: number): any {
 function __c196(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4832, __c151, 0));
+      return S.Array(__S(4864, __c152, 0));
   }
 }
 function __c197(j: number): any {
@@ -16982,21 +16954,21 @@ function __c197(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          offsetPercentage: S.optional(S.Number),
           offsetSeconds: S.optional(S.Number),
+          offsetPercentage: S.optional(S.Number),
         }),
       ).annotate({ identifier: "VideoOffset" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          iconViewTrackingUrl: S.optional(S.String),
+          size: S.optional(__S(4864, __c152, 0)),
           xPosition: S.optional(S.String),
-          iconClickTrackingUrl: S.optional(S.String),
-          size: S.optional(__S(4832, __c151, 0)),
           yPosition: S.optional(S.String),
-          program: S.optional(S.String),
           resourceUrl: S.optional(S.String),
+          program: S.optional(S.String),
           iconClickThroughUrl: S.optional(S.String),
+          iconViewTrackingUrl: S.optional(S.String),
+          iconClickTrackingUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "ObaIcon" });
   }
@@ -17006,64 +16978,8 @@ function __c198(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          left: S.optional(S.Number),
-          top: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "OffsetPosition" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          offset: S.optional(__S(6336, __c198, 0)),
-          title: S.optional(S.String),
-          showAddressBar: S.optional(S.Boolean),
-          positionType: S.optional(S.String),
-          showStatusBar: S.optional(S.Boolean),
-          showToolBar: S.optional(S.Boolean),
-          showScrollBar: S.optional(S.Boolean),
-          dimension: S.optional(__S(4832, __c151, 0)),
-          showMenuBar: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "PopupWindowProperties" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          customClickThroughUrl: S.optional(S.String),
-          landingPageId: S.optional(S.String),
-          computedClickThroughUrl: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreativeClickThroughUrl" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          advertiserCustomEventId: S.optional(S.String),
-          artworkLabel: S.optional(S.String),
-          popupWindowProperties: S.optional(__S(6337, __c198, 1)),
-          videoReportingId: S.optional(S.String),
-          advertiserCustomEventName: S.optional(S.String),
-          targetType: S.optional(S.String),
-          exitClickThroughUrl: S.optional(__S(6338, __c198, 2)),
-          advertiserCustomEventType: S.optional(S.String),
-          artworkType: S.optional(S.String),
-          id: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreativeCustomEvent" });
-    case 4:
-      return S.Array(__S(6339, __c198, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
           name: S.optional(S.String),
-          eventName: S.optional(S.String),
-          clickThroughUrl: S.optional(__S(6338, __c198, 2)),
-        }),
-      ).annotate({ identifier: "ClickTag" });
-    case 6:
-      return S.Array(__S(6341, __c198, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
           type: S.optional(S.String),
-          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreativeAssetId" });
   }
@@ -17073,184 +16989,59 @@ function __c199(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          registry: S.optional(S.String),
-          value: S.optional(S.String),
+          computedClickThroughUrl: S.optional(S.String),
+          customClickThroughUrl: S.optional(S.String),
+          landingPageId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "UniversalAdId" });
+      ).annotate({ identifier: "CreativeClickThroughUrl" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          customHtml: S.optional(S.String),
-          targetWindowOption: S.optional(S.String),
+          left: S.optional(S.Number),
+          top: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "TargetWindow" });
+      ).annotate({ identifier: "OffsetPosition" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          thirdPartyUrlType: S.optional(S.String),
-          url: S.optional(S.String),
+          showStatusBar: S.optional(S.Boolean),
+          showScrollBar: S.optional(S.Boolean),
+          showAddressBar: S.optional(S.Boolean),
+          title: S.optional(S.String),
+          showMenuBar: S.optional(S.Boolean),
+          showToolBar: S.optional(S.Boolean),
+          offset: S.optional(__S(6369, __c199, 1)),
+          dimension: S.optional(__S(4864, __c152, 0)),
+          positionType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ThirdPartyTrackingUrl" });
+      ).annotate({ identifier: "PopupWindowProperties" });
     case 3:
-      return S.Array(__S(6370, __c199, 2));
-    case 4:
       return S.suspend(() =>
         S.Struct({
-          positionOption: S.optional(S.String),
-          windowWidth: S.optional(S.Number),
-          top: S.optional(S.Number),
-          left: S.optional(S.Number),
-          windowHeight: S.optional(S.Number),
+          id: S.optional(S.String),
+          artworkLabel: S.optional(S.String),
+          advertiserCustomEventId: S.optional(S.String),
+          exitClickThroughUrl: S.optional(__S(6368, __c199, 0)),
+          advertiserCustomEventType: S.optional(S.String),
+          targetType: S.optional(S.String),
+          advertiserCustomEventName: S.optional(S.String),
+          artworkType: S.optional(S.String),
+          popupWindowProperties: S.optional(__S(6370, __c199, 2)),
+          videoReportingId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "FsCommand" });
+      ).annotate({ identifier: "CreativeCustomEvent" });
+    case 4:
+      return S.Array(__S(6371, __c199, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          creativeFieldId: S.optional(S.String),
-          creativeFieldValueId: S.optional(S.String),
+          eventName: S.optional(S.String),
+          clickThroughUrl: S.optional(__S(6368, __c199, 0)),
+          name: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CreativeFieldAssignment" });
+      ).annotate({ identifier: "ClickTag" });
     case 6:
       return S.Array(__S(6373, __c199, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          zipFilename: S.optional(S.String),
-          pushdown: S.optional(S.Boolean),
-          zipFilesize: S.optional(S.String),
-          backupImageExit: S.optional(__S(6339, __c198, 3)),
-          size: S.optional(__S(4832, __c151, 0)),
-          streamingServingUrl: S.optional(S.String),
-          duration: S.optional(S.Number),
-          assetIdentifier: S.optional(__S(6343, __c198, 7)),
-          id: S.optional(S.String),
-          role: S.optional(S.String),
-          verticallyLocked: S.optional(S.Boolean),
-          sslCompliant: S.optional(S.Boolean),
-          originalBackup: S.optional(S.Boolean),
-          horizontallyLocked: S.optional(S.Boolean),
-          displayType: S.optional(S.String),
-          collapsedSize: S.optional(__S(4832, __c151, 0)),
-          frameRate: S.optional(S.Number),
-          alignment: S.optional(S.String),
-          startTimeType: S.optional(S.String),
-          pushdownDuration: S.optional(S.Number),
-          positionLeftUnit: S.optional(S.String),
-          bitRate: S.optional(S.Number),
-          idDimensionValue: S.optional(__S(4672, __c146, 0)),
-          active: S.optional(S.Boolean),
-          transparency: S.optional(S.Boolean),
-          actionScript3: S.optional(S.Boolean),
-          fileSize: S.optional(S.String),
-          detectedFeatures: S.optional(__S(3232, __c101, 0)),
-          positionTopUnit: S.optional(S.String),
-          mediaDuration: S.optional(S.Number),
-          audioBitRate: S.optional(S.Number),
-          position: S.optional(__S(6336, __c198, 0)),
-          zIndex: S.optional(S.Number),
-          hideFlashObjects: S.optional(S.Boolean),
-          expandedDimension: S.optional(__S(4832, __c151, 0)),
-          windowMode: S.optional(S.String),
-          customStartTimeValue: S.optional(S.Number),
-          politeLoad: S.optional(S.Boolean),
-          offset: S.optional(__S(6336, __c198, 0)),
-          companionCreativeIds: S.optional(__S(7104, __c222, 0)),
-          orientation: S.optional(S.String),
-          flashVersion: S.optional(S.Number),
-          hideSelectionBoxes: S.optional(S.Boolean),
-          mimeType: S.optional(S.String),
-          durationType: S.optional(S.String),
-          childAssetType: S.optional(S.String),
-          audioSampleRate: S.optional(S.Number),
-          progressiveServingUrl: S.optional(S.String),
-          additionalSizes: S.optional(__S(6272, __c196, 0)),
-          artworkType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreativeAsset" });
-    case 8:
-      return S.Array(__S(6375, __c199, 7));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          longHeadlines: S.optional(__S(7104, __c222, 0)),
-          coverImages: S.optional(__S(6376, __c199, 8)),
-          longDescriptions: S.optional(__S(7104, __c222, 0)),
-          headlines: S.optional(__S(7104, __c222, 0)),
-          callToActions: S.optional(__S(7104, __c222, 0)),
-          displayUrl: S.optional(S.String),
-          descriptions: S.optional(__S(7104, __c222, 0)),
-        }),
-      ).annotate({ identifier: "AdditionalAsset" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          compatibility: S.optional(__S(3232, __c101, 0)),
-          autoAdvanceImages: S.optional(S.Boolean),
-          advertiserId: S.optional(S.String),
-          mediaDuration: S.optional(S.Number),
-          idDimensionValue: S.optional(__S(4672, __c146, 0)),
-          active: S.optional(S.Boolean),
-          skipOffset: S.optional(__S(6304, __c197, 0)),
-          backupImageFeatures: S.optional(__S(3232, __c101, 0)),
-          redirectUrl: S.optional(S.String),
-          thirdPartyRichMediaImpressionsUrl: S.optional(S.String),
-          universalAdId: S.optional(__S(6368, __c199, 0)),
-          backupImageTargetWindow: S.optional(__S(6369, __c199, 1)),
-          htmlCode: S.optional(S.String),
-          lastModifiedInfo: S.optional(__S(4704, __c147, 0)),
-          totalFileSize: S.optional(S.String),
-          studioCreativeId: S.optional(S.String),
-          requiredFlashVersion: S.optional(S.Number),
-          commercialId: S.optional(S.String),
-          thirdPartyUrls: S.optional(__S(6371, __c199, 3)),
-          obaIcon: S.optional(__S(6305, __c197, 1)),
-          id: S.optional(S.String),
-          latestTraffickedCreativeId: S.optional(S.String),
-          name: S.optional(S.String),
-          requiredFlashPluginVersion: S.optional(S.String),
-          convertFlashToHtml5: S.optional(S.Boolean),
-          mediaDescription: S.optional(S.String),
-          kind: S.optional(S.String),
-          timerCustomEvents: S.optional(__S(6340, __c198, 4)),
-          fsCommand: S.optional(__S(6372, __c199, 4)),
-          progressOffset: S.optional(__S(6304, __c197, 0)),
-          adTagKeys: S.optional(__S(7104, __c222, 0)),
-          additionalSizes: S.optional(__S(6272, __c196, 0)),
-          renderingId: S.optional(S.String),
-          renderingIdDimensionValue: S.optional(__S(4672, __c146, 0)),
-          htmlCodeLocked: S.optional(S.Boolean),
-          sslCompliant: S.optional(S.Boolean),
-          skippable: S.optional(S.Boolean),
-          syntheticContentAttestationStatus: S.optional(S.String),
-          adParameters: S.optional(S.String),
-          authoringTool: S.optional(S.String),
-          allowScriptAccess: S.optional(S.Boolean),
-          studioTraffickedCreativeId: S.optional(S.String),
-          size: S.optional(__S(4832, __c151, 0)),
-          backupImageReportingLabel: S.optional(S.String),
-          creativeFieldAssignments: S.optional(__S(6374, __c199, 6)),
-          sslOverride: S.optional(S.Boolean),
-          thirdPartyBackupImageImpressionsUrl: S.optional(S.String),
-          version: S.optional(S.Number),
-          authoringSource: S.optional(S.String),
-          accountId: S.optional(S.String),
-          overrideCss: S.optional(S.String),
-          counterCustomEvents: S.optional(__S(6340, __c198, 4)),
-          studioAdvertiserId: S.optional(S.String),
-          clickTags: S.optional(__S(6342, __c198, 6)),
-          companionCreatives: S.optional(__S(7104, __c222, 0)),
-          backgroundColor: S.optional(S.String),
-          backupImageClickThroughUrl: S.optional(__S(6338, __c198, 2)),
-          exitCustomEvents: S.optional(__S(6340, __c198, 4)),
-          creativeAssets: S.optional(__S(6376, __c199, 8)),
-          archived: S.optional(S.Boolean),
-          subaccountId: S.optional(S.String),
-          customKeyValues: S.optional(__S(7104, __c222, 0)),
-          additionalAsset: S.optional(__S(6377, __c199, 9)),
-          artworkType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Creative" });
   }
 }
 function __c200(j: number): any {
@@ -17258,8 +17049,193 @@ function __c200(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.String.pipe(T.Label()),
+          sslCompliant: S.optional(S.Boolean),
+          mediaDuration: S.optional(S.Number),
+          windowMode: S.optional(S.String),
+          startTimeType: S.optional(S.String),
+          orientation: S.optional(S.String),
+          childAssetType: S.optional(S.String),
+          durationType: S.optional(S.String),
+          pushdown: S.optional(S.Boolean),
+          role: S.optional(S.String),
+          originalBackup: S.optional(S.Boolean),
+          frameRate: S.optional(S.Number),
+          size: S.optional(__S(4864, __c152, 0)),
+          bitRate: S.optional(S.Number),
+          position: S.optional(__S(6369, __c199, 1)),
+          mimeType: S.optional(S.String),
+          fileSize: S.optional(S.String),
+          progressiveServingUrl: S.optional(S.String),
+          additionalSizes: S.optional(__S(6272, __c196, 0)),
+          streamingServingUrl: S.optional(S.String),
+          pushdownDuration: S.optional(S.Number),
+          collapsedSize: S.optional(__S(4864, __c152, 0)),
+          assetIdentifier: S.optional(__S(6336, __c198, 0)),
+          audioSampleRate: S.optional(S.Number),
+          idDimensionValue: S.optional(__S(4704, __c147, 0)),
+          zipFilename: S.optional(S.String),
+          hideSelectionBoxes: S.optional(S.Boolean),
+          id: S.optional(S.String),
+          positionLeftUnit: S.optional(S.String),
+          flashVersion: S.optional(S.Number),
+          audioBitRate: S.optional(S.Number),
+          politeLoad: S.optional(S.Boolean),
+          expandedDimension: S.optional(__S(4864, __c152, 0)),
+          offset: S.optional(__S(6369, __c199, 1)),
+          artworkType: S.optional(S.String),
+          hideFlashObjects: S.optional(S.Boolean),
+          zIndex: S.optional(S.Number),
+          transparency: S.optional(S.Boolean),
+          active: S.optional(S.Boolean),
+          horizontallyLocked: S.optional(S.Boolean),
+          alignment: S.optional(S.String),
+          backupImageExit: S.optional(__S(6371, __c199, 3)),
+          positionTopUnit: S.optional(S.String),
+          verticallyLocked: S.optional(S.Boolean),
+          actionScript3: S.optional(S.Boolean),
+          companionCreativeIds: S.optional(__S(7136, __c223, 0)),
+          duration: S.optional(S.Number),
+          customStartTimeValue: S.optional(S.Number),
+          zipFilesize: S.optional(S.String),
+          detectedFeatures: S.optional(__S(3264, __c102, 0)),
+          displayType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreativeAsset" });
+    case 1:
+      return S.Array(__S(6400, __c200, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          headlines: S.optional(__S(7136, __c223, 0)),
+          descriptions: S.optional(__S(7136, __c223, 0)),
+          callToActions: S.optional(__S(7136, __c223, 0)),
+          longHeadlines: S.optional(__S(7136, __c223, 0)),
+          displayUrl: S.optional(S.String),
+          longDescriptions: S.optional(__S(7136, __c223, 0)),
+          coverImages: S.optional(__S(6401, __c200, 1)),
+        }),
+      ).annotate({ identifier: "AdditionalAsset" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          windowHeight: S.optional(S.Number),
+          positionOption: S.optional(S.String),
+          top: S.optional(S.Number),
+          left: S.optional(S.Number),
+          windowWidth: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "FsCommand" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          thirdPartyUrlType: S.optional(S.String),
+          url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ThirdPartyTrackingUrl" });
+    case 5:
+      return S.Array(__S(6404, __c200, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(S.String),
+          registry: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UniversalAdId" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          creativeFieldId: S.optional(S.String),
+          creativeFieldValueId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreativeFieldAssignment" });
+    case 8:
+      return S.Array(__S(6407, __c200, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          targetWindowOption: S.optional(S.String),
+          customHtml: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TargetWindow" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          adTagKeys: S.optional(__S(7136, __c223, 0)),
+          accountId: S.optional(S.String),
+          backgroundColor: S.optional(S.String),
+          progressOffset: S.optional(__S(6304, __c197, 0)),
+          version: S.optional(S.Number),
+          redirectUrl: S.optional(S.String),
+          mediaDescription: S.optional(S.String),
+          exitCustomEvents: S.optional(__S(6372, __c199, 4)),
+          customKeyValues: S.optional(__S(7136, __c223, 0)),
+          advertiserId: S.optional(S.String),
+          lastModifiedInfo: S.optional(__S(4736, __c148, 0)),
+          studioCreativeId: S.optional(S.String),
+          name: S.optional(S.String),
+          latestTraffickedCreativeId: S.optional(S.String),
+          timerCustomEvents: S.optional(__S(6372, __c199, 4)),
+          backupImageClickThroughUrl: S.optional(__S(6368, __c199, 0)),
+          additionalAsset: S.optional(__S(6402, __c200, 2)),
+          fsCommand: S.optional(__S(6403, __c200, 3)),
+          clickTags: S.optional(__S(6374, __c199, 6)),
+          syntheticContentAttestationStatus: S.optional(S.String),
+          obaIcon: S.optional(__S(6305, __c197, 1)),
+          thirdPartyUrls: S.optional(__S(6405, __c200, 5)),
+          companionCreatives: S.optional(__S(7136, __c223, 0)),
+          mediaDuration: S.optional(S.Number),
+          requiredFlashPluginVersion: S.optional(S.String),
+          skipOffset: S.optional(__S(6304, __c197, 0)),
+          studioAdvertiserId: S.optional(S.String),
+          artworkType: S.optional(S.String),
+          idDimensionValue: S.optional(__S(4704, __c147, 0)),
+          commercialId: S.optional(S.String),
+          htmlCode: S.optional(S.String),
+          sslOverride: S.optional(S.Boolean),
+          renderingId: S.optional(S.String),
+          thirdPartyRichMediaImpressionsUrl: S.optional(S.String),
+          counterCustomEvents: S.optional(__S(6372, __c199, 4)),
+          authoringSource: S.optional(S.String),
+          requiredFlashVersion: S.optional(S.Number),
+          thirdPartyBackupImageImpressionsUrl: S.optional(S.String),
+          compatibility: S.optional(__S(3264, __c102, 0)),
+          backupImageReportingLabel: S.optional(S.String),
+          additionalSizes: S.optional(__S(6272, __c196, 0)),
+          active: S.optional(S.Boolean),
+          overrideCss: S.optional(S.String),
+          kind: S.optional(S.String),
+          totalFileSize: S.optional(S.String),
+          authoringTool: S.optional(S.String),
+          convertFlashToHtml5: S.optional(S.Boolean),
+          universalAdId: S.optional(__S(6406, __c200, 6)),
+          skippable: S.optional(S.Boolean),
+          size: S.optional(__S(4864, __c152, 0)),
+          archived: S.optional(S.Boolean),
+          autoAdvanceImages: S.optional(S.Boolean),
+          renderingIdDimensionValue: S.optional(__S(4704, __c147, 0)),
+          subaccountId: S.optional(S.String),
+          creativeFieldAssignments: S.optional(__S(6408, __c200, 8)),
+          allowScriptAccess: S.optional(S.Boolean),
+          type: S.optional(S.String),
+          backupImageFeatures: S.optional(__S(3264, __c102, 0)),
+          creativeAssets: S.optional(__S(6401, __c200, 1)),
+          studioTraffickedCreativeId: S.optional(S.String),
+          adParameters: S.optional(S.String),
+          htmlCodeLocked: S.optional(S.Boolean),
+          backupImageTargetWindow: S.optional(__S(6409, __c200, 9)),
+          sslCompliant: S.optional(S.Boolean),
+          id: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Creative" });
+  }
+}
+function __c201(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           profileId: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -17270,44 +17246,44 @@ function __c200(j: number): any {
       ).annotate({ identifier: "GetDirectorySitesRequest" });
   }
 }
-function __c201(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          publisherPortalOnly: S.optional(S.Boolean),
+          dfpNetworkName: S.optional(S.String),
           pubPaidPlacementAccepted: S.optional(S.Boolean),
           programmaticPlacementAccepted: S.optional(S.Boolean),
-          dfpNetworkName: S.optional(S.String),
           dfpNetworkCode: S.optional(S.String),
+          publisherPortalOnly: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DfpSettings" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          instreamVideoPlacementAccepted: S.optional(S.Boolean),
-          dfpSettings: S.optional(__S(6432, __c201, 0)),
           interstitialPlacementAccepted: S.optional(S.Boolean),
+          dfpSettings: S.optional(__S(6464, __c202, 0)),
+          instreamVideoPlacementAccepted: S.optional(S.Boolean),
           activeViewOptOut: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DirectorySiteSettings" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          inpageTagFormats: S.optional(__S(3232, __c101, 0)),
-          kind: S.optional(S.String),
-          publisherSpecificationId: S.optional(S.String),
-          id: S.optional(S.String),
-          settings: S.optional(__S(6433, __c201, 1)),
+          idDimensionValue: S.optional(__S(4704, __c147, 0)),
           url: S.optional(S.String),
-          idDimensionValue: S.optional(__S(4672, __c146, 0)),
-          interstitialTagFormats: S.optional(__S(3232, __c101, 0)),
+          id: S.optional(S.String),
+          publisherSpecificationId: S.optional(S.String),
+          inpageTagFormats: S.optional(__S(3264, __c102, 0)),
+          kind: S.optional(S.String),
+          settings: S.optional(__S(6465, __c202, 1)),
+          interstitialTagFormats: S.optional(__S(3264, __c102, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "DirectorySite" });
   }
 }
-function __c202(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17323,127 +17299,127 @@ function __c202(j: number): any {
       ).annotate({ identifier: "GetDynamicFeedsRequest" });
   }
 }
-function __c203(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          rowNumber: S.optional(S.Number),
-          charset: S.optional(S.String),
-          fieldNames: S.optional(__S(7104, __c222, 0)),
-          separator: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ContentSourceMetaData" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          lastModifiedInfo: S.optional(__S(4704, __c147, 0)),
-          contentSourceName: S.optional(S.String),
-          metaData: S.optional(__S(6496, __c203, 0)),
-          resourceType: S.optional(S.String),
-          createInfo: S.optional(__S(4704, __c147, 0)),
-          resourceLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ContentSource" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           timeZone: S.optional(S.String),
+          startMinute: S.optional(S.String),
           scheduleEnabled: S.optional(S.Boolean),
           repeatValue: S.optional(S.String),
-          startMinute: S.optional(S.String),
           startHour: S.optional(S.String),
         }),
       ).annotate({ identifier: "FeedSchedule" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          renderable: S.optional(S.Boolean),
+          type: S.optional(S.String),
+          filterable: S.optional(S.Boolean),
+          required: S.optional(S.Boolean),
+          defaultValue: S.optional(S.String),
+          id: S.optional(S.Number),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FeedField" });
+    case 2:
+      return S.Array(__S(6529, __c204, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.Number),
-          required: S.optional(S.Boolean),
-          renderable: S.optional(S.Boolean),
-          filterable: S.optional(S.Boolean),
-          defaultValue: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "FeedField" });
-    case 4:
-      return S.Array(__S(6499, __c203, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          externalIdFieldId: S.optional(S.Number),
-          defaultFieldId: S.optional(S.Number),
-          startTimestampFieldId: S.optional(S.Number),
-          elementName: S.optional(S.String),
-          reportingLabelFieldId: S.optional(S.Number),
-          endTimestampFieldId: S.optional(S.Number),
-          feedFields: S.optional(__S(6500, __c203, 4)),
-          activeFieldId: S.optional(S.Number),
-          createInfo: S.optional(__S(4704, __c147, 0)),
-          isLocalTimestamp: S.optional(S.Boolean),
-          lastModifiedInfo: S.optional(__S(4704, __c147, 0)),
+          lastModifiedInfo: S.optional(__S(4736, __c148, 0)),
           proximityTargetingFieldId: S.optional(S.Number),
+          elementName: S.optional(S.String),
+          isLocalTimestamp: S.optional(S.Boolean),
+          createInfo: S.optional(__S(4736, __c148, 0)),
+          feedFields: S.optional(__S(6530, __c204, 2)),
+          endTimestampFieldId: S.optional(S.Number),
+          externalIdFieldId: S.optional(S.Number),
+          reportingLabelFieldId: S.optional(S.Number),
+          activeFieldId: S.optional(S.Number),
+          startTimestampFieldId: S.optional(S.Number),
+          defaultFieldId: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Element" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          fieldId: S.optional(S.Number),
+          ingestionError: S.optional(S.String),
+          fieldValues: S.optional(__S(7136, __c223, 0)),
+          fieldName: S.optional(S.String),
+          isError: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "FieldError" });
+    case 5:
+      return S.Array(__S(6532, __c204, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          fieldValues: S.optional(__S(7104, __c222, 0)),
-          fieldId: S.optional(S.Number),
-          isError: S.optional(S.Boolean),
-          fieldName: S.optional(S.String),
-          ingestionError: S.optional(S.String),
+          errors: S.optional(__S(6533, __c204, 5)),
+          recordId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "FieldError" });
+      ).annotate({ identifier: "IngestionErrorRecord" });
     case 7:
-      return S.Array(__S(6502, __c203, 6));
+      return S.Array(__S(6534, __c204, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          recordId: S.optional(S.String),
-          errors: S.optional(__S(6503, __c203, 7)),
-        }),
-      ).annotate({ identifier: "IngestionErrorRecord" });
-    case 9:
-      return S.Array(__S(6504, __c203, 8));
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          numRowsWithErrors: S.optional(S.String),
-          numActiveRows: S.optional(S.String),
           numRowsProcessed: S.optional(S.String),
           numWarningsTotal: S.optional(S.String),
+          numRowsWithErrors: S.optional(S.String),
+          numActiveRows: S.optional(S.String),
           numRowsTotal: S.optional(S.String),
         }),
       ).annotate({ identifier: "IngestionStatus" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          state: S.optional(S.String),
+          ingestionErrorRecords: S.optional(__S(6535, __c204, 7)),
+          ingestionStatus: S.optional(__S(6536, __c204, 8)),
+        }),
+      ).annotate({ identifier: "FeedIngestionStatus" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          rowNumber: S.optional(S.Number),
+          separator: S.optional(S.String),
+          fieldNames: S.optional(__S(7136, __c223, 0)),
+          charset: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ContentSourceMetaData" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          ingestionErrorRecords: S.optional(__S(6505, __c203, 9)),
-          ingestionStatus: S.optional(__S(6506, __c203, 10)),
-          state: S.optional(S.String),
+          contentSourceName: S.optional(S.String),
+          resourceLink: S.optional(S.String),
+          lastModifiedInfo: S.optional(__S(4736, __c148, 0)),
+          metaData: S.optional(__S(6538, __c204, 10)),
+          createInfo: S.optional(__S(4736, __c148, 0)),
+          resourceType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "FeedIngestionStatus" });
+      ).annotate({ identifier: "ContentSource" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          contentSource: S.optional(__S(6497, __c203, 1)),
-          lastModifiedInfo: S.optional(__S(4704, __c147, 0)),
-          hasPublished: S.optional(S.Boolean),
-          studioAdvertiserId: S.optional(S.String),
-          createInfo: S.optional(__S(4704, __c147, 0)),
-          feedSchedule: S.optional(__S(6498, __c203, 2)),
-          element: S.optional(__S(6501, __c203, 5)),
-          feedIngestionStatus: S.optional(__S(6507, __c203, 11)),
           status: S.optional(S.String),
-          dynamicFeedName: S.optional(S.String),
+          feedSchedule: S.optional(__S(6528, __c204, 0)),
           dynamicFeedId: S.optional(S.String),
+          element: S.optional(__S(6531, __c204, 3)),
+          feedIngestionStatus: S.optional(__S(6537, __c204, 9)),
+          createInfo: S.optional(__S(4736, __c148, 0)),
+          lastModifiedInfo: S.optional(__S(4736, __c148, 0)),
+          contentSource: S.optional(__S(6539, __c204, 11)),
+          studioAdvertiserId: S.optional(S.String),
+          dynamicFeedName: S.optional(S.String),
+          hasPublished: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DynamicFeed" });
   }
 }
-function __c204(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17459,132 +17435,132 @@ function __c204(j: number): any {
       ).annotate({ identifier: "GetDynamicProfilesRequest" });
   }
 }
-function __c205(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           fieldId: S.optional(S.Number),
-          requestKey: S.optional(S.String),
+          userAttributeIds: S.optional(__S(7136, __c223, 0)),
         }),
-      ).annotate({ identifier: "CustomValueField" });
+      ).annotate({ identifier: "RemarketingValueAttribute" });
     case 1:
-      return S.Array(__S(6560, __c205, 0));
+      return S.Array(__S(6592, __c206, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          excludeFromUserAttributeIds: S.optional(__S(7104, __c222, 0)),
-          key: S.optional(S.String),
-          userAttributeIds: S.optional(__S(7104, __c222, 0)),
+          radiusValue: S.optional(S.Number),
+          radiusUnitType: S.optional(S.String),
+          radiusBucketType: S.optional(S.String),
+          fieldId: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "RequestValue" });
+      ).annotate({ identifier: "ProximityFilter" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           elementId: S.optional(S.String),
-          fieldId: S.optional(S.Number),
           dynamicFeedId: S.optional(S.String),
+          fieldId: S.optional(S.Number),
         }),
       ).annotate({ identifier: "DependentFieldValue" });
     case 4:
       return S.suspend(() =>
         S.Struct({
+          key: S.optional(S.String),
+          userAttributeIds: S.optional(__S(7136, __c223, 0)),
+          excludeFromUserAttributeIds: S.optional(__S(7136, __c223, 0)),
+        }),
+      ).annotate({ identifier: "RequestValue" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          fieldId: S.optional(S.Number),
+          dependentFieldValue: S.optional(__S(6595, __c206, 3)),
           stringValue: S.optional(S.String),
-          requestValue: S.optional(__S(6562, __c205, 2)),
+          requestValue: S.optional(__S(6596, __c206, 4)),
           matchType: S.optional(S.String),
           valueType: S.optional(S.String),
-          dependentFieldValue: S.optional(__S(6563, __c205, 3)),
           boolValue: S.optional(S.Boolean),
-          fieldId: S.optional(S.Number),
         }),
       ).annotate({ identifier: "FieldFilter" });
-    case 5:
-      return S.Array(__S(6564, __c205, 4));
     case 6:
+      return S.Array(__S(6597, __c206, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
-          fieldFilter: S.optional(__S(6565, __c205, 5)),
+          fieldFilter: S.optional(__S(6598, __c206, 6)),
         }),
       ).annotate({ identifier: "RuleBlock" });
-    case 7:
-      return S.Array(__S(6566, __c205, 6));
     case 8:
+      return S.Array(__S(6599, __c206, 7));
+    case 9:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          ruleBlocks: S.optional(__S(6567, __c205, 7)),
+          ruleBlocks: S.optional(__S(6600, __c206, 8)),
           priority: S.optional(S.Number),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomRule" });
-    case 9:
-      return S.Array(__S(6568, __c205, 8));
     case 10:
-      return S.suspend(() =>
-        S.Struct({
-          radiusValue: S.optional(S.Number),
-          radiusBucketType: S.optional(S.String),
-          radiusUnitType: S.optional(S.String),
-          fieldId: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ProximityFilter" });
+      return S.Array(__S(6601, __c206, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          userAttributeIds: S.optional(__S(7104, __c222, 0)),
+          requestKey: S.optional(S.String),
           fieldId: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "RemarketingValueAttribute" });
+      ).annotate({ identifier: "CustomValueField" });
     case 12:
-      return S.Array(__S(6571, __c205, 11));
+      return S.Array(__S(6603, __c206, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          autoTargetedFieldIds: S.optional(__S(4864, __c152, 0)),
-          customValueFields: S.optional(__S(6561, __c205, 1)),
-          rotationType: S.optional(S.String),
-          weightFieldId: S.optional(S.Number),
+          remarketingValueAttributes: S.optional(__S(6593, __c206, 1)),
+          proximityFilter: S.optional(__S(6594, __c206, 2)),
           ruleType: S.optional(S.String),
-          customRules: S.optional(__S(6569, __c205, 9)),
-          proximityFilter: S.optional(__S(6570, __c205, 10)),
-          remarketingValueAttributes: S.optional(__S(6572, __c205, 12)),
+          autoTargetedFieldIds: S.optional(__S(4896, __c153, 0)),
+          customRules: S.optional(__S(6602, __c206, 10)),
+          customValueFields: S.optional(__S(6604, __c206, 12)),
+          weightFieldId: S.optional(S.Number),
+          rotationType: S.optional(S.String),
         }),
       ).annotate({ identifier: "DynamicRules" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          dynamicRules: S.optional(__S(6573, __c205, 13)),
-          dynamicFeedId: S.optional(S.String),
           quantity: S.optional(S.Number),
+          dynamicFeedId: S.optional(S.String),
+          dynamicRules: S.optional(__S(6605, __c206, 13)),
         }),
       ).annotate({ identifier: "DynamicProfileFeedSettings" });
     case 15:
-      return S.Array(__S(6574, __c205, 14));
+      return S.Array(__S(6606, __c206, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
           versionId: S.optional(S.String),
-          dynamicProfileFeedSettings: S.optional(__S(6575, __c205, 15)),
+          dynamicProfileFeedSettings: S.optional(__S(6607, __c206, 15)),
         }),
       ).annotate({ identifier: "DynamicProfileVersion" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          lastModifiedInfo: S.optional(__S(4704, __c147, 0)),
-          studioAdvertiserId: S.optional(S.String),
-          kind: S.optional(S.String),
-          dynamicProfileId: S.optional(S.String),
-          createInfo: S.optional(__S(4704, __c147, 0)),
-          description: S.optional(S.String),
-          status: S.optional(S.String),
-          active: S.optional(__S(6576, __c205, 16)),
-          draft: S.optional(__S(6576, __c205, 16)),
           archiveStatus: S.optional(S.String),
+          kind: S.optional(S.String),
+          lastModifiedInfo: S.optional(__S(4736, __c148, 0)),
+          active: S.optional(__S(6608, __c206, 16)),
           name: S.optional(S.String),
+          draft: S.optional(__S(6608, __c206, 16)),
+          studioAdvertiserId: S.optional(S.String),
+          description: S.optional(S.String),
+          dynamicProfileId: S.optional(S.String),
+          status: S.optional(S.String),
+          createInfo: S.optional(__S(4736, __c148, 0)),
         }),
       ).annotate({ identifier: "DynamicProfile" });
   }
 }
-function __c206(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17601,34 +17577,34 @@ function __c206(j: number): any {
       ).annotate({ identifier: "GetEventTagsRequest" });
   }
 }
-function __c207(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          excludeFromAdxRequests: S.optional(S.Boolean),
-          accountId: S.optional(S.String),
-          type: S.optional(S.String),
-          url: S.optional(S.String),
-          id: S.optional(S.String),
-          subaccountId: S.optional(S.String),
-          status: S.optional(S.String),
-          campaignIdDimensionValue: S.optional(__S(4672, __c146, 0)),
-          advertiserId: S.optional(S.String),
-          urlEscapeLevels: S.optional(S.Number),
-          advertiserIdDimensionValue: S.optional(__S(4672, __c146, 0)),
-          name: S.optional(S.String),
-          siteFilterType: S.optional(S.String),
-          kind: S.optional(S.String),
-          enabledByDefault: S.optional(S.Boolean),
-          siteIds: S.optional(__S(7104, __c222, 0)),
           sslCompliant: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          siteIds: S.optional(__S(7136, __c223, 0)),
+          kind: S.optional(S.String),
+          status: S.optional(S.String),
+          advertiserId: S.optional(S.String),
+          url: S.optional(S.String),
+          siteFilterType: S.optional(S.String),
+          type: S.optional(S.String),
+          excludeFromAdxRequests: S.optional(S.Boolean),
+          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
+          subaccountId: S.optional(S.String),
+          campaignIdDimensionValue: S.optional(__S(4704, __c147, 0)),
+          urlEscapeLevels: S.optional(S.Number),
+          accountId: S.optional(S.String),
           campaignId: S.optional(S.String),
+          enabledByDefault: S.optional(S.Boolean),
+          id: S.optional(S.String),
         }),
       ).annotate({ identifier: "EventTag" });
   }
 }
-function __c208(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17645,46 +17621,46 @@ function __c208(j: number): any {
       ).annotate({ identifier: "GetFilesRequest" });
   }
 }
-function __c209(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          startDate: S.optional(S.String),
-          endDate: S.optional(S.String),
-          kind: S.optional(S.String),
-          relativeDateRange: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DateRange" });
-  }
-}
 function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          browserUrl: S.optional(S.String),
+          startDate: S.optional(S.String),
+          relativeDateRange: S.optional(S.String),
+          endDate: S.optional(S.String),
+          kind: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DateRange" });
+  }
+}
+function __c211(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           apiUrl: S.optional(S.String),
+          browserUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "FileUrls" });
     case 1:
       return S.suspend(() =>
         S.Struct({
+          kind: S.optional(S.String),
+          reportId: S.optional(S.String),
+          fileName: S.optional(S.String),
           etag: S.optional(S.String),
+          lastModifiedTime: S.optional(S.String),
+          status: S.optional(S.String),
+          dateRange: S.optional(__S(6720, __c210, 0)),
           id: S.optional(S.String),
           format: S.optional(S.String),
-          kind: S.optional(S.String),
-          lastModifiedTime: S.optional(S.String),
-          dateRange: S.optional(__S(6688, __c209, 0)),
-          urls: S.optional(__S(6720, __c210, 0)),
-          fileName: S.optional(S.String),
-          reportId: S.optional(S.String),
-          status: S.optional(S.String),
+          urls: S.optional(__S(6752, __c211, 0)),
         }),
       ).annotate({ identifier: "File" });
   }
 }
-function __c211(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17701,69 +17677,69 @@ function __c211(j: number): any {
       ).annotate({ identifier: "GetFloodlightActivitiesRequest" });
   }
 }
-function __c212(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           id: S.optional(S.String),
           tag: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "FloodlightActivityDynamicTag" });
     case 1:
-      return S.Array(__S(6784, __c212, 0));
-    case 2:
       return S.suspend(() =>
         S.Struct({
-          directorySiteId: S.optional(S.String),
-          clickThrough: S.optional(S.Boolean),
-          siteId: S.optional(S.String),
-          siteIdDimensionValue: S.optional(__S(4672, __c146, 0)),
-          dynamicTag: S.optional(__S(6784, __c212, 0)),
           viewThrough: S.optional(S.Boolean),
+          siteId: S.optional(S.String),
+          directorySiteId: S.optional(S.String),
+          siteIdDimensionValue: S.optional(__S(4704, __c147, 0)),
+          dynamicTag: S.optional(__S(6816, __c213, 0)),
+          clickThrough: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "FloodlightActivityPublisherDynamicTag" });
+    case 2:
+      return S.Array(__S(6817, __c213, 1));
     case 3:
-      return S.Array(__S(6786, __c212, 2));
+      return S.Array(__S(6816, __c213, 0));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          tagFormat: S.optional(S.String),
-          advertiserIdDimensionValue: S.optional(__S(4672, __c146, 0)),
-          advertiserId: S.optional(S.String),
-          floodlightActivityGroupType: S.optional(S.String),
-          floodlightActivityGroupName: S.optional(S.String),
-          sslRequired: S.optional(S.Boolean),
-          tagString: S.optional(S.String),
-          id: S.optional(S.String),
-          countingMethod: S.optional(S.String),
           sslCompliant: S.optional(S.Boolean),
-          conversionCategory: S.optional(S.String),
-          floodlightActivityGroupId: S.optional(S.String),
-          attributionEnabled: S.optional(S.Boolean),
+          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
+          sslRequired: S.optional(S.Boolean),
+          accountId: S.optional(S.String),
+          floodlightActivityGroupTagString: S.optional(S.String),
+          countingMethod: S.optional(S.String),
           secure: S.optional(S.Boolean),
+          notes: S.optional(S.String),
+          tagString: S.optional(S.String),
+          attributionEnabled: S.optional(S.Boolean),
+          subaccountId: S.optional(S.String),
+          floodlightActivityGroupType: S.optional(S.String),
+          publisherTags: S.optional(__S(6818, __c213, 2)),
+          tagFormat: S.optional(S.String),
+          kind: S.optional(S.String),
+          conversionCategory: S.optional(S.String),
           name: S.optional(S.String),
-          userDefinedVariableTypes: S.optional(__S(3232, __c101, 0)),
+          status: S.optional(S.String),
+          floodlightConfigurationId: S.optional(S.String),
+          idDimensionValue: S.optional(__S(4704, __c147, 0)),
+          defaultTags: S.optional(__S(6819, __c213, 3)),
+          id: S.optional(S.String),
           floodlightTagType: S.optional(S.String),
           expectedUrl: S.optional(S.String),
-          floodlightActivityGroupTagString: S.optional(S.String),
-          accountId: S.optional(S.String),
-          kind: S.optional(S.String),
-          defaultTags: S.optional(__S(6785, __c212, 1)),
-          subaccountId: S.optional(S.String),
-          status: S.optional(S.String),
-          idDimensionValue: S.optional(__S(4672, __c146, 0)),
-          notes: S.optional(S.String),
+          floodlightActivityGroupId: S.optional(S.String),
+          advertiserId: S.optional(S.String),
+          floodlightActivityGroupName: S.optional(S.String),
+          floodlightConfigurationIdDimensionValue: S.optional(__S(4704, __c147, 0)),
           cacheBustingType: S.optional(S.String),
-          publisherTags: S.optional(__S(6787, __c212, 3)),
-          floodlightConfigurationIdDimensionValue: S.optional(__S(4672, __c146, 0)),
-          floodlightConfigurationId: S.optional(S.String),
+          userDefinedVariableTypes: S.optional(__S(3264, __c102, 0)),
         }),
       ).annotate({ identifier: "FloodlightActivity" });
   }
 }
-function __c213(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17780,34 +17756,34 @@ function __c213(j: number): any {
       ).annotate({ identifier: "GetFloodlightActivityGroupsRequest" });
   }
 }
-function __c214(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          idDimensionValue: S.optional(__S(4672, __c146, 0)),
-          kind: S.optional(S.String),
-          advertiserIdDimensionValue: S.optional(__S(4672, __c146, 0)),
-          subaccountId: S.optional(S.String),
-          id: S.optional(S.String),
-          floodlightConfigurationId: S.optional(S.String),
-          advertiserId: S.optional(S.String),
-          tagString: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          floodlightConfigurationIdDimensionValue: S.optional(__S(4672, __c146, 0)),
-          accountId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "FloodlightActivityGroup" });
-  }
-}
 function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          profileId: S.String.pipe(T.Label()),
+          tagString: S.optional(S.String),
+          floodlightConfigurationId: S.optional(S.String),
+          name: S.optional(S.String),
+          floodlightConfigurationIdDimensionValue: S.optional(__S(4704, __c147, 0)),
+          subaccountId: S.optional(S.String),
+          type: S.optional(S.String),
+          kind: S.optional(S.String),
+          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
+          accountId: S.optional(S.String),
+          idDimensionValue: S.optional(__S(4704, __c147, 0)),
+          id: S.optional(S.String),
+          advertiserId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FloodlightActivityGroup" });
+  }
+}
+function __c216(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String.pipe(T.Label()),
+          profileId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -17818,9 +17794,42 @@ function __c215(j: number): any {
       ).annotate({ identifier: "GetFloodlightConfigurationsRequest" });
   }
 }
-function __c216(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          omnitureCostDataEnabled: S.optional(S.Boolean),
+          omnitureIntegrationEnabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "OmnitureSettings" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }),
+      ).annotate({ identifier: "ThirdPartyAuthenticationToken" });
+    case 2:
+      return S.Array(__S(6945, __c217, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          dynamicTagEnabled: S.optional(S.Boolean),
+          imageTagEnabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TagSettings" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          dataType: S.optional(S.String),
+          variableType: S.optional(S.String),
+          reportName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UserDefinedVariableConfiguration" });
+    case 5:
+      return S.Array(__S(6948, __c217, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
           audible: S.optional(S.Boolean),
@@ -17829,79 +17838,46 @@ function __c216(j: number): any {
           timePercent: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CustomViewabilityMetricConfiguration" });
-    case 1:
+    case 7:
       return S.suspend(() =>
         S.Struct({
+          configuration: S.optional(__S(6950, __c217, 6)),
           name: S.optional(S.String),
           id: S.optional(S.String),
-          configuration: S.optional(__S(6912, __c216, 0)),
         }),
       ).annotate({ identifier: "CustomViewabilityMetric" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          dataType: S.optional(S.String),
-          reportName: S.optional(S.String),
-          variableType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UserDefinedVariableConfiguration" });
-    case 3:
-      return S.Array(__S(6914, __c216, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          omnitureIntegrationEnabled: S.optional(S.Boolean),
-          omnitureCostDataEnabled: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "OmnitureSettings" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          dynamicTagEnabled: S.optional(S.Boolean),
-          imageTagEnabled: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "TagSettings" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ThirdPartyAuthenticationToken" });
-    case 7:
-      return S.Array(__S(6918, __c216, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          naturalSearchConversionAttributionOption: S.optional(S.String),
-          advertiserId: S.optional(S.String),
-          idDimensionValue: S.optional(__S(4672, __c146, 0)),
-          analyticsDataSharingEnabled: S.optional(S.Boolean),
-          customViewabilityMetric: S.optional(__S(6913, __c216, 1)),
-          userDefinedVariableConfigurations: S.optional(__S(6915, __c216, 3)),
-          omnitureSettings: S.optional(__S(6916, __c216, 4)),
-          exposureToConversionEnabled: S.optional(S.Boolean),
-          kind: S.optional(S.String),
-          lookbackConfiguration: S.optional(__S(4544, __c142, 0)),
-          accountId: S.optional(S.String),
-          tagSettings: S.optional(__S(6917, __c216, 5)),
-          thirdPartyAuthenticationTokens: S.optional(__S(6919, __c216, 7)),
+          lookbackConfiguration: S.optional(__S(4576, __c143, 0)),
           firstDayOfWeek: S.optional(S.String),
+          advertiserId: S.optional(S.String),
+          omnitureSettings: S.optional(__S(6944, __c217, 0)),
+          analyticsDataSharingEnabled: S.optional(S.Boolean),
+          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
           id: S.optional(S.String),
-          subaccountId: S.optional(S.String),
-          advertiserIdDimensionValue: S.optional(__S(4672, __c146, 0)),
+          thirdPartyAuthenticationTokens: S.optional(__S(6946, __c217, 2)),
+          kind: S.optional(S.String),
+          idDimensionValue: S.optional(__S(4704, __c147, 0)),
           inAppAttributionTrackingEnabled: S.optional(S.Boolean),
+          exposureToConversionEnabled: S.optional(S.Boolean),
+          tagSettings: S.optional(__S(6947, __c217, 3)),
+          userDefinedVariableConfigurations: S.optional(__S(6949, __c217, 5)),
+          customViewabilityMetric: S.optional(__S(6951, __c217, 7)),
+          accountId: S.optional(S.String),
+          subaccountId: S.optional(S.String),
+          naturalSearchConversionAttributionOption: S.optional(S.String),
         }),
       ).annotate({ identifier: "FloodlightConfiguration" });
   }
 }
-function __c217(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          profileId: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
+          profileId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -17912,7 +17888,7 @@ function __c217(j: number): any {
       ).annotate({ identifier: "GetMobileAppsRequest" });
   }
 }
-function __c218(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17929,13 +17905,13 @@ function __c218(j: number): any {
       ).annotate({ identifier: "GetMobileCarriersRequest" });
   }
 }
-function __c219(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          profileId: S.String.pipe(T.Label()),
           dartId: S.String.pipe(T.Label()),
+          profileId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -17946,20 +17922,20 @@ function __c219(j: number): any {
       ).annotate({ identifier: "GetOperatingSystemsRequest" });
   }
 }
-function __c220(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          conversions: S.optional(__S(7081, __c221, 9)),
-          encryptionInfo: S.optional(__S(7082, __c221, 10)),
+          conversions: S.optional(__S(7113, __c222, 9)),
+          encryptionInfo: S.optional(__S(7114, __c222, 10)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConversionsBatchInsertRequest" });
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(7040, __c220, 0),
+          __S(7072, __c221, 0),
           S.Struct({
             profileId: S.String.pipe(T.Label()),
           }),
@@ -17974,140 +17950,140 @@ function __c220(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          hasFailures: S.optional(S.Boolean),
+          status: S.optional(__S(7118, __c222, 14)),
           kind: S.optional(S.String),
-          status: S.optional(__S(7086, __c221, 14)),
+          hasFailures: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ConversionsBatchInsertResponse" });
   }
 }
-function __c221(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           quantity: S.optional(S.Number),
-          itemId: S.optional(S.String),
           unitPrice: S.optional(S.Number),
+          itemId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CartDataItem" });
     case 1:
-      return S.Array(__S(7072, __c221, 0));
+      return S.Array(__S(7104, __c222, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(7073, __c221, 1)),
-          merchantFeedLabel: S.optional(S.String),
+          items: S.optional(__S(7105, __c222, 1)),
           merchantFeedLanguage: S.optional(S.String),
           merchantId: S.optional(S.String),
+          merchantFeedLabel: S.optional(S.String),
         }),
       ).annotate({ identifier: "CartData" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(S.String),
-          type: S.optional(S.String),
-          kind: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CustomFloodlightVariable" });
-    case 4:
-      return S.Array(__S(7075, __c221, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          state: S.optional(S.String),
-          hashedFirstName: S.optional(S.String),
           hashedLastName: S.optional(S.String),
-          postalCode: S.optional(S.String),
-          countryCode: S.optional(S.String),
           hashedStreetAddress: S.optional(S.String),
+          state: S.optional(S.String),
           city: S.optional(S.String),
+          countryCode: S.optional(S.String),
+          hashedFirstName: S.optional(S.String),
+          postalCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "OfflineUserAddressInfo" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          hashedPhoneNumber: S.optional(S.String),
+          hashedEmail: S.optional(S.String),
+          addressInfo: S.optional(__S(7107, __c222, 3)),
+        }),
+      ).annotate({ identifier: "UserIdentifier" });
+    case 5:
+      return S.Array(__S(7108, __c222, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          hashedEmail: S.optional(S.String),
-          addressInfo: S.optional(__S(7077, __c221, 5)),
-          hashedPhoneNumber: S.optional(S.String),
+          type: S.optional(S.String),
+          kind: S.optional(S.String),
+          value: S.optional(S.String),
         }),
-      ).annotate({ identifier: "UserIdentifier" });
+      ).annotate({ identifier: "CustomFloodlightVariable" });
     case 7:
-      return S.Array(__S(7078, __c221, 6));
+      return S.Array(__S(7110, __c222, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          gclid: S.optional(S.String),
           adUserDataConsent: S.optional(S.String),
-          quantity: S.optional(S.String),
-          cartData: S.optional(__S(7074, __c221, 2)),
-          customVariables: S.optional(__S(7076, __c221, 4)),
-          matchId: S.optional(S.String),
-          dclid: S.optional(S.String),
-          ordinal: S.optional(S.String),
-          timestampMicros: S.optional(S.String),
-          floodlightActivityId: S.optional(S.String),
-          mobileDeviceId: S.optional(S.String),
-          childDirectedTreatment: S.optional(S.Boolean),
-          userIdentifiers: S.optional(__S(7079, __c221, 7)),
-          encryptedUserId: S.optional(S.String),
-          kind: S.optional(S.String),
-          sessionAttributesEncoded: S.optional(S.String),
           value: S.optional(S.Number),
+          dclid: S.optional(S.String),
+          sessionAttributesEncoded: S.optional(S.String),
+          childDirectedTreatment: S.optional(S.Boolean),
+          quantity: S.optional(S.String),
           floodlightConfigurationId: S.optional(S.String),
-          encryptedUserIdCandidates: S.optional(__S(7104, __c222, 0)),
+          timestampMicros: S.optional(S.String),
+          kind: S.optional(S.String),
+          gclid: S.optional(S.String),
+          mobileDeviceId: S.optional(S.String),
           impressionId: S.optional(S.String),
-          limitAdTracking: S.optional(S.Boolean),
-          treatmentForUnderage: S.optional(S.Boolean),
+          floodlightActivityId: S.optional(S.String),
+          encryptedUserId: S.optional(S.String),
           nonPersonalizedAd: S.optional(S.Boolean),
+          cartData: S.optional(__S(7106, __c222, 2)),
+          userIdentifiers: S.optional(__S(7109, __c222, 5)),
+          treatmentForUnderage: S.optional(S.Boolean),
+          matchId: S.optional(S.String),
+          limitAdTracking: S.optional(S.Boolean),
+          encryptedUserIdCandidates: S.optional(__S(7136, __c223, 0)),
+          ordinal: S.optional(S.String),
+          customVariables: S.optional(__S(7111, __c222, 7)),
         }),
       ).annotate({ identifier: "Conversion" });
     case 9:
-      return S.Array(__S(7080, __c221, 8));
+      return S.Array(__S(7112, __c222, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          encryptionEntityType: S.optional(S.String),
-          encryptionSource: S.optional(S.String),
           kind: S.optional(S.String),
+          encryptionSource: S.optional(S.String),
+          encryptionEntityType: S.optional(S.String),
           encryptionEntityId: S.optional(S.String),
         }),
       ).annotate({ identifier: "EncryptionInfo" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          message: S.optional(S.String),
           code: S.optional(S.String),
           kind: S.optional(S.String),
+          message: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConversionError" });
     case 12:
-      return S.Array(__S(7083, __c221, 11));
+      return S.Array(__S(7115, __c222, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          conversion: S.optional(__S(7080, __c221, 8)),
-          errors: S.optional(__S(7084, __c221, 12)),
           kind: S.optional(S.String),
+          errors: S.optional(__S(7116, __c222, 12)),
+          conversion: S.optional(__S(7112, __c222, 8)),
         }),
       ).annotate({ identifier: "ConversionStatus" });
     case 14:
-      return S.Array(__S(7085, __c221, 13));
-  }
-}
-function __c222(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
+      return S.Array(__S(7117, __c222, 13));
   }
 }
 function __c223(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+  }
+}
+function __c224(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
-          profileId: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
+          profileId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -18118,7 +18094,7 @@ function __c223(j: number): any {
       ).annotate({ identifier: "GetOperatingSystemVersionsRequest" });
   }
 }
-function __c224(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18135,71 +18111,71 @@ function __c224(j: number): any {
       ).annotate({ identifier: "GetPlacementGroupsRequest" });
   }
 }
-function __c225(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          rateOrCostNanos: S.optional(S.String),
-          units: S.optional(S.String),
-          endDate: S.optional(S.String),
-          startDate: S.optional(S.String),
-          pricingComment: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PricingSchedulePricingPeriod" });
-    case 1:
-      return S.Array(__S(7200, __c225, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          floodlightActivityId: S.optional(S.String),
-          testingStartDate: S.optional(S.String),
-          startDate: S.optional(S.String),
-          pricingPeriods: S.optional(__S(7201, __c225, 1)),
-          pricingType: S.optional(S.String),
-          endDate: S.optional(S.String),
-          flighted: S.optional(S.Boolean),
-          capCostOption: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PricingSchedule" });
-  }
-}
 function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          externalId: S.optional(S.String),
-          comment: S.optional(S.String),
-          name: S.optional(S.String),
-          siteId: S.optional(S.String),
+          startDate: S.optional(S.String),
+          pricingComment: S.optional(S.String),
+          endDate: S.optional(S.String),
+          units: S.optional(S.String),
+          rateOrCostNanos: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PricingSchedulePricingPeriod" });
+    case 1:
+      return S.Array(__S(7232, __c226, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          floodlightActivityId: S.optional(S.String),
+          startDate: S.optional(S.String),
+          pricingType: S.optional(S.String),
+          pricingPeriods: S.optional(__S(7233, __c226, 1)),
+          flighted: S.optional(S.Boolean),
+          capCostOption: S.optional(S.String),
+          testingStartDate: S.optional(S.String),
+          endDate: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PricingSchedule" });
+  }
+}
+function __c227(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           placementGroupType: S.optional(S.String),
-          id: S.optional(S.String),
-          kind: S.optional(S.String),
-          placementStrategyId: S.optional(S.String),
           advertiserId: S.optional(S.String),
-          lastModifiedInfo: S.optional(__S(4704, __c147, 0)),
-          createInfo: S.optional(__S(4704, __c147, 0)),
-          accountId: S.optional(S.String),
-          siteIdDimensionValue: S.optional(__S(4672, __c146, 0)),
-          contentCategoryId: S.optional(S.String),
-          advertiserIdDimensionValue: S.optional(__S(4672, __c146, 0)),
-          idDimensionValue: S.optional(__S(4672, __c146, 0)),
-          subaccountId: S.optional(S.String),
-          childPlacementIds: S.optional(__S(7104, __c222, 0)),
-          primaryPlacementIdDimensionValue: S.optional(__S(4672, __c146, 0)),
-          directorySiteIdDimensionValue: S.optional(__S(4672, __c146, 0)),
-          campaignIdDimensionValue: S.optional(__S(4672, __c146, 0)),
-          activeStatus: S.optional(S.String),
+          primaryPlacementIdDimensionValue: S.optional(__S(4704, __c147, 0)),
+          pricingSchedule: S.optional(__S(7234, __c226, 2)),
+          idDimensionValue: S.optional(__S(4704, __c147, 0)),
+          name: S.optional(S.String),
+          siteIdDimensionValue: S.optional(__S(4704, __c147, 0)),
+          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
+          kind: S.optional(S.String),
+          directorySiteIdDimensionValue: S.optional(__S(4704, __c147, 0)),
           directorySiteId: S.optional(S.String),
-          primaryPlacementId: S.optional(S.String),
+          placementStrategyId: S.optional(S.String),
+          childPlacementIds: S.optional(__S(7136, __c223, 0)),
           campaignId: S.optional(S.String),
-          pricingSchedule: S.optional(__S(7202, __c225, 2)),
+          activeStatus: S.optional(S.String),
+          contentCategoryId: S.optional(S.String),
+          primaryPlacementId: S.optional(S.String),
+          lastModifiedInfo: S.optional(__S(4736, __c148, 0)),
+          createInfo: S.optional(__S(4736, __c148, 0)),
+          siteId: S.optional(S.String),
+          comment: S.optional(S.String),
+          externalId: S.optional(S.String),
+          accountId: S.optional(S.String),
+          id: S.optional(S.String),
+          campaignIdDimensionValue: S.optional(__S(4704, __c147, 0)),
+          subaccountId: S.optional(S.String),
         }),
       ).annotate({ identifier: "PlacementGroup" });
   }
 }
-function __c227(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18216,152 +18192,152 @@ function __c227(j: number): any {
       ).annotate({ identifier: "GetPlacementsRequest" });
   }
 }
-function __c228(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          includeUnescapedlpurlMacro: S.optional(S.Boolean),
-          includeClickThroughUrls: S.optional(S.Boolean),
-          includeClickTracking: S.optional(S.Boolean),
-          keywordOption: S.optional(S.String),
-          additionalKeyValues: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TagSetting" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          enabledVideoFormats: S.optional(__S(4864, __c152, 0)),
-          kind: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TranscodeSetting" });
-  }
-}
 function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          conversionDomainValue: S.optional(S.String),
-          conversionDomainId: S.optional(S.String),
+          includeUnescapedlpurlMacro: S.optional(S.Boolean),
+          includeClickTracking: S.optional(S.Boolean),
+          keywordOption: S.optional(S.String),
+          includeClickThroughUrls: S.optional(S.Boolean),
+          additionalKeyValues: S.optional(S.String),
         }),
-      ).annotate({ identifier: "PlacementSingleConversionDomain" });
+      ).annotate({ identifier: "TagSetting" });
+  }
+}
+function __c230(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          longHeadlines: S.optional(__S(7136, __c223, 0)),
+          businessLogoCreativeIds: S.optional(__S(7136, __c223, 0)),
+          businessName: S.optional(S.String),
+          headlines: S.optional(__S(7136, __c223, 0)),
+          descriptions: S.optional(__S(7136, __c223, 0)),
+          callToActions: S.optional(__S(3264, __c102, 0)),
+        }),
+      ).annotate({ identifier: "YoutubeSettings" });
     case 1:
-      return S.Array(__S(7328, __c229, 0));
+      return S.suspend(() =>
+        S.Struct({
+          measurementPartner: S.optional(S.String),
+          tagWrappingMode: S.optional(S.String),
+          linkStatus: S.optional(S.String),
+          wrappedTag: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MeasurementPartnerWrappingData" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          conversionDomains: S.optional(__S(7329, __c229, 1)),
+          conversionDomainId: S.optional(S.String),
+          conversionDomainValue: S.optional(S.String),
         }),
-      ).annotate({ identifier: "PlacementConversionDomainOverride" });
+      ).annotate({ identifier: "PlacementSingleConversionDomain" });
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          kind: S.optional(S.String),
-          companionsDisabled: S.optional(S.Boolean),
-          enabledSizes: S.optional(__S(6272, __c196, 0)),
-          imageOnly: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "CompanionSetting" });
+      return S.Array(__S(7362, __c230, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          skippable: S.optional(S.Boolean),
-          progressOffset: S.optional(__S(6304, __c197, 0)),
-          kind: S.optional(S.String),
-          skipOffset: S.optional(__S(6304, __c197, 0)),
+          conversionDomains: S.optional(__S(7363, __c230, 3)),
         }),
-      ).annotate({ identifier: "SkippableSetting" });
+      ).annotate({ identifier: "PlacementConversionDomainOverride" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          durationSeconds: S.optional(S.Number),
-          companionSettings: S.optional(__S(7331, __c229, 3)),
-          skippableSettings: S.optional(__S(7332, __c229, 4)),
-          obaEnabled: S.optional(S.Boolean),
+          enabledSizes: S.optional(__S(6272, __c196, 0)),
+          companionsDisabled: S.optional(S.Boolean),
+          imageOnly: S.optional(S.Boolean),
           kind: S.optional(S.String),
-          obaSettings: S.optional(__S(6305, __c197, 1)),
-          publisherSpecificationId: S.optional(S.String),
-          orientation: S.optional(S.String),
-          transcodeSettings: S.optional(__S(7297, __c228, 1)),
         }),
-      ).annotate({ identifier: "VideoSettings" });
+      ).annotate({ identifier: "CompanionSetting" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          longHeadlines: S.optional(__S(7104, __c222, 0)),
-          businessName: S.optional(S.String),
-          callToActions: S.optional(__S(3232, __c101, 0)),
-          headlines: S.optional(__S(7104, __c222, 0)),
-          businessLogoCreativeIds: S.optional(__S(7104, __c222, 0)),
-          descriptions: S.optional(__S(7104, __c222, 0)),
+          skipOffset: S.optional(__S(6304, __c197, 0)),
+          skippable: S.optional(S.Boolean),
+          progressOffset: S.optional(__S(6304, __c197, 0)),
+          kind: S.optional(S.String),
         }),
-      ).annotate({ identifier: "YoutubeSettings" });
+      ).annotate({ identifier: "SkippableSetting" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          linkStatus: S.optional(S.String),
-          wrappedTag: S.optional(S.String),
-          measurementPartner: S.optional(S.String),
-          tagWrappingMode: S.optional(S.String),
+          enabledVideoFormats: S.optional(__S(4896, __c153, 0)),
+          kind: S.optional(S.String),
         }),
-      ).annotate({ identifier: "MeasurementPartnerWrappingData" });
+      ).annotate({ identifier: "TranscodeSetting" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          conversionDomainOverride: S.optional(__S(7330, __c229, 2)),
-          pricingSchedule: S.optional(__S(7202, __c225, 2)),
-          name: S.optional(S.String),
-          paymentApproved: S.optional(S.Boolean),
-          additionalSizes: S.optional(__S(6272, __c196, 0)),
-          wrappingOptOut: S.optional(S.Boolean),
-          primary: S.optional(S.Boolean),
-          comment: S.optional(S.String),
-          directorySiteId: S.optional(S.String),
-          subaccountId: S.optional(S.String),
-          directorySiteIdDimensionValue: S.optional(__S(4672, __c146, 0)),
           kind: S.optional(S.String),
-          compatibility: S.optional(S.String),
-          tagFormats: S.optional(__S(3232, __c101, 0)),
-          activeStatus: S.optional(S.String),
-          idDimensionValue: S.optional(__S(4672, __c146, 0)),
-          siteServed: S.optional(S.Boolean),
-          tagSetting: S.optional(__S(7296, __c228, 0)),
-          videoSettings: S.optional(__S(7333, __c229, 5)),
-          adServingPlatformId: S.optional(S.String),
-          advertiserIdDimensionValue: S.optional(__S(4672, __c146, 0)),
-          youtubeSettings: S.optional(__S(7334, __c229, 6)),
-          siteIdDimensionValue: S.optional(__S(4672, __c146, 0)),
-          id: S.optional(S.String),
-          campaignId: S.optional(S.String),
-          placementGroupId: S.optional(S.String),
-          status: S.optional(S.String),
-          allowOnYoutube: S.optional(S.Boolean),
-          size: S.optional(__S(4832, __c151, 0)),
-          paymentSource: S.optional(S.String),
-          lastModifiedInfo: S.optional(__S(4704, __c147, 0)),
-          siteId: S.optional(S.String),
-          keyName: S.optional(S.String),
-          placementGroupIdDimensionValue: S.optional(__S(4672, __c146, 0)),
-          sslRequired: S.optional(S.Boolean),
-          contentCategoryId: S.optional(S.String),
-          placementStrategyId: S.optional(S.String),
-          externalId: S.optional(S.String),
-          createInfo: S.optional(__S(4704, __c147, 0)),
-          adBlockingOptOut: S.optional(S.Boolean),
+          publisherSpecificationId: S.optional(S.String),
+          orientation: S.optional(S.String),
+          companionSettings: S.optional(__S(7365, __c230, 5)),
+          skippableSettings: S.optional(__S(7366, __c230, 6)),
+          durationSeconds: S.optional(S.Number),
+          obaSettings: S.optional(__S(6305, __c197, 1)),
+          obaEnabled: S.optional(S.Boolean),
+          transcodeSettings: S.optional(__S(7367, __c230, 7)),
+        }),
+      ).annotate({ identifier: "VideoSettings" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          siteIdDimensionValue: S.optional(__S(4704, __c147, 0)),
           videoActiveViewOptOut: S.optional(S.Boolean),
-          publisherUpdateInfo: S.optional(__S(4704, __c147, 0)),
-          advertiserId: S.optional(S.String),
-          partnerWrappingData: S.optional(__S(7335, __c229, 7)),
-          lookbackConfiguration: S.optional(__S(4544, __c142, 0)),
-          vpaidAdapterChoice: S.optional(S.String),
-          campaignIdDimensionValue: S.optional(__S(4672, __c146, 0)),
+          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
+          activeStatus: S.optional(S.String),
+          lookbackConfiguration: S.optional(__S(4576, __c143, 0)),
+          comment: S.optional(S.String),
+          status: S.optional(S.String),
+          wrappingOptOut: S.optional(S.Boolean),
+          keyName: S.optional(S.String),
+          compatibility: S.optional(S.String),
+          primary: S.optional(S.Boolean),
+          kind: S.optional(S.String),
+          campaignIdDimensionValue: S.optional(__S(4704, __c147, 0)),
+          sslRequired: S.optional(S.Boolean),
+          tagSetting: S.optional(__S(7328, __c229, 0)),
+          publisherUpdateInfo: S.optional(__S(4736, __c148, 0)),
+          directorySiteIdDimensionValue: S.optional(__S(4704, __c147, 0)),
+          adBlockingOptOut: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          tagFormats: S.optional(__S(3264, __c102, 0)),
           accountId: S.optional(S.String),
+          subaccountId: S.optional(S.String),
+          lastModifiedInfo: S.optional(__S(4736, __c148, 0)),
+          allowOnYoutube: S.optional(S.Boolean),
+          youtubeSettings: S.optional(__S(7360, __c230, 0)),
+          partnerWrappingData: S.optional(__S(7361, __c230, 1)),
+          conversionDomainOverride: S.optional(__S(7364, __c230, 4)),
+          pricingSchedule: S.optional(__S(7234, __c226, 2)),
+          placementStrategyId: S.optional(S.String),
+          placementGroupIdDimensionValue: S.optional(__S(4704, __c147, 0)),
+          paymentApproved: S.optional(S.Boolean),
+          advertiserId: S.optional(S.String),
+          additionalSizes: S.optional(__S(6272, __c196, 0)),
+          size: S.optional(__S(4864, __c152, 0)),
+          placementGroupId: S.optional(S.String),
+          id: S.optional(S.String),
+          createInfo: S.optional(__S(4736, __c148, 0)),
+          directorySiteId: S.optional(S.String),
+          vpaidAdapterChoice: S.optional(S.String),
+          paymentSource: S.optional(S.String),
+          idDimensionValue: S.optional(__S(4704, __c147, 0)),
+          externalId: S.optional(S.String),
+          videoSettings: S.optional(__S(7368, __c230, 8)),
+          campaignId: S.optional(S.String),
+          siteId: S.optional(S.String),
+          contentCategoryId: S.optional(S.String),
+          siteServed: S.optional(S.Boolean),
+          adServingPlatformId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Placement" });
   }
 }
-function __c230(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18378,26 +18354,13 @@ function __c230(j: number): any {
       ).annotate({ identifier: "GetPlacementStrategiesRequest" });
   }
 }
-function __c231(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          accountId: S.optional(S.String),
-          name: S.optional(S.String),
-          kind: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PlacementStrategy" });
-  }
-}
 function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          profileId: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
+          profileId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -18413,8 +18376,8 @@ function __c233(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          code: S.String.pipe(T.Label()),
           profileId: S.String.pipe(T.Label()),
+          code: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -18430,8 +18393,8 @@ function __c234(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.String.pipe(T.Label()),
           profileId: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -18447,14 +18410,14 @@ function __c235(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          negation: S.optional(S.Boolean),
+          operator: S.optional(S.String),
           type: S.optional(S.String),
           value: S.optional(S.String),
-          negation: S.optional(S.Boolean),
+          remarketingListId: S.optional(S.String),
+          variableName: S.optional(S.String),
           contains: S.optional(S.Boolean),
           variableFriendlyName: S.optional(S.String),
-          variableName: S.optional(S.String),
-          remarketingListId: S.optional(S.String),
-          operator: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListPopulationTerm" });
     case 1:
@@ -18478,18 +18441,18 @@ function __c235(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          listPopulationRule: S.optional(__S(7524, __c235, 4)),
+          lifeSpan: S.optional(S.String),
+          active: S.optional(S.Boolean),
           subaccountId: S.optional(S.String),
+          kind: S.optional(S.String),
+          listSize: S.optional(S.String),
+          name: S.optional(S.String),
+          listSource: S.optional(S.String),
           id: S.optional(S.String),
           accountId: S.optional(S.String),
+          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
           description: S.optional(S.String),
-          listSize: S.optional(S.String),
-          lifeSpan: S.optional(S.String),
-          kind: S.optional(S.String),
-          active: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          advertiserIdDimensionValue: S.optional(__S(4672, __c146, 0)),
-          listSource: S.optional(S.String),
+          listPopulationRule: S.optional(__S(7524, __c235, 4)),
           advertiserId: S.optional(S.String),
         }),
       ).annotate({ identifier: "RemarketingList" });
@@ -18500,8 +18463,8 @@ function __c236(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          profileId: S.String.pipe(T.Label()),
           remarketingListId: S.String.pipe(T.Label()),
+          profileId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -18517,10 +18480,10 @@ function __c237(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sharedAdvertiserIds: S.optional(__S(7104, __c222, 0)),
-          kind: S.optional(S.String),
           remarketingListId: S.optional(S.String),
-          sharedAccountIds: S.optional(__S(7104, __c222, 0)),
+          sharedAdvertiserIds: S.optional(__S(7136, __c223, 0)),
+          kind: S.optional(S.String),
+          sharedAccountIds: S.optional(__S(7136, __c223, 0)),
         }),
       ).annotate({ identifier: "RemarketingListShare" });
   }
@@ -18545,7 +18508,7 @@ function __c238(j: number): any {
 function __c239(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4672, __c146, 0));
+      return S.Array(__S(4704, __c147, 0));
   }
 }
 function __c240(j: number): any {
@@ -18553,161 +18516,161 @@ function __c240(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          includeAttributedIPConversions: S.optional(S.Boolean),
-          includeUnattributedIPConversions: S.optional(S.Boolean),
-          includeUnattributedCookieConversions: S.optional(S.Boolean),
+          email: S.optional(S.String),
+          kind: S.optional(S.String),
+          deliveryType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ReportFloodlightCriteriaReportProperties" });
+      ).annotate({ identifier: "Recipient" });
     case 1:
+      return S.Array(__S(7680, __c240, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          kind: S.optional(S.String),
-          name: S.optional(S.String),
-          sortOrder: S.optional(S.String),
+          message: S.optional(S.String),
+          emailOwner: S.optional(S.Boolean),
+          recipients: S.optional(__S(7681, __c240, 1)),
+          emailOwnerDeliveryType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SortedDimension" });
-    case 2:
-      return S.Array(__S(7681, __c240, 1));
+      ).annotate({ identifier: "ReportDelivery" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          metricNames: S.optional(__S(7104, __c222, 0)),
-          floodlightConfigId: S.optional(__S(4672, __c146, 0)),
+          repeats: S.optional(S.String),
+          timezone: S.optional(S.String),
+          every: S.optional(S.Number),
+          active: S.optional(S.Boolean),
+          startDate: S.optional(S.String),
+          expirationDate: S.optional(S.String),
+          repeatsOnWeekDays: S.optional(__S(3264, __c102, 0)),
+          runsOnDayOfMonth: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ReportSchedule" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.optional(S.String),
+          sortOrder: S.optional(S.String),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SortedDimension" });
+    case 5:
+      return S.Array(__S(7684, __c240, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
           dimensionFilters: S.optional(__S(7648, __c239, 0)),
+          dimensions: S.optional(__S(7685, __c240, 5)),
+          dateRange: S.optional(__S(6720, __c210, 0)),
+          metricNames: S.optional(__S(7136, __c223, 0)),
+        }),
+      ).annotate({ identifier: "ReportCrossMediaReachCriteria" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          includeUnattributedIPConversions: S.optional(S.Boolean),
+          includeUnattributedCookieConversions: S.optional(S.Boolean),
+          includeAttributedIPConversions: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ReportFloodlightCriteriaReportProperties" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          reportProperties: S.optional(__S(7687, __c240, 7)),
+          metricNames: S.optional(__S(7136, __c223, 0)),
           customRichMediaEvents: S.optional(__S(7648, __c239, 0)),
-          reportProperties: S.optional(__S(7680, __c240, 0)),
-          dateRange: S.optional(__S(6688, __c209, 0)),
-          dimensions: S.optional(__S(7682, __c240, 2)),
+          floodlightConfigId: S.optional(__S(4704, __c147, 0)),
+          dateRange: S.optional(__S(6720, __c210, 0)),
+          dimensionFilters: S.optional(__S(7648, __c239, 0)),
+          dimensions: S.optional(__S(7685, __c240, 5)),
         }),
       ).annotate({ identifier: "ReportFloodlightCriteria" });
-    case 4:
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          filteredEventIds: S.optional(__S(7648, __c239, 0)),
+          kind: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CustomRichMediaEvents" });
+    case 10:
       return S.suspend(() =>
         S.Struct({
           filters: S.optional(__S(7648, __c239, 0)),
           kind: S.optional(S.String),
-          metricNames: S.optional(__S(7104, __c222, 0)),
+          metricNames: S.optional(__S(7136, __c223, 0)),
         }),
       ).annotate({ identifier: "Activities" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          kind: S.optional(S.String),
-          filteredEventIds: S.optional(__S(7648, __c239, 0)),
-        }),
-      ).annotate({ identifier: "CustomRichMediaEvents" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          metricNames: S.optional(__S(7104, __c222, 0)),
-          activities: S.optional(__S(7684, __c240, 4)),
-          dimensions: S.optional(__S(7682, __c240, 2)),
-          customRichMediaEvents: S.optional(__S(7685, __c240, 5)),
-          dateRange: S.optional(__S(6688, __c209, 0)),
-          dimensionFilters: S.optional(__S(7648, __c239, 0)),
-        }),
-      ).annotate({ identifier: "ReportCriteria" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          kind: S.optional(S.String),
-          deliveryType: S.optional(S.String),
-          email: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Recipient" });
-    case 8:
-      return S.Array(__S(7687, __c240, 7));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          emailOwnerDeliveryType: S.optional(S.String),
-          message: S.optional(S.String),
-          emailOwner: S.optional(S.Boolean),
-          recipients: S.optional(__S(7688, __c240, 8)),
-        }),
-      ).annotate({ identifier: "ReportDelivery" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          reachByFrequencyMetricNames: S.optional(__S(7104, __c222, 0)),
-          dateRange: S.optional(__S(6688, __c209, 0)),
-          dimensionFilters: S.optional(__S(7648, __c239, 0)),
-          activities: S.optional(__S(7684, __c240, 4)),
-          customRichMediaEvents: S.optional(__S(7685, __c240, 5)),
-          metricNames: S.optional(__S(7104, __c222, 0)),
-          dimensions: S.optional(__S(7682, __c240, 2)),
-        }),
-      ).annotate({ identifier: "ReportReachCriteria" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          pivotOnInteractionPath: S.optional(S.Boolean),
-          includeUnattributedIPConversions: S.optional(S.Boolean),
-          maximumInteractionGap: S.optional(S.Number),
-          clicksLookbackWindow: S.optional(S.Number),
-          impressionsLookbackWindow: S.optional(S.Number),
-          includeAttributedIPConversions: S.optional(S.Boolean),
-          maximumImpressionInteractions: S.optional(S.Number),
-          maximumClickInteractions: S.optional(S.Number),
-          includeUnattributedCookieConversions: S.optional(S.Boolean),
+          customRichMediaEvents: S.optional(__S(7689, __c240, 9)),
+          activities: S.optional(__S(7690, __c240, 10)),
+          dimensionFilters: S.optional(__S(7648, __c239, 0)),
+          reachByFrequencyMetricNames: S.optional(__S(7136, __c223, 0)),
+          metricNames: S.optional(__S(7136, __c223, 0)),
+          dimensions: S.optional(__S(7685, __c240, 5)),
+          dateRange: S.optional(__S(6720, __c210, 0)),
         }),
-      ).annotate({ identifier: "ReportPathToConversionCriteriaReportProperties" });
+      ).annotate({ identifier: "ReportReachCriteria" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          activityFilters: S.optional(__S(7648, __c239, 0)),
-          reportProperties: S.optional(__S(7691, __c240, 11)),
-          conversionDimensions: S.optional(__S(7682, __c240, 2)),
-          customRichMediaEvents: S.optional(__S(7648, __c239, 0)),
-          metricNames: S.optional(__S(7104, __c222, 0)),
-          perInteractionDimensions: S.optional(__S(7682, __c240, 2)),
-          dateRange: S.optional(__S(6688, __c209, 0)),
-          customFloodlightVariables: S.optional(__S(7682, __c240, 2)),
-          floodlightConfigId: S.optional(__S(4672, __c146, 0)),
+          maximumInteractionGap: S.optional(S.Number),
+          impressionsLookbackWindow: S.optional(S.Number),
+          maximumImpressionInteractions: S.optional(S.Number),
+          clicksLookbackWindow: S.optional(S.Number),
+          maximumClickInteractions: S.optional(S.Number),
+          includeUnattributedCookieConversions: S.optional(S.Boolean),
+          includeAttributedIPConversions: S.optional(S.Boolean),
+          pivotOnInteractionPath: S.optional(S.Boolean),
+          includeUnattributedIPConversions: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "ReportPathToConversionCriteria" });
+      ).annotate({ identifier: "ReportPathToConversionCriteriaReportProperties" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          active: S.optional(S.Boolean),
-          repeatsOnWeekDays: S.optional(__S(3232, __c101, 0)),
-          expirationDate: S.optional(S.String),
-          runsOnDayOfMonth: S.optional(S.String),
-          repeats: S.optional(S.String),
-          every: S.optional(S.Number),
-          startDate: S.optional(S.String),
-          timezone: S.optional(S.String),
+          customRichMediaEvents: S.optional(__S(7648, __c239, 0)),
+          perInteractionDimensions: S.optional(__S(7685, __c240, 5)),
+          conversionDimensions: S.optional(__S(7685, __c240, 5)),
+          metricNames: S.optional(__S(7136, __c223, 0)),
+          customFloodlightVariables: S.optional(__S(7685, __c240, 5)),
+          activityFilters: S.optional(__S(7648, __c239, 0)),
+          reportProperties: S.optional(__S(7692, __c240, 12)),
+          dateRange: S.optional(__S(6720, __c210, 0)),
+          floodlightConfigId: S.optional(__S(4704, __c147, 0)),
         }),
-      ).annotate({ identifier: "ReportSchedule" });
+      ).annotate({ identifier: "ReportPathToConversionCriteria" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          dateRange: S.optional(__S(6688, __c209, 0)),
+          dimensions: S.optional(__S(7685, __c240, 5)),
+          activities: S.optional(__S(7690, __c240, 10)),
+          dateRange: S.optional(__S(6720, __c210, 0)),
+          metricNames: S.optional(__S(7136, __c223, 0)),
           dimensionFilters: S.optional(__S(7648, __c239, 0)),
-          dimensions: S.optional(__S(7682, __c240, 2)),
-          metricNames: S.optional(__S(7104, __c222, 0)),
+          customRichMediaEvents: S.optional(__S(7689, __c240, 9)),
         }),
-      ).annotate({ identifier: "ReportCrossMediaReachCriteria" });
+      ).annotate({ identifier: "ReportCriteria" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          floodlightCriteria: S.optional(__S(7683, __c240, 3)),
-          etag: S.optional(S.String),
-          fileName: S.optional(S.String),
-          criteria: S.optional(__S(7686, __c240, 6)),
-          type: S.optional(S.String),
           format: S.optional(S.String),
-          delivery: S.optional(__S(7689, __c240, 9)),
+          type: S.optional(S.String),
           lastModifiedTime: S.optional(S.String),
-          accountId: S.optional(S.String),
-          reachCriteria: S.optional(__S(7690, __c240, 10)),
+          delivery: S.optional(__S(7682, __c240, 2)),
+          schedule: S.optional(__S(7683, __c240, 3)),
+          crossMediaReachCriteria: S.optional(__S(7686, __c240, 6)),
           kind: S.optional(S.String),
-          name: S.optional(S.String),
-          pathToConversionCriteria: S.optional(__S(7692, __c240, 12)),
           id: S.optional(S.String),
+          floodlightCriteria: S.optional(__S(7688, __c240, 8)),
           subAccountId: S.optional(S.String),
-          schedule: S.optional(__S(7693, __c240, 13)),
+          etag: S.optional(S.String),
+          reachCriteria: S.optional(__S(7691, __c240, 11)),
+          fileName: S.optional(S.String),
+          name: S.optional(S.String),
           ownerProfileId: S.optional(S.String),
-          crossMediaReachCriteria: S.optional(__S(7694, __c240, 14)),
+          accountId: S.optional(S.String),
+          pathToConversionCriteria: S.optional(__S(7693, __c240, 13)),
+          criteria: S.optional(__S(7694, __c240, 14)),
         }),
       ).annotate({ identifier: "Report" });
   }
@@ -18717,9 +18680,9 @@ function __c241(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          fileId: S.String.pipe(T.Label()),
           reportId: S.String.pipe(T.Label()),
           profileId: S.String.pipe(T.Label()),
-          fileId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -18735,9 +18698,9 @@ function __c242(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          encryptionInfo: S.optional(__S(7082, __c221, 10)),
           kind: S.optional(S.String),
-          conversions: S.optional(__S(7081, __c221, 9)),
+          encryptionInfo: S.optional(__S(7114, __c222, 10)),
+          conversions: S.optional(__S(7113, __c222, 9)),
         }),
       ).annotate({ identifier: "ConversionsBatchUpdateRequest" });
     case 1:
@@ -18759,8 +18722,8 @@ function __c242(j: number): any {
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
+          status: S.optional(__S(7118, __c222, 14)),
           hasFailures: S.optional(S.Boolean),
-          status: S.optional(__S(7086, __c221, 14)),
         }),
       ).annotate({ identifier: "ConversionsBatchUpdateResponse" });
   }
@@ -18770,8 +18733,8 @@ function __c243(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          profileId: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
+          profileId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -18787,77 +18750,84 @@ function __c244(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          disableNewCookie: S.optional(S.Boolean),
-          activeViewOptOut: S.optional(S.Boolean),
-          adBlockingOptOut: S.optional(S.Boolean),
-          videoActiveViewOptOutTemplate: S.optional(S.Boolean),
-          vpaidAdapterChoiceTemplate: S.optional(S.String),
-          tagSetting: S.optional(__S(7296, __c228, 0)),
-        }),
-      ).annotate({ identifier: "SiteSettings" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          progressOffset: S.optional(__S(6304, __c197, 0)),
-          kind: S.optional(S.String),
-          skippable: S.optional(S.Boolean),
-          skipOffset: S.optional(__S(6304, __c197, 0)),
-        }),
-      ).annotate({ identifier: "SiteSkippableSetting" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          companionsDisabled: S.optional(S.Boolean),
-          imageOnly: S.optional(S.Boolean),
-          kind: S.optional(S.String),
-          enabledSizes: S.optional(__S(6272, __c196, 0)),
-        }),
-      ).annotate({ identifier: "SiteCompanionSetting" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          transcodeSettings: S.optional(__S(7297, __c228, 1)),
-          kind: S.optional(S.String),
-          obaEnabled: S.optional(S.Boolean),
-          skippableSettings: S.optional(__S(7809, __c244, 1)),
-          orientation: S.optional(S.String),
-          obaSettings: S.optional(__S(6305, __c197, 1)),
-          companionSettings: S.optional(__S(7810, __c244, 2)),
-          publisherSpecificationId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SiteVideoSettings" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          email: S.optional(S.String),
           phone: S.optional(S.String),
+          address: S.optional(S.String),
+          contactType: S.optional(S.String),
+          email: S.optional(S.String),
+          id: S.optional(S.String),
           firstName: S.optional(S.String),
           lastName: S.optional(S.String),
           title: S.optional(S.String),
-          contactType: S.optional(S.String),
-          address: S.optional(S.String),
-          id: S.optional(S.String),
         }),
       ).annotate({ identifier: "SiteContact" });
+    case 1:
+      return S.Array(__S(7808, __c244, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.optional(S.String),
+          enabledVideoFormats: S.optional(__S(4896, __c153, 0)),
+        }),
+      ).annotate({ identifier: "SiteTranscodeSetting" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          companionsDisabled: S.optional(S.Boolean),
+          enabledSizes: S.optional(__S(6272, __c196, 0)),
+          kind: S.optional(S.String),
+          imageOnly: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "SiteCompanionSetting" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          skipOffset: S.optional(__S(6304, __c197, 0)),
+          progressOffset: S.optional(__S(6304, __c197, 0)),
+          kind: S.optional(S.String),
+          skippable: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "SiteSkippableSetting" });
     case 5:
-      return S.Array(__S(7812, __c244, 4));
+      return S.suspend(() =>
+        S.Struct({
+          orientation: S.optional(S.String),
+          obaSettings: S.optional(__S(6305, __c197, 1)),
+          transcodeSettings: S.optional(__S(7810, __c244, 2)),
+          kind: S.optional(S.String),
+          publisherSpecificationId: S.optional(S.String),
+          obaEnabled: S.optional(S.Boolean),
+          companionSettings: S.optional(__S(7811, __c244, 3)),
+          skippableSettings: S.optional(__S(7812, __c244, 4)),
+        }),
+      ).annotate({ identifier: "SiteVideoSettings" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          siteSettings: S.optional(__S(7808, __c244, 0)),
+          tagSetting: S.optional(__S(7328, __c229, 0)),
+          disableNewCookie: S.optional(S.Boolean),
+          vpaidAdapterChoiceTemplate: S.optional(S.String),
+          videoActiveViewOptOutTemplate: S.optional(S.Boolean),
+          adBlockingOptOut: S.optional(S.Boolean),
+          activeViewOptOut: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "SiteSettings" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          directorySiteIdDimensionValue: S.optional(__S(4704, __c147, 0)),
+          siteContacts: S.optional(__S(7809, __c244, 1)),
           directorySiteId: S.optional(S.String),
-          adServingPlatformId: S.optional(S.String),
-          keyName: S.optional(S.String),
-          videoSettings: S.optional(__S(7811, __c244, 3)),
-          accountId: S.optional(S.String),
-          id: S.optional(S.String),
-          idDimensionValue: S.optional(__S(4672, __c146, 0)),
-          subaccountId: S.optional(S.String),
-          directorySiteIdDimensionValue: S.optional(__S(4672, __c146, 0)),
-          siteContacts: S.optional(__S(7813, __c244, 5)),
+          videoSettings: S.optional(__S(7813, __c244, 5)),
+          siteSettings: S.optional(__S(7814, __c244, 6)),
           name: S.optional(S.String),
-          kind: S.optional(S.String),
+          id: S.optional(S.String),
           approved: S.optional(S.Boolean),
+          kind: S.optional(S.String),
+          adServingPlatformId: S.optional(S.String),
+          accountId: S.optional(S.String),
+          subaccountId: S.optional(S.String),
+          idDimensionValue: S.optional(__S(4704, __c147, 0)),
+          keyName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Site" });
   }
@@ -18867,8 +18837,8 @@ function __c245(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.String.pipe(T.Label()),
           profileId: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -18907,19 +18877,19 @@ function __c247(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          lastModifiedInfo: S.optional(__S(4736, __c148, 0)),
           dimension: S.optional(__S(7904, __c247, 0)),
-          name: S.optional(S.String),
-          lastModifiedInfo: S.optional(__S(4704, __c147, 0)),
-          status: S.optional(S.String),
           studioAdvertiserId: S.optional(S.String),
-          assetIds: S.optional(__S(7104, __c222, 0)),
-          format: S.optional(S.String),
-          studioCampaignId: S.optional(S.String),
-          backupImageAssetId: S.optional(S.String),
           studioAccountId: S.optional(S.String),
-          id: S.optional(S.String),
+          name: S.optional(S.String),
+          format: S.optional(S.String),
+          status: S.optional(S.String),
+          backupImageAssetId: S.optional(S.String),
           dynamicProfileId: S.optional(S.String),
-          createdInfo: S.optional(__S(4704, __c147, 0)),
+          createdInfo: S.optional(__S(4736, __c148, 0)),
+          studioCampaignId: S.optional(S.String),
+          id: S.optional(S.String),
+          assetIds: S.optional(__S(7136, __c223, 0)),
         }),
       ).annotate({ identifier: "StudioCreative" });
   }
@@ -18929,8 +18899,8 @@ function __c248(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          profileId: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
+          profileId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -18946,11 +18916,11 @@ function __c249(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
-          kind: S.optional(S.String),
-          accountId: S.optional(S.String),
-          availablePermissionIds: S.optional(__S(7104, __c222, 0)),
           name: S.optional(S.String),
+          id: S.optional(S.String),
+          availablePermissionIds: S.optional(__S(7136, __c223, 0)),
+          accountId: S.optional(S.String),
+          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "Subaccount" });
   }
@@ -18960,8 +18930,8 @@ function __c250(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          profileId: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
+          profileId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -18977,18 +18947,18 @@ function __c251(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          listSource: S.optional(S.String),
           active: S.optional(S.Boolean),
-          listSize: S.optional(S.String),
+          listSource: S.optional(S.String),
           name: S.optional(S.String),
-          advertiserId: S.optional(S.String),
-          description: S.optional(S.String),
-          advertiserIdDimensionValue: S.optional(__S(4672, __c146, 0)),
-          lifeSpan: S.optional(S.String),
-          id: S.optional(S.String),
           kind: S.optional(S.String),
+          advertiserId: S.optional(S.String),
+          lifeSpan: S.optional(S.String),
+          description: S.optional(S.String),
           accountId: S.optional(S.String),
+          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
+          id: S.optional(S.String),
           subaccountId: S.optional(S.String),
+          listSize: S.optional(S.String),
         }),
       ).annotate({ identifier: "TargetableRemarketingList" });
   }
@@ -18998,8 +18968,8 @@ function __c252(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          profileId: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
+          profileId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -19015,20 +18985,20 @@ function __c253(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          geoTargeting: S.optional(__S(5444, __c170, 4)),
           name: S.optional(S.String),
-          technologyTargeting: S.optional(__S(5442, __c170, 2)),
+          contextualKeywordTargeting: S.optional(__S(5442, __c170, 2)),
           kind: S.optional(S.String),
-          id: S.optional(S.String),
-          accountId: S.optional(S.String),
-          advertiserId: S.optional(S.String),
-          keyValueTargetingExpression: S.optional(__S(5440, __c170, 0)),
+          keyValueTargetingExpression: S.optional(__S(5445, __c170, 5)),
+          technologyTargeting: S.optional(__S(5443, __c170, 3)),
           subaccountId: S.optional(S.String),
-          contextualKeywordTargeting: S.optional(__S(5447, __c170, 7)),
-          advertiserIdDimensionValue: S.optional(__S(4672, __c146, 0)),
-          languageTargeting: S.optional(__S(5443, __c170, 3)),
-          dayPartTargeting: S.optional(__S(5441, __c170, 1)),
-          listTargetingExpression: S.optional(__S(5440, __c170, 0)),
+          id: S.optional(S.String),
+          advertiserId: S.optional(S.String),
+          advertiserIdDimensionValue: S.optional(__S(4704, __c147, 0)),
+          geoTargeting: S.optional(__S(5447, __c170, 7)),
+          languageTargeting: S.optional(__S(5444, __c170, 4)),
+          listTargetingExpression: S.optional(__S(5445, __c170, 5)),
+          dayPartTargeting: S.optional(__S(5446, __c170, 6)),
+          accountId: S.optional(S.String),
         }),
       ).annotate({ identifier: "TargetingTemplate" });
   }
@@ -19038,11 +19008,11 @@ function __c254(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          accountId: S.optional(S.String.pipe(T.Query())),
-          tvDataProvider: S.optional(S.String.pipe(T.Query())),
-          countryDartId: S.optional(S.String.pipe(T.Query())),
           profileId: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
+          countryDartId: S.optional(S.String.pipe(T.Query())),
+          accountId: S.optional(S.String.pipe(T.Query())),
+          tvDataProvider: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -19054,9 +19024,9 @@ function __c254(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          dateWindow: S.optional(S.String),
           spend: S.optional(S.Number),
           startDate: S.optional(S.String),
+          dateWindow: S.optional(S.String),
         }),
       ).annotate({ identifier: "TvCampaignTimepoint" });
     case 2:
@@ -19065,8 +19035,8 @@ function __c254(j: number): any {
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
-          timepoints: S.optional(__S(8130, __c254, 2)),
           id: S.optional(S.String),
+          timepoints: S.optional(__S(8130, __c254, 2)),
         }),
       ).annotate({ identifier: "TvCampaignDetail" });
   }
@@ -19092,14 +19062,14 @@ function __c256(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          subAccountName: S.optional(S.String),
-          accountId: S.optional(S.String),
-          etag: S.optional(S.String),
-          userName: S.optional(S.String),
-          accountName: S.optional(S.String),
-          kind: S.optional(S.String),
           subAccountId: S.optional(S.String),
+          etag: S.optional(S.String),
           profileId: S.optional(S.String),
+          subAccountName: S.optional(S.String),
+          accountName: S.optional(S.String),
+          accountId: S.optional(S.String),
+          kind: S.optional(S.String),
+          userName: S.optional(S.String),
         }),
       ).annotate({ identifier: "UserProfile" });
   }
@@ -19155,11 +19125,11 @@ function __c260(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          kind: S.optional(S.String),
-          availability: S.optional(S.String),
-          id: S.optional(S.String),
-          permissionGroupId: S.optional(S.String),
           name: S.optional(S.String),
+          id: S.optional(S.String),
+          availability: S.optional(S.String),
+          permissionGroupId: S.optional(S.String),
+          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "UserRolePermission" });
   }
@@ -19169,8 +19139,8 @@ function __c261(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.String.pipe(T.Label()),
           profileId: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -19194,8 +19164,8 @@ function __c263(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          profileId: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
+          profileId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -19217,14 +19187,14 @@ function __c265(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parentUserRoleId: S.optional(S.String),
-          kind: S.optional(S.String),
-          subaccountId: S.optional(S.String),
-          accountId: S.optional(S.String),
-          id: S.optional(S.String),
-          defaultUserRole: S.optional(S.Boolean),
           permissions: S.optional(__S(8448, __c264, 0)),
+          accountId: S.optional(S.String),
+          defaultUserRole: S.optional(S.Boolean),
           name: S.optional(S.String),
+          id: S.optional(S.String),
+          kind: S.optional(S.String),
+          parentUserRoleId: S.optional(S.String),
+          subaccountId: S.optional(S.String),
         }),
       ).annotate({ identifier: "UserRole" });
   }
@@ -19252,10 +19222,10 @@ function __c267(j: number): any {
       return S.suspend(() =>
         S.Struct({
           targetBitRate: S.optional(S.Number),
-          resolution: S.optional(__S(4832, __c151, 0)),
           kind: S.optional(S.String),
-          fileType: S.optional(S.String),
           id: S.optional(S.Number),
+          resolution: S.optional(__S(4864, __c152, 0)),
+          fileType: S.optional(S.String),
         }),
       ).annotate({ identifier: "VideoFormat" });
   }
@@ -19265,7 +19235,7 @@ function __c268(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4609, __c144, 1),
+          __S(4641, __c145, 1),
           S.Struct({
             profileId: S.String.pipe(T.Label()),
           }),
@@ -19362,8 +19332,8 @@ function __c273(j: number): any {
         S.Extend(
           __S(8768, __c274, 0),
           S.Struct({
-            profileId: S.String.pipe(T.Label()),
             billingProfileId: S.String.pipe(T.Label()),
+            profileId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -19380,11 +19350,11 @@ function __c274(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          kind: S.optional(S.String),
           subaccountId: S.optional(S.String),
+          kind: S.optional(S.String),
+          advertiserId: S.optional(S.String),
           campaignId: S.optional(S.String),
           accountId: S.optional(S.String),
-          advertiserId: S.optional(S.String),
         }),
       ).annotate({ identifier: "BillingAssignment" });
   }
@@ -19396,8 +19366,8 @@ function __c275(j: number): any {
         S.Extend(
           __S(8832, __c276, 0),
           S.Struct({
-            profileId: S.String.pipe(T.Label()),
             campaignId: S.String.pipe(T.Label()),
+            profileId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -19414,8 +19384,8 @@ function __c276(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          creativeId: S.optional(S.String),
           kind: S.optional(S.String),
+          creativeId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CampaignCreativeAssociation" });
   }
@@ -19480,17 +19450,17 @@ function __c280(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          warnedValidationRules: S.optional(__S(3232, __c101, 0)),
-          timerCustomEvents: S.optional(__S(6340, __c198, 4)),
-          detectedFeatures: S.optional(__S(3232, __c101, 0)),
-          kind: S.optional(S.String),
+          idDimensionValue: S.optional(__S(4704, __c147, 0)),
+          warnedValidationRules: S.optional(__S(3264, __c102, 0)),
+          exitCustomEvents: S.optional(__S(6372, __c199, 4)),
+          timerCustomEvents: S.optional(__S(6372, __c199, 4)),
           id: S.optional(S.String),
-          idDimensionValue: S.optional(__S(4672, __c146, 0)),
-          exitCustomEvents: S.optional(__S(6340, __c198, 4)),
-          clickTags: S.optional(__S(6342, __c198, 6)),
-          assetIdentifier: S.optional(__S(6343, __c198, 7)),
           richMedia: S.optional(S.Boolean),
-          counterCustomEvents: S.optional(__S(6340, __c198, 4)),
+          counterCustomEvents: S.optional(__S(6372, __c199, 4)),
+          detectedFeatures: S.optional(__S(3264, __c102, 0)),
+          kind: S.optional(S.String),
+          assetIdentifier: S.optional(__S(6336, __c198, 0)),
+          clickTags: S.optional(__S(6374, __c199, 6)),
         }),
       ).annotate({ identifier: "CreativeAssetMetadata" });
     case 1:
@@ -19498,8 +19468,8 @@ function __c280(j: number): any {
         S.Extend(
           __S(8960, __c280, 0),
           S.Struct({
-            advertiserId: S.String.pipe(T.Label()),
             profileId: S.String.pipe(T.Label()),
+            advertiserId: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -19574,7 +19544,7 @@ function __c284(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(6378, __c199, 10),
+          __S(6410, __c200, 10),
           S.Struct({
             profileId: S.String.pipe(T.Label()),
           }),
@@ -19593,7 +19563,7 @@ function __c285(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(6434, __c201, 2),
+          __S(6466, __c202, 2),
           S.Struct({
             profileId: S.String.pipe(T.Label()),
           }),
@@ -19613,7 +19583,7 @@ function __c286(j: number): any {
       return S.suspend(() =>
         S.Struct({
           dynamicProfileId: S.optional(S.String),
-          dynamicFeed: S.optional(__S(6508, __c203, 12)),
+          dynamicFeed: S.optional(__S(6540, __c204, 12)),
         }),
       ).annotate({ identifier: "DynamicFeedsInsertRequest" });
     case 1:
@@ -19632,7 +19602,7 @@ function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Extend(__S(6577, __c205, 17), S.Struct({})).pipe(
+        S.Extend(__S(6609, __c206, 17), S.Struct({})).pipe(
           T.Http({
             method: "POST",
             uri: "studio/dynamicProfiles",
@@ -19666,10 +19636,10 @@ function __c289(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          objectType: S.optional(S.String),
-          objectId: S.optional(S.String),
-          kind: S.optional(S.String),
           name: S.optional(S.String),
+          objectId: S.optional(S.String),
+          objectType: S.optional(S.String),
+          kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "DynamicTargetingKey" });
   }
@@ -19679,8 +19649,8 @@ function __c290(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          profileId: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
+          profileId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -19696,7 +19666,7 @@ function __c291(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(6624, __c207, 0),
+          __S(6656, __c208, 0),
           S.Struct({
             profileId: S.String.pipe(T.Label()),
           }),
@@ -19715,7 +19685,7 @@ function __c292(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(6788, __c212, 4),
+          __S(6820, __c213, 4),
           S.Struct({
             profileId: S.String.pipe(T.Label()),
           }),
@@ -19734,7 +19704,7 @@ function __c293(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(6848, __c214, 0),
+          __S(6880, __c215, 0),
           S.Struct({
             profileId: S.String.pipe(T.Label()),
           }),
@@ -19753,7 +19723,7 @@ function __c294(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(7232, __c226, 0),
+          __S(7264, __c227, 0),
           S.Struct({
             profileId: S.String.pipe(T.Label()),
           }),
@@ -19772,7 +19742,7 @@ function __c295(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(7336, __c229, 8),
+          __S(7369, __c230, 9),
           S.Struct({
             profileId: S.String.pipe(T.Label()),
           }),
@@ -19791,7 +19761,7 @@ function __c296(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(7392, __c231, 0),
+          __S(5984, __c187, 0),
           S.Struct({
             profileId: S.String.pipe(T.Label()),
           }),
@@ -19848,7 +19818,7 @@ function __c299(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(7814, __c244, 6),
+          __S(7815, __c244, 7),
           S.Struct({
             profileId: S.String.pipe(T.Label()),
           }),
@@ -19867,7 +19837,7 @@ function __c300(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4832, __c151, 0),
+          __S(4864, __c152, 0),
           S.Struct({
             profileId: S.String.pipe(T.Label()),
           }),

@@ -84,15 +84,44 @@ export class NotFound
   ) {}
 
 export interface ListAccountsAggregateProductStatusesRequest {
-  /** Optional. A filter expression that filters the aggregate product statuses. Filtering is only supported by the `reporting_context` and `country` field. For example: `reporting_context = "SHOPPING_ADS" AND country = "US"`. */
-  filter?: string | undefined;
-  /** Optional. The maximum number of aggregate product statuses to return. The service may return fewer than this value. If unspecified, at most 25 aggregate product statuses are returned. The maximum value is 250; values above 250 are coerced to 250. */
-  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListAggregateProductStatuses` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAggregateProductStatuses` must match the call that provided the page token. */
   pageToken?: string | undefined;
   /** Required. The account to list aggregate product statuses for. Format: `accounts/{account}` Can only be sub-accounts and standalone accounts. */
   parent: string;
+  /** Optional. A filter expression that filters the aggregate product statuses. Filtering is only supported by the `reporting_context` and `country` field. For example: `reporting_context = "SHOPPING_ADS" AND country = "US"`. */
+  filter?: string | undefined;
+  /** Optional. The maximum number of aggregate product statuses to return. The service may return fewer than this value. If unspecified, at most 25 aggregate product statuses are returned. The maximum value is 250; values above 250 are coerced to 250. */
+  pageSize?: number | undefined;
 }
+export type ItemLevelIssueResolutionEnum =
+  | "RESOLUTION_UNSPECIFIED"
+  | "MERCHANT_ACTION"
+  | "PENDING_PROCESSING";
+export type ItemLevelIssueSeverityEnum =
+  | "SEVERITY_UNSPECIFIED"
+  | "NOT_IMPACTED"
+  | "DEMOTED"
+  | "DISAPPROVED";
+/** The ItemLevelIssue of the product status. */
+export interface ItemLevelIssue {
+  /** A detailed issue description in English. */
+  detail?: string | undefined;
+  /** Whether the issue can be resolved by the merchant. */
+  resolution?: ItemLevelIssueResolutionEnum | undefined;
+  /** The error code of the issue. */
+  code?: string | undefined;
+  /** The attribute's name, if the issue is caused by a single attribute. */
+  attribute?: string | undefined;
+  /** The URL of a web page to help with resolving this issue. */
+  documentationUri?: string | undefined;
+  /** How this issue affects serving of the offer. */
+  severity?: ItemLevelIssueSeverityEnum | undefined;
+  /** The number of products affected by this issue. */
+  productCount?: string | undefined;
+  /** A short issue description in English. */
+  description?: string | undefined;
+}
+export type ItemLevelIssueList = Array<ItemLevelIssue>;
 export type AggregateProductStatusReportingContextEnum =
   | "REPORTING_CONTEXT_ENUM_UNSPECIFIED"
   | "SHOPPING_ADS"
@@ -117,87 +146,58 @@ export type AggregateProductStatusReportingContextEnum =
   | "RENTAL_ADS";
 /** Products statistics. */
 export interface Stats {
-  /** The number of products that are disapproved. */
-  disapprovedCount?: string | undefined;
   /** The number of products that are expiring. */
   expiringCount?: string | undefined;
-  /** The number of products that are active. */
-  activeCount?: string | undefined;
+  /** The number of products that are disapproved. */
+  disapprovedCount?: string | undefined;
   /** The number of products that are pending. */
   pendingCount?: string | undefined;
+  /** The number of products that are active. */
+  activeCount?: string | undefined;
 }
-export type ItemLevelIssueSeverityEnum =
-  | "SEVERITY_UNSPECIFIED"
-  | "NOT_IMPACTED"
-  | "DEMOTED"
-  | "DISAPPROVED";
-export type ItemLevelIssueResolutionEnum =
-  | "RESOLUTION_UNSPECIFIED"
-  | "MERCHANT_ACTION"
-  | "PENDING_PROCESSING";
-/** The ItemLevelIssue of the product status. */
-export interface ItemLevelIssue {
-  /** A short issue description in English. */
-  description?: string | undefined;
-  /** How this issue affects serving of the offer. */
-  severity?: ItemLevelIssueSeverityEnum | undefined;
-  /** Whether the issue can be resolved by the merchant. */
-  resolution?: ItemLevelIssueResolutionEnum | undefined;
-  /** The number of products affected by this issue. */
-  productCount?: string | undefined;
-  /** The URL of a web page to help with resolving this issue. */
-  documentationUri?: string | undefined;
-  /** A detailed issue description in English. */
-  detail?: string | undefined;
-  /** The attribute's name, if the issue is caused by a single attribute. */
-  attribute?: string | undefined;
-  /** The error code of the issue. */
-  code?: string | undefined;
-}
-export type ItemLevelIssueList = Array<ItemLevelIssue>;
 /** Aggregate product statuses for a given reporting context and country. For more information, see [View Aggregate Product Statuses](https://developers.google.com/merchant/api/guides/accounts/aggregate-product-statuses). */
 export interface AggregateProductStatus {
-  /** The reporting context of the aggregate product statuses. */
-  reportingContext?: AggregateProductStatusReportingContextEnum | undefined;
-  /** Products statistics for the given reporting context and country. */
-  stats?: Stats | undefined;
-  /** Identifier. The name of the `AggregateProductStatuses` resource. Format: `accounts/{account}/aggregateProductStatuses/{aggregateProductStatuses}` */
-  name?: string | undefined;
   /** The product issues that affect the given reporting context and country. */
   itemLevelIssues?: ItemLevelIssueList | undefined;
+  /** The reporting context of the aggregate product statuses. */
+  reportingContext?: AggregateProductStatusReportingContextEnum | undefined;
+  /** Identifier. The name of the `AggregateProductStatuses` resource. Format: `accounts/{account}/aggregateProductStatuses/{aggregateProductStatuses}` */
+  name?: string | undefined;
+  /** Products statistics for the given reporting context and country. */
+  stats?: Stats | undefined;
   /** The country of the aggregate product statuses. Represented as a [CLDR territory code](https://github.com/unicode-org/cldr/blob/latest/common/main/en.xml). */
   country?: string | undefined;
 }
 export type AggregateProductStatusList = Array<AggregateProductStatus>;
 /** Response message for the `ListAggregateProductStatuses` method. */
 export interface ListAggregateProductStatusesResponse {
-  /** A token, which can be sent as `pageToken` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** The `AggregateProductStatuses` resources for the given account. */
   aggregateProductStatuses?: AggregateProductStatusList | undefined;
+  /** A token, which can be sent as `pageToken` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
+export type RenderIssuesRequestPayloadContentOptionEnum =
+  | "CONTENT_OPTION_UNSPECIFIED"
+  | "PRE_RENDERED_HTML";
 export type RenderIssuesRequestPayloadUserInputActionOptionEnum =
   | "USER_INPUT_ACTION_RENDERING_OPTION_UNSPECIFIED"
   | "REDIRECT_TO_MERCHANT_CENTER"
   | "BUILT_IN_USER_INPUT_ACTIONS";
-export type RenderIssuesRequestPayloadContentOptionEnum =
-  | "CONTENT_OPTION_UNSPECIFIED"
-  | "PRE_RENDERED_HTML";
 /** The payload for configuring how the content should be rendered. */
 export interface RenderIssuesRequestPayload {
+  /** Optional. How the detailed content should be returned. Default option is to return the content as a pre-rendered HTML text. */
+  contentOption?: RenderIssuesRequestPayloadContentOptionEnum | (string & {}) | undefined;
   /** Optional. How actions with user input form should be handled. If not provided, actions will be returned as links that points the business to Merchant Center where they can request the action. */
   userInputActionOption?:
     | RenderIssuesRequestPayloadUserInputActionOptionEnum
     | (string & {})
     | undefined;
-  /** Optional. How the detailed content should be returned. Default option is to return the content as a pre-rendered HTML text. */
-  contentOption?: RenderIssuesRequestPayloadContentOptionEnum | (string & {}) | undefined;
 }
 export interface RenderaccountissuesIssueresolutionRequest extends RenderIssuesRequestPayload {
-  /** Optional. The [IANA](https://www.iana.org/time-zones) timezone used to localize times in an issue resolution content. For example 'America/Los_Angeles'. If not set, results will use as a default UTC. */
-  timeZone?: string | undefined;
   /** Required. The account to fetch issues for. Format: `accounts/{account}` */
   name: string;
+  /** Optional. The [IANA](https://www.iana.org/time-zones) timezone used to localize times in an issue resolution content. For example 'America/Los_Angeles'. If not set, results will use as a default UTC. */
+  timeZone?: string | undefined;
   /** Optional. The [IETF BCP-47](https://tools.ietf.org/html/bcp47) language code used to localize issue resolution content. If not set, the result will be in default language `en-US`. */
   languageCode?: string | undefined;
 }
@@ -221,23 +221,13 @@ export interface Breakdown {
 export type BreakdownList = Array<Breakdown>;
 /** Overall impact of the issue. */
 export interface Impact {
+  /** Optional. Message summarizing the overall impact of the issue. If present, it should be rendered to the business. For example: "Disapproves 90k offers in 25 countries" */
+  message?: string | undefined;
   /** The severity of the issue. */
   severity?: ImpactSeverityEnum | undefined;
   /** Detailed impact breakdown. Explains the types of restriction the issue has in different shopping destinations and territory. If present, it should be rendered to the business. Can be shown as a mouse over dropdown or a dialog. Each breakdown item represents a group of regions with the same impact details. */
   breakdowns?: BreakdownList | undefined;
-  /** Optional. Message summarizing the overall impact of the issue. If present, it should be rendered to the business. For example: "Disapproves 90k offers in 25 countries" */
-  message?: string | undefined;
 }
-/** A single reason why the action is not available. */
-export interface Reason {
-  /** Optional. An action that needs to be performed to solve the problem represented by this reason. This action will always be available. Should be rendered as a link or button next to the summarizing message. For example, the review may be available only once the business configure all required attributes. In such a situation this action can be a link to the form, where they can fill the missing attribute to unblock the main action. */
-  action?: Action | undefined;
-  /** Messages summarizing the reason, why the action is not available. For example: "Review requested on Jan 03. Review requests can take a few days to complete." */
-  message?: string | undefined;
-  /** Detailed explanation of the reason. Should be displayed as a hint if present. */
-  detail?: string | undefined;
-}
-export type ReasonList = Array<Reason>;
 export type BuiltInSimpleActionTypeEnum =
   | "BUILT_IN_SIMPLE_ACTION_TYPE_UNSPECIFIED"
   | "VERIFY_PHONE"
@@ -251,19 +241,19 @@ export type BuiltInSimpleActionTypeEnum =
   | "SHOW_ADDITIONAL_CONTENT";
 /** Long text from external source. */
 export interface AdditionalContent {
-  /** Long text organized into paragraphs. */
-  paragraphs?: StringList | undefined;
   /** Title of the additional content; */
   title?: string | undefined;
+  /** Long text organized into paragraphs. */
+  paragraphs?: StringList | undefined;
 }
 /** Action that is implemented and performed in (your) third-party application. Represents various functionality that is expected to be available to business and will help them with resolving the issue. The application should point the business to the place, where they can access the corresponding functionality. If the functionality is not supported, it is recommended to explain the situation to the business and provide them with instructions how to solve the issue. */
 export interface BuiltInSimpleAction {
+  /** The attribute that needs to be updated. Present when the type is `EDIT_ITEM_ATTRIBUTE`. This field contains a code for attribute, represented in snake_case. You can find a list of product's attributes, with their codes [here](https://support.google.com/merchants/answer/7052112). */
+  attributeCode?: string | undefined;
   /** The type of action that represents a functionality that is expected to be available in third-party application. */
   type?: BuiltInSimpleActionTypeEnum | undefined;
   /** Long text from an external source that should be available to the business. Present when the type is `SHOW_ADDITIONAL_CONTENT`. */
   additionalContent?: AdditionalContent | undefined;
-  /** The attribute that needs to be updated. Present when the type is `EDIT_ITEM_ATTRIBUTE`. This field contains a code for attribute, represented in snake_case. You can find a list of product's attributes, with their codes [here](https://support.google.com/merchants/answer/7052112). */
-  attributeCode?: string | undefined;
 }
 export type ExternalActionTypeEnum =
   | "EXTERNAL_ACTION_TYPE_UNSPECIFIED"
@@ -274,12 +264,11 @@ export type ExternalActionTypeEnum =
   | "VERIFY_BUSINESS_VIDEO_IN_MERCHANT_CENTER";
 /** Action that is implemented and performed outside of the third-party application. It should redirect the business to the provided URL of an external system where they can perform the action. For example to request a review in the Merchant Center. */
 export interface ExternalAction {
-  /** URL to external system, for example Merchant Center, where the business can perform the action. */
-  uri?: string | undefined;
   /** The type of external action. */
   type?: ExternalActionTypeEnum | undefined;
+  /** URL to external system, for example Merchant Center, where the business can perform the action. */
+  uri?: string | undefined;
 }
-export type CalloutStyleHintEnum = "CALLOUT_STYLE_HINT_UNSPECIFIED" | "ERROR" | "WARNING" | "INFO";
 export type TextWithTooltipTooltipIconStyleEnum =
   | "TOOLTIP_ICON_STYLE_UNSPECIFIED"
   | "INFO"
@@ -288,43 +277,27 @@ export type TextWithTooltipTooltipIconStyleEnum =
 export interface TextWithTooltip {
   /** Value of the message as a simple text. */
   simpleValue?: string | undefined;
-  /** The suggested type of an icon for tooltip, if a tooltip is present. */
-  tooltipIconStyle?: TextWithTooltipTooltipIconStyleEnum | undefined;
   /** Value of the tooltip as a simple text. */
   simpleTooltipValue?: string | undefined;
+  /** The suggested type of an icon for tooltip, if a tooltip is present. */
+  tooltipIconStyle?: TextWithTooltipTooltipIconStyleEnum | undefined;
 }
+export type CalloutStyleHintEnum = "CALLOUT_STYLE_HINT_UNSPECIFIED" | "ERROR" | "WARNING" | "INFO";
 /** An important message that should be highlighted. Usually displayed as a banner. */
 export interface Callout {
-  /** Can be used to render messages with different severity in different styles. Snippets off all types contain important information that should be displayed to the business. */
-  styleHint?: CalloutStyleHintEnum | undefined;
   /** A full message that needs to be shown to the business. */
   fullMessage?: TextWithTooltip | undefined;
+  /** Can be used to render messages with different severity in different styles. Snippets off all types contain important information that should be displayed to the business. */
+  styleHint?: CalloutStyleHintEnum | undefined;
 }
-export type TextInputTypeEnum =
-  | "TEXT_INPUT_TYPE_UNSPECIFIED"
-  | "GENERIC_SHORT_TEXT"
-  | "GENERIC_LONG_TEXT";
-/** Text input allows the business to provide a text value. */
-export interface TextInput {
-  /** Type of the text input */
-  type?: TextInputTypeEnum | undefined;
-  /** Information about the required format. If present, it should be shown close to the input field to help the business to provide a correct value. For example: "VAT numbers should be in a format similar to SK9999999999" */
-  formatInfo?: string | undefined;
-  /** Additional info regarding the field to be displayed to the business. For example, warning to not include personal identifiable information. There may be more information to be shown in a tooltip. */
-  additionalInfo?: TextWithTooltip | undefined;
-  /** Text to be used as the [aria-label](https://www.w3.org/TR/WCAG20-TECHS/ARIA14.html) for the input. */
-  ariaLabel?: string | undefined;
-}
-/** Checkbox input allows the business to provide a boolean value. Corresponds to the [html input type=checkbox](https://www.w3.org/TR/2012/WD-html-markup-20121025/input.checkbox.html#input.checkbox). If the business checks the box, the input value for the field is `true`, otherwise it is `false`. This type of input is often used as a confirmation that the business completed required steps before they are allowed to start the action. In such a case, the input field is marked as required and the button to trigger the action should stay disabled until the business checks the box. */
-export interface CheckboxInput {}
 /** A choice that the business can select. */
 export interface ChoiceInputOption {
   /** Not for display but need to be sent back for the selected choice option. */
   id?: string | undefined;
-  /** Input that should be displayed when this option is selected. The additional input will not contain a `ChoiceInput`. */
-  additionalInput?: InputField | undefined;
   /** Short description of the choice option. There may be more information to be shown as a tooltip. */
   label?: TextWithTooltip | undefined;
+  /** Input that should be displayed when this option is selected. The additional input will not contain a `ChoiceInput`. */
+  additionalInput?: InputField | undefined;
 }
 export type ChoiceInputOptionList = Array<ChoiceInputOption>;
 /** Choice input allows the business to select one of the offered choices. Some choices may be linked to additional input fields that should be displayed under or next to the choice option. The value for the additional input field needs to be provided only when the specific choice is selected by the the business. For example, additional input field can be hidden or disabled until the business selects the specific choice. */
@@ -332,36 +305,53 @@ export interface ChoiceInput {
   /** A list of choices. Only one option can be selected. */
   options?: ChoiceInputOptionList | undefined;
 }
+/** Checkbox input allows the business to provide a boolean value. Corresponds to the [html input type=checkbox](https://www.w3.org/TR/2012/WD-html-markup-20121025/input.checkbox.html#input.checkbox). If the business checks the box, the input value for the field is `true`, otherwise it is `false`. This type of input is often used as a confirmation that the business completed required steps before they are allowed to start the action. In such a case, the input field is marked as required and the button to trigger the action should stay disabled until the business checks the box. */
+export interface CheckboxInput {}
+export type TextInputTypeEnum =
+  | "TEXT_INPUT_TYPE_UNSPECIFIED"
+  | "GENERIC_SHORT_TEXT"
+  | "GENERIC_LONG_TEXT";
+/** Text input allows the business to provide a text value. */
+export interface TextInput {
+  /** Text to be used as the [aria-label](https://www.w3.org/TR/WCAG20-TECHS/ARIA14.html) for the input. */
+  ariaLabel?: string | undefined;
+  /** Type of the text input */
+  type?: TextInputTypeEnum | undefined;
+  /** Information about the required format. If present, it should be shown close to the input field to help the business to provide a correct value. For example: "VAT numbers should be in a format similar to SK9999999999" */
+  formatInfo?: string | undefined;
+  /** Additional info regarding the field to be displayed to the business. For example, warning to not include personal identifiable information. There may be more information to be shown in a tooltip. */
+  additionalInfo?: TextWithTooltip | undefined;
+}
 /** Input field that needs to be available to the business. If the field is marked as required, then a value needs to be provided for a successful processing of the request. */
 export interface InputField {
-  /** Input field to provide text information. Corresponds to the [html input type=text](https://www.w3.org/TR/2012/WD-html-markup-20121025/input.text.html#input.text) or [html textarea](https://www.w3.org/TR/2012/WD-html-markup-20121025/textarea.html#textarea). */
-  textInput?: TextInput | undefined;
-  /** Whether the field is required. The action button needs to stay disabled till values for all required fields are provided. */
-  required?: boolean | undefined;
-  /** Input field label. There may be more information to be shown in a tooltip. */
-  label?: TextWithTooltip | undefined;
-  /** Input field to provide a boolean value. Corresponds to the [html input type=checkbox](https://www.w3.org/TR/2012/WD-html-markup-20121025/input.checkbox.html#input.checkbox). */
-  checkboxInput?: CheckboxInput | undefined;
   /** Input field to select one of the offered choices. Corresponds to the [html input type=radio](https://www.w3.org/TR/2012/WD-html-markup-20121025/input.radio.html#input.radio). */
   choiceInput?: ChoiceInput | undefined;
+  /** Input field to provide a boolean value. Corresponds to the [html input type=checkbox](https://www.w3.org/TR/2012/WD-html-markup-20121025/input.checkbox.html#input.checkbox). */
+  checkboxInput?: CheckboxInput | undefined;
+  /** Input field to provide text information. Corresponds to the [html input type=text](https://www.w3.org/TR/2012/WD-html-markup-20121025/input.text.html#input.text) or [html textarea](https://www.w3.org/TR/2012/WD-html-markup-20121025/textarea.html#textarea). */
+  textInput?: TextInput | undefined;
+  /** Input field label. There may be more information to be shown in a tooltip. */
+  label?: TextWithTooltip | undefined;
+  /** Whether the field is required. The action button needs to stay disabled till values for all required fields are provided. */
+  required?: boolean | undefined;
   /** Not for display but need to be sent back for the given input field. */
   id?: string | undefined;
 }
 export type InputFieldList = Array<InputField>;
 /** Flow that can be selected for an action. When a business selects a flow, application should open a dialog with more information and input form. */
 export interface ActionFlow {
-  /** Title of the request dialog. For example: "Before you request a review" */
-  dialogTitle?: string | undefined;
-  /** Important message to be highlighted in the request dialog. For example: "You can only request a review for disagreeing with this issue once. If it's not approved, you'll need to fix the issue and wait a few days before you can request another review." */
-  dialogCallout?: Callout | undefined;
-  /** Text value describing the intent for the action flow. It can be used as an input label if business needs to pick one of multiple flows. For example: "I disagree with the issue" */
-  label?: string | undefined;
   /** Message displayed in the request dialog. For example: "Make sure you've fixed all your country-specific issues. If not, you may have to wait 7 days to request another review". There may be an more information to be shown in a tooltip. */
   dialogMessage?: TextWithTooltip | undefined;
+  /** Important message to be highlighted in the request dialog. For example: "You can only request a review for disagreeing with this issue once. If it's not approved, you'll need to fix the issue and wait a few days before you can request another review." */
+  dialogCallout?: Callout | undefined;
   /** Label for the button to trigger the action from the action dialog. For example: "Request review" */
   dialogButtonLabel?: string | undefined;
   /** A list of input fields. */
   inputs?: InputFieldList | undefined;
+  /** Title of the request dialog. For example: "Before you request a review" */
+  dialogTitle?: string | undefined;
+  /** Text value describing the intent for the action flow. It can be used as an input label if business needs to pick one of multiple flows. For example: "I disagree with the issue" */
+  label?: string | undefined;
   /** Not for display but need to be sent back for the selected action flow. */
   id?: string | undefined;
 }
@@ -373,32 +363,42 @@ export interface BuiltInUserInputAction {
   /** Actions may provide multiple different flows. Business selects one that fits best to their intent. Selecting the flow is the first step in user's interaction with the action. It affects what input fields will be available and required and also how the request will be processed. */
   flows?: ActionFlowList | undefined;
 }
+/** A single reason why the action is not available. */
+export interface Reason {
+  /** Detailed explanation of the reason. Should be displayed as a hint if present. */
+  detail?: string | undefined;
+  /** Optional. An action that needs to be performed to solve the problem represented by this reason. This action will always be available. Should be rendered as a link or button next to the summarizing message. For example, the review may be available only once the business configure all required attributes. In such a situation this action can be a link to the form, where they can fill the missing attribute to unblock the main action. */
+  action?: Action | undefined;
+  /** Messages summarizing the reason, why the action is not available. For example: "Review requested on Jan 03. Review requests can take a few days to complete." */
+  message?: string | undefined;
+}
+export type ReasonList = Array<Reason>;
 /** An actionable step that can be executed to solve the issue. */
 export interface Action {
-  /** Label of the action button. */
-  buttonLabel?: string | undefined;
-  /** List of reasons why the action is not available. The list of reasons is empty if the action is available. If there is only one reason, it can be displayed next to the disabled button. If there are more reasons, all of them should be displayed, for example in a pop-up dialog. */
-  reasons?: ReasonList | undefined;
   /** Action implemented and performed in (your) third-party application. The application should point the business to the place, where they can access the corresponding functionality or provide instructions, if the specific functionality is not available. */
   builtinSimpleAction?: BuiltInSimpleAction | undefined;
-  /** Controlling whether the button is active or disabled. The value is 'false' when the action was already requested or is not available. If the action is not available then a reason will be present. If (your) third-party application shows a disabled button for action that is not available, then it should also show reasons. */
-  isAvailable?: boolean | undefined;
   /** Action that is implemented and performed outside of (your) third-party application. The application needs to redirect the business to the external location where they can perform the action. */
   externalAction?: ExternalAction | undefined;
+  /** Controlling whether the button is active or disabled. The value is 'false' when the action was already requested or is not available. If the action is not available then a reason will be present. If (your) third-party application shows a disabled button for action that is not available, then it should also show reasons. */
+  isAvailable?: boolean | undefined;
   /** Action implemented and performed in (your) third-party application. The application needs to show an additional content and input form to the business as specified for given action. They can trigger the action only when they provided all required inputs. */
   builtinUserInputAction?: BuiltInUserInputAction | undefined;
+  /** List of reasons why the action is not available. The list of reasons is empty if the action is available. If there is only one reason, it can be displayed next to the disabled button. If there are more reasons, all of them should be displayed, for example in a pop-up dialog. */
+  reasons?: ReasonList | undefined;
+  /** Label of the action button. */
+  buttonLabel?: string | undefined;
 }
 export type ActionList = Array<Action>;
 /** An issue affecting specific business or their product. For more information, see [Display issues and solutions to businesses](https://developers.google.com/merchant/api/guides/accounts/render-issues). */
 export interface RenderedIssue {
-  /** Pre-rendered HTML that contains a link to the external location where the ODS can be requested and instructions for how to request it. HTML elements contain CSS classes that can be used to customize the style of this snippet. Always sanitize the HTML before embedding it directly to your application. The sanitizer needs to allow basic HTML tags, such as: `div`, `span`, `p`, `a`, `ul`, `li`, `table`, `tr`, `td`. For example, you can use [DOMPurify](https://www.npmjs.com/package/dompurify). CSS classes: * `ods-section`* - wrapper around the out-of-court dispute resolution section * `ods-description`* - intro text for the out-of-court dispute resolution. It may contain multiple segments and a link. * `ods-param`* - wrapper around the header-value pair for parameters that the business may need to provide during the ODS process. * `ods-routing-id`* - ods param for the Routing ID. * `ods-reference-id`* - ods param for the Routing ID. * `ods-param-header`* - header for the ODS parameter * `ods-param-value`* - value of the ODS parameter. This value should be rendered in a way that it is easy for the user to identify and copy. * `segment` - section of the text, `span` inside paragraph * `segment-attribute` - section of the text that represents a product attribute, for example 'image\_link' * `segment-literal` - section of the text that contains a special value, for example '0-1000 kg' * `segment-bold` - section of the text that should be rendered as bold * `segment-italic` - section of the text that should be rendered as italic * `tooltip` - used on paragraphs that should be rendered with a tooltip. A section of the text in such a paragraph will have a class `tooltip-text` and is intended to be shown in a mouse over dialog. If the style is not used, the `tooltip-text` section would be shown on a new line, after the main part of the text. * `tooltip-text` - marks a section of the text within a `tooltip`, that is intended to be shown in a mouse over dialog. * `tooltip-icon` - marks a section of the text within a `tooltip`, that can be replaced with a tooltip icon, for example '?' or 'i'. By default, this section contains a `br` tag, that is separating the main text and the tooltip text when the style is not used. * `tooltip-style-question` - the tooltip shows helpful information, can use the '?' as an icon. * `tooltip-style-info` - the tooltip adds additional information fitting to the context, can use the 'i' as an icon. */
-  prerenderedOutOfCourtDisputeSettlement?: string | undefined;
   /** Title of the issue. */
   title?: string | undefined;
   /** Clarifies the severity of the issue. The summarizing message, if present, should be shown right under the title for each issue. It helps business to quickly understand the impact of the issue. The detailed breakdown helps the business to fully understand the impact of the issue. It can be rendered as dialog that opens when the business mouse over the summarized impact statement. Issues with different severity can be styled differently. They may use a different color or icon to signal the difference between `ERROR`, `WARNING` and `INFO`. */
   impact?: Impact | undefined;
   /** A list of actionable steps that can be executed to solve the issue. An example is requesting a re-review or providing arguments when business disagrees with the issue. Actions that are supported in (your) third-party application can be rendered as buttons and should be available to the business when they expand the issue. */
   actions?: ActionList | undefined;
+  /** Pre-rendered HTML that contains a link to the external location where the ODS can be requested and instructions for how to request it. HTML elements contain CSS classes that can be used to customize the style of this snippet. Always sanitize the HTML before embedding it directly to your application. The sanitizer needs to allow basic HTML tags, such as: `div`, `span`, `p`, `a`, `ul`, `li`, `table`, `tr`, `td`. For example, you can use [DOMPurify](https://www.npmjs.com/package/dompurify). CSS classes: * `ods-section`* - wrapper around the out-of-court dispute resolution section * `ods-description`* - intro text for the out-of-court dispute resolution. It may contain multiple segments and a link. * `ods-param`* - wrapper around the header-value pair for parameters that the business may need to provide during the ODS process. * `ods-routing-id`* - ods param for the Routing ID. * `ods-reference-id`* - ods param for the Routing ID. * `ods-param-header`* - header for the ODS parameter * `ods-param-value`* - value of the ODS parameter. This value should be rendered in a way that it is easy for the user to identify and copy. * `segment` - section of the text, `span` inside paragraph * `segment-attribute` - section of the text that represents a product attribute, for example 'image\_link' * `segment-literal` - section of the text that contains a special value, for example '0-1000 kg' * `segment-bold` - section of the text that should be rendered as bold * `segment-italic` - section of the text that should be rendered as italic * `tooltip` - used on paragraphs that should be rendered with a tooltip. A section of the text in such a paragraph will have a class `tooltip-text` and is intended to be shown in a mouse over dialog. If the style is not used, the `tooltip-text` section would be shown on a new line, after the main part of the text. * `tooltip-text` - marks a section of the text within a `tooltip`, that is intended to be shown in a mouse over dialog. * `tooltip-icon` - marks a section of the text within a `tooltip`, that can be replaced with a tooltip icon, for example '?' or 'i'. By default, this section contains a `br` tag, that is separating the main text and the tooltip text when the style is not used. * `tooltip-style-question` - the tooltip shows helpful information, can use the '?' as an icon. * `tooltip-style-info` - the tooltip adds additional information fitting to the context, can use the 'i' as an icon. */
+  prerenderedOutOfCourtDisputeSettlement?: string | undefined;
   /** Details of the issue as a pre-rendered HTML. HTML elements contain CSS classes that can be used to customize the style of the content. Always sanitize the HTML before embedding it directly to your application. The sanitizer needs to allow basic HTML tags, such as: `div`, `span`, `p`, `a`, `ul`, `li`, `table`, `tr`, `td`. For example, you can use [DOMPurify](https://www.npmjs.com/package/dompurify). CSS classes: * `issue-detail` - top level container for the detail of the issue * `callout-banners` - section of the `issue-detail` with callout banners * `callout-banner` - single callout banner, inside `callout-banners` * `callout-banner-info` - callout with important information (default) * `callout-banner-warning` - callout with a warning * `callout-banner-error` - callout informing about an error (most severe) * `issue-content` - section of the `issue-detail`, contains multiple `content-element` * `content-element` - content element such as a list, link or paragraph, inside `issue-content` * `root-causes` - unordered list with items describing root causes of the issue, inside `issue-content` * `root-causes-intro` - intro text before the `root-causes` list, inside `issue-content` * `segment` - section of the text, `span` inside paragraph * `segment-attribute` - section of the text that represents a product attribute, for example 'image\_link' * `segment-literal` - section of the text that contains a special value, for example '0-1000 kg' * `segment-bold` - section of the text that should be rendered as bold * `segment-italic` - section of the text that should be rendered as italic * `tooltip` - used on paragraphs that should be rendered with a tooltip. A section of the text in such a paragraph will have a class `tooltip-text` and is intended to be shown in a mouse over dialog. If the style is not used, the `tooltip-text` section would be shown on a new line, after the main part of the text. * `tooltip-text` - marks a section of the text within a `tooltip`, that is intended to be shown in a mouse over dialog. * `tooltip-icon` - marks a section of the text within a `tooltip`, that can be replaced with a tooltip icon, for example '?' or 'i'. By default, this section contains a `br` tag, that is separating the main text and the tooltip text when the style is not used. * `tooltip-style-question` - the tooltip shows helpful information, can use the '?' as an icon. * `tooltip-style-info` - the tooltip adds additional information fitting to the context, can use the 'i' as an icon. * `content-moderation` - marks the paragraph that explains how the issue was identified. * `asset-value` - marks the paragraph that contains the asset information. * `asset-label` - marks the section of the text that contains the label of the asset. * `asset-link` - marks the section of the text that contains a link to the asset. * `asset-provided-value` - marks the section of the text that contains the value of the asset. * `new-element` - Present for new elements added to the pre-rendered content in the future. To make sure that a new content element does not break your style, you can hide everything with this class. */
   prerenderedContent?: string | undefined;
 }
@@ -409,17 +409,22 @@ export interface RenderAccountIssuesResponse {
   renderedIssues?: RenderedIssueList | undefined;
 }
 export interface RenderproductissuesIssueresolutionRequest extends RenderIssuesRequestPayload {
+  /** Optional. The [IETF BCP-47](https://tools.ietf.org/html/bcp47) language code used to localize an issue resolution content. If not set, the result will be in default language `en-US`. */
+  languageCode?: string | undefined;
   /** Optional. The [IANA](https://www.iana.org/time-zones) timezone used to localize times in an issue resolution content. For example 'America/Los_Angeles'. If not set, results will use as a default UTC. */
   timeZone?: string | undefined;
   /** Required. The name of the product. Format: `accounts/{account}/products/{product}` The `{product}` segment is a unique identifier for the product. This identifier must be unique within a merchant account and generally follows the structure: `content_language~feed_label~offer_id`. Example: `en~US~sku123` For legacy local products, the structure is: `local~content_language~feed_label~offer_id`. Example: `local~en~US~sku123` The format of the `{product}` segment in the URL is automatically detected by the server, supporting two options: 1. **Encoded Format**: The `{product}` segment is an unpadded base64url encoded string (RFC 4648 Section 5). The decoded string must result in the `content_language~feed_label~offer_id` structure. This encoding MUST be used if any part of the product identifier (like `offer_id`) contains characters such as `/`, `%`, or `~`. * Example: To represent the product ID `en~US~sku/123`, the `{product}` segment must be the base64url encoding of this string, which is `ZW5-VVN-c2t1LzEyMw`. The full resource name for the product would be `accounts/123/products/ZW5-VVN-c2t1LzEyMw`. 2. **Plain Format**: The `{product}` segment is the tilde-separated string `content_language~feed_label~offer_id`. This format is suitable only when `content_language`, `feed_label`, and `offer_id` do not contain URL-problematic characters like `/`, `%`, or `~`. We recommend using the **Encoded Format** for all product IDs to ensure correct parsing, especially those containing special characters. The presence of tilde (`~`) characters in the `{product}` segment is used to differentiate between the two formats. */
   name: string;
-  /** Optional. The [IETF BCP-47](https://tools.ietf.org/html/bcp47) language code used to localize an issue resolution content. If not set, the result will be in default language `en-US`. */
-  languageCode?: string | undefined;
 }
 /** Response containing an issue resolution content and actions for listed product issues. */
 export interface RenderProductIssuesResponse {
   /** List of issues for a given product. This list can be shown with compressed, expandable items. In the compressed form, the title and impact should be shown for each issue. Once the issue is expanded, the detailed content and available actions should be rendered. */
   renderedIssues?: RenderedIssueList | undefined;
+}
+/** Value for text input field. */
+export interface TextInputValue {
+  /** Required. Text provided by the business. */
+  value?: string | undefined;
 }
 /** Value for checkbox input field. */
 export interface CheckboxInputValue {
@@ -431,36 +436,31 @@ export interface ChoiceInputValue {
   /** Required. Id of the option that was selected by the business. */
   choiceInputOptionId?: string | undefined;
 }
-/** Value for text input field. */
-export interface TextInputValue {
-  /** Required. Text provided by the business. */
-  value?: string | undefined;
-}
 /** Input provided by the business for input field. */
 export interface InputValue {
-  /** Value for checkbox input field. */
-  checkboxInputValue?: CheckboxInputValue | undefined;
-  /** Value for choice input field. */
-  choiceInputValue?: ChoiceInputValue | undefined;
   /** Value for text input field. */
   textInputValue?: TextInputValue | undefined;
+  /** Value for checkbox input field. */
+  checkboxInputValue?: CheckboxInputValue | undefined;
   /** Required. Id of the corresponding input field. */
   inputFieldId?: string | undefined;
+  /** Value for choice input field. */
+  choiceInputValue?: ChoiceInputValue | undefined;
 }
 export type InputValueList = Array<InputValue>;
 /** Input provided by the business. */
 export interface ActionInput {
-  /** Required. Id of the selected action flow. */
-  actionFlowId?: string | undefined;
   /** Required. Values for input fields. */
   inputValues?: InputValueList | undefined;
+  /** Required. Id of the selected action flow. */
+  actionFlowId?: string | undefined;
 }
 /** The payload for the triggered action. */
 export interface TriggerActionPayload {
-  /** Required. The context from the selected action. The value is obtained from rendered issues and needs to be sent back to identify the action that is being triggered. */
-  actionContext?: string | undefined;
   /** Required. Input provided by the business. */
   actionInput?: ActionInput | undefined;
+  /** Required. The context from the selected action. The value is obtained from rendered issues and needs to be sent back to identify the action that is being triggered. */
+  actionContext?: string | undefined;
 }
 export interface TriggeractionIssueresolutionRequest extends TriggerActionPayload {
   /** Optional. Language code [IETF BCP 47 syntax](https://tools.ietf.org/html/bcp47) used to localize the response. If not set, the result will be in default language `en-US`. */
@@ -568,10 +568,10 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -583,34 +583,34 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          disapprovedCount: S.optional(S.String),
-          expiringCount: S.optional(S.String),
-          activeCount: S.optional(S.String),
-          pendingCount: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Stats" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.optional(S.String),
-          severity: S.optional(S.String),
-          resolution: S.optional(S.String),
-          productCount: S.optional(S.String),
-          documentationUri: S.optional(S.String),
           detail: S.optional(S.String),
-          attribute: S.optional(S.String),
+          resolution: S.optional(S.String),
           code: S.optional(S.String),
+          attribute: S.optional(S.String),
+          documentationUri: S.optional(S.String),
+          severity: S.optional(S.String),
+          productCount: S.optional(S.String),
+          description: S.optional(S.String),
         }),
       ).annotate({ identifier: "ItemLevelIssue" });
+    case 2:
+      return S.Array(__S(1, __c0, 1));
     case 3:
-      return S.Array(__S(2, __c0, 2));
+      return S.suspend(() =>
+        S.Struct({
+          expiringCount: S.optional(S.String),
+          disapprovedCount: S.optional(S.String),
+          pendingCount: S.optional(S.String),
+          activeCount: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Stats" });
     case 4:
       return S.suspend(() =>
         S.Struct({
+          itemLevelIssues: S.optional(__S(2, __c0, 2)),
           reportingContext: S.optional(S.String),
-          stats: S.optional(__S(1, __c0, 1)),
           name: S.optional(S.String),
-          itemLevelIssues: S.optional(__S(3, __c0, 3)),
+          stats: S.optional(__S(3, __c0, 3)),
           country: S.optional(S.String),
         }),
       ).annotate({ identifier: "AggregateProductStatus" });
@@ -619,8 +619,8 @@ function __c0(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           aggregateProductStatuses: S.optional(__S(5, __c0, 5)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAggregateProductStatusesResponse" });
   }
@@ -632,8 +632,8 @@ function __c1(j: number): any {
         S.Extend(
           __S(64, __c2, 0),
           S.Struct({
-            timeZone: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            timeZone: S.optional(S.String.pipe(T.Query())),
             languageCode: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
@@ -651,8 +651,8 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          userInputActionOption: S.optional(S.String),
           contentOption: S.optional(S.String),
+          userInputActionOption: S.optional(S.String),
         }),
       ).annotate({ identifier: "RenderIssuesRequestPayload" });
     case 1:
@@ -678,128 +678,128 @@ function __c2(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
+          message: S.optional(S.String),
           severity: S.optional(S.String),
           breakdowns: S.optional(__S(69, __c2, 5)),
-          message: S.optional(S.String),
         }),
       ).annotate({ identifier: "Impact" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          action: S.optional(S.suspend(() => __S(88, __c2, 24))),
-          message: S.optional(S.String),
-          detail: S.optional(S.String),
+          title: S.optional(S.String),
+          paragraphs: S.optional(__S(67, __c2, 3)),
         }),
-      ).annotate({ identifier: "Reason" });
+      ).annotate({ identifier: "AdditionalContent" });
     case 8:
-      return S.Array(__S(71, __c2, 7));
+      return S.suspend(() =>
+        S.Struct({
+          attributeCode: S.optional(S.String),
+          type: S.optional(S.String),
+          additionalContent: S.optional(__S(71, __c2, 7)),
+        }),
+      ).annotate({ identifier: "BuiltInSimpleAction" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          paragraphs: S.optional(__S(67, __c2, 3)),
-          title: S.optional(S.String),
+          type: S.optional(S.String),
+          uri: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AdditionalContent" });
+      ).annotate({ identifier: "ExternalAction" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          additionalContent: S.optional(__S(73, __c2, 9)),
-          attributeCode: S.optional(S.String),
+          simpleValue: S.optional(S.String),
+          simpleTooltipValue: S.optional(S.String),
+          tooltipIconStyle: S.optional(S.String),
         }),
-      ).annotate({ identifier: "BuiltInSimpleAction" });
+      ).annotate({ identifier: "TextWithTooltip" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          uri: S.optional(S.String),
-          type: S.optional(S.String),
+          fullMessage: S.optional(__S(74, __c2, 10)),
+          styleHint: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ExternalAction" });
+      ).annotate({ identifier: "Callout" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          simpleValue: S.optional(S.String),
-          tooltipIconStyle: S.optional(S.String),
-          simpleTooltipValue: S.optional(S.String),
+          id: S.optional(S.String),
+          label: S.optional(__S(74, __c2, 10)),
+          additionalInput: S.optional(S.suspend(() => __S(81, __c2, 17))),
         }),
-      ).annotate({ identifier: "TextWithTooltip" });
+      ).annotate({ identifier: "ChoiceInputOption" });
     case 13:
-      return S.suspend(() =>
-        S.Struct({
-          styleHint: S.optional(S.String),
-          fullMessage: S.optional(__S(76, __c2, 12)),
-        }),
-      ).annotate({ identifier: "Callout" });
+      return S.Array(__S(76, __c2, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          formatInfo: S.optional(S.String),
-          additionalInfo: S.optional(__S(76, __c2, 12)),
-          ariaLabel: S.optional(S.String),
+          options: S.optional(__S(77, __c2, 13)),
         }),
-      ).annotate({ identifier: "TextInput" });
+      ).annotate({ identifier: "ChoiceInput" });
     case 15:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CheckboxInput" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
-          additionalInput: S.optional(S.suspend(() => __S(83, __c2, 19))),
-          label: S.optional(__S(76, __c2, 12)),
+          ariaLabel: S.optional(S.String),
+          type: S.optional(S.String),
+          formatInfo: S.optional(S.String),
+          additionalInfo: S.optional(__S(74, __c2, 10)),
         }),
-      ).annotate({ identifier: "ChoiceInputOption" });
+      ).annotate({ identifier: "TextInput" });
     case 17:
-      return S.Array(__S(80, __c2, 16));
-    case 18:
       return S.suspend(() =>
         S.Struct({
-          options: S.optional(__S(81, __c2, 17)),
-        }),
-      ).annotate({ identifier: "ChoiceInput" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          textInput: S.optional(__S(78, __c2, 14)),
-          required: S.optional(S.Boolean),
-          label: S.optional(__S(76, __c2, 12)),
+          choiceInput: S.optional(__S(78, __c2, 14)),
           checkboxInput: S.optional(__S(79, __c2, 15)),
-          choiceInput: S.optional(__S(82, __c2, 18)),
+          textInput: S.optional(__S(80, __c2, 16)),
+          label: S.optional(__S(74, __c2, 10)),
+          required: S.optional(S.Boolean),
           id: S.optional(S.String),
         }),
       ).annotate({ identifier: "InputField" });
+    case 18:
+      return S.Array(__S(81, __c2, 17));
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          dialogMessage: S.optional(__S(74, __c2, 10)),
+          dialogCallout: S.optional(__S(75, __c2, 11)),
+          dialogButtonLabel: S.optional(S.String),
+          inputs: S.optional(__S(82, __c2, 18)),
+          dialogTitle: S.optional(S.String),
+          label: S.optional(S.String),
+          id: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ActionFlow" });
     case 20:
       return S.Array(__S(83, __c2, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
-          dialogTitle: S.optional(S.String),
-          dialogCallout: S.optional(__S(77, __c2, 13)),
-          label: S.optional(S.String),
-          dialogMessage: S.optional(__S(76, __c2, 12)),
-          dialogButtonLabel: S.optional(S.String),
-          inputs: S.optional(__S(84, __c2, 20)),
-          id: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ActionFlow" });
-    case 22:
-      return S.Array(__S(85, __c2, 21));
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
           actionContext: S.optional(S.String),
-          flows: S.optional(__S(86, __c2, 22)),
+          flows: S.optional(__S(84, __c2, 20)),
         }),
       ).annotate({ identifier: "BuiltInUserInputAction" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          detail: S.optional(S.String),
+          action: S.optional(S.suspend(() => __S(88, __c2, 24))),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Reason" });
+    case 23:
+      return S.Array(__S(86, __c2, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
-          buttonLabel: S.optional(S.String),
-          reasons: S.optional(__S(72, __c2, 8)),
-          builtinSimpleAction: S.optional(__S(74, __c2, 10)),
+          builtinSimpleAction: S.optional(__S(72, __c2, 8)),
+          externalAction: S.optional(__S(73, __c2, 9)),
           isAvailable: S.optional(S.Boolean),
-          externalAction: S.optional(__S(75, __c2, 11)),
-          builtinUserInputAction: S.optional(__S(87, __c2, 23)),
+          builtinUserInputAction: S.optional(__S(85, __c2, 21)),
+          reasons: S.optional(__S(87, __c2, 23)),
+          buttonLabel: S.optional(S.String),
         }),
       ).annotate({ identifier: "Action" });
     case 25:
@@ -807,10 +807,10 @@ function __c2(j: number): any {
     case 26:
       return S.suspend(() =>
         S.Struct({
-          prerenderedOutOfCourtDisputeSettlement: S.optional(S.String),
           title: S.optional(S.String),
           impact: S.optional(__S(70, __c2, 6)),
           actions: S.optional(__S(89, __c2, 25)),
+          prerenderedOutOfCourtDisputeSettlement: S.optional(S.String),
           prerenderedContent: S.optional(S.String),
         }),
       ).annotate({ identifier: "RenderedIssue" });
@@ -831,9 +831,9 @@ function __c3(j: number): any {
         S.Extend(
           __S(64, __c2, 0),
           S.Struct({
+            languageCode: S.optional(S.String.pipe(T.Query())),
             timeZone: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            languageCode: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -850,28 +850,28 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          value: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TextInputValue" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           value: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CheckboxInputValue" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           choiceInputOptionId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ChoiceInputValue" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          value: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TextInputValue" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          checkboxInputValue: S.optional(__S(128, __c4, 0)),
-          choiceInputValue: S.optional(__S(129, __c4, 1)),
-          textInputValue: S.optional(__S(130, __c4, 2)),
+          textInputValue: S.optional(__S(128, __c4, 0)),
+          checkboxInputValue: S.optional(__S(129, __c4, 1)),
           inputFieldId: S.optional(S.String),
+          choiceInputValue: S.optional(__S(130, __c4, 2)),
         }),
       ).annotate({ identifier: "InputValue" });
     case 4:
@@ -879,15 +879,15 @@ function __c4(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          actionFlowId: S.optional(S.String),
           inputValues: S.optional(__S(132, __c4, 4)),
+          actionFlowId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ActionInput" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          actionContext: S.optional(S.String),
           actionInput: S.optional(__S(133, __c4, 5)),
+          actionContext: S.optional(S.String),
         }),
       ).annotate({ identifier: "TriggerActionPayload" });
     case 7:

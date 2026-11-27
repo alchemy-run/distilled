@@ -93,12 +93,12 @@ export type AdminAccessBindingOrganizationRolesItemEnumList = Array<
 >;
 /** A resource message representing a binding to a set of roles. */
 export interface AdminAccessBinding {
+  /** Optional. A list of roles granted to the parent organization. USER_ADMIN_ROLE and BILLING_ADMIN_ROLE will be automatically added if ORG_ADMIN_ROLE is assigned. No roles will be assigned if no roles are specified. */
+  organizationRoles?: AdminAccessBindingOrganizationRolesItemEnumList | undefined;
   /** Email address of the user. */
   userEmail?: string | undefined;
   /** Identifier. The resource name of this AdminAccessBinding. Format: organizations/{org_id}/adminAccessBindings/{admin_access_binding_id} Example: "organizations/123abc/adminAccessBindings/456def" */
   name?: string | undefined;
-  /** Optional. A list of roles granted to the parent organization. USER_ADMIN_ROLE and BILLING_ADMIN_ROLE will be automatically added if ORG_ADMIN_ROLE is assigned. No roles will be assigned if no roles are specified. */
-  organizationRoles?: AdminAccessBindingOrganizationRolesItemEnumList | undefined;
   /** Resource name of the user group. */
   userGroup?: string | undefined;
 }
@@ -112,14 +112,14 @@ export type AnalyticsAccountLinkLinkVerificationStateEnum =
   | "LINK_VERIFICATION_STATE_NOT_VERIFIED";
 /** A resource message representing the link between a Google Analytics account and a Google Marketing Platform organization. */
 export interface AnalyticsAccountLink {
+  /** Required. Immutable. The resource name of the AnalyticsAdmin API account. The account ID will be used as the ID of this AnalyticsAccountLink resource, which will become the final component of the resource name. Format: analyticsadmin.googleapis.com/accounts/{account_id} */
+  analyticsAccount?: string | undefined;
+  /** Output only. The verification state of the link between the Analytics account and the parent organization. */
+  linkVerificationState?: AnalyticsAccountLinkLinkVerificationStateEnum | (string & {}) | undefined;
   /** Output only. The human-readable name for the Analytics account. */
   displayName?: string | undefined;
   /** Identifier. Resource name of this AnalyticsAccountLink. Note the resource ID is the same as the ID of the Analtyics account. Format: organizations/{org_id}/analyticsAccountLinks/{analytics_account_link_id} Example: "organizations/xyz/analyticsAccountLinks/1234" */
   name?: string | undefined;
-  /** Output only. The verification state of the link between the Analytics account and the parent organization. */
-  linkVerificationState?: AnalyticsAccountLinkLinkVerificationStateEnum | (string & {}) | undefined;
-  /** Required. Immutable. The resource name of the AnalyticsAdmin API account. The account ID will be used as the ID of this AnalyticsAccountLink resource, which will become the final component of the resource name. Format: analyticsadmin.googleapis.com/accounts/{account_id} */
-  analyticsAccount?: string | undefined;
 }
 export interface CreateOrganizationsAnalyticsAccountLinksRequest extends AnalyticsAccountLink {
   /** Required. The parent resource where this Analytics account link will be created. Format: organizations/{org_id} */
@@ -127,12 +127,12 @@ export interface CreateOrganizationsAnalyticsAccountLinksRequest extends Analyti
 }
 /** A resource message representing a user group in a GMP organization. */
 export interface UserGroup {
-  /** Identifier. Resource name of this UserGroup. Format: organizations/{org_id}/userGroups/{user_group_id} Example: "organizations/123abc/userGroups/456def" */
-  name?: string | undefined;
   /** Optional. The human-readable name for the user group. */
   displayName?: string | undefined;
   /** Optional. The description of the user group. */
   description?: string | undefined;
+  /** Identifier. Resource name of this UserGroup. Format: organizations/{org_id}/userGroups/{user_group_id} Example: "organizations/123abc/userGroups/456def" */
+  name?: string | undefined;
 }
 export interface CreateOrganizationsUserGroupsRequest extends UserGroup {
   /** Required. The parent resource where this UserGroup will be created. Format: organizations/{org_id} */
@@ -144,14 +144,14 @@ export type UserGroupMemberMembershipRoleEnum =
   | "MEMBERSHIP_ROLE_MEMBER";
 /** A resource message representing a member of a user group. */
 export interface UserGroupMember {
-  /** User group resource name of the group member. */
-  userGroup?: string | undefined;
-  /** Optional. The role of the member in the user group. */
-  membershipRole?: UserGroupMemberMembershipRoleEnum | (string & {}) | undefined;
   /** Email address of the user member. */
   userEmail?: string | undefined;
   /** Identifier. The resource name of this UserGroupMember. Format: organizations/{org_id}/userGroups/{user_group_id}/members/{member_id} Example: "organizations/123abc/userGroups/456def/members/789ghi" */
   name?: string | undefined;
+  /** Optional. The role of the member in the user group. */
+  membershipRole?: UserGroupMemberMembershipRoleEnum | (string & {}) | undefined;
+  /** User group resource name of the group member. */
+  userGroup?: string | undefined;
 }
 export interface CreateOrganizationsUserGroupsMembersRequest extends UserGroupMember {
   /** Required. The parent resource where this UserGroupMember will be created. Format: organizations/{org_id}/userGroups/{user_group_id} */
@@ -180,13 +180,6 @@ export interface FindSalesPartnerManagedClientsOrganizationsRequest extends Find
   /** Required. The name of the sales partner organization. Format: organizations/{org_id} */
   organization: string;
 }
-/** A resource message representing a Google Marketing Platform organization. */
-export interface Organization {
-  /** The human-readable name for the organization. */
-  displayName?: string | undefined;
-  /** Identifier. The resource name of the GMP organization. Format: organizations/{org_id} */
-  name?: string | undefined;
-}
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface Marketingplatformadmin_Date {
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
@@ -196,14 +189,21 @@ export interface Marketingplatformadmin_Date {
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
   year?: number | undefined;
 }
+/** A resource message representing a Google Marketing Platform organization. */
+export interface Organization {
+  /** Identifier. The resource name of the GMP organization. Format: organizations/{org_id} */
+  name?: string | undefined;
+  /** The human-readable name for the organization. */
+  displayName?: string | undefined;
+}
 /** Contains the client data. */
 export interface ClientData {
+  /** The end date of the contract between the sales org and the end client. */
+  endDate?: Marketingplatformadmin_Date | undefined;
   /** The end client that has/had contract with the requested sales org. */
   organization?: Organization | undefined;
   /** The start date of the contract between the sales org and the end client. */
   startDate?: Marketingplatformadmin_Date | undefined;
-  /** The end date of the contract between the sales org and the end client. */
-  endDate?: Marketingplatformadmin_Date | undefined;
 }
 export type ClientDataList = Array<ClientData>;
 /** Response message for FindSalesPartnerManagedClients RPC. */
@@ -242,28 +242,28 @@ export interface ListOrganizationsResponse {
   organizations?: OrganizationList | undefined;
 }
 export interface ListOrganizationsAdminAccessBindingsRequest {
-  /** Required. The parent organization, which owns this collection of Admin Access Bindings. Format: organizations/{org_id} */
-  parent: string;
   /** Optional. A page token, received from a previous ListAdminAccessBindings call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAdminAccessBindings` must match the call that provided the page token. */
   pageToken?: string | undefined;
+  /** Required. The parent organization, which owns this collection of Admin Access Bindings. Format: organizations/{org_id} */
+  parent: string;
   /** Optional. The maximum number of Admin Access Bindings to return in one call. The service may return fewer than this value. If unspecified, at most 50 Admin Access Bindings will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number | undefined;
 }
 export type AdminAccessBindingList = Array<AdminAccessBinding>;
 /** Response message for ListAdminAccessBindings RPC. */
 export interface ListAdminAccessBindingsResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** Admin Access Bindings in the organization. */
   adminAccessBindings?: AdminAccessBindingList | undefined;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export interface ListOrganizationsAnalyticsAccountLinksRequest {
-  /** Required. The parent organization, which owns this collection of Analytics account links. Format: organizations/{org_id} */
-  parent: string;
-  /** Optional. The maximum number of Analytics account links to return in one call. The service may return fewer than this value. If unspecified, at most 50 Analytics account links will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous ListAnalyticsAccountLinks call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAnalyticsAccountLinks` must match the call that provided the page token. */
   pageToken?: string | undefined;
+  /** Optional. The maximum number of Analytics account links to return in one call. The service may return fewer than this value. If unspecified, at most 50 Analytics account links will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number | undefined;
+  /** Required. The parent organization, which owns this collection of Analytics account links. Format: organizations/{org_id} */
+  parent: string;
 }
 export type AnalyticsAccountLinkList = Array<AnalyticsAccountLink>;
 /** Response message for ListAnalyticsAccountLinks RPC. */
@@ -274,28 +274,28 @@ export interface ListAnalyticsAccountLinksResponse {
   analyticsAccountLinks?: AnalyticsAccountLinkList | undefined;
 }
 export interface ListOrganizationsUserGroupsRequest {
-  /** Required. The parent org where this UserGroup will be listed. Format: organizations/{org_id} */
-  parent: string;
-  /** Optional. The maximum number of user groups to return in one call. The service may return fewer than this value. If unspecified, at most 50 user groups will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous ListUserGroups call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListUserGroups` must match the call that provided the page token. */
   pageToken?: string | undefined;
+  /** Optional. The maximum number of user groups to return in one call. The service may return fewer than this value. If unspecified, at most 50 user groups will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number | undefined;
+  /** Required. The parent org where this UserGroup will be listed. Format: organizations/{org_id} */
+  parent: string;
 }
 export type UserGroupList = Array<UserGroup>;
 /** Response message for ListUserGroups RPC. */
 export interface ListUserGroupsResponse {
-  /** User groups in the organization. */
-  userGroups?: UserGroupList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
+  /** User groups in the organization. */
+  userGroups?: UserGroupList | undefined;
 }
 export interface ListOrganizationsUserGroupsMembersRequest {
   /** Optional. The maximum number of user group members to return in one call. The service may return fewer than this value. If unspecified, at most 50 user group members will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
   pageSize?: number | undefined;
-  /** Optional. A page token, received from a previous ListUserGroupMembers call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListUserGroupMembers` must match the call that provided the page token. */
-  pageToken?: string | undefined;
   /** Required. The parent user group where this UserGroupMember will be listed. Format: organizations/{org_id}/userGroups/{user_group_id} */
   parent: string;
+  /** Optional. A page token, received from a previous ListUserGroupMembers call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListUserGroupMembers` must match the call that provided the page token. */
+  pageToken?: string | undefined;
 }
 export type UserGroupMemberList = Array<UserGroupMember>;
 /** Response message for ListUserGroupMembers RPC. */
@@ -315,10 +315,10 @@ export interface PatchOrganizationsAdminAccessBindingsRequest extends Omit<
   name: string;
 }
 export interface PatchOrganizationsUserGroupsRequest extends Omit<UserGroup, "name"> {
-  /** Identifier. Resource name of this UserGroup. Format: organizations/{org_id}/userGroups/{user_group_id} Example: "organizations/123abc/userGroups/456def" */
-  name: string;
   /** Required. The list of fields to update. Field names must be in snake case (for example, "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
+  /** Identifier. Resource name of this UserGroup. Format: organizations/{org_id}/userGroups/{user_group_id} Example: "organizations/123abc/userGroups/456def" */
+  name: string;
 }
 export interface PatchOrganizationsUserGroupsMembersRequest extends Omit<UserGroupMember, "name"> {
   /** Identifier. The resource name of this UserGroupMember. Format: organizations/{org_id}/userGroups/{user_group_id}/members/{member_id} Example: "organizations/123abc/userGroups/456def/members/789ghi" */
@@ -346,14 +346,14 @@ export interface Money {
 }
 /** Contains the bill amount. */
 export interface BillInfo {
-  /** The amount of the event fee. */
-  eventFee?: Money | undefined;
-  /** The amount of the monthly base fee. */
-  baseFee?: Money | undefined;
   /** The total amount of the bill. */
   total?: Money | undefined;
   /** The amount of the price protection credit, this is only available for eligible customers. */
   priceProtectionCredit?: Money | undefined;
+  /** The amount of the event fee. */
+  eventFee?: Money | undefined;
+  /** The amount of the monthly base fee. */
+  baseFee?: Money | undefined;
 }
 export type PropertyUsagePropertyTypeEnum =
   | "ANALYTICS_PROPERTY_TYPE_UNSPECIFIED"
@@ -366,20 +366,20 @@ export type PropertyUsageServiceLevelEnum =
   | "ANALYTICS_SERVICE_LEVEL_360";
 /** Contains the count of events received by the property, along with metadata that influences the volume of `billable` events. */
 export interface PropertyUsage {
+  /** Total event count that the property received during the requested month. */
+  totalEventCount?: string | undefined;
   /** The subtype of the analytics property. This affects the billable event count. */
   propertyType?: PropertyUsagePropertyTypeEnum | undefined;
-  /** The number of events for which the property is billed in the requested month. */
-  billableEventCount?: string | undefined;
   /** The display name of the property. */
   displayName?: string | undefined;
   /** The name of the Google Analytics Admin API property resource. Format: analyticsadmin.googleapis.com/properties/{property_id} */
   property?: string | undefined;
   /** The ID of the property's parent account. */
   accountId?: string | undefined;
+  /** The number of events for which the property is billed in the requested month. */
+  billableEventCount?: string | undefined;
   /** The service level of the property. */
   serviceLevel?: PropertyUsageServiceLevelEnum | undefined;
-  /** Total event count that the property received during the requested month. */
-  totalEventCount?: string | undefined;
 }
 export type PropertyUsageList = Array<PropertyUsage>;
 /** Response message for ReportPropertyUsage RPC. */
@@ -932,9 +932,9 @@ function __c1(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          endDate: S.optional(__S(10, __c1, 2)),
           organization: S.optional(__S(16, __c2, 0)),
           startDate: S.optional(__S(10, __c1, 2)),
-          endDate: S.optional(__S(10, __c1, 2)),
         }),
       ).annotate({ identifier: "ClientData" });
     case 4:
@@ -952,8 +952,8 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
           name: S.optional(S.String),
+          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Organization" });
   }
@@ -1053,8 +1053,8 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -1069,8 +1069,8 @@ function __c8(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           adminAccessBindings: S.optional(__S(65, __c8, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAdminAccessBindingsResponse" });
   }
@@ -1080,9 +1080,9 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1107,9 +1107,9 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1123,8 +1123,8 @@ function __c10(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          userGroups: S.optional(__S(81, __c10, 1)),
           nextPageToken: S.optional(S.String),
+          userGroups: S.optional(__S(81, __c10, 1)),
         }),
       ).annotate({ identifier: "ListUserGroupsResponse" });
   }
@@ -1135,8 +1135,8 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1183,8 +1183,8 @@ function __c13(j: number): any {
         S.Extend(
           __S(176, __c22, 0),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -1250,22 +1250,22 @@ function __c15(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          eventFee: S.optional(__S(122, __c15, 2)),
-          baseFee: S.optional(__S(122, __c15, 2)),
           total: S.optional(__S(122, __c15, 2)),
           priceProtectionCredit: S.optional(__S(122, __c15, 2)),
+          eventFee: S.optional(__S(122, __c15, 2)),
+          baseFee: S.optional(__S(122, __c15, 2)),
         }),
       ).annotate({ identifier: "BillInfo" });
     case 4:
       return S.suspend(() =>
         S.Struct({
+          totalEventCount: S.optional(S.String),
           propertyType: S.optional(S.String),
-          billableEventCount: S.optional(S.String),
           displayName: S.optional(S.String),
           property: S.optional(S.String),
           accountId: S.optional(S.String),
+          billableEventCount: S.optional(S.String),
           serviceLevel: S.optional(S.String),
-          totalEventCount: S.optional(S.String),
         }),
       ).annotate({ identifier: "PropertyUsage" });
     case 5:
@@ -1333,9 +1333,9 @@ function __c18(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          organizationRoles: S.optional(__S(144, __c18, 0)),
           userEmail: S.optional(S.String),
           name: S.optional(S.String),
-          organizationRoles: S.optional(__S(144, __c18, 0)),
           userGroup: S.optional(S.String),
         }),
       ).annotate({ identifier: "AdminAccessBinding" });
@@ -1365,10 +1365,10 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          analyticsAccount: S.optional(S.String),
+          linkVerificationState: S.optional(S.String),
           displayName: S.optional(S.String),
           name: S.optional(S.String),
-          linkVerificationState: S.optional(S.String),
-          analyticsAccount: S.optional(S.String),
         }),
       ).annotate({ identifier: "AnalyticsAccountLink" });
   }
@@ -1397,9 +1397,9 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           displayName: S.optional(S.String),
           description: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "UserGroup" });
   }
@@ -1428,10 +1428,10 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          userGroup: S.optional(S.String),
-          membershipRole: S.optional(S.String),
           userEmail: S.optional(S.String),
           name: S.optional(S.String),
+          membershipRole: S.optional(S.String),
+          userGroup: S.optional(S.String),
         }),
       ).annotate({ identifier: "UserGroupMember" });
   }

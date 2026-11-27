@@ -83,27 +83,27 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export type StringList = Array<string>;
-/** Translates to IAM Policy bindings (without auditing at this level) */
-export interface PolicyBinding {
-  /** Role. (https://cloud.google.com/iam/docs/understanding-roles) For example, `roles/viewer`, `roles/editor`, or `roles/owner`. */
-  role?: string | undefined;
-  /** Uses the same format as in IAM policy. `member` must include both a prefix and ID. For example, `user:{emailId}`, `serviceAccount:{emailId}`, `group:{emailId}`. */
-  members?: StringList | undefined;
-}
-export type PolicyBindingList = Array<PolicyBinding>;
-/** Describes policy settings that can be applied to a newly created tenant project. */
-export interface TenantProjectPolicy {
-  /** Policy bindings to be applied to the tenant project, in addition to the 'roles/owner' role granted to the Service Consumer Management service account. */
-  policyBindings?: PolicyBindingList | undefined;
-}
 export type StringMap = { [key: string]: string | undefined };
+export type StringList = Array<string>;
 /** Describes the service account configuration for the tenant project. */
 export interface ServiceAccountConfig {
   /** ID of the IAM service account to be created in tenant project. The email format of the service account is "@.iam.gserviceaccount.com". This account ID must be unique within tenant project and service producers have to guarantee it. The ID must be 6-30 characters long, and match the following regular expression: `[a-z]([-a-z0-9]*[a-z0-9])`. */
   accountId?: string | undefined;
   /** Roles for the associated service account for the tenant project. */
   tenantProjectRoles?: StringList | undefined;
+}
+/** Translates to IAM Policy bindings (without auditing at this level) */
+export interface PolicyBinding {
+  /** Uses the same format as in IAM policy. `member` must include both a prefix and ID. For example, `user:{emailId}`, `serviceAccount:{emailId}`, `group:{emailId}`. */
+  members?: StringList | undefined;
+  /** Role. (https://cloud.google.com/iam/docs/understanding-roles) For example, `roles/viewer`, `roles/editor`, or `roles/owner`. */
+  role?: string | undefined;
+}
+export type PolicyBindingList = Array<PolicyBinding>;
+/** Describes policy settings that can be applied to a newly created tenant project. */
+export interface TenantProjectPolicy {
+  /** Policy bindings to be applied to the tenant project, in addition to the 'roles/owner' role granted to the Service Consumer Management service account. */
+  policyBindings?: PolicyBindingList | undefined;
 }
 /** Describes the billing configuration for a new tenant project. */
 export interface BillingConfig {
@@ -112,18 +112,18 @@ export interface BillingConfig {
 }
 /** This structure defines a tenant project to be added to the specified tenancy unit and its initial configuration and properties. A project lien is created for the tenant project to prevent the tenant project from being deleted accidentally. The lien is deleted as part of tenant project removal. */
 export interface TenantProjectConfig {
-  /** Describes ownership and policies for the new tenant project. */
-  tenantProjectPolicy?: TenantProjectPolicy | undefined;
   /** Labels that are applied to this project. */
   labels?: StringMap | undefined;
   /** Configuration for the IAM service account on the tenant project. */
   serviceAccountConfig?: ServiceAccountConfig | undefined;
-  /** Billing account properties. The billing account must be specified. */
-  billingConfig?: BillingConfig | undefined;
-  /** Folder where project in this tenancy unit must be located This folder must have been previously created with the required permissions for the caller to create and configure a project in it. Valid folder resource names have the format `folders/{folder_number}` (for example, `folders/123456`). */
-  folder?: string | undefined;
+  /** Describes ownership and policies for the new tenant project. */
+  tenantProjectPolicy?: TenantProjectPolicy | undefined;
   /** Google Cloud API names of services that are activated on this project during provisioning. If any of these services can't be activated, the request fails. For example: 'compute.googleapis.com','cloudfunctions.googleapis.com' */
   services?: StringList | undefined;
+  /** Folder where project in this tenancy unit must be located This folder must have been previously created with the required permissions for the caller to create and configure a project in it. Valid folder resource names have the format `folders/{folder_number}` (for example, `folders/123456`). */
+  folder?: string | undefined;
+  /** Billing account properties. The billing account must be specified. */
+  billingConfig?: BillingConfig | undefined;
 }
 /** Request to add a newly created and configured tenant project to a tenancy unit. */
 export interface AddTenantProjectRequest {
@@ -142,30 +142,30 @@ export type DocumentMapList = Array<DocumentMap>;
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number | undefined;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean | undefined;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status | undefined;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string | undefined;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap | undefined;
 }
 /** Request to apply configuration to an existing tenant project. */
 export interface ApplyTenantProjectConfigRequest {
-  /** Configuration that should be applied to the existing tenant project. */
-  projectConfig?: TenantProjectConfig | undefined;
   /** Required. Tag of the project. Must be less than 128 characters. Required. */
   tag?: string | undefined;
+  /** Configuration that should be applied to the existing tenant project. */
+  projectConfig?: TenantProjectConfig | undefined;
 }
 export interface ApplyProjectConfigServicesTenancyUnitsRequest extends ApplyTenantProjectConfigRequest {
   /** Required. Name of the tenancy unit. Such as 'services/service.googleapis.com/projects/12345/tenancyUnits/abcd'. */
@@ -173,12 +173,12 @@ export interface ApplyProjectConfigServicesTenancyUnitsRequest extends ApplyTena
 }
 /** Request to attach an existing project to the tenancy unit as a new tenant resource. */
 export interface AttachTenantProjectRequest {
+  /** When attaching a reserved project already in tenancy units, this is the tag of a tenant resource under the tenancy unit for the managed service's service producer project. The reserved tenant resource must be in an active state. */
+  reservedResource?: string | undefined;
   /** Required. Tag of the tenant resource after attachment. Must be less than 128 characters. Required. */
   tag?: string | undefined;
   /** When attaching an external project, this is in the format of `projects/{project_number}`. */
   externalResource?: string | undefined;
-  /** When attaching a reserved project already in tenancy units, this is the tag of a tenant resource under the tenancy unit for the managed service's service producer project. The reserved tenant resource must be in an active state. */
-  reservedResource?: string | undefined;
 }
 export interface AttachProjectServicesTenancyUnitsRequest extends AttachTenantProjectRequest {
   /** Required. Name of the tenancy unit that the project will be attached to. Such as 'services/service.googleapis.com/projects/12345/tenancyUnits/abcd'. */
@@ -212,28 +212,28 @@ export type TenantResourceStatusEnum =
   | "DELETED";
 /** Resource constituting the TenancyUnit. */
 export interface TenantResource {
+  /** Unique per single tenancy unit. */
+  tag?: string | undefined;
+  /** Output only. The newly created regional resource name of the tenant project that has been migrated from a global service. This field is only set for migrated tenant projects. Format: `services//{collection_id}/{RESOURCE_ID}/locations/{LOCATION}/tenantProjects/{TENANT_ID}`. */
+  migratedTenantProject?: string | undefined;
   /** Output only. @OutputOnly Identifier of the tenant resource. For cloud projects, it is in the form 'projects/{number}'. For example 'projects/123456'. */
   resource?: string | undefined;
   /** Output only. The resource name of the tenant project from which this active regional tenant project was migrated. This field is only set for active regional migrated mapping tenant projects. Format: `services//{collection_id}/{RESOURCE_ID}/locations/{LOCATION}/tenantProjects/{TENANT_ID}`. */
   sourceTenantProject?: string | undefined;
-  /** Output only. The newly created regional resource name of the tenant project that has been migrated from a global service. This field is only set for migrated tenant projects. Format: `services//{collection_id}/{RESOURCE_ID}/locations/{LOCATION}/tenantProjects/{TENANT_ID}`. */
-  migratedTenantProject?: string | undefined;
-  /** Unique per single tenancy unit. */
-  tag?: string | undefined;
   /** Status of tenant resource. */
   status?: TenantResourceStatusEnum | undefined;
 }
 export type TenantResourceList = Array<TenantResource>;
 /** Representation of a tenancy unit. */
 export interface TenancyUnit {
-  /** Output only. @OutputOnly Cloud resource name of the consumer of this service. For example 'projects/123456'. */
-  consumer?: string | undefined;
-  /** Output only. Google Cloud API name of the managed service owning this tenancy unit. For example 'serviceconsumermanagement.googleapis.com'. */
-  service?: string | undefined;
-  /** Output only. @OutputOnly The time this tenancy unit was created. */
-  createTime?: string | undefined;
   /** Globally unique identifier of this tenancy unit "services/{service}/{collection id}/{resource id}/tenancyUnits/{unit}" */
   name?: string | undefined;
+  /** Output only. Google Cloud API name of the managed service owning this tenancy unit. For example 'serviceconsumermanagement.googleapis.com'. */
+  service?: string | undefined;
+  /** Output only. @OutputOnly Cloud resource name of the consumer of this service. For example 'projects/123456'. */
+  consumer?: string | undefined;
+  /** Output only. @OutputOnly The time this tenancy unit was created. */
+  createTime?: string | undefined;
   /** Resources constituting the tenancy unit. There can be at most 512 tenant resources in a tenancy unit. */
   tenantResources?: TenantResourceList | undefined;
 }
@@ -259,36 +259,36 @@ export interface GetOperationsRequest {
   name: string;
 }
 export interface ListOperationsRequest {
-  /** The name of the operation's parent resource. */
-  name: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean | undefined;
+  /** The name of the operation's parent resource. */
+  name: string;
+  /** The standard list page token. */
+  pageToken?: string | undefined;
   /** The standard list filter. */
   filter?: string | undefined;
   /** The standard list page size. */
   pageSize?: number | undefined;
-  /** The standard list page token. */
-  pageToken?: string | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList | undefined;
-  /** The standard List next-page token. */
-  nextPageToken?: string | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
+  /** The standard List next-page token. */
+  nextPageToken?: string | undefined;
 }
 export interface ListServicesTenancyUnitsRequest {
-  /** Optional. The maximum number of results returned by this request. */
-  pageSize?: number | undefined;
+  /** Required. Managed service and service consumer. Required. services/{service}/{collection id}/{resource id} {collection id} is the cloud resource collection type representing the service consumer, for example 'projects', or 'organizations'. {resource id} is the consumer numeric id, such as project number: '123456'. {service} the name of a service, such as 'service.googleapis.com'. */
+  parent: string;
   /** Optional. Filter expression over tenancy resources field. Optional. */
   filter?: string | undefined;
   /** Optional. The continuation token, which is used to page through large result sets. To get the next page of results, set this parameter to the value of `nextPageToken` from the previous response. */
   pageToken?: string | undefined;
-  /** Required. Managed service and service consumer. Required. services/{service}/{collection id}/{resource id} {collection id} is the cloud resource collection type representing the service consumer, for example 'projects', or 'organizations'. {resource id} is the consumer numeric id, such as project number: '123456'. {service} the name of a service, such as 'service.googleapis.com'. */
-  parent: string;
+  /** Optional. The maximum number of results returned by this request. */
+  pageSize?: number | undefined;
 }
 export type TenancyUnitList = Array<TenancyUnit>;
 /** Response for the list request. */
@@ -305,21 +305,21 @@ export interface RemoveProjectServicesTenancyUnitsRequest extends DeleteTenantPr
   name: string;
 }
 export interface SearchServicesRequest {
-  /** Optional. Set a query `{expression}` for querying tenancy units. Your `{expression}` must be in the format: `field_name=literal_string`. The `field_name` is the name of the field you want to compare. Supported fields are `tenant_resources.tag` and `tenant_resources.resource`. For example, to search tenancy units that contain at least one tenant resource with a given tag 'xyz', use the query `tenant_resources.tag=xyz`. To search tenancy units that contain at least one tenant resource with a given resource name 'projects/123456', use the query `tenant_resources.resource=projects/123456`. Multiple expressions can be joined with `AND`s. Tenancy units must match all expressions to be included in the result set. For example, `tenant_resources.tag=xyz AND tenant_resources.resource=projects/123456` */
-  query?: string | undefined;
-  /** Required. Service for which search is performed. services/{service} {service} the name of a service, for example 'service.googleapis.com'. */
-  parent: string;
-  /** Optional. The maximum number of results returned by this request. Currently, the default maximum is set to 256. If `page_size` <= 256, the request proceeds. Else, the request fails with an `TU_INVALID_PAGE_SIZE` error. */
-  pageSize?: number | undefined;
   /** Optional. The continuation token, which is used to page through large result sets. To get the next page of results, set this parameter to the value of `nextPageToken` from the previous response. */
   pageToken?: string | undefined;
+  /** Optional. Set a query `{expression}` for querying tenancy units. Your `{expression}` must be in the format: `field_name=literal_string`. The `field_name` is the name of the field you want to compare. Supported fields are `tenant_resources.tag` and `tenant_resources.resource`. For example, to search tenancy units that contain at least one tenant resource with a given tag 'xyz', use the query `tenant_resources.tag=xyz`. To search tenancy units that contain at least one tenant resource with a given resource name 'projects/123456', use the query `tenant_resources.resource=projects/123456`. Multiple expressions can be joined with `AND`s. Tenancy units must match all expressions to be included in the result set. For example, `tenant_resources.tag=xyz AND tenant_resources.resource=projects/123456` */
+  query?: string | undefined;
+  /** Optional. The maximum number of results returned by this request. Currently, the default maximum is set to 256. If `page_size` <= 256, the request proceeds. Else, the request fails with an `TU_INVALID_PAGE_SIZE` error. */
+  pageSize?: number | undefined;
+  /** Required. Service for which search is performed. services/{service} {service} the name of a service, for example 'service.googleapis.com'. */
+  parent: string;
 }
 /** Response for the search query. */
 export interface SearchTenancyUnitsResponse {
-  /** Pagination token for large results. */
-  nextPageToken?: string | undefined;
   /** Tenancy Units matching the request. */
   tenancyUnits?: TenancyUnitList | undefined;
+  /** Pagination token for large results. */
+  nextPageToken?: string | undefined;
 }
 /** Request message to undelete tenant project resource previously deleted from the tenancy unit. */
 export type UndeleteTenantProjectRequest = DeleteTenantProjectRequest;
@@ -340,7 +340,7 @@ export const addProjectServicesTenancyUnits: API.OperationMethod<
   AddProjectServicesTenancyUnitsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(81, __c10, 1) as any as S.Schema<AddProjectServicesTenancyUnitsRequest>,
+  input: __S(80, __c10, 0) as any as S.Schema<AddProjectServicesTenancyUnitsRequest>,
   output: __S(107, __c13, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
@@ -363,7 +363,7 @@ export const applyProjectConfigServicesTenancyUnits: API.OperationMethod<
   ApplyProjectConfigServicesTenancyUnitsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(113, __c14, 1) as any as S.Schema<ApplyProjectConfigServicesTenancyUnitsRequest>,
+  input: __S(112, __c14, 0) as any as S.Schema<ApplyProjectConfigServicesTenancyUnitsRequest>,
   output: __S(107, __c13, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
@@ -549,7 +549,7 @@ export const listServicesTenancyUnits: API.PaginatedOperationMethod<
   ListTenancyUnitsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<ListServicesTenancyUnitsRequest>,
-  output: __S(41, __c5, 1) as any as S.Schema<ListTenancyUnitsResponse>,
+  output: __S(49, __c6, 1) as any as S.Schema<ListTenancyUnitsResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -592,7 +592,7 @@ export const searchServices: API.PaginatedOperationMethod<
   SearchTenancyUnitsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<SearchServicesRequest>,
-  output: __S(65, __c8, 1) as any as S.Schema<SearchTenancyUnitsResponse>,
+  output: __S(49, __c6, 1) as any as S.Schema<SearchTenancyUnitsResponse>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -692,11 +692,11 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -711,8 +711,8 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           operations: S.optional(__S(33, __c4, 1)),
-          nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(96, __c12, 0)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
@@ -722,10 +722,10 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -734,6 +734,12 @@ function __c5(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListServicesTenancyUnitsRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(154, __c19, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -741,12 +747,6 @@ function __c5(j: number): any {
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTenancyUnitsResponse" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(154, __c19, 2));
   }
 }
 function __c7(j: number): any {
@@ -773,10 +773,10 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          query: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          query: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -785,13 +785,6 @@ function __c8(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SearchServicesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          nextPageToken: S.optional(S.String),
-          tenancyUnits: S.optional(__S(48, __c6, 0)),
-        }),
-      ).annotate({ identifier: "SearchTenancyUnitsResponse" });
   }
 }
 function __c9(j: number): any {
@@ -817,15 +810,8 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          tag: S.optional(S.String),
-          projectConfig: S.optional(__S(94, __c11, 6)),
-        }),
-      ).annotate({ identifier: "AddTenantProjectRequest" });
-    case 1:
-      return S.suspend(() =>
         S.Extend(
-          __S(80, __c10, 0),
+          __S(95, __c11, 7),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -842,29 +828,29 @@ function __c10(j: number): any {
 function __c11(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          role: S.optional(S.String),
-          members: S.optional(__S(96, __c12, 0)),
-        }),
-      ).annotate({ identifier: "PolicyBinding" });
-    case 1:
-      return S.Array(__S(88, __c11, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          policyBindings: S.optional(__S(89, __c11, 1)),
-        }),
-      ).annotate({ identifier: "TenantProjectPolicy" });
-    case 3:
       return S.Record(S.String, S.String);
-    case 4:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           accountId: S.optional(S.String),
           tenantProjectRoles: S.optional(__S(96, __c12, 0)),
         }),
       ).annotate({ identifier: "ServiceAccountConfig" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          members: S.optional(__S(96, __c12, 0)),
+          role: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PolicyBinding" });
+    case 3:
+      return S.Array(__S(90, __c11, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          policyBindings: S.optional(__S(91, __c11, 3)),
+        }),
+      ).annotate({ identifier: "TenantProjectPolicy" });
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -874,14 +860,21 @@ function __c11(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          tenantProjectPolicy: S.optional(__S(90, __c11, 2)),
-          labels: S.optional(__S(91, __c11, 3)),
-          serviceAccountConfig: S.optional(__S(92, __c11, 4)),
-          billingConfig: S.optional(__S(93, __c11, 5)),
-          folder: S.optional(S.String),
+          labels: S.optional(__S(88, __c11, 0)),
+          serviceAccountConfig: S.optional(__S(89, __c11, 1)),
+          tenantProjectPolicy: S.optional(__S(92, __c11, 4)),
           services: S.optional(__S(96, __c12, 0)),
+          folder: S.optional(S.String),
+          billingConfig: S.optional(__S(93, __c11, 5)),
         }),
       ).annotate({ identifier: "TenantProjectConfig" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          tag: S.optional(S.String),
+          projectConfig: S.optional(__S(94, __c11, 6)),
+        }),
+      ).annotate({ identifier: "AddTenantProjectRequest" });
   }
 }
 function __c12(j: number): any {
@@ -900,17 +893,17 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          details: S.optional(__S(105, __c13, 1)),
           code: S.optional(S.Number),
+          details: S.optional(__S(105, __c13, 1)),
         }),
       ).annotate({ identifier: "Status" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(104, __c13, 0)),
           done: S.optional(S.Boolean),
-          error: S.optional(__S(106, __c13, 2)),
+          metadata: S.optional(__S(104, __c13, 0)),
           name: S.optional(S.String),
+          error: S.optional(__S(106, __c13, 2)),
           response: S.optional(__S(104, __c13, 0)),
         }),
       ).annotate({ identifier: "Operation" });
@@ -920,15 +913,8 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectConfig: S.optional(__S(94, __c11, 6)),
-          tag: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ApplyTenantProjectConfigRequest" });
-    case 1:
-      return S.suspend(() =>
         S.Extend(
-          __S(112, __c14, 0),
+          __S(95, __c11, 7),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -947,9 +933,9 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          reservedResource: S.optional(S.String),
           tag: S.optional(S.String),
           externalResource: S.optional(S.String),
-          reservedResource: S.optional(S.String),
         }),
       ).annotate({ identifier: "AttachTenantProjectRequest" });
     case 1:
@@ -1022,10 +1008,10 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          tag: S.optional(S.String),
+          migratedTenantProject: S.optional(S.String),
           resource: S.optional(S.String),
           sourceTenantProject: S.optional(S.String),
-          migratedTenantProject: S.optional(S.String),
-          tag: S.optional(S.String),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "TenantResource" });
@@ -1034,10 +1020,10 @@ function __c19(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          consumer: S.optional(S.String),
-          service: S.optional(S.String),
-          createTime: S.optional(S.String),
           name: S.optional(S.String),
+          service: S.optional(S.String),
+          consumer: S.optional(S.String),
+          createTime: S.optional(S.String),
           tenantResources: S.optional(__S(153, __c19, 1)),
         }),
       ).annotate({ identifier: "TenancyUnit" });

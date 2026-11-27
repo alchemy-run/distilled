@@ -99,54 +99,10 @@ export interface CancelProjectsLocationsOperationsRequest {
   /** Request body */
   body?: GoogleLongrunningCancelOperationRequest | undefined;
 }
-/** Configuration for Cloud Logging. */
-export type GoogleCloudBeyondcorpSecuritygatewaysV1LoggingConfig =
-  GoogleLongrunningCancelOperationRequest;
+export type GoogleCloudBeyondcorpSecuritygatewaysV1ProxyProtocolConfigGatewayIdentityEnum =
+  | "GATEWAY_IDENTITY_UNSPECIFIED"
+  | "RESOURCE_NAME";
 export type StringList = Array<string>;
-export type GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeadersDelegatedGroupInfoOutputTypeEnum =
-  | "OUTPUT_TYPE_UNSPECIFIED"
-  | "PROTOBUF"
-  | "JSON"
-  | "NONE";
-/** The delegated group configuration details. */
-export interface GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeadersDelegatedGroupInfo {
-  /** Optional. The output type of the delegated group information. */
-  outputType?:
-    | GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeadersDelegatedGroupInfoOutputTypeEnum
-    | (string & {})
-    | undefined;
-}
-export type GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeadersDelegatedDispatchInfoOutputTypeEnum =
-  | "OUTPUT_TYPE_UNSPECIFIED"
-  | "PROTOBUF"
-  | "JSON"
-  | "NONE";
-/** The delegated dispatch information configuration. */
-export interface GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeadersDelegatedDispatchInfo {
-  /** Optional. The output type details for the delegated dispatch information. */
-  outputType?:
-    | GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeadersDelegatedDispatchInfoOutputTypeEnum
-    | (string & {})
-    | undefined;
-}
-export type GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeadersOutputTypeEnum =
-  | "OUTPUT_TYPE_UNSPECIFIED"
-  | "PROTOBUF"
-  | "JSON"
-  | "NONE";
-export type GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeadersDelegatedDeviceInfoOutputTypeEnum =
-  | "OUTPUT_TYPE_UNSPECIFIED"
-  | "PROTOBUF"
-  | "JSON"
-  | "NONE";
-/** The delegated device information configuration. */
-export interface GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeadersDelegatedDeviceInfo {
-  /** Optional. The output type details for the delegated device. */
-  outputType?:
-    | GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeadersDelegatedDeviceInfoOutputTypeEnum
-    | (string & {})
-    | undefined;
-}
 export type GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeadersDelegatedUserInfoOutputTypeEnum =
   | "OUTPUT_TYPE_UNSPECIFIED"
   | "PROTOBUF"
@@ -160,38 +116,75 @@ export interface GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeadersDelegat
     | (string & {})
     | undefined;
 }
+export type GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeadersDelegatedDeviceInfoOutputTypeEnum =
+  | "OUTPUT_TYPE_UNSPECIFIED"
+  | "PROTOBUF"
+  | "JSON"
+  | "NONE";
+/** The delegated device information configuration. */
+export interface GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeadersDelegatedDeviceInfo {
+  /** Optional. The output type details for the delegated device. */
+  outputType?:
+    | GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeadersDelegatedDeviceInfoOutputTypeEnum
+    | (string & {})
+    | undefined;
+}
+export type GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeadersDelegatedGroupInfoOutputTypeEnum =
+  | "OUTPUT_TYPE_UNSPECIFIED"
+  | "PROTOBUF"
+  | "JSON"
+  | "NONE";
+/** The delegated group configuration details. */
+export interface GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeadersDelegatedGroupInfo {
+  /** Optional. The output type of the delegated group information. */
+  outputType?:
+    | GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeadersDelegatedGroupInfoOutputTypeEnum
+    | (string & {})
+    | undefined;
+}
+export type GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeadersOutputTypeEnum =
+  | "OUTPUT_TYPE_UNSPECIFIED"
+  | "PROTOBUF"
+  | "JSON"
+  | "NONE";
+export type GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeadersDelegatedDispatchInfoOutputTypeEnum =
+  | "OUTPUT_TYPE_UNSPECIFIED"
+  | "PROTOBUF"
+  | "JSON"
+  | "NONE";
+/** The delegated dispatch information configuration. */
+export interface GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeadersDelegatedDispatchInfo {
+  /** Optional. The output type details for the delegated dispatch information. */
+  outputType?:
+    | GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeadersDelegatedDispatchInfoOutputTypeEnum
+    | (string & {})
+    | undefined;
+}
 /** Contextual headers configuration. */
 export interface GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeaders {
+  /** Optional. User details. */
+  userInfo?: GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeadersDelegatedUserInfo | undefined;
+  /** Optional. The device information configuration. */
+  deviceInfo?:
+    | GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeadersDelegatedDeviceInfo
+    | undefined;
   /** Optional. Group details. */
   groupInfo?:
     | GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeadersDelegatedGroupInfo
-    | undefined;
-  /** Optional. The dispatch information configuration. */
-  dispatchInfo?:
-    | GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeadersDelegatedDispatchInfo
     | undefined;
   /** Optional. Default output type for all enabled headers. */
   outputType?:
     | GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeadersOutputTypeEnum
     | (string & {})
     | undefined;
-  /** Optional. The device information configuration. */
-  deviceInfo?:
-    | GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeadersDelegatedDeviceInfo
+  /** Optional. The dispatch information configuration. */
+  dispatchInfo?:
+    | GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeadersDelegatedDispatchInfo
     | undefined;
-  /** Optional. User details. */
-  userInfo?: GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeadersDelegatedUserInfo | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
-export type GoogleCloudBeyondcorpSecuritygatewaysV1ProxyProtocolConfigGatewayIdentityEnum =
-  | "GATEWAY_IDENTITY_UNSPECIFIED"
-  | "RESOURCE_NAME";
 /** The configuration for the proxy. */
 export interface GoogleCloudBeyondcorpSecuritygatewaysV1ProxyProtocolConfig {
-  /** Optional. Configuration for the contextual headers. */
-  contextualHeaders?: GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeaders | undefined;
-  /** Optional. Custom resource specific headers along with the values. The names should conform to RFC 9110: >Field names can contain alphanumeric characters, hyphens, and periods, can contain only ASCII-printable characters and tabs, and must start with a letter. */
-  metadataHeaders?: StringMap | undefined;
   /** Optional. The security gateway identity configuration. */
   gatewayIdentity?:
     | GoogleCloudBeyondcorpSecuritygatewaysV1ProxyProtocolConfigGatewayIdentityEnum
@@ -199,9 +192,16 @@ export interface GoogleCloudBeyondcorpSecuritygatewaysV1ProxyProtocolConfig {
     | undefined;
   /** Optional. List of the allowed client header names. */
   allowedClientHeaders?: StringList | undefined;
+  /** Optional. Configuration for the contextual headers. */
+  contextualHeaders?: GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeaders | undefined;
   /** Optional. Client IP configuration. The client IP address is included if true. */
   clientIp?: boolean | undefined;
+  /** Optional. Custom resource specific headers along with the values. The names should conform to RFC 9110: >Field names can contain alphanumeric characters, hyphens, and periods, can contain only ASCII-printable characters and tabs, and must start with a letter. */
+  metadataHeaders?: StringMap | undefined;
 }
+/** Configuration for Cloud Logging. */
+export type GoogleCloudBeyondcorpSecuritygatewaysV1LoggingConfig =
+  GoogleLongrunningCancelOperationRequest;
 /** Represents the Internet Gateway configuration. */
 export interface GoogleCloudBeyondcorpSecuritygatewaysV1InternetGateway {
   /** Output only. List of IP addresses assigned to the Cloud NAT. */
@@ -242,53 +242,55 @@ export type GoogleCloudBeyondcorpSecuritygatewaysV1SecurityGatewayStateEnum =
   | "ERROR";
 /** The information about a security gateway resource. */
 export interface GoogleCloudBeyondcorpSecuritygatewaysV1SecurityGateway {
-  /** Optional. An arbitrary user-provided name for the SecurityGateway. Cannot exceed 64 characters. */
-  displayName?: string | undefined;
-  /** Optional. Configuration for Cloud Logging. If this field is present, the logging will be enabled. */
-  logging?: GoogleLongrunningCancelOperationRequest | undefined;
-  /** Output only. IP addresses that will be used for establishing connection to the endpoints. */
-  externalIps?: StringList | undefined;
-  /** Output only. Timestamp when the resource was last modified. */
-  updateTime?: string | undefined;
-  /** Identifier. Name of the resource. */
-  name?: string | undefined;
   /** Optional. Shared proxy configuration for all apps. */
   proxyProtocolConfig?: GoogleCloudBeyondcorpSecuritygatewaysV1ProxyProtocolConfig | undefined;
-  /** Output only. Timestamp when the resource was created. */
-  createTime?: string | undefined;
+  /** Optional. Configuration for Cloud Logging. If this field is present, the logging will be enabled. */
+  logging?: GoogleLongrunningCancelOperationRequest | undefined;
   /** Optional. Map of Hubs that represents regional data path deployment with GCP region as a key. */
   hubs?: GoogleCloudBeyondcorpSecuritygatewaysV1HubMap | undefined;
   /** Optional. Settings related to the Service Discovery. */
   serviceDiscovery?: GoogleCloudBeyondcorpSecuritygatewaysV1ServiceDiscovery | undefined;
-  /** Output only. Service account used for operations that involve resources in consumer projects. */
-  delegatingServiceAccount?: string | undefined;
   /** Output only. The operational state of the SecurityGateway. */
   state?:
     | GoogleCloudBeyondcorpSecuritygatewaysV1SecurityGatewayStateEnum
     | (string & {})
     | undefined;
+  /** Output only. Timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Output only. Service account used for operations that involve resources in consumer projects. */
+  delegatingServiceAccount?: string | undefined;
+  /** Output only. Timestamp when the resource was last modified. */
+  updateTime?: string | undefined;
+  /** Output only. IP addresses that will be used for establishing connection to the endpoints. */
+  externalIps?: StringList | undefined;
+  /** Identifier. Name of the resource. */
+  name?: string | undefined;
+  /** Optional. An arbitrary user-provided name for the SecurityGateway. Cannot exceed 64 characters. */
+  displayName?: string | undefined;
 }
 export interface CreateProjectsLocationsSecurityGatewaysRequest extends GoogleCloudBeyondcorpSecuritygatewaysV1SecurityGateway {
-  /** Optional. User-settable SecurityGateway resource ID. * Must start with a letter. * Must contain between 4-63 characters from `/a-z-/`. * Must end with a number or letter. */
-  securityGatewayId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. */
   requestId?: string | undefined;
   /** Required. The resource project name of the SecurityGateway location using the form: `projects/{project_id}/locations/{location_id}` */
   parent: string;
+  /** Optional. User-settable SecurityGateway resource ID. * Must start with a letter. * Must contain between 4-63 characters from `/a-z-/`. * Must end with a number or letter. */
+  securityGatewayId?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface GoogleRpcStatus {
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList | undefined;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface GoogleLongrunningOperation {
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: GoogleRpcStatus | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
@@ -297,9 +299,11 @@ export interface GoogleLongrunningOperation {
   name?: string | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean | undefined;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: GoogleRpcStatus | undefined;
 }
+export type GoogleCloudBeyondcorpSecuritygatewaysV1ApplicationSchemaEnum =
+  | "SCHEMA_UNSPECIFIED"
+  | "PROXY_GATEWAY"
+  | "API_GATEWAY";
 /** Internet Gateway endpoint to forward traffic to. */
 export interface GoogleCloudBeyondcorpSecuritygatewaysV1Endpoint {
   /** Required. Port of the endpoint. */
@@ -328,19 +332,15 @@ export interface GoogleCloudBeyondcorpSecuritygatewaysV1ApplicationUpstreamNetwo
 export interface GoogleCloudBeyondcorpSecuritygatewaysV1ApplicationUpstream {
   /** List of the external endpoints to forward traffic to. */
   external?: GoogleCloudBeyondcorpSecuritygatewaysV1ApplicationUpstreamExternal | undefined;
-  /** Optional. Enables proxy protocol configuration for the upstream. */
-  proxyProtocol?: GoogleCloudBeyondcorpSecuritygatewaysV1ProxyProtocolConfig | undefined;
   /** Optional. Routing policy information. */
   egressPolicy?: GoogleCloudBeyondcorpSecuritygatewaysV1EgressPolicy | undefined;
   /** Network to forward traffic to. */
   network?: GoogleCloudBeyondcorpSecuritygatewaysV1ApplicationUpstreamNetwork | undefined;
+  /** Optional. Enables proxy protocol configuration for the upstream. */
+  proxyProtocol?: GoogleCloudBeyondcorpSecuritygatewaysV1ProxyProtocolConfig | undefined;
 }
 export type GoogleCloudBeyondcorpSecuritygatewaysV1ApplicationUpstreamList =
   Array<GoogleCloudBeyondcorpSecuritygatewaysV1ApplicationUpstream>;
-export type GoogleCloudBeyondcorpSecuritygatewaysV1ApplicationSchemaEnum =
-  | "SCHEMA_UNSPECIFIED"
-  | "PROXY_GATEWAY"
-  | "API_GATEWAY";
 export type IntegerList = Array<number>;
 /** EndpointMatcher contains the information of the endpoint that will match the application. */
 export interface GoogleCloudBeyondcorpSecuritygatewaysV1EndpointMatcher {
@@ -353,48 +353,48 @@ export type GoogleCloudBeyondcorpSecuritygatewaysV1EndpointMatcherList =
   Array<GoogleCloudBeyondcorpSecuritygatewaysV1EndpointMatcher>;
 /** The information about an application resource. */
 export interface GoogleCloudBeyondcorpSecuritygatewaysV1Application {
-  /** Optional. Which upstream resources to forward traffic to. */
-  upstreams?: GoogleCloudBeyondcorpSecuritygatewaysV1ApplicationUpstreamList | undefined;
   /** Output only. Timestamp when the resource was last modified. */
   updateTime?: string | undefined;
   /** Optional. Type of the external application. */
   schema?: GoogleCloudBeyondcorpSecuritygatewaysV1ApplicationSchemaEnum | (string & {}) | undefined;
-  /** Identifier. Name of the resource. */
-  name?: string | undefined;
   /** Optional. An arbitrary user-provided name for the application resource. Cannot exceed 64 characters. */
   displayName?: string | undefined;
+  /** Identifier. Name of the resource. */
+  name?: string | undefined;
   /** Output only. Timestamp when the resource was created. */
   createTime?: string | undefined;
+  /** Optional. Which upstream resources to forward traffic to. */
+  upstreams?: GoogleCloudBeyondcorpSecuritygatewaysV1ApplicationUpstreamList | undefined;
   /** Optional. An array of conditions to match the application's network endpoint. Each element in the array is an EndpointMatcher object, which defines a specific combination of a hostname pattern and one or more ports. The application is considered matched if at least one of the EndpointMatcher conditions in this array is met (the conditions are combined using OR logic). Each EndpointMatcher must contain a hostname pattern, such as "example.com", and one or more port numbers specified as a string, such as "443". Hostname and port number examples: "*.example.com", "443" "example.com" and "22" "example.com" and "22,33" */
   endpointMatchers?: GoogleCloudBeyondcorpSecuritygatewaysV1EndpointMatcherList | undefined;
 }
 export interface CreateProjectsLocationsSecurityGatewaysApplicationsRequest extends GoogleCloudBeyondcorpSecuritygatewaysV1Application {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. */
-  requestId?: string | undefined;
   /** Required. The resource name of the parent SecurityGateway using the form: `projects/{project_id}/locations/global/securityGateways/{security_gateway_id}` */
   parent: string;
   /** Optional. User-settable Application resource ID. * Must start with a letter. * Must contain between 4-63 characters from `/a-z-/`. * Must end with a number or letter. */
   applicationId?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. */
+  requestId?: string | undefined;
 }
 export interface DeleteOrganizationsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
 }
 export interface DeleteProjectsLocationsAppConnectionsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. BeyondCorp Connector name using the form: `projects/{project_id}/locations/{location_id}/appConnections/{app_connection_id}` */
-  name: string;
   /** Optional. If set, validates request by executing a dry-run which would not alter the resource in any way. */
   validateOnly?: boolean | undefined;
+  /** Required. BeyondCorp Connector name using the form: `projects/{project_id}/locations/{location_id}/appConnections/{app_connection_id}` */
+  name: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsAppConnectorsRequest {
+  /** Optional. If set, validates request by executing a dry-run which would not alter the resource in any way. */
+  validateOnly?: boolean | undefined;
   /** Required. BeyondCorp AppConnector name using the form: `projects/{project_id}/locations/{location_id}/appConnectors/{app_connector_id}` */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Optional. If set, validates request by executing a dry-run which would not alter the resource in any way. */
-  validateOnly?: boolean | undefined;
 }
 export interface DeleteProjectsLocationsAppGatewaysRequest {
   /** Required. BeyondCorp AppGateway name using the form: `projects/{project_id}/locations/{location_id}/appGateways/{app_gateway_id}` */
@@ -409,26 +409,26 @@ export interface DeleteProjectsLocationsOperationsRequest {
   name: string;
 }
 export interface DeleteProjectsLocationsSecurityGatewaysRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Required. BeyondCorp SecurityGateway name using the form: `projects/{project_id}/locations/{location_id}/securityGateways/{security_gateway_id}` */
   name: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Optional. If set, validates request by executing a dry-run which would not alter the resource in any way. */
   validateOnly?: boolean | undefined;
 }
 export interface DeleteProjectsLocationsSecurityGatewaysApplicationsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. Name of the resource. */
-  name: string;
   /** Optional. If set, validates request by executing a dry-run which would not alter the resource in any way. */
   validateOnly?: boolean | undefined;
+  /** Required. Name of the resource. */
+  name: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export interface GetIamPolicyProjectsLocationsAppConnectionsRequest {
-  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number | undefined;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 export type GoogleIamV1AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
@@ -437,10 +437,10 @@ export type GoogleIamV1AuditLogConfigLogTypeEnum =
   | "DATA_READ";
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface GoogleIamV1AuditLogConfig {
-  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
-  exemptedMembers?: StringList | undefined;
   /** The log type that this config enables. */
   logType?: GoogleIamV1AuditLogConfigLogTypeEnum | (string & {}) | undefined;
+  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
+  exemptedMembers?: StringList | undefined;
 }
 export type GoogleIamV1AuditLogConfigList = Array<GoogleIamV1AuditLogConfig>;
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
@@ -474,12 +474,12 @@ export interface GoogleIamV1Binding {
 export type GoogleIamV1BindingList = Array<GoogleIamV1Binding>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface GoogleIamV1Policy {
+  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  version?: number | undefined;
   /** Specifies cloud audit logging configuration for this policy. */
   auditConfigs?: GoogleIamV1AuditConfigList | undefined;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
   etag?: string | undefined;
-  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number | undefined;
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
   bindings?: GoogleIamV1BindingList | undefined;
 }
@@ -490,10 +490,10 @@ export interface GetIamPolicyProjectsLocationsAppConnectorsRequest {
   resource: string;
 }
 export interface GetIamPolicyProjectsLocationsAppGatewaysRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number | undefined;
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export interface GetIamPolicyProjectsLocationsSecurityGatewaysRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -517,34 +517,20 @@ export interface GetProjectsLocationsRequest {
 }
 /** A resource that represents a Google Cloud location. */
 export interface GoogleCloudLocationLocation {
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
   name?: string | undefined;
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: StringMap | undefined;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string | undefined;
-  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap | undefined;
 }
 export interface GetProjectsLocationsAppConnectionsRequest {
   /** Required. BeyondCorp AppConnection name using the form: `projects/{project_id}/locations/{location_id}/appConnections/{app_connection_id}` */
   name: string;
-}
-export type GoogleCloudBeyondcorpAppconnectionsV1AppConnectionStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "CREATING"
-  | "CREATED"
-  | "UPDATING"
-  | "DELETING"
-  | "DOWN";
-/** ApplicationEndpoint represents a remote application endpoint. */
-export interface GoogleCloudBeyondcorpAppconnectionsV1AppConnectionApplicationEndpoint {
-  /** Required. Hostname or IP address of the remote application endpoint. */
-  host?: string | undefined;
-  /** Required. Port of the remote application endpoint. */
-  port?: number | undefined;
 }
 export type GoogleCloudBeyondcorpAppconnectionsV1AppConnectionGatewayTypeEnum =
   | "TYPE_UNSPECIFIED"
@@ -565,36 +551,50 @@ export interface GoogleCloudBeyondcorpAppconnectionsV1AppConnectionGateway {
 export type GoogleCloudBeyondcorpAppconnectionsV1AppConnectionTypeEnum =
   | "TYPE_UNSPECIFIED"
   | "TCP_PROXY";
+export type GoogleCloudBeyondcorpAppconnectionsV1AppConnectionStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "CREATING"
+  | "CREATED"
+  | "UPDATING"
+  | "DELETING"
+  | "DOWN";
+/** ApplicationEndpoint represents a remote application endpoint. */
+export interface GoogleCloudBeyondcorpAppconnectionsV1AppConnectionApplicationEndpoint {
+  /** Required. Hostname or IP address of the remote application endpoint. */
+  host?: string | undefined;
+  /** Required. Port of the remote application endpoint. */
+  port?: number | undefined;
+}
 /** A BeyondCorp AppConnection resource represents a BeyondCorp protected AppConnection to a remote application. It creates all the necessary GCP components needed for creating a BeyondCorp protected AppConnection. Multiple connectors can be authorized for a single AppConnection. */
 export interface GoogleCloudBeyondcorpAppconnectionsV1AppConnection {
-  /** Required. Unique resource name of the AppConnection. The name is ignored when creating a AppConnection. */
-  name?: string | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
+  satisfiesPzs?: boolean | undefined;
+  /** Optional. Gateway used by the AppConnection. */
+  gateway?: GoogleCloudBeyondcorpAppconnectionsV1AppConnectionGateway | undefined;
+  /** Required. The type of network connectivity used by the AppConnection. */
+  type?: GoogleCloudBeyondcorpAppconnectionsV1AppConnectionTypeEnum | undefined;
+  /** Output only. A unique identifier for the instance generated by the system. */
+  uid?: string | undefined;
+  /** Output only. Timestamp when the resource was last modified. */
+  updateTime?: string | undefined;
+  /** Optional. Resource labels to represent user provided metadata. */
+  labels?: StringMap | undefined;
   /** Optional. List of [google.cloud.beyondcorp.v1main.Connector.name] that are authorized to be associated with this AppConnection. */
   connectors?: StringList | undefined;
   /** Output only. Timestamp when the resource was created. */
   createTime?: string | undefined;
   /** Output only. The current state of the AppConnection. */
   state?: GoogleCloudBeyondcorpAppconnectionsV1AppConnectionStateEnum | undefined;
-  /** Output only. Timestamp when the resource was last modified. */
-  updateTime?: string | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
+  satisfiesPzi?: boolean | undefined;
+  /** Required. Unique resource name of the AppConnection. The name is ignored when creating a AppConnection. */
+  name?: string | undefined;
+  /** Optional. An arbitrary user-provided name for the AppConnection. Cannot exceed 64 characters. */
+  displayName?: string | undefined;
   /** Required. Address of the remote application endpoint for the BeyondCorp AppConnection. */
   applicationEndpoint?:
     | GoogleCloudBeyondcorpAppconnectionsV1AppConnectionApplicationEndpoint
     | undefined;
-  /** Optional. Resource labels to represent user provided metadata. */
-  labels?: StringMap | undefined;
-  /** Optional. Gateway used by the AppConnection. */
-  gateway?: GoogleCloudBeyondcorpAppconnectionsV1AppConnectionGateway | undefined;
-  /** Required. The type of network connectivity used by the AppConnection. */
-  type?: GoogleCloudBeyondcorpAppconnectionsV1AppConnectionTypeEnum | undefined;
-  /** Optional. An arbitrary user-provided name for the AppConnection. Cannot exceed 64 characters. */
-  displayName?: string | undefined;
-  /** Output only. A unique identifier for the instance generated by the system. */
-  uid?: string | undefined;
 }
 export interface GetProjectsLocationsAppConnectorsRequest {
   /** Required. BeyondCorp AppConnector name using the form: `projects/{project_id}/locations/{location_id}/appConnectors/{app_connector_id}` */
@@ -619,54 +619,54 @@ export type GoogleCloudBeyondcorpAppconnectorsV1AppConnectorStateEnum =
   | "UPDATING"
   | "DELETING"
   | "DOWN";
+export type GoogleCloudBeyondcorpAppconnectorsV1ResourceInfoList =
+  Array<GoogleCloudBeyondcorpAppconnectorsV1ResourceInfo>;
 export type GoogleCloudBeyondcorpAppconnectorsV1ResourceInfoStatusEnum =
   | "HEALTH_STATUS_UNSPECIFIED"
   | "HEALTHY"
   | "UNHEALTHY"
   | "UNRESPONSIVE"
   | "DEGRADED";
-export type GoogleCloudBeyondcorpAppconnectorsV1ResourceInfoList =
-  Array<GoogleCloudBeyondcorpAppconnectorsV1ResourceInfo>;
 /** ResourceInfo represents the information or status of an app connector resource component that's used to report on various parts of the system. For example, ResourceInfo can be used to convey the status of a remote_agent, including the status of an appgateway for an runtime environment in a container instance. */
 export interface GoogleCloudBeyondcorpAppconnectorsV1ResourceInfo {
-  /** Overall health status. Overall status is derived based on the status of each sub level resources. */
-  status?: GoogleCloudBeyondcorpAppconnectorsV1ResourceInfoStatusEnum | undefined;
-  /** Specific details for the resource. This is for internal use only. */
-  resource?: DocumentMap | undefined;
+  /** The timestamp to collect the info. It is suggested to be set by the topmost level resource only. */
+  time?: string | undefined;
   /** Required. Unique Id for the resource. */
   id?: string | undefined;
   /** List of Info for the sub level resources. */
   sub?: GoogleCloudBeyondcorpAppconnectorsV1ResourceInfoList | undefined;
-  /** The timestamp to collect the info. It is suggested to be set by the topmost level resource only. */
-  time?: string | undefined;
+  /** Specific details for the resource. This is for internal use only. */
+  resource?: DocumentMap | undefined;
+  /** Overall health status. Overall status is derived based on the status of each sub level resources. */
+  status?: GoogleCloudBeyondcorpAppconnectorsV1ResourceInfoStatusEnum | undefined;
 }
 /** A BeyondCorp connector resource that represents an application facing component deployed proximal to and with direct access to the application instances. It is used to establish connectivity between the remote enterprise environment and GCP. It initiates connections to the applications and can proxy the data from users over the connection. */
 export interface GoogleCloudBeyondcorpAppconnectorsV1AppConnector {
-  /** Output only. A unique identifier for the instance generated by the system. */
-  uid?: string | undefined;
-  /** Output only. Timestamp when the resource was created. */
-  createTime?: string | undefined;
-  /** Required. Principal information about the Identity of the AppConnector. */
-  principalInfo?: GoogleCloudBeyondcorpAppconnectorsV1AppConnectorPrincipalInfo | undefined;
-  /** Optional. An arbitrary user-provided name for the AppConnector. Cannot exceed 64 characters. */
-  displayName?: string | undefined;
   /** Required. Unique resource name of the AppConnector. The name is ignored when creating a AppConnector. */
   name?: string | undefined;
+  /** Required. Principal information about the Identity of the AppConnector. */
+  principalInfo?: GoogleCloudBeyondcorpAppconnectorsV1AppConnectorPrincipalInfo | undefined;
   /** Output only. The current state of the AppConnector. */
   state?: GoogleCloudBeyondcorpAppconnectorsV1AppConnectorStateEnum | undefined;
-  /** Optional. Resource info of the connector. */
-  resourceInfo?: GoogleCloudBeyondcorpAppconnectorsV1ResourceInfo | undefined;
-  /** Optional. Resource labels to represent user provided metadata. */
-  labels?: StringMap | undefined;
   /** Output only. Timestamp when the resource was last modified. */
   updateTime?: string | undefined;
+  /** Output only. A unique identifier for the instance generated by the system. */
+  uid?: string | undefined;
+  /** Optional. Resource labels to represent user provided metadata. */
+  labels?: StringMap | undefined;
+  /** Optional. An arbitrary user-provided name for the AppConnector. Cannot exceed 64 characters. */
+  displayName?: string | undefined;
+  /** Output only. Timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Optional. Resource info of the connector. */
+  resourceInfo?: GoogleCloudBeyondcorpAppconnectorsV1ResourceInfo | undefined;
 }
 export interface GetProjectsLocationsAppGatewaysRequest {
   /** Required. BeyondCorp AppGateway name using the form: `projects/{project_id}/locations/{location_id}/appGateways/{app_gateway_id}` */
   name: string;
 }
-export type AppGatewayTypeEnum = "TYPE_UNSPECIFIED" | "TCP_PROXY";
 export type AppGatewayHostTypeEnum = "HOST_TYPE_UNSPECIFIED" | "GCP_REGIONAL_MIG";
+export type AppGatewayTypeEnum = "TYPE_UNSPECIFIED" | "TCP_PROXY";
 export type AppGatewayStateEnum =
   | "STATE_UNSPECIFIED"
   | "CREATING"
@@ -684,30 +684,30 @@ export interface AllocatedConnection {
 export type AllocatedConnectionList = Array<AllocatedConnection>;
 /** A BeyondCorp AppGateway resource represents a BeyondCorp protected AppGateway to a remote application. It creates all the necessary GCP components needed for creating a BeyondCorp protected AppGateway. Multiple connectors can be authorised for a single AppGateway. */
 export interface AppGateway {
-  /** Required. The type of network connectivity used by the AppGateway. */
-  type?: AppGatewayTypeEnum | undefined;
-  /** Optional. An arbitrary user-provided name for the AppGateway. Cannot exceed 64 characters. */
-  displayName?: string | undefined;
-  /** Output only. Timestamp when the resource was created. */
-  createTime?: string | undefined;
-  /** Optional. Resource labels to represent user provided metadata. */
-  labels?: StringMap | undefined;
-  /** Output only. Timestamp when the resource was last modified. */
-  updateTime?: string | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** Output only. Server-defined URI for this resource. */
-  uri?: string | undefined;
-  /** Output only. A unique identifier for the instance generated by the system. */
-  uid?: string | undefined;
-  /** Required. Unique resource name of the AppGateway. The name is ignored when creating an AppGateway. */
-  name?: string | undefined;
   /** Required. The type of hosting used by the AppGateway. */
   hostType?: AppGatewayHostTypeEnum | undefined;
-  /** Output only. The current state of the AppGateway. */
-  state?: AppGatewayStateEnum | undefined;
+  /** Required. Unique resource name of the AppGateway. The name is ignored when creating an AppGateway. */
+  name?: string | undefined;
+  /** Optional. Resource labels to represent user provided metadata. */
+  labels?: StringMap | undefined;
   /** Output only. Reserved for future use. */
   satisfiesPzi?: boolean | undefined;
+  /** Output only. Timestamp when the resource was last modified. */
+  updateTime?: string | undefined;
+  /** Required. The type of network connectivity used by the AppGateway. */
+  type?: AppGatewayTypeEnum | undefined;
+  /** Output only. The current state of the AppGateway. */
+  state?: AppGatewayStateEnum | undefined;
+  /** Output only. Server-defined URI for this resource. */
+  uri?: string | undefined;
+  /** Output only. Reserved for future use. */
+  satisfiesPzs?: boolean | undefined;
+  /** Optional. An arbitrary user-provided name for the AppGateway. Cannot exceed 64 characters. */
+  displayName?: string | undefined;
+  /** Output only. A unique identifier for the instance generated by the system. */
+  uid?: string | undefined;
+  /** Output only. Timestamp when the resource was created. */
+  createTime?: string | undefined;
   /** Output only. A list of connections allocated for the Gateway */
   allocatedConnections?: AllocatedConnectionList | undefined;
 }
@@ -724,38 +724,38 @@ export interface GetProjectsLocationsSecurityGatewaysApplicationsRequest {
   name: string;
 }
 export interface ListOrganizationsLocationsOperationsRequest {
-  /** The name of the operation's parent resource. */
-  name: string;
-  /** The standard list filter. */
-  filter?: string | undefined;
   /** The standard list page size. */
   pageSize?: number | undefined;
+  /** The standard list filter. */
+  filter?: string | undefined;
   /** The standard list page token. */
   pageToken?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean | undefined;
+  /** The name of the operation's parent resource. */
+  name: string;
 }
 export type GoogleLongrunningOperationList = Array<GoogleLongrunningOperation>;
 /** The response message for Operations.ListOperations. */
 export interface GoogleLongrunningListOperationsResponse {
-  /** The standard List next-page token. */
-  nextPageToken?: string | undefined;
-  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList | undefined;
   /** A list of operations that matches the specified filter in the request. */
   operations?: GoogleLongrunningOperationList | undefined;
+  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
+  unreachable?: StringList | undefined;
+  /** The standard List next-page token. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsRequest {
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string | undefined;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList | undefined;
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string | undefined;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string | undefined;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number | undefined;
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
 }
 export type GoogleCloudLocationLocationList = Array<GoogleCloudLocationLocation>;
 /** The response message for Locations.ListLocations. */
@@ -768,37 +768,37 @@ export interface GoogleCloudLocationListLocationsResponse {
 export interface ListProjectsLocationsAppConnectionsRequest {
   /** Optional. Specifies the ordering of results. See [Sorting order](https://cloud.google.com/apis/design/design_patterns#sorting_order) for more information. */
   orderBy?: string | undefined;
-  /** Required. The resource name of the AppConnection location using the form: `projects/{project_id}/locations/{location_id}` */
-  parent: string;
-  /** Optional. A filter specifying constraints of a list operation. */
-  filter?: string | undefined;
   /** Optional. The maximum number of items to return. If not specified, a default value of 50 will be used by the service. Regardless of the page_size value, the response may include a partial list and a caller should only rely on response's next_page_token to determine if there are more instances left to be queried. */
   pageSize?: number | undefined;
+  /** Optional. A filter specifying constraints of a list operation. */
+  filter?: string | undefined;
   /** Optional. The next_page_token value returned from a previous ListAppConnectionsRequest, if any. */
   pageToken?: string | undefined;
+  /** Required. The resource name of the AppConnection location using the form: `projects/{project_id}/locations/{location_id}` */
+  parent: string;
 }
 export type GoogleCloudBeyondcorpAppconnectionsV1AppConnectionList =
   Array<GoogleCloudBeyondcorpAppconnectionsV1AppConnection>;
 /** Response message for BeyondCorp.ListAppConnections. */
 export interface GoogleCloudBeyondcorpAppconnectionsV1ListAppConnectionsResponse {
-  /** A list of locations that could not be reached. */
-  unreachable?: StringList | undefined;
   /** A token to retrieve the next page of results, or empty if there are no more results in the list. */
   nextPageToken?: string | undefined;
+  /** A list of locations that could not be reached. */
+  unreachable?: StringList | undefined;
   /** A list of BeyondCorp AppConnections in the project. */
   appConnections?: GoogleCloudBeyondcorpAppconnectionsV1AppConnectionList | undefined;
 }
 export interface ListProjectsLocationsAppConnectorsRequest {
-  /** Optional. A filter specifying constraints of a list operation. */
-  filter?: string | undefined;
-  /** Optional. The maximum number of items to return. If not specified, a default value of 50 will be used by the service. Regardless of the page_size value, the response may include a partial list and a caller should only rely on response's next_page_token to determine if there are more instances left to be queried. */
-  pageSize?: number | undefined;
-  /** Required. The resource name of the AppConnector location using the form: `projects/{project_id}/locations/{location_id}` */
-  parent: string;
   /** Optional. The next_page_token value returned from a previous ListAppConnectorsRequest, if any. */
   pageToken?: string | undefined;
+  /** Optional. The maximum number of items to return. If not specified, a default value of 50 will be used by the service. Regardless of the page_size value, the response may include a partial list and a caller should only rely on response's next_page_token to determine if there are more instances left to be queried. */
+  pageSize?: number | undefined;
   /** Optional. Specifies the ordering of results. See [Sorting order](https://cloud.google.com/apis/design/design_patterns#sorting_order) for more information. */
   orderBy?: string | undefined;
+  /** Required. The resource name of the AppConnector location using the form: `projects/{project_id}/locations/{location_id}` */
+  parent: string;
+  /** Optional. A filter specifying constraints of a list operation. */
+  filter?: string | undefined;
 }
 export type GoogleCloudBeyondcorpAppconnectorsV1AppConnectorList =
   Array<GoogleCloudBeyondcorpAppconnectorsV1AppConnector>;
@@ -814,48 +814,48 @@ export interface GoogleCloudBeyondcorpAppconnectorsV1ListAppConnectorsResponse {
 export interface ListProjectsLocationsAppGatewaysRequest {
   /** Optional. The maximum number of items to return. If not specified, a default value of 50 will be used by the service. Regardless of the page_size value, the response may include a partial list and a caller should only rely on response's next_page_token to determine if there are more instances left to be queried. */
   pageSize?: number | undefined;
-  /** Optional. A filter specifying constraints of a list operation. */
-  filter?: string | undefined;
   /** Optional. The next_page_token value returned from a previous ListAppGatewaysRequest, if any. */
   pageToken?: string | undefined;
   /** Required. The resource name of the AppGateway location using the form: `projects/{project_id}/locations/{location_id}` */
   parent: string;
   /** Optional. Specifies the ordering of results. See [Sorting order](https://cloud.google.com/apis/design/design_patterns#sorting_order) for more information. */
   orderBy?: string | undefined;
+  /** Optional. A filter specifying constraints of a list operation. */
+  filter?: string | undefined;
 }
 export type AppGatewayList = Array<AppGateway>;
 /** Response message for BeyondCorp.ListAppGateways. */
 export interface ListAppGatewaysResponse {
+  /** A list of locations that could not be reached. */
+  unreachable?: StringList | undefined;
   /** A token to retrieve the next page of results, or empty if there are no more results in the list. */
   nextPageToken?: string | undefined;
   /** A list of BeyondCorp AppGateways in the project. */
   appGateways?: AppGatewayList | undefined;
-  /** A list of locations that could not be reached. */
-  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
+  /** The name of the operation's parent resource. */
+  name: string;
+  /** The standard list filter. */
+  filter?: string | undefined;
   /** The standard list page token. */
   pageToken?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean | undefined;
   /** The standard list page size. */
   pageSize?: number | undefined;
-  /** The name of the operation's parent resource. */
-  name: string;
-  /** The standard list filter. */
-  filter?: string | undefined;
 }
 export interface ListProjectsLocationsSecurityGatewaysRequest {
-  /** Optional. The next_page_token value returned from a previous ListSecurityGatewayRequest, if any. */
-  pageToken?: string | undefined;
-  /** Optional. Specifies the ordering of results. See [Sorting order](https://cloud.google.com/apis/design/design_patterns#sorting_order) for more information. */
-  orderBy?: string | undefined;
-  /** Optional. The maximum number of items to return. If not specified, a default value of 50 will be used by the service. Regardless of the page_size value, the response may include a partial list and a caller should only rely on response's next_page_token to determine if there are more instances left to be queried. */
-  pageSize?: number | undefined;
   /** Optional. A filter specifying constraints of a list operation. All fields in the SecurityGateway message are supported. For example, the following query will return the SecurityGateway with displayName "test-security-gateway" For more information, please refer to https://google.aip.dev/160. */
   filter?: string | undefined;
+  /** Optional. The maximum number of items to return. If not specified, a default value of 50 will be used by the service. Regardless of the page_size value, the response may include a partial list and a caller should only rely on response's next_page_token to determine if there are more instances left to be queried. */
+  pageSize?: number | undefined;
+  /** Optional. Specifies the ordering of results. See [Sorting order](https://cloud.google.com/apis/design/design_patterns#sorting_order) for more information. */
+  orderBy?: string | undefined;
   /** Required. The parent location to which the resources belong. `projects/{project_id}/locations/{location_id}/` */
   parent: string;
+  /** Optional. The next_page_token value returned from a previous ListSecurityGatewayRequest, if any. */
+  pageToken?: string | undefined;
 }
 export type GoogleCloudBeyondcorpSecuritygatewaysV1SecurityGatewayList =
   Array<GoogleCloudBeyondcorpSecuritygatewaysV1SecurityGateway>;
@@ -863,20 +863,20 @@ export type GoogleCloudBeyondcorpSecuritygatewaysV1SecurityGatewayList =
 export interface GoogleCloudBeyondcorpSecuritygatewaysV1ListSecurityGatewaysResponse {
   /** A list of BeyondCorp SecurityGateway in the project. */
   securityGateways?: GoogleCloudBeyondcorpSecuritygatewaysV1SecurityGatewayList | undefined;
-  /** A token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string | undefined;
   /** A list of locations that could not be reached. */
   unreachable?: StringList | undefined;
+  /** A token to retrieve the next page of results, or empty if there are no more results in the list. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsSecurityGatewaysApplicationsRequest {
-  /** Required. The parent location to which the resources belong. `projects/{project_id}/locations/global/securityGateways/{security_gateway_id}` */
-  parent: string;
+  /** Optional. The next_page_token value returned from a previous ListApplicationsRequest, if any. */
+  pageToken?: string | undefined;
   /** Optional. A filter specifying constraints of a list operation. All fields in the Application message are supported. For example, the following query will return the Application with displayName "test-application" For more information, please refer to https://google.aip.dev/160. */
   filter?: string | undefined;
   /** Optional. Specifies the ordering of results. See [Sorting order](https://cloud.google.com/apis/design/design_patterns#sorting_order) for more information. */
   orderBy?: string | undefined;
-  /** Optional. The next_page_token value returned from a previous ListApplicationsRequest, if any. */
-  pageToken?: string | undefined;
+  /** Required. The parent location to which the resources belong. `projects/{project_id}/locations/global/securityGateways/{security_gateway_id}` */
+  parent: string;
   /** Optional. The maximum number of items to return. If not specified, a default value of 50 will be used by the service. Regardless of the page_size value, the response may include a partial list and a caller should only rely on response's next_page_token to determine if there are more instances left to be queried. */
   pageSize?: number | undefined;
 }
@@ -884,10 +884,10 @@ export type GoogleCloudBeyondcorpSecuritygatewaysV1ApplicationList =
   Array<GoogleCloudBeyondcorpSecuritygatewaysV1Application>;
 /** Message for response to listing Applications. */
 export interface GoogleCloudBeyondcorpSecuritygatewaysV1ListApplicationsResponse {
-  /** A list of locations that could not be reached. */
-  unreachable?: StringList | undefined;
   /** A list of BeyondCorp Application in the project. */
   applications?: GoogleCloudBeyondcorpSecuritygatewaysV1ApplicationList | undefined;
+  /** A list of locations that could not be reached. */
+  unreachable?: StringList | undefined;
   /** A token to retrieve the next page of results, or empty if there are no more results in the list. */
   nextPageToken?: string | undefined;
 }
@@ -897,21 +897,21 @@ export interface PatchProjectsLocationsSecurityGatewaysRequest extends Omit<
 > {
   /** Identifier. Name of the resource. */
   name: string;
-  /** Optional. Mutable fields include: display_name, hubs. */
-  updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request timed out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Optional. Mutable fields include: display_name, hubs. */
+  updateMask?: string | undefined;
 }
 export interface PatchProjectsLocationsSecurityGatewaysApplicationsRequest extends Omit<
   GoogleCloudBeyondcorpSecuritygatewaysV1Application,
   "name"
 > {
+  /** Optional. Mutable fields include: display_name. */
+  updateMask?: string | undefined;
   /** Identifier. Name of the resource. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request timed out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Optional. Mutable fields include: display_name. */
-  updateMask?: string | undefined;
 }
 export interface ResolveInstanceConfigProjectsLocationsAppConnectorsRequest {
   /** Required. BeyondCorp AppConnector name using the form: `projects/{project_id}/locations/{location_id}/appConnectors/{app_connector}` */
@@ -931,21 +931,21 @@ export interface GoogleCloudBeyondcorpAppconnectorsV1NotificationConfig {
 }
 /** ImageConfig defines the control plane images to run. */
 export interface GoogleCloudBeyondcorpAppconnectorsV1ImageConfig {
-  /** The stable image that the remote agent will fallback to if the target image fails. Format would be a gcr image path, e.g.: gcr.io/PROJECT-ID/my-image:tag1 */
-  stableImage?: string | undefined;
   /** The initial image the remote agent will attempt to run for the control plane. Format would be a gcr image path, e.g.: gcr.io/PROJECT-ID/my-image:tag1 */
   targetImage?: string | undefined;
+  /** The stable image that the remote agent will fallback to if the target image fails. Format would be a gcr image path, e.g.: gcr.io/PROJECT-ID/my-image:tag1 */
+  stableImage?: string | undefined;
 }
 /** AppConnectorInstanceConfig defines the instance config of a AppConnector. */
 export interface GoogleCloudBeyondcorpAppconnectorsV1AppConnectorInstanceConfig {
   /** NotificationConfig defines the notification mechanism that the remote instance should subscribe to in order to receive notification. */
   notificationConfig?: GoogleCloudBeyondcorpAppconnectorsV1NotificationConfig | undefined;
+  /** ImageConfig defines the GCR images to run for the remote agent's control plane. */
+  imageConfig?: GoogleCloudBeyondcorpAppconnectorsV1ImageConfig | undefined;
   /** Required. A monotonically increasing number generated and maintained by the API provider. Every time a config changes in the backend, the sequenceNumber should be bumped up to reflect the change. */
   sequenceNumber?: string | undefined;
   /** The SLM instance agent configuration. */
   instanceConfig?: DocumentMap | undefined;
-  /** ImageConfig defines the GCR images to run for the remote agent's control plane. */
-  imageConfig?: GoogleCloudBeyondcorpAppconnectorsV1ImageConfig | undefined;
 }
 /** Response message for BeyondCorp.ResolveInstanceConfig. */
 export interface GoogleCloudBeyondcorpAppconnectorsV1ResolveInstanceConfigResponse {
@@ -953,14 +953,14 @@ export interface GoogleCloudBeyondcorpAppconnectorsV1ResolveInstanceConfigRespon
   instanceConfig?: GoogleCloudBeyondcorpAppconnectorsV1AppConnectorInstanceConfig | undefined;
 }
 export interface ResolveProjectsLocationsAppConnectionsRequest {
-  /** Optional. The next_page_token value returned from a previous ResolveAppConnectionsResponse, if any. */
-  pageToken?: string | undefined;
-  /** Required. The resource name of the AppConnection location using the form: `projects/{project_id}/locations/{location_id}` */
-  parent: string;
   /** Optional. The maximum number of items to return. If not specified, a default value of 50 will be used by the service. Regardless of the page_size value, the response may include a partial list and a caller should only rely on response's next_page_token to determine if there are more instances left to be queried. */
   pageSize?: number | undefined;
+  /** Required. The resource name of the AppConnection location using the form: `projects/{project_id}/locations/{location_id}` */
+  parent: string;
   /** Required. BeyondCorp Connector name of the connector associated with those AppConnections using the form: `projects/{project_id}/locations/{location_id}/appConnectors/{app_connector_id}` */
   appConnectorId?: string | undefined;
+  /** Optional. The next_page_token value returned from a previous ResolveAppConnectionsResponse, if any. */
+  pageToken?: string | undefined;
 }
 /** Details of the AppConnection. */
 export interface GoogleCloudBeyondcorpAppconnectionsV1ResolveAppConnectionsResponseAppConnectionDetails {
@@ -973,12 +973,12 @@ export type GoogleCloudBeyondcorpAppconnectionsV1ResolveAppConnectionsResponseAp
   Array<GoogleCloudBeyondcorpAppconnectionsV1ResolveAppConnectionsResponseAppConnectionDetails>;
 /** Response message for BeyondCorp.ResolveAppConnections. */
 export interface GoogleCloudBeyondcorpAppconnectionsV1ResolveAppConnectionsResponse {
-  /** A token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string | undefined;
   /** A list of BeyondCorp AppConnections with details in the project. */
   appConnectionDetails?:
     | GoogleCloudBeyondcorpAppconnectionsV1ResolveAppConnectionsResponseAppConnectionDetailsList
     | undefined;
+  /** A token to retrieve the next page of results, or empty if there are no more results in the list. */
+  nextPageToken?: string | undefined;
   /** A list of locations that could not be reached. */
   unreachable?: StringList | undefined;
 }
@@ -2106,9 +2106,9 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -2158,8 +2158,8 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -2176,9 +2176,9 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -2194,8 +2194,8 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
           resource: S.String.pipe(T.Label()),
+          "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2211,8 +2211,8 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          exemptedMembers: S.optional(__S(848, __c53, 0)),
           logType: S.optional(S.String),
+          exemptedMembers: S.optional(__S(848, __c53, 0)),
         }),
       ).annotate({ identifier: "GoogleIamV1AuditLogConfig" });
     case 1:
@@ -2248,9 +2248,9 @@ function __c6(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
+          version: S.optional(S.Number),
           auditConfigs: S.optional(__S(99, __c6, 3)),
           etag: S.optional(S.String),
-          version: S.optional(S.Number),
           bindings: S.optional(__S(102, __c6, 6)),
         }),
       ).annotate({ identifier: "GoogleIamV1Policy" });
@@ -2278,8 +2278,8 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+          resource: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2363,11 +2363,11 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(896, __c56, 0)),
           name: S.optional(S.String),
+          labels: S.optional(__S(864, __c54, 0)),
+          metadata: S.optional(__S(896, __c56, 0)),
           displayName: S.optional(S.String),
           locationId: S.optional(S.String),
-          labels: S.optional(__S(864, __c54, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudLocationLocation" });
   }
@@ -2393,15 +2393,6 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          host: S.optional(S.String),
-          port: S.optional(S.Number),
-        }),
-      ).annotate({
-        identifier: "GoogleCloudBeyondcorpAppconnectionsV1AppConnectionApplicationEndpoint",
-      });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           l7psc: S.optional(S.String),
           type: S.optional(S.String),
           appGateway: S.optional(S.String),
@@ -2409,22 +2400,31 @@ function __c15(j: number): any {
           uri: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudBeyondcorpAppconnectionsV1AppConnectionGateway" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          host: S.optional(S.String),
+          port: S.optional(S.Number),
+        }),
+      ).annotate({
+        identifier: "GoogleCloudBeyondcorpAppconnectionsV1AppConnectionApplicationEndpoint",
+      });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          satisfiesPzi: S.optional(S.Boolean),
+          satisfiesPzs: S.optional(S.Boolean),
+          gateway: S.optional(__S(240, __c15, 0)),
+          type: S.optional(S.String),
+          uid: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          labels: S.optional(__S(864, __c54, 0)),
           connectors: S.optional(__S(848, __c53, 0)),
           createTime: S.optional(S.String),
           state: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          satisfiesPzs: S.optional(S.Boolean),
-          applicationEndpoint: S.optional(__S(240, __c15, 0)),
-          labels: S.optional(__S(864, __c54, 0)),
-          gateway: S.optional(__S(241, __c15, 1)),
-          type: S.optional(S.String),
+          satisfiesPzi: S.optional(S.Boolean),
+          name: S.optional(S.String),
           displayName: S.optional(S.String),
-          uid: S.optional(S.String),
+          applicationEndpoint: S.optional(__S(241, __c15, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudBeyondcorpAppconnectionsV1AppConnection" });
   }
@@ -2466,25 +2466,25 @@ function __c17(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(S.String),
-          resource: S.optional(__S(896, __c56, 0)),
+          time: S.optional(S.String),
           id: S.optional(S.String),
           sub: S.optional(__S(274, __c17, 2)),
-          time: S.optional(S.String),
+          resource: S.optional(__S(896, __c56, 0)),
+          status: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudBeyondcorpAppconnectorsV1ResourceInfo" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          uid: S.optional(S.String),
-          createTime: S.optional(S.String),
-          principalInfo: S.optional(__S(273, __c17, 1)),
-          displayName: S.optional(S.String),
           name: S.optional(S.String),
+          principalInfo: S.optional(__S(273, __c17, 1)),
           state: S.optional(S.String),
-          resourceInfo: S.optional(__S(275, __c17, 3)),
-          labels: S.optional(__S(864, __c54, 0)),
           updateTime: S.optional(S.String),
+          uid: S.optional(S.String),
+          labels: S.optional(__S(864, __c54, 0)),
+          displayName: S.optional(S.String),
+          createTime: S.optional(S.String),
+          resourceInfo: S.optional(__S(275, __c17, 3)),
         }),
       ).annotate({ identifier: "GoogleCloudBeyondcorpAppconnectorsV1AppConnector" });
   }
@@ -2519,18 +2519,18 @@ function __c19(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          displayName: S.optional(S.String),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(864, __c54, 0)),
-          updateTime: S.optional(S.String),
-          satisfiesPzs: S.optional(S.Boolean),
-          uri: S.optional(S.String),
-          uid: S.optional(S.String),
-          name: S.optional(S.String),
           hostType: S.optional(S.String),
-          state: S.optional(S.String),
+          name: S.optional(S.String),
+          labels: S.optional(__S(864, __c54, 0)),
           satisfiesPzi: S.optional(S.Boolean),
+          updateTime: S.optional(S.String),
+          type: S.optional(S.String),
+          state: S.optional(S.String),
+          uri: S.optional(S.String),
+          satisfiesPzs: S.optional(S.Boolean),
+          displayName: S.optional(S.String),
+          uid: S.optional(S.String),
+          createTime: S.optional(S.String),
           allocatedConnections: S.optional(__S(305, __c19, 1)),
         }),
       ).annotate({ identifier: "AppGateway" });
@@ -2589,11 +2589,11 @@ function __c23(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2611,9 +2611,9 @@ function __c24(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(848, __c53, 0)),
           operations: S.optional(__S(384, __c24, 0)),
+          unreachable: S.optional(__S(848, __c53, 0)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleLongrunningListOperationsResponse" });
   }
@@ -2623,11 +2623,11 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
           extraLocationTypes: S.optional(__S(848, __c53, 0).pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2653,10 +2653,10 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           orderBy: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2670,8 +2670,8 @@ function __c26(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(848, __c53, 0)),
           nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(848, __c53, 0)),
           appConnections: S.optional(__S(417, __c26, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudBeyondcorpAppconnectionsV1ListAppConnectionsResponse" });
@@ -2682,11 +2682,11 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2713,10 +2713,10 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2730,9 +2730,9 @@ function __c28(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          unreachable: S.optional(__S(848, __c53, 0)),
           nextPageToken: S.optional(S.String),
           appGateways: S.optional(__S(449, __c28, 1)),
-          unreachable: S.optional(__S(848, __c53, 0)),
         }),
       ).annotate({ identifier: "ListAppGatewaysResponse" });
   }
@@ -2742,11 +2742,11 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2762,11 +2762,11 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2781,8 +2781,8 @@ function __c30(j: number): any {
       return S.suspend(() =>
         S.Struct({
           securityGateways: S.optional(__S(481, __c30, 1)),
-          nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(848, __c53, 0)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({
         identifier: "GoogleCloudBeyondcorpSecuritygatewaysV1ListSecurityGatewaysResponse",
@@ -2794,10 +2794,10 @@ function __c31(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -2812,8 +2812,8 @@ function __c31(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(848, __c53, 0)),
           applications: S.optional(__S(497, __c31, 1)),
+          unreachable: S.optional(__S(848, __c53, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudBeyondcorpSecuritygatewaysV1ListApplicationsResponse" });
@@ -2827,8 +2827,8 @@ function __c32(j: number): any {
           __S(838, __c52, 6),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -2847,9 +2847,9 @@ function __c33(j: number): any {
         S.Extend(
           __S(954, __c59, 10),
           S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
-            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -2893,17 +2893,17 @@ function __c34(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          stableImage: S.optional(S.String),
           targetImage: S.optional(S.String),
+          stableImage: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudBeyondcorpAppconnectorsV1ImageConfig" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           notificationConfig: S.optional(__S(546, __c34, 2)),
+          imageConfig: S.optional(__S(547, __c34, 3)),
           sequenceNumber: S.optional(S.String),
           instanceConfig: S.optional(__S(896, __c56, 0)),
-          imageConfig: S.optional(__S(547, __c34, 3)),
         }),
       ).annotate({ identifier: "GoogleCloudBeyondcorpAppconnectorsV1AppConnectorInstanceConfig" });
     case 5:
@@ -2921,10 +2921,10 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           appConnectorId: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2948,8 +2948,8 @@ function __c35(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           appConnectionDetails: S.optional(__S(562, __c35, 2)),
+          nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(848, __c53, 0)),
         }),
       ).annotate({
@@ -3221,9 +3221,9 @@ function __c51(j: number): any {
         S.Extend(
           __S(838, __c52, 6),
           S.Struct({
-            securityGatewayId: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            securityGatewayId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -3277,17 +3277,17 @@ function __c52(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
-          logging: S.optional(__S(592, __c37, 0)),
-          externalIps: S.optional(__S(848, __c53, 0)),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
           proxyProtocolConfig: S.optional(__S(882, __c55, 2)),
-          createTime: S.optional(S.String),
+          logging: S.optional(__S(592, __c37, 0)),
           hubs: S.optional(__S(834, __c52, 2)),
           serviceDiscovery: S.optional(__S(837, __c52, 5)),
-          delegatingServiceAccount: S.optional(S.String),
           state: S.optional(S.String),
+          createTime: S.optional(S.String),
+          delegatingServiceAccount: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          externalIps: S.optional(__S(848, __c53, 0)),
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudBeyondcorpSecuritygatewaysV1SecurityGateway" });
   }
@@ -3312,26 +3312,26 @@ function __c55(j: number): any {
           outputType: S.optional(S.String),
         }),
       ).annotate({
-        identifier: "GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeadersDelegatedGroupInfo",
+        identifier: "GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeadersDelegatedUserInfo",
       });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          groupInfo: S.optional(__S(880, __c55, 0)),
-          dispatchInfo: S.optional(__S(880, __c55, 0)),
-          outputType: S.optional(S.String),
-          deviceInfo: S.optional(__S(880, __c55, 0)),
           userInfo: S.optional(__S(880, __c55, 0)),
+          deviceInfo: S.optional(__S(880, __c55, 0)),
+          groupInfo: S.optional(__S(880, __c55, 0)),
+          outputType: S.optional(S.String),
+          dispatchInfo: S.optional(__S(880, __c55, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudBeyondcorpSecuritygatewaysV1ContextualHeaders" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          contextualHeaders: S.optional(__S(881, __c55, 1)),
-          metadataHeaders: S.optional(__S(864, __c54, 0)),
           gatewayIdentity: S.optional(S.String),
           allowedClientHeaders: S.optional(__S(848, __c53, 0)),
+          contextualHeaders: S.optional(__S(881, __c55, 1)),
           clientIp: S.optional(S.Boolean),
+          metadataHeaders: S.optional(__S(864, __c54, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudBeyondcorpSecuritygatewaysV1ProxyProtocolConfig" });
   }
@@ -3349,19 +3349,19 @@ function __c57(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          message: S.optional(S.String),
           code: S.optional(S.Number),
           details: S.optional(__S(912, __c57, 0)),
+          message: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleRpcStatus" });
     case 2:
       return S.suspend(() =>
         S.Struct({
+          error: S.optional(__S(913, __c57, 1)),
           metadata: S.optional(__S(896, __c56, 0)),
           response: S.optional(__S(896, __c56, 0)),
           name: S.optional(S.String),
           done: S.optional(S.Boolean),
-          error: S.optional(__S(913, __c57, 1)),
         }),
       ).annotate({ identifier: "GoogleLongrunningOperation" });
   }
@@ -3373,9 +3373,9 @@ function __c58(j: number): any {
         S.Extend(
           __S(954, __c59, 10),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
             applicationId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -3424,9 +3424,9 @@ function __c59(j: number): any {
       return S.suspend(() =>
         S.Struct({
           external: S.optional(__S(946, __c59, 2)),
-          proxyProtocol: S.optional(__S(882, __c55, 2)),
           egressPolicy: S.optional(__S(947, __c59, 3)),
           network: S.optional(__S(948, __c59, 4)),
+          proxyProtocol: S.optional(__S(882, __c55, 2)),
         }),
       ).annotate({ identifier: "GoogleCloudBeyondcorpSecuritygatewaysV1ApplicationUpstream" });
     case 6:
@@ -3445,12 +3445,12 @@ function __c59(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          upstreams: S.optional(__S(950, __c59, 6)),
           updateTime: S.optional(S.String),
           schema: S.optional(S.String),
-          name: S.optional(S.String),
           displayName: S.optional(S.String),
+          name: S.optional(S.String),
           createTime: S.optional(S.String),
+          upstreams: S.optional(__S(950, __c59, 6)),
           endpointMatchers: S.optional(__S(953, __c59, 9)),
         }),
       ).annotate({ identifier: "GoogleCloudBeyondcorpSecuritygatewaysV1Application" });
@@ -3477,9 +3477,9 @@ function __c61(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",

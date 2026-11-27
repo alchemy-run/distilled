@@ -100,10 +100,10 @@ export class NotFound
 export interface GSuitePrincipal {
   /** This principal references a Google Workspace group name. */
   gsuiteGroupEmail?: string | undefined;
-  /** This principal represents all users of the Google Workspace domain of the customer. */
-  gsuiteDomain?: boolean | undefined;
   /** This principal references a Google Workspace user account. */
   gsuiteUserEmail?: string | undefined;
+  /** This principal represents all users of the Google Workspace domain of the customer. */
+  gsuiteDomain?: boolean | undefined;
 }
 /** Reference to a user, group, or domain. */
 export interface Principal {
@@ -115,10 +115,10 @@ export interface Principal {
   userResourceName?: string | undefined;
 }
 export interface CheckAccessDebugDatasourcesItemsRequest extends Principal {
-  /** Item name, format: datasources/{source_id}/items/{item_id} */
-  name: string;
   /** If you are asked by Google to help with debugging, set this field. Otherwise, ignore this field. */
   "debugOptions.enableDebugging"?: boolean | undefined;
+  /** Item name, format: datasources/{source_id}/items/{item_id} */
+  name: string;
 }
 export interface CheckAccessResponse {
   /** Returns true if principal has access. Returns false otherwise. */
@@ -130,47 +130,54 @@ export type GSuitePrincipalList = Array<GSuitePrincipal>;
 export interface DataSource {
   /** Can a user request to get thumbnail URI for Items indexed in this data source. */
   returnThumbnailUrls?: boolean | undefined;
-  /** Disable serving any search or assist results. */
-  disableServing?: boolean | undefined;
-  /** IDs of the Long Running Operations (LROs) currently running for this schema. */
-  operationIds?: StringList | undefined;
-  /** A short name or alias for the source. This value will be used to match the 'source' operator. For example, if the short name is *<value>* then queries like *source:<value>* will only return results for this source. The value must be unique across all datasources. The value must only contain alphanumeric characters (a-zA-Z0-9). The value cannot start with 'google' and cannot be one of the following: mail, gmail, docs, drive, groups, sites, calendar, hangouts, gplus, keep, people, teams. Its maximum length is 32 characters. */
-  shortName?: string | undefined;
   /** Required. Display name of the datasource The maximum length is 300 characters. */
   displayName?: string | undefined;
-  /** This field restricts visibility to items at the datasource level. Items within the datasource are restricted to the union of users and groups included in this field. Note that, this does not ensure access to a specific item, as users need to have ACL permissions on the contained items. This ensures a high level access on the entire datasource, and that the individual items are not shared outside this visibility. */
-  itemsVisibility?: GSuitePrincipalList | undefined;
-  /** List of service accounts that have indexing access. */
-  indexingServiceAccounts?: StringList | undefined;
   /** The name of the datasource resource. Format: datasources/{source_id}. The name is ignored when creating a datasource. */
   name?: string | undefined;
   /** If true, sets the datasource to read-only mode. In read-only mode, the Indexing API rejects any requests to index or delete items in this source. Enabling read-only mode does not stop the processing of previously accepted data. */
   disableModifications?: boolean | undefined;
+  /** List of service accounts that have indexing access. */
+  indexingServiceAccounts?: StringList | undefined;
+  /** A short name or alias for the source. This value will be used to match the 'source' operator. For example, if the short name is *<value>* then queries like *source:<value>* will only return results for this source. The value must be unique across all datasources. The value must only contain alphanumeric characters (a-zA-Z0-9). The value cannot start with 'google' and cannot be one of the following: mail, gmail, docs, drive, groups, sites, calendar, hangouts, gplus, keep, people, teams. Its maximum length is 32 characters. */
+  shortName?: string | undefined;
+  /** Disable serving any search or assist results. */
+  disableServing?: boolean | undefined;
+  /** IDs of the Long Running Operations (LROs) currently running for this schema. */
+  operationIds?: StringList | undefined;
+  /** This field restricts visibility to items at the datasource level. Items within the datasource are restricted to the union of users and groups included in this field. Note that, this does not ensure access to a specific item, as users need to have ACL permissions on the contained items. This ensures a high level access on the entire datasource, and that the individual items are not shared outside this visibility. */
+  itemsVisibility?: GSuitePrincipalList | undefined;
 }
 export interface CreateSettingsDatasourcesRequest extends DataSource {}
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean | undefined;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap | undefined;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string | undefined;
+}
+/** Scoring configurations for a source while processing a Search or Suggest request. */
+export interface ScoringConfig {
+  /** Whether to use freshness as a ranking signal. By default, freshness is used as a ranking signal. Note that this setting is not available in the Admin UI. */
+  disableFreshness?: boolean | undefined;
+  /** Whether to personalize the results. By default, personal signals will be used to boost results. */
+  disablePersonalization?: boolean | undefined;
 }
 /** Used to specify integer faceting options. */
 export interface IntegerFacetingOptions {
@@ -179,18 +186,39 @@ export interface IntegerFacetingOptions {
 }
 /** Specifies operators to return facet results for. There will be one FacetResult for every source_name/object_type/operator_name combination. */
 export interface FacetOptions {
+  /** The name of the operator chosen for faceting. @see cloudsearch.SchemaPropertyOptions */
+  operatorName?: string | undefined;
+  /** If object_type is set, only those objects of that type will be used to compute facets. If empty, then all objects will be used to compute facets. */
+  objectType?: string | undefined;
   /** If set, describes integer faceting options for the given integer property. The corresponding integer property in the schema should be marked isFacetable. The number of buckets returned would be minimum of this and num_facet_buckets. */
   integerFacetingOptions?: IntegerFacetingOptions | undefined;
   /** Maximum number of facet buckets that should be returned for this facet. Defaults to 10. Maximum value is 100. */
   numFacetBuckets?: number | undefined;
-  /** The name of the operator chosen for faceting. @see cloudsearch.SchemaPropertyOptions */
-  operatorName?: string | undefined;
   /** Source name to facet on. Format: datasources/{source_id} If empty, all data sources will be used. */
   sourceName?: string | undefined;
-  /** If object_type is set, only those objects of that type will be used to compute facets. If empty, then all objects will be used to compute facets. */
-  objectType?: string | undefined;
 }
 export type FacetOptionsList = Array<FacetOptions>;
+/** Default options to interpret user query. */
+export interface QueryInterpretationConfig {
+  /** Enable this flag to turn off all internal optimizations like natural language (NL) interpretation of queries, supplemental results retrieval, and usage of synonyms including custom ones. If this flag is set to True, it will take precedence over the option set at Query level. For the default value of False, query level flag will set the correct interpretation for verbatim mode. */
+  forceVerbatimMode?: boolean | undefined;
+  /** Set this flag to disable supplemental results retrieval, setting a flag here will not retrieve supplemental results for queries associated with a given search application. If this flag is set to True, it will take precedence over the option set at Query level. For the default value of False, query level flag will set the correct interpretation for supplemental results. */
+  forceDisableSupplementalResults?: boolean | undefined;
+}
+export type SortOptionsSortOrderEnum = "ASCENDING" | "DESCENDING";
+export interface SortOptions {
+  /** The name of the operator corresponding to the field to sort on. The corresponding property must be marked as sortable. */
+  operatorName?: string | undefined;
+  /** Ascending is the default sort order */
+  sortOrder?: SortOptionsSortOrderEnum | (string & {}) | undefined;
+}
+/** Set search results crowding limits. Crowding is a situation in which multiple results from the same source or host "crowd out" other results, diminishing the quality of search for users. To foster better search quality and source diversity in search results, you can set a condition to reduce repetitive results by source. */
+export interface SourceCrowdingConfig {
+  /** Maximum number of suggestions allowed from a source. No limits will be set on results if this value is less than or equal to 0. */
+  numSuggestions?: number | undefined;
+  /** Maximum number of results allowed from a datasource in a result page as long as results from other sources are not exhausted. Value specified must not be negative. A default value is used if this value is equal to 0. To disable crowding, set the value greater than 100. */
+  numResults?: number | undefined;
+}
 export type SourcePredefinedSourceEnum =
   | "NONE"
   | "QUERY_HISTORY"
@@ -208,6 +236,22 @@ export interface Source {
   /** Source name for content indexed by the Indexing API. */
   name?: string | undefined;
 }
+export type SourceScoringConfigSourceImportanceEnum = "DEFAULT" | "LOW" | "HIGH";
+/** Set the scoring configuration. This allows modifying the ranking of results for a source. */
+export interface SourceScoringConfig {
+  /** Importance of the source. */
+  sourceImportance?: SourceScoringConfigSourceImportanceEnum | (string & {}) | undefined;
+}
+/** Configurations for a source while processing a Search or Suggest request. */
+export interface SourceConfig {
+  /** The crowding configuration for the source. */
+  crowdingConfig?: SourceCrowdingConfig | undefined;
+  /** The source for which this configuration is to be used. */
+  source?: Source | undefined;
+  /** The scoring configuration for the source. */
+  scoringConfig?: SourceScoringConfig | undefined;
+}
+export type SourceConfigList = Array<SourceConfig>;
 /** Represents a whole calendar date, for example a date of birth. The time of day and time zone are either specified elsewhere or are not significant. The date is relative to the [Proleptic Gregorian Calendar](https://en.wikipedia.org/wiki/Proleptic_Gregorian_calendar). The date must be a valid calendar date between the year 1 and 9999. */
 export interface Cloudsearch_Date {
   /** Day of month. Must be from 1 to 31 and valid for the year and month. */
@@ -219,12 +263,12 @@ export interface Cloudsearch_Date {
 }
 /** Definition of a single value with generic type. */
 export interface Value {
-  timestampValue?: string | undefined;
-  booleanValue?: boolean | undefined;
   doubleValue?: number | undefined;
+  booleanValue?: boolean | undefined;
+  timestampValue?: string | undefined;
+  dateValue?: Cloudsearch_Date | undefined;
   integerValue?: string | undefined;
   stringValue?: string | undefined;
-  dateValue?: Cloudsearch_Date | undefined;
 }
 export interface ValueFilter {
   /** The value to be compared with. */
@@ -232,13 +276,13 @@ export interface ValueFilter {
   /** The `operator_name` applied to the query, such as *price_greater_than*. The filter can work against both types of filters defined in the schema for your data source: 1. `operator_name`, where the query filters results by the property that matches the value. 2. `greater_than_operator_name` or `less_than_operator_name` in your schema. The query filters the results for the property values that are greater than or less than the supplied value in the query. */
   operatorName?: string | undefined;
 }
-export type CompositeFilterLogicOperatorEnum = "AND" | "OR" | "NOT";
 export type FilterList = Array<Filter>;
+export type CompositeFilterLogicOperatorEnum = "AND" | "OR" | "NOT";
 export interface CompositeFilter {
-  /** The logic operator of the sub filter. */
-  logicOperator?: CompositeFilterLogicOperatorEnum | (string & {}) | undefined;
   /** Sub filters. */
   subFilters?: FilterList | undefined;
+  /** The logic operator of the sub filter. */
+  logicOperator?: CompositeFilterLogicOperatorEnum | (string & {}) | undefined;
 }
 /** A generic way of expressing filters in a query, which supports two approaches: **1. Setting a ValueFilter.** The name must match an operator_name defined in the schema for your data source. **2. Setting a CompositeFilter.** The filters are evaluated using the logical operator. The top-level operators can only be either an AND or a NOT. AND can appear only at the top-most level. OR can appear only under a top-level AND. */
 export interface Filter {
@@ -247,102 +291,58 @@ export interface Filter {
 }
 /** Filter options to be applied on query. */
 export interface FilterOptions {
-  /** If object_type is set, only objects of that type are returned. This should correspond to the name of the object that was registered within the definition of schema. The maximum length is 256 characters. */
-  objectType?: string | undefined;
   /** Generic filter to restrict the search, such as `lang:en`, `site:xyz`. */
   filter?: Filter | undefined;
+  /** If object_type is set, only objects of that type are returned. This should correspond to the name of the object that was registered within the definition of schema. The maximum length is 256 characters. */
+  objectType?: string | undefined;
 }
 export type FilterOptionsList = Array<FilterOptions>;
 /** Restriction on Datasource. */
 export interface DataSourceRestriction {
-  /** The source of restriction. */
-  source?: Source | undefined;
   /** Filter options restricting the results. If multiple filters are present, they are grouped by object type before joining. Filters with the same object type are joined conjunctively, then the resulting expressions are joined disjunctively. The maximum number of elements is 20. NOTE: Suggest API supports only few filters at the moment: "objecttype", "type" and "mimetype". For now, schema specific filters cannot be used to filter suggestions. */
   filterOptions?: FilterOptionsList | undefined;
-}
-export type DataSourceRestrictionList = Array<DataSourceRestriction>;
-export type SourceScoringConfigSourceImportanceEnum = "DEFAULT" | "LOW" | "HIGH";
-/** Set the scoring configuration. This allows modifying the ranking of results for a source. */
-export interface SourceScoringConfig {
-  /** Importance of the source. */
-  sourceImportance?: SourceScoringConfigSourceImportanceEnum | (string & {}) | undefined;
-}
-/** Set search results crowding limits. Crowding is a situation in which multiple results from the same source or host "crowd out" other results, diminishing the quality of search for users. To foster better search quality and source diversity in search results, you can set a condition to reduce repetitive results by source. */
-export interface SourceCrowdingConfig {
-  /** Maximum number of results allowed from a datasource in a result page as long as results from other sources are not exhausted. Value specified must not be negative. A default value is used if this value is equal to 0. To disable crowding, set the value greater than 100. */
-  numResults?: number | undefined;
-  /** Maximum number of suggestions allowed from a source. No limits will be set on results if this value is less than or equal to 0. */
-  numSuggestions?: number | undefined;
-}
-/** Configurations for a source while processing a Search or Suggest request. */
-export interface SourceConfig {
-  /** The scoring configuration for the source. */
-  scoringConfig?: SourceScoringConfig | undefined;
-  /** The crowding configuration for the source. */
-  crowdingConfig?: SourceCrowdingConfig | undefined;
-  /** The source for which this configuration is to be used. */
+  /** The source of restriction. */
   source?: Source | undefined;
 }
-export type SourceConfigList = Array<SourceConfig>;
-/** Scoring configurations for a source while processing a Search or Suggest request. */
-export interface ScoringConfig {
-  /** Whether to use freshness as a ranking signal. By default, freshness is used as a ranking signal. Note that this setting is not available in the Admin UI. */
-  disableFreshness?: boolean | undefined;
-  /** Whether to personalize the results. By default, personal signals will be used to boost results. */
-  disablePersonalization?: boolean | undefined;
-}
-export type SortOptionsSortOrderEnum = "ASCENDING" | "DESCENDING";
-export interface SortOptions {
-  /** The name of the operator corresponding to the field to sort on. The corresponding property must be marked as sortable. */
-  operatorName?: string | undefined;
-  /** Ascending is the default sort order */
-  sortOrder?: SortOptionsSortOrderEnum | (string & {}) | undefined;
-}
-/** Default options to interpret user query. */
-export interface QueryInterpretationConfig {
-  /** Set this flag to disable supplemental results retrieval, setting a flag here will not retrieve supplemental results for queries associated with a given search application. If this flag is set to True, it will take precedence over the option set at Query level. For the default value of False, query level flag will set the correct interpretation for supplemental results. */
-  forceDisableSupplementalResults?: boolean | undefined;
-  /** Enable this flag to turn off all internal optimizations like natural language (NL) interpretation of queries, supplemental results retrieval, and usage of synonyms including custom ones. If this flag is set to True, it will take precedence over the option set at Query level. For the default value of False, query level flag will set the correct interpretation for verbatim mode. */
-  forceVerbatimMode?: boolean | undefined;
-}
+export type DataSourceRestrictionList = Array<DataSourceRestriction>;
 /** SearchApplication */
 export interface SearchApplication {
-  /** The default fields for returning facet results. The sources specified here also have been included in data_source_restrictions above. */
-  defaultFacetOptions?: FacetOptionsList | undefined;
-  /** With each result we should return the URI for its thumbnail (when applicable) */
-  returnResultThumbnailUrls?: boolean | undefined;
-  /** Output only. IDs of the Long Running Operations (LROs) currently running for this schema. Output only field. */
-  operationIds?: StringList | undefined;
-  /** Retrictions applied to the configurations. The maximum number of elements is 10. */
-  dataSourceRestrictions?: DataSourceRestrictionList | undefined;
-  /** Indicates whether audit logging is on/off for requests made for the search application in query APIs. */
-  enableAuditLog?: boolean | undefined;
-  /** Configuration for a sources specified in data_source_restrictions. */
-  sourceConfig?: SourceConfigList | undefined;
   /** Configuration for ranking results. */
   scoringConfig?: ScoringConfig | undefined;
   /** Display name of the Search Application. The maximum length is 300 characters. */
   displayName?: string | undefined;
+  /** Indicates whether audit logging is on/off for requests made for the search application in query APIs. */
+  enableAuditLog?: boolean | undefined;
+  /** The default fields for returning facet results. The sources specified here also have been included in data_source_restrictions above. */
+  defaultFacetOptions?: FacetOptionsList | undefined;
+  /** The default options for query interpretation */
+  queryInterpretationConfig?: QueryInterpretationConfig | undefined;
   /** The name of the Search Application. Format: searchapplications/{application_id}. */
   name?: string | undefined;
   /** The default options for sorting the search results */
   defaultSortOptions?: SortOptions | undefined;
-  /** The default options for query interpretation */
-  queryInterpretationConfig?: QueryInterpretationConfig | undefined;
+  /** Configuration for a sources specified in data_source_restrictions. */
+  sourceConfig?: SourceConfigList | undefined;
+  /** With each result we should return the URI for its thumbnail (when applicable) */
+  returnResultThumbnailUrls?: boolean | undefined;
+  /** Retrictions applied to the configurations. The maximum number of elements is 10. */
+  dataSourceRestrictions?: DataSourceRestrictionList | undefined;
+  /** Output only. IDs of the Long Running Operations (LROs) currently running for this schema. Output only field. */
+  operationIds?: StringList | undefined;
 }
 export interface CreateSettingsSearchapplicationsRequest extends SearchApplication {}
 export type DeleteIndexingDatasourcesItemsModeEnum = "UNSPECIFIED" | "SYNCHRONOUS" | "ASYNCHRONOUS";
 export interface DeleteIndexingDatasourcesItemsRequest {
-  /** Required. The incremented version of the item to delete from the index. The indexing system stores the version from the datasource as a byte string and compares the Item version in the index to the version of the queued Item using lexical ordering. Cloud Search Indexing won't delete any queued item with a version value that is less than or equal to the version of the currently indexed item. The maximum length for this field is 1024 bytes. For information on how item version affects the deletion process, refer to [Handle revisions after manual deletes](https://developers.google.com/workspace/cloud-search/docs/guides/operations). */
-  version?: string | undefined;
   /** Required. The RequestMode for this request. */
   mode?: DeleteIndexingDatasourcesItemsModeEnum | (string & {}) | undefined;
   /** If you are asked by Google to help with debugging, set this field. Otherwise, ignore this field. */
   "debugOptions.enableDebugging"?: boolean | undefined;
-  /** Required. The name of the item to delete. Format: datasources/{source_id}/items/{item_id} */
-  name: string;
+  /** Required. The incremented version of the item to delete from the index. The indexing system stores the version from the datasource as a byte string and compares the Item version in the index to the version of the queued Item using lexical ordering. Cloud Search Indexing won't delete any queued item with a version value that is less than or equal to the version of the currently indexed item. The maximum length for this field is 1024 bytes. For information on how item version affects the deletion process, refer to [Handle revisions after manual deletes](https://developers.google.com/workspace/cloud-search/docs/guides/operations). */
+  version?: string | undefined;
   /** The name of connector making this call. Format: datasources/{source_id}/connectors/{ID} */
   connectorName?: string | undefined;
+  /** Required. The name of the item to delete. Format: datasources/{source_id}/items/{item_id} */
+  name: string;
 }
 /** Shared request debug options for all cloudsearch RPC methods. */
 export interface DebugOptions {
@@ -350,28 +350,28 @@ export interface DebugOptions {
   enableDebugging?: boolean | undefined;
 }
 export interface DeleteQueueItemsRequest {
+  /** The name of connector making this call. Format: datasources/{source_id}/connectors/{ID} */
+  connectorName?: string | undefined;
   /** The name of a queue to delete items from. */
   queue?: string | undefined;
   /** Common debug options. */
   debugOptions?: DebugOptions | undefined;
-  /** The name of connector making this call. Format: datasources/{source_id}/connectors/{ID} */
-  connectorName?: string | undefined;
 }
 export interface DeleteQueueItemsIndexingDatasourcesItemsRequest extends DeleteQueueItemsRequest {
   /** The name of the Data Source to delete items in a queue. Format: datasources/{source_id} */
   name: string;
 }
 export interface DeleteSchemaIndexingDatasourcesRequest {
-  /** If you are asked by Google to help with debugging, set this field. Otherwise, ignore this field. */
-  "debugOptions.enableDebugging"?: boolean | undefined;
   /** The name of the data source to delete Schema. Format: datasources/{source_id} */
   name: string;
-}
-export interface DeleteSettingsDatasourcesRequest {
   /** If you are asked by Google to help with debugging, set this field. Otherwise, ignore this field. */
   "debugOptions.enableDebugging"?: boolean | undefined;
+}
+export interface DeleteSettingsDatasourcesRequest {
   /** The name of the datasource. Format: datasources/{source_id}. */
   name: string;
+  /** If you are asked by Google to help with debugging, set this field. Otherwise, ignore this field. */
+  "debugOptions.enableDebugging"?: boolean | undefined;
 }
 export interface DeleteSettingsSearchapplicationsRequest {
   /** If you are asked by Google to help with debugging, set this field. Otherwise, ignore this field. */
@@ -382,14 +382,14 @@ export interface DeleteSettingsSearchapplicationsRequest {
 export interface GetCustomerSettingsRequest {}
 /** Represents the settings for Cloud audit logging */
 export interface AuditLoggingSettings {
-  /** Indicates whether audit logging is on/off for admin activity read APIs i.e. Get/List DataSources, Get/List SearchApplications etc. */
-  logAdminReadActions?: boolean | undefined;
   /** Indicates whether audit logging is on/off for data access write APIs i.e. IndexItem etc. */
   logDataWriteActions?: boolean | undefined;
-  /** Indicates whether audit logging is on/off for data access read APIs i.e. ListItems, GetItem etc. */
-  logDataReadActions?: boolean | undefined;
   /** The resource name of the GCP Project to store audit logs. Cloud audit logging will be enabled after project_name has been updated through CustomerService. Format: projects/{project_id} */
   project?: string | undefined;
+  /** Indicates whether audit logging is on/off for data access read APIs i.e. ListItems, GetItem etc. */
+  logDataReadActions?: boolean | undefined;
+  /** Indicates whether audit logging is on/off for admin activity read APIs i.e. Get/List DataSources, Get/List SearchApplications etc. */
+  logAdminReadActions?: boolean | undefined;
 }
 export interface VPCSettings {
   /** The resource name of the GCP Project to be used for VPC SC policy check. VPC security settings on this project will be honored for Cloud Search APIs after project_name has been updated through CustomerService. Format: projects/{project_id} */
@@ -410,11 +410,6 @@ export interface GetIndexingDatasourcesItemsRequest {
   /** The name of the item to get info. Format: datasources/{source_id}/items/{item_id} */
   name: string;
 }
-export type ItemItemTypeEnum =
-  | "UNSPECIFIED"
-  | "CONTENT_ITEM"
-  | "CONTAINER_ITEM"
-  | "VIRTUAL_CONTAINER_ITEM";
 export type ItemContentContentFormatEnum = "UNSPECIFIED" | "HTML" | "TEXT" | "RAW";
 /** Represents an upload session reference. This reference is created via upload method. This reference is valid for 30 days after its creation. Updating of item content may refer to this uploaded content via contentDataRef. */
 export interface UploadItemRef {
@@ -423,87 +418,19 @@ export interface UploadItemRef {
 }
 /** Content of an item to be indexed and surfaced by Cloud Search. Only UTF-8 encoded strings are allowed as inlineContent. If the content is uploaded and not binary, it must be UTF-8 encoded. */
 export interface ItemContent {
-  contentFormat?: ItemContentContentFormatEnum | (string & {}) | undefined;
-  /** Hashing info calculated and provided by the API client for content. Can be used with the items.push method to calculate modified state. The maximum length is 2048 characters. */
-  hash?: string | undefined;
   /** Content that is supplied inlined within the update method. The maximum length is 102400 bytes (100 KiB). */
   inlineContent?: string | undefined;
+  /** Hashing info calculated and provided by the API client for content. Can be used with the items.push method to calculate modified state. The maximum length is 2048 characters. */
+  hash?: string | undefined;
+  contentFormat?: ItemContentContentFormatEnum | (string & {}) | undefined;
   /** Upload reference ID of a previously uploaded content via write method. */
   contentDataRef?: UploadItemRef | undefined;
 }
-/** List of html values. */
-export interface HtmlValues {
-  /** The maximum allowable length for html values is 2048 characters. */
-  values?: StringList | undefined;
+/** Additional search quality metadata of the item. */
+export interface SearchQualityMetadata {
+  /** An indication of the quality of the item, used to influence search quality. Value should be between 0.0 (lowest quality) and 1.0 (highest quality). The default value is 0.0. */
+  quality?: number | undefined;
 }
-/** List of timestamp values. */
-export interface TimestampValues {
-  values?: StringList | undefined;
-}
-/** List of text values. */
-export interface TextValues {
-  /** The maximum allowable length for text values is 2048 characters. */
-  values?: StringList | undefined;
-}
-/** List of integer values. */
-export type IntegerValues = TimestampValues;
-export type Cloudsearch_DateList = Array<Cloudsearch_Date>;
-/** List of date values. */
-export interface DateValues {
-  values?: Cloudsearch_DateList | undefined;
-}
-/** List of enum values. */
-export interface EnumValues {
-  /** The maximum allowable length for string values is 32 characters. */
-  values?: StringList | undefined;
-}
-export type DoubleList = Array<number>;
-/** List of double values. */
-export interface DoubleValues {
-  values?: DoubleList | undefined;
-}
-export type StructuredDataObjectList = Array<StructuredDataObject>;
-/** List of object values. */
-export interface ObjectValues {
-  values?: StructuredDataObjectList | undefined;
-}
-/** A typed name-value pair for structured data. The type of the value should be the same as the registered type for the `name` property in the object definition of `objectType`. */
-export interface NamedProperty {
-  booleanValue?: boolean | undefined;
-  htmlValues?: HtmlValues | undefined;
-  timestampValues?: TimestampValues | undefined;
-  textValues?: TextValues | undefined;
-  integerValues?: TimestampValues | undefined;
-  dateValues?: DateValues | undefined;
-  enumValues?: EnumValues | undefined;
-  /** The name of the property. This name should correspond to the name of the property that was registered for object definition in the schema. The maximum allowable length for this property is 256 characters. */
-  name?: string | undefined;
-  doubleValues?: DoubleValues | undefined;
-  objectValues?: ObjectValues | undefined;
-}
-export type NamedPropertyList = Array<NamedProperty>;
-/** A structured data object consisting of named properties. */
-export interface StructuredDataObject {
-  /** The properties for the object. The maximum number of elements is 1000. */
-  properties?: NamedPropertyList | undefined;
-}
-/** Available structured data fields for the item. */
-export interface ItemStructuredData {
-  /** Hashing value provided by the API caller. This can be used with the items.push method to calculate modified state. The maximum length is 2048 characters. */
-  hash?: string | undefined;
-  /** The structured data object that should conform to a registered object definition in the schema for the data source. */
-  object?: StructuredDataObject | undefined;
-}
-export type InteractionTypeEnum = "UNSPECIFIED" | "VIEW" | "EDIT";
-/** Represents an interaction between a user and an item. */
-export interface Interaction {
-  /** The user that acted on the item. */
-  principal?: Principal | undefined;
-  /** The time when the user acted on the item. If multiple actions of the same type exist for a single user, only the most recent action is recorded. */
-  interactionTime?: string | undefined;
-  type?: InteractionTypeEnum | (string & {}) | undefined;
-}
-export type InteractionList = Array<Interaction>;
 /** A named attribute associated with an item which can be used for influencing the ranking of the item based on the context in the request. */
 export interface ContextAttribute {
   /** Text values of the attribute. The maximum number of elements is 10. The maximum length of an element in the array is 32 characters. The value will be normalized (lower-cased) before being matched. */
@@ -512,58 +439,44 @@ export interface ContextAttribute {
   name?: string | undefined;
 }
 export type ContextAttributeList = Array<ContextAttribute>;
-/** Additional search quality metadata of the item. */
-export interface SearchQualityMetadata {
-  /** An indication of the quality of the item, used to influence search quality. Value should be between 0.0 (lowest quality) and 1.0 (highest quality). The default value is 0.0. */
-  quality?: number | undefined;
+export type InteractionTypeEnum = "UNSPECIFIED" | "VIEW" | "EDIT";
+/** Represents an interaction between a user and an item. */
+export interface Interaction {
+  /** The time when the user acted on the item. If multiple actions of the same type exist for a single user, only the most recent action is recorded. */
+  interactionTime?: string | undefined;
+  type?: InteractionTypeEnum | (string & {}) | undefined;
+  /** The user that acted on the item. */
+  principal?: Principal | undefined;
 }
+export type InteractionList = Array<Interaction>;
 /** Available metadata fields for the item. */
 export interface ItemMetadata {
+  /** The time when the item was last modified in the source repository. */
+  updateTime?: string | undefined;
+  /** Additional search quality metadata of the item */
+  searchQualityMetadata?: SearchQualityMetadata | undefined;
   /** Additional keywords or phrases that should match the item. Used internally for user generated content. The maximum number of elements is 100. The maximum length is 8192 characters. */
   keywords?: StringList | undefined;
   /** The title of the item. If given, this will be the displayed title of the Search result. The maximum length is 2048 characters. */
   title?: string | undefined;
+  /** A set of named attributes associated with the item. This can be used for influencing the ranking of the item based on the context in the request. The maximum number of elements is 10. */
+  contextAttributes?: ContextAttributeList | undefined;
   /** Hashing value provided by the API caller. This can be used with the items.push method to calculate modified state. The maximum length is 2048 characters. */
   hash?: string | undefined;
   /** The type of the item. This should correspond to the name of an object definition in the schema registered for the data source. For example, if the schema for the data source contains an object definition with name 'document', then item indexing requests for objects of that type should set objectType to 'document'. The maximum length is 256 characters. */
   objectType?: string | undefined;
-  /** The BCP-47 language code for the item, such as "en-US" or "sr-Latn". For more information, see http://www.unicode.org/reports/tr35/#Unicode_locale_identifier. The maximum length is 32 characters. */
-  contentLanguage?: string | undefined;
-  /** The time when the item was last modified in the source repository. */
-  updateTime?: string | undefined;
-  /** A list of interactions for the item. Interactions are used to improve Search quality, but are not exposed to end users. The maximum number of elements is 1000. */
-  interactions?: InteractionList | undefined;
   /** The time when the item was created in the source repository. */
   createTime?: string | undefined;
-  /** A set of named attributes associated with the item. This can be used for influencing the ranking of the item based on the context in the request. The maximum number of elements is 10. */
-  contextAttributes?: ContextAttributeList | undefined;
-  /** The name of the container for this item. Deletion of the container item leads to automatic deletion of this item. Note: ACLs are not inherited from a container item. To provide ACL inheritance for an item, use the inheritAclFrom field. The maximum length is 1536 characters. */
-  containerName?: string | undefined;
   /** The original mime-type of ItemContent.content in the source repository. The maximum length is 256 characters. */
   mimeType?: string | undefined;
-  /** Additional search quality metadata of the item */
-  searchQualityMetadata?: SearchQualityMetadata | undefined;
   /** Link to the source repository serving the data. Seach results apply this link to the title. Whitespace or special characters may cause Cloud Seach result links to trigger a redirect notice; to avoid this, encode the URL. The maximum length is 2048 characters. */
   sourceRepositoryUrl?: string | undefined;
-}
-export type PrincipalList = Array<Principal>;
-export type ItemAclAclInheritanceTypeEnum =
-  | "NOT_APPLICABLE"
-  | "CHILD_OVERRIDE"
-  | "PARENT_OVERRIDE"
-  | "BOTH_PERMIT";
-/** Access control list information for the item. For more information see [Map ACLs](https://developers.google.com/workspace/cloud-search/docs/guides/acls). */
-export interface ItemAcl {
-  /** The name of the item to inherit the Access Permission List (ACL) from. Note: ACL inheritance *only* provides access permissions to child items and does not define structural relationships, nor does it provide convenient ways to delete large groups of items. Deleting an ACL parent from the index only alters the access permissions of child items that reference the parent in the inheritAclFrom field. The item is still in the index, but may not visible in search results. By contrast, deletion of a container item also deletes all items that reference the container via the containerName field. The maximum length for this field is 1536 characters. */
-  inheritAclFrom?: string | undefined;
-  /** List of principals who are allowed to see the item in search results. Optional if inheriting permissions from another item or if the item is not intended to be visible, such as virtual containers. The maximum number of elements is 1000. */
-  readers?: PrincipalList | undefined;
-  /** Sets the type of access rules to apply when an item inherits its ACL from a parent. This should always be set in tandem with the inheritAclFrom field. Also, when the inheritAclFrom field is set, this field should be set to a valid AclInheritanceType. */
-  aclInheritanceType?: ItemAclAclInheritanceTypeEnum | (string & {}) | undefined;
-  /** Optional. List of owners for the item. This field has no bearing on document access permissions. It does, however, offer a slight ranking boosts items where the querying user is an owner. The maximum number of elements is 5. */
-  owners?: PrincipalList | undefined;
-  /** List of principals who are explicitly denied access to the item in search results. While principals are denied access by default, use denied readers to handle exceptions and override the list allowed readers. The maximum number of elements is 100. */
-  deniedReaders?: PrincipalList | undefined;
+  /** A list of interactions for the item. Interactions are used to improve Search quality, but are not exposed to end users. The maximum number of elements is 1000. */
+  interactions?: InteractionList | undefined;
+  /** The BCP-47 language code for the item, such as "en-US" or "sr-Latn". For more information, see http://www.unicode.org/reports/tr35/#Unicode_locale_identifier. The maximum length is 32 characters. */
+  contentLanguage?: string | undefined;
+  /** The name of the container for this item. Deletion of the container item leads to automatic deletion of this item. Note: ACLs are not inherited from a container item. To provide ACL inheritance for an item, use the inheritAclFrom field. The maximum length is 1536 characters. */
+  containerName?: string | undefined;
 }
 export type ItemStatusCodeEnum =
   | "CODE_UNSPECIFIED"
@@ -585,10 +498,10 @@ export interface FieldViolation {
 }
 export type FieldViolationList = Array<FieldViolation>;
 export interface ProcessingError {
-  /** The description of the error. */
-  errorMessage?: string | undefined;
   /** Error code indicating the nature of the error. */
   code?: ProcessingErrorCodeEnum | (string & {}) | undefined;
+  /** The description of the error. */
+  errorMessage?: string | undefined;
   /** In case the item fields are invalid, this field contains the details about the validation errors. */
   fieldViolations?: FieldViolationList | undefined;
 }
@@ -606,12 +519,12 @@ export type RepositoryErrorTypeEnum =
   | "CLIENT_ERROR";
 /** Errors when the connector is communicating to the source repository. */
 export interface RepositoryError {
-  /** Error codes. Matches the definition of HTTP status codes. */
-  httpStatusCode?: number | undefined;
   /** Message that describes the error. The maximum allowable length of the message is 8192 characters. */
   errorMessage?: string | undefined;
   /** The type of error. */
   type?: RepositoryErrorTypeEnum | (string & {}) | undefined;
+  /** Error codes. Matches the definition of HTTP status codes. */
+  httpStatusCode?: number | undefined;
 }
 export type RepositoryErrorList = Array<RepositoryError>;
 /** This contains item's status and any errors. */
@@ -623,42 +536,129 @@ export interface ItemStatus {
   /** Repository error reported by connector. */
   repositoryErrors?: RepositoryErrorList | undefined;
 }
+export type ItemAclAclInheritanceTypeEnum =
+  | "NOT_APPLICABLE"
+  | "CHILD_OVERRIDE"
+  | "PARENT_OVERRIDE"
+  | "BOTH_PERMIT";
+export type PrincipalList = Array<Principal>;
+/** Access control list information for the item. For more information see [Map ACLs](https://developers.google.com/workspace/cloud-search/docs/guides/acls). */
+export interface ItemAcl {
+  /** Sets the type of access rules to apply when an item inherits its ACL from a parent. This should always be set in tandem with the inheritAclFrom field. Also, when the inheritAclFrom field is set, this field should be set to a valid AclInheritanceType. */
+  aclInheritanceType?: ItemAclAclInheritanceTypeEnum | (string & {}) | undefined;
+  /** List of principals who are allowed to see the item in search results. Optional if inheriting permissions from another item or if the item is not intended to be visible, such as virtual containers. The maximum number of elements is 1000. */
+  readers?: PrincipalList | undefined;
+  /** Optional. List of owners for the item. This field has no bearing on document access permissions. It does, however, offer a slight ranking boosts items where the querying user is an owner. The maximum number of elements is 5. */
+  owners?: PrincipalList | undefined;
+  /** The name of the item to inherit the Access Permission List (ACL) from. Note: ACL inheritance *only* provides access permissions to child items and does not define structural relationships, nor does it provide convenient ways to delete large groups of items. Deleting an ACL parent from the index only alters the access permissions of child items that reference the parent in the inheritAclFrom field. The item is still in the index, but may not visible in search results. By contrast, deletion of a container item also deletes all items that reference the container via the containerName field. The maximum length for this field is 1536 characters. */
+  inheritAclFrom?: string | undefined;
+  /** List of principals who are explicitly denied access to the item in search results. While principals are denied access by default, use denied readers to handle exceptions and override the list allowed readers. The maximum number of elements is 100. */
+  deniedReaders?: PrincipalList | undefined;
+}
+export type ItemItemTypeEnum =
+  | "UNSPECIFIED"
+  | "CONTENT_ITEM"
+  | "CONTAINER_ITEM"
+  | "VIRTUAL_CONTAINER_ITEM";
+/** List of enum values. */
+export interface EnumValues {
+  /** The maximum allowable length for string values is 32 characters. */
+  values?: StringList | undefined;
+}
+export type Cloudsearch_DateList = Array<Cloudsearch_Date>;
+/** List of date values. */
+export interface DateValues {
+  values?: Cloudsearch_DateList | undefined;
+}
+/** List of timestamp values. */
+export interface TimestampValues {
+  values?: StringList | undefined;
+}
+export type DoubleList = Array<number>;
+/** List of double values. */
+export interface DoubleValues {
+  values?: DoubleList | undefined;
+}
+/** List of integer values. */
+export type IntegerValues = TimestampValues;
+/** List of text values. */
+export interface TextValues {
+  /** The maximum allowable length for text values is 2048 characters. */
+  values?: StringList | undefined;
+}
+/** List of html values. */
+export interface HtmlValues {
+  /** The maximum allowable length for html values is 2048 characters. */
+  values?: StringList | undefined;
+}
+export type StructuredDataObjectList = Array<StructuredDataObject>;
+/** List of object values. */
+export interface ObjectValues {
+  values?: StructuredDataObjectList | undefined;
+}
+/** A typed name-value pair for structured data. The type of the value should be the same as the registered type for the `name` property in the object definition of `objectType`. */
+export interface NamedProperty {
+  enumValues?: EnumValues | undefined;
+  dateValues?: DateValues | undefined;
+  booleanValue?: boolean | undefined;
+  timestampValues?: TimestampValues | undefined;
+  doubleValues?: DoubleValues | undefined;
+  integerValues?: TimestampValues | undefined;
+  textValues?: TextValues | undefined;
+  /** The name of the property. This name should correspond to the name of the property that was registered for object definition in the schema. The maximum allowable length for this property is 256 characters. */
+  name?: string | undefined;
+  htmlValues?: HtmlValues | undefined;
+  objectValues?: ObjectValues | undefined;
+}
+export type NamedPropertyList = Array<NamedProperty>;
+/** A structured data object consisting of named properties. */
+export interface StructuredDataObject {
+  /** The properties for the object. The maximum number of elements is 1000. */
+  properties?: NamedPropertyList | undefined;
+}
+/** Available structured data fields for the item. */
+export interface ItemStructuredData {
+  /** The structured data object that should conform to a registered object definition in the schema for the data source. */
+  object?: StructuredDataObject | undefined;
+  /** Hashing value provided by the API caller. This can be used with the items.push method to calculate modified state. The maximum length is 2048 characters. */
+  hash?: string | undefined;
+}
 /** Represents a single object that is an item in the search index, such as a file, folder, or a database record. */
 export interface Item {
-  /** The name of the Item. Format: datasources/{source_id}/items/{item_id} This is a required field. The maximum length is 1536 characters. */
-  name?: string | undefined;
-  /** The type for this item. */
-  itemType?: ItemItemTypeEnum | (string & {}) | undefined;
   /** Item content to be indexed and made text searchable. */
   content?: ItemContent | undefined;
-  /** The structured data for the item that should conform to a registered object definition in the schema for the data source. */
-  structuredData?: ItemStructuredData | undefined;
   /** The metadata information. */
   metadata?: ItemMetadata | undefined;
-  /** Access control list for this item. */
-  acl?: ItemAcl | undefined;
-  /** Required. The indexing system stores the version from the datasource as a byte string and compares the Item version in the index to the version of the queued Item using lexical ordering. Cloud Search Indexing won't index or delete any queued item with a version value that is less than or equal to the version of the currently indexed item. The maximum length for this field is 1024 bytes. For information on how item version affects the deletion process, refer to [Handle revisions after manual deletes](https://developers.google.com/workspace/cloud-search/docs/guides/operations). */
-  version?: string | undefined;
-  /** Additional state connector can store for this item. The maximum length is 10000 bytes. */
-  payload?: string | undefined;
   /** Queue this item belongs to. The maximum length is 100 characters. */
   queue?: string | undefined;
   /** Status of the item. Output only field. */
   status?: ItemStatus | undefined;
+  /** Required. The indexing system stores the version from the datasource as a byte string and compares the Item version in the index to the version of the queued Item using lexical ordering. Cloud Search Indexing won't index or delete any queued item with a version value that is less than or equal to the version of the currently indexed item. The maximum length for this field is 1024 bytes. For information on how item version affects the deletion process, refer to [Handle revisions after manual deletes](https://developers.google.com/workspace/cloud-search/docs/guides/operations). */
+  version?: string | undefined;
+  /** Additional state connector can store for this item. The maximum length is 10000 bytes. */
+  payload?: string | undefined;
+  /** Access control list for this item. */
+  acl?: ItemAcl | undefined;
+  /** The type for this item. */
+  itemType?: ItemItemTypeEnum | (string & {}) | undefined;
+  /** The structured data for the item that should conform to a registered object definition in the schema for the data source. */
+  structuredData?: ItemStructuredData | undefined;
+  /** The name of the Item. Format: datasources/{source_id}/items/{item_id} This is a required field. The maximum length is 1536 characters. */
+  name?: string | undefined;
 }
 export interface GetIndexStatsRequest {
-  /** Month of date. Must be from 1 to 12. */
-  "fromDate.month"?: number | undefined;
   /** Year of date. Must be from 1 to 9999. */
-  "toDate.year"?: number | undefined;
-  /** Day of month. Must be from 1 to 31 and valid for the year and month. */
-  "fromDate.day"?: number | undefined;
+  "fromDate.year"?: number | undefined;
   /** Month of date. Must be from 1 to 12. */
   "toDate.month"?: number | undefined;
   /** Day of month. Must be from 1 to 31 and valid for the year and month. */
-  "toDate.day"?: number | undefined;
+  "fromDate.day"?: number | undefined;
   /** Year of date. Must be from 1 to 9999. */
-  "fromDate.year"?: number | undefined;
+  "toDate.year"?: number | undefined;
+  /** Day of month. Must be from 1 to 31 and valid for the year and month. */
+  "toDate.day"?: number | undefined;
+  /** Month of date. Must be from 1 to 12. */
+  "fromDate.month"?: number | undefined;
 }
 export type ItemCountByStatusStatusCodeEnum =
   | "CODE_UNSPECIFIED"
@@ -694,29 +694,29 @@ export interface GetOperationsRequest {
   name: string;
 }
 export interface GetQueryStatsRequest {
-  /** Day of month. Must be from 1 to 31 and valid for the year and month. */
-  "toDate.day"?: number | undefined;
-  /** Year of date. Must be from 1 to 9999. */
-  "toDate.year"?: number | undefined;
   /** Year of date. Must be from 1 to 9999. */
   "fromDate.year"?: number | undefined;
+  /** Month of date. Must be from 1 to 12. */
+  "fromDate.month"?: number | undefined;
+  /** Day of month. Must be from 1 to 31 and valid for the year and month. */
+  "toDate.day"?: number | undefined;
   /** Day of month. Must be from 1 to 31 and valid for the year and month. */
   "fromDate.day"?: number | undefined;
   /** Month of date. Must be from 1 to 12. */
   "toDate.month"?: number | undefined;
-  /** Month of date. Must be from 1 to 12. */
-  "fromDate.month"?: number | undefined;
+  /** Year of date. Must be from 1 to 9999. */
+  "toDate.year"?: number | undefined;
 }
 export interface QueryCountByStatus {
+  count?: string | undefined;
   /** This represents the http status code. */
   statusCode?: number | undefined;
-  count?: string | undefined;
 }
 export type QueryCountByStatusList = Array<QueryCountByStatus>;
 export interface CustomerQueryStats {
+  queryCountByStatus?: QueryCountByStatusList | undefined;
   /** The date for which query stats were calculated. Stats calculated on the next day close to midnight are returned. */
   date?: Cloudsearch_Date | undefined;
-  queryCountByStatus?: QueryCountByStatusList | undefined;
 }
 export type CustomerQueryStatsList = Array<CustomerQueryStats>;
 export interface GetCustomerQueryStatsResponse {
@@ -725,48 +725,91 @@ export interface GetCustomerQueryStatsResponse {
   totalQueryCount?: string | undefined;
 }
 export interface GetSchemaIndexingDatasourcesRequest {
-  /** If you are asked by Google to help with debugging, set this field. Otherwise, ignore this field. */
-  "debugOptions.enableDebugging"?: boolean | undefined;
   /** The name of the data source to get Schema. Format: datasources/{source_id} */
   name: string;
+  /** If you are asked by Google to help with debugging, set this field. Otherwise, ignore this field. */
+  "debugOptions.enableDebugging"?: boolean | undefined;
 }
 /** The display options for a property. */
 export interface PropertyDisplayOptions {
   /** The user friendly label for the property that is used if the property is specified to be displayed in ObjectDisplayOptions. If provided, the display label is shown in front of the property values when the property is part of the object display options. For example, if the property value is '1', the value by itself may not be useful context for the user. If the display name given was 'priority', then the user sees 'priority : 1' in the search results which provides clear context to search users. This is OPTIONAL; if not given, only the property values are displayed. The maximum length is 64 characters. */
   displayLabel?: string | undefined;
 }
+/** Used to provide a search operator for double properties. This is optional. Search operators let users restrict the query to specific fields relevant to the type of item being searched. */
+export interface DoubleOperatorOptions {
+  /** Indicates the operator name required in the query in order to use the double property in sorting or as a facet. The operator name can only contain lowercase letters (a-z). The maximum length is 32 characters. */
+  operatorName?: string | undefined;
+}
+/** The options for double properties. */
+export interface DoublePropertyOptions {
+  /** If set, describes how the double should be used as a search operator. */
+  operatorOptions?: DoubleOperatorOptions | undefined;
+}
+export type IntegerPropertyOptionsOrderedRankingEnum = "NO_ORDER" | "ASCENDING" | "DESCENDING";
+/** Used to provide a search operator for integer properties. This is optional. Search operators let users restrict the query to specific fields relevant to the type of item being searched. */
+export interface IntegerOperatorOptions {
+  /** Indicates the operator name required in the query in order to isolate the integer property using the less-than operator. For example, if lessThanOperatorName is *prioritybelow* and the property's name is *priorityVal*, then queries like *prioritybelow:<value>* show results only where the value of the property named *priorityVal* is less than *<value>*. The operator name can only contain lowercase letters (a-z). The maximum length is 32 characters. */
+  lessThanOperatorName?: string | undefined;
+  /** Indicates the operator name required in the query in order to isolate the integer property. For example, if operatorName is *priority* and the property's name is *priorityVal*, then queries like *priority:<value>* show results only where the value of the property named *priorityVal* matches *<value>*. By contrast, a search that uses the same *<value>* without an operator returns all items where *<value>* matches the value of any String properties or text within the content field for the item. The operator name can only contain lowercase letters (a-z). The maximum length is 32 characters. */
+  operatorName?: string | undefined;
+  /** Indicates the operator name required in the query in order to isolate the integer property using the greater-than operator. For example, if greaterThanOperatorName is *priorityabove* and the property's name is *priorityVal*, then queries like *priorityabove:<value>* show results only where the value of the property named *priorityVal* is greater than *<value>*. The operator name can only contain lowercase letters (a-z). The maximum length is 32 characters. */
+  greaterThanOperatorName?: string | undefined;
+}
+/** The options for integer properties. */
+export interface IntegerPropertyOptions {
+  /** Used to specify the ordered ranking for the integer. Can only be used if isRepeatable is false. */
+  orderedRanking?: IntegerPropertyOptionsOrderedRankingEnum | (string & {}) | undefined;
+  /** The maximum value of the property. The minimum and maximum values for the property are used to rank results according to the ordered ranking. Indexing requests with values greater than the maximum are accepted and ranked with the same weight as items indexed with the maximum value. */
+  maximumValue?: string | undefined;
+  /** If set, describes integer faceting options for the given integer property. The corresponding integer property should be marked isFacetable. */
+  integerFacetingOptions?: IntegerFacetingOptions | undefined;
+  /** The minimum value of the property. The minimum and maximum values for the property are used to rank results according to the ordered ranking. Indexing requests with values less than the minimum are accepted and ranked with the same weight as items indexed with the minimum value. */
+  minimumValue?: string | undefined;
+  /** If set, describes how the integer should be used as a search operator. */
+  operatorOptions?: IntegerOperatorOptions | undefined;
+}
+/** Used to provide a search operator for boolean properties. This is optional. Search operators let users restrict the query to specific fields relevant to the type of item being searched. */
+export interface BooleanOperatorOptions {
+  /** Indicates the operator name required in the query in order to isolate the boolean property. For example, if operatorName is *closed* and the property's name is *isClosed*, then queries like *closed:<value>* show results only where the value of the property named *isClosed* matches *<value>*. By contrast, a search that uses the same *<value>* without an operator returns all items where *<value>* matches the value of any String properties or text within the content field for the item. The operator name can only contain lowercase letters (a-z). The maximum length is 32 characters. */
+  operatorName?: string | undefined;
+}
+/** The options for boolean properties. */
+export interface BooleanPropertyOptions {
+  /** If set, describes how the boolean should be used as a search operator. */
+  operatorOptions?: BooleanOperatorOptions | undefined;
+}
 /** Optional. Provides a search operator for date properties. Search operators let users restrict the query to specific fields relevant to the type of item being searched. */
 export interface DateOperatorOptions {
-  /** Indicates the operator name required in the query in order to isolate the date property using the less-than operator. For example, if lessThanOperatorName is *closedbefore* and the property's name is *closeDate*, then queries like *closedbefore:<value>* show results only where the value of the property named *closeDate* is earlier than *<value>*. The operator name can only contain lowercase letters (a-z). The maximum length is 32 characters. */
-  lessThanOperatorName?: string | undefined;
   /** Indicates the actual string required in the query in order to isolate the date property. For example, suppose an issue tracking schema object has a property named *closeDate* that specifies an operator with an operatorName of *closedon*. For searches on that data, queries like *closedon:<value>* show results only where the value of the *closeDate* property matches *<value>*. By contrast, a search that uses the same *<value>* without an operator returns all items where *<value>* matches the value of any String properties or text within the content field for the indexed datasource. The operator name can only contain lowercase letters (a-z). The maximum length is 32 characters. */
   operatorName?: string | undefined;
   /** Indicates the operator name required in the query in order to isolate the date property using the greater-than operator. For example, if greaterThanOperatorName is *closedafter* and the property's name is *closeDate*, then queries like *closedafter:<value>* show results only where the value of the property named *closeDate* is later than *<value>*. The operator name can only contain lowercase letters (a-z). The maximum length is 32 characters. */
   greaterThanOperatorName?: string | undefined;
+  /** Indicates the operator name required in the query in order to isolate the date property using the less-than operator. For example, if lessThanOperatorName is *closedbefore* and the property's name is *closeDate*, then queries like *closedbefore:<value>* show results only where the value of the property named *closeDate* is earlier than *<value>*. The operator name can only contain lowercase letters (a-z). The maximum length is 32 characters. */
+  lessThanOperatorName?: string | undefined;
 }
 /** The options for date properties. */
 export interface DatePropertyOptions {
   /** If set, describes how the date should be used as a search operator. */
   operatorOptions?: DateOperatorOptions | undefined;
 }
-export type RetrievalImportanceImportanceEnum = "DEFAULT" | "HIGHEST" | "HIGH" | "LOW" | "NONE";
-export interface RetrievalImportance {
-  /** Indicates the ranking importance given to property when it is matched during retrieval. Once set, the token importance of a property cannot be changed. */
-  importance?: RetrievalImportanceImportanceEnum | (string & {}) | undefined;
-}
-/** Used to provide a search operator for text properties. This is optional. Search operators let users restrict the query to specific fields relevant to the type of item being searched. */
-export interface TextOperatorOptions {
-  /** Indicates the operator name required in the query in order to isolate the text property. For example, if operatorName is *subject* and the property's name is *subjectLine*, then queries like *subject:<value>* show results only where the value of the property named *subjectLine* matches *<value>*. By contrast, a search that uses the same *<value>* without an operator returns all items where *<value>* matches the value of any text properties or text within the content field for the item. The operator name can only contain lowercase letters (a-z). The maximum length is 32 characters. */
+/** Used to provide a search operator for timestamp properties. This is optional. Search operators let users restrict the query to specific fields relevant to the type of item being searched. */
+export interface TimestampOperatorOptions {
+  /** Indicates the operator name required in the query in order to isolate the timestamp property using the greater-than operator. For example, if greaterThanOperatorName is *closedafter* and the property's name is *closeDate*, then queries like *closedafter:<value>* show results only where the value of the property named *closeDate* is later than *<value>*. The operator name can only contain lowercase letters (a-z). The maximum length is 32 characters. */
+  greaterThanOperatorName?: string | undefined;
+  /** Indicates the operator name required in the query in order to isolate the timestamp property using the less-than operator. For example, if lessThanOperatorName is *closedbefore* and the property's name is *closeDate*, then queries like *closedbefore:<value>* show results only where the value of the property named *closeDate* is earlier than *<value>*. The operator name can only contain lowercase letters (a-z). The maximum length is 32 characters. */
+  lessThanOperatorName?: string | undefined;
+  /** Indicates the operator name required in the query in order to isolate the timestamp property. For example, if operatorName is *closedon* and the property's name is *closeDate*, then queries like *closedon:<value>* show results only where the value of the property named *closeDate* matches *<value>*. By contrast, a search that uses the same *<value>* without an operator returns all items where *<value>* matches the value of any String properties or text within the content field for the item. The operator name can only contain lowercase letters (a-z). The maximum length is 32 characters. */
   operatorName?: string | undefined;
-  /** If true, the text value is tokenized as one atomic value in operator searches and facet matches. For example, if the operator name is "genre" and the value is "science-fiction" the query restrictions "genre:science" and "genre:fiction" doesn't match the item; "genre:science-fiction" does. Text value matching is case-sensitive and does not remove special characters. If false, the text is tokenized. For example, if the value is "science-fiction" the queries "genre:science" and "genre:fiction" matches the item. */
-  exactMatchWithOperator?: boolean | undefined;
 }
-/** The options for text properties. */
-export interface TextPropertyOptions {
-  /** Indicates the search quality importance of the tokens within the field when used for retrieval. */
-  retrievalImportance?: RetrievalImportance | undefined;
-  /** If set, describes how the property should be used as a search operator. */
-  operatorOptions?: TextOperatorOptions | undefined;
+/** The options for timestamp properties. */
+export interface TimestampPropertyOptions {
+  /** If set, describes how the timestamp should be used as a search operator. */
+  operatorOptions?: TimestampOperatorOptions | undefined;
+}
+/** The options for object properties. */
+export interface ObjectPropertyOptions {
+  /** The properties of the sub-object. These properties represent a nested object. For example, if this property represents a postal address, the subobjectProperties might be named *street*, *city*, and *state*. The maximum number of elements is 1000. */
+  subobjectProperties?: PropertyDefinitionList | undefined;
 }
 export type EnumPropertyOptionsOrderedRankingEnum = "NO_ORDER" | "ASCENDING" | "DESCENDING";
 /** The enumeration value pair defines two things: a required string value and an optional integer value. The string value defines the necessary query term required to retrieve that item, such as *p0* for a priority item. The integer value determines the ranking of that string value relative to other enumerated values for the same property. For example, you might associate *p0* with *0* and define another enum pair such as *p1* and *1*. You must use the integer value in combination with ordered ranking to set the ranking of a given value relative to other enumerated values for the same property name. Here, a ranking order of DESCENDING for *priority* properties results in a ranking boost for items indexed with a value of *p0* compared to items indexed with a value of *p1*. Without a specified ranking order, the integer value has no effect on item ranking. */
@@ -791,10 +834,24 @@ export interface EnumPropertyOptions {
   /** If set, describes how the enum should be used as a search operator. */
   operatorOptions?: EnumOperatorOptions | undefined;
 }
-/** The options for object properties. */
-export interface ObjectPropertyOptions {
-  /** The properties of the sub-object. These properties represent a nested object. For example, if this property represents a postal address, the subobjectProperties might be named *street*, *city*, and *state*. The maximum number of elements is 1000. */
-  subobjectProperties?: PropertyDefinitionList | undefined;
+export type RetrievalImportanceImportanceEnum = "DEFAULT" | "HIGHEST" | "HIGH" | "LOW" | "NONE";
+export interface RetrievalImportance {
+  /** Indicates the ranking importance given to property when it is matched during retrieval. Once set, the token importance of a property cannot be changed. */
+  importance?: RetrievalImportanceImportanceEnum | (string & {}) | undefined;
+}
+/** Used to provide a search operator for text properties. This is optional. Search operators let users restrict the query to specific fields relevant to the type of item being searched. */
+export interface TextOperatorOptions {
+  /** If true, the text value is tokenized as one atomic value in operator searches and facet matches. For example, if the operator name is "genre" and the value is "science-fiction" the query restrictions "genre:science" and "genre:fiction" doesn't match the item; "genre:science-fiction" does. Text value matching is case-sensitive and does not remove special characters. If false, the text is tokenized. For example, if the value is "science-fiction" the queries "genre:science" and "genre:fiction" matches the item. */
+  exactMatchWithOperator?: boolean | undefined;
+  /** Indicates the operator name required in the query in order to isolate the text property. For example, if operatorName is *subject* and the property's name is *subjectLine*, then queries like *subject:<value>* show results only where the value of the property named *subjectLine* matches *<value>*. By contrast, a search that uses the same *<value>* without an operator returns all items where *<value>* matches the value of any text properties or text within the content field for the item. The operator name can only contain lowercase letters (a-z). The maximum length is 32 characters. */
+  operatorName?: string | undefined;
+}
+/** The options for text properties. */
+export interface TextPropertyOptions {
+  /** Indicates the search quality importance of the tokens within the field when used for retrieval. */
+  retrievalImportance?: RetrievalImportance | undefined;
+  /** If set, describes how the property should be used as a search operator. */
+  operatorOptions?: TextOperatorOptions | undefined;
 }
 /** Used to provide a search operator for html properties. This is optional. Search operators let users restrict the query to specific fields relevant to the type of item being searched. */
 export interface HtmlOperatorOptions {
@@ -803,103 +860,46 @@ export interface HtmlOperatorOptions {
 }
 /** The options for html properties. */
 export interface HtmlPropertyOptions {
-  /** Indicates the search quality importance of the tokens within the field when used for retrieval. Can only be set to DEFAULT or NONE. */
-  retrievalImportance?: RetrievalImportance | undefined;
   /** If set, describes how the property should be used as a search operator. */
   operatorOptions?: HtmlOperatorOptions | undefined;
-}
-/** Used to provide a search operator for double properties. This is optional. Search operators let users restrict the query to specific fields relevant to the type of item being searched. */
-export interface DoubleOperatorOptions {
-  /** Indicates the operator name required in the query in order to use the double property in sorting or as a facet. The operator name can only contain lowercase letters (a-z). The maximum length is 32 characters. */
-  operatorName?: string | undefined;
-}
-/** The options for double properties. */
-export interface DoublePropertyOptions {
-  /** If set, describes how the double should be used as a search operator. */
-  operatorOptions?: DoubleOperatorOptions | undefined;
-}
-/** Used to provide a search operator for timestamp properties. This is optional. Search operators let users restrict the query to specific fields relevant to the type of item being searched. */
-export interface TimestampOperatorOptions {
-  /** Indicates the operator name required in the query in order to isolate the timestamp property. For example, if operatorName is *closedon* and the property's name is *closeDate*, then queries like *closedon:<value>* show results only where the value of the property named *closeDate* matches *<value>*. By contrast, a search that uses the same *<value>* without an operator returns all items where *<value>* matches the value of any String properties or text within the content field for the item. The operator name can only contain lowercase letters (a-z). The maximum length is 32 characters. */
-  operatorName?: string | undefined;
-  /** Indicates the operator name required in the query in order to isolate the timestamp property using the less-than operator. For example, if lessThanOperatorName is *closedbefore* and the property's name is *closeDate*, then queries like *closedbefore:<value>* show results only where the value of the property named *closeDate* is earlier than *<value>*. The operator name can only contain lowercase letters (a-z). The maximum length is 32 characters. */
-  lessThanOperatorName?: string | undefined;
-  /** Indicates the operator name required in the query in order to isolate the timestamp property using the greater-than operator. For example, if greaterThanOperatorName is *closedafter* and the property's name is *closeDate*, then queries like *closedafter:<value>* show results only where the value of the property named *closeDate* is later than *<value>*. The operator name can only contain lowercase letters (a-z). The maximum length is 32 characters. */
-  greaterThanOperatorName?: string | undefined;
-}
-/** The options for timestamp properties. */
-export interface TimestampPropertyOptions {
-  /** If set, describes how the timestamp should be used as a search operator. */
-  operatorOptions?: TimestampOperatorOptions | undefined;
-}
-/** Used to provide a search operator for boolean properties. This is optional. Search operators let users restrict the query to specific fields relevant to the type of item being searched. */
-export interface BooleanOperatorOptions {
-  /** Indicates the operator name required in the query in order to isolate the boolean property. For example, if operatorName is *closed* and the property's name is *isClosed*, then queries like *closed:<value>* show results only where the value of the property named *isClosed* matches *<value>*. By contrast, a search that uses the same *<value>* without an operator returns all items where *<value>* matches the value of any String properties or text within the content field for the item. The operator name can only contain lowercase letters (a-z). The maximum length is 32 characters. */
-  operatorName?: string | undefined;
-}
-/** The options for boolean properties. */
-export interface BooleanPropertyOptions {
-  /** If set, describes how the boolean should be used as a search operator. */
-  operatorOptions?: BooleanOperatorOptions | undefined;
-}
-/** Used to provide a search operator for integer properties. This is optional. Search operators let users restrict the query to specific fields relevant to the type of item being searched. */
-export interface IntegerOperatorOptions {
-  /** Indicates the operator name required in the query in order to isolate the integer property using the less-than operator. For example, if lessThanOperatorName is *prioritybelow* and the property's name is *priorityVal*, then queries like *prioritybelow:<value>* show results only where the value of the property named *priorityVal* is less than *<value>*. The operator name can only contain lowercase letters (a-z). The maximum length is 32 characters. */
-  lessThanOperatorName?: string | undefined;
-  /** Indicates the operator name required in the query in order to isolate the integer property. For example, if operatorName is *priority* and the property's name is *priorityVal*, then queries like *priority:<value>* show results only where the value of the property named *priorityVal* matches *<value>*. By contrast, a search that uses the same *<value>* without an operator returns all items where *<value>* matches the value of any String properties or text within the content field for the item. The operator name can only contain lowercase letters (a-z). The maximum length is 32 characters. */
-  operatorName?: string | undefined;
-  /** Indicates the operator name required in the query in order to isolate the integer property using the greater-than operator. For example, if greaterThanOperatorName is *priorityabove* and the property's name is *priorityVal*, then queries like *priorityabove:<value>* show results only where the value of the property named *priorityVal* is greater than *<value>*. The operator name can only contain lowercase letters (a-z). The maximum length is 32 characters. */
-  greaterThanOperatorName?: string | undefined;
-}
-export type IntegerPropertyOptionsOrderedRankingEnum = "NO_ORDER" | "ASCENDING" | "DESCENDING";
-/** The options for integer properties. */
-export interface IntegerPropertyOptions {
-  /** If set, describes how the integer should be used as a search operator. */
-  operatorOptions?: IntegerOperatorOptions | undefined;
-  /** The minimum value of the property. The minimum and maximum values for the property are used to rank results according to the ordered ranking. Indexing requests with values less than the minimum are accepted and ranked with the same weight as items indexed with the minimum value. */
-  minimumValue?: string | undefined;
-  /** If set, describes integer faceting options for the given integer property. The corresponding integer property should be marked isFacetable. */
-  integerFacetingOptions?: IntegerFacetingOptions | undefined;
-  /** The maximum value of the property. The minimum and maximum values for the property are used to rank results according to the ordered ranking. Indexing requests with values greater than the maximum are accepted and ranked with the same weight as items indexed with the maximum value. */
-  maximumValue?: string | undefined;
-  /** Used to specify the ordered ranking for the integer. Can only be used if isRepeatable is false. */
-  orderedRanking?: IntegerPropertyOptionsOrderedRankingEnum | (string & {}) | undefined;
+  /** Indicates the search quality importance of the tokens within the field when used for retrieval. Can only be set to DEFAULT or NONE. */
+  retrievalImportance?: RetrievalImportance | undefined;
 }
 /** The definition of a property within an object. */
 export interface PropertyDefinition {
   /** The options that determine how the property is displayed in the Cloud Search results page if it's specified to be displayed in the object's display options. */
   displayOptions?: PropertyDisplayOptions | undefined;
+  doublePropertyOptions?: DoublePropertyOptions | undefined;
+  integerPropertyOptions?: IntegerPropertyOptions | undefined;
+  booleanPropertyOptions?: BooleanPropertyOptions | undefined;
+  datePropertyOptions?: DatePropertyOptions | undefined;
   /** Indicates that the property identifies data that should be returned in search results via the Query API. If set to *true*, indicates that Query API users can use matching property fields in results. However, storing fields requires more space allocation and uses more bandwidth for search queries, which impacts performance over large datasets. Set to *true* here only if the field is needed for search results. Cannot be true for properties whose type is an object. */
   isReturnable?: boolean | undefined;
-  datePropertyOptions?: DatePropertyOptions | undefined;
-  textPropertyOptions?: TextPropertyOptions | undefined;
-  enumPropertyOptions?: EnumPropertyOptions | undefined;
-  /** Indicates that the property can be used for generating facets. Cannot be true for properties whose type is object. IsReturnable must be true to set this option. Only supported for boolean, enum, integer, and text properties. */
-  isFacetable?: boolean | undefined;
-  /** Indicates that multiple values are allowed for the property. For example, a document only has one description but can have multiple comments. Cannot be true for properties whose type is a boolean. If set to false, properties that contain more than one value cause the indexing request for that item to be rejected. */
-  isRepeatable?: boolean | undefined;
-  objectPropertyOptions?: ObjectPropertyOptions | undefined;
-  htmlPropertyOptions?: HtmlPropertyOptions | undefined;
-  /** Indicates that the property can be used for generating query suggestions. */
-  isSuggestable?: boolean | undefined;
-  /** Indicates that the property can be used for sorting. Cannot be true for properties that are repeatable. Cannot be true for properties whose type is object. IsReturnable must be true to set this option. Only supported for boolean, date, double, integer, and timestamp properties. */
-  isSortable?: boolean | undefined;
-  doublePropertyOptions?: DoublePropertyOptions | undefined;
-  timestampPropertyOptions?: TimestampPropertyOptions | undefined;
   /** The name of the property. Item indexing requests sent to the Indexing API should set the property name equal to this value. For example, if name is *subject_line*, then indexing requests for document items with subject fields should set the name for that field equal to *subject_line*. Use the name as the identifier for the object property. Once registered as a property for an object, you cannot re-use this name for another property within that object. The name must start with a letter and can only contain letters (A-Z, a-z) or numbers (0-9). The maximum length is 256 characters. */
   name?: string | undefined;
-  booleanPropertyOptions?: BooleanPropertyOptions | undefined;
-  integerPropertyOptions?: IntegerPropertyOptions | undefined;
+  timestampPropertyOptions?: TimestampPropertyOptions | undefined;
+  /** Indicates that multiple values are allowed for the property. For example, a document only has one description but can have multiple comments. Cannot be true for properties whose type is a boolean. If set to false, properties that contain more than one value cause the indexing request for that item to be rejected. */
+  isRepeatable?: boolean | undefined;
   /** Indicates that users can perform wildcard search for this property. Only supported for Text properties. IsReturnable must be true to set this option. In a given datasource maximum of 5 properties can be marked as is_wildcard_searchable. For more details, see [Define object properties](https://developers.google.com/workspace/cloud-search/docs/guides/schema-guide#properties) */
   isWildcardSearchable?: boolean | undefined;
+  objectPropertyOptions?: ObjectPropertyOptions | undefined;
+  /** Indicates that the property can be used for generating facets. Cannot be true for properties whose type is object. IsReturnable must be true to set this option. Only supported for boolean, enum, integer, and text properties. */
+  isFacetable?: boolean | undefined;
+  /** Indicates that the property can be used for sorting. Cannot be true for properties that are repeatable. Cannot be true for properties whose type is object. IsReturnable must be true to set this option. Only supported for boolean, date, double, integer, and timestamp properties. */
+  isSortable?: boolean | undefined;
+  enumPropertyOptions?: EnumPropertyOptions | undefined;
+  /** Indicates that the property can be used for generating query suggestions. */
+  isSuggestable?: boolean | undefined;
+  textPropertyOptions?: TextPropertyOptions | undefined;
+  htmlPropertyOptions?: HtmlPropertyOptions | undefined;
 }
 export type PropertyDefinitionList = Array<PropertyDefinition>;
 /** Indicates which freshness property to use when adjusting search ranking for an item. Fresher, more recent dates indicate higher quality. Use the freshness option property that best works with your data. For fileshare documents, last modified time is most relevant. For calendar event data, the time when the event occurs is a more relevant freshness indicator. In this way, calendar events that occur closer to the time of the search query are considered higher quality and ranked accordingly. */
 export interface FreshnessOptions {
-  /** This property indicates the freshness level of the object in the index. If set, this property must be a top-level property within the property definitions and it must be a timestamp type or date type. Otherwise, the Indexing API uses updateTime as the freshness indicator. The maximum length is 256 characters. When a property is used to calculate freshness, the value defaults to 2 years from the current time. */
-  freshnessProperty?: string | undefined;
   /** The duration after which an object should be considered stale. The default value is 180 days (in seconds). */
   freshnessDuration?: string | undefined;
+  /** This property indicates the freshness level of the object in the index. If set, this property must be a top-level property within the property definitions and it must be a timestamp type or date type. Otherwise, the Indexing API uses updateTime as the freshness indicator. The maximum length is 256 characters. When a property is used to calculate freshness, the value defaults to 2 years from the current time. */
+  freshnessProperty?: string | undefined;
 }
 /** A reference to a top-level property within the object that should be displayed in search results. The values of the chosen properties is displayed in the search results along with the display label for that property if one is specified. If a display label is not specified, only the values is shown. */
 export interface DisplayedProperty {
@@ -922,10 +922,10 @@ export interface ObjectDisplayOptions {
 }
 /** The options for an object. */
 export interface ObjectOptions {
-  /** The freshness options for an object. */
-  freshnessOptions?: FreshnessOptions | undefined;
   /** Operators that can be used to filter suggestions. For Suggest API, only operators mentioned here will be honored in the FilterOptions. Only TEXT and ENUM operators are supported. NOTE: "objecttype", "type" and "mimetype" are already supported. This property is to configure schema specific operators. Even though this is an array, only one operator can be specified. This is an array for future extensibility. Operators mapping to multiple properties within the same object are not supported. If the operator spans across different object types, this option has to be set once for each object definition. */
   suggestionFilteringOperators?: StringList | undefined;
+  /** The freshness options for an object. */
+  freshnessOptions?: FreshnessOptions | undefined;
   /** The options that determine how the object is displayed in the Cloud Search results page. */
   displayOptions?: ObjectDisplayOptions | undefined;
 }
@@ -947,25 +947,25 @@ export interface Cloudsearch_Schema {
   operationIds?: StringList | undefined;
 }
 export interface GetSearchapplicationStatsRequest {
-  /** Month of date. Must be from 1 to 12. */
-  "startDate.month"?: number | undefined;
-  /** Day of month. Must be from 1 to 31 and valid for the year and month. */
-  "endDate.day"?: number | undefined;
-  /** Year of date. Must be from 1 to 9999. */
-  "startDate.year"?: number | undefined;
-  /** Year of date. Must be from 1 to 9999. */
-  "endDate.year"?: number | undefined;
   /** Day of month. Must be from 1 to 31 and valid for the year and month. */
   "startDate.day"?: number | undefined;
   /** Month of date. Must be from 1 to 12. */
   "endDate.month"?: number | undefined;
+  /** Year of date. Must be from 1 to 9999. */
+  "endDate.year"?: number | undefined;
+  /** Year of date. Must be from 1 to 9999. */
+  "startDate.year"?: number | undefined;
+  /** Month of date. Must be from 1 to 12. */
+  "startDate.month"?: number | undefined;
+  /** Day of month. Must be from 1 to 31 and valid for the year and month. */
+  "endDate.day"?: number | undefined;
 }
 /** Search application stats for a customer for the given date. */
 export interface CustomerSearchApplicationStats {
-  /** The count of search applications for the date. */
-  count?: string | undefined;
   /** The date for which search application stats were calculated. */
   date?: Cloudsearch_Date | undefined;
+  /** The count of search applications for the date. */
+  count?: string | undefined;
 }
 export type CustomerSearchApplicationStatsList = Array<CustomerSearchApplicationStats>;
 /** Response format for search application stats for a customer. */
@@ -976,18 +976,18 @@ export interface GetCustomerSearchApplicationStatsResponse {
   stats?: CustomerSearchApplicationStatsList | undefined;
 }
 export interface GetSessionStatsRequest {
+  /** Day of month. Must be from 1 to 31 and valid for the year and month. */
+  "toDate.day"?: number | undefined;
+  /** Year of date. Must be from 1 to 9999. */
+  "toDate.year"?: number | undefined;
+  /** Month of date. Must be from 1 to 12. */
+  "fromDate.month"?: number | undefined;
   /** Month of date. Must be from 1 to 12. */
   "toDate.month"?: number | undefined;
   /** Day of month. Must be from 1 to 31 and valid for the year and month. */
   "fromDate.day"?: number | undefined;
   /** Year of date. Must be from 1 to 9999. */
   "fromDate.year"?: number | undefined;
-  /** Year of date. Must be from 1 to 9999. */
-  "toDate.year"?: number | undefined;
-  /** Day of month. Must be from 1 to 31 and valid for the year and month. */
-  "toDate.day"?: number | undefined;
-  /** Month of date. Must be from 1 to 12. */
-  "fromDate.month"?: number | undefined;
 }
 export interface CustomerSessionStats {
   /** The date for which session stats were calculated. Stats are calculated on the following day, close to midnight PST, and then returned. */
@@ -1012,20 +1012,20 @@ export interface GetSettingsSearchapplicationsRequest {
   name: string;
 }
 export interface GetStatsIndexDatasourcesRequest {
-  /** Day of month. Must be from 1 to 31 and valid for the year and month. */
-  "fromDate.day"?: number | undefined;
-  /** Year of date. Must be from 1 to 9999. */
-  "toDate.year"?: number | undefined;
   /** Month of date. Must be from 1 to 12. */
   "fromDate.month"?: number | undefined;
+  /** The resource id of the data source to retrieve statistics for, in the following format: "datasources/{source_id}" */
+  name: string;
+  /** Day of month. Must be from 1 to 31 and valid for the year and month. */
+  "fromDate.day"?: number | undefined;
   /** Month of date. Must be from 1 to 12. */
   "toDate.month"?: number | undefined;
   /** Year of date. Must be from 1 to 9999. */
   "fromDate.year"?: number | undefined;
   /** Day of month. Must be from 1 to 31 and valid for the year and month. */
   "toDate.day"?: number | undefined;
-  /** The resource id of the data source to retrieve statistics for, in the following format: "datasources/{source_id}" */
-  name: string;
+  /** Year of date. Must be from 1 to 9999. */
+  "toDate.year"?: number | undefined;
 }
 /** Aggregation of items by status code as of the specified date. */
 export interface DataSourceIndexStats {
@@ -1043,19 +1043,19 @@ export interface GetDataSourceIndexStatsResponse {
 }
 export interface GetStatsQuerySearchapplicationsRequest {
   /** Month of date. Must be from 1 to 12. */
+  "fromDate.month"?: number | undefined;
+  /** The resource id of the search application query stats, in the following format: searchapplications/{application_id} */
+  name: string;
+  /** Month of date. Must be from 1 to 12. */
   "toDate.month"?: number | undefined;
   /** Day of month. Must be from 1 to 31 and valid for the year and month. */
   "toDate.day"?: number | undefined;
-  /** The resource id of the search application query stats, in the following format: searchapplications/{application_id} */
-  name: string;
   /** Day of month. Must be from 1 to 31 and valid for the year and month. */
   "fromDate.day"?: number | undefined;
   /** Year of date. Must be from 1 to 9999. */
-  "toDate.year"?: number | undefined;
-  /** Year of date. Must be from 1 to 9999. */
   "fromDate.year"?: number | undefined;
-  /** Month of date. Must be from 1 to 12. */
-  "fromDate.month"?: number | undefined;
+  /** Year of date. Must be from 1 to 9999. */
+  "toDate.year"?: number | undefined;
 }
 /** Search application level query stats per date */
 export type SearchApplicationQueryStats = CustomerQueryStats;
@@ -1071,17 +1071,17 @@ export interface GetStatsSessionSearchapplicationsRequest {
   /** Year of date. Must be from 1 to 9999. */
   "toDate.year"?: number | undefined;
   /** Month of date. Must be from 1 to 12. */
-  "fromDate.month"?: number | undefined;
+  "toDate.month"?: number | undefined;
   /** Day of month. Must be from 1 to 31 and valid for the year and month. */
   "toDate.day"?: number | undefined;
-  /** Month of date. Must be from 1 to 12. */
-  "toDate.month"?: number | undefined;
-  /** Year of date. Must be from 1 to 9999. */
-  "fromDate.year"?: number | undefined;
-  /** Day of month. Must be from 1 to 31 and valid for the year and month. */
-  "fromDate.day"?: number | undefined;
   /** The resource id of the search application session stats, in the following format: searchapplications/{application_id} */
   name: string;
+  /** Day of month. Must be from 1 to 31 and valid for the year and month. */
+  "fromDate.day"?: number | undefined;
+  /** Year of date. Must be from 1 to 9999. */
+  "fromDate.year"?: number | undefined;
+  /** Month of date. Must be from 1 to 12. */
+  "fromDate.month"?: number | undefined;
 }
 export type SearchApplicationSessionStats = CustomerSessionStats;
 export type SearchApplicationSessionStatsList = Array<CustomerSessionStats>;
@@ -1089,20 +1089,20 @@ export interface GetSearchApplicationSessionStatsResponse {
   stats?: SearchApplicationSessionStatsList | undefined;
 }
 export interface GetStatsUserSearchapplicationsRequest {
-  /** Year of date. Must be from 1 to 9999. */
-  "fromDate.year"?: number | undefined;
-  /** Month of date. Must be from 1 to 12. */
-  "fromDate.month"?: number | undefined;
-  /** Year of date. Must be from 1 to 9999. */
-  "toDate.year"?: number | undefined;
   /** Day of month. Must be from 1 to 31 and valid for the year and month. */
   "fromDate.day"?: number | undefined;
   /** Month of date. Must be from 1 to 12. */
+  "fromDate.month"?: number | undefined;
+  /** Month of date. Must be from 1 to 12. */
   "toDate.month"?: number | undefined;
+  /** Year of date. Must be from 1 to 9999. */
+  "fromDate.year"?: number | undefined;
   /** The resource id of the search application session stats, in the following format: searchapplications/{application_id} */
   name: string;
   /** Day of month. Must be from 1 to 31 and valid for the year and month. */
   "toDate.day"?: number | undefined;
+  /** Year of date. Must be from 1 to 9999. */
+  "toDate.year"?: number | undefined;
 }
 export interface SearchApplicationUserStats {
   /** The count of unique active users in the past thirty days */
@@ -1120,47 +1120,47 @@ export interface GetSearchApplicationUserStatsResponse {
 }
 export interface GetUserStatsRequest {
   /** Month of date. Must be from 1 to 12. */
-  "fromDate.month"?: number | undefined;
+  "toDate.month"?: number | undefined;
   /** Year of date. Must be from 1 to 9999. */
   "fromDate.year"?: number | undefined;
   /** Day of month. Must be from 1 to 31 and valid for the year and month. */
   "fromDate.day"?: number | undefined;
-  /** Day of month. Must be from 1 to 31 and valid for the year and month. */
-  "toDate.day"?: number | undefined;
   /** Year of date. Must be from 1 to 9999. */
   "toDate.year"?: number | undefined;
+  /** Day of month. Must be from 1 to 31 and valid for the year and month. */
+  "toDate.day"?: number | undefined;
   /** Month of date. Must be from 1 to 12. */
-  "toDate.month"?: number | undefined;
+  "fromDate.month"?: number | undefined;
 }
 export interface CustomerUserStats {
-  /** The count of unique active users in the past one day */
-  oneDayActiveUsersCount?: string | undefined;
-  /** The date for which session stats were calculated. Stats calculated on the next day close to midnight are returned. */
-  date?: Cloudsearch_Date | undefined;
   /** The count of unique active users in the past thirty days */
   thirtyDaysActiveUsersCount?: string | undefined;
   /** The count of unique active users in the past seven days */
   sevenDaysActiveUsersCount?: string | undefined;
+  /** The date for which session stats were calculated. Stats calculated on the next day close to midnight are returned. */
+  date?: Cloudsearch_Date | undefined;
+  /** The count of unique active users in the past one day */
+  oneDayActiveUsersCount?: string | undefined;
 }
 export type CustomerUserStatsList = Array<CustomerUserStats>;
 export interface GetCustomerUserStatsResponse {
   stats?: CustomerUserStatsList | undefined;
 }
+export type IndexItemRequestModeEnum = "UNSPECIFIED" | "SYNCHRONOUS" | "ASYNCHRONOUS";
 export interface IndexItemOptions {
   /** Specifies if the index request should allow Google Workspace principals that do not exist or are deleted. */
   allowUnknownGsuitePrincipals?: boolean | undefined;
 }
-export type IndexItemRequestModeEnum = "UNSPECIFIED" | "SYNCHRONOUS" | "ASYNCHRONOUS";
 export interface IndexItemRequest {
+  /** Common debug options. */
+  debugOptions?: DebugOptions | undefined;
+  /** Required. The RequestMode for this request. */
+  mode?: IndexItemRequestModeEnum | (string & {}) | undefined;
   indexItemOptions?: IndexItemOptions | undefined;
   /** The name of the item. Format: datasources/{source_id}/items/{item_id} */
   item?: Item | undefined;
   /** The name of connector making this call. Format: datasources/{source_id}/connectors/{ID} */
   connectorName?: string | undefined;
-  /** Required. The RequestMode for this request. */
-  mode?: IndexItemRequestModeEnum | (string & {}) | undefined;
-  /** Common debug options. */
-  debugOptions?: DebugOptions | undefined;
 }
 export interface IndexIndexingDatasourcesItemsRequest extends IndexItemRequest {
   /** The name of the Item. Format: datasources/{source_id}/items/{item_id} This is a required field. The maximum length is 1536 characters. */
@@ -1173,14 +1173,14 @@ export interface InitializeCustomerV1Request {
   body?: InitializeCustomerRequest | undefined;
 }
 export interface ListDebugDatasourcesItemsUnmappedidsRequest {
-  /** Maximum number of items to fetch in a request. Defaults to 100. */
-  pageSize?: number | undefined;
   /** The name of the item, in the following format: datasources/{source_id}/items/{ID} */
   parent: string;
-  /** If you are asked by Google to help with debugging, set this field. Otherwise, ignore this field. */
-  "debugOptions.enableDebugging"?: boolean | undefined;
   /** The next_page_token value returned from a previous List request, if any. */
   pageToken?: string | undefined;
+  /** Maximum number of items to fetch in a request. Defaults to 100. */
+  pageSize?: number | undefined;
+  /** If you are asked by Google to help with debugging, set this field. Otherwise, ignore this field. */
+  "debugOptions.enableDebugging"?: boolean | undefined;
 }
 export type UnmappedIdentityResolutionStatusCodeEnum =
   | "CODE_UNSPECIFIED"
@@ -1190,10 +1190,10 @@ export type UnmappedIdentityResolutionStatusCodeEnum =
   | "TOO_MANY_MAPPINGS_FOUND"
   | "INTERNAL_ERROR";
 export interface UnmappedIdentity {
-  /** The resource name for an external user. */
-  externalIdentity?: Principal | undefined;
   /** The resolution status for the external identity. */
   resolutionStatusCode?: UnmappedIdentityResolutionStatusCodeEnum | undefined;
+  /** The resource name for an external user. */
+  externalIdentity?: Principal | undefined;
 }
 export type UnmappedIdentityList = Array<UnmappedIdentity>;
 export interface ListUnmappedIdentitiesResponse {
@@ -1209,31 +1209,31 @@ export type ListDebugIdentitysourcesUnmappedidsResolutionStatusCodeEnum =
   | "TOO_MANY_MAPPINGS_FOUND"
   | "INTERNAL_ERROR";
 export interface ListDebugIdentitysourcesUnmappedidsRequest {
-  /** The name of the identity source, in the following format: identitysources/{source_id} */
-  parent: string;
+  /** The next_page_token value returned from a previous List request, if any. */
+  pageToken?: string | undefined;
   /** Limit users selection to this status. */
   resolutionStatusCode?:
     | ListDebugIdentitysourcesUnmappedidsResolutionStatusCodeEnum
     | (string & {})
     | undefined;
+  /** The name of the identity source, in the following format: identitysources/{source_id} */
+  parent: string;
   /** Maximum number of items to fetch in a request. Defaults to 100. */
   pageSize?: number | undefined;
   /** If you are asked by Google to help with debugging, set this field. Otherwise, ignore this field. */
   "debugOptions.enableDebugging"?: boolean | undefined;
-  /** The next_page_token value returned from a previous List request, if any. */
-  pageToken?: string | undefined;
 }
 export interface ListForunmappedidentityDebugIdentitysourcesItemsRequest {
+  /** The next_page_token value returned from a previous List request, if any. */
+  pageToken?: string | undefined;
+  userResourceName?: string | undefined;
+  groupResourceName?: string | undefined;
+  /** Maximum number of items to fetch in a request. Defaults to 100. */
+  pageSize?: number | undefined;
   /** If you are asked by Google to help with debugging, set this field. Otherwise, ignore this field. */
   "debugOptions.enableDebugging"?: boolean | undefined;
   /** The name of the identity source, in the following format: identitysources/{source_id}} */
   parent: string;
-  /** Maximum number of items to fetch in a request. Defaults to 100. */
-  pageSize?: number | undefined;
-  userResourceName?: string | undefined;
-  /** The next_page_token value returned from a previous List request, if any. */
-  pageToken?: string | undefined;
-  groupResourceName?: string | undefined;
 }
 export interface ListItemNamesForUnmappedIdentityResponse {
   itemNames?: StringList | undefined;
@@ -1241,18 +1241,18 @@ export interface ListItemNamesForUnmappedIdentityResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListIndexingDatasourcesItemsRequest {
+  /** The name of the Data Source to list Items. Format: datasources/{source_id} */
+  name: string;
+  /** When set to true, the indexing system only populates the following fields: name, version, queue. metadata.hash, metadata.title, metadata.sourceRepositoryURL, metadata.objectType, metadata.createTime, metadata.updateTime, metadata.contentLanguage, metadata.mimeType, structured_data.hash, content.hash, itemType, itemStatus.code, itemStatus.processingError.code, itemStatus.repositoryError.type, If this value is false, then all the fields are populated in Item. */
+  brief?: boolean | undefined;
+  /** Maximum number of items to fetch in a request. The max value is 1000 when brief is true. The max value is 10 if brief is false. The default value is 10 */
+  pageSize?: number | undefined;
+  /** The next_page_token value returned from a previous List request, if any. */
+  pageToken?: string | undefined;
   /** The name of connector making this call. Format: datasources/{source_id}/connectors/{ID} */
   connectorName?: string | undefined;
   /** If you are asked by Google to help with debugging, set this field. Otherwise, ignore this field. */
   "debugOptions.enableDebugging"?: boolean | undefined;
-  /** Maximum number of items to fetch in a request. The max value is 1000 when brief is true. The max value is 10 if brief is false. The default value is 10 */
-  pageSize?: number | undefined;
-  /** When set to true, the indexing system only populates the following fields: name, version, queue. metadata.hash, metadata.title, metadata.sourceRepositoryURL, metadata.objectType, metadata.createTime, metadata.updateTime, metadata.contentLanguage, metadata.mimeType, structured_data.hash, content.hash, itemType, itemStatus.code, itemStatus.processingError.code, itemStatus.repositoryError.type, If this value is false, then all the fields are populated in Item. */
-  brief?: boolean | undefined;
-  /** The next_page_token value returned from a previous List request, if any. */
-  pageToken?: string | undefined;
-  /** The name of the Data Source to list Items. Format: datasources/{source_id} */
-  name: string;
 }
 export type ItemList = Array<Item>;
 export interface ListItemsResponse {
@@ -1261,44 +1261,44 @@ export interface ListItemsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListOperationsLroRequest {
-  /** The standard list filter. */
-  filter?: string | undefined;
-  /** The standard list page size. */
-  pageSize?: number | undefined;
   /** The name of the operation's parent resource. */
   name: string;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean | undefined;
   /** The standard list page token. */
   pageToken?: string | undefined;
+  /** The standard list filter. */
+  filter?: string | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList | undefined;
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList | undefined;
 }
 export interface ListQuerySourcesRequest {
   /** Optional. The BCP-47 language code representing the language of the query. */
   "requestOptions.queryLanguageCode"?: string | undefined;
-  /** Current user's time zone id, such as "America/Los_Angeles" or "Australia/Sydney". These IDs are defined by [Unicode Common Locale Data Repository (CLDR)](http://cldr.unicode.org/) project, and currently available in the file [timezone.xml](http://unicode.org/repos/cldr/trunk/common/bcp47/timezone.xml). This field is used to correctly interpret date and time queries. If this field is not specified, the default time zone (UTC) is used. */
-  "requestOptions.timeZone"?: string | undefined;
-  /** The BCP-47 language code, such as "pt" or "en". It represents the user's preferred Display Language. */
-  "requestOptions.clientDisplayLanguageCode"?: string | undefined;
-  /** If you are asked by Google to help with debugging, set this field. Otherwise, ignore this field. */
-  "requestOptions.debugOptions.enableDebugging"?: boolean | undefined;
-  /** Number of sources to return in the response. */
-  pageToken?: string | undefined;
-  /** The ID generated when you create a search application using the [admin console](https://support.google.com/a/answer/9043922). */
-  "requestOptions.searchApplicationId"?: string | undefined;
   /** Optional. Specifies the country/region where the query originated, as a lowercase ISO 3166-1 alpha-2 region code (using 'uk' instead of 'gb' for the United Kingdom). */
   "requestOptions.countryCode"?: string | undefined;
+  /** Number of sources to return in the response. */
+  pageToken?: string | undefined;
+  /** Current user's time zone id, such as "America/Los_Angeles" or "Australia/Sydney". These IDs are defined by [Unicode Common Locale Data Repository (CLDR)](http://cldr.unicode.org/) project, and currently available in the file [timezone.xml](http://unicode.org/repos/cldr/trunk/common/bcp47/timezone.xml). This field is used to correctly interpret date and time queries. If this field is not specified, the default time zone (UTC) is used. */
+  "requestOptions.timeZone"?: string | undefined;
+  /** If you are asked by Google to help with debugging, set this field. Otherwise, ignore this field. */
+  "requestOptions.debugOptions.enableDebugging"?: boolean | undefined;
+  /** The ID generated when you create a search application using the [admin console](https://support.google.com/a/answer/9043922). */
+  "requestOptions.searchApplicationId"?: string | undefined;
   /** The BCP-47 language code, such as "en-US" or "sr-Latn". For more information, see http://www.unicode.org/reports/tr35/#Unicode_locale_identifier. For translations. Set this field using the language set in browser or for the page. In the event that the user's language preference is known, set this field to the known user language. When specified, the documents in search results are biased towards the specified language. The Suggest API uses this field as a hint to make better third-party autocomplete predictions. */
   "requestOptions.languageCode"?: string | undefined;
+  /** The BCP-47 language code, such as "pt" or "en". It represents the user's preferred Display Language. */
+  "requestOptions.clientDisplayLanguageCode"?: string | undefined;
 }
 export type QueryOperatorTypeEnum =
   | "UNKNOWN"
@@ -1312,42 +1312,42 @@ export type QueryOperatorTypeEnum =
   | "HTML";
 /** The definition of a operator that can be used in a Search/Suggest request. */
 export interface QueryOperator {
-  /** Can this operator be used to sort results. */
-  isSortable?: boolean | undefined;
-  /** The type of the operator. */
-  type?: QueryOperatorTypeEnum | undefined;
-  /** Will the property associated with this facet be returned as part of search results. */
-  isReturnable?: boolean | undefined;
-  /** Can get suggestions for this field. */
-  isSuggestable?: boolean | undefined;
-  /** The name of the operator. */
-  operatorName?: string | undefined;
-  /** Indicates the operator name that can be used to isolate the property using the less-than operator. */
-  lessThanOperatorName?: string | undefined;
   /** Display name of the operator */
   displayName?: string | undefined;
   /** Indicates the operator name that can be used to isolate the property using the greater-than operator. */
   greaterThanOperatorName?: string | undefined;
-  /** Can this operator be used to get facets. */
-  isFacetable?: boolean | undefined;
+  /** Can this operator be used to sort results. */
+  isSortable?: boolean | undefined;
+  /** The name of the operator. */
+  operatorName?: string | undefined;
+  /** Can get suggestions for this field. */
+  isSuggestable?: boolean | undefined;
   /** Indicates if multiple values can be set for this property. */
   isRepeatable?: boolean | undefined;
-  /** Potential list of values for the opeatror field. This field is only filled when we can safely enumerate all the possible values of this operator. */
-  enumValues?: StringList | undefined;
+  /** Indicates the operator name that can be used to isolate the property using the less-than operator. */
+  lessThanOperatorName?: string | undefined;
   /** The name of the object corresponding to the operator. This field is only filled for schema-specific operators, and is unset for common operators. */
   objectType?: string | undefined;
+  /** Potential list of values for the opeatror field. This field is only filled when we can safely enumerate all the possible values of this operator. */
+  enumValues?: StringList | undefined;
+  /** Will the property associated with this facet be returned as part of search results. */
+  isReturnable?: boolean | undefined;
+  /** The type of the operator. */
+  type?: QueryOperatorTypeEnum | undefined;
+  /** Can this operator be used to get facets. */
+  isFacetable?: boolean | undefined;
 }
 export type QueryOperatorList = Array<QueryOperator>;
 /** List of sources that the user can search using the query API. */
 export interface QuerySource {
-  /** Display name of the data source. */
-  displayName?: string | undefined;
   /** A short name or alias for the source. This value can be used with the 'source' operator. */
   shortName?: string | undefined;
-  /** List of all operators applicable for this source. */
-  operators?: QueryOperatorList | undefined;
   /** The name of the source */
   source?: Source | undefined;
+  /** Display name of the data source. */
+  displayName?: string | undefined;
+  /** List of all operators applicable for this source. */
+  operators?: QueryOperatorList | undefined;
 }
 export type QuerySourceList = Array<QuerySource>;
 /** List sources response. */
@@ -1356,10 +1356,10 @@ export interface ListQuerySourcesResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListSettingsDatasourcesRequest {
-  /** Maximum number of datasources to fetch in a request. The max value is 1000. The default value is 1000. */
-  pageSize?: number | undefined;
   /** If you are asked by Google to help with debugging, set this field. Otherwise, ignore this field. */
   "debugOptions.enableDebugging"?: boolean | undefined;
+  /** Maximum number of datasources to fetch in a request. The max value is 1000. The default value is 1000. */
+  pageSize?: number | undefined;
   /** Starting index of the results. */
   pageToken?: string | undefined;
 }
@@ -1370,12 +1370,12 @@ export interface ListDataSourceResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListSettingsSearchapplicationsRequest {
-  /** The maximum number of items to return. */
-  pageSize?: number | undefined;
-  /** The next_page_token value returned from a previous List request, if any. The default value is 10 */
-  pageToken?: string | undefined;
   /** If you are asked by Google to help with debugging, set this field. Otherwise, ignore this field. */
   "debugOptions.enableDebugging"?: boolean | undefined;
+  /** The next_page_token value returned from a previous List request, if any. The default value is 10 */
+  pageToken?: string | undefined;
+  /** The maximum number of items to return. */
+  pageSize?: number | undefined;
 }
 export type SearchApplicationList = Array<SearchApplication>;
 export interface ListSearchApplicationsResponse {
@@ -1384,12 +1384,12 @@ export interface ListSearchApplicationsResponse {
   nextPageToken?: string | undefined;
 }
 export interface PatchSettingsDatasourcesRequest extends Omit<DataSource, "name"> {
-  /** If you are asked by Google to help with debugging, set this field. Otherwise, ignore this field. */
-  "debugOptions.enableDebugging"?: boolean | undefined;
   /** Only applies to [`settings.datasources.patch`](https://developers.google.com/workspace/cloud-search/docs/reference/rest/v1/settings.datasources/patch). Update mask to control which fields to update. Example field paths: `name`, `displayName`. * If `update_mask` is non-empty, then only the fields specified in the `update_mask` are updated. * If you specify a field in the `update_mask`, but don't specify its value in the source, that field is cleared. * If the `update_mask` is not present or empty or has the value `*`, then all fields are updated. */
   updateMask?: string | undefined;
   /** The name of the datasource resource. Format: datasources/{source_id}. The name is ignored when creating a datasource. */
   name: string;
+  /** If you are asked by Google to help with debugging, set this field. Otherwise, ignore this field. */
+  "debugOptions.enableDebugging"?: boolean | undefined;
 }
 export interface PatchSettingsSearchapplicationsRequest extends Omit<SearchApplication, "name"> {
   /** Only applies to [`settings.searchapplications.patch`](https://developers.google.com/workspace/cloud-search/docs/reference/rest/v1/settings.searchapplications/patch). Update mask to control which fields to update. Example field paths: `search_application.name`, `search_application.displayName`. * If `update_mask` is non-empty, then only the fields specified in the `update_mask` are updated. * If you specify a field in the `update_mask`, but don't specify its value in the `search_application`, then that field is cleared. * If the `update_mask` is not present or empty or has the value `*`, then all fields are updated. */
@@ -1407,16 +1407,16 @@ export type PollItemsRequestStatusCodesItemEnumList = Array<
   PollItemsRequestStatusCodesItemEnum | (string & {})
 >;
 export interface PollItemsRequest {
-  /** Maximum number of items to return. The maximum value is 100 and the default value is 20. */
-  limit?: number | undefined;
-  /** The name of connector making this call. Format: datasources/{source_id}/connectors/{ID} */
-  connectorName?: string | undefined;
   /** Common debug options. */
   debugOptions?: DebugOptions | undefined;
-  /** Limit the items polled to the ones with these statuses. */
-  statusCodes?: PollItemsRequestStatusCodesItemEnumList | undefined;
+  /** The name of connector making this call. Format: datasources/{source_id}/connectors/{ID} */
+  connectorName?: string | undefined;
   /** Queue name to fetch items from. If unspecified, PollItems will fetch from 'default' queue. The maximum length is 100 characters. */
   queue?: string | undefined;
+  /** Maximum number of items to return. The maximum value is 100 and the default value is 20. */
+  limit?: number | undefined;
+  /** Limit the items polled to the ones with these statuses. */
+  statusCodes?: PollItemsRequestStatusCodesItemEnumList | undefined;
 }
 export interface PollIndexingDatasourcesItemsRequest extends PollItemsRequest {
   /** The name of the Data Source to poll items. Format: datasources/{source_id} */
@@ -1436,26 +1436,26 @@ export type PushItemTypeEnum =
 export interface PushItem {
   /** Content hash of the item according to the repository. If specified, this is used to determine how to modify this item's status. Setting this field and the type field results in argument error. The maximum length is 2048 characters. */
   contentHash?: string | undefined;
-  /** Queue to which this item belongs. The `default` queue is chosen if this field is not specified. The maximum length is 512 characters. */
-  queue?: string | undefined;
-  /** Provides additional document state information for the connector, such as an alternate repository ID and other metadata. The maximum length is 8192 bytes. */
-  payload?: string | undefined;
   /** The metadata hash of the item according to the repository. If specified, this is used to determine how to modify this item's status. Setting this field and the type field results in argument error. The maximum length is 2048 characters. */
   metadataHash?: string | undefined;
-  /** The type of the push operation that defines the push behavior. */
-  type?: PushItemTypeEnum | (string & {}) | undefined;
   /** Structured data hash of the item according to the repository. If specified, this is used to determine how to modify this item's status. Setting this field and the type field results in argument error. The maximum length is 2048 characters. */
   structuredDataHash?: string | undefined;
+  /** Queue to which this item belongs. The `default` queue is chosen if this field is not specified. The maximum length is 512 characters. */
+  queue?: string | undefined;
   /** Populate this field to store Connector or repository error details. This information is displayed in the Admin Console. This field may only be populated when the Type is REPOSITORY_ERROR. */
   repositoryError?: RepositoryError | undefined;
+  /** The type of the push operation that defines the push behavior. */
+  type?: PushItemTypeEnum | (string & {}) | undefined;
+  /** Provides additional document state information for the connector, such as an alternate repository ID and other metadata. The maximum length is 8192 bytes. */
+  payload?: string | undefined;
 }
 export interface PushItemRequest {
   /** Common debug options. */
   debugOptions?: DebugOptions | undefined;
-  /** Item to push onto the queue. */
-  item?: PushItem | undefined;
   /** The name of connector making this call. Format: datasources/{source_id}/connectors/{ID} */
   connectorName?: string | undefined;
+  /** Item to push onto the queue. */
+  item?: PushItem | undefined;
 }
 export interface PushIndexingDatasourcesItemsRequest extends PushItemRequest {
   /** The name of the item to push into the indexing queue. Format: datasources/{source_id}/items/{ID} This is a required field. The maximum length is 1536 characters. */
@@ -1463,20 +1463,20 @@ export interface PushIndexingDatasourcesItemsRequest extends PushItemRequest {
 }
 /** Shared request options for all RPC methods. */
 export interface RequestOptions {
-  /** Debug options of the request */
-  debugOptions?: DebugOptions | undefined;
-  /** The BCP-47 language code, such as "pt" or "en". It represents the user's preferred Display Language. */
-  clientDisplayLanguageCode?: string | undefined;
   /** Optional. The BCP-47 language code representing the language of the query. */
   queryLanguageCode?: string | undefined;
   /** The ID generated when you create a search application using the [admin console](https://support.google.com/a/answer/9043922). */
   searchApplicationId?: string | undefined;
-  /** Optional. Specifies the country/region where the query originated, as a lowercase ISO 3166-1 alpha-2 region code (using 'uk' instead of 'gb' for the United Kingdom). */
-  countryCode?: string | undefined;
-  /** The BCP-47 language code, such as "en-US" or "sr-Latn". For more information, see http://www.unicode.org/reports/tr35/#Unicode_locale_identifier. For translations. Set this field using the language set in browser or for the page. In the event that the user's language preference is known, set this field to the known user language. When specified, the documents in search results are biased towards the specified language. The Suggest API uses this field as a hint to make better third-party autocomplete predictions. */
-  languageCode?: string | undefined;
   /** Current user's time zone id, such as "America/Los_Angeles" or "Australia/Sydney". These IDs are defined by [Unicode Common Locale Data Repository (CLDR)](http://cldr.unicode.org/) project, and currently available in the file [timezone.xml](http://unicode.org/repos/cldr/trunk/common/bcp47/timezone.xml). This field is used to correctly interpret date and time queries. If this field is not specified, the default time zone (UTC) is used. */
   timeZone?: string | undefined;
+  /** The BCP-47 language code, such as "en-US" or "sr-Latn". For more information, see http://www.unicode.org/reports/tr35/#Unicode_locale_identifier. For translations. Set this field using the language set in browser or for the page. In the event that the user's language preference is known, set this field to the known user language. When specified, the documents in search results are biased towards the specified language. The Suggest API uses this field as a hint to make better third-party autocomplete predictions. */
+  languageCode?: string | undefined;
+  /** The BCP-47 language code, such as "pt" or "en". It represents the user's preferred Display Language. */
+  clientDisplayLanguageCode?: string | undefined;
+  /** Debug options of the request */
+  debugOptions?: DebugOptions | undefined;
+  /** Optional. Specifies the country/region where the query originated, as a lowercase ISO 3166-1 alpha-2 region code (using 'uk' instead of 'gb' for the United Kingdom). */
+  countryCode?: string | undefined;
 }
 /** Details about a user's query activity. */
 export interface QueryActivity {
@@ -1509,10 +1509,10 @@ export interface ResetSettingsSearchapplicationsRequest extends ResetSearchAppli
 export interface SearchItemsByViewUrlRequest {
   /** Common debug options. */
   debugOptions?: DebugOptions | undefined;
-  /** Specify the full view URL to find the corresponding item. The maximum length is 2048 characters. */
-  viewUrl?: string | undefined;
   /** The next_page_token value returned from a previous request, if any. */
   pageToken?: string | undefined;
+  /** Specify the full view URL to find the corresponding item. The maximum length is 2048 characters. */
+  viewUrl?: string | undefined;
 }
 export interface SearchByViewUrlDebugDatasourcesItemsRequest extends SearchItemsByViewUrlRequest {
   /** Source name, format: datasources/{source_id} */
@@ -1534,80 +1534,25 @@ export interface QueryInterpretationOptions {
 }
 /** The search API request. NEXT ID: 26 */
 export interface SearchRequest {
+  /** The sources to use for querying. If not specified, all data sources from the current search application are used. */
+  dataSourceRestrictions?: DataSourceRestrictionList | undefined;
+  /** Options to interpret the user query. */
+  queryInterpretationOptions?: QueryInterpretationOptions | undefined;
+  /** The options for sorting the search results */
+  sortOptions?: SortOptions | undefined;
+  /** Maximum number of search results to return in one page. Valid values are between 1 and 100, inclusive. Default value is 10. Minimum value is 50 when results beyond 2000 are requested. */
+  pageSize?: number | undefined;
+  /** The raw query string. See supported search operators in the [Narrow your search with operators](https://support.google.com/cloudsearch/answer/6172299) */
+  query?: string | undefined;
+  facetOptions?: FacetOptionsList | undefined;
+  /** Context attributes for the request which will be used to adjust ranking of search results. The maximum number of elements is 10. */
+  contextAttributes?: ContextAttributeList | undefined;
   /** Request options, such as the search application and user timezone. */
   requestOptions?: RequestOptions | undefined;
   /** Starting index of the results. */
   start?: number | undefined;
-  /** The options for sorting the search results */
-  sortOptions?: SortOptions | undefined;
-  /** The raw query string. See supported search operators in the [Narrow your search with operators](https://support.google.com/cloudsearch/answer/6172299) */
-  query?: string | undefined;
-  /** Maximum number of search results to return in one page. Valid values are between 1 and 100, inclusive. Default value is 10. Minimum value is 50 when results beyond 2000 are requested. */
-  pageSize?: number | undefined;
-  /** Options to interpret the user query. */
-  queryInterpretationOptions?: QueryInterpretationOptions | undefined;
-  /** Context attributes for the request which will be used to adjust ranking of search results. The maximum number of elements is 10. */
-  contextAttributes?: ContextAttributeList | undefined;
-  /** The sources to use for querying. If not specified, all data sources from the current search application are used. */
-  dataSourceRestrictions?: DataSourceRestrictionList | undefined;
-  facetOptions?: FacetOptionsList | undefined;
 }
 export interface SearchQueryRequest extends SearchRequest {}
-/** A person's email address. */
-export interface EmailAddress {
-  /** Indicates if this is the user's primary email. Only one entry can be marked as primary. */
-  primary?: boolean | undefined;
-  /** The URL to send email. */
-  emailUrl?: string | undefined;
-  /** If the value of type is custom, this property contains the custom type string. */
-  customType?: string | undefined;
-  /** The type of the email account. Acceptable values are: "custom", "home", "other", "work". */
-  type?: string | undefined;
-  /** The email address. */
-  emailAddress?: string | undefined;
-}
-export type EmailAddressList = Array<EmailAddress>;
-export type PhoneNumberTypeEnum = "OTHER" | "MOBILE" | "OFFICE";
-/** A person's Phone Number */
-export interface PhoneNumber {
-  /** The phone number of the person. */
-  phoneNumber?: string | undefined;
-  type?: PhoneNumberTypeEnum | undefined;
-}
-export type PhoneNumberList = Array<PhoneNumber>;
-/** A person's photo. */
-export interface Photo {
-  /** The URL of the photo. */
-  url?: string | undefined;
-}
-export type PhotoList = Array<Photo>;
-/** A person's name. */
-export interface Name {
-  /** The read-only display name formatted according to the locale specified by the viewer's account or the `Accept-Language` HTTP header. */
-  displayName?: string | undefined;
-}
-export type NameList = Array<Name>;
-/** Object to represent a person. */
-export interface Person {
-  /** The person's email addresses */
-  emailAddresses?: EmailAddressList | undefined;
-  /** The person's phone numbers */
-  phoneNumbers?: PhoneNumberList | undefined;
-  /** A person's read-only photo. A picture shown next to the person's name to help others recognize the person in search results. */
-  photos?: PhotoList | undefined;
-  /** Obfuscated ID of a person. */
-  obfuscatedId?: string | undefined;
-  /** The resource name of the person to provide information about. See [`People.get`](https://developers.google.com/people/api/rest/v1/people/get) from the Google People API. */
-  name?: string | undefined;
-  /** The person's name */
-  personNames?: NameList | undefined;
-}
-/** Structured results that are returned as part of search request. */
-export interface StructuredResult {
-  /** Representation of a person */
-  person?: Person | undefined;
-}
-export type StructuredResultList = Array<StructuredResult>;
 export type QueryInterpretationInterpretationTypeEnum = "NONE" | "BLEND" | "REPLACE";
 export type QueryInterpretationReasonEnum =
   | "UNSPECIFIED"
@@ -1615,53 +1560,26 @@ export type QueryInterpretationReasonEnum =
   | "NOT_ENOUGH_RESULTS_FOUND_FOR_USER_QUERY";
 export interface QueryInterpretation {
   interpretationType?: QueryInterpretationInterpretationTypeEnum | undefined;
-  /** The reason for interpretation of the query. This field will not be UNSPECIFIED if the interpretation type is not NONE. */
-  reason?: QueryInterpretationReasonEnum | undefined;
-  /** The estimated number of results returned by the interpreted query. */
-  interpretedQueryEstimatedResultCount?: string | undefined;
   /** The actual number of results returned by the interpreted query. */
   interpretedQueryActualResultCount?: number | undefined;
   /** The interpretation of the query used in search. For example, queries with natural language intent like "email from john" will be interpreted as "from:john source:mail". This field will not be filled when the reason is NOT_ENOUGH_RESULTS_FOUND_FOR_USER_QUERY. */
   interpretedQuery?: string | undefined;
+  /** The estimated number of results returned by the interpreted query. */
+  interpretedQueryEstimatedResultCount?: string | undefined;
+  /** The reason for interpretation of the query. This field will not be UNSPECIFIED if the interpretation type is not NONE. */
+  reason?: QueryInterpretationReasonEnum | undefined;
 }
-/** Debugging information about the response. */
-export interface ResponseDebugInfo {
+/** Debugging information about the result. */
+export interface ResultDebugInfo {
   /** General debug info formatted for display. */
   formattedDebugInfo?: string | undefined;
 }
-/** Error message per source response. */
-export interface ErrorMessage {
-  errorMessage?: string | undefined;
-  source?: Source | undefined;
-}
-export type ErrorMessageList = Array<ErrorMessage>;
-/** Error information about the response. */
-export interface ErrorInfo {
-  errorMessages?: ErrorMessageList | undefined;
-}
-/** Matched range of a snippet [start, end). */
-export interface MatchRange {
-  /** End of the match in the snippet. */
-  end?: number | undefined;
-  /** Starting position of the match in the snippet. */
-  start?: number | undefined;
-}
-export type MatchRangeList = Array<MatchRange>;
-/** Snippet of the search result, which summarizes the content of the resulting page. */
-export interface Snippet {
-  /** The matched ranges in the snippet. */
-  matchRanges?: MatchRangeList | undefined;
-  /** The snippet of the document. May contain escaped HTML character that should be unescaped prior to rendering. */
-  snippet?: string | undefined;
-}
-/** Debugging information about the result. */
-export type ResultDebugInfo = ResponseDebugInfo;
 /** Display Fields for Search Results */
 export interface ResultDisplayField {
-  /** The display label for the property. */
-  label?: string | undefined;
   /** The name value pair for the property. */
   property?: NamedProperty | undefined;
+  /** The display label for the property. */
+  label?: string | undefined;
   /** The operator name of the property. */
   operatorName?: string | undefined;
 }
@@ -1677,94 +1595,145 @@ export interface ResultDisplayMetadata {
   /** The metalines content to be displayed with the result. */
   metalines?: ResultDisplayLineList | undefined;
 }
+export type PhoneNumberTypeEnum = "OTHER" | "MOBILE" | "OFFICE";
+/** A person's Phone Number */
+export interface PhoneNumber {
+  type?: PhoneNumberTypeEnum | undefined;
+  /** The phone number of the person. */
+  phoneNumber?: string | undefined;
+}
+export type PhoneNumberList = Array<PhoneNumber>;
+/** A person's name. */
+export interface Name {
+  /** The read-only display name formatted according to the locale specified by the viewer's account or the `Accept-Language` HTTP header. */
+  displayName?: string | undefined;
+}
+export type NameList = Array<Name>;
+/** A person's email address. */
+export interface EmailAddress {
+  /** The email address. */
+  emailAddress?: string | undefined;
+  /** The URL to send email. */
+  emailUrl?: string | undefined;
+  /** The type of the email account. Acceptable values are: "custom", "home", "other", "work". */
+  type?: string | undefined;
+  /** If the value of type is custom, this property contains the custom type string. */
+  customType?: string | undefined;
+  /** Indicates if this is the user's primary email. Only one entry can be marked as primary. */
+  primary?: boolean | undefined;
+}
+export type EmailAddressList = Array<EmailAddress>;
+/** A person's photo. */
+export interface Photo {
+  /** The URL of the photo. */
+  url?: string | undefined;
+}
+export type PhotoList = Array<Photo>;
+/** Object to represent a person. */
+export interface Person {
+  /** The person's phone numbers */
+  phoneNumbers?: PhoneNumberList | undefined;
+  /** The person's name */
+  personNames?: NameList | undefined;
+  /** The person's email addresses */
+  emailAddresses?: EmailAddressList | undefined;
+  /** A person's read-only photo. A picture shown next to the person's name to help others recognize the person in search results. */
+  photos?: PhotoList | undefined;
+  /** Obfuscated ID of a person. */
+  obfuscatedId?: string | undefined;
+  /** The resource name of the person to provide information about. See [`People.get`](https://developers.google.com/people/api/rest/v1/people/get) from the Google People API. */
+  name?: string | undefined;
+}
 /** Metadata of a matched search result. */
 export interface Metadata {
-  /** The named source for the result, such as Gmail. */
-  source?: Source | undefined;
-  /** Object type of the search result. */
-  objectType?: string | undefined;
-  /** Mime type of the search result. */
-  mimeType?: string | undefined;
-  /** The creation time for this document or object in the search result. */
-  createTime?: string | undefined;
-  /** Owner (usually creator) of the document or object of the search result. */
-  owner?: Person | undefined;
-  /** The last modified date for the object in the search result. If not set in the item, the value returned here is empty. When `updateTime` is used for calculating freshness and is not set, this value defaults to 2 years from the current time. */
-  updateTime?: string | undefined;
-  /** Indexed fields in structured data, returned as a generic named property. */
-  fields?: NamedPropertyList | undefined;
-  /** The thumbnail URL of the result. */
-  thumbnailUrl?: string | undefined;
   /** Options that specify how to display a structured data search result. */
   displayOptions?: ResultDisplayMetadata | undefined;
+  /** The last modified date for the object in the search result. If not set in the item, the value returned here is empty. When `updateTime` is used for calculating freshness and is not set, this value defaults to 2 years from the current time. */
+  updateTime?: string | undefined;
+  /** The creation time for this document or object in the search result. */
+  createTime?: string | undefined;
+  /** Object type of the search result. */
+  objectType?: string | undefined;
+  /** The thumbnail URL of the result. */
+  thumbnailUrl?: string | undefined;
+  /** The named source for the result, such as Gmail. */
+  source?: Source | undefined;
+  /** Mime type of the search result. */
+  mimeType?: string | undefined;
+  /** Owner (usually creator) of the document or object of the search result. */
+  owner?: Person | undefined;
+  /** Indexed fields in structured data, returned as a generic named property. */
+  fields?: NamedPropertyList | undefined;
+}
+/** Matched range of a snippet [start, end). */
+export interface MatchRange {
+  /** Starting position of the match in the snippet. */
+  start?: number | undefined;
+  /** End of the match in the snippet. */
+  end?: number | undefined;
+}
+export type MatchRangeList = Array<MatchRange>;
+/** Snippet of the search result, which summarizes the content of the resulting page. */
+export interface Snippet {
+  /** The matched ranges in the snippet. */
+  matchRanges?: MatchRangeList | undefined;
+  /** The snippet of the document. May contain escaped HTML character that should be unescaped prior to rendering. */
+  snippet?: string | undefined;
 }
 /** Results containing indexed information for a document. Next ID: 17 */
 export interface SearchResult {
-  /** The concatenation of all snippets (summaries) available for this result. */
-  snippet?: Snippet | undefined;
-  /** If source is clustered, provide list of clustered results. There will only be one level of clustered results. If current source is not enabled for clustering, this field will be empty. */
-  clusteredResults?: SearchResultList | undefined;
-  /** Debugging information about this search result. */
-  debugInfo?: ResponseDebugInfo | undefined;
   /** The URL of the search result. The URL contains a Google redirect to the actual item. This URL is signed and shouldn't be changed. */
   url?: string | undefined;
+  /** Debugging information about this search result. */
+  debugInfo?: ResultDebugInfo | undefined;
+  /** If source is clustered, provide list of clustered results. There will only be one level of clustered results. If current source is not enabled for clustering, this field will be empty. */
+  clusteredResults?: SearchResultList | undefined;
   /** Title of the search result. */
   title?: string | undefined;
   /** Metadata of the search result. */
   metadata?: Metadata | undefined;
+  /** The concatenation of all snippets (summaries) available for this result. */
+  snippet?: Snippet | undefined;
 }
 export type SearchResultList = Array<SearchResult>;
-export type SpellResultSuggestionTypeEnum =
-  | "SUGGESTION_TYPE_UNSPECIFIED"
-  | "NON_EMPTY_RESULTS_SPELL_SUGGESTION"
-  | "ZERO_RESULTS_FULL_PAGE_REPLACEMENT";
+/** Error message per source response. */
+export interface ErrorMessage {
+  errorMessage?: string | undefined;
+  source?: Source | undefined;
+}
+export type ErrorMessageList = Array<ErrorMessage>;
+/** Error information about the response. */
+export interface ErrorInfo {
+  errorMessages?: ErrorMessageList | undefined;
+}
 /** IMPORTANT: It is unsafe to accept this message from an untrusted source, since it's trivial for an attacker to forge serialized messages that don't fulfill the type's safety contract -- for example, it could contain attacker controlled script. A system which receives a SafeHtmlProto implicitly trusts the producer of the SafeHtmlProto. So, it's generally safe to return this message in RPC responses, but generally unsafe to accept it in RPC requests. */
 export interface SafeHtmlProto {
   /** IMPORTANT: Never set or read this field, even from tests, it is private. See documentation at the top of .proto file for programming language packages with which to create or read this message. */
   privateDoNotAccessOrElseSafeHtmlWrappedValue?: string | undefined;
 }
+export type SpellResultSuggestionTypeEnum =
+  | "SUGGESTION_TYPE_UNSPECIFIED"
+  | "NON_EMPTY_RESULTS_SPELL_SUGGESTION"
+  | "ZERO_RESULTS_FULL_PAGE_REPLACEMENT";
 export interface SpellResult {
-  /** The suggested spelling of the query. */
-  suggestedQuery?: string | undefined;
-  /** Suggestion triggered for the current query. */
-  suggestionType?: SpellResultSuggestionTypeEnum | undefined;
   /** The sanitized HTML representing the spell corrected query that can be used in the UI. This usually has language-specific tags to mark up parts of the query that are spell checked. */
   suggestedQueryHtml?: SafeHtmlProto | undefined;
+  /** Suggestion triggered for the current query. */
+  suggestionType?: SpellResultSuggestionTypeEnum | undefined;
+  /** The suggested spelling of the query. */
+  suggestedQuery?: string | undefined;
 }
 export type SpellResultList = Array<SpellResult>;
-/** A bucket in a facet is the basic unit of operation. A bucket can comprise either a single value OR a contiguous range of values, depending on the type of the field bucketed. FacetBucket is currently used only for returning the response object. */
-export interface FacetBucket {
-  /** Number of results that match the bucket value. Counts are only returned for searches when count accuracy is ensured. Cloud Search does not guarantee facet counts for any query and facet counts might be present only intermittently, even for identical queries. Do not build dependencies on facet count existence; instead use facet ount percentages which are always returned. */
-  count?: number | undefined;
-  /** Filter to be passed in the search request if the corresponding bucket is selected. */
-  filter?: Filter | undefined;
-  /** Percent of results that match the bucket value. The returned value is between (0-100], and is rounded down to an integer if fractional. If the value is not explicitly returned, it represents a percentage value that rounds to 0. Percentages are returned for all searches, but are an estimate. Because percentages are always returned, you should render percentages instead of counts. */
-  percentage?: number | undefined;
-  value?: Value | undefined;
-}
-export type FacetBucketList = Array<FacetBucket>;
-/** Source specific facet response */
-export interface FacetResult {
-  /** The name of the operator chosen for faceting. @see cloudsearch.SchemaPropertyOptions */
-  operatorName?: string | undefined;
-  /** Source name for which facet results are returned. Will not be empty. */
-  sourceName?: string | undefined;
-  /** Object type for which facet results are returned. Can be empty. */
-  objectType?: string | undefined;
-  /** FacetBuckets for values in response containing at least a single result with the corresponding filter. */
-  buckets?: FacetBucketList | undefined;
-}
-export type FacetResultList = Array<FacetResult>;
 /** Per source result count information. */
 export interface SourceResultCount {
-  /** The estimated result count for this source. */
-  resultCountEstimate?: string | undefined;
   /** Whether there are more search results for this source. */
   hasMoreResults?: boolean | undefined;
   /** The source the result count information is associated with. */
   source?: Source | undefined;
   /** The exact result count for this source. */
   resultCountExact?: string | undefined;
+  /** The estimated result count for this source. */
+  resultCountEstimate?: string | undefined;
 }
 export type SourceResultCountList = Array<SourceResultCount>;
 /** Result count information */
@@ -1772,39 +1741,70 @@ export interface ResultCounts {
   /** Result count information for each source with results. */
   sourceResultCounts?: SourceResultCountList | undefined;
 }
+/** Debugging information about the response. */
+export type ResponseDebugInfo = ResultDebugInfo;
+/** A bucket in a facet is the basic unit of operation. A bucket can comprise either a single value OR a contiguous range of values, depending on the type of the field bucketed. FacetBucket is currently used only for returning the response object. */
+export interface FacetBucket {
+  value?: Value | undefined;
+  /** Filter to be passed in the search request if the corresponding bucket is selected. */
+  filter?: Filter | undefined;
+  /** Percent of results that match the bucket value. The returned value is between (0-100], and is rounded down to an integer if fractional. If the value is not explicitly returned, it represents a percentage value that rounds to 0. Percentages are returned for all searches, but are an estimate. Because percentages are always returned, you should render percentages instead of counts. */
+  percentage?: number | undefined;
+  /** Number of results that match the bucket value. Counts are only returned for searches when count accuracy is ensured. Cloud Search does not guarantee facet counts for any query and facet counts might be present only intermittently, even for identical queries. Do not build dependencies on facet count existence; instead use facet ount percentages which are always returned. */
+  count?: number | undefined;
+}
+export type FacetBucketList = Array<FacetBucket>;
+/** Source specific facet response */
+export interface FacetResult {
+  /** The name of the operator chosen for faceting. @see cloudsearch.SchemaPropertyOptions */
+  operatorName?: string | undefined;
+  /** FacetBuckets for values in response containing at least a single result with the corresponding filter. */
+  buckets?: FacetBucketList | undefined;
+  /** Object type for which facet results are returned. Can be empty. */
+  objectType?: string | undefined;
+  /** Source name for which facet results are returned. Will not be empty. */
+  sourceName?: string | undefined;
+}
+export type FacetResultList = Array<FacetResult>;
+/** Structured results that are returned as part of search request. */
+export interface StructuredResult {
+  /** Representation of a person */
+  person?: Person | undefined;
+}
+export type StructuredResultList = Array<StructuredResult>;
 /** The search API response. NEXT ID: 21 */
 export interface SearchResponse {
-  /** Structured results for the user query. These results are not counted against the page_size. */
-  structuredResults?: StructuredResultList | undefined;
-  /** Query interpretation result for user query. Empty if query interpretation is disabled. */
-  queryInterpretation?: QueryInterpretation | undefined;
-  /** Debugging information about the response. */
-  debugInfo?: ResponseDebugInfo | undefined;
-  /** Error information about the response. */
-  errorInfo?: ErrorInfo | undefined;
-  /** Whether there are more search results matching the query. */
-  hasMoreResults?: boolean | undefined;
   /** The estimated result count for this query. */
   resultCountEstimate?: string | undefined;
-  /** The exact result count for this query. */
-  resultCountExact?: string | undefined;
+  /** Query interpretation result for user query. Empty if query interpretation is disabled. */
+  queryInterpretation?: QueryInterpretation | undefined;
   /** Results from a search query. */
   results?: SearchResultList | undefined;
+  /** Whether there are more search results matching the query. */
+  hasMoreResults?: boolean | undefined;
+  /** The exact result count for this query. */
+  resultCountExact?: string | undefined;
+  /** Error information about the response. */
+  errorInfo?: ErrorInfo | undefined;
   /** Suggested spelling for the query. */
   spellResults?: SpellResultList | undefined;
-  /** Repeated facet results. */
-  facetResults?: FacetResultList | undefined;
   /** Expanded result count information. */
   resultCounts?: ResultCounts | undefined;
+  /** Debugging information about the response. */
+  debugInfo?: ResultDebugInfo | undefined;
+  /** Repeated facet results. */
+  facetResults?: FacetResultList | undefined;
+  /** Structured results for the user query. These results are not counted against the page_size. */
+  structuredResults?: StructuredResultList | undefined;
 }
 /** Request of suggest API. */
 export interface SuggestRequest {
-  /** Request options, such as the search application and user timezone. */
-  requestOptions?: RequestOptions | undefined;
   /** Partial query for which autocomplete suggestions will be shown. For example, if the query is "sea", then the server might return "season", "search", "seagull" and so on. */
   query?: string | undefined;
   /** The sources to use for suggestions. If not specified, the data sources are taken from the current search application. NOTE: Suggestions are only supported for the following sources: * Third-party data sources * PredefinedSource.PERSON * PredefinedSource.GOOGLE_DRIVE */
   dataSourceRestrictions?: DataSourceRestrictionList | undefined;
+  /** Request options, such as the search application and user timezone. */
+  requestOptions?: RequestOptions | undefined;
 }
 export interface SuggestQueryRequest extends SuggestRequest {}
 export type QuerySuggestionSourceCorpusEnum =
@@ -1814,10 +1814,10 @@ export type QuerySuggestionSourceCorpusEnum =
   | "CHAT"
   | "CALENDAR";
 export interface QuerySuggestion {
-  /** Source corpus of the suggestion. */
-  sourceCorpus?: QuerySuggestionSourceCorpusEnum | undefined;
   /** Last query time of the suggestion for query history suggestions. */
   lastQueryTime?: string | undefined;
+  /** Source corpus of the suggestion. */
+  sourceCorpus?: QuerySuggestionSourceCorpusEnum | undefined;
 }
 /** This field contains information about the person being suggested. */
 export interface PeopleSuggestion {
@@ -1826,14 +1826,14 @@ export interface PeopleSuggestion {
 }
 /** One suggestion result. */
 export interface SuggestResult {
-  /** The source of the suggestion. */
-  source?: Source | undefined;
   /** This field will be present if the suggested query is a word/phrase completion. */
   querySuggestion?: QuerySuggestion | undefined;
-  /** This is present when the suggestion indicates a person. It contains more information about the person - like their email ID, name etc. */
-  peopleSuggestion?: PeopleSuggestion | undefined;
   /** The suggested query that will be used for search, when the user clicks on the suggestion */
   suggestedQuery?: string | undefined;
+  /** This is present when the suggestion indicates a person. It contains more information about the person - like their email ID, name etc. */
+  peopleSuggestion?: PeopleSuggestion | undefined;
+  /** The source of the suggestion. */
+  source?: Source | undefined;
 }
 export type SuggestResultList = Array<SuggestResult>;
 /** Response of the suggest API. */
@@ -1858,10 +1858,10 @@ export interface UpdateCustomerSettingsRequest extends CustomerSettings {
   updateMask?: string | undefined;
 }
 export interface UpdateSchemaRequest {
-  /** If true, the schema will be checked for validity, but will not be registered with the data source, even if valid. */
-  validateOnly?: boolean | undefined;
   /** The new schema for the source. */
   schema?: Cloudsearch_Schema | undefined;
+  /** If true, the schema will be checked for validity, but will not be registered with the data source, even if valid. */
+  validateOnly?: boolean | undefined;
   /** Common debug options. */
   debugOptions?: DebugOptions | undefined;
 }
@@ -1870,11 +1870,11 @@ export interface UpdateSchemaIndexingDatasourcesRequest extends UpdateSchemaRequ
   name: string;
 }
 export interface UpdateDataSourceRequest {
-  /** Common debug options. */
-  debugOptions?: DebugOptions | undefined;
   source?: DataSource | undefined;
   /** Only applies to [`settings.datasources.patch`](https://developers.google.com/workspace/cloud-search/docs/reference/rest/v1/settings.datasources/patch). Update mask to control which fields to update. Example field paths: `name`, `displayName`. * If `update_mask` is non-empty, then only the fields specified in the `update_mask` are updated. * If you specify a field in the `update_mask`, but don't specify its value in the source, that field is cleared. * If the `update_mask` is not present or empty or has the value `*`, then all fields are updated. */
   updateMask?: string | undefined;
+  /** Common debug options. */
+  debugOptions?: DebugOptions | undefined;
 }
 export interface UpdateSettingsDatasourcesRequest extends UpdateDataSourceRequest {
   /** The name of the datasource resource. Format: datasources/{source_id}. The name is ignored when creating a datasource. */
@@ -1888,10 +1888,10 @@ export interface UpdateSettingsSearchapplicationsRequest extends Omit<SearchAppl
 }
 /** Start upload file request. */
 export interface StartUploadItemRequest {
-  /** The name of connector making this call. Format: datasources/{source_id}/connectors/{ID} */
-  connectorName?: string | undefined;
   /** Common debug options. */
   debugOptions?: DebugOptions | undefined;
+  /** The name of connector making this call. Format: datasources/{source_id}/connectors/{ID} */
+  connectorName?: string | undefined;
 }
 export interface UploadIndexingDatasourcesItemsRequest extends StartUploadItemRequest {
   /** The name of the Item to start a resumable upload. Format: datasources/{source_id}/items/{item_id}. The maximum length is 1536 bytes. */
@@ -2016,7 +2016,7 @@ export const deleteQueueItemsIndexingDatasourcesItems: API.OperationMethod<
   DeleteQueueItemsIndexingDatasourcesItemsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2305, __c72, 1) as any as S.Schema<DeleteQueueItemsIndexingDatasourcesItemsRequest>,
+  input: __S(2304, __c72, 0) as any as S.Schema<DeleteQueueItemsIndexingDatasourcesItemsRequest>,
   output: __S(2019, __c63, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -2205,7 +2205,7 @@ export const getSchemaIndexingDatasources: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<GetSchemaIndexingDatasourcesRequest>,
-  output: __S(507, __c15, 27) as any as S.Schema<Cloudsearch_Schema>,
+  output: __S(508, __c15, 28) as any as S.Schema<Cloudsearch_Schema>,
   errors: [NotFound, Forbidden, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -2854,7 +2854,7 @@ export const unreserveIndexingDatasourcesItems: API.OperationMethod<
   UnreserveIndexingDatasourcesItemsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1601, __c50, 1) as any as S.Schema<UnreserveIndexingDatasourcesItemsRequest>,
+  input: __S(1600, __c50, 0) as any as S.Schema<UnreserveIndexingDatasourcesItemsRequest>,
   output: __S(2019, __c63, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes],
   serviceErrors: GcpServiceErrors,
@@ -3014,8 +3014,8 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          "debugOptions.enableDebugging": S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          "debugOptions.enableDebugging": S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -3031,8 +3031,8 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          "debugOptions.enableDebugging": S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          "debugOptions.enableDebugging": S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -3079,10 +3079,10 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          logAdminReadActions: S.optional(S.Boolean),
           logDataWriteActions: S.optional(S.Boolean),
-          logDataReadActions: S.optional(S.Boolean),
           project: S.optional(S.String),
+          logDataReadActions: S.optional(S.Boolean),
+          logAdminReadActions: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AuditLoggingSettings" });
     case 1:
@@ -3123,25 +3123,24 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          contentFormat: S.optional(S.String),
-          hash: S.optional(S.String),
           inlineContent: S.optional(S.String),
+          hash: S.optional(S.String),
+          contentFormat: S.optional(S.String),
           contentDataRef: S.optional(__S(256, __c8, 0)),
         }),
       ).annotate({ identifier: "ItemContent" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          hash: S.optional(S.String),
-          object: S.optional(__S(233, __c7, 9)),
+          quality: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "ItemStructuredData" });
+      ).annotate({ identifier: "SearchQualityMetadata" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          principal: S.optional(__S(1728, __c54, 0)),
           interactionTime: S.optional(S.String),
           type: S.optional(S.String),
+          principal: S.optional(__S(1728, __c54, 0)),
         }),
       ).annotate({ identifier: "Interaction" });
     case 3:
@@ -3149,89 +3148,90 @@ function __c6(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          quality: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "SearchQualityMetadata" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
+          updateTime: S.optional(S.String),
+          searchQualityMetadata: S.optional(__S(193, __c6, 1)),
           keywords: S.optional(__S(1984, __c62, 0)),
           title: S.optional(S.String),
+          contextAttributes: S.optional(__S(225, __c7, 1)),
           hash: S.optional(S.String),
           objectType: S.optional(S.String),
-          contentLanguage: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          interactions: S.optional(__S(195, __c6, 3)),
           createTime: S.optional(S.String),
-          contextAttributes: S.optional(__S(235, __c7, 11)),
-          containerName: S.optional(S.String),
           mimeType: S.optional(S.String),
-          searchQualityMetadata: S.optional(__S(196, __c6, 4)),
           sourceRepositoryUrl: S.optional(S.String),
+          interactions: S.optional(__S(195, __c6, 3)),
+          contentLanguage: S.optional(S.String),
+          containerName: S.optional(S.String),
         }),
       ).annotate({ identifier: "ItemMetadata" });
-    case 6:
-      return S.Array(__S(1728, __c54, 0));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          inheritAclFrom: S.optional(S.String),
-          readers: S.optional(__S(198, __c6, 6)),
-          aclInheritanceType: S.optional(S.String),
-          owners: S.optional(__S(198, __c6, 6)),
-          deniedReaders: S.optional(__S(198, __c6, 6)),
-        }),
-      ).annotate({ identifier: "ItemAcl" });
-    case 8:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           field: S.optional(S.String),
           description: S.optional(S.String),
         }),
       ).annotate({ identifier: "FieldViolation" });
-    case 9:
-      return S.Array(__S(200, __c6, 8));
-    case 10:
+    case 6:
+      return S.Array(__S(197, __c6, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
-          errorMessage: S.optional(S.String),
           code: S.optional(S.String),
-          fieldViolations: S.optional(__S(201, __c6, 9)),
+          errorMessage: S.optional(S.String),
+          fieldViolations: S.optional(__S(198, __c6, 6)),
         }),
       ).annotate({ identifier: "ProcessingError" });
-    case 11:
-      return S.Array(__S(202, __c6, 10));
-    case 12:
+    case 8:
+      return S.Array(__S(199, __c6, 7));
+    case 9:
       return S.suspend(() =>
         S.Struct({
-          httpStatusCode: S.optional(S.Number),
           errorMessage: S.optional(S.String),
           type: S.optional(S.String),
+          httpStatusCode: S.optional(S.Number),
         }),
       ).annotate({ identifier: "RepositoryError" });
+    case 10:
+      return S.Array(__S(201, __c6, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          processingErrors: S.optional(__S(200, __c6, 8)),
+          repositoryErrors: S.optional(__S(202, __c6, 10)),
+        }),
+      ).annotate({ identifier: "ItemStatus" });
+    case 12:
+      return S.Array(__S(1728, __c54, 0));
     case 13:
-      return S.Array(__S(204, __c6, 12));
+      return S.suspend(() =>
+        S.Struct({
+          aclInheritanceType: S.optional(S.String),
+          readers: S.optional(__S(204, __c6, 12)),
+          owners: S.optional(__S(204, __c6, 12)),
+          inheritAclFrom: S.optional(S.String),
+          deniedReaders: S.optional(__S(204, __c6, 12)),
+        }),
+      ).annotate({ identifier: "ItemAcl" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          code: S.optional(S.String),
-          processingErrors: S.optional(__S(203, __c6, 11)),
-          repositoryErrors: S.optional(__S(205, __c6, 13)),
+          object: S.optional(__S(235, __c7, 11)),
+          hash: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ItemStatus" });
+      ).annotate({ identifier: "ItemStructuredData" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          itemType: S.optional(S.String),
           content: S.optional(__S(192, __c6, 0)),
-          structuredData: S.optional(__S(193, __c6, 1)),
-          metadata: S.optional(__S(197, __c6, 5)),
-          acl: S.optional(__S(199, __c6, 7)),
+          metadata: S.optional(__S(196, __c6, 4)),
+          queue: S.optional(S.String),
+          status: S.optional(__S(203, __c6, 11)),
           version: S.optional(S.String),
           payload: S.optional(S.String),
-          queue: S.optional(S.String),
-          status: S.optional(__S(206, __c6, 14)),
+          acl: S.optional(__S(205, __c6, 13)),
+          itemType: S.optional(S.String),
+          structuredData: S.optional(__S(206, __c6, 14)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Item" });
   }
@@ -3242,64 +3242,64 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           values: S.optional(__S(1984, __c62, 0)),
+          name: S.optional(S.String),
         }),
-      ).annotate({ identifier: "HtmlValues" });
+      ).annotate({ identifier: "ContextAttribute" });
     case 1:
-      return S.Array(__S(2080, __c65, 0));
+      return S.Array(__S(224, __c7, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(225, __c7, 1)),
+          values: S.optional(__S(1984, __c62, 0)),
         }),
-      ).annotate({ identifier: "DateValues" });
+      ).annotate({ identifier: "EnumValues" });
     case 3:
-      return S.Array(S.Number);
+      return S.Array(__S(2080, __c65, 0));
     case 4:
       return S.suspend(() =>
         S.Struct({
           values: S.optional(__S(227, __c7, 3)),
         }),
-      ).annotate({ identifier: "DoubleValues" });
+      ).annotate({ identifier: "DateValues" });
     case 5:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(233, __c7, 9)));
+      return S.Array(S.Number);
     case 6:
       return S.suspend(() =>
         S.Struct({
           values: S.optional(__S(229, __c7, 5)),
         }),
-      ).annotate({ identifier: "ObjectValues" });
+      ).annotate({ identifier: "DoubleValues" });
     case 7:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(235, __c7, 11)));
+    case 8:
       return S.suspend(() =>
         S.Struct({
-          booleanValue: S.optional(S.Boolean),
-          htmlValues: S.optional(__S(224, __c7, 0)),
-          timestampValues: S.optional(__S(224, __c7, 0)),
-          textValues: S.optional(__S(224, __c7, 0)),
-          integerValues: S.optional(__S(224, __c7, 0)),
-          dateValues: S.optional(__S(226, __c7, 2)),
-          enumValues: S.optional(__S(224, __c7, 0)),
-          name: S.optional(S.String),
-          doubleValues: S.optional(__S(228, __c7, 4)),
-          objectValues: S.optional(__S(230, __c7, 6)),
+          values: S.optional(__S(231, __c7, 7)),
         }),
-      ).annotate({ identifier: "NamedProperty" });
-    case 8:
-      return S.Array(__S(231, __c7, 7));
+      ).annotate({ identifier: "ObjectValues" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(232, __c7, 8)),
+          enumValues: S.optional(__S(226, __c7, 2)),
+          dateValues: S.optional(__S(228, __c7, 4)),
+          booleanValue: S.optional(S.Boolean),
+          timestampValues: S.optional(__S(226, __c7, 2)),
+          doubleValues: S.optional(__S(230, __c7, 6)),
+          integerValues: S.optional(__S(226, __c7, 2)),
+          textValues: S.optional(__S(226, __c7, 2)),
+          name: S.optional(S.String),
+          htmlValues: S.optional(__S(226, __c7, 2)),
+          objectValues: S.optional(__S(232, __c7, 8)),
         }),
-      ).annotate({ identifier: "StructuredDataObject" });
+      ).annotate({ identifier: "NamedProperty" });
     case 10:
+      return S.Array(__S(233, __c7, 9));
+    case 11:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(1984, __c62, 0)),
-          name: S.optional(S.String),
+          properties: S.optional(__S(234, __c7, 10)),
         }),
-      ).annotate({ identifier: "ContextAttribute" });
-    case 11:
-      return S.Array(__S(234, __c7, 10));
+      ).annotate({ identifier: "StructuredDataObject" });
   }
 }
 function __c8(j: number): any {
@@ -3317,12 +3317,12 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          "fromDate.month": S.optional(S.Number.pipe(T.Query())),
-          "toDate.year": S.optional(S.Number.pipe(T.Query())),
-          "fromDate.day": S.optional(S.Number.pipe(T.Query())),
-          "toDate.month": S.optional(S.Number.pipe(T.Query())),
-          "toDate.day": S.optional(S.Number.pipe(T.Query())),
           "fromDate.year": S.optional(S.Number.pipe(T.Query())),
+          "toDate.month": S.optional(S.Number.pipe(T.Query())),
+          "fromDate.day": S.optional(S.Number.pipe(T.Query())),
+          "toDate.year": S.optional(S.Number.pipe(T.Query())),
+          "toDate.day": S.optional(S.Number.pipe(T.Query())),
+          "fromDate.month": S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3384,12 +3384,12 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          "toDate.day": S.optional(S.Number.pipe(T.Query())),
-          "toDate.year": S.optional(S.Number.pipe(T.Query())),
           "fromDate.year": S.optional(S.Number.pipe(T.Query())),
+          "fromDate.month": S.optional(S.Number.pipe(T.Query())),
+          "toDate.day": S.optional(S.Number.pipe(T.Query())),
           "fromDate.day": S.optional(S.Number.pipe(T.Query())),
           "toDate.month": S.optional(S.Number.pipe(T.Query())),
-          "fromDate.month": S.optional(S.Number.pipe(T.Query())),
+          "toDate.year": S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3405,8 +3405,8 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          statusCode: S.optional(S.Number),
           count: S.optional(S.String),
+          statusCode: S.optional(S.Number),
         }),
       ).annotate({ identifier: "QueryCountByStatus" });
     case 1:
@@ -3414,8 +3414,8 @@ function __c13(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          date: S.optional(__S(2080, __c65, 0)),
           queryCountByStatus: S.optional(__S(417, __c13, 1)),
+          date: S.optional(__S(2080, __c65, 0)),
         }),
       ).annotate({ identifier: "CustomerQueryStats" });
     case 3:
@@ -3434,8 +3434,8 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          "debugOptions.enableDebugging": S.optional(S.Boolean.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          "debugOptions.enableDebugging": S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3457,179 +3457,187 @@ function __c15(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          lessThanOperatorName: S.optional(S.String),
           operatorName: S.optional(S.String),
-          greaterThanOperatorName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DateOperatorOptions" });
+      ).annotate({ identifier: "DoubleOperatorOptions" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           operatorOptions: S.optional(__S(481, __c15, 1)),
         }),
-      ).annotate({ identifier: "DatePropertyOptions" });
+      ).annotate({ identifier: "DoublePropertyOptions" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          importance: S.optional(S.String),
+          lessThanOperatorName: S.optional(S.String),
+          operatorName: S.optional(S.String),
+          greaterThanOperatorName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "RetrievalImportance" });
+      ).annotate({ identifier: "IntegerOperatorOptions" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          operatorName: S.optional(S.String),
-          exactMatchWithOperator: S.optional(S.Boolean),
+          orderedRanking: S.optional(S.String),
+          maximumValue: S.optional(S.String),
+          integerFacetingOptions: S.optional(__S(2112, __c66, 0)),
+          minimumValue: S.optional(S.String),
+          operatorOptions: S.optional(__S(483, __c15, 3)),
         }),
-      ).annotate({ identifier: "TextOperatorOptions" });
+      ).annotate({ identifier: "IntegerPropertyOptions" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          retrievalImportance: S.optional(__S(483, __c15, 3)),
-          operatorOptions: S.optional(__S(484, __c15, 4)),
+          operatorName: S.optional(S.String),
+          greaterThanOperatorName: S.optional(S.String),
+          lessThanOperatorName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "TextPropertyOptions" });
+      ).annotate({ identifier: "DateOperatorOptions" });
     case 6:
+      return S.suspend(() =>
+        S.Struct({
+          operatorOptions: S.optional(__S(485, __c15, 5)),
+        }),
+      ).annotate({ identifier: "DatePropertyOptions" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          greaterThanOperatorName: S.optional(S.String),
+          lessThanOperatorName: S.optional(S.String),
+          operatorName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TimestampOperatorOptions" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          operatorOptions: S.optional(__S(487, __c15, 7)),
+        }),
+      ).annotate({ identifier: "TimestampPropertyOptions" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          subobjectProperties: S.optional(S.suspend(() => __S(498, __c15, 18))),
+        }),
+      ).annotate({ identifier: "ObjectPropertyOptions" });
+    case 10:
       return S.suspend(() =>
         S.Struct({
           stringValue: S.optional(S.String),
           integerValue: S.optional(S.Number),
         }),
       ).annotate({ identifier: "EnumValuePair" });
-    case 7:
-      return S.Array(__S(486, __c15, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          operatorName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EnumOperatorOptions" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          orderedRanking: S.optional(S.String),
-          possibleValues: S.optional(__S(487, __c15, 7)),
-          operatorOptions: S.optional(__S(488, __c15, 8)),
-        }),
-      ).annotate({ identifier: "EnumPropertyOptions" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          subobjectProperties: S.optional(S.suspend(() => __S(497, __c15, 17))),
-        }),
-      ).annotate({ identifier: "ObjectPropertyOptions" });
     case 11:
-      return S.suspend(() =>
-        S.Struct({
-          retrievalImportance: S.optional(__S(483, __c15, 3)),
-          operatorOptions: S.optional(__S(488, __c15, 8)),
-        }),
-      ).annotate({ identifier: "HtmlPropertyOptions" });
+      return S.Array(__S(490, __c15, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          operatorOptions: S.optional(__S(488, __c15, 8)),
+          orderedRanking: S.optional(S.String),
+          possibleValues: S.optional(__S(491, __c15, 11)),
+          operatorOptions: S.optional(__S(481, __c15, 1)),
         }),
-      ).annotate({ identifier: "DoublePropertyOptions" });
+      ).annotate({ identifier: "EnumPropertyOptions" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          operatorName: S.optional(S.String),
-          lessThanOperatorName: S.optional(S.String),
-          greaterThanOperatorName: S.optional(S.String),
+          importance: S.optional(S.String),
         }),
-      ).annotate({ identifier: "TimestampOperatorOptions" });
+      ).annotate({ identifier: "RetrievalImportance" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          operatorOptions: S.optional(__S(493, __c15, 13)),
+          exactMatchWithOperator: S.optional(S.Boolean),
+          operatorName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "TimestampPropertyOptions" });
+      ).annotate({ identifier: "TextOperatorOptions" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          operatorOptions: S.optional(__S(481, __c15, 1)),
-          minimumValue: S.optional(S.String),
-          integerFacetingOptions: S.optional(__S(2112, __c66, 0)),
-          maximumValue: S.optional(S.String),
-          orderedRanking: S.optional(S.String),
+          retrievalImportance: S.optional(__S(493, __c15, 13)),
+          operatorOptions: S.optional(__S(494, __c15, 14)),
         }),
-      ).annotate({ identifier: "IntegerPropertyOptions" });
+      ).annotate({ identifier: "TextPropertyOptions" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          displayOptions: S.optional(__S(480, __c15, 0)),
-          isReturnable: S.optional(S.Boolean),
-          datePropertyOptions: S.optional(__S(482, __c15, 2)),
-          textPropertyOptions: S.optional(__S(485, __c15, 5)),
-          enumPropertyOptions: S.optional(__S(489, __c15, 9)),
-          isFacetable: S.optional(S.Boolean),
-          isRepeatable: S.optional(S.Boolean),
-          objectPropertyOptions: S.optional(__S(490, __c15, 10)),
-          htmlPropertyOptions: S.optional(__S(491, __c15, 11)),
-          isSuggestable: S.optional(S.Boolean),
-          isSortable: S.optional(S.Boolean),
-          doublePropertyOptions: S.optional(__S(492, __c15, 12)),
-          timestampPropertyOptions: S.optional(__S(494, __c15, 14)),
-          name: S.optional(S.String),
-          booleanPropertyOptions: S.optional(__S(492, __c15, 12)),
-          integerPropertyOptions: S.optional(__S(495, __c15, 15)),
-          isWildcardSearchable: S.optional(S.Boolean),
+          operatorOptions: S.optional(__S(481, __c15, 1)),
+          retrievalImportance: S.optional(__S(493, __c15, 13)),
         }),
-      ).annotate({ identifier: "PropertyDefinition" });
+      ).annotate({ identifier: "HtmlPropertyOptions" });
     case 17:
-      return S.Array(__S(496, __c15, 16));
-    case 18:
       return S.suspend(() =>
         S.Struct({
-          freshnessProperty: S.optional(S.String),
+          displayOptions: S.optional(__S(480, __c15, 0)),
+          doublePropertyOptions: S.optional(__S(482, __c15, 2)),
+          integerPropertyOptions: S.optional(__S(484, __c15, 4)),
+          booleanPropertyOptions: S.optional(__S(482, __c15, 2)),
+          datePropertyOptions: S.optional(__S(486, __c15, 6)),
+          isReturnable: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          timestampPropertyOptions: S.optional(__S(488, __c15, 8)),
+          isRepeatable: S.optional(S.Boolean),
+          isWildcardSearchable: S.optional(S.Boolean),
+          objectPropertyOptions: S.optional(__S(489, __c15, 9)),
+          isFacetable: S.optional(S.Boolean),
+          isSortable: S.optional(S.Boolean),
+          enumPropertyOptions: S.optional(__S(492, __c15, 12)),
+          isSuggestable: S.optional(S.Boolean),
+          textPropertyOptions: S.optional(__S(495, __c15, 15)),
+          htmlPropertyOptions: S.optional(__S(496, __c15, 16)),
+        }),
+      ).annotate({ identifier: "PropertyDefinition" });
+    case 18:
+      return S.Array(__S(497, __c15, 17));
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
           freshnessDuration: S.optional(S.String),
+          freshnessProperty: S.optional(S.String),
         }),
       ).annotate({ identifier: "FreshnessOptions" });
-    case 19:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           propertyName: S.optional(S.String),
         }),
       ).annotate({ identifier: "DisplayedProperty" });
-    case 20:
-      return S.Array(__S(499, __c15, 19));
     case 21:
+      return S.Array(__S(500, __c15, 20));
+    case 22:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(500, __c15, 20)),
+          properties: S.optional(__S(501, __c15, 21)),
         }),
       ).annotate({ identifier: "Metaline" });
-    case 22:
-      return S.Array(__S(501, __c15, 21));
     case 23:
-      return S.suspend(() =>
-        S.Struct({
-          objectDisplayLabel: S.optional(S.String),
-          metalines: S.optional(__S(502, __c15, 22)),
-        }),
-      ).annotate({ identifier: "ObjectDisplayOptions" });
+      return S.Array(__S(502, __c15, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
-          freshnessOptions: S.optional(__S(498, __c15, 18)),
-          suggestionFilteringOperators: S.optional(__S(1984, __c62, 0)),
-          displayOptions: S.optional(__S(503, __c15, 23)),
+          objectDisplayLabel: S.optional(S.String),
+          metalines: S.optional(__S(503, __c15, 23)),
         }),
-      ).annotate({ identifier: "ObjectOptions" });
+      ).annotate({ identifier: "ObjectDisplayOptions" });
     case 25:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          propertyDefinitions: S.optional(__S(497, __c15, 17)),
-          options: S.optional(__S(504, __c15, 24)),
+          suggestionFilteringOperators: S.optional(__S(1984, __c62, 0)),
+          freshnessOptions: S.optional(__S(499, __c15, 19)),
+          displayOptions: S.optional(__S(504, __c15, 24)),
         }),
-      ).annotate({ identifier: "ObjectDefinition" });
+      ).annotate({ identifier: "ObjectOptions" });
     case 26:
-      return S.Array(__S(505, __c15, 25));
-    case 27:
       return S.suspend(() =>
         S.Struct({
-          objectDefinitions: S.optional(__S(506, __c15, 26)),
+          name: S.optional(S.String),
+          propertyDefinitions: S.optional(__S(498, __c15, 18)),
+          options: S.optional(__S(505, __c15, 25)),
+        }),
+      ).annotate({ identifier: "ObjectDefinition" });
+    case 27:
+      return S.Array(__S(506, __c15, 26));
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          objectDefinitions: S.optional(__S(507, __c15, 27)),
           operationIds: S.optional(__S(1984, __c62, 0)),
         }),
       ).annotate({ identifier: "Cloudsearch_Schema" });
@@ -3640,12 +3648,12 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          "startDate.month": S.optional(S.Number.pipe(T.Query())),
-          "endDate.day": S.optional(S.Number.pipe(T.Query())),
-          "startDate.year": S.optional(S.Number.pipe(T.Query())),
-          "endDate.year": S.optional(S.Number.pipe(T.Query())),
           "startDate.day": S.optional(S.Number.pipe(T.Query())),
           "endDate.month": S.optional(S.Number.pipe(T.Query())),
+          "endDate.year": S.optional(S.Number.pipe(T.Query())),
+          "startDate.year": S.optional(S.Number.pipe(T.Query())),
+          "startDate.month": S.optional(S.Number.pipe(T.Query())),
+          "endDate.day": S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3657,8 +3665,8 @@ function __c16(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          count: S.optional(S.String),
           date: S.optional(__S(2080, __c65, 0)),
+          count: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomerSearchApplicationStats" });
     case 2:
@@ -3677,12 +3685,12 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          "toDate.day": S.optional(S.Number.pipe(T.Query())),
+          "toDate.year": S.optional(S.Number.pipe(T.Query())),
+          "fromDate.month": S.optional(S.Number.pipe(T.Query())),
           "toDate.month": S.optional(S.Number.pipe(T.Query())),
           "fromDate.day": S.optional(S.Number.pipe(T.Query())),
           "fromDate.year": S.optional(S.Number.pipe(T.Query())),
-          "toDate.year": S.optional(S.Number.pipe(T.Query())),
-          "toDate.day": S.optional(S.Number.pipe(T.Query())),
-          "fromDate.month": S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3751,13 +3759,13 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          "fromDate.day": S.optional(S.Number.pipe(T.Query())),
-          "toDate.year": S.optional(S.Number.pipe(T.Query())),
           "fromDate.month": S.optional(S.Number.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          "fromDate.day": S.optional(S.Number.pipe(T.Query())),
           "toDate.month": S.optional(S.Number.pipe(T.Query())),
           "fromDate.year": S.optional(S.Number.pipe(T.Query())),
           "toDate.day": S.optional(S.Number.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
+          "toDate.year": S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3780,13 +3788,13 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          "fromDate.month": S.optional(S.Number.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
           "toDate.month": S.optional(S.Number.pipe(T.Query())),
           "toDate.day": S.optional(S.Number.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           "fromDate.day": S.optional(S.Number.pipe(T.Query())),
-          "toDate.year": S.optional(S.Number.pipe(T.Query())),
           "fromDate.year": S.optional(S.Number.pipe(T.Query())),
-          "fromDate.month": S.optional(S.Number.pipe(T.Query())),
+          "toDate.year": S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3803,12 +3811,12 @@ function __c23(j: number): any {
       return S.suspend(() =>
         S.Struct({
           "toDate.year": S.optional(S.Number.pipe(T.Query())),
-          "fromDate.month": S.optional(S.Number.pipe(T.Query())),
-          "toDate.day": S.optional(S.Number.pipe(T.Query())),
           "toDate.month": S.optional(S.Number.pipe(T.Query())),
-          "fromDate.year": S.optional(S.Number.pipe(T.Query())),
-          "fromDate.day": S.optional(S.Number.pipe(T.Query())),
+          "toDate.day": S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          "fromDate.day": S.optional(S.Number.pipe(T.Query())),
+          "fromDate.year": S.optional(S.Number.pipe(T.Query())),
+          "fromDate.month": S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3824,13 +3832,13 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          "fromDate.year": S.optional(S.Number.pipe(T.Query())),
-          "fromDate.month": S.optional(S.Number.pipe(T.Query())),
-          "toDate.year": S.optional(S.Number.pipe(T.Query())),
           "fromDate.day": S.optional(S.Number.pipe(T.Query())),
+          "fromDate.month": S.optional(S.Number.pipe(T.Query())),
           "toDate.month": S.optional(S.Number.pipe(T.Query())),
+          "fromDate.year": S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           "toDate.day": S.optional(S.Number.pipe(T.Query())),
+          "toDate.year": S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3863,12 +3871,12 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          "fromDate.month": S.optional(S.Number.pipe(T.Query())),
+          "toDate.month": S.optional(S.Number.pipe(T.Query())),
           "fromDate.year": S.optional(S.Number.pipe(T.Query())),
           "fromDate.day": S.optional(S.Number.pipe(T.Query())),
-          "toDate.day": S.optional(S.Number.pipe(T.Query())),
           "toDate.year": S.optional(S.Number.pipe(T.Query())),
-          "toDate.month": S.optional(S.Number.pipe(T.Query())),
+          "toDate.day": S.optional(S.Number.pipe(T.Query())),
+          "fromDate.month": S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3880,10 +3888,10 @@ function __c25(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          oneDayActiveUsersCount: S.optional(S.String),
-          date: S.optional(__S(2080, __c65, 0)),
           thirtyDaysActiveUsersCount: S.optional(S.String),
           sevenDaysActiveUsersCount: S.optional(S.String),
+          date: S.optional(__S(2080, __c65, 0)),
+          oneDayActiveUsersCount: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomerUserStats" });
     case 2:
@@ -3907,11 +3915,11 @@ function __c26(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          debugOptions: S.optional(__S(2336, __c73, 0)),
+          mode: S.optional(S.String),
           indexItemOptions: S.optional(__S(832, __c26, 0)),
           item: S.optional(__S(207, __c6, 15)),
           connectorName: S.optional(S.String),
-          mode: S.optional(S.String),
-          debugOptions: S.optional(__S(2336, __c73, 0)),
         }),
       ).annotate({ identifier: "IndexItemRequest" });
     case 2:
@@ -3958,10 +3966,10 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          "debugOptions.enableDebugging": S.optional(S.Boolean.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          "debugOptions.enableDebugging": S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3977,8 +3985,8 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          externalIdentity: S.optional(__S(1728, __c54, 0)),
           resolutionStatusCode: S.optional(S.String),
+          externalIdentity: S.optional(__S(1728, __c54, 0)),
         }),
       ).annotate({ identifier: "UnmappedIdentity" });
     case 1:
@@ -3997,11 +4005,11 @@ function __c31(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           resolutionStatusCode: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           "debugOptions.enableDebugging": S.optional(S.Boolean.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4017,12 +4025,12 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          userResourceName: S.optional(S.String.pipe(T.Query())),
+          groupResourceName: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           "debugOptions.enableDebugging": S.optional(S.Boolean.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          userResourceName: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          groupResourceName: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4045,12 +4053,12 @@ function __c33(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
+          brief: S.optional(S.Boolean.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           connectorName: S.optional(S.String.pipe(T.Query())),
           "debugOptions.enableDebugging": S.optional(S.Boolean.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          brief: S.optional(S.Boolean.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4079,11 +4087,11 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4097,9 +4105,9 @@ function __c35(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(1121, __c35, 1)),
           nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(1984, __c62, 0)),
+          operations: S.optional(__S(1121, __c35, 1)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
@@ -4110,13 +4118,13 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           "requestOptions.queryLanguageCode": S.optional(S.String.pipe(T.Query())),
-          "requestOptions.timeZone": S.optional(S.String.pipe(T.Query())),
-          "requestOptions.clientDisplayLanguageCode": S.optional(S.String.pipe(T.Query())),
-          "requestOptions.debugOptions.enableDebugging": S.optional(S.Boolean.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          "requestOptions.searchApplicationId": S.optional(S.String.pipe(T.Query())),
           "requestOptions.countryCode": S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          "requestOptions.timeZone": S.optional(S.String.pipe(T.Query())),
+          "requestOptions.debugOptions.enableDebugging": S.optional(S.Boolean.pipe(T.Query())),
+          "requestOptions.searchApplicationId": S.optional(S.String.pipe(T.Query())),
           "requestOptions.languageCode": S.optional(S.String.pipe(T.Query())),
+          "requestOptions.clientDisplayLanguageCode": S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4128,18 +4136,18 @@ function __c36(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          isSortable: S.optional(S.Boolean),
-          type: S.optional(S.String),
-          isReturnable: S.optional(S.Boolean),
-          isSuggestable: S.optional(S.Boolean),
-          operatorName: S.optional(S.String),
-          lessThanOperatorName: S.optional(S.String),
           displayName: S.optional(S.String),
           greaterThanOperatorName: S.optional(S.String),
-          isFacetable: S.optional(S.Boolean),
+          isSortable: S.optional(S.Boolean),
+          operatorName: S.optional(S.String),
+          isSuggestable: S.optional(S.Boolean),
           isRepeatable: S.optional(S.Boolean),
-          enumValues: S.optional(__S(1984, __c62, 0)),
+          lessThanOperatorName: S.optional(S.String),
           objectType: S.optional(S.String),
+          enumValues: S.optional(__S(1984, __c62, 0)),
+          isReturnable: S.optional(S.Boolean),
+          type: S.optional(S.String),
+          isFacetable: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "QueryOperator" });
     case 2:
@@ -4147,10 +4155,10 @@ function __c36(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
           shortName: S.optional(S.String),
-          operators: S.optional(__S(1154, __c36, 2)),
           source: S.optional(__S(2144, __c67, 0)),
+          displayName: S.optional(S.String),
+          operators: S.optional(__S(1154, __c36, 2)),
         }),
       ).annotate({ identifier: "QuerySource" });
     case 4:
@@ -4169,8 +4177,8 @@ function __c37(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           "debugOptions.enableDebugging": S.optional(S.Boolean.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -4196,9 +4204,9 @@ function __c38(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           "debugOptions.enableDebugging": S.optional(S.Boolean.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4225,9 +4233,9 @@ function __c39(j: number): any {
         S.Extend(
           __S(1953, __c61, 1),
           S.Struct({
-            "debugOptions.enableDebugging": S.optional(S.Boolean.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            "debugOptions.enableDebugging": S.optional(S.Boolean.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -4266,11 +4274,11 @@ function __c41(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          limit: S.optional(S.Number),
-          connectorName: S.optional(S.String),
           debugOptions: S.optional(__S(2336, __c73, 0)),
-          statusCodes: S.optional(__S(1312, __c41, 0)),
+          connectorName: S.optional(S.String),
           queue: S.optional(S.String),
+          limit: S.optional(S.Number),
+          statusCodes: S.optional(__S(1312, __c41, 0)),
         }),
       ).annotate({ identifier: "PollItemsRequest" });
     case 2:
@@ -4302,20 +4310,20 @@ function __c42(j: number): any {
       return S.suspend(() =>
         S.Struct({
           contentHash: S.optional(S.String),
-          queue: S.optional(S.String),
-          payload: S.optional(S.String),
           metadataHash: S.optional(S.String),
-          type: S.optional(S.String),
           structuredDataHash: S.optional(S.String),
-          repositoryError: S.optional(__S(204, __c6, 12)),
+          queue: S.optional(S.String),
+          repositoryError: S.optional(__S(201, __c6, 9)),
+          type: S.optional(S.String),
+          payload: S.optional(S.String),
         }),
       ).annotate({ identifier: "PushItem" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           debugOptions: S.optional(__S(2336, __c73, 0)),
-          item: S.optional(__S(1344, __c42, 0)),
           connectorName: S.optional(S.String),
+          item: S.optional(__S(1344, __c42, 0)),
         }),
       ).annotate({ identifier: "PushItemRequest" });
     case 2:
@@ -4373,13 +4381,13 @@ function __c44(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          debugOptions: S.optional(__S(2336, __c73, 0)),
-          clientDisplayLanguageCode: S.optional(S.String),
           queryLanguageCode: S.optional(S.String),
           searchApplicationId: S.optional(S.String),
-          countryCode: S.optional(S.String),
-          languageCode: S.optional(S.String),
           timeZone: S.optional(S.String),
+          languageCode: S.optional(S.String),
+          clientDisplayLanguageCode: S.optional(S.String),
+          debugOptions: S.optional(__S(2336, __c73, 0)),
+          countryCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "RequestOptions" });
   }
@@ -4415,8 +4423,8 @@ function __c46(j: number): any {
       return S.suspend(() =>
         S.Struct({
           debugOptions: S.optional(__S(2336, __c73, 0)),
-          viewUrl: S.optional(S.String),
           pageToken: S.optional(S.String),
+          viewUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchItemsByViewUrlRequest" });
     case 1:
@@ -4456,15 +4464,15 @@ function __c47(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          dataSourceRestrictions: S.optional(__S(2184, __c68, 8)),
+          queryInterpretationOptions: S.optional(__S(1504, __c47, 0)),
+          sortOptions: S.optional(__S(2210, __c69, 2)),
+          pageSize: S.optional(S.Number),
+          query: S.optional(S.String),
+          facetOptions: S.optional(__S(2209, __c69, 1)),
+          contextAttributes: S.optional(__S(225, __c7, 1)),
           requestOptions: S.optional(__S(1408, __c44, 0)),
           start: S.optional(S.Number),
-          sortOptions: S.optional(__S(2210, __c69, 2)),
-          query: S.optional(S.String),
-          pageSize: S.optional(S.Number),
-          queryInterpretationOptions: S.optional(__S(1504, __c47, 0)),
-          contextAttributes: S.optional(__S(235, __c7, 11)),
-          dataSourceRestrictions: S.optional(__S(2184, __c68, 8)),
-          facetOptions: S.optional(__S(2209, __c69, 1)),
         }),
       ).annotate({ identifier: "SearchRequest" });
     case 2:
@@ -4478,175 +4486,175 @@ function __c47(j: number): any {
         ),
       ).annotate({ identifier: "SearchQueryRequest" });
     case 3:
-      return S.Array(__S(1545, __c48, 9));
-    case 4:
       return S.suspend(() =>
         S.Struct({
           interpretationType: S.optional(S.String),
-          reason: S.optional(S.String),
-          interpretedQueryEstimatedResultCount: S.optional(S.String),
           interpretedQueryActualResultCount: S.optional(S.Number),
           interpretedQuery: S.optional(S.String),
+          interpretedQueryEstimatedResultCount: S.optional(S.String),
+          reason: S.optional(S.String),
         }),
       ).annotate({ identifier: "QueryInterpretation" });
-    case 5:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           formattedDebugInfo: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ResponseDebugInfo" });
+      ).annotate({ identifier: "ResultDebugInfo" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          property: S.optional(__S(233, __c7, 9)),
+          label: S.optional(S.String),
+          operatorName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ResultDisplayField" });
     case 6:
+      return S.Array(__S(1509, __c47, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          fields: S.optional(__S(1510, __c47, 6)),
+        }),
+      ).annotate({ identifier: "ResultDisplayLine" });
+    case 8:
+      return S.Array(__S(1511, __c47, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          objectTypeLabel: S.optional(S.String),
+          metalines: S.optional(__S(1512, __c47, 8)),
+        }),
+      ).annotate({ identifier: "ResultDisplayMetadata" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          displayOptions: S.optional(__S(1513, __c47, 9)),
+          updateTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          objectType: S.optional(S.String),
+          thumbnailUrl: S.optional(S.String),
+          source: S.optional(__S(2144, __c67, 0)),
+          mimeType: S.optional(S.String),
+          owner: S.optional(__S(1544, __c48, 8)),
+          fields: S.optional(__S(234, __c7, 10)),
+        }),
+      ).annotate({ identifier: "Metadata" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          start: S.optional(S.Number),
+          end: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "MatchRange" });
+    case 12:
+      return S.Array(__S(1515, __c47, 11));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          matchRanges: S.optional(__S(1516, __c47, 12)),
+          snippet: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Snippet" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          url: S.optional(S.String),
+          debugInfo: S.optional(__S(1508, __c47, 4)),
+          clusteredResults: S.optional(S.suspend(() => __S(1519, __c47, 15))),
+          title: S.optional(S.String),
+          metadata: S.optional(__S(1514, __c47, 10)),
+          snippet: S.optional(__S(1517, __c47, 13)),
+        }),
+      ).annotate({ identifier: "SearchResult" });
+    case 15:
+      return S.Array(__S(1518, __c47, 14));
+    case 16:
       return S.suspend(() =>
         S.Struct({
           errorMessage: S.optional(S.String),
           source: S.optional(__S(2144, __c67, 0)),
         }),
       ).annotate({ identifier: "ErrorMessage" });
-    case 7:
-      return S.Array(__S(1510, __c47, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          errorMessages: S.optional(__S(1511, __c47, 7)),
-        }),
-      ).annotate({ identifier: "ErrorInfo" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          end: S.optional(S.Number),
-          start: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "MatchRange" });
-    case 10:
-      return S.Array(__S(1513, __c47, 9));
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          matchRanges: S.optional(__S(1514, __c47, 10)),
-          snippet: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Snippet" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          label: S.optional(S.String),
-          property: S.optional(__S(231, __c7, 7)),
-          operatorName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ResultDisplayField" });
-    case 13:
-      return S.Array(__S(1516, __c47, 12));
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          fields: S.optional(__S(1517, __c47, 13)),
-        }),
-      ).annotate({ identifier: "ResultDisplayLine" });
-    case 15:
-      return S.Array(__S(1518, __c47, 14));
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          objectTypeLabel: S.optional(S.String),
-          metalines: S.optional(__S(1519, __c47, 15)),
-        }),
-      ).annotate({ identifier: "ResultDisplayMetadata" });
     case 17:
-      return S.suspend(() =>
-        S.Struct({
-          source: S.optional(__S(2144, __c67, 0)),
-          objectType: S.optional(S.String),
-          mimeType: S.optional(S.String),
-          createTime: S.optional(S.String),
-          owner: S.optional(__S(1544, __c48, 8)),
-          updateTime: S.optional(S.String),
-          fields: S.optional(__S(232, __c7, 8)),
-          thumbnailUrl: S.optional(S.String),
-          displayOptions: S.optional(__S(1520, __c47, 16)),
-        }),
-      ).annotate({ identifier: "Metadata" });
+      return S.Array(__S(1520, __c47, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          snippet: S.optional(__S(1515, __c47, 11)),
-          clusteredResults: S.optional(S.suspend(() => __S(1523, __c47, 19))),
-          debugInfo: S.optional(__S(1509, __c47, 5)),
-          url: S.optional(S.String),
-          title: S.optional(S.String),
-          metadata: S.optional(__S(1521, __c47, 17)),
+          errorMessages: S.optional(__S(1521, __c47, 17)),
         }),
-      ).annotate({ identifier: "SearchResult" });
+      ).annotate({ identifier: "ErrorInfo" });
     case 19:
-      return S.Array(__S(1522, __c47, 18));
-    case 20:
       return S.suspend(() =>
         S.Struct({
           privateDoNotAccessOrElseSafeHtmlWrappedValue: S.optional(S.String),
         }),
       ).annotate({ identifier: "SafeHtmlProto" });
-    case 21:
+    case 20:
       return S.suspend(() =>
         S.Struct({
-          suggestedQuery: S.optional(S.String),
+          suggestedQueryHtml: S.optional(__S(1523, __c47, 19)),
           suggestionType: S.optional(S.String),
-          suggestedQueryHtml: S.optional(__S(1524, __c47, 20)),
+          suggestedQuery: S.optional(S.String),
         }),
       ).annotate({ identifier: "SpellResult" });
+    case 21:
+      return S.Array(__S(1524, __c47, 20));
     case 22:
-      return S.Array(__S(1525, __c47, 21));
-    case 23:
       return S.suspend(() =>
         S.Struct({
-          count: S.optional(S.Number),
-          filter: S.optional(__S(2180, __c68, 4)),
-          percentage: S.optional(S.Number),
-          value: S.optional(__S(2176, __c68, 0)),
+          hasMoreResults: S.optional(S.Boolean),
+          source: S.optional(__S(2144, __c67, 0)),
+          resultCountExact: S.optional(S.String),
+          resultCountEstimate: S.optional(S.String),
         }),
-      ).annotate({ identifier: "FacetBucket" });
+      ).annotate({ identifier: "SourceResultCount" });
+    case 23:
+      return S.Array(__S(1526, __c47, 22));
     case 24:
-      return S.Array(__S(1527, __c47, 23));
+      return S.suspend(() =>
+        S.Struct({
+          sourceResultCounts: S.optional(__S(1527, __c47, 23)),
+        }),
+      ).annotate({ identifier: "ResultCounts" });
     case 25:
       return S.suspend(() =>
         S.Struct({
-          operatorName: S.optional(S.String),
-          sourceName: S.optional(S.String),
-          objectType: S.optional(S.String),
-          buckets: S.optional(__S(1528, __c47, 24)),
+          value: S.optional(__S(2176, __c68, 0)),
+          filter: S.optional(__S(2180, __c68, 4)),
+          percentage: S.optional(S.Number),
+          count: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "FacetResult" });
+      ).annotate({ identifier: "FacetBucket" });
     case 26:
       return S.Array(__S(1529, __c47, 25));
     case 27:
       return S.suspend(() =>
         S.Struct({
-          resultCountEstimate: S.optional(S.String),
-          hasMoreResults: S.optional(S.Boolean),
-          source: S.optional(__S(2144, __c67, 0)),
-          resultCountExact: S.optional(S.String),
+          operatorName: S.optional(S.String),
+          buckets: S.optional(__S(1530, __c47, 26)),
+          objectType: S.optional(S.String),
+          sourceName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SourceResultCount" });
+      ).annotate({ identifier: "FacetResult" });
     case 28:
       return S.Array(__S(1531, __c47, 27));
     case 29:
-      return S.suspend(() =>
-        S.Struct({
-          sourceResultCounts: S.optional(__S(1532, __c47, 28)),
-        }),
-      ).annotate({ identifier: "ResultCounts" });
+      return S.Array(__S(1545, __c48, 9));
     case 30:
       return S.suspend(() =>
         S.Struct({
-          structuredResults: S.optional(__S(1507, __c47, 3)),
-          queryInterpretation: S.optional(__S(1508, __c47, 4)),
-          debugInfo: S.optional(__S(1509, __c47, 5)),
-          errorInfo: S.optional(__S(1512, __c47, 8)),
-          hasMoreResults: S.optional(S.Boolean),
           resultCountEstimate: S.optional(S.String),
+          queryInterpretation: S.optional(__S(1507, __c47, 3)),
+          results: S.optional(__S(1519, __c47, 15)),
+          hasMoreResults: S.optional(S.Boolean),
           resultCountExact: S.optional(S.String),
-          results: S.optional(__S(1523, __c47, 19)),
-          spellResults: S.optional(__S(1526, __c47, 22)),
-          facetResults: S.optional(__S(1530, __c47, 26)),
-          resultCounts: S.optional(__S(1533, __c47, 29)),
+          errorInfo: S.optional(__S(1522, __c47, 18)),
+          spellResults: S.optional(__S(1525, __c47, 21)),
+          resultCounts: S.optional(__S(1528, __c47, 24)),
+          debugInfo: S.optional(__S(1508, __c47, 4)),
+          facetResults: S.optional(__S(1532, __c47, 28)),
+          structuredResults: S.optional(__S(1533, __c47, 29)),
         }),
       ).annotate({ identifier: "SearchResponse" });
   }
@@ -4656,49 +4664,49 @@ function __c48(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          primary: S.optional(S.Boolean),
-          emailUrl: S.optional(S.String),
-          customType: S.optional(S.String),
           type: S.optional(S.String),
-          emailAddress: S.optional(S.String),
+          phoneNumber: S.optional(S.String),
         }),
-      ).annotate({ identifier: "EmailAddress" });
+      ).annotate({ identifier: "PhoneNumber" });
     case 1:
       return S.Array(__S(1536, __c48, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          phoneNumber: S.optional(S.String),
-          type: S.optional(S.String),
+          displayName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "PhoneNumber" });
+      ).annotate({ identifier: "Name" });
     case 3:
       return S.Array(__S(1538, __c48, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          url: S.optional(S.String),
+          emailAddress: S.optional(S.String),
+          emailUrl: S.optional(S.String),
+          type: S.optional(S.String),
+          customType: S.optional(S.String),
+          primary: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "Photo" });
+      ).annotate({ identifier: "EmailAddress" });
     case 5:
       return S.Array(__S(1540, __c48, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
+          url: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Name" });
+      ).annotate({ identifier: "Photo" });
     case 7:
       return S.Array(__S(1542, __c48, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          emailAddresses: S.optional(__S(1537, __c48, 1)),
-          phoneNumbers: S.optional(__S(1539, __c48, 3)),
-          photos: S.optional(__S(1541, __c48, 5)),
+          phoneNumbers: S.optional(__S(1537, __c48, 1)),
+          personNames: S.optional(__S(1539, __c48, 3)),
+          emailAddresses: S.optional(__S(1541, __c48, 5)),
+          photos: S.optional(__S(1543, __c48, 7)),
           obfuscatedId: S.optional(S.String),
           name: S.optional(S.String),
-          personNames: S.optional(__S(1543, __c48, 7)),
         }),
       ).annotate({ identifier: "Person" });
     case 9:
@@ -4714,9 +4722,9 @@ function __c49(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestOptions: S.optional(__S(1408, __c44, 0)),
           query: S.optional(S.String),
           dataSourceRestrictions: S.optional(__S(2184, __c68, 8)),
+          requestOptions: S.optional(__S(1408, __c44, 0)),
         }),
       ).annotate({ identifier: "SuggestRequest" });
     case 1:
@@ -4732,17 +4740,17 @@ function __c49(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          sourceCorpus: S.optional(S.String),
           lastQueryTime: S.optional(S.String),
+          sourceCorpus: S.optional(S.String),
         }),
       ).annotate({ identifier: "QuerySuggestion" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          source: S.optional(__S(2144, __c67, 0)),
           querySuggestion: S.optional(__S(1570, __c49, 2)),
-          peopleSuggestion: S.optional(__S(1545, __c48, 9)),
           suggestedQuery: S.optional(S.String),
+          peopleSuggestion: S.optional(__S(1545, __c48, 9)),
+          source: S.optional(__S(2144, __c67, 0)),
         }),
       ).annotate({ identifier: "SuggestResult" });
     case 4:
@@ -4759,16 +4767,8 @@ function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          connectorName: S.optional(S.String),
-          queue: S.optional(S.String),
-          debugOptions: S.optional(__S(2336, __c73, 0)),
-        }),
-      ).annotate({ identifier: "UnreserveItemsRequest" });
-    case 1:
-      return S.suspend(() =>
         S.Extend(
-          __S(1600, __c50, 0),
+          __S(2368, __c74, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -4806,8 +4806,8 @@ function __c52(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          schema: S.optional(__S(508, __c15, 28)),
           validateOnly: S.optional(S.Boolean),
-          schema: S.optional(__S(507, __c15, 27)),
           debugOptions: S.optional(__S(2336, __c73, 0)),
         }),
       ).annotate({ identifier: "UpdateSchemaRequest" });
@@ -4835,8 +4835,8 @@ function __c53(j: number): any {
         S.Extend(
           __S(1728, __c54, 0),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             "debugOptions.enableDebugging": S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -4872,8 +4872,8 @@ function __c55(j: number): any {
       return S.suspend(() =>
         S.Struct({
           gsuiteGroupEmail: S.optional(S.String),
-          gsuiteDomain: S.optional(S.Boolean),
           gsuiteUserEmail: S.optional(S.String),
+          gsuiteDomain: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GSuitePrincipal" });
   }
@@ -4883,9 +4883,9 @@ function __c56(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          debugOptions: S.optional(__S(2336, __c73, 0)),
           source: S.optional(__S(1953, __c61, 1)),
           updateMask: S.optional(S.String),
+          debugOptions: S.optional(__S(2336, __c73, 0)),
         }),
       ).annotate({ identifier: "UpdateDataSourceRequest" });
     case 1:
@@ -4930,8 +4930,8 @@ function __c58(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          connectorName: S.optional(S.String),
           debugOptions: S.optional(__S(2336, __c73, 0)),
+          connectorName: S.optional(S.String),
         }),
       ).annotate({ identifier: "StartUploadItemRequest" });
     case 1:
@@ -4998,14 +4998,14 @@ function __c61(j: number): any {
       return S.suspend(() =>
         S.Struct({
           returnThumbnailUrls: S.optional(S.Boolean),
-          disableServing: S.optional(S.Boolean),
-          operationIds: S.optional(__S(1984, __c62, 0)),
-          shortName: S.optional(S.String),
           displayName: S.optional(S.String),
-          itemsVisibility: S.optional(__S(1952, __c61, 0)),
-          indexingServiceAccounts: S.optional(__S(1984, __c62, 0)),
           name: S.optional(S.String),
           disableModifications: S.optional(S.Boolean),
+          indexingServiceAccounts: S.optional(__S(1984, __c62, 0)),
+          shortName: S.optional(S.String),
+          disableServing: S.optional(S.Boolean),
+          operationIds: S.optional(__S(1984, __c62, 0)),
+          itemsVisibility: S.optional(__S(1952, __c61, 0)),
         }),
       ).annotate({ identifier: "DataSource" });
   }
@@ -5025,18 +5025,18 @@ function __c63(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(2017, __c63, 1)),
           code: S.optional(S.Number),
           message: S.optional(S.String),
+          details: S.optional(__S(2017, __c63, 1)),
         }),
       ).annotate({ identifier: "Status" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          response: S.optional(__S(2016, __c63, 0)),
           done: S.optional(S.Boolean),
           error: S.optional(__S(2018, __c63, 2)),
           metadata: S.optional(__S(2016, __c63, 0)),
+          response: S.optional(__S(2016, __c63, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
@@ -5094,12 +5094,12 @@ function __c68(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          timestampValue: S.optional(S.String),
-          booleanValue: S.optional(S.Boolean),
           doubleValue: S.optional(S.Number),
+          booleanValue: S.optional(S.Boolean),
+          timestampValue: S.optional(S.String),
+          dateValue: S.optional(__S(2080, __c65, 0)),
           integerValue: S.optional(S.String),
           stringValue: S.optional(S.String),
-          dateValue: S.optional(__S(2080, __c65, 0)),
         }),
       ).annotate({ identifier: "Value" });
     case 1:
@@ -5114,8 +5114,8 @@ function __c68(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          logicOperator: S.optional(S.String),
           subFilters: S.optional(__S(2178, __c68, 2)),
+          logicOperator: S.optional(S.String),
         }),
       ).annotate({ identifier: "CompositeFilter" });
     case 4:
@@ -5128,8 +5128,8 @@ function __c68(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          objectType: S.optional(S.String),
           filter: S.optional(__S(2180, __c68, 4)),
+          objectType: S.optional(S.String),
         }),
       ).annotate({ identifier: "FilterOptions" });
     case 6:
@@ -5137,8 +5137,8 @@ function __c68(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          source: S.optional(__S(2144, __c67, 0)),
           filterOptions: S.optional(__S(2182, __c68, 6)),
+          source: S.optional(__S(2144, __c67, 0)),
         }),
       ).annotate({ identifier: "DataSourceRestriction" });
     case 8:
@@ -5150,11 +5150,11 @@ function __c69(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          operatorName: S.optional(S.String),
+          objectType: S.optional(S.String),
           integerFacetingOptions: S.optional(__S(2112, __c66, 0)),
           numFacetBuckets: S.optional(S.Number),
-          operatorName: S.optional(S.String),
           sourceName: S.optional(S.String),
-          objectType: S.optional(S.String),
         }),
       ).annotate({ identifier: "FacetOptions" });
     case 1:
@@ -5173,54 +5173,54 @@ function __c70(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sourceImportance: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SourceScoringConfig" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          numResults: S.optional(S.Number),
-          numSuggestions: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "SourceCrowdingConfig" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          scoringConfig: S.optional(__S(2240, __c70, 0)),
-          crowdingConfig: S.optional(__S(2241, __c70, 1)),
-          source: S.optional(__S(2144, __c67, 0)),
-        }),
-      ).annotate({ identifier: "SourceConfig" });
-    case 3:
-      return S.Array(__S(2242, __c70, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
           disableFreshness: S.optional(S.Boolean),
           disablePersonalization: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ScoringConfig" });
-    case 5:
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          forceDisableSupplementalResults: S.optional(S.Boolean),
           forceVerbatimMode: S.optional(S.Boolean),
+          forceDisableSupplementalResults: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "QueryInterpretationConfig" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          numSuggestions: S.optional(S.Number),
+          numResults: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SourceCrowdingConfig" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          sourceImportance: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SourceScoringConfig" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          crowdingConfig: S.optional(__S(2242, __c70, 2)),
+          source: S.optional(__S(2144, __c67, 0)),
+          scoringConfig: S.optional(__S(2243, __c70, 3)),
+        }),
+      ).annotate({ identifier: "SourceConfig" });
+    case 5:
+      return S.Array(__S(2244, __c70, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          defaultFacetOptions: S.optional(__S(2209, __c69, 1)),
-          returnResultThumbnailUrls: S.optional(S.Boolean),
-          operationIds: S.optional(__S(1984, __c62, 0)),
-          dataSourceRestrictions: S.optional(__S(2184, __c68, 8)),
-          enableAuditLog: S.optional(S.Boolean),
-          sourceConfig: S.optional(__S(2243, __c70, 3)),
-          scoringConfig: S.optional(__S(2244, __c70, 4)),
+          scoringConfig: S.optional(__S(2240, __c70, 0)),
           displayName: S.optional(S.String),
+          enableAuditLog: S.optional(S.Boolean),
+          defaultFacetOptions: S.optional(__S(2209, __c69, 1)),
+          queryInterpretationConfig: S.optional(__S(2241, __c70, 1)),
           name: S.optional(S.String),
           defaultSortOptions: S.optional(__S(2210, __c69, 2)),
-          queryInterpretationConfig: S.optional(__S(2245, __c70, 5)),
+          sourceConfig: S.optional(__S(2245, __c70, 5)),
+          returnResultThumbnailUrls: S.optional(S.Boolean),
+          dataSourceRestrictions: S.optional(__S(2184, __c68, 8)),
+          operationIds: S.optional(__S(1984, __c62, 0)),
         }),
       ).annotate({ identifier: "SearchApplication" });
   }
@@ -5230,11 +5230,11 @@ function __c71(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          version: S.optional(S.String.pipe(T.Query())),
           mode: S.optional(S.String.pipe(T.Query())),
           "debugOptions.enableDebugging": S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
+          version: S.optional(S.String.pipe(T.Query())),
           connectorName: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -5249,16 +5249,8 @@ function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          queue: S.optional(S.String),
-          debugOptions: S.optional(__S(2336, __c73, 0)),
-          connectorName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DeleteQueueItemsRequest" });
-    case 1:
-      return S.suspend(() =>
         S.Extend(
-          __S(2304, __c72, 0),
+          __S(2368, __c74, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
           }),
@@ -5280,6 +5272,18 @@ function __c73(j: number): any {
           enableDebugging: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DebugOptions" });
+  }
+}
+function __c74(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connectorName: S.optional(S.String),
+          queue: S.optional(S.String),
+          debugOptions: S.optional(__S(2336, __c73, 0)),
+        }),
+      ).annotate({ identifier: "DeleteQueueItemsRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

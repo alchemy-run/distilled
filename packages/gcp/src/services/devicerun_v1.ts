@@ -105,22 +105,96 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type StringMap = { [key: string]: string | undefined };
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap | undefined;
-  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string | undefined;
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string | undefined;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap | undefined;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string | undefined;
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: StringMap | undefined;
 }
 export interface GetProjectsLocationsDevicesRequest {
   /** Required. The name of the device. Format: `projects/{project}/locations/global/devices/{device}`. */
   name: string;
 }
 export type CatalogDevicePlatformEnum = "PLATFORM_UNSPECIFIED" | "ANDROID" | "IOS";
+/** Screen measurements of a device. */
+export interface CatalogScreenMetrics {
+  /** Output only. Width in pixels. */
+  widthPx?: number | undefined;
+  /** Output only. Height in pixels. */
+  heightPx?: number | undefined;
+  /** Output only. Pixel density in dots per inch (dpi). */
+  densityDpi?: number | undefined;
+}
+export type CatalogDeviceHardwareTypeEnum = "HARDWARE_TYPE_UNSPECIFIED" | "PHYSICAL" | "VIRTUAL";
+export type CatalogDeviceAccessDeniedReasonsItemEnum =
+  | "ACCESS_DENIED_REASON_UNSPECIFIED"
+  | "EULA_NOT_ACCEPTED";
+export type CatalogDeviceAccessDeniedReasonsItemEnumList =
+  Array<CatalogDeviceAccessDeniedReasonsItemEnum>;
+export type CatalogDeviceFormFactorEnum =
+  | "FORM_FACTOR_UNSPECIFIED"
+  | "PHONE"
+  | "TABLET"
+  | "WEARABLE"
+  | "TV";
+export type StringList = Array<string>;
+/** Android-specific device attributes. */
+export interface CatalogAndroidDeviceDetails {
+  /** Output only. Mirrors the AOSP `ro.build.type` property, e.g. "user", "userdebug", "eng". Empty if unknown. */
+  buildType?: string | undefined;
+  /** Output only. Lists ABIs supported by the device (android.os.Build.SUPPORTED_ABIS), most preferred first, e.g. "arm64-v8a". */
+  supportedAbis?: StringList | undefined;
+}
+export type CatalogDeviceAvailabilityAvailableEnum =
+  | "AVAILABILITY_UNSPECIFIED"
+  | "AVAILABILITY_NONE"
+  | "AVAILABILITY_LOW"
+  | "AVAILABILITY_MEDIUM"
+  | "AVAILABILITY_HIGH";
+export type CatalogDeviceAvailabilityCapacityEnum =
+  | "CAPACITY_UNSPECIFIED"
+  | "CAPACITY_NONE"
+  | "CAPACITY_LOW"
+  | "CAPACITY_MEDIUM"
+  | "CAPACITY_HIGH";
+/** Fleet availability for a device configuration. */
+export interface CatalogDeviceAvailability {
+  /** Output only. Specifies the current availability bucket (idle, immediately allocatable devices) for this device configuration. This is a best-effort snapshot, refreshed periodically. It fluctuates depending on traffic as other requests allocate devices. */
+  available?: CatalogDeviceAvailabilityAvailableEnum | undefined;
+  /** Output only. Specifies the current capacity bucket for this device configuration. Represents the total number of online devices (idle or in use). */
+  capacity?: CatalogDeviceAvailabilityCapacityEnum | undefined;
+}
+/** iOS-specific device attributes. Reserved for future iOS-only fields. */
+export type CatalogIosDeviceDetails = GoogleLongrunningCancelOperationRequest;
+/** The lab hosting a device. */
+export interface CatalogLabInfo {
+  /** Output only. Display name of the lab where the device is hosted. If empty, the device is hosted in a Google owned lab. */
+  displayName?: string | undefined;
+  /** Output only. The Unicode country/region code (CLDR) of the lab where the device is hosted, e.g. "US" for United States, "KR" for South Korea. Empty when the hosting region is not published. */
+  regionCode?: string | undefined;
+}
+export type CatalogLifecycleStateEnum = "STATE_UNSPECIFIED" | "PREVIEW" | "ACTIVE" | "DEPRECATED";
+/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
+export interface Devicerun_Date {
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number | undefined;
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  month?: number | undefined;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  day?: number | undefined;
+}
+/** Catalog resource lifecycle: maturity state plus key lifecycle dates. */
+export interface CatalogLifecycle {
+  /** Output only. Specifies the current maturity state of the resource. */
+  state?: CatalogLifecycleStateEnum | undefined;
+  /** Output only. Specifies the date the resource is scheduled to be removed from the catalog. Only set when `state == DEPRECATED`. */
+  removalDate?: Devicerun_Date | undefined;
+}
 /** Per-product metadata for the Automation (DeviceRun) product. */
 export type CatalogAutomationSupport = GoogleLongrunningCancelOperationRequest;
 /** Per-product metadata for the DeviceStreaming product. */
@@ -136,116 +210,42 @@ export interface CatalogSupportedProduct {
   deviceStreaming?: CatalogDeviceStreamingSupport | undefined;
 }
 export type CatalogSupportedProductList = Array<CatalogSupportedProduct>;
-/** The lab hosting a device. */
-export interface CatalogLabInfo {
-  /** Output only. The Unicode country/region code (CLDR) of the lab where the device is hosted, e.g. "US" for United States, "KR" for South Korea. Empty when the hosting region is not published. */
-  regionCode?: string | undefined;
-  /** Output only. Display name of the lab where the device is hosted. If empty, the device is hosted in a Google owned lab. */
-  displayName?: string | undefined;
-}
-export type CatalogDeviceHardwareTypeEnum = "HARDWARE_TYPE_UNSPECIFIED" | "PHYSICAL" | "VIRTUAL";
-/** Screen measurements of a device. */
-export interface CatalogScreenMetrics {
-  /** Output only. Width in pixels. */
-  widthPx?: number | undefined;
-  /** Output only. Height in pixels. */
-  heightPx?: number | undefined;
-  /** Output only. Pixel density in dots per inch (dpi). */
-  densityDpi?: number | undefined;
-}
-export type StringList = Array<string>;
-/** Android-specific device attributes. */
-export interface CatalogAndroidDeviceDetails {
-  /** Output only. Mirrors the AOSP `ro.build.type` property, e.g. "user", "userdebug", "eng". Empty if unknown. */
-  buildType?: string | undefined;
-  /** Output only. Lists ABIs supported by the device (android.os.Build.SUPPORTED_ABIS), most preferred first, e.g. "arm64-v8a". */
-  supportedAbis?: StringList | undefined;
-}
-export type CatalogDeviceAccessDeniedReasonsItemEnum =
-  | "ACCESS_DENIED_REASON_UNSPECIFIED"
-  | "EULA_NOT_ACCEPTED";
-export type CatalogDeviceAccessDeniedReasonsItemEnumList =
-  Array<CatalogDeviceAccessDeniedReasonsItemEnum>;
-export type CatalogDeviceAvailabilityCapacityEnum =
-  | "CAPACITY_UNSPECIFIED"
-  | "CAPACITY_NONE"
-  | "CAPACITY_LOW"
-  | "CAPACITY_MEDIUM"
-  | "CAPACITY_HIGH";
-export type CatalogDeviceAvailabilityAvailableEnum =
-  | "AVAILABILITY_UNSPECIFIED"
-  | "AVAILABILITY_NONE"
-  | "AVAILABILITY_LOW"
-  | "AVAILABILITY_MEDIUM"
-  | "AVAILABILITY_HIGH";
-/** Fleet availability for a device configuration. */
-export interface CatalogDeviceAvailability {
-  /** Output only. Specifies the current capacity bucket for this device configuration. Represents the total number of online devices (idle or in use). */
-  capacity?: CatalogDeviceAvailabilityCapacityEnum | undefined;
-  /** Output only. Specifies the current availability bucket (idle, immediately allocatable devices) for this device configuration. This is a best-effort snapshot, refreshed periodically. It fluctuates depending on traffic as other requests allocate devices. */
-  available?: CatalogDeviceAvailabilityAvailableEnum | undefined;
-}
-/** iOS-specific device attributes. Reserved for future iOS-only fields. */
-export type CatalogIosDeviceDetails = GoogleLongrunningCancelOperationRequest;
-export type CatalogDeviceFormFactorEnum =
-  | "FORM_FACTOR_UNSPECIFIED"
-  | "PHONE"
-  | "TABLET"
-  | "WEARABLE"
-  | "TV";
-export type CatalogLifecycleStateEnum = "STATE_UNSPECIFIED" | "PREVIEW" | "ACTIVE" | "DEPRECATED";
-/** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
-export interface Devicerun_Date {
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number | undefined;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number | undefined;
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number | undefined;
-}
-/** Catalog resource lifecycle: maturity state plus key lifecycle dates. */
-export interface CatalogLifecycle {
-  /** Output only. Specifies the current maturity state of the resource. */
-  state?: CatalogLifecycleStateEnum | undefined;
-  /** Output only. Specifies the date the resource is scheduled to be removed from the catalog. Only set when `state == DEPRECATED`. */
-  removalDate?: Devicerun_Date | undefined;
-}
 /** A single routable device configuration in the catalog. */
 export interface CatalogDevice {
   /** Output only. Specifies the platform of the device. */
   platform?: CatalogDevicePlatformEnum | undefined;
-  /** Output only. Products/Services supported by this device. */
-  supportedProducts?: CatalogSupportedProductList | undefined;
-  /** Output only. Provides a human-readable display name, e.g. "Pixel 5". */
-  displayName?: string | undefined;
-  /** Output only. The lab hosting this device. */
-  labInfo?: CatalogLabInfo | undefined;
-  /** Output only. Indicates whether the device is physical or virtual. */
-  hardwareType?: CatalogDeviceHardwareTypeEnum | undefined;
-  /** Output only. Measurements of the primary device screen. Informational only. Unset for devices without a screen (e.g. some wearables). */
-  primaryScreen?: CatalogScreenMetrics | undefined;
-  /** Output only. Contains Android-specific attributes (set when platform == ANDROID). */
-  androidDetails?: CatalogAndroidDeviceDetails | undefined;
-  /** Output only. Reasons for access denial. This model is accessible/usable if this list is empty, otherwise the model is viewable only. */
-  accessDeniedReasons?: CatalogDeviceAccessDeniedReasonsItemEnumList | undefined;
-  /** Output only. Provides a human-readable model identifier for this device, independent of OS version. May be empty. Platform-dependent: * Android physical: hardware codename (android.os.Build.DEVICE), e.g. "shiba". * Android virtual: AVD model identifier, e.g. "MediumPhone.arm". * iOS: model identifier, e.g. "iphone14pro". */
-  modelCode?: string | undefined;
-  /** Output only. Reports the current fleet availability for this device configuration. */
-  availability?: CatalogDeviceAvailability | undefined;
-  /** Output only. Additional information. Informational only. May change over the lifecycle of a device. */
-  labels?: StringMap | undefined;
   /** Identifier. Identifies the device resource. Format: `projects/{project}/locations/{location}/devices/{device}`. The {device} segment is an opaque, stable string. Clients must not parse it to derive or assume device-specific details. */
   name?: string | undefined;
-  /** Output only. Specifies the hardware manufacturer of the device. */
-  manufacturer?: string | undefined;
+  /** Output only. Provides a human-readable model identifier for this device, independent of OS version. May be empty. Platform-dependent: * Android physical: hardware codename (android.os.Build.DEVICE), e.g. "shiba". * Android virtual: AVD model identifier, e.g. "MediumPhone.arm". * iOS: model identifier, e.g. "iphone14pro". */
+  modelCode?: string | undefined;
+  /** Output only. Provides a human-readable display name, e.g. "Pixel 5". */
+  displayName?: string | undefined;
+  /** Output only. Measurements of the primary device screen. Informational only. Unset for devices without a screen (e.g. some wearables). */
+  primaryScreen?: CatalogScreenMetrics | undefined;
+  /** Output only. Additional information. Informational only. May change over the lifecycle of a device. */
+  labels?: StringMap | undefined;
+  /** Output only. Indicates whether the device is physical or virtual. */
+  hardwareType?: CatalogDeviceHardwareTypeEnum | undefined;
+  /** Output only. Reasons for access denial. This model is accessible/usable if this list is empty, otherwise the model is viewable only. */
+  accessDeniedReasons?: CatalogDeviceAccessDeniedReasonsItemEnumList | undefined;
   /** Output only. Specifies the OS version, e.g. "30" (Android API level) or "17.4" (iOS). */
   osVersion?: string | undefined;
-  /** Output only. Contains iOS-specific attributes (set when platform == IOS). */
-  iosDetails?: GoogleLongrunningCancelOperationRequest | undefined;
   /** Output only. Specifies the form factor of the device. */
   formFactor?: CatalogDeviceFormFactorEnum | undefined;
+  /** Output only. Contains Android-specific attributes (set when platform == ANDROID). */
+  androidDetails?: CatalogAndroidDeviceDetails | undefined;
+  /** Output only. Reports the current fleet availability for this device configuration. */
+  availability?: CatalogDeviceAvailability | undefined;
+  /** Output only. Specifies the hardware manufacturer of the device. */
+  manufacturer?: string | undefined;
+  /** Output only. Contains iOS-specific attributes (set when platform == IOS). */
+  iosDetails?: GoogleLongrunningCancelOperationRequest | undefined;
+  /** Output only. The lab hosting this device. */
+  labInfo?: CatalogLabInfo | undefined;
   /** Output only. The device lifecycle (maturity stage and removal date). */
   lifecycle?: CatalogLifecycle | undefined;
+  /** Output only. Products/Services supported by this device. */
+  supportedProducts?: CatalogSupportedProductList | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -254,17 +254,15 @@ export interface GetProjectsLocationsOperationsRequest {
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface GoogleRpcStatus {
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList | undefined;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface GoogleLongrunningOperation {
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean | undefined;
   /** The error result of the operation in case of failure or cancellation. */
   error?: GoogleRpcStatus | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
@@ -273,50 +271,52 @@ export interface GoogleLongrunningOperation {
   name?: string | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap | undefined;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
 }
 export interface GetProjectsLocationsSoftwareVersionsRequest {
   /** Required. The name of the software version. Format: `projects/{project}/locations/global/softwareVersions/{software_version}`. */
   name: string;
 }
+export type CatalogSoftwareVersionSoftwareTypeEnum =
+  | "SOFTWARE_TYPE_UNSPECIFIED"
+  | "ANDROIDX_TEST_ORCHESTRATOR"
+  | "XCODE";
+/** AndroidX Test Orchestrator-specific attributes. Reserved for future orchestrator-only fields. */
+export type CatalogAndroidxTestOrchestratorDetails = GoogleLongrunningCancelOperationRequest;
 /** Xcode-specific attributes. */
 export interface CatalogXcodeDetails {
   /** Output only. Lists the iOS versions this Xcode can run tests against, e.g. "16.6". This is a property of the toolchain, so it says nothing about whether a device on that iOS version is available; list the `Device` collection to find out. */
   supportedIosVersions?: StringList | undefined;
 }
-/** AndroidX Test Orchestrator-specific attributes. Reserved for future orchestrator-only fields. */
-export type CatalogAndroidxTestOrchestratorDetails = GoogleLongrunningCancelOperationRequest;
-export type CatalogSoftwareVersionSoftwareTypeEnum =
-  | "SOFTWARE_TYPE_UNSPECIFIED"
-  | "ANDROIDX_TEST_ORCHESTRATOR"
-  | "XCODE";
 /** A single software version in the catalog. */
 export interface CatalogSoftwareVersion {
-  /** Identifier. Identifies the software version resource. Format: `projects/{project}/locations/{location}/softwareVersions/{software_version}`. The {software_version} segment is an opaque, stable string. Clients must not parse it to derive or assume the version. */
-  name?: string | undefined;
-  /** Output only. Indicates whether the system uses this version when a request does not select one explicitly. Exactly one version per `software_type` is the default, and it may change over time. */
-  isDefault?: boolean | undefined;
-  /** Output only. Contains Xcode-specific attributes (set when software_type == XCODE). */
-  xcodeDetails?: CatalogXcodeDetails | undefined;
-  /** Output only. Provides a human-readable name for this version, e.g. "AndroidX Test Orchestrator 1.4.1". */
-  displayName?: string | undefined;
-  /** Output only. The version lifecycle (maturity stage and removal date). */
-  lifecycle?: CatalogLifecycle | undefined;
   /** Output only. Specifies the version identifier, e.g. "1.4.1". Unique within a `software_type`. */
   version?: string | undefined;
-  /** Output only. Contains AndroidX Test Orchestrator-specific attributes (set when software_type == ANDROIDX_TEST_ORCHESTRATOR). */
-  androidxTestOrchestratorDetails?: GoogleLongrunningCancelOperationRequest | undefined;
+  /** Identifier. Identifies the software version resource. Format: `projects/{project}/locations/{location}/softwareVersions/{software_version}`. The {software_version} segment is an opaque, stable string. Clients must not parse it to derive or assume the version. */
+  name?: string | undefined;
+  /** Output only. Provides a human-readable name for this version, e.g. "AndroidX Test Orchestrator 1.4.1". */
+  displayName?: string | undefined;
+  /** Output only. Indicates whether the system uses this version when a request does not select one explicitly. Exactly one version per `software_type` is the default, and it may change over time. */
+  isDefault?: boolean | undefined;
   /** Output only. Specifies which software this is a version of. Filter on this field to narrow the collection to a single kind of software, for example `software_type = "ANDROIDX_TEST_ORCHESTRATOR"`. */
   softwareType?: CatalogSoftwareVersionSoftwareTypeEnum | undefined;
+  /** Output only. Contains AndroidX Test Orchestrator-specific attributes (set when software_type == ANDROIDX_TEST_ORCHESTRATOR). */
+  androidxTestOrchestratorDetails?: GoogleLongrunningCancelOperationRequest | undefined;
+  /** Output only. The version lifecycle (maturity stage and removal date). */
+  lifecycle?: CatalogLifecycle | undefined;
+  /** Output only. Contains Xcode-specific attributes (set when software_type == XCODE). */
+  xcodeDetails?: CatalogXcodeDetails | undefined;
 }
 export interface ListProjectsLocationsRequest {
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string | undefined;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList | undefined;
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number | undefined;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string | undefined;
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string | undefined;
 }
@@ -331,30 +331,30 @@ export interface ListLocationsResponse {
 export interface ListProjectsLocationsDevicesRequest {
   /** Optional. The maximum number of devices to return. The server may return fewer items than this value. */
   pageSize?: number | undefined;
+  /** Optional. An AIP-160 (https://google.aip.dev/160) filter expression restricting which devices are returned. An empty filter returns all devices. Filtering is supported over the `Device` fields, including nested fields via dot-path. Enum and string values must be double-quoted. Examples: * `platform = "ANDROID"` * `platform = "ANDROID" AND os_version = "34"` * `hardware_type = "PHYSICAL" AND form_factor = "PHONE"` * `android_details.build_type = "userdebug"` * `availability.capacity = "HIGH"` */
+  filter?: string | undefined;
   /** Optional. A page token, received from a previous `ListDevices` call. Provide this to receive the subsequent page. When paginating, all other parameters provided to `ListDevices` must match the call that provided the page token. */
   pageToken?: string | undefined;
   /** Required. The parent of the collection of devices. Format: `projects/{project}/locations/global`. */
   parent: string;
-  /** Optional. An AIP-160 (https://google.aip.dev/160) filter expression restricting which devices are returned. An empty filter returns all devices. Filtering is supported over the `Device` fields, including nested fields via dot-path. Enum and string values must be double-quoted. Examples: * `platform = "ANDROID"` * `platform = "ANDROID" AND os_version = "34"` * `hardware_type = "PHYSICAL" AND form_factor = "PHONE"` * `android_details.build_type = "userdebug"` * `availability.capacity = "HIGH"` */
-  filter?: string | undefined;
 }
 export type CatalogDeviceList = Array<CatalogDevice>;
 /** Response including listed devices. */
 export interface CatalogListDevicesResponse {
-  /** Token to receive the next page of devices. This will be absent if the end of the response list has been reached. */
-  nextPageToken?: string | undefined;
   /** The list of devices. */
   devices?: CatalogDeviceList | undefined;
+  /** Token to receive the next page of devices. This will be absent if the end of the response list has been reached. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
-  /** The standard list page token. */
-  pageToken?: string | undefined;
   /** The standard list filter. */
   filter?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list page size. */
   pageSize?: number | undefined;
+  /** The standard list page token. */
+  pageToken?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean | undefined;
 }
@@ -369,22 +369,22 @@ export interface GoogleLongrunningListOperationsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsSoftwareVersionsRequest {
-  /** Optional. A page token, received from a previous `ListSoftwareVersions` call. Provide this to receive the subsequent page. When paginating, all other parameters provided to `ListSoftwareVersions` must match the call that provided the page token. */
-  pageToken?: string | undefined;
   /** Optional. The maximum number of software versions to return. The server may return fewer items than this value. */
   pageSize?: number | undefined;
-  /** Required. The parent of the collection of software versions. Format: `projects/{project}/locations/global`. */
-  parent: string;
   /** Optional. An AIP-160 (https://google.aip.dev/160) filter expression restricting which software versions are returned. An empty filter returns all software versions. Filtering is supported over the `SoftwareVersion` fields, including nested fields via dot-path. Enum and string values must be double-quoted. Examples: * `software_type = "ANDROIDX_TEST_ORCHESTRATOR"` * `software_type = "ANDROIDX_TEST_ORCHESTRATOR" AND is_default = true` * `lifecycle.state = "ACTIVE"` * `version = "1.4.1"` */
   filter?: string | undefined;
+  /** Optional. A page token, received from a previous `ListSoftwareVersions` call. Provide this to receive the subsequent page. When paginating, all other parameters provided to `ListSoftwareVersions` must match the call that provided the page token. */
+  pageToken?: string | undefined;
+  /** Required. The parent of the collection of software versions. Format: `projects/{project}/locations/global`. */
+  parent: string;
 }
 export type CatalogSoftwareVersionList = Array<CatalogSoftwareVersion>;
 /** Response including listed software versions. */
 export interface CatalogListSoftwareVersionsResponse {
-  /** The list of software versions. */
-  softwareVersions?: CatalogSoftwareVersionList | undefined;
   /** Token to receive the next page of software versions. This will be absent if the end of the response list has been reached. */
   nextPageToken?: string | undefined;
+  /** The list of software versions. */
+  softwareVersions?: CatalogSoftwareVersionList | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -590,10 +590,10 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           extraLocationTypes: S.optional(__S(208, __c13, 0).pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -620,9 +620,9 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -636,8 +636,8 @@ function __c1(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           devices: S.optional(__S(17, __c1, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "CatalogListDevicesResponse" });
   }
@@ -647,10 +647,10 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -677,10 +677,10 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -694,8 +694,8 @@ function __c3(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          softwareVersions: S.optional(__S(49, __c3, 1)),
           nextPageToken: S.optional(S.String),
+          softwareVersions: S.optional(__S(49, __c3, 1)),
         }),
       ).annotate({ identifier: "CatalogListSoftwareVersionsResponse" });
   }
@@ -762,11 +762,11 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(160, __c10, 0)),
-          labels: S.optional(__S(144, __c9, 0)),
           displayName: S.optional(S.String),
-          name: S.optional(S.String),
           locationId: S.optional(S.String),
+          metadata: S.optional(__S(160, __c10, 0)),
+          name: S.optional(S.String),
+          labels: S.optional(__S(144, __c9, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -804,69 +804,69 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          minimumAndroidStudioVersion: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CatalogDeviceStreamingSupport" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          automation: S.optional(__S(80, __c5, 0)),
-          deviceStreaming: S.optional(__S(192, __c12, 0)),
-        }),
-      ).annotate({ identifier: "CatalogSupportedProduct" });
-    case 2:
-      return S.Array(__S(193, __c12, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          regionCode: S.optional(S.String),
-          displayName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CatalogLabInfo" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
           widthPx: S.optional(S.Number),
           heightPx: S.optional(S.Number),
           densityDpi: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CatalogScreenMetrics" });
-    case 5:
+    case 1:
+      return S.Array(S.String);
+    case 2:
       return S.suspend(() =>
         S.Struct({
           buildType: S.optional(S.String),
           supportedAbis: S.optional(__S(208, __c13, 0)),
         }),
       ).annotate({ identifier: "CatalogAndroidDeviceDetails" });
-    case 6:
-      return S.Array(S.String);
-    case 7:
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          capacity: S.optional(S.String),
           available: S.optional(S.String),
+          capacity: S.optional(S.String),
         }),
       ).annotate({ identifier: "CatalogDeviceAvailability" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          displayName: S.optional(S.String),
+          regionCode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CatalogLabInfo" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          minimumAndroidStudioVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CatalogDeviceStreamingSupport" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          automation: S.optional(__S(80, __c5, 0)),
+          deviceStreaming: S.optional(__S(197, __c12, 5)),
+        }),
+      ).annotate({ identifier: "CatalogSupportedProduct" });
+    case 7:
+      return S.Array(__S(198, __c12, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           platform: S.optional(S.String),
-          supportedProducts: S.optional(__S(194, __c12, 2)),
-          displayName: S.optional(S.String),
-          labInfo: S.optional(__S(195, __c12, 3)),
-          hardwareType: S.optional(S.String),
-          primaryScreen: S.optional(__S(196, __c12, 4)),
-          androidDetails: S.optional(__S(197, __c12, 5)),
-          accessDeniedReasons: S.optional(__S(198, __c12, 6)),
-          modelCode: S.optional(S.String),
-          availability: S.optional(__S(199, __c12, 7)),
-          labels: S.optional(__S(144, __c9, 0)),
           name: S.optional(S.String),
-          manufacturer: S.optional(S.String),
+          modelCode: S.optional(S.String),
+          displayName: S.optional(S.String),
+          primaryScreen: S.optional(__S(192, __c12, 0)),
+          labels: S.optional(__S(144, __c9, 0)),
+          hardwareType: S.optional(S.String),
+          accessDeniedReasons: S.optional(__S(193, __c12, 1)),
           osVersion: S.optional(S.String),
-          iosDetails: S.optional(__S(80, __c5, 0)),
           formFactor: S.optional(S.String),
+          androidDetails: S.optional(__S(194, __c12, 2)),
+          availability: S.optional(__S(195, __c12, 3)),
+          manufacturer: S.optional(S.String),
+          iosDetails: S.optional(__S(80, __c5, 0)),
+          labInfo: S.optional(__S(196, __c12, 4)),
           lifecycle: S.optional(__S(225, __c14, 1)),
+          supportedProducts: S.optional(__S(199, __c12, 7)),
         }),
       ).annotate({ identifier: "CatalogDevice" });
   }
@@ -882,9 +882,9 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          day: S.optional(S.Number),
-          month: S.optional(S.Number),
           year: S.optional(S.Number),
+          month: S.optional(S.Number),
+          day: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Devicerun_Date" });
     case 1:
@@ -919,19 +919,19 @@ function __c16(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.Number),
           message: S.optional(S.String),
           details: S.optional(__S(256, __c16, 0)),
-          code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleRpcStatus" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          done: S.optional(S.Boolean),
           error: S.optional(__S(257, __c16, 1)),
           metadata: S.optional(__S(160, __c10, 0)),
           name: S.optional(S.String),
           response: S.optional(__S(160, __c10, 0)),
+          done: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleLongrunningOperation" });
   }
@@ -963,14 +963,14 @@ function __c18(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          isDefault: S.optional(S.Boolean),
-          xcodeDetails: S.optional(__S(288, __c18, 0)),
-          displayName: S.optional(S.String),
-          lifecycle: S.optional(__S(225, __c14, 1)),
           version: S.optional(S.String),
-          androidxTestOrchestratorDetails: S.optional(__S(80, __c5, 0)),
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
+          isDefault: S.optional(S.Boolean),
           softwareType: S.optional(S.String),
+          androidxTestOrchestratorDetails: S.optional(__S(80, __c5, 0)),
+          lifecycle: S.optional(__S(225, __c14, 1)),
+          xcodeDetails: S.optional(__S(288, __c18, 0)),
         }),
       ).annotate({ identifier: "CatalogSoftwareVersion" });
   }

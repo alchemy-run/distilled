@@ -106,10 +106,10 @@ export interface GetEnterprisesDevicesRequest {
 }
 /** Represents device relationships, for instance, structure/room to which the device is assigned to. */
 export interface GoogleHomeEnterpriseSdmV1ParentRelation {
-  /** Output only. The custom name of the relation -- e.g., structure/room where the device is assigned to. */
-  displayName?: string | undefined;
   /** Output only. The name of the relation -- e.g., structure/room where the device is assigned to. For example: "enterprises/XYZ/structures/ABC" or "enterprises/XYZ/structures/ABC/rooms/123" */
   parent?: string | undefined;
+  /** Output only. The custom name of the relation -- e.g., structure/room where the device is assigned to. */
+  displayName?: string | undefined;
 }
 export type GoogleHomeEnterpriseSdmV1ParentRelationList =
   Array<GoogleHomeEnterpriseSdmV1ParentRelation>;
@@ -130,10 +130,10 @@ export interface GetEnterprisesStructuresRequest {
 }
 /** Structure resource represents an instance of enterprise managed home or hotel room. */
 export interface GoogleHomeEnterpriseSdmV1Structure {
-  /** Output only. The resource name of the structure. For example: "enterprises/XYZ/structures/ABC". */
-  name?: string | undefined;
   /** Structure traits. */
   traits?: DocumentMap | undefined;
+  /** Output only. The resource name of the structure. For example: "enterprises/XYZ/structures/ABC". */
+  name?: string | undefined;
 }
 export interface GetEnterprisesStructuresRoomsRequest {
   /** The name of the room requested. For example: "enterprises/XYZ/structures/ABC/rooms/123". */
@@ -141,10 +141,10 @@ export interface GetEnterprisesStructuresRoomsRequest {
 }
 /** Room resource represents an instance of sub-space within a structure such as rooms in a hotel suite or rental apartment. */
 export interface GoogleHomeEnterpriseSdmV1Room {
-  /** Output only. The resource name of the room. For example: "enterprises/XYZ/structures/ABC/rooms/123". */
-  name?: string | undefined;
   /** Room traits. */
   traits?: DocumentMap | undefined;
+  /** Output only. The resource name of the room. For example: "enterprises/XYZ/structures/ABC/rooms/123". */
+  name?: string | undefined;
 }
 export interface ListEnterprisesDevicesRequest {
   /** The parent enterprise to list devices under. E.g. "enterprises/XYZ". */
@@ -394,8 +394,8 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
           parent: S.optional(S.String),
+          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleHomeEnterpriseSdmV1ParentRelation" });
     case 1:
@@ -432,8 +432,8 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           traits: S.optional(__S(8, __c2, 0)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleHomeEnterpriseSdmV1Structure" });
   }

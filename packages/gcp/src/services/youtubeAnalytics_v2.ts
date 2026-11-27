@@ -83,30 +83,11 @@ export class NotFound
   ) {}
 
 export interface DeleteGroupItemsRequest {
-  /** The `id` parameter specifies the YouTube group item ID of the group item that is being deleted. */
-  id?: string | undefined;
   /** This parameter can only be used in a properly authorized request. **Note:** This parameter is intended exclusively for YouTube content partners that own and manage many different YouTube channels. The `onBehalfOfContentOwner` parameter indicates that the request's authorization credentials identify a YouTube user who is acting on behalf of the content owner specified in the parameter value. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The account that the user authenticates with must be linked to the specified YouTube content owner. */
   onBehalfOfContentOwner?: string | undefined;
+  /** The `id` parameter specifies the YouTube group item ID of the group item that is being deleted. */
+  id?: string | undefined;
 }
-export type ErrorProtoLocationTypeEnum = "PATH" | "OTHER" | "PARAMETER";
-export type StringList = Array<string>;
-/** Describes one specific error. */
-export interface ErrorProto {
-  /** Debugging information, which should not be shared externally. */
-  debugInfo?: string | undefined;
-  /** A short explanation for the error, which can be shared outside Google. Please set domain, code and arguments whenever possible instead of this error message so that external APIs can build safe error messages themselves. External messages built in a RoSy interface will most likely refer to information and concepts that are not available externally and should not be exposed. It is safer if external APIs can understand the errors and decide what the error message should look like. */
-  externalErrorMessage?: string | undefined;
-  /** Error code in the error domain. This should correspond to a value of the enum type whose name is in domain. See the core error domain in error_domain.proto. */
-  code?: string | undefined;
-  locationType?: ErrorProtoLocationTypeEnum | (string & {}) | undefined;
-  /** Error arguments, to be used when building user-friendly error messages given the error domain and code. Different error codes require different arguments. */
-  argument?: StringList | undefined;
-  /** Location of the error, as specified by the location type. If location_type is PATH, this should be a path to a field that's relative to the request, using FieldPath notation (net/proto2/util/public/field_path.h). Examples: authenticated_user.gaia_id resource.address[2].country */
-  location?: string | undefined;
-  /** Error domain. RoSy services can define their own domain and error codes. This should normally be the name of an enum type, such as: gdata.CoreErrorDomain */
-  domain?: string | undefined;
-}
-export type ErrorProtoList = Array<ErrorProto>;
 export type ErrorsCodeEnum =
   | "BAD_REQUEST"
   | "FORBIDDEN"
@@ -116,14 +97,33 @@ export type ErrorsCodeEnum =
   | "PRECONDITION_FAILED"
   | "INTERNAL_ERROR"
   | "SERVICE_UNAVAILABLE";
+export type ErrorProtoLocationTypeEnum = "PATH" | "OTHER" | "PARAMETER";
+export type StringList = Array<string>;
+/** Describes one specific error. */
+export interface ErrorProto {
+  /** Debugging information, which should not be shared externally. */
+  debugInfo?: string | undefined;
+  /** Error domain. RoSy services can define their own domain and error codes. This should normally be the name of an enum type, such as: gdata.CoreErrorDomain */
+  domain?: string | undefined;
+  locationType?: ErrorProtoLocationTypeEnum | (string & {}) | undefined;
+  /** A short explanation for the error, which can be shared outside Google. Please set domain, code and arguments whenever possible instead of this error message so that external APIs can build safe error messages themselves. External messages built in a RoSy interface will most likely refer to information and concepts that are not available externally and should not be exposed. It is safer if external APIs can understand the errors and decide what the error message should look like. */
+  externalErrorMessage?: string | undefined;
+  /** Error code in the error domain. This should correspond to a value of the enum type whose name is in domain. See the core error domain in error_domain.proto. */
+  code?: string | undefined;
+  /** Error arguments, to be used when building user-friendly error messages given the error domain and code. Different error codes require different arguments. */
+  argument?: StringList | undefined;
+  /** Location of the error, as specified by the location type. If location_type is PATH, this should be a path to a field that's relative to the request, using FieldPath notation (net/proto2/util/public/field_path.h). Examples: authenticated_user.gaia_id resource.address[2].country */
+  location?: string | undefined;
+}
+export type ErrorProtoList = Array<ErrorProto>;
 /** Request Error information. The presence of an error field signals that the operation has failed. */
 export interface Errors {
+  /** Global error code. Deprecated and ignored. Set custom error codes in ErrorProto.domain and ErrorProto.code instead. */
+  code?: ErrorsCodeEnum | (string & {}) | undefined;
   /** Specific error description and codes */
   error?: ErrorProtoList | undefined;
   /** Request identifier generated by the service, which can be used to identify the error in the logs */
   requestId?: string | undefined;
-  /** Global error code. Deprecated and ignored. Set custom error codes in ErrorProto.domain and ErrorProto.code instead. */
-  code?: ErrorsCodeEnum | (string & {}) | undefined;
 }
 /** Empty response. */
 export interface EmptyResponse {
@@ -131,42 +131,35 @@ export interface EmptyResponse {
   errors?: Errors | undefined;
 }
 export interface DeleteGroupsRequest {
-  /** The `id` parameter specifies the YouTube group ID of the group that is being deleted. */
-  id?: string | undefined;
   /** This parameter can only be used in a properly authorized request. **Note:** This parameter is intended exclusively for YouTube content partners that own and manage many different YouTube channels. The `onBehalfOfContentOwner` parameter indicates that the request's authorization credentials identify a YouTube user who is acting on behalf of the content owner specified in the parameter value. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The account that the user authenticates with must be linked to the specified YouTube content owner. */
   onBehalfOfContentOwner?: string | undefined;
+  /** The `id` parameter specifies the YouTube group ID of the group that is being deleted. */
+  id?: string | undefined;
 }
 export interface GroupItemResource {
-  /** The channel, video, playlist, or asset ID that YouTube uses to uniquely identify the item that is being added to the group. */
-  id?: string | undefined;
   /** Identifies the type of resource being added to the group. Valid values for this property are: * `youtube#channel` * `youtube#playlist` * `youtube#video` * `youtubePartner#asset` */
   kind?: string | undefined;
+  /** The channel, video, playlist, or asset ID that YouTube uses to uniquely identify the item that is being added to the group. */
+  id?: string | undefined;
 }
 /** A group item. */
 export interface GroupItem {
-  /** The ID that YouTube uses to uniquely identify the `channel`, `video`, `playlist`, or `asset` resource that is included in the group. Note that this ID refers specifically to the inclusion of that resource in a particular group and is different than the channel ID, video ID, playlist ID, or asset ID that uniquely identifies the resource itself. The `resource.id` property's value specifies the unique channel, video, playlist, or asset ID. */
-  id?: string | undefined;
-  /** Apiary error details */
-  errors?: Errors | undefined;
-  /** The ID that YouTube uses to uniquely identify the group that contains the item. */
-  groupId?: string | undefined;
   /** The Etag of this resource. */
   etag?: string | undefined;
-  /** The `resource` object contains information that identifies the item being added to the group. */
-  resource?: GroupItemResource | undefined;
+  /** Apiary error details */
+  errors?: Errors | undefined;
   /** Identifies the API resource's type. The value will be `youtube#groupItem`. */
   kind?: string | undefined;
+  /** The `resource` object contains information that identifies the item being added to the group. */
+  resource?: GroupItemResource | undefined;
+  /** The ID that YouTube uses to uniquely identify the `channel`, `video`, `playlist`, or `asset` resource that is included in the group. Note that this ID refers specifically to the inclusion of that resource in a particular group and is different than the channel ID, video ID, playlist ID, or asset ID that uniquely identifies the resource itself. The `resource.id` property's value specifies the unique channel, video, playlist, or asset ID. */
+  id?: string | undefined;
+  /** The ID that YouTube uses to uniquely identify the group that contains the item. */
+  groupId?: string | undefined;
 }
 export interface InsertGroupItemsRequest extends GroupItem {
   /** This parameter can only be used in a properly authorized request. **Note:** This parameter is intended exclusively for YouTube content partners that own and manage many different YouTube channels. The `onBehalfOfContentOwner` parameter indicates that the request's authorization credentials identify a YouTube user who is acting on behalf of the content owner specified in the parameter value. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The account that the user authenticates with must be linked to the specified YouTube content owner. */
   onBehalfOfContentOwner?: string | undefined;
-}
-/** A group snippet. */
-export interface GroupSnippet {
-  /** The date and time that the group was created. The value is specified in ISO 8601 (YYYY-MM-DDThh:mm:ss.sZ) format. */
-  publishedAt?: string | undefined;
-  /** The group name. The value must be a non-empty string. */
-  title?: string | undefined;
 }
 /** A group's content details. */
 export interface GroupContentDetails {
@@ -175,20 +168,27 @@ export interface GroupContentDetails {
   /** The type of resources that the group contains. Valid values for this property are: * `youtube#channel` * `youtube#playlist` * `youtube#video` * `youtubePartner#asset` */
   itemType?: string | undefined;
 }
+/** A group snippet. */
+export interface GroupSnippet {
+  /** The group name. The value must be a non-empty string. */
+  title?: string | undefined;
+  /** The date and time that the group was created. The value is specified in ISO 8601 (YYYY-MM-DDThh:mm:ss.sZ) format. */
+  publishedAt?: string | undefined;
+}
 /** A group. */
 export interface Group {
-  /** The `snippet` object contains basic information about the group, including its creation date and name. */
-  snippet?: GroupSnippet | undefined;
-  /** Identifies the API resource's type. The value will be `youtube#group`. */
-  kind?: string | undefined;
   /** The `contentDetails` object contains additional information about the group, such as the number and type of items that it contains. */
   contentDetails?: GroupContentDetails | undefined;
-  /** The Etag of this resource. */
-  etag?: string | undefined;
   /** The ID that YouTube uses to uniquely identify the group. */
   id?: string | undefined;
+  /** Identifies the API resource's type. The value will be `youtube#group`. */
+  kind?: string | undefined;
   /** Apiary error details */
   errors?: Errors | undefined;
+  /** The `snippet` object contains basic information about the group, including its creation date and name. */
+  snippet?: GroupSnippet | undefined;
+  /** The Etag of this resource. */
+  etag?: string | undefined;
 }
 export interface InsertGroupsRequest extends Group {
   /** This parameter can only be used in a properly authorized request. **Note:** This parameter is intended exclusively for YouTube content partners that own and manage many different YouTube channels. The `onBehalfOfContentOwner` parameter indicates that the request's authorization credentials identify a YouTube user who is acting on behalf of the content owner specified in the parameter value. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The account that the user authenticates with must be linked to the specified YouTube content owner. */
@@ -207,81 +207,81 @@ export interface ListGroupItemsResponse {
   kind?: string | undefined;
   /** A list of groups that match the API request parameters. Each item in the list represents a `groupItem` resource. */
   items?: GroupItemList | undefined;
-  /** Apiary error details */
-  errors?: Errors | undefined;
   /** The Etag of this resource. */
   etag?: string | undefined;
+  /** Apiary error details */
+  errors?: Errors | undefined;
 }
 export interface ListGroupsRequest {
   /** This parameter can only be used in a properly authorized request. Set this parameter's value to true to retrieve all groups owned by the authenticated user. */
   mine?: boolean | undefined;
+  /** This parameter can only be used in a properly authorized request. **Note:** This parameter is intended exclusively for YouTube content partners that own and manage many different YouTube channels. The `onBehalfOfContentOwner` parameter indicates that the request's authorization credentials identify a YouTube user who is acting on behalf of the content owner specified in the parameter value. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The account that the user authenticates with must be linked to the specified YouTube content owner. */
+  onBehalfOfContentOwner?: string | undefined;
   /** The `pageToken` parameter identifies a specific page in the result set that should be returned. In an API response, the `nextPageToken` property identifies the next page that can be retrieved. */
   pageToken?: string | undefined;
   /** The `id` parameter specifies a comma-separated list of the YouTube group ID(s) for the resource(s) that are being retrieved. Each group must be owned by the authenticated user. In a `group` resource, the `id` property specifies the group's YouTube group ID. Note that if you do not specify a value for the `id` parameter, then you must set the `mine` parameter to `true`. */
   id?: string | undefined;
-  /** This parameter can only be used in a properly authorized request. **Note:** This parameter is intended exclusively for YouTube content partners that own and manage many different YouTube channels. The `onBehalfOfContentOwner` parameter indicates that the request's authorization credentials identify a YouTube user who is acting on behalf of the content owner specified in the parameter value. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The account that the user authenticates with must be linked to the specified YouTube content owner. */
-  onBehalfOfContentOwner?: string | undefined;
 }
 export type GroupList = Array<Group>;
 /** Response message for GroupsService.ListGroups. */
 export interface ListGroupsResponse {
-  /** The token that can be used as the value of the `pageToken` parameter to retrieve the next page in the result set. */
-  nextPageToken?: string | undefined;
-  /** The Etag of this resource. */
-  etag?: string | undefined;
-  /** Apiary error details */
-  errors?: Errors | undefined;
   /** Identifies the API resource's type. The value will be `youtube#groupListResponse`. */
   kind?: string | undefined;
+  /** The token that can be used as the value of the `pageToken` parameter to retrieve the next page in the result set. */
+  nextPageToken?: string | undefined;
+  /** Apiary error details */
+  errors?: Errors | undefined;
+  /** The Etag of this resource. */
+  etag?: string | undefined;
   /** A list of groups that match the API request parameters. Each item in the list represents a `group` resource. */
   items: GroupList;
 }
 export interface QueryReportsRequest {
-  /** The currency to which financial metrics should be converted. The default is US Dollar (USD). If the result contains no financial metrics, this flag will be ignored. Responds with an error if the specified currency is not recognized.", pattern: [A-Z]{3} */
-  currency?: string | undefined;
-  /** If set to true historical data (i.e. channel data from before the linking of the channel to the content owner) will be retrieved.", */
-  includeHistoricalChannelData?: boolean | undefined;
-  /** An index of the first entity to retrieve. Use this parameter as a pagination mechanism along with the max-results parameter (one-based, inclusive).", minValue: 1 */
-  startIndex?: number | undefined;
   /** Identifies the YouTube channel or content owner for which you are retrieving YouTube Analytics data. - To request data for a YouTube user, set the `ids` parameter value to `channel==CHANNEL_ID`, where `CHANNEL_ID` specifies the unique YouTube channel ID. - To request data for a YouTube CMS content owner, set the `ids` parameter value to `contentOwner==OWNER_NAME`, where `OWNER_NAME` is the CMS name of the content owner. required: true, pattern: [a-zA-Z]+==[a-zA-Z0-9_+-]+ */
   ids?: string | undefined;
-  /** The start date for fetching YouTube Analytics data. The value should be in `YYYY-MM-DD` format. required: true, pattern: "[0-9]{4}-[0-9]{2}-[0-9]{2} */
-  startDate?: string | undefined;
   /** The maximum number of rows to include in the response.", minValue: 1 */
   maxResults?: number | undefined;
   /** The end date for fetching YouTube Analytics data. The value should be in `YYYY-MM-DD` format. required: true, pattern: [0-9]{4}-[0-9]{2}-[0-9]{2} */
   endDate?: string | undefined;
-  /** A comma-separated list of YouTube Analytics dimensions, such as `views` or `ageGroup,gender`. See the [Available Reports](/youtube/analytics/v2/available_reports) document for a list of the reports that you can retrieve and the dimensions used for those reports. Also see the [Dimensions](/youtube/analytics/v2/dimsmets/dims) document for definitions of those dimensions." pattern: [0-9a-zA-Z,]+ */
-  dimensions?: string | undefined;
-  /** A comma-separated list of YouTube Analytics metrics, such as `views` or `likes,dislikes`. See the [Available Reports](/youtube/analytics/v2/available_reports) document for a list of the reports that you can retrieve and the metrics available in each report, and see the [Metrics](/youtube/analytics/v2/dimsmets/mets) document for definitions of those metrics. required: true, pattern: [0-9a-zA-Z,]+ */
-  metrics?: string | undefined;
-  /** A comma-separated list of dimensions or metrics that determine the sort order for YouTube Analytics data. By default the sort order is ascending. The '`-`' prefix causes descending sort order.", pattern: [-0-9a-zA-Z,]+ */
-  sort?: string | undefined;
+  /** The start date for fetching YouTube Analytics data. The value should be in `YYYY-MM-DD` format. required: true, pattern: "[0-9]{4}-[0-9]{2}-[0-9]{2} */
+  startDate?: string | undefined;
+  /** The currency to which financial metrics should be converted. The default is US Dollar (USD). If the result contains no financial metrics, this flag will be ignored. Responds with an error if the specified currency is not recognized.", pattern: [A-Z]{3} */
+  currency?: string | undefined;
   /** A list of filters that should be applied when retrieving YouTube Analytics data. The [Available Reports](/youtube/analytics/v2/available_reports) document identifies the dimensions that can be used to filter each report, and the [Dimensions](/youtube/analytics/v2/dimsmets/dims) document defines those dimensions. If a request uses multiple filters, join them together with a semicolon (`;`), and the returned result table will satisfy both filters. For example, a filters parameter value of `video==dMH0bHeiRNg;country==IT` restricts the result set to include data for the given video in Italy.", */
   filters?: string | undefined;
+  /** A comma-separated list of dimensions or metrics that determine the sort order for YouTube Analytics data. By default the sort order is ascending. The '`-`' prefix causes descending sort order.", pattern: [-0-9a-zA-Z,]+ */
+  sort?: string | undefined;
+  /** An index of the first entity to retrieve. Use this parameter as a pagination mechanism along with the max-results parameter (one-based, inclusive).", minValue: 1 */
+  startIndex?: number | undefined;
+  /** A comma-separated list of YouTube Analytics dimensions, such as `views` or `ageGroup,gender`. See the [Available Reports](/youtube/analytics/v2/available_reports) document for a list of the reports that you can retrieve and the dimensions used for those reports. Also see the [Dimensions](/youtube/analytics/v2/dimsmets/dims) document for definitions of those dimensions." pattern: [0-9a-zA-Z,]+ */
+  dimensions?: string | undefined;
+  /** If set to true historical data (i.e. channel data from before the linking of the channel to the content owner) will be retrieved.", */
+  includeHistoricalChannelData?: boolean | undefined;
+  /** A comma-separated list of YouTube Analytics metrics, such as `views` or `likes,dislikes`. See the [Available Reports](/youtube/analytics/v2/available_reports) document for a list of the reports that you can retrieve and the metrics available in each report, and see the [Metrics](/youtube/analytics/v2/dimsmets/mets) document for definitions of those metrics. required: true, pattern: [0-9a-zA-Z,]+ */
+  metrics?: string | undefined;
 }
-export type DocumentList = Array<unknown>;
-export type DocumentListList = Array<DocumentList>;
 /** The description of a column of the result table. */
 export interface ResultTableColumnHeader {
   /** The name of the dimension or metric. */
   name?: string | undefined;
-  /** The type of the column (`DIMENSION` or `METRIC`). */
-  columnType?: string | undefined;
   /** The type of the data in the column (`STRING`, `INTEGER`, `FLOAT`, etc.). */
   dataType?: string | undefined;
+  /** The type of the column (`DIMENSION` or `METRIC`). */
+  columnType?: string | undefined;
 }
 export type ResultTableColumnHeaderList = Array<ResultTableColumnHeader>;
+export type DocumentList = Array<unknown>;
+export type DocumentListList = Array<DocumentList>;
 /** Response message for TargetedQueriesService.Query. */
 export interface QueryResponse {
   /** When set, indicates that the operation failed. */
   errors?: Errors | undefined;
+  /** This value specifies information about the data returned in the `rows` fields. Each item in the `columnHeaders` list identifies a field returned in the `rows` value, which contains a list of comma-delimited data. The `columnHeaders` list will begin with the dimensions specified in the API request, which will be followed by the metrics specified in the API request. The order of both dimensions and metrics will match the ordering in the API request. For example, if the API request contains the parameters `dimensions=ageGroup,gender&metrics=viewerPercentage`, the API response will return columns in this order: `ageGroup`, `gender`, `viewerPercentage`. */
+  columnHeaders?: ResultTableColumnHeaderList | undefined;
   /** This value specifies the type of data included in the API response. For the query method, the kind property value will be `youtubeAnalytics#resultTable`. */
   kind?: string | undefined;
   /** The list contains all rows of the result table. Each item in the list is an array that contains comma-delimited data corresponding to a single row of data. The order of the comma-delimited data fields will match the order of the columns listed in the `columnHeaders` field. If no data is available for the given query, the `rows` element will be omitted from the response. The response for a query with the `day` dimension will not contain rows for the most recent days. */
   rows?: DocumentListList | undefined;
-  /** This value specifies information about the data returned in the `rows` fields. Each item in the `columnHeaders` list identifies a field returned in the `rows` value, which contains a list of comma-delimited data. The `columnHeaders` list will begin with the dimensions specified in the API request, which will be followed by the metrics specified in the API request. The order of both dimensions and metrics will match the ordering in the API request. For example, if the API request contains the parameters `dimensions=ageGroup,gender&metrics=viewerPercentage`, the API response will return columns in this order: `ageGroup`, `gender`, `viewerPercentage`. */
-  columnHeaders?: ResultTableColumnHeaderList | undefined;
 }
 export interface UpdateGroupsRequest extends Group {
   /** This parameter can only be used in a properly authorized request. **Note:** This parameter is intended exclusively for YouTube content partners that own and manage many different YouTube channels. The `onBehalfOfContentOwner` parameter indicates that the request's authorization credentials identify a YouTube user who is acting on behalf of the content owner specified in the parameter value. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The account that the user authenticates with must be linked to the specified YouTube content owner. */
@@ -439,17 +439,17 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          currency: S.optional(S.String.pipe(T.Query())),
-          includeHistoricalChannelData: S.optional(S.Boolean.pipe(T.Query())),
-          startIndex: S.optional(S.Number.pipe(T.Query())),
           ids: S.optional(S.String.pipe(T.Query())),
-          startDate: S.optional(S.String.pipe(T.Query())),
           maxResults: S.optional(S.Number.pipe(T.Query())),
           endDate: S.optional(S.String.pipe(T.Query())),
-          dimensions: S.optional(S.String.pipe(T.Query())),
-          metrics: S.optional(S.String.pipe(T.Query())),
-          sort: S.optional(S.String.pipe(T.Query())),
+          startDate: S.optional(S.String.pipe(T.Query())),
+          currency: S.optional(S.String.pipe(T.Query())),
           filters: S.optional(S.String.pipe(T.Query())),
+          sort: S.optional(S.String.pipe(T.Query())),
+          startIndex: S.optional(S.Number.pipe(T.Query())),
+          dimensions: S.optional(S.String.pipe(T.Query())),
+          includeHistoricalChannelData: S.optional(S.Boolean.pipe(T.Query())),
+          metrics: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -459,26 +459,26 @@ function __c0(j: number): any {
         ),
       ).annotate({ identifier: "QueryReportsRequest" });
     case 1:
-      return S.Array(S.Unknown);
-    case 2:
-      return S.Array(__S(1, __c0, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          columnType: S.optional(S.String),
           dataType: S.optional(S.String),
+          columnType: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResultTableColumnHeader" });
+    case 2:
+      return S.Array(__S(1, __c0, 1));
+    case 3:
+      return S.Array(S.Unknown);
     case 4:
       return S.Array(__S(3, __c0, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           errors: S.optional(__S(35, __c4, 3)),
+          columnHeaders: S.optional(__S(2, __c0, 2)),
           kind: S.optional(S.String),
-          rows: S.optional(__S(2, __c0, 2)),
-          columnHeaders: S.optional(__S(4, __c0, 4)),
+          rows: S.optional(__S(4, __c0, 4)),
         }),
       ).annotate({ identifier: "QueryResponse" });
   }
@@ -507,8 +507,8 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String.pipe(T.Query())),
           onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
+          id: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -537,12 +537,12 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           debugInfo: S.optional(S.String),
+          domain: S.optional(S.String),
+          locationType: S.optional(S.String),
           externalErrorMessage: S.optional(S.String),
           code: S.optional(S.String),
-          locationType: S.optional(S.String),
           argument: S.optional(__S(32, __c4, 0)),
           location: S.optional(S.String),
-          domain: S.optional(S.String),
         }),
       ).annotate({ identifier: "ErrorProto" });
     case 2:
@@ -550,9 +550,9 @@ function __c4(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.String),
           error: S.optional(__S(34, __c4, 2)),
           requestId: S.optional(S.String),
-          code: S.optional(S.String),
         }),
       ).annotate({ identifier: "Errors" });
   }
@@ -562,8 +562,8 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String.pipe(T.Query())),
           onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
+          id: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -598,19 +598,19 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
           kind: S.optional(S.String),
+          id: S.optional(S.String),
         }),
       ).annotate({ identifier: "GroupItemResource" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
-          errors: S.optional(__S(35, __c4, 3)),
-          groupId: S.optional(S.String),
           etag: S.optional(S.String),
-          resource: S.optional(__S(56, __c7, 0)),
+          errors: S.optional(__S(35, __c4, 3)),
           kind: S.optional(S.String),
+          resource: S.optional(__S(56, __c7, 0)),
+          id: S.optional(S.String),
+          groupId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GroupItem" });
   }
@@ -639,26 +639,26 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          publishedAt: S.optional(S.String),
-          title: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GroupSnippet" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           itemCount: S.optional(S.String),
           itemType: S.optional(S.String),
         }),
       ).annotate({ identifier: "GroupContentDetails" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          title: S.optional(S.String),
+          publishedAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GroupSnippet" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          snippet: S.optional(__S(72, __c9, 0)),
-          kind: S.optional(S.String),
-          contentDetails: S.optional(__S(73, __c9, 1)),
-          etag: S.optional(S.String),
+          contentDetails: S.optional(__S(72, __c9, 0)),
           id: S.optional(S.String),
+          kind: S.optional(S.String),
           errors: S.optional(__S(35, __c4, 3)),
+          snippet: S.optional(__S(73, __c9, 1)),
+          etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "Group" });
   }
@@ -685,8 +685,8 @@ function __c10(j: number): any {
         S.Struct({
           kind: S.optional(S.String),
           items: S.optional(__S(81, __c10, 1)),
-          errors: S.optional(__S(35, __c4, 3)),
           etag: S.optional(S.String),
+          errors: S.optional(__S(35, __c4, 3)),
         }),
       ).annotate({ identifier: "ListGroupItemsResponse" });
   }
@@ -697,9 +697,9 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           mine: S.optional(S.Boolean.pipe(T.Query())),
+          onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           id: S.optional(S.String.pipe(T.Query())),
-          onBehalfOfContentOwner: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -713,10 +713,10 @@ function __c11(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
-          etag: S.optional(S.String),
-          errors: S.optional(__S(35, __c4, 3)),
           kind: S.optional(S.String),
+          nextPageToken: S.optional(S.String),
+          errors: S.optional(__S(35, __c4, 3)),
+          etag: S.optional(S.String),
           items: __S(89, __c11, 1),
         }),
       ).annotate({ identifier: "ListGroupsResponse" });

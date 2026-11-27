@@ -61,24 +61,24 @@ export interface GetSitesRequest {
   /** Required. The name of the site whose summary to get, e.g. `sites/http%3A%2F%2Fwww.google.com%2F`. Format: `sites/{site}` */
   name: string;
 }
-export type SiteSummaryResponseFilterStatusEnum = "UNKNOWN" | "ON" | "OFF" | "PAUSED" | "PENDING";
 export type SiteSummaryResponseAbusiveStatusEnum = "UNKNOWN" | "PASSING" | "FAILING";
+export type SiteSummaryResponseFilterStatusEnum = "UNKNOWN" | "ON" | "OFF" | "PAUSED" | "PENDING";
 /** Response message for GetSiteSummary. */
 export interface SiteSummaryResponse {
-  /** A link to the full Abusive Experience Report for the site. Not set in ViolatingSitesResponse. Note that you must complete the [Search Console verification process](https://support.google.com/webmasters/answer/9008080) for the site before you can access the full report. */
-  reportUrl?: string | undefined;
-  /** The name of the reviewed site, e.g. `google.com`. */
-  reviewedSite?: string | undefined;
   /** The time at which the site's status last changed. */
   lastChangeTime?: string | undefined;
-  /** Whether the site is currently under review. */
-  underReview?: boolean | undefined;
-  /** The site's [enforcement status](https://support.google.com/webtools/answer/7538608). */
-  filterStatus?: SiteSummaryResponseFilterStatusEnum | undefined;
   /** The site's Abusive Experience Report status. */
   abusiveStatus?: SiteSummaryResponseAbusiveStatusEnum | undefined;
+  /** Whether the site is currently under review. */
+  underReview?: boolean | undefined;
+  /** The name of the reviewed site, e.g. `google.com`. */
+  reviewedSite?: string | undefined;
   /** The time at which [enforcement](https://support.google.com/webtools/answer/7538608) against the site began or will begin. Not set when the filter_status is OFF. */
   enforcementTime?: string | undefined;
+  /** The site's [enforcement status](https://support.google.com/webtools/answer/7538608). */
+  filterStatus?: SiteSummaryResponseFilterStatusEnum | undefined;
+  /** A link to the full Abusive Experience Report for the site. Not set in ViolatingSitesResponse. Note that you must complete the [Search Console verification process](https://support.google.com/webmasters/answer/9008080) for the site before you can access the full report. */
+  reportUrl?: string | undefined;
 }
 export interface ListViolatingSitesRequest {}
 export type SiteSummaryResponseList = Array<SiteSummaryResponse>;
@@ -145,13 +145,13 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          reportUrl: S.optional(S.String),
-          reviewedSite: S.optional(S.String),
           lastChangeTime: S.optional(S.String),
-          underReview: S.optional(S.Boolean),
-          filterStatus: S.optional(S.String),
           abusiveStatus: S.optional(S.String),
+          underReview: S.optional(S.Boolean),
+          reviewedSite: S.optional(S.String),
           enforcementTime: S.optional(S.String),
+          filterStatus: S.optional(S.String),
+          reportUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "SiteSummaryResponse" });
   }

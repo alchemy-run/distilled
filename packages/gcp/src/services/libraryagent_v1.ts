@@ -89,14 +89,14 @@ export interface BorrowShelvesBooksRequest {
 }
 /** A single book in the library. */
 export interface GoogleExampleLibraryagentV1Book {
+  /** The title of the book. */
+  title?: string | undefined;
+  /** Value indicating whether the book has been read. */
+  read?: boolean | undefined;
   /** The resource name of the book. Book names have the form `shelves/{shelf_id}/books/{book_id}`. The name is ignored when creating a book. */
   name?: string | undefined;
   /** The name of the book author. */
   author?: string | undefined;
-  /** Value indicating whether the book has been read. */
-  read?: boolean | undefined;
-  /** The title of the book. */
-  title?: string | undefined;
 }
 export interface GetShelvesRequest {
   /** Required. The name of the shelf to retrieve. */
@@ -128,20 +128,20 @@ export interface GoogleExampleLibraryagentV1ListShelvesResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListShelvesBooksRequest {
-  /** A token identifying a page of results the server should return. Typically, this is the value of ListBooksResponse.next_page_token. returned from the previous call to `ListBooks` method. */
-  pageToken?: string | undefined;
   /** Required. The name of the shelf whose books we'd like to list. */
   parent: string;
+  /** A token identifying a page of results the server should return. Typically, this is the value of ListBooksResponse.next_page_token. returned from the previous call to `ListBooks` method. */
+  pageToken?: string | undefined;
   /** Requested page size. Server may return fewer books than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number | undefined;
 }
 export type GoogleExampleLibraryagentV1BookList = Array<GoogleExampleLibraryagentV1Book>;
 /** Response message for LibraryAgent.ListBooks. */
 export interface GoogleExampleLibraryagentV1ListBooksResponse {
-  /** A token to retrieve next page of results. Pass this value in the ListBooksRequest.page_token field in the subsequent call to `ListBooks` method to retrieve the next page of results. */
-  nextPageToken?: string | undefined;
   /** The list of books. */
   books?: GoogleExampleLibraryagentV1BookList | undefined;
+  /** A token to retrieve next page of results. Pass this value in the ListBooksRequest.page_token field in the subsequent call to `ListBooks` method to retrieve the next page of results. */
+  nextPageToken?: string | undefined;
 }
 export interface ReturnShelvesBooksRequest {
   /** Required. The name of the book to return. */
@@ -281,10 +281,10 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          title: S.optional(S.String),
+          read: S.optional(S.Boolean),
           name: S.optional(S.String),
           author: S.optional(S.String),
-          read: S.optional(S.Boolean),
-          title: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleExampleLibraryagentV1Book" });
   }
@@ -363,8 +363,8 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -379,8 +379,8 @@ function __c6(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           books: S.optional(__S(25, __c6, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleExampleLibraryagentV1ListBooksResponse" });
   }

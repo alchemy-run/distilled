@@ -89,11 +89,7 @@ export interface CancelProjectsLocationsOperationsRequest {
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface GoogleProtobufEmpty {}
-export type InstanceFileStripeLevelEnum =
-  | "FILE_STRIPE_LEVEL_UNSPECIFIED"
-  | "FILE_STRIPE_LEVEL_MIN"
-  | "FILE_STRIPE_LEVEL_BALANCED"
-  | "FILE_STRIPE_LEVEL_MAX";
+export type StringMap = { [key: string]: string | undefined };
 export type InstanceDirectoryStripeLevelEnum =
   | "DIRECTORY_STRIPE_LEVEL_UNSPECIFIED"
   | "DIRECTORY_STRIPE_LEVEL_MIN"
@@ -107,83 +103,92 @@ export type InstanceStateEnum =
   | "FAILED"
   | "UPGRADING"
   | "REPAIRING";
-export type StringMap = { [key: string]: string | undefined };
+export type InstanceFileStripeLevelEnum =
+  | "FILE_STRIPE_LEVEL_UNSPECIFIED"
+  | "FILE_STRIPE_LEVEL_MIN"
+  | "FILE_STRIPE_LEVEL_BALANCED"
+  | "FILE_STRIPE_LEVEL_MAX";
 export type StringList = Array<string>;
 export type InstanceDeploymentTypeEnum = "DEPLOYMENT_TYPE_UNSPECIFIED" | "SCRATCH" | "PERSISTENT";
 /** A Parallelstore instance. */
 export interface Instance {
-  /** Identifier. The resource name of the instance, in the format `projects/{project}/locations/{location}/instances/{instance_id}`. */
-  name?: string | undefined;
-  /** Optional. Immutable. Stripe level for files. Allowed values are: * `FILE_STRIPE_LEVEL_MIN`: offers the best performance for small size files. * `FILE_STRIPE_LEVEL_BALANCED`: balances performance for workloads involving a mix of small and large files. * `FILE_STRIPE_LEVEL_MAX`: higher throughput performance for larger files. */
-  fileStripeLevel?: InstanceFileStripeLevelEnum | (string & {}) | undefined;
-  /** Required. Immutable. The instance's storage capacity in Gibibytes (GiB). Allowed values are between 12000 and 100000, in multiples of 4000; e.g., 12000, 16000, 20000, ... */
-  capacityGib?: string | undefined;
-  /** Optional. Immutable. Stripe level for directories. Allowed values are: * `DIRECTORY_STRIPE_LEVEL_MIN`: recommended when directories contain a small number of files. * `DIRECTORY_STRIPE_LEVEL_BALANCED`: balances performance for workloads involving a mix of small and large directories. * `DIRECTORY_STRIPE_LEVEL_MAX`: recommended for directories with a large number of files. */
-  directoryStripeLevel?: InstanceDirectoryStripeLevelEnum | (string & {}) | undefined;
-  /** Optional. Immutable. The name of the Compute Engine [VPC network](https://cloud.google.com/vpc/docs/vpc) to which the instance is connected. */
-  network?: string | undefined;
-  /** Output only. Immutable. The ID of the IP address range being used by the instance's VPC network. This field is populated by the service and contains the value currently used by the service. */
-  effectiveReservedIpRange?: string | undefined;
-  /** Output only. The time when the instance was updated. */
-  updateTime?: string | undefined;
-  /** Output only. The time when the instance was created. */
-  createTime?: string | undefined;
-  /** Output only. Deprecated: The version of DAOS software running in the instance. */
-  daosVersion?: string | undefined;
-  /** Output only. The instance state. */
-  state?: InstanceStateEnum | (string & {}) | undefined;
   /** Optional. Cloud Labels are a flexible and lightweight mechanism for organizing cloud resources into groups that reflect a customer's organizational needs and deployment strategies. See https://cloud.google.com/resource-manager/docs/labels-overview for details. */
   labels?: StringMap | undefined;
+  /** Output only. Immutable. The ID of the IP address range being used by the instance's VPC network. This field is populated by the service and contains the value currently used by the service. */
+  effectiveReservedIpRange?: string | undefined;
+  /** Optional. Immutable. Stripe level for directories. Allowed values are: * `DIRECTORY_STRIPE_LEVEL_MIN`: recommended when directories contain a small number of files. * `DIRECTORY_STRIPE_LEVEL_BALANCED`: balances performance for workloads involving a mix of small and large directories. * `DIRECTORY_STRIPE_LEVEL_MAX`: recommended for directories with a large number of files. */
+  directoryStripeLevel?: InstanceDirectoryStripeLevelEnum | (string & {}) | undefined;
+  /** Output only. The instance state. */
+  state?: InstanceStateEnum | (string & {}) | undefined;
+  /** Output only. The time when the instance was created. */
+  createTime?: string | undefined;
+  /** Optional. Immutable. Stripe level for files. Allowed values are: * `FILE_STRIPE_LEVEL_MIN`: offers the best performance for small size files. * `FILE_STRIPE_LEVEL_BALANCED`: balances performance for workloads involving a mix of small and large files. * `FILE_STRIPE_LEVEL_MAX`: higher throughput performance for larger files. */
+  fileStripeLevel?: InstanceFileStripeLevelEnum | (string & {}) | undefined;
   /** Optional. Immutable. The ID of the IP address range being used by the instance's VPC network. See [Configure a VPC network](https://cloud.google.com/parallelstore/docs/vpc#create_and_configure_the_vpc). If no ID is provided, all ranges are considered. */
   reservedIpRange?: string | undefined;
-  /** Output only. A list of IPv4 addresses used for client side configuration. */
-  accessPoints?: StringList | undefined;
-  /** Optional. Immutable. The deployment type of the instance. Allowed values are: * `SCRATCH`: the instance is a scratch instance. * `PERSISTENT`: the instance is a persistent instance. */
-  deploymentType?: InstanceDeploymentTypeEnum | (string & {}) | undefined;
+  /** Required. Immutable. The instance's storage capacity in Gibibytes (GiB). Allowed values are between 12000 and 100000, in multiples of 4000; e.g., 12000, 16000, 20000, ... */
+  capacityGib?: string | undefined;
+  /** Identifier. The resource name of the instance, in the format `projects/{project}/locations/{location}/instances/{instance_id}`. */
+  name?: string | undefined;
   /** Optional. The description of the instance. 2048 characters or less. */
   description?: string | undefined;
+  /** Optional. Immutable. The name of the Compute Engine [VPC network](https://cloud.google.com/vpc/docs/vpc) to which the instance is connected. */
+  network?: string | undefined;
+  /** Output only. A list of IPv4 addresses used for client side configuration. */
+  accessPoints?: StringList | undefined;
+  /** Output only. The time when the instance was updated. */
+  updateTime?: string | undefined;
+  /** Optional. Immutable. The deployment type of the instance. Allowed values are: * `SCRATCH`: the instance is a scratch instance. * `PERSISTENT`: the instance is a persistent instance. */
+  deploymentType?: InstanceDeploymentTypeEnum | (string & {}) | undefined;
+  /** Output only. Deprecated: The version of DAOS software running in the instance. */
+  daosVersion?: string | undefined;
 }
 export interface CreateProjectsLocationsInstancesRequest extends Instance {
   /** Required. The name of the Parallelstore instance. * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the customer project / location */
   instanceId?: string | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Required. The instance's project and location, in the format `projects/{project}/locations/{location}`. Locations map to Google Cloud zones; for example, `us-west1-b`. */
   parent: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number | undefined;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string | undefined;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap | undefined;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status | undefined;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean | undefined;
 }
 export interface DeleteProjectsLocationsInstancesRequest {
-  /** Required. Name of the resource */
-  name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Required. Name of the resource */
+  name: string;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
+}
+/** Parallelstore as the source of a data transfer. */
+export interface SourceParallelstore {
+  /** Optional. Root directory path to the Paralellstore filesystem, starting with `/`. Defaults to `/` if unset. */
+  path?: string | undefined;
 }
 export type TransferMetadataOptionsModeEnum = "MODE_UNSPECIFIED" | "MODE_SKIP" | "MODE_PRESERVE";
 export type TransferMetadataOptionsUidEnum = "UID_UNSPECIFIED" | "UID_SKIP" | "UID_NUMBER_PRESERVE";
@@ -197,11 +202,6 @@ export interface TransferMetadataOptions {
   /** Optional. The GID preservation behavior. */
   gid?: TransferMetadataOptionsGidEnum | (string & {}) | undefined;
 }
-/** Parallelstore as the source of a data transfer. */
-export interface SourceParallelstore {
-  /** Optional. Root directory path to the Paralellstore filesystem, starting with `/`. Defaults to `/` if unset. */
-  path?: string | undefined;
-}
 /** Cloud Storage as the destination of a data transfer. */
 export interface DestinationGcsBucket {
   /** Required. URI to a Cloud Storage bucket in the format: `gs:///`. The path inside the bucket is optional. */
@@ -209,16 +209,16 @@ export interface DestinationGcsBucket {
 }
 /** Export data from Parallelstore to Cloud Storage. */
 export interface ExportDataRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Optional. The metadata options for the export data. */
-  metadataOptions?: TransferMetadataOptions | undefined;
   /** Parallelstore source. */
   sourceParallelstore?: SourceParallelstore | undefined;
-  /** Cloud Storage destination. */
-  destinationGcsBucket?: DestinationGcsBucket | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Optional. User-specified Service Account (SA) credentials to be used when performing the transfer. Use one of the following formats: * `{EMAIL_ADDRESS_OR_UNIQUE_ID}` * `projects/{PROJECT_ID_OR_NUMBER}/serviceAccounts/{EMAIL_ADDRESS_OR_UNIQUE_ID}` * `projects/-/serviceAccounts/{EMAIL_ADDRESS_OR_UNIQUE_ID}` If unspecified, the Parallelstore service agent is used: `service-@gcp-sa-parallelstore.iam.gserviceaccount.com` */
   serviceAccount?: string | undefined;
+  /** Optional. The metadata options for the export data. */
+  metadataOptions?: TransferMetadataOptions | undefined;
+  /** Cloud Storage destination. */
+  destinationGcsBucket?: DestinationGcsBucket | undefined;
 }
 export interface ExportDataProjectsLocationsInstancesRequest extends ExportDataRequest {
   /** Required. Name of the resource. */
@@ -230,16 +230,16 @@ export interface GetProjectsLocationsRequest {
 }
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap | undefined;
-  /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string | undefined;
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string | undefined;
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
   name?: string | undefined;
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string | undefined;
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: StringMap | undefined;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap | undefined;
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string | undefined;
 }
 export interface GetProjectsLocationsInstancesRequest {
   /** Required. The instance resource name, in the format `projects/{project_id}/locations/{location}/instances/{instance_id}`. */
@@ -249,98 +249,98 @@ export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
 }
-/** Parallelstore as the destination of a data transfer. */
-export type DestinationParallelstore = SourceParallelstore;
 /** Cloud Storage as the source of a data transfer. */
 export type SourceGcsBucket = DestinationGcsBucket;
+/** Parallelstore as the destination of a data transfer. */
+export type DestinationParallelstore = SourceParallelstore;
 /** Import data from Cloud Storage into a Parallelstore instance. */
 export interface ImportDataRequest {
+  /** The Cloud Storage source bucket and, optionally, path inside the bucket. */
+  sourceGcsBucket?: DestinationGcsBucket | undefined;
+  /** Optional. User-specified service account credentials to be used when performing the transfer. Use one of the following formats: * `{EMAIL_ADDRESS_OR_UNIQUE_ID}` * `projects/{PROJECT_ID_OR_NUMBER}/serviceAccounts/{EMAIL_ADDRESS_OR_UNIQUE_ID}` * `projects/-/serviceAccounts/{EMAIL_ADDRESS_OR_UNIQUE_ID}` If unspecified, the Parallelstore service agent is used: `service-@gcp-sa-parallelstore.iam.gserviceaccount.com` */
+  serviceAccount?: string | undefined;
+  /** Optional. The transfer metadata options for the import data. */
+  metadataOptions?: TransferMetadataOptions | undefined;
   /** Parallelstore destination. */
   destinationParallelstore?: SourceParallelstore | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** The Cloud Storage source bucket and, optionally, path inside the bucket. */
-  sourceGcsBucket?: DestinationGcsBucket | undefined;
-  /** Optional. The transfer metadata options for the import data. */
-  metadataOptions?: TransferMetadataOptions | undefined;
-  /** Optional. User-specified service account credentials to be used when performing the transfer. Use one of the following formats: * `{EMAIL_ADDRESS_OR_UNIQUE_ID}` * `projects/{PROJECT_ID_OR_NUMBER}/serviceAccounts/{EMAIL_ADDRESS_OR_UNIQUE_ID}` * `projects/-/serviceAccounts/{EMAIL_ADDRESS_OR_UNIQUE_ID}` If unspecified, the Parallelstore service agent is used: `service-@gcp-sa-parallelstore.iam.gserviceaccount.com` */
-  serviceAccount?: string | undefined;
 }
 export interface ImportDataProjectsLocationsInstancesRequest extends ImportDataRequest {
   /** Required. Name of the resource. */
   name: string;
 }
 export interface ListProjectsLocationsRequest {
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string | undefined;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number | undefined;
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string | undefined;
   /** Optional. Do not use this field. It is unsupported and is ignored unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList | undefined;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number | undefined;
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** The standard List next-page token. */
-  nextPageToken?: string | undefined;
   /** A list of locations that matches the specified filter in the request. */
   locations?: LocationList | undefined;
+  /** The standard List next-page token. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsInstancesRequest {
-  /** Required. The project and location for which to retrieve instance information, in the format `projects/{project_id}/locations/{location}`. To retrieve instance information for all locations, use "-" as the value of `{location}`. */
-  parent: string;
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string | undefined;
-  /** Optional. Hint for how to order the results. */
-  orderBy?: string | undefined;
   /** Optional. Filtering results. */
   filter?: string | undefined;
+  /** Optional. Hint for how to order the results. */
+  orderBy?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
   pageSize?: number | undefined;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string | undefined;
+  /** Required. The project and location for which to retrieve instance information, in the format `projects/{project_id}/locations/{location}`. To retrieve instance information for all locations, use "-" as the value of `{location}`. */
+  parent: string;
 }
 export type InstanceList = Array<Instance>;
 /** Response from ListInstances. */
 export interface ListInstancesResponse {
-  /** The list of Parallelstore instances. */
-  instances?: InstanceList | undefined;
-  /** Locations that could not be reached. */
-  unreachable?: StringList | undefined;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string | undefined;
+  /** Locations that could not be reached. */
+  unreachable?: StringList | undefined;
+  /** The list of Parallelstore instances. */
+  instances?: InstanceList | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
-  /** The standard list page size. */
-  pageSize?: number | undefined;
-  /** The name of the operation's parent resource. */
-  name: string;
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the [ListOperationsResponse.unreachable] field. This can only be `true` when reading across collections e.g. when `parent` is set to `"projects/example/locations/-"`. This field is not by default supported and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean | undefined;
   /** The standard list page token. */
   pageToken?: string | undefined;
   /** The standard list filter. */
   filter?: string | undefined;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the [ListOperationsResponse.unreachable] field. This can only be `true` when reading across collections e.g. when `parent` is set to `"projects/example/locations/-"`. This field is not by default supported and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean | undefined;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
+  /** The name of the operation's parent resource. */
+  name: string;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList | undefined;
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections e.g. when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList | undefined;
 }
 export interface PatchProjectsLocationsInstancesRequest extends Omit<Instance, "name"> {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Identifier. The resource name of the instance, in the format `projects/{project}/locations/{location}/instances/{instance_id}`. */
   name: string;
   /** Required. Mask of fields to update. Field mask is used to specify the fields to be overwritten in the Instance resource by the update. At least one path must be supplied in this field. The fields specified in the update_mask are relative to the resource, not the full request. */
   updateMask?: string | undefined;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -655,11 +655,11 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          destinationParallelstore: S.optional(__S(73, __c18, 1)),
-          requestId: S.optional(S.String),
           sourceGcsBucket: S.optional(__S(74, __c18, 2)),
-          metadataOptions: S.optional(__S(72, __c18, 0)),
           serviceAccount: S.optional(S.String),
+          metadataOptions: S.optional(__S(73, __c18, 1)),
+          destinationParallelstore: S.optional(__S(72, __c18, 0)),
+          requestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ImportDataRequest" });
     case 1:
@@ -684,11 +684,11 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
           extraLocationTypes: S.optional(__S(40, __c10, 0).pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -702,8 +702,8 @@ function __c3(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           locations: S.optional(__S(13, __c3, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
@@ -713,11 +713,11 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -731,9 +731,9 @@ function __c4(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          instances: S.optional(__S(17, __c4, 1)),
-          unreachable: S.optional(__S(40, __c10, 0)),
           nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(40, __c10, 0)),
+          instances: S.optional(__S(17, __c4, 1)),
         }),
       ).annotate({ identifier: "ListInstancesResponse" });
   }
@@ -743,11 +743,11 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -761,9 +761,9 @@ function __c5(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(21, __c5, 1)),
           nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(40, __c10, 0)),
+          operations: S.optional(__S(21, __c5, 1)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
@@ -775,9 +775,9 @@ function __c6(j: number): any {
         S.Extend(
           __S(44, __c11, 0),
           S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
-            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -819,8 +819,8 @@ function __c9(j: number): any {
           __S(44, __c11, 0),
           S.Struct({
             instanceId: S.optional(S.String.pipe(T.Query())),
-            requestId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -843,21 +843,21 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          fileStripeLevel: S.optional(S.String),
-          capacityGib: S.optional(S.String),
-          directoryStripeLevel: S.optional(S.String),
-          network: S.optional(S.String),
-          effectiveReservedIpRange: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          daosVersion: S.optional(S.String),
-          state: S.optional(S.String),
           labels: S.optional(__S(56, __c14, 0)),
+          effectiveReservedIpRange: S.optional(S.String),
+          directoryStripeLevel: S.optional(S.String),
+          state: S.optional(S.String),
+          createTime: S.optional(S.String),
+          fileStripeLevel: S.optional(S.String),
           reservedIpRange: S.optional(S.String),
-          accessPoints: S.optional(__S(40, __c10, 0)),
-          deploymentType: S.optional(S.String),
+          capacityGib: S.optional(S.String),
+          name: S.optional(S.String),
           description: S.optional(S.String),
+          network: S.optional(S.String),
+          accessPoints: S.optional(__S(40, __c10, 0)),
+          updateTime: S.optional(S.String),
+          deploymentType: S.optional(S.String),
+          daosVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "Instance" });
   }
@@ -869,18 +869,18 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          message: S.optional(S.String),
           code: S.optional(S.Number),
+          message: S.optional(S.String),
           details: S.optional(__S(48, __c12, 0)),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(52, __c13, 0)),
           name: S.optional(S.String),
-          error: S.optional(__S(49, __c12, 1)),
           response: S.optional(__S(52, __c13, 0)),
+          error: S.optional(__S(49, __c12, 1)),
+          metadata: S.optional(__S(52, __c13, 0)),
           done: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Operation" });
@@ -903,8 +903,8 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -936,11 +936,11 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          sourceParallelstore: S.optional(__S(72, __c18, 0)),
           requestId: S.optional(S.String),
-          metadataOptions: S.optional(__S(72, __c18, 0)),
-          sourceParallelstore: S.optional(__S(73, __c18, 1)),
-          destinationGcsBucket: S.optional(__S(74, __c18, 2)),
           serviceAccount: S.optional(S.String),
+          metadataOptions: S.optional(__S(73, __c18, 1)),
+          destinationGcsBucket: S.optional(__S(74, __c18, 2)),
         }),
       ).annotate({ identifier: "ExportDataRequest" });
     case 1:
@@ -965,17 +965,17 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          path: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SourceParallelstore" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           mode: S.optional(S.String),
           uid: S.optional(S.String),
           gid: S.optional(S.String),
         }),
       ).annotate({ identifier: "TransferMetadataOptions" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          path: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SourceParallelstore" });
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1005,11 +1005,11 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(56, __c14, 0)),
-          locationId: S.optional(S.String),
-          displayName: S.optional(S.String),
-          metadata: S.optional(__S(52, __c13, 0)),
           name: S.optional(S.String),
+          locationId: S.optional(S.String),
+          labels: S.optional(__S(56, __c14, 0)),
+          metadata: S.optional(__S(52, __c13, 0)),
+          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
   }

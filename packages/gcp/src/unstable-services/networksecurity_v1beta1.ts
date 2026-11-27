@@ -108,16 +108,16 @@ export interface Status {
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string | undefined;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean | undefined;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap | undefined;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap | undefined;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
 }
 export interface AddItemsProjectsLocationsAddressGroupsRequest extends AddAddressGroupItemsRequest {
   /** Required. A name of the AddressGroup to add items to. Must be in the format `projects|organization/*\/locations/{location}/addressGroups/*`. */
@@ -141,10 +141,10 @@ export interface CancelProjectsLocationsOperationsRequest {
 }
 /** Request used by the CloneAddressGroupItems method. */
 export interface CloneAddressGroupItemsRequest {
-  /** Required. Source address group to clone items from. */
-  sourceAddressGroup?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Required. Source address group to clone items from. */
+  sourceAddressGroup?: string | undefined;
 }
 export interface CloneItemsOrganizationsLocationsAddressGroupsRequest extends CloneAddressGroupItemsRequest {
   /** Required. A name of the AddressGroup to clone items to. Must be in the format `projects|organization/*\/locations/{location}/addressGroups/*`. */
@@ -154,40 +154,40 @@ export interface CloneItemsProjectsLocationsAddressGroupsRequest extends CloneAd
   /** Required. A name of the AddressGroup to clone items to. Must be in the format `projects|organization/*\/locations/{location}/addressGroups/*`. */
   addressGroup: string;
 }
+export type StringMap = { [key: string]: string | undefined };
 export type AddressGroupPurposeItemEnum = "PURPOSE_UNSPECIFIED" | "DEFAULT" | "CLOUD_ARMOR";
 export type AddressGroupPurposeItemEnumList = Array<AddressGroupPurposeItemEnum | (string & {})>;
-export type StringMap = { [key: string]: string | undefined };
 export type AddressGroupTypeEnum = "TYPE_UNSPECIFIED" | "IPV4" | "IPV6";
 /** AddressGroup is a resource that specifies how a collection of IP/DNS used in Firewall Policy. */
 export interface AddressGroup {
-  /** Required. Capacity of the Address Group */
-  capacity?: number | undefined;
-  /** Optional. List of supported purposes of the Address Group. */
-  purpose?: AddressGroupPurposeItemEnumList | undefined;
-  /** Optional. Set of label tags associated with the AddressGroup resource. */
-  labels?: StringMap | undefined;
-  /** Output only. Server-defined fully-qualified URL for this resource. */
-  selfLink?: string | undefined;
-  /** Optional. Free-text description of the resource. */
-  description?: string | undefined;
   /** Optional. List of items. */
   items?: StringList | undefined;
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string | undefined;
-  /** Required. Name of the AddressGroup resource. It matches pattern `projects/*\/locations/{location}/addressGroups/`. */
-  name?: string | undefined;
+  /** Output only. Server-defined fully-qualified URL for this resource. */
+  selfLink?: string | undefined;
+  /** Optional. Set of label tags associated with the AddressGroup resource. */
+  labels?: StringMap | undefined;
+  /** Optional. List of supported purposes of the Address Group. */
+  purpose?: AddressGroupPurposeItemEnumList | undefined;
   /** Output only. The timestamp when the resource was updated. */
   updateTime?: string | undefined;
+  /** Required. Name of the AddressGroup resource. It matches pattern `projects/*\/locations/{location}/addressGroups/`. */
+  name?: string | undefined;
   /** Required. The type of the Address Group. Possible values are "IPv4" or "IPV6". */
   type?: AddressGroupTypeEnum | (string & {}) | undefined;
+  /** Required. Capacity of the Address Group */
+  capacity?: number | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Optional. Free-text description of the resource. */
+  description?: string | undefined;
 }
 export interface CreateOrganizationsLocationsAddressGroupsRequest extends AddressGroup {
-  /** Required. Short name of the AddressGroup resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "authz_policy". */
-  addressGroupId?: string | undefined;
   /** Required. The parent resource of the AddressGroup. Must be in the format `projects/*\/locations/{location}`. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Required. Short name of the AddressGroup resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "authz_policy". */
+  addressGroupId?: string | undefined;
 }
 /** A subset of the `FirewallEndpointAssociation` message, containing fields to be used by the consumer. */
 export interface FirewallEndpointAssociationReference {
@@ -197,6 +197,64 @@ export interface FirewallEndpointAssociationReference {
   network?: string | undefined;
 }
 export type FirewallEndpointAssociationReferenceList = Array<FirewallEndpointAssociationReference>;
+export type FirewallEndpointWildfireSettingsWildfireRegionEnum =
+  | "WILDFIRE_REGION_UNSPECIFIED"
+  | "CANADA"
+  | "UNITED_STATES"
+  | "JAPAN"
+  | "SINGAPORE"
+  | "UNITED_KINGDOM"
+  | "AUSTRALIA"
+  | "GERMANY"
+  | "INDIA"
+  | "SWITZERLAND"
+  | "POLAND"
+  | "INDONESIA"
+  | "TAIWAN"
+  | "FRANCE"
+  | "QATAR"
+  | "SOUTH_KOREA"
+  | "ISRAEL"
+  | "SAUDI_ARABIA"
+  | "SPAIN";
+export type FirewallEndpointWildfireSettingsWildfireRealtimeLookupTimeoutActionEnum =
+  | "WILDFIRE_REALTIME_SIGNATURE_LOOKUP_TIMEOUT_ACTION_UNSPECIFIED"
+  | "ALLOW"
+  | "DENY";
+export type FirewallEndpointWildfireSettingsWildfireInlineCloudAnalysisSettingsTimeoutActionEnum =
+  | "WILDFIRE_INLINE_CLOUD_ANALYSIS_TIMEOUT_ACTION_UNSPECIFIED"
+  | "ALLOW"
+  | "DENY";
+/** Settings for Advanced malware sandbox inline cloud analysis. */
+export interface FirewallEndpointWildfireSettingsWildfireInlineCloudAnalysisSettings {
+  /** Optional. The timeout that a file is held while Advanced malware sandbox inline cloud analysis is performed. Valid values are from 1 to 240000 milliseconds. In canonical JSON encoding, this is represented as a string ending in `s` (for example, `"0.001s"` to `"240s"`). The default value is `30000` milliseconds (`"30s"` in JSON). */
+  maxAnalysisDuration?: string | undefined;
+  /** Optional. The action to take when Advanced malware sandbox inline cloud analysis times out. The default value is `ALLOW`. */
+  timeoutAction?:
+    | FirewallEndpointWildfireSettingsWildfireInlineCloudAnalysisSettingsTimeoutActionEnum
+    | (string & {})
+    | undefined;
+  /** Optional. Whether to disable Advanced malware sandbox submission log generation for files that time out during Advanced malware sandbox inline cloud analysis. */
+  submissionTimeoutLoggingDisabled?: boolean | undefined;
+}
+/** Settings for Advanced malware sandbox analysis. */
+export interface FirewallEndpointWildfireSettings {
+  /** Optional. Indicates whether Advanced malware sandbox analysis is enabled. The default value is `false`. */
+  enabled?: boolean | undefined;
+  /** Optional. The region where Advanced malware sandbox analysis is performed. For a list of Palo Alto Networks supported regions, see [Advanced WildFire global cloud](https://docs.paloaltonetworks.com/advanced-wildfire/administration/advanced-wildfire-overview/advanced-wildfire-deployments/advanced-wildfire-global-cloud). */
+  wildfireRegion?: FirewallEndpointWildfireSettingsWildfireRegionEnum | (string & {}) | undefined;
+  /** Optional. The action to take on an Advanced malware sandbox real-time signature lookup timeout. The default value is `ALLOW`. */
+  wildfireRealtimeLookupTimeoutAction?:
+    | FirewallEndpointWildfireSettingsWildfireRealtimeLookupTimeoutActionEnum
+    | (string & {})
+    | undefined;
+  /** Optional. The duration that a file is held while the Advanced malware sandbox real-time signature cloud performs a signature lookup. Valid values are from 1 to 5000 milliseconds. In canonical JSON encoding, this is represented as a string ending in `s` (for example, `"0.001s"` to `"5s"`). The default value is `1000` milliseconds (`"1s"` in JSON). */
+  wildfireRealtimeLookupDuration?: string | undefined;
+  /** Optional. Settings for Advanced malware sandbox inline cloud analysis. */
+  wildfireInlineCloudAnalysisSettings?:
+    | FirewallEndpointWildfireSettingsWildfireInlineCloudAnalysisSettings
+    | undefined;
+}
 export type FirewallEndpointEndpointSettingsContentCloudRegionEnum =
   | "CONTENT_CLOUD_REGION_UNSPECIFIED"
   | "US_CENTRAL"
@@ -218,73 +276,15 @@ export type FirewallEndpointEndpointSettingsContentCloudRegionEnum =
   | "ITALY";
 /** Settings for the endpoint. */
 export interface FirewallEndpointEndpointSettings {
-  /** Optional. Immutable. Indicates whether jumbo frames are enabled. The default value is `false`. */
-  jumboFramesEnabled?: boolean | undefined;
+  /** Optional. Whether to block HTTP partial responses for the endpoint. When set to `true`, the firewall blocks the resumption of HTTP file downloads. Setting this to `false` provides maximum availability, while `true` provides maximum security. */
+  httpPartialResponseBlocked?: boolean | undefined;
   /** Optional. The content cloud region of the endpoint. */
   contentCloudRegion?:
     | FirewallEndpointEndpointSettingsContentCloudRegionEnum
     | (string & {})
     | undefined;
-  /** Optional. Whether to block HTTP partial responses for the endpoint. When set to `true`, the firewall blocks the resumption of HTTP file downloads. Setting this to `false` provides maximum availability, while `true` provides maximum security. */
-  httpPartialResponseBlocked?: boolean | undefined;
-}
-export type FirewallEndpointWildfireSettingsWildfireRegionEnum =
-  | "WILDFIRE_REGION_UNSPECIFIED"
-  | "CANADA"
-  | "UNITED_STATES"
-  | "JAPAN"
-  | "SINGAPORE"
-  | "UNITED_KINGDOM"
-  | "AUSTRALIA"
-  | "GERMANY"
-  | "INDIA"
-  | "SWITZERLAND"
-  | "POLAND"
-  | "INDONESIA"
-  | "TAIWAN"
-  | "FRANCE"
-  | "QATAR"
-  | "SOUTH_KOREA"
-  | "ISRAEL"
-  | "SAUDI_ARABIA"
-  | "SPAIN";
-export type FirewallEndpointWildfireSettingsWildfireInlineCloudAnalysisSettingsTimeoutActionEnum =
-  | "WILDFIRE_INLINE_CLOUD_ANALYSIS_TIMEOUT_ACTION_UNSPECIFIED"
-  | "ALLOW"
-  | "DENY";
-/** Settings for Advanced malware sandbox inline cloud analysis. */
-export interface FirewallEndpointWildfireSettingsWildfireInlineCloudAnalysisSettings {
-  /** Optional. The action to take when Advanced malware sandbox inline cloud analysis times out. The default value is `ALLOW`. */
-  timeoutAction?:
-    | FirewallEndpointWildfireSettingsWildfireInlineCloudAnalysisSettingsTimeoutActionEnum
-    | (string & {})
-    | undefined;
-  /** Optional. The timeout that a file is held while Advanced malware sandbox inline cloud analysis is performed. Valid values are from 1 to 240000 milliseconds. In canonical JSON encoding, this is represented as a string ending in `s` (for example, `"0.001s"` to `"240s"`). The default value is `30000` milliseconds (`"30s"` in JSON). */
-  maxAnalysisDuration?: string | undefined;
-  /** Optional. Whether to disable Advanced malware sandbox submission log generation for files that time out during Advanced malware sandbox inline cloud analysis. */
-  submissionTimeoutLoggingDisabled?: boolean | undefined;
-}
-export type FirewallEndpointWildfireSettingsWildfireRealtimeLookupTimeoutActionEnum =
-  | "WILDFIRE_REALTIME_SIGNATURE_LOOKUP_TIMEOUT_ACTION_UNSPECIFIED"
-  | "ALLOW"
-  | "DENY";
-/** Settings for Advanced malware sandbox analysis. */
-export interface FirewallEndpointWildfireSettings {
-  /** Optional. The region where Advanced malware sandbox analysis is performed. For a list of Palo Alto Networks supported regions, see [Advanced WildFire global cloud](https://docs.paloaltonetworks.com/advanced-wildfire/administration/advanced-wildfire-overview/advanced-wildfire-deployments/advanced-wildfire-global-cloud). */
-  wildfireRegion?: FirewallEndpointWildfireSettingsWildfireRegionEnum | (string & {}) | undefined;
-  /** Optional. Settings for Advanced malware sandbox inline cloud analysis. */
-  wildfireInlineCloudAnalysisSettings?:
-    | FirewallEndpointWildfireSettingsWildfireInlineCloudAnalysisSettings
-    | undefined;
-  /** Optional. The action to take on an Advanced malware sandbox real-time signature lookup timeout. The default value is `ALLOW`. */
-  wildfireRealtimeLookupTimeoutAction?:
-    | FirewallEndpointWildfireSettingsWildfireRealtimeLookupTimeoutActionEnum
-    | (string & {})
-    | undefined;
-  /** Optional. Indicates whether Advanced malware sandbox analysis is enabled. The default value is `false`. */
-  enabled?: boolean | undefined;
-  /** Optional. The duration that a file is held while the Advanced malware sandbox real-time signature cloud performs a signature lookup. Valid values are from 1 to 5000 milliseconds. In canonical JSON encoding, this is represented as a string ending in `s` (for example, `"0.001s"` to `"5s"`). The default value is `1000` milliseconds (`"1s"` in JSON). */
-  wildfireRealtimeLookupDuration?: string | undefined;
+  /** Optional. Immutable. Indicates whether jumbo frames are enabled. The default value is `false`. */
+  jumboFramesEnabled?: boolean | undefined;
 }
 export type FirewallEndpointStateEnum =
   | "STATE_UNSPECIFIED"
@@ -294,46 +294,46 @@ export type FirewallEndpointStateEnum =
   | "INACTIVE";
 /** Message describing a firewall endpoint. */
 export interface FirewallEndpoint {
-  /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Output only. Update timestamp. */
-  updateTime?: string | undefined;
-  /** Output only. Create timestamp. */
-  createTime?: string | undefined;
-  /** Output only. List of firewall endpoint association resources that are associated with this endpoint. An association only appears in this list after traffic routing is fully configured. */
-  associations?: FirewallEndpointAssociationReferenceList | undefined;
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean | undefined;
-  /** Output only. The resource name of the explicit Private Service Connect (PSC) attachment. Format: `projects/{project}/regions/{region}/serviceAttachments/{id}`. */
-  explicitPrivateServiceConnectAttachment?: string | undefined;
-  /** Optional. Project to charge for the deployed firewall endpoint. This field must be specified when creating the endpoint in the organization scope, and should be omitted otherwise. */
-  billingProjectId?: string | undefined;
-  /** Immutable. Identifier. The name of the resource. */
-  name?: string | undefined;
-  /** Optional. Description of the firewall endpoint. The maximum length is 2048 characters. */
-  description?: string | undefined;
-  /** Optional. Settings for the endpoint. */
-  endpointSettings?: FirewallEndpointEndpointSettings | undefined;
-  /** Optional. Settings for Advanced malware sandbox (WildFire) analysis. */
-  wildfireSettings?: FirewallEndpointWildfireSettings | undefined;
-  /** Output only. Current state of the endpoint. */
-  state?: FirewallEndpointStateEnum | (string & {}) | undefined;
   /** Output only. Deprecated: Use the `network` field in the `associations` message instead. List of networks that are associated with this endpoint in the local zone. This is a projection of the firewall endpoint association resources pointing at this endpoint. A network only appears in this list after traffic routing is fully configured. Format: `projects/{project}/global/networks/{name}`. */
   associatedNetworks?: StringList | undefined;
-  /** Output only. Whether reconciling is in progress, recommended per https://google.aip.dev/128. */
-  reconciling?: boolean | undefined;
+  /** Output only. List of firewall endpoint association resources that are associated with this endpoint. An association only appears in this list after traffic routing is fully configured. */
+  associations?: FirewallEndpointAssociationReferenceList | undefined;
   /** Optional. Labels as key-value pairs. */
   labels?: StringMap | undefined;
+  /** Output only. Reserved for future use. */
+  satisfiesPzs?: boolean | undefined;
+  /** Output only. Update timestamp. */
+  updateTime?: string | undefined;
+  /** Output only. Reserved for future use. */
+  satisfiesPzi?: boolean | undefined;
+  /** Immutable. Identifier. The name of the resource. */
+  name?: string | undefined;
+  /** Optional. Settings for Advanced malware sandbox (WildFire) analysis. */
+  wildfireSettings?: FirewallEndpointWildfireSettings | undefined;
+  /** Optional. Settings for the endpoint. */
+  endpointSettings?: FirewallEndpointEndpointSettings | undefined;
+  /** Output only. Create timestamp. */
+  createTime?: string | undefined;
+  /** Output only. Whether reconciling is in progress, recommended per https://google.aip.dev/128. */
+  reconciling?: boolean | undefined;
+  /** Optional. Description of the firewall endpoint. The maximum length is 2048 characters. */
+  description?: string | undefined;
+  /** Output only. Current state of the endpoint. */
+  state?: FirewallEndpointStateEnum | (string & {}) | undefined;
+  /** Optional. Project to charge for the deployed firewall endpoint. This field must be specified when creating the endpoint in the organization scope, and should be omitted otherwise. */
+  billingProjectId?: string | undefined;
+  /** Output only. The resource name of the explicit Private Service Connect (PSC) attachment. Format: `projects/{project}/regions/{region}/serviceAttachments/{id}`. */
+  explicitPrivateServiceConnectAttachment?: string | undefined;
 }
 export interface CreateOrganizationsLocationsFirewallEndpointsRequest extends FirewallEndpoint {
-  /** Required. The parent resource where this firewall endpoint is created. Format: `organizations/{organization}/locations/{location}` or `projects/{project}/locations/{location}`. */
-  parent: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (`00000000-0000-0000-0000-000000000000`). */
-  requestId?: string | undefined;
   /** Required. The ID to use for the firewall endpoint, which becomes the final component of the endpoint's resource name. This value must be 1-63 characters long, start with a lowercase letter, contain only lowercase letters, numbers, and hyphens, and cannot end with a hyphen. */
   firewallEndpointId?: string | undefined;
   /** Optional. If set, validates the request and previews the endpoint, but does not actually create it. */
   validateOnly?: boolean | undefined;
+  /** Required. The parent resource where this firewall endpoint is created. Format: `organizations/{organization}/locations/{location}` or `projects/{project}/locations/{location}`. */
+  parent: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (`00000000-0000-0000-0000-000000000000`). */
+  requestId?: string | undefined;
 }
 export type WildfireVerdictChangeRequestOldVerdictEnum =
   | "WILDFIRE_SAMPLE_VERDICT_UNKNOWN"
@@ -341,11 +341,6 @@ export type WildfireVerdictChangeRequestOldVerdictEnum =
   | "MALWARE"
   | "GRAYWARE"
   | "PHISHING";
-export type WildfireVerdictChangeRequestStateEnum =
-  | "VERDICT_CHANGE_REQUEST_STATE_UNSPECIFIED"
-  | "OPEN"
-  | "CLOSED"
-  | "PENDING";
 export type WildfireVerdictChangeRequestFinalVerdictEnum =
   | "WILDFIRE_SAMPLE_VERDICT_UNKNOWN"
   | "BENIGN"
@@ -358,36 +353,41 @@ export type WildfireVerdictChangeRequestNewVerdictEnum =
   | "MALWARE"
   | "GRAYWARE"
   | "PHISHING";
+export type WildfireVerdictChangeRequestStateEnum =
+  | "VERDICT_CHANGE_REQUEST_STATE_UNSPECIFIED"
+  | "OPEN"
+  | "CLOSED"
+  | "PENDING";
 /** Message for an Advanced malware sandbox verdict change request (`WildfireVerdictChangeRequest`). */
 export interface WildfireVerdictChangeRequest {
-  /** Output only. The original verdict of the malware sample. */
-  oldVerdict?: WildfireVerdictChangeRequestOldVerdictEnum | (string & {}) | undefined;
-  /** Output only. The timestamp when the `WildfireVerdictChangeRequest` was resolved. */
-  resolutionTime?: string | undefined;
-  /** Output only. The timestamp when the `WildfireVerdictChangeRequest` was created. */
-  createTime?: string | undefined;
-  /** Output only. The timestamp when the `WildfireVerdictChangeRequest` was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. The review state of the `WildfireVerdictChangeRequest`. */
-  state?: WildfireVerdictChangeRequestStateEnum | (string & {}) | undefined;
-  /** Output only. The region of the file associated with the malware sample. */
-  sourceRegion?: string | undefined;
-  /** Output only. Identifier. The relative name of the `WildfireVerdictChangeRequest`. This is a unique identifier generated by the third-party API. Format: `organizations/{organization}/locations/{location}/firewallEndpoints/{firewall_endpoint}/wildfireVerdictChangeRequests/{wildfire_verdict_change_request_id}` or `projects/{project}/locations/{location}/firewallEndpoints/{firewall_endpoint}/wildfireVerdictChangeRequests/{wildfire_verdict_change_request_id}`. Where `{wildfire_verdict_change_request_id}` is an ID in the format `^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$`. */
-  name?: string | undefined;
-  /** Required. The justification for the verdict change request. The maximum length is 2048 characters. */
-  comment?: string | undefined;
-  /** Output only. The ID of the `WildfireVerdictChangeRequest`. This is a unique identifier generated by the third-party API. Format: `^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$`. */
-  wildfireVerdictChangeRequestId?: string | undefined;
-  /** Output only. The file type of the malware sample. */
-  fileType?: string | undefined;
-  /** Output only. The final verdict of the malware sample. */
-  finalVerdict?: WildfireVerdictChangeRequestFinalVerdictEnum | (string & {}) | undefined;
-  /** Required. The SHA256 hash ([FIPS 180-4](https://csrc.nist.gov/publications/detail/fips/180/4/final)) of the malware sample that requires a verdict change. */
-  sha256?: string | undefined;
-  /** Required. The suggested verdict to apply to the malware sample. */
-  newVerdict?: WildfireVerdictChangeRequestNewVerdictEnum | (string & {}) | undefined;
   /** Output only. The file name of the malware sample. */
   fileName?: string | undefined;
+  /** Output only. The file type of the malware sample. */
+  fileType?: string | undefined;
+  /** Output only. The timestamp when the `WildfireVerdictChangeRequest` was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. The original verdict of the malware sample. */
+  oldVerdict?: WildfireVerdictChangeRequestOldVerdictEnum | (string & {}) | undefined;
+  /** Output only. Identifier. The relative name of the `WildfireVerdictChangeRequest`. This is a unique identifier generated by the third-party API. Format: `organizations/{organization}/locations/{location}/firewallEndpoints/{firewall_endpoint}/wildfireVerdictChangeRequests/{wildfire_verdict_change_request_id}` or `projects/{project}/locations/{location}/firewallEndpoints/{firewall_endpoint}/wildfireVerdictChangeRequests/{wildfire_verdict_change_request_id}`. Where `{wildfire_verdict_change_request_id}` is an ID in the format `^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$`. */
+  name?: string | undefined;
+  /** Output only. The final verdict of the malware sample. */
+  finalVerdict?: WildfireVerdictChangeRequestFinalVerdictEnum | (string & {}) | undefined;
+  /** Output only. The ID of the `WildfireVerdictChangeRequest`. This is a unique identifier generated by the third-party API. Format: `^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$`. */
+  wildfireVerdictChangeRequestId?: string | undefined;
+  /** Required. The SHA256 hash ([FIPS 180-4](https://csrc.nist.gov/publications/detail/fips/180/4/final)) of the malware sample that requires a verdict change. */
+  sha256?: string | undefined;
+  /** Output only. The timestamp when the `WildfireVerdictChangeRequest` was resolved. */
+  resolutionTime?: string | undefined;
+  /** Required. The suggested verdict to apply to the malware sample. */
+  newVerdict?: WildfireVerdictChangeRequestNewVerdictEnum | (string & {}) | undefined;
+  /** Output only. The region of the file associated with the malware sample. */
+  sourceRegion?: string | undefined;
+  /** Required. The justification for the verdict change request. The maximum length is 2048 characters. */
+  comment?: string | undefined;
+  /** Output only. The timestamp when the `WildfireVerdictChangeRequest` was created. */
+  createTime?: string | undefined;
+  /** Output only. The review state of the `WildfireVerdictChangeRequest`. */
+  state?: WildfireVerdictChangeRequestStateEnum | (string & {}) | undefined;
 }
 export interface CreateOrganizationsLocationsFirewallEndpointsWildfireVerdictChangeRequestsRequest extends WildfireVerdictChangeRequest {
   /** Required. Parent value for `CreateWildfireVerdictChangeRequestRequest`. The parent is a firewall endpoint resource. Format: `organizations/{organization}/locations/{location}/firewallEndpoints/{firewall_endpoint}` or `projects/{project}/locations/{location}/firewallEndpoints/{firewall_endpoint}`. */
@@ -395,30 +395,30 @@ export interface CreateOrganizationsLocationsFirewallEndpointsWildfireVerdictCha
 }
 /** A resource that defines the behavior for various `ProfileType` values. */
 export interface SecurityProfileGroup {
-  /** Optional. Reference to a `SecurityProfile` with the custom intercept configuration. */
-  customInterceptProfile?: string | undefined;
-  /** Output only. Identifier used by the data path. Unique within `{container, location}`. */
-  dataPathId?: string | undefined;
-  /** Output only. Last resource update timestamp. */
-  updateTime?: string | undefined;
   /** Optional. Reference to a `SecurityProfile` with the custom mirroring configuration. */
   customMirroringProfile?: string | undefined;
-  /** Output only. Resource creation timestamp. */
-  createTime?: string | undefined;
-  /** Optional. Reference to a `SecurityProfile` with the Advanced malware sandbox (WildFire) configuration. */
-  wildfireAnalysisProfile?: string | undefined;
   /** Optional. Reference to a `SecurityProfile` with the threat prevention configuration. */
   threatPreventionProfile?: string | undefined;
-  /** Immutable. Identifier. Name of the `SecurityProfileGroup` resource. Format: `organizations/{organization}/locations/{location}/securityProfileGroups/{security_profile_group}` or `projects/{project}/locations/{location}/securityProfileGroups/{security_profile_group}`. */
-  name?: string | undefined;
-  /** Output only. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
   /** Optional. Reference to a `SecurityProfile` with the URL filtering configuration. */
   urlFilteringProfile?: string | undefined;
-  /** Optional. An optional description of the profile group. The maximum length is 2048 characters. */
-  description?: string | undefined;
+  /** Output only. Resource creation timestamp. */
+  createTime?: string | undefined;
+  /** Output only. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** Optional. Reference to a `SecurityProfile` with the custom intercept configuration. */
+  customInterceptProfile?: string | undefined;
   /** Optional. Labels as key-value pairs. */
   labels?: StringMap | undefined;
+  /** Immutable. Identifier. Name of the `SecurityProfileGroup` resource. Format: `organizations/{organization}/locations/{location}/securityProfileGroups/{security_profile_group}` or `projects/{project}/locations/{location}/securityProfileGroups/{security_profile_group}`. */
+  name?: string | undefined;
+  /** Optional. Reference to a `SecurityProfile` with the Advanced malware sandbox (WildFire) configuration. */
+  wildfireAnalysisProfile?: string | undefined;
+  /** Output only. Identifier used by the data path. Unique within `{container, location}`. */
+  dataPathId?: string | undefined;
+  /** Optional. An optional description of the profile group. The maximum length is 2048 characters. */
+  description?: string | undefined;
+  /** Output only. Last resource update timestamp. */
+  updateTime?: string | undefined;
 }
 export interface CreateOrganizationsLocationsSecurityProfileGroupsRequest extends SecurityProfileGroup {
   /** Required. The parent resource of the `SecurityProfileGroup`. Format: `organizations/{organization}/locations/{location}` or `projects/{project}/locations/{location}`. */
@@ -426,22 +426,32 @@ export interface CreateOrganizationsLocationsSecurityProfileGroupsRequest extend
   /** Required. Short name of the `SecurityProfileGroup` resource to be created. This value must be 1 to 63 characters long, contain only lowercase letters, numbers, and hyphens, and must not start with a number. For example, `security-profile-group1`. */
   securityProfileGroupId?: string | undefined;
 }
-export type UrlFilterFilteringActionEnum = "URL_FILTERING_ACTION_UNSPECIFIED" | "ALLOW" | "DENY";
-/** A URL filter defines an action to take for some URL match. */
-export interface UrlFilter {
-  /** Required. The list of strings that a URL must match with for this filter to be applied. */
-  urls?: StringList | undefined;
-  /** Required. The action taken when this filter is applied. */
-  filteringAction?: UrlFilterFilteringActionEnum | (string & {}) | undefined;
-  /** Required. The priority of this filter within the URL Filtering Profile. Lower integers indicate higher priorities. The priority of a filter must be unique within a URL Filtering Profile. */
-  priority?: number | undefined;
+/** CustomInterceptProfile defines in-band integration behavior (intercept). It is used by firewall rules with an APPLY_SECURITY_PROFILE_GROUP action. */
+export interface CustomInterceptProfile {
+  /** Required. The target InterceptEndpointGroup. When a firewall rule with this security profile attached matches a packet, the packet will be intercepted to the location-local target in this group. */
+  interceptEndpointGroup?: string | undefined;
 }
-export type UrlFilterList = Array<UrlFilter>;
-/** UrlFilteringProfile defines filters based on URL. */
-export interface UrlFilteringProfile {
-  /** Optional. The list of filtering configs in which each config defines an action to take for some URL match. */
-  urlFilters?: UrlFilterList | undefined;
+export type SeverityOverrideSeverityEnum =
+  | "SEVERITY_UNSPECIFIED"
+  | "INFORMATIONAL"
+  | "LOW"
+  | "MEDIUM"
+  | "HIGH"
+  | "CRITICAL";
+export type SeverityOverrideActionEnum =
+  | "THREAT_ACTION_UNSPECIFIED"
+  | "DEFAULT_ACTION"
+  | "ALLOW"
+  | "ALERT"
+  | "DENY";
+/** Defines what action to take for a specific severity match. */
+export interface SeverityOverride {
+  /** Required. Severity level to match. */
+  severity?: SeverityOverrideSeverityEnum | (string & {}) | undefined;
+  /** Required. Threat action override. */
+  action?: SeverityOverrideActionEnum | (string & {}) | undefined;
 }
+export type SeverityOverrideList = Array<SeverityOverride>;
 export type AntivirusOverrideProtocolEnum =
   | "PROTOCOL_UNSPECIFIED"
   | "SMTP"
@@ -482,81 +492,82 @@ export type ThreatOverrideTypeEnum =
 export interface ThreatOverride {
   /** Required. Threat action override. For some threat types, only a subset of actions applies. */
   action?: ThreatOverrideActionEnum | (string & {}) | undefined;
-  /** Output only. Type of the threat (read only). */
-  type?: ThreatOverrideTypeEnum | (string & {}) | undefined;
   /** Required. Vendor-specific ID of a threat to override. */
   threatId?: string | undefined;
+  /** Output only. Type of the threat (read only). */
+  type?: ThreatOverrideTypeEnum | (string & {}) | undefined;
 }
 export type ThreatOverrideList = Array<ThreatOverride>;
-export type SeverityOverrideActionEnum =
-  | "THREAT_ACTION_UNSPECIFIED"
-  | "DEFAULT_ACTION"
-  | "ALLOW"
-  | "ALERT"
-  | "DENY";
-export type SeverityOverrideSeverityEnum =
-  | "SEVERITY_UNSPECIFIED"
-  | "INFORMATIONAL"
-  | "LOW"
-  | "MEDIUM"
-  | "HIGH"
-  | "CRITICAL";
-/** Defines what action to take for a specific severity match. */
-export interface SeverityOverride {
-  /** Required. Threat action override. */
-  action?: SeverityOverrideActionEnum | (string & {}) | undefined;
-  /** Required. Severity level to match. */
-  severity?: SeverityOverrideSeverityEnum | (string & {}) | undefined;
-}
-export type SeverityOverrideList = Array<SeverityOverride>;
 /** ThreatPreventionProfile defines an action for specific threat signatures or severity levels. */
 export interface ThreatPreventionProfile {
+  /** Optional. Configuration for overriding threats actions by severity match. */
+  severityOverrides?: SeverityOverrideList | undefined;
   /** Optional. Configuration for overriding antivirus actions per protocol. */
   antivirusOverrides?: AntivirusOverrideList | undefined;
   /** Optional. Configuration for overriding threats actions by threat_id match. If a threat is matched both by configuration provided in severity_overrides and threat_overrides, the threat_overrides action is applied. */
   threatOverrides?: ThreatOverrideList | undefined;
-  /** Optional. Configuration for overriding threats actions by severity match. */
-  severityOverrides?: SeverityOverrideList | undefined;
 }
-export type WildfireSubmissionRuleFileSelectionModeEnum =
-  | "FILE_SELECTION_MODE_UNSPECIFIED"
-  | "ALL_FILE_TYPES"
-  | "CUSTOM_FILE_TYPES";
-export type WildfireSubmissionRuleDirectionEnum =
-  | "DIRECTION_UNSPECIFIED"
-  | "UPLOAD"
-  | "DOWNLOAD"
-  | "BOTH";
-export type WildfireSubmissionRuleCustomFileTypesFileTypesItemEnum =
-  | "FILE_TYPE_UNSPECIFIED"
-  | "APK"
-  | "ARCHIVE"
-  | "EMAIL_LINK"
-  | "FLASH"
-  | "JAR"
-  | "LINUX"
+export type UrlFilterFilteringActionEnum = "URL_FILTERING_ACTION_UNSPECIFIED" | "ALLOW" | "DENY";
+/** A URL filter defines an action to take for some URL match. */
+export interface UrlFilter {
+  /** Required. The list of strings that a URL must match with for this filter to be applied. */
+  urls?: StringList | undefined;
+  /** Required. The priority of this filter within the URL Filtering Profile. Lower integers indicate higher priorities. The priority of a filter must be unique within a URL Filtering Profile. */
+  priority?: number | undefined;
+  /** Required. The action taken when this filter is applied. */
+  filteringAction?: UrlFilterFilteringActionEnum | (string & {}) | undefined;
+}
+export type UrlFilterList = Array<UrlFilter>;
+/** UrlFilteringProfile defines filters based on URL. */
+export interface UrlFilteringProfile {
+  /** Optional. The list of filtering configs in which each config defines an action to take for some URL match. */
+  urlFilters?: UrlFilterList | undefined;
+}
+/** CustomMirroringProfile defines out-of-band integration behavior (mirroring). It is used by mirroring rules with a MIRROR action. */
+export interface CustomMirroringProfile {
+  /** Required. Immutable. The target MirroringEndpointGroup. When a mirroring rule with this security profile attached matches a packet, a replica will be mirrored to the location-local target in this group. */
+  mirroringEndpointGroup?: string | undefined;
+}
+/** Defines the file to exclude from Advanced malware sandbox inline ML analysis. */
+export interface WildfireInlineMlFileException {
+  /** Required. Machine learning partial hash of the file to exclude from Advanced malware sandbox inline ML analysis. */
+  partialHash?: string | undefined;
+  /** Optional. Name of the file to exclude from Advanced malware sandbox inline ML analysis. */
+  filename?: string | undefined;
+}
+export type WildfireInlineMlFileExceptionList = Array<WildfireInlineMlFileException>;
+export type WildfireInlineMlSettingsInlineMlConfigFileTypeEnum =
+  | "INLINE_ML_CONFIG_UNSPECIFIED"
+  | "WINDOWS_EXECUTABLE"
+  | "POWERSHELL_SCRIPT1"
+  | "POWERSHELL_SCRIPT2"
+  | "ELF"
   | "MS_OFFICE"
-  | "PDF"
-  | "PE"
-  | "SCRIPT";
-export type WildfireSubmissionRuleCustomFileTypesFileTypesItemEnumList = Array<
-  WildfireSubmissionRuleCustomFileTypesFileTypesItemEnum | (string & {})
->;
-/** The options to submit a custom list of file types for scanning. */
-export interface WildfireSubmissionRuleCustomFileTypes {
-  /** Required. File types to be submitted for Advanced malware sandbox analysis. */
-  fileTypes?: WildfireSubmissionRuleCustomFileTypesFileTypesItemEnumList | undefined;
+  | "SHELL"
+  | "OOXML"
+  | "MACHO";
+export type WildfireInlineMlSettingsInlineMlConfigActionEnum =
+  | "INLINE_ML_ACTION_UNSPECIFIED"
+  | "DISABLE"
+  | "ALERT"
+  | "ENABLE";
+/** Configuration for Advanced malware sandbox inline ML analysis per file type. */
+export interface WildfireInlineMlSettingsInlineMlConfig {
+  /** Required. File type to configure inline ML for. */
+  fileType?: WildfireInlineMlSettingsInlineMlConfigFileTypeEnum | (string & {}) | undefined;
+  /** Required. Action to take when a threat is detected using inline ML. */
+  action?: WildfireInlineMlSettingsInlineMlConfigActionEnum | (string & {}) | undefined;
 }
-/** Defines the file types to be submitted for Advanced malware sandbox analysis and the direction of the traffic. */
-export interface WildfireSubmissionRule {
-  /** Required. File selection mode for Advanced malware sandbox analysis. */
-  fileSelectionMode?: WildfireSubmissionRuleFileSelectionModeEnum | (string & {}) | undefined;
-  /** Required. Direction for the files to be analyzed by Advanced malware sandbox. */
-  direction?: WildfireSubmissionRuleDirectionEnum | (string & {}) | undefined;
-  /** Submit a custom list of file types for Advanced malware sandbox analysis. */
-  customFileTypes?: WildfireSubmissionRuleCustomFileTypes | undefined;
+export type WildfireInlineMlSettingsInlineMlConfigList =
+  Array<WildfireInlineMlSettingsInlineMlConfig>;
+/** Defines the settings for Advanced malware sandbox inline ML analysis. */
+export interface WildfireInlineMlSettings {
+  /** Optional. List of files to exclude from Advanced malware sandbox inline ML analysis. */
+  fileExceptions?: WildfireInlineMlFileExceptionList | undefined;
+  /** Optional. List of inline ML configurations to enable in Advanced malware sandbox inline ML analysis. */
+  inlineMlConfigs?: WildfireInlineMlSettingsInlineMlConfigList | undefined;
 }
-export type WildfireSubmissionRuleList = Array<WildfireSubmissionRule>;
+export type WildfireInlineMlSettingsList = Array<WildfireInlineMlSettings>;
 export type WildfireInlineMlOverrideProtocolEnum =
   | "WILDFIRE_PROTOCOL_UNSPECIFIED"
   | "WILDFIRE_SMTP"
@@ -580,29 +591,11 @@ export interface WildfireInlineMlOverride {
   action?: WildfireInlineMlOverrideActionEnum | (string & {}) | undefined;
 }
 export type WildfireInlineMlOverrideList = Array<WildfireInlineMlOverride>;
-export type WildfireOverrideProtocolEnum =
-  | "WILDFIRE_PROTOCOL_UNSPECIFIED"
-  | "WILDFIRE_SMTP"
-  | "WILDFIRE_SMB"
-  | "WILDFIRE_POP3"
-  | "WILDFIRE_IMAP"
-  | "WILDFIRE_HTTP2"
-  | "WILDFIRE_HTTP"
-  | "WILDFIRE_FTP";
-export type WildfireOverrideActionEnum =
-  | "WILDFIRE_THREAT_ACTION_UNSPECIFIED"
-  | "WILDFIRE_DEFAULT_ACTION"
-  | "WILDFIRE_ALLOW"
-  | "WILDFIRE_ALERT"
-  | "WILDFIRE_DENY";
-/** Defines what action to take for Advanced malware sandbox threats per protocol. */
-export interface WildfireOverride {
-  /** Required. Protocol to match. */
-  protocol?: WildfireOverrideProtocolEnum | (string & {}) | undefined;
-  /** Required. Threat action override. For some threat types, only a subset of actions applies. */
-  action?: WildfireOverrideActionEnum | (string & {}) | undefined;
-}
-export type WildfireOverrideList = Array<WildfireOverride>;
+export type WildfireInlineCloudAnalysisRuleDirectionEnum =
+  | "DIRECTION_UNSPECIFIED"
+  | "UPLOAD"
+  | "DOWNLOAD"
+  | "BOTH";
 export type WildfireInlineCloudAnalysisRuleCustomFileTypesFileTypesItemEnum =
   | "FILE_TYPE_UNSPECIFIED"
   | "PE";
@@ -614,75 +607,30 @@ export interface WildfireInlineCloudAnalysisRuleCustomFileTypes {
   /** Required. File types to be submitted for Advanced malware sandbox inline cloud analysis. */
   fileTypes?: WildfireInlineCloudAnalysisRuleCustomFileTypesFileTypesItemEnumList | undefined;
 }
+export type WildfireInlineCloudAnalysisRuleFileSelectionModeEnum =
+  | "FILE_SELECTION_MODE_UNSPECIFIED"
+  | "ALL_FILE_TYPES"
+  | "CUSTOM_FILE_TYPES";
 export type WildfireInlineCloudAnalysisRuleActionEnum =
   | "WILDFIRE_INLINE_CLOUD_ANALYSIS_ACTION_UNSPECIFIED"
   | "ALLOW"
   | "DENY"
   | "ALERT";
-export type WildfireInlineCloudAnalysisRuleFileSelectionModeEnum =
-  | "FILE_SELECTION_MODE_UNSPECIFIED"
-  | "ALL_FILE_TYPES"
-  | "CUSTOM_FILE_TYPES";
-export type WildfireInlineCloudAnalysisRuleDirectionEnum =
-  | "DIRECTION_UNSPECIFIED"
-  | "UPLOAD"
-  | "DOWNLOAD"
-  | "BOTH";
 /** The list of file type configurations to be scanned by Advanced malware sandbox inline cloud analysis. */
 export interface WildfireInlineCloudAnalysisRule {
+  /** Required. Direction for the files to be analyzed by Advanced malware sandbox inline cloud analysis. */
+  direction?: WildfireInlineCloudAnalysisRuleDirectionEnum | (string & {}) | undefined;
   /** Submit a custom list of file types for Advanced malware sandbox inline cloud analysis. */
   customFileTypes?: WildfireInlineCloudAnalysisRuleCustomFileTypes | undefined;
-  /** Required. Action to take when a threat is detected using Advanced malware sandbox inline cloud analysis. The default value is `DENY`. */
-  action?: WildfireInlineCloudAnalysisRuleActionEnum | (string & {}) | undefined;
   /** Required. File selection mode for Advanced malware sandbox inline cloud analysis. */
   fileSelectionMode?:
     | WildfireInlineCloudAnalysisRuleFileSelectionModeEnum
     | (string & {})
     | undefined;
-  /** Required. Direction for the files to be analyzed by Advanced malware sandbox inline cloud analysis. */
-  direction?: WildfireInlineCloudAnalysisRuleDirectionEnum | (string & {}) | undefined;
+  /** Required. Action to take when a threat is detected using Advanced malware sandbox inline cloud analysis. The default value is `DENY`. */
+  action?: WildfireInlineCloudAnalysisRuleActionEnum | (string & {}) | undefined;
 }
 export type WildfireInlineCloudAnalysisRuleList = Array<WildfireInlineCloudAnalysisRule>;
-/** Defines the file to exclude from Advanced malware sandbox inline ML analysis. */
-export interface WildfireInlineMlFileException {
-  /** Required. Machine learning partial hash of the file to exclude from Advanced malware sandbox inline ML analysis. */
-  partialHash?: string | undefined;
-  /** Optional. Name of the file to exclude from Advanced malware sandbox inline ML analysis. */
-  filename?: string | undefined;
-}
-export type WildfireInlineMlFileExceptionList = Array<WildfireInlineMlFileException>;
-export type WildfireInlineMlSettingsInlineMlConfigActionEnum =
-  | "INLINE_ML_ACTION_UNSPECIFIED"
-  | "DISABLE"
-  | "ALERT"
-  | "ENABLE";
-export type WildfireInlineMlSettingsInlineMlConfigFileTypeEnum =
-  | "INLINE_ML_CONFIG_UNSPECIFIED"
-  | "WINDOWS_EXECUTABLE"
-  | "POWERSHELL_SCRIPT1"
-  | "POWERSHELL_SCRIPT2"
-  | "ELF"
-  | "MS_OFFICE"
-  | "SHELL"
-  | "OOXML"
-  | "MACHO";
-/** Configuration for Advanced malware sandbox inline ML analysis per file type. */
-export interface WildfireInlineMlSettingsInlineMlConfig {
-  /** Required. Action to take when a threat is detected using inline ML. */
-  action?: WildfireInlineMlSettingsInlineMlConfigActionEnum | (string & {}) | undefined;
-  /** Required. File type to configure inline ML for. */
-  fileType?: WildfireInlineMlSettingsInlineMlConfigFileTypeEnum | (string & {}) | undefined;
-}
-export type WildfireInlineMlSettingsInlineMlConfigList =
-  Array<WildfireInlineMlSettingsInlineMlConfig>;
-/** Defines the settings for Advanced malware sandbox inline ML analysis. */
-export interface WildfireInlineMlSettings {
-  /** Optional. List of files to exclude from Advanced malware sandbox inline ML analysis. */
-  fileExceptions?: WildfireInlineMlFileExceptionList | undefined;
-  /** Optional. List of inline ML configurations to enable in Advanced malware sandbox inline ML analysis. */
-  inlineMlConfigs?: WildfireInlineMlSettingsInlineMlConfigList | undefined;
-}
-export type WildfireInlineMlSettingsList = Array<WildfireInlineMlSettings>;
 export type WildfireThreatOverrideActionEnum =
   | "WILDFIRE_THREAT_ACTION_UNSPECIFIED"
   | "WILDFIRE_DEFAULT_ACTION"
@@ -697,24 +645,86 @@ export interface WildfireThreatOverride {
   action?: WildfireThreatOverrideActionEnum | (string & {}) | undefined;
 }
 export type WildfireThreatOverrideList = Array<WildfireThreatOverride>;
+export type WildfireOverrideActionEnum =
+  | "WILDFIRE_THREAT_ACTION_UNSPECIFIED"
+  | "WILDFIRE_DEFAULT_ACTION"
+  | "WILDFIRE_ALLOW"
+  | "WILDFIRE_ALERT"
+  | "WILDFIRE_DENY";
+export type WildfireOverrideProtocolEnum =
+  | "WILDFIRE_PROTOCOL_UNSPECIFIED"
+  | "WILDFIRE_SMTP"
+  | "WILDFIRE_SMB"
+  | "WILDFIRE_POP3"
+  | "WILDFIRE_IMAP"
+  | "WILDFIRE_HTTP2"
+  | "WILDFIRE_HTTP"
+  | "WILDFIRE_FTP";
+/** Defines what action to take for Advanced malware sandbox threats per protocol. */
+export interface WildfireOverride {
+  /** Required. Threat action override. For some threat types, only a subset of actions applies. */
+  action?: WildfireOverrideActionEnum | (string & {}) | undefined;
+  /** Required. Protocol to match. */
+  protocol?: WildfireOverrideProtocolEnum | (string & {}) | undefined;
+}
+export type WildfireOverrideList = Array<WildfireOverride>;
+export type WildfireSubmissionRuleCustomFileTypesFileTypesItemEnum =
+  | "FILE_TYPE_UNSPECIFIED"
+  | "APK"
+  | "ARCHIVE"
+  | "EMAIL_LINK"
+  | "FLASH"
+  | "JAR"
+  | "LINUX"
+  | "MS_OFFICE"
+  | "PDF"
+  | "PE"
+  | "SCRIPT";
+export type WildfireSubmissionRuleCustomFileTypesFileTypesItemEnumList = Array<
+  WildfireSubmissionRuleCustomFileTypesFileTypesItemEnum | (string & {})
+>;
+/** The options to submit a custom list of file types for scanning. */
+export interface WildfireSubmissionRuleCustomFileTypes {
+  /** Required. File types to be submitted for Advanced malware sandbox analysis. */
+  fileTypes?: WildfireSubmissionRuleCustomFileTypesFileTypesItemEnumList | undefined;
+}
+export type WildfireSubmissionRuleDirectionEnum =
+  | "DIRECTION_UNSPECIFIED"
+  | "UPLOAD"
+  | "DOWNLOAD"
+  | "BOTH";
+export type WildfireSubmissionRuleFileSelectionModeEnum =
+  | "FILE_SELECTION_MODE_UNSPECIFIED"
+  | "ALL_FILE_TYPES"
+  | "CUSTOM_FILE_TYPES";
+/** Defines the file types to be submitted for Advanced malware sandbox analysis and the direction of the traffic. */
+export interface WildfireSubmissionRule {
+  /** Submit a custom list of file types for Advanced malware sandbox analysis. */
+  customFileTypes?: WildfireSubmissionRuleCustomFileTypes | undefined;
+  /** Required. Direction for the files to be analyzed by Advanced malware sandbox. */
+  direction?: WildfireSubmissionRuleDirectionEnum | (string & {}) | undefined;
+  /** Required. File selection mode for Advanced malware sandbox analysis. */
+  fileSelectionMode?: WildfireSubmissionRuleFileSelectionModeEnum | (string & {}) | undefined;
+}
+export type WildfireSubmissionRuleList = Array<WildfireSubmissionRule>;
 /** `WildfireAnalysisProfile` defines Palo Alto Networks WildFire behavior. */
 export interface WildfireAnalysisProfile {
+  /** Optional. Deprecated: Use `wildfire_inline_ml_setting` instead. Settings for Advanced malware sandbox inline ML analysis. */
+  wildfireInlineMlSettings?: WildfireInlineMlSettingsList | undefined;
+  /** Optional. Configuration for overriding inline ML Advanced malware sandbox actions per protocol. */
+  wildfireInlineMlOverrides?: WildfireInlineMlOverrideList | undefined;
+  /** Optional. Configuration for Advanced malware sandbox inline cloud analysis. */
+  wildfireInlineCloudAnalysisRules?: WildfireInlineCloudAnalysisRuleList | undefined;
+  /** Optional. Configuration for overriding the Advanced malware sandbox threat action by `threat_id` match. */
+  wildfireThreatOverrides?: WildfireThreatOverrideList | undefined;
+  /** Optional. Settings for Advanced malware sandbox inline ML analysis. */
+  wildfireInlineMlSetting?: WildfireInlineMlSettings | undefined;
+  /** Optional. Configuration for overriding Advanced malware sandbox actions per protocol. */
+  wildfireOverrides?: WildfireOverrideList | undefined;
   /** Optional. Configurations for Advanced malware sandbox (WildFire) file submissions. */
   wildfireSubmissionRules?: WildfireSubmissionRuleList | undefined;
   /** Optional. Whether to hold the transfer of a file while the Advanced malware sandbox real-time signature cloud performs a signature lookup. The default value is `false`. */
   wildfireRealtimeLookup?: boolean | undefined;
-  /** Optional. Configuration for overriding inline ML Advanced malware sandbox actions per protocol. */
-  wildfireInlineMlOverrides?: WildfireInlineMlOverrideList | undefined;
-  /** Optional. Configuration for overriding Advanced malware sandbox actions per protocol. */
-  wildfireOverrides?: WildfireOverrideList | undefined;
-  /** Optional. Configuration for Advanced malware sandbox inline cloud analysis. */
-  wildfireInlineCloudAnalysisRules?: WildfireInlineCloudAnalysisRuleList | undefined;
-  /** Optional. Settings for Advanced malware sandbox inline ML analysis. */
-  wildfireInlineMlSetting?: WildfireInlineMlSettings | undefined;
-  /** Optional. Deprecated: Use `wildfire_inline_ml_setting` instead. Settings for Advanced malware sandbox inline ML analysis. */
-  wildfireInlineMlSettings?: WildfireInlineMlSettingsList | undefined;
-  /** Optional. Configuration for overriding the Advanced malware sandbox threat action by `threat_id` match. */
-  wildfireThreatOverrides?: WildfireThreatOverrideList | undefined;
 }
 export type SecurityProfileTypeEnum =
   | "PROFILE_TYPE_UNSPECIFIED"
@@ -723,42 +733,32 @@ export type SecurityProfileTypeEnum =
   | "CUSTOM_INTERCEPT"
   | "URL_FILTERING"
   | "WILDFIRE_ANALYSIS";
-/** CustomMirroringProfile defines out-of-band integration behavior (mirroring). It is used by mirroring rules with a MIRROR action. */
-export interface CustomMirroringProfile {
-  /** Required. Immutable. The target MirroringEndpointGroup. When a mirroring rule with this security profile attached matches a packet, a replica will be mirrored to the location-local target in this group. */
-  mirroringEndpointGroup?: string | undefined;
-}
-/** CustomInterceptProfile defines in-band integration behavior (intercept). It is used by firewall rules with an APPLY_SECURITY_PROFILE_GROUP action. */
-export interface CustomInterceptProfile {
-  /** Required. The target InterceptEndpointGroup. When a firewall rule with this security profile attached matches a packet, the packet will be intercepted to the location-local target in this group. */
-  interceptEndpointGroup?: string | undefined;
-}
 /** A resource that defines the behavior for one of many `ProfileType` values. */
 export interface SecurityProfile {
-  /** The URL filtering configuration for the `SecurityProfile`. */
-  urlFilteringProfile?: UrlFilteringProfile | undefined;
-  /** The threat prevention configuration for the `SecurityProfile`. */
-  threatPreventionProfile?: ThreatPreventionProfile | undefined;
-  /** The Advanced malware sandbox analysis configuration for the `SecurityProfile`. */
-  wildfireAnalysisProfile?: WildfireAnalysisProfile | undefined;
-  /** Optional. Labels as key-value pairs. */
-  labels?: StringMap | undefined;
-  /** Immutable. Identifier. Name of the `SecurityProfile` resource. Format: `organizations/{organization}/locations/{location}/securityProfiles/{security_profile}` or `projects/{project}/locations/{location}/securityProfiles/{security_profile}`. */
-  name?: string | undefined;
-  /** Output only. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
-  etag?: string | undefined;
-  /** Immutable. The single `ProfileType` that the `SecurityProfile` resource configures. */
-  type?: SecurityProfileTypeEnum | (string & {}) | undefined;
-  /** The custom network security out-of-band integration configuration for the `SecurityProfile`. */
-  customMirroringProfile?: CustomMirroringProfile | undefined;
-  /** Output only. Last resource update timestamp. */
-  updateTime?: string | undefined;
   /** The custom network security in-band integration configuration for the `SecurityProfile`. */
   customInterceptProfile?: CustomInterceptProfile | undefined;
-  /** Output only. Resource creation timestamp. */
-  createTime?: string | undefined;
+  /** Output only. This checksum is computed by the server based on the value of other fields, and may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. */
+  etag?: string | undefined;
+  /** The threat prevention configuration for the `SecurityProfile`. */
+  threatPreventionProfile?: ThreatPreventionProfile | undefined;
+  /** Output only. Last resource update timestamp. */
+  updateTime?: string | undefined;
+  /** The URL filtering configuration for the `SecurityProfile`. */
+  urlFilteringProfile?: UrlFilteringProfile | undefined;
+  /** The custom network security out-of-band integration configuration for the `SecurityProfile`. */
+  customMirroringProfile?: CustomMirroringProfile | undefined;
+  /** Optional. Labels as key-value pairs. */
+  labels?: StringMap | undefined;
+  /** The Advanced malware sandbox analysis configuration for the `SecurityProfile`. */
+  wildfireAnalysisProfile?: WildfireAnalysisProfile | undefined;
   /** Optional. An optional description of the profile. The maximum length is 512 characters. */
   description?: string | undefined;
+  /** Output only. Resource creation timestamp. */
+  createTime?: string | undefined;
+  /** Immutable. Identifier. Name of the `SecurityProfile` resource. Format: `organizations/{organization}/locations/{location}/securityProfiles/{security_profile}` or `projects/{project}/locations/{location}/securityProfiles/{security_profile}`. */
+  name?: string | undefined;
+  /** Immutable. The single `ProfileType` that the `SecurityProfile` resource configures. */
+  type?: SecurityProfileTypeEnum | (string & {}) | undefined;
 }
 export interface CreateOrganizationsLocationsSecurityProfilesRequest extends SecurityProfile {
   /** Required. The parent resource of the `SecurityProfile`. Format: `organizations/{organization}/locations/{location}` or `projects/{project}/locations/{location}`. */
@@ -767,14 +767,34 @@ export interface CreateOrganizationsLocationsSecurityProfilesRequest extends Sec
   securityProfileId?: string | undefined;
 }
 export interface CreateProjectsLocationsAddressGroupsRequest extends AddressGroup {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. The parent resource of the AddressGroup. Must be in the format `projects/*\/locations/{location}`. */
-  parent: string;
   /** Required. Short name of the AddressGroup resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "authz_policy". */
   addressGroupId?: string | undefined;
+  /** Required. The parent resource of the AddressGroup. Must be in the format `projects/*\/locations/{location}`. */
+  parent: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export type AuthorizationPolicyActionEnum = "ACTION_UNSPECIFIED" | "ALLOW" | "DENY";
+/** Specification of HTTP header match attributes. */
+export interface HttpHeaderMatch {
+  /** Required. The name of the HTTP header to match. For matching against the HTTP request's authority, use a headerMatch with the header name ":authority". For matching a request's method, use the headerName ":method". */
+  headerName?: string | undefined;
+  /** Required. The value of the header must match the regular expression specified in regexMatch. For regular expression grammar, please see: en.cppreference.com/w/cpp/regex/ecmascript For matching against a port specified in the HTTP request, use a headerMatch with headerName set to Host and a regular expression that satisfies the RFC2616 Host header's port specifier. */
+  regexMatch?: string | undefined;
+}
+export type IntegerList = Array<number>;
+/** Specification of traffic destination attributes. */
+export interface Destination {
+  /** Optional. Match against key:value pair in http header. Provides a flexible match based on HTTP headers, for potentially advanced use cases. At least one header should match. Avoid using header matches to make authorization decisions unless there is a strong guarantee that requests arrive through a trusted client or proxy. */
+  httpHeaderMatch?: HttpHeaderMatch | undefined;
+  /** Required. List of host names to match. Matched against the ":authority" header in http requests. At least one host should match. Each host can be an exact match, or a prefix match (example "mydomain.*") or a suffix match (example "*.myorg.com") or a presence (any) match "*". */
+  hosts?: StringList | undefined;
+  /** Optional. A list of HTTP methods to match. At least one method should match. Should not be set for gRPC services. */
+  methods?: StringList | undefined;
+  /** Required. List of destination ports to match. At least one port should match. */
+  ports?: IntegerList | undefined;
+}
+export type DestinationList = Array<Destination>;
 /** Specification of traffic source attributes. */
 export interface Source {
   /** Optional. List of peer identities to match for authorization. At least one principal should match. Each peer can be an exact match, or a prefix match (example, "namespace/*") or a suffix match (example, "*\/service-account") or a presence match "*". Authorization based on the principal name without certificate validation (configured by ServerTlsPolicy resource) is considered insecure. */
@@ -783,143 +803,81 @@ export interface Source {
   ipBlocks?: StringList | undefined;
 }
 export type SourceList = Array<Source>;
-/** Specification of HTTP header match attributes. */
-export interface HttpHeaderMatch {
-  /** Required. The value of the header must match the regular expression specified in regexMatch. For regular expression grammar, please see: en.cppreference.com/w/cpp/regex/ecmascript For matching against a port specified in the HTTP request, use a headerMatch with headerName set to Host and a regular expression that satisfies the RFC2616 Host header's port specifier. */
-  regexMatch?: string | undefined;
-  /** Required. The name of the HTTP header to match. For matching against the HTTP request's authority, use a headerMatch with the header name ":authority". For matching a request's method, use the headerName ":method". */
-  headerName?: string | undefined;
-}
-export type IntegerList = Array<number>;
-/** Specification of traffic destination attributes. */
-export interface Destination {
-  /** Optional. A list of HTTP methods to match. At least one method should match. Should not be set for gRPC services. */
-  methods?: StringList | undefined;
-  /** Required. List of host names to match. Matched against the ":authority" header in http requests. At least one host should match. Each host can be an exact match, or a prefix match (example "mydomain.*") or a suffix match (example "*.myorg.com") or a presence (any) match "*". */
-  hosts?: StringList | undefined;
-  /** Optional. Match against key:value pair in http header. Provides a flexible match based on HTTP headers, for potentially advanced use cases. At least one header should match. Avoid using header matches to make authorization decisions unless there is a strong guarantee that requests arrive through a trusted client or proxy. */
-  httpHeaderMatch?: HttpHeaderMatch | undefined;
-  /** Required. List of destination ports to match. At least one port should match. */
-  ports?: IntegerList | undefined;
-}
-export type DestinationList = Array<Destination>;
 /** Specification of rules. */
 export interface Rule {
-  /** Optional. List of attributes for the traffic source. All of the sources must match. A source is a match if both principals and ip_blocks match. If not set, the action specified in the 'action' field will be applied without any rule checks for the source. */
-  sources?: SourceList | undefined;
   /** Optional. List of attributes for the traffic destination. All of the destinations must match. A destination is a match if a request matches all the specified hosts, ports, methods and headers. If not set, the action specified in the 'action' field will be applied without any rule checks for the destination. */
   destinations?: DestinationList | undefined;
+  /** Optional. List of attributes for the traffic source. All of the sources must match. A source is a match if both principals and ip_blocks match. If not set, the action specified in the 'action' field will be applied without any rule checks for the source. */
+  sources?: SourceList | undefined;
 }
 export type RuleList = Array<Rule>;
 /** AuthorizationPolicy is a resource that specifies how a server should authorize incoming connections. This resource in itself does not change the configuration unless it's attached to a target https proxy or endpoint config selector resource. */
 export interface AuthorizationPolicy {
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
   /** Optional. Set of label tags associated with the AuthorizationPolicy resource. */
   labels?: StringMap | undefined;
   /** Required. The action to take when a rule match is found. Possible values are "ALLOW" or "DENY". */
   action?: AuthorizationPolicyActionEnum | (string & {}) | undefined;
-  /** Optional. Free-text description of the resource. */
-  description?: string | undefined;
-  /** Required. Name of the AuthorizationPolicy resource. It matches pattern `projects/{project}/locations/{location}/authorizationPolicies/`. */
-  name?: string | undefined;
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string | undefined;
   /** Output only. The timestamp when the resource was updated. */
   updateTime?: string | undefined;
+  /** Required. Name of the AuthorizationPolicy resource. It matches pattern `projects/{project}/locations/{location}/authorizationPolicies/`. */
+  name?: string | undefined;
+  /** Optional. Free-text description of the resource. */
+  description?: string | undefined;
   /** Optional. List of rules to match. Note that at least one of the rules must match in order for the action specified in the 'action' field to be taken. A rule is a match if there is a matching source and destination. If left blank, the action specified in the `action` field will be applied on every request. */
   rules?: RuleList | undefined;
 }
 export interface CreateProjectsLocationsAuthorizationPoliciesRequest extends AuthorizationPolicy {
-  /** Required. Short name of the AuthorizationPolicy resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "authz_policy". */
-  authorizationPolicyId?: string | undefined;
   /** Required. The parent resource of the AuthorizationPolicy. Must be in the format `projects/{project}/locations/{location}`. */
   parent: string;
+  /** Required. Short name of the AuthorizationPolicy resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "authz_policy". */
+  authorizationPolicyId?: string | undefined;
 }
-export type AuthzPolicyTargetLoadBalancingSchemeEnum =
-  | "LOAD_BALANCING_SCHEME_UNSPECIFIED"
-  | "INTERNAL_MANAGED"
-  | "EXTERNAL_MANAGED"
-  | "INTERNAL_SELF_MANAGED";
-/** Specifies the set of targets to which this policy should be applied to. */
-export interface AuthzPolicyTarget {
-  /** Optional. All gateways and forwarding rules referenced by this policy and extensions must share the same load balancing scheme. Required only when targeting forwarding rules. If targeting Secure Web Proxy, this field must be `INTERNAL_MANAGED` or not specified. Must not be specified when targeting Agent Gateway. Supported values include `INTERNAL_MANAGED` and `EXTERNAL_MANAGED`. For more information, refer to [Backend services overview](https://cloud.google.com/load-balancing/docs/backend-service). */
-  loadBalancingScheme?: AuthzPolicyTargetLoadBalancingSchemeEnum | (string & {}) | undefined;
-  /** Required. A list of references to the Forwarding Rules, Secure Web Proxy Gateways, or Agent Gateways on which this policy will be applied. */
-  resources?: StringList | undefined;
+export type AuthzPolicyActionEnum =
+  | "AUTHZ_ACTION_UNSPECIFIED"
+  | "ALLOW"
+  | "DENY"
+  | "CUSTOM"
+  | "DENY_BY_DEFAULT";
+export type AuthzPolicyPolicyProfileEnum =
+  | "POLICY_PROFILE_UNSPECIFIED"
+  | "REQUEST_AUTHZ"
+  | "CONTENT_AUTHZ";
+/** Describes a set of resource tag value permanent IDs to match against the resource manager tags value associated with the source VM of a request. */
+export interface AuthzPolicyAuthzRuleRequestResourceTagValueIdSet {
+  /** Required. A list of resource tag value permanent IDs to match against the resource manager tags value associated with the source VM of a request. The match follows AND semantics which means all the ids must match. Limited to 5 ids in the Tag value id set. */
+  ids?: StringList | undefined;
 }
 /** Determines how a string value should be matched. */
 export interface AuthzPolicyAuthzRuleStringMatch {
   /** The input string must match exactly the string specified here. Examples: * ``abc`` only matches the value ``abc``. */
   exact?: string | undefined;
-  /** The input string must have the prefix specified here. Note: empty prefix is not allowed, please use regex instead. Examples: * ``abc`` matches the value ``abc.xyz`` */
-  prefix?: string | undefined;
-  /** The input string must have the suffix specified here. Note: empty prefix is not allowed, please use regex instead. Examples: * ``abc`` matches the value ``xyz.abc`` */
-  suffix?: string | undefined;
   /** If true, indicates the exact/prefix/suffix/contains matching should be case insensitive. For example, the matcher ``data`` will match both input string ``Data`` and ``data`` if set to true. */
   ignoreCase?: boolean | undefined;
+  /** The input string must have the suffix specified here. Note: empty prefix is not allowed, please use regex instead. Examples: * ``abc`` matches the value ``xyz.abc`` */
+  suffix?: string | undefined;
+  /** The input string must have the prefix specified here. Note: empty prefix is not allowed, please use regex instead. Examples: * ``abc`` matches the value ``abc.xyz`` */
+  prefix?: string | undefined;
   /** The input string must have the substring specified here. Note: empty contains match is not allowed, please use regex instead. Examples: * ``abc`` matches the value ``xyz.abc.def`` */
   contains?: string | undefined;
 }
-export type AuthzPolicyAuthzRuleStringMatchList = Array<AuthzPolicyAuthzRuleStringMatch>;
-/** Determines how a HTTP header should be matched. */
-export interface AuthzPolicyAuthzRuleHeaderMatch {
-  /** Optional. Specifies how the header match will be performed. */
-  value?: AuthzPolicyAuthzRuleStringMatch | undefined;
-  /** Optional. Specifies the name of the header in the request. */
-  name?: string | undefined;
+/** Describes the properties of a client VM resource accessing the internal application load balancers. */
+export interface AuthzPolicyAuthzRuleRequestResource {
+  /** Optional. A list of resource tag value permanent IDs to match against the resource manager tags value associated with the source VM of a request. */
+  tagValueIdSet?: AuthzPolicyAuthzRuleRequestResourceTagValueIdSet | undefined;
+  /** Optional. An IAM service account to match against the source service account of the VM sending the request. */
+  iamServiceAccount?: AuthzPolicyAuthzRuleStringMatch | undefined;
 }
-export type AuthzPolicyAuthzRuleHeaderMatchList = Array<AuthzPolicyAuthzRuleHeaderMatch>;
-/** Describes a set of HTTP headers to match against. */
-export interface AuthzPolicyAuthzRuleToRequestOperationHeaderSet {
-  /** Required. A list of headers to match against in http header. The match can be one of exact, prefix, suffix, or contains (substring match). The match follows AND semantics which means all the headers must match. Matches are always case sensitive unless the ignoreCase is set. Limited to 10 headers per Authorization Policy. */
-  headers?: AuthzPolicyAuthzRuleHeaderMatchList | undefined;
+export type AuthzPolicyAuthzRuleRequestResourceList = Array<AuthzPolicyAuthzRuleRequestResource>;
+/** Represents a range of IP Addresses. */
+export interface AuthzPolicyAuthzRuleIpBlock {
+  /** Required. The address prefix. */
+  prefix?: string | undefined;
+  /** Required. The length of the address range. */
+  length?: number | undefined;
 }
-export type AuthzPolicyAuthzRuleToRequestOperationMCPBaseProtocolMethodsOptionEnum =
-  | "BASE_PROTOCOL_METHODS_OPTION_UNSPECIFIED"
-  | "SKIP_BASE_PROTOCOL_METHODS"
-  | "MATCH_BASE_PROTOCOL_METHODS";
-/** Describes a set of MCP methods to match against. */
-export interface AuthzPolicyAuthzRuleToRequestOperationMCPMethod {
-  /** Optional. A list of MCP method parameters to match against. The match can be one of exact, prefix, suffix, or contains (substring match). Matches are always case sensitive unless the ignoreCase is set. Limited to 10 MCP method parameters per Authorization Policy. */
-  params?: AuthzPolicyAuthzRuleStringMatchList | undefined;
-  /** Required. The MCP method to match against. Allowed values include: 1. `tools`, `prompts`, `resources` - these will match against all sub methods under the respective methods. 2. `prompts/list`, `tools/list`, `resources/list`, `resources/templates/list` 3. `prompts/get`, `tools/call`, `resources/subscribe`, `resources/unsubscribe`, `resources/read` Params cannot be specified for categories 1 and 2. */
-  name?: string | undefined;
-}
-export type AuthzPolicyAuthzRuleToRequestOperationMCPMethodList =
-  Array<AuthzPolicyAuthzRuleToRequestOperationMCPMethod>;
-/** Describes a set of MCP protocol attributes to match against for a given MCP request. */
-export interface AuthzPolicyAuthzRuleToRequestOperationMCP {
-  /** Optional. If specified, matches on the MCP protocol's non-access specific methods namely: * initialize * completion/ * logging/ * notifications/ * ping Defaults to SKIP_BASE_PROTOCOL_METHODS if not specified. */
-  baseProtocolMethodsOption?:
-    | AuthzPolicyAuthzRuleToRequestOperationMCPBaseProtocolMethodsOptionEnum
-    | (string & {})
-    | undefined;
-  /** Optional. A list of MCP methods and associated parameters to match on. It is recommended to use this field to match on tools, prompts and resource accesses while setting the baseProtocolMethodsOption to MATCH_BASE_PROTOCOL_METHODS to match on all the other MCP protocol methods. Limited to 10 MCP methods per Authorization Policy. */
-  methods?: AuthzPolicyAuthzRuleToRequestOperationMCPMethodList | undefined;
-}
-/** Describes properties of one or more targets of a request. */
-export interface AuthzPolicyAuthzRuleToRequestOperation {
-  /** Optional. A list of HTTP Hosts to match against. The match can be one of exact, prefix, suffix, or contains (substring match). Matches are always case sensitive unless the ignoreCase is set. Limited to 10 hosts per Authorization Policy. */
-  hosts?: AuthzPolicyAuthzRuleStringMatchList | undefined;
-  /** Optional. A list of HTTP methods to match against. Each entry must be a valid HTTP method name (GET, PUT, POST, HEAD, PATCH, DELETE, OPTIONS). It only allows exact match and is always case sensitive. Limited to 10 methods per Authorization Policy. */
-  methods?: StringList | undefined;
-  /** Optional. A list of headers to match against in http header. */
-  headerSet?: AuthzPolicyAuthzRuleToRequestOperationHeaderSet | undefined;
-  /** Optional. Defines the MCP protocol attributes to match on. If the MCP payload in the request body cannot be successfully parsed, the request will be denied. This field can be set only for AuthzPolicies targeting AgentGateway resources. */
-  mcp?: AuthzPolicyAuthzRuleToRequestOperationMCP | undefined;
-  /** Optional. A list of SNIs to match against. The match can be one of exact, prefix, suffix, or contains (substring match). If there is no SNI (i.e. plaintext HTTP traffic), the request will be denied. Matches are always case sensitive unless the ignoreCase is set. Limited to 10 SNIs per Authorization Policy. */
-  snis?: AuthzPolicyAuthzRuleStringMatchList | undefined;
-  /** Optional. A list of paths to match against. The match can be one of exact, prefix, suffix, or contains (substring match). Matches are always case sensitive unless the ignoreCase is set. Limited to 10 paths per Authorization Policy. Note that this path match includes the query parameters. For gRPC services, this should be a fully-qualified name of the form /package.service/method. */
-  paths?: AuthzPolicyAuthzRuleStringMatchList | undefined;
-}
-export type AuthzPolicyAuthzRuleToRequestOperationList =
-  Array<AuthzPolicyAuthzRuleToRequestOperation>;
-/** Describes properties of one or more targets of a request. */
-export interface AuthzPolicyAuthzRuleTo {
-  /** Optional. Describes the negated properties of the targets of a request. Matches requests for operations that do not match the criteria specified in this field. At least one of operations or notOperations must be specified. */
-  notOperations?: AuthzPolicyAuthzRuleToRequestOperationList | undefined;
-  /** Optional. Describes properties of one or more targets of a request. At least one of operations or notOperations must be specified. Limited to 1 operation. A match occurs when ANY operation (in operations or notOperations) matches. Within an operation, the match follows AND semantics across fields and OR semantics within a field, i.e. a match occurs when ANY path matches AND ANY header matches and ANY method matches. */
-  operations?: AuthzPolicyAuthzRuleToRequestOperationList | undefined;
-}
+export type AuthzPolicyAuthzRuleIpBlockList = Array<AuthzPolicyAuthzRuleIpBlock>;
 export type AuthzPolicyAuthzRulePrincipalPrincipalSelectorEnum =
   | "PRINCIPAL_SELECTOR_UNSPECIFIED"
   | "CLIENT_CERT_URI_SAN"
@@ -936,35 +894,14 @@ export interface AuthzPolicyAuthzRulePrincipal {
   principal?: AuthzPolicyAuthzRuleStringMatch | undefined;
 }
 export type AuthzPolicyAuthzRulePrincipalList = Array<AuthzPolicyAuthzRulePrincipal>;
-/** Describes a set of resource tag value permanent IDs to match against the resource manager tags value associated with the source VM of a request. */
-export interface AuthzPolicyAuthzRuleRequestResourceTagValueIdSet {
-  /** Required. A list of resource tag value permanent IDs to match against the resource manager tags value associated with the source VM of a request. The match follows AND semantics which means all the ids must match. Limited to 5 ids in the Tag value id set. */
-  ids?: StringList | undefined;
-}
-/** Describes the properties of a client VM resource accessing the internal application load balancers. */
-export interface AuthzPolicyAuthzRuleRequestResource {
-  /** Optional. An IAM service account to match against the source service account of the VM sending the request. */
-  iamServiceAccount?: AuthzPolicyAuthzRuleStringMatch | undefined;
-  /** Optional. A list of resource tag value permanent IDs to match against the resource manager tags value associated with the source VM of a request. */
-  tagValueIdSet?: AuthzPolicyAuthzRuleRequestResourceTagValueIdSet | undefined;
-}
-export type AuthzPolicyAuthzRuleRequestResourceList = Array<AuthzPolicyAuthzRuleRequestResource>;
-/** Represents a range of IP Addresses. */
-export interface AuthzPolicyAuthzRuleIpBlock {
-  /** Required. The address prefix. */
-  prefix?: string | undefined;
-  /** Required. The length of the address range. */
-  length?: number | undefined;
-}
-export type AuthzPolicyAuthzRuleIpBlockList = Array<AuthzPolicyAuthzRuleIpBlock>;
 /** Describes the properties of a single source. */
 export interface AuthzPolicyAuthzRuleFromRequestSource {
-  /** Optional. A list of identities derived from the client's certificate. This field will not match on a request unless frontend mutual TLS is enabled for the forwarding rule or Gateway and the client certificate has been successfully validated by mTLS. Each identity is a string whose value is matched against a list of URI SANs, DNS Name SANs, or the common name in the client's certificate. A match happens when any principal matches with the rule. Limited to 50 principals per Authorization Policy for regional internal Application Load Balancers, regional external Application Load Balancers, cross-region internal Application Load Balancers, and Cloud Service Mesh while 25 principals per Authorization Policy for global external Application Load Balancers. */
-  principals?: AuthzPolicyAuthzRulePrincipalList | undefined;
   /** Optional. A list of resources to match against the resource of the source VM of a request. Limited to 10 resources per Authorization Policy. */
   resources?: AuthzPolicyAuthzRuleRequestResourceList | undefined;
   /** Optional. A list of IP addresses or IP address ranges to match against the source IP address of the request. Limited to 10 ip_blocks per Authorization Policy */
   ipBlocks?: AuthzPolicyAuthzRuleIpBlockList | undefined;
+  /** Optional. A list of identities derived from the client's certificate. This field will not match on a request unless frontend mutual TLS is enabled for the forwarding rule or Gateway and the client certificate has been successfully validated by mTLS. Each identity is a string whose value is matched against a list of URI SANs, DNS Name SANs, or the common name in the client's certificate. A match happens when any principal matches with the rule. Limited to 50 principals per Authorization Policy for regional internal Application Load Balancers, regional external Application Load Balancers, cross-region internal Application Load Balancers, and Cloud Service Mesh while 25 principals per Authorization Policy for global external Application Load Balancers. */
+  principals?: AuthzPolicyAuthzRulePrincipalList | undefined;
 }
 export type AuthzPolicyAuthzRuleFromRequestSourceList =
   Array<AuthzPolicyAuthzRuleFromRequestSource>;
@@ -975,72 +912,135 @@ export interface AuthzPolicyAuthzRuleFrom {
   /** Optional. Describes the negated properties of request sources. Matches requests from sources that do not match the criteria specified in this field. At least one of sources or notSources must be specified. */
   notSources?: AuthzPolicyAuthzRuleFromRequestSourceList | undefined;
 }
+export type AuthzPolicyAuthzRuleToRequestOperationMCPBaseProtocolMethodsOptionEnum =
+  | "BASE_PROTOCOL_METHODS_OPTION_UNSPECIFIED"
+  | "SKIP_BASE_PROTOCOL_METHODS"
+  | "MATCH_BASE_PROTOCOL_METHODS";
+export type AuthzPolicyAuthzRuleStringMatchList = Array<AuthzPolicyAuthzRuleStringMatch>;
+/** Describes a set of MCP methods to match against. */
+export interface AuthzPolicyAuthzRuleToRequestOperationMCPMethod {
+  /** Required. The MCP method to match against. Allowed values include: 1. `tools`, `prompts`, `resources` - these will match against all sub methods under the respective methods. 2. `prompts/list`, `tools/list`, `resources/list`, `resources/templates/list` 3. `prompts/get`, `tools/call`, `resources/subscribe`, `resources/unsubscribe`, `resources/read` Params cannot be specified for categories 1 and 2. */
+  name?: string | undefined;
+  /** Optional. A list of MCP method parameters to match against. The match can be one of exact, prefix, suffix, or contains (substring match). Matches are always case sensitive unless the ignoreCase is set. Limited to 10 MCP method parameters per Authorization Policy. */
+  params?: AuthzPolicyAuthzRuleStringMatchList | undefined;
+}
+export type AuthzPolicyAuthzRuleToRequestOperationMCPMethodList =
+  Array<AuthzPolicyAuthzRuleToRequestOperationMCPMethod>;
+/** Describes a set of MCP protocol attributes to match against for a given MCP request. */
+export interface AuthzPolicyAuthzRuleToRequestOperationMCP {
+  /** Optional. If specified, matches on the MCP protocol's non-access specific methods namely: * initialize * completion/ * logging/ * notifications/ * ping Defaults to SKIP_BASE_PROTOCOL_METHODS if not specified. */
+  baseProtocolMethodsOption?:
+    | AuthzPolicyAuthzRuleToRequestOperationMCPBaseProtocolMethodsOptionEnum
+    | (string & {})
+    | undefined;
+  /** Optional. A list of MCP methods and associated parameters to match on. It is recommended to use this field to match on tools, prompts and resource accesses while setting the baseProtocolMethodsOption to MATCH_BASE_PROTOCOL_METHODS to match on all the other MCP protocol methods. Limited to 10 MCP methods per Authorization Policy. */
+  methods?: AuthzPolicyAuthzRuleToRequestOperationMCPMethodList | undefined;
+}
+/** Determines how a HTTP header should be matched. */
+export interface AuthzPolicyAuthzRuleHeaderMatch {
+  /** Optional. Specifies the name of the header in the request. */
+  name?: string | undefined;
+  /** Optional. Specifies how the header match will be performed. */
+  value?: AuthzPolicyAuthzRuleStringMatch | undefined;
+}
+export type AuthzPolicyAuthzRuleHeaderMatchList = Array<AuthzPolicyAuthzRuleHeaderMatch>;
+/** Describes a set of HTTP headers to match against. */
+export interface AuthzPolicyAuthzRuleToRequestOperationHeaderSet {
+  /** Required. A list of headers to match against in http header. The match can be one of exact, prefix, suffix, or contains (substring match). The match follows AND semantics which means all the headers must match. Matches are always case sensitive unless the ignoreCase is set. Limited to 10 headers per Authorization Policy. */
+  headers?: AuthzPolicyAuthzRuleHeaderMatchList | undefined;
+}
+/** Describes properties of one or more targets of a request. */
+export interface AuthzPolicyAuthzRuleToRequestOperation {
+  /** Optional. Defines the MCP protocol attributes to match on. If the MCP payload in the request body cannot be successfully parsed, the request will be denied. This field can be set only for AuthzPolicies targeting AgentGateway resources. */
+  mcp?: AuthzPolicyAuthzRuleToRequestOperationMCP | undefined;
+  /** Optional. A list of HTTP Hosts to match against. The match can be one of exact, prefix, suffix, or contains (substring match). Matches are always case sensitive unless the ignoreCase is set. Limited to 10 hosts per Authorization Policy. */
+  hosts?: AuthzPolicyAuthzRuleStringMatchList | undefined;
+  /** Optional. A list of SNIs to match against. The match can be one of exact, prefix, suffix, or contains (substring match). If there is no SNI (i.e. plaintext HTTP traffic), the request will be denied. Matches are always case sensitive unless the ignoreCase is set. Limited to 10 SNIs per Authorization Policy. */
+  snis?: AuthzPolicyAuthzRuleStringMatchList | undefined;
+  /** Optional. A list of HTTP methods to match against. Each entry must be a valid HTTP method name (GET, PUT, POST, HEAD, PATCH, DELETE, OPTIONS). It only allows exact match and is always case sensitive. Limited to 10 methods per Authorization Policy. */
+  methods?: StringList | undefined;
+  /** Optional. A list of paths to match against. The match can be one of exact, prefix, suffix, or contains (substring match). Matches are always case sensitive unless the ignoreCase is set. Limited to 10 paths per Authorization Policy. Note that this path match includes the query parameters. For gRPC services, this should be a fully-qualified name of the form /package.service/method. */
+  paths?: AuthzPolicyAuthzRuleStringMatchList | undefined;
+  /** Optional. A list of headers to match against in http header. */
+  headerSet?: AuthzPolicyAuthzRuleToRequestOperationHeaderSet | undefined;
+}
+export type AuthzPolicyAuthzRuleToRequestOperationList =
+  Array<AuthzPolicyAuthzRuleToRequestOperation>;
+/** Describes properties of one or more targets of a request. */
+export interface AuthzPolicyAuthzRuleTo {
+  /** Optional. Describes the negated properties of the targets of a request. Matches requests for operations that do not match the criteria specified in this field. At least one of operations or notOperations must be specified. */
+  notOperations?: AuthzPolicyAuthzRuleToRequestOperationList | undefined;
+  /** Optional. Describes properties of one or more targets of a request. At least one of operations or notOperations must be specified. Limited to 1 operation. A match occurs when ANY operation (in operations or notOperations) matches. Within an operation, the match follows AND semantics across fields and OR semantics within a field, i.e. a match occurs when ANY path matches AND ANY header matches and ANY method matches. */
+  operations?: AuthzPolicyAuthzRuleToRequestOperationList | undefined;
+}
 /** Conditions to match against the incoming request. */
 export interface AuthzPolicyAuthzRule {
-  /** Optional. Describes properties of a target of a request. */
-  to?: AuthzPolicyAuthzRuleTo | undefined;
   /** Optional. Describes properties of a source of a request. */
   from?: AuthzPolicyAuthzRuleFrom | undefined;
+  /** Optional. Describes properties of a target of a request. */
+  to?: AuthzPolicyAuthzRuleTo | undefined;
   /** Optional. CEL expression that describes the conditions to be satisfied for the action. The result of the CEL expression is ANDed with the from and to. Refer to the CEL language reference for a list of available attributes. */
   when?: string | undefined;
 }
 export type AuthzPolicyAuthzRuleList = Array<AuthzPolicyAuthzRule>;
-export type AuthzPolicyActionEnum =
-  | "AUTHZ_ACTION_UNSPECIFIED"
-  | "ALLOW"
-  | "DENY"
-  | "CUSTOM"
-  | "DENY_BY_DEFAULT";
-export type AuthzPolicyPolicyProfileEnum =
-  | "POLICY_PROFILE_UNSPECIFIED"
-  | "REQUEST_AUTHZ"
-  | "CONTENT_AUTHZ";
+/** Optional. Delegates authorization decisions to Cloud IAP. Applicable only for managed load balancers. Enabling Cloud IAP at the AuthzPolicy level is not compatible with Cloud IAP settings in the BackendService. Enabling IAP in both places will result in request failure. Ensure that IAP is enabled in either the AuthzPolicy or the BackendService but not in both places. */
+export type AuthzPolicyCustomProviderCloudIap = CancelOperationRequest;
 /** Optional. Delegate authorization decision to user authored extension. Only one of cloudIap or authzExtension can be specified. */
 export interface AuthzPolicyCustomProviderAuthzExtension {
   /** Required. A list of references to authorization extensions that will be invoked for requests matching this policy. Limited to 1 custom provider. */
   resources?: StringList | undefined;
 }
-/** Optional. Delegates authorization decisions to Cloud IAP. Applicable only for managed load balancers. Enabling Cloud IAP at the AuthzPolicy level is not compatible with Cloud IAP settings in the BackendService. Enabling IAP in both places will result in request failure. Ensure that IAP is enabled in either the AuthzPolicy or the BackendService but not in both places. */
-export type AuthzPolicyCustomProviderCloudIap = CancelOperationRequest;
 /** Allows delegating authorization decisions to Cloud IAP or to Service Extensions. */
 export interface AuthzPolicyCustomProvider {
-  /** Optional. Delegate authorization decision to user authored Service Extension. Only one of cloudIap or authzExtension can be specified. */
-  authzExtension?: AuthzPolicyCustomProviderAuthzExtension | undefined;
   /** Optional. Delegates authorization decisions to Cloud IAP. Applicable only for managed load balancers. Enabling Cloud IAP at the AuthzPolicy level is not compatible with Cloud IAP settings in the BackendService. Enabling IAP in both places will result in request failure. Ensure that IAP is enabled in either the AuthzPolicy or the BackendService but not in both places. */
   cloudIap?: CancelOperationRequest | undefined;
+  /** Optional. Delegate authorization decision to user authored Service Extension. Only one of cloudIap or authzExtension can be specified. */
+  authzExtension?: AuthzPolicyCustomProviderAuthzExtension | undefined;
+}
+export type AuthzPolicyTargetLoadBalancingSchemeEnum =
+  | "LOAD_BALANCING_SCHEME_UNSPECIFIED"
+  | "INTERNAL_MANAGED"
+  | "EXTERNAL_MANAGED"
+  | "INTERNAL_SELF_MANAGED";
+/** Specifies the set of targets to which this policy should be applied to. */
+export interface AuthzPolicyTarget {
+  /** Required. A list of references to the Forwarding Rules, Secure Web Proxy Gateways, or Agent Gateways on which this policy will be applied. */
+  resources?: StringList | undefined;
+  /** Optional. All gateways and forwarding rules referenced by this policy and extensions must share the same load balancing scheme. Required only when targeting forwarding rules. If targeting Secure Web Proxy, this field must be `INTERNAL_MANAGED` or not specified. Must not be specified when targeting Agent Gateway. Supported values include `INTERNAL_MANAGED` and `EXTERNAL_MANAGED`. For more information, refer to [Backend services overview](https://cloud.google.com/load-balancing/docs/backend-service). */
+  loadBalancingScheme?: AuthzPolicyTargetLoadBalancingSchemeEnum | (string & {}) | undefined;
 }
 /** `AuthzPolicy` is a resource that allows to forward traffic to a callout backend designed to scan the traffic for security purposes. */
 export interface AuthzPolicy {
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string | undefined;
-  /** Required. Specifies the set of resources to which this policy should be applied to. */
-  target?: AuthzPolicyTarget | undefined;
-  /** Output only. The timestamp when the resource was updated. */
-  updateTime?: string | undefined;
-  /** Required. Identifier. Name of the `AuthzPolicy` resource in the following format: `projects/{project}/locations/{location}/authzPolicies/{authz_policy}`. */
-  name?: string | undefined;
-  /** Optional. A list of authorization network rules to match against the incoming request. A policy match occurs when at least one network rule matches the request. At least one network rule is required for Allow or Deny Action if no HTTP rules are provided. Network rules are mutually exclusive with HTTP rules. Limited to 5 rules. */
-  networkRules?: AuthzPolicyAuthzRuleList | undefined;
-  /** Required. Can be one of `ALLOW`, `DENY`, `CUSTOM`, `DENY_BY_DEFAULT`. When the action is `CUSTOM`, `customProvider` must be specified. When the action is `ALLOW`, only requests matching the policy will be allowed. When the action is `DENY`, only requests matching the policy will be denied. When the action is `DENY_BY_DEFAULT`, no `http_rules` or `network_rules` can be specified. When a request arrives, the policies are evaluated in the following order: 1. If there is a `CUSTOM` policy that matches the request, the `CUSTOM` policy is evaluated using the custom authorization providers and the request is denied if the provider rejects the request. 2. If there are any `DENY` policies that match the request, the request is denied. 3. If any of the `ALLOW` policies match the request, the request is allowed. 4. If a `DENY_BY_DEFAULT` policy is applied to the resource, the request is denied (unless it was explicitly allowed by a `CUSTOM` or `ALLOW` policy). 5. Else, the request is allowed by default if no other policies are configured. */
-  action?: AuthzPolicyActionEnum | (string & {}) | undefined;
-  /** Optional. A list of authorization HTTP rules to match against the incoming request. A policy match occurs when at least one HTTP rule matches the request or when no HTTP rules are specified in the policy. At least one HTTP Rule is required for Allow or Deny Action. Limited to 5 rules. */
-  httpRules?: AuthzPolicyAuthzRuleList | undefined;
   /** Optional. Set of labels associated with the `AuthzPolicy` resource. The format must comply with [the following requirements](/compute/docs/labeling-resources#requirements). */
   labels?: StringMap | undefined;
+  /** Required. Can be one of `ALLOW`, `DENY`, `CUSTOM`, `DENY_BY_DEFAULT`. When the action is `CUSTOM`, `customProvider` must be specified. When the action is `ALLOW`, only requests matching the policy will be allowed. When the action is `DENY`, only requests matching the policy will be denied. When the action is `DENY_BY_DEFAULT`, no `http_rules` or `network_rules` can be specified. When a request arrives, the policies are evaluated in the following order: 1. If there is a `CUSTOM` policy that matches the request, the `CUSTOM` policy is evaluated using the custom authorization providers and the request is denied if the provider rejects the request. 2. If there are any `DENY` policies that match the request, the request is denied. 3. If any of the `ALLOW` policies match the request, the request is allowed. 4. If a `DENY_BY_DEFAULT` policy is applied to the resource, the request is denied (unless it was explicitly allowed by a `CUSTOM` or `ALLOW` policy). 5. Else, the request is allowed by default if no other policies are configured. */
+  action?: AuthzPolicyActionEnum | (string & {}) | undefined;
+  /** Required. Identifier. Name of the `AuthzPolicy` resource in the following format: `projects/{project}/locations/{location}/authzPolicies/{authz_policy}`. */
+  name?: string | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
   /** Optional. Immutable. Defines the type of authorization being performed. If not specified, `REQUEST_AUTHZ` is applied. This field cannot be changed once AuthzPolicy is created. */
   policyProfile?: AuthzPolicyPolicyProfileEnum | (string & {}) | undefined;
+  /** Optional. A list of authorization HTTP rules to match against the incoming request. A policy match occurs when at least one HTTP rule matches the request or when no HTTP rules are specified in the policy. At least one HTTP Rule is required for Allow or Deny Action. Limited to 5 rules. */
+  httpRules?: AuthzPolicyAuthzRuleList | undefined;
   /** Optional. Required if the action is `CUSTOM`. Allows delegating authorization decisions to Cloud IAP or to Service Extensions. One of `cloudIap` or `authzExtension` must be specified. */
   customProvider?: AuthzPolicyCustomProvider | undefined;
+  /** Optional. A list of authorization network rules to match against the incoming request. A policy match occurs when at least one network rule matches the request. At least one network rule is required for Allow or Deny Action if no HTTP rules are provided. Network rules are mutually exclusive with HTTP rules. Limited to 5 rules. */
+  networkRules?: AuthzPolicyAuthzRuleList | undefined;
+  /** Required. Specifies the set of resources to which this policy should be applied to. */
+  target?: AuthzPolicyTarget | undefined;
   /** Optional. A human-readable description of the resource. */
   description?: string | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
 }
 export interface CreateProjectsLocationsAuthzPoliciesRequest extends AuthzPolicy {
-  /** Required. The parent resource of the `AuthzPolicy` resource. Must be in the format `projects/{project}/locations/{location}`. */
-  parent: string;
-  /** Required. User-provided ID of the `AuthzPolicy` resource to be created. */
-  authzPolicyId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Required. User-provided ID of the `AuthzPolicy` resource to be created. */
+  authzPolicyId?: string | undefined;
+  /** Required. The parent resource of the `AuthzPolicy` resource. Must be in the format `projects/{project}/locations/{location}`. */
+  parent: string;
 }
 export type BackendAuthenticationConfigWellKnownRootsEnum =
   | "WELL_KNOWN_ROOTS_UNSPECIFIED"
@@ -1048,30 +1048,30 @@ export type BackendAuthenticationConfigWellKnownRootsEnum =
   | "PUBLIC_ROOTS";
 /** BackendAuthenticationConfig message groups the TrustConfig together with other settings that control how the load balancer authenticates, and expresses its identity to, the backend: * `trustConfig` is the attached TrustConfig. * `wellKnownRoots` indicates whether the load balance should trust backend server certificates that are issued by public certificate authorities, in addition to certificates trusted by the TrustConfig. * `clientCertificate` is a client certificate that the load balancer uses to express its identity to the backend, if the connection to the backend uses mTLS. You can attach the BackendAuthenticationConfig to the load balancer's BackendService directly determining how that BackendService negotiates TLS. */
 export interface BackendAuthenticationConfig {
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string | undefined;
   /** Output only. The timestamp when the resource was updated. */
   updateTime?: string | undefined;
-  /** Well known roots to use for server certificate validation. */
-  wellKnownRoots?: BackendAuthenticationConfigWellKnownRootsEnum | (string & {}) | undefined;
   /** Required. Name of the BackendAuthenticationConfig resource. It matches the pattern `projects/*\/locations/{location}/backendAuthenticationConfigs/{backend_authentication_config}` */
   name?: string | undefined;
+  /** Optional. A reference to a TrustConfig resource from the certificatemanager.googleapis.com namespace. This is a relative resource path following the form "projects/{project}/locations/{location}/trustConfigs/{trust_config}". A BackendService uses the chain of trust represented by this TrustConfig, if specified, to validate the server certificates presented by the backend. Required unless wellKnownRoots is set to PUBLIC_ROOTS. */
+  trustConfig?: string | undefined;
   /** Output only. Etag of the resource. */
   etag?: string | undefined;
   /** Optional. Free-text description of the resource. */
   description?: string | undefined;
-  /** Optional. A reference to a TrustConfig resource from the certificatemanager.googleapis.com namespace. This is a relative resource path following the form "projects/{project}/locations/{location}/trustConfigs/{trust_config}". A BackendService uses the chain of trust represented by this TrustConfig, if specified, to validate the server certificates presented by the backend. Required unless wellKnownRoots is set to PUBLIC_ROOTS. */
-  trustConfig?: string | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Well known roots to use for server certificate validation. */
+  wellKnownRoots?: BackendAuthenticationConfigWellKnownRootsEnum | (string & {}) | undefined;
   /** Set of label tags associated with the resource. */
   labels?: StringMap | undefined;
   /** Optional. A reference to a certificatemanager.googleapis.com.Certificate resource. This is a relative resource path following the form "projects/{project}/locations/{location}/certificates/{certificate}". Used by a BackendService to negotiate mTLS when the backend connection uses TLS and the backend requests a client certificate. Must have a CLIENT_AUTH scope. */
   clientCertificate?: string | undefined;
 }
 export interface CreateProjectsLocationsBackendAuthenticationConfigsRequest extends BackendAuthenticationConfig {
-  /** Required. The parent resource of the BackendAuthenticationConfig. Must be in the format `projects/*\/locations/{location}`. */
-  parent: string;
   /** Required. Short name of the BackendAuthenticationConfig resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "backend-auth-config". */
   backendAuthenticationConfigId?: string | undefined;
+  /** Required. The parent resource of the BackendAuthenticationConfig. Must be in the format `projects/*\/locations/{location}`. */
+  parent: string;
 }
 /** Specification of a TLS certificate provider instance. Workloads may have one or more CertificateProvider instances (plugins) and one of them is enabled and configured by specifying this message. Workloads use the values from this message to locate and load the CertificateProvider instance configuration. */
 export interface CertificateProviderInstance {
@@ -1093,29 +1093,29 @@ export interface ValidationCA {
 export type ValidationCAList = Array<ValidationCA>;
 /** Specification of certificate provider. Defines the mechanism to obtain the certificate and private key for peer to peer authentication. */
 export interface GoogleCloudNetworksecurityV1beta1CertificateProvider {
-  /** The certificate provider instance specification that will be passed to the data plane, which will be used to load necessary credential information. */
-  certificateProviderInstance?: CertificateProviderInstance | undefined;
   /** gRPC specific configuration to access the gRPC server to obtain the cert and private key. */
   grpcEndpoint?: GoogleCloudNetworksecurityV1beta1GrpcEndpoint | undefined;
+  /** The certificate provider instance specification that will be passed to the data plane, which will be used to load necessary credential information. */
+  certificateProviderInstance?: CertificateProviderInstance | undefined;
 }
 /** ClientTlsPolicy is a resource that specifies how a client should authenticate connections to backends of a service. This resource itself does not affect configuration unless it is attached to a backend service resource. */
 export interface ClientTlsPolicy {
-  /** Optional. Set of label tags associated with the resource. */
-  labels?: StringMap | undefined;
   /** Optional. Defines the mechanism to obtain the Certificate Authority certificate to validate the server certificate. If empty, client does not validate the server certificate. */
   serverValidationCa?: ValidationCAList | undefined;
+  /** Optional. Defines a mechanism to provision client identity (public and private keys) for peer to peer authentication. The presence of this dictates mTLS. */
+  clientCertificate?: GoogleCloudNetworksecurityV1beta1CertificateProvider | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Optional. Server Name Indication string to present to the server during TLS handshake. E.g: "secure.example.com". */
+  sni?: string | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Optional. Set of label tags associated with the resource. */
+  labels?: StringMap | undefined;
   /** Required. Name of the ClientTlsPolicy resource. It matches the pattern `projects/{project}/locations/{location}/clientTlsPolicies/{client_tls_policy}` */
   name?: string | undefined;
   /** Optional. Free-text description of the resource. */
   description?: string | undefined;
-  /** Optional. Server Name Indication string to present to the server during TLS handshake. E.g: "secure.example.com". */
-  sni?: string | undefined;
-  /** Output only. The timestamp when the resource was updated. */
-  updateTime?: string | undefined;
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string | undefined;
-  /** Optional. Defines a mechanism to provision client identity (public and private keys) for peer to peer authentication. The presence of this dictates mTLS. */
-  clientCertificate?: GoogleCloudNetworksecurityV1beta1CertificateProvider | undefined;
 }
 export interface CreateProjectsLocationsClientTlsPoliciesRequest extends ClientTlsPolicy {
   /** Required. The parent resource of the ClientTlsPolicy. Must be in the format `projects/*\/locations/{location}`. */
@@ -1126,18 +1126,18 @@ export interface CreateProjectsLocationsClientTlsPoliciesRequest extends ClientT
 export type DnsThreatDetectorProviderEnum = "PROVIDER_UNSPECIFIED" | "INFOBLOX";
 /** A DNS threat detector sends DNS query logs to a _provider_ that then analyzes the logs to identify threat events in the DNS queries. By default, all VPC networks in your projects are included. You can exclude specific networks by supplying `excluded_networks`. */
 export interface DnsThreatDetector {
-  /** Optional. A list of network resource names which aren't monitored by this DnsThreatDetector. Example: `projects/PROJECT_ID/global/networks/NETWORK_NAME`. */
-  excludedNetworks?: StringList | undefined;
-  /** Optional. Any labels associated with the DnsThreatDetector, listed as key value pairs. */
-  labels?: StringMap | undefined;
-  /** Required. The provider used for DNS threat analysis. */
-  provider?: DnsThreatDetectorProviderEnum | (string & {}) | undefined;
   /** Output only. Update time stamp. */
   updateTime?: string | undefined;
+  /** Required. The provider used for DNS threat analysis. */
+  provider?: DnsThreatDetectorProviderEnum | (string & {}) | undefined;
   /** Immutable. Identifier. Name of the DnsThreatDetector resource. */
   name?: string | undefined;
+  /** Optional. Any labels associated with the DnsThreatDetector, listed as key value pairs. */
+  labels?: StringMap | undefined;
   /** Output only. Create time stamp. */
   createTime?: string | undefined;
+  /** Optional. A list of network resource names which aren't monitored by this DnsThreatDetector. Example: `projects/PROJECT_ID/global/networks/NETWORK_NAME`. */
+  excludedNetworks?: StringList | undefined;
 }
 export interface CreateProjectsLocationsDnsThreatDetectorsRequest extends DnsThreatDetector {
   /** Required. The value for the parent of the DnsThreatDetector resource. */
@@ -1154,40 +1154,40 @@ export type FirewallEndpointAssociationStateEnum =
   | "ORPHAN";
 /** Message describing a firewall endpoint association. */
 export interface FirewallEndpointAssociation {
-  /** Required. The URL of the network that is being associated. */
-  network?: string | undefined;
   /** Output only. Whether reconciliation is in progress. */
   reconciling?: boolean | undefined;
-  /** Optional. Whether the association is disabled. Setting this to `true` indicates that traffic isn't intercepted. The default value is `false`. */
-  disabled?: boolean | undefined;
-  /** Optional. Labels as key-value pairs. */
-  labels?: StringMap | undefined;
   /** Output only. Create timestamp. */
   createTime?: string | undefined;
-  /** Immutable. Identifier. The name of the resource. */
-  name?: string | undefined;
-  /** Output only. Update timestamp. */
-  updateTime?: string | undefined;
   /** Output only. Current state of the association. */
   state?: FirewallEndpointAssociationStateEnum | (string & {}) | undefined;
-  /** Required. The URL of the `FirewallEndpoint` that is being associated. */
-  firewallEndpoint?: string | undefined;
+  /** Immutable. Identifier. The name of the resource. */
+  name?: string | undefined;
   /** Optional. The URL of the `TlsInspectionPolicy` that is being associated. */
   tlsInspectionPolicy?: string | undefined;
+  /** Optional. Labels as key-value pairs. */
+  labels?: StringMap | undefined;
+  /** Optional. Whether the association is disabled. Setting this to `true` indicates that traffic isn't intercepted. The default value is `false`. */
+  disabled?: boolean | undefined;
+  /** Output only. Update timestamp. */
+  updateTime?: string | undefined;
+  /** Required. The URL of the network that is being associated. */
+  network?: string | undefined;
+  /** Required. The URL of the `FirewallEndpoint` that is being associated. */
+  firewallEndpoint?: string | undefined;
 }
 export interface CreateProjectsLocationsFirewallEndpointAssociationsRequest extends FirewallEndpointAssociation {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (`00000000-0000-0000-0000-000000000000`). */
-  requestId?: string | undefined;
   /** Optional. The ID to use for the firewall endpoint association, which becomes the final component of the association's resource name. This value must be 1-63 characters long, start with a lowercase letter, contain only lowercase letters, numbers, and hyphens, and cannot end with a hyphen. */
   firewallEndpointAssociationId?: string | undefined;
   /** Required. The parent resource where this firewall endpoint association is created. Format: `projects/{project}/locations/{location}`. */
   parent: string;
-}
-export interface CreateProjectsLocationsFirewallEndpointsRequest extends FirewallEndpoint {
-  /** Required. The parent resource where this firewall endpoint is created. Format: `organizations/{organization}/locations/{location}` or `projects/{project}/locations/{location}`. */
-  parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (`00000000-0000-0000-0000-000000000000`). */
   requestId?: string | undefined;
+}
+export interface CreateProjectsLocationsFirewallEndpointsRequest extends FirewallEndpoint {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (`00000000-0000-0000-0000-000000000000`). */
+  requestId?: string | undefined;
+  /** Required. The parent resource where this firewall endpoint is created. Format: `organizations/{organization}/locations/{location}` or `projects/{project}/locations/{location}`. */
+  parent: string;
   /** Optional. If set, validates the request and previews the endpoint, but does not actually create it. */
   validateOnly?: boolean | undefined;
   /** Required. The ID to use for the firewall endpoint, which becomes the final component of the endpoint's resource name. This value must be 1-63 characters long, start with a lowercase letter, contain only lowercase letters, numbers, and hyphens, and cannot end with a hyphen. */
@@ -1199,22 +1199,22 @@ export interface CreateProjectsLocationsFirewallEndpointsWildfireVerdictChangeRe
 }
 /** The GatewaySecurityPolicy resource contains a collection of GatewaySecurityPolicyRules and associated metadata. */
 export interface GatewaySecurityPolicy {
-  /** Optional. Free-text description of the resource. */
-  description?: string | undefined;
-  /** Optional. Name of a TLS Inspection Policy resource that defines how TLS inspection will be performed for any rule(s) which enables it. */
-  tlsInspectionPolicy?: string | undefined;
-  /** Required. Name of the resource. Name is of the form projects/{project}/locations/{location}/gatewaySecurityPolicies/{gateway_security_policy} gateway_security_policy should match the pattern:(^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$). */
-  name?: string | undefined;
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string | undefined;
   /** Output only. The timestamp when the resource was updated. */
   updateTime?: string | undefined;
+  /** Optional. Free-text description of the resource. */
+  description?: string | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
+  /** Required. Name of the resource. Name is of the form projects/{project}/locations/{location}/gatewaySecurityPolicies/{gateway_security_policy} gateway_security_policy should match the pattern:(^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$). */
+  name?: string | undefined;
+  /** Optional. Name of a TLS Inspection Policy resource that defines how TLS inspection will be performed for any rule(s) which enables it. */
+  tlsInspectionPolicy?: string | undefined;
 }
 export interface CreateProjectsLocationsGatewaySecurityPoliciesRequest extends GatewaySecurityPolicy {
-  /** Required. Short name of the GatewaySecurityPolicy resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "gateway_security_policy1". */
-  gatewaySecurityPolicyId?: string | undefined;
   /** Required. The parent resource of the GatewaySecurityPolicy. Must be in the format `projects/{project}/locations/{location}`. */
   parent: string;
+  /** Required. Short name of the GatewaySecurityPolicy resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "gateway_security_policy1". */
+  gatewaySecurityPolicyId?: string | undefined;
 }
 export type GatewaySecurityPolicyRuleBasicProfileEnum =
   | "BASIC_PROFILE_UNSPECIFIED"
@@ -1222,26 +1222,26 @@ export type GatewaySecurityPolicyRuleBasicProfileEnum =
   | "DENY";
 /** The GatewaySecurityPolicyRule resource is in a nested collection within a GatewaySecurityPolicy and represents a traffic matching condition and associated action to perform. */
 export interface GatewaySecurityPolicyRule {
+  /** Required. Profile which tells what the primitive action should be. */
+  basicProfile?: GatewaySecurityPolicyRuleBasicProfileEnum | (string & {}) | undefined;
+  /** Optional. Free-text description of the resource. */
+  description?: string | undefined;
+  /** Output only. Time when the rule was updated. */
+  updateTime?: string | undefined;
+  /** Required. Immutable. Name of the resource. ame is the full resource name so projects/{project}/locations/{location}/gatewaySecurityPolicies/{gateway_security_policy}/rules/{rule} rule should match the pattern: (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$). */
+  name?: string | undefined;
+  /** Required. Whether the rule is enforced. */
+  enabled?: boolean | undefined;
+  /** Output only. Time when the rule was created. */
+  createTime?: string | undefined;
   /** Optional. CEL expression for matching on L7/application level criteria. */
   applicationMatcher?: string | undefined;
   /** Required. Priority of the rule. Lower number corresponds to higher precedence. */
   priority?: number | undefined;
-  /** Required. Whether the rule is enforced. */
-  enabled?: boolean | undefined;
-  /** Required. Immutable. Name of the resource. ame is the full resource name so projects/{project}/locations/{location}/gatewaySecurityPolicies/{gateway_security_policy}/rules/{rule} rule should match the pattern: (^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$). */
-  name?: string | undefined;
-  /** Output only. Time when the rule was updated. */
-  updateTime?: string | undefined;
-  /** Output only. Time when the rule was created. */
-  createTime?: string | undefined;
-  /** Required. CEL expression for matching on session criteria. */
-  sessionMatcher?: string | undefined;
   /** Optional. Flag to enable TLS inspection of traffic matching on , can only be true if the parent GatewaySecurityPolicy references a TLSInspectionConfig. */
   tlsInspectionEnabled?: boolean | undefined;
-  /** Optional. Free-text description of the resource. */
-  description?: string | undefined;
-  /** Required. Profile which tells what the primitive action should be. */
-  basicProfile?: GatewaySecurityPolicyRuleBasicProfileEnum | (string & {}) | undefined;
+  /** Required. CEL expression for matching on session criteria. */
+  sessionMatcher?: string | undefined;
 }
 export interface CreateProjectsLocationsGatewaySecurityPoliciesRulesRequest extends GatewaySecurityPolicyRule {
   /** Required. The parent where this rule will be created. Format : projects/{project}/location/{location}/gatewaySecurityPolicies/* */
@@ -1249,11 +1249,6 @@ export interface CreateProjectsLocationsGatewaySecurityPoliciesRulesRequest exte
   /** The ID to use for the rule, which will become the final component of the rule's resource name. This value should be 4-63 characters, and valid characters are /a-z-/. */
   gatewaySecurityPolicyRuleId?: string | undefined;
 }
-export type InterceptDeploymentGroupStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "ACTIVE"
-  | "CREATING"
-  | "DELETING";
 /** An endpoint group connected to this deployment group. */
 export interface InterceptDeploymentGroupConnectedEndpointGroup {
   /** Output only. The connected endpoint group's resource name, for example: `projects/123456789/locations/global/interceptEndpointGroups/my-eg`. See https://google.aip.dev/124. */
@@ -1261,15 +1256,11 @@ export interface InterceptDeploymentGroupConnectedEndpointGroup {
 }
 export type InterceptDeploymentGroupConnectedEndpointGroupList =
   Array<InterceptDeploymentGroupConnectedEndpointGroup>;
-export type InterceptLocationStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "OUT_OF_SYNC";
-/** Details about intercept in a specific cloud location. */
-export interface InterceptLocation {
-  /** Output only. The cloud location, e.g. "us-central1-a" or "asia-south1". */
-  location?: string | undefined;
-  /** Output only. The current state of the association in this location. */
-  state?: InterceptLocationStateEnum | (string & {}) | undefined;
-}
-export type InterceptLocationList = Array<InterceptLocation>;
+export type InterceptDeploymentGroupStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "ACTIVE"
+  | "CREATING"
+  | "DELETING";
 export type InterceptDeploymentGroupDeploymentStateEnum =
   | "STATE_UNSPECIFIED"
   | "ACTIVE"
@@ -1285,30 +1276,39 @@ export interface InterceptDeploymentGroupDeployment {
   state?: InterceptDeploymentGroupDeploymentStateEnum | (string & {}) | undefined;
 }
 export type InterceptDeploymentGroupDeploymentList = Array<InterceptDeploymentGroupDeployment>;
+export type InterceptLocationStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "OUT_OF_SYNC";
+/** Details about intercept in a specific cloud location. */
+export interface InterceptLocation {
+  /** Output only. The current state of the association in this location. */
+  state?: InterceptLocationStateEnum | (string & {}) | undefined;
+  /** Output only. The cloud location, e.g. "us-central1-a" or "asia-south1". */
+  location?: string | undefined;
+}
+export type InterceptLocationList = Array<InterceptLocation>;
 /** A deployment group aggregates many zonal intercept backends (deployments) into a single global intercept service. Consumers can connect this service using an endpoint group. */
 export interface InterceptDeploymentGroup {
   /** Output only. The timestamp when the resource was most recently updated. See https://google.aip.dev/148#timestamps. */
   updateTime?: string | undefined;
-  /** Output only. The current state of the deployment group. See https://google.aip.dev/216. */
-  state?: InterceptDeploymentGroupStateEnum | (string & {}) | undefined;
-  /** Output only. The current state of the resource does not match the user's intended state, and the system is working to reconcile them. This is part of the normal operation (e.g. adding a new deployment to the group) See https://google.aip.dev/128. */
-  reconciling?: boolean | undefined;
-  /** Output only. The timestamp when the resource was created. See https://google.aip.dev/148#timestamps. */
-  createTime?: string | undefined;
-  /** Required. Immutable. The network that will be used for all child deployments, for example: `projects/{project}/global/networks/{network}`. See https://google.aip.dev/124. */
-  network?: string | undefined;
-  /** Output only. The list of endpoint groups that are connected to this resource. */
-  connectedEndpointGroups?: InterceptDeploymentGroupConnectedEndpointGroupList | undefined;
-  /** Output only. The list of locations where the deployment group is present. */
-  locations?: InterceptLocationList | undefined;
-  /** Output only. The list of Intercept Deployments that belong to this group. */
-  nestedDeployments?: InterceptDeploymentGroupDeploymentList | undefined;
-  /** Optional. User-provided description of the deployment group. Used as additional context for the deployment group. */
-  description?: string | undefined;
   /** Immutable. Identifier. The resource name of this deployment group, for example: `projects/123456789/locations/global/interceptDeploymentGroups/my-dg`. See https://google.aip.dev/122 for more details. */
   name?: string | undefined;
+  /** Required. Immutable. The network that will be used for all child deployments, for example: `projects/{project}/global/networks/{network}`. See https://google.aip.dev/124. */
+  network?: string | undefined;
+  /** Output only. The current state of the resource does not match the user's intended state, and the system is working to reconcile them. This is part of the normal operation (e.g. adding a new deployment to the group) See https://google.aip.dev/128. */
+  reconciling?: boolean | undefined;
+  /** Output only. The list of endpoint groups that are connected to this resource. */
+  connectedEndpointGroups?: InterceptDeploymentGroupConnectedEndpointGroupList | undefined;
+  /** Output only. The timestamp when the resource was created. See https://google.aip.dev/148#timestamps. */
+  createTime?: string | undefined;
   /** Optional. Labels are key/value pairs that help to organize and filter resources. */
   labels?: StringMap | undefined;
+  /** Output only. The current state of the deployment group. See https://google.aip.dev/216. */
+  state?: InterceptDeploymentGroupStateEnum | (string & {}) | undefined;
+  /** Optional. User-provided description of the deployment group. Used as additional context for the deployment group. */
+  description?: string | undefined;
+  /** Output only. The list of Intercept Deployments that belong to this group. */
+  nestedDeployments?: InterceptDeploymentGroupDeploymentList | undefined;
+  /** Output only. The list of locations where the deployment group is present. */
+  locations?: InterceptLocationList | undefined;
 }
 export interface CreateProjectsLocationsInterceptDeploymentGroupsRequest extends InterceptDeploymentGroup {
   /** Required. The parent resource where this deployment group will be created. Format: projects/{project}/locations/{location} */
@@ -1327,32 +1327,32 @@ export type InterceptDeploymentStateEnum =
   | "DELETE_FAILED";
 /** A deployment represents a zonal intercept backend ready to accept GENEVE-encapsulated traffic, e.g. a zonal instance group fronted by an internal passthrough load balancer. Deployments are always part of a global deployment group which represents a global intercept service. */
 export interface InterceptDeployment {
-  /** Output only. The timestamp when the resource was most recently updated. See https://google.aip.dev/148#timestamps. */
-  updateTime?: string | undefined;
-  /** Output only. The current state of the deployment. See https://google.aip.dev/216. */
-  state?: InterceptDeploymentStateEnum | (string & {}) | undefined;
-  /** Output only. The timestamp when the resource was created. See https://google.aip.dev/148#timestamps. */
-  createTime?: string | undefined;
-  /** Optional. Labels are key/value pairs that help to organize and filter resources. */
-  labels?: StringMap | undefined;
   /** Required. Immutable. The deployment group that this deployment is a part of, for example: `projects/123456789/locations/global/interceptDeploymentGroups/my-dg`. See https://google.aip.dev/124. */
   interceptDeploymentGroup?: string | undefined;
+  /** Optional. Labels are key/value pairs that help to organize and filter resources. */
+  labels?: StringMap | undefined;
+  /** Output only. The timestamp when the resource was most recently updated. See https://google.aip.dev/148#timestamps. */
+  updateTime?: string | undefined;
   /** Output only. The current state of the resource does not match the user's intended state, and the system is working to reconcile them. This part of the normal operation (e.g. linking a new association to the parent group). See https://google.aip.dev/128. */
   reconciling?: boolean | undefined;
-  /** Required. Immutable. The regional forwarding rule that fronts the interceptors, for example: `projects/123456789/regions/us-central1/forwardingRules/my-rule`. See https://google.aip.dev/124. */
-  forwardingRule?: string | undefined;
   /** Optional. User-provided description of the deployment. Used as additional context for the deployment. */
   description?: string | undefined;
+  /** Required. Immutable. The regional forwarding rule that fronts the interceptors, for example: `projects/123456789/regions/us-central1/forwardingRules/my-rule`. See https://google.aip.dev/124. */
+  forwardingRule?: string | undefined;
   /** Immutable. Identifier. The resource name of this deployment, for example: `projects/123456789/locations/us-central1-a/interceptDeployments/my-dep`. See https://google.aip.dev/122 for more details. */
   name?: string | undefined;
+  /** Output only. The timestamp when the resource was created. See https://google.aip.dev/148#timestamps. */
+  createTime?: string | undefined;
+  /** Output only. The current state of the deployment. See https://google.aip.dev/216. */
+  state?: InterceptDeploymentStateEnum | (string & {}) | undefined;
 }
 export interface CreateProjectsLocationsInterceptDeploymentsRequest extends InterceptDeployment {
   /** Required. The parent resource where this deployment will be created. Format: projects/{project}/locations/{location} */
   parent: string;
-  /** Required. The ID to use for the new deployment, which will become the final component of the deployment's resource name. */
-  interceptDeploymentId?: string | undefined;
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string | undefined;
+  /** Required. The ID to use for the new deployment, which will become the final component of the deployment's resource name. */
+  interceptDeploymentId?: string | undefined;
 }
 export type InterceptEndpointGroupAssociationStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1377,45 +1377,37 @@ export type InterceptEndpointGroupAssociationLocationDetailsList =
   Array<InterceptEndpointGroupAssociationLocationDetails>;
 /** An endpoint group association represents a link between a network and an endpoint group in the organization. Creating an association creates the networking infrastructure linking the network to the endpoint group, but does not enable intercept by itself. To enable intercept, the user must also create a network firewall policy containing intercept rules and associate it with the network. */
 export interface InterceptEndpointGroupAssociation {
+  /** Output only. The current state of the resource does not match the user's intended state, and the system is working to reconcile them. This part of the normal operation (e.g. adding a new location to the target deployment group). See https://google.aip.dev/128. */
+  reconciling?: boolean | undefined;
+  /** Output only. The timestamp when the resource was created. See https://google.aip.dev/148#timestamps. */
+  createTime?: string | undefined;
+  /** Optional. Labels are key/value pairs that help to organize and filter resources. */
+  labels?: StringMap | undefined;
+  /** Output only. The list of locations where the association is configured. This information is retrieved from the linked endpoint group. */
+  locations?: InterceptLocationList | undefined;
+  /** Required. Immutable. The VPC network that is associated. for example: `projects/123456789/global/networks/my-network`. See https://google.aip.dev/124. */
+  network?: string | undefined;
+  /** Required. Immutable. The endpoint group that this association is connected to, for example: `projects/123456789/locations/global/interceptEndpointGroups/my-eg`. See https://google.aip.dev/124. */
+  interceptEndpointGroup?: string | undefined;
   /** Output only. Current state of the endpoint group association. */
   state?: InterceptEndpointGroupAssociationStateEnum | (string & {}) | undefined;
   /** Output only. Identifier used by the data-path. See the NSI GENEVE format for more details: https://docs.cloud.google.com/network-security-integration/docs/understand-geneve#network_id */
   networkCookie?: number | undefined;
-  /** Required. Immutable. The VPC network that is associated. for example: `projects/123456789/global/networks/my-network`. See https://google.aip.dev/124. */
-  network?: string | undefined;
-  /** Output only. The current state of the resource does not match the user's intended state, and the system is working to reconcile them. This part of the normal operation (e.g. adding a new location to the target deployment group). See https://google.aip.dev/128. */
-  reconciling?: boolean | undefined;
-  /** Optional. Labels are key/value pairs that help to organize and filter resources. */
-  labels?: StringMap | undefined;
-  /** Immutable. Identifier. The resource name of this endpoint group association, for example: `projects/123456789/locations/global/interceptEndpointGroupAssociations/my-eg-association`. See https://google.aip.dev/122 for more details. */
-  name?: string | undefined;
-  /** Output only. The timestamp when the resource was created. See https://google.aip.dev/148#timestamps. */
-  createTime?: string | undefined;
-  /** Output only. The list of locations where the association is configured. This information is retrieved from the linked endpoint group. */
-  locations?: InterceptLocationList | undefined;
-  /** Output only. The timestamp when the resource was most recently updated. See https://google.aip.dev/148#timestamps. */
-  updateTime?: string | undefined;
   /** Output only. The list of locations where the association is present. This information is retrieved from the linked endpoint group, and not configured as part of the association itself. */
   locationsDetails?: InterceptEndpointGroupAssociationLocationDetailsList | undefined;
-  /** Required. Immutable. The endpoint group that this association is connected to, for example: `projects/123456789/locations/global/interceptEndpointGroups/my-eg`. See https://google.aip.dev/124. */
-  interceptEndpointGroup?: string | undefined;
+  /** Immutable. Identifier. The resource name of this endpoint group association, for example: `projects/123456789/locations/global/interceptEndpointGroupAssociations/my-eg-association`. See https://google.aip.dev/122 for more details. */
+  name?: string | undefined;
+  /** Output only. The timestamp when the resource was most recently updated. See https://google.aip.dev/148#timestamps. */
+  updateTime?: string | undefined;
 }
 export interface CreateProjectsLocationsInterceptEndpointGroupAssociationsRequest extends InterceptEndpointGroupAssociation {
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string | undefined;
-  /** Optional. The ID to use for the new association, which will become the final component of the endpoint group's resource name. If not provided, the server will generate a unique ID. */
-  interceptEndpointGroupAssociationId?: string | undefined;
   /** Required. The parent resource where this association will be created. Format: projects/{project}/locations/{location} */
   parent: string;
+  /** Optional. The ID to use for the new association, which will become the final component of the endpoint group's resource name. If not provided, the server will generate a unique ID. */
+  interceptEndpointGroupAssociationId?: string | undefined;
 }
-export type InterceptEndpointGroupStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "ACTIVE"
-  | "CLOSED"
-  | "CREATING"
-  | "DELETING"
-  | "OUT_OF_SYNC"
-  | "DELETE_FAILED";
 export type InterceptEndpointGroupAssociationDetailsStateEnum =
   | "STATE_UNSPECIFIED"
   | "ACTIVE"
@@ -1428,50 +1420,58 @@ export type InterceptEndpointGroupAssociationDetailsStateEnum =
 export interface InterceptEndpointGroupAssociationDetails {
   /** Output only. The connected association's resource name, for example: `projects/123456789/locations/global/interceptEndpointGroupAssociations/my-ega`. See https://google.aip.dev/124. */
   name?: string | undefined;
-  /** Output only. The associated network, for example: projects/123456789/global/networks/my-network. See https://google.aip.dev/124. */
-  network?: string | undefined;
   /** Output only. Most recent known state of the association. */
   state?: InterceptEndpointGroupAssociationDetailsStateEnum | (string & {}) | undefined;
+  /** Output only. The associated network, for example: projects/123456789/global/networks/my-network. See https://google.aip.dev/124. */
+  network?: string | undefined;
 }
 export type InterceptEndpointGroupAssociationDetailsList =
   Array<InterceptEndpointGroupAssociationDetails>;
 /** The endpoint group's view of a connected deployment group. */
 export interface InterceptEndpointGroupConnectedDeploymentGroup {
-  /** Output only. The connected deployment group's resource name, for example: `projects/123456789/locations/global/interceptDeploymentGroups/my-dg`. See https://google.aip.dev/124. */
-  name?: string | undefined;
   /** Output only. The list of locations where the deployment group is present. */
   locations?: InterceptLocationList | undefined;
+  /** Output only. The connected deployment group's resource name, for example: `projects/123456789/locations/global/interceptDeploymentGroups/my-dg`. See https://google.aip.dev/124. */
+  name?: string | undefined;
 }
+export type InterceptEndpointGroupStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "ACTIVE"
+  | "CLOSED"
+  | "CREATING"
+  | "DELETING"
+  | "OUT_OF_SYNC"
+  | "DELETE_FAILED";
 /** An endpoint group is a consumer frontend for a deployment group (backend). In order to configure intercept for a network, consumers must create: - An association between their network and the endpoint group. - A security profile that points to the endpoint group. - A firewall rule that references the security profile (group). */
 export interface InterceptEndpointGroup {
-  /** Required. Immutable. The deployment group that this endpoint group is connected to, for example: `projects/123456789/locations/global/interceptDeploymentGroups/my-dg`. See https://google.aip.dev/124. */
-  interceptDeploymentGroup?: string | undefined;
-  /** Output only. The current state of the endpoint group. See https://google.aip.dev/216. */
-  state?: InterceptEndpointGroupStateEnum | (string & {}) | undefined;
-  /** Output only. The current state of the resource does not match the user's intended state, and the system is working to reconcile them. This is part of the normal operation (e.g. adding a new association to the group). See https://google.aip.dev/128. */
-  reconciling?: boolean | undefined;
   /** Optional. Labels are key/value pairs that help to organize and filter resources. */
   labels?: StringMap | undefined;
-  /** Output only. The timestamp when the resource was created. See https://google.aip.dev/148#timestamps. */
-  createTime?: string | undefined;
-  /** Output only. The timestamp when the resource was most recently updated. See https://google.aip.dev/148#timestamps. */
-  updateTime?: string | undefined;
+  /** Output only. The current state of the resource does not match the user's intended state, and the system is working to reconcile them. This is part of the normal operation (e.g. adding a new association to the group). See https://google.aip.dev/128. */
+  reconciling?: boolean | undefined;
   /** Output only. List of associations to this endpoint group. */
   associations?: InterceptEndpointGroupAssociationDetailsList | undefined;
-  /** Optional. User-provided description of the endpoint group. Used as additional context for the endpoint group. */
-  description?: string | undefined;
-  /** Immutable. Identifier. The resource name of this endpoint group, for example: `projects/123456789/locations/global/interceptEndpointGroups/my-eg`. See https://google.aip.dev/122 for more details. */
-  name?: string | undefined;
+  /** Required. Immutable. The deployment group that this endpoint group is connected to, for example: `projects/123456789/locations/global/interceptDeploymentGroups/my-dg`. See https://google.aip.dev/124. */
+  interceptDeploymentGroup?: string | undefined;
+  /** Output only. The timestamp when the resource was created. See https://google.aip.dev/148#timestamps. */
+  createTime?: string | undefined;
   /** Output only. Details about the connected deployment group to this endpoint group. */
   connectedDeploymentGroup?: InterceptEndpointGroupConnectedDeploymentGroup | undefined;
+  /** Output only. The timestamp when the resource was most recently updated. See https://google.aip.dev/148#timestamps. */
+  updateTime?: string | undefined;
+  /** Optional. User-provided description of the endpoint group. Used as additional context for the endpoint group. */
+  description?: string | undefined;
+  /** Output only. The current state of the endpoint group. See https://google.aip.dev/216. */
+  state?: InterceptEndpointGroupStateEnum | (string & {}) | undefined;
+  /** Immutable. Identifier. The resource name of this endpoint group, for example: `projects/123456789/locations/global/interceptEndpointGroups/my-eg`. See https://google.aip.dev/122 for more details. */
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsInterceptEndpointGroupsRequest extends InterceptEndpointGroup {
-  /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
-  requestId?: string | undefined;
   /** Required. The ID to use for the endpoint group, which will become the final component of the endpoint group's resource name. */
   interceptEndpointGroupId?: string | undefined;
   /** Required. The parent resource where this endpoint group will be created. Format: projects/{project}/locations/{location} */
   parent: string;
+  /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
+  requestId?: string | undefined;
 }
 export type MirroringDeploymentGroupDeploymentStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1482,10 +1482,10 @@ export type MirroringDeploymentGroupDeploymentStateEnum =
   | "DELETE_FAILED";
 /** A deployment belonging to this deployment group. */
 export interface MirroringDeploymentGroupDeployment {
-  /** Output only. The name of the Mirroring Deployment, in the format: `projects/{project}/locations/{location}/mirroringDeployments/{mirroring_deployment}`. */
-  name?: string | undefined;
   /** Output only. Most recent known state of the deployment. */
   state?: MirroringDeploymentGroupDeploymentStateEnum | (string & {}) | undefined;
+  /** Output only. The name of the Mirroring Deployment, in the format: `projects/{project}/locations/{location}/mirroringDeployments/{mirroring_deployment}`. */
+  name?: string | undefined;
 }
 export type MirroringDeploymentGroupDeploymentList = Array<MirroringDeploymentGroupDeployment>;
 export type MirroringDeploymentGroupStateEnum =
@@ -1504,42 +1504,42 @@ export type MirroringDeploymentGroupConnectedEndpointGroupList =
 export type MirroringLocationStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "OUT_OF_SYNC";
 /** Details about mirroring in a specific cloud location. */
 export interface MirroringLocation {
-  /** Output only. The current state of the association in this location. */
-  state?: MirroringLocationStateEnum | (string & {}) | undefined;
   /** Output only. The cloud location, e.g. "us-central1-a" or "asia-south1". */
   location?: string | undefined;
+  /** Output only. The current state of the association in this location. */
+  state?: MirroringLocationStateEnum | (string & {}) | undefined;
 }
 export type MirroringLocationList = Array<MirroringLocation>;
 /** A deployment group aggregates many zonal mirroring backends (deployments) into a single global mirroring service. Consumers can connect this service using an endpoint group. */
 export interface MirroringDeploymentGroup {
   /** Output only. The timestamp when the resource was created. See https://google.aip.dev/148#timestamps. */
   createTime?: string | undefined;
-  /** Output only. The timestamp when the resource was most recently updated. See https://google.aip.dev/148#timestamps. */
-  updateTime?: string | undefined;
   /** Output only. The list of Mirroring Deployments that belong to this group. */
   nestedDeployments?: MirroringDeploymentGroupDeploymentList | undefined;
-  /** Required. Immutable. The network that will be used for all child deployments, for example: `projects/{project}/global/networks/{network}`. See https://google.aip.dev/124. */
-  network?: string | undefined;
   /** Output only. The current state of the deployment group. See https://google.aip.dev/216. */
   state?: MirroringDeploymentGroupStateEnum | (string & {}) | undefined;
-  /** Output only. The current state of the resource does not match the user's intended state, and the system is working to reconcile them. This is part of the normal operation (e.g. adding a new deployment to the group) See https://google.aip.dev/128. */
-  reconciling?: boolean | undefined;
-  /** Optional. Labels are key/value pairs that help to organize and filter resources. */
-  labels?: StringMap | undefined;
   /** Immutable. Identifier. The resource name of this deployment group, for example: `projects/123456789/locations/global/mirroringDeploymentGroups/my-dg`. See https://google.aip.dev/122 for more details. */
   name?: string | undefined;
+  /** Required. Immutable. The network that will be used for all child deployments, for example: `projects/{project}/global/networks/{network}`. See https://google.aip.dev/124. */
+  network?: string | undefined;
   /** Output only. The list of endpoint groups that are connected to this resource. */
   connectedEndpointGroups?: MirroringDeploymentGroupConnectedEndpointGroupList | undefined;
   /** Optional. User-provided description of the deployment group. Used as additional context for the deployment group. */
   description?: string | undefined;
+  /** Output only. The current state of the resource does not match the user's intended state, and the system is working to reconcile them. This is part of the normal operation (e.g. adding a new deployment to the group) See https://google.aip.dev/128. */
+  reconciling?: boolean | undefined;
+  /** Optional. Labels are key/value pairs that help to organize and filter resources. */
+  labels?: StringMap | undefined;
+  /** Output only. The timestamp when the resource was most recently updated. See https://google.aip.dev/148#timestamps. */
+  updateTime?: string | undefined;
   /** Output only. The list of locations where the deployment group is present. */
   locations?: MirroringLocationList | undefined;
 }
 export interface CreateProjectsLocationsMirroringDeploymentGroupsRequest extends MirroringDeploymentGroup {
-  /** Required. The ID to use for the new deployment group, which will become the final component of the deployment group's resource name. */
-  mirroringDeploymentGroupId?: string | undefined;
   /** Required. The parent resource where this deployment group will be created. Format: projects/{project}/locations/{location} */
   parent: string;
+  /** Required. The ID to use for the new deployment group, which will become the final component of the deployment group's resource name. */
+  mirroringDeploymentGroupId?: string | undefined;
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string | undefined;
 }
@@ -1552,46 +1552,33 @@ export type MirroringDeploymentStateEnum =
   | "DELETE_FAILED";
 /** A deployment represents a zonal mirroring backend ready to accept GENEVE-encapsulated replica traffic, e.g. a zonal instance group fronted by an internal passthrough load balancer. Deployments are always part of a global deployment group which represents a global mirroring service. */
 export interface MirroringDeployment {
-  /** Output only. The timestamp when the resource was created. See https://google.aip.dev/148#timestamps. */
-  createTime?: string | undefined;
-  /** Immutable. Identifier. The resource name of this deployment, for example: `projects/123456789/locations/us-central1-a/mirroringDeployments/my-dep`. See https://google.aip.dev/122 for more details. */
-  name?: string | undefined;
-  /** Output only. The timestamp when the resource was most recently updated. See https://google.aip.dev/148#timestamps. */
-  updateTime?: string | undefined;
-  /** Required. Immutable. The regional forwarding rule that fronts the mirroring collectors, for example: `projects/123456789/regions/us-central1/forwardingRules/my-rule`. See https://google.aip.dev/124. */
-  forwardingRule?: string | undefined;
-  /** Required. Immutable. The deployment group that this deployment is a part of, for example: `projects/123456789/locations/global/mirroringDeploymentGroups/my-dg`. See https://google.aip.dev/124. */
-  mirroringDeploymentGroup?: string | undefined;
-  /** Optional. User-provided description of the deployment. Used as additional context for the deployment. */
-  description?: string | undefined;
   /** Optional. Labels are key/value pairs that help to organize and filter resources. */
   labels?: StringMap | undefined;
+  /** Output only. The timestamp when the resource was created. See https://google.aip.dev/148#timestamps. */
+  createTime?: string | undefined;
   /** Output only. The current state of the resource does not match the user's intended state, and the system is working to reconcile them. This part of the normal operation (e.g. linking a new association to the parent group). See https://google.aip.dev/128. */
   reconciling?: boolean | undefined;
   /** Output only. The current state of the deployment. See https://google.aip.dev/216. */
   state?: MirroringDeploymentStateEnum | (string & {}) | undefined;
+  /** Required. Immutable. The regional forwarding rule that fronts the mirroring collectors, for example: `projects/123456789/regions/us-central1/forwardingRules/my-rule`. See https://google.aip.dev/124. */
+  forwardingRule?: string | undefined;
+  /** Immutable. Identifier. The resource name of this deployment, for example: `projects/123456789/locations/us-central1-a/mirroringDeployments/my-dep`. See https://google.aip.dev/122 for more details. */
+  name?: string | undefined;
+  /** Optional. User-provided description of the deployment. Used as additional context for the deployment. */
+  description?: string | undefined;
+  /** Required. Immutable. The deployment group that this deployment is a part of, for example: `projects/123456789/locations/global/mirroringDeploymentGroups/my-dg`. See https://google.aip.dev/124. */
+  mirroringDeploymentGroup?: string | undefined;
+  /** Output only. The timestamp when the resource was most recently updated. See https://google.aip.dev/148#timestamps. */
+  updateTime?: string | undefined;
 }
 export interface CreateProjectsLocationsMirroringDeploymentsRequest extends MirroringDeployment {
-  /** Required. The ID to use for the new deployment, which will become the final component of the deployment's resource name. */
-  mirroringDeploymentId?: string | undefined;
-  /** Required. The parent resource where this deployment will be created. Format: projects/{project}/locations/{location} */
-  parent: string;
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string | undefined;
+  /** Required. The parent resource where this deployment will be created. Format: projects/{project}/locations/{location} */
+  parent: string;
+  /** Required. The ID to use for the new deployment, which will become the final component of the deployment's resource name. */
+  mirroringDeploymentId?: string | undefined;
 }
-export type MirroringEndpointGroupAssociationLocationDetailsStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "ACTIVE"
-  | "OUT_OF_SYNC";
-/** Contains details about the state of an association in a specific cloud location. */
-export interface MirroringEndpointGroupAssociationLocationDetails {
-  /** Output only. The cloud location, e.g. "us-central1-a" or "asia-south1". */
-  location?: string | undefined;
-  /** Output only. The current state of the association in this location. */
-  state?: MirroringEndpointGroupAssociationLocationDetailsStateEnum | (string & {}) | undefined;
-}
-export type MirroringEndpointGroupAssociationLocationDetailsList =
-  Array<MirroringEndpointGroupAssociationLocationDetails>;
 export type MirroringEndpointGroupAssociationStateEnum =
   | "STATE_UNSPECIFIED"
   | "ACTIVE"
@@ -1600,39 +1587,69 @@ export type MirroringEndpointGroupAssociationStateEnum =
   | "CLOSED"
   | "OUT_OF_SYNC"
   | "DELETE_FAILED";
+export type MirroringEndpointGroupAssociationLocationDetailsStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "ACTIVE"
+  | "OUT_OF_SYNC";
+/** Contains details about the state of an association in a specific cloud location. */
+export interface MirroringEndpointGroupAssociationLocationDetails {
+  /** Output only. The current state of the association in this location. */
+  state?: MirroringEndpointGroupAssociationLocationDetailsStateEnum | (string & {}) | undefined;
+  /** Output only. The cloud location, e.g. "us-central1-a" or "asia-south1". */
+  location?: string | undefined;
+}
+export type MirroringEndpointGroupAssociationLocationDetailsList =
+  Array<MirroringEndpointGroupAssociationLocationDetails>;
 /** An endpoint group association represents a link between a network and an endpoint group in the organization. Creating an association creates the networking infrastructure linking the network to the endpoint group, but does not enable mirroring by itself. To enable mirroring, the user must also create a network firewall policy containing mirroring rules and associate it with the network. */
 export interface MirroringEndpointGroupAssociation {
-  /** Immutable. The endpoint group that this association is connected to, for example: `projects/123456789/locations/global/mirroringEndpointGroups/my-eg`. See https://google.aip.dev/124. */
-  mirroringEndpointGroup?: string | undefined;
-  /** Optional. Labels are key/value pairs that help to organize and filter resources. */
-  labels?: StringMap | undefined;
-  /** Output only. The list of locations where the association is present. This information is retrieved from the linked endpoint group, and not configured as part of the association itself. */
-  locationsDetails?: MirroringEndpointGroupAssociationLocationDetailsList | undefined;
-  /** Output only. Current state of the endpoint group association. */
-  state?: MirroringEndpointGroupAssociationStateEnum | (string & {}) | undefined;
-  /** Output only. The current state of the resource does not match the user's intended state, and the system is working to reconcile them. This part of the normal operation (e.g. adding a new location to the target deployment group). See https://google.aip.dev/128. */
-  reconciling?: boolean | undefined;
-  /** Output only. Identifier used by the data-path. See the NSI GENEVE format for more details: https://docs.cloud.google.com/network-security-integration/docs/understand-geneve#network_id */
-  networkCookie?: number | undefined;
   /** Output only. The timestamp when the resource was most recently updated. See https://google.aip.dev/148#timestamps. */
   updateTime?: string | undefined;
+  /** Immutable. The endpoint group that this association is connected to, for example: `projects/123456789/locations/global/mirroringEndpointGroups/my-eg`. See https://google.aip.dev/124. */
+  mirroringEndpointGroup?: string | undefined;
+  /** Output only. Current state of the endpoint group association. */
+  state?: MirroringEndpointGroupAssociationStateEnum | (string & {}) | undefined;
+  /** Optional. Labels are key/value pairs that help to organize and filter resources. */
+  labels?: StringMap | undefined;
+  /** Output only. Identifier used by the data-path. See the NSI GENEVE format for more details: https://docs.cloud.google.com/network-security-integration/docs/understand-geneve#network_id */
+  networkCookie?: number | undefined;
+  /** Output only. The current state of the resource does not match the user's intended state, and the system is working to reconcile them. This part of the normal operation (e.g. adding a new location to the target deployment group). See https://google.aip.dev/128. */
+  reconciling?: boolean | undefined;
   /** Immutable. Identifier. The resource name of this endpoint group association, for example: `projects/123456789/locations/global/mirroringEndpointGroupAssociations/my-eg-association`. See https://google.aip.dev/122 for more details. */
   name?: string | undefined;
+  /** Output only. The list of locations where the association is present. This information is retrieved from the linked endpoint group, and not configured as part of the association itself. */
+  locationsDetails?: MirroringEndpointGroupAssociationLocationDetailsList | undefined;
+  /** Immutable. The VPC network that is associated. for example: `projects/123456789/global/networks/my-network`. See https://google.aip.dev/124. */
+  network?: string | undefined;
   /** Output only. The timestamp when the resource was created. See https://google.aip.dev/148#timestamps. */
   createTime?: string | undefined;
   /** Output only. The list of locations where the association is configured. This information is retrieved from the linked endpoint group. */
   locations?: MirroringLocationList | undefined;
-  /** Immutable. The VPC network that is associated. for example: `projects/123456789/global/networks/my-network`. See https://google.aip.dev/124. */
-  network?: string | undefined;
 }
 export interface CreateProjectsLocationsMirroringEndpointGroupAssociationsRequest extends MirroringEndpointGroupAssociation {
-  /** Optional. The ID to use for the new association, which will become the final component of the endpoint group's resource name. If not provided, the server will generate a unique ID. */
-  mirroringEndpointGroupAssociationId?: string | undefined;
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string | undefined;
   /** Required. The parent resource where this association will be created. Format: projects/{project}/locations/{location} */
   parent: string;
+  /** Optional. The ID to use for the new association, which will become the final component of the endpoint group's resource name. If not provided, the server will generate a unique ID. */
+  mirroringEndpointGroupAssociationId?: string | undefined;
 }
+/** The endpoint group's view of a connected deployment group. */
+export interface MirroringEndpointGroupConnectedDeploymentGroup {
+  /** Output only. The connected deployment group's resource name, for example: `projects/123456789/locations/global/mirroringDeploymentGroups/my-dg`. See https://google.aip.dev/124. */
+  name?: string | undefined;
+  /** Output only. The list of locations where the deployment group is present. */
+  locations?: MirroringLocationList | undefined;
+}
+export type MirroringEndpointGroupConnectedDeploymentGroupList =
+  Array<MirroringEndpointGroupConnectedDeploymentGroup>;
+export type MirroringEndpointGroupStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "ACTIVE"
+  | "CLOSED"
+  | "CREATING"
+  | "DELETING"
+  | "OUT_OF_SYNC"
+  | "DELETE_FAILED";
 export type MirroringEndpointGroupAssociationDetailsStateEnum =
   | "STATE_UNSPECIFIED"
   | "ACTIVE"
@@ -1645,188 +1662,68 @@ export type MirroringEndpointGroupAssociationDetailsStateEnum =
 export interface MirroringEndpointGroupAssociationDetails {
   /** Output only. The connected association's resource name, for example: `projects/123456789/locations/global/mirroringEndpointGroupAssociations/my-ega`. See https://google.aip.dev/124. */
   name?: string | undefined;
-  /** Output only. The associated network, for example: projects/123456789/global/networks/my-network. See https://google.aip.dev/124. */
-  network?: string | undefined;
   /** Output only. Most recent known state of the association. */
   state?: MirroringEndpointGroupAssociationDetailsStateEnum | (string & {}) | undefined;
+  /** Output only. The associated network, for example: projects/123456789/global/networks/my-network. See https://google.aip.dev/124. */
+  network?: string | undefined;
 }
 export type MirroringEndpointGroupAssociationDetailsList =
   Array<MirroringEndpointGroupAssociationDetails>;
-export type MirroringEndpointGroupStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "ACTIVE"
-  | "CLOSED"
-  | "CREATING"
-  | "DELETING"
-  | "OUT_OF_SYNC"
-  | "DELETE_FAILED";
-/** The endpoint group's view of a connected deployment group. */
-export interface MirroringEndpointGroupConnectedDeploymentGroup {
-  /** Output only. The list of locations where the deployment group is present. */
-  locations?: MirroringLocationList | undefined;
-  /** Output only. The connected deployment group's resource name, for example: `projects/123456789/locations/global/mirroringDeploymentGroups/my-dg`. See https://google.aip.dev/124. */
-  name?: string | undefined;
-}
-export type MirroringEndpointGroupConnectedDeploymentGroupList =
-  Array<MirroringEndpointGroupConnectedDeploymentGroup>;
 export type MirroringEndpointGroupTypeEnum = "TYPE_UNSPECIFIED" | "DIRECT";
 /** An endpoint group is a consumer frontend for a deployment group (backend). In order to configure mirroring for a network, consumers must create: - An association between their network and the endpoint group. - A security profile that points to the endpoint group. - A mirroring rule that references the security profile (group). */
 export interface MirroringEndpointGroup {
-  /** Output only. List of associations to this endpoint group. */
-  associations?: MirroringEndpointGroupAssociationDetailsList | undefined;
+  /** Output only. List of details about the connected deployment groups to this endpoint group. */
+  connectedDeploymentGroups?: MirroringEndpointGroupConnectedDeploymentGroupList | undefined;
+  /** Output only. The current state of the resource does not match the user's intended state, and the system is working to reconcile them. This is part of the normal operation (e.g. adding a new association to the group). See https://google.aip.dev/128. */
+  reconciling?: boolean | undefined;
+  /** Output only. The timestamp when the resource was created. See https://google.aip.dev/148#timestamps. */
+  createTime?: string | undefined;
+  /** Output only. The current state of the endpoint group. See https://google.aip.dev/216. */
+  state?: MirroringEndpointGroupStateEnum | (string & {}) | undefined;
   /** Optional. Labels are key/value pairs that help to organize and filter resources. */
   labels?: StringMap | undefined;
   /** Optional. User-provided description of the endpoint group. Used as additional context for the endpoint group. */
   description?: string | undefined;
   /** Immutable. The deployment group that this DIRECT endpoint group is connected to, for example: `projects/123456789/locations/global/mirroringDeploymentGroups/my-dg`. See https://google.aip.dev/124. */
   mirroringDeploymentGroup?: string | undefined;
-  /** Output only. The current state of the resource does not match the user's intended state, and the system is working to reconcile them. This is part of the normal operation (e.g. adding a new association to the group). See https://google.aip.dev/128. */
-  reconciling?: boolean | undefined;
-  /** Output only. The current state of the endpoint group. See https://google.aip.dev/216. */
-  state?: MirroringEndpointGroupStateEnum | (string & {}) | undefined;
-  /** Output only. List of details about the connected deployment groups to this endpoint group. */
-  connectedDeploymentGroups?: MirroringEndpointGroupConnectedDeploymentGroupList | undefined;
-  /** Output only. The timestamp when the resource was created. See https://google.aip.dev/148#timestamps. */
-  createTime?: string | undefined;
   /** Output only. The timestamp when the resource was most recently updated. See https://google.aip.dev/148#timestamps. */
   updateTime?: string | undefined;
-  /** Immutable. The type of the endpoint group. If left unspecified, defaults to DIRECT. */
-  type?: MirroringEndpointGroupTypeEnum | (string & {}) | undefined;
+  /** Output only. List of associations to this endpoint group. */
+  associations?: MirroringEndpointGroupAssociationDetailsList | undefined;
   /** Immutable. Identifier. The resource name of this endpoint group, for example: `projects/123456789/locations/global/mirroringEndpointGroups/my-eg`. See https://google.aip.dev/122 for more details. */
   name?: string | undefined;
+  /** Immutable. The type of the endpoint group. If left unspecified, defaults to DIRECT. */
+  type?: MirroringEndpointGroupTypeEnum | (string & {}) | undefined;
 }
 export interface CreateProjectsLocationsMirroringEndpointGroupsRequest extends MirroringEndpointGroup {
-  /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
-  requestId?: string | undefined;
-  /** Required. The parent resource where this endpoint group will be created. Format: projects/{project}/locations/{location} */
-  parent: string;
   /** Required. The ID to use for the endpoint group, which will become the final component of the endpoint group's resource name. */
   mirroringEndpointGroupId?: string | undefined;
+  /** Required. The parent resource where this endpoint group will be created. Format: projects/{project}/locations/{location} */
+  parent: string;
+  /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
+  requestId?: string | undefined;
 }
-/** Specifies the target to which this policy applies. */
-export interface RateLimitPolicyTarget {
-  /** Required. Reference to a Gateway or Forwarding Rule resource on which this policy will be applied. */
-  resource?: string | undefined;
-}
-export type RateLimitPolicyTargetList = Array<RateLimitPolicyTarget>;
-/** Describes the action to take when the rate limit rule is matched. */
-export interface RateLimitPolicyRateLimitRuleRateLimitAction {
-  /** Required. Specifies the name of the rate limit bucket to apply when this rule is matched. */
-  rateLimitBucket?: string | undefined;
-}
-export type RateLimitPolicyRateLimitRuleRateLimitActionList =
-  Array<RateLimitPolicyRateLimitRuleRateLimitAction>;
-export type RateLimitPolicyRateLimitRulePrincipalPrincipalSelectorEnum =
-  | "PRINCIPAL_SELECTOR_UNSPECIFIED"
-  | "CLIENT_CERT_URI_SAN"
-  | "CLIENT_CERT_DNS_NAME_SAN"
+export type RateLimitPolicyRateLimitBucketKeyKeyTypeEnum =
+  | "KEY_TYPE_UNSPECIFIED"
+  | "ALL"
+  | "SOURCE_IP"
+  | "HTTP_HEADER"
+  | "HTTP_PATH"
+  | "PRINCIPAL"
+  | "MCP_TOOL";
+export type RateLimitPolicyRateLimitBucketKeyPrincipalTypeEnum =
+  | "PRINCIPAL_TYPE_UNSPECIFIED"
   | "CLIENT_CERT_COMMON_NAME";
-/** Determines how a string value is matched. */
-export interface RateLimitPolicyRateLimitRuleStringMatch {
-  /** Checks if the input string has the suffix specified here. Note: empty suffix is not allowed, please use regex instead. Examples: * ``abc`` matches the value ``xyz.abc`` */
-  suffix?: string | undefined;
-  /** Checks if the input string has the prefix specified here. Note: empty prefix is not allowed, please use regex instead. Examples: * ``abc`` matches the value ``abc.xyz`` */
-  prefix?: string | undefined;
-  /** Matches the input string exactly to the string specified here. Examples: * ``abc`` only matches the value ``abc``. */
-  exact?: string | undefined;
-  /** Checks if the input string contains the substring specified here. Note: empty contains match is not allowed, please use regex instead. Examples: * ``abc`` matches the value ``xyz.abc.def`` */
-  contains?: string | undefined;
-  /** Optional. Indicates if the exact/prefix/suffix/contains matching should be case insensitive. For example, when true, the matcher ``data`` matches both input strings ``Data`` and ``data``. */
-  ignoreCase?: boolean | undefined;
+/** Describes properties of a key to use for rate limiting. */
+export interface RateLimitPolicyRateLimitBucketKey {
+  /** Required. Specifies the type of key to use for rate limiting. */
+  keyType?: RateLimitPolicyRateLimitBucketKeyKeyTypeEnum | (string & {}) | undefined;
+  /** Optional. Specifies the header name if key_type is HTTP_HEADER. */
+  header?: string | undefined;
+  /** Optional. Specifies the principal type if key_type is PRINCIPAL. */
+  principalType?: RateLimitPolicyRateLimitBucketKeyPrincipalTypeEnum | (string & {}) | undefined;
 }
-/** Describes the properties of a principal for matching. */
-export interface RateLimitPolicyRateLimitRulePrincipal {
-  /** Optional. Decides what principal value the principal rule will match against. If not specified, defaults to CLIENT_CERT_URI_SAN. */
-  principalSelector?:
-    | RateLimitPolicyRateLimitRulePrincipalPrincipalSelectorEnum
-    | (string & {})
-    | undefined;
-  /** Required. Matches a non-empty string against the principal value based on the principal_selector. */
-  principal?: RateLimitPolicyRateLimitRuleStringMatch | undefined;
-}
-export type RateLimitPolicyRateLimitRulePrincipalList =
-  Array<RateLimitPolicyRateLimitRulePrincipal>;
-/** Describes the properties of a request source. */
-export interface RateLimitPolicyRateLimitRuleFromSource {
-  /** Required. Contains a list of identities derived from the client's certificate. This field does not match on a request unless frontend mutual TLS is enabled for the Gateway and the client certificate is successfully validated by mTLS. Each identity is a string whose value is matched against a list of URI SANs, DNS Name SANs, or the common name in the client's certificate. A match happens when any principal matches with the rule. */
-  principals?: RateLimitPolicyRateLimitRulePrincipalList | undefined;
-}
-/** Describes properties of the sources of a request. */
-export interface RateLimitPolicyRateLimitRuleFrom {
-  /** Optional. Describes the negated properties of request source. Matches requests from source that does not match the criteria specified in this field. At least one of source or not_source must be specified. */
-  notSource?: RateLimitPolicyRateLimitRuleFromSource | undefined;
-  /** Optional. Describes the properties of a request's source. At least one of source or not_source must be specified. A match occurs when ANY fields in either source or not_source matches the request. Within a single source, the match follows OR semantics across fields and AND semantics within a single field. */
-  source?: RateLimitPolicyRateLimitRuleFromSource | undefined;
-}
-export type RateLimitPolicyRateLimitRuleStringMatchList =
-  Array<RateLimitPolicyRateLimitRuleStringMatch>;
-export type RateLimitPolicyRateLimitRuleToDestinationMCPBaseProtocolMethodsOptionEnum =
-  | "BASE_PROTOCOL_METHODS_OPTION_UNSPECIFIED"
-  | "SKIP_BASE_PROTOCOL_METHODS"
-  | "MATCH_BASE_PROTOCOL_METHODS";
-/** Describes a set of MCP methods to match against. This field is only valid if the targeted Gateway or Forwarding Rule has an Agent Gateway attached to it. */
-export interface RateLimitPolicyRateLimitRuleToDestinationMCPMethod {
-  /** Required. Specifies the MCP method to match against. Allowed values are as follows: 1. `tools`, `prompts`, `resources` - these will match against all sub methods under the respective methods. 2. `prompts/list`, `tools/list`, `resources/list`, `resources/templates/list` 3. `prompts/get`, `tools/call`, `resources/subscribe`, `resources/unsubscribe`, `resources/read` Params cannot be specified for categories 1 and 2. */
-  name?: string | undefined;
-  /** Optional. Specifies a list of MCP method parameter names to match against. The match can be one of exact, prefix, suffix, or contains (substring match). Matches are always case sensitive unless the ignoreCase is set. */
-  params?: RateLimitPolicyRateLimitRuleStringMatchList | undefined;
-}
-export type RateLimitPolicyRateLimitRuleToDestinationMCPMethodList =
-  Array<RateLimitPolicyRateLimitRuleToDestinationMCPMethod>;
-/** Describes a set of MCP protocol attributes to match against for a given MCP request. This field is only valid if the targeted Gateway or Forwarding Rule has an Agent Gateway attached to it. */
-export interface RateLimitPolicyRateLimitRuleToDestinationMCP {
-  /** Optional. If specified, matches on the MCP protocol's non-access specific methods namely: * initialize * completion/ * logging/ * notifications/ * ping Defaults to SKIP_BASE_PROTOCOL_METHODS if not specified. */
-  baseProtocolMethodsOption?:
-    | RateLimitPolicyRateLimitRuleToDestinationMCPBaseProtocolMethodsOptionEnum
-    | (string & {})
-    | undefined;
-  /** Optional. A list of MCP methods and associated parameter names to match on. It is recommended to use this field to match on tools, prompts and resource accesses while setting the baseProtocolMethodsOption to MATCH_BASE_PROTOCOL_METHODS to match on all the other MCP protocol methods. Limited to 10 MCP methods per Rate Limit Policy. */
-  methods?: RateLimitPolicyRateLimitRuleToDestinationMCPMethodList | undefined;
-}
-/** Determines how an HTTP header is matched. */
-export interface RateLimitPolicyRateLimitRuleHeaderMatch {
-  /** Optional. Specifies how the header match is performed. */
-  value?: RateLimitPolicyRateLimitRuleStringMatch | undefined;
-  /** Optional. Specifies the name of the header in the request. */
-  name?: string | undefined;
-}
-export type RateLimitPolicyRateLimitRuleHeaderMatchList =
-  Array<RateLimitPolicyRateLimitRuleHeaderMatch>;
-/** Describes a set of HTTP headers to match against. */
-export interface RateLimitPolicyRateLimitRuleToDestinationHeaderSet {
-  /** Required. Contains a list of headers to match against in http header. The match can be one of exact, prefix, suffix, or contains (substring match). The match follows AND semantics which means all the headers must match. Matches are always case sensitive unless the ignoreCase is set. */
-  headers?: RateLimitPolicyRateLimitRuleHeaderMatchList | undefined;
-}
-/** Describes properties of a request target. */
-export interface RateLimitPolicyRateLimitRuleToDestination {
-  /** Optional. Specifies a list of HTTP Hosts to match against. The match can be one of exact, prefix, suffix, or contains (substring match). Matches are always case sensitive unless the ignoreCase is set. The match follows OR semantics which means that if any of the hosts match, the operation is considered to be matched. */
-  hosts?: RateLimitPolicyRateLimitRuleStringMatchList | undefined;
-  /** Optional. Specifies the MCP protocol attributes to match against. This field is only valid if the targeted Gateway or Forwarding Rule has an Agent Gateway attached to it. */
-  mcp?: RateLimitPolicyRateLimitRuleToDestinationMCP | undefined;
-  /** Optional. Specifies a list of paths to match against. The match can be one of exact, prefix, suffix, or contains (substring match). Matches are always case sensitive unless the ignoreCase is set. The match follows OR semantics which means that if any of the paths match, the operation is considered to be matched. Note that this path match includes the query parameters. For gRPC services, this should be a fully-qualified name of the form /package.service/method. */
-  paths?: RateLimitPolicyRateLimitRuleStringMatchList | undefined;
-  /** Optional. Specifies a list of HTTP methods to match against. Each entry must be a valid HTTP method name (GET, PUT, POST, HEAD, PATCH, DELETE, OPTIONS). It only allows exact match and is always case sensitive. The match follows OR semantics which means that if any of the methods match, the operation is considered to be matched. */
-  methods?: StringList | undefined;
-  /** Optional. Specifies a list of headers to match against in http header. */
-  headerSet?: RateLimitPolicyRateLimitRuleToDestinationHeaderSet | undefined;
-}
-/** Describes properties of the targets of a request. */
-export interface RateLimitPolicyRateLimitRuleTo {
-  /** Optional. Describes properties of a request's destination. At least one of destination or not_destination must be specified. A match occurs when ANY fields in either destination or not_destination matches the request. Within a destination, the match follows OR semantics across fields and AND semantics within a single field. */
-  destination?: RateLimitPolicyRateLimitRuleToDestination | undefined;
-  /** Optional. Describes the negated properties of a request's destination. Matches requests for destination that does not match the criteria specified in this field. At least one of destination or not_destination must be specified. */
-  notDestination?: RateLimitPolicyRateLimitRuleToDestination | undefined;
-}
-/** Specifies conditions to match against the incoming request. */
-export interface RateLimitPolicyRateLimitRule {
-  /** Optional. Specifies the actions to take when this rule is matched. */
-  rateLimitActions?: RateLimitPolicyRateLimitRuleRateLimitActionList | undefined;
-  /** Optional. Describes properties of a source of a request. */
-  from?: RateLimitPolicyRateLimitRuleFrom | undefined;
-  /** Optional. Describes properties of a target of a request. */
-  to?: RateLimitPolicyRateLimitRuleTo | undefined;
-}
-export type RateLimitPolicyRateLimitRuleList = Array<RateLimitPolicyRateLimitRule>;
+export type RateLimitPolicyRateLimitBucketKeyList = Array<RateLimitPolicyRateLimitBucketKey>;
 export type RateLimitPolicyRateLimitBucketCountLimitIntervalUnitEnum =
   | "INTERVAL_UNIT_UNSPECIFIED"
   | "SECONDS"
@@ -1835,6 +1732,8 @@ export type RateLimitPolicyRateLimitBucketCountLimitIntervalUnitEnum =
   | "DAYS";
 /** Describes the count limit for enforcement. */
 export interface RateLimitPolicyRateLimitBucketCountLimit {
+  /** Required. Specifies the interval in units for which the count limit is enforced. Must be positive. */
+  interval?: string | undefined;
   /** Required. Specifies the maximum number of costs allowed in the specified interval. Must be non-negative. */
   count?: string | undefined;
   /** Required. Specifies the unit of the interval. Defaults to MINUTES. */
@@ -1842,8 +1741,6 @@ export interface RateLimitPolicyRateLimitBucketCountLimit {
     | RateLimitPolicyRateLimitBucketCountLimitIntervalUnitEnum
     | (string & {})
     | undefined;
-  /** Required. Specifies the interval in units for which the count limit is enforced. Must be positive. */
-  interval?: string | undefined;
 }
 /** Describes a limit for enforcement. */
 export interface RateLimitPolicyRateLimitBucketLimit {
@@ -1867,102 +1764,200 @@ export type RateLimitPolicyRateLimitBucketUserOverrideOverrideKeyPrincipalList =
   Array<RateLimitPolicyRateLimitBucketUserOverrideOverrideKeyPrincipal>;
 /** Specifies the key in the type HTTP header to override. */
 export interface RateLimitPolicyRateLimitBucketUserOverrideOverrideKeyHttpHeader {
-  /** Required. Specifies the header name of the key. */
-  header?: string | undefined;
   /** Required. Specifies the header value of the key. */
   value?: string | undefined;
+  /** Required. Specifies the header name of the key. */
+  header?: string | undefined;
 }
 export type RateLimitPolicyRateLimitBucketUserOverrideOverrideKeyHttpHeaderList =
   Array<RateLimitPolicyRateLimitBucketUserOverrideOverrideKeyHttpHeader>;
 /** Specifies the key to override. Key fields must match the key types specified in the rate limit bucket. Key type ALL does not support overrides. */
 export interface RateLimitPolicyRateLimitBucketUserOverrideOverrideKey {
-  /** Optional. Specifies the source IP if the rate limit bucket keys contain a key of type SOURCE_IP. */
-  sourceIp?: string | undefined;
+  /** Optional. Specifies the HTTP path if the rate limit bucket keys contain a key of type HTTP_PATH. */
+  httpPath?: string | undefined;
   /** Optional. Specifies the MCP tool if the rate limit bucket keys contain a key of type MCP_TOOL. */
   mcpTool?: string | undefined;
   /** Optional. Specifies the principals if the rate limit bucket keys contain keys of PRINCIPAL. Number of principals and principal types must match the rate limit bucket key. */
   principals?: RateLimitPolicyRateLimitBucketUserOverrideOverrideKeyPrincipalList | undefined;
-  /** Optional. Specifies the HTTP path if the rate limit bucket keys contain a key of type HTTP_PATH. */
-  httpPath?: string | undefined;
   /** Optional. Specifies the HTTP headers if the rate limit bucket keys contain keys of type HTTP_HEADER. Number of headers and header names must match the rate limit bucket key. */
   httpHeaders?: RateLimitPolicyRateLimitBucketUserOverrideOverrideKeyHttpHeaderList | undefined;
+  /** Optional. Specifies the source IP if the rate limit bucket keys contain a key of type SOURCE_IP. */
+  sourceIp?: string | undefined;
 }
 /** Describes properties of a user override for the rate limit bucket. */
 export interface RateLimitPolicyRateLimitBucketUserOverride {
-  /** Required. Specifies the key to override. */
-  overrideKey?: RateLimitPolicyRateLimitBucketUserOverrideOverrideKey | undefined;
   /** Required. Specifies the limit to apply for this specific key. */
   limit?: RateLimitPolicyRateLimitBucketLimit | undefined;
+  /** Required. Specifies the key to override. */
+  overrideKey?: RateLimitPolicyRateLimitBucketUserOverrideOverrideKey | undefined;
 }
 export type RateLimitPolicyRateLimitBucketUserOverrideList =
   Array<RateLimitPolicyRateLimitBucketUserOverride>;
-export type RateLimitPolicyRateLimitBucketKeyKeyTypeEnum =
-  | "KEY_TYPE_UNSPECIFIED"
-  | "ALL"
-  | "SOURCE_IP"
-  | "HTTP_HEADER"
-  | "HTTP_PATH"
-  | "PRINCIPAL"
-  | "MCP_TOOL";
-export type RateLimitPolicyRateLimitBucketKeyPrincipalTypeEnum =
-  | "PRINCIPAL_TYPE_UNSPECIFIED"
-  | "CLIENT_CERT_COMMON_NAME";
-/** Describes properties of a key to use for rate limiting. */
-export interface RateLimitPolicyRateLimitBucketKey {
-  /** Required. Specifies the type of key to use for rate limiting. */
-  keyType?: RateLimitPolicyRateLimitBucketKeyKeyTypeEnum | (string & {}) | undefined;
-  /** Optional. Specifies the principal type if key_type is PRINCIPAL. */
-  principalType?: RateLimitPolicyRateLimitBucketKeyPrincipalTypeEnum | (string & {}) | undefined;
-  /** Optional. Specifies the header name if key_type is HTTP_HEADER. */
-  header?: string | undefined;
-}
-export type RateLimitPolicyRateLimitBucketKeyList = Array<RateLimitPolicyRateLimitBucketKey>;
 /** Describes properties of a rate limit bucket. */
 export interface RateLimitPolicyRateLimitBucket {
+  /** Required. Specifies the name of the rate limit bucket. Name will be used to reference the bucket in the RateLimitAction. */
+  name?: string | undefined;
+  /** Required. Specifies the keys to use for rate limiting. At least one key is required. If multiple keys are specified, the keys will be combined and used as a single key. */
+  keys?: RateLimitPolicyRateLimitBucketKeyList | undefined;
   /** Required. Specifies the default limit to apply for this rate limit bucket. */
   defaultLimit?: RateLimitPolicyRateLimitBucketLimit | undefined;
   /** Optional. Specifies a list of user overrides to apply to the rate limit bucket. */
   userOverrides?: RateLimitPolicyRateLimitBucketUserOverrideList | undefined;
   /** Optional. Specifies whether the rate limit bucket is in dry-run mode. */
   dryRun?: boolean | undefined;
-  /** Required. Specifies the name of the rate limit bucket. Name will be used to reference the bucket in the RateLimitAction. */
-  name?: string | undefined;
-  /** Required. Specifies the keys to use for rate limiting. At least one key is required. If multiple keys are specified, the keys will be combined and used as a single key. */
-  keys?: RateLimitPolicyRateLimitBucketKeyList | undefined;
 }
 export type RateLimitPolicyRateLimitBucketList = Array<RateLimitPolicyRateLimitBucket>;
+/** Determines how a string value is matched. */
+export interface RateLimitPolicyRateLimitRuleStringMatch {
+  /** Checks if the input string has the suffix specified here. Note: empty suffix is not allowed, please use regex instead. Examples: * ``abc`` matches the value ``xyz.abc`` */
+  suffix?: string | undefined;
+  /** Optional. Indicates if the exact/prefix/suffix/contains matching should be case insensitive. For example, when true, the matcher ``data`` matches both input strings ``Data`` and ``data``. */
+  ignoreCase?: boolean | undefined;
+  /** Matches the input string exactly to the string specified here. Examples: * ``abc`` only matches the value ``abc``. */
+  exact?: string | undefined;
+  /** Checks if the input string has the prefix specified here. Note: empty prefix is not allowed, please use regex instead. Examples: * ``abc`` matches the value ``abc.xyz`` */
+  prefix?: string | undefined;
+  /** Checks if the input string contains the substring specified here. Note: empty contains match is not allowed, please use regex instead. Examples: * ``abc`` matches the value ``xyz.abc.def`` */
+  contains?: string | undefined;
+}
+/** Determines how an HTTP header is matched. */
+export interface RateLimitPolicyRateLimitRuleHeaderMatch {
+  /** Optional. Specifies the name of the header in the request. */
+  name?: string | undefined;
+  /** Optional. Specifies how the header match is performed. */
+  value?: RateLimitPolicyRateLimitRuleStringMatch | undefined;
+}
+export type RateLimitPolicyRateLimitRuleHeaderMatchList =
+  Array<RateLimitPolicyRateLimitRuleHeaderMatch>;
+/** Describes a set of HTTP headers to match against. */
+export interface RateLimitPolicyRateLimitRuleToDestinationHeaderSet {
+  /** Required. Contains a list of headers to match against in http header. The match can be one of exact, prefix, suffix, or contains (substring match). The match follows AND semantics which means all the headers must match. Matches are always case sensitive unless the ignoreCase is set. */
+  headers?: RateLimitPolicyRateLimitRuleHeaderMatchList | undefined;
+}
+export type RateLimitPolicyRateLimitRuleStringMatchList =
+  Array<RateLimitPolicyRateLimitRuleStringMatch>;
+export type RateLimitPolicyRateLimitRuleToDestinationMCPBaseProtocolMethodsOptionEnum =
+  | "BASE_PROTOCOL_METHODS_OPTION_UNSPECIFIED"
+  | "SKIP_BASE_PROTOCOL_METHODS"
+  | "MATCH_BASE_PROTOCOL_METHODS";
+/** Describes a set of MCP methods to match against. This field is only valid if the targeted Gateway or Forwarding Rule has an Agent Gateway attached to it. */
+export interface RateLimitPolicyRateLimitRuleToDestinationMCPMethod {
+  /** Optional. Specifies a list of MCP method parameter names to match against. The match can be one of exact, prefix, suffix, or contains (substring match). Matches are always case sensitive unless the ignoreCase is set. */
+  params?: RateLimitPolicyRateLimitRuleStringMatchList | undefined;
+  /** Required. Specifies the MCP method to match against. Allowed values are as follows: 1. `tools`, `prompts`, `resources` - these will match against all sub methods under the respective methods. 2. `prompts/list`, `tools/list`, `resources/list`, `resources/templates/list` 3. `prompts/get`, `tools/call`, `resources/subscribe`, `resources/unsubscribe`, `resources/read` Params cannot be specified for categories 1 and 2. */
+  name?: string | undefined;
+}
+export type RateLimitPolicyRateLimitRuleToDestinationMCPMethodList =
+  Array<RateLimitPolicyRateLimitRuleToDestinationMCPMethod>;
+/** Describes a set of MCP protocol attributes to match against for a given MCP request. This field is only valid if the targeted Gateway or Forwarding Rule has an Agent Gateway attached to it. */
+export interface RateLimitPolicyRateLimitRuleToDestinationMCP {
+  /** Optional. If specified, matches on the MCP protocol's non-access specific methods namely: * initialize * completion/ * logging/ * notifications/ * ping Defaults to SKIP_BASE_PROTOCOL_METHODS if not specified. */
+  baseProtocolMethodsOption?:
+    | RateLimitPolicyRateLimitRuleToDestinationMCPBaseProtocolMethodsOptionEnum
+    | (string & {})
+    | undefined;
+  /** Optional. A list of MCP methods and associated parameter names to match on. It is recommended to use this field to match on tools, prompts and resource accesses while setting the baseProtocolMethodsOption to MATCH_BASE_PROTOCOL_METHODS to match on all the other MCP protocol methods. Limited to 10 MCP methods per Rate Limit Policy. */
+  methods?: RateLimitPolicyRateLimitRuleToDestinationMCPMethodList | undefined;
+}
+/** Describes properties of a request target. */
+export interface RateLimitPolicyRateLimitRuleToDestination {
+  /** Optional. Specifies a list of headers to match against in http header. */
+  headerSet?: RateLimitPolicyRateLimitRuleToDestinationHeaderSet | undefined;
+  /** Optional. Specifies a list of paths to match against. The match can be one of exact, prefix, suffix, or contains (substring match). Matches are always case sensitive unless the ignoreCase is set. The match follows OR semantics which means that if any of the paths match, the operation is considered to be matched. Note that this path match includes the query parameters. For gRPC services, this should be a fully-qualified name of the form /package.service/method. */
+  paths?: RateLimitPolicyRateLimitRuleStringMatchList | undefined;
+  /** Optional. Specifies a list of HTTP Hosts to match against. The match can be one of exact, prefix, suffix, or contains (substring match). Matches are always case sensitive unless the ignoreCase is set. The match follows OR semantics which means that if any of the hosts match, the operation is considered to be matched. */
+  hosts?: RateLimitPolicyRateLimitRuleStringMatchList | undefined;
+  /** Optional. Specifies the MCP protocol attributes to match against. This field is only valid if the targeted Gateway or Forwarding Rule has an Agent Gateway attached to it. */
+  mcp?: RateLimitPolicyRateLimitRuleToDestinationMCP | undefined;
+  /** Optional. Specifies a list of HTTP methods to match against. Each entry must be a valid HTTP method name (GET, PUT, POST, HEAD, PATCH, DELETE, OPTIONS). It only allows exact match and is always case sensitive. The match follows OR semantics which means that if any of the methods match, the operation is considered to be matched. */
+  methods?: StringList | undefined;
+}
+/** Describes properties of the targets of a request. */
+export interface RateLimitPolicyRateLimitRuleTo {
+  /** Optional. Describes properties of a request's destination. At least one of destination or not_destination must be specified. A match occurs when ANY fields in either destination or not_destination matches the request. Within a destination, the match follows OR semantics across fields and AND semantics within a single field. */
+  destination?: RateLimitPolicyRateLimitRuleToDestination | undefined;
+  /** Optional. Describes the negated properties of a request's destination. Matches requests for destination that does not match the criteria specified in this field. At least one of destination or not_destination must be specified. */
+  notDestination?: RateLimitPolicyRateLimitRuleToDestination | undefined;
+}
+export type RateLimitPolicyRateLimitRulePrincipalPrincipalSelectorEnum =
+  | "PRINCIPAL_SELECTOR_UNSPECIFIED"
+  | "CLIENT_CERT_URI_SAN"
+  | "CLIENT_CERT_DNS_NAME_SAN"
+  | "CLIENT_CERT_COMMON_NAME";
+/** Describes the properties of a principal for matching. */
+export interface RateLimitPolicyRateLimitRulePrincipal {
+  /** Required. Matches a non-empty string against the principal value based on the principal_selector. */
+  principal?: RateLimitPolicyRateLimitRuleStringMatch | undefined;
+  /** Optional. Decides what principal value the principal rule will match against. If not specified, defaults to CLIENT_CERT_URI_SAN. */
+  principalSelector?:
+    | RateLimitPolicyRateLimitRulePrincipalPrincipalSelectorEnum
+    | (string & {})
+    | undefined;
+}
+export type RateLimitPolicyRateLimitRulePrincipalList =
+  Array<RateLimitPolicyRateLimitRulePrincipal>;
+/** Describes the properties of a request source. */
+export interface RateLimitPolicyRateLimitRuleFromSource {
+  /** Required. Contains a list of identities derived from the client's certificate. This field does not match on a request unless frontend mutual TLS is enabled for the Gateway and the client certificate is successfully validated by mTLS. Each identity is a string whose value is matched against a list of URI SANs, DNS Name SANs, or the common name in the client's certificate. A match happens when any principal matches with the rule. */
+  principals?: RateLimitPolicyRateLimitRulePrincipalList | undefined;
+}
+/** Describes properties of the sources of a request. */
+export interface RateLimitPolicyRateLimitRuleFrom {
+  /** Optional. Describes the negated properties of request source. Matches requests from source that does not match the criteria specified in this field. At least one of source or not_source must be specified. */
+  notSource?: RateLimitPolicyRateLimitRuleFromSource | undefined;
+  /** Optional. Describes the properties of a request's source. At least one of source or not_source must be specified. A match occurs when ANY fields in either source or not_source matches the request. Within a single source, the match follows OR semantics across fields and AND semantics within a single field. */
+  source?: RateLimitPolicyRateLimitRuleFromSource | undefined;
+}
+/** Describes the action to take when the rate limit rule is matched. */
+export interface RateLimitPolicyRateLimitRuleRateLimitAction {
+  /** Required. Specifies the name of the rate limit bucket to apply when this rule is matched. */
+  rateLimitBucket?: string | undefined;
+}
+export type RateLimitPolicyRateLimitRuleRateLimitActionList =
+  Array<RateLimitPolicyRateLimitRuleRateLimitAction>;
+/** Specifies conditions to match against the incoming request. */
+export interface RateLimitPolicyRateLimitRule {
+  /** Optional. Describes properties of a target of a request. */
+  to?: RateLimitPolicyRateLimitRuleTo | undefined;
+  /** Optional. Describes properties of a source of a request. */
+  from?: RateLimitPolicyRateLimitRuleFrom | undefined;
+  /** Optional. Specifies the actions to take when this rule is matched. */
+  rateLimitActions?: RateLimitPolicyRateLimitRuleRateLimitActionList | undefined;
+}
+export type RateLimitPolicyRateLimitRuleList = Array<RateLimitPolicyRateLimitRule>;
+/** Specifies the target to which this policy applies. */
+export interface RateLimitPolicyTarget {
+  /** Required. Reference to a Gateway or Forwarding Rule resource on which this policy will be applied. */
+  resource?: string | undefined;
+}
+export type RateLimitPolicyTargetList = Array<RateLimitPolicyTarget>;
 /** Describes a `RateLimitPolicy` object. */
 export interface RateLimitPolicy {
-  /** Optional. Stores labels as key value pairs. */
-  labels?: StringMap | undefined;
   /** Identifier. Specifies the name of the `RateLimitPolicy` resource. */
   name?: string | undefined;
-  /** Required. Specifies a list of targets to which this policy applies. */
-  targets?: RateLimitPolicyTargetList | undefined;
-  /** Optional. Specifies a list of rate limit HTTP rules to match against the incoming request. */
-  httpRules?: RateLimitPolicyRateLimitRuleList | undefined;
-  /** Output only. Represents the update timestamp. */
-  updateTime?: string | undefined;
-  /** Optional. Provides a human-readable description of the resource. */
-  description?: string | undefined;
-  /** Output only. Represents the create timestamp. */
-  createTime?: string | undefined;
   /** Optional. Specifies a list of rate limit buckets to be used for rate limiting. Rate limit buckets will be referenced by the rate limit actions by name. */
   rateLimitBuckets?: RateLimitPolicyRateLimitBucketList | undefined;
+  /** Optional. Provides a human-readable description of the resource. */
+  description?: string | undefined;
+  /** Optional. Specifies a list of rate limit HTTP rules to match against the incoming request. */
+  httpRules?: RateLimitPolicyRateLimitRuleList | undefined;
+  /** Optional. Stores labels as key value pairs. */
+  labels?: StringMap | undefined;
+  /** Required. Specifies a list of targets to which this policy applies. */
+  targets?: RateLimitPolicyTargetList | undefined;
+  /** Output only. Represents the create timestamp. */
+  createTime?: string | undefined;
+  /** Output only. Represents the update timestamp. */
+  updateTime?: string | undefined;
 }
 export interface CreateProjectsLocationsRateLimitPoliciesRequest extends RateLimitPolicy {
-  /** Required. Specifies the ID of the requesting object. If auto-generating Id server-side, remove this field and rate_limit_policy_id from the method_signature of Create RPC */
-  rateLimitPolicyId?: string | undefined;
   /** Optional. Specifies an optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. Specifies the value for parent. */
   parent: string;
+  /** Required. Specifies the ID of the requesting object. If auto-generating Id server-side, remove this field and rate_limit_policy_id from the method_signature of Create RPC */
+  rateLimitPolicyId?: string | undefined;
 }
-export type SACAttachmentStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "PENDING_PARTNER_ATTACHMENT"
-  | "PARTNER_ATTACHED"
-  | "PARTNER_DETACHED";
 /** Fields specific to attachments associated with Symantec Cloud SWG. */
 export interface SACAttachmentSACAttachmentSymantecOptions {
   /** Immutable. Symantec data center identifier that this attachment will connect to. */
@@ -1970,36 +1965,48 @@ export interface SACAttachmentSACAttachmentSymantecOptions {
   /** Immutable. Name to be used when creating a location on the customer's behalf in Symantec's Location API. Not to be confused with Google Cloud locations. */
   symantecLocationName?: string | undefined;
 }
+export type SACAttachmentStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "PENDING_PARTNER_ATTACHMENT"
+  | "PARTNER_ATTACHED"
+  | "PARTNER_DETACHED";
 /** Represents a Secure Access Connect (SAC) attachment resource. A Secure Access Connect attachment enables NCC Gateway to process traffic with an SSE product. */
 export interface SACAttachment {
-  /** Optional. Case-insensitive ISO-3166 alpha-2 country code used for localization. Only valid for Symantec attachments. */
-  country?: string | undefined;
   /** Optional. Case-sensitive tzinfo identifier used for localization. Only valid for Symantec attachments. */
   timeZone?: string | undefined;
-  /** Required. NCC Gateway associated with the attachment. This can be input as an ID or a full resource name. The output always has the form `projects/{project_number}/locations/{location}/spokes/{ncc_gateway}`. */
-  nccGateway?: string | undefined;
-  /** Required. SAC Realm which owns the attachment. This can be input as an ID or a full resource name. The output always has the form `projects/{project_number}/locations/{location}/sacRealms/{sac_realm}`. */
-  sacRealm?: string | undefined;
+  /** Optional. Configuration required for Symantec attachments. */
+  symantecOptions?: SACAttachmentSACAttachmentSymantecOptions | undefined;
+  /** Optional. Case-insensitive ISO-3166 alpha-2 country code used for localization. Only valid for Symantec attachments. */
+  country?: string | undefined;
+  /** Output only. State of the attachment. */
+  state?: SACAttachmentStateEnum | (string & {}) | undefined;
   /** Output only. Timestamp when the attachment was last updated. */
   updateTime?: string | undefined;
+  /** Required. NCC Gateway associated with the attachment. This can be input as an ID or a full resource name. The output always has the form `projects/{project_number}/locations/{location}/spokes/{ncc_gateway}`. */
+  nccGateway?: string | undefined;
   /** Output only. Timestamp when the attachment was created. */
   createTime?: string | undefined;
   /** Identifier. Resource name, in the form `projects/{project}/locations/{location}/sacAttachments/{sac_attachment}`. */
   name?: string | undefined;
+  /** Required. SAC Realm which owns the attachment. This can be input as an ID or a full resource name. The output always has the form `projects/{project_number}/locations/{location}/sacRealms/{sac_realm}`. */
+  sacRealm?: string | undefined;
   /** Optional. Optional list of labels applied to the resource. */
   labels?: StringMap | undefined;
-  /** Output only. State of the attachment. */
-  state?: SACAttachmentStateEnum | (string & {}) | undefined;
-  /** Optional. Configuration required for Symantec attachments. */
-  symantecOptions?: SACAttachmentSACAttachmentSymantecOptions | undefined;
 }
 export interface CreateProjectsLocationsSacAttachmentsRequest extends SACAttachment {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Required. ID of the created attachment. The ID must be 1-63 characters long, and comply with RFC1035. Specifically, it must be 1-63 characters long and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash. */
   sacAttachmentId?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Required. The parent, in the form `projects/{project}/locations/{location}`. */
   parent: string;
+}
+/** Key to be shared with SSE service provider to establish global handshake. */
+export interface SACRealmPairingKey {
+  /** Output only. Timestamp in UTC of when this resource is considered expired. It expires 7 days after creation. */
+  expireTime?: string | undefined;
+  /** Output only. Key value. */
+  key?: string | undefined;
 }
 export type SACRealmSACRealmSymantecOptionsSymantecConnectionStateEnum =
   | "SYMANTEC_CONNECTION_STATE_UNSPECIFIED"
@@ -2009,8 +2016,6 @@ export type SACRealmSACRealmSymantecOptionsSymantecConnectionStateEnum =
   | "UNAVAILABLE_FOR_HISTORICAL_REQUESTS";
 /** Fields specific to realms using Symantec Cloud SWG. */
 export interface SACRealmSACRealmSymantecOptions {
-  /** Optional. API Key used to call Symantec APIs on the user's behalf. Required if using Symantec Cloud SWG. P4SA account needs permissions granted to read this secret. A secret ID, secret name, or secret URI can be specified, but it will be parsed and stored as a secret URI in the form `projects/{project_number}/secrets/my-secret`. */
-  secretPath?: string | undefined;
   /** Output only. Symantec site IDs which the user can choose to connect to. */
   availableSymantecSites?: StringList | undefined;
   /** Output only. Connection status to Symantec API. */
@@ -2018,6 +2023,8 @@ export interface SACRealmSACRealmSymantecOptions {
     | SACRealmSACRealmSymantecOptionsSymantecConnectionStateEnum
     | (string & {})
     | undefined;
+  /** Optional. API Key used to call Symantec APIs on the user's behalf. Required if using Symantec Cloud SWG. P4SA account needs permissions granted to read this secret. A secret ID, secret name, or secret URI can be specified, but it will be parsed and stored as a secret URI in the form `projects/{project_number}/secrets/my-secret`. */
+  secretPath?: string | undefined;
 }
 export type SACRealmStateEnum =
   | "STATE_UNSPECIFIED"
@@ -2029,37 +2036,30 @@ export type SACRealmSecurityServiceEnum =
   | "SECURITY_SERVICE_UNSPECIFIED"
   | "PALO_ALTO_PRISMA_ACCESS"
   | "SYMANTEC_CLOUD_SWG";
-/** Key to be shared with SSE service provider to establish global handshake. */
-export interface SACRealmPairingKey {
-  /** Output only. Key value. */
-  key?: string | undefined;
-  /** Output only. Timestamp in UTC of when this resource is considered expired. It expires 7 days after creation. */
-  expireTime?: string | undefined;
-}
 /** Represents a Secure Access Connect (SAC) realm resource. A Secure Access Connect realm establishes a connection between your Google Cloud project and an SSE service. */
 export interface SACRealm {
   /** Optional. Optional list of labels applied to the resource. */
   labels?: StringMap | undefined;
-  /** Optional. Configuration required for Symantec realms. */
-  symantecOptions?: SACRealmSACRealmSymantecOptions | undefined;
+  /** Output only. Key to be shared with SSE service provider during pairing. */
+  pairingKey?: SACRealmPairingKey | undefined;
+  /** Output only. Timestamp when the realm was last updated. */
+  updateTime?: string | undefined;
   /** Identifier. Resource name, in the form `projects/{project}/locations/global/sacRealms/{sacRealm}`. */
   name?: string | undefined;
+  /** Optional. Configuration required for Symantec realms. */
+  symantecOptions?: SACRealmSACRealmSymantecOptions | undefined;
   /** Output only. State of the realm. */
   state?: SACRealmStateEnum | (string & {}) | undefined;
   /** Immutable. SSE service provider associated with the realm. */
   securityService?: SACRealmSecurityServiceEnum | (string & {}) | undefined;
-  /** Output only. Timestamp when the realm was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. Key to be shared with SSE service provider during pairing. */
-  pairingKey?: SACRealmPairingKey | undefined;
   /** Output only. Timestamp when the realm was created. */
   createTime?: string | undefined;
 }
 export interface CreateProjectsLocationsSacRealmsRequest extends SACRealm {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Required. ID of the created realm. The ID must be 1-63 characters long, and comply with RFC1035. Specifically, it must be 1-63 characters long and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash. */
   sacRealmId?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Required. The parent, in the form `projects/{project}/locations/global`. */
   parent: string;
 }
@@ -2070,10 +2070,10 @@ export interface CreateProjectsLocationsSecurityProfileGroupsRequest extends Sec
   parent: string;
 }
 export interface CreateProjectsLocationsSecurityProfilesRequest extends SecurityProfile {
-  /** Required. Short name of the `SecurityProfile` resource to be created. This value must be 1 to 63 characters long, contain only lowercase letters, numbers, and hyphens, and must not start with a number. For example, `security-profile1`. */
-  securityProfileId?: string | undefined;
   /** Required. The parent resource of the `SecurityProfile`. Format: `organizations/{organization}/locations/{location}` or `projects/{project}/locations/{location}`. */
   parent: string;
+  /** Required. Short name of the `SecurityProfile` resource to be created. This value must be 1 to 63 characters long, contain only lowercase letters, numbers, and hyphens, and must not start with a number. For example, `security-profile1`. */
+  securityProfileId?: string | undefined;
 }
 export type MTLSPolicyClientValidationRelaxationsItemEnum =
   | "CLIENT_VALIDATION_RELAXATION_UNSPECIFIED"
@@ -2090,40 +2090,44 @@ export type MTLSPolicyClientValidationModeEnum =
   | "ALLOW_VALIDATION_RELAXATIONS";
 /** Specification of the MTLSPolicy. */
 export interface MTLSPolicy {
+  /** Reference to the TrustConfig from certificatemanager.googleapis.com namespace. If specified, the chain validation will be performed against certificates configured in the given TrustConfig. Allowed only if the policy is to be used with Application Load Balancers. */
+  clientValidationTrustConfig?: string | undefined;
   /** A list of validation relaxations to apply when `client_validation_mode` is set to ALLOW_VALIDATION_RELAXATIONS. */
   clientValidationRelaxations?: MTLSPolicyClientValidationRelaxationsItemEnumList | undefined;
   /** When the client presents an invalid certificate or no certificate to the load balancer, the `client_validation_mode` specifies how the client connection is handled. Required if the policy is to be used with the Application Load Balancers. For Traffic Director it must be empty. */
   clientValidationMode?: MTLSPolicyClientValidationModeEnum | (string & {}) | undefined;
   /** Required if the policy is to be used with Traffic Director. For Application Load Balancers it must be empty. Defines the mechanism to obtain the Certificate Authority certificate to validate the client certificate. */
   clientValidationCa?: ValidationCAList | undefined;
-  /** Reference to the TrustConfig from certificatemanager.googleapis.com namespace. If specified, the chain validation will be performed against certificates configured in the given TrustConfig. Allowed only if the policy is to be used with Application Load Balancers. */
-  clientValidationTrustConfig?: string | undefined;
 }
 /** ServerTlsPolicy is a resource that specifies how a server should authenticate incoming requests. This resource itself does not affect configuration unless it is attached to a target HTTPS proxy or endpoint config selector resource. ServerTlsPolicy in the form accepted by Application Load Balancers can be attached only to TargetHttpsProxy with an `EXTERNAL`, `EXTERNAL_MANAGED` or `INTERNAL_MANAGED` load balancing scheme. Traffic Director compatible ServerTlsPolicies can be attached to EndpointPolicy and TargetHttpsProxy with Traffic Director `INTERNAL_SELF_MANAGED` load balancing scheme. */
 export interface ServerTlsPolicy {
-  /** Optional if policy is to be used with Traffic Director. For Application Load Balancers must be empty. Defines a mechanism to provision server identity (public and private keys). Cannot be combined with `allow_open` as a permissive mode that allows both plain text and TLS is not supported. */
-  serverCertificate?: GoogleCloudNetworksecurityV1beta1CertificateProvider | undefined;
-  /** Free-text description of the resource. */
-  description?: string | undefined;
-  /** Set of label tags associated with the resource. */
-  labels?: StringMap | undefined;
-  /** Output only. The timestamp when the resource was created. */
-  createTime?: string | undefined;
-  /** This field is required if the policy is used with Application Load Balancers. This field can be empty for Traffic Director. Defines a mechanism to provision peer validation certificates for peer to peer authentication (Mutual TLS - mTLS). If not specified, client certificate will not be requested. The connection is treated as TLS and not mTLS. If `allow_open` and `mtls_policy` are set, server allows both plain text and mTLS connections. */
-  mtlsPolicy?: MTLSPolicy | undefined;
-  /** This field applies only for Traffic Director policies. It is must be set to false for Application Load Balancer policies. Determines if server allows plaintext connections. If set to true, server allows plain text connections. By default, it is set to false. This setting is not exclusive of other encryption modes. For example, if `allow_open` and `mtls_policy` are set, server allows both plain text and mTLS connections. See documentation of other encryption modes to confirm compatibility. Consider using it if you wish to upgrade in place your deployment to TLS while having mixed TLS and non-TLS traffic reaching port :80. */
-  allowOpen?: boolean | undefined;
   /** Output only. The timestamp when the resource was updated. */
   updateTime?: string | undefined;
+  /** Free-text description of the resource. */
+  description?: string | undefined;
+  /** This field is required if the policy is used with Application Load Balancers. This field can be empty for Traffic Director. Defines a mechanism to provision peer validation certificates for peer to peer authentication (Mutual TLS - mTLS). If not specified, client certificate will not be requested. The connection is treated as TLS and not mTLS. If `allow_open` and `mtls_policy` are set, server allows both plain text and mTLS connections. */
+  mtlsPolicy?: MTLSPolicy | undefined;
+  /** Output only. The timestamp when the resource was created. */
+  createTime?: string | undefined;
   /** Required. Name of the ServerTlsPolicy resource. It matches the pattern `projects/*\/locations/{location}/serverTlsPolicies/{server_tls_policy}` */
   name?: string | undefined;
+  /** Optional if policy is to be used with Traffic Director. For Application Load Balancers must be empty. Defines a mechanism to provision server identity (public and private keys). Cannot be combined with `allow_open` as a permissive mode that allows both plain text and TLS is not supported. */
+  serverCertificate?: GoogleCloudNetworksecurityV1beta1CertificateProvider | undefined;
+  /** This field applies only for Traffic Director policies. It is must be set to false for Application Load Balancer policies. Determines if server allows plaintext connections. If set to true, server allows plain text connections. By default, it is set to false. This setting is not exclusive of other encryption modes. For example, if `allow_open` and `mtls_policy` are set, server allows both plain text and mTLS connections. See documentation of other encryption modes to confirm compatibility. Consider using it if you wish to upgrade in place your deployment to TLS while having mixed TLS and non-TLS traffic reaching port :80. */
+  allowOpen?: boolean | undefined;
+  /** Set of label tags associated with the resource. */
+  labels?: StringMap | undefined;
 }
 export interface CreateProjectsLocationsServerTlsPoliciesRequest extends ServerTlsPolicy {
-  /** Required. The parent resource of the ServerTlsPolicy. Must be in the format `projects/*\/locations/{location}`. */
-  parent: string;
   /** Required. Short name of the ServerTlsPolicy resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "server_mtls_policy". */
   serverTlsPolicyId?: string | undefined;
+  /** Required. The parent resource of the ServerTlsPolicy. Must be in the format `projects/*\/locations/{location}`. */
+  parent: string;
 }
+export type TlsInspectionPolicyCertificateIssuanceModeEnum =
+  | "CERTIFICATE_ISSUANCE_MODE_UNSPECIFIED"
+  | "DIRECT_LEAF_PROVISIONING"
+  | "LOCAL_INTERMEDIATE_CA_SIGNING";
 export type TlsInspectionPolicyTlsFeatureProfileEnum =
   | "PROFILE_UNSPECIFIED"
   | "PROFILE_COMPATIBLE"
@@ -2136,22 +2140,16 @@ export type TlsInspectionPolicyMinTlsVersionEnum =
   | "TLS_1_1"
   | "TLS_1_2"
   | "TLS_1_3";
-export type TlsInspectionPolicyCertificateIssuanceModeEnum =
-  | "CERTIFICATE_ISSUANCE_MODE_UNSPECIFIED"
-  | "DIRECT_LEAF_PROVISIONING"
-  | "LOCAL_INTERMEDIATE_CA_SIGNING";
 /** The TlsInspectionPolicy resource contains references to CA pools in Certificate Authority Service and associated metadata. */
 export interface TlsInspectionPolicy {
-  /** Required. Name of the resource. Name is of the form projects/{project}/locations/{location}/tlsInspectionPolicies/{tls_inspection_policy} tls_inspection_policy should match the pattern:(^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$). */
-  name?: string | undefined;
-  /** Output only. The timestamp when the resource was updated. */
-  updateTime?: string | undefined;
+  /** Optional. List of custom TLS cipher suites selected. This field is valid only if the selected tls_feature_profile is CUSTOM. The compute.SslPoliciesService.ListAvailableFeatures method returns the set of features that can be specified in this list. Note that Secure Web Proxy does not yet honor this field. */
+  customTlsFeatures?: StringList | undefined;
+  /** Optional. A TrustConfig resource used when making a connection to the TLS server. This is a relative resource path following the form "projects/{project}/locations/{location}/trustConfigs/{trust_config}". This is necessary to intercept TLS connections to servers with certificates signed by a private CA or self-signed certificates. Note that Secure Web Proxy does not yet honor this field. */
+  trustConfig?: string | undefined;
+  /** Optional. If FALSE (the default), use our default set of public CAs in addition to any CAs specified in trust_config. These public CAs are currently based on the Mozilla Root Program and are subject to change over time. If TRUE, do not accept our default set of public CAs. Only CAs specified in trust_config will be accepted. This defaults to FALSE (use public CAs in addition to trust_config) for backwards compatibility, but trusting public root CAs is *not recommended* unless the traffic in question is outbound to public web servers. When possible, prefer setting this to "false" and explicitly specifying trusted CAs and certificates in a TrustConfig. Note that Secure Web Proxy does not yet honor this field. */
+  excludePublicCaSet?: boolean | undefined;
   /** Output only. The timestamp when the resource was created. */
   createTime?: string | undefined;
-  /** Optional. The selected Profile. If this is not set, then the default value is to allow the broadest set of clients and servers ("PROFILE_COMPATIBLE"). Setting this to more restrictive values may improve security, but may also prevent the TLS inspection proxy from connecting to some clients or servers. Note that Secure Web Proxy does not yet honor this field. */
-  tlsFeatureProfile?: TlsInspectionPolicyTlsFeatureProfileEnum | (string & {}) | undefined;
-  /** Optional. Minimum TLS version that the firewall should use when negotiating connections with both clients and servers. If this is not set, then the default value is to allow the broadest set of clients and servers (TLS 1.0 or higher). Setting this to more restrictive values may improve security, but may also prevent the firewall from connecting to some clients or servers. Note that Secure Web Proxy does not yet honor this field. */
-  minTlsVersion?: TlsInspectionPolicyMinTlsVersionEnum | (string & {}) | undefined;
   /** Optional. The mode used to issue certificates (local CA signing vs direct leaf). */
   certificateIssuanceMode?:
     | TlsInspectionPolicyCertificateIssuanceModeEnum
@@ -2159,45 +2157,47 @@ export interface TlsInspectionPolicy {
     | undefined;
   /** Optional. Free-text description of the resource. */
   description?: string | undefined;
-  /** Optional. List of custom TLS cipher suites selected. This field is valid only if the selected tls_feature_profile is CUSTOM. The compute.SslPoliciesService.ListAvailableFeatures method returns the set of features that can be specified in this list. Note that Secure Web Proxy does not yet honor this field. */
-  customTlsFeatures?: StringList | undefined;
+  /** Optional. The selected Profile. If this is not set, then the default value is to allow the broadest set of clients and servers ("PROFILE_COMPATIBLE"). Setting this to more restrictive values may improve security, but may also prevent the TLS inspection proxy from connecting to some clients or servers. Note that Secure Web Proxy does not yet honor this field. */
+  tlsFeatureProfile?: TlsInspectionPolicyTlsFeatureProfileEnum | (string & {}) | undefined;
   /** Required. A CA pool resource used to issue interception certificates. The CA pool string has a relative resource path following the form "projects/{project}/locations/{location}/caPools/{ca_pool}". */
   caPool?: string | undefined;
-  /** Optional. A TrustConfig resource used when making a connection to the TLS server. This is a relative resource path following the form "projects/{project}/locations/{location}/trustConfigs/{trust_config}". This is necessary to intercept TLS connections to servers with certificates signed by a private CA or self-signed certificates. Note that Secure Web Proxy does not yet honor this field. */
-  trustConfig?: string | undefined;
-  /** Optional. If FALSE (the default), use our default set of public CAs in addition to any CAs specified in trust_config. These public CAs are currently based on the Mozilla Root Program and are subject to change over time. If TRUE, do not accept our default set of public CAs. Only CAs specified in trust_config will be accepted. This defaults to FALSE (use public CAs in addition to trust_config) for backwards compatibility, but trusting public root CAs is *not recommended* unless the traffic in question is outbound to public web servers. When possible, prefer setting this to "false" and explicitly specifying trusted CAs and certificates in a TrustConfig. Note that Secure Web Proxy does not yet honor this field. */
-  excludePublicCaSet?: boolean | undefined;
+  /** Required. Name of the resource. Name is of the form projects/{project}/locations/{location}/tlsInspectionPolicies/{tls_inspection_policy} tls_inspection_policy should match the pattern:(^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$). */
+  name?: string | undefined;
+  /** Output only. The timestamp when the resource was updated. */
+  updateTime?: string | undefined;
+  /** Optional. Minimum TLS version that the firewall should use when negotiating connections with both clients and servers. If this is not set, then the default value is to allow the broadest set of clients and servers (TLS 1.0 or higher). Setting this to more restrictive values may improve security, but may also prevent the firewall from connecting to some clients or servers. Note that Secure Web Proxy does not yet honor this field. */
+  minTlsVersion?: TlsInspectionPolicyMinTlsVersionEnum | (string & {}) | undefined;
 }
 export interface CreateProjectsLocationsTlsInspectionPoliciesRequest extends TlsInspectionPolicy {
-  /** Required. Short name of the TlsInspectionPolicy resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "tls_inspection_policy1". */
-  tlsInspectionPolicyId?: string | undefined;
   /** Required. The parent resource of the TlsInspectionPolicy. Must be in the format `projects/{project}/locations/{location}`. */
   parent: string;
+  /** Required. Short name of the TlsInspectionPolicy resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "tls_inspection_policy1". */
+  tlsInspectionPolicyId?: string | undefined;
 }
 /** UrlList proto helps users to set reusable, independently manageable lists of hosts, host patterns, URLs, URL patterns. */
 export interface UrlList {
-  /** Optional. Free-text description of the resource. */
-  description?: string | undefined;
   /** Required. Name of the resource provided by the user. Name is of the form projects/{project}/locations/{location}/urlLists/{url_list} url_list should match the pattern:(^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$). */
   name?: string | undefined;
   /** Required. FQDNs and URLs. */
   values?: StringList | undefined;
-  /** Output only. Time when the security policy was created. */
-  createTime?: string | undefined;
   /** Output only. Time when the security policy was updated. */
   updateTime?: string | undefined;
+  /** Optional. Free-text description of the resource. */
+  description?: string | undefined;
+  /** Output only. Time when the security policy was created. */
+  createTime?: string | undefined;
 }
 export interface CreateProjectsLocationsUrlListsRequest extends UrlList {
-  /** Required. Short name of the UrlList resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "url_list". */
-  urlListId?: string | undefined;
   /** Required. The parent resource of the UrlList. Must be in the format `projects/*\/locations/{location}`. */
   parent: string;
+  /** Required. Short name of the UrlList resource to be created. This value should be 1-63 characters long, containing only letters, numbers, hyphens, and underscores, and should not start with a number. E.g. "url_list". */
+  urlListId?: string | undefined;
 }
 export interface DeleteOrganizationsLocationsAddressGroupsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Required. A name of the AddressGroup to delete. Must be in the format `projects/*\/locations/{location}/addressGroups/*`. */
   name: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export interface DeleteOrganizationsLocationsFirewallEndpointsRequest {
   /** Required. The name of the resource. */
@@ -2222,20 +2222,20 @@ export interface DeleteOrganizationsLocationsSecurityProfilesRequest {
   etag?: string | undefined;
 }
 export interface DeleteProjectsLocationsAddressGroupsRequest {
-  /** Required. A name of the AddressGroup to delete. Must be in the format `projects/*\/locations/{location}/addressGroups/*`. */
-  name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Required. A name of the AddressGroup to delete. Must be in the format `projects/*\/locations/{location}/addressGroups/*`. */
+  name: string;
 }
 export interface DeleteProjectsLocationsAuthorizationPoliciesRequest {
   /** Required. A name of the AuthorizationPolicy to delete. Must be in the format `projects/{project}/locations/{location}/authorizationPolicies/*`. */
   name: string;
 }
 export interface DeleteProjectsLocationsAuthzPoliciesRequest {
-  /** Required. The name of the `AuthzPolicy` resource to delete. Must be in the format `projects/{project}/locations/{location}/authzPolicies/{authz_policy}`. */
-  name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Required. The name of the `AuthzPolicy` resource to delete. Must be in the format `projects/{project}/locations/{location}/authzPolicies/{authz_policy}`. */
+  name: string;
 }
 export interface DeleteProjectsLocationsBackendAuthenticationConfigsRequest {
   /** Required. A name of the BackendAuthenticationConfig to delete. Must be in the format `projects/*\/locations/{location}/backendAuthenticationConfigs/*`. */
@@ -2252,16 +2252,16 @@ export interface DeleteProjectsLocationsDnsThreatDetectorsRequest {
   name: string;
 }
 export interface DeleteProjectsLocationsFirewallEndpointAssociationsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (`00000000-0000-0000-0000-000000000000`). */
-  requestId?: string | undefined;
   /** Required. The name of the resource. */
   name: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (`00000000-0000-0000-0000-000000000000`). */
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsFirewallEndpointsRequest {
-  /** Required. The name of the resource. */
-  name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (`00000000-0000-0000-0000-000000000000`). */
   requestId?: string | undefined;
+  /** Required. The name of the resource. */
+  name: string;
 }
 export interface DeleteProjectsLocationsGatewaySecurityPoliciesRequest {
   /** Required. A name of the GatewaySecurityPolicy to delete. Must be in the format `projects/{project}/locations/{location}/gatewaySecurityPolicies/*`. */
@@ -2284,10 +2284,10 @@ export interface DeleteProjectsLocationsInterceptDeploymentsRequest {
   requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsInterceptEndpointGroupAssociationsRequest {
-  /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
-  requestId?: string | undefined;
   /** Required. The association to delete. */
   name: string;
+  /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsInterceptEndpointGroupsRequest {
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
@@ -2302,10 +2302,10 @@ export interface DeleteProjectsLocationsMirroringDeploymentGroupsRequest {
   requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsMirroringDeploymentsRequest {
-  /** Required. Name of the resource */
-  name: string;
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string | undefined;
+  /** Required. Name of the resource */
+  name: string;
 }
 export interface DeleteProjectsLocationsMirroringEndpointGroupAssociationsRequest {
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
@@ -2324,10 +2324,10 @@ export interface DeleteProjectsLocationsOperationsRequest {
   name: string;
 }
 export interface DeleteProjectsLocationsRateLimitPoliciesRequest {
-  /** Optional. Specifies an optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Required. Specifies the name of the resource. */
   name: string;
+  /** Optional. Specifies an optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsSacAttachmentsRequest {
   /** Optional. If set to true, the request will delete the SAC Attachment even if some steps fail (e.g. deleting the remote Symantec Location). This option is a no-op for partners where it does not apply (e.g. Palo Alto Networks). WARNING: Enabling this option may leave dangling resources in the Broadcom/Symantec customer portal that requires manual cleanup. */
@@ -2338,10 +2338,10 @@ export interface DeleteProjectsLocationsSacAttachmentsRequest {
   name: string;
 }
 export interface DeleteProjectsLocationsSacRealmsRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Required. Name of the resource, in the form `projects/{project}/locations/global/sacRealms/{sacRealm}`. */
   name: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsSecurityProfileGroupsRequest {
   /** Required. The name of the `SecurityProfileGroup` to delete. Format: `organizations/{organization}/locations/{location}/securityProfileGroups/{security_profile_group}` or `projects/{project}/locations/{location}/securityProfileGroups/{security_profile_group}`. */
@@ -2375,6 +2375,27 @@ export interface GetIamPolicyProjectsLocationsAddressGroupsRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number | undefined;
 }
+/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
+export interface Expr {
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string | undefined;
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string | undefined;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string | undefined;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string | undefined;
+}
+/** Associates `members`, or principals, with a `role`. */
+export interface GoogleIamV1Binding {
+  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
+  members?: StringList | undefined;
+  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
+  role?: string | undefined;
+  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  condition?: Expr | undefined;
+}
+export type GoogleIamV1BindingList = Array<GoogleIamV1Binding>;
 export type GoogleIamV1AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
   | "ADMIN_READ"
@@ -2382,10 +2403,10 @@ export type GoogleIamV1AuditLogConfigLogTypeEnum =
   | "DATA_READ";
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface GoogleIamV1AuditLogConfig {
-  /** The log type that this config enables. */
-  logType?: GoogleIamV1AuditLogConfigLogTypeEnum | (string & {}) | undefined;
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
   exemptedMembers?: StringList | undefined;
+  /** The log type that this config enables. */
+  logType?: GoogleIamV1AuditLogConfigLogTypeEnum | (string & {}) | undefined;
 }
 export type GoogleIamV1AuditLogConfigList = Array<GoogleIamV1AuditLogConfig>;
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
@@ -2396,61 +2417,40 @@ export interface GoogleIamV1AuditConfig {
   auditLogConfigs?: GoogleIamV1AuditLogConfigList | undefined;
 }
 export type GoogleIamV1AuditConfigList = Array<GoogleIamV1AuditConfig>;
-/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
-export interface Expr {
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string | undefined;
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string | undefined;
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string | undefined;
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string | undefined;
-}
-/** Associates `members`, or principals, with a `role`. */
-export interface GoogleIamV1Binding {
-  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr | undefined;
-  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string | undefined;
-  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList | undefined;
-}
-export type GoogleIamV1BindingList = Array<GoogleIamV1Binding>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface GoogleIamV1Policy {
-  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number | undefined;
-  /** Specifies cloud audit logging configuration for this policy. */
-  auditConfigs?: GoogleIamV1AuditConfigList | undefined;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
   etag?: string | undefined;
+  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  version?: number | undefined;
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
   bindings?: GoogleIamV1BindingList | undefined;
+  /** Specifies cloud audit logging configuration for this policy. */
+  auditConfigs?: GoogleIamV1AuditConfigList | undefined;
 }
 export interface GetIamPolicyProjectsLocationsAuthorizationPoliciesRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number | undefined;
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export interface GetIamPolicyProjectsLocationsAuthzPoliciesRequest {
-  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number | undefined;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 export interface GetIamPolicyProjectsLocationsClientTlsPoliciesRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number | undefined;
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export interface GetIamPolicyProjectsLocationsServerTlsPoliciesRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number | undefined;
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export interface GetOrganizationsLocationsRequest {
   /** Resource name for the location. */
@@ -2458,16 +2458,16 @@ export interface GetOrganizationsLocationsRequest {
 }
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap | undefined;
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
   name?: string | undefined;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap | undefined;
-  /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string | undefined;
 }
 export interface GetOrganizationsLocationsAddressGroupsRequest {
   /** Required. A name of the AddressGroup to get. Must be in the format `projects/*\/locations/{location}/addressGroups/*`. */
@@ -2610,124 +2610,124 @@ export interface GetProjectsLocationsUrlListsRequest {
   name: string;
 }
 export interface ListOrganizationsLocationsRequest {
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
-  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList | undefined;
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number | undefined;
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList | undefined;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string | undefined;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList | undefined;
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
+  /** A list of locations that matches the specified filter in the request. */
+  locations?: LocationList | undefined;
 }
 export interface ListOrganizationsLocationsAddressGroupsRequest {
-  /** Maximum number of AddressGroups to return per call. */
-  pageSize?: number | undefined;
-  /** Required. The project and location from which the AddressGroups should be listed, specified in the format `projects/*\/locations/{location}`. */
-  parent: string;
   /** The value returned by the last `ListAddressGroupsResponse` Indicates that this is a continuation of a prior `ListAddressGroups` call, and that the system should return the next page of data. */
   pageToken?: string | undefined;
+  /** Required. The project and location from which the AddressGroups should be listed, specified in the format `projects/*\/locations/{location}`. */
+  parent: string;
   /** Optional. If true, allow partial responses for multi-regional Aggregated List requests. */
   returnPartialSuccess?: boolean | undefined;
+  /** Maximum number of AddressGroups to return per call. */
+  pageSize?: number | undefined;
 }
 export type AddressGroupList = Array<AddressGroup>;
 /** Response returned by the ListAddressGroups method. */
 export interface ListAddressGroupsResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList | undefined;
-  /** List of AddressGroups resources. */
-  addressGroups?: AddressGroupList | undefined;
   /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
   nextPageToken?: string | undefined;
+  /** List of AddressGroups resources. */
+  addressGroups?: AddressGroupList | undefined;
+  /** Locations that could not be reached. */
+  unreachable?: StringList | undefined;
 }
 export interface ListOrganizationsLocationsFirewallEndpointsRequest {
   /** Optional. Filtering results. */
   filter?: string | undefined;
+  /** Optional. Hint for how to order the results. */
+  orderBy?: string | undefined;
   /** Optional. Requested page size. The server might return fewer items than requested. The maximum value is 1000; values above 1000 are coerced to 1000. If unspecified, the server picks an appropriate default. */
   pageSize?: number | undefined;
   /** Required. The parent resource from which the firewall endpoints are listed. Format: `organizations/{organization}/locations/{location}` or `projects/{project}/locations/{location}`. */
   parent: string;
   /** A page token, received from a previous `ListFirewallEndpoints` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListFirewallEndpoints` must match the call that provided the page token. */
   pageToken?: string | undefined;
-  /** Optional. Hint for how to order the results. */
-  orderBy?: string | undefined;
 }
 export type FirewallEndpointList = Array<FirewallEndpoint>;
 /** Message for response to listing endpoints. */
 export interface ListFirewallEndpointsResponse {
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
-  /** Locations that could not be reached. The list of unreachable locations might expand in the future. */
-  unreachable?: StringList | undefined;
   /** The list of endpoints. */
   firewallEndpoints?: FirewallEndpointList | undefined;
+  /** Locations that could not be reached. The list of unreachable locations might expand in the future. */
+  unreachable?: StringList | undefined;
 }
 export interface ListOrganizationsLocationsFirewallEndpointsWildfireVerdictChangeRequestsRequest {
   /** Required. Parent value for `ListWildfireVerdictChangeRequestsRequest`. The parent is a firewall endpoint resource. Format: `organizations/{organization}/locations/{location}/firewallEndpoints/{firewall_endpoint}` or `projects/{project}/locations/{location}/firewallEndpoints/{firewall_endpoint}`. */
   parent: string;
-  /** Optional. A page token, received from a previous `ListWildfireVerdictChangeRequests` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListWildfireVerdictChangeRequests` must match the call that provided the page token. */
-  pageToken?: string | undefined;
   /** Optional. Filter expression to filter the results. Supported fields are: - `sha256` (string, equality only, for example, `sha256 = "..."`) - `state` (enum, equality only, valid values are `OPEN`, `CLOSED`, or `PENDING`, for example, `state = "PENDING"`) - `create_time` (timestamp, comparisons, for example, `create_time >= "2026-01-01T00:00:00Z" AND create_time <= "2026-01-31T23:59:59Z"`). If filtering by `create_time`, you must specify both a start time and an end time. If `create_time` is not specified, the query defaults to the past 30 days. */
   filter?: string | undefined;
+  /** Optional. A page token, received from a previous `ListWildfireVerdictChangeRequests` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListWildfireVerdictChangeRequests` must match the call that provided the page token. */
+  pageToken?: string | undefined;
   /** Optional. Requested page size. The server might return fewer items than requested. If unspecified, the server picks an appropriate default. */
   pageSize?: number | undefined;
 }
 export type WildfireVerdictChangeRequestList = Array<WildfireVerdictChangeRequest>;
 /** Message for response to listing `WildfireVerdictChangeRequest` resources. */
 export interface ListWildfireVerdictChangeRequestsResponse {
+  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
   /** The list of `WildfireVerdictChangeRequest` resources. */
   wildfireVerdictChangeRequests?: WildfireVerdictChangeRequestList | undefined;
   /** Unordered list. Locations that could not be reached. */
   unreachable?: StringList | undefined;
-  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
 }
 export interface ListOrganizationsLocationsOperationsRequest {
-  /** The standard list page size. */
-  pageSize?: number | undefined;
   /** The name of the operation's parent resource. */
   name: string;
-  /** The standard list filter. */
-  filter?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean | undefined;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
   /** The standard list page token. */
   pageToken?: string | undefined;
+  /** The standard list filter. */
+  filter?: string | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList | undefined;
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
 }
 export interface ListOrganizationsLocationsSecurityProfileGroupsRequest {
-  /** Optional. A page token, received from a previous `ListSecurityProfileGroups` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListSecurityProfileGroups` must match the call that provided the page token. */
-  pageToken?: string | undefined;
   /** Optional. Maximum number of `SecurityProfileGroup` resources to return per call. The maximum value is 1000; values above 1000 are coerced to 1000. If unspecified, the server picks an appropriate default. */
   pageSize?: number | undefined;
+  /** Optional. A page token, received from a previous `ListSecurityProfileGroups` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListSecurityProfileGroups` must match the call that provided the page token. */
+  pageToken?: string | undefined;
   /** Required. The project or organization and location from which the `SecurityProfileGroup` resources are listed. Format: `organizations/{organization}/locations/{location}` or `projects/{project}/locations/{location}`. */
   parent: string;
 }
 export type SecurityProfileGroupList = Array<SecurityProfileGroup>;
 /** Response returned by the `ListSecurityProfileGroups` method. */
 export interface ListSecurityProfileGroupsResponse {
-  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** List of `SecurityProfileGroup` resources. */
   securityProfileGroups?: SecurityProfileGroupList | undefined;
+  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export interface ListOrganizationsLocationsSecurityProfilesRequest {
   /** Optional. A page token, received from a previous `ListSecurityProfiles` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListSecurityProfiles` must match the call that provided the page token. */
@@ -2746,82 +2746,82 @@ export interface ListSecurityProfilesResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsRequest {
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string | undefined;
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string | undefined;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string | undefined;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList | undefined;
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number | undefined;
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
 }
 export interface ListProjectsLocationsAddressGroupsRequest {
-  /** Optional. If true, allow partial responses for multi-regional Aggregated List requests. */
-  returnPartialSuccess?: boolean | undefined;
   /** Maximum number of AddressGroups to return per call. */
   pageSize?: number | undefined;
-  /** The value returned by the last `ListAddressGroupsResponse` Indicates that this is a continuation of a prior `ListAddressGroups` call, and that the system should return the next page of data. */
-  pageToken?: string | undefined;
   /** Required. The project and location from which the AddressGroups should be listed, specified in the format `projects/*\/locations/{location}`. */
   parent: string;
+  /** The value returned by the last `ListAddressGroupsResponse` Indicates that this is a continuation of a prior `ListAddressGroups` call, and that the system should return the next page of data. */
+  pageToken?: string | undefined;
+  /** Optional. If true, allow partial responses for multi-regional Aggregated List requests. */
+  returnPartialSuccess?: boolean | undefined;
 }
 export interface ListProjectsLocationsAuthorizationPoliciesRequest {
-  /** Required. The project and location from which the AuthorizationPolicies should be listed, specified in the format `projects/{project}/locations/{location}`. */
-  parent: string;
   /** Maximum number of AuthorizationPolicies to return per call. */
   pageSize?: number | undefined;
+  /** Required. The project and location from which the AuthorizationPolicies should be listed, specified in the format `projects/{project}/locations/{location}`. */
+  parent: string;
   /** The value returned by the last `ListAuthorizationPoliciesResponse` Indicates that this is a continuation of a prior `ListAuthorizationPolicies` call, and that the system should return the next page of data. */
   pageToken?: string | undefined;
 }
 export type AuthorizationPolicyList = Array<AuthorizationPolicy>;
 /** Response returned by the ListAuthorizationPolicies method. */
 export interface ListAuthorizationPoliciesResponse {
-  /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
-  nextPageToken?: string | undefined;
   /** List of AuthorizationPolicies resources. */
   authorizationPolicies?: AuthorizationPolicyList | undefined;
+  /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsAuthzPoliciesRequest {
-  /** Optional. Requested page size. The server might return fewer items than requested. If unspecified, the server picks an appropriate default. */
-  pageSize?: number | undefined;
   /** Optional. Hint for how to order the results. */
   orderBy?: string | undefined;
-  /** Optional. Filtering results. */
-  filter?: string | undefined;
-  /** Optional. A token identifying a page of results that the server returns. */
-  pageToken?: string | undefined;
   /** Required. The project and location from which the `AuthzPolicy` resources are listed, specified in the following format: `projects/{project}/locations/{location}`. */
   parent: string;
+  /** Optional. A token identifying a page of results that the server returns. */
+  pageToken?: string | undefined;
+  /** Optional. Requested page size. The server might return fewer items than requested. If unspecified, the server picks an appropriate default. */
+  pageSize?: number | undefined;
+  /** Optional. Filtering results. */
+  filter?: string | undefined;
 }
 export type AuthzPolicyList = Array<AuthzPolicy>;
 /** Message for response to listing `AuthzPolicy` resources. */
 export interface ListAuthzPoliciesResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList | undefined;
   /** The list of `AuthzPolicy` resources. */
   authzPolicies?: AuthzPolicyList | undefined;
   /** A token identifying a page of results that the server returns. */
   nextPageToken?: string | undefined;
+  /** Locations that could not be reached. */
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsBackendAuthenticationConfigsRequest {
+  /** Maximum number of BackendAuthenticationConfigs to return per call. */
+  pageSize?: number | undefined;
   /** Required. The project and location from which the BackendAuthenticationConfigs should be listed, specified in the format `projects/*\/locations/{location}`. */
   parent: string;
   /** The value returned by the last `ListBackendAuthenticationConfigsResponse` Indicates that this is a continuation of a prior `ListBackendAuthenticationConfigs` call, and that the system should return the next page of data. */
   pageToken?: string | undefined;
-  /** Maximum number of BackendAuthenticationConfigs to return per call. */
-  pageSize?: number | undefined;
 }
 export type BackendAuthenticationConfigList = Array<BackendAuthenticationConfig>;
 /** Response returned by the ListBackendAuthenticationConfigs method. */
 export interface ListBackendAuthenticationConfigsResponse {
+  /** Locations that could not be reached. */
+  unreachable?: StringList | undefined;
   /** If there might be more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
   nextPageToken?: string | undefined;
   /** List of BackendAuthenticationConfig resources. */
   backendAuthenticationConfigs?: BackendAuthenticationConfigList | undefined;
-  /** Locations that could not be reached. */
-  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsClientTlsPoliciesRequest {
   /** Maximum number of ClientTlsPolicies to return per call. */
@@ -2858,96 +2858,96 @@ export interface ListDnsThreatDetectorsResponse {
   unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsFirewallEndpointAssociationsRequest {
-  /** Optional. Requested page size. The server might return fewer items than requested. The maximum value is 1000; values above 1000 are coerced to 1000. If unspecified, the server picks an appropriate default. */
-  pageSize?: number | undefined;
-  /** Hint for how to order the results. */
-  orderBy?: string | undefined;
-  /** Required. The parent resource from which the firewall endpoint associations are listed. Format: `projects/{project}/locations/{location}`. */
-  parent: string;
   /** A page token, received from a previous `ListFirewallEndpointAssociations` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListFirewallEndpointAssociations` must match the call that provided the page token. */
   pageToken?: string | undefined;
+  /** Hint for how to order the results. */
+  orderBy?: string | undefined;
+  /** Optional. Requested page size. The server might return fewer items than requested. The maximum value is 1000; values above 1000 are coerced to 1000. If unspecified, the server picks an appropriate default. */
+  pageSize?: number | undefined;
   /** Optional. Filtering results. */
   filter?: string | undefined;
+  /** Required. The parent resource from which the firewall endpoint associations are listed. Format: `projects/{project}/locations/{location}`. */
+  parent: string;
 }
 export type FirewallEndpointAssociationList = Array<FirewallEndpointAssociation>;
 /** Message for response to listing associations. */
 export interface ListFirewallEndpointAssociationsResponse {
-  /** The list of associations. */
-  firewallEndpointAssociations?: FirewallEndpointAssociationList | undefined;
-  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
   /** Locations that could not be reached. The list of unreachable locations might expand in the future. */
   unreachable?: StringList | undefined;
+  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
+  /** The list of associations. */
+  firewallEndpointAssociations?: FirewallEndpointAssociationList | undefined;
 }
 export interface ListProjectsLocationsFirewallEndpointsRequest {
-  /** Optional. Hint for how to order the results. */
-  orderBy?: string | undefined;
   /** Optional. Requested page size. The server might return fewer items than requested. The maximum value is 1000; values above 1000 are coerced to 1000. If unspecified, the server picks an appropriate default. */
   pageSize?: number | undefined;
-  /** A page token, received from a previous `ListFirewallEndpoints` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListFirewallEndpoints` must match the call that provided the page token. */
-  pageToken?: string | undefined;
-  /** Required. The parent resource from which the firewall endpoints are listed. Format: `organizations/{organization}/locations/{location}` or `projects/{project}/locations/{location}`. */
-  parent: string;
   /** Optional. Filtering results. */
   filter?: string | undefined;
+  /** A page token, received from a previous `ListFirewallEndpoints` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListFirewallEndpoints` must match the call that provided the page token. */
+  pageToken?: string | undefined;
+  /** Optional. Hint for how to order the results. */
+  orderBy?: string | undefined;
+  /** Required. The parent resource from which the firewall endpoints are listed. Format: `organizations/{organization}/locations/{location}` or `projects/{project}/locations/{location}`. */
+  parent: string;
 }
 export interface ListProjectsLocationsFirewallEndpointsWildfireVerdictChangeRequestsRequest {
   /** Required. Parent value for `ListWildfireVerdictChangeRequestsRequest`. The parent is a firewall endpoint resource. Format: `organizations/{organization}/locations/{location}/firewallEndpoints/{firewall_endpoint}` or `projects/{project}/locations/{location}/firewallEndpoints/{firewall_endpoint}`. */
   parent: string;
-  /** Optional. Requested page size. The server might return fewer items than requested. If unspecified, the server picks an appropriate default. */
-  pageSize?: number | undefined;
   /** Optional. Filter expression to filter the results. Supported fields are: - `sha256` (string, equality only, for example, `sha256 = "..."`) - `state` (enum, equality only, valid values are `OPEN`, `CLOSED`, or `PENDING`, for example, `state = "PENDING"`) - `create_time` (timestamp, comparisons, for example, `create_time >= "2026-01-01T00:00:00Z" AND create_time <= "2026-01-31T23:59:59Z"`). If filtering by `create_time`, you must specify both a start time and an end time. If `create_time` is not specified, the query defaults to the past 30 days. */
   filter?: string | undefined;
+  /** Optional. Requested page size. The server might return fewer items than requested. If unspecified, the server picks an appropriate default. */
+  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListWildfireVerdictChangeRequests` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListWildfireVerdictChangeRequests` must match the call that provided the page token. */
   pageToken?: string | undefined;
 }
 export interface ListProjectsLocationsGatewaySecurityPoliciesRequest {
   /** Required. The project and location from which the GatewaySecurityPolicies should be listed, specified in the format `projects/{project}/locations/{location}`. */
   parent: string;
-  /** The value returned by the last 'ListGatewaySecurityPoliciesResponse' Indicates that this is a continuation of a prior 'ListGatewaySecurityPolicies' call, and that the system should return the next page of data. */
-  pageToken?: string | undefined;
   /** Maximum number of GatewaySecurityPolicies to return per call. */
   pageSize?: number | undefined;
+  /** The value returned by the last 'ListGatewaySecurityPoliciesResponse' Indicates that this is a continuation of a prior 'ListGatewaySecurityPolicies' call, and that the system should return the next page of data. */
+  pageToken?: string | undefined;
 }
 export type GatewaySecurityPolicyList = Array<GatewaySecurityPolicy>;
 /** Response returned by the ListGatewaySecurityPolicies method. */
 export interface ListGatewaySecurityPoliciesResponse {
-  /** If there might be more results than those appearing in this response, then 'next_page_token' is included. To get the next set of results, call this method again using the value of 'next_page_token' as 'page_token'. */
-  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
+  /** If there might be more results than those appearing in this response, then 'next_page_token' is included. To get the next set of results, call this method again using the value of 'next_page_token' as 'page_token'. */
+  nextPageToken?: string | undefined;
   /** List of GatewaySecurityPolicies resources. */
   gatewaySecurityPolicies?: GatewaySecurityPolicyList | undefined;
 }
 export interface ListProjectsLocationsGatewaySecurityPoliciesRulesRequest {
-  /** Required. The project, location and GatewaySecurityPolicy from which the GatewaySecurityPolicyRules should be listed, specified in the format `projects/{project}/locations/{location}/gatewaySecurityPolicies/{gatewaySecurityPolicy}`. */
-  parent: string;
-  /** Maximum number of GatewaySecurityPolicyRules to return per call. */
-  pageSize?: number | undefined;
   /** The value returned by the last 'ListGatewaySecurityPolicyRulesResponse' Indicates that this is a continuation of a prior 'ListGatewaySecurityPolicyRules' call, and that the system should return the next page of data. */
   pageToken?: string | undefined;
+  /** Maximum number of GatewaySecurityPolicyRules to return per call. */
+  pageSize?: number | undefined;
+  /** Required. The project, location and GatewaySecurityPolicy from which the GatewaySecurityPolicyRules should be listed, specified in the format `projects/{project}/locations/{location}/gatewaySecurityPolicies/{gatewaySecurityPolicy}`. */
+  parent: string;
 }
 export type GatewaySecurityPolicyRuleList = Array<GatewaySecurityPolicyRule>;
 /** Response returned by the ListGatewaySecurityPolicyRules method. */
 export interface ListGatewaySecurityPolicyRulesResponse {
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
-  /** List of GatewaySecurityPolicyRule resources. */
-  gatewaySecurityPolicyRules?: GatewaySecurityPolicyRuleList | undefined;
   /** If there might be more results than those appearing in this response, then 'next_page_token' is included. To get the next set of results, call this method again using the value of 'next_page_token' as 'page_token'. */
   nextPageToken?: string | undefined;
+  /** List of GatewaySecurityPolicyRule resources. */
+  gatewaySecurityPolicyRules?: GatewaySecurityPolicyRuleList | undefined;
 }
 export interface ListProjectsLocationsInterceptDeploymentGroupsRequest {
+  /** Optional. Filter expression. See https://google.aip.dev/160#filtering for more details. */
+  filter?: string | undefined;
   /** Optional. Sort expression. See https://google.aip.dev/132#ordering for more details. */
   orderBy?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. See https://google.aip.dev/158 for more details. */
   pageSize?: number | undefined;
-  /** Required. The parent, which owns this collection of deployment groups. Example: `projects/123456789/locations/global`. See https://google.aip.dev/132 for more details. */
-  parent: string;
   /** Optional. A page token, received from a previous `ListInterceptDeploymentGroups` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListInterceptDeploymentGroups` must match the call that provided the page token. See https://google.aip.dev/158 for more details. */
   pageToken?: string | undefined;
-  /** Optional. Filter expression. See https://google.aip.dev/160#filtering for more details. */
-  filter?: string | undefined;
+  /** Required. The parent, which owns this collection of deployment groups. Example: `projects/123456789/locations/global`. See https://google.aip.dev/132 for more details. */
+  parent: string;
 }
 export type InterceptDeploymentGroupList = Array<InterceptDeploymentGroup>;
 /** Response message for ListInterceptDeploymentGroups. */
@@ -2962,50 +2962,50 @@ export interface ListProjectsLocationsInterceptDeploymentsRequest {
   orderBy?: string | undefined;
   /** Optional. A page token, received from a previous `ListInterceptDeployments` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListInterceptDeployments` must match the call that provided the page token. See https://google.aip.dev/158 for more details. */
   pageToken?: string | undefined;
-  /** Optional. Filter expression. See https://google.aip.dev/160#filtering for more details. */
-  filter?: string | undefined;
   /** Required. The parent, which owns this collection of deployments. Example: `projects/123456789/locations/us-central1-a`. See https://google.aip.dev/132 for more details. */
   parent: string;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. See https://google.aip.dev/158 for more details. */
   pageSize?: number | undefined;
+  /** Optional. Filter expression. See https://google.aip.dev/160#filtering for more details. */
+  filter?: string | undefined;
 }
 export type InterceptDeploymentList = Array<InterceptDeployment>;
 /** Response message for ListInterceptDeployments. */
 export interface ListInterceptDeploymentsResponse {
-  /** The deployments from the specified parent. */
-  interceptDeployments?: InterceptDeploymentList | undefined;
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. See https://google.aip.dev/158 for more details. */
   nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
+  /** The deployments from the specified parent. */
+  interceptDeployments?: InterceptDeploymentList | undefined;
 }
 export interface ListProjectsLocationsInterceptEndpointGroupAssociationsRequest {
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. See https://google.aip.dev/158 for more details. */
   pageSize?: number | undefined;
+  /** Optional. Filter expression. See https://google.aip.dev/160#filtering for more details. */
+  filter?: string | undefined;
   /** Optional. A page token, received from a previous `ListInterceptEndpointGroups` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListInterceptEndpointGroups` must match the call that provided the page token. See https://google.aip.dev/158 for more details. */
   pageToken?: string | undefined;
   /** Optional. Sort expression. See https://google.aip.dev/132#ordering for more details. */
   orderBy?: string | undefined;
-  /** Optional. Filter expression. See https://google.aip.dev/160#filtering for more details. */
-  filter?: string | undefined;
   /** Required. The parent, which owns this collection of associations. Example: `projects/123456789/locations/global`. See https://google.aip.dev/132 for more details. */
   parent: string;
 }
 export type InterceptEndpointGroupAssociationList = Array<InterceptEndpointGroupAssociation>;
 /** Response message for ListInterceptEndpointGroupAssociations. */
 export interface ListInterceptEndpointGroupAssociationsResponse {
-  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. See https://google.aip.dev/158 for more details. */
-  nextPageToken?: string | undefined;
   /** The associations from the specified parent. */
   interceptEndpointGroupAssociations?: InterceptEndpointGroupAssociationList | undefined;
+  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. See https://google.aip.dev/158 for more details. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsInterceptEndpointGroupsRequest {
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. See https://google.aip.dev/158 for more details. */
-  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListInterceptEndpointGroups` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListInterceptEndpointGroups` must match the call that provided the page token. See https://google.aip.dev/158 for more details. */
   pageToken?: string | undefined;
   /** Required. The parent, which owns this collection of endpoint groups. Example: `projects/123456789/locations/global`. See https://google.aip.dev/132 for more details. */
   parent: string;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. See https://google.aip.dev/158 for more details. */
+  pageSize?: number | undefined;
   /** Optional. Sort expression. See https://google.aip.dev/132#ordering for more details. */
   orderBy?: string | undefined;
   /** Optional. Filter expression. See https://google.aip.dev/160#filtering for more details. */
@@ -3014,40 +3014,40 @@ export interface ListProjectsLocationsInterceptEndpointGroupsRequest {
 export type InterceptEndpointGroupList = Array<InterceptEndpointGroup>;
 /** Response message for ListInterceptEndpointGroups. */
 export interface ListInterceptEndpointGroupsResponse {
-  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. See https://google.aip.dev/158 for more details. */
-  nextPageToken?: string | undefined;
   /** The endpoint groups from the specified parent. */
   interceptEndpointGroups?: InterceptEndpointGroupList | undefined;
+  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. See https://google.aip.dev/158 for more details. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsMirroringDeploymentGroupsRequest {
   /** Optional. Filter expression. See https://google.aip.dev/160#filtering for more details. */
   filter?: string | undefined;
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. See https://google.aip.dev/158 for more details. */
-  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListMirroringDeploymentGroups` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListMirroringDeploymentGroups` must match the call that provided the page token. See https://google.aip.dev/158 for more details. */
   pageToken?: string | undefined;
-  /** Required. The parent, which owns this collection of deployment groups. Example: `projects/123456789/locations/global`. See https://google.aip.dev/132 for more details. */
-  parent: string;
   /** Optional. Sort expression. See https://google.aip.dev/132#ordering for more details. */
   orderBy?: string | undefined;
+  /** Required. The parent, which owns this collection of deployment groups. Example: `projects/123456789/locations/global`. See https://google.aip.dev/132 for more details. */
+  parent: string;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. See https://google.aip.dev/158 for more details. */
+  pageSize?: number | undefined;
 }
 export type MirroringDeploymentGroupList = Array<MirroringDeploymentGroup>;
 /** Response message for ListMirroringDeploymentGroups. */
 export interface ListMirroringDeploymentGroupsResponse {
-  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. See https://google.aip.dev/158 for more details. */
-  nextPageToken?: string | undefined;
   /** The deployment groups from the specified parent. */
   mirroringDeploymentGroups?: MirroringDeploymentGroupList | undefined;
+  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. See https://google.aip.dev/158 for more details. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsMirroringDeploymentsRequest {
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. See https://google.aip.dev/158 for more details. */
-  pageSize?: number | undefined;
-  /** Optional. A page token, received from a previous `ListMirroringDeployments` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListMirroringDeployments` must match the call that provided the page token. See https://google.aip.dev/158 for more details. */
-  pageToken?: string | undefined;
   /** Required. The parent, which owns this collection of deployments. Example: `projects/123456789/locations/us-central1-a`. See https://google.aip.dev/132 for more details. */
   parent: string;
   /** Optional. Sort expression. See https://google.aip.dev/132#ordering for more details. */
   orderBy?: string | undefined;
+  /** Optional. A page token, received from a previous `ListMirroringDeployments` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListMirroringDeployments` must match the call that provided the page token. See https://google.aip.dev/158 for more details. */
+  pageToken?: string | undefined;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. See https://google.aip.dev/158 for more details. */
+  pageSize?: number | undefined;
   /** Optional. Filter expression. See https://google.aip.dev/160#filtering for more details. */
   filter?: string | undefined;
 }
@@ -3062,16 +3062,16 @@ export interface ListMirroringDeploymentsResponse {
   unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsMirroringEndpointGroupAssociationsRequest {
-  /** Optional. Sort expression. See https://google.aip.dev/132#ordering for more details. */
-  orderBy?: string | undefined;
+  /** Optional. Filter expression. See https://google.aip.dev/160#filtering for more details. */
+  filter?: string | undefined;
   /** Optional. A page token, received from a previous `ListMirroringEndpointGroups` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListMirroringEndpointGroups` must match the call that provided the page token. See https://google.aip.dev/158 for more details. */
   pageToken?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. See https://google.aip.dev/158 for more details. */
   pageSize?: number | undefined;
+  /** Optional. Sort expression. See https://google.aip.dev/132#ordering for more details. */
+  orderBy?: string | undefined;
   /** Required. The parent, which owns this collection of associations. Example: `projects/123456789/locations/global`. See https://google.aip.dev/132 for more details. */
   parent: string;
-  /** Optional. Filter expression. See https://google.aip.dev/160#filtering for more details. */
-  filter?: string | undefined;
 }
 export type MirroringEndpointGroupAssociationList = Array<MirroringEndpointGroupAssociation>;
 /** Response message for ListMirroringEndpointGroupAssociations. */
@@ -3082,16 +3082,16 @@ export interface ListMirroringEndpointGroupAssociationsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsMirroringEndpointGroupsRequest {
-  /** Optional. Filter expression. See https://google.aip.dev/160#filtering for more details. */
-  filter?: string | undefined;
   /** Required. The parent, which owns this collection of endpoint groups. Example: `projects/123456789/locations/global`. See https://google.aip.dev/132 for more details. */
   parent: string;
-  /** Optional. Sort expression. See https://google.aip.dev/132#ordering for more details. */
-  orderBy?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. See https://google.aip.dev/158 for more details. */
   pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListMirroringEndpointGroups` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListMirroringEndpointGroups` must match the call that provided the page token. See https://google.aip.dev/158 for more details. */
   pageToken?: string | undefined;
+  /** Optional. Filter expression. See https://google.aip.dev/160#filtering for more details. */
+  filter?: string | undefined;
+  /** Optional. Sort expression. See https://google.aip.dev/132#ordering for more details. */
+  orderBy?: string | undefined;
 }
 export type MirroringEndpointGroupList = Array<MirroringEndpointGroup>;
 /** Response message for ListMirroringEndpointGroups. */
@@ -3102,16 +3102,16 @@ export interface ListMirroringEndpointGroupsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
-  /** The standard list page size. */
-  pageSize?: number | undefined;
-  /** The standard list filter. */
-  filter?: string | undefined;
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean | undefined;
   /** The standard list page token. */
   pageToken?: string | undefined;
+  /** The standard list filter. */
+  filter?: string | undefined;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
   /** The name of the operation's parent resource. */
   name: string;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean | undefined;
 }
 export interface ListProjectsLocationsRateLimitPoliciesRequest {
   /** Optional. Provides a hint for how to order the results. */
@@ -3120,32 +3120,32 @@ export interface ListProjectsLocationsRateLimitPoliciesRequest {
   parent: string;
   /** Optional. Specifies the requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number | undefined;
-  /** Optional. Filters results. */
-  filter?: string | undefined;
   /** Optional. Identifies a token for a page of results the server should return. */
   pageToken?: string | undefined;
+  /** Optional. Filters results. */
+  filter?: string | undefined;
 }
 export type RateLimitPolicyList = Array<RateLimitPolicy>;
 /** Contains a response to listing `RateLimitPolicy` resources. */
 export interface ListRateLimitPoliciesResponse {
   /** Identifies a token for a page of results the server should return. */
   nextPageToken?: string | undefined;
-  /** Unordered list. Lists locations that could not be reached. */
-  unreachable?: StringList | undefined;
   /** Contains a list of `RateLimitPolicy` resources. */
   rateLimitPolicies?: RateLimitPolicyList | undefined;
+  /** Unordered list. Lists locations that could not be reached. */
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsSacAttachmentsRequest {
-  /** Optional. Sort the results by a certain order. */
-  orderBy?: string | undefined;
   /** Optional. An expression that filters the list of results. */
   filter?: string | undefined;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number | undefined;
   /** Required. The parent, in the form `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string | undefined;
+  /** Optional. Sort the results by a certain order. */
+  orderBy?: string | undefined;
 }
 export type SACAttachmentList = Array<SACAttachment>;
 /** Response for `ListSACAttachments` method. */
@@ -3158,42 +3158,42 @@ export interface ListSACAttachmentsResponse {
   sacAttachments?: SACAttachmentList | undefined;
 }
 export interface ListProjectsLocationsSacRealmsRequest {
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number | undefined;
-  /** Optional. An expression that filters the list of results. */
-  filter?: string | undefined;
+  /** Required. The parent, in the form `projects/{project}/locations/global`. */
+  parent: string;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string | undefined;
   /** Optional. Sort the results by a certain order. */
   orderBy?: string | undefined;
-  /** Required. The parent, in the form `projects/{project}/locations/global`. */
-  parent: string;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number | undefined;
+  /** Optional. An expression that filters the list of results. */
+  filter?: string | undefined;
 }
 export type SACRealmList = Array<SACRealm>;
 /** Response for `ListSACRealms` method. */
 export interface ListSACRealmsResponse {
+  /** Locations that could not be reached. */
+  unreachable?: StringList | undefined;
   /** The list of SACRealms. */
   sacRealms?: SACRealmList | undefined;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string | undefined;
-  /** Locations that could not be reached. */
-  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsSecurityProfileGroupsRequest {
   /** Required. The project or organization and location from which the `SecurityProfileGroup` resources are listed. Format: `organizations/{organization}/locations/{location}` or `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Optional. A page token, received from a previous `ListSecurityProfileGroups` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListSecurityProfileGroups` must match the call that provided the page token. */
-  pageToken?: string | undefined;
   /** Optional. Maximum number of `SecurityProfileGroup` resources to return per call. The maximum value is 1000; values above 1000 are coerced to 1000. If unspecified, the server picks an appropriate default. */
   pageSize?: number | undefined;
+  /** Optional. A page token, received from a previous `ListSecurityProfileGroups` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListSecurityProfileGroups` must match the call that provided the page token. */
+  pageToken?: string | undefined;
 }
 export interface ListProjectsLocationsSecurityProfilesRequest {
-  /** Required. The project or organization and location from which the `SecurityProfile` resources are listed. Format: `organizations/{organization}/locations/{location}` or `projects/{project}/locations/{location}`. */
-  parent: string;
-  /** Optional. Maximum number of `SecurityProfile` resources to return per call. The maximum value is 1000; values above 1000 are coerced to 1000. If unspecified, the server picks an appropriate default. */
-  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListSecurityProfiles` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListSecurityProfiles` must match the call that provided the page token. */
   pageToken?: string | undefined;
+  /** Optional. Maximum number of `SecurityProfile` resources to return per call. The maximum value is 1000; values above 1000 are coerced to 1000. If unspecified, the server picks an appropriate default. */
+  pageSize?: number | undefined;
+  /** Required. The project or organization and location from which the `SecurityProfile` resources are listed. Format: `organizations/{organization}/locations/{location}` or `projects/{project}/locations/{location}`. */
+  parent: string;
 }
 export interface ListProjectsLocationsServerTlsPoliciesRequest {
   /** Maximum number of ServerTlsPolicies to return per call. */
@@ -3216,28 +3216,28 @@ export interface ListServerTlsPoliciesResponse {
   unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsTlsInspectionPoliciesRequest {
-  /** The value returned by the last 'ListTlsInspectionPoliciesResponse' Indicates that this is a continuation of a prior 'ListTlsInspectionPolicies' call, and that the system should return the next page of data. */
-  pageToken?: string | undefined;
   /** Required. The project and location from which the TlsInspectionPolicies should be listed, specified in the format `projects/{project}/locations/{location}`. */
   parent: string;
   /** Maximum number of TlsInspectionPolicies to return per call. */
   pageSize?: number | undefined;
+  /** The value returned by the last 'ListTlsInspectionPoliciesResponse' Indicates that this is a continuation of a prior 'ListTlsInspectionPolicies' call, and that the system should return the next page of data. */
+  pageToken?: string | undefined;
 }
 export type TlsInspectionPolicyList = Array<TlsInspectionPolicy>;
 /** Response returned by the ListTlsInspectionPolicies method. */
 export interface ListTlsInspectionPoliciesResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList | undefined;
   /** If there might be more results than those appearing in this response, then 'next_page_token' is included. To get the next set of results, call this method again using the value of 'next_page_token' as 'page_token'. */
   nextPageToken?: string | undefined;
+  /** Locations that could not be reached. */
+  unreachable?: StringList | undefined;
   /** List of TlsInspectionPolicies resources. */
   tlsInspectionPolicies?: TlsInspectionPolicyList | undefined;
 }
 export interface ListProjectsLocationsUrlListsRequest {
-  /** Maximum number of UrlLists to return per call. */
-  pageSize?: number | undefined;
   /** The value returned by the last `ListUrlListsResponse` Indicates that this is a continuation of a prior `ListUrlLists` call, and that the system should return the next page of data. */
   pageToken?: string | undefined;
+  /** Maximum number of UrlLists to return per call. */
+  pageSize?: number | undefined;
   /** Required. The project and location from which the UrlLists should be listed, specified in the format `projects/{project}/locations/{location}`. */
   parent: string;
 }
@@ -3252,10 +3252,10 @@ export interface ListUrlListsResponse {
   urlLists?: UrlListList | undefined;
 }
 export interface ListReferencesOrganizationsLocationsAddressGroupsRequest {
-  /** The next_page_token value returned from a previous List request, if any. */
-  pageToken?: string | undefined;
   /** The maximum number of references to return. If unspecified, server will pick an appropriate default. Server may return fewer items than requested. A caller should only rely on response's next_page_token to determine if there are more AddressGroupUsers left to be queried. */
   pageSize?: number | undefined;
+  /** The next_page_token value returned from a previous List request, if any. */
+  pageToken?: string | undefined;
   /** Required. A name of the AddressGroup to clone items to. Must be in the format `projects|organization/*\/locations/{location}/addressGroups/*`. */
   addressGroup: string;
 }
@@ -3263,10 +3263,10 @@ export interface ListReferencesOrganizationsLocationsAddressGroupsRequest {
 export interface ListAddressGroupReferencesResponseAddressGroupReference {
   /** Rule priority of the FirewallPolicy that is using the Address Group. */
   rulePriority?: number | undefined;
-  /** FirewallPolicy that is using the Address Group. */
-  firewallPolicy?: string | undefined;
   /** Cloud Armor SecurityPolicy that is using the Address Group. */
   securityPolicy?: string | undefined;
+  /** FirewallPolicy that is using the Address Group. */
+  firewallPolicy?: string | undefined;
 }
 export type ListAddressGroupReferencesResponseAddressGroupReferenceList =
   Array<ListAddressGroupReferencesResponseAddressGroupReference>;
@@ -3278,21 +3278,21 @@ export interface ListAddressGroupReferencesResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListReferencesProjectsLocationsAddressGroupsRequest {
+  /** Required. A name of the AddressGroup to clone items to. Must be in the format `projects|organization/*\/locations/{location}/addressGroups/*`. */
+  addressGroup: string;
   /** The next_page_token value returned from a previous List request, if any. */
   pageToken?: string | undefined;
   /** The maximum number of references to return. If unspecified, server will pick an appropriate default. Server may return fewer items than requested. A caller should only rely on response's next_page_token to determine if there are more AddressGroupUsers left to be queried. */
   pageSize?: number | undefined;
-  /** Required. A name of the AddressGroup to clone items to. Must be in the format `projects|organization/*\/locations/{location}/addressGroups/*`. */
-  addressGroup: string;
 }
 export interface PatchOrganizationsLocationsAddressGroupsRequest extends Omit<
   AddressGroup,
   "name"
 > {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Required. Name of the AddressGroup resource. It matches pattern `projects/*\/locations/{location}/addressGroups/`. */
   name: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the AddressGroup resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
 }
@@ -3300,21 +3300,21 @@ export interface PatchOrganizationsLocationsFirewallEndpointsRequest extends Omi
   FirewallEndpoint,
   "name"
 > {
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (`00000000-0000-0000-0000-000000000000`). */
+  requestId?: string | undefined;
   /** Required. Field mask used to specify the fields to be overwritten in the `FirewallEndpoint` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not provide a mask, then all fields present in the request are overwritten. */
   updateMask?: string | undefined;
   /** Immutable. Identifier. The name of the resource. */
   name: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (`00000000-0000-0000-0000-000000000000`). */
-  requestId?: string | undefined;
 }
 export interface PatchOrganizationsLocationsSecurityProfileGroupsRequest extends Omit<
   SecurityProfileGroup,
   "name"
 > {
-  /** Required. Field mask is used to specify the fields to be overwritten in the `SecurityProfileGroup` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. */
-  updateMask?: string | undefined;
   /** Immutable. Identifier. Name of the `SecurityProfileGroup` resource. Format: `organizations/{organization}/locations/{location}/securityProfileGroups/{security_profile_group}` or `projects/{project}/locations/{location}/securityProfileGroups/{security_profile_group}`. */
   name: string;
+  /** Required. Field mask is used to specify the fields to be overwritten in the `SecurityProfileGroup` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. */
+  updateMask?: string | undefined;
 }
 export interface PatchOrganizationsLocationsSecurityProfilesRequest extends Omit<
   SecurityProfile,
@@ -3326,12 +3326,12 @@ export interface PatchOrganizationsLocationsSecurityProfilesRequest extends Omit
   updateMask?: string | undefined;
 }
 export interface PatchProjectsLocationsAddressGroupsRequest extends Omit<AddressGroup, "name"> {
-  /** Optional. Field mask is used to specify the fields to be overwritten in the AddressGroup resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
   /** Required. Name of the AddressGroup resource. It matches pattern `projects/*\/locations/{location}/addressGroups/`. */
   name: string;
+  /** Optional. Field mask is used to specify the fields to be overwritten in the AddressGroup resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
+  updateMask?: string | undefined;
 }
 export interface PatchProjectsLocationsAuthorizationPoliciesRequest extends Omit<
   AuthorizationPolicy,
@@ -3343,12 +3343,12 @@ export interface PatchProjectsLocationsAuthorizationPoliciesRequest extends Omit
   updateMask?: string | undefined;
 }
 export interface PatchProjectsLocationsAuthzPoliciesRequest extends Omit<AuthzPolicy, "name"> {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
-  /** Required. Used to specify the fields to be overwritten in the `AuthzPolicy` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not specify a mask, then all fields are overwritten. */
-  updateMask?: string | undefined;
   /** Required. Identifier. Name of the `AuthzPolicy` resource in the following format: `projects/{project}/locations/{location}/authzPolicies/{authz_policy}`. */
   name: string;
+  /** Required. Used to specify the fields to be overwritten in the `AuthzPolicy` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not specify a mask, then all fields are overwritten. */
+  updateMask?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server can ignore the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export interface PatchProjectsLocationsBackendAuthenticationConfigsRequest extends Omit<
   BackendAuthenticationConfig,
@@ -3381,23 +3381,23 @@ export interface PatchProjectsLocationsFirewallEndpointAssociationsRequest exten
   FirewallEndpointAssociation,
   "name"
 > {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (`00000000-0000-0000-0000-000000000000`). */
-  requestId?: string | undefined;
-  /** Immutable. Identifier. The name of the resource. */
-  name: string;
   /** Required. Field mask used to specify the fields to be overwritten in the `FirewallEndpointAssociation` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not provide a mask, then all fields present in the request are overwritten. */
   updateMask?: string | undefined;
+  /** Immutable. Identifier. The name of the resource. */
+  name: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (`00000000-0000-0000-0000-000000000000`). */
+  requestId?: string | undefined;
 }
 export interface PatchProjectsLocationsFirewallEndpointsRequest extends Omit<
   FirewallEndpoint,
   "name"
 > {
-  /** Immutable. Identifier. The name of the resource. */
-  name: string;
-  /** Required. Field mask used to specify the fields to be overwritten in the `FirewallEndpoint` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not provide a mask, then all fields present in the request are overwritten. */
-  updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server knows to ignore the request if it has already been completed. The server guarantees that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if the original operation with the same request ID was received, and if so, ignores the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (`00000000-0000-0000-0000-000000000000`). */
   requestId?: string | undefined;
+  /** Required. Field mask used to specify the fields to be overwritten in the `FirewallEndpoint` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not provide a mask, then all fields present in the request are overwritten. */
+  updateMask?: string | undefined;
+  /** Immutable. Identifier. The name of the resource. */
+  name: string;
 }
 export interface PatchProjectsLocationsGatewaySecurityPoliciesRequest extends Omit<
   GatewaySecurityPolicy,
@@ -3421,10 +3421,10 @@ export interface PatchProjectsLocationsInterceptDeploymentGroupsRequest extends 
   InterceptDeploymentGroup,
   "name"
 > {
-  /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
-  requestId?: string | undefined;
   /** Optional. The list of fields to update. Fields are specified relative to the deployment group (e.g. `description`; *not* `intercept_deployment_group.description`). See https://google.aip.dev/161 for more details. */
   updateMask?: string | undefined;
+  /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
+  requestId?: string | undefined;
   /** Immutable. Identifier. The resource name of this deployment group, for example: `projects/123456789/locations/global/interceptDeploymentGroups/my-dg`. See https://google.aip.dev/122 for more details. */
   name: string;
 }
@@ -3443,21 +3443,21 @@ export interface PatchProjectsLocationsInterceptEndpointGroupAssociationsRequest
   InterceptEndpointGroupAssociation,
   "name"
 > {
-  /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
-  requestId?: string | undefined;
   /** Optional. The list of fields to update. Fields are specified relative to the association (e.g. `description`; *not* `intercept_endpoint_group_association.description`). See https://google.aip.dev/161 for more details. */
   updateMask?: string | undefined;
   /** Immutable. Identifier. The resource name of this endpoint group association, for example: `projects/123456789/locations/global/interceptEndpointGroupAssociations/my-eg-association`. See https://google.aip.dev/122 for more details. */
   name: string;
+  /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
+  requestId?: string | undefined;
 }
 export interface PatchProjectsLocationsInterceptEndpointGroupsRequest extends Omit<
   InterceptEndpointGroup,
   "name"
 > {
-  /** Optional. The list of fields to update. Fields are specified relative to the endpoint group (e.g. `description`; *not* `intercept_endpoint_group.description`). See https://google.aip.dev/161 for more details. */
-  updateMask?: string | undefined;
   /** Immutable. Identifier. The resource name of this endpoint group, for example: `projects/123456789/locations/global/interceptEndpointGroups/my-eg`. See https://google.aip.dev/122 for more details. */
   name: string;
+  /** Optional. The list of fields to update. Fields are specified relative to the endpoint group (e.g. `description`; *not* `intercept_endpoint_group.description`). See https://google.aip.dev/161 for more details. */
+  updateMask?: string | undefined;
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string | undefined;
 }
@@ -3467,21 +3467,21 @@ export interface PatchProjectsLocationsMirroringDeploymentGroupsRequest extends 
 > {
   /** Immutable. Identifier. The resource name of this deployment group, for example: `projects/123456789/locations/global/mirroringDeploymentGroups/my-dg`. See https://google.aip.dev/122 for more details. */
   name: string;
-  /** Optional. The list of fields to update. Fields are specified relative to the deployment group (e.g. `description`; *not* `mirroring_deployment_group.description`). See https://google.aip.dev/161 for more details. */
-  updateMask?: string | undefined;
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string | undefined;
+  /** Optional. The list of fields to update. Fields are specified relative to the deployment group (e.g. `description`; *not* `mirroring_deployment_group.description`). See https://google.aip.dev/161 for more details. */
+  updateMask?: string | undefined;
 }
 export interface PatchProjectsLocationsMirroringDeploymentsRequest extends Omit<
   MirroringDeployment,
   "name"
 > {
+  /** Immutable. Identifier. The resource name of this deployment, for example: `projects/123456789/locations/us-central1-a/mirroringDeployments/my-dep`. See https://google.aip.dev/122 for more details. */
+  name: string;
   /** Optional. The list of fields to update. Fields are specified relative to the deployment (e.g. `description`; *not* `mirroring_deployment.description`). See https://google.aip.dev/161 for more details. */
   updateMask?: string | undefined;
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string | undefined;
-  /** Immutable. Identifier. The resource name of this deployment, for example: `projects/123456789/locations/us-central1-a/mirroringDeployments/my-dep`. See https://google.aip.dev/122 for more details. */
-  name: string;
 }
 export interface PatchProjectsLocationsMirroringEndpointGroupAssociationsRequest extends Omit<
   MirroringEndpointGroupAssociation,
@@ -3498,23 +3498,23 @@ export interface PatchProjectsLocationsMirroringEndpointGroupsRequest extends Om
   MirroringEndpointGroup,
   "name"
 > {
-  /** Optional. The list of fields to update. Fields are specified relative to the endpoint group (e.g. `description`; *not* `mirroring_endpoint_group.description`). See https://google.aip.dev/161 for more details. */
-  updateMask?: string | undefined;
   /** Optional. A unique identifier for this request. Must be a UUID4. This request is only idempotent if a `request_id` is provided. See https://google.aip.dev/155 for more details. */
   requestId?: string | undefined;
   /** Immutable. Identifier. The resource name of this endpoint group, for example: `projects/123456789/locations/global/mirroringEndpointGroups/my-eg`. See https://google.aip.dev/122 for more details. */
   name: string;
+  /** Optional. The list of fields to update. Fields are specified relative to the endpoint group (e.g. `description`; *not* `mirroring_endpoint_group.description`). See https://google.aip.dev/161 for more details. */
+  updateMask?: string | undefined;
 }
 export interface PatchProjectsLocationsRateLimitPoliciesRequest extends Omit<
   RateLimitPolicy,
   "name"
 > {
+  /** Optional. Specifies an optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Optional. Specifies the fields to be overwritten in the `RateLimitPolicy` resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields present in the request will be overwritten. */
   updateMask?: string | undefined;
   /** Identifier. Specifies the name of the `RateLimitPolicy` resource. */
   name: string;
-  /** Optional. Specifies an optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
 }
 export interface PatchProjectsLocationsSecurityProfileGroupsRequest extends Omit<
   SecurityProfileGroup,
@@ -3553,10 +3553,10 @@ export interface PatchProjectsLocationsTlsInspectionPoliciesRequest extends Omit
   updateMask?: string | undefined;
 }
 export interface PatchProjectsLocationsUrlListsRequest extends Omit<UrlList, "name"> {
-  /** Required. Name of the resource provided by the user. Name is of the form projects/{project}/locations/{location}/urlLists/{url_list} url_list should match the pattern:(^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$). */
-  name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the UrlList resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
+  /** Required. Name of the resource provided by the user. Name is of the form projects/{project}/locations/{location}/urlLists/{url_list} url_list should match the pattern:(^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$). */
+  name: string;
 }
 /** Request used by the RemoveAddressGroupItems method. */
 export interface RemoveAddressGroupItemsRequest {
@@ -4283,8 +4283,8 @@ export const createProjectsLocationsInterceptEndpointGroups: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4608,
-    __c144,
+    4640,
+    __c145,
     0,
   ) as any as S.Schema<CreateProjectsLocationsInterceptEndpointGroupsRequest>,
   output: __S(5474, __c171, 2) as any as S.Schema<Operation>,
@@ -4310,8 +4310,8 @@ export const createProjectsLocationsMirroringDeploymentGroups: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4704,
-    __c147,
+    4736,
+    __c148,
     0,
   ) as any as S.Schema<CreateProjectsLocationsMirroringDeploymentGroupsRequest>,
   output: __S(5474, __c171, 2) as any as S.Schema<Operation>,
@@ -5637,7 +5637,7 @@ export const getOrganizationsLocationsSecurityProfiles: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7264, __c227, 0) as any as S.Schema<GetOrganizationsLocationsSecurityProfilesRequest>,
-  output: __S(1882, __c58, 26) as any as S.Schema<SecurityProfile>,
+  output: __S(1884, __c58, 28) as any as S.Schema<SecurityProfile>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5907,7 +5907,7 @@ export const getProjectsLocationsInterceptDeploymentGroups: API.OperationMethod<
     __c241,
     0,
   ) as any as S.Schema<GetProjectsLocationsInterceptDeploymentGroupsRequest>,
-  output: __S(4448, __c139, 0) as any as S.Schema<InterceptDeploymentGroup>,
+  output: __S(4450, __c139, 2) as any as S.Schema<InterceptDeploymentGroup>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5968,7 +5968,7 @@ export const getProjectsLocationsInterceptEndpointGroups: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<GetProjectsLocationsInterceptEndpointGroupsRequest>,
-  output: __S(4641, __c145, 1) as any as S.Schema<InterceptEndpointGroup>,
+  output: __S(4673, __c146, 1) as any as S.Schema<InterceptEndpointGroup>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -5986,7 +5986,7 @@ export const getProjectsLocationsMirroringDeploymentGroups: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<GetProjectsLocationsMirroringDeploymentGroupsRequest>,
-  output: __S(4736, __c148, 0) as any as S.Schema<MirroringDeploymentGroup>,
+  output: __S(4770, __c149, 2) as any as S.Schema<MirroringDeploymentGroup>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -6155,7 +6155,7 @@ export const getProjectsLocationsSecurityProfiles: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<GetProjectsLocationsSecurityProfilesRequest>,
-  output: __S(1882, __c58, 26) as any as S.Schema<SecurityProfile>,
+  output: __S(1884, __c58, 28) as any as S.Schema<SecurityProfile>,
   errors: [NotFound, Forbidden],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -8112,9 +8112,9 @@ function __c0(j: number): any {
         S.Extend(
           __S(96, __c3, 0),
           S.Struct({
-            addressGroupId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
+            addressGroupId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -8143,16 +8143,16 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          capacity: S.optional(S.Number),
-          purpose: S.optional(__S(64, __c2, 0)),
-          labels: S.optional(__S(32, __c1, 0)),
-          selfLink: S.optional(S.String),
-          description: S.optional(S.String),
           items: S.optional(__S(5376, __c168, 0)),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
+          selfLink: S.optional(S.String),
+          labels: S.optional(__S(32, __c1, 0)),
+          purpose: S.optional(__S(64, __c2, 0)),
           updateTime: S.optional(S.String),
+          name: S.optional(S.String),
           type: S.optional(S.String),
+          capacity: S.optional(S.Number),
+          createTime: S.optional(S.String),
+          description: S.optional(S.String),
         }),
       ).annotate({ identifier: "AddressGroup" });
   }
@@ -8324,10 +8324,10 @@ function __c14(j: number): any {
         S.Extend(
           __S(485, __c15, 5),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
-            requestId: S.optional(S.String.pipe(T.Query())),
             firewallEndpointId: S.optional(S.String.pipe(T.Query())),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -8353,49 +8353,49 @@ function __c15(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          jumboFramesEnabled: S.optional(S.Boolean),
-          contentCloudRegion: S.optional(S.String),
-          httpPartialResponseBlocked: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "FirewallEndpointEndpointSettings" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          timeoutAction: S.optional(S.String),
           maxAnalysisDuration: S.optional(S.String),
+          timeoutAction: S.optional(S.String),
           submissionTimeoutLoggingDisabled: S.optional(S.Boolean),
         }),
       ).annotate({
         identifier: "FirewallEndpointWildfireSettingsWildfireInlineCloudAnalysisSettings",
       });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.optional(S.Boolean),
+          wildfireRegion: S.optional(S.String),
+          wildfireRealtimeLookupTimeoutAction: S.optional(S.String),
+          wildfireRealtimeLookupDuration: S.optional(S.String),
+          wildfireInlineCloudAnalysisSettings: S.optional(__S(482, __c15, 2)),
+        }),
+      ).annotate({ identifier: "FirewallEndpointWildfireSettings" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          wildfireRegion: S.optional(S.String),
-          wildfireInlineCloudAnalysisSettings: S.optional(__S(483, __c15, 3)),
-          wildfireRealtimeLookupTimeoutAction: S.optional(S.String),
-          enabled: S.optional(S.Boolean),
-          wildfireRealtimeLookupDuration: S.optional(S.String),
+          httpPartialResponseBlocked: S.optional(S.Boolean),
+          contentCloudRegion: S.optional(S.String),
+          jumboFramesEnabled: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "FirewallEndpointWildfireSettings" });
+      ).annotate({ identifier: "FirewallEndpointEndpointSettings" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          satisfiesPzi: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          associations: S.optional(__S(481, __c15, 1)),
-          satisfiesPzs: S.optional(S.Boolean),
-          explicitPrivateServiceConnectAttachment: S.optional(S.String),
-          billingProjectId: S.optional(S.String),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          endpointSettings: S.optional(__S(482, __c15, 2)),
-          wildfireSettings: S.optional(__S(484, __c15, 4)),
-          state: S.optional(S.String),
           associatedNetworks: S.optional(__S(5376, __c168, 0)),
-          reconciling: S.optional(S.Boolean),
+          associations: S.optional(__S(481, __c15, 1)),
           labels: S.optional(__S(32, __c1, 0)),
+          satisfiesPzs: S.optional(S.Boolean),
+          updateTime: S.optional(S.String),
+          satisfiesPzi: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          wildfireSettings: S.optional(__S(483, __c15, 3)),
+          endpointSettings: S.optional(__S(484, __c15, 4)),
+          createTime: S.optional(S.String),
+          reconciling: S.optional(S.Boolean),
+          description: S.optional(S.String),
+          state: S.optional(S.String),
+          billingProjectId: S.optional(S.String),
+          explicitPrivateServiceConnectAttachment: S.optional(S.String),
         }),
       ).annotate({ identifier: "FirewallEndpoint" });
   }
@@ -8485,10 +8485,10 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          extraLocationTypes: S.optional(__S(5376, __c168, 0).pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(5376, __c168, 0).pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -8507,8 +8507,8 @@ function __c22(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(704, __c22, 0)),
           nextPageToken: S.optional(S.String),
+          locations: S.optional(__S(704, __c22, 0)),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
@@ -8518,10 +8518,10 @@ function __c23(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8539,9 +8539,9 @@ function __c24(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(5376, __c168, 0)),
-          addressGroups: S.optional(__S(768, __c24, 0)),
           nextPageToken: S.optional(S.String),
+          addressGroups: S.optional(__S(768, __c24, 0)),
+          unreachable: S.optional(__S(5376, __c168, 0)),
         }),
       ).annotate({ identifier: "ListAddressGroupsResponse" });
   }
@@ -8552,10 +8552,10 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           filter: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8574,8 +8574,8 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(5376, __c168, 0)),
           firewallEndpoints: S.optional(__S(832, __c26, 0)),
+          unreachable: S.optional(__S(5376, __c168, 0)),
         }),
       ).annotate({ identifier: "ListFirewallEndpointsResponse" });
   }
@@ -8586,8 +8586,8 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -8609,9 +8609,9 @@ function __c28(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          nextPageToken: S.optional(S.String),
           wildfireVerdictChangeRequests: S.optional(__S(896, __c28, 0)),
           unreachable: S.optional(__S(5376, __c168, 0)),
-          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListWildfireVerdictChangeRequestsResponse" });
   }
@@ -8621,11 +8621,11 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8643,8 +8643,8 @@ function __c30(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(960, __c30, 0)),
           unreachable: S.optional(__S(5376, __c168, 0)),
+          operations: S.optional(__S(960, __c30, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -8677,20 +8677,20 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          oldVerdict: S.optional(S.String),
-          resolutionTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          state: S.optional(S.String),
-          sourceRegion: S.optional(S.String),
-          name: S.optional(S.String),
-          comment: S.optional(S.String),
-          wildfireVerdictChangeRequestId: S.optional(S.String),
-          fileType: S.optional(S.String),
-          finalVerdict: S.optional(S.String),
-          sha256: S.optional(S.String),
-          newVerdict: S.optional(S.String),
           fileName: S.optional(S.String),
+          fileType: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          oldVerdict: S.optional(S.String),
+          name: S.optional(S.String),
+          finalVerdict: S.optional(S.String),
+          wildfireVerdictChangeRequestId: S.optional(S.String),
+          sha256: S.optional(S.String),
+          resolutionTime: S.optional(S.String),
+          newVerdict: S.optional(S.String),
+          sourceRegion: S.optional(S.String),
+          comment: S.optional(S.String),
+          createTime: S.optional(S.String),
+          state: S.optional(S.String),
         }),
       ).annotate({ identifier: "WildfireVerdictChangeRequest" });
   }
@@ -8700,8 +8700,8 @@ function __c33(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -8720,8 +8720,8 @@ function __c34(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           securityProfileGroups: S.optional(__S(1088, __c34, 0)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListSecurityProfileGroupsResponse" });
   }
@@ -8747,7 +8747,7 @@ function __c35(j: number): any {
 function __c36(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1882, __c58, 26));
+      return S.Array(__S(1884, __c58, 28));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -8762,11 +8762,11 @@ function __c37(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           extraLocationTypes: S.optional(__S(5376, __c168, 0).pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8782,10 +8782,10 @@ function __c38(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8801,8 +8801,8 @@ function __c39(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -8817,8 +8817,8 @@ function __c39(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           authorizationPolicies: S.optional(__S(1249, __c39, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAuthorizationPoliciesResponse" });
   }
@@ -8828,11 +8828,11 @@ function __c40(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8846,9 +8846,9 @@ function __c40(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(5376, __c168, 0)),
           authzPolicies: S.optional(__S(1281, __c40, 1)),
           nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(5376, __c168, 0)),
         }),
       ).annotate({ identifier: "ListAuthzPoliciesResponse" });
   }
@@ -8858,9 +8858,9 @@ function __c41(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8874,9 +8874,9 @@ function __c41(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          unreachable: S.optional(__S(5376, __c168, 0)),
           nextPageToken: S.optional(S.String),
           backendAuthenticationConfigs: S.optional(__S(1313, __c41, 1)),
-          unreachable: S.optional(__S(5376, __c168, 0)),
         }),
       ).annotate({ identifier: "ListBackendAuthenticationConfigsResponse" });
   }
@@ -8941,11 +8941,11 @@ function __c44(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -8959,9 +8959,9 @@ function __c44(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          firewallEndpointAssociations: S.optional(__S(1409, __c44, 1)),
-          nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(5376, __c168, 0)),
+          nextPageToken: S.optional(S.String),
+          firewallEndpointAssociations: S.optional(__S(1409, __c44, 1)),
         }),
       ).annotate({ identifier: "ListFirewallEndpointAssociationsResponse" });
   }
@@ -8991,18 +8991,18 @@ function __c46(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          customInterceptProfile: S.optional(S.String),
-          dataPathId: S.optional(S.String),
-          updateTime: S.optional(S.String),
           customMirroringProfile: S.optional(S.String),
-          createTime: S.optional(S.String),
-          wildfireAnalysisProfile: S.optional(S.String),
           threatPreventionProfile: S.optional(S.String),
-          name: S.optional(S.String),
-          etag: S.optional(S.String),
           urlFilteringProfile: S.optional(S.String),
-          description: S.optional(S.String),
+          createTime: S.optional(S.String),
+          etag: S.optional(S.String),
+          customInterceptProfile: S.optional(S.String),
           labels: S.optional(__S(32, __c1, 0)),
+          name: S.optional(S.String),
+          wildfireAnalysisProfile: S.optional(S.String),
+          dataPathId: S.optional(S.String),
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "SecurityProfileGroup" });
   }
@@ -9012,11 +9012,11 @@ function __c47(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9033,8 +9033,8 @@ function __c48(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -9054,8 +9054,8 @@ function __c49(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9069,8 +9069,8 @@ function __c49(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(5376, __c168, 0)),
+          nextPageToken: S.optional(S.String),
           gatewaySecurityPolicies: S.optional(__S(1569, __c49, 1)),
         }),
       ).annotate({ identifier: "ListGatewaySecurityPoliciesResponse" });
@@ -9081,9 +9081,9 @@ function __c50(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9098,8 +9098,8 @@ function __c50(j: number): any {
       return S.suspend(() =>
         S.Struct({
           unreachable: S.optional(__S(5376, __c168, 0)),
-          gatewaySecurityPolicyRules: S.optional(__S(1601, __c50, 1)),
           nextPageToken: S.optional(S.String),
+          gatewaySecurityPolicyRules: S.optional(__S(1601, __c50, 1)),
         }),
       ).annotate({ identifier: "ListGatewaySecurityPolicyRulesResponse" });
   }
@@ -9109,11 +9109,11 @@ function __c51(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          filter: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9123,7 +9123,7 @@ function __c51(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsInterceptDeploymentGroupsRequest" });
     case 1:
-      return S.Array(__S(4448, __c139, 0));
+      return S.Array(__S(4450, __c139, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -9140,9 +9140,9 @@ function __c52(j: number): any {
         S.Struct({
           orderBy: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9156,9 +9156,9 @@ function __c52(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          interceptDeployments: S.optional(__S(1665, __c52, 1)),
           nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(5376, __c168, 0)),
+          interceptDeployments: S.optional(__S(1665, __c52, 1)),
         }),
       ).annotate({ identifier: "ListInterceptDeploymentsResponse" });
   }
@@ -9169,9 +9169,9 @@ function __c53(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -9186,8 +9186,8 @@ function __c53(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           interceptEndpointGroupAssociations: S.optional(__S(1697, __c53, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListInterceptEndpointGroupAssociationsResponse" });
   }
@@ -9197,9 +9197,9 @@ function __c54(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -9211,12 +9211,12 @@ function __c54(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsInterceptEndpointGroupsRequest" });
     case 1:
-      return S.Array(__S(4641, __c145, 1));
+      return S.Array(__S(4673, __c146, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           interceptEndpointGroups: S.optional(__S(1729, __c54, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListInterceptEndpointGroupsResponse" });
   }
@@ -9227,10 +9227,10 @@ function __c55(j: number): any {
       return S.suspend(() =>
         S.Struct({
           filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9240,12 +9240,12 @@ function __c55(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsMirroringDeploymentGroupsRequest" });
     case 1:
-      return S.Array(__S(4736, __c148, 0));
+      return S.Array(__S(4770, __c149, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           mirroringDeploymentGroups: S.optional(__S(1761, __c55, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListMirroringDeploymentGroupsResponse" });
   }
@@ -9255,10 +9255,10 @@ function __c56(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -9285,7 +9285,7 @@ function __c57(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1882, __c58, 26),
+          __S(1884, __c58, 28),
           S.Struct({
             parent: S.String.pipe(T.Label()),
             securityProfileId: S.optional(S.String.pipe(T.Query())),
@@ -9305,19 +9305,18 @@ function __c58(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          urls: S.optional(__S(5376, __c168, 0)),
-          filteringAction: S.optional(S.String),
-          priority: S.optional(S.Number),
+          interceptEndpointGroup: S.optional(S.String),
         }),
-      ).annotate({ identifier: "UrlFilter" });
+      ).annotate({ identifier: "CustomInterceptProfile" });
     case 1:
-      return S.Array(__S(1856, __c58, 0));
-    case 2:
       return S.suspend(() =>
         S.Struct({
-          urlFilters: S.optional(__S(1857, __c58, 1)),
+          severity: S.optional(S.String),
+          action: S.optional(S.String),
         }),
-      ).annotate({ identifier: "UrlFilteringProfile" });
+      ).annotate({ identifier: "SeverityOverride" });
+    case 2:
+      return S.Array(__S(1857, __c58, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -9331,8 +9330,8 @@ function __c58(j: number): any {
       return S.suspend(() =>
         S.Struct({
           action: S.optional(S.String),
-          type: S.optional(S.String),
           threatId: S.optional(S.String),
+          type: S.optional(S.String),
         }),
       ).annotate({ identifier: "ThreatOverride" });
     case 6:
@@ -9340,72 +9339,75 @@ function __c58(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          action: S.optional(S.String),
-          severity: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SeverityOverride" });
-    case 8:
-      return S.Array(__S(1863, __c58, 7));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
+          severityOverrides: S.optional(__S(1858, __c58, 2)),
           antivirusOverrides: S.optional(__S(1860, __c58, 4)),
           threatOverrides: S.optional(__S(1862, __c58, 6)),
-          severityOverrides: S.optional(__S(1864, __c58, 8)),
         }),
       ).annotate({ identifier: "ThreatPreventionProfile" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          urls: S.optional(__S(5376, __c168, 0)),
+          priority: S.optional(S.Number),
+          filteringAction: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UrlFilter" });
+    case 9:
+      return S.Array(__S(1864, __c58, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          fileTypes: S.optional(__S(64, __c2, 0)),
+          urlFilters: S.optional(__S(1865, __c58, 9)),
         }),
-      ).annotate({ identifier: "WildfireSubmissionRuleCustomFileTypes" });
+      ).annotate({ identifier: "UrlFilteringProfile" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          fileSelectionMode: S.optional(S.String),
-          direction: S.optional(S.String),
-          customFileTypes: S.optional(__S(1866, __c58, 10)),
+          mirroringEndpointGroup: S.optional(S.String),
         }),
-      ).annotate({ identifier: "WildfireSubmissionRule" });
+      ).annotate({ identifier: "CustomMirroringProfile" });
     case 12:
-      return S.Array(__S(1867, __c58, 11));
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          customFileTypes: S.optional(__S(1866, __c58, 10)),
-          action: S.optional(S.String),
-          fileSelectionMode: S.optional(S.String),
-          direction: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "WildfireInlineCloudAnalysisRule" });
-    case 14:
-      return S.Array(__S(1869, __c58, 13));
-    case 15:
       return S.suspend(() =>
         S.Struct({
           partialHash: S.optional(S.String),
           filename: S.optional(S.String),
         }),
       ).annotate({ identifier: "WildfireInlineMlFileException" });
-    case 16:
-      return S.Array(__S(1871, __c58, 15));
-    case 17:
+    case 13:
+      return S.Array(__S(1868, __c58, 12));
+    case 14:
       return S.suspend(() =>
         S.Struct({
-          action: S.optional(S.String),
           fileType: S.optional(S.String),
+          action: S.optional(S.String),
         }),
       ).annotate({ identifier: "WildfireInlineMlSettingsInlineMlConfig" });
+    case 15:
+      return S.Array(__S(1870, __c58, 14));
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          fileExceptions: S.optional(__S(1869, __c58, 13)),
+          inlineMlConfigs: S.optional(__S(1871, __c58, 15)),
+        }),
+      ).annotate({ identifier: "WildfireInlineMlSettings" });
+    case 17:
+      return S.Array(__S(1872, __c58, 16));
     case 18:
-      return S.Array(__S(1873, __c58, 17));
+      return S.suspend(() =>
+        S.Struct({
+          fileTypes: S.optional(__S(64, __c2, 0)),
+        }),
+      ).annotate({ identifier: "WildfireInlineCloudAnalysisRuleCustomFileTypes" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          fileExceptions: S.optional(__S(1872, __c58, 16)),
-          inlineMlConfigs: S.optional(__S(1874, __c58, 18)),
+          direction: S.optional(S.String),
+          customFileTypes: S.optional(__S(1874, __c58, 18)),
+          fileSelectionMode: S.optional(S.String),
+          action: S.optional(S.String),
         }),
-      ).annotate({ identifier: "WildfireInlineMlSettings" });
+      ).annotate({ identifier: "WildfireInlineCloudAnalysisRule" });
     case 20:
       return S.Array(__S(1875, __c58, 19));
     case 21:
@@ -9420,43 +9422,50 @@ function __c58(j: number): any {
     case 23:
       return S.suspend(() =>
         S.Struct({
-          wildfireSubmissionRules: S.optional(__S(1868, __c58, 12)),
-          wildfireRealtimeLookup: S.optional(S.Boolean),
-          wildfireInlineMlOverrides: S.optional(__S(1860, __c58, 4)),
-          wildfireOverrides: S.optional(__S(1860, __c58, 4)),
-          wildfireInlineCloudAnalysisRules: S.optional(__S(1870, __c58, 14)),
-          wildfireInlineMlSetting: S.optional(__S(1875, __c58, 19)),
-          wildfireInlineMlSettings: S.optional(__S(1876, __c58, 20)),
-          wildfireThreatOverrides: S.optional(__S(1878, __c58, 22)),
+          action: S.optional(S.String),
+          protocol: S.optional(S.String),
         }),
-      ).annotate({ identifier: "WildfireAnalysisProfile" });
+      ).annotate({ identifier: "WildfireOverride" });
     case 24:
-      return S.suspend(() =>
-        S.Struct({
-          mirroringEndpointGroup: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CustomMirroringProfile" });
+      return S.Array(__S(1879, __c58, 23));
     case 25:
       return S.suspend(() =>
         S.Struct({
-          interceptEndpointGroup: S.optional(S.String),
+          customFileTypes: S.optional(__S(1874, __c58, 18)),
+          direction: S.optional(S.String),
+          fileSelectionMode: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CustomInterceptProfile" });
+      ).annotate({ identifier: "WildfireSubmissionRule" });
     case 26:
+      return S.Array(__S(1881, __c58, 25));
+    case 27:
       return S.suspend(() =>
         S.Struct({
-          urlFilteringProfile: S.optional(__S(1858, __c58, 2)),
-          threatPreventionProfile: S.optional(__S(1865, __c58, 9)),
-          wildfireAnalysisProfile: S.optional(__S(1879, __c58, 23)),
-          labels: S.optional(__S(32, __c1, 0)),
-          name: S.optional(S.String),
+          wildfireInlineMlSettings: S.optional(__S(1873, __c58, 17)),
+          wildfireInlineMlOverrides: S.optional(__S(1860, __c58, 4)),
+          wildfireInlineCloudAnalysisRules: S.optional(__S(1876, __c58, 20)),
+          wildfireThreatOverrides: S.optional(__S(1878, __c58, 22)),
+          wildfireInlineMlSetting: S.optional(__S(1872, __c58, 16)),
+          wildfireOverrides: S.optional(__S(1880, __c58, 24)),
+          wildfireSubmissionRules: S.optional(__S(1882, __c58, 26)),
+          wildfireRealtimeLookup: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "WildfireAnalysisProfile" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          customInterceptProfile: S.optional(__S(1856, __c58, 0)),
           etag: S.optional(S.String),
-          type: S.optional(S.String),
-          customMirroringProfile: S.optional(__S(1880, __c58, 24)),
+          threatPreventionProfile: S.optional(__S(1863, __c58, 7)),
           updateTime: S.optional(S.String),
-          customInterceptProfile: S.optional(__S(1881, __c58, 25)),
-          createTime: S.optional(S.String),
+          urlFilteringProfile: S.optional(__S(1866, __c58, 10)),
+          customMirroringProfile: S.optional(__S(1867, __c58, 11)),
+          labels: S.optional(__S(32, __c1, 0)),
+          wildfireAnalysisProfile: S.optional(__S(1883, __c58, 27)),
           description: S.optional(S.String),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
         }),
       ).annotate({ identifier: "SecurityProfile" });
   }
@@ -9466,11 +9475,11 @@ function __c59(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9495,11 +9504,11 @@ function __c60(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          orderBy: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9524,11 +9533,11 @@ function __c61(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9547,8 +9556,8 @@ function __c62(j: number): any {
           orderBy: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9563,8 +9572,8 @@ function __c62(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(5376, __c168, 0)),
           rateLimitPolicies: S.optional(__S(1985, __c62, 1)),
+          unreachable: S.optional(__S(5376, __c168, 0)),
         }),
       ).annotate({ identifier: "ListRateLimitPoliciesResponse" });
   }
@@ -9574,11 +9583,11 @@ function __c63(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9604,11 +9613,11 @@ function __c64(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9622,9 +9631,9 @@ function __c64(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          unreachable: S.optional(__S(5376, __c168, 0)),
           sacRealms: S.optional(__S(2049, __c64, 1)),
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(5376, __c168, 0)),
         }),
       ).annotate({ identifier: "ListSACRealmsResponse" });
   }
@@ -9635,8 +9644,8 @@ function __c65(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9652,9 +9661,9 @@ function __c66(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9699,9 +9708,9 @@ function __c68(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9715,8 +9724,8 @@ function __c68(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(5376, __c168, 0)),
           nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(5376, __c168, 0)),
           tlsInspectionPolicies: S.optional(__S(2177, __c68, 1)),
         }),
       ).annotate({ identifier: "ListTlsInspectionPoliciesResponse" });
@@ -9729,9 +9738,9 @@ function __c69(j: number): any {
         S.Extend(
           __S(96, __c3, 0),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
-            parent: S.String.pipe(T.Label()),
             addressGroupId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -9748,8 +9757,8 @@ function __c70(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -9776,8 +9785,8 @@ function __c71(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           addressGroup: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -9795,8 +9804,8 @@ function __c72(j: number): any {
       return S.suspend(() =>
         S.Struct({
           rulePriority: S.optional(S.Number),
-          firewallPolicy: S.optional(S.String),
           securityPolicy: S.optional(S.String),
+          firewallPolicy: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAddressGroupReferencesResponseAddressGroupReference" });
     case 1:
@@ -9815,9 +9824,9 @@ function __c73(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          addressGroup: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          addressGroup: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -9835,8 +9844,8 @@ function __c74(j: number): any {
         S.Extend(
           __S(96, __c3, 0),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
@@ -9856,9 +9865,9 @@ function __c75(j: number): any {
         S.Extend(
           __S(485, __c15, 5),
           S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -9877,8 +9886,8 @@ function __c76(j: number): any {
         S.Extend(
           __S(1472, __c46, 0),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -9895,7 +9904,7 @@ function __c77(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1882, __c58, 26),
+          __S(1884, __c58, 28),
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
@@ -9917,9 +9926,9 @@ function __c78(j: number): any {
         S.Extend(
           __S(96, __c3, 0),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -9958,9 +9967,9 @@ function __c80(j: number): any {
         S.Extend(
           __S(3034, __c94, 26),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -9979,8 +9988,8 @@ function __c81(j: number): any {
         S.Extend(
           __S(2632, __c82, 8),
           S.Struct({
-            authorizationPolicyId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            authorizationPolicyId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -9997,37 +10006,37 @@ function __c82(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          headerName: S.optional(S.String),
+          regexMatch: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HttpHeaderMatch" });
+    case 1:
+      return S.Array(S.Number);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          httpHeaderMatch: S.optional(__S(2624, __c82, 0)),
+          hosts: S.optional(__S(5376, __c168, 0)),
+          methods: S.optional(__S(5376, __c168, 0)),
+          ports: S.optional(__S(2625, __c82, 1)),
+        }),
+      ).annotate({ identifier: "Destination" });
+    case 3:
+      return S.Array(__S(2626, __c82, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
           principals: S.optional(__S(5376, __c168, 0)),
           ipBlocks: S.optional(__S(5376, __c168, 0)),
         }),
       ).annotate({ identifier: "Source" });
-    case 1:
-      return S.Array(__S(2624, __c82, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          regexMatch: S.optional(S.String),
-          headerName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "HttpHeaderMatch" });
-    case 3:
-      return S.Array(S.Number);
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          methods: S.optional(__S(5376, __c168, 0)),
-          hosts: S.optional(__S(5376, __c168, 0)),
-          httpHeaderMatch: S.optional(__S(2626, __c82, 2)),
-          ports: S.optional(__S(2627, __c82, 3)),
-        }),
-      ).annotate({ identifier: "Destination" });
     case 5:
       return S.Array(__S(2628, __c82, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          sources: S.optional(__S(2625, __c82, 1)),
-          destinations: S.optional(__S(2629, __c82, 5)),
+          destinations: S.optional(__S(2627, __c82, 3)),
+          sources: S.optional(__S(2629, __c82, 5)),
         }),
       ).annotate({ identifier: "Rule" });
     case 7:
@@ -10035,12 +10044,12 @@ function __c82(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
+          createTime: S.optional(S.String),
           labels: S.optional(__S(32, __c1, 0)),
           action: S.optional(S.String),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
           updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
           rules: S.optional(__S(2631, __c82, 7)),
         }),
       ).annotate({ identifier: "AuthorizationPolicy" });
@@ -10113,9 +10122,9 @@ function __c86(j: number): any {
         S.Extend(
           __S(4128, __c129, 0),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -10134,9 +10143,9 @@ function __c87(j: number): any {
         S.Extend(
           __S(485, __c15, 5),
           S.Struct({
-            name: S.String.pipe(T.Label()),
-            updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -10193,10 +10202,10 @@ function __c90(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4448, __c139, 0),
+          __S(4450, __c139, 2),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
           }),
         ).pipe(
@@ -10237,9 +10246,9 @@ function __c92(j: number): any {
         S.Extend(
           __S(4576, __c143, 0),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -10258,9 +10267,9 @@ function __c93(j: number): any {
         S.Extend(
           __S(3034, __c94, 26),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
-            authzPolicyId: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
+            authzPolicyId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -10277,160 +10286,160 @@ function __c94(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          loadBalancingScheme: S.optional(S.String),
-          resources: S.optional(__S(5376, __c168, 0)),
+          ids: S.optional(__S(5376, __c168, 0)),
         }),
-      ).annotate({ identifier: "AuthzPolicyTarget" });
+      ).annotate({ identifier: "AuthzPolicyAuthzRuleRequestResourceTagValueIdSet" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           exact: S.optional(S.String),
-          prefix: S.optional(S.String),
-          suffix: S.optional(S.String),
           ignoreCase: S.optional(S.Boolean),
+          suffix: S.optional(S.String),
+          prefix: S.optional(S.String),
           contains: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuthzPolicyAuthzRuleStringMatch" });
     case 2:
-      return S.Array(__S(3009, __c94, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(3009, __c94, 1)),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AuthzPolicyAuthzRuleHeaderMatch" });
-    case 4:
-      return S.Array(__S(3011, __c94, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          headers: S.optional(__S(3012, __c94, 4)),
-        }),
-      ).annotate({ identifier: "AuthzPolicyAuthzRuleToRequestOperationHeaderSet" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          params: S.optional(__S(3010, __c94, 2)),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AuthzPolicyAuthzRuleToRequestOperationMCPMethod" });
-    case 7:
-      return S.Array(__S(3014, __c94, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          baseProtocolMethodsOption: S.optional(S.String),
-          methods: S.optional(__S(3015, __c94, 7)),
-        }),
-      ).annotate({ identifier: "AuthzPolicyAuthzRuleToRequestOperationMCP" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          hosts: S.optional(__S(3010, __c94, 2)),
-          methods: S.optional(__S(5376, __c168, 0)),
-          headerSet: S.optional(__S(3013, __c94, 5)),
-          mcp: S.optional(__S(3016, __c94, 8)),
-          snis: S.optional(__S(3010, __c94, 2)),
-          paths: S.optional(__S(3010, __c94, 2)),
-        }),
-      ).annotate({ identifier: "AuthzPolicyAuthzRuleToRequestOperation" });
-    case 10:
-      return S.Array(__S(3017, __c94, 9));
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          notOperations: S.optional(__S(3018, __c94, 10)),
-          operations: S.optional(__S(3018, __c94, 10)),
-        }),
-      ).annotate({ identifier: "AuthzPolicyAuthzRuleTo" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          principalSelector: S.optional(S.String),
-          principal: S.optional(__S(3009, __c94, 1)),
-        }),
-      ).annotate({ identifier: "AuthzPolicyAuthzRulePrincipal" });
-    case 13:
-      return S.Array(__S(3020, __c94, 12));
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          ids: S.optional(__S(5376, __c168, 0)),
-        }),
-      ).annotate({ identifier: "AuthzPolicyAuthzRuleRequestResourceTagValueIdSet" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
+          tagValueIdSet: S.optional(__S(3008, __c94, 0)),
           iamServiceAccount: S.optional(__S(3009, __c94, 1)),
-          tagValueIdSet: S.optional(__S(3022, __c94, 14)),
         }),
       ).annotate({ identifier: "AuthzPolicyAuthzRuleRequestResource" });
-    case 16:
-      return S.Array(__S(3023, __c94, 15));
-    case 17:
+    case 3:
+      return S.Array(__S(3010, __c94, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           prefix: S.optional(S.String),
           length: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AuthzPolicyAuthzRuleIpBlock" });
-    case 18:
-      return S.Array(__S(3025, __c94, 17));
-    case 19:
+    case 5:
+      return S.Array(__S(3012, __c94, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          principals: S.optional(__S(3021, __c94, 13)),
-          resources: S.optional(__S(3024, __c94, 16)),
-          ipBlocks: S.optional(__S(3026, __c94, 18)),
+          principalSelector: S.optional(S.String),
+          principal: S.optional(__S(3009, __c94, 1)),
+        }),
+      ).annotate({ identifier: "AuthzPolicyAuthzRulePrincipal" });
+    case 7:
+      return S.Array(__S(3014, __c94, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          resources: S.optional(__S(3011, __c94, 3)),
+          ipBlocks: S.optional(__S(3013, __c94, 5)),
+          principals: S.optional(__S(3015, __c94, 7)),
         }),
       ).annotate({ identifier: "AuthzPolicyAuthzRuleFromRequestSource" });
+    case 9:
+      return S.Array(__S(3016, __c94, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          sources: S.optional(__S(3017, __c94, 9)),
+          notSources: S.optional(__S(3017, __c94, 9)),
+        }),
+      ).annotate({ identifier: "AuthzPolicyAuthzRuleFrom" });
+    case 11:
+      return S.Array(__S(3009, __c94, 1));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          params: S.optional(__S(3019, __c94, 11)),
+        }),
+      ).annotate({ identifier: "AuthzPolicyAuthzRuleToRequestOperationMCPMethod" });
+    case 13:
+      return S.Array(__S(3020, __c94, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          baseProtocolMethodsOption: S.optional(S.String),
+          methods: S.optional(__S(3021, __c94, 13)),
+        }),
+      ).annotate({ identifier: "AuthzPolicyAuthzRuleToRequestOperationMCP" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          value: S.optional(__S(3009, __c94, 1)),
+        }),
+      ).annotate({ identifier: "AuthzPolicyAuthzRuleHeaderMatch" });
+    case 16:
+      return S.Array(__S(3023, __c94, 15));
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          headers: S.optional(__S(3024, __c94, 16)),
+        }),
+      ).annotate({ identifier: "AuthzPolicyAuthzRuleToRequestOperationHeaderSet" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          mcp: S.optional(__S(3022, __c94, 14)),
+          hosts: S.optional(__S(3019, __c94, 11)),
+          snis: S.optional(__S(3019, __c94, 11)),
+          methods: S.optional(__S(5376, __c168, 0)),
+          paths: S.optional(__S(3019, __c94, 11)),
+          headerSet: S.optional(__S(3025, __c94, 17)),
+        }),
+      ).annotate({ identifier: "AuthzPolicyAuthzRuleToRequestOperation" });
+    case 19:
+      return S.Array(__S(3026, __c94, 18));
     case 20:
-      return S.Array(__S(3027, __c94, 19));
+      return S.suspend(() =>
+        S.Struct({
+          notOperations: S.optional(__S(3027, __c94, 19)),
+          operations: S.optional(__S(3027, __c94, 19)),
+        }),
+      ).annotate({ identifier: "AuthzPolicyAuthzRuleTo" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          sources: S.optional(__S(3028, __c94, 20)),
-          notSources: S.optional(__S(3028, __c94, 20)),
-        }),
-      ).annotate({ identifier: "AuthzPolicyAuthzRuleFrom" });
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          to: S.optional(__S(3019, __c94, 11)),
-          from: S.optional(__S(3029, __c94, 21)),
+          from: S.optional(__S(3018, __c94, 10)),
+          to: S.optional(__S(3028, __c94, 20)),
           when: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuthzPolicyAuthzRule" });
+    case 22:
+      return S.Array(__S(3029, __c94, 21));
     case 23:
-      return S.Array(__S(3030, __c94, 22));
-    case 24:
       return S.suspend(() =>
         S.Struct({
           resources: S.optional(__S(5376, __c168, 0)),
         }),
       ).annotate({ identifier: "AuthzPolicyCustomProviderAuthzExtension" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          cloudIap: S.optional(__S(6272, __c196, 0)),
+          authzExtension: S.optional(__S(3031, __c94, 23)),
+        }),
+      ).annotate({ identifier: "AuthzPolicyCustomProvider" });
     case 25:
       return S.suspend(() =>
         S.Struct({
-          authzExtension: S.optional(__S(3032, __c94, 24)),
-          cloudIap: S.optional(__S(6272, __c196, 0)),
+          resources: S.optional(__S(5376, __c168, 0)),
+          loadBalancingScheme: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AuthzPolicyCustomProvider" });
+      ).annotate({ identifier: "AuthzPolicyTarget" });
     case 26:
       return S.suspend(() =>
         S.Struct({
-          createTime: S.optional(S.String),
-          target: S.optional(__S(3008, __c94, 0)),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          networkRules: S.optional(__S(3031, __c94, 23)),
-          action: S.optional(S.String),
-          httpRules: S.optional(__S(3031, __c94, 23)),
           labels: S.optional(__S(32, __c1, 0)),
+          action: S.optional(S.String),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
           policyProfile: S.optional(S.String),
-          customProvider: S.optional(__S(3033, __c94, 25)),
+          httpRules: S.optional(__S(3030, __c94, 22)),
+          customProvider: S.optional(__S(3032, __c94, 24)),
+          networkRules: S.optional(__S(3030, __c94, 22)),
+          target: S.optional(__S(3033, __c94, 25)),
           description: S.optional(S.String),
+          createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuthzPolicy" });
   }
@@ -10440,10 +10449,10 @@ function __c95(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4641, __c145, 1),
+          __S(4673, __c146, 1),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
@@ -10461,11 +10470,11 @@ function __c96(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4736, __c148, 0),
+          __S(4770, __c149, 2),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -10484,9 +10493,9 @@ function __c97(j: number): any {
         S.Extend(
           __S(4832, __c151, 0),
           S.Struct({
+            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
-            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -10526,9 +10535,9 @@ function __c99(j: number): any {
         S.Extend(
           __S(4962, __c155, 2),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -10547,9 +10556,9 @@ function __c100(j: number): any {
         S.Extend(
           __S(5057, __c158, 1),
           S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
-            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -10586,7 +10595,7 @@ function __c102(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1882, __c58, 26),
+          __S(1884, __c58, 28),
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
@@ -10648,8 +10657,8 @@ function __c105(j: number): any {
         S.Extend(
           __S(3392, __c106, 0),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
             backendAuthenticationConfigId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -10666,13 +10675,13 @@ function __c106(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          createTime: S.optional(S.String),
           updateTime: S.optional(S.String),
-          wellKnownRoots: S.optional(S.String),
           name: S.optional(S.String),
+          trustConfig: S.optional(S.String),
           etag: S.optional(S.String),
           description: S.optional(S.String),
-          trustConfig: S.optional(S.String),
+          createTime: S.optional(S.String),
+          wellKnownRoots: S.optional(S.String),
           labels: S.optional(__S(32, __c1, 0)),
           clientCertificate: S.optional(S.String),
         }),
@@ -10686,8 +10695,8 @@ function __c107(j: number): any {
         S.Extend(
           __S(5600, __c175, 0),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -10934,6 +10943,13 @@ function __c120(j: number): any {
       ).annotate({ identifier: "ValidationCA" });
     case 3:
       return S.Array(__S(3842, __c120, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          grpcEndpoint: S.optional(__S(3841, __c120, 1)),
+          certificateProviderInstance: S.optional(__S(3840, __c120, 0)),
+        }),
+      ).annotate({ identifier: "GoogleCloudNetworksecurityV1beta1CertificateProvider" });
   }
 }
 function __c121(j: number): any {
@@ -10941,14 +10957,14 @@ function __c121(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(32, __c1, 0)),
           serverValidationCa: S.optional(__S(3843, __c120, 3)),
+          clientCertificate: S.optional(__S(3844, __c120, 4)),
+          updateTime: S.optional(S.String),
+          sni: S.optional(S.String),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(32, __c1, 0)),
           name: S.optional(S.String),
           description: S.optional(S.String),
-          sni: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          clientCertificate: S.optional(__S(3842, __c120, 2)),
         }),
       ).annotate({ identifier: "ClientTlsPolicy" });
   }
@@ -11054,12 +11070,12 @@ function __c127(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          excludedNetworks: S.optional(__S(5376, __c168, 0)),
-          labels: S.optional(__S(32, __c1, 0)),
-          provider: S.optional(S.String),
           updateTime: S.optional(S.String),
+          provider: S.optional(S.String),
           name: S.optional(S.String),
+          labels: S.optional(__S(32, __c1, 0)),
           createTime: S.optional(S.String),
+          excludedNetworks: S.optional(__S(5376, __c168, 0)),
         }),
       ).annotate({ identifier: "DnsThreatDetector" });
   }
@@ -11071,9 +11087,9 @@ function __c128(j: number): any {
         S.Extend(
           __S(4128, __c129, 0),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
             firewallEndpointAssociationId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -11090,16 +11106,16 @@ function __c129(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          network: S.optional(S.String),
           reconciling: S.optional(S.Boolean),
-          disabled: S.optional(S.Boolean),
-          labels: S.optional(__S(32, __c1, 0)),
           createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
           state: S.optional(S.String),
-          firewallEndpoint: S.optional(S.String),
+          name: S.optional(S.String),
           tlsInspectionPolicy: S.optional(S.String),
+          labels: S.optional(__S(32, __c1, 0)),
+          disabled: S.optional(S.Boolean),
+          updateTime: S.optional(S.String),
+          network: S.optional(S.String),
+          firewallEndpoint: S.optional(S.String),
         }),
       ).annotate({ identifier: "FirewallEndpointAssociation" });
   }
@@ -11111,8 +11127,8 @@ function __c130(j: number): any {
         S.Extend(
           __S(485, __c15, 5),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             firewallEndpointId: S.optional(S.String.pipe(T.Query())),
           }),
@@ -11154,8 +11170,8 @@ function __c132(j: number): any {
         S.Extend(
           __S(4256, __c133, 0),
           S.Struct({
-            gatewaySecurityPolicyId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            gatewaySecurityPolicyId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -11172,11 +11188,11 @@ function __c133(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
-          tlsInspectionPolicy: S.optional(S.String),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
           updateTime: S.optional(S.String),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
+          tlsInspectionPolicy: S.optional(S.String),
         }),
       ).annotate({ identifier: "GatewaySecurityPolicy" });
   }
@@ -11206,16 +11222,16 @@ function __c135(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          basicProfile: S.optional(S.String),
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
           applicationMatcher: S.optional(S.String),
           priority: S.optional(S.Number),
-          enabled: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          sessionMatcher: S.optional(S.String),
           tlsInspectionEnabled: S.optional(S.Boolean),
-          description: S.optional(S.String),
-          basicProfile: S.optional(S.String),
+          sessionMatcher: S.optional(S.String),
         }),
       ).annotate({ identifier: "GatewaySecurityPolicyRule" });
   }
@@ -11225,7 +11241,7 @@ function __c136(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(4448, __c139, 0),
+          __S(4450, __c139, 2),
           S.Struct({
             parent: S.String.pipe(T.Label()),
             interceptDeploymentGroupId: S.optional(S.String.pipe(T.Query())),
@@ -11246,8 +11262,8 @@ function __c137(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(S.String),
           state: S.optional(S.String),
+          location: S.optional(S.String),
         }),
       ).annotate({ identifier: "InterceptLocation" });
     case 1:
@@ -11264,15 +11280,6 @@ function __c138(j: number): any {
       ).annotate({ identifier: "InterceptDeploymentGroupConnectedEndpointGroup" });
     case 1:
       return S.Array(__S(4416, __c138, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "InterceptDeploymentGroupDeployment" });
-    case 3:
-      return S.Array(__S(4418, __c138, 2));
   }
 }
 function __c139(j: number): any {
@@ -11280,17 +11287,26 @@ function __c139(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateTime: S.optional(S.String),
-          state: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          createTime: S.optional(S.String),
-          network: S.optional(S.String),
-          connectedEndpointGroups: S.optional(__S(4417, __c138, 1)),
-          locations: S.optional(__S(4385, __c137, 1)),
-          nestedDeployments: S.optional(__S(4419, __c138, 3)),
-          description: S.optional(S.String),
           name: S.optional(S.String),
+          state: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InterceptDeploymentGroupDeployment" });
+    case 1:
+      return S.Array(__S(4448, __c139, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
+          network: S.optional(S.String),
+          reconciling: S.optional(S.Boolean),
+          connectedEndpointGroups: S.optional(__S(4417, __c138, 1)),
+          createTime: S.optional(S.String),
           labels: S.optional(__S(32, __c1, 0)),
+          state: S.optional(S.String),
+          description: S.optional(S.String),
+          nestedDeployments: S.optional(__S(4449, __c139, 1)),
+          locations: S.optional(__S(4385, __c137, 1)),
         }),
       ).annotate({ identifier: "InterceptDeploymentGroup" });
   }
@@ -11303,8 +11319,8 @@ function __c140(j: number): any {
           __S(4512, __c141, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
-            interceptDeploymentId: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
+            interceptDeploymentId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -11321,15 +11337,15 @@ function __c141(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateTime: S.optional(S.String),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
-          labels: S.optional(__S(32, __c1, 0)),
           interceptDeploymentGroup: S.optional(S.String),
+          labels: S.optional(__S(32, __c1, 0)),
+          updateTime: S.optional(S.String),
           reconciling: S.optional(S.Boolean),
-          forwardingRule: S.optional(S.String),
           description: S.optional(S.String),
+          forwardingRule: S.optional(S.String),
           name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          state: S.optional(S.String),
         }),
       ).annotate({ identifier: "InterceptDeployment" });
   }
@@ -11342,8 +11358,8 @@ function __c142(j: number): any {
           __S(4576, __c143, 0),
           S.Struct({
             requestId: S.optional(S.String.pipe(T.Query())),
-            interceptEndpointGroupAssociationId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            interceptEndpointGroupAssociationId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -11362,17 +11378,17 @@ function __c143(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          reconciling: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(32, __c1, 0)),
+          locations: S.optional(__S(4385, __c137, 1)),
+          network: S.optional(S.String),
+          interceptEndpointGroup: S.optional(S.String),
           state: S.optional(S.String),
           networkCookie: S.optional(S.Number),
-          network: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          labels: S.optional(__S(32, __c1, 0)),
+          locationsDetails: S.optional(__S(4609, __c144, 1)),
           name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          locations: S.optional(__S(4385, __c137, 1)),
           updateTime: S.optional(S.String),
-          locationsDetails: S.optional(__S(4385, __c137, 1)),
-          interceptEndpointGroup: S.optional(S.String),
         }),
       ).annotate({ identifier: "InterceptEndpointGroupAssociation" });
   }
@@ -11381,12 +11397,25 @@ function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          location: S.optional(S.String),
+          state: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InterceptEndpointGroupAssociationLocationDetails" });
+    case 1:
+      return S.Array(__S(4608, __c144, 0));
+  }
+}
+function __c145(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Extend(
-          __S(4641, __c145, 1),
+          __S(4673, __c146, 1),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
             interceptEndpointGroupId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -11398,55 +11427,55 @@ function __c144(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsInterceptEndpointGroupsRequest" });
   }
 }
-function __c145(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          locations: S.optional(__S(4385, __c137, 1)),
-        }),
-      ).annotate({ identifier: "InterceptEndpointGroupConnectedDeploymentGroup" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          interceptDeploymentGroup: S.optional(S.String),
-          state: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          labels: S.optional(__S(32, __c1, 0)),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          associations: S.optional(__S(4673, __c146, 1)),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-          connectedDeploymentGroup: S.optional(__S(4640, __c145, 0)),
-        }),
-      ).annotate({ identifier: "InterceptEndpointGroup" });
-  }
-}
 function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          locations: S.optional(__S(4385, __c137, 1)),
           name: S.optional(S.String),
-          network: S.optional(S.String),
-          state: S.optional(S.String),
         }),
-      ).annotate({ identifier: "InterceptEndpointGroupAssociationDetails" });
+      ).annotate({ identifier: "InterceptEndpointGroupConnectedDeploymentGroup" });
     case 1:
-      return S.Array(__S(4672, __c146, 0));
+      return S.suspend(() =>
+        S.Struct({
+          labels: S.optional(__S(32, __c1, 0)),
+          reconciling: S.optional(S.Boolean),
+          associations: S.optional(__S(4705, __c147, 1)),
+          interceptDeploymentGroup: S.optional(S.String),
+          createTime: S.optional(S.String),
+          connectedDeploymentGroup: S.optional(__S(4672, __c146, 0)),
+          updateTime: S.optional(S.String),
+          description: S.optional(S.String),
+          state: S.optional(S.String),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InterceptEndpointGroup" });
   }
 }
 function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          state: S.optional(S.String),
+          network: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InterceptEndpointGroupAssociationDetails" });
+    case 1:
+      return S.Array(__S(4704, __c147, 0));
+  }
+}
+function __c148(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Extend(
-          __S(4736, __c148, 0),
+          __S(4770, __c149, 2),
           S.Struct({
-            mirroringDeploymentGroupId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            mirroringDeploymentGroupId: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
@@ -11459,37 +11488,33 @@ function __c147(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsMirroringDeploymentGroupsRequest" });
   }
 }
-function __c148(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          nestedDeployments: S.optional(__S(4419, __c138, 3)),
-          network: S.optional(S.String),
-          state: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          labels: S.optional(__S(32, __c1, 0)),
-          name: S.optional(S.String),
-          connectedEndpointGroups: S.optional(__S(4417, __c138, 1)),
-          description: S.optional(S.String),
-          locations: S.optional(__S(4769, __c149, 1)),
-        }),
-      ).annotate({ identifier: "MirroringDeploymentGroup" });
-  }
-}
 function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           state: S.optional(S.String),
-          location: S.optional(S.String),
+          name: S.optional(S.String),
         }),
-      ).annotate({ identifier: "MirroringLocation" });
+      ).annotate({ identifier: "MirroringDeploymentGroupDeployment" });
     case 1:
       return S.Array(__S(4768, __c149, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          createTime: S.optional(S.String),
+          nestedDeployments: S.optional(__S(4769, __c149, 1)),
+          state: S.optional(S.String),
+          name: S.optional(S.String),
+          network: S.optional(S.String),
+          connectedEndpointGroups: S.optional(__S(4417, __c138, 1)),
+          description: S.optional(S.String),
+          reconciling: S.optional(S.Boolean),
+          labels: S.optional(__S(32, __c1, 0)),
+          updateTime: S.optional(S.String),
+          locations: S.optional(__S(4609, __c144, 1)),
+        }),
+      ).annotate({ identifier: "MirroringDeploymentGroup" });
   }
 }
 function __c150(j: number): any {
@@ -11499,9 +11524,9 @@ function __c150(j: number): any {
         S.Extend(
           __S(4832, __c151, 0),
           S.Struct({
-            mirroringDeploymentId: S.optional(S.String.pipe(T.Query())),
-            parent: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            mirroringDeploymentId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -11518,15 +11543,15 @@ function __c151(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          forwardingRule: S.optional(S.String),
-          mirroringDeploymentGroup: S.optional(S.String),
-          description: S.optional(S.String),
           labels: S.optional(__S(32, __c1, 0)),
+          createTime: S.optional(S.String),
           reconciling: S.optional(S.Boolean),
           state: S.optional(S.String),
+          forwardingRule: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          mirroringDeploymentGroup: S.optional(S.String),
+          updateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "MirroringDeployment" });
   }
@@ -11538,9 +11563,9 @@ function __c152(j: number): any {
         S.Extend(
           __S(4896, __c153, 0),
           S.Struct({
-            mirroringEndpointGroupAssociationId: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            mirroringEndpointGroupAssociationId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -11559,17 +11584,17 @@ function __c153(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          mirroringEndpointGroup: S.optional(S.String),
-          labels: S.optional(__S(32, __c1, 0)),
-          locationsDetails: S.optional(__S(4385, __c137, 1)),
-          state: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          networkCookie: S.optional(S.Number),
           updateTime: S.optional(S.String),
+          mirroringEndpointGroup: S.optional(S.String),
+          state: S.optional(S.String),
+          labels: S.optional(__S(32, __c1, 0)),
+          networkCookie: S.optional(S.Number),
+          reconciling: S.optional(S.Boolean),
           name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          locations: S.optional(__S(4769, __c149, 1)),
+          locationsDetails: S.optional(__S(4385, __c137, 1)),
           network: S.optional(S.String),
+          createTime: S.optional(S.String),
+          locations: S.optional(__S(4609, __c144, 1)),
         }),
       ).annotate({ identifier: "MirroringEndpointGroupAssociation" });
   }
@@ -11581,9 +11606,9 @@ function __c154(j: number): any {
         S.Extend(
           __S(4962, __c155, 2),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
-            parent: S.String.pipe(T.Label()),
             mirroringEndpointGroupId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -11600,8 +11625,8 @@ function __c155(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(4769, __c149, 1)),
           name: S.optional(S.String),
+          locations: S.optional(__S(4609, __c144, 1)),
         }),
       ).annotate({ identifier: "MirroringEndpointGroupConnectedDeploymentGroup" });
     case 1:
@@ -11609,17 +11634,17 @@ function __c155(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          associations: S.optional(__S(4673, __c146, 1)),
+          connectedDeploymentGroups: S.optional(__S(4961, __c155, 1)),
+          reconciling: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          state: S.optional(S.String),
           labels: S.optional(__S(32, __c1, 0)),
           description: S.optional(S.String),
           mirroringDeploymentGroup: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          state: S.optional(S.String),
-          connectedDeploymentGroups: S.optional(__S(4961, __c155, 1)),
-          createTime: S.optional(S.String),
           updateTime: S.optional(S.String),
-          type: S.optional(S.String),
+          associations: S.optional(__S(4705, __c147, 1)),
           name: S.optional(S.String),
+          type: S.optional(S.String),
         }),
       ).annotate({ identifier: "MirroringEndpointGroup" });
   }
@@ -11631,9 +11656,9 @@ function __c156(j: number): any {
         S.Extend(
           __S(5057, __c158, 1),
           S.Struct({
-            rateLimitPolicyId: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            rateLimitPolicyId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -11650,182 +11675,182 @@ function __c157(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.optional(S.String),
+          keyType: S.optional(S.String),
+          header: S.optional(S.String),
+          principalType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "RateLimitPolicyTarget" });
+      ).annotate({ identifier: "RateLimitPolicyRateLimitBucketKey" });
     case 1:
       return S.Array(__S(5024, __c157, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          rateLimitBucket: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RateLimitPolicyRateLimitRuleRateLimitAction" });
-    case 3:
-      return S.Array(__S(5026, __c157, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          suffix: S.optional(S.String),
-          prefix: S.optional(S.String),
-          exact: S.optional(S.String),
-          contains: S.optional(S.String),
-          ignoreCase: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "RateLimitPolicyRateLimitRuleStringMatch" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          principalSelector: S.optional(S.String),
-          principal: S.optional(__S(5028, __c157, 4)),
-        }),
-      ).annotate({ identifier: "RateLimitPolicyRateLimitRulePrincipal" });
-    case 6:
-      return S.Array(__S(5029, __c157, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          principals: S.optional(__S(5030, __c157, 6)),
-        }),
-      ).annotate({ identifier: "RateLimitPolicyRateLimitRuleFromSource" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          notSource: S.optional(__S(5031, __c157, 7)),
-          source: S.optional(__S(5031, __c157, 7)),
-        }),
-      ).annotate({ identifier: "RateLimitPolicyRateLimitRuleFrom" });
-    case 9:
-      return S.Array(__S(5028, __c157, 4));
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          params: S.optional(__S(5033, __c157, 9)),
-        }),
-      ).annotate({ identifier: "RateLimitPolicyRateLimitRuleToDestinationMCPMethod" });
-    case 11:
-      return S.Array(__S(5034, __c157, 10));
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          baseProtocolMethodsOption: S.optional(S.String),
-          methods: S.optional(__S(5035, __c157, 11)),
-        }),
-      ).annotate({ identifier: "RateLimitPolicyRateLimitRuleToDestinationMCP" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          value: S.optional(__S(5028, __c157, 4)),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RateLimitPolicyRateLimitRuleHeaderMatch" });
-    case 14:
-      return S.Array(__S(5037, __c157, 13));
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          headers: S.optional(__S(5038, __c157, 14)),
-        }),
-      ).annotate({ identifier: "RateLimitPolicyRateLimitRuleToDestinationHeaderSet" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          hosts: S.optional(__S(5033, __c157, 9)),
-          mcp: S.optional(__S(5036, __c157, 12)),
-          paths: S.optional(__S(5033, __c157, 9)),
-          methods: S.optional(__S(5376, __c168, 0)),
-          headerSet: S.optional(__S(5039, __c157, 15)),
-        }),
-      ).annotate({ identifier: "RateLimitPolicyRateLimitRuleToDestination" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          destination: S.optional(__S(5040, __c157, 16)),
-          notDestination: S.optional(__S(5040, __c157, 16)),
-        }),
-      ).annotate({ identifier: "RateLimitPolicyRateLimitRuleTo" });
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          rateLimitActions: S.optional(__S(5027, __c157, 3)),
-          from: S.optional(__S(5032, __c157, 8)),
-          to: S.optional(__S(5041, __c157, 17)),
-        }),
-      ).annotate({ identifier: "RateLimitPolicyRateLimitRule" });
-    case 19:
-      return S.Array(__S(5042, __c157, 18));
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
+          interval: S.optional(S.String),
           count: S.optional(S.String),
           intervalUnit: S.optional(S.String),
-          interval: S.optional(S.String),
         }),
       ).annotate({ identifier: "RateLimitPolicyRateLimitBucketCountLimit" });
-    case 21:
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          countLimit: S.optional(__S(5044, __c157, 20)),
+          countLimit: S.optional(__S(5026, __c157, 2)),
         }),
       ).annotate({ identifier: "RateLimitPolicyRateLimitBucketLimit" });
-    case 22:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           principalType: S.optional(S.String),
           principal: S.optional(S.String),
         }),
       ).annotate({ identifier: "RateLimitPolicyRateLimitBucketUserOverrideOverrideKeyPrincipal" });
-    case 23:
-      return S.Array(__S(5046, __c157, 22));
-    case 24:
+    case 5:
+      return S.Array(__S(5028, __c157, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          header: S.optional(S.String),
           value: S.optional(S.String),
+          header: S.optional(S.String),
         }),
       ).annotate({ identifier: "RateLimitPolicyRateLimitBucketUserOverrideOverrideKeyHttpHeader" });
+    case 7:
+      return S.Array(__S(5030, __c157, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          httpPath: S.optional(S.String),
+          mcpTool: S.optional(S.String),
+          principals: S.optional(__S(5029, __c157, 5)),
+          httpHeaders: S.optional(__S(5031, __c157, 7)),
+          sourceIp: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RateLimitPolicyRateLimitBucketUserOverrideOverrideKey" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(__S(5027, __c157, 3)),
+          overrideKey: S.optional(__S(5032, __c157, 8)),
+        }),
+      ).annotate({ identifier: "RateLimitPolicyRateLimitBucketUserOverride" });
+    case 10:
+      return S.Array(__S(5033, __c157, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          keys: S.optional(__S(5025, __c157, 1)),
+          defaultLimit: S.optional(__S(5027, __c157, 3)),
+          userOverrides: S.optional(__S(5034, __c157, 10)),
+          dryRun: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "RateLimitPolicyRateLimitBucket" });
+    case 12:
+      return S.Array(__S(5035, __c157, 11));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          suffix: S.optional(S.String),
+          ignoreCase: S.optional(S.Boolean),
+          exact: S.optional(S.String),
+          prefix: S.optional(S.String),
+          contains: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RateLimitPolicyRateLimitRuleStringMatch" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          value: S.optional(__S(5037, __c157, 13)),
+        }),
+      ).annotate({ identifier: "RateLimitPolicyRateLimitRuleHeaderMatch" });
+    case 15:
+      return S.Array(__S(5038, __c157, 14));
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          headers: S.optional(__S(5039, __c157, 15)),
+        }),
+      ).annotate({ identifier: "RateLimitPolicyRateLimitRuleToDestinationHeaderSet" });
+    case 17:
+      return S.Array(__S(5037, __c157, 13));
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          params: S.optional(__S(5041, __c157, 17)),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RateLimitPolicyRateLimitRuleToDestinationMCPMethod" });
+    case 19:
+      return S.Array(__S(5042, __c157, 18));
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          baseProtocolMethodsOption: S.optional(S.String),
+          methods: S.optional(__S(5043, __c157, 19)),
+        }),
+      ).annotate({ identifier: "RateLimitPolicyRateLimitRuleToDestinationMCP" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          headerSet: S.optional(__S(5040, __c157, 16)),
+          paths: S.optional(__S(5041, __c157, 17)),
+          hosts: S.optional(__S(5041, __c157, 17)),
+          mcp: S.optional(__S(5044, __c157, 20)),
+          methods: S.optional(__S(5376, __c168, 0)),
+        }),
+      ).annotate({ identifier: "RateLimitPolicyRateLimitRuleToDestination" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          destination: S.optional(__S(5045, __c157, 21)),
+          notDestination: S.optional(__S(5045, __c157, 21)),
+        }),
+      ).annotate({ identifier: "RateLimitPolicyRateLimitRuleTo" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          principal: S.optional(__S(5037, __c157, 13)),
+          principalSelector: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RateLimitPolicyRateLimitRulePrincipal" });
+    case 24:
+      return S.Array(__S(5047, __c157, 23));
     case 25:
-      return S.Array(__S(5048, __c157, 24));
+      return S.suspend(() =>
+        S.Struct({
+          principals: S.optional(__S(5048, __c157, 24)),
+        }),
+      ).annotate({ identifier: "RateLimitPolicyRateLimitRuleFromSource" });
     case 26:
       return S.suspend(() =>
         S.Struct({
-          sourceIp: S.optional(S.String),
-          mcpTool: S.optional(S.String),
-          principals: S.optional(__S(5047, __c157, 23)),
-          httpPath: S.optional(S.String),
-          httpHeaders: S.optional(__S(5049, __c157, 25)),
+          notSource: S.optional(__S(5049, __c157, 25)),
+          source: S.optional(__S(5049, __c157, 25)),
         }),
-      ).annotate({ identifier: "RateLimitPolicyRateLimitBucketUserOverrideOverrideKey" });
+      ).annotate({ identifier: "RateLimitPolicyRateLimitRuleFrom" });
     case 27:
       return S.suspend(() =>
         S.Struct({
-          overrideKey: S.optional(__S(5050, __c157, 26)),
-          limit: S.optional(__S(5045, __c157, 21)),
+          rateLimitBucket: S.optional(S.String),
         }),
-      ).annotate({ identifier: "RateLimitPolicyRateLimitBucketUserOverride" });
+      ).annotate({ identifier: "RateLimitPolicyRateLimitRuleRateLimitAction" });
     case 28:
       return S.Array(__S(5051, __c157, 27));
     case 29:
       return S.suspend(() =>
         S.Struct({
-          keyType: S.optional(S.String),
-          principalType: S.optional(S.String),
-          header: S.optional(S.String),
+          to: S.optional(__S(5046, __c157, 22)),
+          from: S.optional(__S(5050, __c157, 26)),
+          rateLimitActions: S.optional(__S(5052, __c157, 28)),
         }),
-      ).annotate({ identifier: "RateLimitPolicyRateLimitBucketKey" });
+      ).annotate({ identifier: "RateLimitPolicyRateLimitRule" });
     case 30:
       return S.Array(__S(5053, __c157, 29));
     case 31:
       return S.suspend(() =>
         S.Struct({
-          defaultLimit: S.optional(__S(5045, __c157, 21)),
-          userOverrides: S.optional(__S(5052, __c157, 28)),
-          dryRun: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          keys: S.optional(__S(5054, __c157, 30)),
+          resource: S.optional(S.String),
         }),
-      ).annotate({ identifier: "RateLimitPolicyRateLimitBucket" });
+      ).annotate({ identifier: "RateLimitPolicyTarget" });
   }
 }
 function __c158(j: number): any {
@@ -11835,14 +11860,14 @@ function __c158(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(32, __c1, 0)),
           name: S.optional(S.String),
-          targets: S.optional(__S(5025, __c157, 1)),
-          httpRules: S.optional(__S(5043, __c157, 19)),
-          updateTime: S.optional(S.String),
+          rateLimitBuckets: S.optional(__S(5036, __c157, 12)),
           description: S.optional(S.String),
+          httpRules: S.optional(__S(5054, __c157, 30)),
+          labels: S.optional(__S(32, __c1, 0)),
+          targets: S.optional(__S(5056, __c158, 0)),
           createTime: S.optional(S.String),
-          rateLimitBuckets: S.optional(__S(5056, __c158, 0)),
+          updateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "RateLimitPolicy" });
   }
@@ -11854,8 +11879,8 @@ function __c159(j: number): any {
         S.Extend(
           __S(5121, __c160, 1),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
             sacAttachmentId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
@@ -11880,16 +11905,16 @@ function __c160(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          country: S.optional(S.String),
           timeZone: S.optional(S.String),
-          nccGateway: S.optional(S.String),
-          sacRealm: S.optional(S.String),
+          symantecOptions: S.optional(__S(5120, __c160, 0)),
+          country: S.optional(S.String),
+          state: S.optional(S.String),
           updateTime: S.optional(S.String),
+          nccGateway: S.optional(S.String),
           createTime: S.optional(S.String),
           name: S.optional(S.String),
+          sacRealm: S.optional(S.String),
           labels: S.optional(__S(32, __c1, 0)),
-          state: S.optional(S.String),
-          symantecOptions: S.optional(__S(5120, __c160, 0)),
         }),
       ).annotate({ identifier: "SACAttachment" });
   }
@@ -11901,8 +11926,8 @@ function __c161(j: number): any {
         S.Extend(
           __S(5186, __c162, 2),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
             sacRealmId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
@@ -11920,28 +11945,28 @@ function __c162(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          secretPath: S.optional(S.String),
-          availableSymantecSites: S.optional(__S(5376, __c168, 0)),
-          symantecConnectionState: S.optional(S.String),
+          expireTime: S.optional(S.String),
+          key: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SACRealmSACRealmSymantecOptions" });
+      ).annotate({ identifier: "SACRealmPairingKey" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          key: S.optional(S.String),
-          expireTime: S.optional(S.String),
+          availableSymantecSites: S.optional(__S(5376, __c168, 0)),
+          symantecConnectionState: S.optional(S.String),
+          secretPath: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SACRealmPairingKey" });
+      ).annotate({ identifier: "SACRealmSACRealmSymantecOptions" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           labels: S.optional(__S(32, __c1, 0)),
-          symantecOptions: S.optional(__S(5184, __c162, 0)),
+          pairingKey: S.optional(__S(5184, __c162, 0)),
+          updateTime: S.optional(S.String),
           name: S.optional(S.String),
+          symantecOptions: S.optional(__S(5185, __c162, 1)),
           state: S.optional(S.String),
           securityService: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          pairingKey: S.optional(__S(5185, __c162, 1)),
           createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "SACRealm" });
@@ -11972,10 +11997,10 @@ function __c164(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(1882, __c58, 26),
+          __S(1884, __c58, 28),
           S.Struct({
-            securityProfileId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            securityProfileId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -11994,8 +12019,8 @@ function __c165(j: number): any {
         S.Extend(
           __S(5313, __c166, 1),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
             serverTlsPolicyId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -12012,23 +12037,23 @@ function __c166(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          clientValidationTrustConfig: S.optional(S.String),
           clientValidationRelaxations: S.optional(__S(64, __c2, 0)),
           clientValidationMode: S.optional(S.String),
           clientValidationCa: S.optional(__S(3843, __c120, 3)),
-          clientValidationTrustConfig: S.optional(S.String),
         }),
       ).annotate({ identifier: "MTLSPolicy" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          serverCertificate: S.optional(__S(3842, __c120, 2)),
-          description: S.optional(S.String),
-          labels: S.optional(__S(32, __c1, 0)),
-          createTime: S.optional(S.String),
-          mtlsPolicy: S.optional(__S(5312, __c166, 0)),
-          allowOpen: S.optional(S.Boolean),
           updateTime: S.optional(S.String),
+          description: S.optional(S.String),
+          mtlsPolicy: S.optional(__S(5312, __c166, 0)),
+          createTime: S.optional(S.String),
           name: S.optional(S.String),
+          serverCertificate: S.optional(__S(3844, __c120, 4)),
+          allowOpen: S.optional(S.Boolean),
+          labels: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "ServerTlsPolicy" });
   }
@@ -12090,11 +12115,11 @@ function __c171(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          response: S.optional(__S(5440, __c170, 0)),
           name: S.optional(S.String),
-          done: S.optional(S.Boolean),
           error: S.optional(__S(5473, __c171, 1)),
           metadata: S.optional(__S(5440, __c170, 0)),
+          response: S.optional(__S(5440, __c170, 0)),
+          done: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -12106,8 +12131,8 @@ function __c172(j: number): any {
         S.Extend(
           __S(5536, __c173, 0),
           S.Struct({
-            tlsInspectionPolicyId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            tlsInspectionPolicyId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -12124,17 +12149,17 @@ function __c173(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          tlsFeatureProfile: S.optional(S.String),
-          minTlsVersion: S.optional(S.String),
-          certificateIssuanceMode: S.optional(S.String),
-          description: S.optional(S.String),
           customTlsFeatures: S.optional(__S(5376, __c168, 0)),
-          caPool: S.optional(S.String),
           trustConfig: S.optional(S.String),
           excludePublicCaSet: S.optional(S.Boolean),
+          createTime: S.optional(S.String),
+          certificateIssuanceMode: S.optional(S.String),
+          description: S.optional(S.String),
+          tlsFeatureProfile: S.optional(S.String),
+          caPool: S.optional(S.String),
+          name: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          minTlsVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "TlsInspectionPolicy" });
   }
@@ -12146,8 +12171,8 @@ function __c174(j: number): any {
         S.Extend(
           __S(5600, __c175, 0),
           S.Struct({
-            urlListId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            urlListId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -12164,11 +12189,11 @@ function __c175(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
           name: S.optional(S.String),
           values: S.optional(__S(5376, __c168, 0)),
-          createTime: S.optional(S.String),
           updateTime: S.optional(S.String),
+          description: S.optional(S.String),
+          createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "UrlList" });
   }
@@ -12178,8 +12203,8 @@ function __c176(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -12262,8 +12287,8 @@ function __c181(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -12295,8 +12320,8 @@ function __c183(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -12380,8 +12405,8 @@ function __c188(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -12397,8 +12422,8 @@ function __c189(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -12480,8 +12505,8 @@ function __c194(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -12556,8 +12581,8 @@ function __c199(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -12625,8 +12650,8 @@ function __c203(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -12660,8 +12685,8 @@ function __c205(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -12794,47 +12819,47 @@ function __c213(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          logType: S.optional(S.String),
-          exemptedMembers: S.optional(__S(5376, __c168, 0)),
-        }),
-      ).annotate({ identifier: "GoogleIamV1AuditLogConfig" });
-    case 1:
-      return S.Array(__S(6816, __c213, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          service: S.optional(S.String),
-          auditLogConfigs: S.optional(__S(6817, __c213, 1)),
-        }),
-      ).annotate({ identifier: "GoogleIamV1AuditConfig" });
-    case 3:
-      return S.Array(__S(6818, __c213, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
+          expression: S.optional(S.String),
+          location: S.optional(S.String),
           description: S.optional(S.String),
           title: S.optional(S.String),
-          location: S.optional(S.String),
-          expression: S.optional(S.String),
         }),
       ).annotate({ identifier: "Expr" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          members: S.optional(__S(5376, __c168, 0)),
+          role: S.optional(S.String),
+          condition: S.optional(__S(6816, __c213, 0)),
+        }),
+      ).annotate({ identifier: "GoogleIamV1Binding" });
+    case 2:
+      return S.Array(__S(6817, __c213, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          exemptedMembers: S.optional(__S(5376, __c168, 0)),
+          logType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleIamV1AuditLogConfig" });
+    case 4:
+      return S.Array(__S(6819, __c213, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          condition: S.optional(__S(6820, __c213, 4)),
-          role: S.optional(S.String),
-          members: S.optional(__S(5376, __c168, 0)),
+          service: S.optional(S.String),
+          auditLogConfigs: S.optional(__S(6820, __c213, 4)),
         }),
-      ).annotate({ identifier: "GoogleIamV1Binding" });
+      ).annotate({ identifier: "GoogleIamV1AuditConfig" });
     case 6:
       return S.Array(__S(6821, __c213, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          version: S.optional(S.Number),
-          auditConfigs: S.optional(__S(6819, __c213, 3)),
           etag: S.optional(S.String),
-          bindings: S.optional(__S(6822, __c213, 6)),
+          version: S.optional(S.Number),
+          bindings: S.optional(__S(6818, __c213, 2)),
+          auditConfigs: S.optional(__S(6822, __c213, 6)),
         }),
       ).annotate({ identifier: "GoogleIamV1Policy" });
   }
@@ -12844,8 +12869,8 @@ function __c214(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+          resource: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12861,8 +12886,8 @@ function __c215(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
           resource: S.String.pipe(T.Label()),
+          "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12878,8 +12903,8 @@ function __c216(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+          resource: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12895,8 +12920,8 @@ function __c217(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+          resource: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -12928,11 +12953,11 @@ function __c219(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(5440, __c170, 0)),
+          locationId: S.optional(S.String),
           name: S.optional(S.String),
+          metadata: S.optional(__S(5440, __c170, 0)),
           displayName: S.optional(S.String),
           labels: S.optional(__S(32, __c1, 0)),
-          locationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -12961,8 +12986,8 @@ function __c221(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sourceAddressGroup: S.optional(S.String),
           requestId: S.optional(S.String),
+          sourceAddressGroup: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloneAddressGroupItemsRequest" });
   }

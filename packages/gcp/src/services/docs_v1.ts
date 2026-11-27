@@ -83,63 +83,21 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** Location at the end of a body, header, footer or footnote. The location is immediately before the last newline in the document segment. */
-export interface EndOfSegmentLocation {
-  /** The ID of the header, footer or footnote the location is in. An empty segment ID signifies the document's body. */
+/** Specifies a contiguous range of text. */
+export interface Range {
+  /** The ID of the header, footer, or footnote that this range is contained in. An empty segment ID signifies the document's body. */
   segmentId?: string | undefined;
-  /** The tab that the location is in. When omitted, the request is applied to the first tab. In a document containing a single tab: - If provided, must match the singular tab's ID. - If omitted, the request applies to the singular tab. In a document containing multiple tabs: - If provided, the request applies to the specified tab. - If omitted, the request applies to the first tab in the document. */
+  /** The tab that contains this range. When omitted, the request applies to the first tab. In a document containing a single tab: - If provided, must match the singular tab's ID. - If omitted, the request applies to the singular tab. In a document containing multiple tabs: - If provided, the request applies to the specified tab. - If omitted, the request applies to the first tab in the document. */
   tabId?: string | undefined;
+  /** The zero-based start index of this range, in UTF-16 code units. In all current uses, a start index must be provided. This field is an Int32Value in order to accommodate future use cases with open-ended ranges. */
+  startIndex?: number | undefined;
+  /** The zero-based end index of this range, exclusive, in UTF-16 code units. In all current uses, an end index must be provided. This field is an Int32Value in order to accommodate future use cases with open-ended ranges. */
+  endIndex?: number | undefined;
 }
-export type DimensionUnitEnum = "UNIT_UNSPECIFIED" | "PT";
-/** A magnitude in a single direction in the specified units. */
-export interface Dimension {
-  /** The units for magnitude. */
-  unit?: DimensionUnitEnum | (string & {}) | undefined;
-  /** The magnitude. */
-  magnitude?: number | undefined;
-}
-/** A width and height. */
-export interface Size {
-  /** The width of the object. */
-  width?: Dimension | undefined;
-  /** The height of the object. */
-  height?: Dimension | undefined;
-}
-/** A particular location in the document. */
-export interface Location {
-  /** The ID of the header, footer or footnote the location is in. An empty segment ID signifies the document's body. */
-  segmentId?: string | undefined;
-  /** The zero-based index, in UTF-16 code units. The index is relative to the beginning of the segment specified by segment_id. */
-  index?: number | undefined;
-  /** The tab that the location is in. When omitted, the request is applied to the first tab. In a document containing a single tab: - If provided, must match the singular tab's ID. - If omitted, the request applies to the singular tab. In a document containing multiple tabs: - If provided, the request applies to the specified tab. - If omitted, the request applies to the first tab in the document. */
-  tabId?: string | undefined;
-}
-/** Inserts an InlineObject containing an image at the given location. */
-export interface InsertInlineImageRequest {
-  /** The image URI. The image is fetched once at insertion time and a copy is stored for display inside the document. Images must be less than 50MB in size, cannot exceed 25 megapixels, and must be in one of PNG, JPEG, or GIF format. The provided URI must be publicly accessible and at most 2 kB in length. The URI itself is saved with the image, and exposed via the ImageProperties.content_uri field. */
-  uri?: string | undefined;
-  /** Inserts the text at the end of a header, footer or the document body. Inline images cannot be inserted inside a footnote. */
-  endOfSegmentLocation?: EndOfSegmentLocation | undefined;
-  /** The size that the image should appear as in the document. This property is optional and the final size of the image in the document is determined by the following rules: * If neither width nor height is specified, then a default size of the image is calculated based on its resolution. * If one dimension is specified then the other dimension is calculated to preserve the aspect ratio of the image. * If both width and height are specified, the image is scaled to fit within the provided dimensions while maintaining its aspect ratio. */
-  objectSize?: Size | undefined;
-  /** Inserts the image at a specific index in the document. The image must be inserted inside the bounds of an existing Paragraph. For instance, it cannot be inserted at a table's start index (i.e. between the table and its preceding paragraph). Inline images cannot be inserted inside a footnote or equation. */
-  location?: Location | undefined;
-}
-/** Location of a single cell within a table. */
-export interface TableCellLocation {
-  /** The zero-based row index. For example, the second row in the table has a row index of 1. */
-  rowIndex?: number | undefined;
-  /** The zero-based column index. For example, the second column in the table has a column index of 1. */
-  columnIndex?: number | undefined;
-  /** The location where the table starts in the document. */
-  tableStartLocation?: Location | undefined;
-}
-/** Inserts an empty column into a table. */
-export interface InsertTableColumnRequest {
-  /** The reference table cell location from which columns will be inserted. A new column will be inserted to the left (or right) of the column where the reference cell is. If the reference cell is a merged cell, a new column will be inserted to the left (or right) of the merged cell. */
-  tableCellLocation?: TableCellLocation | undefined;
-  /** Whether to insert new column to the right of the reference cell location. - `True`: insert to the right. - `False`: insert to the left. */
-  insertRight?: boolean | undefined;
+/** Deletes content from the document. */
+export interface DeleteContentRangeRequest {
+  /** The range of content to delete. Deleting text that crosses a paragraph boundary may result in changes to paragraph styles, lists, positioned objects and bookmarks as the two paragraphs are merged. Attempting to delete certain ranges can result in an invalid document structure in which case a 400 bad request error is returned. Some examples of invalid delete requests include: * Deleting one code unit of a surrogate pair. * Deleting the last newline character of a Body, Header, Footer, Footnote, TableCell or TableOfContents. * Deleting the start or end of a Table, TableOfContents or Equation without deleting the entire element. * Deleting the newline character before a Table, TableOfContents or SectionBreak without deleting the element. * Deleting individual rows or cells of a table. Deleting the content within a table cell is allowed. */
+  range?: Range | undefined;
 }
 export type StringList = Array<string>;
 /** A criteria that specifies in which tabs a request executes. */
@@ -149,52 +107,144 @@ export interface TabsCriteria {
 }
 /** Replaces the contents of the specified NamedRange or NamedRanges with the given replacement content. Note that an individual NamedRange may consist of multiple discontinuous ranges. In this case, only the content in the first range will be replaced. The other ranges and their content will be deleted. In cases where replacing or deleting any ranges would result in an invalid document structure, a 400 bad request error is returned. */
 export interface ReplaceNamedRangeContentRequest {
-  /** Replaces the content of the specified named range(s) with the given text. */
-  text?: string | undefined;
-  /** Optional. The criteria used to specify in which tabs the replacement occurs. When omitted, the replacement applies to all tabs. In a document containing a single tab: - If provided, must match the singular tab's ID. - If omitted, the replacement applies to the singular tab. In a document containing multiple tabs: - If provided, the replacement applies to the specified tabs. - If omitted, the replacement applies to all tabs. */
-  tabsCriteria?: TabsCriteria | undefined;
   /** The name of the NamedRanges whose content will be replaced. If there are multiple named ranges with the given name, then the content of each one will be replaced. If there are no named ranges with the given name, then the request will be a no-op. */
   namedRangeName?: string | undefined;
+  /** Replaces the content of the specified named range(s) with the given text. */
+  text?: string | undefined;
   /** The ID of the named range whose content will be replaced. If there is no named range with the given ID a 400 bad request error is returned. */
   namedRangeId?: string | undefined;
+  /** Optional. The criteria used to specify in which tabs the replacement occurs. When omitted, the replacement applies to all tabs. In a document containing a single tab: - If provided, must match the singular tab's ID. - If omitted, the replacement applies to the singular tab. In a document containing multiple tabs: - If provided, the replacement applies to the specified tabs. - If omitted, the replacement applies to all tabs. */
+  tabsCriteria?: TabsCriteria | undefined;
+}
+/** Deletes a NamedRange. */
+export interface DeleteNamedRangeRequest {
+  /** The ID of the named range to delete. */
+  namedRangeId?: string | undefined;
+  /** Optional. The criteria used to specify which tab(s) the range deletion should occur in. When omitted, the range deletion is applied to all tabs. In a document containing a single tab: - If provided, must match the singular tab's ID. - If omitted, the range deletion applies to the singular tab. In a document containing multiple tabs: - If provided, the range deletion applies to the specified tabs. - If not provided, the range deletion applies to all tabs. */
+  tabsCriteria?: TabsCriteria | undefined;
+  /** The name of the range(s) to delete. All named ranges with the given name will be deleted. */
+  name?: string | undefined;
+}
+/** Deletes a PositionedObject from the document. */
+export interface DeletePositionedObjectRequest {
+  /** The ID of the positioned object to delete. */
+  objectId?: string | undefined;
+  /** The tab that the positioned object to delete is in. When omitted, the request is applied to the first tab. In a document containing a single tab: - If provided, must match the singular tab's ID. - If omitted, the request applies to the singular tab. In a document containing multiple tabs: - If provided, the request applies to the specified tab. - If omitted, the request applies to the first tab in the document. */
+  tabId?: string | undefined;
 }
 /** A criteria that matches a specific string of text in the document. */
 export interface SubstringMatchCriteria {
   /** The text to search for in the document. */
   text?: string | undefined;
-  /** Optional. True if the find value should be treated as a regular expression. Any backslashes in the pattern should be escaped. - `True`: the search text is treated as a regular expressions. - `False`: the search text is treated as a substring for matching. */
-  searchByRegex?: boolean | undefined;
   /** Indicates whether the search should respect case: - `True`: the search is case sensitive. - `False`: the search is case insensitive. */
   matchCase?: boolean | undefined;
+  /** Optional. True if the find value should be treated as a regular expression. Any backslashes in the pattern should be escaped. - `True`: the search text is treated as a regular expressions. - `False`: the search text is treated as a substring for matching. */
+  searchByRegex?: boolean | undefined;
 }
 /** Replaces all instances of text matching a criteria with replace text. */
 export interface ReplaceAllTextRequest {
+  /** Finds text in the document matching this substring. */
+  containsText?: SubstringMatchCriteria | undefined;
   /** Optional. The criteria used to specify in which tabs the replacement occurs. When omitted, the replacement applies to all tabs. In a document containing a single tab: - If provided, must match the singular tab's ID. - If omitted, the replacement applies to the singular tab. In a document containing multiple tabs: - If provided, the replacement applies to the specified tabs. - If omitted, the replacement applies to all tabs. */
   tabsCriteria?: TabsCriteria | undefined;
   /** The text that will replace the matched text. */
   replaceText?: string | undefined;
-  /** Finds text in the document matching this substring. */
-  containsText?: SubstringMatchCriteria | undefined;
+}
+export type CreateHeaderRequestTypeEnum = "HEADER_FOOTER_TYPE_UNSPECIFIED" | "DEFAULT";
+/** A particular location in the document. */
+export interface Location {
+  /** The zero-based index, in UTF-16 code units. The index is relative to the beginning of the segment specified by segment_id. */
+  index?: number | undefined;
+  /** The ID of the header, footer or footnote the location is in. An empty segment ID signifies the document's body. */
+  segmentId?: string | undefined;
+  /** The tab that the location is in. When omitted, the request is applied to the first tab. In a document containing a single tab: - If provided, must match the singular tab's ID. - If omitted, the request applies to the singular tab. In a document containing multiple tabs: - If provided, the request applies to the specified tab. - If omitted, the request applies to the first tab in the document. */
+  tabId?: string | undefined;
+}
+/** Creates a Header. The new header is applied to the SectionStyle at the location of the SectionBreak if specified, otherwise it is applied to the DocumentStyle. If a header of the specified type already exists, a 400 bad request error is returned. */
+export interface CreateHeaderRequest {
+  /** The type of header to create. */
+  type?: CreateHeaderRequestTypeEnum | (string & {}) | undefined;
+  /** The location of the SectionBreak which begins the section this header should belong to. If `section_break_location' is unset or if it refers to the first section break in the document body, the header applies to the DocumentStyle */
+  sectionBreakLocation?: Location | undefined;
+}
+/** Deletes a Footer from the document. */
+export interface DeleteFooterRequest {
+  /** The id of the footer to delete. If this footer is defined on DocumentStyle, the reference to this footer is removed, resulting in no footer of that type for the first section of the document. If this footer is defined on a SectionStyle, the reference to this footer is removed and the footer of that type is now continued from the previous section. */
+  footerId?: string | undefined;
+  /** The tab that contains the footer to delete. When omitted, the request is applied to the first tab. In a document containing a single tab: - If provided, must match the singular tab's ID. - If omitted, the request applies to the singular tab. In a document containing multiple tabs: - If provided, the request applies to the specified tab. - If omitted, the request applies to the first tab in the document. */
+  tabId?: string | undefined;
+}
+export type ReplaceImageRequestImageReplaceMethodEnum =
+  | "IMAGE_REPLACE_METHOD_UNSPECIFIED"
+  | "CENTER_CROP";
+/** Replaces an existing image with a new image. Replacing an image removes some image effects from the existing image in order to mirror the behavior of the Docs editor. */
+export interface ReplaceImageRequest {
+  /** The URI of the new image. The image is fetched once at insertion time and a copy is stored for display inside the document. Images must be less than 50MB, cannot exceed 25 megapixels, and must be in PNG, JPEG, or GIF format. The provided URI can't surpass 2 KB in length. The URI is saved with the image, and exposed through the ImageProperties.source_uri field. */
+  uri?: string | undefined;
+  /** The replacement method. */
+  imageReplaceMethod?: ReplaceImageRequestImageReplaceMethodEnum | (string & {}) | undefined;
+  /** The tab that the image to be replaced is in. When omitted, the request is applied to the first tab. In a document containing a single tab: - If provided, must match the singular tab's ID. - If omitted, the request applies to the singular tab. In a document containing multiple tabs: - If provided, the request applies to the specified tab. - If omitted, the request applies to the first tab in the document. */
+  tabId?: string | undefined;
+  /** The ID of the existing image that will be replaced. The ID can be retrieved from the response of a get request. */
+  imageObjectId?: string | undefined;
+}
+/** Updates a Post in a CommentThread or SuggestionThread. Returns a 400 bad request error if: - The post is the headPost of a SuggestionThread. - The requesting user is not the author of the post. */
+export interface UpdateCommentPostRequest {
+  /** The ID of the CommentThread which the post belongs to. */
+  commentId?: string | undefined;
+  /** The new text of the comment, as plain text. This text content will be handled similarly to comments created in the Docs editor. It will have similar behaviors for formatting, notifications, etc. This field cannot be empty, and must not exceed 2048 UTF-8 code units. */
+  content?: string | undefined;
+  /** The ID of the post being updated. */
+  postId?: string | undefined;
+  /** The ID of the SuggestionThread which the post belongs to. */
+  suggestionId?: string | undefined;
+}
+/** Location at the end of a body, header, footer or footnote. The location is immediately before the last newline in the document segment. */
+export interface EndOfSegmentLocation {
+  /** The tab that the location is in. When omitted, the request is applied to the first tab. In a document containing a single tab: - If provided, must match the singular tab's ID. - If omitted, the request applies to the singular tab. In a document containing multiple tabs: - If provided, the request applies to the specified tab. - If omitted, the request applies to the first tab in the document. */
+  tabId?: string | undefined;
+  /** The ID of the header, footer or footnote the location is in. An empty segment ID signifies the document's body. */
+  segmentId?: string | undefined;
+}
+/** Creates a Footnote segment and inserts a new FootnoteReference to it at the given location. The new Footnote segment will contain a space followed by a newline character. */
+export interface CreateFootnoteRequest {
+  /** Inserts the footnote reference at a specific index in the document. The footnote reference must be inserted inside the bounds of an existing Paragraph. For instance, it cannot be inserted at a table's start index (i.e. between the table and its preceding paragraph). Footnote references cannot be inserted inside an equation, header, footer or footnote. Since footnote references can only be inserted in the body, the segment ID field must be empty. */
+  location?: Location | undefined;
+  /** Inserts the footnote reference at the end of the document body. Footnote references cannot be inserted inside a header, footer or footnote. Since footnote references can only be inserted in the body, the segment ID field must be empty. */
+  endOfSegmentLocation?: EndOfSegmentLocation | undefined;
+}
+/** Deletes a Header from the document. */
+export interface DeleteHeaderRequest {
+  /** The id of the header to delete. If this header is defined on DocumentStyle, the reference to this header is removed, resulting in no header of that type for the first section of the document. If this header is defined on a SectionStyle, the reference to this header is removed and the header of that type is now continued from the previous section. */
+  headerId?: string | undefined;
+  /** The tab containing the header to delete. When omitted, the request is applied to the first tab. In a document containing a single tab: - If provided, must match the singular tab's ID. - If omitted, the request applies to the singular tab. In a document containing multiple tabs: - If provided, the request applies to the specified tab. - If omitted, the request applies to the first tab in the document. */
+  tabId?: string | undefined;
 }
 /** Deletes a CommentThread. Returns a 400 bad request error if the requesting user is not the author of the headPost. */
 export interface DeleteCommentRequest {
   /** The ID of the CommentThread that is being deleted. */
   commentId?: string | undefined;
 }
-export type DocumentFormatDocumentModeEnum = "DOCUMENT_MODE_UNSPECIFIED" | "PAGES" | "PAGELESS";
-/** Represents document-level format settings. */
-export interface DocumentFormat {
-  /** Whether the document has pages or is pageless. */
-  documentMode?: DocumentFormatDocumentModeEnum | (string & {}) | undefined;
+/** Represents a font family and weight of text. */
+export interface WeightedFontFamily {
+  /** The weight of the font. This field can have any value that's a multiple of `100` between `100` and `900`, inclusive. This range corresponds to the numerical values described in the CSS 2.1 Specification, [section 15.6](https://www.w3.org/TR/CSS21/fonts.html#font-boldness), with non-numerical values disallowed. The default value is `400` ("normal"). The font weight makes up just one component of the rendered font weight. A combination of the `weight` and the text style's resolved `bold` value determine the rendered weight, after accounting for inheritance: * If the text is bold and the weight is less than `400`, the rendered weight is 400. * If the text is bold and the weight is greater than or equal to `400` but is less than `700`, the rendered weight is `700`. * If the weight is greater than or equal to `700`, the rendered weight is equal to the weight. * If the text is not bold, the rendered weight is equal to the weight. */
+  weight?: number | undefined;
+  /** The font family of the text. The font family can be any font from the Font menu in Docs or from [Google Fonts] (https://fonts.google.com/). If the font name is unrecognized, the text is rendered in `Arial`. */
+  fontFamily?: string | undefined;
 }
+export type TextStyleBaselineOffsetEnum =
+  | "BASELINE_OFFSET_UNSPECIFIED"
+  | "NONE"
+  | "SUPERSCRIPT"
+  | "SUBSCRIPT";
 /** An RGB color. */
 export interface RgbColor {
-  /** The green component of the color, from 0.0 to 1.0. */
-  green?: number | undefined;
-  /** The red component of the color, from 0.0 to 1.0. */
-  red?: number | undefined;
   /** The blue component of the color, from 0.0 to 1.0. */
   blue?: number | undefined;
+  /** The red component of the color, from 0.0 to 1.0. */
+  red?: number | undefined;
+  /** The green component of the color, from 0.0 to 1.0. */
+  green?: number | undefined;
 }
 /** A solid color. */
 export interface Color {
@@ -206,91 +256,6 @@ export interface OptionalColor {
   /** If set, this will be used as an opaque color. If unset, this represents a transparent color. */
   color?: Color | undefined;
 }
-/** Represents the background of a document. */
-export interface Background {
-  /** The background color. */
-  color?: OptionalColor | undefined;
-}
-/** The style of the document. */
-export interface DocumentStyle {
-  /** Specifies document-level format settings, such as the document mode (pages vs pageless). */
-  documentFormat?: DocumentFormat | undefined;
-  /** The ID of the header used only for the first page. If not set then a unique header for the first page does not exist. The value of use_first_page_header_footer determines whether to use the default_header_id or this value for the header on the first page. If not set, there's no first page header. If DocumentMode is PAGELESS, this property will not be rendered. This property is read-only. */
-  firstPageHeaderId?: string | undefined;
-  /** The ID of the header used only for even pages. The value of use_even_page_header_footer determines whether to use the default_header_id or this value for the header on even pages. If not set, there's no even page header. If DocumentMode is PAGELESS, this property will not be rendered. This property is read-only. */
-  evenPageHeaderId?: string | undefined;
-  /** Indicates whether to use the even page header / footer IDs for the even pages. If DocumentMode is PAGELESS, this property will not be rendered. */
-  useEvenPageHeaderFooter?: boolean | undefined;
-  /** Optional. Indicates whether to flip the dimensions of the page_size, which allows changing the page orientation between portrait and landscape. If DocumentMode is PAGELESS, this property will not be rendered. */
-  flipPageOrientation?: boolean | undefined;
-  /** The left page margin. Updating the left page margin on the document style clears the left page margin on all section styles. It may also cause columns to resize in all sections. If DocumentMode is PAGELESS, this property will not be rendered. */
-  marginLeft?: Dimension | undefined;
-  /** The right page margin. Updating the right page margin on the document style clears the right page margin on all section styles. It may also cause columns to resize in all sections. If DocumentMode is PAGELESS, this property will not be rendered. */
-  marginRight?: Dimension | undefined;
-  /** The bottom page margin. Updating the bottom page margin on the document style clears the bottom page margin on all section styles. If DocumentMode is PAGELESS, this property will not be rendered. */
-  marginBottom?: Dimension | undefined;
-  /** Indicates whether to use the first page header / footer IDs for the first page. If DocumentMode is PAGELESS, this property will not be rendered. */
-  useFirstPageHeaderFooter?: boolean | undefined;
-  /** The ID of the footer used only for the first page. If not set then a unique footer for the first page does not exist. The value of use_first_page_header_footer determines whether to use the default_footer_id or this value for the footer on the first page. If not set, there's no first page footer. If DocumentMode is PAGELESS, this property will not be rendered. This property is read-only. */
-  firstPageFooterId?: string | undefined;
-  /** The amount of space between the bottom of the page and the contents of the footer. If DocumentMode is PAGELESS, this property will not be rendered. */
-  marginFooter?: Dimension | undefined;
-  /** The size of a page in the document. If DocumentMode is PAGELESS, this property will not be rendered. */
-  pageSize?: Size | undefined;
-  /** The background of the document. Documents cannot have a transparent background color. */
-  background?: Background | undefined;
-  /** The ID of the footer used only for even pages. The value of use_even_page_header_footer determines whether to use the default_footer_id or this value for the footer on even pages. If not set, there's no even page footer. If DocumentMode is PAGELESS, this property will not be rendered. This property is read-only. */
-  evenPageFooterId?: string | undefined;
-  /** Indicates whether DocumentStyle margin_header, SectionStyle margin_header and DocumentStyle margin_footer, SectionStyle margin_footer are respected. When false, the default values in the Docs editor for header and footer margin is used. If DocumentMode is PAGELESS, this property will not be rendered. This property is read-only. */
-  useCustomHeaderFooterMargins?: boolean | undefined;
-  /** The ID of the default header. If not set, there's no default header. If DocumentMode is PAGELESS, this property will not be rendered. This property is read-only. */
-  defaultHeaderId?: string | undefined;
-  /** The ID of the default footer. If not set, there's no default footer. If DocumentMode is PAGELESS, this property will not be rendered. This property is read-only. */
-  defaultFooterId?: string | undefined;
-  /** The amount of space between the top of the page and the contents of the header. If DocumentMode is PAGELESS, this property will not be rendered. */
-  marginHeader?: Dimension | undefined;
-  /** The top page margin. Updating the top page margin on the document style clears the top page margin on all section styles. If DocumentMode is PAGELESS, this property will not be rendered. */
-  marginTop?: Dimension | undefined;
-  /** The page number from which to start counting the number of pages. If DocumentMode is PAGELESS, this property will not be rendered. */
-  pageNumberStart?: number | undefined;
-}
-/** Updates the DocumentStyle. */
-export interface UpdateDocumentStyleRequest {
-  /** The tab that contains the style to update. When omitted, the request applies to the first tab. In a document containing a single tab: - If provided, must match the singular tab's ID. - If omitted, the request applies to the singular tab. In a document containing multiple tabs: - If provided, the request applies to the specified tab. - If not provided, the request applies to the first tab in the document. */
-  tabId?: string | undefined;
-  /** The styles to set on the document. Certain document style changes may cause other changes in order to mirror the behavior of the Docs editor. See the documentation of DocumentStyle for more information. */
-  documentStyle?: DocumentStyle | undefined;
-  /** The fields that should be updated. At least one field must be specified. The root `document_style` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the background, set `fields` to `"background"`. */
-  fields?: string | undefined;
-}
-export type IntegerList = Array<number>;
-export type TableColumnPropertiesWidthTypeEnum =
-  | "WIDTH_TYPE_UNSPECIFIED"
-  | "EVENLY_DISTRIBUTED"
-  | "FIXED_WIDTH";
-/** The properties of a column in a table. */
-export interface TableColumnProperties {
-  /** The width of the column. Set when the column's `width_type` is FIXED_WIDTH. */
-  width?: Dimension | undefined;
-  /** The width type of the column. */
-  widthType?: TableColumnPropertiesWidthTypeEnum | (string & {}) | undefined;
-}
-/** Updates the TableColumnProperties of columns in a table. */
-export interface UpdateTableColumnPropertiesRequest {
-  /** The list of zero-based column indices whose property should be updated. If no indices are specified, all columns will be updated. */
-  columnIndices?: IntegerList | undefined;
-  /** The fields that should be updated. At least one field must be specified. The root `tableColumnProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the column width, set `fields` to `"width"`. */
-  fields?: string | undefined;
-  /** The location where the table starts in the document. */
-  tableStartLocation?: Location | undefined;
-  /** The table column properties to update. If the value of `table_column_properties#width` is less than 5 points (5/72 inch), a 400 bad request error is returned. */
-  tableColumnProperties?: TableColumnProperties | undefined;
-}
-export type TextStyleBaselineOffsetEnum =
-  | "BASELINE_OFFSET_UNSPECIFIED"
-  | "NONE"
-  | "SUPERSCRIPT"
-  | "SUBSCRIPT";
 /** A reference to a heading in this document. */
 export interface HeadingLink {
   /** The ID of a heading in this document. */
@@ -300,66 +265,167 @@ export interface HeadingLink {
 }
 /** A reference to a bookmark in this document. */
 export interface BookmarkLink {
-  /** The ID of the tab containing this bookmark. */
-  tabId?: string | undefined;
   /** The ID of a bookmark in this document. */
   id?: string | undefined;
+  /** The ID of the tab containing this bookmark. */
+  tabId?: string | undefined;
 }
 /** A reference to another portion of a document or an external URL resource. */
 export interface Link {
-  /** The ID of a heading in this document. Legacy field: Instead, set includeTabsContent to `true` and use Link.heading for read and write operations. This field is only returned when includeTabsContent is set to `false` in documents containing a single tab and links to a heading within the singular tab. Otherwise, Link.heading is returned. If this field is used in a write request, the heading is considered to be from the tab ID specified in the request. If a tab ID is not specified in the request, it is considered to be from the first tab in the document. */
-  headingId?: string | undefined;
-  /** An external URL. */
-  url?: string | undefined;
   /** A heading in this document. In documents containing a single tab, links to headings within the singular tab continue to return Link.headingId when the includeTabsContent parameter is set to `false` or unset. Otherwise, this field is returned. */
   heading?: HeadingLink | undefined;
-  /** The ID of a tab in this document. */
-  tabId?: string | undefined;
   /** The ID of a bookmark in this document. Legacy field: Instead, set includeTabsContent to `true` and use Link.bookmark for read and write operations. This field is only returned when includeTabsContent is set to `false` in documents containing a single tab and links to a bookmark within the singular tab. Otherwise, Link.bookmark is returned. If this field is used in a write request, the bookmark is considered to be from the tab ID specified in the request. If a tab ID is not specified in the request, it is considered to be from the first tab in the document. */
   bookmarkId?: string | undefined;
   /** A bookmark in this document. In documents containing a single tab, links to bookmarks within the singular tab continue to return Link.bookmarkId when the includeTabsContent parameter is set to `false` or unset. Otherwise, this field is returned. */
   bookmark?: BookmarkLink | undefined;
+  /** An external URL. */
+  url?: string | undefined;
+  /** The ID of a heading in this document. Legacy field: Instead, set includeTabsContent to `true` and use Link.heading for read and write operations. This field is only returned when includeTabsContent is set to `false` in documents containing a single tab and links to a heading within the singular tab. Otherwise, Link.heading is returned. If this field is used in a write request, the heading is considered to be from the tab ID specified in the request. If a tab ID is not specified in the request, it is considered to be from the first tab in the document. */
+  headingId?: string | undefined;
+  /** The ID of a tab in this document. */
+  tabId?: string | undefined;
 }
-/** Represents a font family and weight of text. */
-export interface WeightedFontFamily {
-  /** The font family of the text. The font family can be any font from the Font menu in Docs or from [Google Fonts] (https://fonts.google.com/). If the font name is unrecognized, the text is rendered in `Arial`. */
-  fontFamily?: string | undefined;
-  /** The weight of the font. This field can have any value that's a multiple of `100` between `100` and `900`, inclusive. This range corresponds to the numerical values described in the CSS 2.1 Specification, [section 15.6](https://www.w3.org/TR/CSS21/fonts.html#font-boldness), with non-numerical values disallowed. The default value is `400` ("normal"). The font weight makes up just one component of the rendered font weight. A combination of the `weight` and the text style's resolved `bold` value determine the rendered weight, after accounting for inheritance: * If the text is bold and the weight is less than `400`, the rendered weight is 400. * If the text is bold and the weight is greater than or equal to `400` but is less than `700`, the rendered weight is `700`. * If the weight is greater than or equal to `700`, the rendered weight is equal to the weight. * If the text is not bold, the rendered weight is equal to the weight. */
-  weight?: number | undefined;
+export type DimensionUnitEnum = "UNIT_UNSPECIFIED" | "PT";
+/** A magnitude in a single direction in the specified units. */
+export interface Dimension {
+  /** The units for magnitude. */
+  unit?: DimensionUnitEnum | (string & {}) | undefined;
+  /** The magnitude. */
+  magnitude?: number | undefined;
 }
 /** Represents the styling that can be applied to text. Inherited text styles are represented as unset fields in this message. A text style's parent depends on where the text style is defined: * The TextStyle of text in a Paragraph inherits from the paragraph's corresponding named style type. * The TextStyle on a named style inherits from the normal text named style. * The TextStyle of the normal text named style inherits from the default text style in the Docs editor. * The TextStyle on a Paragraph element that's contained in a table may inherit its text style from the table style. If the text style does not inherit from a parent, unsetting fields will revert the style to a value matching the defaults in the Docs editor. */
 export interface TextStyle {
-  /** Whether or not the text is rendered as bold. */
-  bold?: boolean | undefined;
-  /** Whether or not the text is in small capital letters. */
-  smallCaps?: boolean | undefined;
-  /** The foreground color of the text. If set, the color is either an RGB color or transparent, depending on the `color` field. */
-  foregroundColor?: OptionalColor | undefined;
-  /** The text's vertical offset from its normal position. Text with `SUPERSCRIPT` or `SUBSCRIPT` baseline offsets is automatically rendered in a smaller font size, computed based on the `font_size` field. Changes in this field don't affect the `font_size`. */
-  baselineOffset?: TextStyleBaselineOffsetEnum | (string & {}) | undefined;
-  /** Whether or not the text is underlined. */
-  underline?: boolean | undefined;
-  /** The hyperlink destination of the text. If unset, there's no link. Links are not inherited from parent text. Changing the link in an update request causes some other changes to the text style of the range: * When setting a link, the text foreground color will be updated to the default link color and the text will be underlined. If these fields are modified in the same request, those values will be used instead of the link defaults. * Setting a link on a text range that overlaps with an existing link will also update the existing link to point to the new URL. * Links are not settable on newline characters. As a result, setting a link on a text range that crosses a paragraph boundary, such as `"ABC\n123"`, will separate the newline character(s) into their own text runs. The link will be applied separately to the runs before and after the newline. * Removing a link will update the text style of the range to match the style of the preceding text (or the default text styles if the preceding text is another link) unless different styles are being set in the same request. */
-  link?: Link | undefined;
   /** The font family and rendered weight of the text. If an update request specifies values for both `weighted_font_family` and `bold`, the `weighted_font_family` is applied first, then `bold`. If `weighted_font_family#weight` is not set, it defaults to `400`. If `weighted_font_family` is set, then `weighted_font_family#font_family` must also be set with a non-empty value. Otherwise, a 400 bad request error is returned. */
   weightedFontFamily?: WeightedFontFamily | undefined;
-  /** Whether or not the text is struck through. */
-  strikethrough?: boolean | undefined;
-  /** Whether or not the text is italicized. */
-  italic?: boolean | undefined;
-  /** The size of the text's font. */
-  fontSize?: Dimension | undefined;
+  /** The text's vertical offset from its normal position. Text with `SUPERSCRIPT` or `SUBSCRIPT` baseline offsets is automatically rendered in a smaller font size, computed based on the `font_size` field. Changes in this field don't affect the `font_size`. */
+  baselineOffset?: TextStyleBaselineOffsetEnum | (string & {}) | undefined;
   /** The background color of the text. If set, the color is either an RGB color or transparent, depending on the `color` field. */
   backgroundColor?: OptionalColor | undefined;
+  /** The hyperlink destination of the text. If unset, there's no link. Links are not inherited from parent text. Changing the link in an update request causes some other changes to the text style of the range: * When setting a link, the text foreground color will be updated to the default link color and the text will be underlined. If these fields are modified in the same request, those values will be used instead of the link defaults. * Setting a link on a text range that overlaps with an existing link will also update the existing link to point to the new URL. * Links are not settable on newline characters. As a result, setting a link on a text range that crosses a paragraph boundary, such as `"ABC\n123"`, will separate the newline character(s) into their own text runs. The link will be applied separately to the runs before and after the newline. * Removing a link will update the text style of the range to match the style of the preceding text (or the default text styles if the preceding text is another link) unless different styles are being set in the same request. */
+  link?: Link | undefined;
+  /** Whether or not the text is in small capital letters. */
+  smallCaps?: boolean | undefined;
+  /** The size of the text's font. */
+  fontSize?: Dimension | undefined;
+  /** Whether or not the text is italicized. */
+  italic?: boolean | undefined;
+  /** The foreground color of the text. If set, the color is either an RGB color or transparent, depending on the `color` field. */
+  foregroundColor?: OptionalColor | undefined;
+  /** Whether or not the text is struck through. */
+  strikethrough?: boolean | undefined;
+  /** Whether or not the text is rendered as bold. */
+  bold?: boolean | undefined;
+  /** Whether or not the text is underlined. */
+  underline?: boolean | undefined;
+}
+/** Update the styling of text. */
+export interface UpdateTextStyleRequest {
+  /** The styles to set on the text. If the value for a particular style matches that of the parent, that style will be set to inherit. Certain text style changes may cause other changes in order to to mirror the behavior of the Docs editor. See the documentation of TextStyle for more information. */
+  textStyle?: TextStyle | undefined;
+  /** The fields that should be updated. At least one field must be specified. The root `text_style` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example, to update the text style to bold, set `fields` to `"bold"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
+  fields?: string | undefined;
+  /** The range of text to style. The range may be extended to include adjacent newlines. If the range fully contains a paragraph belonging to a list, the paragraph's bullet is also updated with the matching text style. Ranges cannot be inserted inside a relative UpdateTextStyleRequest. */
+  range?: Range | undefined;
+}
+/** Inserts a page break followed by a newline at the specified location. */
+export interface InsertPageBreakRequest {
+  /** Inserts the page break at the end of the document body. Page breaks cannot be inserted inside a footnote, header or footer. Since page breaks can only be inserted inside the body, the segment ID field must be empty. */
+  endOfSegmentLocation?: EndOfSegmentLocation | undefined;
+  /** Inserts the page break at a specific index in the document. The page break must be inserted inside the bounds of an existing Paragraph. For instance, it cannot be inserted at a table's start index (i.e. between the table and its preceding paragraph). Page breaks cannot be inserted inside a table, equation, footnote, header or footer. Since page breaks can only be inserted inside the body, the segment ID field must be empty. */
+  location?: Location | undefined;
+}
+/** Creates a NamedRange referencing the given range. */
+export interface CreateNamedRangeRequest {
+  /** The range to apply the name to. */
+  range?: Range | undefined;
+  /** The name of the NamedRange. Names do not need to be unique. Names must be at least 1 character and no more than 256 characters, measured in UTF-16 code units. */
+  name?: string | undefined;
+}
+/** Deletes a DropdownDefinition. If the dropdown definition is referenced by any dropdown instances (chips) in the document, a 400 bad request error is returned. */
+export interface DeleteDropdownDefinitionRequest {
+  /** The ID of the DropdownDefinition to delete. */
+  dropdownDefinitionId?: string | undefined;
+  /** The ID of the tab that contains the dropdown definition to delete. When omitted, the request is applied to the first tab. In a document containing a single tab: - If provided, must match the singular tab's ID. - If omitted, the request applies to the singular tab. In a document containing multiple tabs: - If provided, the request applies to the specified tab. - If omitted, the request applies to the first tab in the document. */
+  tabId?: string | undefined;
+}
+/** Properties specific to a RichLink. */
+export interface RichLinkProperties {
+  /** The title of the RichLink as displayed in the link. This title matches the title of the linked resource at the time of the insertion or last update of the link. This field is always present. */
+  title?: string | undefined;
+  /** The URI to the RichLink. This is always present. */
+  uri?: string | undefined;
+  /** The [MIME type](https://developers.google.com/drive/api/v3/mime-types) of the RichLink, if there's one (for example, when it's a file in Drive). */
+  mimeType?: string | undefined;
+}
+/** Inserts a RichLink at the specified location. */
+export interface InsertRichLinkRequest {
+  /** The properties of the rich link to insert. */
+  richLinkProperties?: RichLinkProperties | undefined;
+  /** Inserts the rich link at a specific index in the document. The rich link must be inserted inside the bounds of an existing Paragraph. For instance, it cannot be inserted at a table's start index (i.e. between the table and its preceding paragraph). The rich link cannot be inserted inside an equation. */
+  location?: Location | undefined;
+  /** Inserts the rich link at the end of a header, footer, footnote or the document body. */
+  endOfSegmentLocation?: EndOfSegmentLocation | undefined;
+}
+/** Location of a single cell within a table. */
+export interface TableCellLocation {
+  /** The zero-based row index. For example, the second row in the table has a row index of 1. */
+  rowIndex?: number | undefined;
+  /** The location where the table starts in the document. */
+  tableStartLocation?: Location | undefined;
+  /** The zero-based column index. For example, the second column in the table has a column index of 1. */
+  columnIndex?: number | undefined;
+}
+/** Inserts an empty row into a table. */
+export interface InsertTableRowRequest {
+  /** Whether to insert new row below the reference cell location. - `True`: insert below the cell. - `False`: insert above the cell. */
+  insertBelow?: boolean | undefined;
+  /** The reference table cell location from which rows will be inserted. A new row will be inserted above (or below) the row where the reference cell is. If the reference cell is a merged cell, a new row will be inserted above (or below) the merged cell. */
+  tableCellLocation?: TableCellLocation | undefined;
+}
+export type DateElementPropertiesDateFormatEnum =
+  | "DATE_FORMAT_UNSPECIFIED"
+  | "DATE_FORMAT_CUSTOM"
+  | "DATE_FORMAT_MONTH_DAY_ABBREVIATED"
+  | "DATE_FORMAT_MONTH_DAY_FULL"
+  | "DATE_FORMAT_MONTH_DAY_YEAR_ABBREVIATED"
+  | "DATE_FORMAT_ISO8601";
+export type DateElementPropertiesTimeFormatEnum =
+  | "TIME_FORMAT_UNSPECIFIED"
+  | "TIME_FORMAT_DISABLED"
+  | "TIME_FORMAT_HOUR_MINUTE"
+  | "TIME_FORMAT_HOUR_MINUTE_TIMEZONE";
+/** Properties of a DateElement. */
+export interface DateElementProperties {
+  /** Determines how the date part of the DateElement will be displayed in the document. If unset, the default value is DATE_FORMAT_MONTH_DAY_YEAR_ABBREVIATED, indicating the DateElement will be formatted as `MMM d, y` in `en`, or locale specific equivalent. */
+  dateFormat?: DateElementPropertiesDateFormatEnum | (string & {}) | undefined;
+  /** Determines how the time part of the DateElement will be displayed in the document. If unset, the default value is TIME_FORMAT_DISABLED, indicating no time should be shown. */
+  timeFormat?: DateElementPropertiesTimeFormatEnum | (string & {}) | undefined;
+  /** The language code of the DateElement. For example, `en`. If unset, the default locale is `en`. Limited to the following locales: `af`, `am`, `ar`, `as`, `az`, `be`, `bg`, `bn`, `ca`, `cs`, `da`, `de`, `el`, `en`, `en-CA`, `en-GB`, `es`, `es-419`, `et`, `eu`, `fa`, `fi`, `fil`, `fr`, `fr-CA`, `gl`, `gu`, `hi`, `hr`, `hu`, `hy`, `id`, `is`, `it`, `iw`, `ja`, `ka`, `kk`, `km`, `kn`, `ko`, `lo`, `lt`, `lv`, `mk`, `ml`, `mn`, `mr`, `ms`, `ne`, `nl`, `no`, `or`, `pa`, `pl`, `pt-BR`, `pt-PT`, `ro`, `ru`, `si`, `sk`, `sl`, `sq`, `sr`, `sv`, `sw`, `ta`, `te`, `th`, `tr`, `uk`, `ur`, `uz`, `vi`, `zh-CN`, `zh-HK`, `zh-TW`, `zu`, `cy`, `my`. */
+  locale?: string | undefined;
+  /** The point in time to represent, in seconds and nanoseconds since Unix epoch: January 1, 1970 at midnight UTC. Timestamp is expected to be in UTC. If time_zone_id is set, the timestamp is adjusted according to the time zone. For example, a timestamp of `18000` with a date format of `DATE_FORMAT_ISO8601` and time format of `TIME_FORMAT_HOUR_MINUTE` would be displayed as `1970-01-01 5:00 AM`. A timestamp of `18000` with date format of `DATE_FORMAT_ISO8601`, time format of `TIME_FORMAT_HOUR_MINUTE`, and time zone set to `America/New_York` will instead be `1970-01-01 12:00 AM`. */
+  timestamp?: string | undefined;
+  /** The time zone of the DateElement, as defined by the Unicode Common Locale Data Repository (CLDR) project. For example, `America/New_York`. If unset, the default time zone is `etc/UTC`. */
+  timeZoneId?: string | undefined;
+  /** Output only. Indicates how the DateElement is displayed in the document. */
+  displayText?: string | undefined;
+}
+/** Inserts a date at the specified location. */
+export interface InsertDateRequest {
+  /** The properties of the date to insert. */
+  dateElementProperties?: DateElementProperties | undefined;
+  /** Inserts the date at a specific index in the document. The date must be inserted inside the bounds of an existing Paragraph. For instance, it cannot be inserted at a table's start index (i.e. between an existing table and its preceding paragraph). */
+  location?: Location | undefined;
+  /** Inserts the date at the end of the given header, footer or document body. */
+  endOfSegmentLocation?: EndOfSegmentLocation | undefined;
 }
 /** An option in a Dropdown. */
 export interface DropdownOption {
-  /** The text style of this dropdown option. Currently, only the `foreground_color` and `background_color` properties are supported. If other properties are set, a 400 bad request error is returned. */
-  textStyle?: TextStyle | undefined;
-  /** The ID of this dropdown option. If you specify an ID, it must be unique among all options in this dropdown definition. The ID must start with `dropdownItem.` and match regex `^dropdownItem\.[a-zA-Z0-9_-]{2,14}$` (length 15-27 chars). If you don't specify an ID, a unique one is generated. */
-  optionId?: string | undefined;
   /** The display value of this dropdown option. */
   displayValue?: string | undefined;
+  /** The ID of this dropdown option. If you specify an ID, it must be unique among all options in this dropdown definition. The ID must start with `dropdownItem.` and match regex `^dropdownItem\.[a-zA-Z0-9_-]{2,14}$` (length 15-27 chars). If you don't specify an ID, a unique one is generated. */
+  optionId?: string | undefined;
+  /** The text style of this dropdown option. Currently, only the `foreground_color` and `background_color` properties are supported. If other properties are set, a 400 bad request error is returned. */
+  textStyle?: TextStyle | undefined;
 }
 export type DropdownOptionList = Array<DropdownOption>;
 /** Properties of a dropdown definition. */
@@ -368,6 +434,516 @@ export interface DropdownDefinitionProperties {
   title?: string | undefined;
   /** The list of options defined by this dropdown definition. A dropdown definition must have at least 2 options and at most 50 options. */
   options?: DropdownOptionList | undefined;
+}
+export type StringMap = { [key: string]: string | undefined };
+/** Updates the properties of a DropdownDefinition. */
+export interface UpdateDropdownDefinitionPropertiesRequest {
+  /** The properties to update. */
+  dropdownDefinitionProperties?: DropdownDefinitionProperties | undefined;
+  /** A map of option IDs to their replacements, used to automatically reassign orphaned Dropdown chips when an option is deleted. The keys are the IDs of the options being deleted, and the values are the IDs of their replacement options. If an option being deleted is selected in one or more Dropdown chips in the document, a replacement entry for that option must be provided in this map, and the replacement option ID must exist in the updated DropdownDefinition. If a replacement is required but not provided, a 400 bad request error is returned. Options being deleted that are not selected in any Dropdown chips do not require a replacement. For example, if option A is being replaced by option B, the map should be `{"A": "B"}`. */
+  selectedOptionIdReplacements?: StringMap | undefined;
+  /** The ID of the DropdownDefinition to update. */
+  dropdownDefinitionId?: string | undefined;
+  /** The ID of the tab that contains the dropdown definition to update. When omitted, the request is applied to the first tab. In a document containing a single tab: - If provided, must match the singular tab's ID. - If omitted, the request applies to the singular tab. In a document containing multiple tabs: - If provided, the request applies to the specified tab. - If omitted, the request applies to the first tab in the document. */
+  tabId?: string | undefined;
+  /** The fields that should be updated. At least one field must be specified. The root `dropdown_definition_properties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. When `dropdown_definition_properties.options` is included in the field mask, the full, complete list of desired options must be provided in `dropdown_definition_properties.options`. */
+  fields?: string | undefined;
+}
+export type PostCommentActionEnum =
+  | "COMMENT_ACTION_TYPE_UNSPECIFIED"
+  | "NO_COMMENT_ACTION_CHANGE"
+  | "RESOLVE"
+  | "REOPEN";
+export type PostSuggestionActionEnum =
+  | "SUGGESTION_ACTION_TYPE_UNSPECIFIED"
+  | "NO_SUGGESTION_ACTION_CHANGE"
+  | "ACCEPT"
+  | "REJECT";
+/** Represents a user who authored a comment or suggestion post. */
+export interface PostAuthor {
+  /** Whether the user is the authenticated user making the request. */
+  me?: boolean | undefined;
+  /** The resource name of the post author user, which can also be used to identify the user in the [Google People API](https://developers.google.com/people/api/rest/v1/people). Format: `users/{user}`. Will not be populated if the anonymous field is `true` or if the post is from an imported document. */
+  user?: string | undefined;
+  /** The display name of the user. May be absent if the author is anonymous. */
+  displayName?: string | undefined;
+  /** Whether the user is anonymous. */
+  anonymous?: boolean | undefined;
+}
+/** Represents a single post in a comment or suggestion thread. */
+export interface Post {
+  /** Output only. The time the post was created. */
+  createTime?: string | undefined;
+  /** Optional. The email of the user who is being newly assigned to the thread as part of this post. Returns a 400 bad request error if: - The parent thread is a CommentThread whose headPost does not have an assignee. - The parent thread is a SuggestionThread. - commentAction is specified as `RESOLVE` or `REOPEN`. - `assigneeEmail` exceeds 2048 UTF-8 code units. */
+  assigneeEmail?: string | undefined;
+  /** Output only. Whether the post is deleted. If `true`, content and author fields will be empty. */
+  deleted?: boolean | undefined;
+  /** Optional. The action type for comment posts. */
+  commentAction?: PostCommentActionEnum | (string & {}) | undefined;
+  /** Output only. Whether the post is from an imported document. This field cannot be set directly by callers. */
+  fromImportedDocument?: boolean | undefined;
+  /** The content of the post. Required to be non-empty if commentAction is not `RESOLVE` or `REOPEN`. This text content will be handled similarly to comments created in the Docs editor. It will have similar behaviors for formatting, notifications, etc. May not exceed 2048 UTF-8 code units. */
+  content?: string | undefined;
+  /** Output only. Whether the post is from a document comparison. This field cannot be set directly by callers. */
+  fromDocumentComparison?: boolean | undefined;
+  /** Output only. The time the post was last updated. */
+  updateTime?: string | undefined;
+  /** Output only. The unique ID of the post. */
+  postId?: string | undefined;
+  /** Output only. The content of the post as HTML. */
+  contentHtml?: string | undefined;
+  /** Output only. The action type for suggestion posts. */
+  suggestionAction?: PostSuggestionActionEnum | (string & {}) | undefined;
+  /** Output only. The user who created the post. */
+  author?: PostAuthor | undefined;
+  /** Output only. Whether the post is from a copied document. This field cannot be set directly by callers. */
+  fromCopiedDocument?: boolean | undefined;
+}
+/** Inserts a reply Post into a CommentThread or SuggestionThread. */
+export interface AddCommentReplyRequest {
+  /** The ID of the SuggestionThread to add the reply to. */
+  suggestionId?: string | undefined;
+  /** The ID of the CommentThread to add the reply to. */
+  commentId?: string | undefined;
+  /** The Post representing the reply. */
+  post?: Post | undefined;
+}
+/** Deletes a row from a table. */
+export interface DeleteTableRowRequest {
+  /** The reference table cell location from which the row will be deleted. The row this cell spans will be deleted. If this is a merged cell that spans multiple rows, all rows that the cell spans will be deleted. If no rows remain in the table after this deletion, the whole table is deleted. */
+  tableCellLocation?: TableCellLocation | undefined;
+}
+/** Deletes a reply Post from a CommentThread or SuggestionThread. Returns a 400 bad request error if: - The requesting user is not the author of the post. - The reply post contains an action. - The reply post contains an assignee. */
+export interface DeleteCommentReplyRequest {
+  /** The ID of the CommentThread which the post belongs to. */
+  commentId?: string | undefined;
+  /** The ID of the SuggestionThread which the post belongs to. */
+  suggestionId?: string | undefined;
+  /** The ID of the reply Post being deleted. */
+  postId?: string | undefined;
+}
+/** A width and height. */
+export interface Size {
+  /** The width of the object. */
+  width?: Dimension | undefined;
+  /** The height of the object. */
+  height?: Dimension | undefined;
+}
+/** Represents the background of a document. */
+export interface Background {
+  /** The background color. */
+  color?: OptionalColor | undefined;
+}
+export type DocumentFormatDocumentModeEnum = "DOCUMENT_MODE_UNSPECIFIED" | "PAGES" | "PAGELESS";
+/** Represents document-level format settings. */
+export interface DocumentFormat {
+  /** Whether the document has pages or is pageless. */
+  documentMode?: DocumentFormatDocumentModeEnum | (string & {}) | undefined;
+}
+/** The style of the document. */
+export interface DocumentStyle {
+  /** The left page margin. Updating the left page margin on the document style clears the left page margin on all section styles. It may also cause columns to resize in all sections. If DocumentMode is PAGELESS, this property will not be rendered. */
+  marginLeft?: Dimension | undefined;
+  /** The amount of space between the bottom of the page and the contents of the footer. If DocumentMode is PAGELESS, this property will not be rendered. */
+  marginFooter?: Dimension | undefined;
+  /** The ID of the footer used only for even pages. The value of use_even_page_header_footer determines whether to use the default_footer_id or this value for the footer on even pages. If not set, there's no even page footer. If DocumentMode is PAGELESS, this property will not be rendered. This property is read-only. */
+  evenPageFooterId?: string | undefined;
+  /** The ID of the default header. If not set, there's no default header. If DocumentMode is PAGELESS, this property will not be rendered. This property is read-only. */
+  defaultHeaderId?: string | undefined;
+  /** Indicates whether to use the first page header / footer IDs for the first page. If DocumentMode is PAGELESS, this property will not be rendered. */
+  useFirstPageHeaderFooter?: boolean | undefined;
+  /** The ID of the header used only for even pages. The value of use_even_page_header_footer determines whether to use the default_header_id or this value for the header on even pages. If not set, there's no even page header. If DocumentMode is PAGELESS, this property will not be rendered. This property is read-only. */
+  evenPageHeaderId?: string | undefined;
+  /** Indicates whether DocumentStyle margin_header, SectionStyle margin_header and DocumentStyle margin_footer, SectionStyle margin_footer are respected. When false, the default values in the Docs editor for header and footer margin is used. If DocumentMode is PAGELESS, this property will not be rendered. This property is read-only. */
+  useCustomHeaderFooterMargins?: boolean | undefined;
+  /** The size of a page in the document. If DocumentMode is PAGELESS, this property will not be rendered. */
+  pageSize?: Size | undefined;
+  /** The background of the document. Documents cannot have a transparent background color. */
+  background?: Background | undefined;
+  /** Optional. Indicates whether to flip the dimensions of the page_size, which allows changing the page orientation between portrait and landscape. If DocumentMode is PAGELESS, this property will not be rendered. */
+  flipPageOrientation?: boolean | undefined;
+  /** The ID of the default footer. If not set, there's no default footer. If DocumentMode is PAGELESS, this property will not be rendered. This property is read-only. */
+  defaultFooterId?: string | undefined;
+  /** The amount of space between the top of the page and the contents of the header. If DocumentMode is PAGELESS, this property will not be rendered. */
+  marginHeader?: Dimension | undefined;
+  /** The right page margin. Updating the right page margin on the document style clears the right page margin on all section styles. It may also cause columns to resize in all sections. If DocumentMode is PAGELESS, this property will not be rendered. */
+  marginRight?: Dimension | undefined;
+  /** Indicates whether to use the even page header / footer IDs for the even pages. If DocumentMode is PAGELESS, this property will not be rendered. */
+  useEvenPageHeaderFooter?: boolean | undefined;
+  /** The ID of the footer used only for the first page. If not set then a unique footer for the first page does not exist. The value of use_first_page_header_footer determines whether to use the default_footer_id or this value for the footer on the first page. If not set, there's no first page footer. If DocumentMode is PAGELESS, this property will not be rendered. This property is read-only. */
+  firstPageFooterId?: string | undefined;
+  /** The page number from which to start counting the number of pages. If DocumentMode is PAGELESS, this property will not be rendered. */
+  pageNumberStart?: number | undefined;
+  /** Specifies document-level format settings, such as the document mode (pages vs pageless). */
+  documentFormat?: DocumentFormat | undefined;
+  /** The ID of the header used only for the first page. If not set then a unique header for the first page does not exist. The value of use_first_page_header_footer determines whether to use the default_header_id or this value for the header on the first page. If not set, there's no first page header. If DocumentMode is PAGELESS, this property will not be rendered. This property is read-only. */
+  firstPageHeaderId?: string | undefined;
+  /** The bottom page margin. Updating the bottom page margin on the document style clears the bottom page margin on all section styles. If DocumentMode is PAGELESS, this property will not be rendered. */
+  marginBottom?: Dimension | undefined;
+  /** The top page margin. Updating the top page margin on the document style clears the top page margin on all section styles. If DocumentMode is PAGELESS, this property will not be rendered. */
+  marginTop?: Dimension | undefined;
+}
+/** Updates the DocumentStyle. */
+export interface UpdateDocumentStyleRequest {
+  /** The styles to set on the document. Certain document style changes may cause other changes in order to mirror the behavior of the Docs editor. See the documentation of DocumentStyle for more information. */
+  documentStyle?: DocumentStyle | undefined;
+  /** The tab that contains the style to update. When omitted, the request applies to the first tab. In a document containing a single tab: - If provided, must match the singular tab's ID. - If omitted, the request applies to the singular tab. In a document containing multiple tabs: - If provided, the request applies to the specified tab. - If not provided, the request applies to the first tab in the document. */
+  tabId?: string | undefined;
+  /** The fields that should be updated. At least one field must be specified. The root `document_style` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the background, set `fields` to `"background"`. */
+  fields?: string | undefined;
+}
+export type NamedStyleNamedStyleTypeEnum =
+  | "NAMED_STYLE_TYPE_UNSPECIFIED"
+  | "NORMAL_TEXT"
+  | "TITLE"
+  | "SUBTITLE"
+  | "HEADING_1"
+  | "HEADING_2"
+  | "HEADING_3"
+  | "HEADING_4"
+  | "HEADING_5"
+  | "HEADING_6";
+export type ParagraphBorderDashStyleEnum = "DASH_STYLE_UNSPECIFIED" | "SOLID" | "DOT" | "DASH";
+/** A border around a paragraph. */
+export interface ParagraphBorder {
+  /** The color of the border. */
+  color?: OptionalColor | undefined;
+  /** The width of the border. */
+  width?: Dimension | undefined;
+  /** The dash style of the border. */
+  dashStyle?: ParagraphBorderDashStyleEnum | (string & {}) | undefined;
+  /** The padding of the border. */
+  padding?: Dimension | undefined;
+}
+export type ParagraphStyleSpacingModeEnum =
+  | "SPACING_MODE_UNSPECIFIED"
+  | "NEVER_COLLAPSE"
+  | "COLLAPSE_LISTS";
+export type ParagraphStyleNamedStyleTypeEnum =
+  | "NAMED_STYLE_TYPE_UNSPECIFIED"
+  | "NORMAL_TEXT"
+  | "TITLE"
+  | "SUBTITLE"
+  | "HEADING_1"
+  | "HEADING_2"
+  | "HEADING_3"
+  | "HEADING_4"
+  | "HEADING_5"
+  | "HEADING_6";
+export type ParagraphStyleAlignmentEnum =
+  | "ALIGNMENT_UNSPECIFIED"
+  | "START"
+  | "CENTER"
+  | "END"
+  | "JUSTIFIED";
+/** The shading of a paragraph. */
+export interface Shading {
+  /** The background color of this paragraph shading. */
+  backgroundColor?: OptionalColor | undefined;
+}
+export type TabStopAlignmentEnum = "TAB_STOP_ALIGNMENT_UNSPECIFIED" | "START" | "CENTER" | "END";
+/** A tab stop within a paragraph. */
+export interface TabStop {
+  /** The alignment of this tab stop. If unset, the value defaults to START. */
+  alignment?: TabStopAlignmentEnum | (string & {}) | undefined;
+  /** The offset between this tab stop and the start margin. */
+  offset?: Dimension | undefined;
+}
+export type TabStopList = Array<TabStop>;
+export type ParagraphStyleDirectionEnum =
+  | "CONTENT_DIRECTION_UNSPECIFIED"
+  | "LEFT_TO_RIGHT"
+  | "RIGHT_TO_LEFT";
+/** Styles that apply to a whole paragraph. Inherited paragraph styles are represented as unset fields in this message. A paragraph style's parent depends on where the paragraph style is defined: * The ParagraphStyle on a Paragraph inherits from the paragraph's corresponding named style type. * The ParagraphStyle on a named style inherits from the normal text named style. * The ParagraphStyle of the normal text named style inherits from the default paragraph style in the Docs editor. * The ParagraphStyle on a Paragraph element that's contained in a table may inherit its paragraph style from the table style. If the paragraph style does not inherit from a parent, unsetting fields will revert the style to a value matching the defaults in the Docs editor. */
+export interface ParagraphStyle {
+  /** The border to the left of this paragraph. If unset, the value is inherited from the parent. Paragraph borders cannot be partially updated. When changing a paragraph border, the new border must be specified in its entirety. */
+  borderLeft?: ParagraphBorder | undefined;
+  /** The spacing mode for the paragraph. */
+  spacingMode?: ParagraphStyleSpacingModeEnum | (string & {}) | undefined;
+  /** The border to the right of this paragraph. If unset, the value is inherited from the parent. Paragraph borders cannot be partially updated. When changing a paragraph border, the new border must be specified in its entirety. */
+  borderRight?: ParagraphBorder | undefined;
+  /** The border at the bottom of this paragraph. If unset, the value is inherited from the parent. The bottom border is rendered when the paragraph below has different border and indent properties. Paragraph borders cannot be partially updated. When changing a paragraph border, the new border must be specified in its entirety. */
+  borderBottom?: ParagraphBorder | undefined;
+  /** The named style type of the paragraph. Since updating the named style type affects other properties within ParagraphStyle, the named style type is applied before the other properties are updated. */
+  namedStyleType?: ParagraphStyleNamedStyleTypeEnum | (string & {}) | undefined;
+  /** The amount of indentation for the first line of the paragraph. If unset, the value is inherited from the parent. */
+  indentFirstLine?: Dimension | undefined;
+  /** Whether the current paragraph should always start at the beginning of a page. If unset, the value is inherited from the parent. Attempting to update page_break_before for paragraphs in unsupported regions, including Table, Header, Footer and Footnote, can result in an invalid document state that returns a 400 bad request error. */
+  pageBreakBefore?: boolean | undefined;
+  /** The heading ID of the paragraph. If empty, then this paragraph is not a heading. This property is read-only. */
+  headingId?: string | undefined;
+  /** The amount of indentation for the paragraph on the side that corresponds to the end of the text, based on the current paragraph direction. If unset, the value is inherited from the parent. */
+  indentEnd?: Dimension | undefined;
+  /** The text alignment for this paragraph. */
+  alignment?: ParagraphStyleAlignmentEnum | (string & {}) | undefined;
+  /** The border between this paragraph and the next and previous paragraphs. If unset, the value is inherited from the parent. The between border is rendered when the adjacent paragraph has the same border and indent properties. Paragraph borders cannot be partially updated. When changing a paragraph border, the new border must be specified in its entirety. */
+  borderBetween?: ParagraphBorder | undefined;
+  /** Whether to avoid widows and orphans for the paragraph. If unset, the value is inherited from the parent. */
+  avoidWidowAndOrphan?: boolean | undefined;
+  /** The amount of indentation for the paragraph on the side that corresponds to the start of the text, based on the current paragraph direction. If unset, the value is inherited from the parent. */
+  indentStart?: Dimension | undefined;
+  /** Whether all lines of the paragraph should be laid out on the same page or column if possible. If unset, the value is inherited from the parent. */
+  keepLinesTogether?: boolean | undefined;
+  /** The border at the top of this paragraph. If unset, the value is inherited from the parent. The top border is rendered when the paragraph above has different border and indent properties. Paragraph borders cannot be partially updated. When changing a paragraph border, the new border must be specified in its entirety. */
+  borderTop?: ParagraphBorder | undefined;
+  /** Whether at least a part of this paragraph should be laid out on the same page or column as the next paragraph if possible. If unset, the value is inherited from the parent. */
+  keepWithNext?: boolean | undefined;
+  /** The shading of the paragraph. If unset, the value is inherited from the parent. */
+  shading?: Shading | undefined;
+  /** The amount of extra space below the paragraph. If unset, the value is inherited from the parent. */
+  spaceBelow?: Dimension | undefined;
+  /** The amount of space between lines, as a percentage of normal, where normal is represented as 100.0. If unset, the value is inherited from the parent. */
+  lineSpacing?: number | undefined;
+  /** The amount of extra space above the paragraph. If unset, the value is inherited from the parent. */
+  spaceAbove?: Dimension | undefined;
+  /** A list of the tab stops for this paragraph. The list of tab stops is not inherited. This property is read-only. */
+  tabStops?: TabStopList | undefined;
+  /** The text direction of this paragraph. If unset, the value defaults to LEFT_TO_RIGHT since paragraph direction is not inherited. */
+  direction?: ParagraphStyleDirectionEnum | (string & {}) | undefined;
+}
+/** A named style. Paragraphs in the document can inherit their TextStyle and ParagraphStyle from this named style when they have the same named style type. */
+export interface NamedStyle {
+  /** The type of this named style. */
+  namedStyleType?: NamedStyleNamedStyleTypeEnum | (string & {}) | undefined;
+  /** The paragraph style of this named style. */
+  paragraphStyle?: ParagraphStyle | undefined;
+  /** The text style of this named style. */
+  textStyle?: TextStyle | undefined;
+}
+/** Updates a named style. */
+export interface UpdateNamedStyleRequest {
+  /** The NamedStyle fields that should be updated. At least `named_style_type` must be specified. The root `named_style` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example, to update the text style to bold, set `fields` to include `"text_style"` and `"text_style.bold"`. To update the paragraph style's alignment property, set `fields` to include `"paragraph_style"` and `"paragraph_style.alignment"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. Specifying `"text_style"` or `"paragraph_style"` with an empty TextStyle or ParagraphStyle will reset all of its nested fields. */
+  fields?: string | undefined;
+  /** The document style to update. */
+  namedStyle?: NamedStyle | undefined;
+  /** The document tab to update. By default, the update is applied to the first tab. */
+  tabId?: string | undefined;
+}
+/** Inserts a table at the specified location. A newline character will be inserted before the inserted table. */
+export interface InsertTableRequest {
+  /** Inserts the table at the end of the given header, footer or document body. A newline character will be inserted before the inserted table. Tables cannot be inserted inside a footnote. */
+  endOfSegmentLocation?: EndOfSegmentLocation | undefined;
+  /** The number of rows in the table. */
+  rows?: number | undefined;
+  /** Inserts the table at a specific model index. A newline character will be inserted before the inserted table, therefore the table start index will be at the specified location index + 1. The table must be inserted inside the bounds of an existing Paragraph. For instance, it cannot be inserted at a table's start index (i.e. between an existing table and its preceding paragraph). Tables cannot be inserted inside a footnote or equation. */
+  location?: Location | undefined;
+  /** The number of columns in the table. */
+  columns?: number | undefined;
+}
+export type CreateFooterRequestTypeEnum = "HEADER_FOOTER_TYPE_UNSPECIFIED" | "DEFAULT";
+/** Creates a Footer. The new footer is applied to the SectionStyle at the location of the SectionBreak if specified, otherwise it is applied to the DocumentStyle. If a footer of the specified type already exists, a 400 bad request error is returned. */
+export interface CreateFooterRequest {
+  /** The type of footer to create. */
+  type?: CreateFooterRequestTypeEnum | (string & {}) | undefined;
+  /** The location of the SectionBreak immediately preceding the section whose SectionStyle this footer should belong to. If this is unset or refers to the first section break in the document, the footer applies to the document style. */
+  sectionBreakLocation?: Location | undefined;
+}
+export type TableColumnPropertiesWidthTypeEnum =
+  | "WIDTH_TYPE_UNSPECIFIED"
+  | "EVENLY_DISTRIBUTED"
+  | "FIXED_WIDTH";
+/** The properties of a column in a table. */
+export interface TableColumnProperties {
+  /** The width type of the column. */
+  widthType?: TableColumnPropertiesWidthTypeEnum | (string & {}) | undefined;
+  /** The width of the column. Set when the column's `width_type` is FIXED_WIDTH. */
+  width?: Dimension | undefined;
+}
+export type IntegerList = Array<number>;
+/** Updates the TableColumnProperties of columns in a table. */
+export interface UpdateTableColumnPropertiesRequest {
+  /** The table column properties to update. If the value of `table_column_properties#width` is less than 5 points (5/72 inch), a 400 bad request error is returned. */
+  tableColumnProperties?: TableColumnProperties | undefined;
+  /** The location where the table starts in the document. */
+  tableStartLocation?: Location | undefined;
+  /** The fields that should be updated. At least one field must be specified. The root `tableColumnProperties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the column width, set `fields` to `"width"`. */
+  fields?: string | undefined;
+  /** The list of zero-based column indices whose property should be updated. If no indices are specified, all columns will be updated. */
+  columnIndices?: IntegerList | undefined;
+}
+/** Styles that apply to a table row. */
+export interface TableRowStyle {
+  /** The minimum height of the row. The row will be rendered in the Docs editor at a height equal to or greater than this value in order to show all the content in the row's cells. */
+  minRowHeight?: Dimension | undefined;
+  /** Whether the row cannot overflow across page or column boundaries. */
+  preventOverflow?: boolean | undefined;
+  /** Whether the row is a table header. */
+  tableHeader?: boolean | undefined;
+}
+/** Updates the TableRowStyle of rows in a table. */
+export interface UpdateTableRowStyleRequest {
+  /** The list of zero-based row indices whose style should be updated. If no indices are specified, all rows will be updated. */
+  rowIndices?: IntegerList | undefined;
+  /** The styles to be set on the rows. */
+  tableRowStyle?: TableRowStyle | undefined;
+  /** The fields that should be updated. At least one field must be specified. The root `tableRowStyle` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the minimum row height, set `fields` to `"min_row_height"`. */
+  fields?: string | undefined;
+  /** The location where the table starts in the document. */
+  tableStartLocation?: Location | undefined;
+}
+/** Properties of a tab. */
+export interface TabProperties {
+  /** Optional. The emoji icon displayed with the tab. A valid emoji icon is represented by a non-empty Unicode string. Any set of characters that don't represent a single emoji is invalid. If an emoji is invalid, a 400 bad request error is returned. If this value is unset or empty, the tab will display the default tab icon. */
+  iconEmoji?: string | undefined;
+  /** Optional. The ID of the parent tab. Empty when the current tab is a root-level tab, which means it doesn't have any parents. */
+  parentTabId?: string | undefined;
+  /** Output only. The depth of the tab within the document. Root-level tabs start at 0. */
+  nestingLevel?: number | undefined;
+  /** The user-visible name of the tab. */
+  title?: string | undefined;
+  /** The zero-based index of the tab within the parent. */
+  index?: number | undefined;
+  /** The immutable ID of the tab. */
+  tabId?: string | undefined;
+}
+/** Update the properties of a document tab. */
+export interface UpdateDocumentTabPropertiesRequest {
+  /** The tab properties to update. */
+  tabProperties?: TabProperties | undefined;
+  /** The fields that should be updated. At least one field must be specified. The root `tab_properties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. */
+  fields?: string | undefined;
+}
+/** Updates the number of pinned table header rows in a table. */
+export interface PinTableHeaderRowsRequest {
+  /** The location where the table starts in the document. */
+  tableStartLocation?: Location | undefined;
+  /** The number of table rows to pin, where 0 implies that all rows are unpinned. */
+  pinnedHeaderRowsCount?: number | undefined;
+}
+/** A table range represents a reference to a subset of a table. It's important to note that the cells specified by a table range do not necessarily form a rectangle. For example, let's say we have a 3 x 3 table where all the cells of the last row are merged together. The table looks like this: [ ] A table range with table cell location = (table_start_location, row = 0, column = 0), row span = 3 and column span = 2 specifies the following cells: x x [ x x x ] */
+export interface TableRange {
+  /** The column span of the table range. */
+  columnSpan?: number | undefined;
+  /** The row span of the table range. */
+  rowSpan?: number | undefined;
+  /** The cell location where the table range starts. */
+  tableCellLocation?: TableCellLocation | undefined;
+}
+/** Merges cells in a Table. */
+export interface MergeTableCellsRequest {
+  /** The table range specifying which cells of the table to merge. Any text in the cells being merged will be concatenated and stored in the "head" cell of the range. This is the upper-left cell of the range when the content direction is left to right, and the upper-right cell of the range otherwise. If the range is non-rectangular (which can occur in some cases where the range covers cells that are already merged or where the table is non-rectangular), a 400 bad request error is returned. */
+  tableRange?: TableRange | undefined;
+}
+/** Properties specific to a dropdown. */
+export interface DropdownProperties {
+  /** The ID of the selected option in this dropdown. */
+  selectedOptionId?: string | undefined;
+  /** The human-readable display text of the currently selected item. This field is populated by the server based on the dropdown definition and the selected option ID. It may differ from `DropdownOption.display_value` if the underlying option definition was modified or deleted, or during pending suggested changes. */
+  displayValue?: string | undefined;
+  /** The ID of the DropdownDefinition that defines the options for this dropdown. */
+  dropdownDefinitionId?: string | undefined;
+}
+/** Updates the properties of a Dropdown. */
+export interface UpdateDropdownPropertiesRequest {
+  /** The fields that should be updated. At least one field must be specified. The root `dropdown_properties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. */
+  fields?: string | undefined;
+  /** The properties to update. */
+  dropdownProperties?: DropdownProperties | undefined;
+  /** The ID of the tab that contains the dropdown to update. When omitted, the request is applied to the first tab. In a document containing a single tab: - If provided, must match the singular tab's ID. - If omitted, the request applies to the singular tab. In a document containing multiple tabs: - If provided, the request applies to the specified tab. - If omitted, the request applies to the first tab in the document. */
+  tabId?: string | undefined;
+  /** Required. The Dropdown ID. */
+  dropdownId?: string | undefined;
+}
+/** Update the styling of all paragraphs that overlap with the given range. */
+export interface UpdateParagraphStyleRequest {
+  /** The fields that should be updated. At least one field must be specified. The root `paragraph_style` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example, to update the paragraph style's alignment property, set `fields` to `"alignment"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
+  fields?: string | undefined;
+  /** The range overlapping the paragraphs to style. */
+  range?: Range | undefined;
+  /** The styles to set on the paragraphs. Certain paragraph style changes may cause other changes in order to mirror the behavior of the Docs editor. See the documentation of ParagraphStyle for more information. */
+  paragraphStyle?: ParagraphStyle | undefined;
+}
+export type TableCellStyleContentAlignmentEnum =
+  | "CONTENT_ALIGNMENT_UNSPECIFIED"
+  | "CONTENT_ALIGNMENT_UNSUPPORTED"
+  | "TOP"
+  | "MIDDLE"
+  | "BOTTOM";
+export type TableCellBorderDashStyleEnum = "DASH_STYLE_UNSPECIFIED" | "SOLID" | "DOT" | "DASH";
+/** A border around a table cell. Table cell borders cannot be transparent. To hide a table cell border, make its width 0. */
+export interface TableCellBorder {
+  /** The width of the border. */
+  width?: Dimension | undefined;
+  /** The dash style of the border. */
+  dashStyle?: TableCellBorderDashStyleEnum | (string & {}) | undefined;
+  /** The color of the border. This color cannot be transparent. */
+  color?: OptionalColor | undefined;
+}
+/** The style of a TableCell. Inherited table cell styles are represented as unset fields in this message. A table cell style can inherit from the table's style. */
+export interface TableCellStyle {
+  /** The row span of the cell. This property is read-only. */
+  rowSpan?: number | undefined;
+  /** The right padding of the cell. */
+  paddingRight?: Dimension | undefined;
+  /** The alignment of the content in the table cell. The default alignment matches the alignment for newly created table cells in the Docs editor. */
+  contentAlignment?: TableCellStyleContentAlignmentEnum | (string & {}) | undefined;
+  /** The bottom padding of the cell. */
+  paddingBottom?: Dimension | undefined;
+  /** The left border of the cell. */
+  borderLeft?: TableCellBorder | undefined;
+  /** The right border of the cell. */
+  borderRight?: TableCellBorder | undefined;
+  /** The left padding of the cell. */
+  paddingLeft?: Dimension | undefined;
+  /** The background color of the cell. */
+  backgroundColor?: OptionalColor | undefined;
+  /** The top border of the cell. */
+  borderTop?: TableCellBorder | undefined;
+  /** The bottom border of the cell. */
+  borderBottom?: TableCellBorder | undefined;
+  /** The column span of the cell. This property is read-only. */
+  columnSpan?: number | undefined;
+  /** The top padding of the cell. */
+  paddingTop?: Dimension | undefined;
+}
+/** Updates the style of a range of table cells. */
+export interface UpdateTableCellStyleRequest {
+  /** The table range representing the subset of the table to which the updates are applied. */
+  tableRange?: TableRange | undefined;
+  /** The fields that should be updated. At least one field must be specified. The root `tableCellStyle` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the table cell background color, set `fields` to `"backgroundColor"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
+  fields?: string | undefined;
+  /** The location where the table starts in the document. When specified, the updates are applied to all the cells in the table. */
+  tableStartLocation?: Location | undefined;
+  /** The style to set on the table cells. When updating borders, if a cell shares a border with an adjacent cell, the corresponding border property of the adjacent cell is updated as well. Borders that are merged and invisible are not updated. Since updating a border shared by adjacent cells in the same request can cause conflicting border updates, border updates are applied in the following order: - `border_right` - `border_left` - `border_bottom` - `border_top` */
+  tableCellStyle?: TableCellStyle | undefined;
+}
+/** Unmerges cells in a Table. */
+export interface UnmergeTableCellsRequest {
+  /** The table range specifying which cells of the table to unmerge. All merged cells in this range will be unmerged, and cells that are already unmerged will not be affected. If the range has no merged cells, the request will do nothing. If there is text in any of the merged cells, the text will remain in the "head" cell of the resulting block of unmerged cells. The "head" cell is the upper-left cell when the content direction is from left to right, and the upper-right otherwise. */
+  tableRange?: TableRange | undefined;
+}
+/** Inserts an empty column into a table. */
+export interface InsertTableColumnRequest {
+  /** The reference table cell location from which columns will be inserted. A new column will be inserted to the left (or right) of the column where the reference cell is. If the reference cell is a merged cell, a new column will be inserted to the left (or right) of the merged cell. */
+  tableCellLocation?: TableCellLocation | undefined;
+  /** Whether to insert new column to the right of the reference cell location. - `True`: insert to the right. - `False`: insert to the left. */
+  insertRight?: boolean | undefined;
+}
+/** Deletes a tab. If the tab has child tabs, they are deleted as well. */
+export interface DeleteTabRequest {
+  /** The ID of the tab to delete. */
+  tabId?: string | undefined;
+}
+/** Properties specific to a linked Person. */
+export interface PersonProperties {
+  /** The email address linked to this Person. This field is always present. */
+  email?: string | undefined;
+  /** The name of the person if it's displayed in the link text instead of the person's email address. */
+  name?: string | undefined;
+}
+/** Inserts a person mention. */
+export interface InsertPersonRequest {
+  /** Inserts the person mention at the end of a header, footer, footnote or the document body. */
+  endOfSegmentLocation?: EndOfSegmentLocation | undefined;
+  /** The properties of the person mention to insert. */
+  personProperties?: PersonProperties | undefined;
+  /** Inserts the person mention at a specific index in the document. The person mention must be inserted inside the bounds of an existing Paragraph. For instance, it cannot be inserted at a table's start index (i.e. between the table and its preceding paragraph). Person mentions cannot be inserted inside an equation. */
+  location?: Location | undefined;
+}
+/** Accepts a suggestion. Returns a 403 forbidden error if the requesting user does not have edit access to the document. */
+export interface AcceptSuggestionRequest {
+  /** The ID of the suggestion. */
+  suggestionId?: string | undefined;
 }
 /** A mask that indicates which of the fields on the base DropdownDefinitionProperties have been changed in this suggestion. For any field set to true, there's a new suggested value. */
 export interface DropdownDefinitionPropertiesSuggestionState {
@@ -390,353 +966,36 @@ export type SuggestedDropdownDefinitionPropertiesMap = {
 };
 /** A dropdown definition in the document. */
 export interface DropdownDefinition {
-  /** The properties of this dropdown definition. */
-  dropdownDefinitionProperties?: DropdownDefinitionProperties | undefined;
   /** Suggested property changes to this definition, keyed by suggestion ID. */
   suggestedDropdownDefinitionPropertiesChanges?:
     | SuggestedDropdownDefinitionPropertiesMap
     | undefined;
-  /** ID for suggestion that deletes this dropdown definition. */
-  suggestedDeletionId?: string | undefined;
+  /** The properties of this dropdown definition. */
+  dropdownDefinitionProperties?: DropdownDefinitionProperties | undefined;
   /** The ID of this dropdown definition. If you specify an ID, it must be unique among all IDs in the tab. The ID must start with `kix.` and match regex `^kix\.[a-zA-Z0-9_-]{2,14}$` (length 6-18 chars). If you don't specify an ID, a unique one is generated. */
   dropdownDefinitionId?: string | undefined;
+  /** ID for suggestion that deletes this dropdown definition. */
+  suggestedDeletionId?: string | undefined;
   /** ID for suggestion that inserts this dropdown definition. */
   suggestedInsertionId?: string | undefined;
 }
 /** Creates a new DropdownDefinition in the document. */
 export interface CreateDropdownDefinitionRequest {
-  /** The ID of the tab to create the dropdown definition in. When omitted, the request is applied to the first tab. In a document containing a single tab: - If provided, must match the singular tab's ID. - If omitted, the request applies to the singular tab. In a document containing multiple tabs: - If provided, the request applies to the specified tab. - If omitted, the request applies to the first tab in the document. */
-  tabId?: string | undefined;
   /** Required. The DropdownDefinition to create. */
   dropdownDefinition?: DropdownDefinition | undefined;
-}
-/** Specifies a contiguous range of text. */
-export interface Range {
-  /** The tab that contains this range. When omitted, the request applies to the first tab. In a document containing a single tab: - If provided, must match the singular tab's ID. - If omitted, the request applies to the singular tab. In a document containing multiple tabs: - If provided, the request applies to the specified tab. - If omitted, the request applies to the first tab in the document. */
+  /** The ID of the tab to create the dropdown definition in. When omitted, the request is applied to the first tab. In a document containing a single tab: - If provided, must match the singular tab's ID. - If omitted, the request applies to the singular tab. In a document containing multiple tabs: - If provided, the request applies to the specified tab. - If omitted, the request applies to the first tab in the document. */
   tabId?: string | undefined;
-  /** The zero-based end index of this range, exclusive, in UTF-16 code units. In all current uses, an end index must be provided. This field is an Int32Value in order to accommodate future use cases with open-ended ranges. */
-  endIndex?: number | undefined;
-  /** The zero-based start index of this range, in UTF-16 code units. In all current uses, a start index must be provided. This field is an Int32Value in order to accommodate future use cases with open-ended ranges. */
-  startIndex?: number | undefined;
-  /** The ID of the header, footer, or footnote that this range is contained in. An empty segment ID signifies the document's body. */
-  segmentId?: string | undefined;
 }
-export type ParagraphBorderDashStyleEnum = "DASH_STYLE_UNSPECIFIED" | "SOLID" | "DOT" | "DASH";
-/** A border around a paragraph. */
-export interface ParagraphBorder {
-  /** The padding of the border. */
-  padding?: Dimension | undefined;
-  /** The color of the border. */
-  color?: OptionalColor | undefined;
-  /** The dash style of the border. */
-  dashStyle?: ParagraphBorderDashStyleEnum | (string & {}) | undefined;
-  /** The width of the border. */
-  width?: Dimension | undefined;
-}
-export type ParagraphStyleSpacingModeEnum =
-  | "SPACING_MODE_UNSPECIFIED"
-  | "NEVER_COLLAPSE"
-  | "COLLAPSE_LISTS";
-export type ParagraphStyleAlignmentEnum =
-  | "ALIGNMENT_UNSPECIFIED"
-  | "START"
-  | "CENTER"
-  | "END"
-  | "JUSTIFIED";
-export type ParagraphStyleNamedStyleTypeEnum =
-  | "NAMED_STYLE_TYPE_UNSPECIFIED"
-  | "NORMAL_TEXT"
-  | "TITLE"
-  | "SUBTITLE"
-  | "HEADING_1"
-  | "HEADING_2"
-  | "HEADING_3"
-  | "HEADING_4"
-  | "HEADING_5"
-  | "HEADING_6";
-export type TabStopAlignmentEnum = "TAB_STOP_ALIGNMENT_UNSPECIFIED" | "START" | "CENTER" | "END";
-/** A tab stop within a paragraph. */
-export interface TabStop {
-  /** The alignment of this tab stop. If unset, the value defaults to START. */
-  alignment?: TabStopAlignmentEnum | (string & {}) | undefined;
-  /** The offset between this tab stop and the start margin. */
-  offset?: Dimension | undefined;
-}
-export type TabStopList = Array<TabStop>;
-/** The shading of a paragraph. */
-export interface Shading {
-  /** The background color of this paragraph shading. */
-  backgroundColor?: OptionalColor | undefined;
-}
-export type ParagraphStyleDirectionEnum =
-  | "CONTENT_DIRECTION_UNSPECIFIED"
-  | "LEFT_TO_RIGHT"
-  | "RIGHT_TO_LEFT";
-/** Styles that apply to a whole paragraph. Inherited paragraph styles are represented as unset fields in this message. A paragraph style's parent depends on where the paragraph style is defined: * The ParagraphStyle on a Paragraph inherits from the paragraph's corresponding named style type. * The ParagraphStyle on a named style inherits from the normal text named style. * The ParagraphStyle of the normal text named style inherits from the default paragraph style in the Docs editor. * The ParagraphStyle on a Paragraph element that's contained in a table may inherit its paragraph style from the table style. If the paragraph style does not inherit from a parent, unsetting fields will revert the style to a value matching the defaults in the Docs editor. */
-export interface ParagraphStyle {
-  /** Whether all lines of the paragraph should be laid out on the same page or column if possible. If unset, the value is inherited from the parent. */
-  keepLinesTogether?: boolean | undefined;
-  /** The amount of indentation for the paragraph on the side that corresponds to the start of the text, based on the current paragraph direction. If unset, the value is inherited from the parent. */
-  indentStart?: Dimension | undefined;
-  /** Whether the current paragraph should always start at the beginning of a page. If unset, the value is inherited from the parent. Attempting to update page_break_before for paragraphs in unsupported regions, including Table, Header, Footer and Footnote, can result in an invalid document state that returns a 400 bad request error. */
-  pageBreakBefore?: boolean | undefined;
-  /** The border between this paragraph and the next and previous paragraphs. If unset, the value is inherited from the parent. The between border is rendered when the adjacent paragraph has the same border and indent properties. Paragraph borders cannot be partially updated. When changing a paragraph border, the new border must be specified in its entirety. */
-  borderBetween?: ParagraphBorder | undefined;
-  /** The heading ID of the paragraph. If empty, then this paragraph is not a heading. This property is read-only. */
-  headingId?: string | undefined;
-  /** The spacing mode for the paragraph. */
-  spacingMode?: ParagraphStyleSpacingModeEnum | (string & {}) | undefined;
-  /** The amount of extra space above the paragraph. If unset, the value is inherited from the parent. */
-  spaceAbove?: Dimension | undefined;
-  /** The text alignment for this paragraph. */
-  alignment?: ParagraphStyleAlignmentEnum | (string & {}) | undefined;
-  /** The amount of indentation for the paragraph on the side that corresponds to the end of the text, based on the current paragraph direction. If unset, the value is inherited from the parent. */
-  indentEnd?: Dimension | undefined;
-  /** The amount of indentation for the first line of the paragraph. If unset, the value is inherited from the parent. */
-  indentFirstLine?: Dimension | undefined;
-  /** Whether to avoid widows and orphans for the paragraph. If unset, the value is inherited from the parent. */
-  avoidWidowAndOrphan?: boolean | undefined;
-  /** The border to the left of this paragraph. If unset, the value is inherited from the parent. Paragraph borders cannot be partially updated. When changing a paragraph border, the new border must be specified in its entirety. */
-  borderLeft?: ParagraphBorder | undefined;
-  /** The border at the bottom of this paragraph. If unset, the value is inherited from the parent. The bottom border is rendered when the paragraph below has different border and indent properties. Paragraph borders cannot be partially updated. When changing a paragraph border, the new border must be specified in its entirety. */
-  borderBottom?: ParagraphBorder | undefined;
-  /** The border at the top of this paragraph. If unset, the value is inherited from the parent. The top border is rendered when the paragraph above has different border and indent properties. Paragraph borders cannot be partially updated. When changing a paragraph border, the new border must be specified in its entirety. */
-  borderTop?: ParagraphBorder | undefined;
-  /** The amount of extra space below the paragraph. If unset, the value is inherited from the parent. */
-  spaceBelow?: Dimension | undefined;
-  /** The named style type of the paragraph. Since updating the named style type affects other properties within ParagraphStyle, the named style type is applied before the other properties are updated. */
-  namedStyleType?: ParagraphStyleNamedStyleTypeEnum | (string & {}) | undefined;
-  /** A list of the tab stops for this paragraph. The list of tab stops is not inherited. This property is read-only. */
-  tabStops?: TabStopList | undefined;
-  /** The shading of the paragraph. If unset, the value is inherited from the parent. */
-  shading?: Shading | undefined;
-  /** The amount of space between lines, as a percentage of normal, where normal is represented as 100.0. If unset, the value is inherited from the parent. */
-  lineSpacing?: number | undefined;
-  /** The border to the right of this paragraph. If unset, the value is inherited from the parent. Paragraph borders cannot be partially updated. When changing a paragraph border, the new border must be specified in its entirety. */
-  borderRight?: ParagraphBorder | undefined;
-  /** The text direction of this paragraph. If unset, the value defaults to LEFT_TO_RIGHT since paragraph direction is not inherited. */
-  direction?: ParagraphStyleDirectionEnum | (string & {}) | undefined;
-  /** Whether at least a part of this paragraph should be laid out on the same page or column as the next paragraph if possible. If unset, the value is inherited from the parent. */
-  keepWithNext?: boolean | undefined;
-}
-/** Update the styling of all paragraphs that overlap with the given range. */
-export interface UpdateParagraphStyleRequest {
-  /** The fields that should be updated. At least one field must be specified. The root `paragraph_style` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example, to update the paragraph style's alignment property, set `fields` to `"alignment"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
-  fields?: string | undefined;
-  /** The range overlapping the paragraphs to style. */
-  range?: Range | undefined;
-  /** The styles to set on the paragraphs. Certain paragraph style changes may cause other changes in order to mirror the behavior of the Docs editor. See the documentation of ParagraphStyle for more information. */
-  paragraphStyle?: ParagraphStyle | undefined;
-}
-/** Deletes content from the document. */
-export interface DeleteContentRangeRequest {
-  /** The range of content to delete. Deleting text that crosses a paragraph boundary may result in changes to paragraph styles, lists, positioned objects and bookmarks as the two paragraphs are merged. Attempting to delete certain ranges can result in an invalid document structure in which case a 400 bad request error is returned. Some examples of invalid delete requests include: * Deleting one code unit of a surrogate pair. * Deleting the last newline character of a Body, Header, Footer, Footnote, TableCell or TableOfContents. * Deleting the start or end of a Table, TableOfContents or Equation without deleting the entire element. * Deleting the newline character before a Table, TableOfContents or SectionBreak without deleting the element. * Deleting individual rows or cells of a table. Deleting the content within a table cell is allowed. */
-  range?: Range | undefined;
-}
-export type StringMap = { [key: string]: string | undefined };
-/** Updates the properties of a DropdownDefinition. */
-export interface UpdateDropdownDefinitionPropertiesRequest {
-  /** The properties to update. */
-  dropdownDefinitionProperties?: DropdownDefinitionProperties | undefined;
-  /** A map of option IDs to their replacements, used to automatically reassign orphaned Dropdown chips when an option is deleted. The keys are the IDs of the options being deleted, and the values are the IDs of their replacement options. If an option being deleted is selected in one or more Dropdown chips in the document, a replacement entry for that option must be provided in this map, and the replacement option ID must exist in the updated DropdownDefinition. If a replacement is required but not provided, a 400 bad request error is returned. Options being deleted that are not selected in any Dropdown chips do not require a replacement. For example, if option A is being replaced by option B, the map should be `{"A": "B"}`. */
-  selectedOptionIdReplacements?: StringMap | undefined;
-  /** The ID of the DropdownDefinition to update. */
-  dropdownDefinitionId?: string | undefined;
-  /** The ID of the tab that contains the dropdown definition to update. When omitted, the request is applied to the first tab. In a document containing a single tab: - If provided, must match the singular tab's ID. - If omitted, the request applies to the singular tab. In a document containing multiple tabs: - If provided, the request applies to the specified tab. - If omitted, the request applies to the first tab in the document. */
-  tabId?: string | undefined;
-  /** The fields that should be updated. At least one field must be specified. The root `dropdown_definition_properties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. When `dropdown_definition_properties.options` is included in the field mask, the full, complete list of desired options must be provided in `dropdown_definition_properties.options`. */
-  fields?: string | undefined;
-}
-/** Deletes a column from a table. */
-export interface DeleteTableColumnRequest {
-  /** The reference table cell location from which the column will be deleted. The column this cell spans will be deleted. If this is a merged cell that spans multiple columns, all columns that the cell spans will be deleted. If no columns remain in the table after this deletion, the whole table is deleted. */
-  tableCellLocation?: TableCellLocation | undefined;
-}
-/** Deletes a DropdownDefinition. If the dropdown definition is referenced by any dropdown instances (chips) in the document, a 400 bad request error is returned. */
-export interface DeleteDropdownDefinitionRequest {
-  /** The ID of the tab that contains the dropdown definition to delete. When omitted, the request is applied to the first tab. In a document containing a single tab: - If provided, must match the singular tab's ID. - If omitted, the request applies to the singular tab. In a document containing multiple tabs: - If provided, the request applies to the specified tab. - If omitted, the request applies to the first tab in the document. */
-  tabId?: string | undefined;
-  /** The ID of the DropdownDefinition to delete. */
-  dropdownDefinitionId?: string | undefined;
-}
-/** Inserts an empty row into a table. */
-export interface InsertTableRowRequest {
-  /** Whether to insert new row below the reference cell location. - `True`: insert below the cell. - `False`: insert above the cell. */
-  insertBelow?: boolean | undefined;
-  /** The reference table cell location from which rows will be inserted. A new row will be inserted above (or below) the row where the reference cell is. If the reference cell is a merged cell, a new row will be inserted above (or below) the merged cell. */
-  tableCellLocation?: TableCellLocation | undefined;
-}
-/** Creates a NamedRange referencing the given range. */
-export interface CreateNamedRangeRequest {
-  /** The name of the NamedRange. Names do not need to be unique. Names must be at least 1 character and no more than 256 characters, measured in UTF-16 code units. */
-  name?: string | undefined;
-  /** The range to apply the name to. */
-  range?: Range | undefined;
-}
-export type DateElementPropertiesDateFormatEnum =
-  | "DATE_FORMAT_UNSPECIFIED"
-  | "DATE_FORMAT_CUSTOM"
-  | "DATE_FORMAT_MONTH_DAY_ABBREVIATED"
-  | "DATE_FORMAT_MONTH_DAY_FULL"
-  | "DATE_FORMAT_MONTH_DAY_YEAR_ABBREVIATED"
-  | "DATE_FORMAT_ISO8601";
-export type DateElementPropertiesTimeFormatEnum =
-  | "TIME_FORMAT_UNSPECIFIED"
-  | "TIME_FORMAT_DISABLED"
-  | "TIME_FORMAT_HOUR_MINUTE"
-  | "TIME_FORMAT_HOUR_MINUTE_TIMEZONE";
-/** Properties of a DateElement. */
-export interface DateElementProperties {
-  /** The language code of the DateElement. For example, `en`. If unset, the default locale is `en`. Limited to the following locales: `af`, `am`, `ar`, `as`, `az`, `be`, `bg`, `bn`, `ca`, `cs`, `da`, `de`, `el`, `en`, `en-CA`, `en-GB`, `es`, `es-419`, `et`, `eu`, `fa`, `fi`, `fil`, `fr`, `fr-CA`, `gl`, `gu`, `hi`, `hr`, `hu`, `hy`, `id`, `is`, `it`, `iw`, `ja`, `ka`, `kk`, `km`, `kn`, `ko`, `lo`, `lt`, `lv`, `mk`, `ml`, `mn`, `mr`, `ms`, `ne`, `nl`, `no`, `or`, `pa`, `pl`, `pt-BR`, `pt-PT`, `ro`, `ru`, `si`, `sk`, `sl`, `sq`, `sr`, `sv`, `sw`, `ta`, `te`, `th`, `tr`, `uk`, `ur`, `uz`, `vi`, `zh-CN`, `zh-HK`, `zh-TW`, `zu`, `cy`, `my`. */
-  locale?: string | undefined;
-  /** Output only. Indicates how the DateElement is displayed in the document. */
-  displayText?: string | undefined;
-  /** The time zone of the DateElement, as defined by the Unicode Common Locale Data Repository (CLDR) project. For example, `America/New_York`. If unset, the default time zone is `etc/UTC`. */
-  timeZoneId?: string | undefined;
-  /** Determines how the date part of the DateElement will be displayed in the document. If unset, the default value is DATE_FORMAT_MONTH_DAY_YEAR_ABBREVIATED, indicating the DateElement will be formatted as `MMM d, y` in `en`, or locale specific equivalent. */
-  dateFormat?: DateElementPropertiesDateFormatEnum | (string & {}) | undefined;
-  /** Determines how the time part of the DateElement will be displayed in the document. If unset, the default value is TIME_FORMAT_DISABLED, indicating no time should be shown. */
-  timeFormat?: DateElementPropertiesTimeFormatEnum | (string & {}) | undefined;
-  /** The point in time to represent, in seconds and nanoseconds since Unix epoch: January 1, 1970 at midnight UTC. Timestamp is expected to be in UTC. If time_zone_id is set, the timestamp is adjusted according to the time zone. For example, a timestamp of `18000` with a date format of `DATE_FORMAT_ISO8601` and time format of `TIME_FORMAT_HOUR_MINUTE` would be displayed as `1970-01-01 5:00 AM`. A timestamp of `18000` with date format of `DATE_FORMAT_ISO8601`, time format of `TIME_FORMAT_HOUR_MINUTE`, and time zone set to `America/New_York` will instead be `1970-01-01 12:00 AM`. */
-  timestamp?: string | undefined;
-}
-/** Inserts a date at the specified location. */
-export interface InsertDateRequest {
-  /** The properties of the date to insert. */
-  dateElementProperties?: DateElementProperties | undefined;
-  /** Inserts the date at the end of the given header, footer or document body. */
+/** Inserts a Dropdown at the specified location. */
+export interface InsertDropdownRequest {
+  /** Optional initial value for the dropdown. If this field is not specified, the new dropdown will default to selecting the first option defined in the dropdown definition. If this field is specified but does not reference a valid option in the dropdown definition, a 400 bad request error is returned. */
+  selectedOptionId?: string | undefined;
+  /** The EndOfSegmentLocation in the document to insert the dropdown at. */
   endOfSegmentLocation?: EndOfSegmentLocation | undefined;
-  /** Inserts the date at a specific index in the document. The date must be inserted inside the bounds of an existing Paragraph. For instance, it cannot be inserted at a table's start index (i.e. between an existing table and its preceding paragraph). */
+  /** Required. The DropdownDefinition ID. */
+  dropdownDefinitionId?: string | undefined;
+  /** The Location in the document to insert the dropdown at. */
   location?: Location | undefined;
-}
-/** Deletes a reply Post from a CommentThread or SuggestionThread. Returns a 400 bad request error if: - The requesting user is not the author of the post. - The reply post contains an action. - The reply post contains an assignee. */
-export interface DeleteCommentReplyRequest {
-  /** The ID of the CommentThread which the post belongs to. */
-  commentId?: string | undefined;
-  /** The ID of the SuggestionThread which the post belongs to. */
-  suggestionId?: string | undefined;
-  /** The ID of the reply Post being deleted. */
-  postId?: string | undefined;
-}
-/** Updates a Post in a CommentThread or SuggestionThread. Returns a 400 bad request error if: - The post is the headPost of a SuggestionThread. - The requesting user is not the author of the post. */
-export interface UpdateCommentPostRequest {
-  /** The ID of the SuggestionThread which the post belongs to. */
-  suggestionId?: string | undefined;
-  /** The ID of the CommentThread which the post belongs to. */
-  commentId?: string | undefined;
-  /** The new text of the comment, as plain text. This text content will be handled similarly to comments created in the Docs editor. It will have similar behaviors for formatting, notifications, etc. This field cannot be empty, and must not exceed 2048 UTF-8 code units. */
-  content?: string | undefined;
-  /** The ID of the post being updated. */
-  postId?: string | undefined;
-}
-/** Properties of a tab. */
-export interface TabProperties {
-  /** Optional. The emoji icon displayed with the tab. A valid emoji icon is represented by a non-empty Unicode string. Any set of characters that don't represent a single emoji is invalid. If an emoji is invalid, a 400 bad request error is returned. If this value is unset or empty, the tab will display the default tab icon. */
-  iconEmoji?: string | undefined;
-  /** The zero-based index of the tab within the parent. */
-  index?: number | undefined;
-  /** The user-visible name of the tab. */
-  title?: string | undefined;
-  /** Optional. The ID of the parent tab. Empty when the current tab is a root-level tab, which means it doesn't have any parents. */
-  parentTabId?: string | undefined;
-  /** The immutable ID of the tab. */
-  tabId?: string | undefined;
-  /** Output only. The depth of the tab within the document. Root-level tabs start at 0. */
-  nestingLevel?: number | undefined;
-}
-/** Adds a document tab. When a tab is added at a given index, all subsequent tabs' indexes are incremented. */
-export interface AddDocumentTabRequest {
-  /** The properties of the tab to add. All properties are optional. */
-  tabProperties?: TabProperties | undefined;
-}
-/** Rejects a suggestion. Returns a 403 forbidden error if the requesting user does not have edit access to the document and is not the author of the suggestion. */
-export interface RejectSuggestionRequest {
-  /** The ID of the suggestion. */
-  suggestionId?: string | undefined;
-}
-/** Deletes a NamedRange. */
-export interface DeleteNamedRangeRequest {
-  /** The ID of the named range to delete. */
-  namedRangeId?: string | undefined;
-  /** The name of the range(s) to delete. All named ranges with the given name will be deleted. */
-  name?: string | undefined;
-  /** Optional. The criteria used to specify which tab(s) the range deletion should occur in. When omitted, the range deletion is applied to all tabs. In a document containing a single tab: - If provided, must match the singular tab's ID. - If omitted, the range deletion applies to the singular tab. In a document containing multiple tabs: - If provided, the range deletion applies to the specified tabs. - If not provided, the range deletion applies to all tabs. */
-  tabsCriteria?: TabsCriteria | undefined;
-}
-/** Deletes a suggestion. Returns a 403 forbidden error if the requesting user is not the author of the suggestion. */
-export type DeleteSuggestionRequest = RejectSuggestionRequest;
-export type PostSuggestionActionEnum =
-  | "SUGGESTION_ACTION_TYPE_UNSPECIFIED"
-  | "NO_SUGGESTION_ACTION_CHANGE"
-  | "ACCEPT"
-  | "REJECT";
-export type PostCommentActionEnum =
-  | "COMMENT_ACTION_TYPE_UNSPECIFIED"
-  | "NO_COMMENT_ACTION_CHANGE"
-  | "RESOLVE"
-  | "REOPEN";
-/** Represents a user who authored a comment or suggestion post. */
-export interface PostAuthor {
-  /** The display name of the user. May be absent if the author is anonymous. */
-  displayName?: string | undefined;
-  /** Whether the user is anonymous. */
-  anonymous?: boolean | undefined;
-  /** Whether the user is the authenticated user making the request. */
-  me?: boolean | undefined;
-  /** The resource name of the post author user, which can also be used to identify the user in the [Google People API](https://developers.google.com/people/api/rest/v1/people). Format: `users/{user}`. Will not be populated if the anonymous field is `true` or if the post is from an imported document. */
-  user?: string | undefined;
-}
-/** Represents a single post in a comment or suggestion thread. */
-export interface Post {
-  /** Output only. The time the post was last updated. */
-  updateTime?: string | undefined;
-  /** Output only. The content of the post as HTML. */
-  contentHtml?: string | undefined;
-  /** Output only. Whether the post is deleted. If `true`, content and author fields will be empty. */
-  deleted?: boolean | undefined;
-  /** Output only. The action type for suggestion posts. */
-  suggestionAction?: PostSuggestionActionEnum | (string & {}) | undefined;
-  /** Output only. Whether the post is from a copied document. This field cannot be set directly by callers. */
-  fromCopiedDocument?: boolean | undefined;
-  /** Optional. The action type for comment posts. */
-  commentAction?: PostCommentActionEnum | (string & {}) | undefined;
-  /** Optional. The email of the user who is being newly assigned to the thread as part of this post. Returns a 400 bad request error if: - The parent thread is a CommentThread whose headPost does not have an assignee. - The parent thread is a SuggestionThread. - commentAction is specified as `RESOLVE` or `REOPEN`. - `assigneeEmail` exceeds 2048 UTF-8 code units. */
-  assigneeEmail?: string | undefined;
-  /** Output only. Whether the post is from a document comparison. This field cannot be set directly by callers. */
-  fromDocumentComparison?: boolean | undefined;
-  /** Output only. Whether the post is from an imported document. This field cannot be set directly by callers. */
-  fromImportedDocument?: boolean | undefined;
-  /** Output only. The unique ID of the post. */
-  postId?: string | undefined;
-  /** Output only. The user who created the post. */
-  author?: PostAuthor | undefined;
-  /** Output only. The time the post was created. */
-  createTime?: string | undefined;
-  /** The content of the post. Required to be non-empty if commentAction is not `RESOLVE` or `REOPEN`. This text content will be handled similarly to comments created in the Docs editor. It will have similar behaviors for formatting, notifications, etc. May not exceed 2048 UTF-8 code units. */
-  content?: string | undefined;
-}
-/** Inserts a reply Post into a CommentThread or SuggestionThread. */
-export interface AddCommentReplyRequest {
-  /** The ID of the SuggestionThread to add the reply to. */
-  suggestionId?: string | undefined;
-  /** The Post representing the reply. */
-  post?: Post | undefined;
-  /** The ID of the CommentThread to add the reply to. */
-  commentId?: string | undefined;
-}
-/** A table range represents a reference to a subset of a table. It's important to note that the cells specified by a table range do not necessarily form a rectangle. For example, let's say we have a 3 x 3 table where all the cells of the last row are merged together. The table looks like this: [ ] A table range with table cell location = (table_start_location, row = 0, column = 0), row span = 3 and column span = 2 specifies the following cells: x x [ x x x ] */
-export interface TableRange {
-  /** The row span of the table range. */
-  rowSpan?: number | undefined;
-  /** The cell location where the table range starts. */
-  tableCellLocation?: TableCellLocation | undefined;
-  /** The column span of the table range. */
-  columnSpan?: number | undefined;
-}
-/** Unmerges cells in a Table. */
-export interface UnmergeTableCellsRequest {
-  /** The table range specifying which cells of the table to unmerge. All merged cells in this range will be unmerged, and cells that are already unmerged will not be affected. If the range has no merged cells, the request will do nothing. If there is text in any of the merged cells, the text will remain in the "head" cell of the resulting block of unmerged cells. The "head" cell is the upper-left cell when the content direction is from left to right, and the upper-right otherwise. */
-  tableRange?: TableRange | undefined;
 }
 export type InsertSectionBreakRequestSectionTypeEnum =
   | "SECTION_TYPE_UNSPECIFIED"
@@ -746,62 +1005,28 @@ export type InsertSectionBreakRequestSectionTypeEnum =
 export interface InsertSectionBreakRequest {
   /** Inserts a newline and a section break at a specific index in the document. The section break must be inserted inside the bounds of an existing Paragraph. For instance, it cannot be inserted at a table's start index (i.e. between the table and its preceding paragraph). Section breaks cannot be inserted inside a table, equation, footnote, header, or footer. Since section breaks can only be inserted inside the body, the segment ID field must be empty. */
   location?: Location | undefined;
-  /** The type of section to insert. */
-  sectionType?: InsertSectionBreakRequestSectionTypeEnum | (string & {}) | undefined;
   /** Inserts a newline and a section break at the end of the document body. Section breaks cannot be inserted inside a footnote, header or footer. Because section breaks can only be inserted inside the body, the segment ID field must be empty. */
   endOfSegmentLocation?: EndOfSegmentLocation | undefined;
+  /** The type of section to insert. */
+  sectionType?: InsertSectionBreakRequestSectionTypeEnum | (string & {}) | undefined;
 }
-/** Styles that apply to a table row. */
-export interface TableRowStyle {
-  /** Whether the row cannot overflow across page or column boundaries. */
-  preventOverflow?: boolean | undefined;
-  /** The minimum height of the row. The row will be rendered in the Docs editor at a height equal to or greater than this value in order to show all the content in the row's cells. */
-  minRowHeight?: Dimension | undefined;
-  /** Whether the row is a table header. */
-  tableHeader?: boolean | undefined;
+/** Deletes bullets from all of the paragraphs that overlap with the given range. The nesting level of each paragraph will be visually preserved by adding indent to the start of the corresponding paragraph. */
+export interface DeleteParagraphBulletsRequest {
+  /** The range to delete bullets from. */
+  range?: Range | undefined;
 }
-/** Updates the TableRowStyle of rows in a table. */
-export interface UpdateTableRowStyleRequest {
-  /** The location where the table starts in the document. */
-  tableStartLocation?: Location | undefined;
-  /** The list of zero-based row indices whose style should be updated. If no indices are specified, all rows will be updated. */
-  rowIndices?: IntegerList | undefined;
-  /** The styles to be set on the rows. */
-  tableRowStyle?: TableRowStyle | undefined;
-  /** The fields that should be updated. At least one field must be specified. The root `tableRowStyle` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the minimum row height, set `fields` to `"min_row_height"`. */
-  fields?: string | undefined;
-}
-/** Update the properties of a document tab. */
-export interface UpdateDocumentTabPropertiesRequest {
-  /** The fields that should be updated. At least one field must be specified. The root `tab_properties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. */
-  fields?: string | undefined;
-  /** The tab properties to update. */
-  tabProperties?: TabProperties | undefined;
-}
-/** Deletes a Header from the document. */
-export interface DeleteHeaderRequest {
-  /** The tab containing the header to delete. When omitted, the request is applied to the first tab. In a document containing a single tab: - If provided, must match the singular tab's ID. - If omitted, the request applies to the singular tab. In a document containing multiple tabs: - If provided, the request applies to the specified tab. - If omitted, the request applies to the first tab in the document. */
-  tabId?: string | undefined;
-  /** The id of the header to delete. If this header is defined on DocumentStyle, the reference to this header is removed, resulting in no header of that type for the first section of the document. If this header is defined on a SectionStyle, the reference to this header is removed and the header of that type is now continued from the previous section. */
-  headerId?: string | undefined;
-}
-/** Inserts a page break followed by a newline at the specified location. */
-export interface InsertPageBreakRequest {
-  /** Inserts the page break at the end of the document body. Page breaks cannot be inserted inside a footnote, header or footer. Since page breaks can only be inserted inside the body, the segment ID field must be empty. */
-  endOfSegmentLocation?: EndOfSegmentLocation | undefined;
-  /** Inserts the page break at a specific index in the document. The page break must be inserted inside the bounds of an existing Paragraph. For instance, it cannot be inserted at a table's start index (i.e. between the table and its preceding paragraph). Page breaks cannot be inserted inside a table, equation, footnote, header or footer. Since page breaks can only be inserted inside the body, the segment ID field must be empty. */
+/** Deletes a suggestion. Returns a 403 forbidden error if the requesting user is not the author of the suggestion. */
+export type DeleteSuggestionRequest = AcceptSuggestionRequest;
+/** Inserts an InlineObject containing an image at the given location. */
+export interface InsertInlineImageRequest {
+  /** The size that the image should appear as in the document. This property is optional and the final size of the image in the document is determined by the following rules: * If neither width nor height is specified, then a default size of the image is calculated based on its resolution. * If one dimension is specified then the other dimension is calculated to preserve the aspect ratio of the image. * If both width and height are specified, the image is scaled to fit within the provided dimensions while maintaining its aspect ratio. */
+  objectSize?: Size | undefined;
+  /** Inserts the image at a specific index in the document. The image must be inserted inside the bounds of an existing Paragraph. For instance, it cannot be inserted at a table's start index (i.e. between the table and its preceding paragraph). Inline images cannot be inserted inside a footnote or equation. */
   location?: Location | undefined;
-}
-/** Inserts a table at the specified location. A newline character will be inserted before the inserted table. */
-export interface InsertTableRequest {
-  /** Inserts the table at the end of the given header, footer or document body. A newline character will be inserted before the inserted table. Tables cannot be inserted inside a footnote. */
+  /** Inserts the text at the end of a header, footer or the document body. Inline images cannot be inserted inside a footnote. */
   endOfSegmentLocation?: EndOfSegmentLocation | undefined;
-  /** Inserts the table at a specific model index. A newline character will be inserted before the inserted table, therefore the table start index will be at the specified location index + 1. The table must be inserted inside the bounds of an existing Paragraph. For instance, it cannot be inserted at a table's start index (i.e. between an existing table and its preceding paragraph). Tables cannot be inserted inside a footnote or equation. */
-  location?: Location | undefined;
-  /** The number of rows in the table. */
-  rows?: number | undefined;
-  /** The number of columns in the table. */
-  columns?: number | undefined;
+  /** The image URI. The image is fetched once at insertion time and a copy is stored for display inside the document. Images must be less than 50MB in size, cannot exceed 25 megapixels, and must be in one of PNG, JPEG, or GIF format. The provided URI must be publicly accessible and at most 2 kB in length. The URI itself is saved with the image, and exposed via the ImageProperties.content_uri field. */
+  uri?: string | undefined;
 }
 export type CreateParagraphBulletsRequestBulletPresetEnum =
   | "BULLET_GLYPH_PRESET_UNSPECIFIED"
@@ -827,436 +1052,211 @@ export interface CreateParagraphBulletsRequest {
   /** The kinds of bullet glyphs to be used. */
   bulletPreset?: CreateParagraphBulletsRequestBulletPresetEnum | (string & {}) | undefined;
 }
-/** Deletes a row from a table. */
-export interface DeleteTableRowRequest {
-  /** The reference table cell location from which the row will be deleted. The row this cell spans will be deleted. If this is a merged cell that spans multiple rows, all rows that the cell spans will be deleted. If no rows remain in the table after this deletion, the whole table is deleted. */
-  tableCellLocation?: TableCellLocation | undefined;
-}
-/** Inserts a Dropdown at the specified location. */
-export interface InsertDropdownRequest {
-  /** Required. The DropdownDefinition ID. */
-  dropdownDefinitionId?: string | undefined;
-  /** The EndOfSegmentLocation in the document to insert the dropdown at. */
-  endOfSegmentLocation?: EndOfSegmentLocation | undefined;
-  /** Optional initial value for the dropdown. If this field is not specified, the new dropdown will default to selecting the first option defined in the dropdown definition. If this field is specified but does not reference a valid option in the dropdown definition, a 400 bad request error is returned. */
-  selectedOptionId?: string | undefined;
-  /** The Location in the document to insert the dropdown at. */
-  location?: Location | undefined;
-}
-export type TableCellBorderDashStyleEnum = "DASH_STYLE_UNSPECIFIED" | "SOLID" | "DOT" | "DASH";
-/** A border around a table cell. Table cell borders cannot be transparent. To hide a table cell border, make its width 0. */
-export interface TableCellBorder {
-  /** The color of the border. This color cannot be transparent. */
-  color?: OptionalColor | undefined;
-  /** The dash style of the border. */
-  dashStyle?: TableCellBorderDashStyleEnum | (string & {}) | undefined;
-  /** The width of the border. */
-  width?: Dimension | undefined;
-}
-export type TableCellStyleContentAlignmentEnum =
-  | "CONTENT_ALIGNMENT_UNSPECIFIED"
-  | "CONTENT_ALIGNMENT_UNSUPPORTED"
-  | "TOP"
-  | "MIDDLE"
-  | "BOTTOM";
-/** The style of a TableCell. Inherited table cell styles are represented as unset fields in this message. A table cell style can inherit from the table's style. */
-export interface TableCellStyle {
-  /** The right padding of the cell. */
-  paddingRight?: Dimension | undefined;
-  /** The column span of the cell. This property is read-only. */
-  columnSpan?: number | undefined;
-  /** The left border of the cell. */
-  borderLeft?: TableCellBorder | undefined;
-  /** The alignment of the content in the table cell. The default alignment matches the alignment for newly created table cells in the Docs editor. */
-  contentAlignment?: TableCellStyleContentAlignmentEnum | (string & {}) | undefined;
-  /** The right border of the cell. */
-  borderRight?: TableCellBorder | undefined;
-  /** The left padding of the cell. */
-  paddingLeft?: Dimension | undefined;
-  /** The bottom padding of the cell. */
-  paddingBottom?: Dimension | undefined;
-  /** The row span of the cell. This property is read-only. */
-  rowSpan?: number | undefined;
-  /** The bottom border of the cell. */
-  borderBottom?: TableCellBorder | undefined;
-  /** The top border of the cell. */
-  borderTop?: TableCellBorder | undefined;
-  /** The top padding of the cell. */
-  paddingTop?: Dimension | undefined;
-  /** The background color of the cell. */
-  backgroundColor?: OptionalColor | undefined;
-}
-/** Updates the style of a range of table cells. */
-export interface UpdateTableCellStyleRequest {
-  /** The location where the table starts in the document. When specified, the updates are applied to all the cells in the table. */
-  tableStartLocation?: Location | undefined;
-  /** The table range representing the subset of the table to which the updates are applied. */
-  tableRange?: TableRange | undefined;
-  /** The fields that should be updated. At least one field must be specified. The root `tableCellStyle` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the table cell background color, set `fields` to `"backgroundColor"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
-  fields?: string | undefined;
-  /** The style to set on the table cells. When updating borders, if a cell shares a border with an adjacent cell, the corresponding border property of the adjacent cell is updated as well. Borders that are merged and invisible are not updated. Since updating a border shared by adjacent cells in the same request can cause conflicting border updates, border updates are applied in the following order: - `border_right` - `border_left` - `border_bottom` - `border_top` */
-  tableCellStyle?: TableCellStyle | undefined;
-}
-export type ReplaceImageRequestImageReplaceMethodEnum =
-  | "IMAGE_REPLACE_METHOD_UNSPECIFIED"
-  | "CENTER_CROP";
-/** Replaces an existing image with a new image. Replacing an image removes some image effects from the existing image in order to mirror the behavior of the Docs editor. */
-export interface ReplaceImageRequest {
-  /** The tab that the image to be replaced is in. When omitted, the request is applied to the first tab. In a document containing a single tab: - If provided, must match the singular tab's ID. - If omitted, the request applies to the singular tab. In a document containing multiple tabs: - If provided, the request applies to the specified tab. - If omitted, the request applies to the first tab in the document. */
-  tabId?: string | undefined;
-  /** The URI of the new image. The image is fetched once at insertion time and a copy is stored for display inside the document. Images must be less than 50MB, cannot exceed 25 megapixels, and must be in PNG, JPEG, or GIF format. The provided URI can't surpass 2 KB in length. The URI is saved with the image, and exposed through the ImageProperties.source_uri field. */
-  uri?: string | undefined;
-  /** The ID of the existing image that will be replaced. The ID can be retrieved from the response of a get request. */
-  imageObjectId?: string | undefined;
-  /** The replacement method. */
-  imageReplaceMethod?: ReplaceImageRequestImageReplaceMethodEnum | (string & {}) | undefined;
-}
-/** Properties specific to a RichLink. */
-export interface RichLinkProperties {
-  /** The title of the RichLink as displayed in the link. This title matches the title of the linked resource at the time of the insertion or last update of the link. This field is always present. */
-  title?: string | undefined;
-  /** The URI to the RichLink. This is always present. */
-  uri?: string | undefined;
-  /** The [MIME type](https://developers.google.com/drive/api/v3/mime-types) of the RichLink, if there's one (for example, when it's a file in Drive). */
-  mimeType?: string | undefined;
-}
-/** Inserts a RichLink at the specified location. */
-export interface InsertRichLinkRequest {
-  /** The properties of the rich link to insert. */
-  richLinkProperties?: RichLinkProperties | undefined;
-  /** Inserts the rich link at a specific index in the document. The rich link must be inserted inside the bounds of an existing Paragraph. For instance, it cannot be inserted at a table's start index (i.e. between the table and its preceding paragraph). The rich link cannot be inserted inside an equation. */
-  location?: Location | undefined;
-  /** Inserts the rich link at the end of a header, footer, footnote or the document body. */
-  endOfSegmentLocation?: EndOfSegmentLocation | undefined;
-}
-/** Deletes bullets from all of the paragraphs that overlap with the given range. The nesting level of each paragraph will be visually preserved by adding indent to the start of the corresponding paragraph. */
-export interface DeleteParagraphBulletsRequest {
-  /** The range to delete bullets from. */
-  range?: Range | undefined;
-}
-export type SectionStyleContentDirectionEnum =
-  | "CONTENT_DIRECTION_UNSPECIFIED"
-  | "LEFT_TO_RIGHT"
-  | "RIGHT_TO_LEFT";
-export type SectionStyleSectionTypeEnum = "SECTION_TYPE_UNSPECIFIED" | "CONTINUOUS" | "NEXT_PAGE";
 /** Properties that apply to a section's column. */
 export interface SectionColumnProperties {
-  /** The padding at the end of the column. */
-  paddingEnd?: Dimension | undefined;
   /** Output only. The width of the column. */
   width?: Dimension | undefined;
+  /** The padding at the end of the column. */
+  paddingEnd?: Dimension | undefined;
 }
 export type SectionColumnPropertiesList = Array<SectionColumnProperties>;
 export type SectionStyleColumnSeparatorStyleEnum =
   | "COLUMN_SEPARATOR_STYLE_UNSPECIFIED"
   | "NONE"
   | "BETWEEN_EACH_COLUMN";
+export type SectionStyleSectionTypeEnum = "SECTION_TYPE_UNSPECIFIED" | "CONTINUOUS" | "NEXT_PAGE";
+export type SectionStyleContentDirectionEnum =
+  | "CONTENT_DIRECTION_UNSPECIFIED"
+  | "LEFT_TO_RIGHT"
+  | "RIGHT_TO_LEFT";
 /** The styling that applies to a section. */
 export interface SectionStyle {
-  /** The content direction of this section. If unset, the value defaults to LEFT_TO_RIGHT. When updating this property, setting a concrete value is required. Unsetting this property results in a 400 bad request error. */
-  contentDirection?: SectionStyleContentDirectionEnum | (string & {}) | undefined;
-  /** Optional. Indicates whether to flip the dimensions of DocumentStyle's page_size for this section, which allows changing the page orientation between portrait and landscape. If unset, the value inherits from DocumentStyle's flip_page_orientation. If DocumentMode is PAGELESS, this property will not be rendered. When updating this property, setting a concrete value is required. Unsetting this property results in a 400 bad request error. */
-  flipPageOrientation?: boolean | undefined;
-  /** The ID of the footer used only for even pages. If the value of DocumentStyle's use_even_page_header_footer is true, this value is used for the footers on even pages in the section. If it is false, the footers on even pages use the default_footer_id. If unset, the value inherits from the previous SectionBreak's SectionStyle. If the value is unset in the first SectionBreak, it inherits from DocumentStyle's even_page_footer_id. If DocumentMode is PAGELESS, this property will not be rendered. This property is read-only. */
-  evenPageFooterId?: string | undefined;
-  /** The bottom page margin of the section. If unset, the value defaults to margin_bottom from DocumentStyle. If DocumentMode is PAGELESS, this property will not be rendered. When updating this property, setting a concrete value is required. Unsetting this property results in a 400 bad request error. */
-  marginBottom?: Dimension | undefined;
-  /** Output only. The type of section. */
-  sectionType?: SectionStyleSectionTypeEnum | (string & {}) | undefined;
   /** The left page margin of the section. If unset, the value defaults to margin_left from DocumentStyle. Updating the left margin causes columns in this section to resize. Since the margin affects column width, it's applied before column properties. If DocumentMode is PAGELESS, this property will not be rendered. When updating this property, setting a concrete value is required. Unsetting this property results in a 400 bad request error. */
   marginLeft?: Dimension | undefined;
-  /** Indicates whether to use the first page header / footer IDs for the first page of the section. If unset, it inherits from DocumentStyle's use_first_page_header_footer for the first section. If the value is unset for subsequent sectors, it should be interpreted as false. If DocumentMode is PAGELESS, this property will not be rendered. When updating this property, setting a concrete value is required. Unsetting this property results in a 400 bad request error. */
-  useFirstPageHeaderFooter?: boolean | undefined;
-  /** The section's columns properties. If empty, the section contains one column with the default properties in the Docs editor. A section can be updated to have no more than 3 columns. When updating this property, setting a concrete value is required. Unsetting this property will result in a 400 bad request error. */
-  columnProperties?: SectionColumnPropertiesList | undefined;
-  /** The ID of the header used only for even pages. If the value of DocumentStyle's use_even_page_header_footer is true, this value is used for the headers on even pages in the section. If it is false, the headers on even pages use the default_header_id. If unset, the value inherits from the previous SectionBreak's SectionStyle. If the value is unset in the first SectionBreak, it inherits from DocumentStyle's even_page_header_id. If DocumentMode is PAGELESS, this property will not be rendered. This property is read-only. */
-  evenPageHeaderId?: string | undefined;
-  /** The style of column separators. This style can be set even when there's one column in the section. When updating this property, setting a concrete value is required. Unsetting this property results in a 400 bad request error. */
-  columnSeparatorStyle?: SectionStyleColumnSeparatorStyleEnum | (string & {}) | undefined;
-  /** The ID of the footer used only for the first page of the section. If use_first_page_header_footer is true, this value is used for the footer on the first page of the section. If it's false, the footer on the first page of the section uses the default_footer_id. If unset, the value inherits from the previous SectionBreak's SectionStyle. If the value is unset in the first SectionBreak, it inherits from DocumentStyle's first_page_footer_id. If DocumentMode is PAGELESS, this property will not be rendered. This property is read-only. */
-  firstPageFooterId?: string | undefined;
-  /** The header margin of the section. If unset, the value defaults to margin_header from DocumentStyle. If updated, use_custom_header_footer_margins is set to true on DocumentStyle. The value of use_custom_header_footer_margins on DocumentStyle indicates if a header margin is being respected for this section. If DocumentMode is PAGELESS, this property will not be rendered. When updating this property, setting a concrete value is required. Unsetting this property results in a 400 bad request error. */
-  marginHeader?: Dimension | undefined;
-  /** The ID of the default header. If unset, the value inherits from the previous SectionBreak's SectionStyle. If the value is unset in the first SectionBreak, it inherits from DocumentStyle's default_header_id. If DocumentMode is PAGELESS, this property will not be rendered. This property is read-only. */
-  defaultHeaderId?: string | undefined;
-  /** The ID of the default footer. If unset, the value inherits from the previous SectionBreak's SectionStyle. If the value is unset in the first SectionBreak, it inherits from DocumentStyle's default_footer_id. If DocumentMode is PAGELESS, this property will not be rendered. This property is read-only. */
-  defaultFooterId?: string | undefined;
-  /** The right page margin of the section. If unset, the value defaults to margin_right from DocumentStyle. Updating the right margin causes columns in this section to resize. Since the margin affects column width, it's applied before column properties. If DocumentMode is PAGELESS, this property will not be rendered. When updating this property, setting a concrete value is required. Unsetting this property results in a 400 bad request error. */
-  marginRight?: Dimension | undefined;
-  /** The footer margin of the section. If unset, the value defaults to margin_footer from DocumentStyle. If updated, use_custom_header_footer_margins is set to true on DocumentStyle. The value of use_custom_header_footer_margins on DocumentStyle indicates if a footer margin is being respected for this section If DocumentMode is PAGELESS, this property will not be rendered. When updating this property, setting a concrete value is required. Unsetting this property results in a 400 bad request error. */
-  marginFooter?: Dimension | undefined;
-  /** The ID of the header used only for the first page of the section. If use_first_page_header_footer is true, this value is used for the header on the first page of the section. If it's false, the header on the first page of the section uses the default_header_id. If unset, the value inherits from the previous SectionBreak's SectionStyle. If the value is unset in the first SectionBreak, it inherits from DocumentStyle's first_page_header_id. If DocumentMode is PAGELESS, this property will not be rendered. This property is read-only. */
-  firstPageHeaderId?: string | undefined;
   /** The page number from which to start counting the number of pages for this section. If unset, page numbering continues from the previous section. If the value is unset in the first SectionBreak, refer to DocumentStyle's page_number_start. If DocumentMode is PAGELESS, this property will not be rendered. When updating this property, setting a concrete value is required. Unsetting this property results in a 400 bad request error. */
   pageNumberStart?: number | undefined;
+  /** The section's columns properties. If empty, the section contains one column with the default properties in the Docs editor. A section can be updated to have no more than 3 columns. When updating this property, setting a concrete value is required. Unsetting this property will result in a 400 bad request error. */
+  columnProperties?: SectionColumnPropertiesList | undefined;
+  /** The style of column separators. This style can be set even when there's one column in the section. When updating this property, setting a concrete value is required. Unsetting this property results in a 400 bad request error. */
+  columnSeparatorStyle?: SectionStyleColumnSeparatorStyleEnum | (string & {}) | undefined;
+  /** The right page margin of the section. If unset, the value defaults to margin_right from DocumentStyle. Updating the right margin causes columns in this section to resize. Since the margin affects column width, it's applied before column properties. If DocumentMode is PAGELESS, this property will not be rendered. When updating this property, setting a concrete value is required. Unsetting this property results in a 400 bad request error. */
+  marginRight?: Dimension | undefined;
+  /** Output only. The type of section. */
+  sectionType?: SectionStyleSectionTypeEnum | (string & {}) | undefined;
+  /** The footer margin of the section. If unset, the value defaults to margin_footer from DocumentStyle. If updated, use_custom_header_footer_margins is set to true on DocumentStyle. The value of use_custom_header_footer_margins on DocumentStyle indicates if a footer margin is being respected for this section If DocumentMode is PAGELESS, this property will not be rendered. When updating this property, setting a concrete value is required. Unsetting this property results in a 400 bad request error. */
+  marginFooter?: Dimension | undefined;
+  /** The ID of the default footer. If unset, the value inherits from the previous SectionBreak's SectionStyle. If the value is unset in the first SectionBreak, it inherits from DocumentStyle's default_footer_id. If DocumentMode is PAGELESS, this property will not be rendered. This property is read-only. */
+  defaultFooterId?: string | undefined;
+  /** The bottom page margin of the section. If unset, the value defaults to margin_bottom from DocumentStyle. If DocumentMode is PAGELESS, this property will not be rendered. When updating this property, setting a concrete value is required. Unsetting this property results in a 400 bad request error. */
+  marginBottom?: Dimension | undefined;
+  /** The ID of the footer used only for the first page of the section. If use_first_page_header_footer is true, this value is used for the footer on the first page of the section. If it's false, the footer on the first page of the section uses the default_footer_id. If unset, the value inherits from the previous SectionBreak's SectionStyle. If the value is unset in the first SectionBreak, it inherits from DocumentStyle's first_page_footer_id. If DocumentMode is PAGELESS, this property will not be rendered. This property is read-only. */
+  firstPageFooterId?: string | undefined;
+  /** Indicates whether to use the first page header / footer IDs for the first page of the section. If unset, it inherits from DocumentStyle's use_first_page_header_footer for the first section. If the value is unset for subsequent sectors, it should be interpreted as false. If DocumentMode is PAGELESS, this property will not be rendered. When updating this property, setting a concrete value is required. Unsetting this property results in a 400 bad request error. */
+  useFirstPageHeaderFooter?: boolean | undefined;
+  /** Optional. Indicates whether to flip the dimensions of DocumentStyle's page_size for this section, which allows changing the page orientation between portrait and landscape. If unset, the value inherits from DocumentStyle's flip_page_orientation. If DocumentMode is PAGELESS, this property will not be rendered. When updating this property, setting a concrete value is required. Unsetting this property results in a 400 bad request error. */
+  flipPageOrientation?: boolean | undefined;
+  /** The ID of the header used only for the first page of the section. If use_first_page_header_footer is true, this value is used for the header on the first page of the section. If it's false, the header on the first page of the section uses the default_header_id. If unset, the value inherits from the previous SectionBreak's SectionStyle. If the value is unset in the first SectionBreak, it inherits from DocumentStyle's first_page_header_id. If DocumentMode is PAGELESS, this property will not be rendered. This property is read-only. */
+  firstPageHeaderId?: string | undefined;
+  /** The ID of the default header. If unset, the value inherits from the previous SectionBreak's SectionStyle. If the value is unset in the first SectionBreak, it inherits from DocumentStyle's default_header_id. If DocumentMode is PAGELESS, this property will not be rendered. This property is read-only. */
+  defaultHeaderId?: string | undefined;
+  /** The ID of the header used only for even pages. If the value of DocumentStyle's use_even_page_header_footer is true, this value is used for the headers on even pages in the section. If it is false, the headers on even pages use the default_header_id. If unset, the value inherits from the previous SectionBreak's SectionStyle. If the value is unset in the first SectionBreak, it inherits from DocumentStyle's even_page_header_id. If DocumentMode is PAGELESS, this property will not be rendered. This property is read-only. */
+  evenPageHeaderId?: string | undefined;
+  /** The content direction of this section. If unset, the value defaults to LEFT_TO_RIGHT. When updating this property, setting a concrete value is required. Unsetting this property results in a 400 bad request error. */
+  contentDirection?: SectionStyleContentDirectionEnum | (string & {}) | undefined;
+  /** The header margin of the section. If unset, the value defaults to margin_header from DocumentStyle. If updated, use_custom_header_footer_margins is set to true on DocumentStyle. The value of use_custom_header_footer_margins on DocumentStyle indicates if a header margin is being respected for this section. If DocumentMode is PAGELESS, this property will not be rendered. When updating this property, setting a concrete value is required. Unsetting this property results in a 400 bad request error. */
+  marginHeader?: Dimension | undefined;
   /** The top page margin of the section. If unset, the value defaults to margin_top from DocumentStyle. If DocumentMode is PAGELESS, this property will not be rendered. When updating this property, setting a concrete value is required. Unsetting this property results in a 400 bad request error. */
   marginTop?: Dimension | undefined;
+  /** The ID of the footer used only for even pages. If the value of DocumentStyle's use_even_page_header_footer is true, this value is used for the footers on even pages in the section. If it is false, the footers on even pages use the default_footer_id. If unset, the value inherits from the previous SectionBreak's SectionStyle. If the value is unset in the first SectionBreak, it inherits from DocumentStyle's even_page_footer_id. If DocumentMode is PAGELESS, this property will not be rendered. This property is read-only. */
+  evenPageFooterId?: string | undefined;
 }
 /** Updates the SectionStyle. */
 export interface UpdateSectionStyleRequest {
-  /** The fields that should be updated. At least one field must be specified. The root `section_style` is implied and must not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the left margin, set `fields` to `"margin_left"`. */
-  fields?: string | undefined;
   /** The styles to be set on the section. Certain section style changes may cause other changes in order to mirror the behavior of the Docs editor. See the documentation of SectionStyle for more information. */
   sectionStyle?: SectionStyle | undefined;
+  /** The fields that should be updated. At least one field must be specified. The root `section_style` is implied and must not be specified. A single `"*"` can be used as short-hand for listing every field. For example to update the left margin, set `fields` to `"margin_left"`. */
+  fields?: string | undefined;
   /** The range overlapping the sections to style. Because section breaks can only be inserted inside the body, the segment ID field must be empty. */
   range?: Range | undefined;
 }
 /** Inserts text at the specified location. */
 export interface InsertTextRequest {
-  /** The text to be inserted. Inserting a newline character will implicitly create a new Paragraph at that index. The paragraph style of the new paragraph will be copied from the paragraph at the current insertion index, including lists and bullets. Text styles for inserted text will be determined automatically, generally preserving the styling of neighboring text. In most cases, the text style for the inserted text will match the text immediately before the insertion index. Some control characters (U+0000-U+0008, U+000C-U+001F) and characters from the Unicode Basic Multilingual Plane Private Use Area (U+E000-U+F8FF) will be stripped out of the inserted text. */
-  text?: string | undefined;
   /** Inserts the text at a specific index in the document. Text must be inserted inside the bounds of an existing Paragraph. For instance, text cannot be inserted at a table's start index (i.e. between the table and its preceding paragraph). The text must be inserted in the preceding paragraph. */
   location?: Location | undefined;
   /** Inserts the text at the end of a header, footer, footnote or the document body. */
   endOfSegmentLocation?: EndOfSegmentLocation | undefined;
+  /** The text to be inserted. Inserting a newline character will implicitly create a new Paragraph at that index. The paragraph style of the new paragraph will be copied from the paragraph at the current insertion index, including lists and bullets. Text styles for inserted text will be determined automatically, generally preserving the styling of neighboring text. In most cases, the text style for the inserted text will match the text immediately before the insertion index. Some control characters (U+0000-U+0008, U+000C-U+001F) and characters from the Unicode Basic Multilingual Plane Private Use Area (U+E000-U+F8FF) will be stripped out of the inserted text. */
+  text?: string | undefined;
 }
-/** Deletes a tab. If the tab has child tabs, they are deleted as well. */
-export interface DeleteTabRequest {
-  /** The ID of the tab to delete. */
-  tabId?: string | undefined;
+/** Rejects a suggestion. Returns a 403 forbidden error if the requesting user does not have edit access to the document and is not the author of the suggestion. */
+export type RejectSuggestionRequest = AcceptSuggestionRequest;
+/** Adds a document tab. When a tab is added at a given index, all subsequent tabs' indexes are incremented. */
+export interface AddDocumentTabRequest {
+  /** The properties of the tab to add. All properties are optional. */
+  tabProperties?: TabProperties | undefined;
 }
-export type CreateHeaderRequestTypeEnum = "HEADER_FOOTER_TYPE_UNSPECIFIED" | "DEFAULT";
-/** Creates a Header. The new header is applied to the SectionStyle at the location of the SectionBreak if specified, otherwise it is applied to the DocumentStyle. If a header of the specified type already exists, a 400 bad request error is returned. */
-export interface CreateHeaderRequest {
-  /** The location of the SectionBreak which begins the section this header should belong to. If `section_break_location' is unset or if it refers to the first section break in the document body, the header applies to the DocumentStyle */
-  sectionBreakLocation?: Location | undefined;
-  /** The type of header to create. */
-  type?: CreateHeaderRequestTypeEnum | (string & {}) | undefined;
-}
-/** Creates a Footnote segment and inserts a new FootnoteReference to it at the given location. The new Footnote segment will contain a space followed by a newline character. */
-export interface CreateFootnoteRequest {
-  /** Inserts the footnote reference at the end of the document body. Footnote references cannot be inserted inside a header, footer or footnote. Since footnote references can only be inserted in the body, the segment ID field must be empty. */
-  endOfSegmentLocation?: EndOfSegmentLocation | undefined;
-  /** Inserts the footnote reference at a specific index in the document. The footnote reference must be inserted inside the bounds of an existing Paragraph. For instance, it cannot be inserted at a table's start index (i.e. between the table and its preceding paragraph). Footnote references cannot be inserted inside an equation, header, footer or footnote. Since footnote references can only be inserted in the body, the segment ID field must be empty. */
-  location?: Location | undefined;
-}
-/** Update the styling of text. */
-export interface UpdateTextStyleRequest {
-  /** The fields that should be updated. At least one field must be specified. The root `text_style` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example, to update the text style to bold, set `fields` to `"bold"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. */
-  fields?: string | undefined;
-  /** The range of text to style. The range may be extended to include adjacent newlines. If the range fully contains a paragraph belonging to a list, the paragraph's bullet is also updated with the matching text style. Ranges cannot be inserted inside a relative UpdateTextStyleRequest. */
-  range?: Range | undefined;
-  /** The styles to set on the text. If the value for a particular style matches that of the parent, that style will be set to inherit. Certain text style changes may cause other changes in order to to mirror the behavior of the Docs editor. See the documentation of TextStyle for more information. */
-  textStyle?: TextStyle | undefined;
-}
-/** Merges cells in a Table. */
-export interface MergeTableCellsRequest {
-  /** The table range specifying which cells of the table to merge. Any text in the cells being merged will be concatenated and stored in the "head" cell of the range. This is the upper-left cell of the range when the content direction is left to right, and the upper-right cell of the range otherwise. If the range is non-rectangular (which can occur in some cases where the range covers cells that are already merged or where the table is non-rectangular), a 400 bad request error is returned. */
-  tableRange?: TableRange | undefined;
-}
-export type NamedStyleNamedStyleTypeEnum =
-  | "NAMED_STYLE_TYPE_UNSPECIFIED"
-  | "NORMAL_TEXT"
-  | "TITLE"
-  | "SUBTITLE"
-  | "HEADING_1"
-  | "HEADING_2"
-  | "HEADING_3"
-  | "HEADING_4"
-  | "HEADING_5"
-  | "HEADING_6";
-/** A named style. Paragraphs in the document can inherit their TextStyle and ParagraphStyle from this named style when they have the same named style type. */
-export interface NamedStyle {
-  /** The type of this named style. */
-  namedStyleType?: NamedStyleNamedStyleTypeEnum | (string & {}) | undefined;
-  /** The paragraph style of this named style. */
-  paragraphStyle?: ParagraphStyle | undefined;
-  /** The text style of this named style. */
-  textStyle?: TextStyle | undefined;
-}
-/** Updates a named style. */
-export interface UpdateNamedStyleRequest {
-  /** The document style to update. */
-  namedStyle?: NamedStyle | undefined;
-  /** The NamedStyle fields that should be updated. At least `named_style_type` must be specified. The root `named_style` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. For example, to update the text style to bold, set `fields` to include `"text_style"` and `"text_style.bold"`. To update the paragraph style's alignment property, set `fields` to include `"paragraph_style"` and `"paragraph_style.alignment"`. To reset a property to its default value, include its field name in the field mask but leave the field itself unset. Specifying `"text_style"` or `"paragraph_style"` with an empty TextStyle or ParagraphStyle will reset all of its nested fields. */
-  fields?: string | undefined;
-  /** The document tab to update. By default, the update is applied to the first tab. */
-  tabId?: string | undefined;
-}
-/** Deletes a PositionedObject from the document. */
-export interface DeletePositionedObjectRequest {
-  /** The ID of the positioned object to delete. */
-  objectId?: string | undefined;
-  /** The tab that the positioned object to delete is in. When omitted, the request is applied to the first tab. In a document containing a single tab: - If provided, must match the singular tab's ID. - If omitted, the request applies to the singular tab. In a document containing multiple tabs: - If provided, the request applies to the specified tab. - If omitted, the request applies to the first tab in the document. */
-  tabId?: string | undefined;
-}
-/** Properties specific to a dropdown. */
-export interface DropdownProperties {
-  /** The ID of the selected option in this dropdown. */
-  selectedOptionId?: string | undefined;
-  /** The human-readable display text of the currently selected item. This field is populated by the server based on the dropdown definition and the selected option ID. It may differ from `DropdownOption.display_value` if the underlying option definition was modified or deleted, or during pending suggested changes. */
-  displayValue?: string | undefined;
-  /** The ID of the DropdownDefinition that defines the options for this dropdown. */
-  dropdownDefinitionId?: string | undefined;
-}
-/** Updates the properties of a Dropdown. */
-export interface UpdateDropdownPropertiesRequest {
-  /** The fields that should be updated. At least one field must be specified. The root `dropdown_properties` is implied and should not be specified. A single `"*"` can be used as short-hand for listing every field. */
-  fields?: string | undefined;
-  /** The ID of the tab that contains the dropdown to update. When omitted, the request is applied to the first tab. In a document containing a single tab: - If provided, must match the singular tab's ID. - If omitted, the request applies to the singular tab. In a document containing multiple tabs: - If provided, the request applies to the specified tab. - If omitted, the request applies to the first tab in the document. */
-  tabId?: string | undefined;
-  /** Required. The Dropdown ID. */
-  dropdownId?: string | undefined;
-  /** The properties to update. */
-  dropdownProperties?: DropdownProperties | undefined;
-}
-/** Properties specific to a linked Person. */
-export interface PersonProperties {
-  /** The email address linked to this Person. This field is always present. */
-  email?: string | undefined;
-  /** The name of the person if it's displayed in the link text instead of the person's email address. */
-  name?: string | undefined;
-}
-/** Inserts a person mention. */
-export interface InsertPersonRequest {
-  /** The properties of the person mention to insert. */
-  personProperties?: PersonProperties | undefined;
-  /** Inserts the person mention at a specific index in the document. The person mention must be inserted inside the bounds of an existing Paragraph. For instance, it cannot be inserted at a table's start index (i.e. between the table and its preceding paragraph). Person mentions cannot be inserted inside an equation. */
-  location?: Location | undefined;
-  /** Inserts the person mention at the end of a header, footer, footnote or the document body. */
-  endOfSegmentLocation?: EndOfSegmentLocation | undefined;
-}
-/** Updates the number of pinned table header rows in a table. */
-export interface PinTableHeaderRowsRequest {
-  /** The location where the table starts in the document. */
-  tableStartLocation?: Location | undefined;
-  /** The number of table rows to pin, where 0 implies that all rows are unpinned. */
-  pinnedHeaderRowsCount?: number | undefined;
+/** Deletes a column from a table. */
+export interface DeleteTableColumnRequest {
+  /** The reference table cell location from which the column will be deleted. The column this cell spans will be deleted. If this is a merged cell that spans multiple columns, all columns that the cell spans will be deleted. If no columns remain in the table after this deletion, the whole table is deleted. */
+  tableCellLocation?: TableCellLocation | undefined;
 }
 /** Inserts a CommentThread into the document. */
 export interface InsertCommentRequest {
-  /** Optional. The email address of the assignee of the comment. Leave empty for a non-assigned comment. May not exceed 2048 UTF-8 code units. */
-  assigneeEmailAddress?: string | undefined;
   /** The Range in the document that is tied to this comment. */
   range?: Range | undefined;
   /** The text of the comment, as plain text. This text content will be handled similarly to comments created in the Docs editor. It will have similar behaviors for formatting, notifications, etc. This field cannot be empty, and must not exceed 2048 UTF-8 code units. */
   content?: string | undefined;
-}
-/** Deletes a Footer from the document. */
-export interface DeleteFooterRequest {
-  /** The tab that contains the footer to delete. When omitted, the request is applied to the first tab. In a document containing a single tab: - If provided, must match the singular tab's ID. - If omitted, the request applies to the singular tab. In a document containing multiple tabs: - If provided, the request applies to the specified tab. - If omitted, the request applies to the first tab in the document. */
-  tabId?: string | undefined;
-  /** The id of the footer to delete. If this footer is defined on DocumentStyle, the reference to this footer is removed, resulting in no footer of that type for the first section of the document. If this footer is defined on a SectionStyle, the reference to this footer is removed and the footer of that type is now continued from the previous section. */
-  footerId?: string | undefined;
-}
-/** Accepts a suggestion. Returns a 403 forbidden error if the requesting user does not have edit access to the document. */
-export type AcceptSuggestionRequest = RejectSuggestionRequest;
-export type CreateFooterRequestTypeEnum = "HEADER_FOOTER_TYPE_UNSPECIFIED" | "DEFAULT";
-/** Creates a Footer. The new footer is applied to the SectionStyle at the location of the SectionBreak if specified, otherwise it is applied to the DocumentStyle. If a footer of the specified type already exists, a 400 bad request error is returned. */
-export interface CreateFooterRequest {
-  /** The location of the SectionBreak immediately preceding the section whose SectionStyle this footer should belong to. If this is unset or refers to the first section break in the document, the footer applies to the document style. */
-  sectionBreakLocation?: Location | undefined;
-  /** The type of footer to create. */
-  type?: CreateFooterRequestTypeEnum | (string & {}) | undefined;
+  /** Optional. The email address of the assignee of the comment. Leave empty for a non-assigned comment. May not exceed 2048 UTF-8 code units. */
+  assigneeEmailAddress?: string | undefined;
 }
 /** A single update to apply to a document. */
 export interface Request {
-  /** Inserts an inline image at the specified location. */
-  insertInlineImage?: InsertInlineImageRequest | undefined;
-  /** Inserts an empty column into a table. */
-  insertTableColumn?: InsertTableColumnRequest | undefined;
-  /** Replaces the content in a named range. */
-  replaceNamedRangeContent?: ReplaceNamedRangeContentRequest | undefined;
-  /** Replaces all instances of the specified text. */
-  replaceAllText?: ReplaceAllTextRequest | undefined;
-  /** Deletes a CommentThread. */
-  deleteComment?: DeleteCommentRequest | undefined;
-  /** Updates the style of the document. */
-  updateDocumentStyle?: UpdateDocumentStyleRequest | undefined;
-  /** Updates the properties of columns in a table. */
-  updateTableColumnProperties?: UpdateTableColumnPropertiesRequest | undefined;
-  /** Creates a DropdownDefinition. */
-  createDropdownDefinition?: CreateDropdownDefinitionRequest | undefined;
-  /** Updates the paragraph style at the specified range. */
-  updateParagraphStyle?: UpdateParagraphStyleRequest | undefined;
   /** Deletes content from the document. */
   deleteContentRange?: DeleteContentRangeRequest | undefined;
-  /** Updates the properties of a DropdownDefinition. */
-  updateDropdownDefinitionProperties?: UpdateDropdownDefinitionPropertiesRequest | undefined;
-  /** Deletes a column from a table. */
-  deleteTableColumn?: DeleteTableColumnRequest | undefined;
-  /** Deletes a DropdownDefinition. */
-  deleteDropdownDefinition?: DeleteDropdownDefinitionRequest | undefined;
-  /** Inserts an empty row into a table. */
-  insertTableRow?: InsertTableRowRequest | undefined;
-  /** Creates a named range. */
-  createNamedRange?: CreateNamedRangeRequest | undefined;
-  /** Inserts a date. */
-  insertDate?: InsertDateRequest | undefined;
-  /** Deletes a reply Post from a CommentThread or SuggestionThread. */
-  deleteCommentReply?: DeleteCommentReplyRequest | undefined;
-  /** Updates an existing post (head post or reply) of a CommentThread or SuggestionThread. */
-  updateCommentPost?: UpdateCommentPostRequest | undefined;
-  /** Adds a document tab. */
-  addDocumentTab?: AddDocumentTabRequest | undefined;
-  /** Rejects a suggestion. */
-  rejectSuggestion?: RejectSuggestionRequest | undefined;
+  /** Replaces the content in a named range. */
+  replaceNamedRangeContent?: ReplaceNamedRangeContentRequest | undefined;
   /** Deletes a named range. */
   deleteNamedRange?: DeleteNamedRangeRequest | undefined;
-  /** Deletes a suggestion. */
-  deleteSuggestion?: RejectSuggestionRequest | undefined;
+  /** Deletes a positioned object from the document. */
+  deletePositionedObject?: DeletePositionedObjectRequest | undefined;
+  /** Replaces all instances of the specified text. */
+  replaceAllText?: ReplaceAllTextRequest | undefined;
+  /** Creates a header. */
+  createHeader?: CreateHeaderRequest | undefined;
+  /** Deletes a footer from the document. */
+  deleteFooter?: DeleteFooterRequest | undefined;
+  /** Replaces an image in the document. */
+  replaceImage?: ReplaceImageRequest | undefined;
+  /** Updates an existing post (head post or reply) of a CommentThread or SuggestionThread. */
+  updateCommentPost?: UpdateCommentPostRequest | undefined;
+  /** Creates a footnote. */
+  createFootnote?: CreateFootnoteRequest | undefined;
+  /** Deletes a header from the document. */
+  deleteHeader?: DeleteHeaderRequest | undefined;
+  /** Deletes a CommentThread. */
+  deleteComment?: DeleteCommentRequest | undefined;
+  /** Updates the text style at the specified range. */
+  updateTextStyle?: UpdateTextStyleRequest | undefined;
+  /** Inserts a page break at the specified location. */
+  insertPageBreak?: InsertPageBreakRequest | undefined;
+  /** Creates a named range. */
+  createNamedRange?: CreateNamedRangeRequest | undefined;
+  /** Deletes a DropdownDefinition. */
+  deleteDropdownDefinition?: DeleteDropdownDefinitionRequest | undefined;
+  /** Insert a rich link. */
+  insertRichLink?: InsertRichLinkRequest | undefined;
+  /** Inserts an empty row into a table. */
+  insertTableRow?: InsertTableRowRequest | undefined;
+  /** Inserts a date. */
+  insertDate?: InsertDateRequest | undefined;
+  /** Updates the properties of a DropdownDefinition. */
+  updateDropdownDefinitionProperties?: UpdateDropdownDefinitionPropertiesRequest | undefined;
   /** Adds a reply to a CommentThread or SuggestionThread. */
   addCommentReply?: AddCommentReplyRequest | undefined;
-  /** Unmerges cells in a table. */
-  unmergeTableCells?: UnmergeTableCellsRequest | undefined;
-  /** Inserts a section break at the specified location. */
-  insertSectionBreak?: InsertSectionBreakRequest | undefined;
+  /** Deletes a row from a table. */
+  deleteTableRow?: DeleteTableRowRequest | undefined;
+  /** Deletes a reply Post from a CommentThread or SuggestionThread. */
+  deleteCommentReply?: DeleteCommentReplyRequest | undefined;
+  /** Updates the style of the document. */
+  updateDocumentStyle?: UpdateDocumentStyleRequest | undefined;
+  /** Updates a named style. */
+  updateNamedStyle?: UpdateNamedStyleRequest | undefined;
+  /** Inserts a table at the specified location. */
+  insertTable?: InsertTableRequest | undefined;
+  /** Creates a footer. */
+  createFooter?: CreateFooterRequest | undefined;
+  /** Updates the properties of columns in a table. */
+  updateTableColumnProperties?: UpdateTableColumnPropertiesRequest | undefined;
   /** Updates the row style in a table. */
   updateTableRowStyle?: UpdateTableRowStyleRequest | undefined;
   /** Updates the properties of a document tab. */
   updateDocumentTabProperties?: UpdateDocumentTabPropertiesRequest | undefined;
-  /** Deletes a header from the document. */
-  deleteHeader?: DeleteHeaderRequest | undefined;
-  /** Inserts a page break at the specified location. */
-  insertPageBreak?: InsertPageBreakRequest | undefined;
-  /** Inserts a table at the specified location. */
-  insertTable?: InsertTableRequest | undefined;
-  /** Creates bullets for paragraphs. */
-  createParagraphBullets?: CreateParagraphBulletsRequest | undefined;
-  /** Deletes a row from a table. */
-  deleteTableRow?: DeleteTableRowRequest | undefined;
-  /** Inserts a Dropdown at the specified location. */
-  insertDropdown?: InsertDropdownRequest | undefined;
+  /** Updates the number of pinned header rows in a table. */
+  pinTableHeaderRows?: PinTableHeaderRowsRequest | undefined;
+  /** Merges cells in a table. */
+  mergeTableCells?: MergeTableCellsRequest | undefined;
+  /** Updates the properties of a Dropdown. */
+  updateDropdownProperties?: UpdateDropdownPropertiesRequest | undefined;
+  /** Updates the paragraph style at the specified range. */
+  updateParagraphStyle?: UpdateParagraphStyleRequest | undefined;
   /** Updates the style of table cells. */
   updateTableCellStyle?: UpdateTableCellStyleRequest | undefined;
-  /** Replaces an image in the document. */
-  replaceImage?: ReplaceImageRequest | undefined;
-  /** Insert a rich link. */
-  insertRichLink?: InsertRichLinkRequest | undefined;
+  /** Unmerges cells in a table. */
+  unmergeTableCells?: UnmergeTableCellsRequest | undefined;
+  /** Inserts an empty column into a table. */
+  insertTableColumn?: InsertTableColumnRequest | undefined;
+  /** Deletes a document tab. */
+  deleteTab?: DeleteTabRequest | undefined;
+  /** Inserts a person mention. */
+  insertPerson?: InsertPersonRequest | undefined;
+  /** Accepts a suggestion. */
+  acceptSuggestion?: AcceptSuggestionRequest | undefined;
+  /** Creates a DropdownDefinition. */
+  createDropdownDefinition?: CreateDropdownDefinitionRequest | undefined;
+  /** Inserts a Dropdown at the specified location. */
+  insertDropdown?: InsertDropdownRequest | undefined;
+  /** Inserts a section break at the specified location. */
+  insertSectionBreak?: InsertSectionBreakRequest | undefined;
   /** Deletes bullets from paragraphs. */
   deleteParagraphBullets?: DeleteParagraphBulletsRequest | undefined;
+  /** Deletes a suggestion. */
+  deleteSuggestion?: AcceptSuggestionRequest | undefined;
+  /** Inserts an inline image at the specified location. */
+  insertInlineImage?: InsertInlineImageRequest | undefined;
+  /** Creates bullets for paragraphs. */
+  createParagraphBullets?: CreateParagraphBulletsRequest | undefined;
   /** Updates the section style of the specified range. */
   updateSectionStyle?: UpdateSectionStyleRequest | undefined;
   /** Inserts text at the specified location. */
   insertText?: InsertTextRequest | undefined;
-  /** Deletes a document tab. */
-  deleteTab?: DeleteTabRequest | undefined;
-  /** Creates a header. */
-  createHeader?: CreateHeaderRequest | undefined;
-  /** Creates a footnote. */
-  createFootnote?: CreateFootnoteRequest | undefined;
-  /** Updates the text style at the specified range. */
-  updateTextStyle?: UpdateTextStyleRequest | undefined;
-  /** Merges cells in a table. */
-  mergeTableCells?: MergeTableCellsRequest | undefined;
-  /** Updates a named style. */
-  updateNamedStyle?: UpdateNamedStyleRequest | undefined;
-  /** Deletes a positioned object from the document. */
-  deletePositionedObject?: DeletePositionedObjectRequest | undefined;
-  /** Updates the properties of a Dropdown. */
-  updateDropdownProperties?: UpdateDropdownPropertiesRequest | undefined;
-  /** Inserts a person mention. */
-  insertPerson?: InsertPersonRequest | undefined;
-  /** Updates the number of pinned header rows in a table. */
-  pinTableHeaderRows?: PinTableHeaderRowsRequest | undefined;
+  /** Rejects a suggestion. */
+  rejectSuggestion?: AcceptSuggestionRequest | undefined;
+  /** Adds a document tab. */
+  addDocumentTab?: AddDocumentTabRequest | undefined;
+  /** Deletes a column from a table. */
+  deleteTableColumn?: DeleteTableColumnRequest | undefined;
   /** Inserts a CommentThread into the document. */
   insertComment?: InsertCommentRequest | undefined;
-  /** Deletes a footer from the document. */
-  deleteFooter?: DeleteFooterRequest | undefined;
-  /** Accepts a suggestion. */
-  acceptSuggestion?: RejectSuggestionRequest | undefined;
-  /** Creates a footer. */
-  createFooter?: CreateFooterRequest | undefined;
 }
 export type RequestList = Array<Request>;
 export type WriteControlWriteModeEnum = "WRITE_MODE_UNSPECIFIED" | "EDIT" | "SUGGEST";
@@ -1264,10 +1264,10 @@ export type WriteControlWriteModeEnum = "WRITE_MODE_UNSPECIFIED" | "EDIT" | "SUG
 export interface WriteControl {
   /** The optional target revision ID of the document the write request is applied to. If collaborator changes have occurred after the document was read using the API, the changes produced by this write request are applied against the collaborator changes. This results in a new revision of the document that incorporates both the collaborator changes and the changes in the request, with the Docs server resolving conflicting changes. When using target revision ID, the API client can be thought of as another collaborator of the document. The target revision ID can only be used to write to recent versions of a document. If the target revision is too far behind the latest revision, the request is not processed and returns a 400 bad request error. The request should be tried again after retrieving the latest version of the document. Usually a revision ID remains valid for use as a target revision for several minutes after it's read, but for frequently edited documents this window might be shorter. */
   targetRevisionId?: string | undefined;
-  /** How the request updates should be applied to the document. If unspecified, the request updates will be applied as normal edits. */
-  writeMode?: WriteControlWriteModeEnum | (string & {}) | undefined;
   /** The optional revision ID of the document the write request is applied to. If this is not the latest revision of the document, the request is not processed and returns a 400 bad request error. When a required revision ID is returned in a response, it indicates the revision ID of the document after the request was applied. */
   requiredRevisionId?: string | undefined;
+  /** How the request updates should be applied to the document. If unspecified, the request updates will be applied as normal edits. */
+  writeMode?: WriteControlWriteModeEnum | (string & {}) | undefined;
 }
 /** Request message for BatchUpdateDocument. */
 export interface BatchUpdateDocumentRequest {
@@ -1280,24 +1280,55 @@ export interface BatchUpdateDocumentsRequest extends BatchUpdateDocumentRequest 
   /** The ID of the document to update. */
   documentId: string;
 }
-/** The result of creating a named range. */
-export interface CreateNamedRangeResponse {
-  /** The ID of the created named range. */
-  namedRangeId?: string | undefined;
+export type BatchUpdateDocumentResponseCommentUpdateStateEnum =
+  | "COMMENT_UPDATE_STATE_UNSPECIFIED"
+  | "NO_UPDATES_REQUESTED"
+  | "ALL_SAVED"
+  | "ALL_FAILED_UNKNOWN_REASON";
+/** The suggestions which were affected by a given update. */
+export interface SuggestionResponse {
+  /** The IDs of suggestions which were created during the update. */
+  createdSuggestionIds?: StringList | undefined;
+  /** The IDs of suggestions which were deleted during the update. */
+  deletedSuggestionIds?: StringList | undefined;
+  /** The IDs of suggestions which were rejected during the update. */
+  rejectedSuggestionIds?: StringList | undefined;
+  /** The IDs of suggestions which were accepted during the update. */
+  acceptedSuggestionIds?: StringList | undefined;
+  /** The IDs of suggestions whose summaries were updated during the update. */
+  updatedSummarySuggestionIds?: StringList | undefined;
 }
-/** The result of adding a document tab. */
-export interface AddDocumentTabResponse {
-  /** The properties of the newly added tab. */
-  tabProperties?: TabProperties | undefined;
+export type SuggestionResponseList = Array<SuggestionResponse>;
+export type PostList = Array<Post>;
+export type CommentThreadStatusEnum = "STATUS_UNSPECIFIED" | "OPEN" | "RESOLVED";
+/** Represents a single comment thread. */
+export interface CommentThread {
+  /** The quoted text from the document when the comment was created, formatted as plain-text. */
+  plainTextQuote?: string | undefined;
+  /** The ID of the CommentAnchor in the document that this thread is tied to. Multiple comment threads may be anchored to the same CommentAnchor. */
+  anchorId?: string | undefined;
+  /** The first post in the thread. */
+  headPost?: Post | undefined;
+  /** Replies to the head post. */
+  replies?: PostList | undefined;
+  /** The unique ID of the comment thread. */
+  commentId?: string | undefined;
+  /** Whether the thread is open or resolved. */
+  status?: CommentThreadStatusEnum | (string & {}) | undefined;
 }
-/** The result of replacing text. */
-export interface ReplaceAllTextResponse {
-  /** The number of occurrences changed by replacing all text. */
-  occurrencesChanged?: number | undefined;
+/** Response message for inserting a comment. */
+export interface InsertCommentResponse {
+  /** The newly-inserted comment thread. */
+  commentThread?: CommentThread | undefined;
 }
-/** The result of inserting an inline image. */
-export interface InsertInlineImageResponse {
-  /** The ID of the created InlineObject. */
+/** The result of creating a footnote. */
+export interface CreateFootnoteResponse {
+  /** The ID of the created footnote. */
+  footnoteId?: string | undefined;
+}
+/** The result of inserting an embedded Google Sheets chart. */
+export interface InsertInlineSheetsChartResponse {
+  /** The object ID of the inserted chart. */
   objectId?: string | undefined;
 }
 /** A mask that indicates which of the fields on the base DropdownProperties have been changed in this suggestion. For any field set to true, there's a new suggested value. */
@@ -1317,35 +1348,35 @@ export type SuggestedDropdownPropertiesMap = {
 };
 /** A mask that indicates which of the fields on the base TextStyle have been changed in this suggestion. For any field set to true, there's a new suggested value. */
 export interface TextStyleSuggestionState {
+  /** Indicates if there was a suggested change to weighted_font_family. */
+  weightedFontFamilySuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to italic. */
+  italicSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to bold. */
+  boldSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to small_caps. */
+  smallCapsSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to font_size. */
+  fontSizeSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to link. */
+  linkSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to foreground_color. */
+  foregroundColorSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to strikethrough. */
+  strikethroughSuggested?: boolean | undefined;
   /** Indicates if there was a suggested change to background_color. */
   backgroundColorSuggested?: boolean | undefined;
   /** Indicates if there was a suggested change to underline. */
   underlineSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to font_size. */
-  fontSizeSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to strikethrough. */
-  strikethroughSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to bold. */
-  boldSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to foreground_color. */
-  foregroundColorSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to link. */
-  linkSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to small_caps. */
-  smallCapsSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to weighted_font_family. */
-  weightedFontFamilySuggested?: boolean | undefined;
   /** Indicates if there was a suggested change to baseline_offset. */
   baselineOffsetSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to italic. */
-  italicSuggested?: boolean | undefined;
 }
 /** A suggested change to a TextStyle. */
 export interface SuggestedTextStyle {
-  /** A mask that indicates which of the fields on the base TextStyle have been changed in this suggestion. */
-  textStyleSuggestionState?: TextStyleSuggestionState | undefined;
   /** A TextStyle that only includes the changes made in this suggestion. This can be used along with the text_style_suggestion_state to see which fields have changed and their new values. */
   textStyle?: TextStyle | undefined;
+  /** A mask that indicates which of the fields on the base TextStyle have been changed in this suggestion. */
+  textStyleSuggestionState?: TextStyleSuggestionState | undefined;
 }
 export type SuggestedTextStyleMap = { [key: string]: SuggestedTextStyle | undefined };
 /** A dropdown in the document. The chip is displayed as a dropdown menu that allows users to select an option from a configurable list of options. */
@@ -1356,182 +1387,212 @@ export interface Dropdown {
   textStyle?: TextStyle | undefined;
   /** The ID of this dropdown. */
   dropdownId?: string | undefined;
-  /** The properties of this dropdown. */
-  dropdownProperties?: DropdownProperties | undefined;
   /** The suggested properties changes to this dropdown, keyed by suggestion ID. */
   suggestedDropdownPropertiesChanges?: SuggestedDropdownPropertiesMap | undefined;
-  /** IDs for suggestions that remove this dropdown from the document. If empty, then this dropdown isn't suggested for deletion. */
-  suggestedDeletionIds?: StringList | undefined;
   /** The suggested text style changes to this dropdown, keyed by suggestion ID. */
   suggestedTextStyleChanges?: SuggestedTextStyleMap | undefined;
+  /** IDs for suggestions that remove this dropdown from the document. If empty, then this dropdown isn't suggested for deletion. */
+  suggestedDeletionIds?: StringList | undefined;
+  /** The properties of this dropdown. */
+  dropdownProperties?: DropdownProperties | undefined;
 }
 /** The result of inserting a Dropdown. */
 export interface InsertDropdownResponse {
   /** The newly-inserted Dropdown. */
   dropdown?: Dropdown | undefined;
 }
+/** The result of adding a document tab. */
+export interface AddDocumentTabResponse {
+  /** The properties of the newly added tab. */
+  tabProperties?: TabProperties | undefined;
+}
 /** The result of creating a header. */
 export interface CreateHeaderResponse {
   /** The ID of the created header. */
   headerId?: string | undefined;
-}
-/** Response message for creating a dropdown definition. */
-export interface CreateDropdownDefinitionResponse {
-  /** The newly-created DropdownDefinition. */
-  dropdownDefinition?: DropdownDefinition | undefined;
 }
 /** The result of creating a footer. */
 export interface CreateFooterResponse {
   /** The ID of the created footer. */
   footerId?: string | undefined;
 }
+/** The result of inserting an inline image. */
+export interface InsertInlineImageResponse {
+  /** The ID of the created InlineObject. */
+  objectId?: string | undefined;
+}
+/** The result of creating a named range. */
+export interface CreateNamedRangeResponse {
+  /** The ID of the created named range. */
+  namedRangeId?: string | undefined;
+}
+/** Response message for creating a dropdown definition. */
+export interface CreateDropdownDefinitionResponse {
+  /** The newly-created DropdownDefinition. */
+  dropdownDefinition?: DropdownDefinition | undefined;
+}
 /** Response message for adding a reply. */
 export interface AddCommentReplyResponse {
   /** The newly-inserted reply Post. */
   post?: Post | undefined;
 }
-/** The result of creating a footnote. */
-export interface CreateFootnoteResponse {
-  /** The ID of the created footnote. */
-  footnoteId?: string | undefined;
-}
-export type CommentThreadStatusEnum = "STATUS_UNSPECIFIED" | "OPEN" | "RESOLVED";
-export type PostList = Array<Post>;
-/** Represents a single comment thread. */
-export interface CommentThread {
-  /** Whether the thread is open or resolved. */
-  status?: CommentThreadStatusEnum | (string & {}) | undefined;
-  /** Replies to the head post. */
-  replies?: PostList | undefined;
-  /** The unique ID of the comment thread. */
-  commentId?: string | undefined;
-  /** The ID of the CommentAnchor in the document that this thread is tied to. Multiple comment threads may be anchored to the same CommentAnchor. */
-  anchorId?: string | undefined;
-  /** The quoted text from the document when the comment was created, formatted as plain-text. */
-  plainTextQuote?: string | undefined;
-  /** The first post in the thread. */
-  headPost?: Post | undefined;
-}
-/** Response message for inserting a comment. */
-export interface InsertCommentResponse {
-  /** The newly-inserted comment thread. */
-  commentThread?: CommentThread | undefined;
-}
-/** The result of inserting an embedded Google Sheets chart. */
-export interface InsertInlineSheetsChartResponse {
-  /** The object ID of the inserted chart. */
-  objectId?: string | undefined;
+/** The result of replacing text. */
+export interface ReplaceAllTextResponse {
+  /** The number of occurrences changed by replacing all text. */
+  occurrencesChanged?: number | undefined;
 }
 /** A single response from an update. */
 export interface Response {
-  /** The result of creating a named range. */
-  createNamedRange?: CreateNamedRangeResponse | undefined;
-  /** The result of adding a document tab. */
-  addDocumentTab?: AddDocumentTabResponse | undefined;
-  /** The result of replacing text. */
-  replaceAllText?: ReplaceAllTextResponse | undefined;
-  /** The result of inserting an inline image. */
-  insertInlineImage?: InsertInlineImageResponse | undefined;
-  /** The result of inserting a dropdown. */
-  insertDropdown?: InsertDropdownResponse | undefined;
-  /** The result of creating a header. */
-  createHeader?: CreateHeaderResponse | undefined;
-  /** The result of creating a dropdown definition. */
-  createDropdownDefinition?: CreateDropdownDefinitionResponse | undefined;
-  /** The result of creating a footer. */
-  createFooter?: CreateFooterResponse | undefined;
-  /** The result of adding a reply to a comment or suggestion. */
-  addCommentReply?: AddCommentReplyResponse | undefined;
-  /** The result of creating a footnote. */
-  createFootnote?: CreateFootnoteResponse | undefined;
   /** The result of inserting a comment. */
   insertComment?: InsertCommentResponse | undefined;
+  /** The result of creating a footnote. */
+  createFootnote?: CreateFootnoteResponse | undefined;
   /** The result of inserting an inline Google Sheets chart. */
   insertInlineSheetsChart?: InsertInlineSheetsChartResponse | undefined;
+  /** The result of inserting a dropdown. */
+  insertDropdown?: InsertDropdownResponse | undefined;
+  /** The result of adding a document tab. */
+  addDocumentTab?: AddDocumentTabResponse | undefined;
+  /** The result of creating a header. */
+  createHeader?: CreateHeaderResponse | undefined;
+  /** The result of creating a footer. */
+  createFooter?: CreateFooterResponse | undefined;
+  /** The result of inserting an inline image. */
+  insertInlineImage?: InsertInlineImageResponse | undefined;
+  /** The result of creating a named range. */
+  createNamedRange?: CreateNamedRangeResponse | undefined;
+  /** The result of creating a dropdown definition. */
+  createDropdownDefinition?: CreateDropdownDefinitionResponse | undefined;
+  /** The result of adding a reply to a comment or suggestion. */
+  addCommentReply?: AddCommentReplyResponse | undefined;
+  /** The result of replacing text. */
+  replaceAllText?: ReplaceAllTextResponse | undefined;
 }
 export type ResponseList = Array<Response>;
-export type BatchUpdateDocumentResponseCommentUpdateStateEnum =
-  | "COMMENT_UPDATE_STATE_UNSPECIFIED"
-  | "NO_UPDATES_REQUESTED"
-  | "ALL_SAVED"
-  | "ALL_FAILED_UNKNOWN_REASON";
-/** The suggestions which were affected by a given update. */
-export interface SuggestionResponse {
-  /** The IDs of suggestions which were created during the update. */
-  createdSuggestionIds?: StringList | undefined;
-  /** The IDs of suggestions which were rejected during the update. */
-  rejectedSuggestionIds?: StringList | undefined;
-  /** The IDs of suggestions which were accepted during the update. */
-  acceptedSuggestionIds?: StringList | undefined;
-  /** The IDs of suggestions which were deleted during the update. */
-  deletedSuggestionIds?: StringList | undefined;
-  /** The IDs of suggestions whose summaries were updated during the update. */
-  updatedSummarySuggestionIds?: StringList | undefined;
-}
-export type SuggestionResponseList = Array<SuggestionResponse>;
 /** Response message from a BatchUpdateDocument request. */
 export interface BatchUpdateDocumentResponse {
-  /** The updated write control after applying the request. */
-  writeControl?: WriteControl | undefined;
-  /** The reply of the updates. This maps 1:1 with the updates, although replies to some requests may be empty. */
-  replies?: ResponseList | undefined;
   /** Whether comment updates were applied in the batch request. */
   commentUpdateState?: BatchUpdateDocumentResponseCommentUpdateStateEnum | undefined;
+  /** The updated write control after applying the request. */
+  writeControl?: WriteControl | undefined;
   /** The suggestions which were affected by each update. This maps 1:1 with the updates. */
   suggestionResponses?: SuggestionResponseList | undefined;
   /** The ID of the document to which the updates were applied to. */
   documentId?: string | undefined;
+  /** The reply of the updates. This maps 1:1 with the updates, although replies to some requests may be empty. */
+  replies?: ResponseList | undefined;
+}
+/** A mask that indicates which of the fields on the base Size have been changed in this suggestion. For any field set to true, the Size has a new suggested value. */
+export interface SizeSuggestionState {
+  /** Indicates if there was a suggested change to width. */
+  widthSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to height. */
+  heightSuggested?: boolean | undefined;
+}
+/** A mask that indicates which of the fields on the base Background have been changed in this suggestion. For any field set to true, the Backgound has a new suggested value. */
+export interface BackgroundSuggestionState {
+  /** Indicates whether the current background color has been modified in this suggestion. */
+  backgroundColorSuggested?: boolean | undefined;
+}
+/** A mask that indicates which of the fields on the base DocumentStyle have been changed in this suggestion. For any field set to true, there's a new suggested value. */
+export interface DocumentStyleSuggestionState {
+  /** Indicates if there was a suggested change to even_page_footer_id. */
+  evenPageFooterIdSuggested?: boolean | undefined;
+  /** A mask that indicates which of the fields in size have been changed in this suggestion. */
+  pageSizeSuggestionState?: SizeSuggestionState | undefined;
+  /** Indicates if there was a suggested change to margin_right. */
+  marginRightSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to use_custom_header_footer_margins. */
+  useCustomHeaderFooterMarginsSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to use_first_page_header_footer. */
+  useFirstPageHeaderFooterSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to first_page_footer_id. */
+  firstPageFooterIdSuggested?: boolean | undefined;
+  /** A mask that indicates which of the fields in background have been changed in this suggestion. */
+  backgroundSuggestionState?: BackgroundSuggestionState | undefined;
+  /** Indicates if there was a suggested change to default_footer_id. */
+  defaultFooterIdSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to margin_top. */
+  marginTopSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to margin_left. */
+  marginLeftSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to use_even_page_header_footer. */
+  useEvenPageHeaderFooterSuggested?: boolean | undefined;
+  /** Optional. Indicates if there was a suggested change to flip_page_orientation. */
+  flipPageOrientationSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to margin_header. */
+  marginHeaderSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to default_header_id. */
+  defaultHeaderIdSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to page_number_start. */
+  pageNumberStartSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to first_page_header_id. */
+  firstPageHeaderIdSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to margin_bottom. */
+  marginBottomSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to margin_footer. */
+  marginFooterSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to even_page_header_id. */
+  evenPageHeaderIdSuggested?: boolean | undefined;
+}
+/** A suggested change to the DocumentStyle. */
+export interface SuggestedDocumentStyle {
+  /** A mask that indicates which of the fields on the base DocumentStyle have been changed in this suggestion. */
+  documentStyleSuggestionState?: DocumentStyleSuggestionState | undefined;
+  /** A DocumentStyle that only includes the changes made in this suggestion. This can be used along with the document_style_suggestion_state to see which fields have changed and their new values. */
+  documentStyle?: DocumentStyle | undefined;
+}
+export type SuggestedDocumentStyleMap = { [key: string]: SuggestedDocumentStyle | undefined };
+export type NamedStyleList = Array<NamedStyle>;
+/** The named styles. Paragraphs in the document can inherit their TextStyle and ParagraphStyle from these named styles. */
+export interface NamedStyles {
+  /** The named styles. There's an entry for each of the possible named style types. */
+  styles?: NamedStyleList | undefined;
 }
 /** A StructuralElement representing a table of contents. */
 export interface TableOfContents {
-  /** The content of the table of contents. */
-  content?: StructuralElementList | undefined;
-  /** The suggested deletion IDs. If empty, then there are no suggested deletions of this content. */
-  suggestedDeletionIds?: StringList | undefined;
   /** The suggested insertion IDs. A TableOfContents may have multiple insertion IDs if it is a nested suggested change. If empty, then this is not a suggested insertion. */
   suggestedInsertionIds?: StringList | undefined;
+  /** The suggested deletion IDs. If empty, then there are no suggested deletions of this content. */
+  suggestedDeletionIds?: StringList | undefined;
+  /** The content of the table of contents. */
+  content?: StructuralElementList | undefined;
 }
 /** A StructuralElement representing a section break. A section is a range of content that has the same SectionStyle. A section break represents the start of a new section, and the section style applies to the section after the section break. The document body always begins with a section break. */
 export interface SectionBreak {
-  /** The style of the section after this section break. */
-  sectionStyle?: SectionStyle | undefined;
-  /** The suggested insertion IDs. A SectionBreak may have multiple insertion IDs if it's a nested suggested change. If empty, then this is not a suggested insertion. */
-  suggestedInsertionIds?: StringList | undefined;
   /** The suggested deletion IDs. If empty, then there are no suggested deletions of this content. */
   suggestedDeletionIds?: StringList | undefined;
-}
-export type TableColumnPropertiesList = Array<TableColumnProperties>;
-/** Styles that apply to a table. */
-export interface TableStyle {
-  /** The properties of each column. Note that in Docs, tables contain rows and rows contain cells, similar to HTML. So the properties for a row can be found on the row's table_row_style. */
-  tableColumnProperties?: TableColumnPropertiesList | undefined;
+  /** The suggested insertion IDs. A SectionBreak may have multiple insertion IDs if it's a nested suggested change. If empty, then this is not a suggested insertion. */
+  suggestedInsertionIds?: StringList | undefined;
+  /** The style of the section after this section break. */
+  sectionStyle?: SectionStyle | undefined;
 }
 /** A mask that indicates which of the fields on the base TableCellStyle have been changed in this suggestion. For any field set to true, there's a new suggested value. */
 export interface TableCellStyleSuggestionState {
-  /** Indicates if there was a suggested change to border_left. */
-  borderLeftSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to padding_left. */
-  paddingLeftSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to padding_bottom. */
-  paddingBottomSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to border_right. */
-  borderRightSuggested?: boolean | undefined;
   /** Indicates if there was a suggested change to padding_right. */
   paddingRightSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to border_right. */
+  borderRightSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to padding_left. */
+  paddingLeftSuggested?: boolean | undefined;
   /** Indicates if there was a suggested change to padding_top. */
   paddingTopSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to content_alignment. */
-  contentAlignmentSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to background_color. */
-  backgroundColorSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to border_bottom. */
-  borderBottomSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to column_span. */
-  columnSpanSuggested?: boolean | undefined;
   /** Indicates if there was a suggested change to border_top. */
   borderTopSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to border_left. */
+  borderLeftSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to column_span. */
+  columnSpanSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to border_bottom. */
+  borderBottomSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to background_color. */
+  backgroundColorSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to content_alignment. */
+  contentAlignmentSuggested?: boolean | undefined;
   /** Indicates if there was a suggested change to row_span. */
   rowSpanSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to padding_bottom. */
+  paddingBottomSuggested?: boolean | undefined;
 }
 /** A suggested change to a TableCellStyle. */
 export interface SuggestedTableCellStyle {
@@ -1543,18 +1604,18 @@ export interface SuggestedTableCellStyle {
 export type SuggestedTableCellStyleMap = { [key: string]: SuggestedTableCellStyle | undefined };
 /** The contents and style of a cell in a Table. */
 export interface TableCell {
+  /** The content of the cell. */
+  content?: StructuralElementList | undefined;
+  /** The zero-based end index of this cell, exclusive, in UTF-16 code units. */
+  endIndex?: number | undefined;
+  /** The zero-based start index of this cell, in UTF-16 code units. */
+  startIndex?: number | undefined;
   /** The suggested deletion IDs. If empty, then there are no suggested deletions of this content. */
   suggestedDeletionIds?: StringList | undefined;
   /** The suggested insertion IDs. A TableCell may have multiple insertion IDs if it's a nested suggested change. If empty, then this is not a suggested insertion. */
   suggestedInsertionIds?: StringList | undefined;
-  /** The content of the cell. */
-  content?: StructuralElementList | undefined;
-  /** The zero-based start index of this cell, in UTF-16 code units. */
-  startIndex?: number | undefined;
   /** The style of the cell. */
   tableCellStyle?: TableCellStyle | undefined;
-  /** The zero-based end index of this cell, exclusive, in UTF-16 code units. */
-  endIndex?: number | undefined;
   /** The suggested changes to the table cell style, keyed by suggestion ID. */
   suggestedTableCellStyleChanges?: SuggestedTableCellStyleMap | undefined;
 }
@@ -1574,37 +1635,75 @@ export interface SuggestedTableRowStyle {
 export type SuggestedTableRowStyleMap = { [key: string]: SuggestedTableRowStyle | undefined };
 /** The contents and style of a row in a Table. */
 export interface TableRow {
-  /** The zero-based end index of this row, exclusive, in UTF-16 code units. */
-  endIndex?: number | undefined;
   /** The suggested deletion IDs. If empty, then there are no suggested deletions of this content. */
   suggestedDeletionIds?: StringList | undefined;
   /** The contents and style of each cell in this row. It's possible for a table to be non-rectangular, so some rows may have a different number of cells than other rows in the same table. */
   tableCells?: TableCellList | undefined;
-  /** The suggested insertion IDs. A TableRow may have multiple insertion IDs if it's a nested suggested change. If empty, then this is not a suggested insertion. */
-  suggestedInsertionIds?: StringList | undefined;
   /** The suggested style changes to this row, keyed by suggestion ID. */
   suggestedTableRowStyleChanges?: SuggestedTableRowStyleMap | undefined;
-  /** The style of the table row. */
-  tableRowStyle?: TableRowStyle | undefined;
   /** The zero-based start index of this row, in UTF-16 code units. */
   startIndex?: number | undefined;
+  /** The suggested insertion IDs. A TableRow may have multiple insertion IDs if it's a nested suggested change. If empty, then this is not a suggested insertion. */
+  suggestedInsertionIds?: StringList | undefined;
+  /** The style of the table row. */
+  tableRowStyle?: TableRowStyle | undefined;
+  /** The zero-based end index of this row, exclusive, in UTF-16 code units. */
+  endIndex?: number | undefined;
 }
 export type TableRowList = Array<TableRow>;
+export type TableColumnPropertiesList = Array<TableColumnProperties>;
+/** Styles that apply to a table. */
+export interface TableStyle {
+  /** The properties of each column. Note that in Docs, tables contain rows and rows contain cells, similar to HTML. So the properties for a row can be found on the row's table_row_style. */
+  tableColumnProperties?: TableColumnPropertiesList | undefined;
+}
 /** A StructuralElement representing a table. */
 export interface Table {
-  /** The suggested insertion IDs. A Table may have multiple insertion IDs if it's a nested suggested change. If empty, then this is not a suggested insertion. */
-  suggestedInsertionIds?: StringList | undefined;
-  /** Number of columns in the table. It's possible for a table to be non-rectangular, so some rows may have a different number of cells. */
-  columns?: number | undefined;
-  /** The style of the table. */
-  tableStyle?: TableStyle | undefined;
-  /** The contents and style of each row. */
-  tableRows?: TableRowList | undefined;
   /** The suggested deletion IDs. If empty, then there are no suggested deletions of this content. */
   suggestedDeletionIds?: StringList | undefined;
+  /** The contents and style of each row. */
+  tableRows?: TableRowList | undefined;
+  /** The style of the table. */
+  tableStyle?: TableStyle | undefined;
+  /** The suggested insertion IDs. A Table may have multiple insertion IDs if it's a nested suggested change. If empty, then this is not a suggested insertion. */
+  suggestedInsertionIds?: StringList | undefined;
   /** Number of rows in the table. */
   rows?: number | undefined;
+  /** Number of columns in the table. It's possible for a table to be non-rectangular, so some rows may have a different number of cells. */
+  columns?: number | undefined;
 }
+/** Describes the bullet of a paragraph. */
+export interface Bullet {
+  /** The nesting level of this paragraph in the list. */
+  nestingLevel?: number | undefined;
+  /** The paragraph-specific text style applied to this bullet. */
+  textStyle?: TextStyle | undefined;
+  /** The ID of the list this paragraph belongs to. */
+  listId?: string | undefined;
+}
+/** A mask that indicates which of the fields on the base Bullet have been changed in this suggestion. For any field set to true, there's a new suggested value. */
+export interface BulletSuggestionState {
+  /** A mask that indicates which of the fields in text style have been changed in this suggestion. */
+  textStyleSuggestionState?: TextStyleSuggestionState | undefined;
+  /** Indicates if there was a suggested change to the list_id. */
+  listIdSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to the nesting_level. */
+  nestingLevelSuggested?: boolean | undefined;
+}
+/** A suggested change to a Bullet. */
+export interface SuggestedBullet {
+  /** A Bullet that only includes the changes made in this suggestion. This can be used along with the bullet_suggestion_state to see which fields have changed and their new values. */
+  bullet?: Bullet | undefined;
+  /** A mask that indicates which of the fields on the base Bullet have been changed in this suggestion. */
+  bulletSuggestionState?: BulletSuggestionState | undefined;
+}
+export type SuggestedBulletMap = { [key: string]: SuggestedBullet | undefined };
+/** A collection of object IDs. */
+export interface ObjectReferences {
+  /** The object IDs. */
+  objectIds?: StringList | undefined;
+}
+export type ObjectReferencesMap = { [key: string]: ObjectReferences | undefined };
 /** A mask that indicates which of the fields on the base Shading have been changed in this suggested change. For any field set to true, there's a new suggested value. */
 export interface ShadingSuggestionState {
   /** Indicates if there was a suggested change to the Shading. */
@@ -1612,44 +1711,44 @@ export interface ShadingSuggestionState {
 }
 /** A mask that indicates which of the fields on the base ParagraphStyle have been changed in this suggestion. For any field set to true, there's a new suggested value. */
 export interface ParagraphStyleSuggestionState {
-  /** Indicates if there was a suggested change to heading_id. */
-  headingIdSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to border_between. */
-  borderBetweenSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to space_above. */
+  spaceAboveSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to line_spacing. */
+  lineSpacingSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to direction. */
+  directionSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to space_below. */
+  spaceBelowSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to border_right. */
+  borderRightSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to indent_start. */
+  indentStartSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to border_bottom. */
+  borderBottomSuggested?: boolean | undefined;
   /** Indicates if there was a suggested change to spacing_mode. */
   spacingModeSuggested?: boolean | undefined;
   /** Indicates if there was a suggested change to border_top. */
   borderTopSuggested?: boolean | undefined;
   /** Indicates if there was a suggested change to named_style_type. */
   namedStyleTypeSuggested?: boolean | undefined;
+  /** A mask that indicates which of the fields in shading have been changed in this suggestion. */
+  shadingSuggestionState?: ShadingSuggestionState | undefined;
   /** Indicates if there was a suggested change to indent_first_line. */
   indentFirstLineSuggested?: boolean | undefined;
   /** Indicates if there was a suggested change to page_break_before. */
   pageBreakBeforeSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to space_above. */
-  spaceAboveSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to keep_lines_together. */
-  keepLinesTogetherSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to border_bottom. */
-  borderBottomSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to border_right. */
-  borderRightSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to border_between. */
+  borderBetweenSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to keep_with_next. */
+  keepWithNextSuggested?: boolean | undefined;
   /** Indicates if there was a suggested change to border_left. */
   borderLeftSuggested?: boolean | undefined;
   /** Indicates if there was a suggested change to indent_end. */
   indentEndSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to indent_start. */
-  indentStartSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to space_below. */
-  spaceBelowSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to direction. */
-  directionSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to line_spacing. */
-  lineSpacingSuggested?: boolean | undefined;
-  /** A mask that indicates which of the fields in shading have been changed in this suggestion. */
-  shadingSuggestionState?: ShadingSuggestionState | undefined;
-  /** Indicates if there was a suggested change to keep_with_next. */
-  keepWithNextSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to keep_lines_together. */
+  keepLinesTogetherSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to heading_id. */
+  headingIdSuggested?: boolean | undefined;
   /** Indicates if there was a suggested change to alignment. */
   alignmentSuggested?: boolean | undefined;
   /** Indicates if there was a suggested change to avoid_widow_and_orphan. */
@@ -1663,112 +1762,152 @@ export interface SuggestedParagraphStyle {
   paragraphStyleSuggestionState?: ParagraphStyleSuggestionState | undefined;
 }
 export type SuggestedParagraphStyleMap = { [key: string]: SuggestedParagraphStyle | undefined };
-/** Describes the bullet of a paragraph. */
-export interface Bullet {
-  /** The ID of the list this paragraph belongs to. */
-  listId?: string | undefined;
-  /** The nesting level of this paragraph in the list. */
-  nestingLevel?: number | undefined;
-  /** The paragraph-specific text style applied to this bullet. */
+export type AutoTextTypeEnum = "TYPE_UNSPECIFIED" | "PAGE_NUMBER" | "PAGE_COUNT";
+/** A ParagraphElement representing a spot in the text that's dynamically replaced with content that can change over time, like a page number. */
+export interface AutoText {
+  /** The suggested text style changes to this AutoText, keyed by suggestion ID. */
+  suggestedTextStyleChanges?: SuggestedTextStyleMap | undefined;
+  /** The suggested insertion IDs. An AutoText may have multiple insertion IDs if it's a nested suggested change. If empty, then this is not a suggested insertion. */
+  suggestedInsertionIds?: StringList | undefined;
+  /** The suggested deletion IDs. If empty, then there are no suggested deletions of this content. */
+  suggestedDeletionIds?: StringList | undefined;
+  /** The type of this auto text. */
+  type?: AutoTextTypeEnum | (string & {}) | undefined;
+  /** The text style of this AutoText. */
   textStyle?: TextStyle | undefined;
 }
-/** A collection of object IDs. */
-export interface ObjectReferences {
-  /** The object IDs. */
-  objectIds?: StringList | undefined;
+/** A ParagraphElement that contains an InlineObject. */
+export interface InlineObjectElement {
+  /** The text style of this InlineObjectElement. Similar to text content, like text runs and footnote references, the text style of an inline object element can affect content layout as well as the styling of text inserted next to it. */
+  textStyle?: TextStyle | undefined;
+  /** The ID of the InlineObject this element contains. */
+  inlineObjectId?: string | undefined;
+  /** The suggested text style changes to this InlineObject, keyed by suggestion ID. */
+  suggestedTextStyleChanges?: SuggestedTextStyleMap | undefined;
+  /** The suggested insertion IDs. An InlineObjectElement may have multiple insertion IDs if it's a nested suggested change. If empty, then this is not a suggested insertion. */
+  suggestedInsertionIds?: StringList | undefined;
+  /** The suggested deletion IDs. If empty, then there are no suggested deletions of this content. */
+  suggestedDeletionIds?: StringList | undefined;
 }
-export type ObjectReferencesMap = { [key: string]: ObjectReferences | undefined };
+/** A ParagraphElement representing a horizontal line. */
+export interface HorizontalRule {
+  /** The suggested deletion IDs. If empty, then there are no suggested deletions of this content. */
+  suggestedDeletionIds?: StringList | undefined;
+  /** The text style of this HorizontalRule. Similar to text content, like text runs and footnote references, the text style of a horizontal rule can affect content layout as well as the styling of text inserted next to it. */
+  textStyle?: TextStyle | undefined;
+  /** The suggested insertion IDs. A HorizontalRule may have multiple insertion IDs if it is a nested suggested change. If empty, then this is not a suggested insertion. */
+  suggestedInsertionIds?: StringList | undefined;
+  /** The suggested text style changes to this HorizontalRule, keyed by suggestion ID. */
+  suggestedTextStyleChanges?: SuggestedTextStyleMap | undefined;
+}
+/** A link to a Google resource (such as a file in Drive, a YouTube video, or a Calendar event). */
+export interface RichLink {
+  /** IDs for suggestions that remove this link from the document. A RichLink might have multiple deletion IDs if, for example, multiple users suggest deleting it. If empty, then this person link isn't suggested for deletion. */
+  suggestedDeletionIds?: StringList | undefined;
+  /** Output only. The properties of this RichLink. This field is always present. */
+  richLinkProperties?: RichLinkProperties | undefined;
+  /** IDs for suggestions that insert this link into the document. A RichLink might have multiple insertion IDs if it's a nested suggested change (a suggestion within a suggestion made by a different user, for example). If empty, then this person link isn't a suggested insertion. */
+  suggestedInsertionIds?: StringList | undefined;
+  /** The text style of this RichLink. */
+  textStyle?: TextStyle | undefined;
+  /** Output only. The ID of this link. */
+  richLinkId?: string | undefined;
+  /** The suggested text style changes to this RichLink, keyed by suggestion ID. */
+  suggestedTextStyleChanges?: SuggestedTextStyleMap | undefined;
+}
+/** A person or email address mentioned in a document. These mentions behave as a single, immutable element containing the person's name or email address. */
+export interface Person {
+  /** Output only. The properties of this Person. This field is always present. */
+  personProperties?: PersonProperties | undefined;
+  /** The text style of this Person. */
+  textStyle?: TextStyle | undefined;
+  /** IDs for suggestions that remove this person link from the document. A Person might have multiple deletion IDs if, for example, multiple users suggest deleting it. If empty, then this person link isn't suggested for deletion. */
+  suggestedDeletionIds?: StringList | undefined;
+  /** Output only. The unique ID of this link. */
+  personId?: string | undefined;
+  /** The suggested text style changes to this Person, keyed by suggestion ID. */
+  suggestedTextStyleChanges?: SuggestedTextStyleMap | undefined;
+  /** IDs for suggestions that insert this person link into the document. A Person might have multiple insertion IDs if it's a nested suggested change (a suggestion within a suggestion made by a different user, for example). If empty, then this person link isn't a suggested insertion. */
+  suggestedInsertionIds?: StringList | undefined;
+}
+/** A ParagraphElement representing a column break. A column break makes the subsequent text start at the top of the next column. */
+export interface ColumnBreak {
+  /** The suggested deletion IDs. If empty, then there are no suggested deletions of this content. */
+  suggestedDeletionIds?: StringList | undefined;
+  /** The suggested text style changes to this ColumnBreak, keyed by suggestion ID. */
+  suggestedTextStyleChanges?: SuggestedTextStyleMap | undefined;
+  /** The suggested insertion IDs. A ColumnBreak may have multiple insertion IDs if it's a nested suggested change. If empty, then this is not a suggested insertion. */
+  suggestedInsertionIds?: StringList | undefined;
+  /** The text style of this ColumnBreak. Similar to text content, like text runs and footnote references, the text style of a column break can affect content layout as well as the styling of text inserted next to it. */
+  textStyle?: TextStyle | undefined;
+}
+/** A ParagraphElement that represents a run of text that all has the same styling. */
+export interface TextRun {
+  /** The text style of this run. */
+  textStyle?: TextStyle | undefined;
+  /** The suggested text style changes to this run, keyed by suggestion ID. */
+  suggestedTextStyleChanges?: SuggestedTextStyleMap | undefined;
+  /** The suggested insertion IDs. A TextRun may have multiple insertion IDs if it's a nested suggested change. If empty, then this is not a suggested insertion. */
+  suggestedInsertionIds?: StringList | undefined;
+  /** The suggested deletion IDs. If empty, then there are no suggested deletions of this content. */
+  suggestedDeletionIds?: StringList | undefined;
+  /** The text of this run. Any non-text elements in the run are replaced with the Unicode character U+E907. */
+  content?: string | undefined;
+}
+/** A mask that indicates which of the fields on the base DateElementProperties have been changed in this suggestion. For any field set to true, there's a new suggested value. */
+export interface DateElementPropertiesSuggestionState {
+  /** Indicates if there was a suggested change to time_zone_id. */
+  timeZoneIdSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to locale. */
+  localeSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to timestamp. */
+  timestampSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to date_format. */
+  dateFormatSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to time_format. */
+  timeFormatSuggested?: boolean | undefined;
+}
+/** A suggested change to a DateElementProperties. */
+export interface SuggestedDateElementProperties {
+  /** A mask that indicates which of the fields on the base DateElementProperties have been changed in this suggestion. */
+  dateElementPropertiesSuggestionState?: DateElementPropertiesSuggestionState | undefined;
+  /** DateElementProperties that only includes the changes made in this suggestion. This can be used along with the date_element_properties_suggestion_state to see which fields have changed and their new values. */
+  dateElementProperties?: DateElementProperties | undefined;
+}
+export type SuggestedDateElementPropertiesMap = {
+  [key: string]: SuggestedDateElementProperties | undefined;
+};
+/** A date instance mentioned in a document. */
+export interface DateElement {
+  /** IDs for suggestions that remove this date from the document. A DateElement might have multiple deletion IDs if, for example, multiple users suggest deleting it. If empty, then this date isn't suggested for deletion. */
+  suggestedDeletionIds?: StringList | undefined;
+  /** The suggested text style changes to this DateElement, keyed by suggestion ID. */
+  suggestedTextStyleChanges?: SuggestedTextStyleMap | undefined;
+  /** The suggested changes to the date element properties, keyed by suggestion ID. */
+  suggestedDateElementPropertiesChanges?: SuggestedDateElementPropertiesMap | undefined;
+  /** IDs for suggestions that insert this date into the document. A DateElement might have multiple insertion IDs if it's a nested suggested change (a suggestion within a suggestion made by a different user, for example). If empty, then this date isn't a suggested insertion. */
+  suggestedInsertionIds?: StringList | undefined;
+  /** The properties of this DateElement. */
+  dateElementProperties?: DateElementProperties | undefined;
+  /** The text style of this DateElement. */
+  textStyle?: TextStyle | undefined;
+  /** Output only. The unique ID of this date. */
+  dateId?: string | undefined;
+}
 /** A ParagraphElement representing a footnote reference. A footnote reference is the inline content rendered with a number and is used to identify the footnote. */
 export interface FootnoteReference {
   /** The suggested text style changes to this FootnoteReference, keyed by suggestion ID. */
   suggestedTextStyleChanges?: SuggestedTextStyleMap | undefined;
   /** The suggested deletion IDs. If empty, then there are no suggested deletions of this content. */
   suggestedDeletionIds?: StringList | undefined;
-  /** The text style of this FootnoteReference. */
-  textStyle?: TextStyle | undefined;
-  /** The rendered number of this footnote. */
-  footnoteNumber?: string | undefined;
   /** The ID of the footnote that contains the content of this footnote reference. */
   footnoteId?: string | undefined;
+  /** The text style of this FootnoteReference. */
+  textStyle?: TextStyle | undefined;
   /** The suggested insertion IDs. A FootnoteReference may have multiple insertion IDs if it's a nested suggested change. If empty, then this is not a suggested insertion. */
   suggestedInsertionIds?: StringList | undefined;
-}
-/** A person or email address mentioned in a document. These mentions behave as a single, immutable element containing the person's name or email address. */
-export interface Person {
-  /** The text style of this Person. */
-  textStyle?: TextStyle | undefined;
-  /** The suggested text style changes to this Person, keyed by suggestion ID. */
-  suggestedTextStyleChanges?: SuggestedTextStyleMap | undefined;
-  /** Output only. The properties of this Person. This field is always present. */
-  personProperties?: PersonProperties | undefined;
-  /** Output only. The unique ID of this link. */
-  personId?: string | undefined;
-  /** IDs for suggestions that insert this person link into the document. A Person might have multiple insertion IDs if it's a nested suggested change (a suggestion within a suggestion made by a different user, for example). If empty, then this person link isn't a suggested insertion. */
-  suggestedInsertionIds?: StringList | undefined;
-  /** IDs for suggestions that remove this person link from the document. A Person might have multiple deletion IDs if, for example, multiple users suggest deleting it. If empty, then this person link isn't suggested for deletion. */
-  suggestedDeletionIds?: StringList | undefined;
-}
-/** A ParagraphElement that contains an InlineObject. */
-export interface InlineObjectElement {
-  /** The suggested text style changes to this InlineObject, keyed by suggestion ID. */
-  suggestedTextStyleChanges?: SuggestedTextStyleMap | undefined;
-  /** The suggested deletion IDs. If empty, then there are no suggested deletions of this content. */
-  suggestedDeletionIds?: StringList | undefined;
-  /** The suggested insertion IDs. An InlineObjectElement may have multiple insertion IDs if it's a nested suggested change. If empty, then this is not a suggested insertion. */
-  suggestedInsertionIds?: StringList | undefined;
-  /** The text style of this InlineObjectElement. Similar to text content, like text runs and footnote references, the text style of an inline object element can affect content layout as well as the styling of text inserted next to it. */
-  textStyle?: TextStyle | undefined;
-  /** The ID of the InlineObject this element contains. */
-  inlineObjectId?: string | undefined;
-}
-/** A ParagraphElement representing a column break. A column break makes the subsequent text start at the top of the next column. */
-export interface ColumnBreak {
-  /** The suggested insertion IDs. A ColumnBreak may have multiple insertion IDs if it's a nested suggested change. If empty, then this is not a suggested insertion. */
-  suggestedInsertionIds?: StringList | undefined;
-  /** The suggested deletion IDs. If empty, then there are no suggested deletions of this content. */
-  suggestedDeletionIds?: StringList | undefined;
-  /** The suggested text style changes to this ColumnBreak, keyed by suggestion ID. */
-  suggestedTextStyleChanges?: SuggestedTextStyleMap | undefined;
-  /** The text style of this ColumnBreak. Similar to text content, like text runs and footnote references, the text style of a column break can affect content layout as well as the styling of text inserted next to it. */
-  textStyle?: TextStyle | undefined;
-}
-/** A ParagraphElement representing a horizontal line. */
-export interface HorizontalRule {
-  /** The suggested text style changes to this HorizontalRule, keyed by suggestion ID. */
-  suggestedTextStyleChanges?: SuggestedTextStyleMap | undefined;
-  /** The text style of this HorizontalRule. Similar to text content, like text runs and footnote references, the text style of a horizontal rule can affect content layout as well as the styling of text inserted next to it. */
-  textStyle?: TextStyle | undefined;
-  /** The suggested deletion IDs. If empty, then there are no suggested deletions of this content. */
-  suggestedDeletionIds?: StringList | undefined;
-  /** The suggested insertion IDs. A HorizontalRule may have multiple insertion IDs if it is a nested suggested change. If empty, then this is not a suggested insertion. */
-  suggestedInsertionIds?: StringList | undefined;
-}
-/** A ParagraphElement that represents a run of text that all has the same styling. */
-export interface TextRun {
-  /** The suggested deletion IDs. If empty, then there are no suggested deletions of this content. */
-  suggestedDeletionIds?: StringList | undefined;
-  /** The text of this run. Any non-text elements in the run are replaced with the Unicode character U+E907. */
-  content?: string | undefined;
-  /** The suggested text style changes to this run, keyed by suggestion ID. */
-  suggestedTextStyleChanges?: SuggestedTextStyleMap | undefined;
-  /** The text style of this run. */
-  textStyle?: TextStyle | undefined;
-  /** The suggested insertion IDs. A TextRun may have multiple insertion IDs if it's a nested suggested change. If empty, then this is not a suggested insertion. */
-  suggestedInsertionIds?: StringList | undefined;
-}
-export type AutoTextTypeEnum = "TYPE_UNSPECIFIED" | "PAGE_NUMBER" | "PAGE_COUNT";
-/** A ParagraphElement representing a spot in the text that's dynamically replaced with content that can change over time, like a page number. */
-export interface AutoText {
-  /** The suggested text style changes to this AutoText, keyed by suggestion ID. */
-  suggestedTextStyleChanges?: SuggestedTextStyleMap | undefined;
-  /** The text style of this AutoText. */
-  textStyle?: TextStyle | undefined;
-  /** The type of this auto text. */
-  type?: AutoTextTypeEnum | (string & {}) | undefined;
-  /** The suggested insertion IDs. An AutoText may have multiple insertion IDs if it's a nested suggested change. If empty, then this is not a suggested insertion. */
-  suggestedInsertionIds?: StringList | undefined;
-  /** The suggested deletion IDs. If empty, then there are no suggested deletions of this content. */
-  suggestedDeletionIds?: StringList | undefined;
+  /** The rendered number of this footnote. */
+  footnoteNumber?: string | undefined;
 }
 /** A ParagraphElement representing an equation. */
 export interface Equation {
@@ -1779,232 +1918,118 @@ export interface Equation {
 }
 /** A ParagraphElement representing a page break. A page break makes the subsequent text start at the top of the next page. */
 export interface PageBreak {
-  /** The text style of this PageBreak. Similar to text content, like text runs and footnote references, the text style of a page break can affect content layout as well as the styling of text inserted next to it. */
-  textStyle?: TextStyle | undefined;
-  /** The suggested text style changes to this PageBreak, keyed by suggestion ID. */
-  suggestedTextStyleChanges?: SuggestedTextStyleMap | undefined;
   /** The suggested deletion IDs. If empty, then there are no suggested deletions of this content. */
   suggestedDeletionIds?: StringList | undefined;
   /** The suggested insertion IDs. A PageBreak may have multiple insertion IDs if it's a nested suggested change. If empty, then this is not a suggested insertion. */
   suggestedInsertionIds?: StringList | undefined;
-}
-/** A link to a Google resource (such as a file in Drive, a YouTube video, or a Calendar event). */
-export interface RichLink {
-  /** The suggested text style changes to this RichLink, keyed by suggestion ID. */
+  /** The suggested text style changes to this PageBreak, keyed by suggestion ID. */
   suggestedTextStyleChanges?: SuggestedTextStyleMap | undefined;
-  /** IDs for suggestions that remove this link from the document. A RichLink might have multiple deletion IDs if, for example, multiple users suggest deleting it. If empty, then this person link isn't suggested for deletion. */
-  suggestedDeletionIds?: StringList | undefined;
-  /** Output only. The properties of this RichLink. This field is always present. */
-  richLinkProperties?: RichLinkProperties | undefined;
-  /** The text style of this RichLink. */
+  /** The text style of this PageBreak. Similar to text content, like text runs and footnote references, the text style of a page break can affect content layout as well as the styling of text inserted next to it. */
   textStyle?: TextStyle | undefined;
-  /** Output only. The ID of this link. */
-  richLinkId?: string | undefined;
-  /** IDs for suggestions that insert this link into the document. A RichLink might have multiple insertion IDs if it's a nested suggested change (a suggestion within a suggestion made by a different user, for example). If empty, then this person link isn't a suggested insertion. */
-  suggestedInsertionIds?: StringList | undefined;
-}
-/** A mask that indicates which of the fields on the base DateElementProperties have been changed in this suggestion. For any field set to true, there's a new suggested value. */
-export interface DateElementPropertiesSuggestionState {
-  /** Indicates if there was a suggested change to timestamp. */
-  timestampSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to time_zone_id. */
-  timeZoneIdSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to date_format. */
-  dateFormatSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to locale. */
-  localeSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to time_format. */
-  timeFormatSuggested?: boolean | undefined;
-}
-/** A suggested change to a DateElementProperties. */
-export interface SuggestedDateElementProperties {
-  /** DateElementProperties that only includes the changes made in this suggestion. This can be used along with the date_element_properties_suggestion_state to see which fields have changed and their new values. */
-  dateElementProperties?: DateElementProperties | undefined;
-  /** A mask that indicates which of the fields on the base DateElementProperties have been changed in this suggestion. */
-  dateElementPropertiesSuggestionState?: DateElementPropertiesSuggestionState | undefined;
-}
-export type SuggestedDateElementPropertiesMap = {
-  [key: string]: SuggestedDateElementProperties | undefined;
-};
-/** A date instance mentioned in a document. */
-export interface DateElement {
-  /** Output only. The unique ID of this date. */
-  dateId?: string | undefined;
-  /** IDs for suggestions that remove this date from the document. A DateElement might have multiple deletion IDs if, for example, multiple users suggest deleting it. If empty, then this date isn't suggested for deletion. */
-  suggestedDeletionIds?: StringList | undefined;
-  /** IDs for suggestions that insert this date into the document. A DateElement might have multiple insertion IDs if it's a nested suggested change (a suggestion within a suggestion made by a different user, for example). If empty, then this date isn't a suggested insertion. */
-  suggestedInsertionIds?: StringList | undefined;
-  /** The properties of this DateElement. */
-  dateElementProperties?: DateElementProperties | undefined;
-  /** The suggested text style changes to this DateElement, keyed by suggestion ID. */
-  suggestedTextStyleChanges?: SuggestedTextStyleMap | undefined;
-  /** The text style of this DateElement. */
-  textStyle?: TextStyle | undefined;
-  /** The suggested changes to the date element properties, keyed by suggestion ID. */
-  suggestedDateElementPropertiesChanges?: SuggestedDateElementPropertiesMap | undefined;
 }
 /** A ParagraphElement describes content within a Paragraph. */
 export interface ParagraphElement {
-  /** A footnote reference paragraph element. */
-  footnoteReference?: FootnoteReference | undefined;
+  /** An auto text paragraph element. */
+  autoText?: AutoText | undefined;
+  /** An inline object paragraph element. */
+  inlineObjectElement?: InlineObjectElement | undefined;
+  /** The zero-based start index of this paragraph element, in UTF-16 code units. */
+  startIndex?: number | undefined;
+  /** A horizontal rule paragraph element. */
+  horizontalRule?: HorizontalRule | undefined;
+  /** A paragraph element that links to a Google resource (such as a file in Google Drive, a YouTube video, or a Calendar event.) */
+  richLink?: RichLink | undefined;
   /** A paragraph element that represents a dropdown menu. */
   dropdown?: Dropdown | undefined;
   /** A paragraph element that links to a person or email address. */
   person?: Person | undefined;
-  /** An inline object paragraph element. */
-  inlineObjectElement?: InlineObjectElement | undefined;
   /** A column break paragraph element. */
   columnBreak?: ColumnBreak | undefined;
-  /** A horizontal rule paragraph element. */
-  horizontalRule?: HorizontalRule | undefined;
-  /** A text run paragraph element. */
-  textRun?: TextRun | undefined;
-  /** An auto text paragraph element. */
-  autoText?: AutoText | undefined;
-  /** The zero-based start index of this paragraph element, in UTF-16 code units. */
-  startIndex?: number | undefined;
-  /** An equation paragraph element. */
-  equation?: Equation | undefined;
   /** The zero-base end index of this paragraph element, exclusive, in UTF-16 code units. */
   endIndex?: number | undefined;
-  /** A page break paragraph element. */
-  pageBreak?: PageBreak | undefined;
-  /** A paragraph element that links to a Google resource (such as a file in Google Drive, a YouTube video, or a Calendar event.) */
-  richLink?: RichLink | undefined;
+  /** A text run paragraph element. */
+  textRun?: TextRun | undefined;
   /** A paragraph element that represents a date. */
   dateElement?: DateElement | undefined;
+  /** A footnote reference paragraph element. */
+  footnoteReference?: FootnoteReference | undefined;
+  /** An equation paragraph element. */
+  equation?: Equation | undefined;
+  /** A page break paragraph element. */
+  pageBreak?: PageBreak | undefined;
 }
 export type ParagraphElementList = Array<ParagraphElement>;
-/** A mask that indicates which of the fields on the base Bullet have been changed in this suggestion. For any field set to true, there's a new suggested value. */
-export interface BulletSuggestionState {
-  /** A mask that indicates which of the fields in text style have been changed in this suggestion. */
-  textStyleSuggestionState?: TextStyleSuggestionState | undefined;
-  /** Indicates if there was a suggested change to the nesting_level. */
-  nestingLevelSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to the list_id. */
-  listIdSuggested?: boolean | undefined;
-}
-/** A suggested change to a Bullet. */
-export interface SuggestedBullet {
-  /** A Bullet that only includes the changes made in this suggestion. This can be used along with the bullet_suggestion_state to see which fields have changed and their new values. */
-  bullet?: Bullet | undefined;
-  /** A mask that indicates which of the fields on the base Bullet have been changed in this suggestion. */
-  bulletSuggestionState?: BulletSuggestionState | undefined;
-}
-export type SuggestedBulletMap = { [key: string]: SuggestedBullet | undefined };
 /** A StructuralElement representing a paragraph. A paragraph is a range of content that's terminated with a newline character. */
 export interface Paragraph {
-  /** The suggested paragraph style changes to this paragraph, keyed by suggestion ID. */
-  suggestedParagraphStyleChanges?: SuggestedParagraphStyleMap | undefined;
-  /** The style of this paragraph. */
-  paragraphStyle?: ParagraphStyle | undefined;
-  /** The bullet for this paragraph. If not present, the paragraph does not belong to a list. */
-  bullet?: Bullet | undefined;
-  /** The IDs of the positioned objects suggested to be attached to this paragraph, keyed by suggestion ID. */
-  suggestedPositionedObjectIds?: ObjectReferencesMap | undefined;
-  /** The content of the paragraph, broken down into its component parts. */
-  elements?: ParagraphElementList | undefined;
-  /** The IDs of the positioned objects tethered to this paragraph. */
-  positionedObjectIds?: StringList | undefined;
   /** The suggested changes to this paragraph's bullet. */
   suggestedBulletChanges?: SuggestedBulletMap | undefined;
+  /** The IDs of the positioned objects tethered to this paragraph. */
+  positionedObjectIds?: StringList | undefined;
+  /** The style of this paragraph. */
+  paragraphStyle?: ParagraphStyle | undefined;
+  /** The IDs of the positioned objects suggested to be attached to this paragraph, keyed by suggestion ID. */
+  suggestedPositionedObjectIds?: ObjectReferencesMap | undefined;
+  /** The suggested paragraph style changes to this paragraph, keyed by suggestion ID. */
+  suggestedParagraphStyleChanges?: SuggestedParagraphStyleMap | undefined;
+  /** The bullet for this paragraph. If not present, the paragraph does not belong to a list. */
+  bullet?: Bullet | undefined;
+  /** The content of the paragraph, broken down into its component parts. */
+  elements?: ParagraphElementList | undefined;
 }
 /** A StructuralElement describes content that provides structure to the document. */
 export interface StructuralElement {
-  /** A table of contents type of structural element. */
-  tableOfContents?: TableOfContents | undefined;
   /** The zero-based end index of this structural element, exclusive, in UTF-16 code units. */
   endIndex?: number | undefined;
+  /** A table of contents type of structural element. */
+  tableOfContents?: TableOfContents | undefined;
   /** A section break type of structural element. */
   sectionBreak?: SectionBreak | undefined;
-  /** The zero-based start index of this structural element, in UTF-16 code units. */
-  startIndex?: number | undefined;
   /** A table type of structural element. */
   table?: Table | undefined;
   /** A paragraph type of structural element. */
   paragraph?: Paragraph | undefined;
+  /** The zero-based start index of this structural element, in UTF-16 code units. */
+  startIndex?: number | undefined;
 }
 export type StructuralElementList = Array<StructuralElement>;
 /** A document footnote. */
 export interface Footnote {
-  /** The contents of the footnote. The indexes for a footnote's content begin at zero. */
-  content?: StructuralElementList | undefined;
   /** The ID of the footnote. */
   footnoteId?: string | undefined;
+  /** The contents of the footnote. The indexes for a footnote's content begin at zero. */
+  content?: StructuralElementList | undefined;
 }
 export type FootnoteMap = { [key: string]: Footnote | undefined };
-/** A document footer. */
-export interface Footer {
-  /** The contents of the footer. The indexes for a footer's content begin at zero. */
-  content?: StructuralElementList | undefined;
-  /** The ID of the footer. */
-  footerId?: string | undefined;
-}
-export type FooterMap = { [key: string]: Footer | undefined };
-export type DocumentCommentsViewModeEnum =
-  | "COMMENTS_VIEW_MODE_UNSPECIFIED"
-  | "COMMENTS_VIEW_MODE_DEFAULT_FOR_CURRENT_ACCESS"
-  | "COMMENTS_VIEW_MODE_OMITTED"
-  | "COMMENTS_VIEW_MODE_INCLUDED";
 export type RangeList = Array<Range>;
 /** A collection of Ranges with the same named range ID. Named ranges allow developers to associate parts of a document with an arbitrary user-defined label so their contents can be programmatically read or edited later. A document can contain multiple named ranges with the same name, but every named range has a unique ID. A named range is created with a single Range, and content inserted inside a named range generally expands that range. However, certain document changes can cause the range to be split into multiple ranges. Named ranges are not private. All applications and collaborators that have access to the document can see its named ranges. */
 export interface NamedRange {
-  /** The name of the named range. */
-  name?: string | undefined;
   /** The ranges that belong to this named range. */
   ranges?: RangeList | undefined;
   /** The ID of the named range. */
   namedRangeId?: string | undefined;
+  /** The name of the named range. */
+  name?: string | undefined;
 }
 export type NamedRangeList = Array<NamedRange>;
 /** A collection of all the NamedRanges in the document that share a given name. */
 export interface NamedRanges {
-  /** The NamedRanges that share the same name. */
-  namedRanges?: NamedRangeList | undefined;
   /** The name that all the named ranges share. */
   name?: string | undefined;
+  /** The NamedRanges that share the same name. */
+  namedRanges?: NamedRangeList | undefined;
 }
 export type NamedRangesMap = { [key: string]: NamedRanges | undefined };
-export type CommentThreadList = Array<CommentThread>;
-export type NamedStyleList = Array<NamedStyle>;
-/** The named styles. Paragraphs in the document can inherit their TextStyle and ParagraphStyle from these named styles. */
-export interface NamedStyles {
-  /** The named styles. There's an entry for each of the possible named style types. */
-  styles?: NamedStyleList | undefined;
-}
-/** A mask that indicates which of the fields on the base PositionedObjectPositioning have been changed in this suggestion. For any field set to true, there's a new suggested value. */
-export interface PositionedObjectPositioningSuggestionState {
-  /** Indicates if there was a suggested change to layout. */
-  layoutSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to left_offset. */
-  leftOffsetSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to top_offset. */
-  topOffsetSuggested?: boolean | undefined;
-}
-/** A mask that indicates which of the fields on the base Size have been changed in this suggestion. For any field set to true, the Size has a new suggested value. */
-export interface SizeSuggestionState {
-  /** Indicates if there was a suggested change to height. */
-  heightSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to width. */
-  widthSuggested?: boolean | undefined;
-}
-/** A mask that indicates which of the fields on the base EmbeddedObjectBorder have been changed in this suggestion. For any field set to true, there's a new suggested value. */
-export interface EmbeddedObjectBorderSuggestionState {
-  /** Indicates if there was a suggested change to color. */
-  colorSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to dash_style. */
-  dashStyleSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to property_state. */
-  propertyStateSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to width. */
-  widthSuggested?: boolean | undefined;
+/** The document body. The body typically contains the full document contents except for headers, footers, and footnotes. */
+export interface Body {
+  /** The contents of the body. The indexes for the body's content begin at zero. */
+  content?: StructuralElementList | undefined;
 }
 /** A mask that indicates which of the fields on the base SheetsChartReference have been changed in this suggestion. For any field set to true, there's a new suggested value. */
 export interface SheetsChartReferenceSuggestionState {
-  /** Indicates if there was a suggested change to spreadsheet_id. */
-  spreadsheetIdSuggested?: boolean | undefined;
   /** Indicates if there was a suggested change to chart_id. */
   chartIdSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to spreadsheet_id. */
+  spreadsheetIdSuggested?: boolean | undefined;
 }
 /** A mask that indicates which of the fields on the base LinkedContentReference have been changed in this suggestion. For any field set to true, there's a new suggested value. */
 export interface LinkedContentReferenceSuggestionState {
@@ -2013,68 +2038,244 @@ export interface LinkedContentReferenceSuggestionState {
 }
 /** A mask that indicates which of the fields on the base CropProperties have been changed in this suggestion. For any field set to true, there's a new suggested value. */
 export interface CropPropertiesSuggestionState {
-  /** Indicates if there was a suggested change to offset_top. */
-  offsetTopSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to angle. */
-  angleSuggested?: boolean | undefined;
   /** Indicates if there was a suggested change to offset_bottom. */
   offsetBottomSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to angle. */
+  angleSuggested?: boolean | undefined;
   /** Indicates if there was a suggested change to offset_right. */
   offsetRightSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to offset_top. */
+  offsetTopSuggested?: boolean | undefined;
   /** Indicates if there was a suggested change to offset_left. */
   offsetLeftSuggested?: boolean | undefined;
 }
 /** A mask that indicates which of the fields on the base ImageProperties have been changed in this suggestion. For any field set to true, there's a new suggested value. */
 export interface ImagePropertiesSuggestionState {
+  /** A mask that indicates which of the fields in crop_properties have been changed in this suggestion. */
+  cropPropertiesSuggestionState?: CropPropertiesSuggestionState | undefined;
   /** Indicates if there was a suggested change to content_uri. */
   contentUriSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to source_uri. */
+  sourceUriSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to transparency. */
+  transparencySuggested?: boolean | undefined;
   /** Indicates if there was a suggested change to contrast. */
   contrastSuggested?: boolean | undefined;
   /** Indicates if there was a suggested change to angle. */
   angleSuggested?: boolean | undefined;
-  /** A mask that indicates which of the fields in crop_properties have been changed in this suggestion. */
-  cropPropertiesSuggestionState?: CropPropertiesSuggestionState | undefined;
-  /** Indicates if there was a suggested change to transparency. */
-  transparencySuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to source_uri. */
-  sourceUriSuggested?: boolean | undefined;
   /** Indicates if there was a suggested change to brightness. */
   brightnessSuggested?: boolean | undefined;
+}
+/** A mask that indicates which of the fields on the base EmbeddedObjectBorder have been changed in this suggestion. For any field set to true, there's a new suggested value. */
+export interface EmbeddedObjectBorderSuggestionState {
+  /** Indicates if there was a suggested change to property_state. */
+  propertyStateSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to color. */
+  colorSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to dash_style. */
+  dashStyleSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to width. */
+  widthSuggested?: boolean | undefined;
 }
 /** A mask that indicates which of the fields on the base EmbeddedDrawingProperties have been changed in this suggestion. For any field set to true, there's a new suggested value. */
 export interface EmbeddedDrawingPropertiesSuggestionState {}
 /** A mask that indicates which of the fields on the base EmbeddedObject have been changed in this suggestion. For any field set to true, there's a new suggested value. */
 export interface EmbeddedObjectSuggestionState {
-  /** Indicates if there was a suggested change to margin_top. */
-  marginTopSuggested?: boolean | undefined;
-  /** A mask that indicates which of the fields in size have been changed in this suggestion. */
-  sizeSuggestionState?: SizeSuggestionState | undefined;
-  /** Indicates if there was a suggested change to margin_left. */
-  marginLeftSuggested?: boolean | undefined;
-  /** A mask that indicates which of the fields in embedded_object_border have been changed in this suggestion. */
-  embeddedObjectBorderSuggestionState?: EmbeddedObjectBorderSuggestionState | undefined;
-  /** Indicates if there was a suggested change to margin_right. */
-  marginRightSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to description. */
-  descriptionSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to margin_bottom. */
-  marginBottomSuggested?: boolean | undefined;
   /** A mask that indicates which of the fields in linked_content_reference have been changed in this suggestion. */
   linkedContentReferenceSuggestionState?: LinkedContentReferenceSuggestionState | undefined;
+  /** Indicates if there was a suggested change to description. */
+  descriptionSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to margin_right. */
+  marginRightSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to margin_left. */
+  marginLeftSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to margin_top. */
+  marginTopSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to margin_bottom. */
+  marginBottomSuggested?: boolean | undefined;
   /** A mask that indicates which of the fields in image_properties have been changed in this suggestion. */
   imagePropertiesSuggestionState?: ImagePropertiesSuggestionState | undefined;
-  /** A mask that indicates which of the fields in embedded_drawing_properties have been changed in this suggestion. */
-  embeddedDrawingPropertiesSuggestionState?: EmbeddedDrawingPropertiesSuggestionState | undefined;
+  /** A mask that indicates which of the fields in size have been changed in this suggestion. */
+  sizeSuggestionState?: SizeSuggestionState | undefined;
   /** Indicates if there was a suggested change to title. */
   titleSuggested?: boolean | undefined;
+  /** A mask that indicates which of the fields in embedded_object_border have been changed in this suggestion. */
+  embeddedObjectBorderSuggestionState?: EmbeddedObjectBorderSuggestionState | undefined;
+  /** A mask that indicates which of the fields in embedded_drawing_properties have been changed in this suggestion. */
+  embeddedDrawingPropertiesSuggestionState?: EmbeddedDrawingPropertiesSuggestionState | undefined;
 }
-/** A mask that indicates which of the fields on the base PositionedObjectProperties have been changed in this suggestion. For any field set to true, there's a new suggested value. */
-export interface PositionedObjectPropertiesSuggestionState {
-  /** A mask that indicates which of the fields in positioning have been changed in this suggestion. */
-  positioningSuggestionState?: PositionedObjectPositioningSuggestionState | undefined;
+/** A mask that indicates which of the fields on the base InlineObjectProperties have been changed in this suggestion. For any field set to true, there's a new suggested value. */
+export interface InlineObjectPropertiesSuggestionState {
   /** A mask that indicates which of the fields in embedded_object have been changed in this suggestion. */
   embeddedObjectSuggestionState?: EmbeddedObjectSuggestionState | undefined;
 }
+export type EmbeddedObjectBorderDashStyleEnum = "DASH_STYLE_UNSPECIFIED" | "SOLID" | "DOT" | "DASH";
+export type EmbeddedObjectBorderPropertyStateEnum = "RENDERED" | "NOT_RENDERED";
+/** A border around an EmbeddedObject. */
+export interface EmbeddedObjectBorder {
+  /** The color of the border. */
+  color?: OptionalColor | undefined;
+  /** The dash style of the border. */
+  dashStyle?: EmbeddedObjectBorderDashStyleEnum | (string & {}) | undefined;
+  /** The property state of the border property. */
+  propertyState?: EmbeddedObjectBorderPropertyStateEnum | (string & {}) | undefined;
+  /** The width of the border. */
+  width?: Dimension | undefined;
+}
+/** The crop properties of an image. The crop rectangle is represented using fractional offsets from the original content's 4 edges. - If the offset is in the interval (0, 1), the corresponding edge of crop rectangle is positioned inside of the image's original bounding rectangle. - If the offset is negative or greater than 1, the corresponding edge of crop rectangle is positioned outside of the image's original bounding rectangle. - If all offsets and rotation angles are 0, the image is not cropped. */
+export interface CropProperties {
+  /** The offset specifies how far inwards the bottom edge of the crop rectangle is from the bottom edge of the original content as a fraction of the original content's height. */
+  offsetBottom?: number | undefined;
+  /** The offset specifies how far inwards the top edge of the crop rectangle is from the top edge of the original content as a fraction of the original content's height. */
+  offsetTop?: number | undefined;
+  /** The offset specifies how far inwards the left edge of the crop rectangle is from the left edge of the original content as a fraction of the original content's width. */
+  offsetLeft?: number | undefined;
+  /** The offset specifies how far inwards the right edge of the crop rectangle is from the right edge of the original content as a fraction of the original content's width. */
+  offsetRight?: number | undefined;
+  /** The clockwise rotation angle of the crop rectangle around its center, in radians. Rotation is applied after the offsets. */
+  angle?: number | undefined;
+}
+/** The properties of an image. */
+export interface ImageProperties {
+  /** A URI to the image with a default lifetime of 30 minutes. This URI is tagged with the account of the requester. Anyone with the URI effectively accesses the image as the original requester. Access to the image may be lost if the document's sharing settings change. */
+  contentUri?: string | undefined;
+  /** The brightness effect of the image. The value should be in the interval [-1.0, 1.0], where 0 means no effect. */
+  brightness?: number | undefined;
+  /** The transparency effect of the image. The value should be in the interval [0.0, 1.0], where 0 means no effect and 1 means transparent. */
+  transparency?: number | undefined;
+  /** The crop properties of the image. */
+  cropProperties?: CropProperties | undefined;
+  /** The clockwise rotation angle of the image, in radians. */
+  angle?: number | undefined;
+  /** The source URI is the URI used to insert the image. The source URI can be empty. */
+  sourceUri?: string | undefined;
+  /** The contrast effect of the image. The value should be in the interval [-1.0, 1.0], where 0 means no effect. */
+  contrast?: number | undefined;
+}
+/** A reference to a linked chart embedded from Google Sheets. */
+export interface SheetsChartReference {
+  /** The ID of the specific chart in the Google Sheets spreadsheet that's embedded. */
+  chartId?: number | undefined;
+  /** The ID of the Google Sheets spreadsheet that contains the source chart. */
+  spreadsheetId?: string | undefined;
+}
+/** A reference to the external linked source content. */
+export interface LinkedContentReference {
+  /** A reference to the linked chart. */
+  sheetsChartReference?: SheetsChartReference | undefined;
+}
+/** The properties of an embedded drawing and used to differentiate the object type. An embedded drawing is one that's created and edited within a document. Note that extensive details are not supported. */
+export type EmbeddedDrawingProperties = EmbeddedDrawingPropertiesSuggestionState;
+/** An embedded object in the document. */
+export interface EmbeddedObject {
+  /** The border of the embedded object. */
+  embeddedObjectBorder?: EmbeddedObjectBorder | undefined;
+  /** The properties of an image. */
+  imageProperties?: ImageProperties | undefined;
+  /** The right margin of the embedded object. */
+  marginRight?: Dimension | undefined;
+  /** The left margin of the embedded object. */
+  marginLeft?: Dimension | undefined;
+  /** A reference to the external linked source content. For example, it contains a reference to the source Google Sheets chart when the embedded object is a linked chart. If unset, then the embedded object is not linked. */
+  linkedContentReference?: LinkedContentReference | undefined;
+  /** The top margin of the embedded object. */
+  marginTop?: Dimension | undefined;
+  /** The properties of an embedded drawing. */
+  embeddedDrawingProperties?: EmbeddedDrawingPropertiesSuggestionState | undefined;
+  /** The title of the embedded object. The `title` and `description` are both combined to display alt text. */
+  title?: string | undefined;
+  /** The visible size of the image after cropping. */
+  size?: Size | undefined;
+  /** The bottom margin of the embedded object. */
+  marginBottom?: Dimension | undefined;
+  /** The description of the embedded object. The `title` and `description` are both combined to display alt text. */
+  description?: string | undefined;
+}
+/** Properties of an InlineObject. */
+export interface InlineObjectProperties {
+  /** The embedded object of this inline object. */
+  embeddedObject?: EmbeddedObject | undefined;
+}
+/** A suggested change to InlineObjectProperties. */
+export interface SuggestedInlineObjectProperties {
+  /** A mask that indicates which of the fields on the base InlineObjectProperties have been changed in this suggestion. */
+  inlineObjectPropertiesSuggestionState?: InlineObjectPropertiesSuggestionState | undefined;
+  /** An InlineObjectProperties that only includes the changes made in this suggestion. This can be used along with the inline_object_properties_suggestion_state to see which fields have changed and their new values. */
+  inlineObjectProperties?: InlineObjectProperties | undefined;
+}
+export type SuggestedInlineObjectPropertiesMap = {
+  [key: string]: SuggestedInlineObjectProperties | undefined;
+};
+/** An object that appears inline with text. An InlineObject contains an EmbeddedObject such as an image. */
+export interface InlineObject {
+  /** The suggested changes to the inline object properties, keyed by suggestion ID. */
+  suggestedInlineObjectPropertiesChanges?: SuggestedInlineObjectPropertiesMap | undefined;
+  /** The properties of this inline object. */
+  inlineObjectProperties?: InlineObjectProperties | undefined;
+  /** The ID of this inline object. Can be used to update an object's properties. */
+  objectId?: string | undefined;
+  /** The suggested insertion ID. If empty, then this is not a suggested insertion. */
+  suggestedInsertionId?: string | undefined;
+  /** The suggested deletion IDs. If empty, then there are no suggested deletions of this content. */
+  suggestedDeletionIds?: StringList | undefined;
+}
+export type InlineObjectMap = { [key: string]: InlineObject | undefined };
+export type DocumentSuggestionsViewModeEnum =
+  | "DEFAULT_FOR_CURRENT_ACCESS"
+  | "SUGGESTIONS_INLINE"
+  | "PREVIEW_SUGGESTIONS_ACCEPTED"
+  | "PREVIEW_WITHOUT_SUGGESTIONS";
+export type CommentThreadList = Array<CommentThread>;
+/** One or more locations in the document that are tied to CommentThreads with the same anchorId. Note: Multiple anchors may refer to the same location. */
+export interface CommentAnchor {
+  /** A collection of Ranges in the document which are tied to this anchor. */
+  ranges?: RangeList | undefined;
+  /** The ID of the comment anchor. */
+  anchorId?: string | undefined;
+}
+export type CommentAnchorMap = { [key: string]: CommentAnchor | undefined };
+export type NamedStyleSuggestionStateNamedStyleTypeEnum =
+  | "NAMED_STYLE_TYPE_UNSPECIFIED"
+  | "NORMAL_TEXT"
+  | "TITLE"
+  | "SUBTITLE"
+  | "HEADING_1"
+  | "HEADING_2"
+  | "HEADING_3"
+  | "HEADING_4"
+  | "HEADING_5"
+  | "HEADING_6";
+/** A suggestion state of a NamedStyle message. */
+export interface NamedStyleSuggestionState {
+  /** A mask that indicates which of the fields in text style have been changed in this suggestion. */
+  textStyleSuggestionState?: TextStyleSuggestionState | undefined;
+  /** The named style type that this suggestion state corresponds to. This field is provided as a convenience for matching the NamedStyleSuggestionState with its corresponding NamedStyle. */
+  namedStyleType?: NamedStyleSuggestionStateNamedStyleTypeEnum | (string & {}) | undefined;
+  /** A mask that indicates which of the fields in paragraph style have been changed in this suggestion. */
+  paragraphStyleSuggestionState?: ParagraphStyleSuggestionState | undefined;
+}
+export type NamedStyleSuggestionStateList = Array<NamedStyleSuggestionState>;
+/** The suggestion state of a NamedStyles message. */
+export interface NamedStylesSuggestionState {
+  /** A mask that indicates which of the fields on the corresponding NamedStyle in styles have been changed in this suggestion. The order of these named style suggestion states matches the order of the corresponding named style within the named styles suggestion. */
+  stylesSuggestionStates?: NamedStyleSuggestionStateList | undefined;
+}
+/** A suggested change to the NamedStyles. */
+export interface SuggestedNamedStyles {
+  /** A mask that indicates which of the fields on the base NamedStyles have been changed in this suggestion. */
+  namedStylesSuggestionState?: NamedStylesSuggestionState | undefined;
+  /** A NamedStyles that only includes the changes made in this suggestion. This can be used along with the named_styles_suggestion_state to see which fields have changed and their new values. */
+  namedStyles?: NamedStyles | undefined;
+}
+export type SuggestedNamedStylesMap = { [key: string]: SuggestedNamedStyles | undefined };
+/** A document footer. */
+export interface Footer {
+  /** The ID of the footer. */
+  footerId?: string | undefined;
+  /** The contents of the footer. The indexes for a footer's content begin at zero. */
+  content?: StructuralElementList | undefined;
+}
+export type FooterMap = { [key: string]: Footer | undefined };
 export type PositionedObjectPositioningLayoutEnum =
   | "POSITIONED_OBJECT_LAYOUT_UNSPECIFIED"
   | "WRAP_TEXT"
@@ -2092,94 +2293,28 @@ export interface PositionedObjectPositioning {
   /** The offset of the top edge of the positioned object relative to the beginning of the Paragraph it's tethered to. The exact positioning of the object can depend on other content in the document and the document's styling. */
   topOffset?: Dimension | undefined;
 }
-/** The properties of an embedded drawing and used to differentiate the object type. An embedded drawing is one that's created and edited within a document. Note that extensive details are not supported. */
-export type EmbeddedDrawingProperties = EmbeddedDrawingPropertiesSuggestionState;
-/** A reference to a linked chart embedded from Google Sheets. */
-export interface SheetsChartReference {
-  /** The ID of the specific chart in the Google Sheets spreadsheet that's embedded. */
-  chartId?: number | undefined;
-  /** The ID of the Google Sheets spreadsheet that contains the source chart. */
-  spreadsheetId?: string | undefined;
-}
-/** A reference to the external linked source content. */
-export interface LinkedContentReference {
-  /** A reference to the linked chart. */
-  sheetsChartReference?: SheetsChartReference | undefined;
-}
-export type EmbeddedObjectBorderDashStyleEnum = "DASH_STYLE_UNSPECIFIED" | "SOLID" | "DOT" | "DASH";
-export type EmbeddedObjectBorderPropertyStateEnum = "RENDERED" | "NOT_RENDERED";
-/** A border around an EmbeddedObject. */
-export interface EmbeddedObjectBorder {
-  /** The width of the border. */
-  width?: Dimension | undefined;
-  /** The dash style of the border. */
-  dashStyle?: EmbeddedObjectBorderDashStyleEnum | (string & {}) | undefined;
-  /** The color of the border. */
-  color?: OptionalColor | undefined;
-  /** The property state of the border property. */
-  propertyState?: EmbeddedObjectBorderPropertyStateEnum | (string & {}) | undefined;
-}
-/** The crop properties of an image. The crop rectangle is represented using fractional offsets from the original content's 4 edges. - If the offset is in the interval (0, 1), the corresponding edge of crop rectangle is positioned inside of the image's original bounding rectangle. - If the offset is negative or greater than 1, the corresponding edge of crop rectangle is positioned outside of the image's original bounding rectangle. - If all offsets and rotation angles are 0, the image is not cropped. */
-export interface CropProperties {
-  /** The clockwise rotation angle of the crop rectangle around its center, in radians. Rotation is applied after the offsets. */
-  angle?: number | undefined;
-  /** The offset specifies how far inwards the top edge of the crop rectangle is from the top edge of the original content as a fraction of the original content's height. */
-  offsetTop?: number | undefined;
-  /** The offset specifies how far inwards the right edge of the crop rectangle is from the right edge of the original content as a fraction of the original content's width. */
-  offsetRight?: number | undefined;
-  /** The offset specifies how far inwards the bottom edge of the crop rectangle is from the bottom edge of the original content as a fraction of the original content's height. */
-  offsetBottom?: number | undefined;
-  /** The offset specifies how far inwards the left edge of the crop rectangle is from the left edge of the original content as a fraction of the original content's width. */
-  offsetLeft?: number | undefined;
-}
-/** The properties of an image. */
-export interface ImageProperties {
-  /** The transparency effect of the image. The value should be in the interval [0.0, 1.0], where 0 means no effect and 1 means transparent. */
-  transparency?: number | undefined;
-  /** The source URI is the URI used to insert the image. The source URI can be empty. */
-  sourceUri?: string | undefined;
-  /** The crop properties of the image. */
-  cropProperties?: CropProperties | undefined;
-  /** A URI to the image with a default lifetime of 30 minutes. This URI is tagged with the account of the requester. Anyone with the URI effectively accesses the image as the original requester. Access to the image may be lost if the document's sharing settings change. */
-  contentUri?: string | undefined;
-  /** The brightness effect of the image. The value should be in the interval [-1.0, 1.0], where 0 means no effect. */
-  brightness?: number | undefined;
-  /** The clockwise rotation angle of the image, in radians. */
-  angle?: number | undefined;
-  /** The contrast effect of the image. The value should be in the interval [-1.0, 1.0], where 0 means no effect. */
-  contrast?: number | undefined;
-}
-/** An embedded object in the document. */
-export interface EmbeddedObject {
-  /** The left margin of the embedded object. */
-  marginLeft?: Dimension | undefined;
-  /** The title of the embedded object. The `title` and `description` are both combined to display alt text. */
-  title?: string | undefined;
-  /** The top margin of the embedded object. */
-  marginTop?: Dimension | undefined;
-  /** The description of the embedded object. The `title` and `description` are both combined to display alt text. */
-  description?: string | undefined;
-  /** The properties of an embedded drawing. */
-  embeddedDrawingProperties?: EmbeddedDrawingPropertiesSuggestionState | undefined;
-  /** The visible size of the image after cropping. */
-  size?: Size | undefined;
-  /** The bottom margin of the embedded object. */
-  marginBottom?: Dimension | undefined;
-  /** A reference to the external linked source content. For example, it contains a reference to the source Google Sheets chart when the embedded object is a linked chart. If unset, then the embedded object is not linked. */
-  linkedContentReference?: LinkedContentReference | undefined;
-  /** The right margin of the embedded object. */
-  marginRight?: Dimension | undefined;
-  /** The border of the embedded object. */
-  embeddedObjectBorder?: EmbeddedObjectBorder | undefined;
-  /** The properties of an image. */
-  imageProperties?: ImageProperties | undefined;
-}
 /** Properties of a PositionedObject. */
 export interface PositionedObjectProperties {
-  /** The positioning of this positioned object relative to the newline of the Paragraph that references this positioned object. */
-  positioning?: PositionedObjectPositioning | undefined;
   /** The embedded object of this positioned object. */
   embeddedObject?: EmbeddedObject | undefined;
+  /** The positioning of this positioned object relative to the newline of the Paragraph that references this positioned object. */
+  positioning?: PositionedObjectPositioning | undefined;
+}
+/** A mask that indicates which of the fields on the base PositionedObjectPositioning have been changed in this suggestion. For any field set to true, there's a new suggested value. */
+export interface PositionedObjectPositioningSuggestionState {
+  /** Indicates if there was a suggested change to layout. */
+  layoutSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to left_offset. */
+  leftOffsetSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to top_offset. */
+  topOffsetSuggested?: boolean | undefined;
+}
+/** A mask that indicates which of the fields on the base PositionedObjectProperties have been changed in this suggestion. For any field set to true, there's a new suggested value. */
+export interface PositionedObjectPropertiesSuggestionState {
+  /** A mask that indicates which of the fields in embedded_object have been changed in this suggestion. */
+  embeddedObjectSuggestionState?: EmbeddedObjectSuggestionState | undefined;
+  /** A mask that indicates which of the fields in positioning have been changed in this suggestion. */
+  positioningSuggestionState?: PositionedObjectPositioningSuggestionState | undefined;
 }
 /** A suggested change to PositionedObjectProperties. */
 export interface SuggestedPositionedObjectProperties {
@@ -2193,112 +2328,19 @@ export type SuggestedPositionedObjectPropertiesMap = {
 };
 /** An object that's tethered to a Paragraph and positioned relative to the beginning of the paragraph. A PositionedObject contains an EmbeddedObject such as an image. */
 export interface PositionedObject {
-  /** The suggested insertion ID. If empty, then this is not a suggested insertion. */
-  suggestedInsertionId?: string | undefined;
-  /** The suggested changes to the positioned object properties, keyed by suggestion ID. */
-  suggestedPositionedObjectPropertiesChanges?: SuggestedPositionedObjectPropertiesMap | undefined;
-  /** The suggested deletion IDs. If empty, then there are no suggested deletions of this content. */
-  suggestedDeletionIds?: StringList | undefined;
-  /** The ID of this positioned object. */
-  objectId?: string | undefined;
   /** The properties of this positioned object. */
   positionedObjectProperties?: PositionedObjectProperties | undefined;
-}
-export type PositionedObjectMap = { [key: string]: PositionedObject | undefined };
-/** A document header. */
-export interface Header {
-  /** The ID of the header. */
-  headerId?: string | undefined;
-  /** The contents of the header. The indexes for a header's content begin at zero. */
-  content?: StructuralElementList | undefined;
-}
-export type HeaderMap = { [key: string]: Header | undefined };
-/** The document body. The body typically contains the full document contents except for headers, footers, and footnotes. */
-export interface Body {
-  /** The contents of the body. The indexes for the body's content begin at zero. */
-  content?: StructuralElementList | undefined;
-}
-/** Properties of an InlineObject. */
-export interface InlineObjectProperties {
-  /** The embedded object of this inline object. */
-  embeddedObject?: EmbeddedObject | undefined;
-}
-/** A mask that indicates which of the fields on the base InlineObjectProperties have been changed in this suggestion. For any field set to true, there's a new suggested value. */
-export interface InlineObjectPropertiesSuggestionState {
-  /** A mask that indicates which of the fields in embedded_object have been changed in this suggestion. */
-  embeddedObjectSuggestionState?: EmbeddedObjectSuggestionState | undefined;
-}
-/** A suggested change to InlineObjectProperties. */
-export interface SuggestedInlineObjectProperties {
-  /** An InlineObjectProperties that only includes the changes made in this suggestion. This can be used along with the inline_object_properties_suggestion_state to see which fields have changed and their new values. */
-  inlineObjectProperties?: InlineObjectProperties | undefined;
-  /** A mask that indicates which of the fields on the base InlineObjectProperties have been changed in this suggestion. */
-  inlineObjectPropertiesSuggestionState?: InlineObjectPropertiesSuggestionState | undefined;
-}
-export type SuggestedInlineObjectPropertiesMap = {
-  [key: string]: SuggestedInlineObjectProperties | undefined;
-};
-/** An object that appears inline with text. An InlineObject contains an EmbeddedObject such as an image. */
-export interface InlineObject {
-  /** The suggested changes to the inline object properties, keyed by suggestion ID. */
-  suggestedInlineObjectPropertiesChanges?: SuggestedInlineObjectPropertiesMap | undefined;
-  /** The ID of this inline object. Can be used to update an object's properties. */
-  objectId?: string | undefined;
   /** The suggested insertion ID. If empty, then this is not a suggested insertion. */
   suggestedInsertionId?: string | undefined;
-  /** The properties of this inline object. */
-  inlineObjectProperties?: InlineObjectProperties | undefined;
   /** The suggested deletion IDs. If empty, then there are no suggested deletions of this content. */
   suggestedDeletionIds?: StringList | undefined;
+  /** The suggested changes to the positioned object properties, keyed by suggestion ID. */
+  suggestedPositionedObjectPropertiesChanges?: SuggestedPositionedObjectPropertiesMap | undefined;
+  /** The ID of this positioned object. */
+  objectId?: string | undefined;
 }
-export type InlineObjectMap = { [key: string]: InlineObject | undefined };
-/** One or more locations in the document that are tied to CommentThreads with the same anchorId. Note: Multiple anchors may refer to the same location. */
-export interface CommentAnchor {
-  /** The ID of the comment anchor. */
-  anchorId?: string | undefined;
-  /** A collection of Ranges in the document which are tied to this anchor. */
-  ranges?: RangeList | undefined;
-}
-export type CommentAnchorMap = { [key: string]: CommentAnchor | undefined };
-export type NamedStyleSuggestionStateNamedStyleTypeEnum =
-  | "NAMED_STYLE_TYPE_UNSPECIFIED"
-  | "NORMAL_TEXT"
-  | "TITLE"
-  | "SUBTITLE"
-  | "HEADING_1"
-  | "HEADING_2"
-  | "HEADING_3"
-  | "HEADING_4"
-  | "HEADING_5"
-  | "HEADING_6";
-/** A suggestion state of a NamedStyle message. */
-export interface NamedStyleSuggestionState {
-  /** A mask that indicates which of the fields in paragraph style have been changed in this suggestion. */
-  paragraphStyleSuggestionState?: ParagraphStyleSuggestionState | undefined;
-  /** The named style type that this suggestion state corresponds to. This field is provided as a convenience for matching the NamedStyleSuggestionState with its corresponding NamedStyle. */
-  namedStyleType?: NamedStyleSuggestionStateNamedStyleTypeEnum | (string & {}) | undefined;
-  /** A mask that indicates which of the fields in text style have been changed in this suggestion. */
-  textStyleSuggestionState?: TextStyleSuggestionState | undefined;
-}
-export type NamedStyleSuggestionStateList = Array<NamedStyleSuggestionState>;
-/** The suggestion state of a NamedStyles message. */
-export interface NamedStylesSuggestionState {
-  /** A mask that indicates which of the fields on the corresponding NamedStyle in styles have been changed in this suggestion. The order of these named style suggestion states matches the order of the corresponding named style within the named styles suggestion. */
-  stylesSuggestionStates?: NamedStyleSuggestionStateList | undefined;
-}
-/** A suggested change to the NamedStyles. */
-export interface SuggestedNamedStyles {
-  /** A NamedStyles that only includes the changes made in this suggestion. This can be used along with the named_styles_suggestion_state to see which fields have changed and their new values. */
-  namedStyles?: NamedStyles | undefined;
-  /** A mask that indicates which of the fields on the base NamedStyles have been changed in this suggestion. */
-  namedStylesSuggestionState?: NamedStylesSuggestionState | undefined;
-}
-export type SuggestedNamedStylesMap = { [key: string]: SuggestedNamedStyles | undefined };
-export type NestingLevelBulletAlignmentEnum =
-  | "BULLET_ALIGNMENT_UNSPECIFIED"
-  | "START"
-  | "CENTER"
-  | "END";
+export type PositionedObjectMap = { [key: string]: PositionedObject | undefined };
+export type DropdownDefinitionMap = { [key: string]: DropdownDefinition | undefined };
 export type NestingLevelGlyphTypeEnum =
   | "GLYPH_TYPE_UNSPECIFIED"
   | "NONE"
@@ -2308,24 +2350,29 @@ export type NestingLevelGlyphTypeEnum =
   | "ALPHA"
   | "UPPER_ROMAN"
   | "ROMAN";
+export type NestingLevelBulletAlignmentEnum =
+  | "BULLET_ALIGNMENT_UNSPECIFIED"
+  | "START"
+  | "CENTER"
+  | "END";
 /** Contains properties describing the look and feel of a list bullet at a given level of nesting. */
 export interface NestingLevel {
-  /** The alignment of the bullet within the space allotted for rendering the bullet. */
-  bulletAlignment?: NestingLevelBulletAlignmentEnum | (string & {}) | undefined;
+  /** The amount of indentation for paragraphs at this level of nesting. Applied to the side that corresponds to the start of the text, based on the paragraph's content direction. */
+  indentStart?: Dimension | undefined;
   /** The amount of indentation for the first line of paragraphs at this level of nesting. */
   indentFirstLine?: Dimension | undefined;
+  /** The number of the first list item at this nesting level. A value of 0 is treated as a value of 1 for lettered lists and Roman numeral lists. For values of both 0 and 1, lettered and Roman numeral lists will begin at `a` and `i` respectively. This value is ignored for nesting levels with unordered glyphs. */
+  startNumber?: number | undefined;
+  /** The text style of bullets at this level of nesting. */
+  textStyle?: TextStyle | undefined;
+  /** The type of glyph used by bullets when paragraphs at this level of nesting is ordered. The glyph type determines the type of glyph used to replace placeholders within the glyph_format when paragraphs at this level of nesting are ordered. For example, if the nesting level is 0, the glyph_format is `%0.` and the glyph type is DECIMAL, then the rendered glyph would replace the placeholder `%0` in the glyph format with a number corresponding to the list item's order within the list. */
+  glyphType?: NestingLevelGlyphTypeEnum | (string & {}) | undefined;
   /** A custom glyph symbol used by bullets when paragraphs at this level of nesting is unordered. The glyph symbol replaces placeholders within the glyph_format. For example, if the glyph_symbol is the solid circle corresponding to Unicode U+25cf code point and the glyph_format is `%0`, the rendered glyph would be the solid circle. */
   glyphSymbol?: string | undefined;
   /** The format string used by bullets at this level of nesting. The glyph format contains one or more placeholders, and these placeholders are replaced with the appropriate values depending on the glyph_type or glyph_symbol. The placeholders follow the pattern `%[nesting_level]`. Furthermore, placeholders can have prefixes and suffixes. Thus, the glyph format follows the pattern `%[nesting_level]`. Note that the prefix and suffix are optional and can be arbitrary strings. For example, the glyph format `%0.` indicates that the rendered glyph will replace the placeholder with the corresponding glyph for nesting level 0 followed by a period as the suffix. So a list with a glyph type of UPPER_ALPHA and glyph format `%0.` at nesting level 0 will result in a list with rendered glyphs `A.` `B.` `C.` The glyph format can contain placeholders for the current nesting level as well as placeholders for parent nesting levels. For example, a list can have a glyph format of `%0.` at nesting level 0 and a glyph format of `%0.%1.` at nesting level 1. Assuming both nesting levels have DECIMAL glyph types, this would result in a list with rendered glyphs `1.` `2.` ` 2.1.` ` 2.2.` `3.` For nesting levels that are ordered, the string that replaces a placeholder in the glyph format for a particular paragraph depends on the paragraph's order within the list. */
   glyphFormat?: string | undefined;
-  /** The amount of indentation for paragraphs at this level of nesting. Applied to the side that corresponds to the start of the text, based on the paragraph's content direction. */
-  indentStart?: Dimension | undefined;
-  /** The type of glyph used by bullets when paragraphs at this level of nesting is ordered. The glyph type determines the type of glyph used to replace placeholders within the glyph_format when paragraphs at this level of nesting are ordered. For example, if the nesting level is 0, the glyph_format is `%0.` and the glyph type is DECIMAL, then the rendered glyph would replace the placeholder `%0` in the glyph format with a number corresponding to the list item's order within the list. */
-  glyphType?: NestingLevelGlyphTypeEnum | (string & {}) | undefined;
-  /** The text style of bullets at this level of nesting. */
-  textStyle?: TextStyle | undefined;
-  /** The number of the first list item at this nesting level. A value of 0 is treated as a value of 1 for lettered lists and Roman numeral lists. For values of both 0 and 1, lettered and Roman numeral lists will begin at `a` and `i` respectively. This value is ignored for nesting levels with unordered glyphs. */
-  startNumber?: number | undefined;
+  /** The alignment of the bullet within the space allotted for rendering the bullet. */
+  bulletAlignment?: NestingLevelBulletAlignmentEnum | (string & {}) | undefined;
 }
 export type NestingLevelList = Array<NestingLevel>;
 /** The properties of a list that describe the look and feel of bullets belonging to paragraphs associated with a list. */
@@ -2337,20 +2384,20 @@ export interface ListProperties {
 export interface NestingLevelSuggestionState {
   /** Indicates if there was a suggested change to glyph_format. */
   glyphFormatSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to glyph_symbol. */
-  glyphSymbolSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to glyph_type. */
-  glyphTypeSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to indent_first_line. */
-  indentFirstLineSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to indent_start. */
-  indentStartSuggested?: boolean | undefined;
   /** Indicates if there was a suggested change to start_number. */
   startNumberSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to glyph_type. */
+  glyphTypeSuggested?: boolean | undefined;
   /** Indicates if there was a suggested change to bullet_alignment. */
   bulletAlignmentSuggested?: boolean | undefined;
   /** A mask that indicates which of the fields in text style have been changed in this suggestion. */
   textStyleSuggestionState?: TextStyleSuggestionState | undefined;
+  /** Indicates if there was a suggested change to glyph_symbol. */
+  glyphSymbolSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to indent_start. */
+  indentStartSuggested?: boolean | undefined;
+  /** Indicates if there was a suggested change to indent_first_line. */
+  indentFirstLineSuggested?: boolean | undefined;
 }
 export type NestingLevelSuggestionStateList = Array<NestingLevelSuggestionState>;
 /** A mask that indicates which of the fields on the base ListProperties have been changed in this suggestion. For any field set to true, there's a new suggested value. */
@@ -2368,176 +2415,129 @@ export interface SuggestedListProperties {
 export type SuggestedListPropertiesMap = { [key: string]: SuggestedListProperties | undefined };
 /** A List represents the list attributes for a group of paragraphs that all belong to the same list. A paragraph that's part of a list has a reference to the list's ID in its bullet. */
 export interface List {
-  /** The properties of the list. */
-  listProperties?: ListProperties | undefined;
-  /** The suggested changes to the list properties, keyed by suggestion ID. */
-  suggestedListPropertiesChanges?: SuggestedListPropertiesMap | undefined;
-  /** The suggested deletion IDs. If empty, then there are no suggested deletions of this list. */
-  suggestedDeletionIds?: StringList | undefined;
   /** The suggested insertion ID. If empty, then this is not a suggested insertion. */
   suggestedInsertionId?: string | undefined;
+  /** The suggested deletion IDs. If empty, then there are no suggested deletions of this list. */
+  suggestedDeletionIds?: StringList | undefined;
+  /** The suggested changes to the list properties, keyed by suggestion ID. */
+  suggestedListPropertiesChanges?: SuggestedListPropertiesMap | undefined;
+  /** The properties of the list. */
+  listProperties?: ListProperties | undefined;
 }
 export type ListMap = { [key: string]: List | undefined };
-export type DropdownDefinitionMap = { [key: string]: DropdownDefinition | undefined };
-/** A mask that indicates which of the fields on the base Background have been changed in this suggestion. For any field set to true, the Backgound has a new suggested value. */
-export interface BackgroundSuggestionState {
-  /** Indicates whether the current background color has been modified in this suggestion. */
-  backgroundColorSuggested?: boolean | undefined;
+/** A document header. */
+export interface Header {
+  /** The contents of the header. The indexes for a header's content begin at zero. */
+  content?: StructuralElementList | undefined;
+  /** The ID of the header. */
+  headerId?: string | undefined;
 }
-/** A mask that indicates which of the fields on the base DocumentStyle have been changed in this suggestion. For any field set to true, there's a new suggested value. */
-export interface DocumentStyleSuggestionState {
-  /** Indicates if there was a suggested change to margin_footer. */
-  marginFooterSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to default_header_id. */
-  defaultHeaderIdSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to first_page_footer_id. */
-  firstPageFooterIdSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to page_number_start. */
-  pageNumberStartSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to margin_left. */
-  marginLeftSuggested?: boolean | undefined;
-  /** A mask that indicates which of the fields in size have been changed in this suggestion. */
-  pageSizeSuggestionState?: SizeSuggestionState | undefined;
-  /** Indicates if there was a suggested change to use_even_page_header_footer. */
-  useEvenPageHeaderFooterSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to margin_header. */
-  marginHeaderSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to margin_top. */
-  marginTopSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to margin_bottom. */
-  marginBottomSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to default_footer_id. */
-  defaultFooterIdSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to use_first_page_header_footer. */
-  useFirstPageHeaderFooterSuggested?: boolean | undefined;
-  /** Optional. Indicates if there was a suggested change to flip_page_orientation. */
-  flipPageOrientationSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to margin_right. */
-  marginRightSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to first_page_header_id. */
-  firstPageHeaderIdSuggested?: boolean | undefined;
-  /** A mask that indicates which of the fields in background have been changed in this suggestion. */
-  backgroundSuggestionState?: BackgroundSuggestionState | undefined;
-  /** Indicates if there was a suggested change to even_page_header_id. */
-  evenPageHeaderIdSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to even_page_footer_id. */
-  evenPageFooterIdSuggested?: boolean | undefined;
-  /** Indicates if there was a suggested change to use_custom_header_footer_margins. */
-  useCustomHeaderFooterMarginsSuggested?: boolean | undefined;
-}
-/** A suggested change to the DocumentStyle. */
-export interface SuggestedDocumentStyle {
-  /** A mask that indicates which of the fields on the base DocumentStyle have been changed in this suggestion. */
-  documentStyleSuggestionState?: DocumentStyleSuggestionState | undefined;
-  /** A DocumentStyle that only includes the changes made in this suggestion. This can be used along with the document_style_suggestion_state to see which fields have changed and their new values. */
-  documentStyle?: DocumentStyle | undefined;
-}
-export type SuggestedDocumentStyleMap = { [key: string]: SuggestedDocumentStyle | undefined };
+export type HeaderMap = { [key: string]: Header | undefined };
 /** A tab with document contents. */
 export interface DocumentTab {
-  /** The inline objects in the document tab, keyed by object ID. */
-  inlineObjects?: InlineObjectMap | undefined;
-  /** The positioned objects in the document tab, keyed by object ID. */
-  positionedObjects?: PositionedObjectMap | undefined;
   /** The comment anchors in a document tab, keyed by anchor ID. Only populated if the commentsViewMode parameter is set to require comments (such as `COMMENTS_VIEW_MODE_INCLUDED`). */
   commentAnchors?: CommentAnchorMap | undefined;
-  /** The main body of the document tab. */
-  body?: Body | undefined;
-  /** The footers in the document tab, keyed by footer ID. */
-  footers?: FooterMap | undefined;
-  /** The style of the document tab. */
-  documentStyle?: DocumentStyle | undefined;
-  /** The suggested changes to the named styles of the document tab, keyed by suggestion ID. */
-  suggestedNamedStylesChanges?: SuggestedNamedStylesMap | undefined;
-  /** The footnotes in the document tab, keyed by footnote ID. */
-  footnotes?: FootnoteMap | undefined;
-  /** The lists in the document tab, keyed by list ID. */
-  lists?: ListMap | undefined;
-  /** The dropdown definitions in a document tab, keyed by dropdown definition ID. */
-  dropdownDefinitions?: DropdownDefinitionMap | undefined;
   /** The named ranges in the document tab, keyed by name. */
   namedRanges?: NamedRangesMap | undefined;
-  /** The suggested changes to the style of the document tab, keyed by suggestion ID. */
-  suggestedDocumentStyleChanges?: SuggestedDocumentStyleMap | undefined;
-  /** The headers in the document tab, keyed by header ID. */
-  headers?: HeaderMap | undefined;
+  /** The style of the document tab. */
+  documentStyle?: DocumentStyle | undefined;
   /** The named styles of the document tab. */
   namedStyles?: NamedStyles | undefined;
+  /** The inline objects in the document tab, keyed by object ID. */
+  inlineObjects?: InlineObjectMap | undefined;
+  /** The footnotes in the document tab, keyed by footnote ID. */
+  footnotes?: FootnoteMap | undefined;
+  /** The suggested changes to the style of the document tab, keyed by suggestion ID. */
+  suggestedDocumentStyleChanges?: SuggestedDocumentStyleMap | undefined;
+  /** The main body of the document tab. */
+  body?: Body | undefined;
+  /** The suggested changes to the named styles of the document tab, keyed by suggestion ID. */
+  suggestedNamedStylesChanges?: SuggestedNamedStylesMap | undefined;
+  /** The footers in the document tab, keyed by footer ID. */
+  footers?: FooterMap | undefined;
+  /** The positioned objects in the document tab, keyed by object ID. */
+  positionedObjects?: PositionedObjectMap | undefined;
+  /** The dropdown definitions in a document tab, keyed by dropdown definition ID. */
+  dropdownDefinitions?: DropdownDefinitionMap | undefined;
+  /** The lists in the document tab, keyed by list ID. */
+  lists?: ListMap | undefined;
+  /** The headers in the document tab, keyed by header ID. */
+  headers?: HeaderMap | undefined;
 }
 /** A tab in a document. */
 export interface Tab {
-  /** The child tabs nested within this tab. */
-  childTabs?: TabList | undefined;
-  /** A tab with document contents, like text and images. */
-  documentTab?: DocumentTab | undefined;
   /** The properties of the tab, like ID and title. */
   tabProperties?: TabProperties | undefined;
+  /** A tab with document contents, like text and images. */
+  documentTab?: DocumentTab | undefined;
+  /** The child tabs nested within this tab. */
+  childTabs?: TabList | undefined;
 }
 export type TabList = Array<Tab>;
 export type SuggestionThreadStatusEnum = "STATUS_UNSPECIFIED" | "OPEN" | "ACCEPTED" | "REJECTED";
 /** Represents a single suggestion thread. Suggestion threads are created as a byproduct of saving changes to the document while in suggestion mode, and cannot be created directly. */
 export interface SuggestionThread {
-  /** Whether the thread is open, accepted, or rejected. */
-  status?: SuggestionThreadStatusEnum | (string & {}) | undefined;
-  /** The first post in the thread. */
-  headPost?: Post | undefined;
   /** Summary of the suggested differences in the document, in plain text. May be empty. */
   summaryText?: string | undefined;
-  /** Replies to the head post. */
-  replies?: PostList | undefined;
-  /** The unique ID of the suggestion. */
-  suggestionId?: string | undefined;
   /** Summary of the suggested differences in the document, in HTML. May be empty. */
   summaryHtml?: string | undefined;
+  /** The first post in the thread. */
+  headPost?: Post | undefined;
+  /** Replies to the head post. */
+  replies?: PostList | undefined;
+  /** Whether the thread is open, accepted, or rejected. */
+  status?: SuggestionThreadStatusEnum | (string & {}) | undefined;
+  /** The unique ID of the suggestion. */
+  suggestionId?: string | undefined;
 }
 export type SuggestionThreadList = Array<SuggestionThread>;
-export type DocumentSuggestionsViewModeEnum =
-  | "DEFAULT_FOR_CURRENT_ACCESS"
-  | "SUGGESTIONS_INLINE"
-  | "PREVIEW_SUGGESTIONS_ACCEPTED"
-  | "PREVIEW_WITHOUT_SUGGESTIONS";
+export type DocumentCommentsViewModeEnum =
+  | "COMMENTS_VIEW_MODE_UNSPECIFIED"
+  | "COMMENTS_VIEW_MODE_DEFAULT_FOR_CURRENT_ACCESS"
+  | "COMMENTS_VIEW_MODE_OMITTED"
+  | "COMMENTS_VIEW_MODE_INCLUDED";
 /** A Google Docs document. */
 export interface Document {
-  /** Output only. The footnotes in the document, keyed by footnote ID. Legacy field: Instead, use Document.tabs.documentTab.footnotes, which exposes the actual document content from all tabs when the includeTabsContent parameter is set to `true`. If `false` or unset, this field contains information about the first tab in the document. */
-  footnotes?: FootnoteMap | undefined;
-  /** Output only. The footers in the document, keyed by footer ID. Legacy field: Instead, use Document.tabs.documentTab.footers, which exposes the actual document content from all tabs when the includeTabsContent parameter is set to `true`. If `false` or unset, this field contains information about the first tab in the document. */
-  footers?: FooterMap | undefined;
-  /** The title of the document. */
-  title?: string | undefined;
   /** Output only. The style of the document. Legacy field: Instead, use Document.tabs.documentTab.documentStyle, which exposes the actual document content from all tabs when the includeTabsContent parameter is set to `true`. If `false` or unset, this field contains information about the first tab in the document. */
   documentStyle?: DocumentStyle | undefined;
-  /** Output only. The comments view mode applied to the document. */
-  commentsViewMode?: DocumentCommentsViewModeEnum | (string & {}) | undefined;
-  /** Output only. The revision ID of the document. Can be used in update requests to specify which revision of a document to apply updates to and how the request should behave if the document has been edited since that revision. Only populated if the user has edit access to the document. The revision ID is not a sequential number but an opaque string. The format of the revision ID might change over time. A returned revision ID is only guaranteed to be valid for 24 hours after it has been returned and cannot be shared across users. If the revision ID is unchanged between calls, then the document has not changed. Conversely, a changed ID (for the same document and user) usually means the document has been updated. However, a changed ID can also be due to internal factors such as ID format changes. */
-  revisionId?: string | undefined;
-  /** Output only. The named ranges in the document, keyed by name. Legacy field: Instead, use Document.tabs.documentTab.namedRanges, which exposes the actual document content from all tabs when the includeTabsContent parameter is set to `true`. If `false` or unset, this field contains information about the first tab in the document. */
-  namedRanges?: NamedRangesMap | undefined;
-  /** Output only. The comments associated with the document. Only populated if the commentsViewMode parameter is set to require comments (such as `COMMENTS_VIEW_MODE_INCLUDED`). */
-  comments?: CommentThreadList | undefined;
+  /** Output only. The suggested changes to the style of the document, keyed by suggestion ID. Legacy field: Instead, use Document.tabs.documentTab.suggestedDocumentStyleChanges, which exposes the actual document content from all tabs when the includeTabsContent parameter is set to `true`. If `false` or unset, this field contains information about the first tab in the document. */
+  suggestedDocumentStyleChanges?: SuggestedDocumentStyleMap | undefined;
   /** Output only. The named styles of the document. Legacy field: Instead, use Document.tabs.documentTab.namedStyles, which exposes the actual document content from all tabs when the includeTabsContent parameter is set to `true`. If `false` or unset, this field contains information about the first tab in the document. */
   namedStyles?: NamedStyles | undefined;
-  /** Output only. The positioned objects in the document, keyed by object ID. Legacy field: Instead, use Document.tabs.documentTab.positionedObjects, which exposes the actual document content from all tabs when the includeTabsContent parameter is set to `true`. If `false` or unset, this field contains information about the first tab in the document. */
-  positionedObjects?: PositionedObjectMap | undefined;
-  /** Output only. The headers in the document, keyed by header ID. Legacy field: Instead, use Document.tabs.documentTab.headers, which exposes the actual document content from all tabs when the includeTabsContent parameter is set to `true`. If `false` or unset, this field contains information about the first tab in the document. */
-  headers?: HeaderMap | undefined;
-  /** Output only. The ID of the document. */
-  documentId?: string | undefined;
+  /** Output only. The footnotes in the document, keyed by footnote ID. Legacy field: Instead, use Document.tabs.documentTab.footnotes, which exposes the actual document content from all tabs when the includeTabsContent parameter is set to `true`. If `false` or unset, this field contains information about the first tab in the document. */
+  footnotes?: FootnoteMap | undefined;
+  /** Output only. The named ranges in the document, keyed by name. Legacy field: Instead, use Document.tabs.documentTab.namedRanges, which exposes the actual document content from all tabs when the includeTabsContent parameter is set to `true`. If `false` or unset, this field contains information about the first tab in the document. */
+  namedRanges?: NamedRangesMap | undefined;
   /** Output only. The main body of the document. Legacy field: Instead, use Document.tabs.documentTab.body, which exposes the actual document content from all tabs when the includeTabsContent parameter is set to `true`. If `false` or unset, this field contains information about the first tab in the document. */
   body?: Body | undefined;
   /** Output only. The inline objects in the document, keyed by object ID. Legacy field: Instead, use Document.tabs.documentTab.inlineObjects, which exposes the actual document content from all tabs when the includeTabsContent parameter is set to `true`. If `false` or unset, this field contains information about the first tab in the document. */
   inlineObjects?: InlineObjectMap | undefined;
-  /** Output only. Tabs that are part of a document. Tabs can contain child tabs, a tab nested within another tab. Child tabs are represented by the Tab.childTabs field. */
-  tabs?: TabList | undefined;
-  /** Output only. The suggestions associated with the document. Only populated if the commentsViewMode parameter is set to require comments (such as `COMMENTS_VIEW_MODE_INCLUDED`). */
-  suggestions?: SuggestionThreadList | undefined;
-  /** Output only. The lists in the document, keyed by list ID. Legacy field: Instead, use Document.tabs.documentTab.lists, which exposes the actual document content from all tabs when the includeTabsContent parameter is set to `true`. If `false` or unset, this field contains information about the first tab in the document. */
-  lists?: ListMap | undefined;
-  /** Output only. The suggested changes to the named styles of the document, keyed by suggestion ID. Legacy field: Instead, use Document.tabs.documentTab.suggestedNamedStylesChanges, which exposes the actual document content from all tabs when the includeTabsContent parameter is set to `true`. If `false` or unset, this field contains information about the first tab in the document. */
-  suggestedNamedStylesChanges?: SuggestedNamedStylesMap | undefined;
   /** Output only. The suggestions view mode applied to the document. Note: When editing a document, changes must be based on a document with SUGGESTIONS_INLINE. */
   suggestionsViewMode?: DocumentSuggestionsViewModeEnum | (string & {}) | undefined;
-  /** Output only. The suggested changes to the style of the document, keyed by suggestion ID. Legacy field: Instead, use Document.tabs.documentTab.suggestedDocumentStyleChanges, which exposes the actual document content from all tabs when the includeTabsContent parameter is set to `true`. If `false` or unset, this field contains information about the first tab in the document. */
-  suggestedDocumentStyleChanges?: SuggestedDocumentStyleMap | undefined;
+  /** The title of the document. */
+  title?: string | undefined;
+  /** Output only. The revision ID of the document. Can be used in update requests to specify which revision of a document to apply updates to and how the request should behave if the document has been edited since that revision. Only populated if the user has edit access to the document. The revision ID is not a sequential number but an opaque string. The format of the revision ID might change over time. A returned revision ID is only guaranteed to be valid for 24 hours after it has been returned and cannot be shared across users. If the revision ID is unchanged between calls, then the document has not changed. Conversely, a changed ID (for the same document and user) usually means the document has been updated. However, a changed ID can also be due to internal factors such as ID format changes. */
+  revisionId?: string | undefined;
+  /** Output only. The comments associated with the document. Only populated if the commentsViewMode parameter is set to require comments (such as `COMMENTS_VIEW_MODE_INCLUDED`). */
+  comments?: CommentThreadList | undefined;
+  /** Output only. Tabs that are part of a document. Tabs can contain child tabs, a tab nested within another tab. Child tabs are represented by the Tab.childTabs field. */
+  tabs?: TabList | undefined;
+  /** Output only. The lists in the document, keyed by list ID. Legacy field: Instead, use Document.tabs.documentTab.lists, which exposes the actual document content from all tabs when the includeTabsContent parameter is set to `true`. If `false` or unset, this field contains information about the first tab in the document. */
+  lists?: ListMap | undefined;
+  /** Output only. The suggestions associated with the document. Only populated if the commentsViewMode parameter is set to require comments (such as `COMMENTS_VIEW_MODE_INCLUDED`). */
+  suggestions?: SuggestionThreadList | undefined;
+  /** Output only. The positioned objects in the document, keyed by object ID. Legacy field: Instead, use Document.tabs.documentTab.positionedObjects, which exposes the actual document content from all tabs when the includeTabsContent parameter is set to `true`. If `false` or unset, this field contains information about the first tab in the document. */
+  positionedObjects?: PositionedObjectMap | undefined;
+  /** Output only. The headers in the document, keyed by header ID. Legacy field: Instead, use Document.tabs.documentTab.headers, which exposes the actual document content from all tabs when the includeTabsContent parameter is set to `true`. If `false` or unset, this field contains information about the first tab in the document. */
+  headers?: HeaderMap | undefined;
+  /** Output only. The comments view mode applied to the document. */
+  commentsViewMode?: DocumentCommentsViewModeEnum | (string & {}) | undefined;
+  /** Output only. The suggested changes to the named styles of the document, keyed by suggestion ID. Legacy field: Instead, use Document.tabs.documentTab.suggestedNamedStylesChanges, which exposes the actual document content from all tabs when the includeTabsContent parameter is set to `true`. If `false` or unset, this field contains information about the first tab in the document. */
+  suggestedNamedStylesChanges?: SuggestedNamedStylesMap | undefined;
+  /** Output only. The ID of the document. */
+  documentId?: string | undefined;
+  /** Output only. The footers in the document, keyed by footer ID. Legacy field: Instead, use Document.tabs.documentTab.footers, which exposes the actual document content from all tabs when the includeTabsContent parameter is set to `true`. If `false` or unset, this field contains information about the first tab in the document. */
+  footers?: FooterMap | undefined;
 }
 export interface CreateDocumentsRequest extends Document {}
 export type GetDocumentsSuggestionsViewModeEnum =
@@ -2551,12 +2551,12 @@ export type GetDocumentsCommentsViewModeEnum =
   | "COMMENTS_VIEW_MODE_OMITTED"
   | "COMMENTS_VIEW_MODE_INCLUDED";
 export interface GetDocumentsRequest {
+  /** Whether to populate the `Document.tabs` field instead of the text content fields like `body` and `documentStyle` on `Document`. - When `true`: Document content populates in the `Document.tabs` field instead of the text content fields in `Document`. - When `false`: The content of the document's first tab populates the content fields in `Document` excluding `Document.tabs`. If a document has only one tab, then that tab is used to populate the document content. `Document.tabs` will be empty. If you use a field mask that references the `Document.tabs` field (or any subfield), the API implicitly treats the request as if you set `include_tabs_content` to `true`. */
+  includeTabsContent?: boolean | undefined;
   /** The ID of the document to retrieve. */
   documentId: string;
   /** The suggestions view mode to apply to the document. This allows viewing the document with all suggestions inline, accepted or rejected. If one is not specified, DEFAULT_FOR_CURRENT_ACCESS is used. */
   suggestionsViewMode?: GetDocumentsSuggestionsViewModeEnum | (string & {}) | undefined;
-  /** Whether to populate the `Document.tabs` field instead of the text content fields like `body` and `documentStyle` on `Document`. - When `true`: Document content populates in the `Document.tabs` field instead of the text content fields in `Document`. - When `false`: The content of the document's first tab populates the content fields in `Document` excluding `Document.tabs`. If a document has only one tab, then that tab is used to populate the document content. `Document.tabs` will be empty. If you use a field mask that references the `Document.tabs` field (or any subfield), the API implicitly treats the request as if you set `include_tabs_content` to `true`. */
-  includeTabsContent?: boolean | undefined;
   /** The comments view mode to apply to the document. This allows viewing the document with comments omitted or included. If one is not specified, COMMENTS_VIEW_MODE_OMITTED is used. If you set comments_view_mode to any value, you must also set include_tabs_content to `true` or use a field mask that references the Document.tabs field (or any subfield). If you set comments_view_mode to COMMENTS_VIEW_MODE_INCLUDED, you must also explicitly set suggestions_view_mode to SUGGESTIONS_INLINE. If you set comments_view_mode to COMMENTS_VIEW_MODE_INCLUDED or COMMENTS_VIEW_MODE_DEFAULT_FOR_CURRENT_ACCESS, you may not set suggestions_view_mode to PREVIEW_WITHOUT_SUGGESTIONS or PREVIEW_SUGGESTIONS_ACCEPTED. */
   commentsViewMode?: GetDocumentsCommentsViewModeEnum | (string & {}) | undefined;
 }
@@ -2568,8 +2568,8 @@ export const batchUpdateDocuments: API.OperationMethod<
   BatchUpdateDocumentsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(58, __c1, 26) as any as S.Schema<BatchUpdateDocumentsRequest>,
-  output: __S(73, __c2, 9) as any as S.Schema<BatchUpdateDocumentResponse>,
+  input: __S(59, __c1, 27) as any as S.Schema<BatchUpdateDocumentsRequest>,
+  output: __S(74, __c2, 10) as any as S.Schema<BatchUpdateDocumentResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict],
   serviceErrors: GcpServiceErrors,
   protocol: GcpProtocol,
@@ -2620,167 +2620,209 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          segmentId: S.optional(S.String),
-          tabId: S.optional(S.String),
+          range: S.optional(__S(96, __c3, 0)),
         }),
-      ).annotate({ identifier: "EndOfSegmentLocation" });
+      ).annotate({ identifier: "DeleteContentRangeRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          segmentId: S.optional(S.String),
-          index: S.optional(S.Number),
-          tabId: S.optional(S.String),
+          tabIds: S.optional(__S(97, __c3, 1)),
         }),
-      ).annotate({ identifier: "Location" });
+      ).annotate({ identifier: "TabsCriteria" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          uri: S.optional(S.String),
-          endOfSegmentLocation: S.optional(__S(0, __c0, 0)),
-          objectSize: S.optional(__S(97, __c3, 1)),
-          location: S.optional(__S(1, __c0, 1)),
+          namedRangeName: S.optional(S.String),
+          text: S.optional(S.String),
+          namedRangeId: S.optional(S.String),
+          tabsCriteria: S.optional(__S(1, __c0, 1)),
         }),
-      ).annotate({ identifier: "InsertInlineImageRequest" });
+      ).annotate({ identifier: "ReplaceNamedRangeContentRequest" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          rowIndex: S.optional(S.Number),
-          columnIndex: S.optional(S.Number),
-          tableStartLocation: S.optional(__S(1, __c0, 1)),
+          namedRangeId: S.optional(S.String),
+          tabsCriteria: S.optional(__S(1, __c0, 1)),
+          name: S.optional(S.String),
         }),
-      ).annotate({ identifier: "TableCellLocation" });
+      ).annotate({ identifier: "DeleteNamedRangeRequest" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          tableCellLocation: S.optional(__S(3, __c0, 3)),
-          insertRight: S.optional(S.Boolean),
+          objectId: S.optional(S.String),
+          tabId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "InsertTableColumnRequest" });
+      ).annotate({ identifier: "DeletePositionedObjectRequest" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          tabIds: S.optional(__S(98, __c3, 2)),
+          text: S.optional(S.String),
+          matchCase: S.optional(S.Boolean),
+          searchByRegex: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "TabsCriteria" });
+      ).annotate({ identifier: "SubstringMatchCriteria" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          text: S.optional(S.String),
-          tabsCriteria: S.optional(__S(5, __c0, 5)),
-          namedRangeName: S.optional(S.String),
-          namedRangeId: S.optional(S.String),
+          containsText: S.optional(__S(5, __c0, 5)),
+          tabsCriteria: S.optional(__S(1, __c0, 1)),
+          replaceText: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ReplaceNamedRangeContentRequest" });
+      ).annotate({ identifier: "ReplaceAllTextRequest" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          text: S.optional(S.String),
-          searchByRegex: S.optional(S.Boolean),
-          matchCase: S.optional(S.Boolean),
+          index: S.optional(S.Number),
+          segmentId: S.optional(S.String),
+          tabId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SubstringMatchCriteria" });
+      ).annotate({ identifier: "Location" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          tabsCriteria: S.optional(__S(5, __c0, 5)),
-          replaceText: S.optional(S.String),
-          containsText: S.optional(__S(7, __c0, 7)),
+          type: S.optional(S.String),
+          sectionBreakLocation: S.optional(__S(7, __c0, 7)),
         }),
-      ).annotate({ identifier: "ReplaceAllTextRequest" });
+      ).annotate({ identifier: "CreateHeaderRequest" });
     case 9:
+      return S.suspend(() =>
+        S.Struct({
+          footerId: S.optional(S.String),
+          tabId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeleteFooterRequest" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          uri: S.optional(S.String),
+          imageReplaceMethod: S.optional(S.String),
+          tabId: S.optional(S.String),
+          imageObjectId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ReplaceImageRequest" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          commentId: S.optional(S.String),
+          content: S.optional(S.String),
+          postId: S.optional(S.String),
+          suggestionId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UpdateCommentPostRequest" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          tabId: S.optional(S.String),
+          segmentId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EndOfSegmentLocation" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(__S(7, __c0, 7)),
+          endOfSegmentLocation: S.optional(__S(12, __c0, 12)),
+        }),
+      ).annotate({ identifier: "CreateFootnoteRequest" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          headerId: S.optional(S.String),
+          tabId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeleteHeaderRequest" });
+    case 15:
       return S.suspend(() =>
         S.Struct({
           commentId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeleteCommentRequest" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          tabId: S.optional(S.String),
-          documentStyle: S.optional(__S(104, __c3, 8)),
-          fields: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UpdateDocumentStyleRequest" });
-    case 11:
-      return S.Array(S.Number);
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          columnIndices: S.optional(__S(11, __c0, 11)),
-          fields: S.optional(S.String),
-          tableStartLocation: S.optional(__S(1, __c0, 1)),
-          tableColumnProperties: S.optional(__S(105, __c3, 9)),
-        }),
-      ).annotate({ identifier: "UpdateTableColumnPropertiesRequest" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          tabId: S.optional(S.String),
-          dropdownDefinition: S.optional(__S(117, __c3, 21)),
-        }),
-      ).annotate({ identifier: "CreateDropdownDefinitionRequest" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          fields: S.optional(S.String),
-          range: S.optional(__S(118, __c3, 22)),
-          paragraphStyle: S.optional(__S(123, __c3, 27)),
-        }),
-      ).annotate({ identifier: "UpdateParagraphStyleRequest" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          range: S.optional(__S(118, __c3, 22)),
-        }),
-      ).annotate({ identifier: "DeleteContentRangeRequest" });
     case 16:
-      return S.Record(S.String, S.String);
+      return S.suspend(() =>
+        S.Struct({
+          textStyle: S.optional(__S(105, __c3, 9)),
+          fields: S.optional(S.String),
+          range: S.optional(__S(96, __c3, 0)),
+        }),
+      ).annotate({ identifier: "UpdateTextStyleRequest" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          dropdownDefinitionProperties: S.optional(__S(113, __c3, 17)),
-          selectedOptionIdReplacements: S.optional(__S(16, __c0, 16)),
-          dropdownDefinitionId: S.optional(S.String),
-          tabId: S.optional(S.String),
-          fields: S.optional(S.String),
+          endOfSegmentLocation: S.optional(__S(12, __c0, 12)),
+          location: S.optional(__S(7, __c0, 7)),
         }),
-      ).annotate({ identifier: "UpdateDropdownDefinitionPropertiesRequest" });
+      ).annotate({ identifier: "InsertPageBreakRequest" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          tableCellLocation: S.optional(__S(3, __c0, 3)),
+          range: S.optional(__S(96, __c3, 0)),
+          name: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DeleteTableColumnRequest" });
+      ).annotate({ identifier: "CreateNamedRangeRequest" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          tabId: S.optional(S.String),
           dropdownDefinitionId: S.optional(S.String),
+          tabId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeleteDropdownDefinitionRequest" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          insertBelow: S.optional(S.Boolean),
-          tableCellLocation: S.optional(__S(3, __c0, 3)),
+          richLinkProperties: S.optional(__S(106, __c3, 10)),
+          location: S.optional(__S(7, __c0, 7)),
+          endOfSegmentLocation: S.optional(__S(12, __c0, 12)),
         }),
-      ).annotate({ identifier: "InsertTableRowRequest" });
+      ).annotate({ identifier: "InsertRichLinkRequest" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          range: S.optional(__S(118, __c3, 22)),
+          rowIndex: S.optional(S.Number),
+          tableStartLocation: S.optional(__S(7, __c0, 7)),
+          columnIndex: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "CreateNamedRangeRequest" });
+      ).annotate({ identifier: "TableCellLocation" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          dateElementProperties: S.optional(__S(124, __c3, 28)),
-          endOfSegmentLocation: S.optional(__S(0, __c0, 0)),
-          location: S.optional(__S(1, __c0, 1)),
+          insertBelow: S.optional(S.Boolean),
+          tableCellLocation: S.optional(__S(21, __c0, 21)),
+        }),
+      ).annotate({ identifier: "InsertTableRowRequest" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          dateElementProperties: S.optional(__S(107, __c3, 11)),
+          location: S.optional(__S(7, __c0, 7)),
+          endOfSegmentLocation: S.optional(__S(12, __c0, 12)),
         }),
       ).annotate({ identifier: "InsertDateRequest" });
-    case 23:
+    case 24:
+      return S.Record(S.String, S.String);
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          dropdownDefinitionProperties: S.optional(__S(110, __c3, 14)),
+          selectedOptionIdReplacements: S.optional(__S(24, __c0, 24)),
+          dropdownDefinitionId: S.optional(S.String),
+          tabId: S.optional(S.String),
+          fields: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UpdateDropdownDefinitionPropertiesRequest" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          suggestionId: S.optional(S.String),
+          commentId: S.optional(S.String),
+          post: S.optional(__S(112, __c3, 16)),
+        }),
+      ).annotate({ identifier: "AddCommentReplyRequest" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          tableCellLocation: S.optional(__S(21, __c0, 21)),
+        }),
+      ).annotate({ identifier: "DeleteTableRowRequest" });
+    case 28:
       return S.suspend(() =>
         S.Struct({
           commentId: S.optional(S.String),
@@ -2788,320 +2830,285 @@ function __c0(j: number): any {
           postId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeleteCommentReplyRequest" });
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          suggestionId: S.optional(S.String),
-          commentId: S.optional(S.String),
-          content: S.optional(S.String),
-          postId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UpdateCommentPostRequest" });
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
-          tabProperties: S.optional(__S(125, __c3, 29)),
-        }),
-      ).annotate({ identifier: "AddDocumentTabRequest" });
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          suggestionId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RejectSuggestionRequest" });
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          namedRangeId: S.optional(S.String),
-          name: S.optional(S.String),
-          tabsCriteria: S.optional(__S(5, __c0, 5)),
-        }),
-      ).annotate({ identifier: "DeleteNamedRangeRequest" });
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          suggestionId: S.optional(S.String),
-          post: S.optional(__S(127, __c3, 31)),
-          commentId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AddCommentReplyRequest" });
     case 29:
       return S.suspend(() =>
         S.Struct({
-          rowSpan: S.optional(S.Number),
-          tableCellLocation: S.optional(__S(3, __c0, 3)),
-          columnSpan: S.optional(S.Number),
+          documentStyle: S.optional(__S(116, __c3, 20)),
+          tabId: S.optional(S.String),
+          fields: S.optional(S.String),
         }),
-      ).annotate({ identifier: "TableRange" });
+      ).annotate({ identifier: "UpdateDocumentStyleRequest" });
     case 30:
       return S.suspend(() =>
         S.Struct({
-          tableRange: S.optional(__S(29, __c0, 29)),
+          fields: S.optional(S.String),
+          namedStyle: S.optional(__S(122, __c3, 26)),
+          tabId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "UnmergeTableCellsRequest" });
+      ).annotate({ identifier: "UpdateNamedStyleRequest" });
     case 31:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(__S(1, __c0, 1)),
-          sectionType: S.optional(S.String),
-          endOfSegmentLocation: S.optional(__S(0, __c0, 0)),
+          endOfSegmentLocation: S.optional(__S(12, __c0, 12)),
+          rows: S.optional(S.Number),
+          location: S.optional(__S(7, __c0, 7)),
+          columns: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "InsertSectionBreakRequest" });
+      ).annotate({ identifier: "InsertTableRequest" });
   }
 }
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          tableStartLocation: S.optional(__S(1, __c0, 1)),
-          rowIndices: S.optional(__S(11, __c0, 11)),
-          tableRowStyle: S.optional(__S(128, __c4, 0)),
-          fields: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UpdateTableRowStyleRequest" });
+      return S.Array(S.Number);
     case 1:
       return S.suspend(() =>
         S.Struct({
+          tableColumnProperties: S.optional(__S(123, __c3, 27)),
+          tableStartLocation: S.optional(__S(7, __c0, 7)),
           fields: S.optional(S.String),
-          tabProperties: S.optional(__S(125, __c3, 29)),
+          columnIndices: S.optional(__S(32, __c1, 0)),
         }),
-      ).annotate({ identifier: "UpdateDocumentTabPropertiesRequest" });
+      ).annotate({ identifier: "UpdateTableColumnPropertiesRequest" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          tabId: S.optional(S.String),
-          headerId: S.optional(S.String),
+          rowIndices: S.optional(__S(32, __c1, 0)),
+          tableRowStyle: S.optional(__S(124, __c3, 28)),
+          fields: S.optional(S.String),
+          tableStartLocation: S.optional(__S(7, __c0, 7)),
         }),
-      ).annotate({ identifier: "DeleteHeaderRequest" });
+      ).annotate({ identifier: "UpdateTableRowStyleRequest" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          endOfSegmentLocation: S.optional(__S(0, __c0, 0)),
-          location: S.optional(__S(1, __c0, 1)),
+          tabProperties: S.optional(__S(125, __c3, 29)),
+          fields: S.optional(S.String),
         }),
-      ).annotate({ identifier: "InsertPageBreakRequest" });
+      ).annotate({ identifier: "UpdateDocumentTabPropertiesRequest" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          endOfSegmentLocation: S.optional(__S(0, __c0, 0)),
-          location: S.optional(__S(1, __c0, 1)),
-          rows: S.optional(S.Number),
-          columns: S.optional(S.Number),
+          tableStartLocation: S.optional(__S(7, __c0, 7)),
+          pinnedHeaderRowsCount: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "InsertTableRequest" });
+      ).annotate({ identifier: "PinTableHeaderRowsRequest" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          range: S.optional(__S(118, __c3, 22)),
-          bulletPreset: S.optional(S.String),
+          columnSpan: S.optional(S.Number),
+          rowSpan: S.optional(S.Number),
+          tableCellLocation: S.optional(__S(21, __c0, 21)),
         }),
-      ).annotate({ identifier: "CreateParagraphBulletsRequest" });
+      ).annotate({ identifier: "TableRange" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          dropdownDefinitionId: S.optional(S.String),
-          endOfSegmentLocation: S.optional(__S(0, __c0, 0)),
-          selectedOptionId: S.optional(S.String),
-          location: S.optional(__S(1, __c0, 1)),
+          tableRange: S.optional(__S(37, __c1, 5)),
         }),
-      ).annotate({ identifier: "InsertDropdownRequest" });
+      ).annotate({ identifier: "MergeTableCellsRequest" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          tableStartLocation: S.optional(__S(1, __c0, 1)),
-          tableRange: S.optional(__S(29, __c0, 29)),
           fields: S.optional(S.String),
-          tableCellStyle: S.optional(__S(130, __c4, 2)),
+          dropdownProperties: S.optional(__S(126, __c3, 30)),
+          tabId: S.optional(S.String),
+          dropdownId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "UpdateTableCellStyleRequest" });
+      ).annotate({ identifier: "UpdateDropdownPropertiesRequest" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          tabId: S.optional(S.String),
-          uri: S.optional(S.String),
-          imageObjectId: S.optional(S.String),
-          imageReplaceMethod: S.optional(S.String),
+          fields: S.optional(S.String),
+          range: S.optional(__S(96, __c3, 0)),
+          paragraphStyle: S.optional(__S(121, __c3, 25)),
         }),
-      ).annotate({ identifier: "ReplaceImageRequest" });
+      ).annotate({ identifier: "UpdateParagraphStyleRequest" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          richLinkProperties: S.optional(__S(131, __c4, 3)),
-          location: S.optional(__S(1, __c0, 1)),
-          endOfSegmentLocation: S.optional(__S(0, __c0, 0)),
+          tableRange: S.optional(__S(37, __c1, 5)),
+          fields: S.optional(S.String),
+          tableStartLocation: S.optional(__S(7, __c0, 7)),
+          tableCellStyle: S.optional(__S(128, __c4, 0)),
         }),
-      ).annotate({ identifier: "InsertRichLinkRequest" });
+      ).annotate({ identifier: "UpdateTableCellStyleRequest" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          fields: S.optional(S.String),
-          sectionStyle: S.optional(__S(134, __c4, 6)),
-          range: S.optional(__S(118, __c3, 22)),
+          tableCellLocation: S.optional(__S(21, __c0, 21)),
+          insertRight: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "UpdateSectionStyleRequest" });
+      ).annotate({ identifier: "InsertTableColumnRequest" });
     case 11:
-      return S.suspend(() =>
-        S.Struct({
-          text: S.optional(S.String),
-          location: S.optional(__S(1, __c0, 1)),
-          endOfSegmentLocation: S.optional(__S(0, __c0, 0)),
-        }),
-      ).annotate({ identifier: "InsertTextRequest" });
-    case 12:
       return S.suspend(() =>
         S.Struct({
           tabId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeleteTabRequest" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          endOfSegmentLocation: S.optional(__S(12, __c0, 12)),
+          personProperties: S.optional(__S(129, __c4, 1)),
+          location: S.optional(__S(7, __c0, 7)),
+        }),
+      ).annotate({ identifier: "InsertPersonRequest" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          sectionBreakLocation: S.optional(__S(1, __c0, 1)),
-          type: S.optional(S.String),
+          suggestionId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CreateHeaderRequest" });
+      ).annotate({ identifier: "AcceptSuggestionRequest" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          fields: S.optional(S.String),
-          range: S.optional(__S(118, __c3, 22)),
-          textStyle: S.optional(__S(110, __c3, 14)),
+          dropdownDefinition: S.optional(__S(133, __c4, 5)),
+          tabId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "UpdateTextStyleRequest" });
+      ).annotate({ identifier: "CreateDropdownDefinitionRequest" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          namedStyle: S.optional(__S(135, __c4, 7)),
-          fields: S.optional(S.String),
-          tabId: S.optional(S.String),
+          selectedOptionId: S.optional(S.String),
+          endOfSegmentLocation: S.optional(__S(12, __c0, 12)),
+          dropdownDefinitionId: S.optional(S.String),
+          location: S.optional(__S(7, __c0, 7)),
         }),
-      ).annotate({ identifier: "UpdateNamedStyleRequest" });
+      ).annotate({ identifier: "InsertDropdownRequest" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          objectId: S.optional(S.String),
-          tabId: S.optional(S.String),
+          location: S.optional(__S(7, __c0, 7)),
+          endOfSegmentLocation: S.optional(__S(12, __c0, 12)),
+          sectionType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DeletePositionedObjectRequest" });
+      ).annotate({ identifier: "InsertSectionBreakRequest" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          fields: S.optional(S.String),
-          tabId: S.optional(S.String),
-          dropdownId: S.optional(S.String),
-          dropdownProperties: S.optional(__S(136, __c4, 8)),
+          objectSize: S.optional(__S(113, __c3, 17)),
+          location: S.optional(__S(7, __c0, 7)),
+          endOfSegmentLocation: S.optional(__S(12, __c0, 12)),
+          uri: S.optional(S.String),
         }),
-      ).annotate({ identifier: "UpdateDropdownPropertiesRequest" });
+      ).annotate({ identifier: "InsertInlineImageRequest" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          personProperties: S.optional(__S(137, __c4, 9)),
-          location: S.optional(__S(1, __c0, 1)),
-          endOfSegmentLocation: S.optional(__S(0, __c0, 0)),
+          range: S.optional(__S(96, __c3, 0)),
+          bulletPreset: S.optional(S.String),
         }),
-      ).annotate({ identifier: "InsertPersonRequest" });
+      ).annotate({ identifier: "CreateParagraphBulletsRequest" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          tableStartLocation: S.optional(__S(1, __c0, 1)),
-          pinnedHeaderRowsCount: S.optional(S.Number),
+          sectionStyle: S.optional(__S(136, __c4, 8)),
+          fields: S.optional(S.String),
+          range: S.optional(__S(96, __c3, 0)),
         }),
-      ).annotate({ identifier: "PinTableHeaderRowsRequest" });
+      ).annotate({ identifier: "UpdateSectionStyleRequest" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          assigneeEmailAddress: S.optional(S.String),
-          range: S.optional(__S(118, __c3, 22)),
-          content: S.optional(S.String),
+          location: S.optional(__S(7, __c0, 7)),
+          endOfSegmentLocation: S.optional(__S(12, __c0, 12)),
+          text: S.optional(S.String),
         }),
-      ).annotate({ identifier: "InsertCommentRequest" });
+      ).annotate({ identifier: "InsertTextRequest" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          tabId: S.optional(S.String),
-          footerId: S.optional(S.String),
+          tabProperties: S.optional(__S(125, __c3, 29)),
         }),
-      ).annotate({ identifier: "DeleteFooterRequest" });
+      ).annotate({ identifier: "AddDocumentTabRequest" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          insertInlineImage: S.optional(__S(2, __c0, 2)),
-          insertTableColumn: S.optional(__S(4, __c0, 4)),
-          replaceNamedRangeContent: S.optional(__S(6, __c0, 6)),
-          replaceAllText: S.optional(__S(8, __c0, 8)),
-          deleteComment: S.optional(__S(9, __c0, 9)),
-          updateDocumentStyle: S.optional(__S(10, __c0, 10)),
-          updateTableColumnProperties: S.optional(__S(12, __c0, 12)),
-          createDropdownDefinition: S.optional(__S(13, __c0, 13)),
-          updateParagraphStyle: S.optional(__S(14, __c0, 14)),
-          deleteContentRange: S.optional(__S(15, __c0, 15)),
-          updateDropdownDefinitionProperties: S.optional(__S(17, __c0, 17)),
-          deleteTableColumn: S.optional(__S(18, __c0, 18)),
-          deleteDropdownDefinition: S.optional(__S(19, __c0, 19)),
-          insertTableRow: S.optional(__S(20, __c0, 20)),
-          createNamedRange: S.optional(__S(21, __c0, 21)),
-          insertDate: S.optional(__S(22, __c0, 22)),
-          deleteCommentReply: S.optional(__S(23, __c0, 23)),
-          updateCommentPost: S.optional(__S(24, __c0, 24)),
-          addDocumentTab: S.optional(__S(25, __c0, 25)),
-          rejectSuggestion: S.optional(__S(26, __c0, 26)),
-          deleteNamedRange: S.optional(__S(27, __c0, 27)),
-          deleteSuggestion: S.optional(__S(26, __c0, 26)),
-          addCommentReply: S.optional(__S(28, __c0, 28)),
-          unmergeTableCells: S.optional(__S(30, __c0, 30)),
-          insertSectionBreak: S.optional(__S(31, __c0, 31)),
-          updateTableRowStyle: S.optional(__S(32, __c1, 0)),
-          updateDocumentTabProperties: S.optional(__S(33, __c1, 1)),
-          deleteHeader: S.optional(__S(34, __c1, 2)),
-          insertPageBreak: S.optional(__S(35, __c1, 3)),
-          insertTable: S.optional(__S(36, __c1, 4)),
-          createParagraphBullets: S.optional(__S(37, __c1, 5)),
-          deleteTableRow: S.optional(__S(18, __c0, 18)),
-          insertDropdown: S.optional(__S(38, __c1, 6)),
-          updateTableCellStyle: S.optional(__S(39, __c1, 7)),
-          replaceImage: S.optional(__S(40, __c1, 8)),
-          insertRichLink: S.optional(__S(41, __c1, 9)),
-          deleteParagraphBullets: S.optional(__S(15, __c0, 15)),
-          updateSectionStyle: S.optional(__S(42, __c1, 10)),
-          insertText: S.optional(__S(43, __c1, 11)),
-          deleteTab: S.optional(__S(44, __c1, 12)),
-          createHeader: S.optional(__S(45, __c1, 13)),
-          createFootnote: S.optional(__S(35, __c1, 3)),
-          updateTextStyle: S.optional(__S(46, __c1, 14)),
-          mergeTableCells: S.optional(__S(30, __c0, 30)),
-          updateNamedStyle: S.optional(__S(47, __c1, 15)),
-          deletePositionedObject: S.optional(__S(48, __c1, 16)),
-          updateDropdownProperties: S.optional(__S(49, __c1, 17)),
-          insertPerson: S.optional(__S(50, __c1, 18)),
-          pinTableHeaderRows: S.optional(__S(51, __c1, 19)),
-          insertComment: S.optional(__S(52, __c1, 20)),
-          deleteFooter: S.optional(__S(53, __c1, 21)),
-          acceptSuggestion: S.optional(__S(26, __c0, 26)),
-          createFooter: S.optional(__S(45, __c1, 13)),
+          range: S.optional(__S(96, __c3, 0)),
+          content: S.optional(S.String),
+          assigneeEmailAddress: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Request" });
+      ).annotate({ identifier: "InsertCommentRequest" });
     case 23:
-      return S.Array(__S(54, __c1, 22));
-    case 24:
       return S.suspend(() =>
         S.Struct({
-          targetRevisionId: S.optional(S.String),
-          writeMode: S.optional(S.String),
-          requiredRevisionId: S.optional(S.String),
+          deleteContentRange: S.optional(__S(0, __c0, 0)),
+          replaceNamedRangeContent: S.optional(__S(2, __c0, 2)),
+          deleteNamedRange: S.optional(__S(3, __c0, 3)),
+          deletePositionedObject: S.optional(__S(4, __c0, 4)),
+          replaceAllText: S.optional(__S(6, __c0, 6)),
+          createHeader: S.optional(__S(8, __c0, 8)),
+          deleteFooter: S.optional(__S(9, __c0, 9)),
+          replaceImage: S.optional(__S(10, __c0, 10)),
+          updateCommentPost: S.optional(__S(11, __c0, 11)),
+          createFootnote: S.optional(__S(13, __c0, 13)),
+          deleteHeader: S.optional(__S(14, __c0, 14)),
+          deleteComment: S.optional(__S(15, __c0, 15)),
+          updateTextStyle: S.optional(__S(16, __c0, 16)),
+          insertPageBreak: S.optional(__S(17, __c0, 17)),
+          createNamedRange: S.optional(__S(18, __c0, 18)),
+          deleteDropdownDefinition: S.optional(__S(19, __c0, 19)),
+          insertRichLink: S.optional(__S(20, __c0, 20)),
+          insertTableRow: S.optional(__S(22, __c0, 22)),
+          insertDate: S.optional(__S(23, __c0, 23)),
+          updateDropdownDefinitionProperties: S.optional(__S(25, __c0, 25)),
+          addCommentReply: S.optional(__S(26, __c0, 26)),
+          deleteTableRow: S.optional(__S(27, __c0, 27)),
+          deleteCommentReply: S.optional(__S(28, __c0, 28)),
+          updateDocumentStyle: S.optional(__S(29, __c0, 29)),
+          updateNamedStyle: S.optional(__S(30, __c0, 30)),
+          insertTable: S.optional(__S(31, __c0, 31)),
+          createFooter: S.optional(__S(8, __c0, 8)),
+          updateTableColumnProperties: S.optional(__S(33, __c1, 1)),
+          updateTableRowStyle: S.optional(__S(34, __c1, 2)),
+          updateDocumentTabProperties: S.optional(__S(35, __c1, 3)),
+          pinTableHeaderRows: S.optional(__S(36, __c1, 4)),
+          mergeTableCells: S.optional(__S(38, __c1, 6)),
+          updateDropdownProperties: S.optional(__S(39, __c1, 7)),
+          updateParagraphStyle: S.optional(__S(40, __c1, 8)),
+          updateTableCellStyle: S.optional(__S(41, __c1, 9)),
+          unmergeTableCells: S.optional(__S(38, __c1, 6)),
+          insertTableColumn: S.optional(__S(42, __c1, 10)),
+          deleteTab: S.optional(__S(43, __c1, 11)),
+          insertPerson: S.optional(__S(44, __c1, 12)),
+          acceptSuggestion: S.optional(__S(45, __c1, 13)),
+          createDropdownDefinition: S.optional(__S(46, __c1, 14)),
+          insertDropdown: S.optional(__S(47, __c1, 15)),
+          insertSectionBreak: S.optional(__S(48, __c1, 16)),
+          deleteParagraphBullets: S.optional(__S(0, __c0, 0)),
+          deleteSuggestion: S.optional(__S(45, __c1, 13)),
+          insertInlineImage: S.optional(__S(49, __c1, 17)),
+          createParagraphBullets: S.optional(__S(50, __c1, 18)),
+          updateSectionStyle: S.optional(__S(51, __c1, 19)),
+          insertText: S.optional(__S(52, __c1, 20)),
+          rejectSuggestion: S.optional(__S(45, __c1, 13)),
+          addDocumentTab: S.optional(__S(53, __c1, 21)),
+          deleteTableColumn: S.optional(__S(27, __c0, 27)),
+          insertComment: S.optional(__S(54, __c1, 22)),
         }),
-      ).annotate({ identifier: "WriteControl" });
+      ).annotate({ identifier: "Request" });
+    case 24:
+      return S.Array(__S(55, __c1, 23));
     case 25:
       return S.suspend(() =>
         S.Struct({
-          requests: S.optional(__S(55, __c1, 23)),
-          writeControl: S.optional(__S(56, __c1, 24)),
+          targetRevisionId: S.optional(S.String),
+          requiredRevisionId: S.optional(S.String),
+          writeMode: S.optional(S.String),
         }),
-      ).annotate({ identifier: "BatchUpdateDocumentRequest" });
+      ).annotate({ identifier: "WriteControl" });
     case 26:
       return S.suspend(() =>
+        S.Struct({
+          requests: S.optional(__S(56, __c1, 24)),
+          writeControl: S.optional(__S(57, __c1, 25)),
+        }),
+      ).annotate({ identifier: "BatchUpdateDocumentRequest" });
+    case 27:
+      return S.suspend(() =>
         S.Extend(
-          __S(57, __c1, 25),
+          __S(58, __c1, 26),
           S.Struct({
             documentId: S.String.pipe(T.Label()),
           }),
@@ -3113,36 +3120,30 @@ function __c1(j: number): any {
           }),
         ),
       ).annotate({ identifier: "BatchUpdateDocumentsRequest" });
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          namedRangeId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateNamedRangeResponse" });
     case 28:
       return S.suspend(() =>
         S.Struct({
-          occurrencesChanged: S.optional(S.Number),
+          createdSuggestionIds: S.optional(__S(97, __c3, 1)),
+          deletedSuggestionIds: S.optional(__S(97, __c3, 1)),
+          rejectedSuggestionIds: S.optional(__S(97, __c3, 1)),
+          acceptedSuggestionIds: S.optional(__S(97, __c3, 1)),
+          updatedSummarySuggestionIds: S.optional(__S(97, __c3, 1)),
         }),
-      ).annotate({ identifier: "ReplaceAllTextResponse" });
+      ).annotate({ identifier: "SuggestionResponse" });
     case 29:
-      return S.suspend(() =>
-        S.Struct({
-          objectId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "InsertInlineImageResponse" });
+      return S.Array(__S(60, __c1, 28));
     case 30:
       return S.suspend(() =>
         S.Struct({
-          dropdown: S.optional(__S(144, __c4, 16)),
+          commentThread: S.optional(__S(138, __c4, 10)),
         }),
-      ).annotate({ identifier: "InsertDropdownResponse" });
+      ).annotate({ identifier: "InsertCommentResponse" });
     case 31:
       return S.suspend(() =>
         S.Struct({
-          headerId: S.optional(S.String),
+          footnoteId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CreateHeaderResponse" });
+      ).annotate({ identifier: "CreateFootnoteResponse" });
   }
 }
 function __c2(j: number): any {
@@ -3150,72 +3151,78 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dropdownDefinition: S.optional(__S(117, __c3, 21)),
+          objectId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CreateDropdownDefinitionResponse" });
+      ).annotate({ identifier: "InsertInlineSheetsChartResponse" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          dropdown: S.optional(__S(145, __c4, 17)),
+        }),
+      ).annotate({ identifier: "InsertDropdownResponse" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          headerId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateHeaderResponse" });
+    case 3:
       return S.suspend(() =>
         S.Struct({
           footerId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateFooterResponse" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          post: S.optional(__S(127, __c3, 31)),
-        }),
-      ).annotate({ identifier: "AddCommentReplyResponse" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          footnoteId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateFootnoteResponse" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          commentThread: S.optional(__S(146, __c4, 18)),
+          namedRangeId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "InsertCommentResponse" });
+      ).annotate({ identifier: "CreateNamedRangeResponse" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          createNamedRange: S.optional(__S(59, __c1, 27)),
-          addDocumentTab: S.optional(__S(25, __c0, 25)),
-          replaceAllText: S.optional(__S(60, __c1, 28)),
-          insertInlineImage: S.optional(__S(61, __c1, 29)),
-          insertDropdown: S.optional(__S(62, __c1, 30)),
-          createHeader: S.optional(__S(63, __c1, 31)),
-          createDropdownDefinition: S.optional(__S(64, __c2, 0)),
-          createFooter: S.optional(__S(65, __c2, 1)),
-          addCommentReply: S.optional(__S(66, __c2, 2)),
-          createFootnote: S.optional(__S(67, __c2, 3)),
-          insertComment: S.optional(__S(68, __c2, 4)),
-          insertInlineSheetsChart: S.optional(__S(61, __c1, 29)),
+          dropdownDefinition: S.optional(__S(133, __c4, 5)),
         }),
-      ).annotate({ identifier: "Response" });
+      ).annotate({ identifier: "CreateDropdownDefinitionResponse" });
     case 6:
-      return S.Array(__S(69, __c2, 5));
+      return S.suspend(() =>
+        S.Struct({
+          post: S.optional(__S(112, __c3, 16)),
+        }),
+      ).annotate({ identifier: "AddCommentReplyResponse" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          createdSuggestionIds: S.optional(__S(98, __c3, 2)),
-          rejectedSuggestionIds: S.optional(__S(98, __c3, 2)),
-          acceptedSuggestionIds: S.optional(__S(98, __c3, 2)),
-          deletedSuggestionIds: S.optional(__S(98, __c3, 2)),
-          updatedSummarySuggestionIds: S.optional(__S(98, __c3, 2)),
+          occurrencesChanged: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "SuggestionResponse" });
+      ).annotate({ identifier: "ReplaceAllTextResponse" });
     case 8:
-      return S.Array(__S(71, __c2, 7));
-    case 9:
       return S.suspend(() =>
         S.Struct({
-          writeControl: S.optional(__S(56, __c1, 24)),
-          replies: S.optional(__S(70, __c2, 6)),
+          insertComment: S.optional(__S(62, __c1, 30)),
+          createFootnote: S.optional(__S(63, __c1, 31)),
+          insertInlineSheetsChart: S.optional(__S(64, __c2, 0)),
+          insertDropdown: S.optional(__S(65, __c2, 1)),
+          addDocumentTab: S.optional(__S(53, __c1, 21)),
+          createHeader: S.optional(__S(66, __c2, 2)),
+          createFooter: S.optional(__S(67, __c2, 3)),
+          insertInlineImage: S.optional(__S(64, __c2, 0)),
+          createNamedRange: S.optional(__S(68, __c2, 4)),
+          createDropdownDefinition: S.optional(__S(69, __c2, 5)),
+          addCommentReply: S.optional(__S(70, __c2, 6)),
+          replaceAllText: S.optional(__S(71, __c2, 7)),
+        }),
+      ).annotate({ identifier: "Response" });
+    case 9:
+      return S.Array(__S(72, __c2, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
           commentUpdateState: S.optional(S.String),
-          suggestionResponses: S.optional(__S(72, __c2, 8)),
+          writeControl: S.optional(__S(57, __c1, 25)),
+          suggestionResponses: S.optional(__S(61, __c1, 29)),
           documentId: S.optional(S.String),
+          replies: S.optional(__S(73, __c2, 9)),
         }),
       ).annotate({ identifier: "BatchUpdateDocumentResponse" });
   }
@@ -3225,321 +3232,83 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          unit: S.optional(S.String),
-          magnitude: S.optional(S.Number),
+          segmentId: S.optional(S.String),
+          tabId: S.optional(S.String),
+          startIndex: S.optional(S.Number),
+          endIndex: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "Dimension" });
+      ).annotate({ identifier: "Range" });
     case 1:
+      return S.Array(S.String);
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          width: S.optional(__S(96, __c3, 0)),
-          height: S.optional(__S(96, __c3, 0)),
+          weight: S.optional(S.Number),
+          fontFamily: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Size" });
-    case 2:
-      return S.Array(S.String);
+      ).annotate({ identifier: "WeightedFontFamily" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          documentMode: S.optional(S.String),
+          blue: S.optional(S.Number),
+          red: S.optional(S.Number),
+          green: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "DocumentFormat" });
+      ).annotate({ identifier: "RgbColor" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          green: S.optional(S.Number),
-          red: S.optional(S.Number),
-          blue: S.optional(S.Number),
+          rgbColor: S.optional(__S(99, __c3, 3)),
         }),
-      ).annotate({ identifier: "RgbColor" });
+      ).annotate({ identifier: "Color" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          rgbColor: S.optional(__S(100, __c3, 4)),
-        }),
-      ).annotate({ identifier: "Color" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          color: S.optional(__S(101, __c3, 5)),
+          color: S.optional(__S(100, __c3, 4)),
         }),
       ).annotate({ identifier: "OptionalColor" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          color: S.optional(__S(102, __c3, 6)),
-        }),
-      ).annotate({ identifier: "Background" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          documentFormat: S.optional(__S(99, __c3, 3)),
-          firstPageHeaderId: S.optional(S.String),
-          evenPageHeaderId: S.optional(S.String),
-          useEvenPageHeaderFooter: S.optional(S.Boolean),
-          flipPageOrientation: S.optional(S.Boolean),
-          marginLeft: S.optional(__S(96, __c3, 0)),
-          marginRight: S.optional(__S(96, __c3, 0)),
-          marginBottom: S.optional(__S(96, __c3, 0)),
-          useFirstPageHeaderFooter: S.optional(S.Boolean),
-          firstPageFooterId: S.optional(S.String),
-          marginFooter: S.optional(__S(96, __c3, 0)),
-          pageSize: S.optional(__S(97, __c3, 1)),
-          background: S.optional(__S(103, __c3, 7)),
-          evenPageFooterId: S.optional(S.String),
-          useCustomHeaderFooterMargins: S.optional(S.Boolean),
-          defaultHeaderId: S.optional(S.String),
-          defaultFooterId: S.optional(S.String),
-          marginHeader: S.optional(__S(96, __c3, 0)),
-          marginTop: S.optional(__S(96, __c3, 0)),
-          pageNumberStart: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "DocumentStyle" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          width: S.optional(__S(96, __c3, 0)),
-          widthType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TableColumnProperties" });
-    case 10:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           tabId: S.optional(S.String),
         }),
       ).annotate({ identifier: "HeadingLink" });
-    case 11:
+    case 7:
       return S.suspend(() =>
         S.Struct({
-          tabId: S.optional(S.String),
-          id: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BookmarkLink" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          headingId: S.optional(S.String),
-          url: S.optional(S.String),
-          heading: S.optional(__S(106, __c3, 10)),
-          tabId: S.optional(S.String),
+          heading: S.optional(__S(102, __c3, 6)),
           bookmarkId: S.optional(S.String),
-          bookmark: S.optional(__S(107, __c3, 11)),
+          bookmark: S.optional(__S(102, __c3, 6)),
+          url: S.optional(S.String),
+          headingId: S.optional(S.String),
+          tabId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Link" });
-    case 13:
+    case 8:
       return S.suspend(() =>
         S.Struct({
-          fontFamily: S.optional(S.String),
-          weight: S.optional(S.Number),
+          unit: S.optional(S.String),
+          magnitude: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "WeightedFontFamily" });
-    case 14:
+      ).annotate({ identifier: "Dimension" });
+    case 9:
       return S.suspend(() =>
         S.Struct({
-          bold: S.optional(S.Boolean),
-          smallCaps: S.optional(S.Boolean),
-          foregroundColor: S.optional(__S(102, __c3, 6)),
+          weightedFontFamily: S.optional(__S(98, __c3, 2)),
           baselineOffset: S.optional(S.String),
-          underline: S.optional(S.Boolean),
-          link: S.optional(__S(108, __c3, 12)),
-          weightedFontFamily: S.optional(__S(109, __c3, 13)),
-          strikethrough: S.optional(S.Boolean),
+          backgroundColor: S.optional(__S(101, __c3, 5)),
+          link: S.optional(__S(103, __c3, 7)),
+          smallCaps: S.optional(S.Boolean),
+          fontSize: S.optional(__S(104, __c3, 8)),
           italic: S.optional(S.Boolean),
-          fontSize: S.optional(__S(96, __c3, 0)),
-          backgroundColor: S.optional(__S(102, __c3, 6)),
+          foregroundColor: S.optional(__S(101, __c3, 5)),
+          strikethrough: S.optional(S.Boolean),
+          bold: S.optional(S.Boolean),
+          underline: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "TextStyle" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          textStyle: S.optional(__S(110, __c3, 14)),
-          optionId: S.optional(S.String),
-          displayValue: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DropdownOption" });
-    case 16:
-      return S.Array(__S(111, __c3, 15));
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          title: S.optional(S.String),
-          options: S.optional(__S(112, __c3, 16)),
-        }),
-      ).annotate({ identifier: "DropdownDefinitionProperties" });
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          titleSuggested: S.optional(S.Boolean),
-          optionsSuggested: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "DropdownDefinitionPropertiesSuggestionState" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          dropdownDefinitionProperties: S.optional(__S(113, __c3, 17)),
-          dropdownDefinitionPropertiesSuggestionState: S.optional(__S(114, __c3, 18)),
-        }),
-      ).annotate({ identifier: "SuggestedDropdownDefinitionProperties" });
-    case 20:
-      return S.Record(S.String, __S(115, __c3, 19));
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          dropdownDefinitionProperties: S.optional(__S(113, __c3, 17)),
-          suggestedDropdownDefinitionPropertiesChanges: S.optional(__S(116, __c3, 20)),
-          suggestedDeletionId: S.optional(S.String),
-          dropdownDefinitionId: S.optional(S.String),
-          suggestedInsertionId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DropdownDefinition" });
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          tabId: S.optional(S.String),
-          endIndex: S.optional(S.Number),
-          startIndex: S.optional(S.Number),
-          segmentId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Range" });
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          padding: S.optional(__S(96, __c3, 0)),
-          color: S.optional(__S(102, __c3, 6)),
-          dashStyle: S.optional(S.String),
-          width: S.optional(__S(96, __c3, 0)),
-        }),
-      ).annotate({ identifier: "ParagraphBorder" });
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          alignment: S.optional(S.String),
-          offset: S.optional(__S(96, __c3, 0)),
-        }),
-      ).annotate({ identifier: "TabStop" });
-    case 25:
-      return S.Array(__S(120, __c3, 24));
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          backgroundColor: S.optional(__S(102, __c3, 6)),
-        }),
-      ).annotate({ identifier: "Shading" });
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          keepLinesTogether: S.optional(S.Boolean),
-          indentStart: S.optional(__S(96, __c3, 0)),
-          pageBreakBefore: S.optional(S.Boolean),
-          borderBetween: S.optional(__S(119, __c3, 23)),
-          headingId: S.optional(S.String),
-          spacingMode: S.optional(S.String),
-          spaceAbove: S.optional(__S(96, __c3, 0)),
-          alignment: S.optional(S.String),
-          indentEnd: S.optional(__S(96, __c3, 0)),
-          indentFirstLine: S.optional(__S(96, __c3, 0)),
-          avoidWidowAndOrphan: S.optional(S.Boolean),
-          borderLeft: S.optional(__S(119, __c3, 23)),
-          borderBottom: S.optional(__S(119, __c3, 23)),
-          borderTop: S.optional(__S(119, __c3, 23)),
-          spaceBelow: S.optional(__S(96, __c3, 0)),
-          namedStyleType: S.optional(S.String),
-          tabStops: S.optional(__S(121, __c3, 25)),
-          shading: S.optional(__S(122, __c3, 26)),
-          lineSpacing: S.optional(S.Number),
-          borderRight: S.optional(__S(119, __c3, 23)),
-          direction: S.optional(S.String),
-          keepWithNext: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "ParagraphStyle" });
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          locale: S.optional(S.String),
-          displayText: S.optional(S.String),
-          timeZoneId: S.optional(S.String),
-          dateFormat: S.optional(S.String),
-          timeFormat: S.optional(S.String),
-          timestamp: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DateElementProperties" });
-    case 29:
-      return S.suspend(() =>
-        S.Struct({
-          iconEmoji: S.optional(S.String),
-          index: S.optional(S.Number),
-          title: S.optional(S.String),
-          parentTabId: S.optional(S.String),
-          tabId: S.optional(S.String),
-          nestingLevel: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "TabProperties" });
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
-          displayName: S.optional(S.String),
-          anonymous: S.optional(S.Boolean),
-          me: S.optional(S.Boolean),
-          user: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PostAuthor" });
-    case 31:
-      return S.suspend(() =>
-        S.Struct({
-          updateTime: S.optional(S.String),
-          contentHtml: S.optional(S.String),
-          deleted: S.optional(S.Boolean),
-          suggestionAction: S.optional(S.String),
-          fromCopiedDocument: S.optional(S.Boolean),
-          commentAction: S.optional(S.String),
-          assigneeEmail: S.optional(S.String),
-          fromDocumentComparison: S.optional(S.Boolean),
-          fromImportedDocument: S.optional(S.Boolean),
-          postId: S.optional(S.String),
-          author: S.optional(__S(126, __c3, 30)),
-          createTime: S.optional(S.String),
-          content: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Post" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          preventOverflow: S.optional(S.Boolean),
-          minRowHeight: S.optional(__S(96, __c3, 0)),
-          tableHeader: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "TableRowStyle" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          color: S.optional(__S(102, __c3, 6)),
-          dashStyle: S.optional(S.String),
-          width: S.optional(__S(96, __c3, 0)),
-        }),
-      ).annotate({ identifier: "TableCellBorder" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          paddingRight: S.optional(__S(96, __c3, 0)),
-          columnSpan: S.optional(S.Number),
-          borderLeft: S.optional(__S(129, __c4, 1)),
-          contentAlignment: S.optional(S.String),
-          borderRight: S.optional(__S(129, __c4, 1)),
-          paddingLeft: S.optional(__S(96, __c3, 0)),
-          paddingBottom: S.optional(__S(96, __c3, 0)),
-          rowSpan: S.optional(S.Number),
-          borderBottom: S.optional(__S(129, __c4, 1)),
-          borderTop: S.optional(__S(129, __c4, 1)),
-          paddingTop: S.optional(__S(96, __c3, 0)),
-          backgroundColor: S.optional(__S(102, __c3, 6)),
-        }),
-      ).annotate({ identifier: "TableCellStyle" });
-    case 3:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           title: S.optional(S.String),
@@ -3547,48 +3316,191 @@ function __c4(j: number): any {
           mimeType: S.optional(S.String),
         }),
       ).annotate({ identifier: "RichLinkProperties" });
-    case 4:
+    case 11:
       return S.suspend(() =>
         S.Struct({
-          paddingEnd: S.optional(__S(96, __c3, 0)),
-          width: S.optional(__S(96, __c3, 0)),
+          dateFormat: S.optional(S.String),
+          timeFormat: S.optional(S.String),
+          locale: S.optional(S.String),
+          timestamp: S.optional(S.String),
+          timeZoneId: S.optional(S.String),
+          displayText: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SectionColumnProperties" });
-    case 5:
-      return S.Array(__S(132, __c4, 4));
-    case 6:
+      ).annotate({ identifier: "DateElementProperties" });
+    case 12:
       return S.suspend(() =>
         S.Struct({
-          contentDirection: S.optional(S.String),
-          flipPageOrientation: S.optional(S.Boolean),
+          displayValue: S.optional(S.String),
+          optionId: S.optional(S.String),
+          textStyle: S.optional(__S(105, __c3, 9)),
+        }),
+      ).annotate({ identifier: "DropdownOption" });
+    case 13:
+      return S.Array(__S(108, __c3, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          title: S.optional(S.String),
+          options: S.optional(__S(109, __c3, 13)),
+        }),
+      ).annotate({ identifier: "DropdownDefinitionProperties" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          me: S.optional(S.Boolean),
+          user: S.optional(S.String),
+          displayName: S.optional(S.String),
+          anonymous: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "PostAuthor" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          createTime: S.optional(S.String),
+          assigneeEmail: S.optional(S.String),
+          deleted: S.optional(S.Boolean),
+          commentAction: S.optional(S.String),
+          fromImportedDocument: S.optional(S.Boolean),
+          content: S.optional(S.String),
+          fromDocumentComparison: S.optional(S.Boolean),
+          updateTime: S.optional(S.String),
+          postId: S.optional(S.String),
+          contentHtml: S.optional(S.String),
+          suggestionAction: S.optional(S.String),
+          author: S.optional(__S(111, __c3, 15)),
+          fromCopiedDocument: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Post" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          width: S.optional(__S(104, __c3, 8)),
+          height: S.optional(__S(104, __c3, 8)),
+        }),
+      ).annotate({ identifier: "Size" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          color: S.optional(__S(101, __c3, 5)),
+        }),
+      ).annotate({ identifier: "Background" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          documentMode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DocumentFormat" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          marginLeft: S.optional(__S(104, __c3, 8)),
+          marginFooter: S.optional(__S(104, __c3, 8)),
           evenPageFooterId: S.optional(S.String),
-          marginBottom: S.optional(__S(96, __c3, 0)),
-          sectionType: S.optional(S.String),
-          marginLeft: S.optional(__S(96, __c3, 0)),
-          useFirstPageHeaderFooter: S.optional(S.Boolean),
-          columnProperties: S.optional(__S(133, __c4, 5)),
-          evenPageHeaderId: S.optional(S.String),
-          columnSeparatorStyle: S.optional(S.String),
-          firstPageFooterId: S.optional(S.String),
-          marginHeader: S.optional(__S(96, __c3, 0)),
           defaultHeaderId: S.optional(S.String),
+          useFirstPageHeaderFooter: S.optional(S.Boolean),
+          evenPageHeaderId: S.optional(S.String),
+          useCustomHeaderFooterMargins: S.optional(S.Boolean),
+          pageSize: S.optional(__S(113, __c3, 17)),
+          background: S.optional(__S(114, __c3, 18)),
+          flipPageOrientation: S.optional(S.Boolean),
           defaultFooterId: S.optional(S.String),
-          marginRight: S.optional(__S(96, __c3, 0)),
-          marginFooter: S.optional(__S(96, __c3, 0)),
-          firstPageHeaderId: S.optional(S.String),
+          marginHeader: S.optional(__S(104, __c3, 8)),
+          marginRight: S.optional(__S(104, __c3, 8)),
+          useEvenPageHeaderFooter: S.optional(S.Boolean),
+          firstPageFooterId: S.optional(S.String),
           pageNumberStart: S.optional(S.Number),
-          marginTop: S.optional(__S(96, __c3, 0)),
+          documentFormat: S.optional(__S(115, __c3, 19)),
+          firstPageHeaderId: S.optional(S.String),
+          marginBottom: S.optional(__S(104, __c3, 8)),
+          marginTop: S.optional(__S(104, __c3, 8)),
         }),
-      ).annotate({ identifier: "SectionStyle" });
-    case 7:
+      ).annotate({ identifier: "DocumentStyle" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          color: S.optional(__S(101, __c3, 5)),
+          width: S.optional(__S(104, __c3, 8)),
+          dashStyle: S.optional(S.String),
+          padding: S.optional(__S(104, __c3, 8)),
+        }),
+      ).annotate({ identifier: "ParagraphBorder" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          backgroundColor: S.optional(__S(101, __c3, 5)),
+        }),
+      ).annotate({ identifier: "Shading" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          alignment: S.optional(S.String),
+          offset: S.optional(__S(104, __c3, 8)),
+        }),
+      ).annotate({ identifier: "TabStop" });
+    case 24:
+      return S.Array(__S(119, __c3, 23));
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          borderLeft: S.optional(__S(117, __c3, 21)),
+          spacingMode: S.optional(S.String),
+          borderRight: S.optional(__S(117, __c3, 21)),
+          borderBottom: S.optional(__S(117, __c3, 21)),
+          namedStyleType: S.optional(S.String),
+          indentFirstLine: S.optional(__S(104, __c3, 8)),
+          pageBreakBefore: S.optional(S.Boolean),
+          headingId: S.optional(S.String),
+          indentEnd: S.optional(__S(104, __c3, 8)),
+          alignment: S.optional(S.String),
+          borderBetween: S.optional(__S(117, __c3, 21)),
+          avoidWidowAndOrphan: S.optional(S.Boolean),
+          indentStart: S.optional(__S(104, __c3, 8)),
+          keepLinesTogether: S.optional(S.Boolean),
+          borderTop: S.optional(__S(117, __c3, 21)),
+          keepWithNext: S.optional(S.Boolean),
+          shading: S.optional(__S(118, __c3, 22)),
+          spaceBelow: S.optional(__S(104, __c3, 8)),
+          lineSpacing: S.optional(S.Number),
+          spaceAbove: S.optional(__S(104, __c3, 8)),
+          tabStops: S.optional(__S(120, __c3, 24)),
+          direction: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ParagraphStyle" });
+    case 26:
       return S.suspend(() =>
         S.Struct({
           namedStyleType: S.optional(S.String),
-          paragraphStyle: S.optional(__S(123, __c3, 27)),
-          textStyle: S.optional(__S(110, __c3, 14)),
+          paragraphStyle: S.optional(__S(121, __c3, 25)),
+          textStyle: S.optional(__S(105, __c3, 9)),
         }),
       ).annotate({ identifier: "NamedStyle" });
-    case 8:
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          widthType: S.optional(S.String),
+          width: S.optional(__S(104, __c3, 8)),
+        }),
+      ).annotate({ identifier: "TableColumnProperties" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          minRowHeight: S.optional(__S(104, __c3, 8)),
+          preventOverflow: S.optional(S.Boolean),
+          tableHeader: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TableRowStyle" });
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          iconEmoji: S.optional(S.String),
+          parentTabId: S.optional(S.String),
+          nestingLevel: S.optional(S.Number),
+          title: S.optional(S.String),
+          index: S.optional(S.Number),
+          tabId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TabProperties" });
+    case 30:
       return S.suspend(() =>
         S.Struct({
           selectedOptionId: S.optional(S.String),
@@ -3596,78 +3508,166 @@ function __c4(j: number): any {
           dropdownDefinitionId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DropdownProperties" });
-    case 9:
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          width: S.optional(__S(104, __c3, 8)),
+          dashStyle: S.optional(S.String),
+          color: S.optional(__S(101, __c3, 5)),
+        }),
+      ).annotate({ identifier: "TableCellBorder" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          rowSpan: S.optional(S.Number),
+          paddingRight: S.optional(__S(104, __c3, 8)),
+          contentAlignment: S.optional(S.String),
+          paddingBottom: S.optional(__S(104, __c3, 8)),
+          borderLeft: S.optional(__S(127, __c3, 31)),
+          borderRight: S.optional(__S(127, __c3, 31)),
+          paddingLeft: S.optional(__S(104, __c3, 8)),
+          backgroundColor: S.optional(__S(101, __c3, 5)),
+          borderTop: S.optional(__S(127, __c3, 31)),
+          borderBottom: S.optional(__S(127, __c3, 31)),
+          columnSpan: S.optional(S.Number),
+          paddingTop: S.optional(__S(104, __c3, 8)),
+        }),
+      ).annotate({ identifier: "TableCellStyle" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           email: S.optional(S.String),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "PersonProperties" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          titleSuggested: S.optional(S.Boolean),
+          optionsSuggested: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "DropdownDefinitionPropertiesSuggestionState" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          dropdownDefinitionProperties: S.optional(__S(110, __c3, 14)),
+          dropdownDefinitionPropertiesSuggestionState: S.optional(__S(130, __c4, 2)),
+        }),
+      ).annotate({ identifier: "SuggestedDropdownDefinitionProperties" });
+    case 4:
+      return S.Record(S.String, __S(131, __c4, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          suggestedDropdownDefinitionPropertiesChanges: S.optional(__S(132, __c4, 4)),
+          dropdownDefinitionProperties: S.optional(__S(110, __c3, 14)),
+          dropdownDefinitionId: S.optional(S.String),
+          suggestedDeletionId: S.optional(S.String),
+          suggestedInsertionId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DropdownDefinition" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          width: S.optional(__S(104, __c3, 8)),
+          paddingEnd: S.optional(__S(104, __c3, 8)),
+        }),
+      ).annotate({ identifier: "SectionColumnProperties" });
+    case 7:
+      return S.Array(__S(134, __c4, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          marginLeft: S.optional(__S(104, __c3, 8)),
+          pageNumberStart: S.optional(S.Number),
+          columnProperties: S.optional(__S(135, __c4, 7)),
+          columnSeparatorStyle: S.optional(S.String),
+          marginRight: S.optional(__S(104, __c3, 8)),
+          sectionType: S.optional(S.String),
+          marginFooter: S.optional(__S(104, __c3, 8)),
+          defaultFooterId: S.optional(S.String),
+          marginBottom: S.optional(__S(104, __c3, 8)),
+          firstPageFooterId: S.optional(S.String),
+          useFirstPageHeaderFooter: S.optional(S.Boolean),
+          flipPageOrientation: S.optional(S.Boolean),
+          firstPageHeaderId: S.optional(S.String),
+          defaultHeaderId: S.optional(S.String),
+          evenPageHeaderId: S.optional(S.String),
+          contentDirection: S.optional(S.String),
+          marginHeader: S.optional(__S(104, __c3, 8)),
+          marginTop: S.optional(__S(104, __c3, 8)),
+          evenPageFooterId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SectionStyle" });
+    case 9:
+      return S.Array(__S(112, __c3, 16));
     case 10:
+      return S.suspend(() =>
+        S.Struct({
+          plainTextQuote: S.optional(S.String),
+          anchorId: S.optional(S.String),
+          headPost: S.optional(__S(112, __c3, 16)),
+          replies: S.optional(__S(137, __c4, 9)),
+          commentId: S.optional(S.String),
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CommentThread" });
+    case 11:
       return S.suspend(() =>
         S.Struct({
           selectedOptionIdSuggested: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DropdownPropertiesSuggestionState" });
-    case 11:
+    case 12:
       return S.suspend(() =>
         S.Struct({
-          dropdownProperties: S.optional(__S(136, __c4, 8)),
-          dropdownPropertiesSuggestionState: S.optional(__S(138, __c4, 10)),
+          dropdownProperties: S.optional(__S(126, __c3, 30)),
+          dropdownPropertiesSuggestionState: S.optional(__S(139, __c4, 11)),
         }),
       ).annotate({ identifier: "SuggestedDropdownProperties" });
-    case 12:
-      return S.Record(S.String, __S(139, __c4, 11));
     case 13:
-      return S.suspend(() =>
-        S.Struct({
-          backgroundColorSuggested: S.optional(S.Boolean),
-          underlineSuggested: S.optional(S.Boolean),
-          fontSizeSuggested: S.optional(S.Boolean),
-          strikethroughSuggested: S.optional(S.Boolean),
-          boldSuggested: S.optional(S.Boolean),
-          foregroundColorSuggested: S.optional(S.Boolean),
-          linkSuggested: S.optional(S.Boolean),
-          smallCapsSuggested: S.optional(S.Boolean),
-          weightedFontFamilySuggested: S.optional(S.Boolean),
-          baselineOffsetSuggested: S.optional(S.Boolean),
-          italicSuggested: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "TextStyleSuggestionState" });
+      return S.Record(S.String, __S(140, __c4, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          textStyleSuggestionState: S.optional(__S(141, __c4, 13)),
-          textStyle: S.optional(__S(110, __c3, 14)),
+          weightedFontFamilySuggested: S.optional(S.Boolean),
+          italicSuggested: S.optional(S.Boolean),
+          boldSuggested: S.optional(S.Boolean),
+          smallCapsSuggested: S.optional(S.Boolean),
+          fontSizeSuggested: S.optional(S.Boolean),
+          linkSuggested: S.optional(S.Boolean),
+          foregroundColorSuggested: S.optional(S.Boolean),
+          strikethroughSuggested: S.optional(S.Boolean),
+          backgroundColorSuggested: S.optional(S.Boolean),
+          underlineSuggested: S.optional(S.Boolean),
+          baselineOffsetSuggested: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TextStyleSuggestionState" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          textStyle: S.optional(__S(105, __c3, 9)),
+          textStyleSuggestionState: S.optional(__S(142, __c4, 14)),
         }),
       ).annotate({ identifier: "SuggestedTextStyle" });
-    case 15:
-      return S.Record(S.String, __S(142, __c4, 14));
     case 16:
+      return S.Record(S.String, __S(143, __c4, 15));
+    case 17:
       return S.suspend(() =>
         S.Struct({
-          suggestedInsertionIds: S.optional(__S(98, __c3, 2)),
-          textStyle: S.optional(__S(110, __c3, 14)),
+          suggestedInsertionIds: S.optional(__S(97, __c3, 1)),
+          textStyle: S.optional(__S(105, __c3, 9)),
           dropdownId: S.optional(S.String),
-          dropdownProperties: S.optional(__S(136, __c4, 8)),
-          suggestedDropdownPropertiesChanges: S.optional(__S(140, __c4, 12)),
-          suggestedDeletionIds: S.optional(__S(98, __c3, 2)),
-          suggestedTextStyleChanges: S.optional(__S(143, __c4, 15)),
+          suggestedDropdownPropertiesChanges: S.optional(__S(141, __c4, 13)),
+          suggestedTextStyleChanges: S.optional(__S(144, __c4, 16)),
+          suggestedDeletionIds: S.optional(__S(97, __c3, 1)),
+          dropdownProperties: S.optional(__S(126, __c3, 30)),
         }),
       ).annotate({ identifier: "Dropdown" });
-    case 17:
-      return S.Array(__S(127, __c3, 31));
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          replies: S.optional(__S(145, __c4, 17)),
-          commentId: S.optional(S.String),
-          anchorId: S.optional(S.String),
-          plainTextQuote: S.optional(S.String),
-          headPost: S.optional(__S(127, __c3, 31)),
-        }),
-      ).annotate({ identifier: "CommentThread" });
   }
 }
 function __c5(j: number): any {
@@ -3685,261 +3685,239 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          content: S.optional(S.suspend(() => __S(235, __c7, 11))),
-          suggestedDeletionIds: S.optional(__S(98, __c3, 2)),
-          suggestedInsertionIds: S.optional(__S(98, __c3, 2)),
+          widthSuggested: S.optional(S.Boolean),
+          heightSuggested: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "TableOfContents" });
+      ).annotate({ identifier: "SizeSuggestionState" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sectionStyle: S.optional(__S(134, __c4, 6)),
-          suggestedInsertionIds: S.optional(__S(98, __c3, 2)),
-          suggestedDeletionIds: S.optional(__S(98, __c3, 2)),
+          backgroundColorSuggested: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "SectionBreak" });
+      ).annotate({ identifier: "BackgroundSuggestionState" });
     case 2:
-      return S.Array(__S(105, __c3, 9));
+      return S.suspend(() =>
+        S.Struct({
+          evenPageFooterIdSuggested: S.optional(S.Boolean),
+          pageSizeSuggestionState: S.optional(__S(192, __c6, 0)),
+          marginRightSuggested: S.optional(S.Boolean),
+          useCustomHeaderFooterMarginsSuggested: S.optional(S.Boolean),
+          useFirstPageHeaderFooterSuggested: S.optional(S.Boolean),
+          firstPageFooterIdSuggested: S.optional(S.Boolean),
+          backgroundSuggestionState: S.optional(__S(193, __c6, 1)),
+          defaultFooterIdSuggested: S.optional(S.Boolean),
+          marginTopSuggested: S.optional(S.Boolean),
+          marginLeftSuggested: S.optional(S.Boolean),
+          useEvenPageHeaderFooterSuggested: S.optional(S.Boolean),
+          flipPageOrientationSuggested: S.optional(S.Boolean),
+          marginHeaderSuggested: S.optional(S.Boolean),
+          defaultHeaderIdSuggested: S.optional(S.Boolean),
+          pageNumberStartSuggested: S.optional(S.Boolean),
+          firstPageHeaderIdSuggested: S.optional(S.Boolean),
+          marginBottomSuggested: S.optional(S.Boolean),
+          marginFooterSuggested: S.optional(S.Boolean),
+          evenPageHeaderIdSuggested: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "DocumentStyleSuggestionState" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          tableColumnProperties: S.optional(__S(194, __c6, 2)),
+          documentStyleSuggestionState: S.optional(__S(194, __c6, 2)),
+          documentStyle: S.optional(__S(116, __c3, 20)),
         }),
-      ).annotate({ identifier: "TableStyle" });
+      ).annotate({ identifier: "SuggestedDocumentStyle" });
     case 4:
-      return S.suspend(() =>
-        S.Struct({
-          borderLeftSuggested: S.optional(S.Boolean),
-          paddingLeftSuggested: S.optional(S.Boolean),
-          paddingBottomSuggested: S.optional(S.Boolean),
-          borderRightSuggested: S.optional(S.Boolean),
-          paddingRightSuggested: S.optional(S.Boolean),
-          paddingTopSuggested: S.optional(S.Boolean),
-          contentAlignmentSuggested: S.optional(S.Boolean),
-          backgroundColorSuggested: S.optional(S.Boolean),
-          borderBottomSuggested: S.optional(S.Boolean),
-          columnSpanSuggested: S.optional(S.Boolean),
-          borderTopSuggested: S.optional(S.Boolean),
-          rowSpanSuggested: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "TableCellStyleSuggestionState" });
+      return S.Record(S.String, __S(195, __c6, 3));
     case 5:
+      return S.Array(__S(122, __c3, 26));
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          tableCellStyle: S.optional(__S(130, __c4, 2)),
-          tableCellStyleSuggestionState: S.optional(__S(196, __c6, 4)),
+          styles: S.optional(__S(197, __c6, 5)),
         }),
-      ).annotate({ identifier: "SuggestedTableCellStyle" });
-    case 6:
-      return S.Record(S.String, __S(197, __c6, 5));
+      ).annotate({ identifier: "NamedStyles" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          suggestedDeletionIds: S.optional(__S(98, __c3, 2)),
-          suggestedInsertionIds: S.optional(__S(98, __c3, 2)),
-          content: S.optional(S.suspend(() => __S(235, __c7, 11))),
-          startIndex: S.optional(S.Number),
-          tableCellStyle: S.optional(__S(130, __c4, 2)),
-          endIndex: S.optional(S.Number),
-          suggestedTableCellStyleChanges: S.optional(__S(198, __c6, 6)),
+          suggestedInsertionIds: S.optional(__S(97, __c3, 1)),
+          suggestedDeletionIds: S.optional(__S(97, __c3, 1)),
+          content: S.optional(S.suspend(() => __S(241, __c7, 17))),
         }),
-      ).annotate({ identifier: "TableCell" });
+      ).annotate({ identifier: "TableOfContents" });
     case 8:
-      return S.Array(__S(199, __c6, 7));
+      return S.suspend(() =>
+        S.Struct({
+          suggestedDeletionIds: S.optional(__S(97, __c3, 1)),
+          suggestedInsertionIds: S.optional(__S(97, __c3, 1)),
+          sectionStyle: S.optional(__S(136, __c4, 8)),
+        }),
+      ).annotate({ identifier: "SectionBreak" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          minRowHeightSuggested: S.optional(S.Boolean),
+          paddingRightSuggested: S.optional(S.Boolean),
+          borderRightSuggested: S.optional(S.Boolean),
+          paddingLeftSuggested: S.optional(S.Boolean),
+          paddingTopSuggested: S.optional(S.Boolean),
+          borderTopSuggested: S.optional(S.Boolean),
+          borderLeftSuggested: S.optional(S.Boolean),
+          columnSpanSuggested: S.optional(S.Boolean),
+          borderBottomSuggested: S.optional(S.Boolean),
+          backgroundColorSuggested: S.optional(S.Boolean),
+          contentAlignmentSuggested: S.optional(S.Boolean),
+          rowSpanSuggested: S.optional(S.Boolean),
+          paddingBottomSuggested: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "TableRowStyleSuggestionState" });
+      ).annotate({ identifier: "TableCellStyleSuggestionState" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          tableRowStyle: S.optional(__S(128, __c4, 0)),
-          tableRowStyleSuggestionState: S.optional(__S(201, __c6, 9)),
+          tableCellStyle: S.optional(__S(128, __c4, 0)),
+          tableCellStyleSuggestionState: S.optional(__S(201, __c6, 9)),
         }),
-      ).annotate({ identifier: "SuggestedTableRowStyle" });
+      ).annotate({ identifier: "SuggestedTableCellStyle" });
     case 11:
       return S.Record(S.String, __S(202, __c6, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
+          content: S.optional(S.suspend(() => __S(241, __c7, 17))),
           endIndex: S.optional(S.Number),
-          suggestedDeletionIds: S.optional(__S(98, __c3, 2)),
-          tableCells: S.optional(__S(200, __c6, 8)),
-          suggestedInsertionIds: S.optional(__S(98, __c3, 2)),
-          suggestedTableRowStyleChanges: S.optional(__S(203, __c6, 11)),
-          tableRowStyle: S.optional(__S(128, __c4, 0)),
           startIndex: S.optional(S.Number),
+          suggestedDeletionIds: S.optional(__S(97, __c3, 1)),
+          suggestedInsertionIds: S.optional(__S(97, __c3, 1)),
+          tableCellStyle: S.optional(__S(128, __c4, 0)),
+          suggestedTableCellStyleChanges: S.optional(__S(203, __c6, 11)),
         }),
-      ).annotate({ identifier: "TableRow" });
+      ).annotate({ identifier: "TableCell" });
     case 13:
       return S.Array(__S(204, __c6, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          suggestedInsertionIds: S.optional(__S(98, __c3, 2)),
-          columns: S.optional(S.Number),
-          tableStyle: S.optional(__S(195, __c6, 3)),
-          tableRows: S.optional(__S(205, __c6, 13)),
-          suggestedDeletionIds: S.optional(__S(98, __c3, 2)),
-          rows: S.optional(S.Number),
+          minRowHeightSuggested: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "Table" });
+      ).annotate({ identifier: "TableRowStyleSuggestionState" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          backgroundColorSuggested: S.optional(S.Boolean),
+          tableRowStyle: S.optional(__S(124, __c3, 28)),
+          tableRowStyleSuggestionState: S.optional(__S(206, __c6, 14)),
         }),
-      ).annotate({ identifier: "ShadingSuggestionState" });
+      ).annotate({ identifier: "SuggestedTableRowStyle" });
     case 16:
+      return S.Record(S.String, __S(207, __c6, 15));
+    case 17:
       return S.suspend(() =>
         S.Struct({
-          headingIdSuggested: S.optional(S.Boolean),
-          borderBetweenSuggested: S.optional(S.Boolean),
+          suggestedDeletionIds: S.optional(__S(97, __c3, 1)),
+          tableCells: S.optional(__S(205, __c6, 13)),
+          suggestedTableRowStyleChanges: S.optional(__S(208, __c6, 16)),
+          startIndex: S.optional(S.Number),
+          suggestedInsertionIds: S.optional(__S(97, __c3, 1)),
+          tableRowStyle: S.optional(__S(124, __c3, 28)),
+          endIndex: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TableRow" });
+    case 18:
+      return S.Array(__S(209, __c6, 17));
+    case 19:
+      return S.Array(__S(123, __c3, 27));
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          tableColumnProperties: S.optional(__S(211, __c6, 19)),
+        }),
+      ).annotate({ identifier: "TableStyle" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          suggestedDeletionIds: S.optional(__S(97, __c3, 1)),
+          tableRows: S.optional(__S(210, __c6, 18)),
+          tableStyle: S.optional(__S(212, __c6, 20)),
+          suggestedInsertionIds: S.optional(__S(97, __c3, 1)),
+          rows: S.optional(S.Number),
+          columns: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Table" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          nestingLevel: S.optional(S.Number),
+          textStyle: S.optional(__S(105, __c3, 9)),
+          listId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Bullet" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          textStyleSuggestionState: S.optional(__S(142, __c4, 14)),
+          listIdSuggested: S.optional(S.Boolean),
+          nestingLevelSuggested: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "BulletSuggestionState" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          bullet: S.optional(__S(214, __c6, 22)),
+          bulletSuggestionState: S.optional(__S(215, __c6, 23)),
+        }),
+      ).annotate({ identifier: "SuggestedBullet" });
+    case 25:
+      return S.Record(S.String, __S(216, __c6, 24));
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          objectIds: S.optional(__S(97, __c3, 1)),
+        }),
+      ).annotate({ identifier: "ObjectReferences" });
+    case 27:
+      return S.Record(S.String, __S(218, __c6, 26));
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          spaceAboveSuggested: S.optional(S.Boolean),
+          lineSpacingSuggested: S.optional(S.Boolean),
+          directionSuggested: S.optional(S.Boolean),
+          spaceBelowSuggested: S.optional(S.Boolean),
+          borderRightSuggested: S.optional(S.Boolean),
+          indentStartSuggested: S.optional(S.Boolean),
+          borderBottomSuggested: S.optional(S.Boolean),
           spacingModeSuggested: S.optional(S.Boolean),
           borderTopSuggested: S.optional(S.Boolean),
           namedStyleTypeSuggested: S.optional(S.Boolean),
+          shadingSuggestionState: S.optional(__S(193, __c6, 1)),
           indentFirstLineSuggested: S.optional(S.Boolean),
           pageBreakBeforeSuggested: S.optional(S.Boolean),
-          spaceAboveSuggested: S.optional(S.Boolean),
-          keepLinesTogetherSuggested: S.optional(S.Boolean),
-          borderBottomSuggested: S.optional(S.Boolean),
-          borderRightSuggested: S.optional(S.Boolean),
+          borderBetweenSuggested: S.optional(S.Boolean),
+          keepWithNextSuggested: S.optional(S.Boolean),
           borderLeftSuggested: S.optional(S.Boolean),
           indentEndSuggested: S.optional(S.Boolean),
-          indentStartSuggested: S.optional(S.Boolean),
-          spaceBelowSuggested: S.optional(S.Boolean),
-          directionSuggested: S.optional(S.Boolean),
-          lineSpacingSuggested: S.optional(S.Boolean),
-          shadingSuggestionState: S.optional(__S(207, __c6, 15)),
-          keepWithNextSuggested: S.optional(S.Boolean),
+          keepLinesTogetherSuggested: S.optional(S.Boolean),
+          headingIdSuggested: S.optional(S.Boolean),
           alignmentSuggested: S.optional(S.Boolean),
           avoidWidowAndOrphanSuggested: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ParagraphStyleSuggestionState" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          paragraphStyle: S.optional(__S(123, __c3, 27)),
-          paragraphStyleSuggestionState: S.optional(__S(208, __c6, 16)),
-        }),
-      ).annotate({ identifier: "SuggestedParagraphStyle" });
-    case 18:
-      return S.Record(S.String, __S(209, __c6, 17));
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          listId: S.optional(S.String),
-          nestingLevel: S.optional(S.Number),
-          textStyle: S.optional(__S(110, __c3, 14)),
-        }),
-      ).annotate({ identifier: "Bullet" });
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          objectIds: S.optional(__S(98, __c3, 2)),
-        }),
-      ).annotate({ identifier: "ObjectReferences" });
-    case 21:
-      return S.Record(S.String, __S(212, __c6, 20));
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          suggestedTextStyleChanges: S.optional(__S(143, __c4, 15)),
-          suggestedDeletionIds: S.optional(__S(98, __c3, 2)),
-          textStyle: S.optional(__S(110, __c3, 14)),
-          footnoteNumber: S.optional(S.String),
-          footnoteId: S.optional(S.String),
-          suggestedInsertionIds: S.optional(__S(98, __c3, 2)),
-        }),
-      ).annotate({ identifier: "FootnoteReference" });
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          textStyle: S.optional(__S(110, __c3, 14)),
-          suggestedTextStyleChanges: S.optional(__S(143, __c4, 15)),
-          personProperties: S.optional(__S(137, __c4, 9)),
-          personId: S.optional(S.String),
-          suggestedInsertionIds: S.optional(__S(98, __c3, 2)),
-          suggestedDeletionIds: S.optional(__S(98, __c3, 2)),
-        }),
-      ).annotate({ identifier: "Person" });
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          suggestedTextStyleChanges: S.optional(__S(143, __c4, 15)),
-          suggestedDeletionIds: S.optional(__S(98, __c3, 2)),
-          suggestedInsertionIds: S.optional(__S(98, __c3, 2)),
-          textStyle: S.optional(__S(110, __c3, 14)),
-          inlineObjectId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "InlineObjectElement" });
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
-          suggestedInsertionIds: S.optional(__S(98, __c3, 2)),
-          suggestedDeletionIds: S.optional(__S(98, __c3, 2)),
-          suggestedTextStyleChanges: S.optional(__S(143, __c4, 15)),
-          textStyle: S.optional(__S(110, __c3, 14)),
-        }),
-      ).annotate({ identifier: "ColumnBreak" });
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          suggestedTextStyleChanges: S.optional(__S(143, __c4, 15)),
-          textStyle: S.optional(__S(110, __c3, 14)),
-          suggestedDeletionIds: S.optional(__S(98, __c3, 2)),
-          suggestedInsertionIds: S.optional(__S(98, __c3, 2)),
-        }),
-      ).annotate({ identifier: "HorizontalRule" });
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          suggestedDeletionIds: S.optional(__S(98, __c3, 2)),
-          content: S.optional(S.String),
-          suggestedTextStyleChanges: S.optional(__S(143, __c4, 15)),
-          textStyle: S.optional(__S(110, __c3, 14)),
-          suggestedInsertionIds: S.optional(__S(98, __c3, 2)),
-        }),
-      ).annotate({ identifier: "TextRun" });
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          suggestedTextStyleChanges: S.optional(__S(143, __c4, 15)),
-          textStyle: S.optional(__S(110, __c3, 14)),
-          type: S.optional(S.String),
-          suggestedInsertionIds: S.optional(__S(98, __c3, 2)),
-          suggestedDeletionIds: S.optional(__S(98, __c3, 2)),
-        }),
-      ).annotate({ identifier: "AutoText" });
     case 29:
       return S.suspend(() =>
         S.Struct({
-          suggestedInsertionIds: S.optional(__S(98, __c3, 2)),
-          suggestedDeletionIds: S.optional(__S(98, __c3, 2)),
+          paragraphStyle: S.optional(__S(121, __c3, 25)),
+          paragraphStyleSuggestionState: S.optional(__S(220, __c6, 28)),
         }),
-      ).annotate({ identifier: "Equation" });
+      ).annotate({ identifier: "SuggestedParagraphStyle" });
     case 30:
-      return S.suspend(() =>
-        S.Struct({
-          textStyle: S.optional(__S(110, __c3, 14)),
-          suggestedTextStyleChanges: S.optional(__S(143, __c4, 15)),
-          suggestedDeletionIds: S.optional(__S(98, __c3, 2)),
-          suggestedInsertionIds: S.optional(__S(98, __c3, 2)),
-        }),
-      ).annotate({ identifier: "PageBreak" });
+      return S.Record(S.String, __S(221, __c6, 29));
     case 31:
       return S.suspend(() =>
         S.Struct({
-          suggestedTextStyleChanges: S.optional(__S(143, __c4, 15)),
-          suggestedDeletionIds: S.optional(__S(98, __c3, 2)),
-          richLinkProperties: S.optional(__S(131, __c4, 3)),
-          textStyle: S.optional(__S(110, __c3, 14)),
-          richLinkId: S.optional(S.String),
-          suggestedInsertionIds: S.optional(__S(98, __c3, 2)),
+          suggestedTextStyleChanges: S.optional(__S(144, __c4, 16)),
+          suggestedInsertionIds: S.optional(__S(97, __c3, 1)),
+          suggestedDeletionIds: S.optional(__S(97, __c3, 1)),
+          type: S.optional(S.String),
+          textStyle: S.optional(__S(105, __c3, 9)),
         }),
-      ).annotate({ identifier: "RichLink" });
+      ).annotate({ identifier: "AutoText" });
   }
 }
 function __c7(j: number): any {
@@ -3947,205 +3925,247 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          timestampSuggested: S.optional(S.Boolean),
-          timeZoneIdSuggested: S.optional(S.Boolean),
-          dateFormatSuggested: S.optional(S.Boolean),
-          localeSuggested: S.optional(S.Boolean),
-          timeFormatSuggested: S.optional(S.Boolean),
+          textStyle: S.optional(__S(105, __c3, 9)),
+          inlineObjectId: S.optional(S.String),
+          suggestedTextStyleChanges: S.optional(__S(144, __c4, 16)),
+          suggestedInsertionIds: S.optional(__S(97, __c3, 1)),
+          suggestedDeletionIds: S.optional(__S(97, __c3, 1)),
         }),
-      ).annotate({ identifier: "DateElementPropertiesSuggestionState" });
+      ).annotate({ identifier: "InlineObjectElement" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          dateElementProperties: S.optional(__S(124, __c3, 28)),
-          dateElementPropertiesSuggestionState: S.optional(__S(224, __c7, 0)),
+          suggestedDeletionIds: S.optional(__S(97, __c3, 1)),
+          textStyle: S.optional(__S(105, __c3, 9)),
+          suggestedInsertionIds: S.optional(__S(97, __c3, 1)),
+          suggestedTextStyleChanges: S.optional(__S(144, __c4, 16)),
         }),
-      ).annotate({ identifier: "SuggestedDateElementProperties" });
+      ).annotate({ identifier: "HorizontalRule" });
     case 2:
-      return S.Record(S.String, __S(225, __c7, 1));
+      return S.suspend(() =>
+        S.Struct({
+          suggestedDeletionIds: S.optional(__S(97, __c3, 1)),
+          richLinkProperties: S.optional(__S(106, __c3, 10)),
+          suggestedInsertionIds: S.optional(__S(97, __c3, 1)),
+          textStyle: S.optional(__S(105, __c3, 9)),
+          richLinkId: S.optional(S.String),
+          suggestedTextStyleChanges: S.optional(__S(144, __c4, 16)),
+        }),
+      ).annotate({ identifier: "RichLink" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          dateId: S.optional(S.String),
-          suggestedDeletionIds: S.optional(__S(98, __c3, 2)),
-          suggestedInsertionIds: S.optional(__S(98, __c3, 2)),
-          dateElementProperties: S.optional(__S(124, __c3, 28)),
-          suggestedTextStyleChanges: S.optional(__S(143, __c4, 15)),
-          textStyle: S.optional(__S(110, __c3, 14)),
-          suggestedDateElementPropertiesChanges: S.optional(__S(226, __c7, 2)),
+          personProperties: S.optional(__S(129, __c4, 1)),
+          textStyle: S.optional(__S(105, __c3, 9)),
+          suggestedDeletionIds: S.optional(__S(97, __c3, 1)),
+          personId: S.optional(S.String),
+          suggestedTextStyleChanges: S.optional(__S(144, __c4, 16)),
+          suggestedInsertionIds: S.optional(__S(97, __c3, 1)),
         }),
-      ).annotate({ identifier: "DateElement" });
+      ).annotate({ identifier: "Person" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          footnoteReference: S.optional(__S(214, __c6, 22)),
-          dropdown: S.optional(__S(144, __c4, 16)),
-          person: S.optional(__S(215, __c6, 23)),
-          inlineObjectElement: S.optional(__S(216, __c6, 24)),
-          columnBreak: S.optional(__S(217, __c6, 25)),
-          horizontalRule: S.optional(__S(218, __c6, 26)),
-          textRun: S.optional(__S(219, __c6, 27)),
-          autoText: S.optional(__S(220, __c6, 28)),
-          startIndex: S.optional(S.Number),
-          equation: S.optional(__S(221, __c6, 29)),
-          endIndex: S.optional(S.Number),
-          pageBreak: S.optional(__S(222, __c6, 30)),
-          richLink: S.optional(__S(223, __c6, 31)),
-          dateElement: S.optional(__S(227, __c7, 3)),
+          suggestedDeletionIds: S.optional(__S(97, __c3, 1)),
+          suggestedTextStyleChanges: S.optional(__S(144, __c4, 16)),
+          suggestedInsertionIds: S.optional(__S(97, __c3, 1)),
+          textStyle: S.optional(__S(105, __c3, 9)),
         }),
-      ).annotate({ identifier: "ParagraphElement" });
+      ).annotate({ identifier: "ColumnBreak" });
     case 5:
-      return S.Array(__S(228, __c7, 4));
+      return S.suspend(() =>
+        S.Struct({
+          textStyle: S.optional(__S(105, __c3, 9)),
+          suggestedTextStyleChanges: S.optional(__S(144, __c4, 16)),
+          suggestedInsertionIds: S.optional(__S(97, __c3, 1)),
+          suggestedDeletionIds: S.optional(__S(97, __c3, 1)),
+          content: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TextRun" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          textStyleSuggestionState: S.optional(__S(141, __c4, 13)),
-          nestingLevelSuggested: S.optional(S.Boolean),
-          listIdSuggested: S.optional(S.Boolean),
+          timeZoneIdSuggested: S.optional(S.Boolean),
+          localeSuggested: S.optional(S.Boolean),
+          timestampSuggested: S.optional(S.Boolean),
+          dateFormatSuggested: S.optional(S.Boolean),
+          timeFormatSuggested: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "BulletSuggestionState" });
+      ).annotate({ identifier: "DateElementPropertiesSuggestionState" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          bullet: S.optional(__S(211, __c6, 19)),
-          bulletSuggestionState: S.optional(__S(230, __c7, 6)),
+          dateElementPropertiesSuggestionState: S.optional(__S(230, __c7, 6)),
+          dateElementProperties: S.optional(__S(107, __c3, 11)),
         }),
-      ).annotate({ identifier: "SuggestedBullet" });
+      ).annotate({ identifier: "SuggestedDateElementProperties" });
     case 8:
       return S.Record(S.String, __S(231, __c7, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          suggestedParagraphStyleChanges: S.optional(__S(210, __c6, 18)),
-          paragraphStyle: S.optional(__S(123, __c3, 27)),
-          bullet: S.optional(__S(211, __c6, 19)),
-          suggestedPositionedObjectIds: S.optional(__S(213, __c6, 21)),
-          elements: S.optional(__S(229, __c7, 5)),
-          positionedObjectIds: S.optional(__S(98, __c3, 2)),
-          suggestedBulletChanges: S.optional(__S(232, __c7, 8)),
+          suggestedDeletionIds: S.optional(__S(97, __c3, 1)),
+          suggestedTextStyleChanges: S.optional(__S(144, __c4, 16)),
+          suggestedDateElementPropertiesChanges: S.optional(__S(232, __c7, 8)),
+          suggestedInsertionIds: S.optional(__S(97, __c3, 1)),
+          dateElementProperties: S.optional(__S(107, __c3, 11)),
+          textStyle: S.optional(__S(105, __c3, 9)),
+          dateId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Paragraph" });
+      ).annotate({ identifier: "DateElement" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          tableOfContents: S.optional(__S(192, __c6, 0)),
-          endIndex: S.optional(S.Number),
-          sectionBreak: S.optional(__S(193, __c6, 1)),
-          startIndex: S.optional(S.Number),
-          table: S.optional(__S(206, __c6, 14)),
-          paragraph: S.optional(__S(233, __c7, 9)),
+          suggestedTextStyleChanges: S.optional(__S(144, __c4, 16)),
+          suggestedDeletionIds: S.optional(__S(97, __c3, 1)),
+          footnoteId: S.optional(S.String),
+          textStyle: S.optional(__S(105, __c3, 9)),
+          suggestedInsertionIds: S.optional(__S(97, __c3, 1)),
+          footnoteNumber: S.optional(S.String),
         }),
-      ).annotate({ identifier: "StructuralElement" });
+      ).annotate({ identifier: "FootnoteReference" });
     case 11:
-      return S.Array(__S(234, __c7, 10));
+      return S.suspend(() =>
+        S.Struct({
+          suggestedInsertionIds: S.optional(__S(97, __c3, 1)),
+          suggestedDeletionIds: S.optional(__S(97, __c3, 1)),
+        }),
+      ).annotate({ identifier: "Equation" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          content: S.optional(__S(235, __c7, 11)),
+          suggestedDeletionIds: S.optional(__S(97, __c3, 1)),
+          suggestedInsertionIds: S.optional(__S(97, __c3, 1)),
+          suggestedTextStyleChanges: S.optional(__S(144, __c4, 16)),
+          textStyle: S.optional(__S(105, __c3, 9)),
+        }),
+      ).annotate({ identifier: "PageBreak" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          autoText: S.optional(__S(223, __c6, 31)),
+          inlineObjectElement: S.optional(__S(224, __c7, 0)),
+          startIndex: S.optional(S.Number),
+          horizontalRule: S.optional(__S(225, __c7, 1)),
+          richLink: S.optional(__S(226, __c7, 2)),
+          dropdown: S.optional(__S(145, __c4, 17)),
+          person: S.optional(__S(227, __c7, 3)),
+          columnBreak: S.optional(__S(228, __c7, 4)),
+          endIndex: S.optional(S.Number),
+          textRun: S.optional(__S(229, __c7, 5)),
+          dateElement: S.optional(__S(233, __c7, 9)),
+          footnoteReference: S.optional(__S(234, __c7, 10)),
+          equation: S.optional(__S(235, __c7, 11)),
+          pageBreak: S.optional(__S(236, __c7, 12)),
+        }),
+      ).annotate({ identifier: "ParagraphElement" });
+    case 14:
+      return S.Array(__S(237, __c7, 13));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          suggestedBulletChanges: S.optional(__S(217, __c6, 25)),
+          positionedObjectIds: S.optional(__S(97, __c3, 1)),
+          paragraphStyle: S.optional(__S(121, __c3, 25)),
+          suggestedPositionedObjectIds: S.optional(__S(219, __c6, 27)),
+          suggestedParagraphStyleChanges: S.optional(__S(222, __c6, 30)),
+          bullet: S.optional(__S(214, __c6, 22)),
+          elements: S.optional(__S(238, __c7, 14)),
+        }),
+      ).annotate({ identifier: "Paragraph" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          endIndex: S.optional(S.Number),
+          tableOfContents: S.optional(__S(199, __c6, 7)),
+          sectionBreak: S.optional(__S(200, __c6, 8)),
+          table: S.optional(__S(213, __c6, 21)),
+          paragraph: S.optional(__S(239, __c7, 15)),
+          startIndex: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "StructuralElement" });
+    case 17:
+      return S.Array(__S(240, __c7, 16));
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
           footnoteId: S.optional(S.String),
+          content: S.optional(__S(241, __c7, 17)),
         }),
       ).annotate({ identifier: "Footnote" });
-    case 13:
-      return S.Record(S.String, __S(236, __c7, 12));
-    case 14:
+    case 19:
+      return S.Record(S.String, __S(242, __c7, 18));
+    case 20:
+      return S.Array(__S(96, __c3, 0));
+    case 21:
       return S.suspend(() =>
         S.Struct({
-          content: S.optional(__S(235, __c7, 11)),
-          footerId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Footer" });
-    case 15:
-      return S.Record(S.String, __S(238, __c7, 14));
-    case 16:
-      return S.Array(__S(118, __c3, 22));
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          ranges: S.optional(__S(240, __c7, 16)),
+          ranges: S.optional(__S(244, __c7, 20)),
           namedRangeId: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "NamedRange" });
-    case 18:
-      return S.Array(__S(241, __c7, 17));
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          namedRanges: S.optional(__S(242, __c7, 18)),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "NamedRanges" });
-    case 20:
-      return S.Record(S.String, __S(243, __c7, 19));
-    case 21:
-      return S.Array(__S(146, __c4, 18));
     case 22:
-      return S.Array(__S(135, __c4, 7));
+      return S.Array(__S(245, __c7, 21));
     case 23:
       return S.suspend(() =>
         S.Struct({
-          styles: S.optional(__S(246, __c7, 22)),
+          name: S.optional(S.String),
+          namedRanges: S.optional(__S(246, __c7, 22)),
         }),
-      ).annotate({ identifier: "NamedStyles" });
+      ).annotate({ identifier: "NamedRanges" });
     case 24:
-      return S.suspend(() =>
-        S.Struct({
-          layoutSuggested: S.optional(S.Boolean),
-          leftOffsetSuggested: S.optional(S.Boolean),
-          topOffsetSuggested: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "PositionedObjectPositioningSuggestionState" });
+      return S.Record(S.String, __S(247, __c7, 23));
     case 25:
       return S.suspend(() =>
         S.Struct({
-          heightSuggested: S.optional(S.Boolean),
-          widthSuggested: S.optional(S.Boolean),
+          content: S.optional(__S(241, __c7, 17)),
         }),
-      ).annotate({ identifier: "SizeSuggestionState" });
+      ).annotate({ identifier: "Body" });
     case 26:
       return S.suspend(() =>
         S.Struct({
-          colorSuggested: S.optional(S.Boolean),
-          dashStyleSuggested: S.optional(S.Boolean),
-          propertyStateSuggested: S.optional(S.Boolean),
-          widthSuggested: S.optional(S.Boolean),
+          chartIdSuggested: S.optional(S.Boolean),
+          spreadsheetIdSuggested: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "EmbeddedObjectBorderSuggestionState" });
+      ).annotate({ identifier: "SheetsChartReferenceSuggestionState" });
     case 27:
       return S.suspend(() =>
         S.Struct({
-          spreadsheetIdSuggested: S.optional(S.Boolean),
-          chartIdSuggested: S.optional(S.Boolean),
+          sheetsChartReferenceSuggestionState: S.optional(__S(250, __c7, 26)),
         }),
-      ).annotate({ identifier: "SheetsChartReferenceSuggestionState" });
+      ).annotate({ identifier: "LinkedContentReferenceSuggestionState" });
     case 28:
       return S.suspend(() =>
         S.Struct({
-          sheetsChartReferenceSuggestionState: S.optional(__S(251, __c7, 27)),
-        }),
-      ).annotate({ identifier: "LinkedContentReferenceSuggestionState" });
-    case 29:
-      return S.suspend(() =>
-        S.Struct({
-          offsetTopSuggested: S.optional(S.Boolean),
-          angleSuggested: S.optional(S.Boolean),
           offsetBottomSuggested: S.optional(S.Boolean),
+          angleSuggested: S.optional(S.Boolean),
           offsetRightSuggested: S.optional(S.Boolean),
+          offsetTopSuggested: S.optional(S.Boolean),
           offsetLeftSuggested: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CropPropertiesSuggestionState" });
-    case 30:
+    case 29:
       return S.suspend(() =>
         S.Struct({
+          cropPropertiesSuggestionState: S.optional(__S(252, __c7, 28)),
           contentUriSuggested: S.optional(S.Boolean),
+          sourceUriSuggested: S.optional(S.Boolean),
+          transparencySuggested: S.optional(S.Boolean),
           contrastSuggested: S.optional(S.Boolean),
           angleSuggested: S.optional(S.Boolean),
-          cropPropertiesSuggestionState: S.optional(__S(253, __c7, 29)),
-          transparencySuggested: S.optional(S.Boolean),
-          sourceUriSuggested: S.optional(S.Boolean),
           brightnessSuggested: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ImagePropertiesSuggestionState" });
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          propertyStateSuggested: S.optional(S.Boolean),
+          colorSuggested: S.optional(S.Boolean),
+          dashStyleSuggested: S.optional(S.Boolean),
+          widthSuggested: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "EmbeddedObjectBorderSuggestionState" });
     case 31:
       return S.suspend(() => S.Struct({})).annotate({
         identifier: "EmbeddedDrawingPropertiesSuggestionState",
@@ -4157,219 +4177,210 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          marginTopSuggested: S.optional(S.Boolean),
-          sizeSuggestionState: S.optional(__S(249, __c7, 25)),
-          marginLeftSuggested: S.optional(S.Boolean),
-          embeddedObjectBorderSuggestionState: S.optional(__S(250, __c7, 26)),
-          marginRightSuggested: S.optional(S.Boolean),
+          linkedContentReferenceSuggestionState: S.optional(__S(251, __c7, 27)),
           descriptionSuggested: S.optional(S.Boolean),
+          marginRightSuggested: S.optional(S.Boolean),
+          marginLeftSuggested: S.optional(S.Boolean),
+          marginTopSuggested: S.optional(S.Boolean),
           marginBottomSuggested: S.optional(S.Boolean),
-          linkedContentReferenceSuggestionState: S.optional(__S(252, __c7, 28)),
-          imagePropertiesSuggestionState: S.optional(__S(254, __c7, 30)),
-          embeddedDrawingPropertiesSuggestionState: S.optional(__S(255, __c7, 31)),
+          imagePropertiesSuggestionState: S.optional(__S(253, __c7, 29)),
+          sizeSuggestionState: S.optional(__S(192, __c6, 0)),
           titleSuggested: S.optional(S.Boolean),
+          embeddedObjectBorderSuggestionState: S.optional(__S(254, __c7, 30)),
+          embeddedDrawingPropertiesSuggestionState: S.optional(__S(255, __c7, 31)),
         }),
       ).annotate({ identifier: "EmbeddedObjectSuggestionState" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          positioningSuggestionState: S.optional(__S(248, __c7, 24)),
           embeddedObjectSuggestionState: S.optional(__S(256, __c8, 0)),
         }),
-      ).annotate({ identifier: "PositionedObjectPropertiesSuggestionState" });
+      ).annotate({ identifier: "InlineObjectPropertiesSuggestionState" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          leftOffset: S.optional(__S(96, __c3, 0)),
-          layout: S.optional(S.String),
-          topOffset: S.optional(__S(96, __c3, 0)),
+          color: S.optional(__S(101, __c3, 5)),
+          dashStyle: S.optional(S.String),
+          propertyState: S.optional(S.String),
+          width: S.optional(__S(104, __c3, 8)),
         }),
-      ).annotate({ identifier: "PositionedObjectPositioning" });
+      ).annotate({ identifier: "EmbeddedObjectBorder" });
     case 3:
+      return S.suspend(() =>
+        S.Struct({
+          offsetBottom: S.optional(S.Number),
+          offsetTop: S.optional(S.Number),
+          offsetLeft: S.optional(S.Number),
+          offsetRight: S.optional(S.Number),
+          angle: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CropProperties" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          contentUri: S.optional(S.String),
+          brightness: S.optional(S.Number),
+          transparency: S.optional(S.Number),
+          cropProperties: S.optional(__S(259, __c8, 3)),
+          angle: S.optional(S.Number),
+          sourceUri: S.optional(S.String),
+          contrast: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ImageProperties" });
+    case 5:
       return S.suspend(() =>
         S.Struct({
           chartId: S.optional(S.Number),
           spreadsheetId: S.optional(S.String),
         }),
       ).annotate({ identifier: "SheetsChartReference" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          sheetsChartReference: S.optional(__S(259, __c8, 3)),
-        }),
-      ).annotate({ identifier: "LinkedContentReference" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          width: S.optional(__S(96, __c3, 0)),
-          dashStyle: S.optional(S.String),
-          color: S.optional(__S(102, __c3, 6)),
-          propertyState: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EmbeddedObjectBorder" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          angle: S.optional(S.Number),
-          offsetTop: S.optional(S.Number),
-          offsetRight: S.optional(S.Number),
-          offsetBottom: S.optional(S.Number),
-          offsetLeft: S.optional(S.Number),
+          sheetsChartReference: S.optional(__S(261, __c8, 5)),
         }),
-      ).annotate({ identifier: "CropProperties" });
+      ).annotate({ identifier: "LinkedContentReference" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          transparency: S.optional(S.Number),
-          sourceUri: S.optional(S.String),
-          cropProperties: S.optional(__S(262, __c8, 6)),
-          contentUri: S.optional(S.String),
-          brightness: S.optional(S.Number),
-          angle: S.optional(S.Number),
-          contrast: S.optional(S.Number),
+          embeddedObjectBorder: S.optional(__S(258, __c8, 2)),
+          imageProperties: S.optional(__S(260, __c8, 4)),
+          marginRight: S.optional(__S(104, __c3, 8)),
+          marginLeft: S.optional(__S(104, __c3, 8)),
+          linkedContentReference: S.optional(__S(262, __c8, 6)),
+          marginTop: S.optional(__S(104, __c3, 8)),
+          embeddedDrawingProperties: S.optional(__S(255, __c7, 31)),
+          title: S.optional(S.String),
+          size: S.optional(__S(113, __c3, 17)),
+          marginBottom: S.optional(__S(104, __c3, 8)),
+          description: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ImageProperties" });
+      ).annotate({ identifier: "EmbeddedObject" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          marginLeft: S.optional(__S(96, __c3, 0)),
-          title: S.optional(S.String),
-          marginTop: S.optional(__S(96, __c3, 0)),
-          description: S.optional(S.String),
-          embeddedDrawingProperties: S.optional(__S(255, __c7, 31)),
-          size: S.optional(__S(97, __c3, 1)),
-          marginBottom: S.optional(__S(96, __c3, 0)),
-          linkedContentReference: S.optional(__S(260, __c8, 4)),
-          marginRight: S.optional(__S(96, __c3, 0)),
-          embeddedObjectBorder: S.optional(__S(261, __c8, 5)),
-          imageProperties: S.optional(__S(263, __c8, 7)),
+          embeddedObject: S.optional(__S(263, __c8, 7)),
         }),
-      ).annotate({ identifier: "EmbeddedObject" });
+      ).annotate({ identifier: "InlineObjectProperties" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          positioning: S.optional(__S(258, __c8, 2)),
-          embeddedObject: S.optional(__S(264, __c8, 8)),
+          inlineObjectPropertiesSuggestionState: S.optional(__S(257, __c8, 1)),
+          inlineObjectProperties: S.optional(__S(264, __c8, 8)),
         }),
-      ).annotate({ identifier: "PositionedObjectProperties" });
+      ).annotate({ identifier: "SuggestedInlineObjectProperties" });
     case 10:
-      return S.suspend(() =>
-        S.Struct({
-          positionedObjectPropertiesSuggestionState: S.optional(__S(257, __c8, 1)),
-          positionedObjectProperties: S.optional(__S(265, __c8, 9)),
-        }),
-      ).annotate({ identifier: "SuggestedPositionedObjectProperties" });
+      return S.Record(S.String, __S(265, __c8, 9));
     case 11:
-      return S.Record(S.String, __S(266, __c8, 10));
-    case 12:
       return S.suspend(() =>
         S.Struct({
-          suggestedInsertionId: S.optional(S.String),
-          suggestedPositionedObjectPropertiesChanges: S.optional(__S(267, __c8, 11)),
-          suggestedDeletionIds: S.optional(__S(98, __c3, 2)),
+          suggestedInlineObjectPropertiesChanges: S.optional(__S(266, __c8, 10)),
+          inlineObjectProperties: S.optional(__S(264, __c8, 8)),
           objectId: S.optional(S.String),
-          positionedObjectProperties: S.optional(__S(265, __c8, 9)),
+          suggestedInsertionId: S.optional(S.String),
+          suggestedDeletionIds: S.optional(__S(97, __c3, 1)),
         }),
-      ).annotate({ identifier: "PositionedObject" });
+      ).annotate({ identifier: "InlineObject" });
+    case 12:
+      return S.Record(S.String, __S(267, __c8, 11));
     case 13:
-      return S.Record(S.String, __S(268, __c8, 12));
+      return S.Array(__S(138, __c4, 10));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          headerId: S.optional(S.String),
-          content: S.optional(__S(235, __c7, 11)),
+          ranges: S.optional(__S(244, __c7, 20)),
+          anchorId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Header" });
+      ).annotate({ identifier: "CommentAnchor" });
     case 15:
       return S.Record(S.String, __S(270, __c8, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
-          content: S.optional(__S(235, __c7, 11)),
+          textStyleSuggestionState: S.optional(__S(142, __c4, 14)),
+          namedStyleType: S.optional(S.String),
+          paragraphStyleSuggestionState: S.optional(__S(220, __c6, 28)),
         }),
-      ).annotate({ identifier: "Body" });
+      ).annotate({ identifier: "NamedStyleSuggestionState" });
     case 17:
-      return S.suspend(() =>
-        S.Struct({
-          embeddedObject: S.optional(__S(264, __c8, 8)),
-        }),
-      ).annotate({ identifier: "InlineObjectProperties" });
+      return S.Array(__S(272, __c8, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          embeddedObjectSuggestionState: S.optional(__S(256, __c8, 0)),
+          stylesSuggestionStates: S.optional(__S(273, __c8, 17)),
         }),
-      ).annotate({ identifier: "InlineObjectPropertiesSuggestionState" });
+      ).annotate({ identifier: "NamedStylesSuggestionState" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          inlineObjectProperties: S.optional(__S(273, __c8, 17)),
-          inlineObjectPropertiesSuggestionState: S.optional(__S(274, __c8, 18)),
+          namedStylesSuggestionState: S.optional(__S(274, __c8, 18)),
+          namedStyles: S.optional(__S(198, __c6, 6)),
         }),
-      ).annotate({ identifier: "SuggestedInlineObjectProperties" });
+      ).annotate({ identifier: "SuggestedNamedStyles" });
     case 20:
       return S.Record(S.String, __S(275, __c8, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
-          suggestedInlineObjectPropertiesChanges: S.optional(__S(276, __c8, 20)),
-          objectId: S.optional(S.String),
-          suggestedInsertionId: S.optional(S.String),
-          inlineObjectProperties: S.optional(__S(273, __c8, 17)),
-          suggestedDeletionIds: S.optional(__S(98, __c3, 2)),
+          footerId: S.optional(S.String),
+          content: S.optional(__S(241, __c7, 17)),
         }),
-      ).annotate({ identifier: "InlineObject" });
+      ).annotate({ identifier: "Footer" });
     case 22:
       return S.Record(S.String, __S(277, __c8, 21));
     case 23:
       return S.suspend(() =>
         S.Struct({
-          anchorId: S.optional(S.String),
-          ranges: S.optional(__S(240, __c7, 16)),
+          leftOffset: S.optional(__S(104, __c3, 8)),
+          layout: S.optional(S.String),
+          topOffset: S.optional(__S(104, __c3, 8)),
         }),
-      ).annotate({ identifier: "CommentAnchor" });
+      ).annotate({ identifier: "PositionedObjectPositioning" });
     case 24:
-      return S.Record(S.String, __S(279, __c8, 23));
+      return S.suspend(() =>
+        S.Struct({
+          embeddedObject: S.optional(__S(263, __c8, 7)),
+          positioning: S.optional(__S(279, __c8, 23)),
+        }),
+      ).annotate({ identifier: "PositionedObjectProperties" });
     case 25:
       return S.suspend(() =>
         S.Struct({
-          paragraphStyleSuggestionState: S.optional(__S(208, __c6, 16)),
-          namedStyleType: S.optional(S.String),
-          textStyleSuggestionState: S.optional(__S(141, __c4, 13)),
+          layoutSuggested: S.optional(S.Boolean),
+          leftOffsetSuggested: S.optional(S.Boolean),
+          topOffsetSuggested: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "NamedStyleSuggestionState" });
+      ).annotate({ identifier: "PositionedObjectPositioningSuggestionState" });
     case 26:
-      return S.Array(__S(281, __c8, 25));
+      return S.suspend(() =>
+        S.Struct({
+          embeddedObjectSuggestionState: S.optional(__S(256, __c8, 0)),
+          positioningSuggestionState: S.optional(__S(281, __c8, 25)),
+        }),
+      ).annotate({ identifier: "PositionedObjectPropertiesSuggestionState" });
     case 27:
       return S.suspend(() =>
         S.Struct({
-          stylesSuggestionStates: S.optional(__S(282, __c8, 26)),
+          positionedObjectPropertiesSuggestionState: S.optional(__S(282, __c8, 26)),
+          positionedObjectProperties: S.optional(__S(280, __c8, 24)),
         }),
-      ).annotate({ identifier: "NamedStylesSuggestionState" });
+      ).annotate({ identifier: "SuggestedPositionedObjectProperties" });
     case 28:
-      return S.suspend(() =>
-        S.Struct({
-          namedStyles: S.optional(__S(247, __c7, 23)),
-          namedStylesSuggestionState: S.optional(__S(283, __c8, 27)),
-        }),
-      ).annotate({ identifier: "SuggestedNamedStyles" });
+      return S.Record(S.String, __S(283, __c8, 27));
     case 29:
-      return S.Record(S.String, __S(284, __c8, 28));
-    case 30:
       return S.suspend(() =>
         S.Struct({
-          bulletAlignment: S.optional(S.String),
-          indentFirstLine: S.optional(__S(96, __c3, 0)),
-          glyphSymbol: S.optional(S.String),
-          glyphFormat: S.optional(S.String),
-          indentStart: S.optional(__S(96, __c3, 0)),
-          glyphType: S.optional(S.String),
-          textStyle: S.optional(__S(110, __c3, 14)),
-          startNumber: S.optional(S.Number),
+          positionedObjectProperties: S.optional(__S(280, __c8, 24)),
+          suggestedInsertionId: S.optional(S.String),
+          suggestedDeletionIds: S.optional(__S(97, __c3, 1)),
+          suggestedPositionedObjectPropertiesChanges: S.optional(__S(284, __c8, 28)),
+          objectId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "NestingLevel" });
+      ).annotate({ identifier: "PositionedObject" });
+    case 30:
+      return S.Record(S.String, __S(285, __c8, 29));
     case 31:
-      return S.Array(__S(286, __c8, 30));
+      return S.Record(S.String, __S(133, __c4, 5));
   }
 }
 function __c9(j: number): any {
@@ -4377,110 +4388,99 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          nestingLevels: S.optional(__S(287, __c8, 31)),
+          indentStart: S.optional(__S(104, __c3, 8)),
+          indentFirstLine: S.optional(__S(104, __c3, 8)),
+          startNumber: S.optional(S.Number),
+          textStyle: S.optional(__S(105, __c3, 9)),
+          glyphType: S.optional(S.String),
+          glyphSymbol: S.optional(S.String),
+          glyphFormat: S.optional(S.String),
+          bulletAlignment: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ListProperties" });
+      ).annotate({ identifier: "NestingLevel" });
     case 1:
+      return S.Array(__S(288, __c9, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          glyphFormatSuggested: S.optional(S.Boolean),
-          glyphSymbolSuggested: S.optional(S.Boolean),
-          glyphTypeSuggested: S.optional(S.Boolean),
-          indentFirstLineSuggested: S.optional(S.Boolean),
-          indentStartSuggested: S.optional(S.Boolean),
-          startNumberSuggested: S.optional(S.Boolean),
-          bulletAlignmentSuggested: S.optional(S.Boolean),
-          textStyleSuggestionState: S.optional(__S(141, __c4, 13)),
+          nestingLevels: S.optional(__S(289, __c9, 1)),
         }),
-      ).annotate({ identifier: "NestingLevelSuggestionState" });
-    case 2:
-      return S.Array(__S(289, __c9, 1));
+      ).annotate({ identifier: "ListProperties" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          nestingLevelsSuggestionStates: S.optional(__S(290, __c9, 2)),
+          glyphFormatSuggested: S.optional(S.Boolean),
+          startNumberSuggested: S.optional(S.Boolean),
+          glyphTypeSuggested: S.optional(S.Boolean),
+          bulletAlignmentSuggested: S.optional(S.Boolean),
+          textStyleSuggestionState: S.optional(__S(142, __c4, 14)),
+          glyphSymbolSuggested: S.optional(S.Boolean),
+          indentStartSuggested: S.optional(S.Boolean),
+          indentFirstLineSuggested: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "ListPropertiesSuggestionState" });
+      ).annotate({ identifier: "NestingLevelSuggestionState" });
     case 4:
+      return S.Array(__S(291, __c9, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          listProperties: S.optional(__S(288, __c9, 0)),
-          listPropertiesSuggestionState: S.optional(__S(291, __c9, 3)),
+          nestingLevelsSuggestionStates: S.optional(__S(292, __c9, 4)),
         }),
-      ).annotate({ identifier: "SuggestedListProperties" });
-    case 5:
-      return S.Record(S.String, __S(292, __c9, 4));
+      ).annotate({ identifier: "ListPropertiesSuggestionState" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          listProperties: S.optional(__S(288, __c9, 0)),
-          suggestedListPropertiesChanges: S.optional(__S(293, __c9, 5)),
-          suggestedDeletionIds: S.optional(__S(98, __c3, 2)),
-          suggestedInsertionId: S.optional(S.String),
+          listProperties: S.optional(__S(290, __c9, 2)),
+          listPropertiesSuggestionState: S.optional(__S(293, __c9, 5)),
         }),
-      ).annotate({ identifier: "List" });
+      ).annotate({ identifier: "SuggestedListProperties" });
     case 7:
       return S.Record(S.String, __S(294, __c9, 6));
     case 8:
-      return S.Record(S.String, __S(117, __c3, 21));
-    case 9:
       return S.suspend(() =>
         S.Struct({
-          marginFooterSuggested: S.optional(S.Boolean),
-          defaultHeaderIdSuggested: S.optional(S.Boolean),
-          firstPageFooterIdSuggested: S.optional(S.Boolean),
-          pageNumberStartSuggested: S.optional(S.Boolean),
-          marginLeftSuggested: S.optional(S.Boolean),
-          pageSizeSuggestionState: S.optional(__S(249, __c7, 25)),
-          useEvenPageHeaderFooterSuggested: S.optional(S.Boolean),
-          marginHeaderSuggested: S.optional(S.Boolean),
-          marginTopSuggested: S.optional(S.Boolean),
-          marginBottomSuggested: S.optional(S.Boolean),
-          defaultFooterIdSuggested: S.optional(S.Boolean),
-          useFirstPageHeaderFooterSuggested: S.optional(S.Boolean),
-          flipPageOrientationSuggested: S.optional(S.Boolean),
-          marginRightSuggested: S.optional(S.Boolean),
-          firstPageHeaderIdSuggested: S.optional(S.Boolean),
-          backgroundSuggestionState: S.optional(__S(207, __c6, 15)),
-          evenPageHeaderIdSuggested: S.optional(S.Boolean),
-          evenPageFooterIdSuggested: S.optional(S.Boolean),
-          useCustomHeaderFooterMarginsSuggested: S.optional(S.Boolean),
+          suggestedInsertionId: S.optional(S.String),
+          suggestedDeletionIds: S.optional(__S(97, __c3, 1)),
+          suggestedListPropertiesChanges: S.optional(__S(295, __c9, 7)),
+          listProperties: S.optional(__S(290, __c9, 2)),
         }),
-      ).annotate({ identifier: "DocumentStyleSuggestionState" });
+      ).annotate({ identifier: "List" });
+    case 9:
+      return S.Record(S.String, __S(296, __c9, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          documentStyleSuggestionState: S.optional(__S(297, __c9, 9)),
-          documentStyle: S.optional(__S(104, __c3, 8)),
+          content: S.optional(__S(241, __c7, 17)),
+          headerId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SuggestedDocumentStyle" });
+      ).annotate({ identifier: "Header" });
     case 11:
       return S.Record(S.String, __S(298, __c9, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          inlineObjects: S.optional(__S(278, __c8, 22)),
-          positionedObjects: S.optional(__S(269, __c8, 13)),
-          commentAnchors: S.optional(__S(280, __c8, 24)),
-          body: S.optional(__S(272, __c8, 16)),
-          footers: S.optional(__S(239, __c7, 15)),
-          documentStyle: S.optional(__S(104, __c3, 8)),
-          suggestedNamedStylesChanges: S.optional(__S(285, __c8, 29)),
-          footnotes: S.optional(__S(237, __c7, 13)),
-          lists: S.optional(__S(295, __c9, 7)),
-          dropdownDefinitions: S.optional(__S(296, __c9, 8)),
-          namedRanges: S.optional(__S(244, __c7, 20)),
-          suggestedDocumentStyleChanges: S.optional(__S(299, __c9, 11)),
-          headers: S.optional(__S(271, __c8, 15)),
-          namedStyles: S.optional(__S(247, __c7, 23)),
+          commentAnchors: S.optional(__S(271, __c8, 15)),
+          namedRanges: S.optional(__S(248, __c7, 24)),
+          documentStyle: S.optional(__S(116, __c3, 20)),
+          namedStyles: S.optional(__S(198, __c6, 6)),
+          inlineObjects: S.optional(__S(268, __c8, 12)),
+          footnotes: S.optional(__S(243, __c7, 19)),
+          suggestedDocumentStyleChanges: S.optional(__S(196, __c6, 4)),
+          body: S.optional(__S(249, __c7, 25)),
+          suggestedNamedStylesChanges: S.optional(__S(276, __c8, 20)),
+          footers: S.optional(__S(278, __c8, 22)),
+          positionedObjects: S.optional(__S(286, __c8, 30)),
+          dropdownDefinitions: S.optional(__S(287, __c8, 31)),
+          lists: S.optional(__S(297, __c9, 9)),
+          headers: S.optional(__S(299, __c9, 11)),
         }),
       ).annotate({ identifier: "DocumentTab" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          childTabs: S.optional(S.suspend(() => __S(302, __c9, 14))),
-          documentTab: S.optional(__S(300, __c9, 12)),
           tabProperties: S.optional(__S(125, __c3, 29)),
+          documentTab: S.optional(__S(300, __c9, 12)),
+          childTabs: S.optional(S.suspend(() => __S(302, __c9, 14))),
         }),
       ).annotate({ identifier: "Tab" });
     case 14:
@@ -4488,12 +4488,12 @@ function __c9(j: number): any {
     case 15:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(S.String),
-          headPost: S.optional(__S(127, __c3, 31)),
           summaryText: S.optional(S.String),
-          replies: S.optional(__S(145, __c4, 17)),
-          suggestionId: S.optional(S.String),
           summaryHtml: S.optional(S.String),
+          headPost: S.optional(__S(112, __c3, 16)),
+          replies: S.optional(__S(137, __c4, 9)),
+          status: S.optional(S.String),
+          suggestionId: S.optional(S.String),
         }),
       ).annotate({ identifier: "SuggestionThread" });
     case 16:
@@ -4501,26 +4501,26 @@ function __c9(j: number): any {
     case 17:
       return S.suspend(() =>
         S.Struct({
-          footnotes: S.optional(__S(237, __c7, 13)),
-          footers: S.optional(__S(239, __c7, 15)),
-          title: S.optional(S.String),
-          documentStyle: S.optional(__S(104, __c3, 8)),
-          commentsViewMode: S.optional(S.String),
-          revisionId: S.optional(S.String),
-          namedRanges: S.optional(__S(244, __c7, 20)),
-          comments: S.optional(__S(245, __c7, 21)),
-          namedStyles: S.optional(__S(247, __c7, 23)),
-          positionedObjects: S.optional(__S(269, __c8, 13)),
-          headers: S.optional(__S(271, __c8, 15)),
-          documentId: S.optional(S.String),
-          body: S.optional(__S(272, __c8, 16)),
-          inlineObjects: S.optional(__S(278, __c8, 22)),
-          tabs: S.optional(__S(302, __c9, 14)),
-          suggestions: S.optional(__S(304, __c9, 16)),
-          lists: S.optional(__S(295, __c9, 7)),
-          suggestedNamedStylesChanges: S.optional(__S(285, __c8, 29)),
+          documentStyle: S.optional(__S(116, __c3, 20)),
+          suggestedDocumentStyleChanges: S.optional(__S(196, __c6, 4)),
+          namedStyles: S.optional(__S(198, __c6, 6)),
+          footnotes: S.optional(__S(243, __c7, 19)),
+          namedRanges: S.optional(__S(248, __c7, 24)),
+          body: S.optional(__S(249, __c7, 25)),
+          inlineObjects: S.optional(__S(268, __c8, 12)),
           suggestionsViewMode: S.optional(S.String),
-          suggestedDocumentStyleChanges: S.optional(__S(299, __c9, 11)),
+          title: S.optional(S.String),
+          revisionId: S.optional(S.String),
+          comments: S.optional(__S(269, __c8, 13)),
+          tabs: S.optional(__S(302, __c9, 14)),
+          lists: S.optional(__S(297, __c9, 9)),
+          suggestions: S.optional(__S(304, __c9, 16)),
+          positionedObjects: S.optional(__S(286, __c8, 30)),
+          headers: S.optional(__S(299, __c9, 11)),
+          commentsViewMode: S.optional(S.String),
+          suggestedNamedStylesChanges: S.optional(__S(276, __c8, 20)),
+          documentId: S.optional(S.String),
+          footers: S.optional(__S(278, __c8, 22)),
         }),
       ).annotate({ identifier: "Document" });
   }
@@ -4530,9 +4530,9 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          includeTabsContent: S.optional(S.Boolean.pipe(T.Query())),
           documentId: S.String.pipe(T.Label()),
           suggestionsViewMode: S.optional(S.String.pipe(T.Query())),
-          includeTabsContent: S.optional(S.Boolean.pipe(T.Query())),
           commentsViewMode: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({

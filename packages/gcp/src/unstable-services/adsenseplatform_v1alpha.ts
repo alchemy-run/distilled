@@ -103,20 +103,20 @@ export interface TimeZone {
 export type AccountStateEnum = "STATE_UNSPECIFIED" | "UNCHECKED" | "APPROVED" | "DISAPPROVED";
 /** Representation of an Account. */
 export interface Account {
-  /** Output only. Resource name of the account. Format: platforms/pub-[0-9]+/accounts/pub-[0-9]+ */
-  name?: string | undefined;
-  /** Required. The IANA TZ timezone code of this account. For more information, see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones. This field is used for reporting. It is recommended to set it to the same value for all child accounts. */
-  timeZone?: TimeZone | undefined;
-  /** Required. An opaque token that uniquely identifies the account among all the platform's accounts. This string may contain at most 64 non-whitespace ASCII characters, but otherwise has no predefined structure. However, it is expected to be a platform-specific identifier for the user creating the account, so that only a single account can be created for any given user. This field must not contain any information that is recognizable as personally identifiable information. e.g. it should not be an email address or login name. Once an account has been created, a second attempt to create an account using the same creation_request_id will result in an ALREADY_EXISTS error. */
-  creationRequestId?: string | undefined;
-  /** Display name of this account. */
-  displayName?: string | undefined;
-  /** Output only. Approval state of the account. */
-  state?: AccountStateEnum | (string & {}) | undefined;
   /** Output only. Creation time of the account. */
   createTime?: string | undefined;
+  /** Display name of this account. */
+  displayName?: string | undefined;
+  /** Required. The IANA TZ timezone code of this account. For more information, see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones. This field is used for reporting. It is recommended to set it to the same value for all child accounts. */
+  timeZone?: TimeZone | undefined;
   /** Required. Input only. CLDR region code of the country/region of the address. Set this to country code of the child account if known, otherwise to your own country code. */
   regionCode?: string | undefined;
+  /** Required. An opaque token that uniquely identifies the account among all the platform's accounts. This string may contain at most 64 non-whitespace ASCII characters, but otherwise has no predefined structure. However, it is expected to be a platform-specific identifier for the user creating the account, so that only a single account can be created for any given user. This field must not contain any information that is recognizable as personally identifiable information. e.g. it should not be an email address or login name. Once an account has been created, a second attempt to create an account using the same creation_request_id will result in an ALREADY_EXISTS error. */
+  creationRequestId?: string | undefined;
+  /** Output only. Resource name of the account. Format: platforms/pub-[0-9]+/accounts/pub-[0-9]+ */
+  name?: string | undefined;
+  /** Output only. Approval state of the account. */
+  state?: AccountStateEnum | (string & {}) | undefined;
 }
 export interface CreatePlatformsAccountsRequest extends Account {
   /** Required. Platform to create an account for. Format: platforms/{platform} */
@@ -124,26 +124,26 @@ export interface CreatePlatformsAccountsRequest extends Account {
 }
 /** Address data. */
 export interface Address {
-  /** Fax number with international code (i.e. +441234567890). */
-  fax?: string | undefined;
-  /** Phone number with international code (i.e. +441234567890). */
-  phone?: string | undefined;
-  /** Zip/post code. Max length 10 bytes or 10 characters. */
-  zip?: string | undefined;
-  /** Name of the company. Max length 255 bytes or 34 characters. */
-  company?: string | undefined;
-  /** Contact name of the company. Max length 128 bytes or 34 characters. */
-  contact?: string | undefined;
   /** Country/Region code. The region is specified as a CLDR region code (e.g. "US", "FR"). */
   regionCode?: string | undefined;
   /** State. Max length 60 bytes or 30 characters. */
   state?: string | undefined;
-  /** First line of address. Max length 64 bytes or 30 characters. */
-  address1?: string | undefined;
-  /** Second line of address. Max length 64 bytes or 30 characters. */
-  address2?: string | undefined;
   /** City. Max length 60 bytes or 30 characters. */
   city?: string | undefined;
+  /** First line of address. Max length 64 bytes or 30 characters. */
+  address1?: string | undefined;
+  /** Contact name of the company. Max length 128 bytes or 34 characters. */
+  contact?: string | undefined;
+  /** Zip/post code. Max length 10 bytes or 10 characters. */
+  zip?: string | undefined;
+  /** Phone number with international code (i.e. +441234567890). */
+  phone?: string | undefined;
+  /** Fax number with international code (i.e. +441234567890). */
+  fax?: string | undefined;
+  /** Name of the company. Max length 255 bytes or 34 characters. */
+  company?: string | undefined;
+  /** Second line of address. Max length 64 bytes or 30 characters. */
+  address2?: string | undefined;
 }
 /** Private information for partner recorded events (PII). */
 export interface EventInfo {
@@ -160,10 +160,10 @@ export type EventEventTypeEnum =
 export interface Event {
   /** Required. Information associated with the event. */
   eventInfo?: EventInfo | undefined;
-  /** Required. Event type. */
-  eventType?: EventEventTypeEnum | (string & {}) | undefined;
   /** Required. Event timestamp. */
   eventTime?: string | undefined;
+  /** Required. Event type. */
+  eventType?: EventEventTypeEnum | (string & {}) | undefined;
 }
 export interface CreatePlatformsAccountsEventsRequest extends Event {
   /** Required. Account to log events about. Format: platforms/{platform}/accounts/{account} */
@@ -177,12 +177,12 @@ export type SiteStateEnum =
   | "NEEDS_ATTENTION";
 /** Representation of a Site. */
 export interface Site {
-  /** Output only. State of a site. */
-  state?: SiteStateEnum | (string & {}) | undefined;
   /** Output only. Resource name of a site. Format: platforms/{platform}/accounts/{account}/sites/{site} */
   name?: string | undefined;
   /** Domain/sub-domain of the site. Must be a valid domain complying with [RFC 1035](https://www.ietf.org/rfc/rfc1035.txt) and formatted as punycode [RFC 3492](https://www.ietf.org/rfc/rfc3492.txt) in case the domain contains unicode characters. */
   domain?: string | undefined;
+  /** Output only. State of a site. */
+  state?: SiteStateEnum | (string & {}) | undefined;
 }
 export interface CreatePlatformsAccountsSitesRequest extends Site {
   /** Required. Account to create site. Format: platforms/{platform}/accounts/{account_id} */
@@ -202,10 +202,10 @@ export interface GetAccountsPlatformsRequest {
 export interface Platform {
   /** Identifier. Resource name of a platform. Format: accounts/{account}/platforms/{platform} */
   name?: string | undefined;
-  /** Output only. Description of the platform. */
-  description?: string | undefined;
   /** Default platform group for the platform. */
   defaultPlatformGroup?: string | undefined;
+  /** Output only. Description of the platform. */
+  description?: string | undefined;
 }
 export interface GetAccountsPlatformsChildAccountsSitesRequest {
   /** Required. The name of the platform child site to retrieve. Format: accounts/{account}/platforms/{platform}/childAccounts/{child_account}/sites/{platform_child_site} */
@@ -213,10 +213,10 @@ export interface GetAccountsPlatformsChildAccountsSitesRequest {
 }
 /** Representation of a Transparent Platform Child Site. */
 export interface PlatformChildSite {
-  /** Identifier. Format: accounts/{account}/platforms/{platform}/childAccounts/{child_account}/sites/{platform_child_site} */
-  name?: string | undefined;
   /** Resource name of the Platform Group of the Platform Child Site. */
   platformGroup?: string | undefined;
+  /** Identifier. Format: accounts/{account}/platforms/{platform}/childAccounts/{child_account}/sites/{platform_child_site} */
+  name?: string | undefined;
   /** Output only. Domain URL of the Platform Child Site. Part of the PlatformChildSite name. */
   domain?: string | undefined;
 }
@@ -247,12 +247,12 @@ export interface GetPlatformsAccountsSitesRequest {
   name: string;
 }
 export interface ListAccountsPlatformsRequest {
+  /** Required. The account which owns the platforms. Format: accounts/{account} */
+  parent: string;
   /** Optional. A page token, received from a previous `ListPlatforms` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPlatforms` must match the call that provided the page token. */
   pageToken?: string | undefined;
   /** Optional. The maximum number of platforms to include in the response, used for paging. If unspecified, at most 10000 platforms will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
   pageSize?: number | undefined;
-  /** Required. The account which owns the platforms. Format: accounts/{account} */
-  parent: string;
 }
 export type PlatformList = Array<Platform>;
 /** Response definition for the platform list rpc. */
@@ -265,10 +265,10 @@ export interface ListPlatformsResponse {
 export interface ListAccountsPlatformsChildAccountsSitesRequest {
   /** Optional. The maximum number of children to include in the response, used for paging. If unspecified, at most 10000 platforms will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
   pageSize?: number | undefined;
-  /** Optional. A page token, received from a previous `ListPlatformChildSites` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPlatformChildSites` must match the call that provided the page token. */
-  pageToken?: string | undefined;
   /** Required. The name of the child account under the given platform which owns the platform child sites. Format: accounts/{account}/platforms/{platform}/childAccounts/{child_account} */
   parent: string;
+  /** Optional. A page token, received from a previous `ListPlatformChildSites` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPlatformChildSites` must match the call that provided the page token. */
+  pageToken?: string | undefined;
 }
 export type PlatformChildSiteList = Array<PlatformChildSite>;
 /** Response definition for the list platform child sites rpc. */
@@ -279,28 +279,28 @@ export interface ListPlatformChildSitesResponse {
   platformChildSites?: PlatformChildSiteList | undefined;
 }
 export interface ListAccountsPlatformsGroupsRequest {
-  /** Optional. A page token, received from a previous `ListPlatformGroups` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPlatformGroups` must match the call that provided the page token. */
-  pageToken?: string | undefined;
   /** Required. The name of the platform to retrieve. Format: accounts/{account}/platforms/{platform} */
   parent: string;
   /** Optional. The maximum number of groups to include in the response, used for paging. If unspecified, at most 10000 groups will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
   pageSize?: number | undefined;
+  /** Optional. A page token, received from a previous `ListPlatformGroups` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPlatformGroups` must match the call that provided the page token. */
+  pageToken?: string | undefined;
 }
 export type PlatformGroupList = Array<PlatformGroup>;
 /** Response definition for the platform groups list rpc. */
 export interface ListPlatformGroupsResponse {
-  /** The platform groups returned in this list response. */
-  platformGroups?: PlatformGroupList | undefined;
   /** Continuation token used to page through platforms. To retrieve the next page of the results, set the next request's "page_token" value to this. */
   nextPageToken?: string | undefined;
+  /** The platform groups returned in this list response. */
+  platformGroups?: PlatformGroupList | undefined;
 }
 export interface ListPlatformsAccountsRequest {
   /** Optional. A page token, received from a previous `ListAccounts` call. Provide this to retrieve the subsequent page. */
   pageToken?: string | undefined;
-  /** Optional. The maximum number of accounts to include in the response, used for paging. If unspecified, at most 10000 accounts will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
-  pageSize?: number | undefined;
   /** Required. Platform who parents the accounts. Format: platforms/{platform} */
   parent: string;
+  /** Optional. The maximum number of accounts to include in the response, used for paging. If unspecified, at most 10000 accounts will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
+  pageSize?: number | undefined;
 }
 export type AccountList = Array<Account>;
 /** Response definition for the list accounts rpc. */
@@ -321,10 +321,10 @@ export interface ListPlatformsAccountsSitesRequest {
 export type SiteList = Array<Site>;
 /** Response definition for the site list rpc. */
 export interface ListSitesResponse {
-  /** The sites returned in this list response. */
-  sites?: SiteList | undefined;
   /** Continuation token used to page through sites. To retrieve the next page of the results, set the next request's "page_token" value to this. */
   nextPageToken?: string | undefined;
+  /** The sites returned in this list response. */
+  sites?: SiteList | undefined;
 }
 export interface LookupPlatformsAccountsRequest {
   /** Required. Platform who parents the account. Format: platforms/{platform} */
@@ -767,8 +767,8 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           platformGroup: S.optional(S.String),
+          name: S.optional(S.String),
           domain: S.optional(S.String),
         }),
       ).annotate({ identifier: "PlatformChildSite" });
@@ -845,9 +845,9 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -873,8 +873,8 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -899,9 +899,9 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -915,8 +915,8 @@ function __c8(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          platformGroups: S.optional(__S(33, __c8, 1)),
           nextPageToken: S.optional(S.String),
+          platformGroups: S.optional(__S(33, __c8, 1)),
         }),
       ).annotate({ identifier: "ListPlatformGroupsResponse" });
   }
@@ -927,8 +927,8 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -969,8 +969,8 @@ function __c10(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          sites: S.optional(__S(41, __c10, 1)),
           nextPageToken: S.optional(S.String),
+          sites: S.optional(__S(41, __c10, 1)),
         }),
       ).annotate({ identifier: "ListSitesResponse" });
   }
@@ -1108,13 +1108,13 @@ function __c18(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          timeZone: S.optional(__S(72, __c18, 0)),
-          creationRequestId: S.optional(S.String),
-          displayName: S.optional(S.String),
-          state: S.optional(S.String),
           createTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          timeZone: S.optional(__S(72, __c18, 0)),
           regionCode: S.optional(S.String),
+          creationRequestId: S.optional(S.String),
+          name: S.optional(S.String),
+          state: S.optional(S.String),
         }),
       ).annotate({ identifier: "Account" });
   }
@@ -1124,16 +1124,16 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          fax: S.optional(S.String),
-          phone: S.optional(S.String),
-          zip: S.optional(S.String),
-          company: S.optional(S.String),
-          contact: S.optional(S.String),
           regionCode: S.optional(S.String),
           state: S.optional(S.String),
-          address1: S.optional(S.String),
-          address2: S.optional(S.String),
           city: S.optional(S.String),
+          address1: S.optional(S.String),
+          contact: S.optional(S.String),
+          zip: S.optional(S.String),
+          phone: S.optional(S.String),
+          fax: S.optional(S.String),
+          company: S.optional(S.String),
+          address2: S.optional(S.String),
         }),
       ).annotate({ identifier: "Address" });
     case 1:
@@ -1147,8 +1147,8 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           eventInfo: S.optional(__S(77, __c19, 1)),
-          eventType: S.optional(S.String),
           eventTime: S.optional(S.String),
+          eventType: S.optional(S.String),
         }),
       ).annotate({ identifier: "Event" });
     case 3:
@@ -1192,9 +1192,9 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          state: S.optional(S.String),
           name: S.optional(S.String),
           domain: S.optional(S.String),
+          state: S.optional(S.String),
         }),
       ).annotate({ identifier: "Site" });
   }
@@ -1237,8 +1237,8 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          description: S.optional(S.String),
           defaultPlatformGroup: S.optional(S.String),
+          description: S.optional(S.String),
         }),
       ).annotate({ identifier: "Platform" });
   }
