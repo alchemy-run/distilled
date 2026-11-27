@@ -30,6 +30,11 @@ const RUNNERS = [
   "runCallbackWith",
 ];
 
+/** The global `fetch` skips the caller's HttpClient: its proxy, test client and tracing. */
+const GLOBAL_FETCH =
+  "The global fetch skips the caller's HttpClient (its proxy, test client and tracing). Send the request with HttpClient.HttpClient.";
+const GLOBAL_OBJECTS = ["globalThis", "window", "self"];
+
 export default defineConfig({
   // Upstream conformance suites, submoduled (see packages/core/conformance).
   ignorePatterns: ["packages/core/conformance/connect/**", "packages/core/conformance/protobuf/**"],
@@ -67,7 +72,13 @@ export default defineConfig({
             message:
               "Effect.run* starts a fiber outside the caller's: it loses its context, interruption and tracing, and its failure is no typed error. Return the Effect instead.",
           })),
+          ...GLOBAL_OBJECTS.map((object) => ({
+            object,
+            property: "fetch",
+            message: GLOBAL_FETCH,
+          })),
         ],
+        "no-restricted-globals": ["error", { name: "fetch", message: GLOBAL_FETCH }],
         "no-empty": ["error", { allowEmptyCatch: false }],
         "distilled/no-swallowed-catch": "error",
         "distilled/explain-ignored-failure": "error",
@@ -82,6 +93,7 @@ export default defineConfig({
       files: ["packages/dev/src/**"],
       rules: {
         "no-restricted-properties": "off",
+        "no-restricted-globals": "off",
         "no-empty": "off",
         "distilled/no-swallowed-catch": "off",
         "distilled/explain-ignored-failure": "off",
