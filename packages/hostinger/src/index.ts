@@ -11,6 +11,10 @@
  *
  * const domains = yield* Hostinger.Services.hostinger.domainsGetDomainListV1({});
  * ```
+ *
+ * Operations the spec marks `x-scalar-stability: experimental` (VPS Docker
+ * Manager) are not re-exported here; import them from
+ * `@distilled.cloud/hostinger/unstable/hostinger`.
  */
 export * from "./credentials.ts";
 export * from "./errors.ts";

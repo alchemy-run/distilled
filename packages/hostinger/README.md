@@ -28,6 +28,17 @@ const Live = Layer.mergeAll(
 program.pipe(Effect.provide(Live), Effect.runPromise);
 ```
 
+## Experimental operations
+
+The VPS Docker Manager operations, which the spec marks `x-scalar-stability: experimental`, are not
+in the root export. Import them from `unstable/`:
+
+```ts
+import * as HostingerExperimental from "@distilled.cloud/hostinger/unstable/hostinger";
+
+const projects = yield* HostingerExperimental.vPSGetProjectListV1({ virtualMachineId: 1 });
+```
+
 ## Auth
 
 Required: `HOSTINGER_API_KEY`. Optional: `HOSTINGER_API_BASE_URL`. Sent as `Authorization: Bearer`.
