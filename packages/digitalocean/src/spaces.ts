@@ -9,8 +9,10 @@
  *   `SPACES_ACCESS_KEY_ID` / `SPACES_SECRET_ACCESS_KEY` variables that
  *   `CredentialsFromEnv` reads). Otherwise a Personal Access Token cannot
  *   sign S3 requests, so the layer creates a Spaces key for `bucket` alone
- *   (`readwrite` by default, or `read`) through the API on the first S3 call
- *   and deletes it when the layer's scope closes. The key is named
+ *   (`readwrite` by default, or `read`) through the API when the layer is
+ *   built, and deletes it when the layer's scope closes. Every S3 call under
+ *   the layer signs with that one key, and a key that could not be created
+ *   fails the layer with `SpacesCredentialsError`. The key is named
  *   `distilled-spaces-<bucket>-<time>` so a process that dies before closing
  *   the scope leaves a key you can recognize.
  * - The endpoint: `layerS3({ bucket, region })` adds
@@ -35,7 +37,6 @@ import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import type * as Scope from "effect/Scope";
 import { Credentials } from "./credentials.ts";
 import { createSpacesKey, deleteSpacesKey } from "./services/digitalocean.ts";
 
@@ -70,71 +71,64 @@ export interface LayerS3KeysOptions {
 /**
  * `@distilled.cloud/s3`'s `Credentials` for one Spaces bucket of the team
  * the DigitalOcean `Credentials` act on. Provide each call's `Endpoint`
- * (`endpointFor(region)`) yourself, or use `layerS3`.
+ * (`endpointFor(region)`) yourself, or use `layerS3`. When the credentials
+ * carry no Spaces key, the layer creates one when it is built, and a key
+ * that could not be created fails the layer with `SpacesCredentialsError`.
  */
 export const layerS3Keys = (
   options: LayerS3KeysOptions,
-): Layer.Layer<S3Keys, never, Credentials | HttpClient.HttpClient> =>
+): Layer.Layer<S3Keys, SpacesCredentialsError, Credentials | HttpClient.HttpClient> =>
   Layer.effect(
     S3Keys,
     Effect.gen(function* () {
-      const context = yield* Effect.context<Credentials | HttpClient.HttpClient | Scope.Scope>();
-
-      const mint = Effect.gen(function* () {
-        const { key } = yield* createSpacesKey({
-          name: `distilled-spaces-${options.bucket}-${Date.now()}`,
-          grants: [{ bucket: options.bucket, permission: options.permission ?? "readwrite" }],
-        });
-        // A finalizer can't fail, so a key that could not be deleted is
-        // logged with its id: it stays valid until someone deletes it.
-        yield* Effect.addFinalizer(() =>
-          deleteSpacesKey({ access_key: key.access_key }).pipe(
-            Effect.ignore({
-              log: "Warn",
-              message: `Could not delete the temporary Spaces key ${key.access_key}; it stays valid until you delete it in DigitalOcean.`,
-            }),
-          ),
-        );
-        return {
-          accessKeyId: Redacted.make(key.access_key),
-          secretAccessKey:
-            typeof key.secret_key === "string" ? Redacted.make(key.secret_key) : key.secret_key,
-        };
-      });
-
-      const resolve = Effect.gen(function* () {
-        const credentials = yield* yield* Credentials;
-        const keys =
-          credentials.spacesAccessKeyId !== undefined &&
-          credentials.spacesSecretAccessKey !== undefined
-            ? {
-                accessKeyId: credentials.spacesAccessKeyId,
-                secretAccessKey: credentials.spacesSecretAccessKey,
-              }
-            : yield* mint;
-        return {
-          ...keys,
-          sessionToken: undefined,
-          region: SIGNING_REGION,
-        } satisfies ResolvedCredentials;
-      }).pipe(
-        Effect.provideContext(context),
-        Effect.mapError(
-          (cause) =>
-            new SpacesCredentialsError({
-              message: `Could not create a Spaces access key for bucket ${options.bucket} with the DigitalOcean token.`,
-              cause,
-            }),
-        ),
-      );
-      // Successes only: a failed attempt is tried again on the next call.
-      let resolved: ResolvedCredentials | undefined;
-      return Effect.suspend(() =>
-        resolved
-          ? Effect.succeed(resolved)
-          : Effect.tap(resolve, (r) => Effect.sync(() => (resolved = r))),
-      );
+      const credentials = yield* yield* Credentials;
+      const keys =
+        credentials.spacesAccessKeyId !== undefined &&
+        credentials.spacesSecretAccessKey !== undefined
+          ? {
+              accessKeyId: credentials.spacesAccessKeyId,
+              secretAccessKey: credentials.spacesSecretAccessKey,
+            }
+          : yield* createKey(options);
+      const resolved: ResolvedCredentials = {
+        ...keys,
+        sessionToken: undefined,
+        region: SIGNING_REGION,
+      };
+      return Effect.succeed(resolved);
     }),
+  );
+
+/** Creates a Spaces key for `options.bucket` and deletes it when the scope closes. */
+const createKey = (options: LayerS3KeysOptions) =>
+  Effect.acquireRelease(
+    createSpacesKey({
+      name: `distilled-spaces-${options.bucket}-${Date.now()}`,
+      grants: [{ bucket: options.bucket, permission: options.permission ?? "readwrite" }],
+    }).pipe(
+      Effect.mapError(
+        (cause) =>
+          new SpacesCredentialsError({
+            message: `Could not create a Spaces access key for bucket ${options.bucket} with the DigitalOcean token.`,
+            cause,
+          }),
+      ),
+    ),
+    // A finalizer can't fail, so a key that could not be deleted is logged
+    // with its id: it stays valid until someone deletes it.
+    ({ key }) =>
+      deleteSpacesKey({ access_key: key.access_key }).pipe(
+        Effect.ignore({
+          log: "Warn",
+          message: `Could not delete the temporary Spaces key ${key.access_key}; it stays valid until you delete it in DigitalOcean.`,
+        }),
+      ),
+  ).pipe(
+    Effect.map(({ key }) => ({
+      accessKeyId: Redacted.make(key.access_key),
+      secretAccessKey:
+        typeof key.secret_key === "string" ? Redacted.make(key.secret_key) : key.secret_key,
+    })),
   );
 
 /**
@@ -144,7 +138,7 @@ export const layerS3Keys = (
  */
 export const layerS3 = (
   options: LayerS3KeysOptions & { readonly region: string },
-): Layer.Layer<S3Keys | Endpoint, never, Credentials | HttpClient.HttpClient> => {
+): Layer.Layer<S3Keys | Endpoint, SpacesCredentialsError, Credentials | HttpClient.HttpClient> => {
   const invalid = invalidHostLabel("region", options.region);
   return Layer.merge(
     layerS3Keys(options),
