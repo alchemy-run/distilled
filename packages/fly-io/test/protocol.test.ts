@@ -1,13 +1,11 @@
-import { inspect } from "node:util";
-import * as ResponseValidation from "@distilled.cloud/core/response-validation";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { describe, expect, test } from "vitest";
-import { credentials } from "../src/credentials.ts";
-import { BadRequest, FlyIoParseError, UnknownFlyIoError } from "../src/errors.ts";
+import { credentials, spritesCredentials } from "../src/credentials.ts";
+import { BadRequest, UnknownFlyIoError } from "../src/errors.ts";
 import type { FlyIoOpContext } from "../src/protocol.ts";
 import * as Retry from "../src/retry.ts";
 import {
@@ -17,12 +15,11 @@ import {
   stopMachine,
   waitMachine,
 } from "../src/services/machines.ts";
-import { createOrganizationToken, deleteSprite } from "../src/services/sprites.ts";
+import { getSprite } from "../src/services/sprites.ts";
 
 const recordedMessage =
   "failed_precondition: unable to start machine from current state: 'created'";
 const machine = { app_name: "decoder-test", machine_id: "machine-test" };
-const SECRET = "sentinel-secret-7f3a";
 
 const respondWith = (status: number, body: string) =>
   Layer.mergeAll(
@@ -159,66 +156,22 @@ describe("Machines wait timeout decoding", () => {
 });
 
 describe("Sprites success decoding", () => {
-  const mint = createOrganizationToken({ org: "personal" });
-
-  test("a body cut off mid-secret fails in both modes without exposing it", async () => {
-    for (const mode of [ResponseValidation.lenient, ResponseValidation.strict]) {
-      const error = await decodeError(mint.pipe(Effect.provide(mode)), 200, `{"token":"${SECRET}`);
-      expect(error).toBeInstanceOf(FlyIoParseError);
-      expect(error).toMatchObject({ body: "[REDACTED]" });
-      expect(inspect(error, { depth: Infinity })).not.toContain(SECRET);
-    }
-  });
-
-  test("a strict mismatch with a sensitive output fails without exposing the body", async () => {
-    const error = await decodeError(
-      mint.pipe(Effect.provide(ResponseValidation.strict)),
-      200,
-      JSON.stringify({ token: [SECRET] }),
-    );
-    expect(error).toBeInstanceOf(FlyIoParseError);
-    expect(error).toMatchObject({ body: "[REDACTED]" });
-    expect(inspect(error, { depth: Infinity })).not.toContain(SECRET);
-  });
-
-  test("an operation whose token mint reply is cut off fails without exposing it", async () => {
-    // Every Sprites operation but the mint itself first mints a bearer.
-    const mintCutOff = Layer.mergeAll(
-      Layer.succeed(
-        HttpClient.HttpClient,
-        HttpClient.make((request) =>
-          Effect.sync(() => {
-            const body = request.url.endsWith("/v1/tokens/current")
-              ? JSON.stringify({ tokens: [{ org_slug: "personal" }] })
-              : `{"token":"${SECRET}`;
-            return HttpClientResponse.fromWeb(request, new Response(body, { status: 200 }));
-          }),
-        ),
-      ),
-      credentials({
-        apiKey: Redacted.make("decoder-test-mint"),
-        apiBaseUrl: "https://fly.test",
-      }),
-    );
-    for (const mode of [ResponseValidation.lenient, ResponseValidation.strict]) {
-      const error = await Effect.runPromise(
-        deleteSprite({ name: "decoder-test" }).pipe(
-          Retry.none,
-          Effect.provide(mode),
-          Effect.provide(mintCutOff),
-          Effect.flip,
-        ),
-      );
-      expect(error).toBeInstanceOf(FlyIoParseError);
-      expect(error).toMatchObject({ body: "[REDACTED]" });
-      expect(inspect(error, { depth: Infinity })).not.toContain(SECRET);
-    }
-  });
-
   test("a 200 response whose body is JSON null returns null", async () => {
     const result = await Effect.runPromise(
-      createOrganizationToken({ org: "decoder-test" }).pipe(
-        Effect.provide(respondWith(200, "null")),
+      getSprite({ name: "decoder-test" }).pipe(
+        Effect.provide(
+          Layer.mergeAll(
+            Layer.succeed(
+              HttpClient.HttpClient,
+              HttpClient.make((request) =>
+                Effect.sync(() =>
+                  HttpClientResponse.fromWeb(request, new Response("null", { status: 200 })),
+                ),
+              ),
+            ),
+            spritesCredentials({ token: Redacted.make("decoder-test") }),
+          ),
+        ),
       ),
     );
     expect(result).toBeNull();

@@ -10,11 +10,12 @@ import * as EffectConfig from "@distilled.cloud/core/config";
  * fallback for older distilled consumers. Optional `FLY_API_HOSTNAME`
  * overrides the Machines API host (default `https://api.machines.dev`).
  *
- * Managed REST (MPG), GraphQL add-ons (Tigris, Redis), and Sprites all
- * reuse this token. Sprites takes its own bearer from optional
- * `SPRITES_TOKEN` (or `spritesToken`); without one, the protocol mints a
- * Sprites bearer from `FLY_API_TOKEN` (see `SpritesProtocol`). Fly has no
- * API to revoke a minted token, so a long-lived setup should pass one.
+ * Managed REST (MPG) and GraphQL add-ons (Tigris, Redis) reuse this token.
+ *
+ * Sprites has its own service, {@link SpritesCredentials}: the Sprites API
+ * rejects a Fly token, and the SDK never mints a Sprites token from one.
+ * Create a Sprites token at sprites.dev/account or with `sprite login`,
+ * and pass it as `SPRITES_TOKEN` or to {@link spritesCredentials}.
  */
 import { ConfigError } from "@distilled.cloud/core/errors";
 import * as Context from "effect/Context";
@@ -32,7 +33,7 @@ export const DEFAULT_API_BASE_URL = "https://api.machines.dev";
 /** UI-EX REST + GraphQL host (MPG, Tigris, Redis). Not overridable via an invented env var. */
 export const DEFAULT_FLY_API_BASE_URL = "https://api.fly.io";
 
-/** Sprites REST root. Auth is `SPRITES_TOKEN`, or a bearer minted from `FLY_API_TOKEN`. */
+/** Sprites REST root. Auth is the {@link SpritesCredentials} token as a bearer. */
 export const DEFAULT_SPRITES_API_BASE_URL = "https://api.sprites.dev/v1";
 
 /**
@@ -53,18 +54,7 @@ export const normalizeApiBaseUrl = (hostname?: string): string => {
 export interface Config {
   readonly apiKey: Redacted.Redacted<string>;
   readonly apiBaseUrl: string;
-  /**
-   * Sprites bearer (`org-slug/org-id/token-id/secret` from sprites.dev or
-   * `sprite login`). When set, Sprites operations send it and mint nothing.
-   */
-  readonly spritesToken?: Redacted.Redacted<string> | undefined;
 }
-
-/** An empty or blank Sprites token counts as unset, like `FLY_API_HOSTNAME`. */
-const spritesTokenOf = (
-  token: Redacted.Redacted<string> | undefined,
-): Redacted.Redacted<string> | undefined =>
-  token === undefined || Redacted.value(token).trim().length === 0 ? undefined : token;
 
 export class Credentials
   extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()(
@@ -76,9 +66,6 @@ const envConfig = /*@__PURE__*/ EffectConfig.all({
     /*@__PURE__*/ EffectConfig.orElse(() => EffectConfig.String("FLY_IO_API_KEY")),
   ),
   apiBaseUrl: /*@__PURE__*/ EffectConfig.String("FLY_API_HOSTNAME").pipe(
-    /*@__PURE__*/ EffectConfig.withDefault(""),
-  ),
-  spritesToken: /*@__PURE__*/ EffectConfig.String("SPRITES_TOKEN").pipe(
     /*@__PURE__*/ EffectConfig.withDefault(""),
   ),
 });
@@ -97,27 +84,76 @@ export const CredentialsFromEnv = /*@__PURE__*/ Layer.effect(
             message: "FLY_API_TOKEN (or FLY_IO_API_KEY) environment variable is required",
           }),
       ),
-      /*@__PURE__*/ Effect.map(({ apiKey, apiBaseUrl, spritesToken }) => ({
+      /*@__PURE__*/ Effect.map(({ apiKey, apiBaseUrl }) => ({
         apiKey: Redacted.make(apiKey),
         apiBaseUrl: normalizeApiBaseUrl(apiBaseUrl || undefined),
-        spritesToken: spritesTokenOf(Redacted.make(spritesToken)),
       })),
     ),
     (config) => Effect.succeed(config),
   ),
 );
 
-/** Convenience layer from a redacted API token, optional base URL and optional Sprites token. */
+/** Convenience layer from a redacted API token + optional base URL. */
 export const credentials = (config: {
   readonly apiKey: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
-  readonly spritesToken?: Redacted.Redacted<string>;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
       apiKey: config.apiKey,
       apiBaseUrl: normalizeApiBaseUrl(config.apiBaseUrl),
-      spritesToken: spritesTokenOf(config.spritesToken),
     }),
+  );
+
+export interface SpritesConfig {
+  /** Sprites token (`org-slug/org-id/token-id/secret`), sent as `Authorization: Bearer`. */
+  readonly token: Redacted.Redacted<string>;
+}
+
+/**
+ * Credentials for the Sprites operations (`@distilled.cloud/fly-io/sprites`).
+ * Like {@link Credentials}, it holds an effect that the protocol resolves on
+ * every request.
+ */
+export class SpritesCredentials
+  extends /*@__PURE__*/ Context.Service<SpritesCredentials, Effect.Effect<SpritesConfig>>()(
+    "Fly-ioSpritesCredentials",
+  ) {}
+
+const checkSpritesToken = (
+  token: Redacted.Redacted<string>,
+  source: string,
+): Effect.Effect<SpritesConfig, ConfigError> =>
+  Redacted.value(token).trim().length === 0
+    ? Effect.fail(new ConfigError({ message: `${source} is empty` }))
+    : Effect.succeed({ token });
+
+/**
+ * Reads `SPRITES_TOKEN` once, when the layer is built: a missing or empty
+ * token fails the layer with `ConfigError`.
+ */
+export const SpritesCredentialsFromEnv: Layer.Layer<SpritesCredentials, ConfigError> =
+  /*@__PURE__*/ Layer.effect(
+    SpritesCredentials,
+    /*@__PURE__*/ EffectConfig.String("SPRITES_TOKEN").pipe(
+      /*@__PURE__*/ Effect.mapError(
+        () => new ConfigError({ message: "SPRITES_TOKEN environment variable is required" }),
+      ),
+      /*@__PURE__*/ Effect.flatMap((token) =>
+        checkSpritesToken(Redacted.make(token), "SPRITES_TOKEN"),
+      ),
+      /*@__PURE__*/ Effect.map((config) => Effect.succeed(config)),
+    ),
+  );
+
+/** Layer from a Sprites token. An empty token fails the layer with `ConfigError`. */
+export const spritesCredentials = (config: {
+  readonly token: Redacted.Redacted<string>;
+}): Layer.Layer<SpritesCredentials, ConfigError> =>
+  Layer.effect(
+    SpritesCredentials,
+    Effect.map(checkSpritesToken(config.token, "The Sprites token"), (checked) =>
+      Effect.succeed(checked),
+    ),
   );

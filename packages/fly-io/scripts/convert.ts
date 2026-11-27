@@ -100,7 +100,7 @@ await runOpenApiConvert({
         namespace: "com.flyio.sprites",
         serviceName: "FlySprites",
         successStatuses: ["200", "201", "204"],
-        // 401 on mint is SpritesNotEnabled (message-matched), not the
+        // A 401 "sprites not enabled" is SpritesNotEnabled (message-matched), not the
         // catch-all Unauthorized that defaultErrorStatuses would swallow.
         defaultErrorStatuses: DEFAULT_ERROR_STATUSES.filter((s) => s !== "401"),
         statusToErrorClass: {
