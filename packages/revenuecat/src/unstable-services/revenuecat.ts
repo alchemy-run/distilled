@@ -354,9 +354,9 @@ export interface MixpanelIntegrationSettingsInput {
     | (string & {})
     | null
     | undefined;
-  /** Whether paywall events are sent. While off, none is sent, whatever its own `enabled` says. `false` on create unless sent. */
+  /** Whether paywall events are sent. While off, none of them is sent, even one that is enabled. `false` on create unless sent. */
   should_send_paywall_events?: boolean | undefined;
-  /** Whether funnel events are sent. While off, none is sent, whatever its own `enabled` says. `false` on create unless sent. */
+  /** Whether funnel events are sent. While off, none of them is sent, even one that is enabled. `false` on create unless sent. */
   should_send_workflows_events?: boolean | undefined;
   /** The user property that accumulates a customer's revenue in USD. Not sent when empty. `"total_spent_user_property"` on create unless sent. */
   total_spent_user_property?: string | null | undefined;
@@ -528,9 +528,9 @@ export interface MixpanelIntegrationSettings {
   has_mixpanel_token: boolean;
   /** The revenue reported with each event: gross, net of the store commission, or net of the commission and taxes. When not set: gross, or net of the store commission if the integration has the older report-proceeds option on. */
   revenue_reporting_mode: MixpanelIntegrationSettingsRevenueReportingMode | null;
-  /** Whether paywall events are sent. While off, none is sent, whatever its own `enabled` says. */
+  /** Whether paywall events are sent. While off, none of them is sent, even one that is enabled. */
   should_send_paywall_events: boolean;
-  /** Whether funnel events are sent. While off, none is sent, whatever its own `enabled` says. */
+  /** Whether funnel events are sent. While off, none of them is sent, even one that is enabled. */
   should_send_workflows_events: boolean;
   /** The user property that accumulates a customer's revenue in USD. Not sent when empty. */
   total_spent_user_property: string | null;
@@ -587,78 +587,6 @@ export interface DeletedObject {
   id: string;
   /** The date when the object was deleted in ms since epoch */
   deleted_at: number;
-}
-export type GetBenchmarksRequestComparisonCategory =
-  | "business"
-  | "education"
-  | "gaming"
-  | "health_and_fitness"
-  | "media_and_entertainment"
-  | "photo_and_video"
-  | "productivity"
-  | "shopping"
-  | "social_and_lifestyle"
-  | "travel"
-  | "utilities";
-export interface GetBenchmarksRequest {
-  /** ID of the project */
-  project_id: string;
-  /** Optional filter that restricts the response to benchmarks for a single app within the project. When omitted, benchmarks for every app in the project are returned. */
-  app_id?: string | undefined;
-  /** Overrides the default peer group used to compute the benchmark percentiles. When omitted, each app is compared against its own store category. */
-  comparison_category?: GetBenchmarksRequestComparisonCategory | (string & {}) | undefined;
-}
-/** String representing the object's type. Objects of the same type share the same value. */
-export type BenchmarksObject = "benchmarks";
-/** String representing the object's type. Objects of the same type share the same value. */
-export type BenchmarkMetricObject = "benchmark_metric";
-/** Human-readable percentile range that the app falls into within the peer group. Expressed as `"<lower>-<upper>"` where lower/upper are the percentile bounds (0-10, 10-20, ..., 90-100). `null` when the app does not have enough data to be placed in a bucket. */
-export type BenchmarkMetricPercentileBucket =
-  | "0-10"
-  | "10-20"
-  | "20-30"
-  | "30-40"
-  | "40-50"
-  | "50-60"
-  | "60-70"
-  | "70-80"
-  | "80-90"
-  | "90-100";
-export interface BenchmarkMetric {
-  /** String representing the object's type. Objects of the same type share the same value. */
-  object: BenchmarkMetricObject;
-  /** Stable identifier for this benchmark row, composed of the app id and the metric name separated by a colon. */
-  id: string;
-  /** Machine-readable identifier of the benchmark metric. */
-  metric_name: string;
-  /** Human-readable label for the benchmark metric. */
-  metric_display_name: string;
-  /** RevenueCat app id that this metric belongs to. */
-  app_id: string;
-  /** Store the app's metric value was computed for. */
-  store: string;
-  /** Store category currently assigned to the app. */
-  app_category: string | null;
-  /** Category used to resolve the benchmark percentiles for this row. */
-  comparison_category: string | null;
-  /** Whether the app has enough data for this metric to be reliably compared against the peer group. Rows with `false` should be treated as low-confidence. */
-  is_eligible_for_benchmarking: boolean;
-  /** When `true`, lower values are better for this metric (e.g. churn, refund rate). Callers should not recommend reducing a metric when the app already scores highly. */
-  is_reverse_metric: boolean;
-  /** The app's own value for this metric for the current period. */
-  metric_value: number | null;
-  /** Human-readable percentile range that the app falls into within the peer group. Expressed as `"<lower>-<upper>"` where lower/upper are the percentile bounds (0-10, 10-20, ..., 90-100). `null` when the app does not have enough data to be placed in a bucket. */
-  percentile_bucket: BenchmarkMetricPercentileBucket | null;
-  /** When the app's benchmark data was last refreshed, in ms since epoch. */
-  updated_at: number | null;
-}
-/** Benchmark metrics for every app in the project that has data. */
-export type BenchmarksMetricsList = Array<BenchmarkMetric>;
-export interface Benchmarks {
-  /** String representing the object's type. Objects of the same type share the same value. */
-  object: BenchmarksObject;
-  /** Benchmark metrics for every app in the project that has data. */
-  metrics: BenchmarksMetricsList;
 }
 export type GetChartSubscriberListExportRequestChartName =
   | "actives"
@@ -1012,8 +940,8 @@ export const createChartSubscriberListExport: API.OperationMethod<
   CreateChartSubscriberListExportError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(43, __c5, 3) as any as S.Schema<CreateChartSubscriberListExportRequest>,
-  output: __S(44, __c5, 4) as any as S.Schema<CreateChartSubscriberListExportResponse>,
+  input: __S(35, __c4, 3) as any as S.Schema<CreateChartSubscriberListExportRequest>,
+  output: __S(36, __c4, 4) as any as S.Schema<CreateChartSubscriberListExportResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
@@ -1036,7 +964,7 @@ export const createIntegration: API.OperationMethod<
   CreateIntegrationError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(49, __c6, 1) as any as S.Schema<CreateIntegrationRequest>,
+  input: __S(41, __c5, 1) as any as S.Schema<CreateIntegrationRequest>,
   output: __S(64, __c8, 0) as any as S.Schema<CreateIntegrationResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: RevenueCatServiceErrors,
@@ -1060,32 +988,14 @@ export const deleteIntegration: API.OperationMethod<
   DeleteIntegrationError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<DeleteIntegrationRequest>,
-  output: __S(81, __c10, 1) as any as S.Schema<DeletedObject>,
+  input: __S(72, __c9, 0) as any as S.Schema<DeleteIntegrationRequest>,
+  output: __S(73, __c9, 1) as any as S.Schema<DeletedObject>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteIntegration",
-}));
-
-export type GetBenchmarksError = BadRequest | Forbidden | NotFound | RevenueCatOpError;
-/** Get industry benchmarks for a project This endpoint requires the following permission(s): <code>charts_metrics:benchmarks:read</code>. This endpoint belongs to the <strong>Charts & Metrics</strong> domain, which has a default rate limit of <strong>25 requests per minute</strong>. */
-export const getBenchmarks: API.OperationMethod<
-  GetBenchmarksRequest,
-  Benchmarks,
-  GetBenchmarksError,
-  RevenueCatOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<GetBenchmarksRequest>,
-  output: __S(91, __c11, 3) as any as S.Schema<Benchmarks>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: RevenueCatServiceErrors,
-  protocol: RevenueCatProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetBenchmarks",
 }));
 
 export type GetChartSubscriberListExportError =
@@ -1100,8 +1010,8 @@ export const getChartSubscriberListExport: API.OperationMethod<
   GetChartSubscriberListExportError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<GetChartSubscriberListExportRequest>,
-  output: __S(97, __c12, 1) as any as S.Schema<ChartSubscriberListExport>,
+  input: __S(80, __c10, 0) as any as S.Schema<GetChartSubscriberListExportRequest>,
+  output: __S(81, __c10, 1) as any as S.Schema<ChartSubscriberListExport>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
@@ -1118,7 +1028,7 @@ export const getIntegration: API.OperationMethod<
   GetIntegrationError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<GetIntegrationRequest>,
+  input: __S(88, __c11, 0) as any as S.Schema<GetIntegrationRequest>,
   output: __S(64, __c8, 0) as any as S.Schema<GetIntegrationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: RevenueCatServiceErrors,
@@ -1138,8 +1048,8 @@ export const listIntegrations: API.PaginatedOperationMethod<
   MixpanelIntegration
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(16, __c2, 0) as any as S.Schema<ListIntegrationsRequest>,
-    output: __S(18, __c2, 2) as any as S.Schema<IntegrationList>,
+    input: __S(8, __c1, 0) as any as S.Schema<ListIntegrationsRequest>,
+    output: __S(10, __c1, 2) as any as S.Schema<IntegrationList>,
     errors: [BadRequest, Forbidden, NotFound],
     serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
@@ -1167,8 +1077,8 @@ export const listIntegrationVendors: API.PaginatedOperationMethod<
   IntegrationVendor
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(24, __c3, 0) as any as S.Schema<ListIntegrationVendorsRequest>,
-    output: __S(27, __c3, 3) as any as S.Schema<IntegrationVendorList>,
+    input: __S(16, __c2, 0) as any as S.Schema<ListIntegrationVendorsRequest>,
+    output: __S(19, __c2, 3) as any as S.Schema<IntegrationVendorList>,
     errors: [BadRequest, Forbidden, NotFound],
     serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
@@ -1200,7 +1110,7 @@ export const updateIntegration: API.OperationMethod<
   UpdateIntegrationError,
   RevenueCatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33, __c4, 1) as any as S.Schema<UpdateIntegrationRequest>,
+  input: __S(25, __c3, 1) as any as S.Schema<UpdateIntegrationRequest>,
   output: __S(64, __c8, 0) as any as S.Schema<UpdateIntegrationResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: RevenueCatServiceErrors,
@@ -1236,23 +1146,6 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          integration_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/projects/{project_id}/integrations/{integration_id}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetIntegrationRequest" });
-  }
-}
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
           vendor: S.optional(S.String.pipe(T.Query())),
           starting_after: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -1264,14 +1157,14 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          items: __S(17, __c2, 1),
+          items: __S(9, __c1, 1),
           next_page: S.NullOr(S.String),
           url: S.String,
         }),
       ).annotate({ identifier: "IntegrationList" });
   }
 }
-function __c3(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1292,26 +1185,26 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "IntegrationVendor" });
     case 2:
-      return S.Array(__S(25, __c3, 1));
+      return S.Array(__S(17, __c2, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          items: __S(26, __c3, 2),
+          items: __S(18, __c2, 2),
           next_page: S.NullOr(S.String),
           url: S.String,
         }),
       ).annotate({ identifier: "IntegrationVendorList" });
   }
 }
-function __c4(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           vendor: S.String,
           status: S.optional(S.String),
-          settings: S.optional(__S(74, __c9, 2)),
+          settings: S.optional(__S(50, __c6, 2)),
         }),
       ).annotate({ identifier: "UpdateMixpanelIntegrationRequest" });
     case 1:
@@ -1319,7 +1212,7 @@ function __c4(j: number): any {
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           integration_id: S.String.pipe(T.Label()),
-          body: __S(32, __c4, 0).pipe(T.HttpBody()),
+          body: __S(24, __c3, 0).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1330,7 +1223,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "UpdateIntegrationRequest" });
   }
 }
-function __c5(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1340,7 +1233,7 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "CreateChartSubscriberListExportRequestFiltersItem" });
     case 1:
-      return S.Array(__S(40, __c5, 0));
+      return S.Array(__S(32, __c4, 0));
     case 2:
       return S.Record(S.String, S.String);
     case 3:
@@ -1352,8 +1245,8 @@ function __c5(j: number): any {
           start_date: S.optional(S.String),
           end_date: S.optional(S.String),
           segment: S.optional(S.String),
-          filters: S.optional(__S(41, __c5, 1)),
-          selectors: S.optional(__S(42, __c5, 2)),
+          filters: S.optional(__S(33, __c4, 1)),
+          selectors: S.optional(__S(34, __c4, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1368,23 +1261,76 @@ function __c5(j: number): any {
       });
   }
 }
-function __c6(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           vendor: S.String,
           status: S.optional(S.String),
-          settings: __S(74, __c9, 2),
+          settings: __S(50, __c6, 2),
         }),
       ).annotate({ identifier: "CreateMixpanelIntegrationRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          body: __S(48, __c6, 0).pipe(T.HttpBody()),
+          body: __S(40, __c5, 0).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "POST", uri: "/projects/{project_id}/integrations", code: 200 })),
       ).annotate({ identifier: "CreateIntegrationRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.NullOr(S.String)),
+          enabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "MixpanelIntegrationSettingsInputEventsInitialPurchaseEvent" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          initial_purchase_event: S.optional(__S(48, __c6, 0)),
+          trial_started_event: S.optional(__S(48, __c6, 0)),
+          trial_converted_event: S.optional(__S(48, __c6, 0)),
+          trial_cancelled_event: S.optional(__S(48, __c6, 0)),
+          renewal_event: S.optional(__S(48, __c6, 0)),
+          cancellation_event: S.optional(__S(48, __c6, 0)),
+          non_renewing_purchase_event: S.optional(__S(48, __c6, 0)),
+          uncancellation_event: S.optional(__S(48, __c6, 0)),
+          subscription_paused_event: S.optional(__S(48, __c6, 0)),
+          expiration_event: S.optional(__S(48, __c6, 0)),
+          billing_issue_event: S.optional(__S(48, __c6, 0)),
+          product_change_event: S.optional(__S(48, __c6, 0)),
+          paywall_impression_event: S.optional(__S(48, __c6, 0)),
+          paywall_close_event: S.optional(__S(48, __c6, 0)),
+          paywall_cancel_event: S.optional(__S(48, __c6, 0)),
+          paywall_component_interacted_event: S.optional(__S(48, __c6, 0)),
+          paywall_exit_offer_event: S.optional(__S(48, __c6, 0)),
+          workflows_purchase_event: S.optional(__S(48, __c6, 0)),
+          workflows_step_completed_event: S.optional(__S(48, __c6, 0)),
+          workflows_step_started_event: S.optional(__S(48, __c6, 0)),
+          workflows_non_checkout_completion_event: S.optional(__S(48, __c6, 0)),
+          purchase_redeemed_event: S.optional(__S(48, __c6, 0)),
+        }),
+      ).annotate({ identifier: "MixpanelIntegrationSettingsInputEvents" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          engage_url: S.optional(S.NullOr(S.String)),
+          events: S.optional(__S(49, __c6, 1)),
+          mixpanel_sandbox_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
+          mixpanel_secret_key: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
+          mixpanel_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
+          revenue_reporting_mode: S.optional(S.NullOr(S.String)),
+          should_send_paywall_events: S.optional(S.Boolean),
+          should_send_workflows_events: S.optional(S.Boolean),
+          total_spent_user_property: S.optional(S.NullOr(S.String)),
+          track_url: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "MixpanelIntegrationSettingsInput" });
   }
 }
 function __c7(j: number): any {
@@ -1474,59 +1420,6 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.NullOr(S.String)),
-          enabled: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "MixpanelIntegrationSettingsInputEventsInitialPurchaseEvent" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          initial_purchase_event: S.optional(__S(72, __c9, 0)),
-          trial_started_event: S.optional(__S(72, __c9, 0)),
-          trial_converted_event: S.optional(__S(72, __c9, 0)),
-          trial_cancelled_event: S.optional(__S(72, __c9, 0)),
-          renewal_event: S.optional(__S(72, __c9, 0)),
-          cancellation_event: S.optional(__S(72, __c9, 0)),
-          non_renewing_purchase_event: S.optional(__S(72, __c9, 0)),
-          uncancellation_event: S.optional(__S(72, __c9, 0)),
-          subscription_paused_event: S.optional(__S(72, __c9, 0)),
-          expiration_event: S.optional(__S(72, __c9, 0)),
-          billing_issue_event: S.optional(__S(72, __c9, 0)),
-          product_change_event: S.optional(__S(72, __c9, 0)),
-          paywall_impression_event: S.optional(__S(72, __c9, 0)),
-          paywall_close_event: S.optional(__S(72, __c9, 0)),
-          paywall_cancel_event: S.optional(__S(72, __c9, 0)),
-          paywall_component_interacted_event: S.optional(__S(72, __c9, 0)),
-          paywall_exit_offer_event: S.optional(__S(72, __c9, 0)),
-          workflows_purchase_event: S.optional(__S(72, __c9, 0)),
-          workflows_step_completed_event: S.optional(__S(72, __c9, 0)),
-          workflows_step_started_event: S.optional(__S(72, __c9, 0)),
-          workflows_non_checkout_completion_event: S.optional(__S(72, __c9, 0)),
-          purchase_redeemed_event: S.optional(__S(72, __c9, 0)),
-        }),
-      ).annotate({ identifier: "MixpanelIntegrationSettingsInputEvents" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          engage_url: S.optional(S.NullOr(S.String)),
-          events: S.optional(__S(73, __c9, 1)),
-          mixpanel_sandbox_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
-          mixpanel_secret_key: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
-          mixpanel_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
-          revenue_reporting_mode: S.optional(S.NullOr(S.String)),
-          should_send_paywall_events: S.optional(S.Boolean),
-          should_send_workflows_events: S.optional(S.Boolean),
-          total_spent_user_property: S.optional(S.NullOr(S.String)),
-          track_url: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "MixpanelIntegrationSettingsInput" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           project_id: S.String.pipe(T.Label()),
           integration_id: S.String.pipe(T.Label()),
         }).pipe(
@@ -1547,46 +1440,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "DeletedObject" });
   }
 }
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          app_id: S.optional(S.String.pipe(T.Query())),
-          comparison_category: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}/benchmarks", code: 200 })),
-      ).annotate({ identifier: "GetBenchmarksRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          object: S.String,
-          id: S.String,
-          metric_name: S.String,
-          metric_display_name: S.String,
-          app_id: S.String,
-          store: S.String,
-          app_category: S.NullOr(S.String),
-          comparison_category: S.NullOr(S.String),
-          is_eligible_for_benchmarking: S.Boolean,
-          is_reverse_metric: S.Boolean,
-          metric_value: S.NullOr(S.Number),
-          percentile_bucket: S.NullOr(S.String),
-          updated_at: S.NullOr(S.Number),
-        }),
-      ).annotate({ identifier: "BenchmarkMetric" });
-    case 2:
-      return S.Array(__S(89, __c11, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          object: S.String,
-          metrics: __S(90, __c11, 2),
-        }),
-      ).annotate({ identifier: "Benchmarks" });
-  }
-}
-function __c12(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1614,6 +1468,23 @@ function __c12(j: number): any {
           download_url_expires_at: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "ChartSubscriberListExport" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          integration_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/projects/{project_id}/integrations/{integration_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetIntegrationRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.
