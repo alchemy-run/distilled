@@ -42263,6 +42263,30 @@ export interface XpackUsageEsqlQueries {
 export type XpackUsageEsqlQueriesMap = { [key: string]: XpackUsageEsqlQueries | undefined };
 /** Per-function usage counters, keyed by ES|QL function name (for example `max`, `coalesce`, `to_long`). Each value counts how many queries used that function. Every registered function has an entry; unused functions report 0. */
 export type XpackUsageEsqlFunctionsMap = { [key: string]: number | undefined };
+/** Per-setting usage counters, keyed by ES|QL query setting name (for example `time_zone`, `unmapped_fields`). Each value counts how many queries supplied that setting, either in the request body or with `SET` in the query. A setting supplied both ways is counted once. */
+export type XpackUsageEsqlSettingsMap = { [key: string]: number | undefined };
+export interface XpackUsageEsqlTook {
+  /** Queries that took less than 10 milliseconds. */
+  lt_10ms: number;
+  /** Queries that took at least 10 milliseconds and less than 100 milliseconds. */
+  lt_100ms: number;
+  /** Queries that took at least 100 milliseconds and less than 1 second. */
+  lt_1s: number;
+  /** Queries that took at least 1 second and less than 10 seconds. */
+  lt_10s: number;
+  /** Queries that took at least 10 seconds and less than 1 minute. */
+  lt_1m: number;
+  /** Queries that took at least 1 minute and less than 10 minutes. */
+  lt_10m: number;
+  /** Queries that took at least 10 minutes and less than 1 hour. */
+  lt_1h: number;
+  /** Queries that took at least 1 hour and less than 10 hours. */
+  lt_10h: number;
+  /** Queries that took at least 10 hours and less than 1 day. */
+  lt_1d: number;
+  /** Queries that took 1 day or more. */
+  gt_1d: number;
+}
 export interface XpackUsageEsql {
   available: boolean;
   enabled: boolean;
@@ -42272,6 +42296,10 @@ export interface XpackUsageEsql {
   queries: XpackUsageEsqlQueriesMap;
   /** Per-function usage counters, keyed by ES|QL function name (for example `max`, `coalesce`, `to_long`). Each value counts how many queries used that function. Every registered function has an entry; unused functions report 0. */
   functions: XpackUsageEsqlFunctionsMap;
+  /** Per-setting usage counters, keyed by ES|QL query setting name (for example `time_zone`, `unmapped_fields`). Each value counts how many queries supplied that setting, either in the request body or with `SET` in the query. A setting supplied both ways is counted once. */
+  settings: XpackUsageEsqlSettingsMap;
+  /** Histogram of query execution times. Each query is counted in exactly one bucket, the one its `took` time falls in. */
+  took: XpackUsageEsqlTook;
 }
 export interface XpackUsageFlattened {
   available: boolean;
@@ -55862,7 +55890,7 @@ export const xpackUsage: API.OperationMethod<
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31968, __c999, 0) as any as S.Schema<XpackUsageRequest>,
-  output: __S(32055, __c1001, 23) as any as S.Schema<XpackUsageResponse>,
+  output: __S(32056, __c1001, 24) as any as S.Schema<XpackUsageResponse>,
   errors: [],
   serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
@@ -84110,14 +84138,31 @@ function __c1000(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          lt_10ms: S.Number,
+          lt_100ms: S.Number,
+          lt_1s: S.Number,
+          lt_10s: S.Number,
+          lt_1m: S.Number,
+          lt_10m: S.Number,
+          lt_1h: S.Number,
+          lt_10h: S.Number,
+          lt_1d: S.Number,
+          gt_1d: S.Number,
+        }),
+      ).annotate({ identifier: "XpackUsageEsqlTook" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           available: S.Boolean,
           enabled: S.Boolean,
           features: __S(192, __c6, 0),
           queries: __S(32001, __c1000, 1),
           functions: __S(192, __c6, 0),
+          settings: __S(192, __c6, 0),
+          took: __S(32002, __c1000, 2),
         }),
       ).annotate({ identifier: "XpackUsageEsql" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           available: S.Boolean,
@@ -84125,7 +84170,7 @@ function __c1000(j: number): any {
           field_count: S.Number,
         }),
       ).annotate({ identifier: "XpackUsageFlattened" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
@@ -84134,66 +84179,66 @@ function __c1000(j: number): any {
           index_build_count: S.Number,
         }),
       ).annotate({ identifier: "XpackUsageGpuNodeStats" });
-    case 5:
-      return S.Array(__S(32004, __c1000, 4));
     case 6:
+      return S.Array(__S(32005, __c1000, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
           available: S.Boolean,
           enabled: S.Boolean,
           index_build_count: S.Number,
           nodes_with_gpu: S.Number,
-          nodes: __S(32005, __c1000, 5),
+          nodes: __S(32006, __c1000, 6),
         }),
       ).annotate({ identifier: "XpackUsageGpuVectorIndexing" });
-    case 7:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           total: S.Number,
         }),
       ).annotate({ identifier: "XpackUsageInvocations" });
-    case 8:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           available: S.Boolean,
           enabled: S.Boolean,
-          invocations: __S(32007, __c1000, 7),
+          invocations: __S(32008, __c1000, 8),
         }),
       ).annotate({ identifier: "XpackUsageHealthStatistics" });
-    case 9:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           actions: __S(160, __c5, 0),
           min_age: S.Number,
         }),
       ).annotate({ identifier: "XpackUsagePhase" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          cold: S.optional(__S(32009, __c1000, 9)),
-          delete: S.optional(__S(32009, __c1000, 9)),
-          frozen: S.optional(__S(32009, __c1000, 9)),
-          hot: S.optional(__S(32009, __c1000, 9)),
-          warm: S.optional(__S(32009, __c1000, 9)),
-        }),
-      ).annotate({ identifier: "XpackUsagePhases" });
     case 11:
       return S.suspend(() =>
         S.Struct({
+          cold: S.optional(__S(32010, __c1000, 10)),
+          delete: S.optional(__S(32010, __c1000, 10)),
+          frozen: S.optional(__S(32010, __c1000, 10)),
+          hot: S.optional(__S(32010, __c1000, 10)),
+          warm: S.optional(__S(32010, __c1000, 10)),
+        }),
+      ).annotate({ identifier: "XpackUsagePhases" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
           indices_managed: S.Number,
-          phases: __S(32010, __c1000, 10),
+          phases: __S(32011, __c1000, 11),
         }),
       ).annotate({ identifier: "XpackUsageIlmPolicyStatistics" });
-    case 12:
-      return S.Array(__S(32011, __c1000, 11));
     case 13:
+      return S.Array(__S(32012, __c1000, 12));
+    case 14:
       return S.suspend(() =>
         S.Struct({
           policy_count: S.Number,
-          policy_stats: __S(32012, __c1000, 12),
+          policy_stats: __S(32013, __c1000, 13),
         }),
       ).annotate({ identifier: "XpackUsageIlm" });
-    case 14:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
@@ -84202,57 +84247,57 @@ function __c1000(j: number): any {
           threshold: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "XpackUsageQueryLoggingConfig" });
-    case 15:
-      return S.Record(S.String, S.Unknown);
     case 16:
+      return S.Record(S.String, S.Unknown);
+    case 17:
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
           user: S.Boolean,
-          thresholds: S.optional(__S(32015, __c1000, 15)),
+          thresholds: S.optional(__S(32016, __c1000, 16)),
         }),
       ).annotate({ identifier: "XpackUsageEsqlLoggingConfig" });
-    case 17:
+    case 18:
       return S.suspend(() =>
         S.Struct({
-          querylog: __S(32014, __c1000, 14),
-          esql: __S(32016, __c1000, 16),
+          querylog: __S(32015, __c1000, 15),
+          esql: __S(32017, __c1000, 17),
         }),
       ).annotate({ identifier: "XpackUsageLogging" });
-    case 18:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
         }),
       ).annotate({ identifier: "XpackUsageDatafeed" });
-    case 19:
-      return S.Record(S.String, __S(32018, __c1000, 18));
     case 20:
+      return S.Record(S.String, __S(32019, __c1000, 19));
+    case 21:
       return S.suspend(() =>
         S.Struct({
           total: S.Number,
           forecasted_jobs: S.Number,
         }),
       ).annotate({ identifier: "XpackUsageMlJobForecasts" });
-    case 21:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           created_by: __S(192, __c6, 0),
           detectors: __S(16832, __c526, 0),
-          forecasts: __S(32020, __c1000, 20),
+          forecasts: __S(32021, __c1000, 21),
           model_size: __S(16832, __c526, 0),
         }),
       ).annotate({ identifier: "XpackUsageJobUsage" });
-    case 22:
-      return S.Record(S.String, __S(32021, __c1000, 21));
     case 23:
+      return S.Record(S.String, __S(32022, __c1000, 22));
+    case 24:
       return S.suspend(() =>
         S.Struct({
           peak_usage_bytes: __S(16832, __c526, 0),
         }),
       ).annotate({ identifier: "XpackUsageMlDataFrameAnalyticsJobsMemory" });
-    case 24:
+    case 25:
       return S.suspend(() =>
         S.Struct({
           classification: S.optional(S.Number),
@@ -84260,16 +84305,16 @@ function __c1000(j: number): any {
           regression: S.optional(S.Number),
         }),
       ).annotate({ identifier: "XpackUsageMlDataFrameAnalyticsJobsAnalysis" });
-    case 25:
+    case 26:
       return S.suspend(() =>
         S.Struct({
-          memory_usage: S.optional(__S(32023, __c1000, 23)),
-          _all: __S(32018, __c1000, 18),
-          analysis_counts: S.optional(__S(32024, __c1000, 24)),
-          stopped: S.optional(__S(32018, __c1000, 18)),
+          memory_usage: S.optional(__S(32024, __c1000, 24)),
+          _all: __S(32019, __c1000, 19),
+          analysis_counts: S.optional(__S(32025, __c1000, 25)),
+          stopped: S.optional(__S(32019, __c1000, 19)),
         }),
       ).annotate({ identifier: "XpackUsageMlDataFrameAnalyticsJobs" });
-    case 26:
+    case 27:
       return S.suspend(() =>
         S.Struct({
           max: S.Number,
@@ -84277,18 +84322,18 @@ function __c1000(j: number): any {
           min: S.Number,
         }),
       ).annotate({ identifier: "XpackUsageMlInferenceIngestProcessorCount" });
-    case 27:
+    case 28:
       return S.suspend(() =>
         S.Struct({
-          num_docs_processed: __S(32026, __c1000, 26),
-          pipelines: __S(32018, __c1000, 18),
-          num_failures: __S(32026, __c1000, 26),
-          time_ms: __S(32026, __c1000, 26),
+          num_docs_processed: __S(32027, __c1000, 27),
+          pipelines: __S(32019, __c1000, 19),
+          num_failures: __S(32027, __c1000, 27),
+          time_ms: __S(32027, __c1000, 27),
         }),
       ).annotate({ identifier: "XpackUsageMlInferenceIngestProcessor" });
-    case 28:
-      return S.Record(S.String, __S(32027, __c1000, 27));
     case 29:
+      return S.Record(S.String, __S(32028, __c1000, 28));
+    case 30:
       return S.suspend(() =>
         S.Struct({
           total: S.Number,
@@ -84301,22 +84346,16 @@ function __c1000(j: number): any {
           text_embedding: S.optional(S.Number),
         }),
       ).annotate({ identifier: "XpackUsageMlInferenceTrainedModelsCount" });
-    case 30:
+    case 31:
       return S.suspend(() =>
         S.Struct({
           estimated_operations: S.optional(__S(16832, __c526, 0)),
           estimated_heap_memory_usage_bytes: S.optional(__S(16832, __c526, 0)),
-          count: S.optional(__S(32029, __c1000, 29)),
-          _all: __S(32018, __c1000, 18),
+          count: S.optional(__S(32030, __c1000, 30)),
+          _all: __S(32019, __c1000, 19),
           model_size_bytes: S.optional(__S(16832, __c526, 0)),
         }),
       ).annotate({ identifier: "XpackUsageMlInferenceTrainedModels" });
-    case 31:
-      return S.suspend(() =>
-        S.Struct({
-          avg: S.Number,
-        }),
-      ).annotate({ identifier: "XpackUsageMlInferenceDeploymentsTimeMs" });
   }
 }
 function __c1001(j: number): any {
@@ -84324,33 +84363,39 @@ function __c1001(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          count: S.Number,
-          inference_counts: __S(16832, __c526, 0),
-          model_sizes_bytes: __S(16832, __c526, 0),
-          time_ms: __S(32031, __c1000, 31),
+          avg: S.Number,
         }),
-      ).annotate({ identifier: "XpackUsageMlInferenceDeployments" });
+      ).annotate({ identifier: "XpackUsageMlInferenceDeploymentsTimeMs" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ingest_processors: __S(32028, __c1000, 28),
-          trained_models: __S(32030, __c1000, 30),
-          deployments: S.optional(__S(32032, __c1001, 0)),
+          count: S.Number,
+          inference_counts: __S(16832, __c526, 0),
+          model_sizes_bytes: __S(16832, __c526, 0),
+          time_ms: __S(32032, __c1001, 0),
+        }),
+      ).annotate({ identifier: "XpackUsageMlInferenceDeployments" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ingest_processors: __S(32029, __c1000, 29),
+          trained_models: __S(32031, __c1000, 31),
+          deployments: S.optional(__S(32033, __c1001, 1)),
         }),
       ).annotate({ identifier: "XpackUsageMlInference" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           available: S.Boolean,
           enabled: S.Boolean,
-          datafeeds: __S(32019, __c1000, 19),
-          jobs: __S(32022, __c1000, 22),
+          datafeeds: __S(32020, __c1000, 20),
+          jobs: __S(32023, __c1000, 23),
           node_count: S.Number,
-          data_frame_analytics_jobs: __S(32025, __c1000, 25),
-          inference: __S(32033, __c1001, 1),
+          data_frame_analytics_jobs: __S(32026, __c1000, 26),
+          inference: __S(32034, __c1001, 2),
         }),
       ).annotate({ identifier: "XpackUsageMachineLearning" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           available: S.Boolean,
@@ -84359,7 +84404,7 @@ function __c1001(j: number): any {
           enabled_exporters: __S(192, __c6, 0),
         }),
       ).annotate({ identifier: "XpackUsageMonitoring" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           available: S.Boolean,
@@ -84367,7 +84412,7 @@ function __c1001(j: number): any {
           field_types: __S(33825, __c1057, 1),
         }),
       ).annotate({ identifier: "XpackUsageRuntimeFieldTypes" });
-    case 5:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           available: S.Boolean,
@@ -84377,31 +84422,31 @@ function __c1001(j: number): any {
           shared_cache_indices_count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "XpackUsageSearchableSnapshots" });
-    case 6:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
           outputs: S.optional(__S(160, __c5, 0)),
         }),
       ).annotate({ identifier: "XpackUsageAudit" });
-    case 7:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           http: S.Boolean,
           transport: S.Boolean,
         }),
       ).annotate({ identifier: "XpackUsageIpFilter" });
-    case 8:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           size: S.Number,
         }),
       ).annotate({ identifier: "XpackUsageRealmCache" });
-    case 9:
-      return S.Array(__S(32040, __c1001, 8));
     case 10:
-      return S.Array(S.Boolean);
+      return S.Array(__S(32041, __c1001, 9));
     case 11:
+      return S.Array(S.Boolean);
+    case 12:
       return S.suspend(() =>
         S.Struct({
           available: S.Boolean,
@@ -84409,25 +84454,25 @@ function __c1001(j: number): any {
           name: S.optional(__S(160, __c5, 0)),
           order: S.optional(__S(672, __c21, 0)),
           size: S.optional(__S(672, __c21, 0)),
-          cache: S.optional(__S(32041, __c1001, 9)),
-          has_authorization_realms: S.optional(__S(32042, __c1001, 10)),
-          has_default_username_pattern: S.optional(__S(32042, __c1001, 10)),
-          has_truststore: S.optional(__S(32042, __c1001, 10)),
-          is_authentication_delegated: S.optional(__S(32042, __c1001, 10)),
+          cache: S.optional(__S(32042, __c1001, 10)),
+          has_authorization_realms: S.optional(__S(32043, __c1001, 11)),
+          has_default_username_pattern: S.optional(__S(32043, __c1001, 11)),
+          has_truststore: S.optional(__S(32043, __c1001, 11)),
+          is_authentication_delegated: S.optional(__S(32043, __c1001, 11)),
         }),
       ).annotate({ identifier: "XpackUsageRealm" });
-    case 12:
-      return S.Record(S.String, __S(32043, __c1001, 11));
     case 13:
+      return S.Record(S.String, __S(32044, __c1001, 12));
+    case 14:
       return S.suspend(() =>
         S.Struct({
           enabled: S.Number,
           size: S.Number,
         }),
       ).annotate({ identifier: "XpackUsageRoleMapping" });
-    case 14:
-      return S.Record(S.String, __S(32045, __c1001, 13));
     case 15:
+      return S.Record(S.String, __S(32046, __c1001, 14));
+    case 16:
       return S.suspend(() =>
         S.Struct({
           dls: S.Boolean,
@@ -84435,41 +84480,41 @@ function __c1001(j: number): any {
           size: S.Number,
         }),
       ).annotate({ identifier: "XpackUsageSecurityRolesNative" });
-    case 16:
+    case 17:
       return S.suspend(() =>
         S.Struct({
-          native: __S(32047, __c1001, 15),
+          native: __S(32048, __c1001, 16),
           dls: __S(26049, __c814, 1),
-          file: __S(32047, __c1001, 15),
+          file: __S(32048, __c1001, 16),
         }),
       ).annotate({ identifier: "XpackUsageSecurityRoles" });
-    case 17:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           http: __S(32672, __c1021, 0),
           transport: __S(32672, __c1021, 0),
         }),
       ).annotate({ identifier: "XpackUsageSsl" });
-    case 18:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           available: S.Boolean,
           enabled: S.Boolean,
           api_key_service: __S(32672, __c1021, 0),
           anonymous: __S(32672, __c1021, 0),
-          audit: __S(32038, __c1001, 6),
+          audit: __S(32039, __c1001, 7),
           fips_140: __S(32672, __c1021, 0),
-          ipfilter: __S(32039, __c1001, 7),
-          realms: __S(32044, __c1001, 12),
-          role_mapping: __S(32046, __c1001, 14),
-          roles: __S(32048, __c1001, 16),
-          ssl: __S(32049, __c1001, 17),
+          ipfilter: __S(32040, __c1001, 8),
+          realms: __S(32045, __c1001, 13),
+          role_mapping: __S(32047, __c1001, 15),
+          roles: __S(32049, __c1001, 17),
+          ssl: __S(32050, __c1001, 18),
           system_key: S.optional(__S(32672, __c1021, 0)),
           token_service: __S(32672, __c1021, 0),
           operator_privileges: __S(31969, __c999, 1),
         }),
       ).annotate({ identifier: "XpackUsageSecurity" });
-    case 19:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           available: S.Boolean,
@@ -84478,7 +84523,7 @@ function __c1001(j: number): any {
           policy_stats: S.optional(__S(28192, __c881, 0)),
         }),
       ).annotate({ identifier: "XpackUsageSlm" });
-    case 20:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           available: S.Boolean,
@@ -84487,7 +84532,7 @@ function __c1001(j: number): any {
           queries: __S(31998, __c999, 30),
         }),
       ).annotate({ identifier: "XpackUsageSql" });
-    case 21:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           available: S.Boolean,
@@ -84497,7 +84542,7 @@ function __c1001(j: number): any {
           sparse_vector_fields_count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "XpackUsageVector" });
-    case 22:
+    case 23:
       return S.suspend(() =>
         S.Struct({
           available: S.Boolean,
@@ -84506,7 +84551,7 @@ function __c1001(j: number): any {
           num_docs: S.Number,
         }),
       ).annotate({ identifier: "XpackUsageVectorDbDocument" });
-    case 23:
+    case 24:
       return S.suspend(() =>
         S.Struct({
           aggregate_metric: __S(31969, __c999, 1),
@@ -84522,28 +84567,28 @@ function __c1001(j: number): any {
           data_tiers: __S(31991, __c999, 23),
           enrich: S.optional(__S(31969, __c999, 1)),
           eql: __S(31999, __c999, 31),
-          esql: __S(32002, __c1000, 2),
-          flattened: S.optional(__S(32003, __c1000, 3)),
+          esql: __S(32003, __c1000, 3),
+          flattened: S.optional(__S(32004, __c1000, 4)),
           graph: __S(31969, __c999, 1),
-          gpu_vector_indexing: S.optional(__S(32006, __c1000, 6)),
-          health_api: S.optional(__S(32008, __c1000, 8)),
-          ilm: __S(32013, __c1000, 13),
-          logging: S.optional(__S(32017, __c1000, 17)),
+          gpu_vector_indexing: S.optional(__S(32007, __c1000, 7)),
+          health_api: S.optional(__S(32009, __c1000, 9)),
+          ilm: __S(32014, __c1000, 14),
+          logging: S.optional(__S(32018, __c1000, 18)),
           logsdb_columnar: S.optional(__S(31983, __c999, 15)),
           logstash: __S(31969, __c999, 1),
-          ml: __S(32034, __c1001, 2),
-          monitoring: __S(32035, __c1001, 3),
+          ml: __S(32035, __c1001, 3),
+          monitoring: __S(32036, __c1001, 4),
           rollup: __S(31969, __c999, 1),
-          runtime_fields: S.optional(__S(32036, __c1001, 4)),
+          runtime_fields: S.optional(__S(32037, __c1001, 5)),
           spatial: __S(31969, __c999, 1),
-          searchable_snapshots: __S(32037, __c1001, 5),
-          security: __S(32050, __c1001, 18),
-          slm: __S(32051, __c1001, 19),
-          sql: __S(32052, __c1001, 20),
+          searchable_snapshots: __S(32038, __c1001, 6),
+          security: __S(32051, __c1001, 19),
+          slm: __S(32052, __c1001, 20),
+          sql: __S(32053, __c1001, 21),
           transform: __S(31969, __c999, 1),
-          vectors: S.optional(__S(32053, __c1001, 21)),
-          vectordb_document: S.optional(__S(32054, __c1001, 22)),
-          vectordb_columnar: S.optional(__S(32054, __c1001, 22)),
+          vectors: S.optional(__S(32054, __c1001, 22)),
+          vectordb_document: S.optional(__S(32055, __c1001, 23)),
+          vectordb_columnar: S.optional(__S(32055, __c1001, 23)),
           voting_only: __S(31969, __c999, 1),
         }),
       ).annotate({ identifier: "XpackUsageResponse" });
