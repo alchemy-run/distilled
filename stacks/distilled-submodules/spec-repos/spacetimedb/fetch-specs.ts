@@ -170,7 +170,7 @@ function normalizePath(pathTemplate: string): string {
 
 function extractRoutes(text: string): string[] {
   const routes = new Set<string>();
-  const re = /\b(GET|PUT|POST|DELETE|ANY)\s+(\/v1\/[^\s`<\]|]+)/g;
+  const re = /\b(GET|PUT|POST|PATCH|DELETE|ANY)\s+(\/v1\/[^\s`<\]|]+)/g;
   for (const match of text.matchAll(re)) {
     const method = match[1]!;
     const pathTemplate = normalizePath(match[2]!.replace(/[,.)]+$/, ""));
@@ -246,6 +246,57 @@ function assembleOpenApi(): Record<string, unknown> {
         type: "object",
         properties: { name: { type: "string" } },
       },
+    },
+  };
+  const expectedModuleHash = {
+    name: "expected_module_hash",
+    in: "query",
+    description: "The module_hash from GET /environment.",
+    schema: { type: "string" },
+  };
+  const environmentValues = (description: string) => ({
+    required: true,
+    content: {
+      "application/json": {
+        schema: {
+          type: "object",
+          description,
+          additionalProperties: { type: "string", "x-sensitive": true },
+        },
+      },
+    },
+  });
+  const environmentUpdateResponses = {
+    "200": {
+      description: "The environment was updated.",
+      ...json({
+        type: "object",
+        required: ["Ok"],
+        properties: { Ok: { type: "object", nullable: true } },
+      }),
+    },
+    "400": {
+      description: "The resulting environment does not satisfy the module's declarations.",
+      ...json({
+        type: "object",
+        required: ["Err"],
+        properties: {
+          Err: {
+            type: "object",
+            properties: {
+              MissingRequiredEnvironment: {
+                type: "object",
+                required: ["keys"],
+                properties: { keys: { type: "array", items: { type: "string" } } },
+              },
+            },
+          },
+        },
+      }),
+    },
+    "409": {
+      description:
+        "The database's module no longer has expected_module_hash; fetch the metadata again before retrying.",
     },
   };
 
@@ -546,6 +597,81 @@ function assembleOpenApi(): Record<string, unknown> {
             },
             "404": { description: "Database not found." },
           },
+        },
+      },
+      "/v1/database/{name_or_identity}/environment": {
+        parameters: [nameOrIdentity],
+        get: {
+          operationId: "getDatabaseEnvironment",
+          tags: ["Database"],
+          summary: "Get environment declarations and stored keys.",
+          description:
+            "Get the environment declarations of the database's current module and the keys of its stored values. Values are never returned. Requires a token authorized to update the database.",
+          responses: {
+            "200": {
+              description: "Environment declarations and stored keys.",
+              ...json({
+                type: "object",
+                required: ["module_hash", "declarations", "stored_keys"],
+                properties: {
+                  module_hash: {
+                    type: "string",
+                    description:
+                      "Identifies the module the declarations came from. Treat it as an opaque string and pass it unchanged as expected_module_hash when updating the environment.",
+                  },
+                  declarations: {
+                    type: "array",
+                    items: {
+                      type: "object",
+                      required: ["name", "optional", "ty"],
+                      properties: {
+                        name: { type: "string" },
+                        optional: { type: "boolean" },
+                        ty: {
+                          description:
+                            'The declared type: "String", { "StringLiteral": string } or { "Union": string[] }.',
+                        },
+                      },
+                    },
+                  },
+                  stored_keys: { type: "array", items: { type: "string" } },
+                },
+              }),
+            },
+          },
+        },
+        put: {
+          operationId: "replaceDatabaseEnvironment",
+          tags: ["Database"],
+          summary: "Replace a database's environment.",
+          description:
+            "Replace the database's whole environment without publishing a module. Stored values that are not supplied are deleted.",
+          parameters: [expectedModuleHash],
+          requestBody: environmentValues(
+            'A JSON object mapping each key to its string value, for example {"API_KEY": "new-key", "MODE": "production"}.',
+          ),
+          responses: environmentUpdateResponses,
+        },
+        patch: {
+          operationId: "updateDatabaseEnvironment",
+          tags: ["Database"],
+          summary: "Set or delete environment values.",
+          description:
+            "Set and delete individual environment values without publishing a module. Stored values that are neither supplied nor removed are kept.",
+          parameters: [
+            expectedModuleHash,
+            {
+              name: "spacetime-environment-remove",
+              in: "header",
+              description:
+                "Stored keys to delete, separated by commas. `*` is not accepted; use PUT instead.",
+              schema: { type: "string" },
+            },
+          ],
+          requestBody: environmentValues(
+            "A JSON object mapping each key to set to its string value. Send {} to only delete keys.",
+          ),
+          responses: environmentUpdateResponses,
         },
       },
       "/v1/database/{name_or_identity}/logs": {
