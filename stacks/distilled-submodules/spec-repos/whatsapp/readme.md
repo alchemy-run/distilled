@@ -8,7 +8,8 @@ A git mirror of Meta's WhatsApp Business Platform [OpenAPI spec](https://github.
 - `specs/_manifest.json` — upstream commit and the file it came from
 
 Nothing else from `facebook/openapi` is mirrored, so this repository stays small
-enough to use as a git submodule — the upstream repository is never cloned.
+enough to use as a git submodule. The fetch makes a blobless, depth-1 clone
+of `facebook/openapi` and downloads only that one file.
 
 The mirror is updated every 24 hours by
 [`.github/workflows/update-specs.yml`](./.github/workflows/update-specs.yml).
