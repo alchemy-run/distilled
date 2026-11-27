@@ -216,6 +216,81 @@
           "target": "com.modal.sandbox#SandboxAlreadyExists"
         }
       ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.sandbox#SandboxWait/errors",
+      "value": [
+        {
+          "target": "com.modal.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.sandbox#SandboxTerminate/errors",
+      "value": [
+        {
+          "target": "com.modal.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.sandbox#SandboxTagsGet/errors",
+      "value": [
+        {
+          "target": "com.modal.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.sandbox#SandboxTagsSet/errors",
+      "value": [
+        {
+          "target": "com.modal.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.sandbox#SandboxSnapshotWait/errors",
+      "value": [
+        {
+          "target": "com.modal.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.sandbox#SandboxGetFromName/errors",
+      "value": [
+        {
+          "target": "com.modal.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.sandbox#SandboxRestore/errors",
+      "value": [
+        {
+          "target": "com.modal.sandbox#SandboxNotFound"
+        },
+        {
+          "target": "com.modal.sandbox#SandboxAlreadyExists"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.sandbox#SandboxCreate/errors",
+      "value": [
+        {
+          "target": "com.modal.sandbox#SandboxAlreadyExists"
+        }
+      ]
     }
   ]
 }

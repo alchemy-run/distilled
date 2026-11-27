@@ -1075,7 +1075,7 @@ export interface WaitSandboxSnapshotRequest {
 export interface WaitSandboxSnapshotResponse {
   result?: GenericResult | undefined;
 }
-export type CreateSandboxError = ModalOpError;
+export type CreateSandboxError = SandboxAlreadyExists | ModalOpError;
 export const createSandbox: API.OperationMethod<
   CreateSandboxRequest & MaxMessageBytesInput,
   CreateSandboxResponse,
@@ -1084,7 +1084,7 @@ export const createSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<CreateSandboxRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<CreateSandboxResponse>,
-  errors: [],
+  errors: [SandboxAlreadyExists],
   serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1143,7 +1143,7 @@ export const getSandboxSnapshotFsAsync: API.OperationMethod<
   span: "GetSandboxSnapshotFsAsync",
 }));
 
-export type GetSandboxTagError = ModalOpError;
+export type GetSandboxTagError = SandboxNotFound | ModalOpError;
 export const getSandboxTag: API.OperationMethod<
   GetSandboxTagRequest & MaxMessageBytesInput,
   GetSandboxTagResponse,
@@ -1152,7 +1152,7 @@ export const getSandboxTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<GetSandboxTagRequest>,
   output: __S(1984, __c62, 0) as any as S.Schema<GetSandboxTagResponse>,
-  errors: [],
+  errors: [SandboxNotFound],
   serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1177,7 +1177,7 @@ export const listSandbox: API.OperationMethod<
   span: "ListSandbox",
 }));
 
-export type RestoreSandboxError = ModalOpError;
+export type RestoreSandboxError = SandboxNotFound | SandboxAlreadyExists | ModalOpError;
 export const restoreSandbox: API.OperationMethod<
   RestoreSandboxRequest & MaxMessageBytesInput,
   RestoreSandboxResponse,
@@ -1186,7 +1186,7 @@ export const restoreSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<RestoreSandboxRequest>,
   output: __S(2145, __c67, 1) as any as S.Schema<RestoreSandboxResponse>,
-  errors: [],
+  errors: [SandboxNotFound, SandboxAlreadyExists],
   serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1314,7 +1314,7 @@ export const sandboxGetExitSnapshotV2: API.OperationMethod<
   span: "SandboxGetExitSnapshotV2",
 }));
 
-export type SandboxGetFromNameError = ModalOpError;
+export type SandboxGetFromNameError = SandboxNotFound | ModalOpError;
 export const sandboxGetFromName: API.OperationMethod<
   SandboxGetFromNameRequest & MaxMessageBytesInput,
   SandboxGetFromNameResponse,
@@ -1323,7 +1323,7 @@ export const sandboxGetFromName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<SandboxGetFromNameRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<SandboxGetFromNameResponse>,
-  errors: [],
+  errors: [SandboxNotFound],
   serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1765,7 +1765,7 @@ export const sandboxWaitV2: API.OperationMethod<
   span: "SandboxWaitV2",
 }));
 
-export type SetSandboxTagError = ModalOpError;
+export type SetSandboxTagError = SandboxNotFound | ModalOpError;
 export const setSandboxTag: API.OperationMethod<
   SetSandboxTagRequest & MaxMessageBytesInput,
   SetSandboxTagResponse,
@@ -1774,7 +1774,7 @@ export const setSandboxTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<SetSandboxTagRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<SetSandboxTagResponse>,
-  errors: [],
+  errors: [SandboxNotFound],
   serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1782,7 +1782,7 @@ export const setSandboxTag: API.OperationMethod<
   span: "SetSandboxTag",
 }));
 
-export type TerminateSandboxError = ModalOpError;
+export type TerminateSandboxError = SandboxNotFound | ModalOpError;
 export const terminateSandbox: API.OperationMethod<
   TerminateSandboxRequest & MaxMessageBytesInput,
   TerminateSandboxResponse,
@@ -1791,7 +1791,7 @@ export const terminateSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<TerminateSandboxRequest>,
   output: __S(1600, __c50, 0) as any as S.Schema<TerminateSandboxResponse>,
-  errors: [],
+  errors: [SandboxNotFound],
   serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1799,7 +1799,7 @@ export const terminateSandbox: API.OperationMethod<
   span: "TerminateSandbox",
 }));
 
-export type WaitSandboxError = ModalOpError;
+export type WaitSandboxError = SandboxNotFound | ModalOpError;
 export const waitSandbox: API.OperationMethod<
   WaitSandboxRequest & MaxMessageBytesInput,
   WaitSandboxResponse,
@@ -1808,7 +1808,7 @@ export const waitSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<WaitSandboxRequest>,
   output: __S(1728, __c54, 0) as any as S.Schema<WaitSandboxResponse>,
-  errors: [],
+  errors: [SandboxNotFound],
   serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1816,7 +1816,7 @@ export const waitSandbox: API.OperationMethod<
   span: "WaitSandbox",
 }));
 
-export type WaitSandboxSnapshotError = ModalOpError;
+export type WaitSandboxSnapshotError = SandboxNotFound | ModalOpError;
 export const waitSandboxSnapshot: API.OperationMethod<
   WaitSandboxSnapshotRequest & MaxMessageBytesInput,
   WaitSandboxSnapshotResponse,
@@ -1825,7 +1825,7 @@ export const waitSandboxSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<WaitSandboxSnapshotRequest>,
   output: __S(1857, __c58, 1) as any as S.Schema<WaitSandboxSnapshotResponse>,
-  errors: [],
+  errors: [SandboxNotFound],
   serviceErrors: ModalServiceErrors,
   protocol: ModalProtocol,
   retry: Retry.Retry,
