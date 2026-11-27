@@ -534,8 +534,9 @@ const stateOf = (op: unknown): OperationState => (op as Record<symbol, Operation
  * call.
  *
  * A call that succeeds pays no Effect step of its own for the boundary: the
- * three places that run an operation (the call, `.stream()`,
- * {@link encodeRequest}) come here from the one failure handler around them.
+ * places that run an operation (the call, `.stream()`, `.pages()` and
+ * `.items()`, {@link encodeRequest}) come here from the one failure handler
+ * around them.
  */
 const failed = (
   state: OperationState,
@@ -860,6 +861,15 @@ export interface PaginatedOperationConfig<
 
 /** `.pages` / `.items` over any call function (the operation itself or a context-bound one). */
 const streamsOf = (state: OperationState, call: (input: any) => Effect.Effect<any, any, any>) => {
+  // The defect boundary of a stream of pages (see `failed`): each page is a
+  // call with its own, and this one is for the code that runs between two
+  // pages (the strategy that reads the next token, the items of a page).
+  // Each pull runs under the handler: `Stream.catchCause` would do the same
+  // and adds about 300 bytes to every bundle with a paginated operation.
+  const guarded = (make: () => Stream.Stream<any, any, any>): Stream.Stream<any, any, any> =>
+    Stream.transformPull(Stream.suspend(make), (pull) =>
+      Effect.succeed(Effect.catchCause(pull, (cause) => failed(state, cause))),
+    );
   const pagesOf = (prepared: Prepared, input: Record<string, unknown>) => {
     const cfg = prepared.cfg as PaginatedOperationConfig<any, any, any, any> & {
       strategy?: Pagination.PaginationStrategy;
@@ -868,21 +878,23 @@ const streamsOf = (state: OperationState, call: (input: any) => Effect.Effect<an
     const paginate = state.strategy ?? cfg.strategy ?? Pagination.paginateWithDefaults;
     return paginate(call, input, cfg.pagination);
   };
-  const pages = (input: Record<string, unknown>): Stream.Stream<any, any, any> => {
-    const prepared = prepareOr(state);
-    return prepared instanceof SdkError ? Stream.fail(prepared) : pagesOf(prepared, input);
-  };
-  const items = (input: Record<string, unknown>): Stream.Stream<any, any, any> => {
-    const prepared = prepareOr(state);
-    if (prepared instanceof SdkError) return Stream.fail(prepared);
-    const p = (prepared.cfg as PaginatedOperationConfig<any, any, any, any>).pagination;
-    if (!p.items) return pagesOf(prepared, input);
-    // A bare-array response's schema is its sole member's value
-    // (`RawResponseRoot`), so the member `items` names is the page itself.
-    return getAnn(prepared.outputAst, rawResponseRootSymbol) !== undefined
-      ? Pagination.extractArrayItems(pagesOf(prepared, input))
-      : Pagination.extractItems(pagesOf(prepared, input), p.items);
-  };
+  const pages = (input: Record<string, unknown>): Stream.Stream<any, any, any> =>
+    guarded(() => {
+      const prepared = prepareOr(state);
+      return prepared instanceof SdkError ? Stream.fail(prepared) : pagesOf(prepared, input);
+    });
+  const items = (input: Record<string, unknown>): Stream.Stream<any, any, any> =>
+    guarded(() => {
+      const prepared = prepareOr(state);
+      if (prepared instanceof SdkError) return Stream.fail(prepared);
+      const p = (prepared.cfg as PaginatedOperationConfig<any, any, any, any>).pagination;
+      if (!p.items) return pagesOf(prepared, input);
+      // A bare-array response's schema is its sole member's value
+      // (`RawResponseRoot`), so the member `items` names is the page itself.
+      return getAnn(prepared.outputAst, rawResponseRootSymbol) !== undefined
+        ? Pagination.extractArrayItems(pagesOf(prepared, input))
+        : Pagination.extractItems(pagesOf(prepared, input), p.items);
+    });
   return { pages, items };
 };
 
