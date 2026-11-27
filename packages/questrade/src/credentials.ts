@@ -5,13 +5,19 @@
  * server the token was issued for (`api_server`, e.g.
  * `https://api01.iq.questrade.com`). A personal app gets both by redeeming a
  * refresh token generated in the API Centre
- * (https://www.questrade.com/api/documentation/getting-started):
+ * (https://www.questrade.com/api/documentation/security):
  *
- *   GET https://login.questrade.com/oauth2/token?grant_type=refresh_token&refresh_token=...
+ *   POST https://login.questrade.com/oauth2/token
+ *   grant_type=refresh_token&refresh_token=...
  *   -> { access_token, token_type, expires_in, refresh_token, api_server }
  *
- * The redemption goes through the caller's `HttpClient`, like every other
- * request the SDK makes.
+ * The refresh token goes in the form body, so proxies and access logs that
+ * keep URLs never see it. The getting-started page shows the same parameters
+ * in a GET query; the security page documents the POST. The redemption goes
+ * through the caller's `HttpClient`, like every other request the SDK makes.
+ *
+ * Every later call sends the access token to `api_server`, so the SDK takes
+ * it only when it is `https:` on a `questrade.com` host.
  *
  * The access token lives 30 minutes, and each refresh token redeems ONCE:
  * the answer carries the next one. {@link fromRefreshToken} redeems on first
@@ -80,6 +86,23 @@ export interface RefreshTokenConfig {
 /** `https://api01.iq.questrade.com/` and `.../v1` -> `https://api01.iq.questrade.com`. */
 const normalizeApiServer = (url: string): string => url.replace(/\/+$/, "").replace(/\/v1$/, "");
 
+/**
+ * Whether `url` is an API server the access token may go to: `https:`, a
+ * host under `questrade.com`, and no credentials in the URL. Questrade picks
+ * the server per redemption (`api01`, `api05`, ...), so the host itself is
+ * not fixed.
+ */
+const isQuestradeApiServer = (url: string): boolean => {
+  const parsed = URL.parse(url);
+  return (
+    parsed !== null &&
+    parsed.protocol === "https:" &&
+    parsed.hostname.endsWith(".questrade.com") &&
+    parsed.username === "" &&
+    parsed.password === ""
+  );
+};
+
 const tokenError = (message: string, status?: number) =>
   new TokenRequestFailed({
     message: `Questrade refresh token redemption failed: ${message}`,
@@ -88,9 +111,9 @@ const tokenError = (message: string, status?: number) =>
 
 /**
  * Redeem a refresh token at the login server, through the caller's
- * `HttpClient`. The token stays `Redacted` in the query, so the client's
- * spans and errors print the URL without it. Fails with
- * {@link TokenRequestFailed}.
+ * `HttpClient`, as a form body. Fails with {@link TokenRequestFailed}, also
+ * when the answer names an `api_server` that is not `https:` on a
+ * `questrade.com` host.
  */
 export const redeemRefreshToken = (
   refreshToken: Redacted.Redacted<string>,
@@ -100,10 +123,12 @@ export const redeemRefreshToken = (
     const client = yield* HttpClient.HttpClient;
     const response = yield* client
       .execute(
-        HttpClientRequest.get(`${loginUrl.replace(/\/+$/, "")}/oauth2/token`).pipe(
+        HttpClientRequest.post(`${loginUrl.replace(/\/+$/, "")}/oauth2/token`).pipe(
           HttpClientRequest.acceptJson,
-          HttpClientRequest.setUrlParam("grant_type", "refresh_token"),
-          HttpClientRequest.setUrlParam("refresh_token", refreshToken),
+          HttpClientRequest.bodyUrlParams({
+            grant_type: "refresh_token",
+            refresh_token: refreshToken,
+          }),
         ),
       )
       .pipe(
@@ -131,6 +156,13 @@ export const redeemRefreshToken = (
     ) {
       return yield* tokenError(
         "the answer has no access_token, refresh_token or api_server",
+        response.status,
+      );
+    }
+    if (!isQuestradeApiServer(api_server)) {
+      return yield* tokenError(
+        `the answer names api_server ${JSON.stringify(api_server)}, ` +
+          "which is not an https: URL on a questrade.com host",
         response.status,
       );
     }
