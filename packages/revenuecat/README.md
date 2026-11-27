@@ -42,6 +42,18 @@ program.pipe(Effect.provide(Live), Effect.runPromise);
 
 List operations follow `next_page` with `.pages()` and `.items()`.
 
+## Beta operations
+
+Operations the spec marks `x-release-status: beta` (`getBenchmarks`, the chart subscriber list
+exports, and the blocked-customer operations) are not in the root export. Import them from
+`unstable/`:
+
+```ts
+import * as RevenueCatBeta from "@distilled.cloud/revenuecat/unstable/revenuecat";
+
+const blocked = yield* RevenueCatBeta.listBlockedCustomers({ project_id });
+```
+
 ## Auth
 
 `REVENUECAT_API_KEY`, a v2 secret API key, sent as `Authorization: Bearer`. Optional `REVENUECAT_API_BASE_URL` (default `https://api.revenuecat.com/v2`).
