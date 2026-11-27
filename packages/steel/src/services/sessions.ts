@@ -3564,6 +3564,7 @@ export type CommandCase23Command = "eval";
 /** Runs JavaScript in the page and returns the result as JSON. */
 export interface CommandCase23 {
   command: CommandCase23Command;
+  /** An expression, or an async function body that gives its value with return. A promise result is awaited. */
   script: string;
   /** A tab id such as t2. A command on a ref does not need it. */
   tab?: string | undefined;

@@ -198,7 +198,7 @@ export interface ProfileFingerprintFingerprintNavigator {
 export type ProfileFingerprintFingerprintPluginsDataMimeTypesList = Array<string | null>;
 export interface ProfileFingerprintFingerprintPluginsDataPluginsItemMimeTypesItem {
   description: string | null;
-  enabledPlugin: string | null;
+  enabledPlugin?: string | null | undefined;
   suffixes: string | null;
   type: string | null;
   [key: string]: unknown;
@@ -251,7 +251,7 @@ export type ProfileFingerprintFingerprintVideoCodecsMap = {
 };
 export interface ProfileFingerprintFingerprint {
   audioCodecs: ProfileFingerprintFingerprintAudioCodecsMap;
-  battery: ProfileFingerprintFingerprintBattery;
+  battery: ProfileFingerprintFingerprintBattery | null;
   fonts: ProfileFingerprintFingerprintFontsList;
   mockWebRTC: boolean | null;
   multimediaDevices: ProfileFingerprintFingerprintMultimediaDevices;
@@ -430,7 +430,7 @@ export type ProfileListResponseProfilesItemFingerprintFingerprintVideoCodecsMap 
 };
 export interface ProfileListResponseProfilesItemFingerprintFingerprint {
   audioCodecs: ProfileListResponseProfilesItemFingerprintFingerprintAudioCodecsMap;
-  battery: ProfileFingerprintFingerprintBattery;
+  battery: ProfileFingerprintFingerprintBattery | null;
   fonts: ProfileListResponseProfilesItemFingerprintFingerprintFontsList;
   mockWebRTC: boolean | null;
   multimediaDevices: ProfileListResponseProfilesItemFingerprintFingerprintMultimediaDevices;
@@ -795,7 +795,7 @@ function __c2(j: number): any {
         S.StructWithRest(
           S.Struct({
             description: S.NullOr(S.String),
-            enabledPlugin: S.NullOr(S.String),
+            enabledPlugin: S.optional(S.NullOr(S.String)),
             suffixes: S.NullOr(S.String),
             type: S.NullOr(S.String),
           }),
@@ -872,7 +872,7 @@ function __c2(j: number): any {
         S.StructWithRest(
           S.Struct({
             audioCodecs: __S(66, __c2, 2),
-            battery: __S(67, __c2, 3),
+            battery: S.NullOr(__S(67, __c2, 3)),
             fonts: __S(68, __c2, 4),
             mockWebRTC: S.NullOr(S.Boolean),
             multimediaDevices: __S(71, __c2, 7),
