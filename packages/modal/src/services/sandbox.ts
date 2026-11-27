@@ -277,6 +277,8 @@ export interface OutboundPolicy {
   tlsDecryption?: OutboundPolicyTLSDecryption | undefined;
   routes?: OutboundPolicyRouteList | undefined;
 }
+/** Layout of the `sub` claim in a sandbox's OIDC identity tokens. Customer trust policies match on the layout, so each value's layout is fixed once released. See server/modal_server/oidc/README.md. */
+export type OidcSubjectVersion = "OIDC_SUBJECT_VERSION_LEGACY" | "OIDC_SUBJECT_VERSION_V2";
 export interface Sandbox {
   entrypointArgs?: StringList | undefined;
   mountIds?: StringList | undefined;
@@ -346,6 +348,8 @@ export interface Sandbox {
   includeX509Svid?: boolean | undefined;
   /** Route-based outbound policy. Mutually exclusive with experimental_outbound_policy (superseded, experimental API) and with any network_access other than OPEN. */
   outboundPolicy?: OutboundPolicy | undefined;
+  /** Layout of the `sub` claim in the sandbox's OIDC identity tokens. Values other than those of OidcSubjectVersion are rejected. Sidecars added to a sandbox use the value from the sandbox's create request, and the value on a sidecar's own definition is ignored. */
+  oidcSubjectVersion?: OidcSubjectVersion | (string & {}) | undefined;
 }
 export interface SandboxTag {
   tagName?: string | undefined;
@@ -2432,6 +2436,7 @@ function __c24(j: number): any {
           experimentalOutboundPolicy: S.optional(__S(785, __c24, 17)),
           includeX509Svid: S.optional(S.Boolean),
           outboundPolicy: S.optional(__S(814, __c25, 14)),
+          oidcSubjectVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "Sandbox" });
   }

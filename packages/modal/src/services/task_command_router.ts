@@ -184,11 +184,17 @@ export interface TaskExecPollRequest {
   /** The execution ID of the command to wait on. */
   execId?: string | undefined;
 }
+/** Why Modal ended a command. A reason a client doesn't know counts as UNSPECIFIED. */
+export type TaskExecStopReason =
+  | "TASK_EXEC_STOP_REASON_UNSPECIFIED"
+  | "TASK_EXEC_STOP_REASON_TASK_SHUTDOWN";
 export interface TaskExecPollResponse {
   /** The exit code of the command. */
   code?: number | undefined;
   /** The signal that terminated the command. */
   signal?: number | undefined;
+  /** TODO(saltzm): Give a way for the user to distinguish between normal exit and an exec Modal ended for exceeding its deadline. Why Modal ended the command, if it did. */
+  stopReason: TaskExecStopReason;
 }
 export type TaskExecStdoutConfig =
   | "TASK_EXEC_STDOUT_CONFIG_DEVNULL"
@@ -283,6 +289,8 @@ export interface TaskExecWaitResponse {
   code?: number | undefined;
   /** The signal that terminated the command. */
   signal?: number | undefined;
+  /** TODO(saltzm): Give a way for the user to distinguish between normal exit and an exec Modal ended for exceeding its deadline. As in TaskExecPollResponse. */
+  stopReason: TaskExecStopReason;
 }
 export interface TaskMountDirectoryRequest {
   taskId?: string | undefined;
@@ -1334,6 +1342,7 @@ function __c27(j: number): any {
         S.Struct({
           code: S.optional(S.Number),
           signal: S.optional(S.Number),
+          stopReason: S.String,
         }),
       ).annotate({ identifier: "TaskExecPollResponse" });
   }
