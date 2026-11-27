@@ -230,6 +230,8 @@ export interface FeatureFlagConditionGroupSchema {
   variant?: string | null | undefined;
   /** Group type index for this condition set. None means person-level aggregation. */
   aggregation_group_type_index?: number | null | undefined;
+  /** Display-only name for this release condition group. It does not affect evaluation. */
+  description?: string | null | undefined;
 }
 /** Release condition groups for the feature flag. */
 export type FeatureFlagFiltersSchemaGroupsList = Array<FeatureFlagConditionGroupSchema>;
@@ -2695,6 +2697,7 @@ function __c17(j: number): any {
           rollout_percentage: S.optional(S.Number),
           variant: S.optional(S.NullOr(S.String)),
           aggregation_group_type_index: S.optional(S.NullOr(S.Number)),
+          description: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "FeatureFlagConditionGroupSchema" });
     case 2:

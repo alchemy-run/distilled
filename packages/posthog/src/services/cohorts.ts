@@ -435,20 +435,36 @@ export interface GetCohortsCalculationHistoryRequest {
   /** Number of calculation runs to skip. Defaults to 0. */
   offset?: number | undefined;
 }
+export interface CohortCalculationQuery {
+  /** Text of the query. */
+  query?: string | undefined;
+  /** ClickHouse query ID. */
+  query_id?: string | undefined;
+  /** Query duration in milliseconds. */
+  query_ms?: number | undefined;
+  /** Peak memory the query used, in megabytes. */
+  memory_mb?: number | undefined;
+  /** Rows the query read. */
+  read_rows?: number | undefined;
+  /** Rows the query wrote. */
+  written_rows?: number | undefined;
+}
+/** Queries the calculation ran, in order. Each entry only has the keys that were recorded. */
+export type CohortCalculationHistoryQueriesList = Array<CohortCalculationQuery>;
 export interface CohortCalculationHistory {
   id: string;
   /** Cohort filters/properties at time of calculation */
   filters: unknown;
   /** Number of people in cohort */
-  count?: number | null | undefined;
+  count: number | null;
   /** When calculation started */
-  started_at?: string | undefined;
+  started_at: string;
   /** When calculation finished */
-  finished_at?: string | null | undefined;
-  /** Array of query information (query, query_id, query_ms, memory_mb, read_rows, written_rows) */
-  queries?: unknown | undefined;
+  finished_at: string | null;
+  /** Queries the calculation ran, in order. Each entry only has the keys that were recorded. */
+  queries: CohortCalculationHistoryQueriesList | null;
   /** Error message if calculation failed */
-  error?: string | null | undefined;
+  error: string | null;
   /** Calculate duration in seconds if both start and end times are available */
   duration_seconds: number | null;
   /** Check if calculation is completed (successfully or with error) */
@@ -894,7 +910,7 @@ export const getCohortsCalculationHistory: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<GetCohortsCalculationHistoryRequest>,
-  output: __S(51, __c3, 3) as any as S.Schema<CohortCalculationHistoryResponse>,
+  output: __S(53, __c3, 5) as any as S.Schema<CohortCalculationHistoryResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -1061,13 +1077,26 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          query: S.optional(S.String),
+          query_id: S.optional(S.String),
+          query_ms: S.optional(S.Number),
+          memory_mb: S.optional(S.Number),
+          read_rows: S.optional(S.Number),
+          written_rows: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CohortCalculationQuery" });
+    case 2:
+      return S.Array(__S(49, __c3, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String,
           filters: S.Unknown,
-          count: S.optional(S.NullOr(S.Number)),
-          started_at: S.optional(S.String),
-          finished_at: S.optional(S.NullOr(S.String)),
-          queries: S.optional(S.Unknown),
-          error: S.optional(S.NullOr(S.String)),
+          count: S.NullOr(S.Number),
+          started_at: S.String,
+          finished_at: S.NullOr(S.String),
+          queries: S.NullOr(__S(50, __c3, 2)),
+          error: S.NullOr(S.String),
           duration_seconds: S.NullOr(S.Number),
           is_completed: S.Boolean,
           is_successful: S.Boolean,
@@ -1078,12 +1107,12 @@ function __c3(j: number): any {
           main_query: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "CohortCalculationHistory" });
-    case 2:
-      return S.Array(__S(49, __c3, 1));
-    case 3:
+    case 4:
+      return S.Array(__S(51, __c3, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          results: __S(50, __c3, 2),
+          results: __S(52, __c3, 4),
           count: S.Number,
           next: S.NullOr(S.String),
           previous: S.NullOr(S.String),

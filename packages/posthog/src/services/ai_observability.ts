@@ -520,6 +520,8 @@ export interface CreateAiObservabilityOfflineExperimentRequest {
   expected_result_count?: number | null | undefined;
   /** Stable identifier for comparing executions of the same evaluation suite. */
   suite_key?: string | null | undefined;
+  /** Exact experiment scorer version. Omit to use the suite default. */
+  experiment_scorer_version_id?: string | null | undefined;
   /** Source of an external dataset. Hosted dataset provenance is derived from its revision. */
   dataset_source?: string | null | undefined;
   /** Stable identifier for the external dataset. */
@@ -570,6 +572,140 @@ export interface CreateAiObservabilityOfflineExperimentsFailRequest {
   project_id: string;
   /** Experiment UUID. */
   id: string;
+}
+/** * `item` - Item * `experiment` - Experiment */
+export type ScoreDefinitionScopeEnum = "item" | "experiment";
+/** * `categorical` - categorical * `numeric` - numeric * `boolean` - boolean */
+export type ScoreDefinitionKindEnum = "categorical" | "numeric" | "boolean";
+/** * `pass_rate` - pass_rate * `mean` - mean * `true_rate` - true_rate * `category_rate` - category_rate */
+export type ExperimentScoreStatisticEnum = "pass_rate" | "mean" | "true_rate" | "category_rate";
+/** * `run` - run * `exact` - exact * `combine` - combine */
+export type ExperimentScoreVersionPolicyEnum = "run" | "exact" | "combine";
+export interface CompositeInput {
+  /** Input name used in the formula. Start with a lowercase letter; use letters, digits, and underscores. */
+  alias: string;
+  /** Version of the input item scorer. Experiment formulas use its definition to find the run's results unless the version policy is exact. */
+  scorer_version_id: string;
+  statistic?: ExperimentScoreStatisticEnum | (string & {}) | undefined;
+  version_policy?: ExperimentScoreVersionPolicyEnum | (string & {}) | undefined;
+  category?: string | undefined;
+}
+/** Named inputs. Item formulas use reported results from exact versions. Experiment formulas use statistics from item scorers. */
+export type CompositeConfigInputsList = Array<CompositeInput>;
+export interface CompositeConfig {
+  /** Formula using the declared input aliases. Supports +, -, *, /, comparisons, and/or/not, conditional expressions, and number(), min(), max(), abs(). Boolean inputs are raw values: number(True) is 1 and number(False) is 0, regardless of passing rules. Categorical inputs are lists of keys: use "good" in relevance. Examples: (2 * precision + recall) / 3; safe and correct; "good" if correct else "bad". Every input alias must appear. Line breaks are allowed. Arithmetic results use 12 significant digits. Up to 1,024 characters and 16 input scorers. */
+  expression: string;
+  /** Named inputs. Item formulas use reported results from exact versions. Experiment formulas use statistics from item scorers. */
+  inputs: CompositeConfigInputsList;
+}
+export interface CategoricalScoreOption {
+  /** Stable option key. Use lowercase letters, numbers, underscores, or hyphens. */
+  key?: string | undefined;
+  /** Human-readable option label. */
+  label?: string | undefined;
+}
+/** Ordered categorical options available to the scorer. */
+export type CategoricalScoreDefinitionConfigOptionsList = Array<CategoricalScoreOption>;
+/** * `single` - single * `multiple` - multiple */
+export type SelectionModeEnum = "single" | "multiple";
+/** Passing category keys. Every returned category must be included. An empty list makes all accepted offline results fail. */
+export type CategoricalScorePassingRuleCategoriesList = Array<string>;
+export interface CategoricalScorePassingRule {
+  /** Passing category keys. Every returned category must be included. An empty list makes all accepted offline results fail. */
+  categories: CategoricalScorePassingRuleCategoriesList;
+}
+export interface CategoricalScoreDefinitionConfig {
+  /** Ordered categorical options available to the scorer. */
+  options?: CategoricalScoreDefinitionConfigOptionsList | undefined;
+  /** Whether reviewers can select one option or multiple options. Defaults to `single`. * `single` - single * `multiple` - multiple */
+  selection_mode?: SelectionModeEnum | (string & {}) | undefined;
+  /** Optional minimum number of options that can be selected when `selection_mode` is `multiple`. */
+  min_selections?: number | null | undefined;
+  /** Optional maximum number of options that can be selected when `selection_mode` is `multiple`. */
+  max_selections?: number | null | undefined;
+  /** Optional passing categories. Omit or set null for neutral scores. Each scorer version keeps its own rule. */
+  passing_rule?: CategoricalScorePassingRule | null | undefined;
+}
+/** * `gte` - At or above * `lte` - At or below */
+export type NumericScorePassingRuleSerializerOperatorEnum = "gte" | "lte";
+export interface NumericScorePassingRule {
+  /** Pass at or above (gte), or at or below (lte), the threshold. * `gte` - At or above * `lte` - At or below */
+  operator: NumericScorePassingRuleSerializerOperatorEnum | (string & {});
+  /** Finite passing threshold within any configured score bounds. */
+  threshold: number;
+}
+export interface NumericScoreDefinitionConfig {
+  /** Optional inclusive minimum score. */
+  min?: number | null | undefined;
+  /** Optional inclusive maximum score. */
+  max?: number | null | undefined;
+  /** Optional increment step for numeric input, for example 1 or 0.5. */
+  step?: number | null | undefined;
+  /** Optional passing rule. Omit or set null for neutral scores. Each scorer version keeps its own rule. */
+  passing_rule?: NumericScorePassingRule | null | undefined;
+}
+export interface BooleanScoreDefinitionConfig {
+  /** Whether true means failure. False, omitted, or null means true passes in offline evaluations. */
+  true_is_failure?: boolean | null | undefined;
+  /** Optional label for a true value. */
+  true_label?: string | undefined;
+  /** Optional label for a false value. */
+  false_label?: string | undefined;
+}
+export type ScoreDefinitionConfig =
+  | CategoricalScoreDefinitionConfig
+  | NumericScoreDefinitionConfig
+  | BooleanScoreDefinitionConfig;
+export interface CreateAiObservabilityOfflineExperimentsScorePreviewRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  id: string;
+  scope?: ScoreDefinitionScopeEnum | (string & {}) | undefined;
+  /** Expected formula output kind. * `categorical` - categorical * `numeric` - numeric * `boolean` - boolean */
+  kind: ScoreDefinitionKindEnum | (string & {});
+  /** Formula and pinned input versions to validate without saving. */
+  composition: CompositeConfig;
+  /** Output configuration to check literal categories and composite scoring rules. */
+  config?: ScoreDefinitionConfig | undefined;
+}
+/** * `ok` - Ok * `mixed_versions` - Mixed Versions * `missing_input` - Missing Input * `no_successful_items` - No Successful Items * `unavailable_statistic` - Unavailable Statistic * `overlapping_items` - Overlapping Items * `formula_error` - Formula Error * `pending` - Pending * `failed` - Failed */
+export type ExperimentScoreStatusEnum =
+  | "ok"
+  | "mixed_versions"
+  | "missing_input"
+  | "no_successful_items"
+  | "unavailable_statistic"
+  | "overlapping_items"
+  | "formula_error"
+  | "pending"
+  | "failed";
+export type ExperimentScorePreviewValueCase2List = Array<string>;
+export type ExperimentScorePreviewValue = number | boolean | ExperimentScorePreviewValueCase2List;
+export interface ExperimentScoreSource {
+  version_id: string;
+  version: number;
+  successful_items: number;
+  value: number | null;
+}
+export type ExperimentScoreInputSourcesList = Array<ExperimentScoreSource>;
+export interface ExperimentScoreInput {
+  alias: string;
+  statistic: ExperimentScoreStatisticEnum;
+  version_policy: ExperimentScoreVersionPolicyEnum;
+  status: ExperimentScoreStatusEnum;
+  value: number | null;
+  sources: ExperimentScoreInputSourcesList;
+}
+export type ExperimentScorePreviewInputsList = Array<ExperimentScoreInput>;
+export interface ExperimentScorePreview {
+  status: ExperimentScoreStatusEnum;
+  kind: ScoreDefinitionKindEnum;
+  /** Output configuration used to interpret the result. */
+  config: ScoreDefinitionConfig;
+  /** Passing verdict, or null without a value or passing rule. */
+  passed: boolean | null;
+  value: ExperimentScorePreviewValue | null;
+  inputs: ExperimentScorePreviewInputsList;
 }
 /** The IDs of the sessions on a page of the list, from 1 to 100. Items come back in this order, once per ID. A session ID is at most 400 characters, the longest the sessions list hands out. */
 export type CreateAiObservabilitySessionsPersonRequestSessionIdsList = Array<string>;
@@ -1151,9 +1287,31 @@ export interface GetAiObservabilityOfflineExperimentRequest {
   /** Experiment UUID. */
   id: string;
 }
+export type ExperimentScoreValueCase2List = Array<string>;
+export type ExperimentScoreValue = number | boolean | ExperimentScoreValueCase2List;
+export type ExperimentScoreInputsList = Array<ExperimentScoreInput>;
+export interface ExperimentScore {
+  status: ExperimentScoreStatusEnum;
+  kind: ScoreDefinitionKindEnum;
+  /** Output configuration used to interpret the result. */
+  config: ScoreDefinitionConfig;
+  /** Passing verdict, or null without a value or passing rule. */
+  passed: boolean | null;
+  value: ExperimentScoreValue | null;
+  inputs: ExperimentScoreInputsList;
+  /** Definition of the experiment scorer pinned to this run. */
+  definition_id: string;
+  scorer_version_id: string;
+  version: number;
+  name: string;
+}
 /** Project tag names assigned to this experiment. */
 export type OfflineExperimentReadTagsList = Array<string>;
 export interface OfflineExperimentRead {
+  /** Whether this suite has a visible default for future runs. Checked on experiment detail. */
+  suite_has_score?: boolean | null | undefined;
+  /** Overall score from the run's pinned experiment formula, when visible. */
+  experiment_score?: ExperimentScore | null | undefined;
   /** Most recent item, result, or payload change. */
   updated_at?: string | null | undefined;
   /** Number of items when the experiment closed. */
@@ -1324,80 +1482,6 @@ export interface GetAiObservabilityOfflineExperimentsResultCellRequest {
 }
 /** * `reported` - Reported * `composite` - Composite */
 export type ScoreDefinitionCalculationEnum = "reported" | "composite";
-export interface CompositeInput {
-  /** Input name used in the formula. Start with a lowercase letter; use letters, digits, and underscores. */
-  alias: string;
-  /** Exact immutable version of an ordinary input scorer. */
-  scorer_version_id: string;
-}
-/** Named, version-pinned input scorers for the same item. Nested composites are not supported. */
-export type CompositeConfigInputsList = Array<CompositeInput>;
-export interface CompositeConfig {
-  /** Formula using the declared input aliases. Supports +, -, *, /, comparisons, and/or/not, conditional expressions, and number(), min(), max(), abs(). Boolean inputs are raw values: number(True) is 1 and number(False) is 0, regardless of passing rules. Categorical inputs are lists of keys: use "good" in relevance. Examples: (2 * precision + recall) / 3; safe and correct; "good" if correct else "bad". Every input alias must appear. Line breaks are allowed. Arithmetic results use 12 significant digits. Up to 1,024 characters and 16 input scorers. */
-  expression: string;
-  /** Named, version-pinned input scorers for the same item. Nested composites are not supported. */
-  inputs: CompositeConfigInputsList;
-}
-/** * `categorical` - categorical * `numeric` - numeric * `boolean` - boolean */
-export type ScoreDefinitionKindEnum = "categorical" | "numeric" | "boolean";
-export interface CategoricalScoreOption {
-  /** Stable option key. Use lowercase letters, numbers, underscores, or hyphens. */
-  key?: string | undefined;
-  /** Human-readable option label. */
-  label?: string | undefined;
-}
-/** Ordered categorical options available to the scorer. */
-export type CategoricalScoreDefinitionConfigOptionsList = Array<CategoricalScoreOption>;
-/** * `single` - single * `multiple` - multiple */
-export type SelectionModeEnum = "single" | "multiple";
-/** Passing category keys. Every returned category must be included. An empty list makes all accepted offline results fail. */
-export type CategoricalScorePassingRuleCategoriesList = Array<string>;
-export interface CategoricalScorePassingRule {
-  /** Passing category keys. Every returned category must be included. An empty list makes all accepted offline results fail. */
-  categories: CategoricalScorePassingRuleCategoriesList;
-}
-export interface CategoricalScoreDefinitionConfig {
-  /** Ordered categorical options available to the scorer. */
-  options?: CategoricalScoreDefinitionConfigOptionsList | undefined;
-  /** Whether reviewers can select one option or multiple options. Defaults to `single`. * `single` - single * `multiple` - multiple */
-  selection_mode?: SelectionModeEnum | undefined;
-  /** Optional minimum number of options that can be selected when `selection_mode` is `multiple`. */
-  min_selections?: number | null | undefined;
-  /** Optional maximum number of options that can be selected when `selection_mode` is `multiple`. */
-  max_selections?: number | null | undefined;
-  /** Optional passing categories. Omit or set null for neutral scores. Each scorer version keeps its own rule. */
-  passing_rule?: CategoricalScorePassingRule | null | undefined;
-}
-/** * `gte` - At or above * `lte` - At or below */
-export type NumericScorePassingRuleSerializerOperatorEnum = "gte" | "lte";
-export interface NumericScorePassingRule {
-  /** Pass at or above (gte), or at or below (lte), the threshold. * `gte` - At or above * `lte` - At or below */
-  operator: NumericScorePassingRuleSerializerOperatorEnum;
-  /** Finite passing threshold within any configured score bounds. */
-  threshold: number;
-}
-export interface NumericScoreDefinitionConfig {
-  /** Optional inclusive minimum score. */
-  min?: number | null | undefined;
-  /** Optional inclusive maximum score. */
-  max?: number | null | undefined;
-  /** Optional increment step for numeric input, for example 1 or 0.5. */
-  step?: number | null | undefined;
-  /** Optional passing rule. Omit or set null for neutral scores. Each scorer version keeps its own rule. */
-  passing_rule?: NumericScorePassingRule | null | undefined;
-}
-export interface BooleanScoreDefinitionConfig {
-  /** Whether true means failure. False, omitted, or null means true passes in offline evaluations. */
-  true_is_failure?: boolean | null | undefined;
-  /** Optional label for a true value. */
-  true_label?: string | undefined;
-  /** Optional label for a false value. */
-  false_label?: string | undefined;
-}
-export type ScoreDefinitionConfig =
-  | CategoricalScoreDefinitionConfig
-  | NumericScoreDefinitionConfig
-  | BooleanScoreDefinitionConfig;
 export interface OfflineScorerVersionRead {
   /** Reported or computed from other item scores. * `reported` - Reported * `composite` - Composite */
   calculation: ScoreDefinitionCalculationEnum;
@@ -2326,7 +2410,7 @@ export interface ListAiObservabilityOfflineScorersHistoryRequest {
   id: string;
   /** Exact application revision. */
   application_version?: string | undefined;
-  /** Split history by this property. Model uses each item's model, falling back to the experiment's model. * `model_version` - Model * `prompt_version` - Prompt version * `application_version` - Application version * `suite_key` - Suite * `run_source` - Run source */
+  /** Split history by this property. Model uses the run's model for experiment scores. For item scores it uses the item's model, falling back to the run's model. * `model_version` - Model * `prompt_version` - Prompt version * `application_version` - Application version * `suite_key` - Suite * `run_source` - Run source */
   breakdown?: ListAiObservabilityOfflineScorersHistoryRequestBreakdown | (string & {}) | undefined;
   /** Filter experiments by the author's user ID. */
   created_by?: number | undefined;
@@ -2370,8 +2454,8 @@ export interface OfflineHistoryPoint {
   breakdown_value?: string | null | undefined;
   /** Experiment execution and cohort context. */
   experiment: OfflineExperimentRead;
-  /** Complete summary for one experiment and scorer version. */
-  summary: OfflineScorerSummary;
+  /** Item score summary. For an experiment scorer, this is null and experiment.experiment_score holds the run's result. */
+  summary: OfflineScorerSummary | null;
 }
 /** Experiment/scorer-version history page. */
 export type OfflineHistoryPageResultsList = Array<OfflineHistoryPoint>;
@@ -3102,11 +3186,11 @@ export const aiObservabilityInstrumentationChecklistRestoreCreate: API.Operation
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2144,
-    __c67,
+    2208,
+    __c69,
     0,
   ) as any as S.Schema<AiObservabilityInstrumentationChecklistRestoreCreateRequest>,
-  output: __S(2179, __c68, 3) as any as S.Schema<InstrumentationChecklist>,
+  output: __S(2243, __c70, 3) as any as S.Schema<InstrumentationChecklist>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3128,13 +3212,13 @@ export const aiObservabilityOfflineExperimentsItemsDestroy: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2528,
-    __c79,
+    2592,
+    __c81,
     0,
   ) as any as S.Schema<AiObservabilityOfflineExperimentsItemsDestroyRequest>,
   output: __S(
-    2560,
-    __c80,
+    2624,
+    __c82,
     0,
   ) as any as S.Schema<AiObservabilityOfflineExperimentsItemsDestroyResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
@@ -3158,13 +3242,13 @@ export const aiObservabilityOfflineExperimentsItemsPayloadDestroy: API.Operation
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2976,
-    __c93,
+    3040,
+    __c95,
     0,
   ) as any as S.Schema<AiObservabilityOfflineExperimentsItemsPayloadDestroyRequest>,
   output: __S(
-    2560,
-    __c80,
+    2624,
+    __c82,
     0,
   ) as any as S.Schema<AiObservabilityOfflineExperimentsItemsPayloadDestroyResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
@@ -3188,13 +3272,13 @@ export const aiObservabilityOfflineExperimentsResultsDestroy: API.OperationMetho
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3360,
-    __c105,
+    3424,
+    __c107,
     0,
   ) as any as S.Schema<AiObservabilityOfflineExperimentsResultsDestroyRequest>,
   output: __S(
-    2560,
-    __c80,
+    2624,
+    __c82,
     0,
   ) as any as S.Schema<AiObservabilityOfflineExperimentsResultsDestroyResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
@@ -3218,13 +3302,13 @@ export const aiObservabilityOfflineExperimentsResultsPayloadDestroy: API.Operati
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3456,
-    __c108,
+    3552,
+    __c111,
     0,
   ) as any as S.Schema<AiObservabilityOfflineExperimentsResultsPayloadDestroyRequest>,
   output: __S(
-    2560,
-    __c80,
+    2624,
+    __c82,
     0,
   ) as any as S.Schema<AiObservabilityOfflineExperimentsResultsPayloadDestroyResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
@@ -3324,7 +3408,7 @@ export const createAiObservabilityInstrumentationChecklistDismiss: API.Operation
     __c13,
     0,
   ) as any as S.Schema<CreateAiObservabilityInstrumentationChecklistDismissRequest>,
-  output: __S(2179, __c68, 3) as any as S.Schema<InstrumentationChecklist>,
+  output: __S(2243, __c70, 3) as any as S.Schema<InstrumentationChecklist>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3403,6 +3487,31 @@ export const createAiObservabilityOfflineExperimentsFail: API.OperationMethod<
   span: "CreateAiObservabilityOfflineExperimentsFail",
 }));
 
+export type CreateAiObservabilityOfflineExperimentsScorePreviewError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | PosthogOpError;
+export const createAiObservabilityOfflineExperimentsScorePreview: API.OperationMethod<
+  CreateAiObservabilityOfflineExperimentsScorePreviewRequest,
+  ExperimentScorePreview,
+  CreateAiObservabilityOfflineExperimentsScorePreviewError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    576,
+    __c18,
+    0,
+  ) as any as S.Schema<CreateAiObservabilityOfflineExperimentsScorePreviewRequest>,
+  output: __S(577, __c18, 1) as any as S.Schema<ExperimentScorePreview>,
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAiObservabilityOfflineExperimentsScorePreview",
+}));
+
 export type CreateAiObservabilitySessionsPersonError = BadRequest | PosthogOpError;
 /** The person each session on a page ran for, which is its first trace's person, labeled by the project's display name properties. A read, sent as a POST because a page of session ids may not fit in a query string. */
 export const createAiObservabilitySessionsPerson: API.OperationMethod<
@@ -3411,8 +3520,8 @@ export const createAiObservabilitySessionsPerson: API.OperationMethod<
   CreateAiObservabilitySessionsPersonError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<CreateAiObservabilitySessionsPersonRequest>,
-  output: __S(579, __c18, 3) as any as S.Schema<SessionPeopleList>,
+  input: __S(672, __c21, 0) as any as S.Schema<CreateAiObservabilitySessionsPersonRequest>,
+  output: __S(675, __c21, 3) as any as S.Schema<SessionPeopleList>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3429,8 +3538,8 @@ export const createAiObservabilitySessionsPreview: API.OperationMethod<
   CreateAiObservabilitySessionsPreviewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<CreateAiObservabilitySessionsPreviewRequest>,
-  output: __S(643, __c20, 3) as any as S.Schema<SessionPreviewList>,
+  input: __S(736, __c23, 0) as any as S.Schema<CreateAiObservabilitySessionsPreviewRequest>,
+  output: __S(739, __c23, 3) as any as S.Schema<SessionPreviewList>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3446,8 +3555,8 @@ export const createAiObservabilityTracesAvailability: API.OperationMethod<
   CreateAiObservabilityTracesAvailabilityError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<CreateAiObservabilityTracesAvailabilityRequest>,
-  output: __S(673, __c21, 1) as any as S.Schema<TraceAvailability>,
+  input: __S(768, __c24, 0) as any as S.Schema<CreateAiObservabilityTracesAvailabilityRequest>,
+  output: __S(769, __c24, 1) as any as S.Schema<TraceAvailability>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3464,8 +3573,8 @@ export const createAiObservabilityTracesExport: API.OperationMethod<
   CreateAiObservabilityTracesExportError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<CreateAiObservabilityTracesExportRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<TraceExport>,
+  input: __S(800, __c25, 0) as any as S.Schema<CreateAiObservabilityTracesExportRequest>,
+  output: __S(832, __c26, 0) as any as S.Schema<TraceExport>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3485,8 +3594,8 @@ export const createAiObservabilityTracesNodesParserTest: API.OperationMethod<
   CreateAiObservabilityTracesNodesParserTestError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<CreateAiObservabilityTracesNodesParserTestRequest>,
-  output: __S(771, __c24, 3) as any as S.Schema<TraceNodeParserTest>,
+  input: __S(864, __c27, 0) as any as S.Schema<CreateAiObservabilityTracesNodesParserTestRequest>,
+  output: __S(867, __c27, 3) as any as S.Schema<TraceNodeParserTest>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3503,8 +3612,8 @@ export const createAiObservabilityTracesPerson: API.OperationMethod<
   CreateAiObservabilityTracesPersonError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<CreateAiObservabilityTracesPersonRequest>,
-  output: __S(835, __c26, 3) as any as S.Schema<TracePeopleList>,
+  input: __S(928, __c29, 0) as any as S.Schema<CreateAiObservabilityTracesPersonRequest>,
+  output: __S(931, __c29, 3) as any as S.Schema<TracePeopleList>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3521,8 +3630,8 @@ export const createAiObservabilityTracesPreview: API.OperationMethod<
   CreateAiObservabilityTracesPreviewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<CreateAiObservabilityTracesPreviewRequest>,
-  output: __S(867, __c27, 3) as any as S.Schema<TracePreviewList>,
+  input: __S(960, __c30, 0) as any as S.Schema<CreateAiObservabilityTracesPreviewRequest>,
+  output: __S(963, __c30, 3) as any as S.Schema<TracePreviewList>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3539,8 +3648,8 @@ export const createAiObservabilityTracesSentiment: API.OperationMethod<
   CreateAiObservabilityTracesSentimentError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<CreateAiObservabilityTracesSentimentRequest>,
-  output: __S(900, __c28, 4) as any as S.Schema<TraceSentimentList>,
+  input: __S(992, __c31, 0) as any as S.Schema<CreateAiObservabilityTracesSentimentRequest>,
+  output: __S(996, __c31, 4) as any as S.Schema<TraceSentimentList>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3557,8 +3666,8 @@ export const createAiObservabilityTracesSummary: API.OperationMethod<
   CreateAiObservabilityTracesSummaryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<CreateAiObservabilityTracesSummaryRequest>,
-  output: __S(964, __c30, 4) as any as S.Schema<TraceSummary>,
+  input: __S(1024, __c32, 0) as any as S.Schema<CreateAiObservabilityTracesSummaryRequest>,
+  output: __S(1060, __c33, 4) as any as S.Schema<TraceSummary>,
   errors: [BadRequest, Forbidden],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3575,8 +3684,8 @@ export const createAiObservabilityTracesTurn: API.OperationMethod<
   CreateAiObservabilityTracesTurnError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<CreateAiObservabilityTracesTurnRequest>,
-  output: __S(995, __c31, 3) as any as S.Schema<TraceTurnList>,
+  input: __S(1088, __c34, 0) as any as S.Schema<CreateAiObservabilityTracesTurnRequest>,
+  output: __S(1091, __c34, 3) as any as S.Schema<TraceTurnList>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3593,7 +3702,7 @@ export const createDataset: API.OperationMethod<
   CreateDatasetError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<CreateDatasetRequest>,
+  input: __S(1120, __c35, 0) as any as S.Schema<CreateDatasetRequest>,
   output: __S(320, __c10, 0) as any as S.Schema<DatasetRead>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: PosthogServiceErrors,
@@ -3611,7 +3720,7 @@ export const createDatasetItem: API.OperationMethod<
   CreateDatasetItemError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<CreateDatasetItemRequest>,
+  input: __S(1152, __c36, 0) as any as S.Schema<CreateDatasetItemRequest>,
   output: __S(384, __c12, 0) as any as S.Schema<DatasetItemRead>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: PosthogServiceErrors,
@@ -3629,8 +3738,8 @@ export const createDatasetsExport: API.OperationMethod<
   CreateDatasetsExportError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<CreateDatasetsExportRequest>,
-  output: __S(1120, __c35, 0) as any as S.Schema<DatasetExportRead>,
+  input: __S(1184, __c37, 0) as any as S.Schema<CreateDatasetsExportRequest>,
+  output: __S(1216, __c38, 0) as any as S.Schema<DatasetExportRead>,
   errors: [Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3647,8 +3756,8 @@ export const createDatasetsExtendRetention: API.OperationMethod<
   CreateDatasetsExtendRetentionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<CreateDatasetsExtendRetentionRequest>,
-  output: __S(1184, __c37, 0) as any as S.Schema<DatasetRetentionEntry>,
+  input: __S(1248, __c39, 0) as any as S.Schema<CreateDatasetsExtendRetentionRequest>,
+  output: __S(1280, __c40, 0) as any as S.Schema<DatasetRetentionEntry>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3665,8 +3774,8 @@ export const createLlmAnalyticsSummarization: API.OperationMethod<
   CreateLlmAnalyticsSummarizationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<CreateLlmAnalyticsSummarizationRequest>,
-  output: __S(1220, __c38, 4) as any as S.Schema<SummarizeResponse>,
+  input: __S(1312, __c41, 0) as any as S.Schema<CreateLlmAnalyticsSummarizationRequest>,
+  output: __S(1316, __c41, 4) as any as S.Schema<SummarizeResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3686,8 +3795,8 @@ export const createLlmAnalyticsSummarizationBatchCheck: API.OperationMethod<
   CreateLlmAnalyticsSummarizationBatchCheckError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<CreateLlmAnalyticsSummarizationBatchCheckRequest>,
-  output: __S(1251, __c39, 3) as any as S.Schema<BatchCheckResponse>,
+  input: __S(1344, __c42, 0) as any as S.Schema<CreateLlmAnalyticsSummarizationBatchCheckRequest>,
+  output: __S(1347, __c42, 3) as any as S.Schema<BatchCheckResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3704,8 +3813,8 @@ export const createLlmAnalyticsTextRepr: API.OperationMethod<
   CreateLlmAnalyticsTextReprError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1281, __c40, 1) as any as S.Schema<CreateLlmAnalyticsTextReprRequest>,
-  output: __S(1283, __c40, 3) as any as S.Schema<TextReprResponse>,
+  input: __S(1377, __c43, 1) as any as S.Schema<CreateLlmAnalyticsTextReprRequest>,
+  output: __S(1379, __c43, 3) as any as S.Schema<TextReprResponse>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3722,8 +3831,8 @@ export const getAiObservabilityInstrumentationChecklist: API.OperationMethod<
   GetAiObservabilityInstrumentationChecklistError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<GetAiObservabilityInstrumentationChecklistRequest>,
-  output: __S(2179, __c68, 3) as any as S.Schema<InstrumentationChecklist>,
+  input: __S(1408, __c44, 0) as any as S.Schema<GetAiObservabilityInstrumentationChecklistRequest>,
+  output: __S(2243, __c70, 3) as any as S.Schema<InstrumentationChecklist>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3743,8 +3852,8 @@ export const getAiObservabilityOfflineExperiment: API.OperationMethod<
   GetAiObservabilityOfflineExperimentError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<GetAiObservabilityOfflineExperimentRequest>,
-  output: __S(1376, __c43, 0) as any as S.Schema<OfflineExperimentRead>,
+  input: __S(1440, __c45, 0) as any as S.Schema<GetAiObservabilityOfflineExperimentRequest>,
+  output: __S(1473, __c46, 1) as any as S.Schema<OfflineExperimentRead>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3764,8 +3873,8 @@ export const getAiObservabilityOfflineExperimentsItem: API.OperationMethod<
   GetAiObservabilityOfflineExperimentsItemError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<GetAiObservabilityOfflineExperimentsItemRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<OfflineItemRead>,
+  input: __S(1504, __c47, 0) as any as S.Schema<GetAiObservabilityOfflineExperimentsItemRequest>,
+  output: __S(1568, __c49, 0) as any as S.Schema<OfflineItemRead>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3786,11 +3895,11 @@ export const getAiObservabilityOfflineExperimentsItemsPayload: API.OperationMeth
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1504,
-    __c47,
+    1600,
+    __c50,
     0,
   ) as any as S.Schema<GetAiObservabilityOfflineExperimentsItemsPayloadRequest>,
-  output: __S(1505, __c47, 1) as any as S.Schema<OfflineItemPayloadRead>,
+  output: __S(1601, __c50, 1) as any as S.Schema<OfflineItemPayloadRead>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3811,11 +3920,11 @@ export const getAiObservabilityOfflineExperimentsResultCell: API.OperationMethod
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1536,
-    __c48,
+    1664,
+    __c52,
     0,
   ) as any as S.Schema<GetAiObservabilityOfflineExperimentsResultCellRequest>,
-  output: __S(1537, __c48, 1) as any as S.Schema<OfflineResultCells>,
+  output: __S(1665, __c52, 1) as any as S.Schema<OfflineResultCells>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3836,11 +3945,11 @@ export const getAiObservabilityOfflineExperimentsResultsPayload: API.OperationMe
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1664,
-    __c52,
+    1760,
+    __c55,
     0,
   ) as any as S.Schema<GetAiObservabilityOfflineExperimentsResultsPayloadRequest>,
-  output: __S(1665, __c52, 1) as any as S.Schema<OfflineResultPayloadRead>,
+  output: __S(1761, __c55, 1) as any as S.Schema<OfflineResultPayloadRead>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3857,8 +3966,8 @@ export const getAiObservabilitySession: API.OperationMethod<
   GetAiObservabilitySessionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<GetAiObservabilitySessionRequest>,
-  output: __S(1760, __c55, 0) as any as S.Schema<SessionListItem>,
+  input: __S(1792, __c56, 0) as any as S.Schema<GetAiObservabilitySessionRequest>,
+  output: __S(1856, __c58, 0) as any as S.Schema<SessionListItem>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3875,8 +3984,8 @@ export const getAiObservabilitySessionsTurn: API.OperationMethod<
   GetAiObservabilitySessionsTurnError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<GetAiObservabilitySessionsTurnRequest>,
-  output: __S(1795, __c56, 3) as any as S.Schema<SessionTurnPage>,
+  input: __S(1888, __c59, 0) as any as S.Schema<GetAiObservabilitySessionsTurnRequest>,
+  output: __S(1891, __c59, 3) as any as S.Schema<SessionTurnPage>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3893,8 +4002,8 @@ export const getAiObservabilityTrace: API.OperationMethod<
   GetAiObservabilityTraceError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<GetAiObservabilityTraceRequest>,
-  output: __S(1895, __c59, 7) as any as S.Schema<Trace>,
+  input: __S(1952, __c61, 0) as any as S.Schema<GetAiObservabilityTraceRequest>,
+  output: __S(1991, __c62, 7) as any as S.Schema<Trace>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3911,8 +4020,8 @@ export const getAiObservabilityTracesCluster: API.OperationMethod<
   GetAiObservabilityTracesClusterError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<GetAiObservabilityTracesClusterRequest>,
-  output: __S(1923, __c60, 3) as any as S.Schema<TraceClusters>,
+  input: __S(2016, __c63, 0) as any as S.Schema<GetAiObservabilityTracesClusterRequest>,
+  output: __S(2019, __c63, 3) as any as S.Schema<TraceClusters>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3929,8 +4038,8 @@ export const getAiObservabilityTracesEvaluation: API.OperationMethod<
   GetAiObservabilityTracesEvaluationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<GetAiObservabilityTracesEvaluationRequest>,
-  output: __S(1958, __c61, 6) as any as S.Schema<TraceEvaluationResults>,
+  input: __S(2048, __c64, 0) as any as S.Schema<GetAiObservabilityTracesEvaluationRequest>,
+  output: __S(2054, __c64, 6) as any as S.Schema<TraceEvaluationResults>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3947,8 +4056,8 @@ export const getAiObservabilityTracesExport: API.OperationMethod<
   GetAiObservabilityTracesExportError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<GetAiObservabilityTracesExportRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<TraceExport>,
+  input: __S(2080, __c65, 0) as any as S.Schema<GetAiObservabilityTracesExportRequest>,
+  output: __S(832, __c26, 0) as any as S.Schema<TraceExport>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3969,8 +4078,8 @@ export const getAiObservabilityTracesExportsContent: API.OperationMethod<
   GetAiObservabilityTracesExportsContentError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<GetAiObservabilityTracesExportsContentRequest>,
-  output: __S(2018, __c63, 2) as any as S.Schema<TraceExportFile>,
+  input: __S(2112, __c66, 0) as any as S.Schema<GetAiObservabilityTracesExportsContentRequest>,
+  output: __S(2114, __c66, 2) as any as S.Schema<TraceExportFile>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -3987,8 +4096,8 @@ export const getAiObservabilityTracesFeedback: API.OperationMethod<
   GetAiObservabilityTracesFeedbackError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<GetAiObservabilityTracesFeedbackRequest>,
-  output: __S(2090, __c65, 10) as any as S.Schema<TraceFeedback>,
+  input: __S(2176, __c68, 0) as any as S.Schema<GetAiObservabilityTracesFeedbackRequest>,
+  output: __S(2186, __c68, 10) as any as S.Schema<TraceFeedback>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4005,8 +4114,8 @@ export const getAiObservabilityTracesNode: API.OperationMethod<
   GetAiObservabilityTracesNodeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<GetAiObservabilityTracesNodeRequest>,
-  output: __S(2115, __c66, 3) as any as S.Schema<TraceNodeDetail>,
+  input: __S(2272, __c71, 0) as any as S.Schema<GetAiObservabilityTracesNodeRequest>,
+  output: __S(2275, __c71, 3) as any as S.Schema<TraceNodeDetail>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4023,8 +4132,8 @@ export const getAiObservabilityTracesNodesDatasetItem: API.OperationMethod<
   GetAiObservabilityTracesNodesDatasetItemError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<GetAiObservabilityTracesNodesDatasetItemRequest>,
-  output: __S(2209, __c69, 1) as any as S.Schema<TraceNodeDatasetItem>,
+  input: __S(2304, __c72, 0) as any as S.Schema<GetAiObservabilityTracesNodesDatasetItemRequest>,
+  output: __S(2305, __c72, 1) as any as S.Schema<TraceNodeDatasetItem>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4041,8 +4150,8 @@ export const getAiObservabilityTracesNodesRaw: API.OperationMethod<
   GetAiObservabilityTracesNodesRawError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<GetAiObservabilityTracesNodesRawRequest>,
-  output: __S(2050, __c64, 2) as any as S.Schema<TraceNodeRaw>,
+  input: __S(2336, __c73, 0) as any as S.Schema<GetAiObservabilityTracesNodesRawRequest>,
+  output: __S(2146, __c67, 2) as any as S.Schema<TraceNodeRaw>,
   errors: [BadRequest, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4059,8 +4168,8 @@ export const getAiObservabilityTracesPullRequest: API.OperationMethod<
   GetAiObservabilityTracesPullRequestError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<GetAiObservabilityTracesPullRequestRequest>,
-  output: __S(2274, __c71, 2) as any as S.Schema<TracePullRequestLookup>,
+  input: __S(2368, __c74, 0) as any as S.Schema<GetAiObservabilityTracesPullRequestRequest>,
+  output: __S(2370, __c74, 2) as any as S.Schema<TracePullRequestLookup>,
   errors: [BadRequest, Forbidden],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4077,8 +4186,8 @@ export const getAiObservabilityTracesReview: API.OperationMethod<
   GetAiObservabilityTracesReviewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<GetAiObservabilityTracesReviewRequest>,
-  output: __S(1828, __c57, 4) as any as S.Schema<TraceReviewStatus>,
+  input: __S(2400, __c75, 0) as any as S.Schema<GetAiObservabilityTracesReviewRequest>,
+  output: __S(1924, __c60, 4) as any as S.Schema<TraceReviewStatus>,
   errors: [BadRequest],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4099,8 +4208,8 @@ export const getAiObservabilityTracesSummary: API.OperationMethod<
   GetAiObservabilityTracesSummaryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<GetAiObservabilityTracesSummaryRequest>,
-  output: __S(964, __c30, 4) as any as S.Schema<TraceSummary>,
+  input: __S(2432, __c76, 0) as any as S.Schema<GetAiObservabilityTracesSummaryRequest>,
+  output: __S(1060, __c33, 4) as any as S.Schema<TraceSummary>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4117,7 +4226,7 @@ export const getDataset: API.OperationMethod<
   GetDatasetError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<GetDatasetRequest>,
+  input: __S(2464, __c77, 0) as any as S.Schema<GetDatasetRequest>,
   output: __S(320, __c10, 0) as any as S.Schema<DatasetRead>,
   errors: [Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
@@ -4135,7 +4244,7 @@ export const getDatasetItem: API.OperationMethod<
   GetDatasetItemError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<GetDatasetItemRequest>,
+  input: __S(2496, __c78, 0) as any as S.Schema<GetDatasetItemRequest>,
   output: __S(384, __c12, 0) as any as S.Schema<DatasetItemRead>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -4153,8 +4262,8 @@ export const getDatasetsExport: API.OperationMethod<
   GetDatasetsExportError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<GetDatasetsExportRequest>,
-  output: __S(1120, __c35, 0) as any as S.Schema<DatasetExportRead>,
+  input: __S(2528, __c79, 0) as any as S.Schema<GetDatasetsExportRequest>,
+  output: __S(1216, __c38, 0) as any as S.Schema<DatasetExportRead>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4171,8 +4280,8 @@ export const getDatasetsExportsContent: API.OperationMethod<
   GetDatasetsExportsContentError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<GetDatasetsExportsContentRequest>,
-  output: __S(2560, __c80, 0) as any as S.Schema<GetDatasetsExportsContentResponse>,
+  input: __S(2560, __c80, 0) as any as S.Schema<GetDatasetsExportsContentRequest>,
+  output: __S(2624, __c82, 0) as any as S.Schema<GetDatasetsExportsContentResponse>,
   errors: [Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4189,8 +4298,8 @@ export const getDatasetsRetention: API.OperationMethod<
   GetDatasetsRetentionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<GetDatasetsRetentionRequest>,
-  output: __S(2498, __c78, 2) as any as S.Schema<DatasetRetentionRead>,
+  input: __S(2656, __c83, 0) as any as S.Schema<GetDatasetsRetentionRequest>,
+  output: __S(2658, __c83, 2) as any as S.Schema<DatasetRetentionRead>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4210,8 +4319,8 @@ export const listAiObservabilityOfflineExperiments: API.OperationMethod<
   ListAiObservabilityOfflineExperimentsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<ListAiObservabilityOfflineExperimentsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<OfflineExperimentPage>,
+  input: __S(2688, __c84, 0) as any as S.Schema<ListAiObservabilityOfflineExperimentsRequest>,
+  output: __S(2690, __c84, 2) as any as S.Schema<OfflineExperimentPage>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4231,8 +4340,8 @@ export const listAiObservabilityOfflineExperimentsItems: API.OperationMethod<
   ListAiObservabilityOfflineExperimentsItemsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<ListAiObservabilityOfflineExperimentsItemsRequest>,
-  output: __S(2626, __c82, 2) as any as S.Schema<OfflineItemPage>,
+  input: __S(2720, __c85, 0) as any as S.Schema<ListAiObservabilityOfflineExperimentsItemsRequest>,
+  output: __S(2722, __c85, 2) as any as S.Schema<OfflineItemPage>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4253,11 +4362,11 @@ export const listAiObservabilityOfflineExperimentsItemsResults: API.OperationMet
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2656,
-    __c83,
+    2752,
+    __c86,
     0,
   ) as any as S.Schema<ListAiObservabilityOfflineExperimentsItemsResultsRequest>,
-  output: __S(2659, __c83, 3) as any as S.Schema<OfflineResultPage>,
+  output: __S(2755, __c86, 3) as any as S.Schema<OfflineResultPage>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4278,11 +4387,11 @@ export const listAiObservabilityOfflineExperimentsScorerSummaries: API.Operation
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2688,
-    __c84,
+    2784,
+    __c87,
     0,
   ) as any as S.Schema<ListAiObservabilityOfflineExperimentsScorerSummariesRequest>,
-  output: __S(2690, __c84, 2) as any as S.Schema<OfflineSummaryPage>,
+  output: __S(2786, __c87, 2) as any as S.Schema<OfflineSummaryPage>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4302,8 +4411,8 @@ export const listAiObservabilityOfflineScorersHistory: API.OperationMethod<
   ListAiObservabilityOfflineScorersHistoryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<ListAiObservabilityOfflineScorersHistoryRequest>,
-  output: __S(2755, __c86, 3) as any as S.Schema<OfflineHistoryPage>,
+  input: __S(2848, __c89, 0) as any as S.Schema<ListAiObservabilityOfflineScorersHistoryRequest>,
+  output: __S(2851, __c89, 3) as any as S.Schema<OfflineHistoryPage>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4320,8 +4429,8 @@ export const listAiObservabilitySessions: API.OperationMethod<
   ListAiObservabilitySessionsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<ListAiObservabilitySessionsRequest>,
-  output: __S(2786, __c87, 2) as any as S.Schema<SessionList>,
+  input: __S(2880, __c90, 0) as any as S.Schema<ListAiObservabilitySessionsRequest>,
+  output: __S(2882, __c90, 2) as any as S.Schema<SessionList>,
   errors: [BadRequest, Forbidden],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4338,8 +4447,8 @@ export const listAiObservabilityTraces: API.OperationMethod<
   ListAiObservabilityTracesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<ListAiObservabilityTracesRequest>,
-  output: __S(2820, __c88, 4) as any as S.Schema<TraceList>,
+  input: __S(2912, __c91, 0) as any as S.Schema<ListAiObservabilityTracesRequest>,
+  output: __S(2916, __c91, 4) as any as S.Schema<TraceList>,
   errors: [BadRequest, Forbidden],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4359,8 +4468,8 @@ export const listAiObservabilityTracesMetrics: API.OperationMethod<
   ListAiObservabilityTracesMetricsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<ListAiObservabilityTracesMetricsRequest>,
-  output: __S(2853, __c89, 5) as any as S.Schema<TraceMetrics>,
+  input: __S(2944, __c92, 0) as any as S.Schema<ListAiObservabilityTracesMetricsRequest>,
+  output: __S(2949, __c92, 5) as any as S.Schema<TraceMetrics>,
   errors: [BadRequest, UnprocessableEntity],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4377,8 +4486,8 @@ export const listDatasetItems: API.OperationMethod<
   ListDatasetItemsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<ListDatasetItemsRequest>,
-  output: __S(2913, __c91, 1) as any as S.Schema<PaginatedDatasetItemReadList>,
+  input: __S(2976, __c93, 0) as any as S.Schema<ListDatasetItemsRequest>,
+  output: __S(3009, __c94, 1) as any as S.Schema<PaginatedDatasetItemReadList>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4395,8 +4504,8 @@ export const listDatasetItemsVersions: API.OperationMethod<
   ListDatasetItemsVersionsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<ListDatasetItemsVersionsRequest>,
-  output: __S(2913, __c91, 1) as any as S.Schema<PaginatedDatasetItemReadList>,
+  input: __S(3072, __c96, 0) as any as S.Schema<ListDatasetItemsVersionsRequest>,
+  output: __S(3009, __c94, 1) as any as S.Schema<PaginatedDatasetItemReadList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4413,8 +4522,8 @@ export const listDatasets: API.OperationMethod<
   ListDatasetsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<ListDatasetsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<PaginatedDatasetReadList>,
+  input: __S(3104, __c97, 0) as any as S.Schema<ListDatasetsRequest>,
+  output: __S(3106, __c97, 2) as any as S.Schema<PaginatedDatasetReadList>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4431,8 +4540,8 @@ export const listDatasetsRevisions: API.OperationMethod<
   ListDatasetsRevisionsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<ListDatasetsRevisionsRequest>,
-  output: __S(3043, __c95, 3) as any as S.Schema<PaginatedDatasetRevisionReadList>,
+  input: __S(3136, __c98, 0) as any as S.Schema<ListDatasetsRevisionsRequest>,
+  output: __S(3139, __c98, 3) as any as S.Schema<PaginatedDatasetRevisionReadList>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4449,8 +4558,8 @@ export const listLlmAnalyticsPersonalSpend: API.OperationMethod<
   ListLlmAnalyticsPersonalSpendError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<ListLlmAnalyticsPersonalSpendRequest>,
-  output: __S(3096, __c96, 24) as any as S.Schema<ListLlmAnalyticsPersonalSpendResponse>,
+  input: __S(3168, __c99, 0) as any as S.Schema<ListLlmAnalyticsPersonalSpendRequest>,
+  output: __S(3192, __c99, 24) as any as S.Schema<ListLlmAnalyticsPersonalSpendResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4467,7 +4576,7 @@ export const restoreDataset: API.OperationMethod<
   RestoreDatasetError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<RestoreDatasetRequest>,
+  input: __S(3200, __c100, 0) as any as S.Schema<RestoreDatasetRequest>,
   output: __S(320, __c10, 0) as any as S.Schema<DatasetRead>,
   errors: [],
   serviceErrors: PosthogServiceErrors,
@@ -4485,7 +4594,7 @@ export const restoreDatasetItem: API.OperationMethod<
   RestoreDatasetItemError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<RestoreDatasetItemRequest>,
+  input: __S(3232, __c101, 0) as any as S.Schema<RestoreDatasetItemRequest>,
   output: __S(384, __c12, 0) as any as S.Schema<DatasetItemRead>,
   errors: [Conflict],
   serviceErrors: PosthogServiceErrors,
@@ -4508,11 +4617,11 @@ export const updateAiObservabilityOfflineExperimentsItemsPartial: API.OperationM
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3168,
-    __c99,
+    3264,
+    __c102,
     0,
   ) as any as S.Schema<UpdateAiObservabilityOfflineExperimentsItemsPartialRequest>,
-  output: __S(3200, __c100, 0) as any as S.Schema<OfflineRevision>,
+  output: __S(3296, __c103, 0) as any as S.Schema<OfflineRevision>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4534,11 +4643,11 @@ export const updateAiObservabilityOfflineExperimentsItemsPayloadPartial: API.Ope
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3232,
-    __c101,
+    3328,
+    __c104,
     0,
   ) as any as S.Schema<UpdateAiObservabilityOfflineExperimentsItemsPayloadPartialRequest>,
-  output: __S(3200, __c100, 0) as any as S.Schema<OfflineRevision>,
+  output: __S(3296, __c103, 0) as any as S.Schema<OfflineRevision>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4560,11 +4669,11 @@ export const updateAiObservabilityOfflineExperimentsPartial: API.OperationMethod
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3264,
-    __c102,
+    3360,
+    __c105,
     0,
   ) as any as S.Schema<UpdateAiObservabilityOfflineExperimentsPartialRequest>,
-  output: __S(1376, __c43, 0) as any as S.Schema<OfflineExperimentRead>,
+  output: __S(1473, __c46, 1) as any as S.Schema<OfflineExperimentRead>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4586,11 +4695,11 @@ export const updateAiObservabilityOfflineExperimentsResultsPartial: API.Operatio
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3296,
-    __c103,
+    3392,
+    __c106,
     0,
   ) as any as S.Schema<UpdateAiObservabilityOfflineExperimentsResultsPartialRequest>,
-  output: __S(3200, __c100, 0) as any as S.Schema<OfflineRevision>,
+  output: __S(3296, __c103, 0) as any as S.Schema<OfflineRevision>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4612,11 +4721,11 @@ export const updateAiObservabilityOfflineExperimentsResultsPayloadPartial: API.O
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3328,
-    __c104,
+    3456,
+    __c108,
     0,
   ) as any as S.Schema<UpdateAiObservabilityOfflineExperimentsResultsPayloadPartialRequest>,
-  output: __S(3200, __c100, 0) as any as S.Schema<OfflineRevision>,
+  output: __S(3296, __c103, 0) as any as S.Schema<OfflineRevision>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
@@ -4633,7 +4742,7 @@ export const updateDatasetItemsPartial: API.OperationMethod<
   UpdateDatasetItemsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<UpdateDatasetItemsPartialRequest>,
+  input: __S(3488, __c109, 0) as any as S.Schema<UpdateDatasetItemsPartialRequest>,
   output: __S(384, __c12, 0) as any as S.Schema<DatasetItemRead>,
   errors: [Conflict],
   serviceErrors: PosthogServiceErrors,
@@ -4656,7 +4765,7 @@ export const updateDatasetsPartial: API.OperationMethod<
   UpdateDatasetsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<UpdateDatasetsPartialRequest>,
+  input: __S(3520, __c110, 0) as any as S.Schema<UpdateDatasetsPartialRequest>,
   output: __S(320, __c10, 0) as any as S.Schema<DatasetRead>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: PosthogServiceErrors,
@@ -5011,6 +5120,7 @@ function __c14(j: number): any {
           expected_item_count: S.optional(S.NullOr(S.Number)),
           expected_result_count: S.optional(S.NullOr(S.Number)),
           suite_key: S.optional(S.NullOr(S.String)),
+          experiment_scorer_version_id: S.optional(S.NullOr(S.String)),
           dataset_source: S.optional(S.NullOr(S.String)),
           dataset_identifier: S.optional(S.NullOr(S.String)),
           dataset_revision_identifier: S.optional(S.NullOr(S.String)),
@@ -5087,6 +5197,89 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          scope: S.optional(S.String),
+          kind: S.String,
+          composition: __S(642, __c20, 2),
+          config: S.optional(S.Unknown),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/ai_observability/offline_experiments/{id}/score_previews/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateAiObservabilityOfflineExperimentsScorePreviewRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          kind: S.String,
+          config: S.Unknown,
+          passed: S.NullOr(S.Boolean),
+          value: S.NullOr(S.Unknown),
+          inputs: __S(611, __c19, 3),
+        }),
+      ).annotate({ identifier: "ExperimentScorePreview" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          version_id: S.String,
+          version: S.Number,
+          successful_items: S.Number,
+          value: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "ExperimentScoreSource" });
+    case 1:
+      return S.Array(__S(608, __c19, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          alias: S.String,
+          statistic: S.String,
+          version_policy: S.String,
+          status: S.String,
+          value: S.NullOr(S.Number),
+          sources: __S(609, __c19, 1),
+        }),
+      ).annotate({ identifier: "ExperimentScoreInput" });
+    case 3:
+      return S.Array(__S(610, __c19, 2));
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          alias: S.String,
+          scorer_version_id: S.String,
+          statistic: S.optional(S.String),
+          version_policy: S.optional(S.String),
+          category: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CompositeInput" });
+    case 1:
+      return S.Array(__S(640, __c20, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          expression: S.String,
+          inputs: __S(641, __c20, 1),
+        }),
+      ).annotate({ identifier: "CompositeConfig" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
           session_ids: __S(288, __c9, 0),
         }).pipe(
           T.Http({
@@ -5100,20 +5293,20 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           sessionId: S.String,
-          person: S.NullOr(__S(608, __c19, 0)),
+          person: S.NullOr(__S(704, __c22, 0)),
         }),
       ).annotate({ identifier: "SessionPersonItem" });
     case 2:
-      return S.Array(__S(577, __c18, 1));
+      return S.Array(__S(673, __c21, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(578, __c18, 2),
+          items: __S(674, __c21, 2),
         }),
       ).annotate({ identifier: "SessionPeopleList" });
   }
 }
-function __c19(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5124,7 +5317,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "TracePerson" });
   }
 }
-function __c20(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5148,16 +5341,16 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "SessionPreview" });
     case 2:
-      return S.Array(__S(641, __c20, 1));
+      return S.Array(__S(737, __c23, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(642, __c20, 2),
+          items: __S(738, __c23, 2),
         }),
       ).annotate({ identifier: "SessionPreviewList" });
   }
 }
-function __c21(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5180,7 +5373,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "TraceAvailability" });
   }
 }
-function __c22(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5198,7 +5391,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "CreateAiObservabilityTracesExportRequest" });
   }
 }
-function __c23(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5213,7 +5406,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "TraceExport" });
   }
 }
-function __c24(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5244,21 +5437,21 @@ function __c24(j: number): any {
           neededFixing: S.Boolean,
           fixed: S.Boolean,
           broken: S.Boolean,
-          error: S.NullOr(__S(769, __c24, 1)),
+          error: S.NullOr(__S(865, __c27, 1)),
         }),
       ).annotate({ identifier: "TraceParserTestSide" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          content: __S(800, __c25, 0),
-          input: __S(770, __c24, 2),
-          output: __S(770, __c24, 2),
+          content: __S(896, __c28, 0),
+          input: __S(866, __c27, 2),
+          output: __S(866, __c27, 2),
           passed: S.Boolean,
         }),
       ).annotate({ identifier: "TraceNodeParserTest" });
   }
 }
-function __c25(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5269,7 +5462,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "TraceNodeContent" });
   }
 }
-function __c26(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5290,20 +5483,20 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           traceId: S.String,
-          person: S.NullOr(__S(608, __c19, 0)),
+          person: S.NullOr(__S(704, __c22, 0)),
         }),
       ).annotate({ identifier: "TracePersonItem" });
     case 2:
-      return S.Array(__S(833, __c26, 1));
+      return S.Array(__S(929, __c29, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(834, __c26, 2),
+          items: __S(930, __c29, 2),
         }),
       ).annotate({ identifier: "TracePeopleList" });
   }
 }
-function __c27(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5329,16 +5522,16 @@ function __c27(j: number): any {
         }),
       ).annotate({ identifier: "TracePreview" });
     case 2:
-      return S.Array(__S(865, __c27, 1));
+      return S.Array(__S(961, __c30, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(866, __c27, 2),
+          items: __S(962, __c30, 2),
         }),
       ).annotate({ identifier: "TracePreviewList" });
   }
 }
-function __c28(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5366,20 +5559,20 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           traceId: S.String,
-          sentiment: S.NullOr(__S(897, __c28, 1)),
+          sentiment: S.NullOr(__S(993, __c31, 1)),
         }),
       ).annotate({ identifier: "TraceSentimentItem" });
     case 3:
-      return S.Array(__S(898, __c28, 2));
+      return S.Array(__S(994, __c31, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          items: __S(899, __c28, 3),
+          items: __S(995, __c31, 3),
         }),
       ).annotate({ identifier: "TraceSentimentList" });
   }
 }
-function __c29(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5398,7 +5591,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "CreateAiObservabilityTracesSummaryRequest" });
   }
 }
-function __c30(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5408,13 +5601,13 @@ function __c30(j: number): any {
         }),
       ).annotate({ identifier: "TraceSummaryItem" });
     case 1:
-      return S.Array(__S(960, __c30, 0));
+      return S.Array(__S(1056, __c33, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           title: S.String,
-          bullets: __S(961, __c30, 1),
-          notes: __S(961, __c30, 1),
+          bullets: __S(1057, __c33, 1),
+          notes: __S(1057, __c33, 1),
           flow: S.String,
           model: S.String,
           generatedAt: S.String,
@@ -5432,13 +5625,13 @@ function __c30(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.String,
-          content: S.NullOr(__S(962, __c30, 2)),
-          failure: S.NullOr(__S(963, __c30, 3)),
+          content: S.NullOr(__S(1058, __c33, 2)),
+          failure: S.NullOr(__S(1059, __c33, 3)),
         }),
       ).annotate({ identifier: "TraceSummary" });
   }
 }
-function __c31(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5466,16 +5659,16 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "TraceTurn" });
     case 2:
-      return S.Array(__S(993, __c31, 1));
+      return S.Array(__S(1089, __c34, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(994, __c31, 2),
+          items: __S(1090, __c34, 2),
         }),
       ).annotate({ identifier: "TraceTurnList" });
   }
 }
-function __c32(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5489,7 +5682,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "CreateDatasetRequest" });
   }
 }
-function __c33(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5510,7 +5703,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "CreateDatasetItemRequest" });
   }
 }
-function __c34(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5528,7 +5721,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "CreateDatasetsExportRequest" });
   }
 }
-function __c35(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5544,7 +5737,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "DatasetExportRead" });
   }
 }
-function __c36(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5562,7 +5755,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "CreateDatasetsExtendRetentionRequest" });
   }
 }
-function __c37(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5576,7 +5769,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "DatasetRetentionEntry" });
   }
 }
-function __c38(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5608,27 +5801,27 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "SummaryBullet" });
     case 2:
-      return S.Array(__S(1217, __c38, 1));
+      return S.Array(__S(1313, __c41, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           title: S.optional(S.String),
           flow_diagram: S.optional(S.String),
-          summary_bullets: S.optional(__S(1218, __c38, 2)),
-          interesting_notes: S.optional(__S(1218, __c38, 2)),
+          summary_bullets: S.optional(__S(1314, __c41, 2)),
+          interesting_notes: S.optional(__S(1314, __c41, 2)),
         }),
       ).annotate({ identifier: "StructuredSummary" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          summary: S.optional(__S(1219, __c38, 3)),
+          summary: S.optional(__S(1315, __c41, 3)),
           text_repr: S.optional(S.String),
           metadata: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "SummarizeResponse" });
   }
 }
-function __c39(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5654,16 +5847,16 @@ function __c39(j: number): any {
         }),
       ).annotate({ identifier: "CachedSummary" });
     case 2:
-      return S.Array(__S(1249, __c39, 1));
+      return S.Array(__S(1345, __c42, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          summaries: S.optional(__S(1250, __c39, 2)),
+          summaries: S.optional(__S(1346, __c42, 2)),
         }),
       ).annotate({ identifier: "BatchCheckResponse" });
   }
 }
-function __c40(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5686,7 +5879,7 @@ function __c40(j: number): any {
           project_id: S.String.pipe(T.Label()),
           event_type: S.optional(S.String),
           data: S.optional(S.Unknown),
-          options: S.optional(__S(1280, __c40, 0)),
+          options: S.optional(__S(1376, __c43, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5711,12 +5904,12 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           text: S.optional(S.String),
-          metadata: S.optional(__S(1282, __c40, 2)),
+          metadata: S.optional(__S(1378, __c43, 2)),
         }),
       ).annotate({ identifier: "TextReprResponse" });
   }
 }
-function __c41(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5733,7 +5926,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "GetAiObservabilityInstrumentationChecklistRequest" });
   }
 }
-function __c42(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5750,11 +5943,28 @@ function __c42(j: number): any {
       ).annotate({ identifier: "GetAiObservabilityOfflineExperimentRequest" });
   }
 }
-function __c43(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          status: S.String,
+          kind: S.String,
+          config: S.Unknown,
+          passed: S.NullOr(S.Boolean),
+          value: S.NullOr(S.Unknown),
+          inputs: __S(611, __c19, 3),
+          definition_id: S.String,
+          scorer_version_id: S.String,
+          version: S.Number,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "ExperimentScore" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          suite_has_score: S.optional(S.NullOr(S.Boolean)),
+          experiment_score: S.optional(S.NullOr(__S(1472, __c46, 0))),
           updated_at: S.optional(S.NullOr(S.String)),
           closed_item_count: S.optional(S.NullOr(S.Number)),
           created_by: S.NullOr(__S(256, __c8, 0)),
@@ -5785,7 +5995,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "OfflineExperimentRead" });
   }
 }
-function __c44(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5803,7 +6013,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "GetAiObservabilityOfflineExperimentsItemRequest" });
   }
 }
-function __c45(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5826,10 +6036,10 @@ function __c45(j: number): any {
         }),
       ).annotate({ identifier: "OfflineResultCell" });
     case 1:
-      return S.Array(__S(1440, __c45, 0));
+      return S.Array(__S(1536, __c48, 0));
   }
 }
-function __c46(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5848,12 +6058,12 @@ function __c46(j: number): any {
           accepted_at: S.String,
           payload_state: S.String,
           payload_expires_at: S.NullOr(S.String),
-          results: __S(1441, __c45, 1),
+          results: __S(1537, __c48, 1),
         }),
       ).annotate({ identifier: "OfflineItemRead" });
   }
 }
-function __c47(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5883,7 +6093,18 @@ function __c47(j: number): any {
       ).annotate({ identifier: "OfflineItemPayloadRead" });
   }
 }
-function __c48(j: number): any {
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          detail: S.String,
+          code: S.String,
+        }),
+      ).annotate({ identifier: "TraceMetricsRangeTooLong" });
+  }
+}
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5903,41 +6124,25 @@ function __c48(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          scorer_versions: __S(1568, __c49, 0),
-          results: __S(1441, __c45, 1),
+          scorer_versions: __S(1696, __c53, 0),
+          results: __S(1537, __c48, 1),
         }),
       ).annotate({ identifier: "OfflineResultCells" });
   }
 }
-function __c49(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1603, __c50, 3));
+      return S.Array(__S(1728, __c54, 0));
   }
 }
-function __c50(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          alias: S.String,
-          scorer_version_id: S.String,
-        }),
-      ).annotate({ identifier: "CompositeInput" });
-    case 1:
-      return S.Array(__S(1600, __c50, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          expression: S.String,
-          inputs: __S(1601, __c50, 1),
-        }),
-      ).annotate({ identifier: "CompositeConfig" });
-    case 3:
       return S.suspend(() =>
         S.Struct({
           calculation: S.String,
-          composition: S.NullOr(__S(1602, __c50, 2)),
+          composition: S.NullOr(__S(642, __c20, 2)),
           id: S.String,
           definition_id: S.String,
           version: S.Number,
@@ -5951,18 +6156,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "OfflineScorerVersionRead" });
   }
 }
-function __c51(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          detail: S.String,
-          code: S.String,
-        }),
-      ).annotate({ identifier: "TraceMetricsRangeTooLong" });
-  }
-}
-function __c52(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5992,7 +6186,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "OfflineResultPayloadRead" });
   }
 }
-function __c53(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6010,7 +6204,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "GetAiObservabilitySessionRequest" });
   }
 }
-function __c54(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6025,7 +6219,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "TraceNodeStats" });
   }
 }
-function __c55(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6035,14 +6229,14 @@ function __c55(j: number): any {
           lastSeen: S.String,
           durationMs: S.NullOr(S.Number),
           turnCount: S.Number,
-          totals: __S(1728, __c54, 0),
+          totals: __S(1824, __c57, 0),
           erroredTurns: S.Number,
           totalsPartial: S.Boolean,
         }),
       ).annotate({ identifier: "SessionListItem" });
   }
 }
-function __c56(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6069,7 +6263,7 @@ function __c56(j: number): any {
           name: S.NullOr(S.String),
           createdAt: S.String,
           sessionId: S.NullOr(S.String),
-          totals: __S(1728, __c54, 0),
+          totals: __S(1824, __c57, 0),
           hasError: S.Boolean,
           errorCount: S.Number,
           totalsPartial: S.Boolean,
@@ -6078,24 +6272,24 @@ function __c56(j: number): any {
           firstError: S.NullOr(S.String),
           toolsCalled: __S(288, __c9, 0),
           isSupportTrace: S.Boolean,
-          review: S.NullOr(__S(1828, __c57, 4)),
+          review: S.NullOr(__S(1924, __c60, 4)),
           waitSlow: S.Boolean,
           silenceBeforeMs: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "SessionTurn" });
     case 2:
-      return S.Array(__S(1793, __c56, 1));
+      return S.Array(__S(1889, __c59, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1794, __c56, 2),
+          items: __S(1890, __c59, 2),
           previousCursor: S.NullOr(S.String),
           nextCursor: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "SessionTurnPage" });
   }
 }
-function __c57(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6106,14 +6300,14 @@ function __c57(j: number): any {
         }),
       ).annotate({ identifier: "TraceHumanReviewScore" });
     case 1:
-      return S.Array(__S(1824, __c57, 0));
+      return S.Array(__S(1920, __c60, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           reviewedBy: S.NullOr(S.String),
           reviewedAt: S.String,
           comment: S.NullOr(S.String),
-          scores: __S(1825, __c57, 1),
+          scores: __S(1921, __c60, 1),
         }),
       ).annotate({ identifier: "TraceHumanReview" });
     case 3:
@@ -6127,13 +6321,13 @@ function __c57(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          review: S.NullOr(__S(1826, __c57, 2)),
-          queue: S.NullOr(__S(1827, __c57, 3)),
+          review: S.NullOr(__S(1922, __c60, 2)),
+          queue: S.NullOr(__S(1923, __c60, 3)),
         }),
       ).annotate({ identifier: "TraceReviewStatus" });
   }
 }
-function __c58(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6151,10 +6345,10 @@ function __c58(j: number): any {
       ).annotate({ identifier: "GetAiObservabilityTraceRequest" });
   }
 }
-function __c59(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(1889, __c59, 1)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(1985, __c62, 1)));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -6163,13 +6357,13 @@ function __c59(j: number): any {
           name: S.String,
           label: S.String,
           model: S.NullOr(S.String),
-          stats: __S(1728, __c54, 0),
+          stats: __S(1824, __c57, 0),
           hasError: S.Boolean,
-          children: __S(1888, __c59, 0),
+          children: __S(1984, __c62, 0),
         }),
       ).annotate({ identifier: "TraceNode" });
     case 2:
-      return S.Array(__S(1889, __c59, 1));
+      return S.Array(__S(1985, __c62, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6183,7 +6377,7 @@ function __c59(j: number): any {
         }),
       ).annotate({ identifier: "TraceTimelineRow" });
     case 4:
-      return S.Array(__S(1891, __c59, 3));
+      return S.Array(__S(1987, __c62, 3));
     case 5:
       return S.Record(S.String, S.String);
     case 6:
@@ -6200,24 +6394,24 @@ function __c59(j: number): any {
           name: S.NullOr(S.String),
           createdAt: S.String,
           sessionId: S.NullOr(S.String),
-          totals: __S(1728, __c54, 0),
+          totals: __S(1824, __c57, 0),
           hasError: S.Boolean,
           errorCount: S.Number,
           totalsPartial: S.Boolean,
           costAndLatencyPartial: S.Boolean,
-          person: S.NullOr(__S(608, __c19, 0)),
-          tree: __S(1890, __c59, 2),
-          timeline: __S(1892, __c59, 4),
+          person: S.NullOr(__S(704, __c22, 0)),
+          tree: __S(1986, __c62, 2),
+          timeline: __S(1988, __c62, 4),
           totalMs: S.Number,
           threadNodeIds: __S(288, __c9, 0),
           defaultNodeId: S.String,
-          nodeIdsByAlias: __S(1893, __c59, 5),
-          git: S.NullOr(__S(1894, __c59, 6)),
+          nodeIdsByAlias: __S(1989, __c62, 5),
+          git: S.NullOr(__S(1990, __c62, 6)),
         }),
       ).annotate({ identifier: "Trace" });
   }
 }
-function __c60(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6248,16 +6442,16 @@ function __c60(j: number): any {
         }),
       ).annotate({ identifier: "TraceCluster" });
     case 2:
-      return S.Array(__S(1921, __c60, 1));
+      return S.Array(__S(2017, __c63, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          clusters: __S(1922, __c60, 2),
+          clusters: __S(2018, __c63, 2),
         }),
       ).annotate({ identifier: "TraceClusters" });
   }
 }
-function __c61(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6288,7 +6482,7 @@ function __c61(j: number): any {
         }),
       ).annotate({ identifier: "TraceEvaluationResult" });
     case 2:
-      return S.Array(__S(1953, __c61, 1));
+      return S.Array(__S(2049, __c64, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6297,26 +6491,26 @@ function __c61(j: number): any {
         }),
       ).annotate({ identifier: "TraceNodeEvaluationRollup" });
     case 4:
-      return S.Array(__S(1955, __c61, 3));
+      return S.Array(__S(2051, __c64, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           passed: S.Number,
           failed: S.Number,
           unrated: S.Number,
-          nodes: __S(1956, __c61, 4),
+          nodes: __S(2052, __c64, 4),
         }),
       ).annotate({ identifier: "TraceEvaluationSummary" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          results: __S(1954, __c61, 2),
-          summary: __S(1957, __c61, 5),
+          results: __S(2050, __c64, 2),
+          summary: __S(2053, __c64, 5),
         }),
       ).annotate({ identifier: "TraceEvaluationResults" });
   }
 }
-function __c62(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6334,7 +6528,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "GetAiObservabilityTracesExportRequest" });
   }
 }
-function __c63(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6352,18 +6546,18 @@ function __c63(j: number): any {
         ),
       ).annotate({ identifier: "GetAiObservabilityTracesExportsContentRequest" });
     case 1:
-      return S.Array(__S(2050, __c64, 2));
+      return S.Array(__S(2146, __c67, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          trace: __S(1895, __c59, 7),
+          trace: __S(1991, __c62, 7),
           truncated: S.Boolean,
-          nodes: __S(2017, __c63, 1),
+          nodes: __S(2113, __c66, 1),
         }),
       ).annotate({ identifier: "TraceExportFile" });
   }
 }
-function __c64(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6380,7 +6574,7 @@ function __c64(j: number): any {
           uuid: S.String,
           timestamp: S.String,
           properties: __S(32, __c1, 0),
-          ioKeys: __S(2048, __c64, 0),
+          ioKeys: __S(2144, __c67, 0),
         }),
       ).annotate({ identifier: "TraceNodeEvent" });
     case 2:
@@ -6388,12 +6582,12 @@ function __c64(j: number): any {
         S.Struct({
           id: S.String,
           kind: S.String,
-          event: S.NullOr(__S(2049, __c64, 1)),
+          event: S.NullOr(__S(2145, __c67, 1)),
         }),
       ).annotate({ identifier: "TraceNodeRaw" });
   }
 }
-function __c65(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6420,7 +6614,7 @@ function __c65(j: number): any {
         }),
       ).annotate({ identifier: "TraceFeedbackScore" });
     case 2:
-      return S.Array(__S(2081, __c65, 1));
+      return S.Array(__S(2177, __c68, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6433,12 +6627,12 @@ function __c65(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          survey: __S(2083, __c65, 3),
+          survey: __S(2179, __c68, 3),
           timestamp: S.String,
         }),
       ).annotate({ identifier: "TraceUnansweredSurvey" });
     case 6:
-      return S.Array(__S(2085, __c65, 5));
+      return S.Array(__S(2181, __c68, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -6451,27 +6645,73 @@ function __c65(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nodeId: S.String,
-          scores: __S(2082, __c65, 2),
+          scores: __S(2178, __c68, 2),
           responseCount: S.Number,
           total: S.Number,
         }),
       ).annotate({ identifier: "TraceStepFeedback" });
     case 9:
-      return S.Array(__S(2088, __c65, 8));
+      return S.Array(__S(2184, __c68, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          scores: __S(2082, __c65, 2),
-          responses: __S(2084, __c65, 4),
-          unanswered: __S(2086, __c65, 6),
+          scores: __S(2178, __c68, 2),
+          responses: __S(2180, __c68, 4),
+          unanswered: __S(2182, __c68, 6),
           surveyResponsesStatus: S.String,
-          summary: __S(2087, __c65, 7),
-          steps: __S(2089, __c65, 9),
+          summary: __S(2183, __c68, 7),
+          steps: __S(2185, __c68, 9),
         }),
       ).annotate({ identifier: "TraceFeedback" });
   }
 }
-function __c66(j: number): any {
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          check: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/ai_observability/instrumentation_checklist/restore/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AiObservabilityInstrumentationChecklistRestoreCreateRequest" });
+  }
+}
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Number);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          status: S.String,
+          title: S.String,
+          detail: S.String,
+          docs_url: S.String,
+          stats: __S(2240, __c70, 0),
+        }),
+      ).annotate({ identifier: "InstrumentationCheck" });
+    case 2:
+      return S.Array(__S(2241, __c70, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          window_days: S.Number,
+          checks: __S(2242, __c70, 2),
+          agent_prompt: S.NullOr(S.String),
+          passing: S.Number,
+          total: S.Number,
+        }),
+      ).annotate({ identifier: "InstrumentationChecklist" });
+  }
+}
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6512,60 +6752,14 @@ function __c66(j: number): any {
           id: S.String,
           kind: S.String,
           error: S.NullOr(S.String),
-          metadata: __S(2113, __c66, 1),
-          event: S.NullOr(__S(2114, __c66, 2)),
-          content: __S(800, __c25, 0),
+          metadata: __S(2273, __c71, 1),
+          event: S.NullOr(__S(2274, __c71, 2)),
+          content: __S(896, __c28, 0),
         }),
       ).annotate({ identifier: "TraceNodeDetail" });
   }
 }
-function __c67(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          check: S.String,
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/ai_observability/instrumentation_checklist/restore/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AiObservabilityInstrumentationChecklistRestoreCreateRequest" });
-  }
-}
-function __c68(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Number);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          key: S.String,
-          status: S.String,
-          title: S.String,
-          detail: S.String,
-          docs_url: S.String,
-          stats: __S(2176, __c68, 0),
-        }),
-      ).annotate({ identifier: "InstrumentationCheck" });
-    case 2:
-      return S.Array(__S(2177, __c68, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          window_days: S.Number,
-          checks: __S(2178, __c68, 2),
-          agent_prompt: S.NullOr(S.String),
-          passing: S.Number,
-          total: S.Number,
-        }),
-      ).annotate({ identifier: "InstrumentationChecklist" });
-  }
-}
-function __c69(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6596,7 +6790,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "TraceNodeDatasetItem" });
   }
 }
-function __c70(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6615,7 +6809,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "GetAiObservabilityTracesNodesRawRequest" });
   }
 }
-function __c71(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6643,12 +6837,12 @@ function __c71(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          pullRequest: S.NullOr(__S(2273, __c71, 1)),
+          pullRequest: S.NullOr(__S(2369, __c74, 1)),
         }),
       ).annotate({ identifier: "TracePullRequestLookup" });
   }
 }
-function __c72(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6665,7 +6859,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "GetAiObservabilityTracesReviewRequest" });
   }
 }
-function __c73(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6682,7 +6876,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "GetAiObservabilityTracesSummaryRequest" });
   }
 }
-function __c74(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6695,7 +6889,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "GetDatasetRequest" });
   }
 }
-function __c75(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6713,7 +6907,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "GetDatasetItemRequest" });
   }
 }
-function __c76(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6731,7 +6925,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "GetDatasetsExportRequest" });
   }
 }
-function __c77(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6749,37 +6943,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "GetDatasetsExportsContentRequest" });
   }
 }
-function __c78(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          kind: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          offset: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/datasets/retention/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetDatasetsRetentionRequest" });
-    case 1:
-      return S.Array(__S(1184, __c37, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          datasets_count: S.Number,
-          revisions_count: S.Number,
-          count: S.Number,
-          results: __S(2497, __c78, 1),
-        }),
-      ).annotate({ identifier: "DatasetRetentionRead" });
-  }
-}
-function __c79(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6798,7 +6962,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "AiObservabilityOfflineExperimentsItemsDestroyRequest" });
   }
 }
-function __c80(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -6806,7 +6970,37 @@ function __c80(j: number): any {
       });
   }
 }
-function __c81(j: number): any {
+function __c83(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          kind: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/datasets/retention/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetDatasetsRetentionRequest" });
+    case 1:
+      return S.Array(__S(1280, __c40, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          datasets_count: S.Number,
+          revisions_count: S.Number,
+          count: S.Number,
+          results: __S(2657, __c83, 1),
+        }),
+      ).annotate({ identifier: "DatasetRetentionRead" });
+  }
+}
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6841,7 +7035,7 @@ function __c81(j: number): any {
         ),
       ).annotate({ identifier: "ListAiObservabilityOfflineExperimentsRequest" });
     case 1:
-      return S.Array(__S(1376, __c43, 0));
+      return S.Array(__S(1473, __c46, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6849,12 +7043,12 @@ function __c81(j: number): any {
           previous: S.NullOr(S.String),
           count: S.Number,
           next_cursor: S.NullOr(S.String),
-          results: __S(2593, __c81, 1),
+          results: __S(2689, __c84, 1),
         }),
       ).annotate({ identifier: "OfflineExperimentPage" });
   }
 }
-function __c82(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6873,7 +7067,7 @@ function __c82(j: number): any {
         ),
       ).annotate({ identifier: "ListAiObservabilityOfflineExperimentsItemsRequest" });
     case 1:
-      return S.Array(__S(1472, __c46, 0));
+      return S.Array(__S(1568, __c49, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6881,13 +7075,13 @@ function __c82(j: number): any {
           previous: S.NullOr(S.String),
           count: S.Number,
           next_cursor: S.NullOr(S.String),
-          results: __S(2625, __c82, 1),
-          scorer_versions: __S(1568, __c49, 0),
+          results: __S(2721, __c85, 1),
+          scorer_versions: __S(1696, __c53, 0),
         }),
       ).annotate({ identifier: "OfflineItemPage" });
   }
 }
-function __c83(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6924,11 +7118,11 @@ function __c83(j: number): any {
           accepted_at: S.String,
           payload_state: S.String,
           payload_expires_at: S.NullOr(S.String),
-          scorer: __S(1603, __c50, 3),
+          scorer: __S(1728, __c54, 0),
         }),
       ).annotate({ identifier: "OfflineResultRead" });
     case 2:
-      return S.Array(__S(2657, __c83, 1));
+      return S.Array(__S(2753, __c86, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6936,12 +7130,12 @@ function __c83(j: number): any {
           previous: S.NullOr(S.String),
           count: S.Number,
           next_cursor: S.NullOr(S.String),
-          results: __S(2658, __c83, 2),
+          results: __S(2754, __c86, 2),
         }),
       ).annotate({ identifier: "OfflineResultPage" });
   }
 }
-function __c84(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6961,7 +7155,7 @@ function __c84(j: number): any {
         ),
       ).annotate({ identifier: "ListAiObservabilityOfflineExperimentsScorerSummariesRequest" });
     case 1:
-      return S.Array(__S(2723, __c85, 3));
+      return S.Array(__S(2819, __c88, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6969,12 +7163,12 @@ function __c84(j: number): any {
           previous: S.NullOr(S.String),
           count: S.Number,
           next_cursor: S.NullOr(S.String),
-          results: __S(2689, __c84, 1),
+          results: __S(2785, __c87, 1),
         }),
       ).annotate({ identifier: "OfflineSummaryPage" });
   }
 }
-function __c85(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6995,15 +7189,15 @@ function __c85(j: number): any {
         }),
       ).annotate({ identifier: "OfflineCategorySummary" });
     case 2:
-      return S.Array(__S(2721, __c85, 1));
+      return S.Array(__S(2817, __c88, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           not_requested_count: S.Number,
-          scorer: __S(1603, __c50, 3),
+          scorer: __S(1728, __c54, 0),
           observed_item_count: S.Number,
           result_count: S.Number,
-          status_counts: __S(2720, __c85, 0),
+          status_counts: __S(2816, __c88, 0),
           missing_result_count: S.Number,
           distinct_case_count: S.Number,
           items_with_case_key_count: S.Number,
@@ -7017,12 +7211,12 @@ function __c85(j: number): any {
           pass_count: S.NullOr(S.Number),
           fail_count: S.NullOr(S.Number),
           pass_rate: S.NullOr(S.Number),
-          categories: __S(2722, __c85, 2),
+          categories: __S(2818, __c88, 2),
         }),
       ).annotate({ identifier: "OfflineScorerSummary" });
   }
 }
-function __c86(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7061,12 +7255,12 @@ function __c86(j: number): any {
       return S.suspend(() =>
         S.Struct({
           breakdown_value: S.optional(S.NullOr(S.String)),
-          experiment: __S(1376, __c43, 0),
-          summary: __S(2723, __c85, 3),
+          experiment: __S(1473, __c46, 1),
+          summary: S.NullOr(__S(2819, __c88, 3)),
         }),
       ).annotate({ identifier: "OfflineHistoryPoint" });
     case 2:
-      return S.Array(__S(2753, __c86, 1));
+      return S.Array(__S(2849, __c89, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -7074,12 +7268,12 @@ function __c86(j: number): any {
           previous: S.NullOr(S.String),
           count: S.Number,
           next_cursor: S.NullOr(S.String),
-          results: __S(2754, __c86, 2),
+          results: __S(2850, __c89, 2),
         }),
       ).annotate({ identifier: "OfflineHistoryPage" });
   }
 }
-function __c87(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7104,17 +7298,17 @@ function __c87(j: number): any {
         ),
       ).annotate({ identifier: "ListAiObservabilitySessionsRequest" });
     case 1:
-      return S.Array(__S(1760, __c55, 0));
+      return S.Array(__S(1856, __c58, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(2785, __c87, 1),
+          items: __S(2881, __c90, 1),
           nextCursor: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "SessionList" });
   }
 }
-function __c88(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7146,7 +7340,7 @@ function __c88(j: number): any {
           name: S.NullOr(S.String),
           createdAt: S.String,
           sessionId: S.NullOr(S.String),
-          totals: __S(1728, __c54, 0),
+          totals: __S(1824, __c57, 0),
           hasError: S.Boolean,
           errorCount: S.Number,
           totalsPartial: S.Boolean,
@@ -7155,11 +7349,11 @@ function __c88(j: number): any {
           firstError: S.NullOr(S.String),
           toolsCalled: __S(288, __c9, 0),
           isSupportTrace: S.Boolean,
-          review: S.NullOr(__S(1828, __c57, 4)),
+          review: S.NullOr(__S(1924, __c60, 4)),
         }),
       ).annotate({ identifier: "TraceListItem" });
     case 2:
-      return S.Array(__S(2817, __c88, 1));
+      return S.Array(__S(2913, __c91, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -7171,14 +7365,14 @@ function __c88(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          items: __S(2818, __c88, 2),
-          counts: S.NullOr(__S(2819, __c88, 3)),
+          items: __S(2914, __c91, 2),
+          counts: S.NullOr(__S(2915, __c91, 3)),
           nextCursor: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "TraceList" });
   }
 }
-function __c89(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7218,13 +7412,13 @@ function __c89(j: number): any {
           docsUrl: S.NullOr(S.String),
           setupLabel: S.NullOr(S.String),
           detail: S.NullOr(S.String),
-          latencyQuantiles: S.NullOr(__S(2849, __c89, 1)),
-          series: __S(2850, __c89, 2),
+          latencyQuantiles: S.NullOr(__S(2945, __c92, 1)),
+          series: __S(2946, __c92, 2),
           insightQuery: S.String,
         }),
       ).annotate({ identifier: "TraceMetricTile" });
     case 4:
-      return S.Array(__S(2851, __c89, 3));
+      return S.Array(__S(2947, __c92, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -7234,12 +7428,12 @@ function __c89(j: number): any {
           previousDateTo: S.String,
           bucketSize: S.String,
           bucketStarts: __S(288, __c9, 0),
-          tiles: __S(2852, __c89, 4),
+          tiles: __S(2948, __c92, 4),
         }),
       ).annotate({ identifier: "TraceMetrics" });
   }
 }
-function __c90(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7256,7 +7450,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "ListDatasetItemsRequest" });
   }
 }
-function __c91(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(384, __c12, 0));
@@ -7266,31 +7460,12 @@ function __c91(j: number): any {
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(2912, __c91, 0),
+          results: __S(3008, __c94, 0),
         }),
       ).annotate({ identifier: "PaginatedDatasetItemReadList" });
   }
 }
-function __c92(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          dataset_item_id: S.String.pipe(T.Label()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          offset: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/dataset_items/{dataset_item_id}/versions/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListDatasetItemsVersionsRequest" });
-  }
-}
-function __c93(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7309,7 +7484,26 @@ function __c93(j: number): any {
       ).annotate({ identifier: "AiObservabilityOfflineExperimentsItemsPayloadDestroyRequest" });
   }
 }
-function __c94(j: number): any {
+function __c96(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          dataset_item_id: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/dataset_items/{dataset_item_id}/versions/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListDatasetItemsVersionsRequest" });
+  }
+}
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7333,12 +7527,12 @@ function __c94(j: number): any {
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(3009, __c94, 1),
+          results: __S(3105, __c97, 1),
         }),
       ).annotate({ identifier: "PaginatedDatasetReadList" });
   }
 }
-function __c95(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7370,19 +7564,19 @@ function __c95(j: number): any {
         }),
       ).annotate({ identifier: "DatasetRevisionRead" });
     case 2:
-      return S.Array(__S(3041, __c95, 1));
+      return S.Array(__S(3137, __c98, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(3042, __c95, 2),
+          results: __S(3138, __c98, 2),
         }),
       ).annotate({ identifier: "PaginatedDatasetRevisionReadList" });
   }
 }
-function __c96(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7418,11 +7612,11 @@ function __c96(j: number): any {
         }),
       ).annotate({ identifier: "ProductBreakdownRow" });
     case 3:
-      return S.Array(__S(3074, __c96, 2));
+      return S.Array(__S(3170, __c99, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          items: __S(3075, __c96, 3),
+          items: __S(3171, __c99, 3),
           truncated: S.Boolean,
         }),
       ).annotate({ identifier: "ProductBreakdown" });
@@ -7437,11 +7631,11 @@ function __c96(j: number): any {
         }),
       ).annotate({ identifier: "ToolBreakdownRow" });
     case 6:
-      return S.Array(__S(3077, __c96, 5));
+      return S.Array(__S(3173, __c99, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          items: __S(3078, __c96, 6),
+          items: __S(3174, __c99, 6),
           truncated: S.Boolean,
         }),
       ).annotate({ identifier: "ToolBreakdown" });
@@ -7456,11 +7650,11 @@ function __c96(j: number): any {
         }),
       ).annotate({ identifier: "ModelBreakdownRow" });
     case 9:
-      return S.Array(__S(3080, __c96, 8));
+      return S.Array(__S(3176, __c99, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          items: __S(3081, __c96, 9),
+          items: __S(3177, __c99, 9),
           truncated: S.Boolean,
         }),
       ).annotate({ identifier: "ModelBreakdown" });
@@ -7475,11 +7669,11 @@ function __c96(j: number): any {
         }),
       ).annotate({ identifier: "DayBreakdownRow" });
     case 12:
-      return S.Array(__S(3083, __c96, 11));
+      return S.Array(__S(3179, __c99, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          items: __S(3084, __c96, 12),
+          items: __S(3180, __c99, 12),
           truncated: S.Boolean,
         }),
       ).annotate({ identifier: "DayBreakdown" });
@@ -7495,7 +7689,7 @@ function __c96(j: number): any {
         }),
       ).annotate({ identifier: "DayModelBreakdownRow" });
     case 15:
-      return S.Array(__S(3086, __c96, 14));
+      return S.Array(__S(3182, __c99, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
@@ -7513,11 +7707,11 @@ function __c96(j: number): any {
         }),
       ).annotate({ identifier: "BucketBreakdownRow" });
     case 17:
-      return S.Array(__S(3088, __c96, 16));
+      return S.Array(__S(3184, __c99, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          items: __S(3089, __c96, 17),
+          items: __S(3185, __c99, 17),
           bucket_minutes: S.Number,
           truncated: S.Boolean,
         }),
@@ -7532,36 +7726,36 @@ function __c96(j: number): any {
         }),
       ).annotate({ identifier: "TopTraceRow" });
     case 20:
-      return S.Array(__S(3091, __c96, 19));
+      return S.Array(__S(3187, __c99, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
-          items: __S(3092, __c96, 20),
+          items: __S(3188, __c99, 20),
           truncated: S.Boolean,
         }),
       ).annotate({ identifier: "TopTraces" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          summary: __S(3073, __c96, 1),
-          by_product: __S(3076, __c96, 4),
-          by_tool: __S(3079, __c96, 7),
-          by_model: __S(3082, __c96, 10),
-          by_day: __S(3085, __c96, 13),
-          by_day_model: __S(3087, __c96, 15),
-          by_bucket: S.optional(__S(3090, __c96, 18)),
-          top_traces: __S(3093, __c96, 21),
+          summary: __S(3169, __c99, 1),
+          by_product: __S(3172, __c99, 4),
+          by_tool: __S(3175, __c99, 7),
+          by_model: __S(3178, __c99, 10),
+          by_day: __S(3181, __c99, 13),
+          by_day_model: __S(3183, __c99, 15),
+          by_bucket: S.optional(__S(3186, __c99, 18)),
+          top_traces: __S(3189, __c99, 21),
         }),
       ).annotate({ identifier: "PersonalSpendAnalysisResponse" });
     case 23:
-      return S.Array(__S(3094, __c96, 22));
+      return S.Array(__S(3190, __c99, 22));
     case 24:
-      return S.suspend(() => __S(3095, __c96, 23).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(3191, __c99, 23).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListLlmAnalyticsPersonalSpendResponse",
       });
   }
 }
-function __c97(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7578,7 +7772,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "RestoreDatasetRequest" });
   }
 }
-function __c98(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7597,7 +7791,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "RestoreDatasetItemRequest" });
   }
 }
-function __c99(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7620,7 +7814,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "UpdateAiObservabilityOfflineExperimentsItemsPartialRequest" });
   }
 }
-function __c100(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7630,7 +7824,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "OfflineRevision" });
   }
 }
-function __c101(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7652,7 +7846,7 @@ function __c101(j: number): any {
       });
   }
 }
-function __c102(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7670,7 +7864,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "UpdateAiObservabilityOfflineExperimentsPartialRequest" });
   }
 }
-function __c103(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7692,7 +7886,26 @@ function __c103(j: number): any {
       ).annotate({ identifier: "UpdateAiObservabilityOfflineExperimentsResultsPartialRequest" });
   }
 }
-function __c104(j: number): any {
+function __c107(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          result_id: S.String.pipe(T.Label()),
+          revision: S.Number.pipe(T.Query()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/projects/{project_id}/ai_observability/offline_experiments/{id}/results/{result_id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AiObservabilityOfflineExperimentsResultsDestroyRequest" });
+  }
+}
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7714,26 +7927,7 @@ function __c104(j: number): any {
       });
   }
 }
-function __c105(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          result_id: S.String.pipe(T.Label()),
-          revision: S.Number.pipe(T.Query()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/api/projects/{project_id}/ai_observability/offline_experiments/{id}/results/{result_id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AiObservabilityOfflineExperimentsResultsDestroyRequest" });
-  }
-}
-function __c106(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7754,7 +7948,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "UpdateDatasetItemsPartialRequest" });
   }
 }
-function __c107(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7771,7 +7965,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "UpdateDatasetsPartialRequest" });
   }
 }
-function __c108(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

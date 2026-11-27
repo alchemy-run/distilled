@@ -79,7 +79,7 @@ export interface CodeEmail {
   description: string;
   /** Tags for organizing transactional emails. */
   tags: CodeEmailTagsList;
-  /** True when PostHog keeps no copy of each sent email's body and records only the site address of a clicked link. */
+  /** True when PostHog keeps no copy of each sent email's body, turns click tracking off by default, and records only the site address of a clicked link when click tracking is on. */
   sensitive: boolean;
   /** A link to the file in your repository that sends this email. Null when unlinked. */
   source_url: string | null;

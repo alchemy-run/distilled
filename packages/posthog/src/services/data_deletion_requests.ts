@@ -86,8 +86,6 @@ export interface DataDeletionRequest {
   variables: DataDeletionRequestVariablesMap;
   /** Client-generated idempotency identifier. */
   submission_id: string | null;
-  /** Number of selected events, when calculated. */
-  count: number | null;
   /** Identifier of the user who submitted the request. */
   created_by_id: number | null;
   /** Whether the submitter was a PostHog staff user. */
@@ -271,7 +269,6 @@ function __c3(j: number): any {
           query: S.String,
           variables: __S(9, __c2, 1),
           submission_id: S.NullOr(S.String),
-          count: S.NullOr(S.Number),
           created_by_id: S.NullOr(S.Number),
           created_by_staff: S.NullOr(S.Boolean),
           created_at: S.String,

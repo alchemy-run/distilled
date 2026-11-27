@@ -114,6 +114,8 @@ export interface SlackAppPersonalSettings {
   auto_model_choice: boolean;
   /** Whether PostHog sends this person short tips about Slack app features. */
   feature_tips_enabled: boolean;
+  /** Whether Slack tasks on this person's ChatGPT plan can use the apps connected to that plan. Null when this person has no ChatGPT plan that Slack tasks can use. */
+  chatgpt_apps_enabled: boolean | null;
 }
 export interface SlackAppSettings2 {
   /** ID of the Slack integration that these settings are for. */
@@ -197,6 +199,8 @@ export interface UpdateSlackAppSettingsPersonalPartialRequest {
   auto_model_choice?: boolean | undefined;
   /** Whether PostHog sends this person short tips about Slack app features. */
   feature_tips_enabled?: boolean | undefined;
+  /** Whether Slack tasks on this person's ChatGPT plan can use the apps connected to that plan. Applies to tasks started after the change. */
+  chatgpt_apps_enabled?: boolean | undefined;
 }
 export interface UpdateSlackAppSettingsWorkspacePartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -397,6 +401,7 @@ function __c1(j: number): any {
           thread_join_mode: S.String,
           auto_model_choice: S.Boolean,
           feature_tips_enabled: S.Boolean,
+          chatgpt_apps_enabled: S.NullOr(S.Boolean),
         }),
       ).annotate({ identifier: "SlackAppPersonalSettings" });
     case 8:
@@ -512,6 +517,7 @@ function __c6(j: number): any {
           thread_join_mode: S.optional(S.String),
           auto_model_choice: S.optional(S.Boolean),
           feature_tips_enabled: S.optional(S.Boolean),
+          chatgpt_apps_enabled: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "PATCH",

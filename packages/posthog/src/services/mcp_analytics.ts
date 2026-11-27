@@ -447,6 +447,8 @@ export interface ListMcpAnalyticsSessionsRequest {
   date_from?: string | undefined;
   /** End of the window. PostHog date string or absolute ISO timestamp. Defaults to now. */
   date_to?: string | undefined;
+  /** Only sessions where the agent sent feedback or reported a missing capability. */
+  feedback_only?: boolean | undefined;
   /** Whether to also apply the project's internal and test user filters (its test_account_filters setting) on top of `properties`. */
   filter_test_accounts?: boolean | undefined;
   /** Filter by session outcome. true keeps sessions with at least one errored tool call ($mcp_is_error), false keeps sessions with none. Omit to list both. */
@@ -1702,6 +1704,7 @@ function __c21(j: number): any {
           project_id: S.String.pipe(T.Label()),
           date_from: S.optional(S.String.pipe(T.Query())),
           date_to: S.optional(S.String.pipe(T.Query())),
+          feedback_only: S.optional(S.Boolean.pipe(T.Query())),
           filter_test_accounts: S.optional(S.Boolean.pipe(T.Query())),
           has_errors: S.optional(S.Boolean.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),

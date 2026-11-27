@@ -4199,7 +4199,18 @@ export type ErrorTrackingIssueStatus =
   | "resolved"
   | "pending_release"
   | "suppressed";
+export type ErrorTrackingIssueTagColor =
+  | "blue"
+  | "teal"
+  | "green"
+  | "yellow"
+  | "orange"
+  | "red"
+  | "pink"
+  | "purple";
 export interface ErrorTrackingIssueTag {
+  /** Named color of the tag, or null for a color picked from the label. */
+  color?: ErrorTrackingIssueTagColor | (string & {}) | null | undefined;
   /** What the tag means, for a tooltip. */
   description: string;
   /** Key of the tag definition. */
@@ -5633,6 +5644,23 @@ export interface ExperimentBreakdownResult {
   variants?: ExperimentBreakdownResultVariants | undefined;
 }
 export type ExperimentQueryResponseBreakdownResultsList = Array<ExperimentBreakdownResult>;
+export type ExperimentWarehouseNativeRowsLeftOutExposedWithoutRowsMap = {
+  [key: string]: number | undefined;
+};
+export type ExperimentWarehouseNativeRowsLeftOutUnknownVariantsMap = {
+  [key: string]: number | undefined;
+};
+export interface ExperimentWarehouseNativeRowsLeftOut {
+  /** Exposure rows with an empty entity_id. */
+  empty_id?: number | null | undefined;
+  /** Exposed entities with no row of the metric query that counted, by variant. */
+  exposed_without_rows?:
+    | ExperimentWarehouseNativeRowsLeftOutExposedWithoutRowsMap
+    | null
+    | undefined;
+  /** Exposure rows whose variant is not one the flag serves, counted by the value seen. */
+  unknown_variants?: ExperimentWarehouseNativeRowsLeftOutUnknownVariantsMap | null | undefined;
+}
 export type ExperimentQueryResponseVariantResultsCase0List =
   Array<ExperimentVariantResultFrequentist>;
 export type ExperimentQueryResponseVariantResultsCase1List = Array<ExperimentVariantResultBayesian>;
@@ -5649,6 +5677,8 @@ export interface ExperimentQueryResponse {
   /** Whether exposures were served from the precomputation system */
   is_precomputed?: boolean | null | undefined;
   kind?: string | undefined;
+  /** Rows of the warehouse-native metric query that the run left out, by reason. Set by a warehouse-native run only. */
+  rows_left_out?: ExperimentWarehouseNativeRowsLeftOut | null | undefined;
   variant_results?: ExperimentQueryResponseVariantResults | null | undefined;
   /** Data warehouse sync warnings -- see AnalyticsQueryResponseBase.warnings for semantics. */
   warnings?: ExperimentQueryResponseWarningsList | null | undefined;
