@@ -1052,7 +1052,7 @@ export const removeOrgMemberByMembershipID: API.OperationMethod<
 }));
 
 export type RemoveTeamMemberError = EntireOpError;
-/** Remove an account from a team Requires organization management permission. The removal is idempotent and answers 204. A team that directory sync owns is read-only here: the write answers 409 with type https://entire.com/errors/team/directory-managed. */
+/** Remove an account from a team Requires organization management permission. An account that is not on the team answers 404. A team that directory sync owns is read-only here: the write answers 409 with type https://entire.com/errors/team/directory-managed. */
 export const removeTeamMember: API.OperationMethod<
   RemoveTeamMemberRequest,
   RemoveTeamMemberResponse,

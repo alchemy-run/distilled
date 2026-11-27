@@ -279,7 +279,7 @@ export const createServiceAccountSecret: API.OperationMethod<
 }));
 
 export type DeleteBindingError = EntireOpError;
-/** Delete OIDC binding **Accepted credentials:** User token. Removes an OIDC binding. Deleting a binding that does not exist returns 204. */
+/** Delete OIDC binding **Accepted credentials:** User token. Removes an OIDC binding. A binding that does not exist answers 404. */
 export const deleteBinding: API.OperationMethod<
   DeleteBindingRequest,
   DeleteBindingResponse,
@@ -315,7 +315,7 @@ export const deleteServiceAccount: API.OperationMethod<
 }));
 
 export type DeleteServiceAccountSecretError = EntireOpError;
-/** Delete service account secret **Accepted credentials:** User token. Revokes one secret. Access tokens already issued from the secret stay valid until they expire. Deleting a secret that does not exist returns 204. A request to a region other than the service account's home region returns 421 with the home region's URL. */
+/** Delete service account secret **Accepted credentials:** User token. Revokes one secret. Access tokens already issued from the secret stay valid until they expire. A secret that does not exist answers 404. A request to a region other than the service account's home region returns 421 with the home region's URL. */
 export const deleteServiceAccountSecret: API.OperationMethod<
   DeleteServiceAccountSecretRequest,
   DeleteServiceAccountSecretResponse,

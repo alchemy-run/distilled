@@ -71,9 +71,12 @@ export interface CreateRepoRequest {
   projectId?: string | undefined;
 }
 export type RepoCandidateAccess = "read" | "write" | "admin";
+export type RepoCandidateVisibility = "public" | "private";
 export interface RepoCandidate {
   access: RepoCandidateAccess;
   onboardable: boolean;
+  provider_repo_id?: string | undefined;
+  visibility?: RepoCandidateVisibility | undefined;
   [key: string]: unknown;
 }
 export interface RepoCapabilities {
@@ -279,6 +282,8 @@ function __c1(j: number): any {
           S.Struct({
             access: S.String,
             onboardable: S.Boolean,
+            provider_repo_id: S.optional(S.String),
+            visibility: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
         ),

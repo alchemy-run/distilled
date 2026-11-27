@@ -117,7 +117,7 @@ export interface ApiError {
   error: string;
 }
 export type DeleteRepoSecretError = RepoNotInRegion | EntireOpError;
-/** Delete a repository secret Deletes a repository secret, removing the stored ciphertext and its key from the live store; a backup taken before the deletion still holds them until it ages out. Idempotent -- deleting a key that is not configured succeeds. Requires repo-admin (manage_settings). */
+/** Delete a repository secret Deletes a repository secret, removing the stored ciphertext and its key from the live store; a backup taken before the deletion still holds them until it ages out. Idempotent -- deleting a key that is not configured succeeds. Requires repo-admin (manage_settings), and on a GitHub mirror a live GitHub admin. */
 export const deleteRepoSecret: API.OperationMethod<
   DeleteRepoSecretRequest,
   DeleteRepoSecretResponse,
@@ -135,7 +135,7 @@ export const deleteRepoSecret: API.OperationMethod<
 }));
 
 export type ListRepoSecretsError = RepoNotInRegion | EntireOpError;
-/** List which repository secrets are configured Which repository secrets are configured and when each was last set or rotated -- metadata only, never the values. There is no endpoint that returns a stored secret value. Requires repo-admin (manage_settings), the same tier as setting one. */
+/** List which repository secrets are configured Which repository secrets are configured and when each was last set or rotated -- metadata only, never the values. There is no endpoint that returns a stored secret value. Requires repo-admin (manage_settings), the same tier as setting one (on a GitHub mirror, a live GitHub admin too). */
 export const listRepoSecrets: API.PaginatedOperationMethod<
   ListRepoSecretsRequest,
   RepoSecretsListOutputBody,
@@ -163,7 +163,7 @@ export const listRepoSecrets: API.PaginatedOperationMethod<
 ) as any;
 
 export type SetRepoSecretError = RepoNotInRegion | EntireOpError;
-/** Set or rotate a repository secret Stores a repository secret (a customer-supplied model provider API key) encrypted at rest. Write-only: no endpoint ever returns the stored value -- it can only be rotated (by setting it again) or deleted. The runner reads it in the repository's own cell, never over the API. Setting an existing key rotates it. Requires repo-admin (manage_settings): the stored key decides which account pays for the repository's model calls. */
+/** Set or rotate a repository secret Stores a repository secret (a customer-supplied model provider API key) encrypted at rest. Write-only: no endpoint ever returns the stored value -- it can only be rotated (by setting it again) or deleted. The runner reads it in the repository's own cell, never over the API. Setting an existing key rotates it. Requires repo-admin (manage_settings), and on a GitHub mirror a live GitHub admin: the stored key decides which account pays for the repository's model calls. */
 export const setRepoSecret: API.OperationMethod<
   SetRepoSecretRequest,
   SetRepoSecretResponse,
@@ -181,7 +181,7 @@ export const setRepoSecret: API.OperationMethod<
 }));
 
 export type UpdateRepoPublicSharingError = RepoNotInRegion | EntireOpError;
-/** Turn repository-wide public sharing on or off The repository-wide opt-in that lets individual sessions in a private repository be shared publicly. Turning it off retracts that visibility, even for sessions already shared. */
+/** Turn repository-wide public sharing on or off The repository-wide opt-in that lets individual sessions in a private repository be shared publicly. Turning it off retracts that visibility, even for sessions already shared. On a GitHub mirror, changing it also requires a live GitHub admin. */
 export const updateRepoPublicSharing: API.OperationMethod<
   UpdateRepoPublicSharingRequest,
   PublicSharingOutputBody,

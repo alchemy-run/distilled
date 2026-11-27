@@ -77,7 +77,7 @@ export interface ListChangeEventsRequest {
 export interface ReviewEventJSON {
   actor_id: string | null;
   created_at: string;
-  /** Open event type. Periods separate domains; each segment uses lowercase snake_case. Unknown future names must be tolerated. */
+  /** Open event type. Periods separate domains; each segment uses lowercase snake_case. Unknown future names must be tolerated. agents.settled carries only payload.head_sha and is recorded once per trail and head SHA when the expected automated review agents for that commit have settled. It does not wait for human or independent reviewers. */
   event_type: string;
   id: string;
   payload: unknown;

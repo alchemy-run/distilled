@@ -452,9 +452,12 @@ export interface AgentVersion {
   /** Version number. */
   version: number;
 }
-export interface ListAgentModelPricesRequest {}
+export interface ListAgentModelPricesRequest {
+  /** Project ULID the models are for, in either case. Models only some projects may use are listed only for such a project the caller can view. */
+  project_id?: string | undefined;
+}
 export type AgentHarnessPricesHarness = "claude" | "codex" | "pi";
-export interface AgentModelPriceUsdPerMillionTokens {
+export interface AgentTokenPrices {
   /** Null when no cache read price was read from the rate card. */
   cache_read: string | null;
   /** Null when no cache write price was read from the rate card. */
@@ -462,13 +465,22 @@ export interface AgentModelPriceUsdPerMillionTokens {
   input: string;
   output: string;
 }
+export interface AgentModelPricePeak {
+  /** When the window ends, as HH:MM in UTC, exclusive. An end before the start means the window runs past midnight. */
+  end_utc: string;
+  /** When the window starts each day, as HH:MM in UTC, inclusive. */
+  start_utc: string;
+  usd_per_million_tokens: AgentTokenPrices;
+}
+export type AgentModelPriceUsdPerMillionTokens = AgentTokenPrices;
 export interface AgentModelPrice {
   id: string;
+  peak: AgentModelPricePeak;
   /** Display name of the company that serves the model, which can differ from the harness provider: a pi model on the Sarvam route is served by Sarvam. */
   provider: string;
   /** The model list's provider for this row: what an agent saves to run on it; null for the cell's own choice. */
   provider_id: string | null;
-  usd_per_million_tokens: AgentModelPriceUsdPerMillionTokens;
+  usd_per_million_tokens: AgentTokenPrices;
 }
 /** The same models, in the same order, as the agent model list. */
 export type AgentHarnessPricesModelsList = Array<AgentModelPrice>;
@@ -498,7 +510,10 @@ export interface AgentModelPrices {
   /** When the rate card's prices last changed; null when the card does not say. */
   rate_card_updated_at: string | null;
 }
-export interface ListAgentModelsRequest {}
+export interface ListAgentModelsRequest {
+  /** Project ULID the models are for, in either case. Models only some projects may use are listed only for such a project the caller can view. */
+  project_id?: string | undefined;
+}
 /** Model family, kept for legacy clients and self-hosted agents. Hosted writers can send a unique model id without it. */
 export type AgentHarnessModelsHarness = "claude" | "codex" | "pi";
 /** Accepted reasoning_effort values for an agent using this model, lowest first; empty when the model takes none. */
@@ -1126,7 +1141,7 @@ export const listAgentModelPrices: API.OperationMethod<
   EntireOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<ListAgentModelPricesRequest>,
-  output: __S(424, __c26, 8) as any as S.Schema<AgentModelPrices>,
+  output: __S(425, __c26, 9) as any as S.Schema<AgentModelPrices>,
   errors: [],
   serviceErrors: EntireServiceErrors,
   protocol: EntireCellProtocol,
@@ -2088,9 +2103,9 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({ method: "GET", uri: "/api/v1/agents/models/prices", code: 200 }),
-        ),
+        S.Struct({
+          project_id: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/agents/models/prices", code: 200 })),
       ).annotate({ identifier: "ListAgentModelPricesRequest" });
     case 1:
       return S.suspend(() =>
@@ -2100,44 +2115,53 @@ function __c26(j: number): any {
           input: S.String,
           output: S.String,
         }),
-      ).annotate({ identifier: "AgentModelPriceUsdPerMillionTokens" });
+      ).annotate({ identifier: "AgentTokenPrices" });
     case 2:
       return S.suspend(() =>
         S.Struct({
+          end_utc: S.String,
+          start_utc: S.String,
+          usd_per_million_tokens: __S(417, __c26, 1),
+        }),
+      ).annotate({ identifier: "AgentModelPricePeak" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String,
+          peak: __S(418, __c26, 2),
           provider: S.String,
           provider_id: S.NullOr(S.String),
           usd_per_million_tokens: __S(417, __c26, 1),
         }),
       ).annotate({ identifier: "AgentModelPrice" });
-    case 3:
-      return S.Array(__S(418, __c26, 2));
     case 4:
+      return S.Array(__S(419, __c26, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
           harness: S.String,
-          models: S.NullOr(__S(419, __c26, 3)),
+          models: S.NullOr(__S(420, __c26, 4)),
           provider: S.String,
         }),
       ).annotate({ identifier: "AgentHarnessPrices" });
-    case 5:
-      return S.Array(__S(420, __c26, 4));
     case 6:
+      return S.Array(__S(421, __c26, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           usd_per_unit: S.String,
         }),
       ).annotate({ identifier: "AgentModelOtherRate" });
-    case 7:
-      return S.Array(__S(422, __c26, 6));
     case 8:
+      return S.Array(__S(423, __c26, 7));
+    case 9:
       return S.suspend(() =>
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
-          agents: S.NullOr(__S(421, __c26, 5)),
+          agents: S.NullOr(__S(422, __c26, 6)),
           fetched_at: S.String,
-          other_rates: S.NullOr(__S(423, __c26, 7)),
+          other_rates: S.NullOr(__S(424, __c26, 8)),
           rate_card_updated_at: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "AgentModelPrices" });
@@ -2147,7 +2171,9 @@ function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/agents/models", code: 200 })),
+        S.Struct({
+          project_id: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/agents/models", code: 200 })),
       ).annotate({ identifier: "ListAgentModelsRequest" });
     case 1:
       return S.suspend(() =>

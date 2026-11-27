@@ -378,7 +378,7 @@ export interface ListSessionsRequest {
   limit?: number | undefined;
   /** RFC 3339 lower bound on last_activity_at, inclusive (optional; unbounded by default) */
   since?: string | undefined;
-  /** RFC 3339 upper bound on last_activity_at, exclusive (optional; unbounded by default -- in practice capped 100 years out, an unreachable bound for any real session) */
+  /** RFC 3339 upper bound on last_activity_at, exclusive (optional; unbounded by default) */
   until?: string | undefined;
   /** Include complete scoped author, agent, and model filter choices on the first page; ignored with cursor */
   includeFacets?: boolean | undefined;
@@ -756,7 +756,7 @@ export const listSharedSessionSubagents: API.PaginatedOperationMethod<
 ) as any;
 
 export type RenameSessionError = EntireOpError;
-/** Set or clear a session's display name */
+/** Set or clear a session's display name Sets a session's custom display name. Requires push access, and on a GitHub mirror a live GitHub admin of the repository. */
 export const renameSession: API.OperationMethod<
   RenameSessionRequest,
   SessionRenameOutputBody,
