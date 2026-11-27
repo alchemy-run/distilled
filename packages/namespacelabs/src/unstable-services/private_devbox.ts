@@ -234,6 +234,14 @@ export interface ServiceSpec {
   ports?: PortSpecList | undefined;
 }
 export type ServiceSpecList = Array<ServiceSpec>;
+export type WorkloadTokenSpecAccessLevel =
+  | "ACCESS_LEVEL_UNSPECIFIED"
+  | "ACCESS_LEVEL_RESTRICTED"
+  | "ACCESS_LEVEL_PERMISSIVE";
+export interface WorkloadTokenSpec {
+  /** Tenant policy may restrict this selection at launch. */
+  accessLevel?: WorkloadTokenSpecAccessLevel | (string & {}) | undefined;
+}
 export interface ActivateRequestExperimentalDevinOutposts {
   connectToken?: string | Redacted.Redacted<string> | undefined;
   sessionId?: string | undefined;
@@ -301,6 +309,7 @@ export interface CreateRequest2 {
   instanceEventCallback?: HttpCallbackEndpoint | undefined;
   persistenceMode?: PersistenceMode | (string & {}) | undefined;
   services?: ServiceSpecList | undefined;
+  workloadToken?: WorkloadTokenSpec | undefined;
   activate?: boolean | undefined;
   activateExperimental?: ActivateRequestExperimental | undefined;
 }
@@ -340,6 +349,7 @@ export interface BlueprintSpecUserOrUid {
   uid?: number | undefined;
   user?: string | undefined;
 }
+export type BlueprintSpecInitSystem = "INIT_SYSTEM_UNKNOWN" | "SYSTEMD";
 export interface BlueprintSpec {
   remoteUser?: string | undefined;
   shell?: string | undefined;
@@ -360,6 +370,8 @@ export interface BlueprintSpec {
   workspaceDir?: string | undefined;
   /** Terminal sessions to create at startup. */
   sessions?: BlueprintSpecSessionSpecList | undefined;
+  /** The init system the image runs as PID 1. Honored only for tenants in the devbox.accept_image_init_system experiment. */
+  initSystem?: BlueprintSpecInitSystem | (string & {}) | undefined;
 }
 export interface DevBoxResolvedImage {
   id: string;
@@ -425,6 +437,8 @@ export interface DevBox {
   networkPolicy?: NetworkPolicySpec | undefined;
   labels: LabelList;
   versionControl?: VersionControlSpec | undefined;
+  /** Creation-time configuration, not an attestation of a running instance's token. Tenant restrictions apply at every launch, including when this is unset. */
+  workloadToken?: WorkloadTokenSpec | undefined;
 }
 export type AcquireLeaseResponseLeaseOutcome =
   | "LEASE_OUTCOME_UNSPECIFIED"
@@ -514,6 +528,7 @@ export interface CreateRequest {
   instanceEventCallback?: HttpCallbackEndpoint | undefined;
   persistenceMode?: PersistenceMode | (string & {}) | undefined;
   services?: ServiceSpecList | undefined;
+  workloadToken?: WorkloadTokenSpec | undefined;
   activate?: boolean | undefined;
   activateExperimental?: ActivateRequestExperimental | undefined;
 }
@@ -578,6 +593,8 @@ export interface DevboxTemplateSpec {
   services?: ServiceSpecList | undefined;
   /** Overrides the image's privileged setting. Unset uses the image default. */
   privileged?: boolean | undefined;
+  /** Uses saved defaults when unspecified on save. Tenant restrictions apply at every launch. */
+  workloadToken?: WorkloadTokenSpec | undefined;
 }
 /** Transient integration setup values; credentials are never returned. */
 export interface CreateBlueprintRequestExperimental {
@@ -780,6 +797,7 @@ export interface DevboxDefaults {
   /** Default persistent volume size in GB applied to new devboxes when the create request doesn't specify a size. Capped at the tenant policy's maximum_volume_size_gb. 0 means use the system default. */
   volumeSizeGb?: string | undefined;
   networkPolicy?: NetworkPolicySpec | undefined;
+  workloadToken?: WorkloadTokenSpec | undefined;
 }
 export interface FetchDefaultsResponse {
   defaults?: DevboxDefaults | undefined;
@@ -1306,6 +1324,7 @@ export type CreateFromDevboxError =
   | AlreadyExists
   | ResourceExhausted
   | NamespaceLabsOpError;
+/** Experimental: this API is not stable and is not ready for production use. */
 export const createFromDevbox: API.OperationMethod<
   CreateFromDevboxRequest,
   CreateFromDevboxResponse,
@@ -2566,6 +2585,7 @@ function __c0(j: number): any {
           instanceEventCallback: S.optional(__S(851, __c53, 3)),
           persistenceMode: S.optional(S.String),
           services: S.optional(__S(870, __c54, 6)),
+          workloadToken: S.optional(__S(940, __c58, 12)),
           activate: S.optional(S.Boolean),
           activateExperimental: S.optional(__S(962, __c60, 2)),
         }).pipe(
@@ -2674,6 +2694,7 @@ function __c3(j: number): any {
           persistenceMode: S.optional(S.String),
           services: S.optional(__S(870, __c54, 6)),
           privileged: S.optional(S.Boolean),
+          workloadToken: S.optional(__S(940, __c58, 12)),
         }),
       ).annotate({ identifier: "DevboxTemplateSpec" });
     case 7:
@@ -3120,6 +3141,7 @@ function __c28(j: number): any {
           enabledFeatures: S.optional(__S(880, __c55, 0)),
           volumeSizeGb: S.optional(S.String),
           networkPolicy: S.optional(__S(939, __c58, 11)),
+          workloadToken: S.optional(__S(940, __c58, 12)),
         }),
       ).annotate({ identifier: "DevboxDefaults" });
   }
@@ -3740,6 +3762,7 @@ function __c52(j: number): any {
           instanceEventCallback: S.optional(__S(851, __c53, 3)),
           persistenceMode: S.optional(S.String),
           services: S.optional(__S(870, __c54, 6)),
+          workloadToken: S.optional(__S(940, __c58, 12)),
           activate: S.optional(S.Boolean),
           activateExperimental: S.optional(__S(962, __c60, 2)),
         }),
@@ -3956,6 +3979,12 @@ function __c58(j: number): any {
           egressPolicy: S.optional(__S(938, __c58, 10)),
         }),
       ).annotate({ identifier: "NetworkPolicySpec" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          accessLevel: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WorkloadTokenSpec" });
   }
 }
 function __c59(j: number): any {
@@ -4080,6 +4109,7 @@ function __c62(j: number): any {
           setupDockerClient: S.optional(S.Boolean),
           workspaceDir: S.optional(S.String),
           sessions: S.optional(__S(897, __c56, 1)),
+          initSystem: S.optional(S.String),
         }),
       ).annotate({ identifier: "BlueprintSpec" });
   }
@@ -4154,6 +4184,7 @@ function __c63(j: number): any {
           networkPolicy: S.optional(__S(939, __c58, 11)),
           labels: __S(929, __c58, 1),
           versionControl: S.optional(__S(933, __c58, 5)),
+          workloadToken: S.optional(__S(940, __c58, 12)),
         }),
       ).annotate({ identifier: "DevBox" });
   }

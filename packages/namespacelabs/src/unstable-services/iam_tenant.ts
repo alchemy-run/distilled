@@ -154,11 +154,51 @@ export interface Tenant {
 export interface CreateTenantResponse {
   tenant?: Tenant | undefined;
 }
+export type StringList = Array<string>;
+/** Defines a permission grant on a resource. Permissions are used to restrict what a token is allowed to do. See https://namespace.so/docs/security/permissions for a list of available resource types and actions. */
+export interface Permission {
+  /** The type of resource this permission applies to, e.g. "instance", "vault/object", "token/revokable". */
+  resourceType?: string | undefined;
+  /** The specific resource ID, or empty for all resources of this type. */
+  resourceId?: string | undefined;
+  /** The set of actions allowed on the resource, e.g. "create", "list", "describe". */
+  actions?: StringList | undefined;
+}
+export type PermissionList = Array<Permission>;
+export type StringMap = { [key: string]: string | undefined };
+export interface TrustRelationshipSpec {
+  /** Exact OIDC issuer URL. Namespace discovers its public signing keys. */
+  issuer?: string | undefined;
+  /** Glob pattern for the token's subject claim. */
+  subjectMatch?: string | undefined;
+  /** Defaults to https://federation.namespaceapis.com. */
+  audience?: string | undefined;
+  /** Permissions granted to exchanged tokens. If empty, tenant defaults apply. */
+  defaultPermissions?: PermissionList | undefined;
+  /** Defaults to one hour, capped by maximum_token_duration. */
+  defaultTokenDuration?: string | undefined;
+  /** Up to 24 hours. */
+  maximumTokenDuration?: string | undefined;
+  /** Glob patterns for additional string claims. All must match. Does not support iss, sub, or aud. */
+  claimMatches?: StringMap | undefined;
+}
+export interface CreateTrustRelationshipRequest {
+  spec?: TrustRelationshipSpec | undefined;
+}
+export interface CreateTrustRelationshipResponse {
+  id: string;
+}
 export interface DeleteTenantGroupRequest {
   /** A canonical name for the Tenant group. Tenant groups are identified by name and scoped per Namespace Partner. */
   name?: string | undefined;
 }
 export interface DeleteTenantGroupResponse {}
+export interface DeleteTrustRelationshipRequest {
+  id?: string | undefined;
+  /** Only delete if generation matches. Obtain the current value from ListTrustRelationships or DescribeTrustRelationship. */
+  generation?: string | undefined;
+}
+export interface DeleteTrustRelationshipResponse {}
 export interface DescribePoliciesRequest {}
 export interface DescribePoliciesResponse {
   policies: TenantPolicyList;
@@ -175,7 +215,6 @@ export interface TenantGroupPolicy {
   value?: string | undefined;
 }
 export type TenantGroupPolicyList = Array<TenantGroupPolicy>;
-export type StringList = Array<string>;
 export interface DescribeTenantGroupResponse {
   /** A canonical name for the Tenant group. Tenant groups are identified by name and scoped per Namespace Partner. */
   name: string;
@@ -185,6 +224,15 @@ export interface DescribeTenantGroupResponse {
   enrolledTenantIds: StringList;
   /** The full history of policy revisions, latest first. Each version entry corresponds to one stored revision of the policy. */
   versions: TenantGroupPolicyList;
+}
+export interface DescribeTrustRelationshipRequest {
+  id?: string | undefined;
+}
+export interface DescribeTrustRelationshipResponse {
+  generation: string;
+  id: string;
+  createdAt?: string | undefined;
+  spec?: TrustRelationshipSpec | undefined;
 }
 export interface EnsureTenantForExternalAccountRequest {
   /** Specify the Tenant's visible name, e.g. "Foobar (production)". The Tenant's name is visible in Namespace-based interfaces, such as the Dashboard or the CLI. A visible name is optional. */
@@ -210,16 +258,6 @@ export interface EnsureTenantGroupRequest {
 export interface EnsureTenantGroupResponse {
   name: string;
 }
-/** Defines a permission grant on a resource. Permissions are used to restrict what a token is allowed to do. See https://namespace.so/docs/security/permissions for a list of available resource types and actions. */
-export interface Permission {
-  /** The type of resource this permission applies to, e.g. "instance", "vault/object", "token/revokable". */
-  resourceType?: string | undefined;
-  /** The specific resource ID, or empty for all resources of this type. */
-  resourceId?: string | undefined;
-  /** The set of actions allowed on the resource, e.g. "create", "list", "describe". */
-  actions?: StringList | undefined;
-}
-export type PermissionList = Array<Permission>;
 export interface ExchangeTenantTokenForClientCertRequest {
   /** The public key for which the certificate should be issued. This must contain exactly one PEM "PUBLIC KEY" block. */
   publicKeyPem?: string | undefined;
@@ -306,6 +344,17 @@ export interface ListTenantsResponse {
   /** If present, then there are additional tenants that match the original query, but were not returned in this response. Issue a 2nd List call, passing in the cursor, to obtain the next set. */
   cursor: string;
 }
+export interface ListTrustRelationshipsRequest {}
+export interface ListTrustRelationshipsResponseEntry {
+  id: string;
+  createdAt?: string | undefined;
+  spec?: TrustRelationshipSpec | undefined;
+  generation: string;
+}
+export type ListTrustRelationshipsResponseEntryList = Array<ListTrustRelationshipsResponseEntry>;
+export interface ListTrustRelationshipsResponse {
+  trustRelationships: ListTrustRelationshipsResponseEntryList;
+}
 export interface RemoveTenantRequest {
   /** The ID of the Tenant that is the target of a particular call. */
   tenantId?: string | undefined;
@@ -343,6 +392,13 @@ export interface UpdateTenantRequest {
 export interface UpdateTenantResponse {
   tenant?: Tenant | undefined;
 }
+export interface UpdateTrustRelationshipRequest {
+  id?: string | undefined;
+  /** Only update if generation matches. Obtain the current value from ListTrustRelationships or DescribeTrustRelationship. */
+  generation?: string | undefined;
+  spec?: TrustRelationshipSpec | undefined;
+}
+export interface UpdateTrustRelationshipResponse {}
 export type CreateTenantError =
   | InvalidArgument
   | FailedPrecondition
@@ -359,8 +415,8 @@ export const createTenant: API.OperationMethod<
   CreateTenantError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(68, __c17, 0) as any as S.Schema<CreateTenantRequest>,
-  output: __S(76, __c19, 0) as any as S.Schema<CreateTenantResponse>,
+  input: __S(80, __c20, 0) as any as S.Schema<CreateTenantRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<CreateTenantResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
@@ -375,6 +431,40 @@ export const createTenant: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateTenant",
+}));
+
+export type CreateTrustRelationshipError =
+  | InvalidArgument
+  | FailedPrecondition
+  | Unauthenticated
+  | PermissionDenied
+  | NotFound
+  | AlreadyExists
+  | ResourceExhausted
+  | NamespaceLabsOpError;
+/** Creates an OIDC trust relationship in the tenant. */
+export const createTrustRelationship: API.OperationMethod<
+  CreateTrustRelationshipRequest,
+  CreateTrustRelationshipResponse,
+  CreateTrustRelationshipError,
+  NamespaceLabsOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(96, __c24, 0) as any as S.Schema<CreateTrustRelationshipRequest>,
+  output: __S(97, __c24, 1) as any as S.Schema<CreateTrustRelationshipResponse>,
+  errors: [
+    InvalidArgument,
+    FailedPrecondition,
+    Unauthenticated,
+    PermissionDenied,
+    NotFound,
+    AlreadyExists,
+    ResourceExhausted,
+  ],
+  serviceErrors: NamespaceLabsServiceErrors,
+  protocol: NamespaceLabsProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTrustRelationship",
 }));
 
 export type DeleteTenantGroupError =
@@ -393,8 +483,8 @@ export const deleteTenantGroup: API.OperationMethod<
   DeleteTenantGroupError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(84, __c21, 0) as any as S.Schema<DeleteTenantGroupRequest>,
-  output: __S(88, __c22, 0) as any as S.Schema<DeleteTenantGroupResponse>,
+  input: __S(112, __c28, 0) as any as S.Schema<DeleteTenantGroupRequest>,
+  output: __S(116, __c29, 0) as any as S.Schema<DeleteTenantGroupResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
@@ -409,6 +499,40 @@ export const deleteTenantGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteTenantGroup",
+}));
+
+export type DeleteTrustRelationshipError =
+  | InvalidArgument
+  | FailedPrecondition
+  | Unauthenticated
+  | PermissionDenied
+  | NotFound
+  | AlreadyExists
+  | ResourceExhausted
+  | NamespaceLabsOpError;
+/** Deletes an OIDC trust relationship from the tenant. ### Errors - If the relationship does not exist, a `NotFound` status is returned. - If the generation does not match, a `FailedPrecondition` status is returned. The current generation can be retrieved from ListTrustRelationships or DescribeTrustRelationship. */
+export const deleteTrustRelationship: API.OperationMethod<
+  DeleteTrustRelationshipRequest,
+  DeleteTrustRelationshipResponse,
+  DeleteTrustRelationshipError,
+  NamespaceLabsOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(0, __c0, 0) as any as S.Schema<DeleteTrustRelationshipRequest>,
+  output: __S(116, __c29, 0) as any as S.Schema<DeleteTrustRelationshipResponse>,
+  errors: [
+    InvalidArgument,
+    FailedPrecondition,
+    Unauthenticated,
+    PermissionDenied,
+    NotFound,
+    AlreadyExists,
+    ResourceExhausted,
+  ],
+  serviceErrors: NamespaceLabsServiceErrors,
+  protocol: NamespaceLabsProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTrustRelationship",
 }));
 
 export type DescribePoliciesError =
@@ -427,8 +551,8 @@ export const describePolicies: API.OperationMethod<
   DescribePoliciesError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(92, __c23, 0) as any as S.Schema<DescribePoliciesRequest>,
-  output: __S(93, __c23, 1) as any as S.Schema<DescribePoliciesResponse>,
+  input: __S(4, __c1, 0) as any as S.Schema<DescribePoliciesRequest>,
+  output: __S(5, __c1, 1) as any as S.Schema<DescribePoliciesResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
@@ -461,8 +585,8 @@ export const describeTenantGroup: API.OperationMethod<
   DescribeTenantGroupError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DescribeTenantGroupRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<DescribeTenantGroupResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<DescribeTenantGroupRequest>,
+  output: __S(9, __c2, 1) as any as S.Schema<DescribeTenantGroupResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
@@ -477,6 +601,40 @@ export const describeTenantGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DescribeTenantGroup",
+}));
+
+export type DescribeTrustRelationshipError =
+  | InvalidArgument
+  | FailedPrecondition
+  | Unauthenticated
+  | PermissionDenied
+  | NotFound
+  | AlreadyExists
+  | ResourceExhausted
+  | NamespaceLabsOpError;
+/** Retrieves an OIDC trust relationship from the tenant. ### Errors - If the relationship does not exist, a `NotFound` status is returned. */
+export const describeTrustRelationship: API.OperationMethod<
+  DescribeTrustRelationshipRequest,
+  DescribeTrustRelationshipResponse,
+  DescribeTrustRelationshipError,
+  NamespaceLabsOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(16, __c4, 0) as any as S.Schema<DescribeTrustRelationshipRequest>,
+  output: __S(17, __c4, 1) as any as S.Schema<DescribeTrustRelationshipResponse>,
+  errors: [
+    InvalidArgument,
+    FailedPrecondition,
+    Unauthenticated,
+    PermissionDenied,
+    NotFound,
+    AlreadyExists,
+    ResourceExhausted,
+  ],
+  serviceErrors: NamespaceLabsServiceErrors,
+  protocol: NamespaceLabsProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DescribeTrustRelationship",
 }));
 
 export type EnsureTenantForExternalAccountError =
@@ -495,8 +653,8 @@ export const ensureTenantForExternalAccount: API.OperationMethod<
   EnsureTenantForExternalAccountError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<EnsureTenantForExternalAccountRequest>,
-  output: __S(76, __c19, 0) as any as S.Schema<EnsureTenantForExternalAccountResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<EnsureTenantForExternalAccountRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<EnsureTenantForExternalAccountResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
@@ -529,8 +687,8 @@ export const ensureTenantGroup: API.OperationMethod<
   EnsureTenantGroupError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<EnsureTenantGroupRequest>,
-  output: __S(17, __c4, 1) as any as S.Schema<EnsureTenantGroupResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<EnsureTenantGroupRequest>,
+  output: __S(25, __c6, 1) as any as S.Schema<EnsureTenantGroupResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
@@ -563,8 +721,8 @@ export const exchangeTenantTokenForClientCert: API.OperationMethod<
   ExchangeTenantTokenForClientCertError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<ExchangeTenantTokenForClientCertRequest>,
-  output: __S(21, __c5, 1) as any as S.Schema<ExchangeTenantTokenForClientCertResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<ExchangeTenantTokenForClientCertRequest>,
+  output: __S(29, __c7, 1) as any as S.Schema<ExchangeTenantTokenForClientCertResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
@@ -597,8 +755,8 @@ export const issueTenantClientCertificate: API.OperationMethod<
   IssueTenantClientCertificateError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<IssueTenantClientCertificateRequest>,
-  output: __S(29, __c7, 1) as any as S.Schema<IssueTenantClientCertificateResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<IssueTenantClientCertificateRequest>,
+  output: __S(33, __c8, 1) as any as S.Schema<IssueTenantClientCertificateResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
@@ -631,8 +789,8 @@ export const issueTenantToken: API.OperationMethod<
   IssueTenantTokenError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<IssueTenantTokenRequest>,
-  output: __S(37, __c9, 1) as any as S.Schema<IssueTenantTokenResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<IssueTenantTokenRequest>,
+  output: __S(41, __c10, 1) as any as S.Schema<IssueTenantTokenResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
@@ -665,8 +823,8 @@ export const listTenantGroups: API.OperationMethod<
   ListTenantGroupsError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<ListTenantGroupsRequest>,
-  output: __S(43, __c10, 3) as any as S.Schema<ListTenantGroupsResponse>,
+  input: __S(44, __c11, 0) as any as S.Schema<ListTenantGroupsRequest>,
+  output: __S(47, __c11, 3) as any as S.Schema<ListTenantGroupsResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
@@ -701,8 +859,8 @@ export const listTenants: API.PaginatedOperationMethod<
   Tenant
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(44, __c11, 0) as any as S.Schema<ListTenantsRequest>,
-    output: __S(46, __c11, 2) as any as S.Schema<ListTenantsResponse>,
+    input: __S(48, __c12, 0) as any as S.Schema<ListTenantsRequest>,
+    output: __S(50, __c12, 2) as any as S.Schema<ListTenantsResponse>,
     errors: [
       InvalidArgument,
       FailedPrecondition,
@@ -728,6 +886,40 @@ export const listTenants: API.PaginatedOperationMethod<
   paginateCursor,
 ) as any;
 
+export type ListTrustRelationshipsError =
+  | InvalidArgument
+  | FailedPrecondition
+  | Unauthenticated
+  | PermissionDenied
+  | NotFound
+  | AlreadyExists
+  | ResourceExhausted
+  | NamespaceLabsOpError;
+/** Lists the tenant's OIDC trust relationships. */
+export const listTrustRelationships: API.OperationMethod<
+  ListTrustRelationshipsRequest,
+  ListTrustRelationshipsResponse,
+  ListTrustRelationshipsError,
+  NamespaceLabsOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(52, __c13, 0) as any as S.Schema<ListTrustRelationshipsRequest>,
+  output: __S(55, __c13, 3) as any as S.Schema<ListTrustRelationshipsResponse>,
+  errors: [
+    InvalidArgument,
+    FailedPrecondition,
+    Unauthenticated,
+    PermissionDenied,
+    NotFound,
+    AlreadyExists,
+    ResourceExhausted,
+  ],
+  serviceErrors: NamespaceLabsServiceErrors,
+  protocol: NamespaceLabsProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTrustRelationships",
+}));
+
 export type RemoveTenantError =
   | InvalidArgument
   | FailedPrecondition
@@ -744,8 +936,8 @@ export const removeTenant: API.OperationMethod<
   RemoveTenantError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<RemoveTenantRequest>,
-  output: __S(88, __c22, 0) as any as S.Schema<RemoveTenantResponse>,
+  input: __S(56, __c14, 0) as any as S.Schema<RemoveTenantRequest>,
+  output: __S(116, __c29, 0) as any as S.Schema<RemoveTenantResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
@@ -778,8 +970,8 @@ export const resumeTenant: API.OperationMethod<
   ResumeTenantError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c13, 0) as any as S.Schema<ResumeTenantRequest>,
-  output: __S(88, __c22, 0) as any as S.Schema<ResumeTenantResponse>,
+  input: __S(60, __c15, 0) as any as S.Schema<ResumeTenantRequest>,
+  output: __S(116, __c29, 0) as any as S.Schema<ResumeTenantResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
@@ -812,8 +1004,8 @@ export const suspendTenant: API.OperationMethod<
   SuspendTenantError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c14, 0) as any as S.Schema<SuspendTenantRequest>,
-  output: __S(88, __c22, 0) as any as S.Schema<SuspendTenantResponse>,
+  input: __S(64, __c16, 0) as any as S.Schema<SuspendTenantRequest>,
+  output: __S(116, __c29, 0) as any as S.Schema<SuspendTenantResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
@@ -846,8 +1038,8 @@ export const updatePolicies: API.OperationMethod<
   UpdatePoliciesError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<UpdatePoliciesRequest>,
-  output: __S(88, __c22, 0) as any as S.Schema<UpdatePoliciesResponse>,
+  input: __S(68, __c17, 0) as any as S.Schema<UpdatePoliciesRequest>,
+  output: __S(116, __c29, 0) as any as S.Schema<UpdatePoliciesResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
@@ -880,8 +1072,8 @@ export const updateTenant: API.OperationMethod<
   UpdateTenantError,
   NamespaceLabsOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c16, 0) as any as S.Schema<UpdateTenantRequest>,
-  output: __S(76, __c19, 0) as any as S.Schema<UpdateTenantResponse>,
+  input: __S(72, __c18, 0) as any as S.Schema<UpdateTenantRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<UpdateTenantResponse>,
   errors: [
     InvalidArgument,
     FailedPrecondition,
@@ -898,8 +1090,80 @@ export const updateTenant: API.OperationMethod<
   span: "UpdateTenant",
 }));
 
+export type UpdateTrustRelationshipError =
+  | InvalidArgument
+  | FailedPrecondition
+  | Unauthenticated
+  | PermissionDenied
+  | NotFound
+  | AlreadyExists
+  | ResourceExhausted
+  | NamespaceLabsOpError;
+/** Replaces an OIDC trust relationship's configuration without changing its ID or creation time. ### Errors - If the relationship does not exist, a `NotFound` status is returned. - If the generation does not match, a `FailedPrecondition` status is returned. The current generation can be retrieved from ListTrustRelationships or DescribeTrustRelationship. */
+export const updateTrustRelationship: API.OperationMethod<
+  UpdateTrustRelationshipRequest,
+  UpdateTrustRelationshipResponse,
+  UpdateTrustRelationshipError,
+  NamespaceLabsOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(76, __c19, 0) as any as S.Schema<UpdateTrustRelationshipRequest>,
+  output: __S(116, __c29, 0) as any as S.Schema<UpdateTrustRelationshipResponse>,
+  errors: [
+    InvalidArgument,
+    FailedPrecondition,
+    Unauthenticated,
+    PermissionDenied,
+    NotFound,
+    AlreadyExists,
+    ResourceExhausted,
+  ],
+  serviceErrors: NamespaceLabsServiceErrors,
+  protocol: NamespaceLabsProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTrustRelationship",
+}));
+
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          generation: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.iam.v1beta.TenantService/DeleteTrustRelationship",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteTrustRelationshipRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.iam.v1beta.TenantService/DescribePolicies",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DescribePoliciesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          policies: __S(86, __c21, 2),
+          revision: S.String,
+        }),
+      ).annotate({ identifier: "DescribePoliciesResponse" });
+  }
+}
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -917,20 +1181,14 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          policies: __S(9, __c2, 1),
-          enrolledTenantIds: __S(4, __c1, 0),
-          versions: __S(9, __c2, 1),
+          policies: __S(13, __c3, 1),
+          enrolledTenantIds: __S(100, __c25, 0),
+          versions: __S(13, __c3, 1),
         }),
       ).annotate({ identifier: "DescribeTenantGroupResponse" });
   }
 }
-function __c1(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -940,19 +1198,44 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "TenantGroupPolicy" });
     case 1:
-      return S.Array(__S(8, __c2, 0));
+      return S.Array(__S(12, __c3, 0));
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.iam.v1beta.TenantService/DescribeTrustRelationship",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DescribeTrustRelationshipRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          generation: S.String,
+          id: S.String,
+          createdAt: S.optional(S.String),
+          spec: S.optional(__S(109, __c27, 1)),
+        }),
+      ).annotate({ identifier: "DescribeTrustRelationshipResponse" });
+  }
+}
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           visibleName: S.optional(S.String),
-          policies: S.optional(__S(82, __c20, 2)),
+          policies: S.optional(__S(86, __c21, 2)),
           externalAccountId: S.optional(S.String),
-          labels: S.optional(__S(73, __c18, 1)),
-          enrolledGroups: S.optional(__S(4, __c1, 0)),
+          labels: S.optional(__S(89, __c22, 1)),
+          enrolledGroups: S.optional(__S(100, __c25, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -963,13 +1246,13 @@ function __c3(j: number): any {
       ).annotate({ identifier: "EnsureTenantForExternalAccountRequest" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          policies: S.optional(__S(9, __c2, 1)),
+          policies: S.optional(__S(13, __c3, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -986,13 +1269,13 @@ function __c4(j: number): any {
       ).annotate({ identifier: "EnsureTenantGroupResponse" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           publicKeyPem: S.optional(S.String),
-          permissions: S.optional(__S(25, __c6, 1)),
+          permissions: S.optional(__S(105, __c26, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1009,21 +1292,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "ExchangeTenantTokenForClientCertResponse" });
   }
 }
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          resourceType: S.optional(S.String),
-          resourceId: S.optional(S.String),
-          actions: S.optional(__S(4, __c1, 0)),
-        }),
-      ).annotate({ identifier: "Permission" });
-    case 1:
-      return S.Array(__S(24, __c6, 0));
-  }
-}
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1031,8 +1300,8 @@ function __c7(j: number): any {
           tenantId: S.optional(S.String),
           actorId: S.optional(S.String),
           durationSecs: S.optional(S.String),
-          policies: S.optional(__S(33, __c8, 1)),
-          access: S.optional(__S(34, __c8, 2)),
+          policies: S.optional(__S(37, __c9, 1)),
+          access: S.optional(__S(38, __c9, 2)),
           publicKeyPem: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -1051,7 +1320,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "IssueTenantClientCertificateResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1061,16 +1330,16 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "TenantTokenPolicy" });
     case 1:
-      return S.Array(__S(32, __c8, 0));
+      return S.Array(__S(36, __c9, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          grants: S.optional(__S(25, __c6, 1)),
+          grants: S.optional(__S(105, __c26, 1)),
         }),
       ).annotate({ identifier: "AccessPolicy" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1078,8 +1347,8 @@ function __c9(j: number): any {
           tenantId: S.optional(S.String),
           actorId: S.optional(S.String),
           durationSecs: S.optional(S.String),
-          policies: S.optional(__S(33, __c8, 1)),
-          access: S.optional(__S(34, __c8, 2)),
+          policies: S.optional(__S(37, __c9, 1)),
+          access: S.optional(__S(38, __c9, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1096,7 +1365,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "IssueTenantTokenResponse" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1112,21 +1381,21 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          policies: __S(9, __c2, 1),
-          versions: __S(9, __c2, 1),
+          policies: __S(13, __c3, 1),
+          versions: __S(13, __c3, 1),
         }),
       ).annotate({ identifier: "ListTenantGroupsResponseTenantGroup" });
     case 2:
-      return S.Array(__S(41, __c10, 1));
+      return S.Array(__S(45, __c11, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          tenantGroups: __S(42, __c10, 2),
+          tenantGroups: __S(46, __c11, 2),
         }),
       ).annotate({ identifier: "ListTenantGroupsResponse" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1144,17 +1413,48 @@ function __c11(j: number): any {
         ),
       ).annotate({ identifier: "ListTenantsRequest" });
     case 1:
-      return S.Array(__S(74, __c18, 2));
+      return S.Array(__S(90, __c22, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          tenants: __S(45, __c11, 1),
+          tenants: __S(49, __c12, 1),
           cursor: S.String,
         }),
       ).annotate({ identifier: "ListTenantsResponse" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.iam.v1beta.TenantService/ListTrustRelationships",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListTrustRelationshipsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          createdAt: S.optional(S.String),
+          spec: S.optional(__S(109, __c27, 1)),
+          generation: S.String,
+        }),
+      ).annotate({ identifier: "ListTrustRelationshipsResponseEntry" });
+    case 2:
+      return S.Array(__S(53, __c13, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          trustRelationships: __S(54, __c13, 2),
+        }),
+      ).annotate({ identifier: "ListTrustRelationshipsResponse" });
+  }
+}
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1170,7 +1470,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "RemoveTenantRequest" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1186,7 +1486,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "ResumeTenantRequest" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1202,13 +1502,13 @@ function __c14(j: number): any {
       ).annotate({ identifier: "SuspendTenantRequest" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           tenantId: S.optional(S.String),
-          policies: S.optional(__S(82, __c20, 2)),
+          policies: S.optional(__S(86, __c21, 2)),
           revision: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -1220,15 +1520,15 @@ function __c15(j: number): any {
       ).annotate({ identifier: "UpdatePoliciesRequest" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           tenantId: S.optional(S.String),
           visibleName: S.optional(S.String),
-          policies: S.optional(__S(82, __c20, 2)),
-          labels: S.optional(__S(73, __c18, 1)),
+          policies: S.optional(__S(86, __c21, 2)),
+          labels: S.optional(__S(89, __c22, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1239,16 +1539,34 @@ function __c16(j: number): any {
       ).annotate({ identifier: "UpdateTenantRequest" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          generation: S.optional(S.String),
+          spec: S.optional(__S(109, __c27, 1)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.iam.v1beta.TenantService/UpdateTrustRelationship",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateTrustRelationshipRequest" });
+  }
+}
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           creatorId: S.optional(S.String),
           visibleName: S.optional(S.String),
-          policies: S.optional(__S(82, __c20, 2)),
+          policies: S.optional(__S(86, __c21, 2)),
           externalAccountId: S.optional(S.String),
-          labels: S.optional(__S(73, __c18, 1)),
+          labels: S.optional(__S(89, __c22, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1259,41 +1577,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "CreateTenantRequest" });
   }
 }
-function __c18(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          value: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Label" });
-    case 1:
-      return S.Array(__S(72, __c18, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          creatorId: S.String,
-          externalAccountId: S.String,
-          createdAt: S.optional(S.String),
-          visibleName: S.String,
-          labels: __S(73, __c18, 1),
-        }),
-      ).annotate({ identifier: "Tenant" });
-  }
-}
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          tenant: S.optional(__S(74, __c18, 2)),
-        }),
-      ).annotate({ identifier: "CreateTenantResponse" });
-  }
-}
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1307,14 +1591,108 @@ function __c20(j: number): any {
           id: S.optional(S.String),
           policy: S.optional(S.String),
           value: S.optional(S.String),
-          expirationPolicy: S.optional(__S(80, __c20, 0)),
+          expirationPolicy: S.optional(__S(84, __c21, 0)),
         }),
       ).annotate({ identifier: "TenantPolicy" });
     case 2:
-      return S.Array(__S(81, __c20, 1));
+      return S.Array(__S(85, __c21, 1));
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          value: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Label" });
+    case 1:
+      return S.Array(__S(88, __c22, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          creatorId: S.String,
+          externalAccountId: S.String,
+          createdAt: S.optional(S.String),
+          visibleName: S.String,
+          labels: __S(89, __c22, 1),
+        }),
+      ).annotate({ identifier: "Tenant" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          tenant: S.optional(__S(90, __c22, 2)),
+        }),
+      ).annotate({ identifier: "CreateTenantResponse" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          spec: S.optional(__S(109, __c27, 1)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/namespace.cloud.iam.v1beta.TenantService/CreateTrustRelationship",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateTrustRelationshipRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+        }),
+      ).annotate({ identifier: "CreateTrustRelationshipResponse" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceType: S.optional(S.String),
+          resourceId: S.optional(S.String),
+          actions: S.optional(__S(100, __c25, 0)),
+        }),
+      ).annotate({ identifier: "Permission" });
+    case 1:
+      return S.Array(__S(104, __c26, 0));
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          issuer: S.optional(S.String),
+          subjectMatch: S.optional(S.String),
+          audience: S.optional(S.String),
+          defaultPermissions: S.optional(__S(105, __c26, 1)),
+          defaultTokenDuration: S.optional(S.String),
+          maximumTokenDuration: S.optional(S.String),
+          claimMatches: S.optional(__S(108, __c27, 0)),
+        }),
+      ).annotate({ identifier: "TrustRelationshipSpec" });
+  }
+}
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1330,31 +1708,10 @@ function __c21(j: number): any {
       ).annotate({ identifier: "DeleteTenantGroupRequest" });
   }
 }
-function __c22(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteTenantGroupResponse" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/namespace.cloud.iam.v1beta.TenantService/DescribePolicies",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DescribePoliciesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          policies: __S(82, __c20, 2),
-          revision: S.String,
-        }),
-      ).annotate({ identifier: "DescribePoliciesResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.
