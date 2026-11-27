@@ -5,7 +5,8 @@ import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
  * Hostinger Effect SDK.
  *
  * Input:  .generated-specs/hostinger.json  (written by scripts/convert.ts)
- * Output: src/services/hostinger.ts  +  src/services/index.ts
+ * Output: src/services/hostinger.ts  +  src/services/index.ts, and
+ *         src/unstable-services/ for the operations convert marks unstable
  *
  * The smithy→SDK compiler and CLI pipeline live in
  * `@distilled.cloud/dev/codegen`; this script is Hostinger's provider spec.
@@ -92,6 +93,7 @@ runGeneratorCli({
   description: "Generate the Hostinger Effect SDK from the Smithy model",
   convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
+  unstableOutDir: "src/unstable-services",
   // patches/ holds OpenAPI-document patches consumed by scripts/convert.ts;
   // there is no smithy-model patch chain.
   patchesDir: false,
