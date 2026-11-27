@@ -9,3 +9,13 @@
 # Bun's Blob reports `text/html;charset=utf-8` for `new Blob([..], { type:
 # "text/html" })`, and core sends the Blob's own type.
 packages/core/test/protocol-rest.test.ts > restProtocol raw request bodies with neither, a Blob body is sent under its own type
+
+# Bun's `undici` has no `Dispatcher.request`, so Effect's
+# `NodeHttpClient.layerUndici` fails every request on Bun.
+packages/core/test/send-redirect.test.ts > undici client a cross-origin hop drops credentials and keeps the safe headers
+packages/core/test/send-redirect.test.ts > undici client the Location is requested as sent, so a signed query stays intact
+packages/core/test/send-redirect.test.ts > undici client a same-origin hop keeps every header
+packages/core/test/send-redirect.test.ts > undici client a 303 turns a POST into a GET without its body
+packages/core/test/send-redirect.test.ts > undici client a 307 keeps the method and the body
+packages/core/test/send-redirect.test.ts > undici client a 307 with a spent stream body is the response
+packages/core/test/send-redirect.test.ts > undici client after 5 hops the last 3xx is the response
