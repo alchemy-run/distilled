@@ -28,6 +28,18 @@ const Live = Layer.mergeAll(
 program.pipe(Effect.provide(Live), Effect.runPromise);
 ```
 
+## Beta operations
+
+LaunchDarkly tags its beta resources "(beta)" in its spec (account usage, applications, approvals, Insights, release policies, SDK keys and more), and some declare the `LD-API-Version: beta` header. They are not on the package root. Import them from `unstable/launchdarkly`:
+
+```ts
+import * as LaunchDarklyBeta from "@distilled.cloud/launchdarkly/unstable/launchdarkly";
+
+const keys = LaunchDarklyBeta.getProjectSdkKeys({ projectKey: "default" });
+```
+
+LaunchDarkly asks for `LD-API-Version: beta` on beta resources. The SDK sends `LAUNCHDARKLY_API_VERSION` (default `20240415`) on every call.
+
 ## Auth
 
 Required: `LAUNCHDARKLY_ACCESS_TOKEN`, `LAUNCHDARKLY_API_KEY`, `LAUNCHDARKLY_API_VERSION`. Optional: `LAUNCHDARKLY_API_BASE_URL`. Sent as `Authorization: Bearer`.
