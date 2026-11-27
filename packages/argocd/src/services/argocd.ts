@@ -1555,6 +1555,8 @@ export interface V1alpha1ExecProviderConfig {
 }
 export interface V1alpha1TLSClientConfig {
   caData?: string | undefined;
+  /** CATrust selects the certificate authorities trusted when CAData is empty. "bundle" trusts only the CAs in the argocd-default-cluster-ca-cm ConfigMap, "system" trusts only the system roots, and "bundle-and-system" trusts both. When empty, the CAs in argocd-default-cluster-ca-cm are trusted if it has any, and the system roots otherwise. */
+  caTrust?: string | undefined;
   certData?: string | undefined;
   /** Insecure specifies that the server should be accessed without verifying the TLS certificate. For testing only. */
   insecure?: boolean | undefined;
@@ -6267,6 +6269,7 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           caData: S.optional(S.String),
+          caTrust: S.optional(S.String),
           certData: S.optional(S.String),
           insecure: S.optional(S.Boolean),
           keyData: S.optional(S.String),
