@@ -39,6 +39,9 @@ const MANAGED_PREFIXES = [".github/", ".meta/"] as const;
  */
 const PRESERVED = new Set([".meta/pnpm-lock.yaml"]);
 
+/** Tries per GitHub call when GitHub rate-limits it: up to about 20 minutes of waiting. */
+const MAX_ATTEMPTS = 10;
+
 /** Git's blob object id for `content` — the same hash the tree API returns. */
 const blobSha = (content: string) => {
   const bytes = Buffer.from(content, "utf-8");
@@ -112,26 +115,57 @@ export const makeSyncScaffold = (resolve: (repository: string) => ScaffoldFiles)
       // Provided at runtime by `GitHub.providers()`.
       const { token, apiBaseUrl, userAgent } = yield* yield* GitHub.Credentials;
 
-      /** One GitHub REST call; a non-2xx response throws an error carrying `status`. */
+      /**
+       * One GitHub REST call; a non-2xx response throws an error carrying
+       * `status`.
+       *
+       * A scaffold change syncs every mirror at once, about 5 writes each,
+       * and GitHub refuses the burst with a 403 or 429 "secondary rate
+       * limit" (content writes: 80 a minute). Such a call waits as long as
+       * GitHub asks, 60 s when it doesn't say, plus up to 60 s of jitter so
+       * the mirrors don't all retry together, and tries again.
+       */
       const github = async (method: string, path: string, body?: unknown): Promise<any> => {
-        const response = await fetch(`${apiBaseUrl}${path}`, {
-          method,
-          headers: {
-            accept: "application/vnd.github+json",
-            authorization: `Bearer ${Redacted.value(token)}`,
-            "user-agent": userAgent,
-            "x-github-api-version": "2022-11-28",
-            ...(body === undefined ? {} : { "content-type": "application/json" }),
-          },
-          body: body === undefined ? undefined : JSON.stringify(body),
-        });
-        if (!response.ok) {
-          throw Object.assign(
-            new Error(`GitHub ${method} ${path}: ${response.status} ${await response.text()}`),
-            { status: response.status },
-          );
+        for (let attempt = 1; ; attempt++) {
+          const response = await fetch(`${apiBaseUrl}${path}`, {
+            method,
+            headers: {
+              accept: "application/vnd.github+json",
+              authorization: `Bearer ${Redacted.value(token)}`,
+              "user-agent": userAgent,
+              "x-github-api-version": "2022-11-28",
+              ...(body === undefined ? {} : { "content-type": "application/json" }),
+            },
+            body: body === undefined ? undefined : JSON.stringify(body),
+          });
+          if (response.ok) return response.status === 204 ? undefined : response.json();
+
+          const text = await response.text();
+          const limited =
+            (response.status === 403 || response.status === 429) &&
+            (response.headers.get("retry-after") !== null ||
+              response.headers.get("x-ratelimit-remaining") === "0" ||
+              /rate limit/i.test(text));
+          if (limited && attempt < MAX_ATTEMPTS) {
+            const retryAfter = Number(response.headers.get("retry-after"));
+            const reset = Number(response.headers.get("x-ratelimit-reset")) * 1000 - Date.now();
+            const wait =
+              (retryAfter > 0
+                ? retryAfter * 1000
+                : response.headers.get("x-ratelimit-remaining") === "0" && reset > 0
+                  ? reset
+                  : 60_000) +
+              Math.random() * 60_000;
+            console.log(
+              `  ${method} ${path}: rate limited (attempt ${attempt}), retrying in ${Math.round(wait / 1000)} s`,
+            );
+            await new Promise((resolve) => setTimeout(resolve, wait));
+            continue;
+          }
+          throw Object.assign(new Error(`GitHub ${method} ${path}: ${response.status} ${text}`), {
+            status: response.status,
+          });
         }
-        return response.status === 204 ? undefined : response.json();
       };
 
       const api = <A>(call: () => Promise<A>) =>
