@@ -258,9 +258,9 @@ export interface RetryTagItem {
 }
 export type RetryTagItemList = Array<RetryTagItem>;
 export interface AvailableTimeConfig {
-  DayType?: string | undefined;
-  DaysOfWeek?: StringList | undefined;
-  TimeRanges?: TimeRangeList | undefined;
+  DayType?: string | null | undefined;
+  DaysOfWeek?: StringList | null | undefined;
+  TimeRanges?: TimeRangeList | null | undefined;
 }
 export type AvailableTimeConfigList = Array<AvailableTimeConfig>;
 export interface HeaderParams {
@@ -3391,9 +3391,9 @@ function __c3(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          DayType: S.optional(S.String),
-          DaysOfWeek: S.optional(__S(2624, __c82, 0)),
-          TimeRanges: S.optional(__S(129, __c4, 1)),
+          DayType: S.optional(S.NullOr(S.String)),
+          DaysOfWeek: S.optional(S.NullOr(__S(2624, __c82, 0))),
+          TimeRanges: S.optional(S.NullOr(__S(129, __c4, 1))),
         }),
       ).annotate({ identifier: "AvailableTimeConfig" });
     case 3:

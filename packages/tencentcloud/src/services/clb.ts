@@ -640,6 +640,15 @@ export interface ImageConfig {
   NumRetries?: number | null | undefined;
   WaitSeconds?: number | undefined;
 }
+export interface RealtimeRoutingStrategyArgs {
+  LeastBusyBuffer?: number | undefined;
+  LowestCostBuffer?: number | undefined;
+}
+export interface RealtimeConfig {
+  RoutingStrategy?: string | undefined;
+  NumRetries?: number | undefined;
+  RoutingStrategyArgs?: RealtimeRoutingStrategyArgs | undefined;
+}
 export interface CreateModelRouterRequest {
   ModelRouterType: string;
   BudgetId?: string | undefined;
@@ -663,6 +672,7 @@ export interface CreateModelRouterRequest {
   RerankConfig?: EmbeddingConfig | undefined;
   DecisionsConfig?: EmbeddingConfig | undefined;
   ImageConfig?: ImageConfig | undefined;
+  RealtimeConfig?: RealtimeConfig | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
 }
@@ -1834,6 +1844,11 @@ export interface Coefficient {
   InputVideoSecondCoefficient?: number | undefined;
   OutputVideoSecondCoefficient?: number | undefined;
   OutputImageCoefficient?: number | undefined;
+  InputAudioTokenCoefficient?: number | undefined;
+  InputCachedAudioTokenCoefficient?: number | undefined;
+  InputImageTokenCoefficient?: number | undefined;
+  InputCachedImageTokenCoefficient?: number | undefined;
+  OutputAudioTokenCoefficient?: number | undefined;
 }
 export interface CoefficientTierCondition {
   InputTokensAbove?: number | undefined;
@@ -3816,8 +3831,8 @@ export const createModelRouter: API.OperationMethod<
   CreateModelRouterError,
   TencentCloudOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1635, __c102, 3) as any as S.Schema<CreateModelRouterRequest>,
-  output: __S(1636, __c102, 4) as any as S.Schema<CreateModelRouterResponse>,
+  input: __S(1637, __c102, 5) as any as S.Schema<CreateModelRouterRequest>,
+  output: __S(1638, __c102, 6) as any as S.Schema<CreateModelRouterResponse>,
   errors: [],
   serviceErrors: TencentCloudServiceErrors,
   protocol: TencentCloudProtocol,
@@ -8256,6 +8271,21 @@ function __c102(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          LeastBusyBuffer: S.optional(S.Number),
+          LowestCostBuffer: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "RealtimeRoutingStrategyArgs" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          RoutingStrategy: S.optional(S.String),
+          NumRetries: S.optional(S.Number),
+          RoutingStrategyArgs: S.optional(__S(1635, __c102, 3)),
+        }),
+      ).annotate({ identifier: "RealtimeConfig" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
           ModelRouterType: S.String,
           BudgetId: S.optional(S.String),
           CertId: S.optional(S.String),
@@ -8278,10 +8308,11 @@ function __c102(j: number): any {
           RerankConfig: S.optional(__S(1650, __c103, 2)),
           DecisionsConfig: S.optional(__S(1650, __c103, 2)),
           ImageConfig: S.optional(__S(1651, __c103, 3)),
+          RealtimeConfig: S.optional(__S(1636, __c102, 4)),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(T.Action({ service: "clb", version: "2018-03-17", action: "CreateModelRouter" })),
       ).annotate({ identifier: "CreateModelRouterRequest" });
-    case 4:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           ModelRouterId: S.optional(S.String),
@@ -10380,6 +10411,11 @@ function __c176(j: number): any {
           InputVideoSecondCoefficient: S.optional(S.Number),
           OutputVideoSecondCoefficient: S.optional(S.Number),
           OutputImageCoefficient: S.optional(S.Number),
+          InputAudioTokenCoefficient: S.optional(S.Number),
+          InputCachedAudioTokenCoefficient: S.optional(S.Number),
+          InputImageTokenCoefficient: S.optional(S.Number),
+          InputCachedImageTokenCoefficient: S.optional(S.Number),
+          OutputAudioTokenCoefficient: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Coefficient" });
     case 1:

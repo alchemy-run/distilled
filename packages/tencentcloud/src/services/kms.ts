@@ -660,6 +660,7 @@ export interface GetServiceStatusResponse {
   ResourceRegion?: number | undefined;
   MultiAccountLimit?: number | undefined;
   MultiAccountUsedCount?: number | undefined;
+  CmkExtPackCount?: number | undefined;
   RequestId?: string | undefined;
 }
 export interface ImportDataKeyRequest {
@@ -3068,6 +3069,7 @@ function __c54(j: number): any {
           ResourceRegion: S.optional(S.Number),
           MultiAccountLimit: S.optional(S.Number),
           MultiAccountUsedCount: S.optional(S.Number),
+          CmkExtPackCount: S.optional(S.Number),
           RequestId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetServiceStatusResponse" });

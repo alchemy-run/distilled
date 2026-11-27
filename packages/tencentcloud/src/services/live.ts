@@ -2013,6 +2013,8 @@ export interface AvatarRoomInfo {
   SpeechVolume?: number | undefined;
   CreateTime?: string | undefined;
   UpdateTime?: string | undefined;
+  RoomType?: string | undefined;
+  AvatarAigcImageUrl?: string | undefined;
 }
 export type AvatarRoomInfoList = Array<AvatarRoomInfo>;
 export interface DescribeLiveAvatarRoomsResponse {
@@ -10111,6 +10113,8 @@ function __c40(j: number): any {
           SpeechVolume: S.optional(S.Number),
           CreateTime: S.optional(S.String),
           UpdateTime: S.optional(S.String),
+          RoomType: S.optional(S.String),
+          AvatarAigcImageUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "AvatarRoomInfo" });
     case 2:
